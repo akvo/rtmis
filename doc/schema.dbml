@@ -1,0 +1,165 @@
+Project rtmis {
+  database_type: 'PostgreSQL'
+  Note: '''
+    # RTMIS
+    RTMIS Database Schema
+  '''
+}
+Enum "questions_type_enum" {
+  "geo"
+  "free"
+  "numeric"
+  "option"
+  "cascade"
+  "photo"
+  "date"
+}
+Enum "access_role_enum" {
+  "admin"
+  "user"
+}
+
+Table "user" {
+  "id" bigint [pk]
+  "email" varchar [unique, not null]
+}
+
+Table "access" {
+  "id" bigint [pk]
+  "user" bigint [not null]
+  "administration" varchar [ not null]
+  "role" user_role_enum [not null]
+  indexes {
+    (user, administration) [unique]
+  }
+}
+
+Table "answer" {
+  "id" bigint [pk]
+  "data" bigint [not null]
+  "question" bigint [not null]
+  "name" text
+  "value" bigint [default: NULL]
+  "options" "varchar[]" [default: NULL]
+  "created_by" bigint [not null]
+  "created" timestamp [default: `now()`]
+  "updated" timestamp [default: NULL]
+}
+
+Table "answer_history" {
+  "id" bigint [pk]
+  "data" bigint [not null]
+  "question" bigint [not null]
+  "name" text
+  "value" bigint [default: NULL]
+  "options" "varchar[]" [default: NULL]
+  "created_by" bigint [not null]
+  "created" timestamp [default: `now()`]
+  "updated" timestamp [default: NULL]
+}
+
+Table "administration" {
+  "id" bigint [pk]
+  "parent" bigint [default: NULL]
+  "code" varchar(255) [default: NULL]
+  "name" text [not null]
+}
+
+Table "data" {
+  "id" bigint [pk]
+  "name" varchar(255) [not null]
+  "form" bigint [not null]
+  "administration" bigint [not null]
+  "geo" "int[]" [default: NULL]
+  "created_by" bigint [not null]
+  "updated_by" bigint [not null]
+  "created" timestamp [default: `now()`]
+  "updated" timestamp [default: NULL]
+}
+
+Table "form" {
+  "id" bigint [pk]
+  "name" text [not null]
+}
+
+Table "option" {
+  "id" bigint [pk]
+  "question" bigint [not null]
+  "code" varchar(255) [default: NULL]
+  "name" text [not null]
+  "other" tinyint(1) [not null]
+  "created" timestamp [default: `now()`]
+  "updated" timestamp [default: NULL]
+}
+
+Table "question" {
+  "id" bigint [not null]
+  "form" bigint [not null]
+  "question_group" bigint [not null]
+  "text" text [not null]
+  "name" varchar [not null]
+  "type" questions_type_enum [not null]
+  "required" boolean [default: true]
+  "rule" json [default: true]
+  "dependency" [array] [default: NULL]
+}
+
+Table "question_group" {
+  "id" bigint [not null]
+  "form" bigint [not null]
+  "name" text [not null]
+}
+
+
+
+Ref {
+  data.administration > administration.id
+}
+Ref {
+  administration.parent > administration.id
+}
+Ref {
+  question_group.form > form.id
+}
+Ref {
+  question.question_group > question_group.id
+}
+Ref {
+  question.form > form.id
+}
+Ref {
+  option.question > question.id
+}
+Ref {
+  answer.data > data.id
+}
+Ref {
+  answer.question > question.id
+}
+Ref {
+  answer_history.data > data.id
+}
+Ref {
+  answer_history.question > question.id
+}
+Ref {
+  data.form > form.id
+}
+Ref {
+  data.created_by - user.id
+}
+Ref {
+  data.updated_by - user.id
+}
+Ref {
+  answer.created_by - user.id
+}
+Ref {
+  answer_history.created_by - user.id
+}
+Ref {
+  access.user > user.id
+}
+Ref {
+  access.administration > administration.id
+}
