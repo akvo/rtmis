@@ -1,0 +1,9 @@
+---
+version: "3.9"
+services:
+  frontend:
+    volumes:
+      - rtmis-docker-sync:/app/node_modules:nocopy
+volumes:
+  rtmis-docker-sync:
+    external: true

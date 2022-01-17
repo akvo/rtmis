@@ -1,0 +1,22 @@
+---
+version: "3.9"
+services:
+  mainnetwork:
+    ports:
+      - 3000:3000
+      - 8000:8000
+      - 5050:5050
+  pgadmin:
+    image: dpage/pgadmin4:5.7
+    environment:
+      - PGADMIN_LISTEN_PORT=5050
+      - PGADMIN_DEFAULT_EMAIL=dev@akvo.org
+      - PGADMIN_DEFAULT_PASSWORD=password
+    volumes:
+      - ./pgadmin4/servers.json:/pgadmin4/servers.json
+      - pg-admin-data:/var/lib/pgadmin
+    depends_on:
+      - db
+    network_mode: service:mainnetwork
+volumes:
+  pg-admin-data:
