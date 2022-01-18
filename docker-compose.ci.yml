@@ -2,7 +2,7 @@
 version: '3.9'
 services:
   backend:
-    command: ["sh", "start.sh"]
+    command: ["sh", "run.sh"]
     depends_on:
       - db
     environment:
