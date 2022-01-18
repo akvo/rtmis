@@ -38,9 +38,8 @@ services:
       - 5432:5432
     restart: always
     volumes:
-      - ./db/docker-entrypoint-initdb.d.ci:/docker-entrypoint-initdb.d
+      - ./db/docker-entrypoint-initdb.d/000-init.sql:/docker-entrypoint-initdb.d/000-init.sql
       - pg-data:/var/lib/postgresql/data
-      - ./db/script:/script:ro
   frontend:
     command: ["nginx", "-g", "daemon off;"]
     depends_on:
