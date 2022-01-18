@@ -28,6 +28,6 @@ blocks:
         - name: Build & Test
           commands:
             - ./ci/build.sh
-        - name: Push
-          command:
+        - name: Deploy
+          commands:
             - ./ci/deploy.sh
