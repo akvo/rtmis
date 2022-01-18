@@ -55,7 +55,6 @@ services:
     image: alpine:3.14.0
     command: ["tail", "-f", "/dev/null"]
     ports:
-      - 3000:3000
       - 8000:8000
 volumes:
   pg-data: {}
