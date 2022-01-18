@@ -3,9 +3,9 @@
 
 set -euo pipefail
 
-RETRIES=15
+RETRIES=10
 
-until psql -h db:5432 -U akvo -w password -d rtmis -c "select 1" &>/dev/null 2>&1 || [ $RETRIES -eq 0 ];
+until psql -h localhost:5432 -U akvo -w password -d rtmis -c "select 1" &>/dev/null 2>&1 || [ $RETRIES -eq 0 ];
 do
   echo "Waiting for postgres server, $((RETRIES--)) remaining attempts..."
   sleep 1

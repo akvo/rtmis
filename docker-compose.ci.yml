@@ -9,7 +9,7 @@ services:
       - DB_SCHEMA=rtmis
       - DB_USER=akvo
       - DB_PASSWORD=password
-      - DB_HOST=db
+      - DB_HOST=0.0.0.0
     image: eu.gcr.io/akvo-lumen/rtmis/backend:latest
     network_mode: service:mainnetwork
     restart: always
