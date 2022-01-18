@@ -13,7 +13,7 @@ auth () {
 }
 
 push_image () {
-    docker push "eu.gcr.io/akvo-lumen/$1:latest"
+    docker push "eu.gcr.io/akvo-lumen/rtmis/$1:latest"
     echo "image pushed"
 }
 

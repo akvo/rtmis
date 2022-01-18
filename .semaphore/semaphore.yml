@@ -30,8 +30,6 @@ blocks:
         - name: Build & Test
           commands:
             - ./ci/build.sh
-        - name: Deploy
-          commands:
             - ./ci/deploy.sh
   - name: "Promote to production"
     run:
