@@ -16,14 +16,14 @@ frontend_build () {
     echo "PUBLIC_URL=/" > ../frontend/.env
 
     docker build \
-        --tag "${image_prefix}/frontend:latest" ../frontend \
+        --tag "${image_prefix}/frontend:latest" \
         --tag "${image_prefix}/frontend:${CI_COMMIT}" frontend
 }
 
 backend_build () {
 
     docker build \
-        --tag "${image_prefix}/backend:latest" ../backend \
+        --tag "${image_prefix}/backend:latest" \
         --tag "${image_prefix}/backend:${CI_COMMIT}" backend
 }
 

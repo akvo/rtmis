@@ -7,6 +7,8 @@ agent:
     os_image: ubuntu1804
 blocks:
   - name: 'Build, Test & Push'
+    skip:
+      when: "tag =~ '.*'"
     task:
       secrets:
         - name: GCP
@@ -30,4 +32,13 @@ blocks:
             - ./ci/build.sh
         - name: Deploy
           commands:
+            - ./ci/deploy.sh
+  - name: "Promote to production"
+    run:
+      when: "tag =~ '.*'"
+    task:
+      jobs:
+        - name: Promote to production
+          commands:
+            - checkout
             - ./ci/deploy.sh
