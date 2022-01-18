@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 set -exuo pipefail
 
+PODS="frontend backend"
+
 push_image () {
-    backend_prefix="eu.gcr.io/akvo-lumen/rtmis/backend:latest"
-    docker push "${backend_prefix}"
+    docker push "eu.gcr.io/akvo-lumen/$1:latest"
+    echo "image pushed"
 }
 
-{
-    frontend_prefix="eu.gcr.io/akvo-lumen/rtmis/frontend:latest"
-    docker push "${frontend_prefix}"
-}
+for POD in ${PODS}
+do
+    ci/k8s/wait-for-k8s-deployment-to-be-ready.sh "$POD"
+done
 
-echo "image pushed"

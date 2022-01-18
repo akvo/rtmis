@@ -1,3 +1,4 @@
+---
 version: v1.0
 name: RTMIS
 agent:
@@ -13,7 +14,9 @@ blocks:
         - name: rtmis
       prologue:
         commands:
-          - 'echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin'
+          - >-
+            echo "${DOCKER_PASSWORD}" | docker login --username
+            "${DOCKER_USERNAME}" --password-stdin
           - 'export CI_COMMIT="${SEMAPHORE_GIT_SHA:0:7}"'
           - 'export CI_BRANCH="${SEMAPHORE_GIT_BRANCH}"'
           - 'export CI_TAG="${SEMAPHORE_GIT_TAG_NAME}"'
@@ -25,7 +28,6 @@ blocks:
         - name: Build & Test
           commands:
             - ./ci/build.sh
-        
         - name: Push
           command:
             - ./ci/deploy.sh
