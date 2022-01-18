@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-from pathlib import Path
 from os import environ
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,11 +25,12 @@ SECRET_KEY = 'django-insecure-7bmy1fu0d@^tscqpap7qw8mdz%ai=2kbj*5&q!*g!#orkpzilc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
-INSTALLED_APPS = [
+# Default django apps
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -37,6 +38,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+# Add third party apps below
+EXTERNAL_APPS = [
+    'rest_framework'
+]
+
+# Add API apps below
+API_APPS = [
+
+]
+
+INSTALLED_APPS = DJANGO_APPS + API_APPS + EXTERNAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -73,7 +86,7 @@ WSGI_APPLICATION = 'rtmis.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': environ["DB_SCHEMA"],
         'USER': environ["DB_USER"],
         'PASSWORD': environ["DB_PASSWORD"],
@@ -88,19 +101,19 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME':
-        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+            'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
         'NAME':
-        'django.contrib.auth.password_validation.MinimumLengthValidator',
+            'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
         'NAME':
-        'django.contrib.auth.password_validation.CommonPasswordValidator',
+            'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
         'NAME':
-        'django.contrib.auth.password_validation.NumericPasswordValidator',
+            'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
