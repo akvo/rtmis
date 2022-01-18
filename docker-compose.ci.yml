@@ -4,12 +4,13 @@ services:
   backend:
     command: ["sh", "run.sh"]
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       - DB_SCHEMA=rtmis
       - DB_USER=akvo
       - DB_PASSWORD=password
-      - DB_HOST=0.0.0.0
+      - DB_HOST=db
     image: eu.gcr.io/akvo-lumen/rtmis/backend:latest
     network_mode: service:mainnetwork
     restart: always
@@ -40,11 +41,15 @@ services:
     volumes:
       - ./db/docker-entrypoint-initdb.d/000-init.sql:/docker-entrypoint-initdb.d/000-init.sql
       - pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   frontend:
     command: ["nginx", "-g", "daemon off;"]
     depends_on:
       - backend
-      - db
     image: eu.gcr.io/akvo-lumen/rtmis/frontend:latest
     network_mode: service:mainnetwork
     volumes:
