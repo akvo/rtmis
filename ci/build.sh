@@ -7,6 +7,12 @@ set -exuo pipefail
 
 image_prefix="eu.gcr.io/akvo-lumen/rtmis"
 
+dc () {
+    docker-compose \
+        --ansi never \
+        "$@"
+}
+
 dci () {
     dc -f docker-compose.ci.yml "$@"
 }
@@ -14,6 +20,12 @@ dci () {
 frontend_build () {
 
     echo "PUBLIC_URL=/" > ../frontend/.env
+
+    dc run \
+       --rm \
+       --no-deps \
+       frontend \
+       sh release.sh
 
     docker build \
         --tag "${image_prefix}/frontend:latest" \
