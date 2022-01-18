@@ -5,7 +5,7 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: 'Build, Test & Deploy'
+  - name: 'Build, Test & Push'
     task:
       secrets:
         - name: GCP
@@ -25,4 +25,7 @@ blocks:
         - name: Build & Test
           commands:
             - ./ci/build.sh
+        
+        - name: Push
+          command:
             - ./ci/deploy.sh
