@@ -15,11 +15,13 @@ Including another URLconf
 """
 from django.urls import path
 
-from api.demo.views import login, dashboard, demo_test
+from api.demo.views import login, dashboard, demo_test, import_country, list_country
 
 urlpatterns = [
     # path('api/admin/', admin.site.urls),
     path('api/test/', demo_test),
     path('api/login/', login),
-    path('api/dashboard/', dashboard)
+    path('api/dashboard/', dashboard),
+    path('api/import/country/', import_country),
+    path('api/list/country/', list_country),
 ]

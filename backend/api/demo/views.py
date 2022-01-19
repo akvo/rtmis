@@ -1,4 +1,5 @@
 # Create your views here.
+
 from django.contrib.auth import authenticate
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -6,7 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from api.demo.serializers import LoginSerializer
+from api.demo.models import CountryMaster
+from api.demo.serializers import LoginSerializer, ImportCountrySerializer, ListCountrySerializer
 
 
 @api_view(['POST'])
@@ -28,6 +30,23 @@ def login(request):
 @permission_classes([IsAuthenticated])
 def dashboard(request):
     return Response({'username': request.user.username, 'email': request.user.email}, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def import_country(request):
+    serializer = ImportCountrySerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response({'message': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+    serializer.save()
+    return Response({'message': 'data inserted successfully'}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def list_country(request):
+    return Response(ListCountrySerializer(instance=CountryMaster.objects.all(), many=True).data,
+                    status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
