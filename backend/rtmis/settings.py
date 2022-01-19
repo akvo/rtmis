@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+from datetime import timedelta
 from os import environ
 from pathlib import Path
 
@@ -41,7 +41,8 @@ DJANGO_APPS = [
 
 # Add third party apps below
 EXTERNAL_APPS = [
-    'rest_framework'
+    'rest_framework',
+    'rest_framework_simplejwt',
 ]
 
 # Add API apps below
@@ -81,6 +82,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'rtmis.wsgi.application'
 
+# Rest Settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+
+    ),
+    # 'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
+    'DATE_FORMAT': "%d-%m-%Y",
+    "DATETIME_FORMAT": "%d-%m-%Y %H:%M:%S"
+}
+
+# JWT Config
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
