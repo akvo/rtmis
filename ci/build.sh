@@ -5,6 +5,7 @@ set -exuo pipefail
 
 [[ -n "${CI_TAG:=}" ]] && { echo "Skip build"; exit 0; }
 
+CI_COMMIT=1
 image_prefix="eu.gcr.io/akvo-lumen/rtmis"
 
 dc () {
@@ -20,12 +21,17 @@ dci () {
 frontend_build () {
 
     echo "PUBLIC_URL=/" > frontend/.env
+    ./dc.sh up -d
+    docker-compose exec frontend ./release.sh
+#    cd frontend
+#    ./release.sh
+#    cd -
 
-    dc run \
-       --rm \
-       --no-deps \
-       frontend \
-       sh release.sh
+#    dc run \
+#       --rm \
+#       --no-deps \
+#       frontend \
+#       sh release.sh
 
     docker build \
         --tag "${image_prefix}/frontend:latest" \
@@ -45,8 +51,8 @@ backend_build
 frontend_build
 
 #test-connection
-if ! dci run -T ci ./basic.sh; then
-  dci logs
-  echo "Build failed when running basic.sh"
-  exit 1
-fi
+#if ! dci run -T ci ./basic.sh; then
+#  dci logs
+#  echo "Build failed when running basic.sh"
+#  exit 1
+#fi
