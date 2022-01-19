@@ -12,15 +12,11 @@ auth () {
     gcloud auth configure-docker "eu.gcr.io"
 }
 
-push_image () {
-    docker push "eu.gcr.io/akvo-lumen/rtmis/$1:latest"
-    echo "$1 image pushed"
-}
-
 auth
 
 for POD in ${PODS}
 do
-    push_image "${POD}"
+    docker push "eu.gcr.io/akvo-lumen/rtmis/$POD:latest"
+    echo "$POD image pushed"
 done
 
