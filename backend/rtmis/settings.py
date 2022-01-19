@@ -47,7 +47,7 @@ EXTERNAL_APPS = [
 
 # Add API apps below
 API_APPS = [
-
+    'api.demo'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + API_APPS + EXTERNAL_APPS
@@ -95,8 +95,8 @@ REST_FRAMEWORK = {
 
 # JWT Config
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
 }
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -148,7 +148,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'static-files/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
