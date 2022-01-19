@@ -23,17 +23,12 @@ dci () {
 frontend_build () {
 
     echo "PUBLIC_URL=/" > frontend/.env
-    ./dc.sh up -d
-    docker-compose exec frontend ./release.sh
-#    cd frontend
-#    ./release.sh
-#    cd -
 
-#    dc run \
-#       --rm \
-#       --no-deps \
-#       frontend \
-#       sh release.sh
+    dc -f docker-compose.yml run \
+       --rm \
+       --no-deps \
+       frontend \
+       sh release.sh
 
     docker build \
         --tag "${image_prefix}/frontend:latest" \
