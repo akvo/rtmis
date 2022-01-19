@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 #shellcheck disable=SC2039
 
+docker-compose --version
+
 set -exuo pipefail
 
 [[ -n "${CI_TAG:=}" ]] && { echo "Skip build"; exit 0; }

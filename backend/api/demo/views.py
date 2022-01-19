@@ -28,3 +28,8 @@ def login(request):
 @permission_classes([IsAuthenticated])
 def dashboard(request):
     return Response({'username': request.user.username, 'email': request.user.email}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def demo_test(request):
+    return Response({'message': 'Connected'}, status=status.HTTP_200_OK)
