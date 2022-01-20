@@ -22,4 +22,4 @@ http_get() {
 }
 
 http_get "http://localhost" 200
-http_get "http://localhost/api/test?format=json" 301
+http_get "http://localhost/api/test/" 200
