@@ -8,5 +8,5 @@ urlpatterns = [
     path('login/', login),
     path('dashboard/', dashboard),
     path('import/country/', import_country),
-    path('list/country/', list_country),
+    path('list/country/', list_country, name='list-country'),
 ]
