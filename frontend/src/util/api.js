@@ -14,7 +14,7 @@ const API = () => {
           ...config,
           headers: {
             ...config.headers,
-            Authorization: `Bearer ${api.token}`
+            Authorization: `Bearer ${api.token}`,
           },
         }
       : config;
@@ -30,7 +30,7 @@ const API = () => {
     delete: (url) => axios({ url, method: "DELETE", ...getConfig() }),
     setToken: (token) => {
       api.token = token;
-      console.log('token sete')
+      console.log("token sete");
     },
   };
 };

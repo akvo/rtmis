@@ -1,15 +1,15 @@
-import './App.css';
-import api from './util/api';
-import Chart from './components/charts'
+import "./App.css";
+import api from "./util/api";
+import Chart from "./components/charts";
 
 const apiTest = () => {
   api
-    .get('test/')
+    .get("test/")
     .then((res) => {
-      alert(res.data.message)
+      alert(res.data.message);
     })
     .catch((err) => {
-      console.log(err)
+      console.log(err);
     });
 };
 
@@ -43,16 +43,16 @@ const data = [
 
 const loginTest = () => {
   let formData = new FormData();
-  formData.append("username","admin")
-  formData.append("password","Test105*")
+  formData.append("username", "admin");
+  formData.append("password", "Test105*");
   api
-    .post('login/',formData)
+    .post("login/", formData)
     .then((res) => {
-      console.log(res.data.token)
+      console.log(res.data.token);
       // api.setToken(res.data.token);
     })
     .catch((err) => {
-      console.log(err)
+      console.log(err);
     });
 };
 
@@ -66,8 +66,8 @@ function App() {
         <p>
           <button onClick={loginTest}> Login </button>
         </p>
-        <Chart type = "LINE" data={data} height={300} width ={300}/>
-        <Chart type = "BAR" data={data} height={300} width ={300}/>
+        <Chart type="LINE" data={data} height={300} width={300} />
+        <Chart type="BAR" data={data} height={300} width={300} />
       </header>
     </div>
   );
