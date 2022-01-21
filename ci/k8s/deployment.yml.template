@@ -59,6 +59,11 @@ spec:
                 secretKeyRef:
                   name: rtmis
                   key: db-host
+            - name: DJANGO_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: rtmis
+                  key: django-secret
           readinessProbe:
             httpGet:
               path: /health-check
