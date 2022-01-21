@@ -6,7 +6,8 @@ from api.demo.models import City, RegisteredUsers
 
 
 def create_user():
-    data = [{'username': 'Nirav', 'city_id': 1}, {'username': 'Bhavin', 'city_id': 2}]
+    data = [{'username': 'Nirav', 'city_id': 1},
+            {'username': 'Bhavin', 'city_id': 2}]
     for val in data:
         RegisteredUsers.objects.create(
             username=val.get('username'),

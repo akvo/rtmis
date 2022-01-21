@@ -1,6 +1,7 @@
 from django.urls import path
 
-from api.demo.views import login, dashboard, demo_test, import_country, list_country
+from api.demo.views import login, dashboard, demo_test, \
+    import_country, list_country
 
 urlpatterns = [
     path('test/', demo_test),

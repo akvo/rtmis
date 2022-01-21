@@ -26,7 +26,9 @@ class City(models.Model):
 
 class RegisteredUsers(models.Model):
     username = models.CharField(max_length=50, unique=True)
-    city = models.ForeignKey(default=None, null=True, to=City, on_delete=models.SET_NULL, related_name='user_city')
+    city = models.ForeignKey(default=None, null=True, to=City,
+                             on_delete=models.SET_NULL,
+                             related_name='user_city')
 
     def __str__(self):
         return self.username
