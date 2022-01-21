@@ -24,6 +24,7 @@ frontend_build () {
 
     echo "PUBLIC_URL=/" > frontend/.env
 
+    # Code Quality and Build Folder
     dc -f docker-compose.yml run \
        --rm \
        --no-deps \
@@ -33,6 +34,7 @@ frontend_build () {
     docker build \
         --tag "${image_prefix}/frontend:latest" \
         --tag "${image_prefix}/frontend:${CI_COMMIT}" frontend
+
 }
 
 backend_build () {
@@ -40,16 +42,18 @@ backend_build () {
     docker build \
         --tag "${image_prefix}/backend:latest" \
         --tag "${image_prefix}/backend:${CI_COMMIT}" backend
+
+    # Code Quality
+    dc -f docker-compose.test.yml run \
+        --rm \
+        --no-deps \
+        backend flake8
 }
 
-echo "Build"
-
+echo "* BACKEND BUILD * =================="
 backend_build
+echo "* FRONTEND BUILD * ================="
 frontend_build
-
-# Code Quality
-docker-compose -f docker-compose.test.yml run --rm --no-deps backend flake8
-
 
 if ! dci run -T ci ./basic.sh; then
   dci logs
