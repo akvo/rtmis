@@ -17,9 +17,8 @@ class Command(BaseCommand):
 
                 # If city id is updated than process to migrate new data
                 if city.pk != feature.get('id'):
-                    print('---- Updating City ID from {0} to {1}, affected users are {2}'.format(city.pk,
-                                                                                                 feature.get('id'),
-                                                                                                 list(users)))
+                    print('---- Updating City ID from {0} to {1}'.format(city.pk, feature.get('id')))
+                    print('---- Affected users are {0}'.format(list(users)))
                     mapping_list.append({'new_id': feature.get('id'), 'users': list(users)})
                     city.delete()
                     City.objects.create(
