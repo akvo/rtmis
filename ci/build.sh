@@ -5,6 +5,12 @@ docker-compose --version
 
 set -exuo pipefail
 
+if grep -q .yml .gitignore; then
+    echo "ERROR: .gitignore contains other docker-compose file"
+    exit 1
+fi
+
+
 [[ -n "${CI_TAG:=}" ]] && { echo "Skip build"; exit 0; }
 
 CI_COMMIT=1
