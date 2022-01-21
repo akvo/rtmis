@@ -12,31 +12,30 @@ class Command(BaseCommand):
         mapping_list = []
         for feature in data.get('features'):
             try:
-                city = City.objects.get(name=feature.get('properties')
-                                        .get('name'))
+                city = City.objects.get(
+                    name=feature.get('properties').get('name'))
 
                 # Getting list of users related to the city
                 users = city.user_city.values_list('pk', flat=True)
 
                 # If city id is updated than process to migrate new data
                 if city.pk != feature.get('id'):
-                    print('Updating City ID from {0} to {1}'.
-                          format(city.pk, feature.get('id')))
+                    print('Updating City ID from {0} to {1}'.format(
+                        city.pk, feature.get('id')))
                     print('Affected users are {0}'.format(list(users)))
-                    mapping_list.append({'new_id': feature.get('id'),
-                                         'users': list(users)})
+                    mapping_list.append({
+                        'new_id': feature.get('id'),
+                        'users': list(users)
+                    })
                     city.delete()
                     City.objects.create(
                         id=feature.get('id'),
-                        name=feature.get('properties').get('name')
-                    )
+                        name=feature.get('properties').get('name'))
 
             except City.DoesNotExist:
                 # If city does not exists, create new entry
-                City.objects.create(
-                    id=feature.get('id'),
-                    name=feature.get('properties').get('name')
-                )
+                City.objects.create(id=feature.get('id'),
+                                    name=feature.get('properties').get('name'))
                 print('---- New Record Created -----')
         print(mapping_list)
         for mapping in mapping_list:

@@ -17,7 +17,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='registeredusers',
             name='city',
-            field=models.ForeignKey(default=None, null=True, on_delete=django.db.models.deletion.SET_NULL,
-                                    related_name='user_city', to='demo.city'),
+            field=models.ForeignKey(
+                default=None,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name='user_city',
+                to='demo.city'),
         ),
     ]
