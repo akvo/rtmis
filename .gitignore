@@ -2,4 +2,3 @@
 .idea/
 *.pyc
 backend/media/
-docker-compose-dev.yml
