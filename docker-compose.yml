@@ -1,9 +1,6 @@
 ---
 version: "3.9"
 services:
-  mainnetwork:
-    image: alpine:3.14.0
-    command: ["tail", "-f", "/dev/null"]
   backend:
     image: python:3.8.5
     working_dir: /app
@@ -17,7 +14,6 @@ services:
       - DB_HOST=db
     depends_on:
       - db
-    network_mode: service:mainnetwork
   frontend:
     image: node:17.3.0-alpine3.15
     command: ["./start.sh"]
