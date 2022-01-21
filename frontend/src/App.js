@@ -1,8 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
 import api from './util/api';
 import Chart from './components/charts'
-
 
 const apiTest = () => {
   api
@@ -14,6 +12,35 @@ const apiTest = () => {
       console.log(err)
     });
 };
+
+const data = [
+  {
+    name: "Var A",
+    group: "Group 1",
+    value: 10,
+  },
+  {
+    name: "Var B",
+    group: "Group 2",
+    value: 13,
+  },
+  {
+    name: "Var C",
+    group: "Group 2",
+    value: 20,
+  },
+  {
+    name: "Var D",
+    group: "Group 1",
+    value: 24,
+  },
+  {
+    name: "Var E",
+    group: "Group 2",
+    value: 14,
+  },
+];
+
 const loginTest = () => {
   let formData = new FormData();
   formData.append("username","admin")
@@ -23,93 +50,12 @@ const loginTest = () => {
     .then((res) => {
       console.log(res.data.token)
       // api.setToken(res.data.token);
-
     })
     .catch((err) => {
       console.log(err)
     });
 };
 
-const chartStyle = { height: '300px', width: '500px' }
-const chartOption1 = {
-    dataset: {
-      source: [
-        ["Total", "Male", "Female"],
-        ["subject 1", 4, 1],
-        ["subject 2", 2, 4],
-        ["subject 3", 3, 6],
-        ["subject 4", 5, 3],
-      ],
-    },
-    tooltip: {
-      trigger: "axis",
-      axisPointer: {
-        type: "shadow",
-      },
-    },
-    legend: {
-      data: ["Male", "Female"],
-    },
-
-    xAxis: {
-      type: "category",
-    },
-    yAxis: {
-      type: "value",
-    },
-    series: [
-      {
-        type: "line",
-        stack: "total",
-        label: {
-          show: true,
-        }
-      },
-      {
-        type: "bar",
-        stack: "total",
-        label: {
-          show: true,
-        }
-      }
-    ],
-  }
-const chartOption2 = {
-  dataset: {
-    source: [
-      ["Total", "Male"],
-      ["subject 1", 4],
-      ["subject 2", 2],
-      ["subject 3", 3],
-      ["subject 4", 5],
-    ],
-  },
-  tooltip: {
-    trigger: "axis",
-    axisPointer: {
-      type: "shadow",
-    },
-  },
-  legend: {
-    data: ["Male", "Female"],
-  },
-
-  xAxis: {
-    type: "category",
-  },
-  yAxis: {
-    type: "value",
-  },
-  series: [
-    {
-      type: "line",
-      stack: "total",
-      label: {
-        show: true,
-      }
-    }
-  ],
-}
 function App() {
   return (
     <div className="App">
@@ -120,8 +66,8 @@ function App() {
         <p>
           <button onClick={loginTest}> Login </button>
         </p>
-        <Chart chartOption={chartOption1} style={chartStyle}/>
-        <Chart chartOption={chartOption2} style={chartStyle}/>
+        <Chart type = "LINE" data={data} height={300} width ={300}/>
+        <Chart type = "BAR" data={data} height={300} width ={300}/>
       </header>
     </div>
   );

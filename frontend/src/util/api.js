@@ -30,7 +30,7 @@ const API = () => {
     delete: (url) => axios({ url, method: "DELETE", ...getConfig() }),
     setToken: (token) => {
       api.token = token;
-      console.log('token setted')
+      console.log('token sete')
     },
   };
 };

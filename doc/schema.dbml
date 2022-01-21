@@ -18,6 +18,11 @@ Enum "access_role_enum" {
   "admin"
   "user"
 }
+Enum "data_approval_status_enum" {
+  "approved"
+  "rejected"
+  "pending"
+}
 
 Table "user" {
   "id" bigint [pk]
@@ -65,6 +70,13 @@ Table "administration" {
   "name" text [not null]
 }
 
+Table "data_approval" {
+  "id" bigint [pk]
+  "data" bigint [not null]
+  "user" bigint [not null]
+  "status" data_approval_status_enum [not null]
+}
+
 Table "data" {
   "id" bigint [pk]
   "name" varchar(255) [not null]
@@ -80,6 +92,7 @@ Table "data" {
 Table "form" {
   "id" bigint [pk]
   "name" text [not null]
+  "uuid" varchar(255) [null]
 }
 
 Table "option" {
@@ -144,6 +157,12 @@ Ref {
 }
 Ref {
   data.form > form.id
+}
+Ref {
+  data_approval.data - data.id
+}
+Ref {
+  data_approval.user > user.id
 }
 Ref {
   data.created_by - user.id
