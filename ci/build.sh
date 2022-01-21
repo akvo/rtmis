@@ -43,12 +43,13 @@ backend_build () {
 }
 
 echo "Build"
-# Code Quality
-docker-compose -f docker-compose.yml run \
-    --rm --no-deps backend python -m flake8
 
 backend_build
 frontend_build
+
+# Code Quality
+docker-compose -f docker-compose.test.yml run --rm --no-deps backend flake8
+
 
 if ! dci run -T ci ./basic.sh; then
   dci logs
