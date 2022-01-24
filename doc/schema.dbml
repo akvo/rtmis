@@ -7,9 +7,11 @@ Project rtmis {
 }
 Enum "questions_type_enum" {
   "geo"
-  "free"
+  "administration"
+  "text"
   "numeric"
   "option"
+  "multiple_option"
   "cascade"
   "photo"
   "date"
@@ -17,6 +19,12 @@ Enum "questions_type_enum" {
 Enum "access_role_enum" {
   "admin"
   "user"
+  "editor"
+}
+Enum "user_status_enum" {
+  "pending"
+  "approved"
+  "rejected"
 }
 Enum "data_approval_status_enum" {
   "approved"
@@ -27,6 +35,7 @@ Enum "data_approval_status_enum" {
 Table "user" {
   "id" bigint [pk]
   "email" varchar [unique, not null]
+  "status" user_status_enum [default: 'pending']
 }
 
 Table "access" {
@@ -43,6 +52,7 @@ Table "answer" {
   "id" bigint [pk]
   "data" bigint [not null]
   "question" bigint [not null]
+  "order" bigint [default: NULL]
   "name" text
   "value" bigint [default: NULL]
   "options" "varchar[]" [default: NULL]
