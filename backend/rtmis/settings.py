@@ -21,6 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = environ["DJANGO_SECRET"]
+# SECRET_KEY = 'hhs--tj$3)t1c5=@szen*ud%*#@yn-8g$lm+2dvja-9^4h_tba'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -46,7 +47,7 @@ EXTERNAL_APPS = [
 ]
 
 # Add API apps below
-API_APPS = ['api.demo']
+API_APPS = ['api.v1.v1_users']
 
 INSTALLED_APPS = DJANGO_APPS + API_APPS + EXTERNAL_APPS
 
@@ -82,14 +83,12 @@ WSGI_APPLICATION = 'rtmis.wsgi.application'
 
 # Rest Settings
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES':
-    ('rest_framework_simplejwt.authentication.JWTAuthentication', ),
-    # 'DEFAULT_VERSIONING_CLASS':
-    # 'rest_framework.versioning.URLPathVersioning',
-    'DATE_FORMAT':
-    "%d-%m-%Y",
-    "DATETIME_FORMAT":
-    "%d-%m-%Y %H:%M:%S"
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # noqa
+    ),
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',  # noqa
+    'DATE_FORMAT': "%d-%m-%Y",  # noqa
+    "DATETIME_FORMAT": "%d-%m-%Y %H:%M:%S"  # noqa
 }
 
 # JWT Config
@@ -100,6 +99,16 @@ SIMPLE_JWT = {
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'rtmis',
+#         'USER': 'postgres',
+#         'PASSWORD': 'Test105*',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -114,19 +123,20 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [{
-    'NAME':
-    'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-}, {
-    'NAME':
-    'django.contrib.auth.password_validation.MinimumLengthValidator',
-}, {
-    'NAME':
-    'django.contrib.auth.password_validation.CommonPasswordValidator',
-}, {
-    'NAME':
-    'django.contrib.auth.password_validation.NumericPasswordValidator',
-}]
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',  # noqa
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',  # noqa
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',  # noqa
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',  # noqa
+    }
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -148,3 +158,5 @@ STATIC_URL = 'static-files/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = "v1_users.SystemUser"
