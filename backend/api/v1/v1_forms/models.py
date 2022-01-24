@@ -72,6 +72,7 @@ class Questions(models.Model):
     question_group = models.ForeignKey(to=QuestionGroup,
                                        on_delete=models.CASCADE,
                                        related_name='question_group_question')
+    order = models.BigIntegerField(null=True, default=None)
     text = models.TextField()
     name = models.CharField(max_length=255)
     type = models.IntegerField(choices=QuestionTypes.FieldStr.items())
@@ -90,6 +91,7 @@ class Questions(models.Model):
 class QuestionOptions(models.Model):
     question = models.ForeignKey(to=Questions, on_delete=models.CASCADE,
                                  related_name='qustion_question_options')
+    order = models.BigIntegerField(null=True, default=None)
     code = models.CharField(max_length=255, default=None, null=True)
     name = models.TextField()
     other = models.BooleanField()
@@ -108,7 +110,6 @@ class Answers(models.Model):
                              related_name='data_answer')
     question = models.ForeignKey(to=Questions, on_delete=models.CASCADE,
                                  related_name='question_answer')
-    order = models.BigIntegerField(null=True, default=None)
     name = models.TextField()
     value = models.BigIntegerField(null=True, default=None)
     options = models.JSONField(default=None, null=True)
