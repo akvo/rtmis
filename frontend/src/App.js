@@ -6,10 +6,10 @@ const apiTest = () => {
   api
     .get("test/")
     .then((res) => {
-      alert(res.data.message);
+      console.info(res.data.message);
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
     });
 };
 
@@ -48,11 +48,10 @@ const loginTest = () => {
   api
     .post("login/", formData)
     .then((res) => {
-      console.log(res.data.token);
-      // api.setToken(res.data.token);
+      api.setToken(res.data.token);
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
     });
 };
 

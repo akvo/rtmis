@@ -3,7 +3,6 @@ import Line from "./line";
 import Bar from "./bar";
 
 const generateOptions = ({ type, data }) => {
-  console.log("type", type);
   switch (type) {
     case "LINE":
       return Line(data);

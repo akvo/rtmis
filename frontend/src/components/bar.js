@@ -1,4 +1,4 @@
-const Bar = (data, chartTitle, extra) => {
+const Bar = (data) => {
   data = !data ? [] : data;
   data = data.map((x) => ({
     ...x,

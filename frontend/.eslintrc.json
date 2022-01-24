@@ -24,7 +24,16 @@
   },
   "rules": {
     "no-alert": 2,
-    "no-console": 2,
+    "no-console": [
+      2,
+      {
+        "allow": [
+          "warn",
+          "error",
+          "info"
+        ]
+      }
+    ],
     "no-undef": 2,
     "no-else-return": 2,
     "no-unused-vars": 2,

@@ -1,4 +1,4 @@
-const Line = (data, chartTitle, extra) => {
+const Line = (data) => {
   data = !data ? [] : data;
   data = data.map((x) => ({
     ...x,
