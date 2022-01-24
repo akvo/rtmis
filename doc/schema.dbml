@@ -52,7 +52,6 @@ Table "answer" {
   "id" bigint [pk]
   "data" bigint [not null]
   "question" bigint [not null]
-  "order" bigint [default: NULL]
   "name" text
   "value" bigint [default: NULL]
   "options" "varchar[]" [default: NULL]
@@ -84,7 +83,8 @@ Table "data_approval" {
   "id" bigint [pk]
   "data" bigint [not null]
   "user" bigint [not null]
-  "status" data_approval_status_enum [not null]
+  "status" data_approval_status_enum [default: "pending"]
+  "updated" timestamp [default: NULL]
 }
 
 Table "data" {
@@ -93,6 +93,7 @@ Table "data" {
   "form" bigint [not null]
   "administration" bigint [not null]
   "geo" "int[]" [default: NULL]
+  "approved" tinyint(1) [default: 0]
   "created_by" bigint [not null]
   "updated_by" bigint [not null]
   "created" timestamp [default: `now()`]
@@ -102,11 +103,14 @@ Table "data" {
 Table "form" {
   "id" bigint [pk]
   "name" text [not null]
-  "uuid" varchar(255) [null]
+  "version" int [default: 1]
+  "uuid" uuid [default: `uuid_generate_v4()`]
+  "approval_level" "int[]" [default: NULL]
 }
 
 Table "option" {
   "id" bigint [pk]
+  "order" bigint [default: NULL]
   "question" bigint [not null]
   "code" varchar(255) [default: NULL]
   "name" text [not null]
@@ -117,6 +121,7 @@ Table "option" {
 
 Table "question" {
   "id" bigint [not null]
+  "order" bigint [default: NULL]
   "form" bigint [not null]
   "question_group" bigint [not null]
   "text" text [not null]
