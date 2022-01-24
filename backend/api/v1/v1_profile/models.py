@@ -21,8 +21,10 @@ class Administration(models.Model):
 
 
 class Access(models.Model):
-    user = models.ForeignKey(to=SystemUser, on_delete=models.CASCADE, related_name='user_access')
-    administration = models.ForeignKey(to=Administration, on_delete=models.CASCADE,
+    user = models.ForeignKey(to=SystemUser, on_delete=models.CASCADE,
+                             related_name='user_access')
+    administration = models.ForeignKey(to=Administration,
+                                       on_delete=models.CASCADE,
                                        related_name='user_administration')
     role = models.IntegerField(choices=UserRoleTypes.FieldStr.items())
 
