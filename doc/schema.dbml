@@ -42,7 +42,7 @@ Table "access" {
   "id" bigint [pk]
   "user" bigint [not null]
   "administration" varchar [ not null]
-  "role" user_role_enum [not null]
+  "role" access_role_enum [not null]
   indexes {
     (user, administration) [unique]
   }
