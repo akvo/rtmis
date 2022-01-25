@@ -11,6 +11,7 @@ class Administration(models.Model):
                                default=None,
                                null=True)
     code = models.CharField(max_length=255, null=True, default=None)
+    level = models.IntegerField()
     name = models.TextField()
 
     def __str__(self):

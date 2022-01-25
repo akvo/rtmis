@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 
 # Create your models here.
@@ -8,7 +10,9 @@ from api.v1.v1_users.models import SystemUser
 
 class Forms(models.Model):
     name = models.TextField()
-    uuid = models.UUIDField(default=None, null=True)
+    version = models.IntegerField(default=1)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    approval_level = models.JSONField(default=None, null=True)
 
     def __str__(self):
         return self.name
@@ -25,6 +29,8 @@ class FormData(models.Model):
                                        on_delete=models.CASCADE,
                                        related_name='administration_form_data')
     geo = models.JSONField(null=True, default=None)
+    approved = models.BooleanField(default=False)
+    # TODO: confirm relation
     created_by = models.OneToOneField(to=SystemUser, on_delete=models.CASCADE,
                                       related_name='form_data_created')
     updated_by = models.OneToOneField(to=SystemUser, on_delete=models.CASCADE,
@@ -46,6 +52,7 @@ class DataApproval(models.Model):
                              related_name='user_data_approval')
     status = models.IntegerField(choices=DataApprovalStatus.FieldStr.items(),
                                  default=DataApprovalStatus.pending)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.user.email
