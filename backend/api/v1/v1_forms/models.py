@@ -11,7 +11,7 @@ from api.v1.v1_users.models import SystemUser
 class Forms(models.Model):
     name = models.TextField()
     version = models.IntegerField(default=1)
-    uuid = models.UUIDField(default=uuid.uuid4(), editable=False, unique=True)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     approval_level = models.JSONField(default=None, null=True)
 
     def __str__(self):
