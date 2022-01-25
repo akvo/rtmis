@@ -1,6 +1,6 @@
 import "./App.css";
 import api from "./util/api";
-import { Row, Col, Button } from "antd";
+import { Row, Col, Button, Space } from "antd";
 import Chart from "./chart";
 import { chartData } from "./util/dummy";
 
@@ -33,16 +33,17 @@ function App() {
   return (
     <div className="App">
       <Row>
-        <Col md={12}>
-          <Button onClick={apiTest}> Test API </Button>
-          <Button onClick={loginTest}> Login </Button>
+        <Col span={24} align="center">
+          <Space>
+            <Button onClick={apiTest}> Test API </Button>
+            <Button onClick={loginTest}> Login </Button>
+          </Space>
         </Col>
       </Row>
       <Row>
-        <Col md={12}>
-          <Chart title={"Test"} type="BAR" data={chartData} />
-          <Chart title={"Test"} type="BAR" data={chartData} />
-        </Col>
+        <Chart span={12} title={"Test"} type="BAR" data={chartData} />
+        <Chart span={6} title={"Test"} type="PIE" data={chartData} />
+        <Chart span={6} title={"Test"} type="PIE" data={chartData} />
       </Row>
     </div>
   );
