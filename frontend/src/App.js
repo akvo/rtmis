@@ -1,6 +1,8 @@
 import "./App.css";
 import api from "./util/api";
-import Chart from "./components/charts";
+import { Row, Col, Button } from "antd";
+import Chart from "./chart";
+import { chartData } from "./util/dummy";
 
 const apiTest = () => {
   api
@@ -12,34 +14,6 @@ const apiTest = () => {
       console.error(err);
     });
 };
-
-const data = [
-  {
-    name: "Var A",
-    group: "Group 1",
-    value: 10,
-  },
-  {
-    name: "Var B",
-    group: "Group 2",
-    value: 13,
-  },
-  {
-    name: "Var C",
-    group: "Group 2",
-    value: 20,
-  },
-  {
-    name: "Var D",
-    group: "Group 1",
-    value: 24,
-  },
-  {
-    name: "Var E",
-    group: "Group 2",
-    value: 14,
-  },
-];
 
 const loginTest = () => {
   let formData = new FormData();
@@ -58,16 +32,18 @@ const loginTest = () => {
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          <button onClick={apiTest}> Test API </button>
-        </p>
-        <p>
-          <button onClick={loginTest}> Login </button>
-        </p>
-        <Chart type="LINE" data={data} height={300} width={300} />
-        <Chart type="BAR" data={data} height={300} width={300} />
-      </header>
+      <Row>
+        <Col md={12}>
+          <Button onClick={apiTest}> Test API </Button>
+          <Button onClick={loginTest}> Login </Button>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={12}>
+          <Chart title={"Test"} type="BAR" data={chartData} />
+          <Chart title={"Test"} type="BAR" data={chartData} />
+        </Col>
+      </Row>
     </div>
   );
 }
