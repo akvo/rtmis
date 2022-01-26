@@ -5,7 +5,7 @@ import {
   TextStyle,
   backgroundColor,
   Title,
-} from "./chart-style.js";
+} from "./common";
 import isEmpty from "lodash/isEmpty";
 
 const Pie = (data, chartTitle, extra, Doughnut = false) => {

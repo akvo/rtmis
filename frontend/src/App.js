@@ -1,7 +1,7 @@
-import "./App.css";
+import "./App.scss";
 import api from "./util/api";
 import { Row, Col, Button, Space } from "antd";
-import Chart from "./chart";
+import { Chart } from "./components";
 import { chartData } from "./util/dummy";
 
 const apiTest = () => {
