@@ -13,6 +13,7 @@ $margin-small: 10px;
   .header,
   .body,
   .footer {
+    font-size: $font-size-small;
     padding-left: $default-padding;
     padding-right: $default-padding;
   }
@@ -25,7 +26,6 @@ $margin-small: 10px;
 
   .header {
     background-color: $bg-header;
-    font-size: $font-size-small;
     font-weight: $font-weight-semi-bold;
     color: $color-light;
     padding-top: $layout-padding-header;
@@ -35,7 +35,7 @@ $margin-small: 10px;
       align-items: center;
 
       img {
-        width: 100px;
+        height: 100px;
       }
 
       h1 {
@@ -73,7 +73,7 @@ $margin-small: 10px;
           margin-left: $margin-small;
           border: 2px solid;
           border-radius: 100%;
-          font-size: 20px;
+          font-size: 13.5px;
           padding: 0px 4px;
         }
       }
@@ -87,5 +87,38 @@ $margin-small: 10px;
   .footer {
     background-color: $bg-dark;
     color: $color-light;
+
+    h3 {
+      color: $color-light;
+      font-weight: $font-weight-bold;
+    }
+
+    ul {
+      margin-block-start: 0px;
+      padding-inline-start: 0px;
+
+      li {
+        text-decoration: none;
+        list-style: none;
+      }
+    }
+
+    button {
+      margin-top: 30px;
+    }
+
+    .footer-logo {
+      text-align: center;
+
+      img {
+        width: 100%;
+      }
+
+      h3 {
+        font-weight: $font-weight-bold;
+        font-size: 24px;
+        letter-spacing: 5px;
+      }
+    }
   }
 }

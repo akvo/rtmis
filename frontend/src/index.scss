@@ -1,0 +1,20 @@
+html,
+body,
+#root {
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.11px;
+}
+
+.ant-btn {
+  text-transform: uppercase;
+
+  &.ant-btn-sm {
+    font-size: 12px;
+  }
+}
