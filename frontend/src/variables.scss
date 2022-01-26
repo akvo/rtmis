@@ -1,3 +1,7 @@
+$screen-small: 768px;
+$screen-regular: 769px;
+$screen-large: 1200px;
+
 $bg-light: #f4f7fc;
 $bg-dark: #333333;
 $bg-header: #253239;
@@ -10,7 +14,8 @@ $color-disabled: #dededf;
 $blue: #0058ff;
 $red: #ef7575;
 
-$default-padding: 140px;
+$layout-padding: 140px;
+$layout-padding-small-screen: 40px;
 $border-radius: 0.25rem !default;
 
 $font-family: "Poppins", sans-serif;

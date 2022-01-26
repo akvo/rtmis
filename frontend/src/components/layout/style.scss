@@ -14,8 +14,13 @@ $margin-small: 10px;
   .body,
   .footer {
     font-size: $font-size-small;
-    padding-left: $default-padding;
-    padding-right: $default-padding;
+    padding-left: $layout-padding-small-screen;
+    padding-right: $layout-padding-small-screen;
+
+    @media screen and (min-width: $screen-regular) {
+      padding-left: $layout-padding;
+      padding-right: $layout-padding;
+    }
   }
 
   .body,
