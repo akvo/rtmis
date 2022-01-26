@@ -141,5 +141,14 @@ $padding-header: 20px;
         letter-spacing: 5px;
       }
     }
+
+    .end {
+      border-top: 1px solid $white;
+      padding-top: $padding-default - 10;
+
+      a {
+        color: $white;
+      }
+    }
   }
 }

@@ -18,10 +18,10 @@ const Header = ({ title = "Site Title", className = "header", ...props }) => {
       </Col>
       <Col className="navigation">
         <Space>
-          <Link to="/"> Data</Link>
-          <Link to="/"> Reports</Link>
-          <Link to="/"> Monitoring</Link>
-          <Link to="/"> How We Work</Link>
+          <Link to="/">Data</Link>
+          <Link to="/">Reports</Link>
+          <Link to="/">Monitoring</Link>
+          <Link to="/">How We Work</Link>
         </Space>
       </Col>
       <Col className="menu">

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Row, Col, Button } from "antd";
+import { Row, Col, Button, Space } from "antd";
+import { Link } from "react-router-dom";
 
 const Footer = ({ children, className = "footer", ...props }) => {
   return (
@@ -40,9 +41,14 @@ const Footer = ({ children, className = "footer", ...props }) => {
           </div>
         </Col>
       </Row>
-      <Row align="top" justify="space-between" {...props}>
-        <Col></Col>
-        <Col></Col>
+      <Row className="end" align="top" justify="space-between" {...props}>
+        <Col>Copyright 2021</Col>
+        <Col>
+          <Space>
+            <Link to="/">Terms of Service</Link>
+            <Link to="/">Privacy Policy</Link>
+          </Space>
+        </Col>
       </Row>
     </div>
   );
