@@ -5,21 +5,39 @@
     text-align: center;
   }
 
-  .card-wrapper {
-    margin-bottom: 30px;
+  .datasets {
+    .card-wrapper {
+      margin-bottom: 30px;
 
-    .ant-card {
-      padding-bottom: 60px;
-    }
+      .ant-card {
+        padding-bottom: 120px;
+      }
 
-    a {
-      &.read-more {
-        display: block;
-        position: absolute;
-        bottom: 30px;
-        width: 100%;
-        left: 0px;
+      a {
+        &.read-more {
+          display: block;
+          position: absolute;
+          bottom: 100px;
+          width: 100%;
+          left: 0px;
+        }
+
+        &.explore {
+          display: block;
+          position: absolute;
+          bottom: 30px;
+          width: 100%;
+          left: 0px;
+        }
       }
     }
+  }
+
+  .highlights {
+    margin-left: -$layout-padding;
+    margin-right: -$layout-padding;
+    background-color: $white;
+    padding-top: $padding-default;
+    margin-bottom: -$padding-default;
   }
 }

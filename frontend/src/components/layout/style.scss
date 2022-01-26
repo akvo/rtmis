@@ -1,8 +1,7 @@
 @import "../../variables";
 
-$layout-padding-default: 40px;
-$layout-padding-header: 20px;
 $margin-small: 10px;
+$padding-header: 20px;
 
 .layout {
   min-width: 100vw;
@@ -27,8 +26,8 @@ $margin-small: 10px;
   .body,
   .banner,
   .footer {
-    padding-top: $layout-padding-default;
-    padding-bottom: $layout-padding-default;
+    padding-top: $padding-default;
+    padding-bottom: $padding-default;
   }
 
   .banner {
@@ -48,8 +47,8 @@ $margin-small: 10px;
     background-color: $bg-header;
     font-weight: $font-weight-semi-bold;
     color: $color-light;
-    padding-top: $layout-padding-header;
-    padding-bottom: $layout-padding-header;
+    padding-top: $padding-header;
+    padding-bottom: $padding-header;
 
     .logo {
       align-items: center;
@@ -112,7 +111,7 @@ $margin-small: 10px;
     h3 {
       color: $color-light;
       font-weight: $font-weight-semi-bold;
-      margin-bottom: $layout-padding-default;
+      margin-bottom: $padding-default;
     }
 
     ul {

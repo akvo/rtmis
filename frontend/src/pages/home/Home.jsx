@@ -1,7 +1,10 @@
 import React from "react";
 import "./style.scss";
-import { Row, Col, Card, Button } from "antd";
+import { Row, Col, Card, Button, Tabs } from "antd";
 import { Link } from "react-router-dom";
+import { RightOutlined } from "@ant-design/icons";
+
+const { TabPane } = Tabs;
 
 const datasets = [
   {
@@ -24,6 +27,38 @@ const datasets = [
   },
 ];
 
+const highlights = [
+  {
+    name: "Sanitation",
+    description:
+      "proportion of population with access to hand washing facilities with water and soap",
+  },
+  {
+    name: "Hygiene",
+    description: "Hygiene Text Description",
+  },
+  {
+    name: "Waste Water",
+    description: "Waste Water Text Description",
+  },
+  {
+    name: "Water Quality",
+    description: "Water Quality Text Description",
+  },
+  {
+    name: "Efficiency",
+    description: "Efficiency Text Description",
+  },
+  {
+    name: "Water Stress",
+    description: "Water Stress Text Description",
+  },
+  {
+    name: "Ecosystems",
+    description: "Ecosystems Text Description",
+  },
+];
+
 const Home = () => {
   return (
     <div id="home">
@@ -35,12 +70,28 @@ const Home = () => {
               <Card title={dataset.title} bordered={false} hoverable>
                 <p>{dataset.description}</p>
                 <Link to={dataset.link} className="read-more">
-                  <Button type="primary">Read More</Button>
+                  Read More
+                  <RightOutlined />
+                </Link>
+                <Link to={dataset.link} className="explore">
+                  <Button type="primary">Explore The Data</Button>
                 </Link>
               </Card>
             </Col>
           ))}
         </Row>
+      </div>
+      <div className="highlights">
+        <h1>Highlights</h1>
+        <div className="body">
+          <Tabs defaultActiveKey="1" centered>
+            {highlights.map((highlight, index) => (
+              <TabPane tab={highlight.name} key={index + 1}>
+                {highlight.description}
+              </TabPane>
+            ))}
+          </Tabs>
+        </div>
       </div>
     </div>
   );
