@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Row, Col, Button, Space } from "antd";
 import { Link } from "react-router-dom";
 
-const Footer = ({ children, className = "footer", ...props }) => {
+const Footer = ({ className = "footer", ...props }) => {
   return (
     <div className={className}>
       <Row align="top" justify="space-between" {...props}>
@@ -55,11 +55,6 @@ const Footer = ({ children, className = "footer", ...props }) => {
 };
 
 Footer.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-    PropTypes.node,
-  ]).isRequired,
   className: PropTypes.string,
 };
 
