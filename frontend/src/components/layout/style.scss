@@ -10,6 +10,7 @@ $margin-small: 10px;
   background-color: $bg-light;
   display: block;
 
+  .banner,
   .header,
   .body,
   .footer {
@@ -24,9 +25,23 @@ $margin-small: 10px;
   }
 
   .body,
+  .banner,
   .footer {
     padding-top: $layout-padding-default;
     padding-bottom: $layout-padding-default;
+  }
+
+  .banner {
+    h1 {
+      color: $white;
+      font-weight: $font-weight-semi-bold;
+
+      small {
+        font-weight: $font-weight-medium;
+        font-size: 18px;
+        letter-spacing: 0.2px;
+      }
+    }
   }
 
   .header {
@@ -46,7 +61,7 @@ $margin-small: 10px;
       h1 {
         margin: auto;
         display: inline-block;
-        color: $color-light;
+        color: $color-semi-light;
         font-weight: $font-weight-semi-bold;
         font-size: $font-size-large;
         margin-bottom: 0px;
@@ -92,10 +107,12 @@ $margin-small: 10px;
   .footer {
     background-color: $bg-dark;
     color: $color-light;
+    font-weight: $font-weight-regular;
 
     h3 {
       color: $color-light;
-      font-weight: $font-weight-bold;
+      font-weight: $font-weight-semi-bold;
+      margin-bottom: $layout-padding-default;
     }
 
     ul {

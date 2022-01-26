@@ -6,17 +6,21 @@ $bg-light: #f4f7fc;
 $bg-dark: #333333;
 $bg-header: #253239;
 
-$color-light: #d9dcdd;
+$color-light: #ffffff;
+$color-semi-light: #d9dcdd;
 $color-dark: #253239;
 $color-default: #666666;
 $color-disabled: #dededf;
 
+$white: #ffffff;
 $blue: #0058ff;
 $red: #ef7575;
 
 $layout-padding: 140px;
 $layout-padding-small-screen: 40px;
-$border-radius: 0.25rem !default;
+
+$border-radius: 6px !default;
+$box-shadow: 0px 1px 4px rgba(21, 34, 50, 0.08);
 
 $font-family: "Poppins", sans-serif;
 $font-weight-regular: 400;

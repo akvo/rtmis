@@ -1,0 +1,25 @@
+@import "../../variables";
+
+#home {
+  h1 {
+    text-align: center;
+  }
+
+  .card-wrapper {
+    margin-bottom: 30px;
+
+    .ant-card {
+      padding-bottom: 60px;
+    }
+
+    a {
+      &.read-more {
+        display: block;
+        position: absolute;
+        bottom: 30px;
+        width: 100%;
+        left: 0px;
+      }
+    }
+  }
+}
