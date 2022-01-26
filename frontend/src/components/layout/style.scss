@@ -24,9 +24,52 @@ $layout-padding-header: 20px;
 
   .header {
     background-color: $bg-header;
+    font-weight: $font-weight-semi-bold;
     color: $color-light;
     padding-top: $layout-padding-header;
     padding-bottom: $layout-padding-header;
+
+    img.logo {
+      width: 100px;
+    }
+
+    h1.title {
+      display: inline-block;
+      color: $color-light;
+      font-weight: $font-weight-semi-bold;
+      font-size: $font-size-large;
+      margin-bottom: 0px;
+      padding-left: 10px;
+    }
+
+    .navigation,
+    .menu {
+      text-transform: uppercase;
+    }
+
+    .navigation {
+      a {
+        color: $color-light;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+
+    .menu {
+      vertical-align: middle;
+
+      a {
+        color: $color-light;
+
+        .icon {
+          margin-left: 10px;
+          border: 2px solid;
+          border-radius: 100%;
+          font-size: 20px;
+          padding: 0px 4px;
+        }
+      }
+    }
   }
 
   .body {

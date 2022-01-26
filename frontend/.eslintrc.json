@@ -23,9 +23,9 @@
     }
   },
   "rules": {
-    "no-alert": 2,
+    "no-alert": "warn",
     "no-console": [
-      2,
+      "warn",
       {
         "allow": [
           "warn",
@@ -34,25 +34,25 @@
         ]
       }
     ],
-    "no-undef": 2,
-    "no-else-return": 2,
-    "no-unused-vars": 2,
-    "semi": 1,
-    "no-extra-semi": 1,
+    "no-undef": "warn",
+    "no-else-return": "warn",
+    "no-unused-vars": "warn",
+    "semi": "warn",
+    "no-extra-semi": "warn",
     "prefer-arrow-callback": "error",
     "no-multi-spaces": [
-      "error",
+      "warn",
       {
         "ignoreEOLComments": true
       }
     ],
-    "react/prefer-stateless-function": 2,
-    "react-hooks/rules-of-hooks": 2,
-    "react-hooks/exhaustive-deps": 1,
+    "react/prefer-stateless-function": "warn",
+    "react-hooks/rules-of-hooks": "warn",
+    "react-hooks/exhaustive-deps": "warn",
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [
-      1,
+      "error",
       {
         "extensions": [
           ".js",
