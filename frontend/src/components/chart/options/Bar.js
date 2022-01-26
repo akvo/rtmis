@@ -8,7 +8,7 @@ import {
   Title,
   axisTitle,
   NoData,
-} from "./chart-style.js";
+} from "./common";
 import sortBy from "lodash/sortBy";
 import isEmpty from "lodash/isEmpty";
 import sumBy from "lodash/sumBy";

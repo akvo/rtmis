@@ -6,8 +6,8 @@ import {
   Title,
   AxisLabelFormatter,
   NoData,
-} from "./chart-style.js";
-import { getDateRange } from "../util/date";
+} from "./common";
+import { getDateRange } from "../../../util/date";
 import sortBy from "lodash/sortBy";
 import uniq from "lodash/uniq";
 import isEmpty from "lodash/isEmpty";

@@ -31,6 +31,8 @@ frontend_build () {
     echo "PUBLIC_URL=/" > frontend/.env
 
     # Code Quality and Build Folder
+    sed 's/"warn"/"error"/g' < frontend/.eslintrc.json > frontend/.eslintrc.prod.json
+
     dc -f docker-compose.yml run \
        --rm \
        --no-deps \

@@ -1,10 +1,7 @@
 import React from "react";
 import { Col, Card } from "antd";
 import ReactECharts from "echarts-for-react";
-import Bar from "./Bar";
-import Line from "./Line";
-import BarStack from "./BarStack";
-import Pie from "./Pie";
+import { Bar, Line, BarStack, Pie } from "./options";
 
 export const generateOptions = ({ type, data, chartTitle }, extra) => {
   switch (type) {

@@ -10,7 +10,7 @@ import {
   Title,
   axisTitle,
   NoData,
-} from "./chart-style.js";
+} from "./common";
 import uniq from "lodash/uniq";
 import isEmpty from "lodash/isEmpty";
 import upperFirst from "lodash/upperFirst";

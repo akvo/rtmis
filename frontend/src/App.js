@@ -1,52 +1,29 @@
-import "./App.css";
-import api from "./util/api";
-import { Row, Col, Button, Space } from "antd";
-import Chart from "./chart";
-import { chartData } from "./util/dummy";
+import "./App.scss";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { createBrowserHistory } from "history";
+import { Layout } from "./components";
+import { Home } from "./pages";
 
-const apiTest = () => {
-  api
-    .get("test/")
-    .then((res) => {
-      console.info(res.data.message);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-};
+const history = createBrowserHistory();
 
-const loginTest = () => {
-  let formData = new FormData();
-  formData.append("username", "admin");
-  formData.append("password", "Test105*");
-  api
-    .post("login/", formData)
-    .then((res) => {
-      api.setToken(res.data.token);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-};
-
-function App() {
+const App = () => {
+  const showBanner = history.location.pathname === "/";
   return (
-    <div className="App">
-      <Row>
-        <Col span={24} align="center">
-          <Space>
-            <Button onClick={apiTest}> Test API </Button>
-            <Button onClick={loginTest}> Login </Button>
-          </Space>
-        </Col>
-      </Row>
-      <Row>
-        <Chart span={12} title={"Test"} type="BAR" data={chartData} />
-        <Chart span={6} title={"Test"} type="PIE" data={chartData} />
-        <Chart span={6} title={"Test"} type="PIE" data={chartData} />
-      </Row>
-    </div>
+    <Router history={history}>
+      <Layout>
+        <Layout.Header title="Ministry of Health" />
+        {showBanner && <Layout.Banner />}
+        <Layout.Body>
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/data" element={<Home />} />
+          </Routes>
+        </Layout.Body>
+        <Layout.Footer>Test</Layout.Footer>
+      </Layout>
+    </Router>
   );
-}
+};
 
 export default App;

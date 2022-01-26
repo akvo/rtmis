@@ -1,0 +1,35 @@
+@import "variables";
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+#root {
+  font-family: "Poppins", sans-serif;
+  font-weight: $font-weight-regular;
+  font-size: $font-size-regular;
+
+  h1 {
+    font-size: 32px;
+    font-weight: $font-weight-semi-bold;
+  }
+
+  .ant-btn {
+    border-radius: 4px;
+  }
+
+  .ant-card {
+    text-align: center;
+    height: 100%;
+    padding: 30px;
+    box-shadow: $box-shadow;
+    border-radius: $border-radius;
+
+    .ant-card-head {
+      border-bottom: none;
+
+      .ant-card-head-title {
+        font-size: 18px;
+        font-weight: $font-weight-semi-bold;
+      }
+    }
+  }
+}
