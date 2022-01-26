@@ -1,0 +1,40 @@
+@import "../../variables";
+
+$layout-padding-default: 40px;
+$layout-padding-header: 20px;
+
+.layout {
+  min-width: 100vw;
+  min-height: 100vh;
+  background-color: $bg-light;
+  display: block;
+
+  .header,
+  .body,
+  .footer {
+    padding-left: $default-padding;
+    padding-right: $default-padding;
+  }
+
+  .body,
+  .footer {
+    padding-top: $layout-padding-default;
+    padding-bottom: $layout-padding-default;
+  }
+
+  .header {
+    background-color: $bg-header;
+    color: $color-light;
+    padding-top: $layout-padding-header;
+    padding-bottom: $layout-padding-header;
+  }
+
+  .body {
+    background-color: "transparent";
+  }
+
+  .footer {
+    background-color: $bg-dark;
+    color: $color-light;
+  }
+}
