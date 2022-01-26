@@ -12,9 +12,9 @@ const Header = ({ title = "Site Title", className = "header", ...props }) => {
       justify="space-between"
       {...props}
     >
-      <Col>
-        <img className="logo" src="/logo.png" />
-        <h1 className="title">{title}</h1>
+      <Col className="logo">
+        <img src="/logo.png" alt="logo.png" />
+        <h1>{title}</h1>
       </Col>
       <Col className="navigation">
         <Space>

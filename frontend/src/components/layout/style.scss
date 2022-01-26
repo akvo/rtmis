@@ -2,6 +2,7 @@
 
 $layout-padding-default: 40px;
 $layout-padding-header: 20px;
+$margin-small: 10px;
 
 .layout {
   min-width: 100vw;
@@ -24,22 +25,29 @@ $layout-padding-header: 20px;
 
   .header {
     background-color: $bg-header;
+    font-size: $font-size-small;
     font-weight: $font-weight-semi-bold;
     color: $color-light;
     padding-top: $layout-padding-header;
     padding-bottom: $layout-padding-header;
 
-    img.logo {
-      width: 100px;
-    }
+    .logo {
+      align-items: center;
 
-    h1.title {
-      display: inline-block;
-      color: $color-light;
-      font-weight: $font-weight-semi-bold;
-      font-size: $font-size-large;
-      margin-bottom: 0px;
-      padding-left: 10px;
+      img {
+        width: 100px;
+      }
+
+      h1 {
+        margin: auto;
+        display: inline-block;
+        color: $color-light;
+        font-weight: $font-weight-semi-bold;
+        font-size: $font-size-large;
+        margin-bottom: 0px;
+        padding-left: $margin-small;
+        vertical-align: middle;
+      }
     }
 
     .navigation,
@@ -62,7 +70,7 @@ $layout-padding-header: 20px;
         color: $color-light;
 
         .icon {
-          margin-left: 10px;
+          margin-left: $margin-small;
           border: 2px solid;
           border-radius: 100%;
           font-size: 20px;
