@@ -14,7 +14,7 @@ const styles = {
 const Banner = () => {
   return (
     <div style={styles.banner}>
-      <Row className="banner">
+      <Row className="banner" align="middle">
         <Col span={20}>
           <h1>
             Welcome to the National

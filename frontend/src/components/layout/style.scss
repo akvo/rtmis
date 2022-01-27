@@ -3,151 +3,164 @@
 $margin-small: 10px;
 $padding-header: 20px;
 
-.layout {
-  min-width: 100vw;
-  min-height: 100vh;
-  background-color: $bg-light;
-  display: block;
+#root {
+  .layout {
+    min-width: 100vw;
+    min-height: 100vh;
+    background-color: $bg-light;
+    display: block;
 
-  .banner,
-  .header,
-  .body,
-  .footer {
-    font-size: $font-size-small;
-    padding-left: $layout-padding-small-screen;
-    padding-right: $layout-padding-small-screen;
+    .banner,
+    .header,
+    .body,
+    .footer {
+      font-size: $font-size-small;
+      padding-left: $layout-padding-small-screen;
+      padding-right: $layout-padding-small-screen;
 
-    @media screen and (min-width: $screen-regular) {
-      padding-left: $layout-padding;
-      padding-right: $layout-padding;
-    }
-  }
-
-  .body,
-  .banner,
-  .footer {
-    padding-top: $padding-default;
-    padding-bottom: $padding-default;
-  }
-
-  .banner {
-    h1 {
-      color: $white;
-      font-weight: $font-weight-semi-bold;
-
-      small {
-        font-weight: $font-weight-medium;
-        font-size: 18px;
-        letter-spacing: 0.2px;
+      @media screen and (min-width: $screen-regular) {
+        padding-left: $layout-padding;
+        padding-right: $layout-padding;
       }
     }
-  }
 
-  .header {
-    background-color: $bg-header;
-    font-weight: $font-weight-semi-bold;
-    color: $color-light;
-    padding-top: $padding-header;
-    padding-bottom: $padding-header;
+    .body,
+    .footer {
+      padding-top: $padding-default;
+      padding-bottom: $padding-default;
+    }
 
-    .logo {
-      align-items: center;
-
-      img {
-        height: 100px;
-      }
+    .banner {
+      min-height: calc(100vh - 140px);
 
       h1 {
-        margin: auto;
-        display: inline-block;
-        color: $color-semi-light;
+        color: $white;
         font-weight: $font-weight-semi-bold;
-        font-size: $font-size-large;
-        margin-bottom: 0px;
-        padding-left: $margin-small;
-        vertical-align: middle;
+        font-size: $font-size-super-large;
+
+        small {
+          font-weight: $font-weight-regular;
+          font-size: $font-size-large;
+          letter-spacing: 0.2px;
+        }
       }
-    }
 
-    .navigation,
-    .menu {
-      text-transform: uppercase;
-    }
-
-    .navigation {
-      a {
-        color: $color-light;
-        padding-left: 20px;
-        padding-right: 20px;
-      }
-    }
-
-    .menu {
-      vertical-align: middle;
-
-      a {
-        color: $color-light;
-
-        .icon {
-          margin-left: $margin-small;
-          border: 2px solid;
-          border-radius: 100%;
-          font-size: 13.5px;
-          padding: 0px 4px;
+      button {
+        &.ant-btn {
+          &.ant-btn-lg {
+            padding: 30px 60px;
+            line-height: 2.5px;
+          }
         }
       }
     }
-  }
 
-  .body {
-    background-color: "transparent";
-  }
-
-  .footer {
-    background-color: $bg-dark;
-    color: $color-light;
-    font-weight: $font-weight-regular;
-
-    h3 {
-      color: $color-light;
+    .header {
+      background-color: $bg-header;
       font-weight: $font-weight-semi-bold;
-      margin-bottom: $padding-default;
-    }
+      color: $color-light;
+      padding-top: $padding-header;
+      padding-bottom: $padding-header;
 
-    ul {
-      margin-block-start: 0px;
-      padding-inline-start: 0px;
+      .logo {
+        align-items: center;
 
-      li {
-        text-decoration: none;
-        list-style: none;
+        img {
+          height: 100px;
+        }
+
+        h1 {
+          margin: auto;
+          display: inline-block;
+          color: $color-semi-light;
+          font-weight: $font-weight-semi-bold;
+          font-size: $font-size-large;
+          margin-bottom: 0px;
+          padding-left: $margin-small;
+          vertical-align: middle;
+        }
+      }
+
+      .navigation,
+      .menu {
+        text-transform: uppercase;
+      }
+
+      .navigation {
+        a {
+          color: $color-light;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }
+
+      .menu {
+        vertical-align: middle;
+
+        a {
+          color: $color-light;
+
+          .icon {
+            margin-left: $margin-small;
+            border: 2px solid;
+            border-radius: 100%;
+            font-size: 13.5px;
+            padding: 0px 4px;
+          }
+        }
       }
     }
 
-    button {
-      margin-top: 30px;
+    .body {
+      background-color: "transparent";
     }
 
-    .footer-logo {
-      text-align: center;
-
-      img {
-        width: 100%;
-      }
+    .footer {
+      background-color: $bg-dark;
+      color: $color-light;
+      font-weight: $font-weight-regular;
 
       h3 {
-        font-weight: $font-weight-bold;
-        font-size: 24px;
-        letter-spacing: 5px;
+        color: $color-light;
+        font-weight: $font-weight-semi-bold;
+        margin-bottom: $padding-default;
       }
-    }
 
-    .end {
-      border-top: 1px solid $white;
-      padding-top: $padding-default - 10;
+      ul {
+        margin-block-start: 0px;
+        padding-inline-start: 0px;
 
-      a {
-        color: $white;
+        li {
+          text-decoration: none;
+          list-style: none;
+        }
+      }
+
+      button {
+        margin-top: 30px;
+      }
+
+      .footer-logo {
+        text-align: center;
+
+        img {
+          width: 100%;
+        }
+
+        h3 {
+          font-weight: $font-weight-bold;
+          font-size: 24px;
+          letter-spacing: 5px;
+        }
+      }
+
+      .end {
+        border-top: 1px solid $white;
+        padding-top: $padding-default - 10;
+
+        a {
+          color: $white;
+        }
       }
     }
   }
