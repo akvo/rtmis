@@ -1,9 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Button, Space } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Footer = ({ className = "footer", ...props }) => {
+  const location = useLocation();
+  if (location.pathname === "/login") {
+    return "";
+  }
   return (
     <div className={className}>
       <Row align="top" justify="space-between" {...props}>

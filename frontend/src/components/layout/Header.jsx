@@ -1,10 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Row, Col, Space } from "antd";
+import { Row, Col, Space, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { store } from "../../lib";
 
 const Header = ({ title = "Site Title", className = "header", ...props }) => {
+  const { isLoggedIn } = store.useState();
+  const location = useLocation();
+  if (location.pathname === "/login") {
+    return "";
+  }
   return (
     <Row
       className={className}
@@ -25,12 +31,20 @@ const Header = ({ title = "Site Title", className = "header", ...props }) => {
         </Space>
       </Col>
       <Col className="menu">
-        <a href={"/menu"}>
-          John Doe
-          <span className="icon">
-            <UserOutlined />
-          </span>
-        </a>
+        {isLoggedIn ? (
+          <Link to={"/"}>
+            John Doe
+            <span className="icon">
+              <UserOutlined />
+            </span>
+          </Link>
+        ) : (
+          <Link to={"/login"}>
+            <Button type="primary" size="small">
+              Log in
+            </Button>
+          </Link>
+        )}
       </Col>
     </Row>
   );

@@ -19,6 +19,11 @@
     &.ant-btn-sm {
       font-size: 12px;
     }
+
+    &.ant-btn-primary {
+      background-color: $blue;
+      border-color: $blue;
+    }
   }
 
   .ant-card {

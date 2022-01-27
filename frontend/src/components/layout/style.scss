@@ -82,7 +82,8 @@ $padding-header: 20px;
       }
 
       .navigation,
-      .menu {
+      .menu,
+      button {
         text-transform: uppercase;
       }
 
@@ -96,6 +97,13 @@ $padding-header: 20px;
 
       .menu {
         vertical-align: middle;
+
+        button {
+          &.ant-btn {
+            padding-left: 20px;
+            padding-right: 20px;
+          }
+        }
 
         a {
           color: $color-light;

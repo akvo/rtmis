@@ -8,16 +8,16 @@ import { Home } from "./pages";
 const history = createBrowserHistory();
 
 const App = () => {
-  const showBanner = history.location.pathname === "/";
   return (
     <Router history={history}>
       <Layout>
         <Layout.Header title="Ministry of Health" />
-        {showBanner && <Layout.Banner />}
+        <Layout.Banner />
         <Layout.Body>
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route exact path="/data" element={<Home />} />
+            <Route exact path="/login" element={<Home />} />
           </Routes>
         </Layout.Body>
         <Layout.Footer />

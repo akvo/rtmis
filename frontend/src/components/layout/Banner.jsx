@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col, Button } from "antd";
 import backgroundImage from "../../assets/banner.png";
+import { useLocation } from "react-router-dom";
 
 const styles = {
   banner: {
@@ -12,6 +13,10 @@ const styles = {
 };
 
 const Banner = () => {
+  const location = useLocation();
+  if (location.pathname !== "/") {
+    return "";
+  }
   return (
     <div style={styles.banner}>
       <Row className="banner" align="middle">
