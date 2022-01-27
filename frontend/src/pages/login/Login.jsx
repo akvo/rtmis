@@ -1,6 +1,7 @@
 import React from "react";
 import "./style.scss";
 import { Row, Col } from "antd";
+import LoginForm from "./LoginForm";
 import backgroundImage from "../../assets/banner.png";
 import { config } from "../../lib";
 
@@ -39,6 +40,7 @@ const Login = () => {
             <br />
             <small>Please enter your account details</small>
           </h1>
+          <LoginForm />
         </Col>
       </Row>
     </div>

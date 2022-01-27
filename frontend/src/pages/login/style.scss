@@ -69,6 +69,7 @@
 
       .right-side {
         padding-left: 107px;
+        padding-right: $layout-padding;
 
         h1 {
           color: $white;
@@ -77,6 +78,27 @@
           small {
             font-size: $font-size-regular;
             font-weight: $font-weight-normal;
+          }
+        }
+
+        .ant-form {
+          &.ant-form-vertical {
+            .ant-form-item {
+              .ant-form-item-label {
+                label {
+                  color: $white;
+                  font-weight: $font-weight-semi-bold;
+                }
+              }
+
+              .ant-checkbox-wrapper {
+                color: $white;
+              }
+
+              .login-form-forgot {
+                float: right;
+              }
+            }
           }
         }
       }
