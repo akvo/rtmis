@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { Row, Col, Space, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Link, useLocation } from "react-router-dom";
-import { store } from "../../lib";
+import { config, store } from "../../lib";
 
-const Header = ({ title = "Site Title", className = "header", ...props }) => {
+const Header = ({ className = "header", ...props }) => {
   const { isLoggedIn } = store.useState();
   const location = useLocation();
   if (location.pathname === "/login") {
@@ -19,8 +19,8 @@ const Header = ({ title = "Site Title", className = "header", ...props }) => {
       {...props}
     >
       <Col className="logo">
-        <img src="/logo.png" alt="logo.png" />
-        <h1>{title}</h1>
+        <img src={config.siteLogo} alt={config.siteLogo} />
+        <h1>{config.siteTitle}</h1>
       </Col>
       <Col className="navigation">
         <Space>
@@ -51,7 +51,6 @@ const Header = ({ title = "Site Title", className = "header", ...props }) => {
 };
 
 Header.propTypes = {
-  title: PropTypes.string,
   className: PropTypes.string,
 };
 

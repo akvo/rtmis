@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Button, Space } from "antd";
 import { Link, useLocation } from "react-router-dom";
+import { config } from "../../lib";
 
 const Footer = ({ className = "footer", ...props }) => {
   const location = useLocation();
@@ -40,7 +41,7 @@ const Footer = ({ className = "footer", ...props }) => {
         </Col>
         <Col span={3}>
           <div className="footer-logo">
-            <img src="/logo.png" alt="logo.png" />
+            <img src={config.siteLogo} alt={config.siteLogo} />
             <h3>MOH</h3>
           </div>
         </Col>

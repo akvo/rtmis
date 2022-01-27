@@ -1,8 +1,5 @@
 @import "../../variables";
 
-$margin-small: 10px;
-$padding-header: 20px;
-
 #root {
   .layout {
     min-width: 100vw;
@@ -39,7 +36,7 @@ $padding-header: 20px;
         font-size: $font-size-super-large;
 
         small {
-          font-weight: $font-weight-regular;
+          font-weight: $font-weight-normal;
           font-size: $font-size-large;
           letter-spacing: 0.2px;
         }
@@ -66,7 +63,7 @@ $padding-header: 20px;
         align-items: center;
 
         img {
-          height: 100px;
+          height: $logo-height;
         }
 
         h1 {
@@ -126,7 +123,7 @@ $padding-header: 20px;
     .footer {
       background-color: $bg-dark;
       color: $color-light;
-      font-weight: $font-weight-regular;
+      font-weight: $font-weight-normal;
 
       h3 {
         color: $color-light;

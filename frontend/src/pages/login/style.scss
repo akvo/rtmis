@@ -1,0 +1,85 @@
+@import "../../variables";
+
+#root {
+  .background {
+    content: "";
+    width: 50%;
+    position: absolute;
+    height: 100vh;
+    top: 0px;
+  }
+
+  #login {
+    background-color: $bg-header;
+    margin-right: -$layout-padding;
+    margin-left: -$layout-padding;
+
+    .logo {
+      position: absolute;
+      left: $layout-padding;
+      top: $padding-header;
+      font-weight: $font-weight-semi-bold;
+      align-items: center;
+
+      img,
+      h1 {
+        display: inline-block;
+      }
+
+      h1 {
+        color: $color-light;
+        font-weight: $font-weight-semi-bold;
+        font-size: $font-size-large;
+        padding-bottom: 0px;
+        padding-left: 10px;
+        margin: auto;
+        vertical-align: middle;
+      }
+
+      img {
+        height: $logo-height;
+      }
+    }
+
+    .wrapper {
+      margin-top: -$padding-default;
+      margin-bottom: -$padding-default;
+      height: 100vh;
+
+      .right-side,
+      .left-side {
+        align-items: middle;
+      }
+
+      .left-side {
+        .title {
+          margin: auto;
+          vertical-align: middle;
+          margin-left: $layout-padding;
+          padding-right: 107px;
+
+          h1 {
+            text-align: left;
+            color: $white;
+            font-weight: $font-weight-semi-bold;
+            font-size: $font-size-super-large;
+          }
+        }
+      }
+
+      .right-side {
+        padding-left: 107px;
+
+        h1 {
+          color: $white;
+          font-weight: $font-weight-semi-bold;
+
+          small {
+            font-size: $font-size-regular;
+            font-weight: $font-weight-normal;
+          }
+        }
+      }
+    }
+  }
+}
