@@ -2,6 +2,7 @@ import "./App.scss";
 import { Row, Col, Button, Space } from "antd";
 import { Chart } from "./components";
 import { api } from "./lib";
+import { dummy } from "./util";
 
 const apiTest = () => {
   api

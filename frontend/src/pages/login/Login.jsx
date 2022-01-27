@@ -35,11 +35,9 @@ const Login = () => {
         </Col>
         <Col span={12} className="right-side">
           <h1>
-            Welcome to RTMIS
+            Welcome Back
             <br />
-            <small>
-              Set your own secure password including the following criteria
-            </small>
+            <small>Please enter your account details</small>
           </h1>
         </Col>
       </Row>
