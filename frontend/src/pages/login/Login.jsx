@@ -2,6 +2,7 @@ import React from "react";
 import "./style.scss";
 import { Row, Col } from "antd";
 import LoginForm from "./LoginForm";
+import { Link } from "react-router-dom";
 import backgroundImage from "../../assets/banner.png";
 import { config } from "../../lib";
 
@@ -19,8 +20,10 @@ const Login = () => {
     <div id="login">
       <div className="background" style={styles.side} />
       <div className="logo">
-        <img src={config.siteLogo} alt={config.siteLogo} />
-        <h1>{config.siteTitle}</h1>
+        <Link to="/">
+          <img src={config.siteLogo} alt={config.siteLogo} />
+          <h1>{config.siteTitle}</h1>
+        </Link>
       </div>
       <Row className="wrapper" align="middle">
         <Col span={12} className="left-side">
