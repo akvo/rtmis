@@ -20,7 +20,7 @@ const App = () => {
             <Route exact path="/data" element={<Home />} />
           </Routes>
         </Layout.Body>
-        <Layout.Footer>Test</Layout.Footer>
+        <Layout.Footer />
       </Layout>
     </Router>
   );

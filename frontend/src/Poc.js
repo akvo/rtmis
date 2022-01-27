@@ -2,7 +2,7 @@ import "./App.scss";
 import api from "./util/api";
 import { Row, Col, Button, Space } from "antd";
 import { Chart } from "./components";
-import { chartData } from "./util/dummy";
+import { dummy } from "./util";
 
 const apiTest = () => {
   api
@@ -14,6 +14,8 @@ const apiTest = () => {
       console.error(err);
     });
 };
+
+const { chartData } = dummy;
 
 const loginTest = () => {
   let formData = new FormData();
