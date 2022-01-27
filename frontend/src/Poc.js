@@ -1,5 +1,4 @@
 import "./App.scss";
-import api from "./util/api";
 import { Row, Col, Button, Space } from "antd";
 import { Chart } from "./components";
 import { api } from "./lib";
