@@ -33,7 +33,7 @@ Enum "form_type_enum" {
   "national"
 }
 
-Enum "data_approval_status_enum" {
+Enum "pending_data_status_enum" {
   "approved"
   "rejected"
   "pending"
@@ -106,8 +106,6 @@ Table "form_approval_assignment" {
   "form_id" bigint [not null]
   "user_id" bigint [not null]
   "administration_id" bigint [not null]
-  "status" data_approval_status_enum [default: "pending"]
-  "updated" timestamp [default: NULL]
 }
 
 
@@ -147,7 +145,6 @@ Table "data" {
   "form_id" bigint [not null]
   "administration_id" bigint [not null]
   "geo" "int[]" [default: NULL]
-  "approved" tinyint(1) [default: 0]
   "created_by_id" bigint [not null]
   "updated_by_id" bigint [not null]
   "created" timestamp [default: `now()`]
@@ -185,17 +182,17 @@ Table "pending_data" {
   "form_id" bigint [not null]
   "administration_id" bigint [not null]
   "geo" "int[]" [default: NULL]
-  "approved" tinyint(1) [default: 0]
   "created_by_id" bigint [not null]
   "updated_by_id" bigint [not null]
   "created" timestamp [default: `now()`]
   "updated" timestamp [default: NULL]
 }
 
-Table "pending_data_approval_list" {
+Table "pending_data_approval" {
   "id" bigint [pk]
   "pending_data_id" bigint [not null]
   "user_id" bigint [not null]
+  "status" pending_data_status_enum [default: `pending`]
 }
 
 
@@ -302,10 +299,10 @@ Ref {
   pending_data.updated_by_id - user.id
 }
 Ref {
-  pending_data_approval_list.pending_data_id > pending_data.id
+  pending_data_approval.pending_data_id > pending_data.id
 }
 Ref {
-  pending_data_approval_list.user_id > user.id
+  pending_data_approval.user_id > user.id
 }
 Ref {
   pending_answer.pending_data_id - pending_data.id
