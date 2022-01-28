@@ -47,6 +47,8 @@ frontend_build () {
 
 backend_build () {
 
+    npm install -g dbdocs
+
     docker build \
         --tag "${image_prefix}/backend:latest" \
         --tag "${image_prefix}/backend:${CI_COMMIT}" backend
@@ -56,6 +58,11 @@ backend_build () {
         --rm \
         --no-deps \
         backend flake8
+
+    dc -f docker-compose.test.yml run \
+        --rm \
+        --no-deps \
+        backend python manage.py dbml
 }
 
 echo "* BACKEND BUILD * =================="
