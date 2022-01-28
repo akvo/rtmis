@@ -1,0 +1,325 @@
+Table LogEntry {
+  id auto [note:"", pk, unique]
+  action_time date_time [note:""]
+  user foreign_key [note:""]
+  content_type foreign_key [note:"", null]
+  object_id text [note:"", null]
+  object_repr char [note:""]
+  action_flag positive_small_integer [note:""]
+  change_message text [note:""]
+  Note: '''LogEntry(id, action_time, user, content_type, object_id, object_repr, action_flag, change_message)'''
+}
+ref: LogEntry.user > SystemUser.id
+ref: LogEntry.content_type > ContentType.id
+
+
+Table Permission {
+  id auto [note:"", pk, unique]
+  name char [note:""]
+  content_type foreign_key [note:""]
+  codename char [note:""]
+  Note: '''
+    The permissions system provides a way to assign permissions to specific
+    users and groups of users.
+
+    The permission system is used by the Django admin site, but may also be
+    useful in your own code. The Django admin site uses permissions as follows:
+
+        - The "add" permission limits the user's ability to view the "add" form
+          and add an object.
+        - The "change" permission limits a user's ability to view the change
+          list, view the "change" form and change an object.
+        - The "delete" permission limits the ability to delete an object.
+        - The "view" permission limits the ability to view an object.
+
+    Permissions are set globally per type of object, not per specific object
+    instance. It is possible to say "Mary may change news stories," but it's
+    not currently possible to say "Mary may change news stories, but only the
+    ones she created herself" or "Mary may only change news stories that have a
+    certain status or publication date."
+
+    The permissions listed above are automatically created for each model.
+    '''
+}
+ref: Permission.content_type > ContentType.id
+
+
+Table Group {
+  id auto [note:"", pk, unique]
+  name char [note:"", unique]
+  Note: '''
+    Groups are a generic way of categorizing users to apply permissions, or
+    some other label, to those users. A user can belong to any number of
+    groups.
+
+    A user in a group automatically has all the permissions granted to that
+    group. For example, if the group 'Site editors' has the permission
+    can_edit_home_page, any user in that group will have that permission.
+
+    Beyond permissions, groups are a convenient way to categorize users to
+    apply some label, or extended functionality, to them. For example, you
+    could create a group 'Special users', and you could write code that would
+    do special things to those users -- such as giving them access to a
+    members-only portion of your site, or sending them members-only email
+    messages.
+    '''
+}
+
+
+Table auth_group_permissions {
+  permission_id auto [pk]
+  group_id auto [pk]
+}
+ref: Group.id > auth_group_permissions.group_id
+ref: Permission.id > auth_group_permissions.permission_id
+
+
+Table ContentType {
+  id auto [note:"", pk, unique]
+  app_label char [note:""]
+  model char [note:""]
+  Note: '''ContentType(id, app_label, model)'''
+}
+
+
+Table Session {
+  session_key char [note:"", pk, unique]
+  session_data text [note:""]
+  expire_date date_time [note:""]
+  Note: '''
+    Django provides full support for anonymous sessions. The session
+    framework lets you store and retrieve arbitrary data on a
+    per-site-visitor basis. It stores data on the server side and
+    abstracts the sending and receiving of cookies. Cookies contain a
+    session ID -- not the data itself.
+
+    The Django sessions framework is entirely cookie-based. It does
+    not fall back to putting session IDs in URLs. This is an intentional
+    design decision. Not only does that behavior make URLs ugly, it makes
+    your site vulnerable to session-ID theft via the "Referer" header.
+
+    For complete documentation on using Sessions in your code, consult
+    the sessions documentation that is shipped with Django (also available
+    on the Django web site).
+    '''
+}
+
+
+Table SystemUser {
+  id big_auto [note:"", pk, unique]
+  password char [note:""]
+  last_login date_time [note:"", null]
+  is_superuser boolean [note:"Designates that this user has all permissions without explicitly assigning them."]
+  email email [note:"", unique]
+  date_joined date_time [note:""]
+  Note: '''SystemUser(id, password, last_login, is_superuser, email, date_joined)'''
+}
+
+
+Table system_user_groups {
+  group_id auto [pk]
+  systemuser_id auto [pk]
+}
+ref: SystemUser.id > system_user_groups.systemuser_id
+ref: Group.id > system_user_groups.group_id
+
+
+Table system_user_user_permissions {
+  permission_id auto [pk]
+  systemuser_id auto [pk]
+}
+ref: SystemUser.id > system_user_user_permissions.systemuser_id
+ref: Permission.id > system_user_user_permissions.permission_id
+
+
+Table Administration {
+  id big_auto [note:"", pk, unique]
+  parent foreign_key [note:"", null]
+  code char [note:"", null]
+  level integer [note:""]
+  name text [note:""]
+  Note: '''Administration(id, parent, code, level, name)'''
+}
+ref: Administration.parent > Administration.id
+
+
+Table Access {
+  id big_auto [note:"", pk, unique]
+  user foreign_key [note:""]
+  administration foreign_key [note:""]
+  role integer [note:""]
+  Note: '''Access(id, user, administration, role)'''
+}
+ref: Access.user > SystemUser.id
+ref: Access.administration > Administration.id
+
+
+Table Forms {
+  id big_auto [note:"", pk, unique]
+  name text [note:""]
+  version integer [note:""]
+  uuid uuid [note:"", unique]
+  type integer [note:"", null]
+  Note: '''Forms(id, name, version, uuid, type)'''
+}
+
+
+Table FormApprovalRule {
+  id big_auto [note:"", pk, unique]
+  form foreign_key [note:""]
+  administration foreign_key [note:""]
+  Note: '''FormApprovalRule(id, form, administration)'''
+}
+ref: FormApprovalRule.form > Forms.id
+ref: FormApprovalRule.administration > Administration.id
+
+
+Table form_approval_rule_levels {
+  administration_id auto [pk]
+  formapprovalrule_id auto [pk]
+}
+ref: FormApprovalRule.id > form_approval_rule_levels.formapprovalrule_id
+ref: Administration.id > form_approval_rule_levels.administration_id
+
+
+Table FormData {
+  id big_auto [note:"", pk, unique]
+  name char [note:""]
+  form foreign_key [note:""]
+  administration foreign_key [note:""]
+  geo j_s_o_n [note:"", null]
+  created_by foreign_key [note:""]
+  updated_by foreign_key [note:""]
+  created date_time [note:""]
+  updated date_time [note:""]
+  Note: '''FormData(id, name, form, administration, geo, created_by, updated_by, created, updated)'''
+}
+ref: FormData.form > Forms.id
+ref: FormData.administration > Administration.id
+ref: FormData.created_by > SystemUser.id
+ref: FormData.updated_by > SystemUser.id
+
+
+Table PendingFormData {
+  id big_auto [note:"", pk, unique]
+  name char [note:""]
+  form foreign_key [note:""]
+  data foreign_key [note:"", null]
+  administration foreign_key [note:""]
+  geo j_s_o_n [note:"", null]
+  approved boolean [note:""]
+  created_by foreign_key [note:""]
+  created date_time [note:""]
+  Note: '''PendingFormData(id, name, form, data, administration, geo, approved, created_by, created)'''
+}
+ref: PendingFormData.form > Forms.id
+ref: PendingFormData.data > FormData.id
+ref: PendingFormData.administration > Administration.id
+ref: PendingFormData.created_by > SystemUser.id
+
+
+Table DataApproval {
+  id big_auto [note:"", pk, unique]
+  form foreign_key [note:""]
+  administration foreign_key [note:""]
+  user foreign_key [note:""]
+  status integer [note:""]
+  updated date_time [note:""]
+  Note: '''DataApproval(id, form, administration, user, status, updated)'''
+}
+ref: DataApproval.form > Forms.id
+ref: DataApproval.administration > Administration.id
+ref: DataApproval.user > SystemUser.id
+
+
+Table QuestionGroup {
+  id big_auto [note:"", pk, unique]
+  form foreign_key [note:""]
+  name text [note:""]
+  Note: '''QuestionGroup(id, form, name)'''
+}
+ref: QuestionGroup.form > Forms.id
+
+
+Table Questions {
+  id big_auto [note:"", pk, unique]
+  form foreign_key [note:""]
+  question_group foreign_key [note:""]
+  order big_integer [note:"", null]
+  text text [note:""]
+  name char [note:""]
+  type integer [note:""]
+  required boolean [note:""]
+  rule j_s_o_n [note:"", null]
+  dependency j_s_o_n [note:"", null]
+  Note: '''Questions(id, form, question_group, order, text, name, type, required, rule, dependency)'''
+}
+ref: Questions.form > Forms.id
+ref: Questions.question_group > QuestionGroup.id
+
+
+Table QuestionOptions {
+  id big_auto [note:"", pk, unique]
+  question foreign_key [note:""]
+  order big_integer [note:"", null]
+  code char [note:"", null]
+  name text [note:""]
+  other boolean [note:""]
+  created date_time [note:""]
+  updated date_time [note:""]
+  Note: '''QuestionOptions(id, question, order, code, name, other, created, updated)'''
+}
+ref: QuestionOptions.question > Questions.id
+
+
+Table PendingAnswers {
+  id big_auto [note:"", pk, unique]
+  pending_data foreign_key [note:""]
+  question foreign_key [note:""]
+  name text [note:""]
+  value big_integer [note:"", null]
+  options j_s_o_n [note:"", null]
+  created_by foreign_key [note:""]
+  created date_time [note:""]
+  updated date_time [note:""]
+  Note: '''PendingAnswers(id, pending_data, question, name, value, options, created_by, created, updated)'''
+}
+ref: PendingAnswers.pending_data > PendingFormData.id
+ref: PendingAnswers.question > Questions.id
+ref: PendingAnswers.created_by > SystemUser.id
+
+
+Table Answers {
+  id big_auto [note:"", pk, unique]
+  data foreign_key [note:""]
+  question foreign_key [note:""]
+  name text [note:""]
+  value big_integer [note:"", null]
+  options j_s_o_n [note:"", null]
+  created_by foreign_key [note:""]
+  created date_time [note:""]
+  updated date_time [note:""]
+  Note: '''Answers(id, data, question, name, value, options, created_by, created, updated)'''
+}
+ref: Answers.data > FormData.id
+ref: Answers.question > Questions.id
+ref: Answers.created_by > SystemUser.id
+
+
+Table AnswerHistory {
+  id big_auto [note:"", pk, unique]
+  data foreign_key [note:""]
+  question foreign_key [note:""]
+  name text [note:""]
+  value big_integer [note:"", null]
+  options j_s_o_n [note:"", null]
+  created_by one_to_one [note:"", unique]
+  created date_time [note:""]
+  updated date_time [note:""]
+  Note: '''AnswerHistory(id, data, question, name, value, options, created_by, created, updated)'''
+}
+ref: AnswerHistory.data > FormData.id
+ref: AnswerHistory.question > Questions.id
+ref: AnswerHistory.created_by - SystemUser.id
+
+
