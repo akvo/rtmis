@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 const LoginForm = () => {
   const onFinish = (values) => {
@@ -11,7 +12,6 @@ const LoginForm = () => {
     <Form
       name="login-form"
       layout="vertical"
-      className="login-form"
       initialValues={{
         remember: true,
       }}
@@ -42,9 +42,8 @@ const LoginForm = () => {
           },
         ]}
       >
-        <Input
+        <Input.Password
           prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
           placeholder="Password"
         />
       </Form.Item>
@@ -52,13 +51,12 @@ const LoginForm = () => {
         <Form.Item name="remember" valuePropName="checked" noStyle>
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
-
-        <a className="login-form-forgot" href="">
+        <Link className="login-form-forgot" to="/forgot-password">
           Forgot password
-        </a>
+        </Link>
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
+        <Button type="primary" htmlType="submit">
           Log in
         </Button>
       </Form.Item>

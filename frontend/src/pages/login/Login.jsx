@@ -2,7 +2,8 @@ import React from "react";
 import "./style.scss";
 import { Row, Col } from "antd";
 import LoginForm from "./LoginForm";
-import { Link } from "react-router-dom";
+import RegistrationForm from "./RegistrationForm";
+import { Link, useParams } from "react-router-dom";
 import backgroundImage from "../../assets/banner.png";
 import { config } from "../../lib";
 
@@ -16,6 +17,8 @@ const styles = {
 };
 
 const Login = () => {
+  const { invitationId } = useParams();
+  // TODO: Check invitation ID to Server using API
   return (
     <div id="login">
       <div className="background" style={styles.side} />
@@ -39,11 +42,15 @@ const Login = () => {
         </Col>
         <Col span={12} className="right-side">
           <h1>
-            Welcome Back
+            Welcome {invitationId ? "to RTMIS" : "Back"}
             <br />
-            <small>Please enter your account details</small>
+            <small>
+              {invitationId
+                ? "Set your own password including the following criteria"
+                : "Please enter your account details"}
+            </small>
           </h1>
-          <LoginForm />
+          {invitationId ? <RegistrationForm /> : <LoginForm />}
         </Col>
       </Row>
     </div>

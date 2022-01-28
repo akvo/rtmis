@@ -6,7 +6,7 @@ import { config } from "../../lib";
 
 const Footer = ({ className = "footer", ...props }) => {
   const location = useLocation();
-  if (location.pathname === "/login") {
+  if (location.pathname.includes("/login")) {
     return "";
   }
   return (

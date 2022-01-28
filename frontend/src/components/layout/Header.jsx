@@ -8,7 +8,7 @@ import { config, store } from "../../lib";
 const Header = ({ className = "header", ...props }) => {
   const { isLoggedIn } = store.useState();
   const location = useLocation();
-  if (location.pathname === "/login") {
+  if (location.pathname.includes("/login")) {
     return "";
   }
   return (

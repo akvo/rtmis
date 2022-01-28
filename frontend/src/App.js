@@ -17,6 +17,7 @@ const App = () => {
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route exact path="/login" element={<Login />} />
+            <Route exact path="/login/:invitationId" element={<Login />} />
             <Route exact path="/data" element={<Home />} />
           </Routes>
         </Layout.Body>
