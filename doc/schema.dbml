@@ -101,6 +101,16 @@ Table "form_approval_rule_level" {
   }
 }
 
+Table "form_approval_assignment" {
+  "id" bigint [pk]
+  "form_id" bigint [not null]
+  "user_id" bigint [not null]
+  "administration_id" bigint [not null]
+  "status" data_approval_status_enum [default: "pending"]
+  "updated" timestamp [default: NULL]
+}
+
+
 Table "question_group" {
   "id" bigint [not null]
   "form_id" bigint [not null]
@@ -168,15 +178,6 @@ Table "answer_history" {
   "updated" timestamp [default: NULL]
 }
 
-Table "data_approval" {
-  "id" bigint [pk]
-  "data_id" bigint [not null]
-  "user_id" bigint [not null]
-  "administration_id" bigint [not null]
-  "status" data_approval_status_enum [default: "pending"]
-  "updated" timestamp [default: NULL]
-}
-
 Table "pending_data" {
   "id" bigint [pk]
   "name" varchar(255) [not null]
@@ -190,6 +191,13 @@ Table "pending_data" {
   "created" timestamp [default: `now()`]
   "updated" timestamp [default: NULL]
 }
+
+Table "pending_data_approval_list" {
+  "id" bigint [pk]
+  "pending_data_id" bigint [not null]
+  "user_id" bigint [not null]
+}
+
 
 Table "pending_answer" {
   "id" bigint [pk]
@@ -240,6 +248,15 @@ Ref {
   form_approval_rule_level.level_id > level.id
 }
 Ref {
+  form_approval_assignment.form_id - form.id
+}
+Ref {
+  form_approval_assignment.administration_id - administration.id
+}
+Ref {
+  form_approval_assignment.user_id > user.id
+}
+Ref {
   data.form_id > form.id
 }
 Ref {
@@ -270,15 +287,6 @@ Ref {
   answer_history.created_by_id - user.id
 }
 Ref {
-  data_approval.data_id - data.id
-}
-Ref {
-  data_approval.administration_id - administration.id
-}
-Ref {
-  data_approval.user_id > user.id
-}
-Ref {
   pending_data.form_id > form.id
 }
 Ref {
@@ -292,6 +300,12 @@ Ref {
 }
 Ref {
   pending_data.updated_by_id - user.id
+}
+Ref {
+  pending_data_approval_list.pending_data_id > pending_data.id
+}
+Ref {
+  pending_data_approval_list.user_id > user.id
 }
 Ref {
   pending_answer.pending_data_id - pending_data.id
