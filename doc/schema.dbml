@@ -39,12 +39,21 @@ Enum "data_approval_status_enum" {
   "pending"
 }
 
+Table "level" {
+  "id" bigint [pk]
+  "level" int [not null]
+  "name" text [not null]
+  indexes {
+    (name) [unique]
+  }
+}
+
 Table "administration" {
   "id" bigint [pk]
   "parent_id" bigint [default: NULL]
   "code" varchar(255) [default: NULL]
   "name" text [not null]
-  "level" int [default: NULL]
+  "level_id" bigint [default: NULL]
   indexes {
     (parent_id, name) [unique]
   }
@@ -78,9 +87,17 @@ Table "form_approval_rule" {
   "id" bigint [pk]
   "administration_id" bigint [not null]
   "form_id" bigint [not null]
-  "levels" "int[]" [not null]
   indexes {
     (administration_id, form_id) [unique]
+  }
+}
+
+Table "form_approval_rule_level" {
+  "id" bigint [pk]
+  "form_approval_rule_id" bigint [not null]
+  "level_id" bigint [not null]
+  indexes {
+    (form_approval_rule_id, level_id) [unique]
   }
 }
 
@@ -190,6 +207,9 @@ Ref {
   administration.parent_id > administration.id
 }
 Ref {
+  administration.level_id > level.id
+}
+Ref {
   access.user_id - user.id
 }
 Ref {
@@ -212,6 +232,12 @@ Ref {
 }
 Ref {
   form_approval_rule.administration_id > administration.id
+}
+Ref {
+  form_approval_rule_level.form_approval_rule_id > form_approval_rule.id
+}
+Ref {
+  form_approval_rule_level.level_id > level.id
 }
 Ref {
   data.form_id > form.id
