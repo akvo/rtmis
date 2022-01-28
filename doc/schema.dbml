@@ -17,19 +17,37 @@ Enum "questions_type_enum" {
   "date"
 }
 Enum "access_role_enum" {
+  "super admin"
   "admin"
+  "approver"
   "user"
-  "editor"
 }
 Enum "user_status_enum" {
   "pending"
   "approved"
   "rejected"
 }
+
+Enum "form_type_enum" {
+  "county"
+  "national"
+}
+
 Enum "data_approval_status_enum" {
   "approved"
   "rejected"
   "pending"
+}
+
+Table "administration" {
+  "id" bigint [pk]
+  "parent_id" bigint [default: NULL]
+  "code" varchar(255) [default: NULL]
+  "name" text [not null]
+  "level" int [default: NULL]
+  indexes {
+    (parent_id, name) [unique]
+  }
 }
 
 Table "user" {
@@ -40,64 +58,12 @@ Table "user" {
 
 Table "access" {
   "id" bigint [pk]
-  "user" bigint [not null]
-  "administration" varchar [ not null]
+  "user_id" bigint [not null]
+  "administration_id" bigint [not null]
   "role" access_role_enum [not null]
   indexes {
-    (user, administration) [unique]
+    (user_id, administration_id) [unique]
   }
-}
-
-Table "answer" {
-  "id" bigint [pk]
-  "data" bigint [not null]
-  "question" bigint [not null]
-  "name" text
-  "value" bigint [default: NULL]
-  "options" "varchar[]" [default: NULL]
-  "created_by" bigint [not null]
-  "created" timestamp [default: `now()`]
-  "updated" timestamp [default: NULL]
-}
-
-Table "answer_history" {
-  "id" bigint [pk]
-  "data" bigint [not null]
-  "question" bigint [not null]
-  "name" text
-  "value" bigint [default: NULL]
-  "options" "varchar[]" [default: NULL]
-  "created_by" bigint [not null]
-  "created" timestamp [default: `now()`]
-  "updated" timestamp [default: NULL]
-}
-
-Table "administration" {
-  "id" bigint [pk]
-  "parent" bigint [default: NULL]
-  "code" varchar(255) [default: NULL]
-  "name" text [not null]
-}
-
-Table "data_approval" {
-  "id" bigint [pk]
-  "data" bigint [not null]
-  "user" bigint [not null]
-  "status" data_approval_status_enum [default: "pending"]
-  "updated" timestamp [default: NULL]
-}
-
-Table "data" {
-  "id" bigint [pk]
-  "name" varchar(255) [not null]
-  "form" bigint [not null]
-  "administration" bigint [not null]
-  "geo" "int[]" [default: NULL]
-  "approved" tinyint(1) [default: 0]
-  "created_by" bigint [not null]
-  "updated_by" bigint [not null]
-  "created" timestamp [default: `now()`]
-  "updated" timestamp [default: NULL]
 }
 
 Table "form" {
@@ -105,25 +71,30 @@ Table "form" {
   "name" text [not null]
   "version" int [default: 1]
   "uuid" uuid [default: `uuid_generate_v4()`]
-  "approval_level" "int[]" [default: NULL]
+  "type" form_type_enum [default: NULL]
 }
 
-Table "option" {
+Table "form_approval_rule" {
   "id" bigint [pk]
-  "order" bigint [default: NULL]
-  "question" bigint [not null]
-  "code" varchar(255) [default: NULL]
+  "administration_id" bigint [not null]
+  "form_id" bigint [not null]
+  "levels" "int[]" [not null]
+  indexes {
+    (administration_id, form_id) [unique]
+  }
+}
+
+Table "question_group" {
+  "id" bigint [not null]
+  "form_id" bigint [not null]
   "name" text [not null]
-  "other" tinyint(1) [not null]
-  "created" timestamp [default: `now()`]
-  "updated" timestamp [default: NULL]
 }
 
 Table "question" {
   "id" bigint [not null]
   "order" bigint [default: NULL]
-  "form" bigint [not null]
-  "question_group" bigint [not null]
+  "form_id" bigint [not null]
+  "question_group_id" bigint [not null]
   "text" text [not null]
   "name" varchar [not null]
   "type" questions_type_enum [not null]
@@ -132,68 +103,176 @@ Table "question" {
   "dependency" [array] [default: NULL]
 }
 
-Table "question_group" {
-  "id" bigint [not null]
-  "form" bigint [not null]
+Table "option" {
+  "id" bigint [pk]
+  "order" bigint [default: NULL]
+  "question_id" bigint [not null]
+  "code" varchar(255) [default: NULL]
   "name" text [not null]
+  "other" tinyint(1) [not null]
+  "created" timestamp [default: `now()`]
+  "updated" timestamp [default: NULL]
 }
 
+Table "data" {
+  "id" bigint [pk]
+  "name" varchar(255) [not null]
+  "form_id" bigint [not null]
+  "administration_id" bigint [not null]
+  "geo" "int[]" [default: NULL]
+  "approved" tinyint(1) [default: 0]
+  "created_by_id" bigint [not null]
+  "updated_by_id" bigint [not null]
+  "created" timestamp [default: `now()`]
+  "updated" timestamp [default: NULL]
+}
 
+Table "answer" {
+  "id" bigint [pk]
+  "data_id" bigint [not null]
+  "question_id" bigint [not null]
+  "name" text
+  "value" bigint [default: NULL]
+  "options" "varchar[]" [default: NULL]
+  "created_by_id" bigint [not null]
+  "created" timestamp [default: `now()`]
+  "updated" timestamp [default: NULL]
+}
+
+Table "answer_history" {
+  "id" bigint [pk]
+  "data_id" bigint [not null]
+  "question_id" bigint [not null]
+  "name" text
+  "value" bigint [default: NULL]
+  "options" "varchar[]" [default: NULL]
+  "created_by_id" bigint [not null]
+  "created" timestamp [default: `now()`]
+  "updated" timestamp [default: NULL]
+}
+
+Table "data_approval" {
+  "id" bigint [pk]
+  "data_id" bigint [not null]
+  "user_id" bigint [not null]
+  "administration_id" bigint [not null]
+  "status" data_approval_status_enum [default: "pending"]
+  "updated" timestamp [default: NULL]
+}
+
+Table "pending_data" {
+  "id" bigint [pk]
+  "name" varchar(255) [not null]
+  "data_id" bigint [default: NULL]
+  "form_id" bigint [not null]
+  "administration_id" bigint [not null]
+  "geo" "int[]" [default: NULL]
+  "approved" tinyint(1) [default: 0]
+  "created_by_id" bigint [not null]
+  "updated_by_id" bigint [not null]
+  "created" timestamp [default: `now()`]
+  "updated" timestamp [default: NULL]
+}
+
+Table "pending_answer" {
+  "id" bigint [pk]
+  "pending_data_id" bigint [not null]
+  "question_id" bigint [not null]
+  "name" text
+  "value" bigint [default: NULL]
+  "options" "varchar[]" [default: NULL]
+  "created_by_id" bigint [not null]
+  "created" timestamp [default: `now()`]
+  "updated" timestamp [default: NULL]
+}
 
 Ref {
-  data.administration > administration.id
+  administration.parent_id > administration.id
 }
 Ref {
-  administration.parent > administration.id
+  access.user_id - user.id
 }
 Ref {
-  question_group.form > form.id
+  access.administration_id > administration.id
 }
 Ref {
-  question.question_group > question_group.id
+  question_group.form_id > form.id
 }
 Ref {
-  question.form > form.id
+  question.question_group_id > question_group.id
 }
 Ref {
-  option.question > question.id
+  question.form_id > form.id
 }
 Ref {
-  answer.data > data.id
+  option.question_id > question.id
 }
 Ref {
-  answer.question > question.id
+  form_approval_rule.form_id > form.id
 }
 Ref {
-  answer_history.data > data.id
+  form_approval_rule.administration_id > administration.id
 }
 Ref {
-  answer_history.question > question.id
+  data.form_id > form.id
 }
 Ref {
-  data.form > form.id
+  data.administration_id > administration.id
 }
 Ref {
-  data_approval.data - data.id
+  data.created_by_id - user.id
 }
 Ref {
-  data_approval.user > user.id
+  data.updated_by_id - user.id
 }
 Ref {
-  data.created_by - user.id
+  answer.data_id > data.id
 }
 Ref {
-  data.updated_by - user.id
+  answer.question_id > question.id
 }
 Ref {
-  answer.created_by - user.id
+  answer.created_by_id - user.id
 }
 Ref {
-  answer_history.created_by - user.id
+  answer_history.data_id > data.id
 }
 Ref {
-  access.user > user.id
+  answer_history.question_id > question.id
 }
 Ref {
-  access.administration > administration.id
+  answer_history.created_by_id - user.id
+}
+Ref {
+  data_approval.data_id - data.id
+}
+Ref {
+  data_approval.administration_id - administration.id
+}
+Ref {
+  data_approval.user_id > user.id
+}
+Ref {
+  pending_data.form_id > form.id
+}
+Ref {
+  pending_data.data_id > data.id
+}
+Ref {
+  pending_data.administration_id > administration.id
+}
+Ref {
+  pending_data.created_by_id - user.id
+}
+Ref {
+  pending_data.updated_by_id - user.id
+}
+Ref {
+  pending_answer.pending_data_id - pending_data.id
+}
+Ref {
+  pending_answer.question_id - question.id
+}
+Ref {
+  pending_answer.created_by_id - user.id
 }
