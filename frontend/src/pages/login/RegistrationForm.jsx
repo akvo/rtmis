@@ -72,7 +72,7 @@ const RegistrationForm = () => {
           rules={[
             {
               required: true,
-              message: "Please input your Password!",
+              message: "Please Confirm Password!",
             },
             ({ getFieldValue }) => ({
               validator(_, value) {
