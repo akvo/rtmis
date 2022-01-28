@@ -32,3 +32,13 @@ class QuestionTypes:
         photo: 'Photo',
         date: 'Date',
     }
+
+
+class FormTypes:
+    county = 1
+    national = 2
+
+    FieldStr = {
+        county: 'County',
+        national: 'National',
+    }

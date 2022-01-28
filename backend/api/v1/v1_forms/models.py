@@ -3,7 +3,8 @@ import uuid
 from django.db import models
 
 # Create your models here.
-from api.v1.v1_forms.constants import DataApprovalStatus, QuestionTypes
+from api.v1.v1_forms.constants import DataApprovalStatus, QuestionTypes, \
+    FormTypes
 from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import SystemUser
 
@@ -12,13 +13,30 @@ class Forms(models.Model):
     name = models.TextField()
     version = models.IntegerField(default=1)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    approval_level = models.JSONField(default=None, null=True)
+    type = models.IntegerField(choices=FormTypes.FieldStr.items(),
+                               default=None, null=True)
 
     def __str__(self):
         return self.name
 
     class Meta:
         db_table = 'form'
+
+
+class FormApprovalRule(models.Model):
+    form = models.ForeignKey(to=Forms, on_delete=models.CASCADE,
+                             related_name='form_form_approval_rule')
+    administration = models.ForeignKey(to=Administration,
+                                       on_delete=models.CASCADE,
+                                       related_name='administration_form_approval')  # noqa
+    levels = models.ManyToManyField(to=Administration,
+                                    related_name='levels_form_approval')
+
+    def __str__(self):
+        return self.form.name
+
+    class Meta:
+        db_table = 'form_approval_rule'
 
 
 class FormData(models.Model):
@@ -29,12 +47,10 @@ class FormData(models.Model):
                                        on_delete=models.CASCADE,
                                        related_name='administration_form_data')
     geo = models.JSONField(null=True, default=None)
-    approved = models.BooleanField(default=False)
-    # TODO: confirm relation
-    created_by = models.OneToOneField(to=SystemUser, on_delete=models.CASCADE,
-                                      related_name='form_data_created')
-    updated_by = models.OneToOneField(to=SystemUser, on_delete=models.CASCADE,
-                                      related_name='form_data_updated')
+    created_by = models.ForeignKey(to=SystemUser, on_delete=models.CASCADE,
+                                   related_name='form_data_created')
+    updated_by = models.ForeignKey(to=SystemUser, on_delete=models.CASCADE,
+                                   related_name='form_data_updated')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -45,9 +61,36 @@ class FormData(models.Model):
         db_table = 'data'
 
 
+class PendingFormData(models.Model):
+    name = models.CharField(max_length=255)
+    form = models.ForeignKey(to=Forms, on_delete=models.CASCADE,
+                             related_name='pending_form_form_data')
+    data = models.ForeignKey(to=FormData, on_delete=models.CASCADE,
+                             related_name='pending_data_form_data',
+                             default=None, null=True)
+    administration = models.ForeignKey(to=Administration,
+                                       on_delete=models.CASCADE,
+                                       related_name='administration_pending_form_data')  # noqa
+    geo = models.JSONField(null=True, default=None)
+    approved = models.BooleanField(default=False)
+    created_by = models.ForeignKey(to=SystemUser, on_delete=models.CASCADE,
+                                   related_name='pending_form_data_created')
+
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'pending_data'
+
+
 class DataApproval(models.Model):
-    data = models.OneToOneField(to=FormData, on_delete=models.CASCADE,
-                                related_name='form_data_approval')
+    form = models.ForeignKey(to=Forms, on_delete=models.CASCADE,
+                             related_name='form_data_approval')
+    administration = models.ForeignKey(to=Administration,
+                                       on_delete=models.CASCADE,
+                                       related_name='administration_data_approval')  # noqa
     user = models.ForeignKey(to=SystemUser, on_delete=models.CASCADE,
                              related_name='user_data_approval')
     status = models.IntegerField(choices=DataApprovalStatus.FieldStr.items(),
@@ -110,6 +153,27 @@ class QuestionOptions(models.Model):
 
     class Meta:
         db_table = 'option'
+
+
+class PendingAnswers(models.Model):
+    pending_data = models.ForeignKey(to=PendingFormData,
+                                     on_delete=models.CASCADE,
+                                     related_name='pending_data_answer')
+    question = models.ForeignKey(to=Questions, on_delete=models.CASCADE,
+                                 related_name='question_pending_answer')
+    name = models.TextField()
+    value = models.BigIntegerField(null=True, default=None)
+    options = models.JSONField(default=None, null=True)
+    created_by = models.ForeignKey(to=SystemUser, on_delete=models.CASCADE,
+                                   related_name='pending_answer_created')
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'pending_answer'
 
 
 class Answers(models.Model):
