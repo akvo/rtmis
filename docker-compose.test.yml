@@ -6,3 +6,9 @@ services:
     working_dir: /app
     volumes:
       - ./backend:/app:delegated
+    environment:
+      - DB_SCHEMA=rtmis
+      - DB_USER=akvo
+      - DB_PASSWORD=password
+      - DB_HOST=db
+      - DJANGO_SECRET=ci-secret
