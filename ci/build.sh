@@ -47,8 +47,6 @@ frontend_build () {
 
 backend_build () {
 
-    npm install -g dbdocs
-
     docker build \
         --tag "${image_prefix}/backend:latest" \
         --tag "${image_prefix}/backend:${CI_COMMIT}" backend
@@ -59,10 +57,18 @@ backend_build () {
         --no-deps \
         backend flake8
 
-    dc -f docker-compose.test.yml run \
-        --rm \
-        --no-deps \
-        backend python manage.py dbml
+    # Update dbdocs.io
+    if [[ "${CI_BRANCH}" ==  "main" || "${CI_BRANCH}" ==  "develop" ]]; then
+
+        dc -f docker-compose.test.yml run \
+            --rm \
+            --no-deps \
+            backend python manage.py dbml > db.dbml
+
+        npm install -g dbdocs
+        dbdocs build doc/dbml/schema.dbml --project rtmis
+        dbdocs build db.dbml --project "rtmis-$CI_BRANCH"
+    fi
 }
 
 echo "* BACKEND BUILD * =================="
