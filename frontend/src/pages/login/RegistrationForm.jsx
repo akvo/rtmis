@@ -3,9 +3,9 @@ import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 const checkBoxOptions = [
-  "Lowercase Character",
-  "Numbers",
-  "Special Characters",
+  { name: "Lowercase Character", re: /[a-z]/ },
+  { name: "Numbers", re: /\d/ },
+  { name: "Special Character", re: /[-._!"`'#%&,:;<>=@{}~$()*+/?[\]^|]/ },
 ];
 
 const RegistrationForm = () => {
@@ -16,25 +16,21 @@ const RegistrationForm = () => {
   };
 
   const onChange = ({ target }) => {
-    const lowerCase = /[a-z]/;
-    const numeric = /\d/;
-    const specialChars = /[-._!"`'#%&,:;<>=@{}~$()*+/?[\]^|]/;
-    let criteria = [];
-    if (numeric.test(target.value)) {
-      criteria = ["Numbers"];
-    }
-    if (lowerCase.test(target.value)) {
-      criteria = [...criteria, "Lowercase Character"];
-    }
-    if (specialChars.test(target.value)) {
-      criteria = [...criteria, "Special Characters"];
-    }
+    const criteria = checkBoxOptions
+      .map((x) => {
+        const available = x.re.test(target.value);
+        return available ? x.name : false;
+      })
+      .filter((x) => x);
     setCheckedList(criteria);
   };
 
   return (
     <>
-      <Checkbox.Group options={checkBoxOptions} value={checkedList} />
+      <Checkbox.Group
+        options={checkBoxOptions.map((x) => x.name)}
+        value={checkedList}
+      />
       <Form
         name="registration-form"
         layout="vertical"
@@ -52,6 +48,14 @@ const RegistrationForm = () => {
               required: true,
               message: "Please input your Password!",
             },
+            () => ({
+              validator() {
+                if (checkedList.length === 3) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error("False Password Criteria"));
+              },
+            }),
           ]}
           hasFeedback
         >
