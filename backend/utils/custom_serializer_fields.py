@@ -49,7 +49,8 @@ class CustomMultipleChoiceField(MultipleChoiceField):
     default_error_messages = {
         'invalid_choice': _('"{input}" is not a valid choice in field_title.'),
         'not_a_list': _(
-            'Expected a list of items but got type "{input_type}" in field_title.'),
+            'Expected a list of items but got type "{input_type}"'
+            ' in field_title.'),
         'empty': _('This selection may not be empty in field_title.')
     }
 
@@ -57,7 +58,8 @@ class CustomMultipleChoiceField(MultipleChoiceField):
 class CustomImageField(ImageField):
     default_error_messages = {
         'invalid_image': _(
-            'Upload a valid image. field_title you uploaded was either not an image or a corrupted image.'
+            'Upload a valid image. field_title you uploaded was either not '
+            'an image or a corrupted image.'
         ),
         'required': _('field_title is required.'),
         'null': _('field_title may not be null.'),
@@ -78,7 +80,8 @@ class CustomEmailField(CustomCharField):
 class CustomListField(ListField):
     default_error_messages = {
         'not_a_list': _(
-            'Expected a list of items in field_title but got type "{input_type}".'),
+            'Expected a list of items in field_title but got type'
+            ' "{input_type}".'),
         'empty': _('field_title may not be empty.'),
         'min_length': _(
             'Ensure field_title has at least {min_length} elements.'),
@@ -118,11 +121,14 @@ class CustomDecimalField(DecimalField):
         'min_value': _(
             'Ensure field_title is greater than or equal to {min_value}.'),
         'max_digits': _(
-            'Ensure that in field_title are no more than {max_digits} digits in total.'),
+            'Ensure that in field_title are no more than {max_digits} '
+            'digits in total.'),
         'max_decimal_places': _(
-            'Ensure that in field_title are no more than {max_decimal_places} decimal places.'),
+            'Ensure that in field_title are no more than {max_decimal_places} '
+            'decimal places.'),
         'max_whole_digits': _(
-            'Ensure that in field_title are no more than {max_whole_digits} digits before the '
+            'Ensure that in field_title are no more than {max_whole_digits} '
+            'digits before the '
             'decimal point.'),
         'max_string_length': _('String value too large in field_title.'),
         'required': _('field_title is required.'),
@@ -153,7 +159,8 @@ class CustomDateField(DateField):
     default_error_messages = {
         'required': _('field_title is required.'),
         'invalid': _(
-            'Date has wrong format. Use one of these formats instead: {format}.'),
+            'Date has wrong format. Use one of these formats instead:'
+            ' {format}.'),
         'datetime': _('Expected a date but got a datetime.'),
         'null': _('field_title may not be null.'),
     }
@@ -163,18 +170,21 @@ class CustomFileField(FileField):
     default_error_messages = {
         'required': _('No file was submitted in field_title.'),
         'invalid': _(
-            'The submitted data was not a file. Check the encoding type on the form in field_title.'),
+            'The submitted data was not a file. Check the encoding type on the'
+            ' form in field_title.'),
         'no_name': _('No filename could be determined in field_title.'),
         'empty': _('The submitted file is empty in field_title.'),
         'max_length': _(
-            'Ensure this filename has at most {max_length} characters (it has {length}) in field_title.'),
+            'Ensure this filename has at most {max_length} characters'
+            ' (it has {length}) in field_title.'),
     }
 
 
 class CustomDateTimeField(DateTimeField):
     default_error_messages = {
         'invalid': _(
-            'Datetime has wrong format. Use one of these formats instead: {format} in field_title.'),
+            'Datetime has wrong format. Use one of these formats instead: '
+            '{format} in field_title.'),
         'date': _('field_title Expected a datetime but got a date.'),
         'make_aware': _(
             'Invalid datetime for the timezone "{timezone} in field_title".'),
