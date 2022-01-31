@@ -12,3 +12,18 @@ services:
       - DB_PASSWORD=password
       - DB_HOST=db
       - DJANGO_SECRET=ci-secret
+      # env vars for coveralls
+      - COVERALLS_REPO_TOKEN="${COVERALLS_REPO_TOKEN}"
+      - SEMAPHORE="${SEMAPHORE}"
+      - SEMAPHORE_JOB_ID="${SEMAPHORE_JOB_ID}"
+      - SEMAPHORE_WORKFLOW_ID="${SEMAPHORE_WORKFLOW_ID}"
+      - SEMAPHORE_GIT_PR_NUMBER="${SEMAPHORE_GIT_PR_NUMBER}"
+
+    depends_on:
+      - db
+  db:
+    image: postgres:12-alpine
+    volumes:
+      - ./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_PASSWORD=password
