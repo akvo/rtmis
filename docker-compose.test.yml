@@ -12,3 +12,11 @@ services:
       - DB_PASSWORD=password
       - DB_HOST=db
       - DJANGO_SECRET=ci-secret
+    depends_on:
+      - db
+  db:
+    image: postgres:12-alpine
+    volumes:
+      - ./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_PASSWORD=password
