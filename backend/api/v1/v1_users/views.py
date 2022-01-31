@@ -32,7 +32,9 @@ def login(request, version):
     if not SystemUser.objects.all().count():
         super_admin = SystemUser.objects.create_superuser(
             email='admin@rtmis.com',
-            password='Test105*')
+            password='Test105*',
+            first_name='Admin',
+            last_name='RTMIS')
         Access.objects.create(user=super_admin,
                               role=UserRoleTypes.super_admin,
                               administration=Administration.objects.filter(
@@ -60,9 +62,8 @@ def verify_invite(request, version):
                 {'message': validate_serializers_message(serializer.errors)},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        # TODO: Replace with user's name
         return Response(
-            {'name': 'John Doe'},
+            {'name': serializer.validated_data.get('invite').get_full_name()},
             status=status.HTTP_200_OK
         )
     except Exception as ex:

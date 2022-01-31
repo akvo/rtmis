@@ -29,9 +29,8 @@ class VerifyInviteSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
 
-    # TODO: Replace with dynamic name
     def get_name(self, instance):
-        return 'John Doe'
+        return instance.get_full_name()
 
     class Meta:
         model = SystemUser
