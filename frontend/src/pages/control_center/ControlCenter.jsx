@@ -38,38 +38,6 @@ const datasets = [
   },
 ];
 
-const highlights = [
-  {
-    name: "Sanitation",
-    description:
-      "proportion of population with access to hand washing facilities with water and soap",
-  },
-  {
-    name: "Hygiene",
-    description: "Hygiene Text Description",
-  },
-  {
-    name: "Waste Water",
-    description: "Waste Water Text Description",
-  },
-  {
-    name: "Water Quality",
-    description: "Water Quality Text Description",
-  },
-  {
-    name: "Efficiency",
-    description: "Efficiency Text Description",
-  },
-  {
-    name: "Water Stress",
-    description: "Water Stress Text Description",
-  },
-  {
-    name: "Ecosystems",
-    description: "Ecosystems Text Description",
-  },
-];
-
 const ControlCenter = () => {
   return (
     <div id="conter-center">
