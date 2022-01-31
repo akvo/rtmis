@@ -3,17 +3,24 @@ version: "3.9"
 services:
   backend:
     image: eu.gcr.io/akvo-lumen/rtmis/backend:latest
-    working_dir: /app
+    working_dir: /app/backend
     volumes:
-      - ./backend:/app:delegated
+      - ./:/app:delegated
     environment:
       - DB_SCHEMA=rtmis
       - DB_USER=akvo
       - DB_PASSWORD=password
       - DB_HOST=db
       - DJANGO_SECRET=ci-secret
+      # env vars for coveralls
+      - COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN:-}
+      - SEMAPHORE=${SEMAPHORE:-}
+      - SEMAPHORE_JOB_ID=${SEMAPHORE_JOB_ID:-}
+      - SEMAPHORE_WORKFLOW_ID=${SEMAPHORE_WORKFLOW_ID:-}
+      - SEMAPHORE_GIT_PR_NUMBER=${SEMAPHORE_GIT_PR_NUMBER:-}
     depends_on:
       - db
+    command: tail -f /dev/null
   db:
     image: postgres:12-alpine
     volumes:
