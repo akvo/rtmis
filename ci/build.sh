@@ -70,6 +70,15 @@ backend_build () {
     fi
 }
 
+# env | grep SEMAPHORE
+
+# echo "${SEMAPHORE}"
+# echo "${SEMAPHORE_JOB_ID}"
+# echo "${SEMAPHORE_WORKFLOW_ID}"
+# echo "${SEMAPHORE_GIT_PR_NUMBER}"
+
+
+
 echo "* BACKEND BUILD * =================="
 backend_build
 echo "* FRONTEND BUILD * ================="
