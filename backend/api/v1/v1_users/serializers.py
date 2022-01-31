@@ -26,6 +26,29 @@ class VerifyInviteSerializer(serializers.Serializer):
         return user
 
 
+class SetUserPasswordSerializer(serializers.Serializer):
+    password = CustomCharField()
+    confirm_password = CustomCharField()
+    invite = CustomCharField()
+
+    def validate_invite(self, invite):
+        try:
+            pk = signing.loads(invite)
+            user = SystemUser.objects.get(pk=pk)
+        except BadSignature:
+            raise ValidationError('Invalid invite code')
+        except SystemUser.DoesNotExist:
+            raise ValidationError('Invalid invite code')
+        return user
+
+    def validate(self, attrs):
+        if attrs.get('password') != attrs.get('confirm_password'):
+            raise ValidationError({
+                'confirm_password': 'Confirm password and password'
+                                    ' are not same'})
+        return attrs
+
+
 class UserSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
 

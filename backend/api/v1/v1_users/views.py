@@ -10,7 +10,7 @@ from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Access, Administration
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
-    VerifyInviteSerializer
+    VerifyInviteSerializer, SetUserPasswordSerializer
 from utils.custom_serializer_fields import validate_serializers_message
 
 
@@ -66,6 +66,30 @@ def verify_invite(request, version):
             {'name': serializer.validated_data.get('invite').get_full_name()},
             status=status.HTTP_200_OK
         )
+    except Exception as ex:
+        return Response({'message': ex.args},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['POST'])
+def set_user_password(request, version):
+    try:
+        serializer = SetUserPasswordSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(serializer.errors)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        user: SystemUser = serializer.validated_data.get('invite')
+        user.set_password(serializer.validated_data.get('password'))
+        user.save()
+        refresh = RefreshToken.for_user(user)
+        data = UserSerializer(instance=user).data
+        data['token'] = str(refresh.access_token)
+        # TODO: remove invite from response
+        data['invite'] = signing.dumps(user.pk)
+        return Response(data, status=status.HTTP_200_OK)
+
     except Exception as ex:
         return Response({'message': ex.args},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
