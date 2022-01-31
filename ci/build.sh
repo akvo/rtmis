@@ -70,6 +70,7 @@ backend_build () {
     fi
 }
 
+
 echo "* BACKEND BUILD * =================="
 backend_build
 echo "* FRONTEND BUILD * ================="
