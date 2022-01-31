@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./style.scss";
 import { Row, Col } from "antd";
 import LoginForm from "./LoginForm";
 import RegistrationForm from "./RegistrationForm";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import backgroundImage from "../../assets/banner.png";
-import { config } from "../../lib";
+import { config, store } from "../../lib";
 
 const styles = {
   side: {
@@ -17,6 +17,13 @@ const styles = {
 };
 
 const Login = () => {
+  const { isLoggedIn, user } = store.useState();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/control-center");
+    }
+  });
   const { invitationId } = useParams();
   // TODO: Check invitation ID to Server using API
   return (
