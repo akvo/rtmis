@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { api, store } from "../../lib";
+import { useNavigate } from "react-router-dom";
 
 const checkBoxOptions = [
   { name: "Lowercase Character", re: /[a-z]/ },
@@ -9,10 +11,39 @@ const checkBoxOptions = [
 ];
 
 const RegistrationForm = () => {
+  const { user } = store.useState();
   const [checkedList, setCheckedList] = useState([]);
+  const navigate = useNavigate();
+
   const onFinish = (values) => {
     // TODO: PUSH TO API
     console.info("Received values of form: ", values);
+    let url = `v1/set/user/password/`;
+    let postData = {
+      invite: user.invite,
+      password: values.password,
+      confirm_password: values.confirm,
+    };
+    api
+      .post(url, postData)
+      .then((res) => {
+        api.setToken(res.data.token);
+        let userData = {
+          name: res.data.name,
+          email: res.data.email,
+          invite: res.data.invite,
+        };
+        localStorage.setItem("user", JSON.stringify(userData));
+        localStorage.setItem("isLoggedIn", true);
+        store.update((s) => {
+          s.isLoggedIn = true;
+          s.user = userData;
+        });
+        navigate("/control-center");
+      })
+      .catch((err) => {
+        alert(err.response.data.message);
+      });
   };
 
   const onChange = ({ target }) => {

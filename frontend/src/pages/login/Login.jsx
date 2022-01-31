@@ -5,7 +5,7 @@ import LoginForm from "./LoginForm";
 import RegistrationForm from "./RegistrationForm";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import backgroundImage from "../../assets/banner.png";
-import { config, store } from "../../lib";
+import { api, config, store } from "../../lib";
 
 const styles = {
   side: {
@@ -17,15 +17,34 @@ const styles = {
 };
 
 const Login = () => {
-  const { isLoggedIn, user } = store.useState();
   const navigate = useNavigate();
+  const { invitationId } = useParams();
+
   useEffect(() => {
     if (isLoggedIn) {
       navigate("/control-center");
     }
   });
-  const { invitationId } = useParams();
+
+  if (invitationId != null) {
+    api
+      .post("v1/verify/invite/", { invite: invitationId })
+      .then((res) => {
+        let userData = {
+          name: res.data.name,
+          invite: invitationId,
+        };
+        store.update((s) => {
+          s.user = userData;
+        });
+      })
+      .catch((err) => {
+        alert(err.response.data.message);
+      });
+  }
+
   // TODO: Check invitation ID to Server using API
+  let { isLoggedIn, user } = store.useState();
   return (
     <div id="login">
       <div className="background" style={styles.side} />
@@ -49,7 +68,10 @@ const Login = () => {
         </Col>
         <Col span={12} className="right-side">
           <h1>
-            Welcome {invitationId ? "to RTMIS" : "Back"}
+            Welcome{" "}
+            {invitationId
+              ? "to RTMIS " + (user != null ? user.name : "")
+              : "Back"}
             <br />
             <small>
               {invitationId
