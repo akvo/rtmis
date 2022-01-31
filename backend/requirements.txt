@@ -23,3 +23,4 @@ tblib==1.7.0
 
 # code coverage
 coverage==6.2
+coveralls==3.3.1
