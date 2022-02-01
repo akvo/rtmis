@@ -52,10 +52,9 @@ backend_build () {
         --tag "${image_prefix}/backend:${CI_COMMIT}" backend
 
     # Code Quality
-    dc -f docker-compose.test.yml run \
+    dc -f docker-compose.test.yml -p backend-test run \
         --rm \
-        --no-deps \
-        backend flake8
+        backend ./run-qc.sh
 
     # Update dbdocs.io
     if [[ "${CI_BRANCH}" ==  "main" || "${CI_BRANCH}" ==  "develop" ]]; then
@@ -70,6 +69,7 @@ backend_build () {
         dbdocs build db.dbml --project "rtmis-$CI_BRANCH"
     fi
 }
+
 
 echo "* BACKEND BUILD * =================="
 backend_build
