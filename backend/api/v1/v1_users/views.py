@@ -17,7 +17,8 @@ from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
 from utils.custom_serializer_fields import validate_serializers_message
 
 
-@extend_schema(description='Use to check System health')
+@extend_schema(description='Use to check System health',
+               tags=['User'])
 @api_view(['GET'])
 def health_check(request, version):
     return Response({'message': 'OK'}, status=status.HTTP_200_OK)
@@ -25,7 +26,8 @@ def health_check(request, version):
 
 # TODO: Remove temp user entry and invite key from the response.
 @extend_schema(request=LoginSerializer,
-               responses={200: UserSerializer})
+               responses={200: UserSerializer},
+               tags=['User'])
 @api_view(['POST'])
 def login(request, version):
     serializer = LoginSerializer(data=request.data)
@@ -65,7 +67,8 @@ def login(request, version):
                        inline_serializer("Response", fields={
                            "message": serializers.CharField()
                        })
-               })
+               },
+               tags=['User'])
 @api_view(['POST'])
 def verify_invite(request, version):
     try:
@@ -85,7 +88,8 @@ def verify_invite(request, version):
 
 
 @extend_schema(request=SetUserPasswordSerializer,
-               responses={200: UserSerializer})
+               responses={200: UserSerializer},
+               tags=['User'])
 @api_view(['POST'])
 def set_user_password(request, version):
     try:
@@ -110,7 +114,8 @@ def set_user_password(request, version):
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-@extend_schema(responses={200: ListAdministrationSerializer})
+@extend_schema(responses={200: ListAdministrationSerializer},
+               tags=['Administration'])
 @api_view(['GET'])
 def list_administration(request, version, pk):
     instance = get_object_or_404(Administration, pk=pk)
