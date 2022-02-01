@@ -59,8 +59,8 @@ backend_build () {
     # Update dbdocs.io
     if [[ "${CI_BRANCH}" ==  "main" || "${CI_BRANCH}" ==  "develop" ]]; then
         npm install -g dbdocs
-        dbdocs build doc/dbml/schema.dbml --project rtmis
-        dbdocs build db.dbml --project "rtmis-$CI_BRANCH"
+        # dbdocs build doc/dbml/schema.dbml --project rtmis
+        dbdocs build backend/db.dbml --project "rtmis-$CI_BRANCH"
     fi
 }
 
