@@ -45,6 +45,7 @@ DJANGO_APPS = [
 EXTERNAL_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
+    'drf_spectacular',
 ]
 
 # Add API apps below
@@ -89,13 +90,20 @@ WSGI_APPLICATION = 'rtmis.wsgi.application'
 # Rest Settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',  # noqa
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',  # noqa
-    'DATE_FORMAT': "%d-%m-%Y",  # noqa
-    "DATETIME_FORMAT": "%d-%m-%Y %H:%M:%S"  # noqa
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
+    'DATE_FORMAT': "%d-%m-%Y",
+    "DEFAULT_VERSION": "v1",
+    "DATETIME_FORMAT": "%d-%m-%Y %H:%M:%S",
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
-
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'RTMIS',
+    'DESCRIPTION': '',
+    'VERSION': '1.0.0',
+    # OTHER SETTINGS
+}
 # JWT Config
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
@@ -103,7 +111,7 @@ SIMPLE_JWT = {
 }
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
+#
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -130,16 +138,20 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',  # noqa
+        'NAME': 'django.contrib.auth.password_validation'
+                '.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',  # noqa
+        'NAME': 'django.contrib.auth.password_validation'
+                '.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',  # noqa
+        'NAME': 'django.contrib.auth.password_validation'
+                '.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',  # noqa
+        'NAME': 'django.contrib.auth.password_validation'
+                '.NumericPasswordValidator',
     }
 ]
 

@@ -1,7 +1,8 @@
 # Create your views here.
 from django.contrib.auth import authenticate
 from django.core import signing
-from rest_framework import status
+from drf_spectacular.utils import extend_schema, inline_serializer
+from rest_framework import status, serializers
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -14,12 +15,15 @@ from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
 from utils.custom_serializer_fields import validate_serializers_message
 
 
+@extend_schema(description='Use to check System health')
 @api_view(['GET'])
 def health_check(request, version):
     return Response({'message': 'OK'}, status=status.HTTP_200_OK)
 
 
 # TODO: Remove temp user entry and invite key from the response.
+@extend_schema(request=LoginSerializer,
+               responses={200: UserSerializer})
 @api_view(['POST'])
 def login(request, version):
     serializer = LoginSerializer(data=request.data)
@@ -53,6 +57,13 @@ def login(request, version):
                     status=status.HTTP_401_UNAUTHORIZED)
 
 
+@extend_schema(request=VerifyInviteSerializer,
+               responses={
+                   (200, 'application/json'):
+                       inline_serializer("Response", fields={
+                           "message": serializers.CharField()
+                       })
+               })
 @api_view(['POST'])
 def verify_invite(request, version):
     try:
@@ -71,6 +82,8 @@ def verify_invite(request, version):
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+@extend_schema(request=SetUserPasswordSerializer,
+               responses={200: UserSerializer})
 @api_view(['POST'])
 def set_user_password(request, version):
     try:
