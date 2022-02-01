@@ -38,7 +38,6 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_dbml'
 ]
 
 # Add third party apps below
@@ -46,6 +45,7 @@ EXTERNAL_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_spectacular',
+    'django_dbml',
 ]
 
 # Add API apps below
@@ -102,7 +102,7 @@ SPECTACULAR_SETTINGS = {
     'TITLE': 'RTMIS',
     'DESCRIPTION': '',
     'VERSION': '1.0.0',
-    # OTHER SETTINGS
+    # 'SCHEMA_PATH_PREFIX': r'/api/v[0-9]',
 }
 # JWT Config
 SIMPLE_JWT = {
