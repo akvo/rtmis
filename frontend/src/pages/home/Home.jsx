@@ -3,7 +3,8 @@ import "./style.scss";
 import { Row, Col, Card, Button, Tabs } from "antd";
 import { Link } from "react-router-dom";
 import { RightOutlined } from "@ant-design/icons";
-
+import { Map } from "../../components";
+import { geoMarker } from "../../util/geoMarker";
 const { TabPane } = Tabs;
 
 const datasets = [
@@ -92,6 +93,13 @@ const Home = () => {
             ))}
           </Tabs>
         </div>
+      </div>
+      <div className="mapSection">
+        <h1>Map</h1>
+        <Map
+          markerData={geoMarker}
+          style={{ height: "100vh", width: "100%" }}
+        />
       </div>
     </div>
   );
