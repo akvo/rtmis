@@ -13,50 +13,33 @@ source_files = [
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        Forms.objects.all().delete()
         for source in source_files:
             json_form = open(source, 'r')
             json_form = json.load(json_form)
-            form, ok = Forms.objects.update_or_create(
-                id=json_form["id"],
-                name=json_form["form"],
-                version=1,
-                type=FormTypes.national,
-                defaults={'id': json_form["id"]})
-            print("{} ({})".format(form.name, "Created" if ok else "Updated"))
+            form = Forms(id=json_form["id"],
+                         name=json_form["form"],
+                         version=1,
+                         type=FormTypes.national)
+            form.save()
             for qg in json_form["question_groups"]:
-                question_group, _ = QuestionGroup.objects.update_or_create(
-                    name=qg["question_group"],
-                    form=form,
-                    defaults={
-                        'name': qg["question_group"],
-                        'form': form
-                    })
+                question_group = QuestionGroup(name=qg["question_group"],
+                                               form=form)
+                question_group.save()
                 print(f"- {question_group.name}")
-                for iq, q in enumerate(qg["questions"]):
-                    question, _ = Questions.objects.update_or_create(
-                        id=q["id"] if "id" in q else None,
+                for q in qg["questions"]:
+                    question = Questions.objects.create(
+                        id=q.get("id"),
                         name=q["question"],
                         text=q["question"],
                         form=form,
                         question_group=question_group,
-                        rule=getattr(q, "rule", None),
-                        required=q["required"] if "required" in q else None,
-                        dependency=q["dependency"]
-                        if "dependency" in q else None,
-                        type=getattr(QuestionTypes, q["type"]),
-                        defaults={
-                            'name': q["question"],
-                            'form': form,
-                            'question_group': question_group
-                        })
-                    if getattr(q, "options", None):
-                        for o in q["options"]:
-                            print(o)
-                            QuestionOptions.objects.update_or_create(
-                                question=question,
-                                name=o["name"],
-                                defaults={
-                                    'name': o["name"],
-                                    'code': o["code"] if "code" in o else None,
-                                    'question': question
-                                })
+                        rule=q.get("rule"),
+                        required=q.get("required"),
+                        dependency=q.get("dependency"),
+                        type=getattr(QuestionTypes, q["type"]))
+                    if q.get("options"):
+                        question.question_question_options.bulk_create([
+                            QuestionOptions(question=question, name=o["name"])
+                            for o in q["options"]
+                        ])
