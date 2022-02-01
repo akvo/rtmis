@@ -60,6 +60,8 @@ class ListAdministrationChildrenSerializer(serializers.ModelSerializer):
 
 class ListAdministrationSerializer(serializers.ModelSerializer):
     children = serializers.SerializerMethodField()
+    level_name = serializers.ReadOnlyField(source='level.name')
+    level = serializers.ReadOnlyField(source='level.level')
 
     @extend_schema_field(ListAdministrationChildrenSerializer(many=True))
     def get_children(self, instance: Administration):
@@ -68,7 +70,7 @@ class ListAdministrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Administration
-        fields = ['id', 'parent', 'name', 'children']
+        fields = ['id', 'parent', 'name', 'level_name', 'level', 'children']
 
 
 class UserSerializer(serializers.ModelSerializer):
