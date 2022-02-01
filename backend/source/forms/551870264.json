@@ -1,0 +1,535 @@
+{
+  "form": "WASH in Schools",
+  "id": 551870264,
+  "question_groups": [
+    {
+      "question_group": "Location",
+      "questions": [
+        {
+          "question": "location",
+          "order": 1,
+          "required": true,
+          "type": "administration",
+          "meta": true
+        }
+      ]
+    },
+    {
+      "question_group": "School Information",
+      "questions": [
+        {
+          "id": 546580264,
+          "question": "School name",
+          "order": 1,
+          "meta": true,
+          "type": "text",
+          "required": true,
+          "options": null
+        },
+        {
+          "id": 567490154,
+          "question": "GPS Coordinates of School",
+          "order": 2,
+          "meta": true,
+          "type": "geo",
+          "required": true,
+          "options": null
+        },
+        {
+          "id": 546580263,
+          "question": "School Type",
+          "order": 3,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Primary 1 - 4",
+              "color": null
+            },
+            {
+              "name": "Primary 1 - 8",
+              "color": null
+            },
+            {
+              "name": "High school 9 - 10",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 546580257,
+          "question": "Number of Male Pupils",
+          "order": 4,
+          "meta": false,
+          "type": "number",
+          "required": false,
+          "options": null
+        },
+        {
+          "id": 546580260,
+          "question": "Number of Female Pupils",
+          "order": 5,
+          "meta": false,
+          "type": "number",
+          "required": false,
+          "options": null
+        }
+      ]
+    },
+    {
+      "question_group": "Drinking Water",
+      "questions": [
+        {
+          "id": 561200192,
+          "question": "Main Source of Drinking Water",
+          "order": 1,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Pipeline connection",
+              "color": null
+            },
+            {
+              "name": "Protected well/spring",
+              "color": null
+            },
+            {
+              "name": "Shallow well fitted with pump",
+              "color": null
+            },
+            {
+              "name": "Rainwater",
+              "color": null
+            },
+            {
+              "name": "Unprotected well/spring",
+              "color": null
+            },
+            {
+              "name": "Packaged bottled water",
+              "color": null
+            },
+            {
+              "name": "Tanker-truck or cart",
+              "color": null
+            },
+            {
+              "name": "Surface water (lake, river, stream)",
+              "color": null
+            },
+            {
+              "name": "No water source",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 561200193,
+          "question": "Year Water Supply Commissioned",
+          "order": 2,
+          "meta": false,
+          "type": "number",
+          "required": false,
+          "options": null
+        },
+        {
+          "id": 561200190,
+          "question": "Drinking Water Available at Time of Survey",
+          "order": 3,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Yes",
+              "color": null
+            },
+            {
+              "name": "No",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 561200191,
+          "question": "Functionality Status of Water Supply",
+          "order": 4,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Functional",
+              "color": "#91cc75"
+            },
+            {
+              "name": "Not functional",
+              "color": "#e39f00"
+            },
+            {
+              "name": "No water scheme",
+              "color": "#ee6666"
+            }
+          ]
+        },
+        {
+          "id": 561200194,
+          "question": "Water Yield (lpd)",
+          "order": 5,
+          "meta": false,
+          "type": "number",
+          "required": false,
+          "options": null
+        }
+      ]
+    },
+    {
+      "question_group": "Sanitation",
+      "questions": [
+        {
+          "id": 546630147,
+          "question": "Type of Toilets",
+          "order": 1,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Flush/Pour-flush toilets",
+              "color": null
+            },
+            {
+              "name": "Pit latrines with slab",
+              "color": null
+            },
+            {
+              "name": "Composting toilets",
+              "color": null
+            },
+            {
+              "name": "Pit latrines without slab",
+              "color": null
+            },
+            {
+              "name": "Hanging latrines",
+              "color": null
+            },
+            {
+              "name": "Bucket latrines",
+              "color": null
+            },
+            {
+              "name": "No toilets or latrines",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 557690281,
+          "question": "Separate Toilets for Girls and Boys",
+          "order": 2,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Yes",
+              "color": null
+            },
+            {
+              "name": "No",
+              "color": null
+            },
+            {
+              "name": "No toilets at all",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 557690277,
+          "question": "Separate Toilets for Staff",
+          "order": 3,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Yes",
+              "color": null
+            },
+            {
+              "name": "No",
+              "color": null
+            },
+            {
+              "name": "No toilets at all",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 557690280,
+          "question": "Number of Usable Toilets for Boys",
+          "order": 4,
+          "meta": false,
+          "type": "number",
+          "required": false,
+          "options": null
+        },
+        {
+          "id": 555930269,
+          "question": "Usable Urinals Available for Boys",
+          "order": 5,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Yes",
+              "color": null
+            },
+            {
+              "name": "No",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 557690275,
+          "question": "Number of Usable Toilets for Girls",
+          "order": 6,
+          "meta": false,
+          "type": "number",
+          "required": false,
+          "options": null
+        },
+        {
+          "id": 555950240,
+          "question": "Usable Urinals Available for Girls",
+          "order": 7,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Yes",
+              "color": null
+            },
+            {
+              "name": "No",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 557690278,
+          "question": "Number of Common Use Toilets",
+          "order": 8,
+          "meta": false,
+          "type": "number",
+          "required": false,
+          "options": null
+        },
+        {
+          "id": 557690283,
+          "question": "Toilets Available for the Disabled",
+          "order": 9,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Yes",
+              "color": null
+            },
+            {
+              "name": "No",
+              "color": null
+            },
+            {
+              "name": "No toilets at all",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 571070143,
+          "question": "General Conditions of the Toilets",
+          "order": 10,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Dirty",
+              "color": null
+            },
+            {
+              "name": "Clean",
+              "color": null
+            },
+            {
+              "name": "No toilets",
+              "color": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question_group": "Hygiene",
+      "questions": [
+        {
+          "id": 567440264,
+          "question": "Presence of Handwashing Facility",
+          "order": 1,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Yes",
+              "color": null
+            },
+            {
+              "name": "No",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 546560285,
+          "question": "Handwashing Facilities Appear to be in Use",
+          "order": 2,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Yes",
+              "color": null
+            },
+            {
+              "name": "No",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 567440263,
+          "question": "Availability of Soap and Water at the Handwashing Facilities",
+          "order": 3,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Yes, water and soap",
+              "color": null
+            },
+            {
+              "name": "Water only",
+              "color": null
+            },
+            {
+              "name": "Soap only",
+              "color": null
+            },
+            {
+              "name": "Neither water or soap",
+              "color": null
+            },
+            {
+              "name": "No handwashing facility",
+              "color": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question_group": "WASH Service Levels",
+      "questions": [
+        {
+          "id": 559810275,
+          "question": "Water service levels",
+          "order": 1,
+          "meta": false,
+          "type": "option",
+          "required": true,
+          "options": [
+            {
+              "name": "Basic",
+              "color": "#753780",
+              "score": 10
+            },
+            {
+              "name": "Limited",
+              "color": "#FDF177",
+              "score": -1
+            },
+            {
+              "name": "No service",
+              "color": "#F1AC2A",
+              "score": -2
+            }
+          ]
+        },
+        {
+          "id": 571070148,
+          "question": "Sanitation service levels",
+          "order": 2,
+          "meta": false,
+          "type": "option",
+          "required": true,
+          "options": [
+            {
+              "name": "Basic",
+              "color": "#753780",
+              "score": 10
+            },
+            {
+              "name": "Limited",
+              "color": "#FDF177",
+              "score": -1
+            },
+            {
+              "name": "No service",
+              "color": "#F1AC2A",
+              "score": -2
+            }
+          ]
+        },
+        {
+          "id": 546580270,
+          "question": "Hygiene service levels",
+          "order": 3,
+          "meta": false,
+          "type": "option",
+          "required": true,
+          "options": [
+            {
+              "name": "Basic",
+              "color": "#753780",
+              "score": 10
+            },
+            {
+              "name": "Limited",
+              "color": "#FDF177",
+              "score": -1
+            },
+            {
+              "name": "No service",
+              "color": "#F1AC2A",
+              "score": -2
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,301 @@
+{
+  "form": "Water System",
+  "id": 571070071,
+  "question_groups": [
+    {
+      "question_group": "Location Demographics",
+      "questions": [
+        {
+          "question": "location",
+          "order": 1,
+          "required": true,
+          "type": "administration",
+          "meta": true
+        },
+        {
+          "id": 563210188,
+          "question": "Name of Village",
+          "order": 3,
+          "meta": true,
+          "type": "text",
+          "required": true,
+          "options": null
+        },
+        {
+          "id": 563260127,
+          "question": "GPS Coordinates of Village",
+          "order": 4,
+          "meta": true,
+          "type": "geo",
+          "required": true,
+          "options": null
+        }
+      ]
+    },
+    {
+      "question_group": "Water System Information",
+      "questions": [
+        {
+          "id": 571070074,
+          "question": "Water System Name",
+          "order": 1,
+          "meta": true,
+          "type": "text",
+          "required": true,
+          "options": null
+        },
+        {
+          "id": 557710145,
+          "question": "Organization That Installed Water System",
+          "order": 2,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "CDA",
+              "color": null
+            },
+            {
+              "name": "Government",
+              "color": null
+            },
+            {
+              "name": "Kale Hiwot",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 571050096,
+          "question": "Water Source Type",
+          "order": 3,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Deep well with distribution",
+              "color": null
+            },
+            {
+              "name": "Hand dug well",
+              "color": null
+            },
+            {
+              "name": "Shallow well",
+              "color": null
+            },
+            {
+              "name": "Protected spring",
+              "color": null
+            },
+            {
+              "name": "Unprotected spring",
+              "color": null
+            },
+            {
+              "name": "Rainwater collection",
+              "color": null
+            },
+            {
+              "name": "Surface water",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 527850181,
+          "question": "Depth of Well (m)",
+          "order": 4,
+          "meta": false,
+          "type": "number",
+          "required": false,
+          "options": null
+        },
+        {
+          "id": 573000210,
+          "question": "Maximum Yield (lpd)",
+          "order": 5,
+          "meta": false,
+          "type": "number",
+          "required": false,
+          "options": null
+        },
+        {
+          "id": 569070152,
+          "question": "Abstraction/Pump Equipment",
+          "order": 6,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Afridev",
+              "color": null
+            },
+            {
+              "name": "Indian Mark II",
+              "color": null
+            },
+            {
+              "name": "Submersible pump",
+              "color": null
+            },
+            {
+              "name": "Windlass",
+              "color": null
+            },
+            {
+              "name": "I don't know",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 571060083,
+          "question": "Source of Energy",
+          "order": 7,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Diesel",
+              "color": null
+            },
+            {
+              "name": "Electricity and grid",
+              "color": null
+            },
+            {
+              "name": "Gravity flow",
+              "color": null
+            },
+            {
+              "name": "Manual operation",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 555960249,
+          "question": "Number of Functional Taps",
+          "order": 8,
+          "meta": false,
+          "type": "number",
+          "required": false,
+          "options": null
+        },
+        {
+          "id": 546560207,
+          "question": "Number of Non-Functional Taps",
+          "order": 9,
+          "meta": false,
+          "type": "number",
+          "required": false,
+          "options": null
+        },
+        {
+          "id": 567400198,
+          "question": "Estimated Number of Users",
+          "order": 10,
+          "meta": false,
+          "type": "number",
+          "required": true,
+          "options": null
+        },
+        {
+          "id": 567450085,
+          "question": "Functionality Status",
+          "order": 11,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Functional",
+              "color": "#91cc75"
+            },
+            {
+              "name": "Functional but with problems",
+              "color": "#e39f00"
+            },
+            {
+              "name": "Not functional",
+              "color": "#ee6666"
+            }
+          ]
+        },
+        {
+          "id": 571060084,
+          "question": "Problems With Water System",
+          "order": 12,
+          "meta": false,
+          "type": "multiple_option",
+          "required": false,
+          "options": [
+            {
+              "name": "Lack of water",
+              "color": null
+            },
+            {
+              "name": "Pump broken",
+              "color": null
+            },
+            {
+              "name": "Tap broken",
+              "color": null
+            },
+            {
+              "name": "Distribution pipeline broken",
+              "color": null
+            },
+            {
+              "name": "Power failure",
+              "color": null
+            },
+            {
+              "name": "Lack of fuel",
+              "color": null
+            },
+            {
+              "name": "Poor water quality",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 563220092,
+          "question": "Reason for Survey",
+          "order": 13,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Extension",
+              "color": null
+            },
+            {
+              "name": "Inspection",
+              "color": null
+            },
+            {
+              "name": "National WASH Inventory",
+              "color": null
+            },
+            {
+              "name": "New Scheme",
+              "color": null
+            },
+            {
+              "name": "Repair",
+              "color": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

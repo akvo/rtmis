@@ -1,0 +1,598 @@
+{
+  "form": "WASH in Households",
+  "id": 567420165,
+  "question_groups": [
+    {
+      "question_group": "Location Demographics",
+      "questions": [
+        {
+          "question": "location",
+          "order": 1,
+          "required": true,
+          "type": "administration",
+          "meta": true
+        },
+        {
+          "id": 554110154,
+          "question": "Village",
+          "order": 3,
+          "meta": true,
+          "type": "text",
+          "required": true,
+          "options": null
+        },
+        {
+          "id": 554110155,
+          "question": "GPS Coordinates of Household",
+          "order": 4,
+          "meta": true,
+          "type": "geo",
+          "required": true,
+          "options": null
+        }
+      ]
+    },
+    {
+      "question_group": "Household Information",
+      "questions": [
+        {
+          "id": 569070155,
+          "question": "Name of Respondent",
+          "order": 1,
+          "meta": false,
+          "type": "text",
+          "required": false,
+          "options": null
+        },
+        {
+          "id": 559820212,
+          "question": "Household Size",
+          "order": 2,
+          "meta": false,
+          "type": "number",
+          "required": false,
+          "options": null
+        }
+      ]
+    },
+    {
+      "question_group": "Drinking Water",
+      "questions": [
+        {
+          "id": 555960185,
+          "question": "Main Source of Drinking Water",
+          "order": 1,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Piped water into dwelling (household connection)",
+              "color": null
+            },
+            {
+              "name": "Piped water to yard/plot",
+              "color": null
+            },
+            {
+              "name": "Piped to neighbour",
+              "color": null
+            },
+            {
+              "name": "Deep tubewell/borehole",
+              "color": null
+            },
+            {
+              "name": "Public tap/standpipe",
+              "color": null
+            },
+            {
+              "name": "Protected spring",
+              "color": null
+            },
+            {
+              "name": "Rainwater collection",
+              "color": null
+            },
+            {
+              "name": "Tanker-truck",
+              "color": null
+            },
+            {
+              "name": "Cart with small tank/drum",
+              "color": null
+            },
+            {
+              "name": "Water kiosk",
+              "color": null
+            },
+            {
+              "name": "Bottled water",
+              "color": null
+            },
+            {
+              "name": "Sachet water",
+              "color": null
+            },
+            {
+              "name": "Unprotected dug well",
+              "color": null
+            },
+            {
+              "name": "Unprotected spring",
+              "color": null
+            },
+            {
+              "name": "Surface water",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 567400201,
+          "question": "Location of Water Collection Point",
+          "order": 2,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "In own dwelling",
+              "color": null
+            },
+            {
+              "name": "In own yard / plot",
+              "color": null
+            },
+            {
+              "name": "Elsewhere",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 567410256,
+          "question": "Time to Collect Water",
+          "order": 3,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Less than 30 minutes",
+              "color": null
+            },
+            {
+              "name": "More than 30 minutes",
+              "color": null
+            },
+            {
+              "name": "Don't know",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 563190256,
+          "question": "Quantity was Insufficient at Least Once in the Last Month",
+          "order": 4,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Yes, at least once",
+              "color": null
+            },
+            {
+              "name": "No, always sufficient",
+              "color": null
+            },
+            {
+              "name": "Don't know",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 573020153,
+          "question": "Water Quality at Source",
+          "order": 5,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Free from feacal and prioirty chemical contamination",
+              "color": null
+            },
+            {
+              "name": "Contaminated",
+              "color": null
+            },
+            {
+              "name": "Don't know",
+              "color": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question_group": "Sanitation",
+      "questions": [
+        {
+          "id": 557710109,
+          "question": "Type of Toilet Facility",
+          "order": 1,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Flush/pour flush to piped sewer system",
+              "color": null
+            },
+            {
+              "name": "Flush/pour flush to septic tank",
+              "color": null
+            },
+            {
+              "name": "Flush/pour flush to pit latrine",
+              "color": null
+            },
+            {
+              "name": "Ventilated improved pit latrine (VIP) with slab",
+              "color": null
+            },
+            {
+              "name": "Pit latrine with slab",
+              "color": null
+            },
+            {
+              "name": "Twin pit offset latrine",
+              "color": null
+            },
+            {
+              "name": "Twin pit with latrine slab",
+              "color": null
+            },
+            {
+              "name": "Other composting latrine",
+              "color": null
+            },
+            {
+              "name": "Contain-based sanitation",
+              "color": null
+            },
+            {
+              "name": "Flush/pour flush to open drain",
+              "color": null
+            },
+            {
+              "name": "Pit latrine without slab/open pit",
+              "color": null
+            },
+            {
+              "name": "Twin pit without slab",
+              "color": null
+            },
+            {
+              "name": "Bucket",
+              "color": null
+            },
+            {
+              "name": "Hanging toilet/latrine",
+              "color": null
+            },
+            {
+              "name": "No facility",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 557710113,
+          "question": "Toilet Facility is Shared with Others Outside of Household",
+          "order": 2,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Yes",
+              "color": null
+            },
+            {
+              "name": "No",
+              "color": null
+            },
+            {
+              "name": "Not Applicable",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 557710112,
+          "question": "Location of Toilet Facility",
+          "order": 3,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "In own dwelling",
+              "color": null
+            },
+            {
+              "name": "In own plot/yard",
+              "color": null
+            },
+            {
+              "name": "Elsewhere",
+              "color": null
+            },
+            {
+              "name": "Not Applicable",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 567420264,
+          "question": "Emptying of On-Site Sanitation Facilities",
+          "order": 4,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Yes, but don't know when",
+              "color": null
+            },
+            {
+              "name": "No, never emptied",
+              "color": null
+            },
+            {
+              "name": "Don't know",
+              "color": null
+            },
+            {
+              "name": "Not applicable",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 557710106,
+          "question": "Disposal of Excreta from Emptied Facilities",
+          "order": 5,
+          "meta": false,
+          "type": "multiple_option",
+          "required": false,
+          "options": [
+            {
+              "name": "Removed by service provider to a treatment plant",
+              "color": null
+            },
+            {
+              "name": "Removed by service provider and buried in a covered pit",
+              "color": null
+            },
+            {
+              "name": "Removed by service provider to don't know where",
+              "color": null
+            },
+            {
+              "name": "Buried by household in covered pit",
+              "color": null
+            },
+            {
+              "name": "Disposed by household to uncovered pit or environment",
+              "color": null
+            },
+            {
+              "name": "Not applicable",
+              "color": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question_group": "Hygiene",
+      "questions": [
+        {
+          "id": 573020044,
+          "question": "Type of Handwashing Facility Used Most Often",
+          "order": 1,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Fixed facility observed in dwelling",
+              "color": null
+            },
+            {
+              "name": "Fixed facility observed in plot/yard",
+              "color": null
+            },
+            {
+              "name": "Mobile object observed (bucket, jug, kettle)",
+              "color": null
+            },
+            {
+              "name": "No handwashing place available in dwelling/plot/yard",
+              "color": null
+            },
+            {
+              "name": "Don't know",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 573020043,
+          "question": "Water Available at Handwashing Facility",
+          "order": 2,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Water is available",
+              "color": null
+            },
+            {
+              "name": "Water is not available",
+              "color": null
+            },
+            {
+              "name": "Not applicable",
+              "color": null
+            }
+          ]
+        },
+        {
+          "id": 559820263,
+          "question": "Soap is Available at Handwashing Facility",
+          "order": 3,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Yes, soap or detergent are present",
+              "color": null
+            },
+            {
+              "name": "Ash/mud/sand is present",
+              "color": null
+            },
+            {
+              "name": "No, not present",
+              "color": null
+            },
+            {
+              "name": "Not applicable",
+              "color": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question_group": "WASH Service Levels",
+      "questions": [
+        {
+          "id": 573020156,
+          "question": "Water Service Level",
+          "order": 1,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Safely Managed",
+              "color": "#297EB5",
+              "order": 1,
+              "score": 15
+            },
+            {
+              "name": "Basic",
+              "color": "#5EBADF",
+              "order": 2,
+              "score": 10
+            },
+            {
+              "name": "Limited",
+              "color": "#FDF177",
+              "order": 3,
+              "score": 1
+            },
+            {
+              "name": "Unimproved",
+              "color": "#FBD256",
+              "order": 4,
+              "score": -1
+            },
+            {
+              "name": "Surface water",
+              "color": "#F1AC2A",
+              "order": 5,
+              "score": -2
+            }
+          ]
+        },
+        {
+          "id": 569090236,
+          "question": "Sanitation Service Level",
+          "order": 2,
+          "meta": false,
+          "type": "option",
+          "required": true,
+          "options": [
+            {
+              "name": "Safely Managed",
+              "color": "#368541",
+              "order": 1,
+              "score": 15
+            },
+            {
+              "name": "Basic",
+              "color": "#79BE7D",
+              "order": 2,
+              "score": 10
+            },
+            {
+              "name": "Limited",
+              "color": "#FDF177",
+              "order": 3,
+              "score": -1
+            },
+            {
+              "name": "Unimproved",
+              "color": "#FBD256",
+              "order": 4,
+              "score": -2
+            },
+            {
+              "name": "Open Defecation",
+              "color": "#F1AC2A",
+              "order": 5,
+              "score": -3
+            }
+          ]
+        },
+        {
+          "id": 573010267,
+          "question": "Hygiene Service Level",
+          "order": 3,
+          "meta": false,
+          "type": "option",
+          "required": false,
+          "options": [
+            {
+              "name": "Basic",
+              "color": "#753780",
+              "score": 10
+            },
+            {
+              "name": "Limited",
+              "color": "#FDF177",
+              "score": -1
+            },
+            {
+              "name": "No Facility",
+              "color": "#F1AC2A",
+              "score": -2
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
