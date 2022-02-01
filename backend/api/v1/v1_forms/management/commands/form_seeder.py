@@ -26,7 +26,6 @@ class Command(BaseCommand):
                 question_group = QuestionGroup(name=qg["question_group"],
                                                form=form)
                 question_group.save()
-                print(f"- {question_group.name}")
                 for q in qg["questions"]:
                     question = Questions.objects.create(
                         id=q.get("id"),
@@ -43,3 +42,4 @@ class Command(BaseCommand):
                             QuestionOptions(question=question, name=o["name"])
                             for o in q["options"]
                         ])
+            print(f"Form Created | {form.name}")
