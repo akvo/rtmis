@@ -172,7 +172,7 @@ class Questions(models.Model):
 class QuestionOptions(models.Model):
     question = models.ForeignKey(to=Questions,
                                  on_delete=models.CASCADE,
-                                 related_name='qustion_question_options')
+                                 related_name='question_question_options')
     order = models.BigIntegerField(null=True, default=None)
     code = models.CharField(max_length=255, default=None, null=True)
     name = models.TextField()
