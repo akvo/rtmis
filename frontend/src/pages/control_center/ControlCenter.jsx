@@ -1,11 +1,7 @@
 import React from "react";
 import "./style.scss";
-import { Row, Col, Card, Button, Tabs } from "antd";
+import { Row, Col, Card, Button } from "antd";
 import { Link } from "react-router-dom";
-import { RightOutlined } from "@ant-design/icons";
-import { Map } from "../../components";
-import { geoMarker } from "../../util/geoMarker";
-const { TabPane } = Tabs;
 
 const datasets = [
   {
