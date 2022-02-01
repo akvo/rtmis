@@ -6,7 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 import { config, store } from "../../lib";
 
 const Header = ({ className = "header", ...props }) => {
-  const { isLoggedIn } = store.useState();
+  const { isLoggedIn, user } = store.useState();
   const location = useLocation();
   if (location.pathname.includes("/login")) {
     return "";
@@ -35,7 +35,7 @@ const Header = ({ className = "header", ...props }) => {
       <Col className="menu">
         {isLoggedIn ? (
           <Link to={"/"}>
-            John Doe
+            {user.name}
             <span className="icon">
               <UserOutlined />
             </span>

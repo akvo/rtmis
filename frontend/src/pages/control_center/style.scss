@@ -1,0 +1,30 @@
+@import "../../variables";
+
+#root {
+  #conter-center {
+    h1 {
+      text-align: left;
+      font: normal normal 600 68px/102px Poppins;
+      letter-spacing: 0.49px;
+      color: #131523;
+      opacity: 1;
+    }
+    .card-wrapper {
+      margin-bottom: 30px;
+
+      .ant-card {
+        padding-bottom: 120px;
+        text-align: left;
+      }
+
+      a {
+        &.explore {
+          display: block;
+          position: absolute;
+          bottom: 30px;
+          width: 100%;
+        }
+      }
+    }
+  }
+}

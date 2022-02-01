@@ -1,11 +1,37 @@
 import React from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { api, store } from "../../lib";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const onFinish = (values) => {
-    console.info("Received values of form: ", values);
+    let url = `v1/login/`;
+    let postData = {
+      email: values.email,
+      password: values.password,
+    };
+    api
+      .post(url, postData)
+      .then((res) => {
+        api.setToken(res.data.token);
+        let userData = {
+          name: res.data.name,
+          email: res.data.email,
+          invite: res.data.invite,
+        };
+        localStorage.setItem("user", JSON.stringify(userData));
+        localStorage.setItem("isLoggedIn", true);
+        store.update((s) => {
+          s.isLoggedIn = true;
+          s.user = userData;
+        });
+        navigate("/control-center");
+      })
+      .catch((err) => {
+        alert(err.response.data.message);
+      });
   };
 
   return (

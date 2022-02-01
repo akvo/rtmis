@@ -3,7 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { Layout } from "./components";
-import { Home, Login } from "./pages";
+import { Home, Login, ControlCenter } from "./pages";
 
 const history = createBrowserHistory();
 
@@ -18,6 +18,7 @@ const App = () => {
             <Route exact path="/" element={<Home />} />
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/login/:invitationId" element={<Login />} />
+            <Route exact path="/control-center" element={<ControlCenter />} />
             <Route exact path="/data" element={<Home />} />
           </Routes>
         </Layout.Body>

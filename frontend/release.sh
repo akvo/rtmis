@@ -4,6 +4,6 @@
 set -euo pipefail
 
 yarn install --no-progress --frozen-lock
-yarn eslint -c .eslintrc.prod.json src/
+yarn eslint --config .eslintrc.prod.json src --ext .js,.jsx
 yarn prettier --check src/
 yarn build
