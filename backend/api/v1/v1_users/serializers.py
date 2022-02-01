@@ -1,8 +1,11 @@
 from django.core import signing
 from django.core.signing import BadSignature
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
+from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import SystemUser
 from utils.custom_serializer_fields import CustomEmailField, CustomCharField
 
@@ -49,9 +52,31 @@ class SetUserPasswordSerializer(serializers.Serializer):
         return attrs
 
 
+class ListAdministrationChildrenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Administration
+        fields = ['id', 'parent', 'name']
+
+
+class ListAdministrationSerializer(serializers.ModelSerializer):
+    children = serializers.SerializerMethodField()
+    level_name = serializers.ReadOnlyField(source='level.name')
+    level = serializers.ReadOnlyField(source='level.level')
+
+    @extend_schema_field(ListAdministrationChildrenSerializer(many=True))
+    def get_children(self, instance: Administration):
+        return ListAdministrationChildrenSerializer(
+            instance=instance.parent_administration.all(), many=True).data
+
+    class Meta:
+        model = Administration
+        fields = ['id', 'parent', 'name', 'level_name', 'level', 'children']
+
+
 class UserSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_name(self, instance):
         return instance.get_full_name()
 

@@ -30,7 +30,7 @@ const LoginForm = () => {
         navigate("/control-center");
       })
       .catch((err) => {
-        alert(err.response.data.message);
+        console.error(err.response.data.message);
       });
   };
 

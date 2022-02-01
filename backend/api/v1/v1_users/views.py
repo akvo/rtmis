@@ -1,8 +1,10 @@
 # Create your views here.
 from django.contrib.auth import authenticate
 from django.core import signing
-from rest_framework import status
+from drf_spectacular.utils import extend_schema, inline_serializer
+from rest_framework import status, serializers
 from rest_framework.decorators import api_view
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -10,16 +12,22 @@ from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Access, Administration
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
-    VerifyInviteSerializer, SetUserPasswordSerializer
+    VerifyInviteSerializer, SetUserPasswordSerializer, \
+    ListAdministrationSerializer
 from utils.custom_serializer_fields import validate_serializers_message
 
 
+@extend_schema(description='Use to check System health',
+               tags=['User'])
 @api_view(['GET'])
 def health_check(request, version):
     return Response({'message': 'OK'}, status=status.HTTP_200_OK)
 
 
 # TODO: Remove temp user entry and invite key from the response.
+@extend_schema(request=LoginSerializer,
+               responses={200: UserSerializer},
+               tags=['User'])
 @api_view(['POST'])
 def login(request, version):
     serializer = LoginSerializer(data=request.data)
@@ -53,6 +61,14 @@ def login(request, version):
                     status=status.HTTP_401_UNAUTHORIZED)
 
 
+@extend_schema(request=VerifyInviteSerializer,
+               responses={
+                   (200, 'application/json'):
+                       inline_serializer("Response", fields={
+                           "message": serializers.CharField()
+                       })
+               },
+               tags=['User'])
 @api_view(['POST'])
 def verify_invite(request, version):
     try:
@@ -71,6 +87,9 @@ def verify_invite(request, version):
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+@extend_schema(request=SetUserPasswordSerializer,
+               responses={200: UserSerializer},
+               tags=['User'])
 @api_view(['POST'])
 def set_user_password(request, version):
     try:
@@ -93,3 +112,12 @@ def set_user_password(request, version):
     except Exception as ex:
         return Response({'message': ex.args},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@extend_schema(responses={200: ListAdministrationSerializer},
+               tags=['Administration'])
+@api_view(['GET'])
+def list_administration(request, version, pk):
+    instance = get_object_or_404(Administration, pk=pk)
+    return Response(ListAdministrationSerializer(instance=instance).data,
+                    status=status.HTTP_200_OK)
