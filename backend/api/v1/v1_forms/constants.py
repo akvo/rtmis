@@ -14,7 +14,7 @@ class QuestionTypes:
     geo = 1
     administration = 2
     text = 3
-    numeric = 4
+    number = 4
     option = 5
     multiple_option = 6
     cascade = 7
@@ -25,7 +25,7 @@ class QuestionTypes:
         geo: 'Geo',
         administration: 'Administration',
         text: 'Text',
-        numeric: 'Numeric',
+        number: 'Number',
         option: 'Option',
         multiple_option: 'Multiple Option',
         cascade: 'Cascade',
