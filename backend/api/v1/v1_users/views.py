@@ -8,12 +8,13 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Access, Administration
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     VerifyInviteSerializer, SetUserPasswordSerializer, \
-    ListAdministrationSerializer
+    ListAdministrationSerializer, ListFormSerializer
 from utils.custom_serializer_fields import validate_serializers_message
 
 
@@ -120,4 +121,13 @@ def set_user_password(request, version):
 def list_administration(request, version, pk):
     instance = get_object_or_404(Administration, pk=pk)
     return Response(ListAdministrationSerializer(instance=instance).data,
+                    status=status.HTTP_200_OK)
+
+
+@extend_schema(responses={200: ListFormSerializer},
+               tags=['Form'])
+@api_view(['GET'])
+def list_form(request, version, pk):
+    instance = get_object_or_404(Forms, pk=pk)
+    return Response(ListFormSerializer(instance=instance).data,
                     status=status.HTTP_200_OK)

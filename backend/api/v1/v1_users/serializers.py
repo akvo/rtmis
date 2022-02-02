@@ -5,6 +5,9 @@ from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
+from api.v1.v1_forms.constants import QuestionTypes
+from api.v1.v1_forms.models import Forms, QuestionGroup, Questions, \
+    QuestionOptions
 from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import SystemUser
 from utils.custom_serializer_fields import CustomEmailField, CustomCharField
@@ -71,6 +74,58 @@ class ListAdministrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Administration
         fields = ['id', 'parent', 'name', 'level_name', 'level', 'children']
+
+
+class ListOptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuestionOptions
+        fields = ['name', 'order']
+
+
+class ListQuestionSerializer(serializers.ModelSerializer):
+    option = serializers.SerializerMethodField()
+    type_text = serializers.SerializerMethodField()
+
+    @extend_schema_field(ListOptionSerializer(many=True))
+    def get_option(self, instance: Questions):
+        return ListOptionSerializer(
+            instance=instance.question_question_options.all(), many=True).data
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_type_text(self, instance: Questions):
+        return QuestionTypes.FieldStr.get(instance.type)
+
+    class Meta:
+        model = Questions
+        fields = ['id', 'name', 'order', 'type', 'type_text', 'required',
+                  'dependency', 'option']
+
+
+# TODO: confirm Order in QuestionGroup model
+class ListQuestionGroupSerializer(serializers.ModelSerializer):
+    question = serializers.SerializerMethodField()
+
+    @extend_schema_field(ListQuestionSerializer(many=True))
+    def get_question(self, instance: QuestionGroup):
+        return ListQuestionSerializer(
+            instance=instance.question_group_question.all(), many=True).data
+
+    class Meta:
+        model = QuestionGroup
+        fields = ['name', 'question']
+
+
+class ListFormSerializer(serializers.ModelSerializer):
+    question_group = serializers.SerializerMethodField()
+
+    @extend_schema_field(ListQuestionGroupSerializer(many=True))
+    def get_question_group(self, instance: Forms):
+        return ListQuestionGroupSerializer(
+            instance=instance.form_question_group.all(), many=True).data
+
+    class Meta:
+        model = Forms
+        fields = ['name', 'question_group']
 
 
 class UserSerializer(serializers.ModelSerializer):
