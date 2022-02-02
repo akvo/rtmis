@@ -14,7 +14,7 @@ from api.v1.v1_profile.models import Access, Administration
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     VerifyInviteSerializer, SetUserPasswordSerializer, \
-    ListAdministrationSerializer, ListFormSerializer
+    ListAdministrationSerializer, FormDetailSerializer, ListFormSerializer
 from utils.custom_serializer_fields import validate_serializers_message
 
 
@@ -124,10 +124,19 @@ def list_administration(request, version, pk):
                     status=status.HTTP_200_OK)
 
 
-@extend_schema(responses={200: ListFormSerializer},
+@extend_schema(responses={200: ListFormSerializer(many=True)},
                tags=['Form'])
 @api_view(['GET'])
-def list_form(request, version, pk):
+def list_form(request, version):
+    return Response(
+        ListFormSerializer(instance=Forms.objects.all(), many=True).data,
+        status=status.HTTP_200_OK)
+
+
+@extend_schema(responses={200: FormDetailSerializer},
+               tags=['Form'])
+@api_view(['GET'])
+def form_details(request, version, pk):
     instance = get_object_or_404(Forms, pk=pk)
-    return Response(ListFormSerializer(instance=instance).data,
+    return Response(FormDetailSerializer(instance=instance).data,
                     status=status.HTTP_200_OK)

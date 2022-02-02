@@ -115,7 +115,7 @@ class ListQuestionGroupSerializer(serializers.ModelSerializer):
         fields = ['name', 'question']
 
 
-class ListFormSerializer(serializers.ModelSerializer):
+class FormDetailSerializer(serializers.ModelSerializer):
     question_group = serializers.SerializerMethodField()
 
     @extend_schema_field(ListQuestionGroupSerializer(many=True))
@@ -126,6 +126,12 @@ class ListFormSerializer(serializers.ModelSerializer):
     class Meta:
         model = Forms
         fields = ['name', 'question_group']
+
+
+class ListFormSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Forms
+        fields = ['id', 'name']
 
 
 class UserSerializer(serializers.ModelSerializer):

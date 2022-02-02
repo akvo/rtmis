@@ -1,7 +1,7 @@
 from django.urls import re_path
 
 from api.v1.v1_users.views import health_check, login, verify_invite, \
-    set_user_password, list_administration, list_form
+    set_user_password, list_administration, form_details, list_form
 
 urlpatterns = [
     re_path(r'^(?P<version>(v1))/health/check/', health_check),
@@ -11,6 +11,7 @@ urlpatterns = [
     re_path(r'^(?P<version>(v1))/administration/(?P<pk>[0-9]+)/',
             list_administration),
     re_path(r'^(?P<version>(v1))/form/(?P<pk>[0-9]+)/',
-            list_form),
+            form_details),
+    re_path(r'^(?P<version>(v1))/forms/', list_form),
 
 ]
