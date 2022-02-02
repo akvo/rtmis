@@ -1,9 +1,11 @@
-import os
 import json
+import os
+
 from django.core.management import BaseCommand
+
+from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, QuestionGroup
 from api.v1.v1_forms.models import Questions, QuestionOptions
-from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 
 source_folder = './source/forms/'
 source_files = [
@@ -31,6 +33,8 @@ class Command(BaseCommand):
                         id=q.get("id"),
                         name=q["question"],
                         text=q["question"],
+                        order=q["order"],
+                        meta=q["meta"],
                         form=form,
                         question_group=question_group,
                         rule=q.get("rule"),
