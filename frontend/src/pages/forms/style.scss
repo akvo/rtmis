@@ -1,0 +1,70 @@
+@import "../../variables";
+
+#root {
+  #form {
+    .ant-affix {
+      .webform-progress-bar {
+        transition: background-color linear 0.2s;
+      }
+    }
+
+    .webform {
+      h1 {
+        font-family: $font-family;
+        font-size: $font-size-large;
+        font-weight: bold;
+        letter-spacing: 0.49px;
+        color: $color-dark;
+      }
+
+      .form-container {
+        margin-top: 50px;
+        margin-bottom: 50px;
+        border-left: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+      }
+
+      .arf-form-header {
+        padding: 0px 0px 40px;
+        background: #f4f7fc;
+      }
+
+      .arf-sidebar {
+        border-top: none;
+        border: none;
+        border-right: 1px solid #eee;
+        color: $color-dark;
+
+        .arf-sidebar-header {
+          font-family: $font-family;
+        }
+
+        .arf-sidebar-list {
+          font-family: $font-family;
+          color: $color-dark;
+        }
+      }
+
+      .arf-field-group-header {
+        font-family: $font-family;
+        font-size: $font-size-large;
+        color: $color-dark;
+      }
+
+      .arf-field-group {
+        font-family: $font-family;
+        padding: 0px;
+        box-shadow: none;
+        border: none;
+
+        .arf-field {
+          font-family: $font-family;
+
+          .ant-form-item-control-input-content {
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+}
