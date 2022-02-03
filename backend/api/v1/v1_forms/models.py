@@ -43,7 +43,7 @@ class FormApprovalRule(models.Model):
 
 
 class FormData(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.TextField()
     form = models.ForeignKey(to=Forms,
                              on_delete=models.CASCADE,
                              related_name='form_form_data')
@@ -68,7 +68,7 @@ class FormData(models.Model):
 
 
 class PendingFormData(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.TextField()
     form = models.ForeignKey(to=Forms,
                              on_delete=models.CASCADE,
                              related_name='pending_form_form_data')
