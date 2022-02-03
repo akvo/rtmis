@@ -138,18 +138,20 @@ class ListQuestionGroupSerializer(serializers.ModelSerializer):
 class ListAdministrationCascadeSerializer(serializers.ModelSerializer):
     value = serializers.ReadOnlyField(source='id')
     label = serializers.ReadOnlyField(source='name')
-    level = serializers.ReadOnlyField(source='level.level')
     children = serializers.SerializerMethodField()
 
+    @extend_schema_field(inline_serializer('children', fields={
+        'value': serializers.IntegerField(),
+        'label': serializers.CharField(),
+    }, many=True))
     def get_children(self, instance: Administration):
-        print(instance)
         return ListAdministrationCascadeSerializer(
             instance=instance.parent_administration.all(), many=True
         ).data
 
     class Meta:
         model = Administration
-        fields = ['value', 'label', 'level', 'children']
+        fields = ['value', 'label', 'children']
 
 
 class FormDetailSerializer(serializers.ModelSerializer):
@@ -162,10 +164,9 @@ class FormDetailSerializer(serializers.ModelSerializer):
             instance=instance.form_question_group.all(), many=True).data
 
     @extend_schema_field(
-        inline_serializer('administration',
-                          fields={
-                              'administrator': ListAdministrationSerializer(
-                                  many=True)}))
+        inline_serializer('administration', fields={
+            'administrator': ListAdministrationCascadeSerializer(
+                many=True)}))
     def get_cascade(self, instance):
         return {'administration': ListAdministrationCascadeSerializer(
             instance=Administration.objects.filter(parent__isnull=True),
