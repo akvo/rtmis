@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework.fields import IntegerField, ChoiceField, CharField, \
     ImageField, ListField, BooleanField, FloatField, \
     DecimalField, URLField, DateField, MultipleChoiceField, FileField, \
-    DateTimeField, JSONField
+    DateTimeField, JSONField, Field
 from rest_framework.relations import PrimaryKeyRelatedField
 
 key_map = {
@@ -206,6 +206,23 @@ class CustomJSONField(JSONField):
     }
 
 
+class UnvalidatedField(Field):
+    default_error_messages = {
+        'null': _('field_title may not be null.'),
+    }
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.allow_blank = True
+        self.allow_null = False
+
+    def to_internal_value(self, data):
+        return data
+
+    def to_representation(self, value):
+        return value
+
+
 def validate_serializers_message(errors):
     msg = []
     if isinstance(errors, dict):
@@ -231,9 +248,17 @@ def validate_serializers_message(errors):
                             val.replace("field_title", key_map.get(k, k)))
             else:
                 for k1, v1 in v.items():
-                    for val1 in v1:
-                        msg.append(val1.replace("field_title",
-                                                key_map.get(str(k1), str(k1))))
+                    if isinstance(v1, list):
+                        for val1 in v1:
+                            msg.append(val1.replace("field_title",
+                                                    key_map.get(str(k1),
+                                                                str(k1))))
+                    else:
+                        for key2, val2 in v1.items():
+                            for val3 in val2:
+                                msg.append(val3.replace("field_title",
+                                                        key_map.get(str(k1),
+                                                                    str(k1))))
     else:
         for v in errors:
             if isinstance(v, list):
