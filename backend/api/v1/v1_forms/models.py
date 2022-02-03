@@ -225,7 +225,7 @@ class Answers(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return self.data.name
 
     class Meta:
         db_table = 'answer'
