@@ -3,7 +3,7 @@ import { Webform } from "akvo-react-form";
 import "akvo-react-form/dist/index.css";
 import "./style.scss";
 import { useParams, useNavigate } from "react-router-dom";
-import { Row, Col, Affix, Progress, notification } from "antd";
+import { Row, Col, Progress, notification } from "antd";
 import { api } from "../../lib";
 import { take, takeRight, tail, pick } from "lodash";
 
@@ -108,14 +108,10 @@ const Forms = () => {
 
   return (
     <div id="form">
-      <Affix style={{ width: "100%", zIndex: 1002 }}>
-        <div className="webform-progress-bar">
-          <Progress percent={percentage} />
-        </div>
-      </Affix>
       <Row justify="center">
         <Col span={24} className="webform">
           <Webform forms={forms} onFinish={onFinish} onChange={onChange} />
+          <Progress className="progress-bar" percent={percentage} />
         </Col>
       </Row>
     </div>

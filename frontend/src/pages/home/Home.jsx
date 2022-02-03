@@ -94,13 +94,6 @@ const Home = () => {
           </Tabs>
         </div>
       </div>
-      <div className="mapSection">
-        <h1>Map</h1>
-        <Map
-          markerData={geoMarker}
-          style={{ height: "100vh", width: "100%" }}
-        />
-      </div>
     </div>
   );
 };
