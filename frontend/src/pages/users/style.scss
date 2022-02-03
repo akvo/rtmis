@@ -1,0 +1,48 @@
+@import "../../variables";
+
+#root {
+  #users {
+
+    .ant-table-expanded-row {
+
+      .ant-table-cell {
+        padding: 12px 0 20px;
+
+        .expand-wrap {
+          width: 60%;
+          margin: 0 auto;
+
+          table {
+            border-collapse: collapse;
+
+            td, th {
+              padding: 12px 18px;
+              border-bottom: solid #dededf 1px;
+            }
+
+            th {
+              background-color: #dededf;
+            }
+
+            tr:last-child td {
+              border-bottom: 0 none;
+            }
+          }
+
+        }
+
+        .expand-footer {
+          width: 100%;
+          border-top: solid #dbdbde 1px;
+          padding: 20px 16px;
+          margin-top: 16px;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+      }
+    }
+
+  }
+}
