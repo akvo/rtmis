@@ -117,7 +117,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Questions
         fields = ['id', 'name', 'order', 'type', 'required',
-                  'dependency', 'option', 'center']
+                  'dependency', 'option', 'center', 'meta']
 
 
 # TODO: confirm Order in QuestionGroup model
@@ -135,6 +135,23 @@ class ListQuestionGroupSerializer(serializers.ModelSerializer):
         fields = ['name', 'question']
 
 
+class ListAdministrationCascadeSerializer(serializers.ModelSerializer):
+    value = serializers.ReadOnlyField(source='id')
+    label = serializers.ReadOnlyField(source='name')
+    level = serializers.ReadOnlyField(source='level.level')
+    children = serializers.SerializerMethodField()
+
+    def get_children(self, instance: Administration):
+        print(instance)
+        return ListAdministrationCascadeSerializer(
+            instance=instance.parent_administration.all(), many=True
+        ).data
+
+    class Meta:
+        model = Administration
+        fields = ['value', 'label', 'level', 'children']
+
+
 class FormDetailSerializer(serializers.ModelSerializer):
     question_group = serializers.SerializerMethodField()
     cascade = serializers.SerializerMethodField()
@@ -150,7 +167,7 @@ class FormDetailSerializer(serializers.ModelSerializer):
                               'administrator': ListAdministrationSerializer(
                                   many=True)}))
     def get_cascade(self, instance):
-        return {'administration': ListAdministrationSerializer(
+        return {'administration': ListAdministrationCascadeSerializer(
             instance=Administration.objects.filter(parent__isnull=True),
             many=True).data}
 
