@@ -36,9 +36,7 @@ def get_parent_id(df, x):
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        if Administration.objects.count():
-            print("Administration data Seeder has been performed")
-            exit()
+        Administration.objects.all().delete()
         geo = open(source_file, 'r')
         geo = json.load(geo)
         ob = geo["objects"]
@@ -81,6 +79,7 @@ class Command(BaseCommand):
         res = res.to_dict('records')
         for r in res:
             administration = Administration(
+                id=r.get("id"),
                 name=r.get("name"),
                 parent=Administration.objects.filter(
                     id=r.get("parent")).first(),
