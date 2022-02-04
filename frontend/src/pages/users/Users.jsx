@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./style.scss";
 import {
   Row,
@@ -14,6 +14,7 @@ import {
   Table,
 } from "antd";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
+import { store } from "../../lib";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -154,6 +155,14 @@ const renderDetails = (record) => {
 };
 
 const Users = () => {
+  const { isLoggedIn } = store.useState();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+  });
+
   return (
     <div id="users">
       <Row justify="space-between">

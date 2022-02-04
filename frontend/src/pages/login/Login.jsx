@@ -16,15 +16,9 @@ const styles = {
   },
 };
 
-const Login = (props) => {
+const Login = () => {
   const navigate = useNavigate();
   const { invitationId } = useParams();
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/control-center");
-    }
-  });
 
   if (invitationId != null) {
     api
@@ -43,8 +37,8 @@ const Login = (props) => {
       });
   }
 
+  let { user } = store.useState();
   // TODO: Check invitation ID to Server using API
-  let { isLoggedIn, user } = store.useState();
   return (
     <div id="login">
       <div className="background" style={styles.side} />

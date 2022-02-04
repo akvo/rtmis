@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./style.scss";
 import { Row, Col, Card, Button } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { api, store } from "../../lib";
 
 const datasets = [
@@ -36,14 +36,21 @@ const datasets = [
 ];
 
 const ControlCenter = () => {
+  const { isLoggedIn } = store.useState();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+  });
+
   const init = () => {
     // Test with an auth route here
     let url = `v1/health/check/`;
     api
       .get(url)
-      .then((res) => {
-        console.log("Res", res);
-      })
+      .then((res) => {})
       .catch((err) => {
         console.error(err.response.data.message);
       });

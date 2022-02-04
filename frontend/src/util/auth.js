@@ -4,7 +4,7 @@ import {
   Outlet,
 } from "react-router-dom";
 
-import { store } from "../lib";
+// import { store } from "../lib";
 
 export function PrivateRoute() {
   return <Outlet />;

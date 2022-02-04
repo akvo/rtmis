@@ -1,31 +1,30 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Space, Button, Menu, Dropdown } from "antd";
-import { DownOutlined, UserOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { config, store } from "../../lib";
 
 const Header = ({ className = "header", ...props }) => {
   const { isLoggedIn, user } = store.useState();
   const location = useLocation();
-  if (location.pathname.includes("/login")) {
-    return "";
-  }
-
-  const navigate = useNavigate();
 
   const signOut = async () => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("user");
+    store.update((s) => {
+      s.isLoggedIn = false;
+      s.user = null;
+    });
     navigate("login");
   };
 
   const userMenu = (
     <Menu>
-      <Menu.Item>
-        <a href="">Profile</a>
+      <Menu.Item key="controlCenter">
+        <Link to="/control-center">Control Center</Link>
       </Menu.Item>
-      <Menu.Item danger>
+      <Menu.Item key="signOut" danger>
         <a
           onClick={() => {
             signOut();
@@ -63,7 +62,9 @@ const Header = ({ className = "header", ...props }) => {
           <Dropdown overlay={userMenu}>
             <a
               className="ant-dropdown-link"
-              onClick={(e) => e.preventDefault()}
+              onClick={(e) => {
+                e.preventDefault();
+              }}
             >
               {user?.name}
               <span className="icon">
