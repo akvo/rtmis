@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
-import { useCookies } from 'react-cookie';
+// import { useCookies } from "react-cookie";
 import { api, store } from "../../lib";
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState(null);
+  // const [setCookie] = useCookies(["user"]);
+
   const onFinish = (values) => {
     let url = `v1/login/`;
     let postData = {
@@ -15,10 +17,11 @@ const LoginForm = () => {
       password: values.password,
     };
     api
-      .post(url, postData, { credentials: "include" })
+      .post(url, postData)
       .then((res) => {
+        console.log(res.data);
         if (res.status === 200) {
-          api.setToken(res.data.token);
+          api.setToken(res.token);
           let userData = {
             name: res.data.name,
             email: res.data.email,
@@ -28,16 +31,17 @@ const LoginForm = () => {
             s.isLoggedIn = true;
             s.user = userData;
           });
-          
-          localStorage.setItem("user", JSON.stringify(userData));
-          localStorage.setItem("isLoggedIn", true);
-          navigate("/control-center");
+          // let d = new Date();
+          // d.setTime(d.getTime() + (minutes*60*1000));
+          // setCookie("user", userData, { path: "/" });
+          // TODO: Get cookie set
+          navigate("/");
         } else {
           setMessage(res.message);
         }
       })
       .catch((err) => {
-        console.error(err.response.data.message);
+        console.error(err);
       });
   };
 
