@@ -3,8 +3,9 @@ from django.contrib.auth import authenticate
 from django.core import signing
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import status, serializers
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -13,7 +14,8 @@ from api.v1.v1_profile.models import Access, Administration
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     VerifyInviteSerializer, SetUserPasswordSerializer, \
-    ListAdministrationSerializer
+    ListAdministrationSerializer, AddUserSerializer
+from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
 
 
@@ -123,3 +125,32 @@ def list_administration(request, version, pk):
     instance = get_object_or_404(Administration, pk=pk)
     return Response(ListAdministrationSerializer(instance=instance).data,
                     status=status.HTTP_200_OK)
+
+
+@extend_schema(request=AddUserSerializer,
+               responses={
+                   (200, 'application/json'):
+                       inline_serializer("Response", fields={
+                           "message": serializers.CharField()
+                       })
+               },
+               tags=['User'],
+               description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
+                           'User:4')
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
+def add_user(request, version):
+    try:
+        serializer = AddUserSerializer(data=request.data,
+                                       context={'user': request.user})
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(serializer.errors)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        serializer.save()
+        return Response({'message': 'User added successfully'},
+                        status=status.HTTP_200_OK)
+    except Exception as ex:
+        return Response({'message': ex.args},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
