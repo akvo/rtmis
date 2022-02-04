@@ -36,7 +36,32 @@ class FormSeederTestCase(TestCase):
             self.assertIn(json_form, form_names)
 
         for id in form_ids:
-            response = self.client.get(f"/api/v1/form/{id}",
-                                       follow=True)
-
+            response = self.client.get(f"/api/v1/form/{id}", follow=True)
             self.assertEqual(200, response.status_code)
+
+        response = self.client.get("/api/v1/form/952774024", follow=True)
+        response = response.json()
+        self.assertEqual({"administration": []}, response["cascade"])
+        self.assertEqual("Water Quality",
+                         response["question_group"][0]["name"])
+        self.assertEqual(
+            {
+                "id": 968554020,
+                "name": "Can we conduct a water quality test?",
+                "option": [{
+                    "name": "Yes",
+                    "order": None
+                }, {
+                    "name": "No, no consent from respondent",
+                    "order": None
+                }, {
+                    "name": "No, not able to do",
+                    "order": None
+                }],
+                "dependency": None,
+                "center": None,
+                "type": "option",
+                "order": 1,
+                "required": True,
+                "meta": False,
+            }, response["question_group"][0]["question"][0])
