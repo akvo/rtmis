@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import { api, store } from "../../lib";
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState(null);
-  const [setCookie] = useCookies(["user"]);
 
   const onFinish = (values) => {
     let url = `v1/login/`;
@@ -19,7 +17,6 @@ const LoginForm = () => {
     api
       .post(url, postData)
       .then((res) => {
-        console.log(res.data);
         if (res.status === 200) {
           api.setToken(res.token);
           let userData = {

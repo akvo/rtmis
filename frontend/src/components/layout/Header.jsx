@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Space, Button, Menu, Dropdown } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import { config, store } from "../../lib";
 
 const Header = ({ className = "header", ...props }) => {
   const { isLoggedIn, user } = store.useState();
+  const [cookies, removeCookie] = useCookies(["user"]);
   const navigate = useNavigate();
   const location = useLocation();
+  const authUser = store.useState((state) => state.user);
 
   const signOut = async () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("user");
     store.update((s) => {
+      if (cookies["user"]) {
+        removeCookie("user");
+      }
       s.isLoggedIn = false;
       s.user = null;
     });
@@ -71,7 +75,7 @@ const Header = ({ className = "header", ...props }) => {
                 e.preventDefault();
               }}
             >
-              {user?.name}
+              {authUser?.name || ""}
               <span className="icon">
                 <UserOutlined />
               </span>

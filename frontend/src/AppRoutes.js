@@ -21,8 +21,8 @@ function AppRoutes() {
       setCookie("user", authUser, { path: "/" });
     } else if (!authUser && cookies["user"] != undefined) {
       store.update((s) => {
-        s.loggedIn = true;
-        s.user = JSON.stringify(cookies["user"]);
+        s.isLoggedIn = true;
+        s.user = cookies["user"];
       });
     }
   });
