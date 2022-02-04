@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Space, Button, Menu, Dropdown } from "antd";
 import { UserOutlined } from "@ant-design/icons";
@@ -11,7 +11,6 @@ const Header = ({ className = "header", ...props }) => {
   const [cookies, removeCookie] = useCookies(["user"]);
   const navigate = useNavigate();
   const location = useLocation();
-  const authUser = store.useState((state) => state.user);
 
   const signOut = async () => {
     store.update((s) => {
@@ -75,7 +74,7 @@ const Header = ({ className = "header", ...props }) => {
                 e.preventDefault();
               }}
             >
-              {authUser?.name || ""}
+              {user?.name || ""}
               <span className="icon">
                 <UserOutlined />
               </span>
