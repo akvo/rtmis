@@ -15,6 +15,7 @@ import {
 } from "antd";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { store } from "../../lib";
+import { useNavigate } from "react-router-dom";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -156,6 +157,7 @@ const renderDetails = (record) => {
 
 const Users = () => {
   const { isLoggedIn } = store.useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isLoggedIn) {

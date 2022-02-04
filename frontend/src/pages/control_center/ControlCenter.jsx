@@ -46,18 +46,17 @@ const ControlCenter = () => {
   });
 
   const init = () => {
-    // Test with an auth route here
-    let url = `v1/health/check/`;
+    let url = `v1/forms/`;
     api
       .get(url)
-      .then((res) => {})
+      .then(() => {})
       .catch((err) => {
         console.error(err.response.data.message);
       });
   };
 
   useEffect(() => {
-    init();
+    init(); // Test with an auth route
   }, []);
 
   return (

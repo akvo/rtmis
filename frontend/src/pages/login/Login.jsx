@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./style.scss";
 import { Row, Col } from "antd";
 import LoginForm from "./LoginForm";
@@ -17,7 +17,6 @@ const styles = {
 };
 
 const Login = () => {
-  const navigate = useNavigate();
   const { invitationId } = useParams();
 
   if (invitationId != null) {
