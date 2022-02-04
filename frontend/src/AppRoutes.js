@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -8,7 +8,7 @@ import {
 import { Home, Login, ControlCenter, Users, Forms } from "./pages";
 import { createBrowserHistory } from "history";
 import { useCookies } from "react-cookie";
-import { store } from "./lib";
+import { store, api } from "./lib";
 import { Layout } from "./components";
 
 function AppRoutes() {
@@ -16,16 +16,25 @@ function AppRoutes() {
 
   const authUser = store.useState((state) => state.user);
   const [cookies, setCookie] = useCookies(["user"]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    if (authUser && cookies["user"] == undefined) {
+    if (authUser && cookies?.user) {
       setCookie("user", authUser, { path: "/" });
-    } else if (!authUser && cookies["user"] != undefined) {
+      setLoading(false);
+    } else if (!authUser && cookies?.user) {
+      api.setToken(cookies.AUTH_TOKEN);
       store.update((s) => {
         s.isLoggedIn = true;
-        s.user = cookies["user"];
+        s.user = cookies.user;
       });
+      setLoading(false);
     }
-  });
+  }, []);
+
+  if (loading) {
+    return "Loading";
+  }
 
   return (
     <>

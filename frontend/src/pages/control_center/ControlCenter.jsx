@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "./style.scss";
 import { Row, Col, Card, Button } from "antd";
 import { Link } from "react-router-dom";
-import { api } from "../../lib";
+import { store, api } from "../../lib";
 
 const datasets = [
   {
@@ -36,6 +36,8 @@ const datasets = [
 ];
 
 const ControlCenter = () => {
+  const isLoggedIn = store.useState((state) => state.isLoggedIn);
+
   const init = () => {
     let url = `v1/forms/`;
     api
@@ -47,8 +49,10 @@ const ControlCenter = () => {
   };
 
   useEffect(() => {
-    init(); // Test with an auth route
-  }, []);
+    if (isLoggedIn) {
+      init(); // Test with an auth route
+    }
+  }, [isLoggedIn]);
 
   return (
     <div id="conter-center">
