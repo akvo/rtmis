@@ -121,8 +121,8 @@ class AddEditUserSerializer(serializers.ModelSerializer):
                     'You do not have permission to edit this user')
             if self.context.get(
                     'user').user_access.role == UserRoleTypes.admin \
-                    and self.instance.user_access.role not in [
-                UserRoleTypes.approver, UserRoleTypes.user]:
+                    and self.instance.user_access.role not in \
+                    [UserRoleTypes.approver, UserRoleTypes.user]:
                 raise ValidationError(
                     'You do not have permission to edit this user')
         if attrs.get('role') != UserRoleTypes.super_admin and attrs.get(
