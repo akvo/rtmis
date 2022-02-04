@@ -3,7 +3,7 @@ import "./style.scss";
 import { Row, Col } from "antd";
 import LoginForm from "./LoginForm";
 import RegistrationForm from "./RegistrationForm";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import backgroundImage from "../../assets/banner.png";
 import { api, config, store } from "../../lib";
 

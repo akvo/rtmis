@@ -7,7 +7,6 @@ import { config, store } from "../../lib";
 
 const Header = ({ className = "header", ...props }) => {
   const { isLoggedIn, user } = store.useState();
-  const location = useLocation();
   const navigate = useNavigate();
 
   const signOut = async () => {
