@@ -1,7 +1,7 @@
 from django.core import signing
 from django.core.signing import BadSignature
 from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema_field
+from drf_spectacular.utils import extend_schema_field, inline_serializer
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
@@ -136,3 +136,40 @@ class AddUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = SystemUser
         fields = ['first_name', 'last_name', 'email', 'administration', 'role']
+
+
+class UserAdministrationSerializer(serializers.ModelSerializer):
+    level = serializers.ReadOnlyField(source='level.level')
+
+    class Meta:
+        model = Administration
+        fields = ['id', 'name', 'level']
+
+
+class ListUserSerializer(serializers.ModelSerializer):
+    administration = serializers.SerializerMethodField()
+    role = serializers.SerializerMethodField()
+    invite = serializers.SerializerMethodField()
+
+    @extend_schema_field(UserAdministrationSerializer)
+    def get_administration(self, instance: SystemUser):
+        return UserAdministrationSerializer(
+            instance=instance.user_access.administration).data
+
+    @extend_schema_field(inline_serializer('role', fields={
+        'id': serializers.IntegerField(),
+        'value': serializers.CharField(),
+    }))
+    def get_role(self, instance: SystemUser):
+        return {
+            'id': instance.user_access.role,
+            'value': UserRoleTypes.FieldStr.get(instance.user_access.role)
+        }
+
+    def get_invite(self, instance: SystemUser):
+        return signing.dumps(instance.id)
+
+    class Meta:
+        model = SystemUser
+        fields = ['id', 'first_name', 'last_name', 'email', 'administration',
+                  'role', 'invite']

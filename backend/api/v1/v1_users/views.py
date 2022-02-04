@@ -14,7 +14,7 @@ from api.v1.v1_profile.models import Access, Administration
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     VerifyInviteSerializer, SetUserPasswordSerializer, \
-    ListAdministrationSerializer, AddUserSerializer
+    ListAdministrationSerializer, AddUserSerializer, ListUserSerializer
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
 
@@ -154,3 +154,26 @@ def add_user(request, version):
     except Exception as ex:
         return Response({'message': ex.args},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@extend_schema(responses={200: ListUserSerializer(many=True)},
+               tags=['User'])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
+def list_users(request, version):
+    filter_data = {}
+    if request.user.user_access.role != UserRoleTypes.super_admin:
+        children = Administration.objects.raw(
+            'WITH RECURSIVE subordinates AS ('
+            'SELECT id FROM administrator WHERE parent_id = {0} UNION '
+            'SELECT e.id FROM administrator e '
+            'INNER JOIN subordinates s ON s.id = e.parent_id) '
+            'SELECT * FROM subordinates;'.format(
+                request.user.user_access.administration.id))
+        administration_ids = [request.user.user_access.administration]
+        for child in children:
+            administration_ids.append(child.id)
+        filter_data['user_access__administration_id__in'] = administration_ids
+    return Response(ListUserSerializer(
+        instance=SystemUser.objects.filter(**filter_data),
+        many=True).data, status=status.HTTP_200_OK)
