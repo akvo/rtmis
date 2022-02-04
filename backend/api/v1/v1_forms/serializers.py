@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field, inline_serializer
 from rest_framework import serializers
@@ -13,6 +15,13 @@ from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
 
 
 class ListOptionSerializer(serializers.ModelSerializer):
+
+    def to_representation(self, instance):
+        result = super(ListOptionSerializer, self).to_representation(
+            instance)
+        return OrderedDict(
+            [(key, result[key]) for key in result if result[key] is not None])
+
     class Meta:
         model = QuestionOptions
         fields = ['name', 'order']
@@ -29,9 +38,14 @@ class ListQuestionSerializer(serializers.ModelSerializer):
                              QuestionTypes.cascade]:
             return QuestionTypes.FieldStr.get(
                 QuestionTypes.administration).lower()
-        return ListOptionSerializer(
-            instance=instance.question_question_options.all(),
-            many=True).data
+        if instance.type in [QuestionTypes.geo,
+                             QuestionTypes.administration,
+                             QuestionTypes.option,
+                             QuestionTypes.multiple_option]:
+            return ListOptionSerializer(
+                instance=instance.question_question_options.all(),
+                many=True).data
+        return None
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_type(self, instance: Questions):
@@ -48,6 +62,12 @@ class ListQuestionSerializer(serializers.ModelSerializer):
         if instance.type == QuestionTypes.geo:
             return FORM_GEO_VALUE
         return None
+
+    def to_representation(self, instance):
+        result = super(ListQuestionSerializer, self).to_representation(
+            instance)
+        return OrderedDict(
+            [(key, result[key]) for key in result if result[key] is not None])
 
     class Meta:
         model = Questions
