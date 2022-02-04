@@ -17,9 +17,9 @@ function AppRoutes() {
   const authUser = store.useState((state) => state.user);
   const [cookies, setCookie] = useCookies(["user"]);
   useEffect(() => {
-    if (authUser && cookies["user"] == "undefined") {
+    if (authUser && cookies["user"] == undefined) {
       setCookie("user", authUser, { path: "/" });
-    } else if (!authUser && cookies["user"] != "undefined") {
+    } else if (!authUser && cookies["user"] != undefined) {
       store.update((s) => {
         s.loggedIn = true;
         s.user = JSON.stringify(cookies["user"]);

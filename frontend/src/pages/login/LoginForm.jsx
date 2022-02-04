@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
-// import { useCookies } from "react-cookie";
+import { useCookies } from "react-cookie";
 import { api, store } from "../../lib";
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState(null);
-  // const [setCookie] = useCookies(["user"]);
+  const [setCookie] = useCookies(["user"]);
 
   const onFinish = (values) => {
     let url = `v1/login/`;
@@ -31,18 +31,12 @@ const LoginForm = () => {
             s.isLoggedIn = true;
             s.user = userData;
           });
-          // let d = new Date();
-          // d.setTime(d.getTime() + (minutes*60*1000));
-          // setCookie("user", userData, { path: "/" });
-          // TODO: Get cookie set
           navigate("/");
         } else {
           setMessage(res.message);
         }
       })
-      .catch((err) => {
-        console.error(err);
-      });
+      .catch(() => {});
   };
 
   return (
