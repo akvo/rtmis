@@ -31,9 +31,8 @@ class FormSeederTestCase(TestCase):
         form_names = [form.name for form in forms]
         form_ids = [form.id for form in forms]
         self.assertEqual(forms.count(), 5)
-        for i, o in enumerate(output):
-            json_form = json_forms[i]
-            self.assertEqual(o, f"Form Created | {json_form}")
+        for json_form in json_forms:
+            self.assertIn(f"Form Created | {json_form}", output)
             self.assertIn(json_form, form_names)
 
         for id in form_ids:
