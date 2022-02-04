@@ -108,8 +108,8 @@ class AddUserSerializer(serializers.ModelSerializer):
     def validate_administration(self, administration):
         if not self.context.get(
                 'user').user_access.role == UserRoleTypes.super_admin \
-                and administration.level.level <= self.context.get(
-            'user').user_access.administration.level.level:
+                and administration.level.level <= self.context.get('user') \
+                .user_access.administration.level.level:
             raise ValidationError({'You do not have permission to create '
                                    'user with selected administration.'})
         return administration
