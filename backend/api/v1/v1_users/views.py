@@ -56,7 +56,9 @@ def login(request, version):
         data = UserSerializer(instance=user).data
         data['token'] = str(refresh.access_token)
         data['invite'] = signing.dumps(user.pk)
-        return Response(data, status=status.HTTP_200_OK)
+        response = Response(data, status=status.HTTP_200_OK, )
+        response.set_cookie('AUTH_TOKEN', str(refresh.access_token))
+        return response
     return Response({'message': 'Invalid login credentials'},
                     status=status.HTTP_401_UNAUTHORIZED)
 

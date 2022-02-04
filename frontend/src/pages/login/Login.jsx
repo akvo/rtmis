@@ -16,7 +16,7 @@ const styles = {
   },
 };
 
-const Login = () => {
+const Login = (props) => {
   const navigate = useNavigate();
   const { invitationId } = useParams();
 

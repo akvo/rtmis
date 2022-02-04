@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Row, Col, Space, Button } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import { Link, useLocation } from "react-router-dom";
+import { Row, Col, Space, Button, Menu, Dropdown } from "antd";
+import { DownOutlined, UserOutlined } from "@ant-design/icons";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { config, store } from "../../lib";
 
 const Header = ({ className = "header", ...props }) => {
@@ -11,6 +11,32 @@ const Header = ({ className = "header", ...props }) => {
   if (location.pathname.includes("/login")) {
     return "";
   }
+
+  const navigate = useNavigate();
+
+  const signOut = async () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("user");
+    navigate("login");
+  };
+
+  const userMenu = (
+    <Menu>
+      <Menu.Item>
+        <a href="">Profile</a>
+      </Menu.Item>
+      <Menu.Item danger>
+        <a
+          onClick={() => {
+            signOut();
+          }}
+        >
+          Sign out
+        </a>
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <Row
       className={className}
@@ -32,14 +58,19 @@ const Header = ({ className = "header", ...props }) => {
           <Link to="/">How We Work</Link>
         </Space>
       </Col>
-      <Col className="menu">
+      <Col className="account">
         {isLoggedIn ? (
-          <Link to={"/"}>
-            {user.name}
-            <span className="icon">
-              <UserOutlined />
-            </span>
-          </Link>
+          <Dropdown overlay={userMenu}>
+            <a
+              className="ant-dropdown-link"
+              onClick={(e) => e.preventDefault()}
+            >
+              {user?.name}
+              <span className="icon">
+                <UserOutlined />
+              </span>
+            </a>
+          </Dropdown>
         ) : (
           <Link to={"/login"}>
             <Button type="primary" size="small">

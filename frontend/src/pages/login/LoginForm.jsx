@@ -13,7 +13,7 @@ const LoginForm = () => {
       password: values.password,
     };
     api
-      .post(url, postData)
+      .post(url, postData, { credentials: "include" })
       .then((res) => {
         api.setToken(res.data.token);
         let userData = {
@@ -21,8 +21,7 @@ const LoginForm = () => {
           email: res.data.email,
           invite: res.data.invite,
         };
-        localStorage.setItem("user", JSON.stringify(userData));
-        localStorage.setItem("isLoggedIn", true);
+        // TODO: Refresh token
         store.update((s) => {
           s.isLoggedIn = true;
           s.user = userData;
