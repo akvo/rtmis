@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Space, Button, Menu, Dropdown } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { config, store } from "../../lib";
 
 const Header = ({ className = "header", ...props }) => {
   const { isLoggedIn, user } = store.useState();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const signOut = async () => {
     localStorage.removeItem("isLoggedIn");
@@ -35,6 +36,10 @@ const Header = ({ className = "header", ...props }) => {
       </Menu.Item>
     </Menu>
   );
+
+  if (location.pathname.includes("/login")) {
+    return "";
+  }
 
   return (
     <Row

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
+import { useCookies } from 'react-cookie';
 import { api, store } from "../../lib";
 
 const LoginForm = () => {
@@ -23,11 +24,11 @@ const LoginForm = () => {
             email: res.data.email,
             invite: res.data.invite,
           };
-          // TODO: Refresh token
           store.update((s) => {
             s.isLoggedIn = true;
             s.user = userData;
           });
+          
           localStorage.setItem("user", JSON.stringify(userData));
           localStorage.setItem("isLoggedIn", true);
           navigate("/control-center");
