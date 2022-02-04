@@ -87,7 +87,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['email', 'name']
 
 
-class AddUserSerializer(serializers.ModelSerializer):
+class AddEditUserSerializer(serializers.ModelSerializer):
     administration = CustomPrimaryKeyRelatedField(
         queryset=Administration.objects.none())
     role = CustomChoiceField(choices=list(UserRoleTypes.FieldStr.keys()))
@@ -101,7 +101,7 @@ class AddUserSerializer(serializers.ModelSerializer):
         if self.context.get(
                 'user').user_access.role == UserRoleTypes.admin and \
                 role not in [UserRoleTypes.approver, UserRoleTypes.user]:
-            raise ValidationError({'You do not have permission to create '
+            raise ValidationError({'You do not have permission to create/edit '
                                    'user with selected role.'})
         return role
 
@@ -110,11 +110,21 @@ class AddUserSerializer(serializers.ModelSerializer):
                 'user').user_access.role == UserRoleTypes.super_admin \
                 and administration.level.level <= self.context.get('user') \
                 .user_access.administration.level.level:
-            raise ValidationError({'You do not have permission to create '
+            raise ValidationError({'You do not have permission to create/edit '
                                    'user with selected administration.'})
         return administration
 
     def validate(self, attrs):
+        if self.instance:
+            if self.instance == self.context.get('user'):
+                raise ValidationError(
+                    'You do not have permission to edit this user')
+            if self.context.get(
+                    'user').user_access.role == UserRoleTypes.admin \
+                    and self.instance.user_access.role not in [
+                UserRoleTypes.approver, UserRoleTypes.user]:
+                raise ValidationError(
+                    'You do not have permission to edit this user')
         if attrs.get('role') != UserRoleTypes.super_admin and attrs.get(
                 'administration').level.level == 0:
             raise ValidationError({
@@ -125,13 +135,24 @@ class AddUserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         administration = validated_data.pop('administration')
         role = validated_data.pop('role')
-        user = super(AddUserSerializer, self).create(validated_data)
+        user = super(AddEditUserSerializer, self).create(validated_data)
         Access.objects.create(
             user=user,
             administration=administration,
             role=role
         )
         return user
+
+    def update(self, instance, validated_data):
+        administration = validated_data.pop('administration')
+        role = validated_data.pop('role')
+        instance: SystemUser = super(AddEditUserSerializer, self).update(
+            instance, validated_data)
+
+        instance.user_access.role = role
+        instance.user_access.administration = administration
+        instance.user_access.save()
+        return instance
 
     class Meta:
         model = SystemUser

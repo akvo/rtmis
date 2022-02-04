@@ -14,7 +14,7 @@ from api.v1.v1_profile.models import Access, Administration
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     VerifyInviteSerializer, SetUserPasswordSerializer, \
-    ListAdministrationSerializer, AddUserSerializer, ListUserSerializer
+    ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
 
@@ -127,7 +127,7 @@ def list_administration(request, version, pk):
                     status=status.HTTP_200_OK)
 
 
-@extend_schema(request=AddUserSerializer,
+@extend_schema(request=AddEditUserSerializer,
                responses={
                    (200, 'application/json'):
                        inline_serializer("Response", fields={
@@ -141,8 +141,8 @@ def list_administration(request, version, pk):
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
 def add_user(request, version):
     try:
-        serializer = AddUserSerializer(data=request.data,
-                                       context={'user': request.user})
+        serializer = AddEditUserSerializer(data=request.data,
+                                           context={'user': request.user})
         if not serializer.is_valid():
             return Response(
                 {'message': validate_serializers_message(serializer.errors)},
@@ -177,3 +177,34 @@ def list_users(request, version):
     return Response(ListUserSerializer(
         instance=SystemUser.objects.filter(**filter_data),
         many=True).data, status=status.HTTP_200_OK)
+
+
+@extend_schema(request=AddEditUserSerializer,
+               responses={
+                   (200, 'application/json'):
+                       inline_serializer("Response", fields={
+                           "message": serializers.CharField()
+                       })
+               },
+               tags=['User'],
+               description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
+                           'User:4')
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
+def edit_user(request, version, pk):
+    instance = get_object_or_404(SystemUser, pk=pk)
+    try:
+        serializer = AddEditUserSerializer(data=request.data,
+                                           context={'user': request.user},
+                                           instance=instance)
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(serializer.errors)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        serializer.save()
+        return Response({'message': 'User added successfully'},
+                        status=status.HTTP_200_OK)
+    except Exception as ex:
+        return Response({'message': ex.args},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
