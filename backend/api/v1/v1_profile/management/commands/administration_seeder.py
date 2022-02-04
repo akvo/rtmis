@@ -3,6 +3,7 @@ import json
 import numpy as np
 from django.core.management import BaseCommand
 from api.v1.v1_profile.models import Levels, Administration
+from django.db.transaction import atomic
 
 geo_config = [{
     "level": 0,
@@ -35,6 +36,8 @@ def get_parent_id(df, x):
 
 
 class Command(BaseCommand):
+
+    @atomic
     def handle(self, *args, **options):
         Administration.objects.all().delete()
         geo = open(source_file, 'r')
@@ -85,4 +88,4 @@ class Command(BaseCommand):
                     id=r.get("parent")).first(),
                 level=Levels.objects.filter(level=r.get("level")).first())
             administration.save()
-        print('Data uploaded')
+        self.stdout.write('Data uploaded')

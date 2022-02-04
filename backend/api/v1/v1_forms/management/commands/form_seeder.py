@@ -2,6 +2,7 @@ import json
 import os
 
 from django.core.management import BaseCommand
+from django.db.transaction import atomic
 
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, QuestionGroup
@@ -14,6 +15,8 @@ source_files = [
 
 
 class Command(BaseCommand):
+
+    @atomic
     def handle(self, *args, **options):
         Forms.objects.all().delete()
         for source in source_files:
@@ -46,4 +49,4 @@ class Command(BaseCommand):
                             QuestionOptions(question=question, name=o["name"])
                             for o in q["options"]
                         ])
-            print(f"Form Created | {form.name}")
+            self.stdout.write(f"Form Created | {form.name}")
