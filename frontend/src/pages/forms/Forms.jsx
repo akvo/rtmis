@@ -32,10 +32,16 @@ const Forms = () => {
         const question = questions.find((q) => q.id === parseInt(v));
         let val = values[v];
         if (val) {
+          val =
+            question.type === "option"
+              ? [val]
+              : question.type === "geo"
+              ? [val.lat, val.lng]
+              : val;
           return {
             question: parseInt(v),
             type: question.type,
-            value: question.type === "option" ? [val] : val,
+            value: val,
             meta: question.meta,
           };
         }
