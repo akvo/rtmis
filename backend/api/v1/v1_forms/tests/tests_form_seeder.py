@@ -18,6 +18,7 @@ class FormSeederTestCase(TestCase):
 
     def test_call_command(self):
 
+        self.maxDiff = None
         output = self.call_command()
         json_forms = [
             "WASH in Health Centres",
@@ -44,24 +45,36 @@ class FormSeederTestCase(TestCase):
         self.assertEqual({"administration": []}, response["cascade"])
         self.assertEqual("Water Quality",
                          response["question_group"][0]["name"])
-        self.assertEqual(
-            {
+        self.assertEqual({
                 "id": 968554020,
                 "name": "Can we conduct a water quality test?",
                 "option": [{
                     "name": "Yes",
-                    "order": None
                 }, {
                     "name": "No, no consent from respondent",
-                    "order": None
                 }, {
                     "name": "No, not able to do",
-                    "order": None
                 }],
-                "dependency": None,
-                "center": None,
                 "type": "option",
                 "order": 1,
                 "required": True,
                 "meta": False,
             }, response["question_group"][0]["question"][0])
+
+        self.assertEqual({
+                "id": 996974044,
+                "name": "If yes, can we conduct a test on salinity (taste)?",
+                "option": [{
+                    "name": "Yes",
+                }, {
+                    "name": "No",
+                }],
+                "type": "option",
+                "order": 2,
+                "required": True,
+                "meta": False,
+                "dependency": [{
+                    "id": 968554020,
+                    "options": ["Yes"]
+                }],
+            }, response["question_group"][0]["question"][1])
