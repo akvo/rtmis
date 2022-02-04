@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Space, Button, Menu, Dropdown } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { config, store } from "../../lib";
 
 const Header = ({ className = "header", ...props }) => {
