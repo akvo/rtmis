@@ -2,7 +2,6 @@
 
 #root {
   #control-center {
-    
     .ant-card {
       margin-top: 20px;
     }
@@ -19,16 +18,14 @@
       text-align: left;
       padding: 0;
       padding-bottom: 72px;
-      // margin-top: 0;
-      
+
       .ant-card-body {
         padding: 24px 40px;
-        
+
         .ant-tabs {
           margin-top: 20px;
 
           .ant-table-cell {
-
             .ant-progress {
               margin-right: 20px;
             }
@@ -38,11 +35,9 @@
               text-align: center;
               background-color: #f2f2f5;
             }
-
           }
-          
-          .ant-table-cell:nth-child(2) {
 
+          .ant-table-cell:nth-child(2) {
             .row {
               justify-content: flex-start;
 
@@ -51,19 +46,14 @@
               }
 
               div:nth-child(3) {
-
                 div:nth-child(3) {
                   font-size: 12px;
                 }
               }
             }
-
           }
-
         }
-
       }
-
     }
 
     a {
@@ -74,7 +64,6 @@
         width: 100%;
       }
     }
-
 
     .row {
       display: flex;
@@ -93,9 +82,7 @@
           color: #595b65;
           margin-top: 20px;
         }
-
       }
     }
-    
   }
 }
