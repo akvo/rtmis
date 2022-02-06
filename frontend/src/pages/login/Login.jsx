@@ -35,9 +35,6 @@ const Login = () => {
           setLoading(false);
         })
         .catch(() => {
-          // if (err.response.status === 400) {
-          // Handle
-          // }
           setLoading(false);
         });
     }
@@ -80,7 +77,7 @@ const Login = () => {
                           Set your own password including the following criteria
                         </small>
                       </h1>
-                      <RegistrationForm />
+                      <RegistrationForm invite={invitedUser.invite} />
                     </>
                   ) : (
                     <div>
