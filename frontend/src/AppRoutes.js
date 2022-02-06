@@ -31,7 +31,7 @@ function AppRoutes() {
       setLoading(false);
     }
     setLoading(false);
-  }, [authUser, cookies.user, cookies.AUTH_TOKEN]);
+  }, [authUser, cookies, setCookie]);
 
   if (loading) {
     return "Loading";

@@ -114,7 +114,7 @@ const columns = [
     title: "",
     dataIndex: "key",
     key: "key",
-    render: (e) => <InfoCircleOutlined />,
+    render: () => <InfoCircleOutlined />,
   },
   {
     title: "File",
