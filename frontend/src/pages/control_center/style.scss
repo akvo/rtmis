@@ -1,7 +1,12 @@
 @import "../../variables";
 
 #root {
-  #conter-center {
+  #control-center {
+    
+    .ant-card {
+      margin-top: 20px;
+    }
+
     h1 {
       text-align: left;
       font: normal normal 600 68px/102px Poppins;
@@ -9,22 +14,88 @@
       color: #131523;
       opacity: 1;
     }
-    .card-wrapper {
-      margin-bottom: 30px;
 
-      .ant-card {
-        padding-bottom: 120px;
-        text-align: left;
+    .ant-card {
+      text-align: left;
+      padding: 0;
+      padding-bottom: 72px;
+      // margin-top: 0;
+      
+      .ant-card-body {
+        padding: 24px 40px;
+        
+        .ant-tabs {
+          margin-top: 20px;
+
+          .ant-table-cell {
+
+            .ant-progress {
+              margin-right: 20px;
+            }
+
+            .expand-body {
+              padding: 20px 0;
+              text-align: center;
+              background-color: #f2f2f5;
+            }
+
+          }
+          
+          .ant-table-cell:nth-child(2) {
+
+            .row {
+              justify-content: flex-start;
+
+              div:first-child {
+                margin-right: 10px;
+              }
+
+              div:nth-child(3) {
+
+                div:nth-child(3) {
+                  font-size: 12px;
+                }
+              }
+            }
+
+          }
+
+        }
+
       }
 
-      a {
-        &.explore {
-          display: block;
-          position: absolute;
-          bottom: 30px;
-          width: 100%;
-        }
+    }
+
+    a {
+      &.explore {
+        display: block;
+        position: absolute;
+        bottom: 40px;
+        width: 100%;
       }
     }
+
+
+    .row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      .flex-1 {
+        flex: 1;
+        padding-right: 17%;
+        text-align: left;
+
+        h2 {
+          font-size: 27px;
+          font-weight: 600;
+          color: #595b65;
+          margin-top: 20px;
+        }
+
+      }
+    }
+    
   }
 }

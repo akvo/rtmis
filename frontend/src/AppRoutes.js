@@ -19,10 +19,10 @@ function AppRoutes() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (authUser && cookies?.user) {
+    if (authUser && !cookies.user) {
       setCookie("user", authUser, { path: "/" });
       setLoading(false);
-    } else if (!authUser && cookies?.user) {
+    } else if (!authUser && cookies && cookies.user) {
       api.setToken(cookies.AUTH_TOKEN);
       store.update((s) => {
         s.isLoggedIn = true;
@@ -30,7 +30,8 @@ function AppRoutes() {
       });
       setLoading(false);
     }
-  }, []);
+    setLoading(false);
+  }, [authUser, cookies.user, cookies.AUTH_TOKEN]);
 
   if (loading) {
     return "Loading";

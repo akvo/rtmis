@@ -28,7 +28,7 @@ const LoginForm = () => {
             s.isLoggedIn = true;
             s.user = userData;
           });
-          navigate("/");
+          navigate("/control-center");
         } else {
           setMessage(res.message);
         }
