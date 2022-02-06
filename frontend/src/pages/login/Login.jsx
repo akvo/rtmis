@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./style.scss";
-import { Row, Col } from "antd";
+import { Row, Col, Spin } from "antd";
 import LoginForm from "./LoginForm";
 import RegistrationForm from "./RegistrationForm";
 import { Link, useParams } from "react-router-dom";
@@ -63,7 +63,14 @@ const Login = () => {
         </Col>
         <Col span={12} className="right-side">
           {loading ? (
-            <div>Loading</div>
+            <div>
+              <Spin />
+              <h2>
+                Verifying
+                <br />
+                <small>Please wait..</small>
+              </h2>
+            </div>
           ) : (
             <>
               {invitationId ? (
