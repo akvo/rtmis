@@ -3,6 +3,7 @@ import json
 import numpy as np
 from django.core.management import BaseCommand
 from api.v1.v1_profile.models import Levels, Administration
+from django.db.transaction import atomic
 
 geo_config = [{
     "level": 0,
@@ -35,10 +36,10 @@ def get_parent_id(df, x):
 
 
 class Command(BaseCommand):
+
+    @atomic
     def handle(self, *args, **options):
-        if Administration.objects.count():
-            print("Administration data Seeder has been performed")
-            exit()
+        Administration.objects.all().delete()
         geo = open(source_file, 'r')
         geo = json.load(geo)
         ob = geo["objects"]
@@ -81,9 +82,10 @@ class Command(BaseCommand):
         res = res.to_dict('records')
         for r in res:
             administration = Administration(
+                id=r.get("id"),
                 name=r.get("name"),
                 parent=Administration.objects.filter(
                     id=r.get("parent")).first(),
                 level=Levels.objects.filter(level=r.get("level")).first())
             administration.save()
-        print('Data uploaded')
+        self.stdout.write('Data uploaded')

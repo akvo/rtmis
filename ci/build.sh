@@ -55,8 +55,9 @@ backend_build () {
     dc -f docker-compose.test.yml -p backend-test run \
         --rm \
         backend ./run-qc.sh
+}
 
-    # Update dbdocs.io
+update_dbdocs() {
     if [[ "${CI_BRANCH}" ==  "main" || "${CI_BRANCH}" ==  "develop" ]]; then
         npm install -g dbdocs
         # dbdocs build doc/dbml/schema.dbml --project rtmis
@@ -75,3 +76,5 @@ if ! dci run -T ci ./basic.sh; then
   echo "Build failed when running basic.sh"
   exit 1
 fi
+
+update_dbdocs

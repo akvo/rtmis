@@ -1,18 +1,29 @@
-import os
 import json
+import os
+
 from django.core.management import BaseCommand
+from django.db.transaction import atomic
+
+from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, QuestionGroup
 from api.v1.v1_forms.models import Questions, QuestionOptions
-from api.v1.v1_forms.constants import QuestionTypes, FormTypes
-
-source_folder = './source/forms/'
-source_files = [
-    f"{source_folder}{json_file}" for json_file in os.listdir(source_folder)
-]
 
 
 class Command(BaseCommand):
+    def add_arguments(self, parser):
+        parser.add_argument("-t", "--test", nargs='?', default=1, type=int)
+
+    @atomic
     def handle(self, *args, **options):
+        test = options.get("test")
+        source_folder = './source/forms/'
+        source_files = [
+            f"{source_folder}{json_file}"
+            for json_file in os.listdir(source_folder)
+        ]
+        source_files = list(
+            filter(lambda x: "example" not in x
+                   if test else "example" in x, source_files))
         Forms.objects.all().delete()
         for source in source_files:
             json_form = open(source, 'r')
@@ -31,6 +42,8 @@ class Command(BaseCommand):
                         id=q.get("id"),
                         name=q["question"],
                         text=q["question"],
+                        order=q.get("order"),
+                        meta=q.get("meta"),
                         form=form,
                         question_group=question_group,
                         rule=q.get("rule"),
@@ -42,4 +55,4 @@ class Command(BaseCommand):
                             QuestionOptions(question=question, name=o["name"])
                             for o in q["options"]
                         ])
-            print(f"Form Created | {form.name}")
+            self.stdout.write(f"Form Created | {form.name}")

@@ -1,11 +1,12 @@
 import React from "react";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button, Checkbox, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { api, store } from "../../lib";
 
 const LoginForm = () => {
   const navigate = useNavigate();
+
   const onFinish = (values) => {
     let url = `v1/login/`;
     let postData = {
@@ -15,14 +16,12 @@ const LoginForm = () => {
     api
       .post(url, postData)
       .then((res) => {
-        api.setToken(res.data.token);
+        api.setToken(res.token);
         let userData = {
           name: res.data.name,
           email: res.data.email,
           invite: res.data.invite,
         };
-        localStorage.setItem("user", JSON.stringify(userData));
-        localStorage.setItem("isLoggedIn", true);
         store.update((s) => {
           s.isLoggedIn = true;
           s.user = userData;
@@ -30,7 +29,9 @@ const LoginForm = () => {
         navigate("/control-center");
       })
       .catch((err) => {
-        console.error(err.response.data.message);
+        if (err.response.status == 401 || err.response.status == 400) {
+          message.error(err.response.data.message);
+        }
       });
   };
 

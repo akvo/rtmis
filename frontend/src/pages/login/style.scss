@@ -74,6 +74,7 @@
         h1 {
           color: $white;
           font-weight: $font-weight-semi-bold;
+          margin-bottom: 20px;
 
           small {
             font-size: $font-size-regular;
@@ -81,8 +82,19 @@
           }
         }
 
+        h2 {
+          color: $white;
+          margin-top: 12px;
+
+          small {
+            color: #fffa;
+          }
+        }
+
         .ant-form {
           &.ant-form-vertical {
+            margin-top: 24px;
+
             .ant-form-item {
               .ant-form-item-label {
                 label {
@@ -112,6 +124,7 @@
             background-color: rgba(0, 88, 255, 0.4);
             border-radius: $border-radius;
             font-size: 12px;
+            margin-bottom: 9px;
 
             .ant-checkbox-inner {
               background-color: transparent;

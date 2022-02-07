@@ -1,16 +1,49 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Row, Col, Space, Button } from "antd";
+import { Row, Col, Space, Button, Menu, Dropdown } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import { config, store } from "../../lib";
 
 const Header = ({ className = "header", ...props }) => {
   const { isLoggedIn, user } = store.useState();
+  const [cookies, removeCookie] = useCookies(["user"]);
+  const navigate = useNavigate();
   const location = useLocation();
+
+  const signOut = async () => {
+    store.update((s) => {
+      if (cookies["user"]) {
+        removeCookie("user");
+      }
+      s.isLoggedIn = false;
+      s.user = null;
+    });
+    navigate("login");
+  };
+
+  const userMenu = (
+    <Menu>
+      <Menu.Item key="controlCenter">
+        <Link to="/control-center">Control Center</Link>
+      </Menu.Item>
+      <Menu.Item key="signOut" danger>
+        <a
+          onClick={() => {
+            signOut();
+          }}
+        >
+          Sign out
+        </a>
+      </Menu.Item>
+    </Menu>
+  );
+
   if (location.pathname.includes("/login")) {
     return "";
   }
+
   return (
     <Row
       className={className}
@@ -32,14 +65,21 @@ const Header = ({ className = "header", ...props }) => {
           <Link to="/">How We Work</Link>
         </Space>
       </Col>
-      <Col className="menu">
+      <Col className="account">
         {isLoggedIn ? (
-          <Link to={"/"}>
-            {user.name}
-            <span className="icon">
-              <UserOutlined />
-            </span>
-          </Link>
+          <Dropdown overlay={userMenu}>
+            <a
+              className="ant-dropdown-link"
+              onClick={(e) => {
+                e.preventDefault();
+              }}
+            >
+              {user?.name || ""}
+              <span className="icon">
+                <UserOutlined />
+              </span>
+            </a>
+          </Dropdown>
         ) : (
           <Link to={"/login"}>
             <Button type="primary" size="small">

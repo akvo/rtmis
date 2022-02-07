@@ -43,7 +43,7 @@ class FormApprovalRule(models.Model):
 
 
 class FormData(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.TextField()
     form = models.ForeignKey(to=Forms,
                              on_delete=models.CASCADE,
                              related_name='form_form_data')
@@ -56,9 +56,10 @@ class FormData(models.Model):
                                    related_name='form_data_created')
     updated_by = models.ForeignKey(to=SystemUser,
                                    on_delete=models.CASCADE,
-                                   related_name='form_data_updated')
+                                   related_name='form_data_updated',
+                                   default=None, null=True)
     created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField(default=None, null=True)
 
     def __str__(self):
         return self.name
@@ -68,7 +69,7 @@ class FormData(models.Model):
 
 
 class PendingFormData(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.TextField()
     form = models.ForeignKey(to=Forms,
                              on_delete=models.CASCADE,
                              related_name='pending_form_form_data')
@@ -107,7 +108,7 @@ class FormApprovalAssignment(models.Model):
     user = models.ForeignKey(to=SystemUser,
                              on_delete=models.CASCADE,
                              related_name='user_data_approval')
-    updated = models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField(default=None, null=True)
 
     def __str__(self):
         return self.user.email
@@ -199,7 +200,7 @@ class PendingAnswers(models.Model):
                                    on_delete=models.CASCADE,
                                    related_name='pending_answer_created')
     created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField(default=None, null=True)
 
     def __str__(self):
         return self.name
@@ -215,17 +216,17 @@ class Answers(models.Model):
     question = models.ForeignKey(to=Questions,
                                  on_delete=models.CASCADE,
                                  related_name='question_answer')
-    name = models.TextField()
+    name = models.TextField(null=True, default=None)
     value = models.BigIntegerField(null=True, default=None)
     options = models.JSONField(default=None, null=True)
     created_by = models.ForeignKey(to=SystemUser,
                                    on_delete=models.CASCADE,
                                    related_name='answer_created')
     created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField(default=None, null=True)
 
     def __str__(self):
-        return self.name
+        return self.data.name
 
     class Meta:
         db_table = 'answer'
@@ -245,7 +246,7 @@ class AnswerHistory(models.Model):
                                       on_delete=models.CASCADE,
                                       related_name='answer_history_created')
     created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField(default=None, null=True)
 
     def __str__(self):
         return self.name

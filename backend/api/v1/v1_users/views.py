@@ -3,8 +3,9 @@ from django.contrib.auth import authenticate
 from django.core import signing
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import status, serializers
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -13,7 +14,8 @@ from api.v1.v1_profile.models import Access, Administration
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     VerifyInviteSerializer, SetUserPasswordSerializer, \
-    ListAdministrationSerializer
+    ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer
+from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
 
 
@@ -56,7 +58,9 @@ def login(request, version):
         data = UserSerializer(instance=user).data
         data['token'] = str(refresh.access_token)
         data['invite'] = signing.dumps(user.pk)
-        return Response(data, status=status.HTTP_200_OK)
+        response = Response(data, status=status.HTTP_200_OK, )
+        response.set_cookie('AUTH_TOKEN', str(refresh.access_token))
+        return response
     return Response({'message': 'Invalid login credentials'},
                     status=status.HTTP_401_UNAUTHORIZED)
 
@@ -121,3 +125,86 @@ def list_administration(request, version, pk):
     instance = get_object_or_404(Administration, pk=pk)
     return Response(ListAdministrationSerializer(instance=instance).data,
                     status=status.HTTP_200_OK)
+
+
+@extend_schema(request=AddEditUserSerializer,
+               responses={
+                   (200, 'application/json'):
+                       inline_serializer("Response", fields={
+                           "message": serializers.CharField()
+                       })
+               },
+               tags=['User'],
+               description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
+                           'User:4')
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
+def add_user(request, version):
+    try:
+        serializer = AddEditUserSerializer(data=request.data,
+                                           context={'user': request.user})
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(serializer.errors)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        serializer.save()
+        return Response({'message': 'User added successfully'},
+                        status=status.HTTP_200_OK)
+    except Exception as ex:
+        return Response({'message': ex.args},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@extend_schema(responses={200: ListUserSerializer(many=True)},
+               tags=['User'])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
+def list_users(request, version):
+    filter_data = {}
+    if request.user.user_access.role != UserRoleTypes.super_admin:
+        children = Administration.objects.raw(
+            'WITH RECURSIVE subordinates AS ('
+            'SELECT id FROM administrator WHERE parent_id = {0} UNION '
+            'SELECT e.id FROM administrator e '
+            'INNER JOIN subordinates s ON s.id = e.parent_id) '
+            'SELECT * FROM subordinates;'.format(
+                request.user.user_access.administration.id))
+        administration_ids = [request.user.user_access.administration]
+        for child in children:
+            administration_ids.append(child.id)
+        filter_data['user_access__administration_id__in'] = administration_ids
+    return Response(ListUserSerializer(
+        instance=SystemUser.objects.filter(**filter_data),
+        many=True).data, status=status.HTTP_200_OK)
+
+
+@extend_schema(request=AddEditUserSerializer,
+               responses={
+                   (200, 'application/json'):
+                       inline_serializer("Response", fields={
+                           "message": serializers.CharField()
+                       })
+               },
+               tags=['User'],
+               description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
+                           'User:4')
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
+def edit_user(request, version, pk):
+    instance = get_object_or_404(SystemUser, pk=pk)
+    try:
+        serializer = AddEditUserSerializer(data=request.data,
+                                           context={'user': request.user},
+                                           instance=instance)
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(serializer.errors)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        serializer.save()
+        return Response({'message': 'User added successfully'},
+                        status=status.HTTP_200_OK)
+    except Exception as ex:
+        return Response({'message': ex.args},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)

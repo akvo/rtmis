@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button, Checkbox, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import { useNavigate } from "react-router-dom";
@@ -10,17 +10,15 @@ const checkBoxOptions = [
   { name: "Special Character", re: /[-._!"`'#%&,:;<>=@{}~$()*+/?[\]^|]/ },
 ];
 
-const RegistrationForm = () => {
-  const { user } = store.useState();
+const RegistrationForm = (props) => {
+  const { invite } = props;
   const [checkedList, setCheckedList] = useState([]);
   const navigate = useNavigate();
 
   const onFinish = (values) => {
-    // TODO: PUSH TO API
-    console.info("Received values of form: ", values);
     let url = `v1/set/user/password/`;
     let postData = {
-      invite: user.invite,
+      invite,
       password: values.password,
       confirm_password: values.confirm,
     };
@@ -33,12 +31,11 @@ const RegistrationForm = () => {
           email: res.data.email,
           invite: res.data.invite,
         };
-        localStorage.setItem("user", JSON.stringify(userData));
-        localStorage.setItem("isLoggedIn", true);
         store.update((s) => {
           s.isLoggedIn = true;
           s.user = userData;
         });
+        message.success("Password updated successfully");
         navigate("/control-center");
       })
       .catch((err) => {

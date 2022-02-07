@@ -1,30 +1,13 @@
 import "./App.scss";
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { createBrowserHistory } from "history";
-import { Layout } from "./components";
-import { Home, Login, ControlCenter } from "./pages";
-
-const history = createBrowserHistory();
+import { CookiesProvider } from "react-cookie";
+import AppRoutes from "./AppRoutes";
 
 const App = () => {
   return (
-    <Router history={history}>
-      <Layout>
-        <Layout.Header />
-        <Layout.Banner />
-        <Layout.Body>
-          <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route exact path="/login" element={<Login />} />
-            <Route exact path="/login/:invitationId" element={<Login />} />
-            <Route exact path="/control-center" element={<ControlCenter />} />
-            <Route exact path="/data" element={<Home />} />
-          </Routes>
-        </Layout.Body>
-        <Layout.Footer />
-      </Layout>
-    </Router>
+    <CookiesProvider>
+      <AppRoutes></AppRoutes>
+    </CookiesProvider>
   );
 };
 
