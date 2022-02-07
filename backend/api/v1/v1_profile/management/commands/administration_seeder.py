@@ -39,7 +39,9 @@ class Command(BaseCommand):
 
     @atomic
     def handle(self, *args, **options):
-        Administration.objects.all().delete()
+        if Administration.objects.count():
+            self.stdout.write("You have performed administration seeder")
+            exit()
         geo = open(source_file, 'r')
         geo = json.load(geo)
         ob = geo["objects"]
@@ -88,4 +90,4 @@ class Command(BaseCommand):
                     id=r.get("parent")).first(),
                 level=Levels.objects.filter(level=r.get("level")).first())
             administration.save()
-        self.stdout.write('Data uploaded')
+        self.stdout.write('-- FINISH')
