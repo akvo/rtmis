@@ -21,10 +21,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = environ["DJANGO_SECRET"]
-# SECRET_KEY = 'hhs--tj$3)t1c5=@szen*ud%*#@yn-8g$lm+2dvja-9^4h_tba'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = environ["DEBUG"]
+DEBUG = True if "DEBUG" in environ else False
 
 ALLOWED_HOSTS = ['*']
 
@@ -115,17 +114,7 @@ SIMPLE_JWT = {
 }
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-#
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'rtmis',
-#         'USER': 'postgres',
-#         'PASSWORD': 'Test105*',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
