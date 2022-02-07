@@ -12,4 +12,4 @@ RUN set -e; \
 copy . /app/
 
 
-CMD ["./start.sh"]
+CMD ["./run.sh"]

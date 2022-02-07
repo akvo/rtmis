@@ -4,7 +4,7 @@ services:
   backend:
     image: python:3.8.5
     working_dir: /app
-    command: ["./start.sh"]
+    command: ["./run.sh"]
     volumes:
       - ./backend:/app:delegated
     environment:

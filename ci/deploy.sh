@@ -4,9 +4,6 @@ set -exuo pipefail
 [[ "${CI_BRANCH}" !=  "main" && ! "${CI_TAG:=}" =~ promote.* ]] && { echo "Branch different than main and not a tag. Skip deploy"; exit 0; }
 [[ "${CI_PULL_REQUEST}" ==  "true" ]] && { echo "Pull request. Skip deploy"; exit 0; }
 
-PODS="backend frontend"
-PREFIX="eu.gcr.io/akvo-lumen/rtmis"
-
 auth () {
     gcloud auth activate-service-account --key-file=/home/semaphore/.secrets/gcp.json
     gcloud config set project akvo-lumen
@@ -14,6 +11,11 @@ auth () {
     gcloud config set compute/zone europe-west1-d
     gcloud config set container/use_client_certificate False
     gcloud auth configure-docker "eu.gcr.io"
+}
+
+push_image () {
+    prefix="eu.gcr.io/akvo-lumen/rtmis"
+    docker push "${prefix}/${1}:${CI_COMMIT}"
 }
 
 prepare_deployment () {
@@ -36,13 +38,13 @@ apply_deployment () {
 
 auth
 
-for POD in ${PODS}
-do
-    docker push "$PREFIX/$POD:latest"
-    echo "$PREFIX/$POD image pushed"
-done
+if [[ -z "${CI_TAG:=}" ]]; then
+    push_image backend
+    push_image frontend
+fi
 
 prepare_deployment
 apply_deployment
 
 ci/k8s/wait-for-k8s-deployment-to-be-ready.sh
+
