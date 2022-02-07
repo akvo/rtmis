@@ -9,7 +9,7 @@
           "id": 1,
           "question": "Name",
           "meta": true,
-          "type": "option",
+          "type": "text",
           "required": true
         },
         {
@@ -39,13 +39,20 @@
         },
         {
           "id": 4,
+          "question": "Location",
+          "meta": true,
+          "type": "cascade",
+          "required": true
+        },
+        {
+          "id": 5,
           "question": "Geolocation",
           "meta": true,
           "type": "geo",
           "required": true
         },
         {
-          "id": 5,
+          "id": 6,
           "question": "Available Family Members",
           "meta": true,
           "type": "multiple_option",
