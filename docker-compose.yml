@@ -12,6 +12,7 @@ services:
       - DB_USER=akvo
       - DB_PASSWORD=password
       - DB_HOST=db
+      - DEBUG=True
       - DJANGO_SECRET=local-secret
     depends_on:
       - db

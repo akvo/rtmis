@@ -24,7 +24,7 @@ SECRET_KEY = environ["DJANGO_SECRET"]
 # SECRET_KEY = 'hhs--tj$3)t1c5=@szen*ud%*#@yn-8g$lm+2dvja-9^4h_tba'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = environ["DEBUG"]
 
 ALLOWED_HOSTS = ['localhost', 'rtmis.akvo.org', 'rtmis.akvotest.org']
 
