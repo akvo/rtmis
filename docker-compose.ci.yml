@@ -12,6 +12,7 @@ services:
       - DB_PASSWORD=password
       - DB_HOST=db
       - DJANGO_SECRET=ci-secret
+      - DEBUG=True
     image: eu.gcr.io/akvo-lumen/rtmis/backend:latest
     network_mode: service:mainnetwork
     restart: always
