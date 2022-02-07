@@ -5,6 +5,7 @@ set -exuo pipefail
 [[ "${CI_PULL_REQUEST}" ==  "true" ]] && { echo "Pull request. Skip deploy"; exit 0; }
 
 PODS="backend frontend"
+PREFIX="eu.gcr.io/akvo-lumen/rtmis"
 
 auth () {
     gcloud auth activate-service-account --key-file=/home/semaphore/.secrets/gcp.json
@@ -15,11 +16,33 @@ auth () {
     gcloud auth configure-docker "eu.gcr.io"
 }
 
+prepare_deployment () {
+    cluster="test"
+
+    if [[ "${CI_TAG:=}" =~ promote.* ]]; then
+        cluster="production"
+    fi
+
+    gcloud container clusters get-credentials "${cluster}"
+
+    sed -e "s/\${CI_COMMIT}/${CI_COMMIT}/g;" \
+        ci/k8s/deployment.yml.template > ci/k8s/deployment.yml
+}
+
+apply_deployment () {
+    kubectl apply -f ci/k8s/deployment.yml
+    kubectl apply -f ci/k8s/service.yml
+}
+
 auth
 
 for POD in ${PODS}
 do
-    docker push "eu.gcr.io/akvo-lumen/rtmis/$POD:latest"
-    echo "$POD image pushed"
+    docker push "$PREFIX/$POD:latest"
+    echo "$PREFIX/$POD image pushed"
 done
 
+prepare_deployment
+apply_deployment
+
+ci/k8s/wait-for-k8s-deployment-to-be-ready.sh
