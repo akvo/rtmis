@@ -18,6 +18,7 @@ services:
       - SEMAPHORE_JOB_ID=${SEMAPHORE_JOB_ID:-}
       - SEMAPHORE_WORKFLOW_ID=${SEMAPHORE_WORKFLOW_ID:-}
       - SEMAPHORE_GIT_PR_NUMBER=${SEMAPHORE_GIT_PR_NUMBER:-}
+      - DEBUG=True
     depends_on:
       - db
     command: tail -f /dev/null
