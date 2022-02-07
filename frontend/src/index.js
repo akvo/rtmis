@@ -1,14 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+import { createBrowserHistory } from "history";
+import { CookiesProvider } from "react-cookie";
 import "antd/dist/antd.min.css";
 import "./index.scss"; // Only for overriding antd
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+const history = createBrowserHistory();
+
 ReactDOM.render(
-  // <React.StrictMode>
-  <App />,
-  // </React.StrictMode>,
+  <CookiesProvider>
+    <Router history={history}>
+      <App />
+    </Router>
+  </CookiesProvider>,
   document.getElementById("root")
 );
 
