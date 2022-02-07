@@ -3,4 +3,4 @@
 
 python manage.py migrate
 python manage.py administration_seeder
-gunicorn rtmis.wsgi:application
+gunicorn --capture-output rtmis.wsgi:application
