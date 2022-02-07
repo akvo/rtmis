@@ -40,7 +40,7 @@ spec:
             - containerPort: 8000
           env:
             - name: DEBUG
-              value: False
+              value: "False"
             - name: DB_SCHEMA
               valueFrom:
                 secretKeyRef:
