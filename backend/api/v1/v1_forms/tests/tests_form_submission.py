@@ -5,6 +5,21 @@ from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Administration, Levels
 
 
+def seed_administration_test():
+    level = Levels(name="country", level=1)
+    level.save()
+    administration = Administration(id=1,
+                                    name="Indonesia",
+                                    parent=None,
+                                    level=level)
+    administration.save()
+    administration = Administration(id=2,
+                                    name="Jakarta",
+                                    parent=administration,
+                                    level=level)
+    administration.save()
+
+
 class FormSubmissionTestCase(TestCase):
     def call_command(self, *args, **kwargs):
         out = StringIO()
@@ -17,19 +32,38 @@ class FormSubmissionTestCase(TestCase):
         )
         return out.getvalue()
 
+    def test_webform_endpoint(self):
+
+        self.maxDiff = None
+        self.call_command()
+        seed_administration_test()
+        webform = self.client.get("/api/v1/form/1", follow=True)
+        webform = webform.json()
+        self.assertEqual(webform.get("name"), "Test Form")
+        question_group = webform.get("question_group")
+        self.assertEqual(len(question_group), 1)
+        self.assertEqual(question_group[0].get("name"), "Question Group 01")
+        question = question_group[0].get("question")
+        self.assertEqual(question[3]["type"], "cascade")
+        self.assertEqual(question[3]["option"], "administration")
+        self.assertEqual(
+            webform.get("cascade"), {
+                "administration":
+                [{
+                    "label": "Indonesia",
+                    "value": 1,
+                    "children": [{
+                        "label": "Jakarta",
+                        "value": 2,
+                        "children": []
+                    }]
+                }]
+            })
+
     def test_create_new_submission(self):
 
         self.maxDiff = None
-        level = Levels(name="country", level=1)
-        level.save()
-        administration = Administration(name="Indonesia",
-                                        parent=None,
-                                        level=level)
-        administration.save()
-        administration = Administration(name="Jakarta",
-                                        parent=administration,
-                                        level=level)
-        administration.save()
+        seed_administration_test()
         user = {"email": "admin@rtmis.com", "password": "Test105*"}
         user = self.client.post('/api/v1/login/',
                                 user,
