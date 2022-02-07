@@ -12,4 +12,4 @@ RUN set -e; \
 copy . /app/
 
 
-CMD ["./run.sh"]
+CMD ["./run-prod.sh"]
