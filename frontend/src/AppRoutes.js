@@ -5,7 +5,7 @@ import {
   Navigate,
   Routes,
 } from "react-router-dom";
-import { Home, Login, ControlCenter, Users, Forms } from "./pages";
+import { Home, Login, ControlCenter, Users, AddUser, Forms } from "./pages";
 import { createBrowserHistory } from "history";
 import { useCookies } from "react-cookie";
 import { store, api } from "./lib";
@@ -53,6 +53,10 @@ function AppRoutes() {
               <Route
                 path="/users"
                 element={authUser ? <Users /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="/user/add"
+                element={authUser ? <AddUser /> : <Navigate to="/login" />}
               />
               <Route
                 path="/control-center"

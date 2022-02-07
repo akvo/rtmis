@@ -13,6 +13,7 @@ import {
   Typography,
   Table,
 } from "antd";
+import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
@@ -182,7 +183,9 @@ const Users = () => {
           </Breadcrumb>
         </Col>
         <Col>
-          <Button type="primary">Add new user</Button>
+          <Link to="/user/add">
+            <Button type="primary">Add new user</Button>
+          </Link>
         </Col>
       </Row>
       <Divider />
