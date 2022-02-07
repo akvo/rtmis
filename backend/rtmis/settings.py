@@ -26,7 +26,9 @@ SECRET_KEY = environ["DJANGO_SECRET"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = environ["DEBUG"]
 
-ALLOWED_HOSTS = ['localhost', 'rtmis.akvo.org', 'rtmis.akvotest.org']
+ALLOWED_HOSTS = [
+    'localhost', '10.12.6.121', 'rtmis.akvo.org', 'rtmis.akvotest.org'
+]
 
 # Application definition
 
@@ -89,14 +91,18 @@ WSGI_APPLICATION = 'rtmis.wsgi.application'
 
 # Rest Settings
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
-    'DATE_FORMAT': "%d-%m-%Y",
-    "DEFAULT_VERSION": "v1",
-    "DATETIME_FORMAT": "%d-%m-%Y %H:%M:%S",
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES':
+    ('rest_framework_simplejwt.authentication.JWTAuthentication', ),
+    'DEFAULT_VERSIONING_CLASS':
+    'rest_framework.versioning.URLPathVersioning',
+    'DATE_FORMAT':
+    "%d-%m-%Y",
+    "DEFAULT_VERSION":
+    "v1",
+    "DATETIME_FORMAT":
+    "%d-%m-%Y %H:%M:%S",
+    'DEFAULT_SCHEMA_CLASS':
+    'drf_spectacular.openapi.AutoSchema',
 }
 SPECTACULAR_SETTINGS = {
     'TITLE': 'RTMIS',
@@ -136,24 +142,23 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation'
-                '.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation'
-                '.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation'
-                '.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation'
-                '.NumericPasswordValidator',
-    }
-]
+AUTH_PASSWORD_VALIDATORS = [{
+    'NAME':
+    'django.contrib.auth.password_validation'
+    '.UserAttributeSimilarityValidator',
+}, {
+    'NAME':
+    'django.contrib.auth.password_validation'
+    '.MinimumLengthValidator',
+}, {
+    'NAME':
+    'django.contrib.auth.password_validation'
+    '.CommonPasswordValidator',
+}, {
+    'NAME':
+    'django.contrib.auth.password_validation'
+    '.NumericPasswordValidator',
+}]
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -178,7 +183,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "v1_users.SystemUser"
 
-FORM_GEO_VALUE = {
-    "lat": 9.145,
-    "lng": 40.4897
-}
+FORM_GEO_VALUE = {"lat": 9.145, "lng": 40.4897}
