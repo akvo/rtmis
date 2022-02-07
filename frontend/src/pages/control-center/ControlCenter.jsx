@@ -193,7 +193,7 @@ const ControlCenter = () => {
   return (
     <div id="control-center">
       <h1>Control Center</h1>
-      <Row gutter={16}>
+      <Row gutter={[16, 16]}>
         {datasets.map((dataset, index) => (
           <Col className="card-wrapper" span={12} key={index}>
             <Card bordered={false} hoverable>
@@ -212,53 +212,55 @@ const ControlCenter = () => {
             </Card>
           </Col>
         ))}
-      </Row>
 
-      <Card bordered={false} hoverable>
-        <div className="row">
-          <div className="flex-1">
-            <h2>Approvals</h2>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-              faucibus nisi at quam bibendum consequat. Maecenas tempor accumsan
-              enim. Integer luctus, eros ut maximus gravida
-            </p>
-          </div>
-          <div>
-            <img
-              src={require("../../assets/approval.png")}
-              width={100}
-              height={100}
-            />
-          </div>
-        </div>
-        <Tabs defaultActiveKey="1" onChange={() => {}}>
-          <TabPane tab="My Pending Approvals" key="1">
-            <Table
-              dataSource={approvalsPending}
-              columns={columns}
-              expandable={{
-                expandedRowRender: renderDetails,
-                expandIcon: ({ expanded, onExpand, record }) =>
-                  expanded ? (
-                    <CloseSquareOutlined
-                      onClick={(e) => onExpand(record, e)}
-                      style={{ color: "#e94b4c" }}
-                    />
-                  ) : (
-                    <PlusSquareOutlined
-                      onClick={(e) => onExpand(record, e)}
-                      style={{ color: "#7d7d7d" }}
-                    />
-                  ),
-              }}
-            />
-          </TabPane>
-          <TabPane tab="Subordinates Approvals" key="2">
-            <Table dataSource={approvalsSubordinates} columns={columns} />
-          </TabPane>
-        </Tabs>
-      </Card>
+        <Col span={24}>
+          <Card bordered={false}>
+            <div className="row">
+              <div className="flex-1">
+                <h2>Approvals</h2>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
+                  faucibus nisi at quam bibendum consequat. Maecenas tempor
+                  accumsan enim. Integer luctus, eros ut maximus gravida
+                </p>
+              </div>
+              <div>
+                <img
+                  src={require("../../assets/approval.png")}
+                  width={100}
+                  height={100}
+                />
+              </div>
+            </div>
+            <Tabs defaultActiveKey="1" onChange={() => {}}>
+              <TabPane tab="My Pending Approvals" key="1">
+                <Table
+                  dataSource={approvalsPending}
+                  columns={columns}
+                  expandable={{
+                    expandedRowRender: renderDetails,
+                    expandIcon: ({ expanded, onExpand, record }) =>
+                      expanded ? (
+                        <CloseSquareOutlined
+                          onClick={(e) => onExpand(record, e)}
+                          style={{ color: "#e94b4c" }}
+                        />
+                      ) : (
+                        <PlusSquareOutlined
+                          onClick={(e) => onExpand(record, e)}
+                          style={{ color: "#7d7d7d" }}
+                        />
+                      ),
+                  }}
+                />
+              </TabPane>
+              <TabPane tab="Subordinates Approvals" key="2">
+                <Table dataSource={approvalsSubordinates} columns={columns} />
+              </TabPane>
+            </Tabs>
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 };
