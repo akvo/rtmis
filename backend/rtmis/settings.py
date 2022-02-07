@@ -26,7 +26,7 @@ SECRET_KEY = environ["DJANGO_SECRET"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'rtmis.akvo.org']
+ALLOWED_HOSTS = ['localhost', 'rtmis.akvo.org', 'rtmis.akvotest.org']
 
 # Application definition
 
