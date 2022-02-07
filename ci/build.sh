@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 #shellcheck disable=SC2039
 
-docker-compose --version
-
 set -exuo pipefail
 
 if grep -q .yml .gitignore; then
@@ -13,7 +11,6 @@ fi
 
 [[ -n "${CI_TAG:=}" ]] && { echo "Skip build"; exit 0; }
 
-CI_COMMIT=1
 image_prefix="eu.gcr.io/akvo-lumen/rtmis"
 
 dc () {
