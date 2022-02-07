@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { createMemoryHistory } from "history";
 import { CookiesProvider } from "react-cookie";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
