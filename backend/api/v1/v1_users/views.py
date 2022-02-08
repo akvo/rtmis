@@ -203,7 +203,7 @@ def edit_user(request, version, pk):
                 status=status.HTTP_400_BAD_REQUEST
             )
         serializer.save()
-        return Response({'message': 'User added successfully'},
+        return Response({'message': 'User updated successfully'},
                         status=status.HTTP_200_OK)
     except Exception as ex:
         return Response({'message': ex.args},
