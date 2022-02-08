@@ -25,7 +25,7 @@ const Login = () => {
     if (invitationId) {
       setLoading(true);
       api
-        .post("v1/verify/invite/", { invite: invitationId })
+        .post("verify/invite/", { invite: invitationId })
         .then((res) => {
           setInvitedUser({
             name: res.data.name,

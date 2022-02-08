@@ -9,7 +9,7 @@ const LoginForm = () => {
 
   const onFinish = (values) => {
     api
-      .post("v1/login", {
+      .post("login/", {
         email: values.email,
         password: values.password,
       })
