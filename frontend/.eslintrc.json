@@ -46,9 +46,9 @@
         "ignoreEOLComments": true
       }
     ],
+    "eqeqeq": "warn",
     "semi": "warn",
     "no-delete-var": "warn",
-    "eqeqeq": "warn",
     "prefer-arrow-callback": "error",
     "react/prefer-stateless-function": "warn",
     "react-hooks/rules-of-hooks": "warn",

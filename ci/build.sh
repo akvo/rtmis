@@ -19,7 +19,7 @@ fi
 
 if grep -q "frontend" <<< "${COMMIT_CONTENT}"
 then
-    BACKEND_CHANGES=1
+    FRONTEND_CHANGES=1
 fi
 
 if [[ "${CI_BRANCH}" ==  "main" || "${CI_BRANCH}" ==  "develop" ]];
