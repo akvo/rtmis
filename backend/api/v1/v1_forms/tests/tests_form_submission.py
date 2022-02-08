@@ -1,6 +1,8 @@
 from io import StringIO
+
 from django.core.management import call_command
 from django.test import TestCase
+
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Administration, Levels
 
@@ -72,7 +74,6 @@ class FormSubmissionTestCase(TestCase):
         self.call_command()
         form = Forms.objects.first()
         self.assertEqual(form.name, "Test Form")
-        self.assertEqual(["email", "name", "token", "invite"], list(user))
         payload = {
             "data": {
                 "name": "Testing Data",
