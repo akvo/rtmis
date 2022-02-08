@@ -37,7 +37,12 @@
     "no-else-return": "warn",
     "no-unused-vars": "warn",
     "semi": "warn",
+    "no-delete-var": "warn",
+    "eqeqeq": "warn",
+    "no-unreachable": "warn",
     "no-extra-semi": "warn",
+    "no-undefined": "warn",
+    "no-useless-escape": "warn",
     "prefer-arrow-callback": "error",
     "no-multi-spaces": [
       "warn",

@@ -8,6 +8,16 @@ if grep -q .yml .gitignore; then
     exit 1
 fi
 
+COMMIT_RANGE="${CI_COMMIT_RANGE}"
+echo "travis push build, looking at files in ${COMMIT_RANGE}"
+if [ "${COMMIT_RANGE}" == "" ]; then
+  echo "travis commit range empty, probably first push to a new branch"
+  COMMIT_CONTENT=$(git diff-tree --no-commit-id --name-only -r "${CI_COMMIT}")
+fi
+
+echo "$COMMIT_CONTENT"
+exit 1
+
 
 [[ -n "${CI_TAG:=}" ]] && { echo "Skip build"; exit 0; }
 
