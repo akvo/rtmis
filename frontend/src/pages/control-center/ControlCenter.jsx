@@ -175,7 +175,7 @@ const ControlCenter = () => {
   const isLoggedIn = store.useState((state) => state.isLoggedIn);
 
   const init = () => {
-    let url = `v1/forms/`;
+    const url = `v1/forms/`;
     api
       .get(url)
       .then(() => {})

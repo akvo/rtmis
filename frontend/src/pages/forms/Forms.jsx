@@ -27,7 +27,7 @@ const Forms = () => {
     const questions = forms.question_group
       .map((x) => x.question)
       .flatMap((x) => x);
-    let answers = Object.keys(values)
+    const answers = Object.keys(values)
       .map((v) => {
         const question = questions.find((q) => q.id === parseInt(v));
         let val = values[v];

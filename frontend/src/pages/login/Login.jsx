@@ -27,11 +27,10 @@ const Login = () => {
       api
         .post("v1/verify/invite/", { invite: invitationId })
         .then((res) => {
-          let userData = {
+          setInvitedUser({
             name: res.data.name,
             invite: invitationId,
-          };
-          setInvitedUser(userData);
+          });
           setLoading(false);
         })
         .catch(() => {

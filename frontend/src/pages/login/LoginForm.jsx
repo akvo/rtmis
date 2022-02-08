@@ -8,16 +8,14 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   const onFinish = (values) => {
-    let url = `v1/login/`;
-    let postData = {
-      email: values.email,
-      password: values.password,
-    };
     api
-      .post(url, postData)
+      .post("v1/login", {
+        email: values.email,
+        password: values.password,
+      })
       .then((res) => {
         api.setToken(res.token);
-        let userData = {
+        const userData = {
           name: res.data.name,
           email: res.data.email,
           invite: res.data.invite,
@@ -29,7 +27,7 @@ const LoginForm = () => {
         navigate("/control-center");
       })
       .catch((err) => {
-        if (err.response.status == 401 || err.response.status == 400) {
+        if (err.response.status === 401 || err.response.status === 400) {
           message.error(err.response.data.message);
         }
       });

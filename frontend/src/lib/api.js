@@ -9,7 +9,7 @@ export const config = {
 
 const API = () => {
   const getConfig = () => {
-    return api.token != null
+    return api.token !== null
       ? {
           ...config,
           headers: {
