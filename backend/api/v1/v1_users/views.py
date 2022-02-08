@@ -65,6 +65,15 @@ def login(request, version):
                     status=status.HTTP_401_UNAUTHORIZED)
 
 
+@extend_schema(responses={200: UserSerializer},
+               tags=['User'])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_profile(request, version):
+    return Response(UserSerializer(instance=request.user).data,
+                    status=status.HTTP_200_OK)
+
+
 @extend_schema(request=VerifyInviteSerializer,
                responses={
                    (200, 'application/json'):

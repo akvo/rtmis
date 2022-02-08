@@ -1,6 +1,7 @@
 from django.test import TestCase
-from api.v1.v1_users.models import SystemUser
+
 from api.v1.v1_profile.models import Administration, Levels
+from api.v1.v1_users.models import SystemUser
 
 
 class SystemUserTestCase(TestCase):
@@ -32,7 +33,6 @@ class SystemUserEndpointsTestCase(TestCase):
         self.assertEqual('OK', data['message'])
 
     def test_login(self):
-
         level = Levels(name="country", level=1)
         level.save()
         administration = Administration(name="Indonesia",
@@ -46,4 +46,6 @@ class SystemUserEndpointsTestCase(TestCase):
                                 content_type='application/json')
         self.assertEqual(1, SystemUser.objects.count())
         user = user.json()
-        self.assertEqual(["email", "name", "token", "invite"], list(user))
+        self.assertEqual(
+            ["email", "name", "administration", "role", "token", "invite"],
+            list(user))
