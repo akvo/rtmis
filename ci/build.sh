@@ -8,10 +8,25 @@ if grep -q .yml .gitignore; then
     exit 1
 fi
 
+BACKEND_CHANGES=0
+FRONTEND_CHANGES=0
 COMMIT_CONTENT=$(git diff --name-only "${CI_COMMIT_RANGE}")
-DIRS=$(echo "${COMMIT_CONTENT}" | grep ".*/.*/.*" | cut -f -2 -d/ | sort -u)
-echo "$DIRS"
-exit 0
+
+if grep -q "backend" <<< "${COMMIT_CONTENT}"
+then
+    BACKEND_CHANGES=1
+fi
+
+if grep -q "frontend" <<< "${COMMIT_CONTENT}"
+then
+    BACKEND_CHANGES=1
+fi
+
+if [[ "${CI_BRANCH}" ==  "main" || "${CI_BRANCH}" ==  "develop" ]];
+then
+    BACKEND_CHANGES=1
+    FRONTEND_CHANGES=1
+fi
 
 
 [[ -n "${CI_TAG:=}" ]] && { echo "Skip build"; exit 0; }
@@ -67,16 +82,28 @@ update_dbdocs() {
     fi
 }
 
+if [[ ${BACKEND_CHANGES} == 1 ]];
+then
+    echo "================== * BACKEND BUILD * =================="
+    backend_build
+else
+    echo "No Changes detected for backend -- SKIP BUILD"
+fi
 
-echo "* BACKEND BUILD * =================="
-backend_build
-echo "* FRONTEND BUILD * ================="
-frontend_build
+if [[ ${FRONTEND_CHANGES} == 1 ]];
+then
+    echo "================== * FRONTEND BUILD * =================="
+    frontend_build
+else
+    echo "No Changes detected for frontend -- SKIP BUILD"
+fi
 
-if ! dci run -T ci ./basic.sh; then
-  dci logs
-  echo "Build failed when running basic.sh"
-  exit 1
+if [[ ${FRONTEND_CHANGES} == 1 && ${BACKEND_CHANGES} == 1 ]]; then
+    if ! dci run -T ci ./basic.sh; then
+      dci logs
+      echo "Build failed when running basic.sh"
+      exit 1
+    fi
 fi
 
 update_dbdocs
