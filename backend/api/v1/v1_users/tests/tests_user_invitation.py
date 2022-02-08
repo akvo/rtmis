@@ -78,10 +78,17 @@ class UserInvitationTestCase(TestCase):
         header = {
             'HTTP_AUTHORIZATION': f'Bearer {token}'
         }
-        add_response = self.client.put("/api/v1/edit/user/4/",
-                                       edit_payload,
-                                       content_type='application/json',
-                                       **header)
+
+        list_response = self.client.get("/api/v1/list/users/", follow=True,
+                                        **header)
+        users = list_response.json()
+        fl = list(filter(lambda x: x['email'] == 'john@example.com', users))
+
+        add_response = self.client.put(
+            "/api/v1/edit/user/{0}/".format(fl[0]['id']),
+            edit_payload,
+            content_type='application/json',
+            **header)
         self.assertEqual(add_response.status_code, 200)
         self.assertEqual(add_response.json(),
                          {'message': 'User updated successfully'})
