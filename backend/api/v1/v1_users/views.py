@@ -65,6 +65,15 @@ def login(request, version):
                     status=status.HTTP_401_UNAUTHORIZED)
 
 
+@extend_schema(responses={200: UserSerializer},
+               tags=['User'])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_profile(request, version):
+    return Response(UserSerializer(instance=request.user).data,
+                    status=status.HTTP_200_OK)
+
+
 @extend_schema(request=VerifyInviteSerializer,
                responses={
                    (200, 'application/json'):
@@ -203,7 +212,7 @@ def edit_user(request, version, pk):
                 status=status.HTTP_400_BAD_REQUEST
             )
         serializer.save()
-        return Response({'message': 'User added successfully'},
+        return Response({'message': 'User updated successfully'},
                         status=status.HTTP_200_OK)
     except Exception as ex:
         return Response({'message': ex.args},

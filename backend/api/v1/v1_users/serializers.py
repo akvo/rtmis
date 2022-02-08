@@ -75,18 +75,6 @@ class ListAdministrationSerializer(serializers.ModelSerializer):
         fields = ['id', 'parent', 'name', 'level_name', 'level', 'children']
 
 
-class UserSerializer(serializers.ModelSerializer):
-    name = serializers.SerializerMethodField()
-
-    @extend_schema_field(OpenApiTypes.STR)
-    def get_name(self, instance):
-        return instance.get_full_name()
-
-    class Meta:
-        model = SystemUser
-        fields = ['email', 'name']
-
-
 class AddEditUserSerializer(serializers.ModelSerializer):
     administration = CustomPrimaryKeyRelatedField(
         queryset=Administration.objects.none())
@@ -194,3 +182,32 @@ class ListUserSerializer(serializers.ModelSerializer):
         model = SystemUser
         fields = ['id', 'first_name', 'last_name', 'email', 'administration',
                   'role', 'invite']
+
+
+class UserSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+    administration = serializers.SerializerMethodField()
+    role = serializers.SerializerMethodField()
+
+    @extend_schema_field(UserAdministrationSerializer)
+    def get_administration(self, instance: SystemUser):
+        return UserAdministrationSerializer(
+            instance=instance.user_access.administration).data
+
+    @extend_schema_field(inline_serializer('role', fields={
+        'id': serializers.IntegerField(),
+        'value': serializers.CharField(),
+    }))
+    def get_role(self, instance: SystemUser):
+        return {
+            'id': instance.user_access.role,
+            'value': UserRoleTypes.FieldStr.get(instance.user_access.role)
+        }
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_name(self, instance):
+        return instance.get_full_name()
+
+    class Meta:
+        model = SystemUser
+        fields = ['email', 'name', 'administration', 'role']
