@@ -84,7 +84,7 @@ update_dbdocs() {
 
 if [[ ${BACKEND_CHANGES} == 1 ]];
 then
-    "================== * BACKEND BUILD * =================="
+    echo "================== * BACKEND BUILD * =================="
     backend_build
 else
     echo "No Changes detected for backend -- SKIP BUILD"
@@ -92,7 +92,7 @@ fi
 
 if [[ ${FRONTEND_CHANGES} == 1 ]];
 then
-    "================== * FRONTEND BUILD * =================="
+    echo "================== * FRONTEND BUILD * =================="
     frontend_build
 else
     echo "No Changes detected for frontend -- SKIP BUILD"
