@@ -89,17 +89,20 @@ WSGI_APPLICATION = 'rtmis.wsgi.application'
 # Rest Settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':
-    ('rest_framework_simplejwt.authentication.JWTAuthentication', ),
+        ('rest_framework_simplejwt.authentication.JWTAuthentication',),
     'DEFAULT_VERSIONING_CLASS':
-    'rest_framework.versioning.URLPathVersioning',
+        'rest_framework.versioning.URLPathVersioning',
     'DATE_FORMAT':
-    "%d-%m-%Y",
+        "%d-%m-%Y",
     "DEFAULT_VERSION":
-    "v1",
+        "v1",
     "DATETIME_FORMAT":
-    "%d-%m-%Y %H:%M:%S",
+        "%d-%m-%Y %H:%M:%S",
     'DEFAULT_SCHEMA_CLASS':
-    'drf_spectacular.openapi.AutoSchema',
+        'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_PAGINATION_CLASS':
+        'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10
 }
 SPECTACULAR_SETTINGS = {
     'TITLE': 'RTMIS',
@@ -114,7 +117,6 @@ SIMPLE_JWT = {
 }
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -131,20 +133,20 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [{
     'NAME':
-    'django.contrib.auth.password_validation'
-    '.UserAttributeSimilarityValidator',
+        'django.contrib.auth.password_validation'
+        '.UserAttributeSimilarityValidator',
 }, {
     'NAME':
-    'django.contrib.auth.password_validation'
-    '.MinimumLengthValidator',
+        'django.contrib.auth.password_validation'
+        '.MinimumLengthValidator',
 }, {
     'NAME':
-    'django.contrib.auth.password_validation'
-    '.CommonPasswordValidator',
+        'django.contrib.auth.password_validation'
+        '.CommonPasswordValidator',
 }, {
     'NAME':
-    'django.contrib.auth.password_validation'
-    '.NumericPasswordValidator',
+        'django.contrib.auth.password_validation'
+        '.NumericPasswordValidator',
 }]
 
 # Internationalization
