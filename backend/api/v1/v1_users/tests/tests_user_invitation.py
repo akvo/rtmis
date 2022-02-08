@@ -85,3 +85,22 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(add_response.status_code, 200)
         self.assertEqual(add_response.json(),
                          {'message': 'User updated successfully'})
+
+    def test_get_user_profile(self):
+        seed_administration_test()
+        user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user_response = self.client.post('/api/v1/login/',
+                                         user_payload,
+                                         content_type='application/json')
+        user = user_response.json()
+        token = user.get('token')
+        header = {
+            'HTTP_AUTHORIZATION': f'Bearer {token}'
+        }
+        response = self.client.get("/api/v1/get/profile/",
+                                   content_type='application/json',
+                                   **header)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            ['email', 'name', 'administration', 'role'],
+            list(response.json().keys()))
