@@ -8,12 +8,10 @@ if grep -q .yml .gitignore; then
     exit 1
 fi
 
-COMMIT_RANGE="${CI_COMMIT_RANGE}"
-COMMIT_CONTENT=$(git diff --name-only "${COMMIT_RANGE}")
-echo "CI push build, looking at files in ${COMMIT_RANGE}"
-
-echo "$COMMIT_CONTENT"
-exit 1
+COMMIT_CONTENT=$(git diff --name-only "${CI_COMMIT_RANGE}")
+DIRS=$(echo "${COMMIT_CONTENT}" | grep ".*/.*/.*" | cut -f -2 -d/ | sort -u)
+echo "$DIRS"
+exit 0
 
 
 [[ -n "${CI_TAG:=}" ]] && { echo "Skip build"; exit 0; }
