@@ -269,3 +269,18 @@ def edit_user(request, version, pk):
     except Exception as ex:
         return Response({'message': ex.args},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@extend_schema(responses=inline_serializer('user_role', fields={
+    'id': serializers.IntegerField(),
+    'value': serializers.CharField(),
+}, many=True), tags=['User'])
+@api_view(['GET'])
+def get_user_roles(request, version):
+    data = []
+    for k, v in UserRoleTypes.FieldStr.items():
+        data.append({
+            'id': k,
+            'value': v,
+        })
+    return Response(data, status=status.HTTP_200_OK)

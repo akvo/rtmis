@@ -111,3 +111,10 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(
             ['email', 'name', 'administration', 'role'],
             list(response.json().keys()))
+
+    def test_get_user_roles(self):
+        response = self.client.get("/api/v1/user/roles/",
+                                   content_type='application/json', )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(4, len(response.json()))
+        self.assertEqual(['id', 'value'], list(response.json()[0].keys()))
