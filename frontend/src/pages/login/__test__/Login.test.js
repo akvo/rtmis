@@ -1,5 +1,4 @@
 import { render, screen } from "@testing-library/react";
-import renderer from "react-test-renderer";
 import { act } from "react-dom/test-utils";
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
