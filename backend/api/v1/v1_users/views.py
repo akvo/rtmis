@@ -1,10 +1,14 @@
 # Create your views here.
 from django.contrib.auth import authenticate
 from django.core import signing
-from drf_spectacular.utils import extend_schema, inline_serializer
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema, inline_serializer, \
+    OpenApiParameter
 from rest_framework import status, serializers
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import get_object_or_404
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -14,7 +18,8 @@ from api.v1.v1_profile.models import Access, Administration
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     VerifyInviteSerializer, SetUserPasswordSerializer, \
-    ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer
+    ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
+    ListUserRequestSerializer
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
 
@@ -166,26 +171,73 @@ def add_user(request, version):
 
 
 @extend_schema(responses={200: ListUserSerializer(many=True)},
-               tags=['User'])
+               tags=['User'],
+               parameters=[
+                   OpenApiParameter(name='page',
+                                    required=True,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='role',
+                                    required=False,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='administration',
+                                    required=False,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='pending',
+                                    required=False,
+                                    type=OpenApiTypes.BOOL,
+                                    location=OpenApiParameter.QUERY),
+               ])
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
 def list_users(request, version):
-    filter_data = {}
-    if request.user.user_access.role != UserRoleTypes.super_admin:
-        children = Administration.objects.raw(
-            'WITH RECURSIVE subordinates AS ('
-            'SELECT id FROM administrator WHERE parent_id = {0} UNION '
-            'SELECT e.id FROM administrator e '
-            'INNER JOIN subordinates s ON s.id = e.parent_id) '
-            'SELECT * FROM subordinates;'.format(
-                request.user.user_access.administration.id))
-        administration_ids = [request.user.user_access.administration]
-        for child in children:
-            administration_ids.append(child.id)
-        filter_data['user_access__administration_id__in'] = administration_ids
-    return Response(ListUserSerializer(
-        instance=SystemUser.objects.filter(**filter_data),
-        many=True).data, status=status.HTTP_200_OK)
+    try:
+        serializer = ListUserRequestSerializer(data=request.GET)
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(serializer.errors)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        filter_data = {}
+        if serializer.validated_data.get('administration'):
+            filter_data[
+                'user_access__administration'] = serializer.validated_data.get(
+                'administration')
+        if serializer.validated_data.get('role'):
+            filter_data['user_access__role'] = serializer.validated_data.get(
+                'role')
+        if serializer.validated_data.get('pending'):
+            filter_data['password__isnull'] = serializer.validated_data.get(
+                'pending')
+
+        if request.user.user_access.role != UserRoleTypes.super_admin:
+            children = Administration.objects.raw(
+                'WITH RECURSIVE subordinates AS ('
+                'SELECT id FROM administrator WHERE parent_id = {0} UNION '
+                'SELECT e.id FROM administrator e '
+                'INNER JOIN subordinates s ON s.id = e.parent_id) '
+                'SELECT * FROM subordinates;'.format(
+                    request.user.user_access.administration.id))
+            administration_ids = [request.user.user_access.administration]
+            for child in children:
+                administration_ids.append(child.id)
+            filter_data[
+                'user_access__administration_id__in'] = administration_ids
+        queryset = SystemUser.objects.filter(**filter_data).order_by('id')
+        paginator_temp = Paginator(queryset, 10)
+        paginator_temp.page(request.GET.get('page', 1))
+        paginator = PageNumberPagination()
+        instance = paginator.paginate_queryset(queryset, request)
+        return Response(ListUserSerializer(
+            instance=instance,
+            many=True).data, status=status.HTTP_200_OK)
+    except (InvalidPage, EmptyPage):
+        return Response([], status=status.HTTP_200_OK)
+    except Exception as ex:
+        return Response(ex.args, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @extend_schema(request=AddEditUserSerializer,
@@ -217,3 +269,18 @@ def edit_user(request, version, pk):
     except Exception as ex:
         return Response({'message': ex.args},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@extend_schema(responses=inline_serializer('user_role', fields={
+    'id': serializers.IntegerField(),
+    'value': serializers.CharField(),
+}, many=True), tags=['User'])
+@api_view(['GET'])
+def get_user_roles(request, version):
+    data = []
+    for k, v in UserRoleTypes.FieldStr.items():
+        data.append({
+            'id': k,
+            'value': v,
+        })
+    return Response(data, status=status.HTTP_200_OK)

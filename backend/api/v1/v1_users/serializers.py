@@ -9,7 +9,7 @@ from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Access
 from api.v1.v1_users.models import SystemUser
 from utils.custom_serializer_fields import CustomEmailField, CustomCharField, \
-    CustomPrimaryKeyRelatedField, CustomChoiceField
+    CustomPrimaryKeyRelatedField, CustomChoiceField, CustomBooleanField
 
 
 class LoginSerializer(serializers.Serializer):
@@ -182,6 +182,19 @@ class ListUserSerializer(serializers.ModelSerializer):
         model = SystemUser
         fields = ['id', 'first_name', 'last_name', 'email', 'administration',
                   'role', 'invite']
+
+
+class ListUserRequestSerializer(serializers.Serializer):
+    role = CustomChoiceField(choices=list(UserRoleTypes.FieldStr.keys()),
+                             required=False)
+    administration = CustomPrimaryKeyRelatedField(
+        queryset=Administration.objects.none(), required=False)
+    pending = CustomBooleanField(default=False)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get(
+            'administration').queryset = Administration.objects.all()
 
 
 class UserSerializer(serializers.ModelSerializer):
