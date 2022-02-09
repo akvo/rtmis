@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2155
+# shellcheck disable=SC2086
+# shellcheck disable=SC2064
+# shellcheck disable=SC2206
+# shellcheck disable=SC2128
+# shellcheck disable=SC2260
 # Use this script to test if a given TCP host/port are available
+# Source: https://github.com/vishnubob/wait-for-it
+# This code is licensed under MIT license
 
 WAITFORIT_cmdname=${0##*/}
 
