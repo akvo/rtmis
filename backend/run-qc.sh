@@ -2,6 +2,11 @@
 
 set -eu
 
+./wait-for-it.sh
+./wait-for-it.sh \
+--service db:5432 \
+-- echo "Database is up and running"
+
 echo "Running lint"
 flake8
 
