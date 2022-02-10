@@ -165,7 +165,6 @@ class SubmitFormDataAnswerSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if not isinstance(attrs.get('value'), list) and attrs.get(
                 'question').type in [QuestionTypes.geo,
-                                     QuestionTypes.administration,
                                      QuestionTypes.option,
                                      QuestionTypes.multiple_option]:
             raise ValidationError(
@@ -179,7 +178,8 @@ class SubmitFormDataAnswerSerializer(serializers.ModelSerializer):
                 {'value': 'Valid string value is required'})
 
         elif not isinstance(attrs.get('value'), int) and attrs.get(
-                'question').type == QuestionTypes.number:
+                'question').type in [QuestionTypes.number,
+                                     QuestionTypes.administration]:
             raise ValidationError(
                 {'value': 'Valid number value is required'})
 
@@ -190,7 +190,6 @@ class SubmitFormDataAnswerSerializer(serializers.ModelSerializer):
         fields = ['question', 'value']
 
 
-# TODO: save administration input to value
 class SubmitFormSerializer(serializers.Serializer):
     data = SubmitFormDataSerializer()
     answer = SubmitFormDataAnswerSerializer(many=True)
@@ -211,7 +210,7 @@ class SubmitFormSerializer(serializers.Serializer):
         """
         Answer value based on Question type
         -geo = 1 #option
-        -administration = 2 #option
+        -administration = 2 #value
         -text = 3 #name
         -number = 4 #value
         -option = 5 #option
@@ -227,7 +226,6 @@ class SubmitFormSerializer(serializers.Serializer):
             option = None
 
             if answer.get('question').type in [QuestionTypes.geo,
-                                               QuestionTypes.administration,
                                                QuestionTypes.option,
                                                QuestionTypes.multiple_option]:
                 option = answer.get('value')
@@ -236,6 +234,7 @@ class SubmitFormSerializer(serializers.Serializer):
                                                  QuestionTypes.date]:
                 name = answer.get('value')
             else:
+                # for administration,number question type
                 value = answer.get('value')
 
             Answers.objects.create(
