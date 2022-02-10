@@ -63,6 +63,19 @@ class SystemUserEndpointsTestCase(TestCase):
                                 content_type='application/json')
         self.assertEqual(1, SystemUser.objects.count())
         user = user.json()
+
         self.assertEqual(
             ["email", "name", "administration", "role", "token", "invite"],
             list(user))
+
+        user = {"email": "admin@rtmis.com", "password": "Test105"}
+        user = self.client.post('/api/v1/login/',
+                                user,
+                                content_type='application/json')
+        self.assertEqual(user.status_code, 401)
+
+        user = {"email": "admin@rtmis.com"}
+        user = self.client.post('/api/v1/login/',
+                                user,
+                                content_type='application/json')
+        self.assertEqual(user.status_code, 400)
