@@ -17,8 +17,8 @@ const Pie = (data, chartTitle, extra, Doughnut = false) => {
     labels = data.map((x) => x.name);
   }
   const { textStyle } = TextStyle;
-  let rose = {};
-  let option = {
+  const rose = {};
+  const option = {
     title: {
       ...Title,
       show: !isEmpty(chartTitle),

@@ -23,13 +23,13 @@ const BarStack = (data, chartTitle, extra) => {
   // Custom Axis Title
   const { xAxisTitle, yAxisTitle } = axisTitle(extra);
 
-  let stacked = data[0].stack.map((x) => ({ name: x.name, color: x.color }));
-  let legends = stacked.map((s, si) => ({
+  const stacked = data[0].stack.map((x) => ({ name: x.name, color: x.color }));
+  const legends = stacked.map((s, si) => ({
     name: s.name,
     itemStyle: { color: s.color || Color.color[si] },
   }));
-  let xAxis = uniq(data.map((x) => x.name));
-  let series = stacked.map((s, si) => {
+  const xAxis = uniq(data.map((x) => x.name));
+  const series = stacked.map((s, si) => {
     const temp = data.map((d) => {
       const val = d.stack.find((c) => c.name === s.name);
       return {
@@ -58,7 +58,7 @@ const BarStack = (data, chartTitle, extra) => {
       data: temp,
     };
   });
-  let option = {
+  const option = {
     ...Color,
     title: {
       ...Title,
@@ -102,20 +102,20 @@ const BarStack = (data, chartTitle, extra) => {
         },
         dataView: {
           ...DataView,
-          optionToContent: function (opt) {
-            var xAxis = opt.xAxis.map((x) => x.data)[0];
-            var series = opt.series.map((x) => x.data);
-            var table =
+          optionToContent: function ({ xAxis, series }) {
+            xAxis = xAxis.map((x) => x.data)[0];
+            series = series.map((x) => x.data);
+            let table =
               '<table border="1" style="width:90%;text-align:center">';
             table += "<thead><tr><th></th>";
-            for (var a = 0, b = xAxis.length; a < b; a++) {
+            for (let a = 0, b = xAxis.length; a < b; a++) {
               table += "<th>" + upperFirst(xAxis[a]) + "</th>";
             }
             table += "</tr></thead><tbody>";
-            for (var i = 0, l = series.length; i < l; i++) {
+            for (let i = 0, l = series.length; i < l; i++) {
               table += "<tr>";
               table += "<td><b>" + upperFirst(series[i][0].name) + "</b></td>";
-              for (var x = 0, y = series[i].length; x < y; x++) {
+              for (let x = 0, y = series[i].length; x < y; x++) {
                 table += "<td>" + series[i][x].value + "</td>";
               }
               table += "</tr>";

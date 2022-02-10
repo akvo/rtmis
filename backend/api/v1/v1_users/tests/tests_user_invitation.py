@@ -1,29 +1,12 @@
 from django.core import signing
 from django.test import TestCase
-
-from api.v1.v1_profile.models import Administration, Levels
-from api.v1.v1_users.models import SystemUser
-
-
-def seed_administration_test():
-    level = Levels(name="country", level=1)
-    level.save()
-    administration = Administration(id=1,
-                                    name="Indonesia",
-                                    parent=None,
-                                    level=level)
-    administration.save()
-    administration = Administration(id=2,
-                                    name="Jakarta",
-                                    parent=administration,
-                                    level=level)
-    administration.save()
+from django.core.management import call_command
 
 
 class UserInvitationTestCase(TestCase):
 
     def test_user_list(self):
-        seed_administration_test()
+        call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
         user_response = self.client.post('/api/v1/login/',
                                          user_payload,
@@ -45,7 +28,7 @@ class UserInvitationTestCase(TestCase):
                          {'id': 1, 'value': 'Super Admin'})
 
     def test_add_edit_user(self):
-        seed_administration_test()
+        call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
         user_response = self.client.post('/api/v1/login/',
                                          user_payload,
@@ -109,7 +92,7 @@ class UserInvitationTestCase(TestCase):
                          {'message': 'User updated successfully'})
 
     def test_get_user_profile(self):
-        seed_administration_test()
+        call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
         user_response = self.client.post('/api/v1/login/',
                                          user_payload,

@@ -36,15 +36,21 @@
     "no-undef": "warn",
     "no-else-return": "warn",
     "no-unused-vars": "warn",
-    "semi": "warn",
+    "no-undefined": "warn",
+    "no-unreachable": "warn",
     "no-extra-semi": "warn",
-    "prefer-arrow-callback": "error",
+    "no-useless-escape": "warn",
     "no-multi-spaces": [
       "warn",
       {
         "ignoreEOLComments": true
       }
     ],
+    "eqeqeq": "warn",
+    "semi": "warn",
+    "no-delete-var": "warn",
+    "prefer-const": "warn",
+    "prefer-arrow-callback": "error",
     "react/prefer-stateless-function": "warn",
     "react-hooks/rules-of-hooks": "warn",
     "react-hooks/exhaustive-deps": "warn",
