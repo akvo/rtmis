@@ -1,5 +1,8 @@
-from django.test import TestCase
+from django.core import signing
 from django.core.management import call_command
+from django.test import TestCase
+
+from api.v1.v1_users.models import SystemUser
 
 
 class UserInvitationTestCase(TestCase):
@@ -12,8 +15,9 @@ class UserInvitationTestCase(TestCase):
                                          content_type='application/json')
         user = user_response.json()
         token = user.get('token')
-        response = self.client.get("/api/v1/list/users/", follow=True,
-                                   **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+        response = self.client.get(
+            "/api/v1/list/users/?administration=1&role=1", follow=True,
+            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
         users = response.json()
 
         self.assertEqual(response.status_code, 200)
@@ -38,11 +42,16 @@ class UserInvitationTestCase(TestCase):
             "last_name": "Doe",
             "email": "john@example.com",
             "administration": 2,
-            "role": 2
         }
         header = {
             'HTTP_AUTHORIZATION': f'Bearer {token}'
         }
+        add_response = self.client.post("/api/v1/add/user/",
+                                        payload,
+                                        content_type='application/json',
+                                        **header)
+        self.assertEqual(add_response.status_code, 400)
+        payload["role"] = 2
         add_response = self.client.post("/api/v1/add/user/",
                                         payload,
                                         content_type='application/json',
@@ -57,7 +66,7 @@ class UserInvitationTestCase(TestCase):
             "last_name": "Doe",
             "email": "john@example.com",
             "administration": 2,
-            "role": 2
+            "role": 6
         }
         header = {
             'HTTP_AUTHORIZATION': f'Bearer {token}'
@@ -68,6 +77,13 @@ class UserInvitationTestCase(TestCase):
         users = list_response.json()
         fl = list(filter(lambda x: x['email'] == 'john@example.com', users))
 
+        add_response = self.client.put(
+            "/api/v1/edit/user/{0}/".format(fl[0]['id']),
+            edit_payload,
+            content_type='application/json',
+            **header)
+        self.assertEqual(add_response.status_code, 400)
+        edit_payload["role"] = 2
         add_response = self.client.put(
             "/api/v1/edit/user/{0}/".format(fl[0]['id']),
             edit_payload,
@@ -95,3 +111,55 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(
             ['email', 'name', 'administration', 'role'],
             list(response.json().keys()))
+
+    def test_get_user_roles(self):
+        response = self.client.get("/api/v1/user/roles/",
+                                   content_type='application/json', )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(4, len(response.json()))
+        self.assertEqual(['id', 'value'], list(response.json()[0].keys()))
+
+    def test_verify_invite(self):
+        call_command("administration_seeder", "--test")
+        user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
+        self.client.post('/api/v1/login/',
+                         user_payload,
+                         content_type='application/json')
+        user = SystemUser.objects.first()
+        invite_payload = {'invite': 'dummy-token'}
+        invite_response = self.client.post('/api/v1/verify/invite/',
+                                           invite_payload,
+                                           content_type='application/json')
+        self.assertEqual(invite_response.status_code, 400)
+        invite_payload = {'invite': signing.dumps(user.pk)}
+        invite_response = self.client.post('/api/v1/verify/invite/',
+                                           invite_payload,
+                                           content_type='application/json')
+        self.assertEqual(invite_response.status_code, 200)
+
+    def test_set_user_password(self):
+        call_command("administration_seeder", "--test")
+        user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
+        self.client.post('/api/v1/login/',
+                         user_payload,
+                         content_type='application/json')
+        user = SystemUser.objects.first()
+        password_payload = {'invite': 'dummy-token', 'password': 'Test105*',
+                            'confirm_password': 'Test105*'}
+        invite_response = self.client.post('/api/v1/set/user/password/',
+                                           password_payload,
+                                           content_type='application/json')
+        self.assertEqual(invite_response.status_code, 400)
+        password_payload = {'invite': signing.dumps(user.pk),
+                            'password': 'Test105*',
+                            'confirm_password': 'Test105*'}
+        invite_response = self.client.post('/api/v1/set/user/password/',
+                                           password_payload,
+                                           content_type='application/json')
+        self.assertEqual(invite_response.status_code, 200)
+
+    def test_list_administration(self):
+        call_command("administration_seeder", "--test")
+        administration = self.client.get('/api/v1/administration/1/',
+                                         content_type='application/json')
+        self.assertEqual(administration.status_code, 200)
