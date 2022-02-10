@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./style.scss";
 import {
   Row,
@@ -12,9 +12,12 @@ import {
   Checkbox,
   Typography,
   Table,
+  message,
 } from "antd";
 import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
+import { api } from "../../lib";
+import { useCookies } from "react-cookie";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -22,74 +25,74 @@ const { Title } = Typography;
 const columns = [
   {
     title: "Name",
-    dataIndex: "name",
-    key: "name",
+    dataIndex: "first_name",
+    key: "first_name",
+    render: (firstName, row) => firstName + " " + row.last_name,
   },
   {
     title: "Organization",
-    dataIndex: "organization",
-    key: "organization",
+    dataIndex: "administration",
+    render: () => "-",
   },
   {
     title: "Email",
     dataIndex: "email",
-    key: "email",
   },
   {
     title: "Role",
     dataIndex: "role",
-    key: "role",
+    render: (role) => role.value || "",
   },
   {
     title: "Region",
-    dataIndex: "region",
-    key: "region",
+    dataIndex: "administration",
+    render: (administration) => administration?.name || "",
   },
   Table.EXPAND_COLUMN,
 ];
 
-const datasets = [
-  {
-    key: "1",
-    name: "John Lilki",
-    organization: "AKVO",
-    email: "jhlilk22@yahoo.com",
-    role: "Admin",
-    region: "National",
-  },
-  {
-    key: "2",
-    name: "Jamie Harington",
-    organization: "RSR",
-    email: "jamieharington@yahoo.com",
-    role: "Admin",
-    region: "Baringo",
-  },
-  {
-    key: "3",
-    name: "John Doe",
-    organization: "AKVO",
-    email: "john.doe@yahoo.com",
-    role: "User",
-    region: "National",
-  },
-  {
-    key: "4",
-    name: "Jane Doe",
-    organization: "MOH",
-    email: "jdoe@yahoo.com",
-    role: "User",
-    region: "Nairobi",
-  },
-  {
-    key: "5",
-    name: "John Appleseed",
-    organization: "MOH",
-    email: "jappleseed@yahoo.com",
-    role: "User",
-    region: "Kisumu",
-  },
-];
+// const dataset = [
+//   {
+//     key: "1",
+//     name: "John Lilki",
+//     organization: "AKVO",
+//     email: "jhlilk22@yahoo.com",
+//     role: "Admin",
+//     region: "National",
+//   },
+//   {
+//     key: "2",
+//     name: "Jamie Harington",
+//     organization: "RSR",
+//     email: "jamieharington@yahoo.com",
+//     role: "Admin",
+//     region: "Baringo",
+//   },
+//   {
+//     key: "3",
+//     name: "John Doe",
+//     organization: "AKVO",
+//     email: "john.doe@yahoo.com",
+//     role: "User",
+//     region: "National",
+//   },
+//   {
+//     key: "4",
+//     name: "Jane Doe",
+//     organization: "MOH",
+//     email: "jdoe@yahoo.com",
+//     role: "User",
+//     region: "Nairobi",
+//   },
+//   {
+//     key: "5",
+//     name: "John Appleseed",
+//     organization: "MOH",
+//     email: "jappleseed@yahoo.com",
+//     role: "User",
+//     region: "Kisumu",
+//   },
+// ];
 
 const renderDetails = (record) => {
   return (
@@ -106,13 +109,13 @@ const renderDetails = (record) => {
             <tr>
               <td>Name</td>
               <td>
-                <a href="#">{record.name}</a>
+                <a href="#">{record.first_name + " " + record.last_name}</a>
               </td>
             </tr>
             <tr>
               <td>Organization</td>
               <td>
-                <a href="#">{record.organization}</a>
+                <a href="#">-</a>
               </td>
             </tr>
             <tr>
@@ -124,19 +127,13 @@ const renderDetails = (record) => {
             <tr>
               <td>Role</td>
               <td>
-                <a href="#">{record.role}</a>
+                <a href="#">{record.role?.value}</a>
               </td>
             </tr>
             <tr>
               <td>Region</td>
               <td>
-                <a href="#">{record.region}</a>
-              </td>
-            </tr>
-            <tr>
-              <td>Questionnaire</td>
-              <td>
-                <a href="#">{record.role}</a>
+                <a href="#">{record.administration?.name}</a>
               </td>
             </tr>
           </tbody>
@@ -155,6 +152,26 @@ const renderDetails = (record) => {
 };
 
 const Users = () => {
+  const [cookies] = useCookies(["AUTH_TOKEN"]);
+  const [loading, setLoading] = useState(true);
+  const [dataset, setDataset] = useState([]);
+
+  useEffect(() => {
+    api
+      .get("list/users/?page=1", {
+        headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
+      })
+      .then((res) => {
+        setDataset(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        message.error("Could not load users");
+        setLoading(false);
+        console.error(err);
+      });
+  }, [cookies.AUTH_TOKEN]);
+
   return (
     <div id="users">
       <Row justify="space-between">
@@ -229,7 +246,9 @@ const Users = () => {
       <Card style={{ padding: 0 }} bodyStyle={{ padding: 0 }}>
         <Table
           columns={columns}
-          dataSource={datasets}
+          dataSource={dataset}
+          loading={loading}
+          rowKey="id"
           expandable={{
             expandedRowRender: renderDetails,
             expandIcon: ({ expanded, onExpand, record }) =>
