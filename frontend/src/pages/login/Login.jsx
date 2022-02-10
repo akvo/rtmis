@@ -25,13 +25,12 @@ const Login = () => {
     if (invitationId) {
       setLoading(true);
       api
-        .post("v1/verify/invite/", { invite: invitationId })
+        .post("verify/invite/", { invite: invitationId })
         .then((res) => {
-          let userData = {
+          setInvitedUser({
             name: res.data.name,
             invite: invitationId,
-          };
-          setInvitedUser(userData);
+          });
           setLoading(false);
         })
         .catch(() => {
@@ -77,7 +76,7 @@ const Login = () => {
                 <div>
                   {invitedUser ? (
                     <>
-                      <h1>
+                      <h1 data-testid="welcome-title">
                         Welcome to RTMIS, {invitedUser.name}
                         <br />
                         <small>

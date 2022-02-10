@@ -9,7 +9,7 @@ from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Access
 from api.v1.v1_users.models import SystemUser
 from utils.custom_serializer_fields import CustomEmailField, CustomCharField, \
-    CustomPrimaryKeyRelatedField, CustomChoiceField
+    CustomPrimaryKeyRelatedField, CustomChoiceField, CustomBooleanField
 
 
 class LoginSerializer(serializers.Serializer):
@@ -73,18 +73,6 @@ class ListAdministrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Administration
         fields = ['id', 'parent', 'name', 'level_name', 'level', 'children']
-
-
-class UserSerializer(serializers.ModelSerializer):
-    name = serializers.SerializerMethodField()
-
-    @extend_schema_field(OpenApiTypes.STR)
-    def get_name(self, instance):
-        return instance.get_full_name()
-
-    class Meta:
-        model = SystemUser
-        fields = ['email', 'name']
 
 
 class AddEditUserSerializer(serializers.ModelSerializer):
@@ -194,3 +182,45 @@ class ListUserSerializer(serializers.ModelSerializer):
         model = SystemUser
         fields = ['id', 'first_name', 'last_name', 'email', 'administration',
                   'role', 'invite']
+
+
+class ListUserRequestSerializer(serializers.Serializer):
+    role = CustomChoiceField(choices=list(UserRoleTypes.FieldStr.keys()),
+                             required=False)
+    administration = CustomPrimaryKeyRelatedField(
+        queryset=Administration.objects.none(), required=False)
+    pending = CustomBooleanField(default=False)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get(
+            'administration').queryset = Administration.objects.all()
+
+
+class UserSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+    administration = serializers.SerializerMethodField()
+    role = serializers.SerializerMethodField()
+
+    @extend_schema_field(UserAdministrationSerializer)
+    def get_administration(self, instance: SystemUser):
+        return UserAdministrationSerializer(
+            instance=instance.user_access.administration).data
+
+    @extend_schema_field(inline_serializer('role', fields={
+        'id': serializers.IntegerField(),
+        'value': serializers.CharField(),
+    }))
+    def get_role(self, instance: SystemUser):
+        return {
+            'id': instance.user_access.role,
+            'value': UserRoleTypes.FieldStr.get(instance.user_access.role)
+        }
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_name(self, instance):
+        return instance.get_full_name()
+
+    class Meta:
+        model = SystemUser
+        fields = ['email', 'name', 'administration', 'role']

@@ -27,7 +27,7 @@ const Forms = () => {
     const questions = forms.question_group
       .map((x) => x.question)
       .flatMap((x) => x);
-    let answers = Object.keys(values)
+    const answers = Object.keys(values)
       .map((v) => {
         const question = questions.find((q) => q.id === parseInt(v));
         let val = values[v];
@@ -74,7 +74,7 @@ const Forms = () => {
     // TODO: Remove Console
     console.info(data);
     api
-      .post(`v1/form-data/${formId}`, data)
+      .post(`form-data/${formId}`, data)
       .then(() => {
         notification.success({
           message: "Submitted",
@@ -97,7 +97,7 @@ const Forms = () => {
   useEffect(() => {
     (async function () {
       if (formId && loading) {
-        api.get(`v1/form/${formId}`).then((x) => {
+        api.get(`form/${formId}`).then((x) => {
           setForms(x.data);
           setLoading(false);
         });
