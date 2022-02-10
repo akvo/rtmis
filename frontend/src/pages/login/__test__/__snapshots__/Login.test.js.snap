@@ -340,7 +340,9 @@ exports[`Login and Registration test if the registration form exists: Registrati
             class="ant-col ant-col-12 right-side"
           >
             <div>
-              <h1>
+              <h1
+                data-testid="welcome-title"
+              >
                 Welcome to RTMIS, John Doe
                 <br />
                 <small>
