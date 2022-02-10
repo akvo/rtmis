@@ -13,56 +13,65 @@ from api.v1.v1_users.models import SystemUser
 fake = Faker()
 
 
+def set_answer_data(question):
+    name = None
+    value = None
+    option = None
+
+    if question.type == QuestionTypes.geo:
+        lat, lng = fake.latlng()
+        option = [str(lat), str(lng)]
+    elif question.type == QuestionTypes.administration:
+        administration = Administration.objects.filter(
+            level=Levels.objects.order_by('level').last().level).order_by(
+                '?').first()
+        name = administration.name
+        value = administration.id
+    elif question.type == QuestionTypes.text:
+        name = fake.company() if question.meta else fake.sentence(nb_words=3)
+    elif question.type == QuestionTypes.number:
+        value = fake.random_int(min=10, max=50)
+    elif question.type == QuestionTypes.option:
+        option = [
+            question.question_question_options.order_by('?').first().name
+        ]
+    elif question.type == QuestionTypes.multiple_option:
+        option = list(
+            question.question_question_options.order_by('?').values_list(
+                'name', flat=True)[0:fake.random_int(min=1, max=3)])
+    elif question.type == QuestionTypes.photo:
+        name = fake.image_url()
+    elif question.type == QuestionTypes.date:
+        name = fake.date_between_dates(
+            date_start=timezone.datetime.now().date() - timedelta(days=90),
+            date_end=timezone.datetime.now().date())
+    elif question.type == QuestionTypes.date:
+        name = fake.date_between_dates(
+            date_start=timezone.datetime.now().date() - timedelta(days=90),
+            date_end=timezone.datetime.now().date())
+    else:
+        pass
+    return name, value, option
+
+
 def add_fake_answers(data: FormData):
     form = data.form
     meta_name = []
     for question in form.form_questions.all().order_by('order'):
-        name = None
-        value = None
-        option = None
-
-        if question.type == QuestionTypes.geo:
-            lat, lng = fake.latlng()
-            option = [str(lat), str(lng)]
-        elif question.type == QuestionTypes.administration:
-            administration = Administration.objects.filter(
-                level=Levels.objects.order_by('level').last().level).order_by(
-                    '?').first()
-            name = administration.name
-            value = administration.id
-        elif question.type == QuestionTypes.text:
-            name = fake.company() if question.meta else fake.text(
-                max_nb_chars=10)
-        elif question.type == QuestionTypes.number:
-            value = fake.random_int(min=10, max=50)
-        elif question.type == QuestionTypes.option:
-            option = [
-                question.question_question_options.order_by('?').first().name
-            ]
-        elif question.type == QuestionTypes.multiple_option:
-            option = list(
-                question.question_question_options.order_by('?').values_list(
-                    'name', flat=True)[0:fake.random_int(min=1, max=3)])
-        elif question.type == QuestionTypes.photo:
-            name = fake.image_url()
-        elif question.type == QuestionTypes.date:
-            name = fake.date_between_dates(
-                date_start=timezone.datetime.now().date() - timedelta(days=90),
-                date_end=timezone.datetime.now().date())
-        else:
-            pass
-
+        name, value, option = set_answer_data(question)
         if question.meta:
             if name:
                 meta_name.append(name)
             elif option and question.type != QuestionTypes.geo:
                 meta_name.append(','.join(option))
-            elif value:
+            elif value and question.type != QuestionTypes.administration:
                 meta_name.append(value)
             else:
                 pass
 
-        name = name if question.type != QuestionTypes.administration else None
+        if question.type == QuestionTypes.administration:
+            name = None
+
         Answers.objects.create(
             data=data,
             question=question,
@@ -70,6 +79,7 @@ def add_fake_answers(data: FormData):
             value=value,
             options=option,
             created_by=SystemUser.objects.order_by('?').first())
+    print(meta_name)
     data.name = ' - '.join(meta_name)
     data.save()
 
