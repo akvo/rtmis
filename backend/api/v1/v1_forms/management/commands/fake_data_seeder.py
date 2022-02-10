@@ -80,6 +80,27 @@ def add_fake_answers(data: FormData):
     data.save()
 
 
+def seed_data(form, fake_geo, level_names, repeat):
+    for i in range(repeat):
+        geo = fake_geo.iloc[i].to_dict()
+        data = FormData.objects.create(
+            name=fake.pystr_format(),
+            geo=[geo["X"], geo["Y"]],
+            form=form,
+            administration=Administration.objects.first(),
+            created_by=SystemUser.objects.order_by('?').first())
+        level_id = 1
+        for level_name in level_names:
+            level = level_name.split("_")
+            administration = Administration.objects.filter(
+                parent_id=level_id,
+                level=Levels.objects.filter(level=level[1]).first(),
+                name=geo[level_name]).first()
+            level_id = administration.id
+            data.administration = administration
+        add_fake_answers(data)
+
+
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("-r",
@@ -98,22 +119,4 @@ class Command(BaseCommand):
             filter(lambda x: True if "NAME_" in x else False, list(fake_geo)))
         for form in Forms.objects.all():
             print(f"Seeding - {form.name}")
-            for i in range(options.get('repeat')):
-                geo = fake_geo.iloc[i].to_dict()
-                data = FormData.objects.create(
-                    name=fake.pystr_format(),
-                    geo=[geo["X"], geo["Y"]],
-                    form=form,
-                    administration=Administration.objects.order_by(
-                        '?').first(),
-                    created_by=SystemUser.objects.order_by('?').first())
-                level_id = 1
-                for level_name in level_names:
-                    level = level_name.split("_")
-                    administration = Administration.objects.filter(
-                        parent_id=level_id,
-                        level=Levels.objects.filter(level=level[1]).first(),
-                        name=geo[level_name]).first()
-                    level_id = administration.id
-                    data.administration = administration
-                add_fake_answers(data)
+            seed_data(form, fake_geo, level_names, options.get("repeat"))
