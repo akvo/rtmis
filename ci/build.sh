@@ -22,11 +22,12 @@ then
     FRONTEND_CHANGES=1
 fi
 
-if [[ "${CI_BRANCH}" ==  "main" || "${CI_BRANCH}" ==  "develop" ]];
+if [[ "${CI_BRANCH}" ==  "main" || "${CI_BRANCH}" ==  "develop" && "${CI_PULL_REQUEST}" !=  "true" ]];
 then
     BACKEND_CHANGES=1
     FRONTEND_CHANGES=1
 fi
+
 
 
 [[ -n "${CI_TAG:=}" ]] && { echo "Skip build"; exit 0; }
