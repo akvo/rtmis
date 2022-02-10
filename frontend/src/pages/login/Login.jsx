@@ -76,7 +76,7 @@ const Login = () => {
                 <div>
                   {invitedUser ? (
                     <>
-                      <h1>
+                      <h1 data-testid="welcome-title">
                         Welcome to RTMIS, {invitedUser.name}
                         <br />
                         <small>
