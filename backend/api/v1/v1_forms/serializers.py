@@ -190,6 +190,7 @@ class SubmitFormDataAnswerSerializer(serializers.ModelSerializer):
         fields = ['question', 'value']
 
 
+# TODO: save administration input to value
 class SubmitFormSerializer(serializers.Serializer):
     data = SubmitFormDataSerializer()
     answer = SubmitFormDataAnswerSerializer(many=True)
