@@ -21,11 +21,11 @@ class FormSeederTestCase(TestCase):
         self.maxDiff = None
         output = self.call_command()
         json_forms = [
-            "WASH in Health Centres",
+            "Health Facilities",
             "Household Survey",
-            "Bacteria Result for Health Centre Survey",
-            "School Questionnaires",
-            "Bacteria Result for School Survey",
+            "CLTS",
+            "WASH in School",
+            "Water System",
         ]
         output = list(filter(lambda x: len(x), output.split("\n")))
         forms = Forms.objects.all()
