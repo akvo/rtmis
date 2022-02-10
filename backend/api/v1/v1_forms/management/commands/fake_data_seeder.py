@@ -3,6 +3,7 @@ from datetime import timedelta
 from django.core.management import BaseCommand
 from django.utils import timezone
 from django.db.transaction import atomic
+import pandas as pd
 from faker import Faker
 
 from api.v1.v1_forms.constants import QuestionTypes
@@ -13,20 +14,16 @@ from api.v1.v1_users.models import SystemUser
 fake = Faker()
 
 
-def set_answer_data(question):
+def set_answer_data(data, question):
     name = None
     value = None
     option = None
 
     if question.type == QuestionTypes.geo:
-        lat, lng = fake.latlng()
-        option = [str(lat), str(lng)]
+        option = data.geo
     elif question.type == QuestionTypes.administration:
-        administration = Administration.objects.filter(
-            level=Levels.objects.order_by('level').last().level).order_by(
-                '?').first()
-        name = administration.name
-        value = administration.id
+        name = data.administration.name
+        value = data.administration.id
     elif question.type == QuestionTypes.text:
         name = fake.company() if question.meta else fake.sentence(nb_words=3)
     elif question.type == QuestionTypes.number:
@@ -58,7 +55,7 @@ def add_fake_answers(data: FormData):
     form = data.form
     meta_name = []
     for question in form.form_questions.all().order_by('order'):
-        name, value, option = set_answer_data(question)
+        name, value, option = set_answer_data(data, question)
         if question.meta:
             if name:
                 meta_name.append(name)
@@ -79,7 +76,6 @@ def add_fake_answers(data: FormData):
             value=value,
             options=option,
             created_by=SystemUser.objects.order_by('?').first())
-    print(meta_name)
     data.name = ' - '.join(meta_name)
     data.save()
 
@@ -97,15 +93,27 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         FormData.objects.all().delete()
-        lat, lng = fake.latlng()
-        geo = {'lat': str(lat), 'lng': str(lng)}
+        fake_geo = pd.read_csv("./source/kenya_random_points.csv")
+        level_names = list(
+            filter(lambda x: True if "NAME_" in x else False, list(fake_geo)))
         for form in Forms.objects.all():
-            print(f"{form.id} - {form.name}")
-            data = FormData.objects.create(
-                name=fake.pystr_format(),
-                form=form,
-                administration=Administration.objects.order_by('?').first(),
-                geo=geo,
-                created_by=SystemUser.objects.order_by('?').first())
+            print(f"Seeding - {form.name}")
             for i in range(options.get('repeat')):
+                geo = fake_geo.iloc[i].to_dict()
+                data = FormData.objects.create(
+                    name=fake.pystr_format(),
+                    geo=[geo["X"], geo["Y"]],
+                    form=form,
+                    administration=Administration.objects.order_by(
+                        '?').first(),
+                    created_by=SystemUser.objects.order_by('?').first())
+                level_id = 1
+                for level_name in level_names:
+                    level = level_name.split("_")
+                    administration = Administration.objects.filter(
+                        parent_id=level_id,
+                        level=Levels.objects.filter(level=level[1]).first(),
+                        name=geo[level_name]).first()
+                    level_id = administration.id
+                    data.administration = administration
                 add_fake_answers(data)
