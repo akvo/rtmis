@@ -1,6 +1,8 @@
 from django.core import signing
-from django.test import TestCase
 from django.core.management import call_command
+from django.test import TestCase
+
+from api.v1.v1_users.models import SystemUser
 
 
 class UserInvitationTestCase(TestCase):
@@ -118,7 +120,7 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(['id', 'value'], list(response.json()[0].keys()))
 
     def test_verify_invite(self):
-        seed_administration_test()
+        call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
         self.client.post('/api/v1/login/',
                          user_payload,
@@ -136,7 +138,7 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(invite_response.status_code, 200)
 
     def test_set_user_password(self):
-        seed_administration_test()
+        call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
         self.client.post('/api/v1/login/',
                          user_payload,
@@ -157,7 +159,7 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(invite_response.status_code, 200)
 
     def test_list_administration(self):
-        seed_administration_test()
+        call_command("administration_seeder", "--test")
         administration = self.client.get('/api/v1/administration/1/',
                                          content_type='application/json')
         self.assertEqual(administration.status_code, 200)
