@@ -87,6 +87,7 @@ if [[ ${BACKEND_CHANGES} == 1 ]];
 then
     echo "================== * BACKEND BUILD * =================="
     backend_build
+    update_dbdocs
 else
     echo "No Changes detected for backend -- SKIP BUILD"
 fi
@@ -106,5 +107,3 @@ if [[ ${FRONTEND_CHANGES} == 1 && ${BACKEND_CHANGES} == 1 ]]; then
       exit 1
     fi
 fi
-
-update_dbdocs
