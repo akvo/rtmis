@@ -28,6 +28,15 @@ class UserInvitationTestCase(TestCase):
                          {'id': 1, 'name': 'Indonesia', 'level': 1})
         self.assertEqual(users['data'][0]['role'],
                          {'id': 1, 'value': 'Super Admin'})
+        call_command("fake_user_seeder", "-r", 33)
+        response = self.client.get(
+            "/api/v1/list/users/?page=3", follow=True,
+            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+        users = response.json()
+        self.assertEqual(len(users['data']), 10)
+        self.assertEqual(
+            ['id', 'first_name', 'last_name', 'email', 'administration',
+             'role', 'invite'], list(users['data'][0]))
 
     def test_add_edit_user(self):
         call_command("administration_seeder", "--test")

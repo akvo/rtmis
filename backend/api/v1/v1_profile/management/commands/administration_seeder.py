@@ -1,9 +1,12 @@
-import pandas as pd
 import json
+
 import numpy as np
+import pandas as pd
 from django.core.management import BaseCommand
-from api.v1.v1_profile.models import Levels, Administration
 from django.db.transaction import atomic
+from faker import Faker
+
+from api.v1.v1_profile.models import Levels, Administration
 
 geo_config = [{
     "level": 0,
@@ -36,8 +39,13 @@ def get_parent_id(df, x):
 
 
 def seed_administration_test():
+    fake = Faker()
     level = Levels(name="country", level=1)
     level.save()
+    level_2 = Levels(name=fake.company(), level=2)
+    level_2.save()
+    level_3 = Levels(name=fake.company(), level=3)
+    level_3.save()
     administration = Administration(id=1,
                                     name="Indonesia",
                                     parent=None,
@@ -47,6 +55,16 @@ def seed_administration_test():
                                     name="Jakarta",
                                     parent=administration,
                                     level=level)
+    administration.save()
+    administration = Administration(id=3,
+                                    name=fake.company(),
+                                    parent=administration,
+                                    level=level_2)
+    administration.save()
+    administration = Administration(id=4,
+                                    name=fake.company(),
+                                    parent=administration,
+                                    level=level_3)
     administration.save()
 
 
