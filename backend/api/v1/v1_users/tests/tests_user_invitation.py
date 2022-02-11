@@ -21,13 +21,22 @@ class UserInvitationTestCase(TestCase):
         users = response.json()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(users[0]['first_name'], 'Admin')
-        self.assertEqual(users[0]['last_name'], 'RTMIS')
-        self.assertEqual(users[0]['email'], 'admin@rtmis.com')
-        self.assertEqual(users[0]['administration'],
+        self.assertEqual(users['data'][0]['first_name'], 'Admin')
+        self.assertEqual(users['data'][0]['last_name'], 'RTMIS')
+        self.assertEqual(users['data'][0]['email'], 'admin@rtmis.com')
+        self.assertEqual(users['data'][0]['administration'],
                          {'id': 1, 'name': 'Indonesia', 'level': 1})
-        self.assertEqual(users[0]['role'],
+        self.assertEqual(users['data'][0]['role'],
                          {'id': 1, 'value': 'Super Admin'})
+        call_command("fake_user_seeder", "-r", 33)
+        response = self.client.get(
+            "/api/v1/list/users/?page=3", follow=True,
+            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+        users = response.json()
+        self.assertEqual(len(users['data']), 10)
+        self.assertEqual(
+            ['id', 'first_name', 'last_name', 'email', 'administration',
+             'role', 'invite'], list(users['data'][0]))
 
     def test_add_edit_user(self):
         call_command("administration_seeder", "--test")
@@ -75,7 +84,8 @@ class UserInvitationTestCase(TestCase):
         list_response = self.client.get("/api/v1/list/users/", follow=True,
                                         **header)
         users = list_response.json()
-        fl = list(filter(lambda x: x['email'] == 'john@example.com', users))
+        fl = list(
+            filter(lambda x: x['email'] == 'john@example.com', users['data']))
 
         add_response = self.client.put(
             "/api/v1/edit/user/{0}/".format(fl[0]['id']),
