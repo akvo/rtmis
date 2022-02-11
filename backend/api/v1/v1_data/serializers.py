@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
@@ -6,6 +7,7 @@ from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_profile.models import Administration
 from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
     UnvalidatedField
+from utils.functions import update_date_time_format
 
 
 class SubmitFormDataSerializer(serializers.ModelSerializer):
@@ -116,3 +118,57 @@ class SubmitFormSerializer(serializers.Serializer):
                 created_by=self.context.get('user'),
             )
         return object
+
+
+class ListDataAnswerSerializer(serializers.ModelSerializer):
+    history = serializers.SerializerMethodField()
+    value = serializers.SerializerMethodField()
+
+    def get_history(self, instance):
+        return False
+
+    def get_value(self, instance: Answers):
+        if instance.question.type in [QuestionTypes.geo, QuestionTypes.option,
+                                      QuestionTypes.multiple_option]:
+            return instance.options
+        elif instance.question.type in [QuestionTypes.administration,
+                                        QuestionTypes.number]:
+            return instance.value
+        else:
+            return instance.name
+
+    class Meta:
+        model = Answers
+        fields = ['history', 'question', 'value']
+
+
+class ListFormDataSerializer(serializers.ModelSerializer):
+    created_by = serializers.SerializerMethodField()
+    updated_by = serializers.SerializerMethodField()
+    created = serializers.SerializerMethodField()
+    updated = serializers.SerializerMethodField()
+    answer = serializers.SerializerMethodField()
+
+    def get_created_by(self, instance: FormData):
+        return instance.created_by.get_full_name()
+
+    def get_updated_by(self, instance: FormData):
+        if instance.updated_by:
+            return instance.updated_by.get_full_name()
+        return None
+
+    def get_created(self, instance: FormData):
+        return update_date_time_format(instance.created)
+
+    def get_updated(self, instance: FormData):
+        return update_date_time_format(instance.updated)
+
+    @extend_schema_field(ListDataAnswerSerializer(many=True))
+    def get_answer(self, instance: FormData):
+        return ListDataAnswerSerializer(instance=instance.data_answer.all(),
+                                        many=True).data
+
+    class Meta:
+        model = FormData
+        fields = ['id', 'name', 'form', 'administration', 'geo', 'created_by',
+                  'updated_by', 'created', 'updated', 'answer']
