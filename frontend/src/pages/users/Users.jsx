@@ -139,7 +139,7 @@ const Users = () => {
         headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
       })
       .then((res) => {
-        setDataset(res.data);
+        setDataset(res.data.data);
         setLoading(false);
       })
       .catch((err) => {
