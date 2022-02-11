@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = environ["DJANGO_SECRET"]
+SECRET_KEY = 'environ["DJANGO_SECRET"]'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if "DEBUG" in environ else False
@@ -120,13 +120,23 @@ SIMPLE_JWT = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': environ["DB_SCHEMA"],
-        'USER': environ["DB_USER"],
-        'PASSWORD': environ["DB_PASSWORD"],
-        'HOST': environ["DB_HOST"],
+        'NAME': 'rtmis',
+        'USER': 'postgres',
+        'PASSWORD': 'Test105*',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': environ["DB_SCHEMA"],
+#         'USER': environ["DB_USER"],
+#         'PASSWORD': environ["DB_PASSWORD"],
+#         'HOST': environ["DB_HOST"],
+#         'PORT': '5432',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
