@@ -1,4 +1,6 @@
 # Create your views here.
+from math import ceil
+
 from django.contrib.auth import authenticate
 from django.core import signing
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
@@ -20,6 +22,7 @@ from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     VerifyInviteSerializer, SetUserPasswordSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
     ListUserRequestSerializer
+from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
 
@@ -170,26 +173,33 @@ def add_user(request, version):
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-@extend_schema(responses={200: ListUserSerializer(many=True)},
-               tags=['User'],
-               parameters=[
-                   OpenApiParameter(name='page',
-                                    required=True,
-                                    type=OpenApiTypes.NUMBER,
-                                    location=OpenApiParameter.QUERY),
-                   OpenApiParameter(name='role',
-                                    required=False,
-                                    type=OpenApiTypes.NUMBER,
-                                    location=OpenApiParameter.QUERY),
-                   OpenApiParameter(name='administration',
-                                    required=False,
-                                    type=OpenApiTypes.NUMBER,
-                                    location=OpenApiParameter.QUERY),
-                   OpenApiParameter(name='pending',
-                                    required=False,
-                                    type=OpenApiTypes.BOOL,
-                                    location=OpenApiParameter.QUERY),
-               ])
+@extend_schema(responses={
+    (200, 'application/json'):
+        inline_serializer("UserList", fields={
+            "current": serializers.IntegerField(),
+            "total": serializers.IntegerField(),
+            "total_page": serializers.IntegerField(),
+            "data": ListUserSerializer(many=True),
+        })},
+    tags=['User'],
+    parameters=[
+        OpenApiParameter(name='page',
+                         required=True,
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='role',
+                         required=False,
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='administration',
+                         required=False,
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='pending',
+                         required=False,
+                         type=OpenApiTypes.BOOL,
+                         location=OpenApiParameter.QUERY),
+    ])
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
 def list_users(request, version):
@@ -226,14 +236,21 @@ def list_users(request, version):
                 administration_ids.append(child.id)
             filter_data[
                 'user_access__administration_id__in'] = administration_ids
+        page_size = REST_FRAMEWORK.get('PAGE_SIZE')
         queryset = SystemUser.objects.filter(**filter_data).order_by('id')
-        paginator_temp = Paginator(queryset, 10)
+        paginator_temp = Paginator(queryset, page_size)
         paginator_temp.page(request.GET.get('page', 1))
         paginator = PageNumberPagination()
         instance = paginator.paginate_queryset(queryset, request)
-        return Response(ListUserSerializer(
-            instance=instance,
-            many=True).data, status=status.HTTP_200_OK)
+        data = {
+            "current": request.GET.get('page'),
+            "data": ListUserSerializer(
+                instance=instance,
+                many=True).data,
+            "total": queryset.count(),
+            "total_page": ceil(queryset.count() / page_size)
+        }
+        return Response(data, status=status.HTTP_200_OK)
     except (InvalidPage, EmptyPage):
         return Response([], status=status.HTTP_200_OK)
     except Exception as ex:
