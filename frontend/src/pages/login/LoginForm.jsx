@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Button, Checkbox, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,18 +6,18 @@ import { api, store } from "../../lib";
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const onFinish = (values) => {
-    let url = `v1/login/`;
-    let postData = {
-      email: values.email,
-      password: values.password,
-    };
+    setLoading(true);
     api
-      .post(url, postData)
+      .post("login/", {
+        email: values.email,
+        password: values.password,
+      })
       .then((res) => {
         api.setToken(res.token);
-        let userData = {
+        const userData = {
           name: res.data.name,
           email: res.data.email,
           invite: res.data.invite,
@@ -26,10 +26,12 @@ const LoginForm = () => {
           s.isLoggedIn = true;
           s.user = userData;
         });
+        setLoading(false);
         navigate("/control-center");
       })
       .catch((err) => {
-        if (err.response.status == 401 || err.response.status == 400) {
+        if (err.response.status === 401 || err.response.status === 400) {
+          setLoading(false);
           message.error(err.response.data.message);
         }
       });
@@ -62,6 +64,7 @@ const LoginForm = () => {
       <Form.Item
         name="password"
         label="Password"
+        disabled={loading}
         rules={[
           {
             required: true,
@@ -71,6 +74,7 @@ const LoginForm = () => {
       >
         <Input.Password
           prefix={<LockOutlined className="site-form-item-icon" />}
+          disabled={loading}
           placeholder="Password"
         />
       </Form.Item>
@@ -83,7 +87,7 @@ const LoginForm = () => {
         </Link>
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={loading}>
           Log in
         </Button>
       </Form.Item>

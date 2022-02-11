@@ -11,7 +11,12 @@ from api.v1.v1_forms.models import Questions, QuestionOptions
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
-        parser.add_argument("-t", "--test", nargs='?', default=1, type=int)
+        parser.add_argument("-t",
+                            "--test",
+                            nargs="?",
+                            const=1,
+                            default=False,
+                            type=int)
 
     @atomic
     def handle(self, *args, **options):
@@ -22,8 +27,8 @@ class Command(BaseCommand):
             for json_file in os.listdir(source_folder)
         ]
         source_files = list(
-            filter(lambda x: "example" not in x
-                   if test else "example" in x, source_files))
+            filter(lambda x: "example" in x
+                   if test else "example" not in x, source_files))
         Forms.objects.all().delete()
         for source in source_files:
             json_form = open(source, 'r')
@@ -55,4 +60,5 @@ class Command(BaseCommand):
                             QuestionOptions(question=question, name=o["name"])
                             for o in q["options"]
                         ])
-            self.stdout.write(f"Form Created | {form.name}")
+            if not test:
+                self.stdout.write(f"Form Created | {form.name}")

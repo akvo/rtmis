@@ -23,8 +23,8 @@ const Bar = (data, chartTitle, extra) => {
   const total = sumBy(data, "value");
   data = sortBy(data, "order");
   data = data.map((x) => ({ ...x, percentage: (x.value / total) * 100 }));
-  let labels = data.map((x) => x.name);
-  let option = {
+  const labels = data.map((x) => x.name);
+  const option = {
     ...Color,
     title: {
       ...Title,

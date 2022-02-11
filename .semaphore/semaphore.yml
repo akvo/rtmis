@@ -24,6 +24,7 @@ blocks:
           - 'export CI_BRANCH="${SEMAPHORE_GIT_BRANCH}"'
           - 'export CI_TAG="${SEMAPHORE_GIT_TAG_NAME}"'
           - 'export CI_PULL_REQUEST="${SEMAPHORE_GIT_REF_TYPE/pull-request/true}"'
+          - 'export CI_COMMIT_RANGE="${SEMAPHORE_GIT_COMMIT_RANGE}"'
           - export CLOUDSDK_CORE_DISABLE_PROMPTS=1
           - export COMPOSE_INTERACTIVE_NO_CLI=1
           - checkout

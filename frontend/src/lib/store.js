@@ -1,12 +1,27 @@
 import { Store } from "pullstate";
 
 const defaultUIState = {
-  isLoggedIn: localStorage.getItem("isLoggedIn")
-    ? localStorage.getItem("isLoggedIn")
-    : false,
-  user: localStorage.getItem("user")
-    ? JSON.parse(localStorage.getItem("user"))
-    : null,
+  isLoggedIn: false,
+  user: null,
+  filters: {
+    role: null,
+    county: {
+      id: null,
+      options: [],
+    },
+    subCounty: {
+      id: null,
+      options: [],
+    },
+    ward: {
+      id: null,
+      options: [],
+    },
+    community: {
+      id: null,
+      options: [],
+    },
+  },
 };
 
 const store = new Store(defaultUIState);

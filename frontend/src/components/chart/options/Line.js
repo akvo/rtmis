@@ -54,7 +54,7 @@ const Line = (data, chartTitle, extra) => {
       type: "days",
     });
   }
-  let option = {
+  const option = {
     title: {
       ...Title,
       show: !isEmpty(chartTitle),
