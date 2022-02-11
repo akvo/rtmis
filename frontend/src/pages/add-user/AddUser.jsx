@@ -15,7 +15,7 @@ import {
   message,
 } from "antd";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../lib";
 
 const { Option } = Select;
@@ -30,11 +30,13 @@ const AddUser = () => {
   const [communities, setCommunities] = useState([]);
 
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
   const onFinish = (values) => {
+    setSubmitting(true);
     api
       .post("add/user/", {
         first_name: values.first_name,
@@ -51,10 +53,12 @@ const AddUser = () => {
       })
       .then(() => {
         message.success("User added");
+        setSubmitting(false);
         navigate("/users");
       })
       .catch((err) => {
         message.error(err.response?.data?.message || "User could not be added");
+        setSubmitting(false);
       });
   };
 
@@ -128,25 +132,23 @@ const AddUser = () => {
             }
           >
             <Breadcrumb.Item>
-              <a href="">
+              <Link to="/control-center">
                 <Title style={{ display: "inline" }} level={2}>
                   Control Center
                 </Title>
-              </a>
+              </Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              <a href="">
+              <Link to="/users">
                 <Title style={{ display: "inline" }} level={2}>
                   Manage Users
                 </Title>
-              </a>
+              </Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              <a href="">
-                <Title style={{ display: "inline" }} level={2}>
-                  Add User
-                </Title>
-              </a>
+              <Title style={{ display: "inline" }} level={2}>
+                Add User
+              </Title>
             </Breadcrumb.Item>
           </Breadcrumb>
         </Col>
@@ -360,7 +362,12 @@ const AddUser = () => {
             </Row>
           </Col>
           <Col>
-            <Button type="primary" htmlType="submit" loading={loading}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={submitting}
+              disabled={loading}
+            >
               Add User
             </Button>
           </Col>

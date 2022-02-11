@@ -35,13 +35,15 @@ const renderDetails = (record) => {
             <tr>
               <td>Name</td>
               <td>
-                <a href="#">{record.name}</a>
+                <a href="#">
+                  {record.first_name} {record.last_name}
+                </a>
               </td>
             </tr>
             <tr>
               <td>Organization</td>
               <td>
-                <a href="#">{record.organization}</a>
+                <a href="#">-</a>
               </td>
             </tr>
             <tr>
@@ -53,19 +55,19 @@ const renderDetails = (record) => {
             <tr>
               <td>Role</td>
               <td>
-                <a href="#">{record.role}</a>
+                <a href="#">{record.role?.value}</a>
               </td>
             </tr>
             <tr>
               <td>Region</td>
               <td>
-                <a href="#">{record.region}</a>
+                <a href="#">{record.administration?.name}</a>
               </td>
             </tr>
             <tr>
               <td>Questionnaire</td>
               <td>
-                <a href="#">{record.role}</a>
+                <a href="#">-</a>
               </td>
             </tr>
           </tbody>
@@ -79,7 +81,7 @@ const renderDetails = (record) => {
           <Link to={"/user/edit/" + record.id}>
             <Button type="secondary">Edit</Button>
           </Link>{" "}
-          <Button type="danger">Delete</Button>
+          <Button danger>Delete</Button>
         </div>
       </div>
     </div>
@@ -91,7 +93,9 @@ const Users = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
 
-  const filterRole = store.useState((state) => state.filterRole);
+  const { role, county, subCounty, ward, community } = store.useState(
+    (state) => state.filters
+  );
 
   const columns = [
     {
@@ -114,7 +118,7 @@ const Users = () => {
       dataIndex: "role",
       render: (role) => role.value || "",
       filtered: true,
-      filteredValue: filterRole ? [filterRole] : [],
+      filteredValue: role ? [role] : [],
       filterDropdownVisible: false,
       filterIcon: () => false,
       filters: [
@@ -129,6 +133,38 @@ const Users = () => {
       title: "Region",
       dataIndex: "administration",
       render: (administration) => administration?.name || "",
+      filtered: true,
+      filteredValue: community.id
+        ? [community.id]
+        : ward.id
+        ? [ward.id]
+        : subCounty.id
+        ? [subCounty.id]
+        : county.id
+        ? [county.id]
+        : [],
+      onFilter: (value, filters) => filters.administration.id === value,
+      filters: community.id
+        ? community.options.map((option) => ({
+            text: option.name,
+            value: option.id,
+          }))
+        : ward.id
+        ? ward.options.map((option) => ({
+            text: option.name,
+            value: option.id,
+          }))
+        : subCounty.id
+        ? subCounty.options.map((option) => ({
+            text: option.name,
+            value: option.id,
+          }))
+        : county.options.map((option) => ({
+            text: option.name,
+            value: option.id,
+          })),
+      filterDropdownVisible: false,
+      filterIcon: () => false,
     },
     Table.EXPAND_COLUMN,
   ];
@@ -161,18 +197,16 @@ const Users = () => {
             }
           >
             <Breadcrumb.Item>
-              <a href="">
+              <Link to="/control-center">
                 <Title style={{ display: "inline" }} level={2}>
                   Control Center
                 </Title>
-              </a>
+              </Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              <a href="">
-                <Title style={{ display: "inline" }} level={2}>
-                  Manage Users
-                </Title>
-              </a>
+              <Title style={{ display: "inline" }} level={2}>
+                Manage Users
+              </Title>
             </Breadcrumb.Item>
           </Breadcrumb>
         </Col>

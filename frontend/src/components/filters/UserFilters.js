@@ -6,7 +6,7 @@ import { store } from "../../lib";
 import AdministrationDropdown from "./AdministrationDropdown";
 
 const UserFilters = () => {
-  const filterRole = store.useState((state) => state.filterRole);
+  const { role } = store.useState((state) => state.filters);
 
   return (
     <Row>
@@ -27,10 +27,10 @@ const UserFilters = () => {
         <Select
           placeholder="Role"
           style={{ width: "90%" }}
-          value={filterRole}
+          value={role}
           onChange={(e) => {
             store.update((s) => {
-              s.filterRole = e;
+              s.filters.role = e;
             });
           }}
           allowClear
@@ -41,10 +41,9 @@ const UserFilters = () => {
           <Select.Option value="User">User</Select.Option>
         </Select>
       </Col>
-      <Col span={4}>
+      <Col flex="auto">
         <AdministrationDropdown />
       </Col>
-      <Col span={4}>&nbsp;</Col>
       <Col span={4} style={{ textAlign: "right" }}>
         <Checkbox onChange={() => {}}>Show Pending Users</Checkbox>
       </Col>
