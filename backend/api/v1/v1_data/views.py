@@ -13,7 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
-    ListFormDataSerializer
+    ListFormDataSerializer, ListFormDataRequestSerializer
 from api.v1.v1_forms.models import Forms
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_serializer_fields import validate_serializers_message
@@ -66,10 +66,10 @@ def submit_form(request, version, pk):
         #                  required=False,
         #                  type=OpenApiTypes.NUMBER,
         #                  location=OpenApiParameter.QUERY),
-        # OpenApiParameter(name='administration',
-        #                  required=False,
-        #                  type=OpenApiTypes.NUMBER,
-        #                  location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='questions',
+                         required=False,
+                         type={'type': 'array', 'items': {'type': 'number'}},
+                         location=OpenApiParameter.QUERY),
         # OpenApiParameter(name='pending',
         #                  required=False,
         #                  type=OpenApiTypes.BOOL,
@@ -80,7 +80,16 @@ def submit_form(request, version, pk):
 def list_form_data(request, version, pk):
     form = get_object_or_404(Forms, pk=pk)
     try:
+        serializer = ListFormDataRequestSerializer(data=request.GET)
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(serializer.errors)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         filter_data = {}
+        if serializer.validated_data.get('administration'):
+            filter_data['administration'] = serializer.validated_data.get(
+                'administration')
         page_size = REST_FRAMEWORK.get('PAGE_SIZE')
         page = request.GET.get('page')
 
@@ -97,7 +106,8 @@ def list_form_data(request, version, pk):
             "total": queryset.count(),
             "total_page": ceil(queryset.count() / page_size),
             "data": ListFormDataSerializer(
-                instance=instance,
+                instance=instance, context={
+                    'questions': serializer.validated_data.get('questions')},
                 many=True).data,
         }
         return Response(data, status=status.HTTP_200_OK)
