@@ -94,6 +94,8 @@ const Users = () => {
   const [dataset, setDataset] = useState([]);
   const [query, setQuery] = useState("");
   const [pending, setPending] = useState(false);
+  const [totalCount, setTotalCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { role, county, subCounty, ward, community } = store.useState(
     (state) => state.filters
@@ -175,14 +177,21 @@ const Users = () => {
     Table.EXPAND_COLUMN,
   ];
 
+  const handleChange = (e) => {
+    setCurrentPage(e.current);
+  };
+
   useEffect(() => {
-    const url = `list/users/?page=1&pending=${pending ? "true" : "false"}`;
+    const url = `list/users/?page=${currentPage}&pending=${
+      pending ? "true" : "false"
+    }`;
     api
       .get(url, {
         headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
       })
       .then((res) => {
         setDataset(res.data.data);
+        setTotalCount(res.data.total);
         setLoading(false);
       })
       .catch((err) => {
@@ -190,7 +199,7 @@ const Users = () => {
         setLoading(false);
         console.error(err);
       });
-  }, [cookies.AUTH_TOKEN, pending]);
+  }, [cookies.AUTH_TOKEN, pending, currentPage]);
 
   return (
     <div id="users">
@@ -240,6 +249,11 @@ const Users = () => {
           columns={columns}
           dataSource={dataset}
           loading={loading}
+          onChange={handleChange}
+          pagination={{
+            total: totalCount,
+            pageSize: 10,
+          }}
           rowKey="id"
           expandable={{
             expandedRowRender: renderDetails,
