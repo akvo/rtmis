@@ -5,7 +5,7 @@ import { Row, Col, Input, Select, Checkbox } from "antd";
 import { store } from "../../lib";
 import AdministrationDropdown from "./AdministrationDropdown";
 
-const UserFilters = ({ query, setQuery }) => {
+const UserFilters = ({ query, setQuery, pending, setPending, loading }) => {
   const { role } = store.useState((state) => state.filters);
 
   return (
@@ -52,7 +52,15 @@ const UserFilters = ({ query, setQuery }) => {
         <AdministrationDropdown />
       </Col>
       <Col span={4} style={{ textAlign: "right" }}>
-        <Checkbox onChange={() => {}}>Show Pending Users</Checkbox>
+        <Checkbox
+          onChange={() => {
+            setPending(!pending);
+          }}
+          disabled={loading}
+          checked={pending}
+        >
+          Show Pending Users
+        </Checkbox>
       </Col>
     </Row>
   );

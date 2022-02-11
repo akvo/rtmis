@@ -93,6 +93,7 @@ const Users = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
   const [query, setQuery] = useState("");
+  const [pending, setPending] = useState(false);
 
   const { role, county, subCounty, ward, community } = store.useState(
     (state) => state.filters
@@ -114,11 +115,9 @@ const Users = () => {
       title: "Email",
       dataIndex: "email",
       filtered: true,
-      filteredValue: query.trim() == "" ? [] : [query],
-      onFilter: (value, filters) => {
-        console.log(value, filters);
-        return filters.email.toLowerCase().includes(value.toLowerCase());
-      },
+      filteredValue: query.trim() === "" ? [] : [query],
+      onFilter: (value, filters) =>
+        filters.email.toLowerCase().includes(value.toLowerCase()),
     },
     {
       title: "Role",
@@ -177,8 +176,9 @@ const Users = () => {
   ];
 
   useEffect(() => {
+    const url = `list/users/?page=1&pending=${pending ? "true" : "false"}`;
     api
-      .get("list/users/?page=1", {
+      .get(url, {
         headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
       })
       .then((res) => {
@@ -190,7 +190,7 @@ const Users = () => {
         setLoading(false);
         console.error(err);
       });
-  }, [cookies.AUTH_TOKEN]);
+  }, [cookies.AUTH_TOKEN, pending]);
 
   return (
     <div id="users">
@@ -224,9 +224,18 @@ const Users = () => {
         </Col>
       </Row>
       <Divider />
-      <UserFilters query={query} setQuery={setQuery} />
+      <UserFilters
+        query={query}
+        setQuery={setQuery}
+        pending={pending}
+        setPending={setPending}
+        loading={loading}
+      />
       <Divider />
-      <Card style={{ padding: 0 }} bodyStyle={{ padding: 0 }}>
+      <Card
+        style={{ padding: 0, minHeight: "40vh" }}
+        bodyStyle={{ padding: 0 }}
+      >
         <Table
           columns={columns}
           dataSource={dataset}
