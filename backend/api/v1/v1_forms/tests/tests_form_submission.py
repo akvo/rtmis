@@ -26,7 +26,7 @@ class FormSubmissionTestCase(TestCase):
         self.maxDiff = None
         call_command("form_seeder", "--test")
         seed_administration_test()
-        webform = self.client.get("/api/v1/form/1", follow=True)
+        webform = self.client.get("/api/v1/web/form/1", follow=True)
         webform = webform.json()
         self.assertEqual(webform.get("name"), "Test Form")
         question_group = webform.get("question_group")
