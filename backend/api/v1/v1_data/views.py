@@ -12,8 +12,10 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from api.v1.v1_data.models import FormData
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
-    ListFormDataSerializer, ListFormDataRequestSerializer
+    ListFormDataSerializer, ListFormDataRequestSerializer, \
+    ListDataAnswerSerializer
 from api.v1.v1_forms.models import Forms
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_serializer_fields import validate_serializers_message
@@ -56,24 +58,20 @@ def submit_form(request, version, pk):
             "total_page": serializers.IntegerField(),
             "data": ListFormDataSerializer(many=True),
         })},
-    tags=['Form'],
+    tags=['Data'],
     parameters=[
         OpenApiParameter(name='page',
                          required=True,
                          type=OpenApiTypes.NUMBER,
                          location=OpenApiParameter.QUERY),
-        # OpenApiParameter(name='role',
-        #                  required=False,
-        #                  type=OpenApiTypes.NUMBER,
-        #                  location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='administration',
+                         required=False,
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY),
         OpenApiParameter(name='questions',
                          required=False,
                          type={'type': 'array', 'items': {'type': 'number'}},
                          location=OpenApiParameter.QUERY),
-        # OpenApiParameter(name='pending',
-        #                  required=False,
-        #                  type=OpenApiTypes.BOOL,
-        #                  location=OpenApiParameter.QUERY),
     ])
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -114,6 +112,22 @@ def list_form_data(request, version, pk):
     except (InvalidPage, EmptyPage):
         return Response({'message': 'data not found'},
                         status=status.HTTP_404_NOT_FOUND)
+    except Exception as ex:
+        return Response({'message': ex.args},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@extend_schema(responses={200: ListDataAnswerSerializer(many=True)},
+               tags=['Data'])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def data_answers(request, version, pk):
+    data = get_object_or_404(FormData, pk=pk)
+    try:
+        return Response(
+            ListDataAnswerSerializer(instance=data.data_answer.all(),
+                                     many=True).data,
+            status=status.HTTP_200_OK)
     except Exception as ex:
         return Response({'message': ex.args},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
