@@ -1,6 +1,8 @@
 from io import StringIO
+
 from django.core.management import call_command
 from django.test import TestCase
+
 from api.v1.v1_forms.models import Forms
 
 
@@ -35,12 +37,11 @@ class FormSeederTestCase(TestCase):
         for json_form in json_forms:
             self.assertIn(f"Form Created | {json_form}", output)
             self.assertIn(json_form, form_names)
-
         for id in form_ids:
-            response = self.client.get(f"/api/v1/form/{id}", follow=True)
+            response = self.client.get(f"/api/v1/web/form/{id}", follow=True)
             self.assertEqual(200, response.status_code)
 
-        response = self.client.get("/api/v1/form/952774024", follow=True)
+        response = self.client.get("/api/v1/web/form/952774024", follow=True)
         response = response.json()
         self.assertEqual({"administration": []}, response["cascade"])
         self.assertEqual("Water Quality",
