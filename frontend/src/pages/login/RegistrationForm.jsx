@@ -16,14 +16,13 @@ const RegistrationForm = (props) => {
   const navigate = useNavigate();
 
   const onFinish = (values) => {
-    const url = `v1/set/user/password/`;
     const postData = {
       invite,
       password: values.password,
       confirm_password: values.confirm,
     };
     api
-      .post(url, postData)
+      .post("set/user/password/", postData)
       .then((res) => {
         api.setToken(res.data.token);
         const userData = {
