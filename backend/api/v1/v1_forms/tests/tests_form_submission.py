@@ -1,6 +1,6 @@
-from io import StringIO
 from django.core.management import call_command
 from django.test import TestCase
+
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Administration, Levels
 
@@ -21,23 +21,12 @@ def seed_administration_test():
 
 
 class FormSubmissionTestCase(TestCase):
-    def call_command(self, *args, **kwargs):
-        out = StringIO()
-        call_command(
-            "form_seeder",
-            "--test",
-            stdout=out,
-            stderr=StringIO(),
-            **kwargs,
-        )
-        return out.getvalue()
-
     def test_webform_endpoint(self):
 
         self.maxDiff = None
-        self.call_command()
+        call_command("form_seeder", "--test")
         seed_administration_test()
-        webform = self.client.get("/api/v1/form/1", follow=True)
+        webform = self.client.get("/api/v1/web/form/1", follow=True)
         webform = webform.json()
         self.assertEqual(webform.get("name"), "Test Form")
         question_group = webform.get("question_group")
@@ -69,10 +58,9 @@ class FormSubmissionTestCase(TestCase):
                                 user,
                                 content_type='application/json')
         user = user.json()
-        self.call_command()
+        call_command("form_seeder", "--test")
         form = Forms.objects.first()
         self.assertEqual(form.name, "Test Form")
-        self.assertEqual(["email", "name", "token", "invite"], list(user))
         payload = {
             "data": {
                 "name": "Testing Data",

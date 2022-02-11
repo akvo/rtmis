@@ -1,5 +1,5 @@
 {
-  "form": "WASH in Health Centres",
+  "form": "Health Facilities",
   "id": 952774024,
   "question_groups": [
     {
@@ -350,19 +350,19 @@
               "color": null
             },
             {
-              "name": "SACMO \u2013 sub assistant community medical officer",
+              "name": "SACMO – sub assistant community medical officer",
               "color": null
             },
             {
-              "name": "FWA \u2013 family welfare assistant",
+              "name": "FWA – family welfare assistant",
               "color": null
             },
             {
-              "name": "FWV \u2013 family welfare visitor",
+              "name": "FWV – family welfare visitor",
               "color": null
             },
             {
-              "name": "HI \u2013 health inspector or assistant health inspector",
+              "name": "HI – health inspector or assistant health inspector",
               "color": null
             },
             {

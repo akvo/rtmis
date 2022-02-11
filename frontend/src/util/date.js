@@ -6,10 +6,10 @@ export const getDateRange = ({
   type = "months",
   dateFormat = "MMMM DD, YYYY",
 }) => {
-  let fromDate = moment(startDate);
-  let toDate = moment(endDate);
-  let diff = toDate.diff(fromDate, type);
-  let range = [];
+  const fromDate = moment(startDate);
+  const toDate = moment(endDate);
+  const diff = toDate.diff(fromDate, type);
+  const range = [];
   for (let i = 0; i < diff; i++) {
     range.push(moment(startDate).add(i, type));
   }
