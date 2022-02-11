@@ -1,13 +1,14 @@
 from datetime import timedelta
 
-from django.core.management import BaseCommand
-from django.utils import timezone
-from django.db.transaction import atomic
 import pandas as pd
+from django.core.management import BaseCommand
+from django.db.transaction import atomic
+from django.utils import timezone
 from faker import Faker
 
+from api.v1.v1_data.models import FormData, Answers
 from api.v1.v1_forms.constants import QuestionTypes
-from api.v1.v1_forms.models import Forms, FormData, Answers
+from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 
@@ -112,7 +113,6 @@ class Command(BaseCommand):
 
     @atomic
     def handle(self, *args, **options):
-
         FormData.objects.all().delete()
         fake_geo = pd.read_csv("./source/kenya_random_points.csv")
         level_names = list(
