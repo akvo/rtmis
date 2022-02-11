@@ -3,7 +3,7 @@
 
 set -exuo pipefail
 
-[[ "${CI_BRANCH}" ==  "gh-pages" ]] && { echo "Pull request. Skip deploy"; exit 0; }
+[[ "${CI_BRANCH}" ==  "gh-pages" ]] && { echo "GH Pages update. Skip all"; exit 0; }
 
 if grep -q .yml .gitignore; then
     echo "ERROR: .gitignore contains other docker-compose file"
