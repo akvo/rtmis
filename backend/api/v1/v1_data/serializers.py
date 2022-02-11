@@ -4,9 +4,10 @@ from rest_framework.exceptions import ValidationError
 
 from api.v1.v1_data.models import FormData, Answers
 from api.v1.v1_forms.constants import QuestionTypes
+from api.v1.v1_forms.models import Questions
 from api.v1.v1_profile.models import Administration
 from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
-    UnvalidatedField
+    UnvalidatedField, CustomListField
 from utils.functions import update_date_time_format
 
 
@@ -142,6 +143,20 @@ class ListDataAnswerSerializer(serializers.ModelSerializer):
         fields = ['history', 'question', 'value']
 
 
+class ListFormDataRequestSerializer(serializers.Serializer):
+    administration = CustomPrimaryKeyRelatedField(
+        queryset=Administration.objects.none(), required=False)
+    questions = CustomListField(child=CustomPrimaryKeyRelatedField(
+        queryset=Questions.objects.none()), required=False)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get(
+            'administration').queryset = Administration.objects.all()
+        self.fields.get(
+            'questions').child.queryset = Questions.objects.all()
+
+
 class ListFormDataSerializer(serializers.ModelSerializer):
     created_by = serializers.SerializerMethodField()
     updated_by = serializers.SerializerMethodField()
@@ -165,8 +180,13 @@ class ListFormDataSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(ListDataAnswerSerializer(many=True))
     def get_answer(self, instance: FormData):
-        return ListDataAnswerSerializer(instance=instance.data_answer.all(),
-                                        many=True).data
+        filter_data = {}
+        if self.context.get('questions') and len(
+                self.context.get('questions')):
+            filter_data['question__in'] = self.context.get('questions')
+        return ListDataAnswerSerializer(
+            instance=instance.data_answer.filter(**filter_data),
+            many=True).data
 
     class Meta:
         model = FormData

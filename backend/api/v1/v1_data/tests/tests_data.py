@@ -17,8 +17,9 @@ class DataTestCase(TestCase):
             'HTTP_AUTHORIZATION': f'Bearer {token}'
         }
 
-        data = self.client.get("/api/v1/list/form-data/1?page=1", follow=True,
-                               **header)
+        data = self.client.get(
+            "/api/v1/list/form-data/1?page=1&administration=1", follow=True,
+            **header)
         self.assertEqual(data.status_code, 200)
         data = self.client.get("/api/v1/list/form-data/1?page=2", follow=True,
                                **header)
