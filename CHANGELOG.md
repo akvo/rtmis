@@ -1,0 +1,334 @@
+
+### Contributor: Nirav
+**Added Lines: 51876, Removed Lines: 49404, Total Lines: 2472**
+
+- **17 Jan 19:46** Nirav Add test API
+- **19 Jan 10:24** Nirav #4 Backend connection #5 Setup Auth
+- **19 Jan 10:25** Nirav Merge remote-tracking branch 'origin/develop' into develop
+- **19 Jan 10:59** Nirav #4 Backend connection (add api/test endpoint)
+- **19 Jan 12:57** Nirav [#4] update nginx for static
+- **19 Jan 15:55** Nirav Merge remote-tracking branch 'origin/develop' into develop
+- **19 Jan 19:12** Nirav [#7] Add migration, Sample CSV upload and add data to DB [#4] update static url to static-files in nginx and setup proxy
+- **19 Jan 19:12** Nirav Merge remote-tracking branch 'origin/develop' into develop
+- **20 Jan 18:38** Nirav [#7] Add sample data files and django command to migrate the data
+- **20 Jan 18:39** Nirav Merge remote-tracking branch 'origin/develop' into develop
+- **21 Jan 12:16** Nirav [#11] Code quality updates (PEP8)
+- **21 Jan 12:33** Nirav [#11] Code quality updates (PEP8)
+- **21 Jan 19:31** Nirav Sample test case for API
+- **21 Jan 19:31** Nirav Merge remote-tracking branch 'origin/develop' into develop
+- **24 Jan 15:02** Nirav [#2] Remove POC migrations, Add system user for authentication, Add API versioning
+- **24 Jan 15:45** Nirav [#2] Add Administrator and Access model
+- **24 Jan 19:07** Nirav [#2] Add All models
+- **25 Jan 12:34** Nirav [#2] Updates for Form and Data model
+- **25 Jan 18:20** Nirav [#2] Add command to seed administration Update default value of UUID under Forms model Add level under Administration model Add migration files for related model changes
+- **25 Jan 18:20** Nirav Merge remote-tracking branch 'origin/develop' into develop
+- **28 Jan 12:48** Nirav [#2] Add/Updates models for Approval process
+- **28 Jan 12:57** Nirav [#2] Add migration file for Form/Data related models
+- **28 Jan 18:45** Nirav [#2] Update Form/Data related models, Rest migrations [#22] Add Login API
+- **31 Jan 13:12** Nirav [#22] API: Update Login, Add verify invite
+- **31 Jan 13:23** Nirav [#22] Update validation messages lines length to 79 or less
+- **31 Jan 15:08** Nirav [#2] add first name and last name to user model
+- **31 Jan 15:15** Nirav [#22] add name to login and verify invite API response
+- **31 Jan 16:13** Nirav [#22] add set password API
+- **31 Jan 16:25** Nirav [#2] update Access model relation to One-to-One with User model
+- **01 Feb 13:37** Nirav [#24] integrate swagger doc
+- **01 Feb 17:46** Nirav [#27] Administration API
+- **01 Feb 18:17** Nirav [#27] Add Level details to parent
+- **01 Feb 18:18** Nirav [#24] Add tags for swagger schema
+- **02 Feb 16:34** Nirav [#29] Form API
+- **02 Feb 17:43** Nirav [#29] List Form API and rename serializer for form detail
+- **02 Feb 18:09** Nirav [#25] Form Seeder: Add 'order' and 'meta' field in question
+- **02 Feb 19:10** Nirav [#29] Form API: Update response for type 'administration' and 'geo', add administration data to object
+- **03 Feb 11:26** Nirav [#29] Form API: Update administration data to object
+- **03 Feb 12:02** Nirav [#29] Form API: Remove level from administration data
+- **03 Feb 12:10** Nirav [#2] DB: alter name to text field in FormData and PendingFormData
+- **03 Feb 17:43** Nirav [#2] DB: alter name field to allow null in Answer model
+- **03 Feb 19:36** Nirav [#34] API: Add Submit form Add form related API to v1_forms
+- **03 Feb 19:36** Nirav Merge remote-tracking branch 'origin/develop' into develop
+- **03 Feb 19:47** Nirav [#32] API: Add Submit form Add form related API to v1_forms
+- **03 Feb 19:47** Nirav Merge remote-tracking branch 'origin/develop' into develop
+- **03 Feb 19:51** Nirav Merge remote-tracking branch 'origin/develop' into develop
+- **04 Feb 11:59** Nirav [#2] DB: alter 'updated' field set default value to null
+- **04 Feb 15:39** Nirav [#29] Remove key with null value from response
+- **04 Feb 16:15** Nirav [#33] API: Invite/Add User
+- **04 Feb 16:22** Nirav [#11] Update code quality
+- **04 Feb 18:26** Nirav [#33] API: User list API
+- **04 Feb 19:30** Nirav [#33] API: Update user
+- **04 Feb 19:35** Nirav [#11] Code Quality Update
+- **08 Feb 13:46** Nirav [#33] add test cases for Add/Edit/List user endpoint
+- **08 Feb 13:57** Nirav [#33] update edit user test case
+- **08 Feb 16:49** Nirav [#22] API: Get profile, Add Test case for the same
+- **08 Feb 16:56** Nirav [#22] update test case for form submit
+- **08 Feb 16:57** Nirav [#22] update settings
+- **08 Feb 19:12** Nirav [#33] Add pagination to list user
+- **09 Feb 15:12** Nirav [#33] update user list filter [#33] Add roles API and test case
+- **09 Feb 19:09** Nirav [#33] Add test cases for error response
+- **10 Feb 10:16** Nirav Merge branch 'develop' into feature/33-user-Invitation
+- **10 Feb 10:18** Nirav [#33] replace administration seeder with command
+- **10 Feb 18:49** Nirav [#42] Add fake data seeder
+- **10 Feb 19:05** Nirav [#32][#42] update validation and save administration input to 'value' in Answer model
+- **11 Feb 10:47** Nirav [#33] Update user list API response
+- **11 Feb 11:00** Nirav [#33] Update user list test cases
+- **11 Feb 11:02** Nirav [#33] Update user list test cases
+- **11 Feb 16:19** Nirav [#33] add test case in user list to check pagination response
+- **11 Feb 21:20** Deden Bangkit [#42] moved data related model and API to v1_data from v1_form
+- **11 Feb 21:20** Deden Bangkit [#42] Fix import issue
+- **11 Feb 21:20** Deden Bangkit [#42] Form Data list with Pagination order by created or updated
+- **11 Feb 21:20** Deden Bangkit [#42] add Administration and Question filter to form-data API
+- **11 Feb 21:20** Deden Bangkit [#42] Add form data detail API and test case [#42] Update for fake data seeder for test cases
+- **11 Feb 21:20** Deden Bangkit [#42] Fix web form test case issue
+
+----------------------------------------------------------------
+
+### Contributor: Sanju Sunny
+**Added Lines: 1448, Removed Lines: 450, Total Lines: 998**
+
+- **02 Feb 18:02** Sanju Sunny User management / index - WIP
+- **02 Feb 18:04** Sanju Sunny Merge branch 'develop' of https://github.com/akvo/rtmis into develop
+- **02 Feb 06:44** Sanju Sunny Merge branch 'develop' of https://github.com/akvo/rtmis into develop
+- **02 Feb 10:03** Sanju Sunny User management - WIP
+- **04 Feb 10:08** Sanju Sunny [#23] Cookie auth, Control center
+- **04 Feb 12:38** Sanju Sunny [#23] Login bug fix
+- **04 Feb 12:46** Sanju Sunny [#23] Login bug fix
+- **04 Feb 12:51** Sanju Sunny [#23] Login bug fix
+- **04 Feb 12:54** Sanju Sunny [#23] Login bug + formatting fix
+- **04 Feb 16:47** Sanju Sunny [#27] Remove main menu from auth pages
+- **04 Feb 17:26** Sanju Sunny [#23] Removed main menu from auth pages, set up protected pages
+- **04 Feb 17:41** Sanju Sunny [#23] Removed main menu from auth pages, set up protected pages
+- **04 Feb 18:05** Sanju Sunny Header, set/unset cookies
+- **04 Feb 18:19** Sanju Sunny [#23] Header fix
+- **07 Feb 02:21** Sanju Sunny [#23] Fix loading error, Control center UI
+- **07 Feb 03:33** Sanju Sunny Verify Invite Code
+- **07 Feb 03:49** Sanju Sunny [#23] Fix code style issues
+- **07 Feb 04:30** Sanju Sunny [#23] Set password
+- **07 Feb 04:58** Sanju Sunny [#23] Added loader, handle login failure
+- **07 Feb 06:20** Sanju Sunny [#28] Add new user static screen
+- **10 Feb 04:58** Sanju Sunny [#23] Remove user data from cookie, Fetch user profile
+- **10 Feb 11:53** Sanju Sunny Merge branch 'develop' of https://github.com/akvo/rtmis into feature/23-associate-login-invite-apis
+- **10 Feb 14:52** Sanju Sunny Merge branch 'develop' into feature/23-associate-login-invite-apis
+- **10 Feb 16:45** Sanju Sunny [#23] store.js Initial State
+
+----------------------------------------------------------------
+
+### Contributor: dedenbangkit
+**Added Lines: 80988, Removed Lines: 45659, Total Lines: 35329**
+
+- **17 Jan 07:28** GitHub Initial commit
+- **17 Jan 07:49** dedenbangkit [#1] Initial build and deploy script
+- **17 Jan 00:52** Deden Bangkit Update Semaphore configuration
+- **17 Jan 07:59** dedenbangkit [#1] Debug semaphore secret
+- **17 Jan 08:23** dedenbangkit [#1] Frontend setup
+- **17 Jan 10:22** dedenbangkit [#1] Backend setup
+- **17 Jan 10:22** dedenbangkit [#1] DB setup and pgadmin
+- **17 Jan 10:23** dedenbangkit [#1] Fronend proxy setup
+- **17 Jan 10:24** dedenbangkit [#1] Docker compose setup
+- **17 Jan 11:00** dedenbangkit [#2] Add database dump script
+- **17 Jan 11:26** dedenbangkit [#1] Add report
+- **17 Jan 14:04** dedenbangkit [#2] DB Schema draft
+- **18 Jan 22:39** dedenbangkit [#3] Modify build script
+- **18 Jan 22:49** dedenbangkit [#3] Modify semaphore
+- **18 Jan 23:03** dedenbangkit [#3] Add auth, fix multiple build, modify pipeline
+- **18 Jan 23:13** dedenbangkit [#3] Modify frontend dockerfile for build
+- **18 Jan 23:17** dedenbangkit [#3] Fix missing env file
+- **18 Jan 23:24** dedenbangkit [#3] Try to solve mini-css-extract-plugin
+- **18 Jan 23:34** dedenbangkit [#3] Merge build and deploy jobs
+- **18 Jan 23:39** dedenbangkit [#3] Modify backend entrypoint
+- **18 Jan 23:45** dedenbangkit [#3] Add backend runner for ci
+- **18 Jan 23:58** dedenbangkit [#3] Include initdb to docker-compose ci
+- **19 Jan 00:07** dedenbangkit [#3] Modify postgres connection test retries
+- **19 Jan 00:21** dedenbangkit [#3] PG Healthcheck
+- **19 Jan 00:27** dedenbangkit [#3] Modify net status code check
+- **19 Jan 13:43** dedenbangkit [#3] Modify nginx
+- **19 Jan 14:30** GitHub Merge pull request #8 from akvo/develop
+- **19 Jan 16:17** dedenbangkit [#3] check docker-compose version
+- **19 Jan 20:15** dedenbangkit [#3] Modify build, remove node_modules
+- **19 Jan 20:25** dedenbangkit [#3] Re-enable network test, image push
+- **19 Jan 21:00** dedenbangkit [#3] Fix build
+- **19 Jan 21:01** dedenbangkit Merge branch 'develop' of github.com:akvo/rtmis into develop
+- **19 Jan 21:21** dedenbangkit [#3] Modify docker push
+- **19 Jan 21:56** dedenbangkit [#1] Update readme
+- **20 Jan 08:41** dedenbangkit [#3] Modify sever check status code
+- **20 Jan 09:15** dedenbangkit [#1] Update Readme
+- **20 Jan 23:13** dedenbangkit [#10] Deployment Template for k8s and ingress service
+- **21 Jan 00:02** dedenbangkit [#6] Remove package-lock.json
+- **21 Jan 08:27** dedenbangkit [#11] PEP8 check using Flake
+- **21 Jan 08:34** dedenbangkit [#11] Modify check command
+- **21 Jan 08:45** dedenbangkit [#11] Modify QC check
+- **21 Jan 09:51** dedenbangkit [#11] Modify Image to Akvo Node 17
+- **21 Jan 12:14** dedenbangkit [#11] Switch build order
+- **21 Jan 15:32** dedenbangkit [#10] Move Django Secret as Env
+- **21 Jan 15:33** dedenbangkit [#11] QC Fix
+- **21 Jan 15:40** dedenbangkit [#11] Remove docker-compose.dev from .gitignore
+- **21 Jan 16:04** dedenbangkit [#10] Fail if gitignore contains other yml file
+- **21 Jan 16:11** dedenbangkit [#11] Add eslint config prettier
+- **21 Jan 20:41** dedenbangkit [#12] Update DBML
+- **24 Jan 08:48** dedenbangkit [#11] Modify frontend code standard
+- **24 Jan 09:56** dedenbangkit [#11] Prefer stateless function, exhaustive deps warn
+- **24 Jan 13:28** dedenbangkit [#11] Allow console info, warn, error
+- **24 Jan 16:41** dedenbangkit [#11] Allow django migrations to longer line
+- **24 Jan 16:56** dedenbangkit [#12] Update dbml, user_status, user_role_enum
+- **24 Jan 16:59** dedenbangkit [#12] Change access_role_enum
+- **24 Jan 21:50** dedenbangkit [#2] Move order from answer to question
+- **24 Jan 21:51** dedenbangkit [#12] Update form database
+- **24 Jan 23:20** dedenbangkit [#14] Minified geojson & topojson
+- **24 Jan 23:59** dedenbangkit [#14] Administration CSV generator command
+- **25 Jan 00:04** GitHub Merge pull request #15 from akvo/develop
+- **25 Jan 09:29** dedenbangkit [#12] Update dbdocs script
+- **25 Jan 14:59** dedenbangkit [#6] Reusable Chart Component
+- **25 Jan 15:09** dedenbangkit [#16] Remove old chart components, example use
+- **25 Jan 15:58** dedenbangkit [#11] Eslint doc
+- **25 Jan 22:16** dedenbangkit [#17] Sprint Excalidraw
+- **25 Jan 22:42** dedenbangkit [#17] Update Excalidraw Doc
+- **25 Jan 22:44** GitHub Merge branch 'main' into develop
+- **25 Jan 22:48** GitHub Merge pull request #18 from akvo/develop
+- **26 Jan 10:21** dedenbangkit [#16] Rearrange import structure
+- **26 Jan 12:41** dedenbangkit [#9] SCSS Variables, Initial Layout Components
+- **26 Jan 13:51** dedenbangkit [#9] Router dom and Navigation
+- **26 Jan 14:08** dedenbangkit [#9] Update scss variables, refine header
+- **26 Jan 16:17** dedenbangkit [#9] Footer Component, style improvements
+- **26 Jan 16:34** dedenbangkit [#9] Media screen size variables
+- **26 Jan 21:52** dedenbangkit [#9] Home page components, style improvements
+- **26 Jan 22:46** dedenbangkit [#9] Home page content, datasets
+- **26 Jan 22:55** dedenbangkit [#11] Sed replace eslint config for CI
+- **26 Jan 23:08** dedenbangkit [#9] Footer Extra
+- **26 Jan 23:11** dedenbangkit [#11] Move eslint replicas to build script
+- **26 Jan 23:17** dedenbangkit [#9] Remove warn from eslint config no-console
+- **26 Jan 23:25** dedenbangkit [#11] Fix eslint warning
+- **26 Jan 23:25** dedenbangkit Merge branch 'develop'
+- **27 Jan 09:51** dedenbangkit [#16] Move and merge some FE config
+- **27 Jan 19:05** dedenbangkit [#12] Doc and form data workflow notes
+- **27 Jan 19:33** dedenbangkit [#20] Modify Layout Banner
+- **27 Jan 20:49** dedenbangkit [#20] Modify router, login button, state lib
+- **27 Jan 20:53** dedenbangkit [#11] Fix eslint warning
+- **27 Jan 22:15** dedenbangkit [#20] Login Layout
+- **27 Jan 22:20** dedenbangkit [#20] Fix Eslint warning
+- **27 Jan 22:41** dedenbangkit [#20] Login Page Content and Form
+- **27 Jan 22:56** dedenbangkit [#20] Default route link for right corner logo
+- **28 Jan 12:27** dedenbangkit [#21] Registration Form, password regex check
+- **28 Jan 12:38** dedenbangkit [#21] Refactor password character regex check
+- **28 Jan 12:39** dedenbangkit [#21] Change confirm password message
+- **28 Jan 15:43** dedenbangkit [#2] Update DBML
+- **28 Jan 16:23** dedenbangkit [#2] Update DBML
+- **28 Jan 17:15** dedenbangkit [#2] Update Schema DBML
+- **28 Jan 17:29** dedenbangkit [#2] Update DBML
+- **28 Jan 18:11** dedenbangkit [#17] Install Django DBML, Update scripts
+- **28 Jan 18:23** dedenbangkit [#10] Skip container registry push when branch is not main
+- **28 Jan 20:32** dedenbangkit [#17] Trial use of npm in CI pipeline
+- **28 Jan 20:52** dedenbangkit [#17] Add environtment to backend CI test
+- **28 Jan 21:12** dedenbangkit [#17] Auto update dbdocs io
+- **31 Jan 13:31** dedenbangkit [#7] Level and Administration seeder
+- **31 Jan 13:33** dedenbangkit [#7] Simplify geojson, remove csv
+- **31 Jan 20:00** dedenbangkit [#11] Fix Eslint check command
+- **01 Feb 13:18** GitHub Merge pull request #19 from akvo/feature/13-backend-test-setup
+- **01 Feb 13:37** dedenbangkit [#13] Move example test to folder
+- **01 Feb 13:40** dedenbangkit [#13] Fix dbml build
+- **01 Feb 15:21** dedenbangkit [#11] Modify yarn lint
+- **01 Feb 15:24** dedenbangkit [#23] Remove unused import, remove alert
+- **01 Feb 15:29** dedenbangkit [#23] Remove alert from registration form
+- **01 Feb 18:59** dedenbangkit [#2] Modify model, re-init v1_forms migration
+- **01 Feb 19:02** dedenbangkit [#25] Example forms, form seeder command pt-1
+- **01 Feb 21:12** dedenbangkit [#25] Form seeder commmand pt-2
+- **02 Feb 00:21** dedenbangkit [#25] Example forms with rule and dependency
+- **02 Feb 00:44** dedenbangkit [#2] Fix question_options related name
+- **02 Feb 00:46** dedenbangkit [#25] Update form seeder
+- **02 Feb 00:58** dedenbangkit [#25] Modify form seed log
+- **02 Feb 01:24** GitHub Merge pull request #31 from akvo/develop
+- **03 Feb 16:42** dedenbangkit [#2] Modify Administration Seeder
+- **03 Feb 17:24** dedenbangkit [#30] Webform UI Component
+- **03 Feb 20:00** dedenbangkit [#30] Generate form data requirements and POST
+- **03 Feb 22:15** dedenbangkit [#30] Refine Webform UI Style
+- **04 Feb 13:26** dedenbangkit [#30] Transform geo answer type to an array
+- **04 Feb 14:56** dedenbangkit [#29] Webform Endpoint Tests
+- **04 Feb 15:03** dedenbangkit [#29] Fix form tests
+- **04 Feb 15:20** dedenbangkit [#29] Form detail tests
+- **04 Feb 17:39** dedenbangkit [#29] Fix form test after ref 4ede0c5
+- **04 Feb 19:41** dedenbangkit [#14] Add optional argument to form seeder for running test
+- **04 Feb 21:30** dedenbangkit [#33] Login test case
+- **04 Feb 21:37** dedenbangkit [#29] Example form for submission tests
+- **04 Feb 22:15** dedenbangkit [#23] Fix Exhaustive Deps useEffect
+- **07 Feb 13:53** dedenbangkit [#10] Deploy script for tags and main branch
+- **07 Feb 14:01** dedenbangkit Merge branch 'develop'
+- **07 Feb 14:29** dedenbangkit [#10] Update backend Dockerfile scripts
+- **07 Feb 14:45** dedenbangkit [#10] Remove COMMIT env debug export
+- **07 Feb 15:42** dedenbangkit [#10] Run prod with different sh file
+- **07 Feb 16:01** dedenbangkit [#10] Run django using gunicorn
+- **07 Feb 16:13** dedenbangkit [#10] Add allowed host, gunicorn bind to default
+- **07 Feb 16:27** dedenbangkit [#10] Checck output debug
+- **07 Feb 16:46** dedenbangkit [#10] Add debug params
+- **07 Feb 16:51** dedenbangkit [#10] Add debug env to CI
+- **07 Feb 16:54** dedenbangkit [#10] Add debug params to test
+- **07 Feb 17:00** dedenbangkit [#10] Decrease backend memory resources
+- **07 Feb 17:07** dedenbangkit [#10] Update debug params value on deployment template
+- **07 Feb 17:08** dedenbangkit [#10] Remove seeder and migration command from prod
+- **07 Feb 17:15** dedenbangkit [#10] Add allowed host
+- **07 Feb 17:39** dedenbangkit [#10] Modify backend runner
+- **07 Feb 18:00** dedenbangkit [#10] Modify nginx proxy for static
+- **07 Feb 18:08** dedenbangkit [#10] Wrap deployment, remove other env and debug 🔥
+- **07 Feb 18:31** dedenbangkit [#10] Fix backend dev entrypoint
+- **08 Feb 04:33** dedenbangkit [#36] Update test package, upgrade akvo-webform
+- **08 Feb 04:37** dedenbangkit [#28] Modify folder structure
+- **08 Feb 04:39** dedenbangkit [#36] Remove AppRoutes component
+- **08 Feb 04:54** dedenbangkit [#23] Refine control center layout
+- **08 Feb 04:58** dedenbangkit [#36] Add example test, include test to CI
+- **08 Feb 05:07** dedenbangkit [#36] Remove unused import
+- **08 Feb 05:35** dedenbangkit [#32] Form submission tests
+- **08 Feb 05:44** dedenbangkit [#36] Add watchAll flag
+- **08 Feb 06:01** dedenbangkit [#29] Webform format test
+- **08 Feb 06:12** dedenbangkit [#36] Modify jest params for CI
+- **08 Feb 15:13** dedenbangkit [#39] Debug commit range
+- **08 Feb 15:14** dedenbangkit [#39] Debug commit range
+- **08 Feb 15:18** dedenbangkit [#39] Check commit content
+- **08 Feb 15:22** dedenbangkit [#39] Check directory changes
+- **08 Feb 18:32** GitHub Merge pull request #40 from akvo/feature/22-login-invite
+- **08 Feb 18:52** GitHub Merge pull request #41 from akvo/feature/33-user-Invitation
+- **08 Feb 19:21** dedenbangkit [#39] Check backend or frontend changes to skip build
+- **08 Feb 19:34** dedenbangkit [#39] Test frontend build
+- **08 Feb 19:36** dedenbangkit [#39] Fix echo build
+- **08 Feb 19:37** dedenbangkit [#39] Test frontend build
+- **08 Feb 19:39** dedenbangkit [#39] Test frontend build
+- **08 Feb 19:53** dedenbangkit Merge branch 'develop' into feature/39-ci-speed-improvements
+- **09 Feb 00:04** dedenbangkit [#34][#26][#28] Fix eslint warning
+- **09 Feb 03:57** dedenbangkit [#33][#37] Profile and User tests, access role command
+- **09 Feb 04:07** dedenbangkit [#34][#23] remove some variables, set v1 as default api endpoint
+- **09 Feb 21:45** dedenbangkit [#2] Add ltree and postgis extension to dev db
+- **09 Feb 22:06** dedenbangkit [#2] Postgres connection check before migration
+- **09 Feb 22:12** dedenbangkit [#2] Modify entrypoint script
+- **09 Feb 22:26** dedenbangkit [#2] Remove init PostGIS extension
+- **09 Feb 22:35** dedenbangkit [#2] Add license and source to wait-for-it repo
+- **09 Feb 22:37** dedenbangkit [#39] Remove db service check on basic test
+- **10 Feb 01:30** dedenbangkit [#48] Example axios mock and create render snapshot
+- **10 Feb 01:38** dedenbangkit [#48] Fix Eslint warning
+- **10 Feb 12:49** GitHub Merge pull request #47 from akvo/feature/33-user-Invitation
+- **10 Feb 16:14** dedenbangkit [#48] Example unit test for util, add data id to login test
+- **10 Feb 18:21** GitHub Merge pull request #51 from akvo/feature/23-associate-login-invite-apis
+- **10 Feb 18:44** dedenbangkit [#39] Skip unrelated folder build for pull request
+- **10 Feb 18:48** dedenbangkit [#39] Skip dbdocs update on PR
+- **10 Feb 20:30** GitHub Merge pull request #52 from akvo/feature/42-data-api
+- **11 Feb 01:43** dedenbangkit [#42] Replace form, fix fake data seeder
+- **11 Feb 01:49** dedenbangkit [#42] Fix form seeder test
+- **11 Feb 02:23** dedenbangkit [#42] Fix cyclomatic complexity alert
+- **11 Feb 04:18** dedenbangkit [#42] Final data seeder with administration and geo 🔥 🔥
+- **11 Feb 04:25** dedenbangkit [#42] Fix cyclomatic complexity alert
+- **11 Feb 04:36** dedenbangkit [#17] doc resource kenya-random-points.geojson
+- **11 Feb 05:29** dedenbangkit [#33] Fake user seeder
+- **11 Feb 17:04** dedenbangkit [#17] Checking contributor statistic
+- **11 Feb 17:53** GitHub Merge branch 'develop' into feature/33-user-Invitation
+- **11 Feb 17:55** GitHub Merge pull request #53 from akvo/feature/33-user-Invitation
+- **11 Feb 18:21** dedenbangkit [#17] Contributor statistics
+- **11 Feb 18:23** dedenbangkit [#17] Move stat to docs
+- **11 Feb 21:22** GitHub Merge pull request #54 from akvo/feature/42-data-api
+- **12 Feb 05:45** dedenbangkit [#17] Remove docs from develop
+
+----------------------------------------------------------------
+
+### Contributor: zuhdil
+**Added Lines: 134, Removed Lines: 9, Total Lines: 125**
+
+- **01 Feb 10:47** zuhdil [#13] Make example tests
+- **01 Feb 10:50** zuhdil [#13] Run test in parallel
+- **01 Feb 10:50** zuhdil [#13] Setup code coverage
+- **01 Feb 10:51** zuhdil [#13] Run tests and coverage on CI
+- **01 Feb 10:54** zuhdil [#13] Push coverage report to coveralls
+- **01 Feb 11:10** zuhdil [#13] Add coveralls badge
+
+----------------------------------------------------------------
