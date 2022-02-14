@@ -1,3 +1,6 @@
+frontend/src/pages/control-center/ControlCenter.jsx
+
+
 import React, { useEffect } from "react";
 import "./style.scss";
 import { Row, Col, Card, Button, Table, Tabs, Progress } from "antd";
@@ -17,7 +20,7 @@ const datasets = [
     buttonLabel: "Manage Data",
     description:
       "Open defecation free (ODF) is a term used to describe communities that have shifted to using toilets instead of open defecation. This can happen, for example, after community-led total sanitation programs have been implemented.",
-    link: "/",
+    link: "/data/manage",
     image: require("../../assets/big-data.png"),
   },
   {
