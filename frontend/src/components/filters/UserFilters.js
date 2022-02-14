@@ -5,14 +5,21 @@ import { Row, Col, Space, Input, Select, Checkbox } from "antd";
 import { store } from "../../lib";
 import AdministrationDropdown from "./AdministrationDropdown";
 
-const UserFilters = () => {
+const UserFilters = ({ query, setQuery, pending, setPending, loading }) => {
   const { role } = store.useState((state) => state.filters);
 
   return (
     <Row>
       <Col span={20}>
         <Space>
-          <Input placeholder="Search..." style={{ width: 160 }} />
+          <Input
+            placeholder="Search..."
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+            }}
+            style={{ width: 160 }}
+          />
           <Select
             disabled
             placeholder="Organization"
@@ -41,7 +48,15 @@ const UserFilters = () => {
         </Space>
       </Col>
       <Col span={4} align="right">
-        <Checkbox onChange={() => {}}>Show Pending Users</Checkbox>
+        <Checkbox
+          onChange={() => {
+            setPending(!pending);
+          }}
+          disabled={loading}
+          checked={pending}
+        >
+          Show Pending Users
+        </Checkbox>
       </Col>
     </Row>
   );
