@@ -1,6 +1,3 @@
-frontend/src/pages/control-center/ControlCenter.jsx
-
-
 import React, { useEffect } from "react";
 import "./style.scss";
 import { Row, Col, Card, Button, Table, Tabs, Progress } from "antd";

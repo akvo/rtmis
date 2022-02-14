@@ -158,7 +158,7 @@ const ManageData = () => {
             //   total: totalCount,
             //   pageSize: 10,
             // }}
-            rowKey="id"
+            rowKey="name"
             expandable={{
               expandedRowRender: renderDetails,
               expandIcon: ({ expanded, onExpand, record }) =>
