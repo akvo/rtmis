@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./style.scss";
-import { Select, message, Row, Col } from "antd";
+import { Select, message, Row, Col, Space } from "antd";
 import { useCookies } from "react-cookie";
 
 import { api, store } from "../../lib";
@@ -21,7 +21,7 @@ const AdministrationDropdown = () => {
       })
       .then((res) => {
         api
-          .get(`administration/${res.data.administration.id}`, {
+          .get(`administration/${res.data.administration.id}/`, {
             headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
           })
           .then((adminRes) => {
@@ -56,20 +56,21 @@ const AdministrationDropdown = () => {
     }
     setLoading(true);
     api
-      .get(`administration/${e}`, {
+      .get(`administration/${e}/`, {
         headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
       })
       .then((res) => {
         store.update((s) => {
           s.administration.length = index + 1;
-        });
-        store.update((s) => {
-          s.administration.push({
-            id: res.data.id,
-            name: res.data.name,
-            levelName: res.data.level_name,
-            children: res.data.children,
-          });
+          s.administration = [
+            ...s.administration,
+            {
+              id: res.data.id,
+              name: res.data.name,
+              levelName: res.data.level_name,
+              children: res.data.children,
+            },
+          ];
         });
         setLoading(false);
       })
@@ -86,15 +87,17 @@ const AdministrationDropdown = () => {
     });
   };
 
-  return (
-    <Row className="filter-row">
-      {administration &&
-        administration.map((region, regionIdx) => (
-          <Col flex="auto" key={regionIdx}>
+  if (administration) {
+    return (
+      <Space>
+        {administration
+          .filter((x) => x.children.length)
+          .map((region, regionIdx) => (
             <Select
+              key={regionIdx}
               placeholder="Select one.."
               // placeholder={region.levelName} // TODO:  child level name from API
-              style={{ width: "90%" }}
+              style={{ width: 200 }}
               onChange={(e) => {
                 handleChange(e, regionIdx);
               }}
@@ -111,10 +114,12 @@ const AdministrationDropdown = () => {
                 </Select.Option>
               ))}
             </Select>
-          </Col>
-        ))}
-    </Row>
-  );
+          ))}
+      </Space>
+    );
+  }
+
+  return "";
 };
 
 export default React.memo(AdministrationDropdown);
