@@ -158,7 +158,7 @@ const Users = () => {
     let url = `list/users/?page=${currentPage}&pending=${
       pending ? "true" : "false"
     }`;
-    if(selectedAdministration?.id) {
+    if (selectedAdministration?.id) {
       url += `&administration=${selectedAdministration.id}`;
     }
     api
