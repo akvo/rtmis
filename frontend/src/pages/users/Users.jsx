@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import { useCookies } from "react-cookie";
-import UserFilters from "../../components/filters/UserFilters";
+import { UserFilters } from "../../components";
 
 const { Title } = Typography;
 

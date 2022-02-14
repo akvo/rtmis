@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./style.scss";
-import { Select, message, Row, Col, Space } from "antd";
+import { Select, message, Space } from "antd";
 import { useCookies } from "react-cookie";
 
 import { api, store } from "../../lib";
@@ -95,9 +95,8 @@ const AdministrationDropdown = () => {
           .map((region, regionIdx) => (
             <Select
               key={regionIdx}
-              placeholder="Select one.."
-              // placeholder={region.levelName} // TODO:  child level name from API
-              style={{ width: 200 }}
+              placeholder={`Select ${region.levelName}`}
+              style={{ width: 160 }}
               onChange={(e) => {
                 handleChange(e, regionIdx);
               }}
