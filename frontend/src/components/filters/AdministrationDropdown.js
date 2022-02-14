@@ -16,14 +16,10 @@ const AdministrationDropdown = () => {
     }
     setLoading(true);
     api
-      .get(`get/profile/`, {
-        headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-      })
+      .get(`get/profile/`)
       .then((res) => {
         api
-          .get(`administration/${res.data.administration.id}/`, {
-            headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-          })
+          .get(`administration/${res.data.administration.id}/`)
           .then((adminRes) => {
             store.update((s) => {
               s.administration = [
