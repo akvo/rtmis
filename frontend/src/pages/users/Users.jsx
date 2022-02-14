@@ -93,9 +93,14 @@ const Users = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
 
-  const { role, county, subCounty, ward, community } = store.useState(
-    (state) => state.filters
-  );
+  const { role } = store.useState((state) => state.filters);
+
+  const { administration } = store.useState((state) => state);
+
+  const selectedAdministration =
+    administration.length > 0
+      ? administration[administration.length - 1]
+      : null;
 
   const columns = [
     {
@@ -133,57 +138,27 @@ const Users = () => {
       title: "Region",
       dataIndex: "administration",
       render: (administration) => administration?.name || "",
-      filtered: true,
-      filteredValue: community.id
-        ? [community.id]
-        : ward.id
-        ? [ward.id]
-        : subCounty.id
-        ? [subCounty.id]
-        : county.id
-        ? [county.id]
-        : [],
-      onFilter: (value, filters) => filters.administration.id === value,
-      filters: community.id
-        ? community.options.map((option) => ({
-            text: option.name,
-            value: option.id,
-          }))
-        : ward.id
-        ? ward.options.map((option) => ({
-            text: option.name,
-            value: option.id,
-          }))
-        : subCounty.id
-        ? subCounty.options.map((option) => ({
-            text: option.name,
-            value: option.id,
-          }))
-        : county.options.map((option) => ({
-            text: option.name,
-            value: option.id,
-          })),
-      filterDropdownVisible: false,
-      filterIcon: () => false,
     },
     Table.EXPAND_COLUMN,
   ];
 
   useEffect(() => {
-    api
-      .get("list/users/?page=1", {
-        headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-      })
-      .then((res) => {
-        setDataset(res.data.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        message.error("Could not load users");
-        setLoading(false);
-        console.error(err);
-      });
-  }, [cookies.AUTH_TOKEN]);
+    if (cookies.AUTH_TOKEN && selectedAdministration) {
+      api
+        .get(`list/users/?page=1&administration=${selectedAdministration.id}`, {
+          headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
+        })
+        .then((res) => {
+          setDataset(res.data.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          message.error("Could not load users");
+          setLoading(false);
+          console.error(err);
+        });
+    }
+  }, [cookies.AUTH_TOKEN, selectedAdministration]);
 
   return (
     <div id="users">
