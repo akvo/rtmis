@@ -1,15 +1,3 @@
-class DataApprovalStatus:
-    pending = 1
-    approved = 2
-    rejected = 3
-
-    FieldStr = {
-        pending: 'Pending',
-        approved: 'Approved',
-        rejected: 'Rejected',
-    }
-
-
 class QuestionTypes:
     geo = 1
     administration = 2
