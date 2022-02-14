@@ -5,23 +5,8 @@ const defaultUIState = {
   user: null,
   filters: {
     role: null,
-    county: {
-      id: null,
-      options: [],
-    },
-    subCounty: {
-      id: null,
-      options: [],
-    },
-    ward: {
-      id: null,
-      options: [],
-    },
-    community: {
-      id: null,
-      options: [],
-    },
   },
+  administration: [],
 };
 
 const store = new Store(defaultUIState);

@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import { useCookies } from "react-cookie";
-import UserFilters from "../../components/filters/UserFilters";
+import { UserFilters } from "../../components";
 
 const { Title } = Typography;
 
@@ -97,9 +97,14 @@ const Users = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { role, county, subCounty, ward, community } = store.useState(
-    (state) => state.filters
-  );
+  const { role } = store.useState((state) => state.filters);
+
+  const { administration } = store.useState((state) => state);
+
+  const selectedAdministration =
+    administration.length > 0
+      ? administration[administration.length - 1]
+      : null;
 
   const columns = [
     {
@@ -141,38 +146,6 @@ const Users = () => {
       title: "Region",
       dataIndex: "administration",
       render: (administration) => administration?.name || "",
-      filtered: true,
-      filteredValue: community.id
-        ? [community.id]
-        : ward.id
-        ? [ward.id]
-        : subCounty.id
-        ? [subCounty.id]
-        : county.id
-        ? [county.id]
-        : [],
-      onFilter: (value, filters) => filters.administration.id === value,
-      filters: community.id
-        ? community.options.map((option) => ({
-            text: option.name,
-            value: option.id,
-          }))
-        : ward.id
-        ? ward.options.map((option) => ({
-            text: option.name,
-            value: option.id,
-          }))
-        : subCounty.id
-        ? subCounty.options.map((option) => ({
-            text: option.name,
-            value: option.id,
-          }))
-        : county.options.map((option) => ({
-            text: option.name,
-            value: option.id,
-          })),
-      filterDropdownVisible: false,
-      filterIcon: () => false,
     },
     Table.EXPAND_COLUMN,
   ];
@@ -182,9 +155,12 @@ const Users = () => {
   };
 
   useEffect(() => {
-    const url = `list/users/?page=${currentPage}&pending=${
+    let url = `list/users/?page=${currentPage}&pending=${
       pending ? "true" : "false"
     }`;
+    if(selectedAdministration?.id) {
+      url += `&administration=${selectedAdministration.id}`;
+    }
     api
       .get(url, {
         headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
@@ -199,7 +175,7 @@ const Users = () => {
         setLoading(false);
         console.error(err);
       });
-  }, [cookies.AUTH_TOKEN, pending, currentPage]);
+  }, [cookies.AUTH_TOKEN, pending, currentPage, selectedAdministration]);
 
   return (
     <div id="users">
