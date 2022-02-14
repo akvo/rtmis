@@ -92,6 +92,10 @@ const Users = () => {
   const [cookies] = useCookies(["AUTH_TOKEN"]);
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
+  const [query, setQuery] = useState("");
+  const [pending, setPending] = useState(false);
+  const [totalCount, setTotalCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { role } = store.useState((state) => state.filters);
 
@@ -117,6 +121,10 @@ const Users = () => {
     {
       title: "Email",
       dataIndex: "email",
+      filtered: true,
+      filteredValue: query.trim() === "" ? [] : [query],
+      onFilter: (value, filters) =>
+        filters.email.toLowerCase().includes(value.toLowerCase()),
     },
     {
       title: "Role",
@@ -142,23 +150,32 @@ const Users = () => {
     Table.EXPAND_COLUMN,
   ];
 
+  const handleChange = (e) => {
+    setCurrentPage(e.current);
+  };
+
   useEffect(() => {
-    if (cookies.AUTH_TOKEN && selectedAdministration) {
-      api
-        .get(`list/users/?page=1&administration=${selectedAdministration.id}`, {
-          headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-        })
-        .then((res) => {
-          setDataset(res.data.data);
-          setLoading(false);
-        })
-        .catch((err) => {
-          message.error("Could not load users");
-          setLoading(false);
-          console.error(err);
-        });
+    let url = `list/users/?page=${currentPage}&pending=${
+      pending ? "true" : "false"
+    }`;
+    if (selectedAdministration?.id) {
+      url += `&administration=${selectedAdministration.id}`;
     }
-  }, [cookies.AUTH_TOKEN, selectedAdministration]);
+    api
+      .get(url, {
+        headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
+      })
+      .then((res) => {
+        setDataset(res.data.data);
+        setTotalCount(res.data.total);
+        setLoading(false);
+      })
+      .catch((err) => {
+        message.error("Could not load users");
+        setLoading(false);
+        console.error(err);
+      });
+  }, [cookies.AUTH_TOKEN, pending, currentPage, selectedAdministration]);
 
   return (
     <div id="users">
@@ -192,13 +209,27 @@ const Users = () => {
         </Col>
       </Row>
       <Divider />
-      <UserFilters />
+      <UserFilters
+        query={query}
+        setQuery={setQuery}
+        pending={pending}
+        setPending={setPending}
+        loading={loading}
+      />
       <Divider />
-      <Card style={{ padding: 0 }} bodyStyle={{ padding: 0 }}>
+      <Card
+        style={{ padding: 0, minHeight: "40vh" }}
+        bodyStyle={{ padding: 0 }}
+      >
         <Table
           columns={columns}
           dataSource={dataset}
           loading={loading}
+          onChange={handleChange}
+          pagination={{
+            total: totalCount,
+            pageSize: 10,
+          }}
           rowKey="id"
           expandable={{
             expandedRowRender: renderDetails,
