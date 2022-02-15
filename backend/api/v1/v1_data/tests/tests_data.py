@@ -1,6 +1,7 @@
 from django.core.management import call_command
 from django.test import TestCase
 
+from api.v1.v1_data.models import FormData
 from api.v1.v1_forms.models import Forms
 
 
@@ -61,8 +62,15 @@ class DataTestCase(TestCase):
             **header)
         self.assertEqual(data.status_code, 400)
         data = self.client.get(
-            "/api/v1/maps/{0}/?shape=1".format(form.id), follow=True,
+            "/api/v1/maps/{0}/?shape=1&marker=2".format(form.id), follow=True,
             **header)
         self.assertEqual(data.status_code, 200)
         self.assertEqual(list(data.json()[0]),
                          ['id', 'name', 'geo', 'marker', 'shape'])
+        data = data.json()
+        for d in data:
+            form_data = FormData.objects.get(id=d.get('id'))
+            self.assertEqual(d.get("name"), form_data.name)
+            self.assertEqual(len(d.get("geo")), 2)
+            self.assertIsNotNone(d.get("marker"))
+            self.assertIsNotNone(d.get("shape"))
