@@ -210,12 +210,40 @@ def list_users(request, version):
                 {'message': validate_serializers_message(serializer.errors)},
                 status=status.HTTP_400_BAD_REQUEST
             )
-
         filter_data = {}
+
+        children = Administration.objects.raw(
+            'WITH RECURSIVE subordinates AS ('
+            'SELECT id FROM administrator WHERE parent_id = {0} UNION '
+            'SELECT e.id FROM administrator e '
+            'INNER JOIN subordinates s ON s.id = e.parent_id) '
+            'SELECT * FROM subordinates;'.format(
+                request.user.user_access.administration.id))
+        allowed_administration_ids = [
+            request.user.user_access.administration.id]
+
+        for child in children:
+            allowed_administration_ids.append(child.id)
+        filter_data[
+            'user_access__administration_id__in'] = allowed_administration_ids
+
         if serializer.validated_data.get('administration'):
+            filter_administration_ids = [
+                serializer.validated_data.get('administration').id]
+            filter_administrations = Administration.objects.raw(
+                'WITH RECURSIVE subordinates AS ('
+                'SELECT id FROM administrator WHERE parent_id = {0} UNION '
+                'SELECT e.id FROM administrator e '
+                'INNER JOIN subordinates s ON s.id = e.parent_id) '
+                'SELECT * FROM subordinates;'.format(
+                    filter_administration_ids[0]))
+            for fa in filter_administrations:
+                filter_administration_ids.append(fa.id)
+
+            set1 = set(filter_administration_ids)
+            final_set = set1.intersection(allowed_administration_ids)
             filter_data[
-                'user_access__administration'] = serializer.validated_data.get(
-                'administration')
+                'user_access__administration_id__in'] = list(final_set)
         if serializer.validated_data.get('role'):
             filter_data['user_access__role'] = serializer.validated_data.get(
                 'role')
@@ -223,19 +251,8 @@ def list_users(request, version):
             filter_data['password__isnull'] = serializer.validated_data.get(
                 'pending')
 
-        if request.user.user_access.role != UserRoleTypes.super_admin:
-            children = Administration.objects.raw(
-                'WITH RECURSIVE subordinates AS ('
-                'SELECT id FROM administrator WHERE parent_id = {0} UNION '
-                'SELECT e.id FROM administrator e '
-                'INNER JOIN subordinates s ON s.id = e.parent_id) '
-                'SELECT * FROM subordinates;'.format(
-                    request.user.user_access.administration.id))
-            administration_ids = [request.user.user_access.administration]
-            for child in children:
-                administration_ids.append(child.id)
-            filter_data[
-                'user_access__administration_id__in'] = administration_ids
+        # if request.user.user_access.role != UserRoleTypes.super_admin:
+
         page_size = REST_FRAMEWORK.get('PAGE_SIZE')
         queryset = SystemUser.objects.filter(**filter_data).order_by('id')
         paginator_temp = Paginator(queryset, page_size)

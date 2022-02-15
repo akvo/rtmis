@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import "./style.scss";
 import { Select, message, Space } from "antd";
 import { useCookies } from "react-cookie";
+import PropTypes from "prop-types";
 
 import { api, store } from "../../lib";
 
-const AdministrationDropdown = () => {
+const AdministrationDropdown = ({
+  loading: parentLoading = false,
+  ...props
+}) => {
   const { administration } = store.useState((state) => state);
   const [cookies] = useCookies(["AUTH_TOKEN"]);
   const [loading, setLoading] = useState(true);
@@ -89,7 +93,7 @@ const AdministrationDropdown = () => {
 
   if (administration) {
     return (
-      <Space>
+      <Space {...props}>
         {administration
           .filter((x) => x.children.length)
           .map((region, regionIdx) => (
@@ -104,7 +108,7 @@ const AdministrationDropdown = () => {
                 handleClear(regionIdx);
               }}
               value={administration[regionIdx + 1]?.id || null}
-              disabled={loading}
+              disabled={loading || parentLoading}
               allowClear
             >
               {region.children.map((optionValue, optionIdx) => (
@@ -119,6 +123,10 @@ const AdministrationDropdown = () => {
   }
 
   return "";
+};
+
+AdministrationDropdown.propTypes = {
+  loading: PropTypes.bool,
 };
 
 export default React.memo(AdministrationDropdown);
