@@ -1,13 +1,13 @@
 @import "../../variables";
 
 #root {
-  #users {
+  #manageData {
     .ant-table-expanded-row {
       .ant-table-cell {
         padding: 12px 0 20px;
 
         .expand-wrap {
-          width: 60%;
+          width: 70%;
           margin: 0 auto;
 
           table {
@@ -17,10 +17,15 @@
             th {
               padding: 12px 18px;
               border-bottom: solid #dededf 1px;
+              width: 50%;
             }
 
             th {
               background-color: #dededf;
+            }
+
+            tr td:last-child {
+              color: #0058ff;
             }
 
             tr:last-child td {

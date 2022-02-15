@@ -14,7 +14,11 @@ import {
   Empty,
 } from "antd";
 import { Link } from "react-router-dom";
-import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
+import {
+  PlusSquareOutlined,
+  CloseSquareOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
 import { api, store } from "../../lib";
 import { DataFilters } from "../../components";
 
@@ -23,12 +27,29 @@ const { Title } = Typography;
 const renderDetails = (record) => {
   return (
     <div>
-      <div className="expand-wrap">Details View</div>
+      <div className="expand-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {record.answer.map((answer, answerIdx) => (
+              <tr key={answerIdx}>
+                <td>{answer.question}</td>
+                <td>{answer.value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div className="expand-footer">
         <div>
-          <Link to={"/user/edit/" + record.id}>
-            <Button type="secondary">Delete</Button>
-          </Link>{" "}
+          <Button danger>Delete</Button>
+        </div>
+        <div>
           <Button danger>Upload CSV</Button>
         </div>
       </div>
@@ -49,6 +70,12 @@ const ManageData = () => {
       : null;
 
   const columns = [
+    {
+      title: "",
+      dataIndex: "id",
+      key: "id",
+      render: () => <ExclamationCircleOutlined />,
+    },
     {
       title: "Name",
       dataIndex: "name",
