@@ -4,7 +4,6 @@ import {
   Row,
   Col,
   Card,
-  Button,
   Breadcrumb,
   Divider,
   Typography,
@@ -15,28 +14,13 @@ import {
   Checkbox,
 } from "antd";
 import { Link } from "react-router-dom";
-import {
-  PlusSquareOutlined,
-  CloseSquareOutlined,
-  ExclamationCircleOutlined,
-} from "@ant-design/icons";
-import { api, store } from "../../lib";
+import { api } from "../../lib";
 
 const { Title } = Typography;
 
 const Questionnaires = () => {
   const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
-  const [query, setQuery] = useState("");
-
-  const { administration, selectedForm, questionGroups } = store.useState(
-    (state) => state
-  );
-
-  const selectedAdministration =
-    administration.length > 0
-      ? administration[administration.length - 1]
-      : null;
 
   const columns = [
     {
@@ -70,7 +54,6 @@ const Questionnaires = () => {
     api
       .get(`forms`)
       .then((res) => {
-        console.log(res.data);
         setDataset(res.data);
         setLoading(false);
       })
