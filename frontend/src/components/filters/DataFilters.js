@@ -1,10 +1,11 @@
 import React from "react";
 import "./style.scss";
-import { Row, Col, Space, Input, Select, Button } from "antd";
+import { Row, Col, Space, Input, Button } from "antd";
 
 import AdministrationDropdown from "./AdministrationDropdown";
+import FormDropdown from "./FormDropdown";
 
-const DataFilters = ({ query, setQuery, form, setForm, forms, loading }) => {
+const DataFilters = ({ query, setQuery, loading }) => {
   return (
     <Row>
       <Col span={20}>
@@ -17,22 +18,8 @@ const DataFilters = ({ query, setQuery, form, setForm, forms, loading }) => {
             }}
             style={{ width: 160 }}
           />
-          <Select
-            placeholder="Form"
-            style={{ width: 160 }}
-            value={form}
-            onChange={(e) => {
-              setForm(e);
-            }}
-            disabled={loading}
-          >
-            {forms.map((item, idx) => (
-              <Select.Option key={idx} value={item.id}>
-                {item.name}
-              </Select.Option>
-            ))}
-          </Select>
-          <AdministrationDropdown />
+          <FormDropdown loading={loading} />
+          <AdministrationDropdown loading={loading} />
         </Space>
       </Col>
       <Col span={4} align="right">

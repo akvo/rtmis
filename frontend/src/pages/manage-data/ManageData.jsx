@@ -15,7 +15,7 @@ import {
 } from "antd";
 import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
-import { api } from "../../lib";
+import { api, store } from "../../lib";
 import { DataFilters } from "../../components";
 
 const { Title } = Typography;
@@ -38,32 +38,38 @@ const renderDetails = (record) => {
 
 const ManageData = () => {
   const [loading, setLoading] = useState(false);
-  const [initializing, setInitializing] = useState(true);
   const [dataset, setDataset] = useState([]);
-  const [form, setForm] = useState(null);
-  const [forms, setForms] = useState([]);
   const [query, setQuery] = useState("");
+
+  const { administration, selectedForm } = store.useState((state) => state);
+
+  const selectedAdministration =
+    administration.length > 0
+      ? administration[administration.length - 1]
+      : null;
 
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
+      filtered: true,
+      filteredValue: query.trim() === "" ? [] : [query],
+      onFilter: (value, filters) =>
+        filters.name.toLowerCase().includes(value.toLowerCase()),
     },
     {
       title: "Last Updated",
-      dataIndex: "updated_at",
-      render: () => "Saturday 17 November 2021",
+      dataIndex: "updated",
+      render: (cell, row) => cell || row.created,
     },
     {
       title: "User",
-      dataIndex: "user",
-      render: () => "Ouma Odhiambo",
+      dataIndex: "created_by",
     },
     {
       title: "Region",
       dataIndex: "administration",
-      render: (administration) => administration?.name || "-",
     },
     Table.EXPAND_COLUMN,
   ];
@@ -73,27 +79,16 @@ const ManageData = () => {
   };
 
   useEffect(() => {
-    setInitializing(true);
-    api
-      .get("forms/")
-      .then((res) => {
-        setForms(res.data);
-        setInitializing(false);
-      })
-      .catch((err) => {
-        message.error("Could not load forms");
-        setInitializing(false);
-        console.error(err);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (form) {
+    if (selectedForm) {
       setLoading(true);
+      let url = `list/form-data/${selectedForm}/?page=1`;
+      if (selectedAdministration?.id) {
+        url += `&administration=${selectedAdministration.id}`;
+      }
       api
-        .get(`web/form/${form}/`)
+        .get(url)
         .then((res) => {
-          setDataset(res.data);
+          setDataset(res.data.data);
           setLoading(false);
         })
         .catch((err) => {
@@ -102,7 +97,7 @@ const ManageData = () => {
           console.error(err);
         });
     }
-  }, [form]);
+  }, [selectedForm, selectedAdministration]);
 
   return (
     <div id="manageData">
@@ -131,14 +126,7 @@ const ManageData = () => {
         </Col>
       </Row>
       <Divider />
-      <DataFilters
-        query={query}
-        setQuery={setQuery}
-        form={form}
-        setForm={setForm}
-        forms={forms}
-        loading={loading || initializing}
-      />
+      <DataFilters query={query} setQuery={setQuery} loading={loading} />
       <Divider />
       <Card
         style={{ padding: 0, minHeight: "40vh" }}
@@ -146,19 +134,21 @@ const ManageData = () => {
       >
         <ConfigProvider
           renderEmpty={() => (
-            <Empty description={form ? "No data" : "No form selected"} />
+            <Empty
+              description={selectedForm ? "No data" : "No form selected"}
+            />
           )}
         >
           <Table
             columns={columns}
-            dataSource={dataset.question_group}
-            loading={loading || initializing}
+            dataSource={dataset}
+            loading={loading}
             onChange={handleChange}
             // pagination={{
             //   total: totalCount,
             //   pageSize: 10,
             // }}
-            rowKey="name"
+            rowKey="id"
             expandable={{
               expandedRowRender: renderDetails,
               expandIcon: ({ expanded, onExpand, record }) =>

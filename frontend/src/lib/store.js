@@ -7,6 +7,8 @@ const defaultUIState = {
     role: null,
   },
   administration: [],
+  forms: [],
+  selectedForm: null,
 };
 
 const store = new Store(defaultUIState);
