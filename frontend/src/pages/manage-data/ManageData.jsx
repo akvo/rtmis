@@ -24,45 +24,14 @@ import { DataFilters } from "../../components";
 
 const { Title } = Typography;
 
-const renderDetails = (record) => {
-  return (
-    <div>
-      <div className="expand-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Field</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            {record.answer.map((answer, answerIdx) => (
-              <tr key={answerIdx}>
-                <td>{answer.question}</td>
-                <td>{answer.value}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="expand-footer">
-        <div>
-          <Button danger>Delete</Button>
-        </div>
-        <div>
-          <Button danger>Upload CSV</Button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const ManageData = () => {
   const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
   const [query, setQuery] = useState("");
 
-  const { administration, selectedForm } = store.useState((state) => state);
+  const { administration, selectedForm, questionGroups } = store.useState(
+    (state) => state
+  );
 
   const selectedAdministration =
     administration.length > 0
@@ -105,6 +74,47 @@ const ManageData = () => {
     // setCurrentPage(e.current);
   };
 
+  const renderDetails = (record) => {
+    return (
+      <div>
+        <div className="expand-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {record.answer.map((answer, answerIdx) => (
+                <tr key={answerIdx}>
+                  <td>
+                    {
+                      questionGroups.find((group) =>
+                        group.question.some(
+                          (item) => item.id === answer.question
+                        )
+                      )?.name
+                    }
+                  </td>
+                  <td>{answer.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="expand-footer">
+          <div>
+            <Button danger>Delete</Button>
+          </div>
+          <div>
+            <Button danger>Upload CSV</Button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   useEffect(() => {
     if (selectedForm) {
       setLoading(true);
@@ -112,17 +122,21 @@ const ManageData = () => {
       if (selectedAdministration?.id) {
         url += `&administration=${selectedAdministration.id}`;
       }
-      api
-        .get(url)
-        .then((res) => {
+      try {
+        api.get(url).then((res) => {
           setDataset(res.data.data);
-          setLoading(false);
-        })
-        .catch((err) => {
-          message.error("Could not load forms");
-          setLoading(false);
-          console.error(err);
+          api.get(`web/form/${selectedForm}`).then((res) => {
+            store.update((s) => {
+              s.questionGroups = res.data.question_group;
+            });
+            setLoading(false);
+          });
         });
+      } catch (err) {
+        message.error("Could not load forms");
+        setLoading(false);
+        console.error(err);
+      }
     }
   }, [selectedForm, selectedAdministration]);
 

@@ -9,6 +9,7 @@ const defaultUIState = {
   administration: [],
   forms: [],
   selectedForm: null,
+  questionGroups: [],
 };
 
 const store = new Store(defaultUIState);
