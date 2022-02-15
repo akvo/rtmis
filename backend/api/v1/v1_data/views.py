@@ -1,7 +1,10 @@
 # Create your views here.
 from math import ceil
 
+from django.contrib.postgres.aggregates import StringAgg
 from django.core.paginator import InvalidPage, EmptyPage, Paginator
+from django.db.models import Count, TextField
+from django.db.models.functions import Cast
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, inline_serializer, \
     OpenApiParameter
@@ -12,11 +15,12 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from api.v1.v1_data.models import FormData
+from api.v1.v1_data.models import FormData, Answers
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
-    ListMapDataPointRequestSerializer
+    ListMapDataPointRequestSerializer, ListChartDataPointRequestSerializer, \
+    ListChartQuestionDataPointSerializer
 from api.v1.v1_forms.models import Forms
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_serializer_fields import validate_serializers_message
@@ -168,6 +172,73 @@ def get_map_data_point(request, version, pk):
                 },
                 many=True).data,
             status=status.HTTP_200_OK)
+    except Exception as ex:
+        return Response({'message': ex.args},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@extend_schema(responses={200: OpenApiTypes.OBJECT},
+               parameters=[
+                   OpenApiParameter(name='question',
+                                    required=True,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='stack',
+                                    required=False,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY),
+               ],
+               tags=['Chart'])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_chart_data_point(request, version, pk):
+    instance = get_object_or_404(Forms, pk=pk)
+    try:
+        serializer = ListChartDataPointRequestSerializer(data=request.GET,
+                                                         context={
+                                                             'form': instance
+                                                         })
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(serializer.errors)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if serializer.validated_data.get('stack'):
+            query_set = Answers.objects.filter(
+                question=serializer.validated_data.get('stack')).values(
+                'options').annotate(c=Count('options'),
+                                    ids=StringAgg(Cast('data_id', TextField()),
+                                                  delimiter=',',
+                                                  output_field=TextField()))
+            data = []
+            for val in query_set:
+                values = {
+                    'group': val.get('options')[0],
+                    'child': []
+                }
+
+                child_query_set = Answers.objects.filter(
+                    data_id__in=val.get('ids').split(','),
+                    question=serializer.validated_data.get('question')).values(
+                    'options').annotate(c=Count('options'))
+
+                for child in child_query_set:
+                    values.get('child').append({
+                        'name': child.get('options')[0],
+                        'value': child.get('c')
+                    })
+                data.append(values)
+
+            return Response({'type': 'BARSTACK', 'data': data},
+                            status=status.HTTP_200_OK)
+
+        return Response({'type': 'BAR',
+                         'data': ListChartQuestionDataPointSerializer(
+                             instance=serializer.validated_data.get(
+                                 'question').question_question_options.all(),
+                             many=True).data},
+                        status=status.HTTP_200_OK)
     except Exception as ex:
         return Response({'message': ex.args},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
