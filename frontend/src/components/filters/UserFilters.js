@@ -44,7 +44,7 @@ const UserFilters = ({ query, setQuery, pending, setPending, loading }) => {
             <Select.Option value="Approver">Approver</Select.Option>
             <Select.Option value="User">User</Select.Option>
           </Select>
-          <AdministrationDropdown />
+          <AdministrationDropdown loading={loading} />
         </Space>
       </Col>
       <Col span={4} align="right">
