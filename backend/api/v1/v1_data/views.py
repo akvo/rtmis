@@ -15,7 +15,8 @@ from rest_framework.response import Response
 from api.v1.v1_data.models import FormData
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
-    ListDataAnswerSerializer
+    ListDataAnswerSerializer, ListMapDataPointSerializer, \
+    ListMapDataPointRequestSerializer
 from api.v1.v1_forms.models import Forms
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_serializer_fields import validate_serializers_message
@@ -127,6 +128,45 @@ def data_answers(request, version, pk):
         return Response(
             ListDataAnswerSerializer(instance=data.data_answer.all(),
                                      many=True).data,
+            status=status.HTTP_200_OK)
+    except Exception as ex:
+        return Response({'message': ex.args},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@extend_schema(responses={200: ListMapDataPointSerializer(many=True)},
+               parameters=[
+                   OpenApiParameter(name='shape',
+                                    required=True,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='marker',
+                                    required=False,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY),
+               ],
+               tags=['Map'])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_map_data_point(request, version, pk):
+    instance = get_object_or_404(Forms, pk=pk)
+    try:
+        serializer = ListMapDataPointRequestSerializer(data=request.GET,
+                                                       context={
+                                                           'form': instance})
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(serializer.errors)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        return Response(
+            ListMapDataPointSerializer(
+                instance=instance.form_form_data.all(),
+                context={
+                    'shape': serializer.validated_data.get('shape'),
+                    'marker': serializer.validated_data.get('marker')
+                },
+                many=True).data,
             status=status.HTTP_200_OK)
     except Exception as ex:
         return Response({'message': ex.args},
