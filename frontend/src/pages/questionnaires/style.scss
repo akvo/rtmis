@@ -2,7 +2,6 @@
 
 #root {
   #questionnaires {
-
     .ant-breadcrumb {
       .ant-breadcrumb-separator {
         margin: 0 16px;
@@ -20,7 +19,8 @@
     }
 
     .ant-table {
-      th, td {
+      th,
+      td {
         text-align: center;
       }
       th {
@@ -29,7 +29,7 @@
         color: #323132;
       }
       tr td:nth-child(2) span {
-        color: #c2c2c7,
+        color: #c2c2c7;
       }
     }
   }
