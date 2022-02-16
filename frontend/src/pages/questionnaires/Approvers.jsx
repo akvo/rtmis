@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./style.scss";
 import {
   Row,
@@ -8,19 +8,16 @@ import {
   Divider,
   Typography,
   Table,
-  message,
   ConfigProvider,
   Empty,
-  Checkbox,
 } from "antd";
 import { Link } from "react-router-dom";
-import { api } from "../../lib";
 
 const { Title } = Typography;
 
 const Approvers = () => {
-  const [loading, setLoading] = useState(false);
-  const [dataset, setDataset] = useState([]);
+  const [loading] = useState(false);
+  const [dataset] = useState([]);
 
   const columns = [];
 
