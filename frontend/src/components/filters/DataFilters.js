@@ -26,10 +26,10 @@ const DataFilters = ({ query, setQuery, loading }) => {
       <Col>
         <Row justify="end">
           <Col>
-            <Button className="button">Bulk Update Data</Button>
+            <Button className="light">Bulk Update Data</Button>
           </Col>
           <Col>
-            <Button className="button">Export Filtered Data</Button>
+            <Button className="light">Export Filtered Data</Button>
           </Col>
         </Row>
       </Col>

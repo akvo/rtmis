@@ -59,12 +59,22 @@ const DataDetail = ({ questionGroups, record }) => {
     })
     .flatMap((x) => x);
   return (
-    <Table
-      columns={columns}
-      dataSource={dataset}
-      pagination={false}
-      scroll={{ y: 300 }}
-    />
+    <>
+      <Table
+        columns={columns}
+        dataSource={dataset}
+        pagination={false}
+        scroll={{ y: 300 }}
+      />
+      <Row justify="space-between">
+        <Col>
+          <Button className="light">Delete</Button>
+        </Col>
+        <Col>
+          <Button className="light">Upload CSV</Button>
+        </Col>
+      </Row>
+    </>
   );
 };
 
