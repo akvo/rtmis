@@ -3,7 +3,7 @@ import "./style.scss";
 import { Row, Col, Space, Input, Button } from "antd";
 const { Search } = Input;
 import AdministrationDropdown from "./AdministrationDropdown";
-import FormDropdown from "./FormDropdown";
+import FormDropdown from "./FormDropdown.js";
 
 const DataFilters = ({ query, setQuery, loading }) => {
   return (
