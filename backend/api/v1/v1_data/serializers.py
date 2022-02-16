@@ -7,13 +7,14 @@ from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Questions, QuestionOptions
 from api.v1.v1_profile.models import Administration
 from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
-    UnvalidatedField, CustomListField
+    UnvalidatedField, CustomListField, CustomCharField
 from utils.functions import update_date_time_format, get_answer_value
 
 
 class SubmitFormDataSerializer(serializers.ModelSerializer):
     administration = CustomPrimaryKeyRelatedField(
         queryset=Administration.objects.none())
+    name = CustomCharField()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -27,6 +28,12 @@ class SubmitFormDataSerializer(serializers.ModelSerializer):
 
 class SubmitFormDataAnswerSerializer(serializers.ModelSerializer):
     value = UnvalidatedField(allow_null=False)
+    question = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none())
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get(
+            'question').queryset = Questions.objects.all()
 
     def validate_value(self, value):
         if value == '':

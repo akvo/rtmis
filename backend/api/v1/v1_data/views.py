@@ -22,6 +22,7 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListMapDataPointRequestSerializer, ListChartDataPointRequestSerializer, \
     ListChartQuestionDataPointSerializer
 from api.v1.v1_forms.models import Forms
+from api.v1.v1_profile.models import Administration
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_serializer_fields import validate_serializers_message
 
@@ -91,8 +92,19 @@ def list_form_data(request, version, pk):
             )
         filter_data = {}
         if serializer.validated_data.get('administration'):
-            filter_data['administration'] = serializer.validated_data.get(
+            filter_administration = serializer.validated_data.get(
                 'administration')
+            if filter_administration.path:
+                filter_path = '{0}{1}.'.format(filter_administration.path,
+                                               filter_administration.id)
+            else:
+                filter_path = f"{filter_administration.id}."
+            filter_descendants = list(Administration.objects.filter(
+                path__startswith=filter_path).values_list('id', flat=True))
+            filter_descendants.append(filter_administration.id)
+
+            filter_data['administration_id__in'] = filter_descendants
+
         page_size = REST_FRAMEWORK.get('PAGE_SIZE')
         page = request.GET.get('page')
 
