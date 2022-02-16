@@ -7,7 +7,7 @@ from rest_framework.response import Response
 
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_forms.serializers import ListFormSerializer, \
-    FormDetailSerializer
+    WebFormDetailSerializer, FormDataSerializer
 
 
 @extend_schema(responses={200: ListFormSerializer(many=True)},
@@ -19,10 +19,19 @@ def list_form(request, version):
         status=status.HTTP_200_OK)
 
 
-@extend_schema(responses={200: FormDetailSerializer},
+@extend_schema(responses={200: WebFormDetailSerializer},
                tags=['Form'])
 @api_view(['GET'])
-def form_details(request, version, pk):
+def web_form_details(request, version, pk):
     instance = get_object_or_404(Forms, pk=pk)
-    return Response(FormDetailSerializer(instance=instance).data,
+    return Response(WebFormDetailSerializer(instance=instance).data,
+                    status=status.HTTP_200_OK)
+
+
+@extend_schema(responses={200: FormDataSerializer},
+               tags=['Form'])
+@api_view(['GET'])
+def form_data(request, version, pk):
+    instance = get_object_or_404(Forms, pk=pk)
+    return Response(FormDataSerializer(instance=instance).data,
                     status=status.HTTP_200_OK)
