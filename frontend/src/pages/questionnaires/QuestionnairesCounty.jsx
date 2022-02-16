@@ -13,7 +13,6 @@ import {
   Checkbox,
 } from "antd";
 import { Link } from "react-router-dom";
-import { api } from "../../lib";
 
 const { Title } = Typography;
 
