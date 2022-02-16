@@ -5,14 +5,17 @@
     .ant-breadcrumb {
       .ant-breadcrumb-separator {
         margin: 0 16px;
+
         h2 {
           font-weight: 300;
           color: #8388a8;
         }
       }
+
       h2 {
         font-size: 1.6rem;
       }
+
       span:last-child span h2 {
         color: #0058ff;
       }
@@ -20,8 +23,6 @@
 
     .ant-table-expanded-row {
       .ant-table-cell {
-        padding: 12px 0 20px;
-
         .expand-wrap {
           width: 70%;
           margin: 0 auto;

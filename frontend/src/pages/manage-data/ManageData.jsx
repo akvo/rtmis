@@ -24,6 +24,54 @@ import { DataFilters } from "../../components";
 
 const { Title } = Typography;
 
+const DataDetail = ({ questionGroups, record }) => {
+  const { answer } = record;
+  const columns = [
+    {
+      title: "Field",
+      dataIndex: "field",
+      key: "field",
+      width: "50%",
+    },
+    {
+      title: "Value",
+      dataIndex: "value",
+      key: "value",
+    },
+  ];
+  const dataset = questionGroups
+    .map((qg, qgi) => {
+      const question = qg.question.map((q, qi) => {
+        return {
+          key: qi,
+          field: q.name,
+          value: answer?.find((r) => r.question === q.id)?.value,
+        };
+      });
+      return [
+        {
+          key: `qg-${qgi}`,
+          field: qg.name,
+          render: (value) => <h1>{value}</h1>,
+        },
+        ...question,
+      ];
+    })
+    .flatMap((x) => x);
+  return (
+    <Row justify="center">
+      <Col span={22}>
+        <Table
+          columns={columns}
+          dataSource={dataset}
+          pagination={false}
+          scroll={{ y: 240 }}
+        />
+      </Col>
+    </Row>
+  );
+};
+
 const ManageData = () => {
   const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
@@ -74,47 +122,6 @@ const ManageData = () => {
 
   const handleChange = (e) => {
     setCurrentPage(e.current);
-  };
-
-  const renderDetails = (record) => {
-    return (
-      <div>
-        <div className="expand-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Field</th>
-                <th>Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              {record.answer.map((answer, answerIdx) => (
-                <tr key={answerIdx}>
-                  <td>
-                    {
-                      questionGroups.find((group) =>
-                        group.question.some(
-                          (item) => item.id === answer.question
-                        )
-                      )?.name
-                    }
-                  </td>
-                  <td>{answer.value}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="expand-footer">
-          <div>
-            <Button danger>Delete</Button>
-          </div>
-          <div>
-            <Button danger>Upload CSV</Button>
-          </div>
-        </div>
-      </div>
-    );
   };
 
   useEffect(() => {
@@ -190,7 +197,9 @@ const ManageData = () => {
             }}
             rowKey="id"
             expandable={{
-              expandedRowRender: renderDetails,
+              expandedRowRender: (record) => (
+                <DataDetail questionGroups={questionGroups} record={record} />
+              ),
               expandIcon: ({ expanded, onExpand, record }) =>
                 expanded ? (
                   <CloseSquareOutlined
