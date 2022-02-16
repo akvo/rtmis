@@ -21,7 +21,7 @@ class ListOptionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = QuestionOptions
-        fields = ['name', 'order']
+        fields = ['id', 'name', 'order']
 
 
 class ListQuestionSerializer(serializers.ModelSerializer):
@@ -106,7 +106,7 @@ class ListAdministrationCascadeSerializer(serializers.ModelSerializer):
         fields = ['value', 'label', 'children']
 
 
-class FormDetailSerializer(serializers.ModelSerializer):
+class WebFormDetailSerializer(serializers.ModelSerializer):
     question_group = serializers.SerializerMethodField()
     cascade = serializers.SerializerMethodField()
 
@@ -133,3 +133,67 @@ class ListFormSerializer(serializers.ModelSerializer):
     class Meta:
         model = Forms
         fields = ['id', 'name']
+
+
+class FormDataListQuestionSerializer(serializers.ModelSerializer):
+    option = serializers.SerializerMethodField()
+    type = serializers.SerializerMethodField()
+
+    @extend_schema_field(ListOptionSerializer(many=True))
+    def get_option(self, instance: Questions):
+        if instance.type in [QuestionTypes.geo,
+                             QuestionTypes.option,
+                             QuestionTypes.multiple_option]:
+            return ListOptionSerializer(
+                instance=instance.question_question_options.all(),
+                many=True).data
+        return None
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_type(self, instance: Questions):
+        if instance.type == QuestionTypes.administration:
+            return QuestionTypes.FieldStr.get(QuestionTypes.cascade).lower()
+        return QuestionTypes.FieldStr.get(instance.type).lower()
+
+    @extend_schema_field(inline_serializer('center',
+                                           fields={
+                                               'lat': serializers.FloatField(),
+                                               'lng': serializers.FloatField(),
+                                           }))
+    def to_representation(self, instance):
+        result = super(FormDataListQuestionSerializer, self).to_representation(
+            instance)
+        return OrderedDict(
+            [(key, result[key]) for key in result if result[key] is not None])
+
+    class Meta:
+        model = Questions
+        fields = ['id', 'form', 'question_group', 'name', 'order',
+                  'meta', 'type', 'required', 'rule', 'option', 'dependency']
+
+
+class FormDataQuestionGroupSerializer(serializers.ModelSerializer):
+    question = serializers.SerializerMethodField()
+
+    @extend_schema_field(FormDataListQuestionSerializer(many=True))
+    def get_question(self, instance: QuestionGroup):
+        return FormDataListQuestionSerializer(
+            instance=instance.question_group_question.all().order_by('order'),
+            many=True).data
+
+    class Meta:
+        model = QuestionGroup
+        fields = ['id', 'name', 'question']
+
+
+class FormDataSerializer(serializers.ModelSerializer):
+    question_group = serializers.SerializerMethodField()
+
+    @extend_schema_field(FormDataQuestionGroupSerializer(many=True))
+    def get_question_group(self, instance: Forms):
+        return FormDataQuestionGroupSerializer(
+            instance=instance.form_question_group.all(), many=True).data
+
+    class Meta:
+        model = Forms
+        fields = ['id', 'name', 'question_group']
