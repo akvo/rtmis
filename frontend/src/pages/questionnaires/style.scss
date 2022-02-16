@@ -33,4 +33,13 @@
       }
     }
   }
+
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #ffffff;
+    border-color: #d9d9d9;
+  }
+
+  .ant-checkbox-checked .ant-checkbox-inner::after {
+    border-color: #0058ff;
+  }
 }
