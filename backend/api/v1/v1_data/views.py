@@ -45,7 +45,8 @@ def submit_form(request, version, pk):
                                                    'form': form})
         if not serializer.is_valid():
             return Response(
-                {'message': validate_serializers_message(serializer.errors)},
+                {'message': validate_serializers_message(serializer.errors),
+                 'details': serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -117,7 +118,7 @@ def list_form_data(request, version, pk):
         instance = paginator.paginate_queryset(queryset, request)
 
         data = {
-            "current": request.GET.get('page'),
+            "current": int(request.GET.get('page', '1')),
             "total": queryset.count(),
             "total_page": ceil(queryset.count() / page_size),
             "data": ListFormDataSerializer(
