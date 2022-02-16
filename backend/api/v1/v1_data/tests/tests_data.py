@@ -55,7 +55,6 @@ class DataTestCase(TestCase):
         }
 
         form = Forms.objects.first()
-        print(form.form_questions.values_list('id'))
 
         data = self.client.get(
             "/api/v1/maps/{0}/".format(form.id), follow=True,
@@ -74,3 +73,40 @@ class DataTestCase(TestCase):
             self.assertEqual(len(d.get("geo")), 2)
             self.assertIsNotNone(d.get("marker"))
             self.assertIsNotNone(d.get("shape"))
+
+    def test_chart_data(self):
+        call_command("administration_seeder", "--test")
+        user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user_response = self.client.post('/api/v1/login/',
+                                         user_payload,
+                                         content_type='application/json')
+        token = user_response.json().get('token')
+
+        call_command("form_seeder", "--test")
+        call_command("fake_data_seeder", "-r", 1, '-t', True)
+        header = {
+            'HTTP_AUTHORIZATION': f'Bearer {token}'
+        }
+
+        form = Forms.objects.first()
+
+        data = self.client.get(
+            "/api/v1/chart/data/{0}/".format(form.id), follow=True,
+            **header)
+        self.assertEqual(data.status_code, 400)
+        data = self.client.get(
+            "/api/v1/chart/data/{0}/?question=2".format(form.id), follow=True,
+            **header)
+        self.assertEqual(data.status_code, 200)
+        self.assertEqual(list(data.json().get('data')[0]),
+                         ['name', 'value'])
+        self.assertEqual(data.json().get('type'), 'BAR')
+        data = self.client.get(
+            "/api/v1/chart/data/{0}/?question=2&stack=2".format(form.id),
+            follow=True,
+            **header)
+        self.assertEqual(data.status_code, 200)
+        self.assertEqual(data.json().get('type'), 'BARSTACK')
+        self.assertEqual(list(data.json().get('data')[0]), ['group', 'child'])
+        self.assertEqual(list(data.json().get('data')[0]['child'][0]),
+                         ['name', 'value'])

@@ -3,7 +3,6 @@ import json
 import numpy as np
 import pandas as pd
 from django.core.management import BaseCommand
-from django.db.transaction import atomic
 from faker import Faker
 
 from api.v1.v1_profile.models import Levels, Administration
@@ -54,18 +53,35 @@ def seed_administration_test():
     administration = Administration(id=2,
                                     name="Jakarta",
                                     parent=administration,
-                                    level=level)
+                                    level=level,
+                                    path='{0}.'.format(administration.id))
     administration.save()
     administration = Administration(id=3,
                                     name=fake.company(),
                                     parent=administration,
-                                    level=level_2)
+                                    level=level_2,
+                                    path='{0}{1}.'.format(administration.path,
+                                                          administration.id))
     administration.save()
     administration = Administration(id=4,
                                     name=fake.company(),
                                     parent=administration,
-                                    level=level_3)
+                                    level=level_3,
+                                    path='{0}{1}.'.format(administration.path,
+                                                          administration.id))
     administration.save()
+
+
+def get_path(df, parent, current=[]):
+    p = df[df['id'] == parent]
+    current = current + list(p['id'])
+    if p.shape[0]:
+        return get_path(df, list(p['parent'])[0], current)
+    current.reverse()
+    path = ".".join([str(c) for c in current])
+    if len(path):
+        return f"{path}."
+    return None
 
 
 def seed_administration_prod():
@@ -105,6 +121,7 @@ def seed_administration_prod():
     res["id"] = res.index + 1
     res["parent"] = res.apply(lambda x: get_parent_id(res, x), axis=1)
     res = res[["id", "parent", "name", "level"]]
+    res["path"] = res["parent"].apply(lambda x: get_path(res, x))
     res = res.replace({np.nan: None})
     res = res.to_dict('records')
     for r in res:
@@ -112,7 +129,8 @@ def seed_administration_prod():
             id=r.get("id"),
             name=r.get("name"),
             parent=Administration.objects.filter(id=r.get("parent")).first(),
-            level=Levels.objects.filter(level=r.get("level")).first())
+            level=Levels.objects.filter(level=r.get("level")).first(),
+            path=r.get("path"))
         administration.save()
 
 
@@ -124,15 +142,24 @@ class Command(BaseCommand):
                             const=1,
                             default=False,
                             type=int)
+        parser.add_argument("-c",
+                            "--clean",
+                            nargs="?",
+                            const=1,
+                            default=False,
+                            type=int)
 
-    @atomic
     def handle(self, *args, **options):
         test = options.get("test")
+        clean = options.get("clean")
+        if clean:
+            Administration.objects.all().delete()
+            self.stdout.write('-- Administration Cleared')
         if test:
             seed_administration_test()
         if not test:
-            if Administration.objects.count():
-                self.stdout.write("You have performed administration seeder")
-                exit()
+            # if Administration.objects.count():
+            #    self.stdout.write("You have performed administration seeder")
+            #    exit()
             seed_administration_prod()
             self.stdout.write('-- FINISH')

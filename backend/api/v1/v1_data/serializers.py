@@ -4,16 +4,17 @@ from rest_framework.exceptions import ValidationError
 
 from api.v1.v1_data.models import FormData, Answers
 from api.v1.v1_forms.constants import QuestionTypes
-from api.v1.v1_forms.models import Questions
+from api.v1.v1_forms.models import Questions, QuestionOptions
 from api.v1.v1_profile.models import Administration
 from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
-    UnvalidatedField, CustomListField
+    UnvalidatedField, CustomListField, CustomCharField
 from utils.functions import update_date_time_format, get_answer_value
 
 
 class SubmitFormDataSerializer(serializers.ModelSerializer):
     administration = CustomPrimaryKeyRelatedField(
         queryset=Administration.objects.none())
+    name = CustomCharField()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -27,6 +28,12 @@ class SubmitFormDataSerializer(serializers.ModelSerializer):
 
 class SubmitFormDataAnswerSerializer(serializers.ModelSerializer):
     value = UnvalidatedField(allow_null=False)
+    question = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none())
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get(
+            'question').queryset = Questions.objects.all()
 
     def validate_value(self, value):
         if value == '':
@@ -216,3 +223,28 @@ class ListMapDataPointSerializer(serializers.ModelSerializer):
     class Meta:
         model = FormData
         fields = ['id', 'name', 'geo', 'marker', 'shape']
+
+
+class ListChartDataPointRequestSerializer(serializers.Serializer):
+    stack = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none(),
+                                         required=False)
+    question = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none())
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        queryset = self.context.get('form').form_questions.filter(
+            type=QuestionTypes.option)
+        self.fields.get('question').queryset = queryset
+        self.fields.get('stack').queryset = queryset
+
+
+class ListChartQuestionDataPointSerializer(serializers.ModelSerializer):
+    value = serializers.SerializerMethodField()
+
+    def get_value(self, instance: QuestionOptions):
+        return instance.question.question_answer.filter(
+            options__contains=instance.name).count()
+
+    class Meta:
+        model = QuestionOptions
+        fields = ['name', 'value']
