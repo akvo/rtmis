@@ -102,8 +102,8 @@ class FormSubmissionTestCase(TestCase):
         self.assertEqual(data.status_code, 400)
         data = data.json()
         self.assertEqual(
-            data,
-            {"message": "name is required.|administration is required."})
+            data.get('message'),
+            "name is required.|administration is required.")
 
     def test_form_data_endpoint(self):
         call_command("administration_seeder", "--test")
