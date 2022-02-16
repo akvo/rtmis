@@ -46,21 +46,21 @@ class FormSeederTestCase(TestCase):
         self.assertEqual({"administration": []}, response["cascade"])
         self.assertEqual("Water Quality",
                          response["question_group"][0]["name"])
-
-        self.assertEqual(
-            {'id': 968554020, 'name': 'Can we conduct a water quality test?',
-             'order': 1, 'type': 'option', 'required': True,
-             'option': [{'id': 1, 'name': 'Yes'},
-                        {'id': 2, 'name': 'No, no consent from respondent'},
-                        {'id': 3, 'name': 'No, not able to do'}],
-             'meta': False}, response["question_group"][0]["question"][0])
-
-        self.assertEqual({
-            'id': 996974044,
-            'name': 'If yes, can we conduct a test on salinity (taste)?',
-            'order': 2, 'type': 'option', 'required': True,
-            'dependency': [
-                {'id': 968554020, 'options': ['Yes']}],
-            'option': [{'id': 4, 'name': 'Yes'},
-                       {'id': 5, 'name': 'No'}], 'meta': False},
-            response["question_group"][0]["question"][1])
+        self.assertEqual(968554020,
+                         response["question_group"][0]["question"][0]['id'])
+        self.assertEqual('Can we conduct a water quality test?',
+                         response["question_group"][0]["question"][0]['name'])
+        self.assertEqual(['id', 'name'],
+                         list(response["question_group"][0]["question"][0][
+                                  'option'][0]))
+        self.assertEqual(False,
+                         response["question_group"][0]["question"][0]['meta'])
+        self.assertEqual(996974044,
+                         response["question_group"][0]["question"][1]['id'])
+        self.assertEqual('If yes, can we conduct a test on salinity (taste)?',
+                         response["question_group"][0]["question"][1]['name'])
+        self.assertEqual(['id', 'name'],
+                         list(response["question_group"][0]["question"][1][
+                                  'option'][0]))
+        self.assertEqual(False,
+                         response["question_group"][0]["question"][1]['meta'])

@@ -115,6 +115,9 @@ class FormSubmissionTestCase(TestCase):
         self.assertEqual(len(question_group), 1)
         self.assertEqual(question_group[0].get("name"), "Question Group 01")
         question = question_group[0].get("question")
-        self.assertEqual(
-            {'id': 1, 'form': 1, 'question_group': 40, 'name': 'Name',
-             'meta': True, 'type': 'text', 'required': True}, question[0])
+        self.assertEqual(1, question[0]['id'])
+        self.assertEqual(1, question[0]['form'])
+        self.assertEqual('Name', question[0]['name'])
+        self.assertEqual(True, question[0]['meta'])
+        self.assertEqual('text', question[0]['type'])
+        self.assertEqual(True, question[0]['required'])
