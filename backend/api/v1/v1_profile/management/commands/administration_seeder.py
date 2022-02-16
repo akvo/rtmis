@@ -3,7 +3,6 @@ import json
 import numpy as np
 import pandas as pd
 from django.core.management import BaseCommand
-from django.db.transaction import atomic
 from faker import Faker
 
 from api.v1.v1_profile.models import Levels, Administration
@@ -74,7 +73,10 @@ def get_path(df, parent, current=[]):
     if p.shape[0]:
         return get_path(df, list(p['parent'])[0], current)
     current.reverse()
-    return ".".join([str(c) for c in current])
+    path = ".".join([str(c) for c in current])
+    if len(path):
+        return f"{path}."
+    return None
 
 
 def seed_administration_prod():
@@ -123,7 +125,7 @@ def seed_administration_prod():
             name=r.get("name"),
             parent=Administration.objects.filter(id=r.get("parent")).first(),
             level=Levels.objects.filter(level=r.get("level")).first(),
-            path=r.get("path") if len(r.get("path")) else None)
+            path=r.get("path"))
         administration.save()
 
 
@@ -135,10 +137,19 @@ class Command(BaseCommand):
                             const=1,
                             default=False,
                             type=int)
+        parser.add_argument("-c",
+                            "--clean",
+                            nargs="?",
+                            const=1,
+                            default=False,
+                            type=int)
 
-    @atomic
     def handle(self, *args, **options):
         test = options.get("test")
+        clean = options.get("clean")
+        if clean:
+            Administration.objects.all().delete()
+            self.stdout.write('-- Administration Cleared')
         if test:
             seed_administration_test()
         if not test:
