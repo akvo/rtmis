@@ -22,7 +22,6 @@ def seed_administration_test():
 
 class FormSubmissionTestCase(TestCase):
     def test_webform_endpoint(self):
-
         self.maxDiff = None
         call_command("form_seeder", "--test")
         seed_administration_test()
@@ -38,19 +37,18 @@ class FormSubmissionTestCase(TestCase):
         self.assertEqual(
             webform.get("cascade"), {
                 "administration":
-                [{
-                    "label": "Indonesia",
-                    "value": 1,
-                    "children": [{
-                        "label": "Jakarta",
-                        "value": 2,
-                        "children": []
+                    [{
+                        "label": "Indonesia",
+                        "value": 1,
+                        "children": [{
+                            "label": "Jakarta",
+                            "value": 2,
+                            "children": []
+                        }]
                     }]
-                }]
             })
 
     def test_create_new_submission(self):
-
         self.maxDiff = None
         seed_administration_test()
         user = {"email": "admin@rtmis.com", "password": "Test105*"}
@@ -106,3 +104,17 @@ class FormSubmissionTestCase(TestCase):
         self.assertEqual(
             data,
             {"message": "name is required.|administration is required."})
+
+    def test_form_data_endpoint(self):
+        call_command("administration_seeder", "--test")
+        call_command("form_seeder", "--test")
+        webform = self.client.get("/api/v1/form/1", follow=True)
+        webform = webform.json()
+        self.assertEqual(webform.get("name"), "Test Form")
+        question_group = webform.get("question_group")
+        self.assertEqual(len(question_group), 1)
+        self.assertEqual(question_group[0].get("name"), "Question Group 01")
+        question = question_group[0].get("question")
+        self.assertEqual(
+            {'id': 1, 'form': 1, 'question_group': 40, 'name': 'Name',
+             'meta': True, 'type': 'text', 'required': True}, question[0])

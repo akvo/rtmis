@@ -46,36 +46,21 @@ class FormSeederTestCase(TestCase):
         self.assertEqual({"administration": []}, response["cascade"])
         self.assertEqual("Water Quality",
                          response["question_group"][0]["name"])
-        self.assertEqual({
-                "id": 968554020,
-                "name": "Can we conduct a water quality test?",
-                "option": [{
-                    "name": "Yes",
-                }, {
-                    "name": "No, no consent from respondent",
-                }, {
-                    "name": "No, not able to do",
-                }],
-                "type": "option",
-                "order": 1,
-                "required": True,
-                "meta": False,
-            }, response["question_group"][0]["question"][0])
+
+        self.assertEqual(
+            {'id': 968554020, 'name': 'Can we conduct a water quality test?',
+             'order': 1, 'type': 'option', 'required': True,
+             'option': [{'id': 1, 'name': 'Yes'},
+                        {'id': 2, 'name': 'No, no consent from respondent'},
+                        {'id': 3, 'name': 'No, not able to do'}],
+             'meta': False}, response["question_group"][0]["question"][0])
 
         self.assertEqual({
-                "id": 996974044,
-                "name": "If yes, can we conduct a test on salinity (taste)?",
-                "option": [{
-                    "name": "Yes",
-                }, {
-                    "name": "No",
-                }],
-                "type": "option",
-                "order": 2,
-                "required": True,
-                "meta": False,
-                "dependency": [{
-                    "id": 968554020,
-                    "options": ["Yes"]
-                }],
-            }, response["question_group"][0]["question"][1])
+            'id': 996974044,
+            'name': 'If yes, can we conduct a test on salinity (taste)?',
+            'order': 2, 'type': 'option', 'required': True,
+            'dependency': [
+                {'id': 968554020, 'options': ['Yes']}],
+            'option': [{'id': 4, 'name': 'Yes'},
+                       {'id': 5, 'name': 'No'}], 'meta': False},
+            response["question_group"][0]["question"][1])
