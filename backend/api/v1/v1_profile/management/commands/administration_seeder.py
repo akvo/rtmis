@@ -68,6 +68,15 @@ def seed_administration_test():
     administration.save()
 
 
+def get_path(df, parent, current=[]):
+    p = df[df['id'] == parent]
+    current = current + list(p['id'])
+    if p.shape[0]:
+        return get_path(df, list(p['parent'])[0], current)
+    current.reverse()
+    return ".".join([str(c) for c in current])
+
+
 def seed_administration_prod():
     geo = open(source_file, 'r')
     geo = json.load(geo)
@@ -105,6 +114,7 @@ def seed_administration_prod():
     res["id"] = res.index + 1
     res["parent"] = res.apply(lambda x: get_parent_id(res, x), axis=1)
     res = res[["id", "parent", "name", "level"]]
+    res["path"] = res["parent"].apply(lambda x: get_path(res, x))
     res = res.replace({np.nan: None})
     res = res.to_dict('records')
     for r in res:
@@ -112,7 +122,8 @@ def seed_administration_prod():
             id=r.get("id"),
             name=r.get("name"),
             parent=Administration.objects.filter(id=r.get("parent")).first(),
-            level=Levels.objects.filter(level=r.get("level")).first())
+            level=Levels.objects.filter(level=r.get("level")).first(),
+            path=r.get("path") if len(r.get("path")) else None)
         administration.save()
 
 
@@ -131,8 +142,8 @@ class Command(BaseCommand):
         if test:
             seed_administration_test()
         if not test:
-            if Administration.objects.count():
-                self.stdout.write("You have performed administration seeder")
-                exit()
+            # if Administration.objects.count():
+            #    self.stdout.write("You have performed administration seeder")
+            #    exit()
             seed_administration_prod()
             self.stdout.write('-- FINISH')
