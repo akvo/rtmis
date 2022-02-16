@@ -1,6 +1,7 @@
 import React from "react";
 import "./style.scss";
 import { Row, Col, Space, Input, Select, Checkbox } from "antd";
+const { Search } = Input;
 
 import { store } from "../../lib";
 import AdministrationDropdown from "./AdministrationDropdown";
@@ -12,13 +13,14 @@ const UserFilters = ({ query, setQuery, pending, setPending, loading }) => {
     <Row>
       <Col span={20}>
         <Space>
-          <Input
+          <Search
             placeholder="Search..."
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
             }}
             style={{ width: 160 }}
+            allowClear
           />
           <Select
             disabled
