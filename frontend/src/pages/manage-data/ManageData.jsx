@@ -28,6 +28,8 @@ const ManageData = () => {
   const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
   const [query, setQuery] = useState("");
+  const [totalCount, setTotalCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { administration, selectedForm, questionGroups } = store.useState(
     (state) => state
@@ -70,8 +72,8 @@ const ManageData = () => {
     Table.EXPAND_COLUMN,
   ];
 
-  const handleChange = () => {
-    // setCurrentPage(e.current);
+  const handleChange = (e) => {
+    setCurrentPage(e.current);
   };
 
   const renderDetails = (record) => {
@@ -118,27 +120,23 @@ const ManageData = () => {
   useEffect(() => {
     if (selectedForm) {
       setLoading(true);
-      let url = `list/form-data/${selectedForm}/?page=1`;
+      let url = `list/form-data/${selectedForm}/?page=${currentPage}`;
       if (selectedAdministration?.id) {
         url += `&administration=${selectedAdministration.id}`;
       }
-      try {
-        api.get(url).then((res) => {
+      api
+        .get(url)
+        .then((res) => {
           setDataset(res.data.data);
-          api.get(`web/form/${selectedForm}`).then((res) => {
-            store.update((s) => {
-              s.questionGroups = res.data.question_group;
-            });
-            setLoading(false);
-          });
+          setTotalCount(res.data.total);
+          setLoading(false);
+        })
+        .catch(() => {
+          message.error("Could not load data");
+          setLoading(false);
         });
-      } catch (err) {
-        message.error("Could not load forms");
-        setLoading(false);
-        console.error(err);
-      }
     }
-  }, [selectedForm, selectedAdministration]);
+  }, [selectedForm, selectedAdministration, currentPage]);
 
   return (
     <div id="manageData">
@@ -185,10 +183,11 @@ const ManageData = () => {
             dataSource={dataset}
             loading={loading}
             onChange={handleChange}
-            // pagination={{
-            //   total: totalCount,
-            //   pageSize: 10,
-            // }}
+            pagination={{
+              total: totalCount,
+              pageSize: 10,
+              showSizeChanger: false,
+            }}
             rowKey="id"
             expandable={{
               expandedRowRender: renderDetails,
