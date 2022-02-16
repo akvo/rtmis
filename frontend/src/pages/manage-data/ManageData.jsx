@@ -40,17 +40,17 @@ const DataDetail = ({ questionGroups, record }) => {
     },
   ];
   const dataset = questionGroups
-    .map((qg, qgi) => {
-      const question = qg.question.map((q, qi) => {
+    .map((qg) => {
+      const question = qg.question.map((q) => {
         return {
-          key: qi,
+          key: q.id,
           field: q.name,
           value: answer?.find((r) => r.question === q.id)?.value,
         };
       });
       return [
         {
-          key: `qg-${qgi}`,
+          key: qg.id,
           field: qg.name,
           render: (value) => <h1>{value}</h1>,
         },
@@ -59,16 +59,12 @@ const DataDetail = ({ questionGroups, record }) => {
     })
     .flatMap((x) => x);
   return (
-    <Row justify="center">
-      <Col span={22}>
-        <Table
-          columns={columns}
-          dataSource={dataset}
-          pagination={false}
-          scroll={{ y: 240 }}
-        />
-      </Col>
-    </Row>
+    <Table
+      columns={columns}
+      dataSource={dataset}
+      pagination={false}
+      scroll={{ y: 300 }}
+    />
   );
 };
 
