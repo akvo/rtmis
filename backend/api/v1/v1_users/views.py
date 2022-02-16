@@ -210,38 +210,34 @@ def list_users(request, version):
                 {'message': validate_serializers_message(serializer.errors)},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        filter_data = {}
 
-        children = Administration.objects.raw(
-            'WITH RECURSIVE subordinates AS ('
-            'SELECT id FROM administrator WHERE parent_id = {0} UNION '
-            'SELECT e.id FROM administrator e '
-            'INNER JOIN subordinates s ON s.id = e.parent_id) '
-            'SELECT * FROM subordinates;'.format(
-                request.user.user_access.administration.id))
-        allowed_administration_ids = [
-            request.user.user_access.administration.id]
+        user_allowed = request.user.user_access.administration
 
-        for child in children:
-            allowed_administration_ids.append(child.id)
-        filter_data[
-            'user_access__administration_id__in'] = allowed_administration_ids
+        if user_allowed.path:
+            allowed_path = f"{user_allowed.path}{user_allowed.id}."
+        else:
+            allowed_path = f"{user_allowed.id}."
+        allowed_descendants = list(Administration.objects.filter(
+            path__startswith=allowed_path).values_list('id', flat=True))
+        allowed_descendants.append(user_allowed.id)
+        filter_data = {
+            'user_access__administration_id__in': allowed_descendants}
 
         if serializer.validated_data.get('administration'):
-            filter_administration_ids = [
-                serializer.validated_data.get('administration').id]
-            filter_administrations = Administration.objects.raw(
-                'WITH RECURSIVE subordinates AS ('
-                'SELECT id FROM administrator WHERE parent_id = {0} UNION '
-                'SELECT e.id FROM administrator e '
-                'INNER JOIN subordinates s ON s.id = e.parent_id) '
-                'SELECT * FROM subordinates;'.format(
-                    filter_administration_ids[0]))
-            for fa in filter_administrations:
-                filter_administration_ids.append(fa.id)
+            filter_administration = serializer.validated_data.get(
+                'administration')
+            if filter_administration.path:
+                filter_path = '{0}{1}.'.format(filter_administration.path,
+                                               filter_administration.id)
+            else:
+                filter_path = f"{filter_administration.id}."
+            filter_descendants = list(Administration.objects.filter(
+                path__startswith=filter_path).values_list('id', flat=True))
+            filter_descendants.append(filter_administration.id)
 
-            set1 = set(filter_administration_ids)
-            final_set = set1.intersection(allowed_administration_ids)
+            set1 = set(filter_descendants)
+            print(filter_descendants)
+            final_set = set1.intersection(allowed_descendants)
             filter_data[
                 'user_access__administration_id__in'] = list(final_set)
         if serializer.validated_data.get('role'):
@@ -250,8 +246,6 @@ def list_users(request, version):
         if serializer.validated_data.get('pending'):
             filter_data['password__isnull'] = serializer.validated_data.get(
                 'pending')
-
-        # if request.user.user_access.role != UserRoleTypes.super_admin:
 
         page_size = REST_FRAMEWORK.get('PAGE_SIZE')
         queryset = SystemUser.objects.filter(**filter_data).order_by('id')
