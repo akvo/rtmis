@@ -24,10 +24,56 @@ import { DataFilters } from "../../components";
 
 const { Title } = Typography;
 
+const DataDetail = ({ questionGroups, record }) => {
+  const { answer } = record;
+  const columns = [
+    {
+      title: "Field",
+      dataIndex: "field",
+      key: "field",
+      width: "50%",
+    },
+    {
+      title: "Value",
+      dataIndex: "value",
+      key: "value",
+    },
+  ];
+  const dataset = questionGroups
+    .map((qg) => {
+      const question = qg.question.map((q) => {
+        return {
+          key: q.id,
+          field: q.name,
+          value: answer?.find((r) => r.question === q.id)?.value,
+        };
+      });
+      return [
+        {
+          key: qg.id,
+          field: qg.name,
+          render: (value) => <h1>{value}</h1>,
+        },
+        ...question,
+      ];
+    })
+    .flatMap((x) => x);
+  return (
+    <Table
+      columns={columns}
+      dataSource={dataset}
+      pagination={false}
+      scroll={{ y: 300 }}
+    />
+  );
+};
+
 const ManageData = () => {
   const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
   const [query, setQuery] = useState("");
+  const [totalCount, setTotalCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { administration, selectedForm, questionGroups } = store.useState(
     (state) => state
@@ -70,75 +116,30 @@ const ManageData = () => {
     Table.EXPAND_COLUMN,
   ];
 
-  const handleChange = () => {
-    // setCurrentPage(e.current);
-  };
-
-  const renderDetails = (record) => {
-    return (
-      <div>
-        <div className="expand-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Field</th>
-                <th>Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              {record.answer.map((answer, answerIdx) => (
-                <tr key={answerIdx}>
-                  <td>
-                    {
-                      questionGroups.find((group) =>
-                        group.question.some(
-                          (item) => item.id === answer.question
-                        )
-                      )?.name
-                    }
-                  </td>
-                  <td>{answer.value}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="expand-footer">
-          <div>
-            <Button danger>Delete</Button>
-          </div>
-          <div>
-            <Button danger>Upload CSV</Button>
-          </div>
-        </div>
-      </div>
-    );
+  const handleChange = (e) => {
+    setCurrentPage(e.current);
   };
 
   useEffect(() => {
     if (selectedForm) {
       setLoading(true);
-      let url = `list/form-data/${selectedForm}/?page=1`;
+      let url = `list/form-data/${selectedForm}/?page=${currentPage}`;
       if (selectedAdministration?.id) {
         url += `&administration=${selectedAdministration.id}`;
       }
-      try {
-        api.get(url).then((res) => {
+      api
+        .get(url)
+        .then((res) => {
           setDataset(res.data.data);
-          api.get(`web/form/${selectedForm}`).then((res) => {
-            store.update((s) => {
-              s.questionGroups = res.data.question_group;
-            });
-            setLoading(false);
-          });
+          setTotalCount(res.data.total);
+          setLoading(false);
+        })
+        .catch(() => {
+          message.error("Could not load data");
+          setLoading(false);
         });
-      } catch (err) {
-        message.error("Could not load forms");
-        setLoading(false);
-        console.error(err);
-      }
     }
-  }, [selectedForm, selectedAdministration]);
+  }, [selectedForm, selectedAdministration, currentPage]);
 
   return (
     <div id="manageData">
@@ -185,13 +186,16 @@ const ManageData = () => {
             dataSource={dataset}
             loading={loading}
             onChange={handleChange}
-            // pagination={{
-            //   total: totalCount,
-            //   pageSize: 10,
-            // }}
+            pagination={{
+              total: totalCount,
+              pageSize: 10,
+              showSizeChanger: false,
+            }}
             rowKey="id"
             expandable={{
-              expandedRowRender: renderDetails,
+              expandedRowRender: (record) => (
+                <DataDetail questionGroups={questionGroups} record={record} />
+              ),
               expandIcon: ({ expanded, onExpand, record }) =>
                 expanded ? (
                   <CloseSquareOutlined
