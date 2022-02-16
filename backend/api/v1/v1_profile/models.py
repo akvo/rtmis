@@ -25,6 +25,7 @@ class Administration(models.Model):
     level = models.ForeignKey(to=Levels, on_delete=models.CASCADE,
                               related_name='administrator_level')
     name = models.TextField()
+    path = models.TextField()
 
     def __str__(self):
         return self.name

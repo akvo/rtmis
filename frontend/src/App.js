@@ -1,7 +1,15 @@
 import "./App.scss";
 import React, { useEffect, useState } from "react";
 import { Route, Navigate, Routes } from "react-router-dom";
-import { Home, Login, ControlCenter, Users, AddUser, Forms } from "./pages";
+import {
+  Home,
+  Login,
+  ControlCenter,
+  Users,
+  AddUser,
+  Forms,
+  ManageData,
+} from "./pages";
 import { message, Spin } from "antd";
 import { useCookies } from "react-cookie";
 import { store, api } from "./lib";
@@ -88,6 +96,10 @@ const App = () => {
           <Route
             path="/control-center"
             element={authUser ? <ControlCenter /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/data/manage"
+            element={authUser ? <ManageData /> : <Navigate to="/login" />}
           />
         </Routes>
       </Layout.Body>
