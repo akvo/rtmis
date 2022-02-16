@@ -53,17 +53,22 @@ def seed_administration_test():
     administration = Administration(id=2,
                                     name="Jakarta",
                                     parent=administration,
-                                    level=level)
+                                    level=level,
+                                    path='{0}.'.format(administration.id))
     administration.save()
     administration = Administration(id=3,
                                     name=fake.company(),
                                     parent=administration,
-                                    level=level_2)
+                                    level=level_2,
+                                    path='{0}{1}.'.format(administration.path,
+                                                          administration.id))
     administration.save()
     administration = Administration(id=4,
                                     name=fake.company(),
                                     parent=administration,
-                                    level=level_3)
+                                    level=level_3,
+                                    path='{0}{1}.'.format(administration.path,
+                                                          administration.id))
     administration.save()
 
 
