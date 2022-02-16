@@ -7,6 +7,7 @@ import {
   Button,
   Breadcrumb,
   Divider,
+  Space,
   Typography,
   Table,
   message,
@@ -40,17 +41,17 @@ const DataDetail = ({ questionGroups, record }) => {
     },
   ];
   const dataset = questionGroups
-    .map((qg) => {
+    .map((qg, qgi) => {
       const question = qg.question.map((q) => {
         return {
-          key: q.id,
+          key: `question-${q.id}`,
           field: q.name,
           value: answer?.find((r) => r.question === q.id)?.value,
         };
       });
       return [
         {
-          key: qg.id,
+          key: `question-group-${qgi}`,
           field: qg.name,
           render: (value) => <h1>{value}</h1>,
         },
@@ -59,12 +60,23 @@ const DataDetail = ({ questionGroups, record }) => {
     })
     .flatMap((x) => x);
   return (
-    <Table
-      columns={columns}
-      dataSource={dataset}
-      pagination={false}
-      scroll={{ y: 300 }}
-    />
+    <Row justify="center">
+      <Col span={20}>
+        <Table
+          columns={columns}
+          dataSource={dataset}
+          pagination={false}
+          scroll={{ y: 300 }}
+        />
+      </Col>
+      <Divider />
+      <Col span={10} align="left">
+        <Button>Delete</Button>
+      </Col>
+      <Col span={10} align="right">
+        <Button>Upload CSV</Button>
+      </Col>
+    </Row>
   );
 };
 
@@ -86,12 +98,6 @@ const ManageData = () => {
 
   const columns = [
     {
-      title: "",
-      dataIndex: "id",
-      key: "id",
-      render: () => <ExclamationCircleOutlined />,
-    },
-    {
       title: "Name",
       dataIndex: "name",
       key: "name",
@@ -99,6 +105,12 @@ const ManageData = () => {
       filteredValue: query.trim() === "" ? [] : [query],
       onFilter: (value, filters) =>
         filters.name.toLowerCase().includes(value.toLowerCase()),
+      render: (value) => (
+        <span className="with-icon">
+          <ExclamationCircleOutlined />
+          {value}
+        </span>
+      ),
     },
     {
       title: "Last Updated",

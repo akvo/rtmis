@@ -21,6 +21,14 @@
       }
     }
 
+    .ant-table-cell {
+      .with-icon {
+        .anticon {
+          margin-right: 10px;
+        }
+      }
+    }
+
     .ant-table-expanded-row {
       .ant-table-cell {
         .expand-wrap {
@@ -68,9 +76,11 @@
       li,
       button {
         border: none;
+
         a {
           color: #898eab;
         }
+
         a:hover {
           // border: none;
           color: #595e7b;
@@ -80,9 +90,11 @@
       .ant-pagination-item-active {
         border: none;
         background-color: #0057ff;
+
         a {
           color: #fff;
         }
+
         a:hover {
           // color: #fff;
         }
