@@ -30,9 +30,17 @@ const FormDropdown = ({ loading: parentLoading = false, ...props }) => {
     if (!e) {
       return;
     }
-    store.update((s) => {
-      s.selectedForm = e;
-    });
+    api
+      .get(`/form/${e}/`)
+      .then((res) => {
+        store.update((s) => {
+          s.questionGroups = res.data.question_group;
+          s.selectedForm = e;
+        });
+      })
+      .catch(() => {
+        message.error("Could not load form data");
+      });
   };
 
   if (forms) {
