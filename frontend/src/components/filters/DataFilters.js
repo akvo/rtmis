@@ -1,32 +1,37 @@
 import React from "react";
 import "./style.scss";
 import { Row, Col, Space, Input, Button } from "antd";
-
+const { Search } = Input;
 import AdministrationDropdown from "./AdministrationDropdown";
 import FormDropdown from "./FormDropdown";
 
 const DataFilters = ({ query, setQuery, loading }) => {
   return (
     <Row>
-      <Col span={20}>
+      <Col flex={1}>
         <Space>
-          <Input
+          <Search
             placeholder="Search..."
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
             }}
             style={{ width: 160 }}
+            allowClear
           />
           <FormDropdown loading={loading} />
           <AdministrationDropdown loading={loading} />
         </Space>
       </Col>
-      <Col span={4} align="right">
-        <Space>
-          <Button>Bulk Update Data</Button>
-          <Button>Export Filtered Data</Button>
-        </Space>
+      <Col>
+        <Row justify="end">
+          <Col>
+            <Button className="button">Bulk Update Data</Button>
+          </Col>
+          <Col>
+            <Button className="button">Export Filtered Data</Button>
+          </Col>
+        </Row>
       </Col>
     </Row>
   );
