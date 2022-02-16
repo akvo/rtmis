@@ -1,9 +1,16 @@
 @import "../../variables";
 
 #root {
-  .filter-row {
-    .ant-select {
-      max-width: 190px;
-    }
+  button.button {
+    background-color: #b2b3b7;
+    color: #fffe;
+    font-weight: 600;
+    width: auto;
+    margin-left: .4rem;
+    border: 0 none;
+  }
+  button.button:hover {
+    background-color: #969799;
+    border: 0 none;
   }
 }
