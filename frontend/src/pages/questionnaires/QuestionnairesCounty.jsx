@@ -8,16 +8,18 @@ import {
   Divider,
   Typography,
   Table,
+  message,
   ConfigProvider,
   Empty,
   Checkbox,
 } from "antd";
 import { Link } from "react-router-dom";
+import { api } from "../../lib";
 
 const { Title } = Typography;
 
 const QuestionnairesCounty = () => {
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
 
   const columns = [
@@ -53,88 +55,18 @@ const QuestionnairesCounty = () => {
   };
 
   useEffect(() => {
-    setDataset([
-      {
-        id: 952774024,
-        name: "G1-1 Households V1",
-        description: "Lorem ipsum dolor sit amet",
-        community: false,
-        ward: false,
-        subcounty: false,
-      },
-      {
-        id: 952774025,
-        name: "G2-2 Households V1",
-        description: "Lorem ipsum dolor sit amet",
-        community: true,
-        ward: true,
-        subcounty: true,
-      },
-      {
-        id: 952774026,
-        name: "G3-2 Households V2",
-        description: "Lorem ipsum dolor sit amet",
-        community: false,
-        ward: false,
-        subcounty: false,
-      },
-      {
-        id: 952774027,
-        name: "G3-1 Households V1",
-        description: "Lorem ipsum dolor sit amet",
-        community: false,
-        ward: false,
-        subcounty: false,
-      },
-      {
-        id: 952774028,
-        name: "G4-2 Households V1",
-        description: "Lorem ipsum dolor sit amet",
-        community: true,
-        ward: true,
-        subcounty: true,
-      },
-      {
-        id: 952774029,
-        name: "G2-1 Households V2",
-        description: "Lorem ipsum dolor sit amet",
-        community: false,
-        ward: false,
-        subcounty: false,
-      },
-      {
-        id: 952774030,
-        name: "G1-3 Households V1",
-        description: "Lorem ipsum dolor sit amet",
-        community: false,
-        ward: false,
-        subcounty: false,
-      },
-      {
-        id: 952774031,
-        name: "G1-2 Households V1",
-        description: "Lorem ipsum dolor sit amet",
-        community: true,
-        ward: true,
-        subcounty: true,
-      },
-      {
-        id: 952774032,
-        name: "G22-2 Households V2",
-        description: "Lorem ipsum dolor sit amet",
-        community: false,
-        ward: false,
-        subcounty: false,
-      },
-      {
-        id: 952774033,
-        name: "G1-11 Households V1",
-        description: "Lorem ipsum dolor sit amet",
-        community: false,
-        ward: false,
-        subcounty: false,
-      },
-    ]);
+    setLoading(true);
+    api
+      .get(`forms`)
+      .then((res) => {
+        setDataset(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        message.error("Could not load questionnaires");
+        setLoading(false);
+        console.error(err);
+      });
   }, []);
 
   return (
