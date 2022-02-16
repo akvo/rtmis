@@ -9,6 +9,8 @@ import {
   AddUser,
   Forms,
   ManageData,
+  Questionnaires,
+  QuestionnairesCounty,
 } from "./pages";
 import { message, Spin } from "antd";
 import { useCookies } from "react-cookie";
@@ -100,6 +102,16 @@ const App = () => {
           <Route
             path="/data/manage"
             element={authUser ? <ManageData /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/questionnaires"
+            element={authUser ? <Questionnaires /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/questionnaires/county"
+            element={
+              authUser ? <QuestionnairesCounty /> : <Navigate to="/login" />
+            }
           />
         </Routes>
       </Layout.Body>
