@@ -186,6 +186,7 @@ const ManageData = () => {
             pagination={{
               total: totalCount,
               pageSize: 10,
+              showSizeChanger: false,
             }}
             rowKey="id"
             expandable={{
