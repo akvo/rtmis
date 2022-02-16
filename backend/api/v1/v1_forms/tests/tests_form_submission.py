@@ -105,4 +105,4 @@ class FormSubmissionTestCase(TestCase):
         data = data.json()
         self.assertEqual(
             data,
-            {"message": "This field is required.|administration is required."})
+            {"message": "name is required.|administration is required."})
