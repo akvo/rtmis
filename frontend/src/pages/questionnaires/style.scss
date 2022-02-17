@@ -1,0 +1,29 @@
+@import "../../variables";
+
+#root {
+  #questionnaires {
+    .ant-table {
+      th,
+      td {
+        text-align: center;
+      }
+      th {
+        font-weight: 900;
+        font-size: 0.92rem;
+        color: #323132;
+      }
+      tr td:nth-child(2) span {
+        color: #c2c2c7;
+      }
+    }
+  }
+
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #ffffff;
+    border-color: #d9d9d9;
+  }
+
+  .ant-checkbox-checked .ant-checkbox-inner::after {
+    border-color: #0058ff;
+  }
+}
