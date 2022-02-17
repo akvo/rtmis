@@ -77,6 +77,10 @@ const ManageData = () => {
   };
 
   useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedAdministration]);
+
+  useEffect(() => {
     if (selectedForm) {
       setLoading(true);
       let url = `list/form-data/${selectedForm}/?page=${currentPage}`;
