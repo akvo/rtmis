@@ -162,8 +162,8 @@ class ListFormDataSerializer(serializers.ModelSerializer):
     updated_by = serializers.SerializerMethodField()
     created = serializers.SerializerMethodField()
     updated = serializers.SerializerMethodField()
-    answer = serializers.SerializerMethodField()
     administration = serializers.ReadOnlyField(source='administration.name')
+    answer = serializers.SerializerMethodField()
 
     def get_created_by(self, instance: FormData):
         return instance.created_by.get_full_name()
