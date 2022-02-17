@@ -42,11 +42,12 @@ const DataDetail = ({ questionGroups, record }) => {
           dataSource={dataset}
           pagination={false}
           scroll={{ y: 300 }}
+          className="table-child"
         />
       </Col>
       <Divider />
       <Col span={10} align="left">
-        <Button className="light">Delete</Button>
+        <Button danger>Delete</Button>
       </Col>
       <Col span={10} align="right">
         <Button className="light">Upload CSV</Button>
