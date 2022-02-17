@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./style.scss";
 import {
   Space,
@@ -13,13 +13,15 @@ import {
   Button,
   Col,
   Checkbox,
+  Spin,
+  message,
 } from "antd";
 import { Link } from "react-router-dom";
 import {
   FileTextFilled,
   InfoCircleOutlined,
-  RightOutlined,
 } from "@ant-design/icons";
+import { api } from "../../lib";
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -191,7 +193,10 @@ const datasetPending = [
 ];
 
 const Profile = () => {
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [questionnairesloading, setQuestionnairesLoading] = useState(false);
+  const [profileData, setProfileData] = useState(null);
+  const [questionnaires, setQuestionnaires] = useState([]);
   const [selectedKeys, setSelectedKeys] = useState([]);
 
   const columnsApproved = [
@@ -344,6 +349,39 @@ const Profile = () => {
     return "";
   }, [selectedKeys]);
 
+  const fetchProfile = () => {
+    setLoading(true);
+    api
+      .get(`get/profile/`)
+      .then((res) => {
+        setProfileData(res.data);
+        setLoading(false);
+      })
+      .catch(() => {
+        message.error("Could not load profile");
+        setLoading(false);
+      });
+  };
+
+  const fetchQuestionnaires = () => {
+    setQuestionnairesLoading(true);
+    api
+      .get(`forms/`)
+      .then((res) => {
+        setQuestionnaires(res.data);
+        setQuestionnairesLoading(false);
+      })
+      .catch(() => {
+        message.error("Could not load profile");
+        setQuestionnairesLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    fetchProfile();
+    fetchQuestionnaires();
+  }, []);
+
   return (
     <div id="profile">
       <Space>
@@ -363,7 +401,7 @@ const Profile = () => {
           </Breadcrumb.Item>
           <Breadcrumb.Item>
             <Title style={{ display: "inline" }} level={2}>
-              John Doe
+              {profileData?.name || "Profile"}
             </Title>
           </Breadcrumb.Item>
         </Breadcrumb>
@@ -371,39 +409,35 @@ const Profile = () => {
       <Divider />
       <Card style={{ padding: 0, marginBottom: 12 }}>
         <h1>My Profile</h1>
-        <ul>
-          <li>
-            <Space size="large" align="center">
-              <span>oumaodhiambo@gmail.com</span>
-              <span>·</span>
-              <Space size="small">
-                <span>Kisumu</span>
-                <RightOutlined />
-                <span>Kisumu</span>
-                <RightOutlined />
-                <span>Nyamware</span>
+        {loading ? (
+          <Spin />
+        ) : (
+          <ul>
+            <li>
+              <Space size="large" align="center">
+                <span>{profileData?.name}</span>
+                <span>·</span>
+                <span>{profileData?.administration?.name}</span>
               </Space>
-            </Space>
-          </li>
-          <li>
-            <h3>Organization</h3>
-            <p>Ministry of Health - Kisumu Subcounty</p>
-          </li>
-          <li>
-            <h3>Questionnaires</h3>
-            <Space size={[48, 18]} wrap>
-              <span>Household Qn V1</span>
-              <span>Household Qn V15</span>
-              <span>Household Qn V91</span>
-              <span>Household Qn V2</span>
-              <span>Household Qn V23</span>
-              <span>Household Qn V27</span>
-              <span>Household Qn V13</span>
-              <span>Household Qn V103</span>
-              <span>Household Qn V163</span>
-            </Space>
-          </li>
-        </ul>
+            </li>
+            <li>
+              <h3>Organization</h3>
+              <p>Ministry of Health - Kisumu Subcounty</p>
+            </li>
+            <li>
+              <h3>Questionnaires</h3>
+              <Space size={[48, 18]} wrap>
+                {questionnairesloading ? (
+                  <Spin />
+                ) : (
+                  questionnaires.map((qi, qiI) => (
+                    <span key={qiI}>{qi.name}</span>
+                  ))
+                )}
+              </Space>
+            </li>
+          </ul>
+        )}
       </Card>
       <Card
         style={{
