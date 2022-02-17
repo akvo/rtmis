@@ -2,7 +2,6 @@ from faker import Faker
 import random
 
 from django.core.management import BaseCommand
-from django.db.transaction import atomic
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.models import Levels, Access, Administration
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -19,7 +18,6 @@ class Command(BaseCommand):
                             default=1,
                             type=int)
 
-    @atomic
     def handle(self, *args, **options):
         for a in range(options.get("repeat")):
             profile = fake.profile()
