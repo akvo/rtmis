@@ -47,4 +47,116 @@
   .ant-form-item-explain-error {
     text-align: left;
   }
+
+  .ant-breadcrumb {
+    .ant-breadcrumb-separator {
+      margin: 0 16px;
+
+      h2 {
+        font-weight: 300;
+        color: #8388a8;
+      }
+    }
+
+    h2 {
+      font-size: 1.6rem;
+    }
+
+    span:last-child span h2 {
+      color: #0058ff;
+    }
+  }
+
+  .ant-table {
+    td {
+      .with-icon {
+        .anticon {
+          margin-right: 10px;
+        }
+      }
+    }
+    tr:nth-child(2n) td {
+      background-color: #faf9fb;
+    }
+    .ant-table-expanded-row {
+      .ant-table-cell {
+        .ant-table-wrapper {
+          width: 80%;
+          margin: 10px auto;
+
+          table {
+            border-collapse: collapse;
+
+            td,
+            th {
+              padding: 12px 18px;
+              border-bottom: solid #dededf 1px;
+              width: 50%;
+            }
+
+            th {
+              background-color: #dededf;
+              font-weight: 600;
+            }
+
+            tr {
+              td {
+                color: #959495;
+              }
+              td:last-child {
+                color: #1b66ff;
+              }
+            }
+
+            tr:last-child td {
+              border-bottom: 0 none;
+            }
+          }
+        }
+
+        .ant-row {
+          border-top: solid #dbdbde 1px;
+          padding: 20px 16px 0;
+          margin-top: 16px;
+        }
+      }
+    }
+  }
+
+  .ant-pagination {
+    li,
+    button {
+      border: none;
+      a {
+        color: #898eab;
+      }
+      a:hover {
+        color: #595e7b;
+      }
+    }
+
+    .ant-pagination-item-active {
+      border: none;
+      background-color: #0057ff;
+      a {
+        color: #fff;
+      }
+      a:hover {
+        color: #fff;
+      }
+    }
+  }
+
+  button.light {
+    background-color: #b2b3b7;
+    color: #fffe;
+    font-weight: 600;
+    width: auto;
+    margin-left: 0.4rem;
+    border: 0 none;
+  }
+  button.light:hover {
+    background-color: #969799;
+    border: 0 none;
+  }
 }
