@@ -2,7 +2,6 @@ import json
 import os
 
 from django.core.management import BaseCommand
-from django.db.transaction import atomic
 
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, QuestionGroup
@@ -18,7 +17,6 @@ class Command(BaseCommand):
                             default=False,
                             type=int)
 
-    @atomic
     def handle(self, *args, **options):
         test = options.get("test")
         source_folder = './source/forms/'

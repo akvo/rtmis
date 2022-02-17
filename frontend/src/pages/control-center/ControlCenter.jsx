@@ -17,7 +17,7 @@ const datasets = [
     buttonLabel: "Manage Data",
     description:
       "Open defecation free (ODF) is a term used to describe communities that have shifted to using toilets instead of open defecation. This can happen, for example, after community-led total sanitation programs have been implemented.",
-    link: "/",
+    link: "/data/manage",
     image: require("../../assets/big-data.png"),
   },
   {
@@ -93,6 +93,66 @@ const approvalsPending = [
   },
   {
     key: "4",
+    filename: "Lorem Ipsum CSV File 4",
+    created_at: "2021-11-08 17:18",
+    completion_status: 100,
+    location: "Baringo",
+    user: {
+      id: 42,
+      name: "Ouma Odhiambo",
+    },
+    waiting_on: {
+      id: 24,
+      name: "John Doe",
+    },
+  },
+  {
+    key: "5",
+    filename: "Lorem Ipsum CSV File 1",
+    created_at: "2021-11-08 17:18",
+    completion_status: 100,
+    location: "Baringo",
+    user: {
+      id: 42,
+      name: "Ouma Odhiambo",
+    },
+    waiting_on: {
+      id: 21,
+      name: "K. Choge",
+    },
+  },
+  {
+    key: "6",
+    filename: "Lorem Ipsum CSV File 2",
+    created_at: "2021-11-08 17:18",
+    completion_status: 85,
+    location: "Baringo",
+    user: {
+      id: 42,
+      name: "Ouma Odhiambo",
+    },
+    waiting_on: {
+      id: 22,
+      name: "A. Awiti",
+    },
+  },
+  {
+    key: "7",
+    filename: "Lorem Ipsum CSV File 3",
+    created_at: "2021-11-08 17:18",
+    completion_status: 90,
+    location: "Baringo",
+    user: {
+      id: 42,
+      name: "Ouma Odhiambo",
+    },
+    waiting_on: {
+      id: 23,
+      name: "Ruto Cindy",
+    },
+  },
+  {
+    key: "8",
     filename: "Lorem Ipsum CSV File 4",
     created_at: "2021-11-08 17:18",
     completion_status: 100,
@@ -236,6 +296,8 @@ const ControlCenter = () => {
                 <Table
                   dataSource={approvalsPending}
                   columns={columns}
+                  pagination={{ position: ["none", "none"] }}
+                  scroll={{ y: 270 }}
                   expandable={{
                     expandedRowRender: renderDetails,
                     expandIcon: ({ expanded, onExpand, record }) =>
@@ -257,6 +319,12 @@ const ControlCenter = () => {
                 <Table dataSource={approvalsSubordinates} columns={columns} />
               </TabPane>
             </Tabs>
+            <Row justify="space-between">
+              <Button type="primary">View All</Button>
+              <Link to="/approvers">
+                <Button className="light">Manage Approvers</Button>
+              </Link>
+            </Row>
           </Card>
         </Col>
       </Row>
