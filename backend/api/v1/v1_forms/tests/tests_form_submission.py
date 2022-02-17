@@ -121,3 +121,34 @@ class FormSubmissionTestCase(TestCase):
         self.assertEqual(True, question[0]['meta'])
         self.assertEqual('text', question[0]['type'])
         self.assertEqual(True, question[0]['required'])
+
+    def test_edit_form_type(self):
+        call_command("administration_seeder", "--test")
+        call_command("form_seeder", "--test")
+        user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user_response = self.client.post('/api/v1/login/',
+                                         user_payload,
+                                         content_type='application/json')
+        user = user_response.json()
+        token = user.get('token')
+        header = {
+            'HTTP_AUTHORIZATION': f'Bearer {token}'
+        }
+
+        form = Forms.objects.first()
+        payload = [{"form_id": form.id, "type": 3}]
+        response = self.client.put('/api/v1/edit/forms/',
+                                   payload,
+                                   content_type='application/json',
+                                   **header)
+        self.assertEqual(400, response.status_code)
+
+        payload = [{"form_id": form.id, "type": 1}]
+
+        response = self.client.put('/api/v1/edit/forms/',
+                                   payload,
+                                   content_type='application/json',
+                                   **header)
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(response.json().get('message'),
+                         'Forms updated successfully')

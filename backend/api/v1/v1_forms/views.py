@@ -1,14 +1,18 @@
 # Create your views here.
 from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema, OpenApiParameter
-from rest_framework import status
-from rest_framework.decorators import api_view
+from drf_spectacular.utils import extend_schema, OpenApiParameter, \
+    inline_serializer
+from rest_framework import status, serializers
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_forms.serializers import ListFormSerializer, \
-    WebFormDetailSerializer, FormDataSerializer, ListFormRequestSerializer
+    WebFormDetailSerializer, FormDataSerializer, ListFormRequestSerializer, \
+    EditFormTypeSerializer
+from utils.custom_permissions import IsSuperAdmin
 from utils.custom_serializer_fields import validate_serializers_message
 
 
@@ -51,4 +55,26 @@ def web_form_details(request, version, pk):
 def form_data(request, version, pk):
     instance = get_object_or_404(Forms, pk=pk)
     return Response(FormDataSerializer(instance=instance).data,
+                    status=status.HTTP_200_OK)
+
+
+@extend_schema(request=EditFormTypeSerializer(many=True),
+               responses={
+                   (200, 'application/json'):
+                       inline_serializer("EditForm", fields={
+                           "message": serializers.CharField()
+                       })
+               },
+               tags=['Form'])
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated, IsSuperAdmin])
+def edit_form_type(request, version):
+    serializer = EditFormTypeSerializer(data=request.data, many=True)
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    serializer.save()
+    return Response({'message': 'Forms updated successfully'},
                     status=status.HTTP_200_OK)

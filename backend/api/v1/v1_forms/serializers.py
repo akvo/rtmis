@@ -9,7 +9,8 @@ from api.v1.v1_forms.models import Forms, QuestionGroup, Questions, \
     QuestionOptions
 from api.v1.v1_profile.models import Administration
 from rtmis.settings import FORM_GEO_VALUE
-from utils.custom_serializer_fields import CustomChoiceField
+from utils.custom_serializer_fields import CustomChoiceField, \
+    CustomPrimaryKeyRelatedField
 
 
 class ListOptionSerializer(serializers.ModelSerializer):
@@ -208,3 +209,22 @@ class FormDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = Forms
         fields = ['id', 'name', 'question_group']
+
+
+class EditFormTypeSerializer(serializers.ModelSerializer):
+    form_id = CustomPrimaryKeyRelatedField(queryset=Forms.objects.none())
+    type = CustomChoiceField(choices=list(FormTypes.FieldStr.keys()))
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get('form_id').queryset = Forms.objects.all()
+
+    def create(self, validated_data):
+        form: Forms = validated_data.get('form_id')
+        form.type = validated_data.get('type')
+        form.save()
+        return form
+
+    class Meta:
+        model = Forms
+        fields = ['form_id', 'type']
