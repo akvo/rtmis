@@ -6,11 +6,12 @@ from rest_framework import serializers
 
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, QuestionGroup, Questions, \
-    QuestionOptions
-from api.v1.v1_profile.models import Administration
+    QuestionOptions, FormApprovalRule
+from api.v1.v1_profile.models import Administration, Levels
+from api.v1.v1_users.models import SystemUser
 from rtmis.settings import FORM_GEO_VALUE
 from utils.custom_serializer_fields import CustomChoiceField, \
-    CustomPrimaryKeyRelatedField
+    CustomPrimaryKeyRelatedField, CustomListField
 
 
 class ListOptionSerializer(serializers.ModelSerializer):
@@ -228,3 +229,38 @@ class EditFormTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Forms
         fields = ['form_id', 'type']
+
+
+class EditFormApprovalSerializer(serializers.ModelSerializer):
+    form_id = CustomPrimaryKeyRelatedField(queryset=Forms.objects.none())
+    level_id = CustomListField(
+        child=CustomPrimaryKeyRelatedField(queryset=Levels.objects.none()))
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get('form_id').queryset = Forms.objects.all()
+        self.fields.get('level_id').child.queryset = Levels.objects.all()
+
+    def create(self, validated_data):
+        return object
+
+    class Meta:
+        model = FormApprovalRule
+        fields = ['form_id', 'level_id']
+
+
+class ApprovalFormUserSerializer(serializers.Serializer):
+    user_id = CustomPrimaryKeyRelatedField(queryset=SystemUser.objects.none())
+    administration_id = CustomPrimaryKeyRelatedField(
+        queryset=Administration.objects.none())
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get('user_id').queryset = SystemUser.objects.all()
+        self.fields.get(
+            'administration_id').queryset = Administration.objects.all()
+
+    def create(self, validated_data):
+        print(validated_data)
+        print(self.context.get('form'))
+        return object

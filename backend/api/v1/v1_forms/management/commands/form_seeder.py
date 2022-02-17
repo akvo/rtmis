@@ -26,15 +26,17 @@ class Command(BaseCommand):
         ]
         source_files = list(
             filter(lambda x: "example" in x
-                   if test else "example" not in x, source_files))
+            if test else "example" not in x, source_files))
         Forms.objects.all().delete()
-        for source in source_files:
+        for index, source in enumerate(source_files):
             json_form = open(source, 'r')
             json_form = json.load(json_form)
-            form = Forms(id=json_form["id"],
-                         name=json_form["form"],
-                         version=1,
-                         type=FormTypes.national)
+            form = Forms(
+                id=json_form["id"],
+                name=json_form["form"],
+                version=1,
+                type=FormTypes.national if index > 2 else FormTypes.county
+            )
             form.save()
             for qg in json_form["question_groups"]:
                 question_group = QuestionGroup(name=qg["question_group"],

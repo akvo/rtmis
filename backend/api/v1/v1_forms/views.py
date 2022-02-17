@@ -11,8 +11,9 @@ from rest_framework.response import Response
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_forms.serializers import ListFormSerializer, \
     WebFormDetailSerializer, FormDataSerializer, ListFormRequestSerializer, \
-    EditFormTypeSerializer
-from utils.custom_permissions import IsSuperAdmin
+    EditFormTypeSerializer, EditFormApprovalSerializer, \
+    ApprovalFormUserSerializer
+from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
 
 
@@ -78,3 +79,57 @@ def edit_form_type(request, version):
     serializer.save()
     return Response({'message': 'Forms updated successfully'},
                     status=status.HTTP_200_OK)
+
+
+@extend_schema(request=EditFormApprovalSerializer(many=True),
+               responses={
+                   (200, 'application/json'):
+                       inline_serializer("EditApproval", fields={
+                           "message": serializers.CharField()
+                       })
+               },
+               tags=['Form'])
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
+def edit_form_approval(request, version):
+    try:
+        serializer = EditFormApprovalSerializer(data=request.data, many=True)
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(serializer.errors)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        serializer.save()
+        return Response({'message': 'Forms updated successfully'},
+                        status=status.HTTP_200_OK)
+    except ArithmeticError as ex:
+        return Response({'message': ex.args},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@extend_schema(request=ApprovalFormUserSerializer(many=True),
+               responses={
+                   (200, 'application/json'):
+                       inline_serializer("EditApproval", fields={
+                           "message": serializers.CharField()
+                       })
+               },
+               tags=['Form'])
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
+def approval_form_users(request, version, pk):
+    form = get_object_or_404(Forms, pk=pk)
+    try:
+        serializer = ApprovalFormUserSerializer(data=request.data, many=True,
+                                                context={'form': form})
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(serializer.errors)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        serializer.save()
+        return Response({'message': 'Forms updated successfully'},
+                        status=status.HTTP_200_OK)
+    except ArithmeticError as ex:
+        return Response({'message': ex.args},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
