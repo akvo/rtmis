@@ -109,6 +109,10 @@ const Users = () => {
       });
   }, [cookies.AUTH_TOKEN, pending, currentPage, selectedAdministration]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedAdministration]);
+
   return (
     <div id="users">
       <Row justify="space-between">

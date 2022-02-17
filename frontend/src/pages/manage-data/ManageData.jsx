@@ -8,7 +8,6 @@ import {
   Divider,
   Typography,
   Table,
-  message,
   ConfigProvider,
   Empty,
 } from "antd";
