@@ -2,7 +2,6 @@ from datetime import timedelta
 
 import pandas as pd
 from django.core.management import BaseCommand
-from django.db.transaction import atomic
 from django.utils import timezone
 from faker import Faker
 
@@ -119,7 +118,6 @@ class Command(BaseCommand):
                             default=False,
                             type=bool)
 
-    @atomic
     def handle(self, *args, **options):
         FormData.objects.all().delete()
         fake_geo = pd.read_csv("./source/kenya_random_points.csv")
