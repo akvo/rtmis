@@ -91,7 +91,8 @@ const ManageData = () => {
           setLoading(false);
         })
         .catch(() => {
-          message.error("Could not load data");
+          setDataset([]);
+          setTotalCount(0);
           setLoading(false);
         });
     }
