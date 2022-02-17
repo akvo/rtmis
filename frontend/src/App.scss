@@ -68,6 +68,13 @@
   }
 
   .ant-table {
+    td {
+      .with-icon {
+        .anticon {
+          margin-right: 10px;
+        }
+      }
+    }
     tr:nth-child(2n) td {
       background-color: #faf9fb;
     }
