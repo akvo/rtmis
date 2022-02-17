@@ -8,7 +8,6 @@ import {
   Divider,
   Typography,
   Table,
-  message,
   ConfigProvider,
   Empty,
 } from "antd";
@@ -77,6 +76,10 @@ const ManageData = () => {
   };
 
   useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedAdministration]);
+
+  useEffect(() => {
     if (selectedForm) {
       setLoading(true);
       let url = `list/form-data/${selectedForm}/?page=${currentPage}`;
@@ -91,7 +94,8 @@ const ManageData = () => {
           setLoading(false);
         })
         .catch(() => {
-          message.error("Could not load data");
+          setDataset([]);
+          setTotalCount(0);
           setLoading(false);
         });
     }

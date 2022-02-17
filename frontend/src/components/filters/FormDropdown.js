@@ -9,6 +9,23 @@ const FormDropdown = ({ loading: parentLoading = false, ...props }) => {
   const { forms, selectedForm } = store.useState((state) => state);
   const [loading, setLoading] = useState(true);
 
+  const handleChange = (e) => {
+    if (!e) {
+      return;
+    }
+    api
+      .get(`/form/${e}/`)
+      .then((res) => {
+        store.update((s) => {
+          s.questionGroups = res.data.question_group;
+          s.selectedForm = e;
+        });
+      })
+      .catch(() => {
+        message.error("Could not load form data");
+      });
+  };
+
   useEffect(() => {
     setLoading(true);
     api
@@ -26,22 +43,11 @@ const FormDropdown = ({ loading: parentLoading = false, ...props }) => {
       });
   }, []);
 
-  const handleChange = (e) => {
-    if (!e) {
-      return;
+  useEffect(() => {
+    if (forms.length && !selectedForm) {
+      handleChange(forms[0].id);
     }
-    api
-      .get(`/form/${e}/`)
-      .then((res) => {
-        store.update((s) => {
-          s.questionGroups = res.data.question_group;
-          s.selectedForm = e;
-        });
-      })
-      .catch(() => {
-        message.error("Could not load form data");
-      });
-  };
+  }, [forms, selectedForm]);
 
   if (forms) {
     return (
