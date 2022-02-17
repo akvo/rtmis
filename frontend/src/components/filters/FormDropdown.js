@@ -47,7 +47,7 @@ const FormDropdown = ({ loading: parentLoading = false, ...props }) => {
     if (forms.length && !selectedForm) {
       handleChange(forms[0].id);
     }
-  }, [forms]);
+  }, [forms, selectedForm]);
 
   if (forms) {
     return (
