@@ -1,0 +1,96 @@
+@import "../../variables";
+
+#root {
+  #profile {
+    .ant-card {
+      margin-top: 20px;
+    }
+
+    h1 {
+      text-align: left;
+      font: normal normal 600 1.7rem Poppins;
+      letter-spacing: 0.49px;
+      color: #595a65;
+      opacity: 1;
+    }
+
+    .ant-card {
+      text-align: left;
+      padding: 0;
+      padding-bottom: 72px;
+
+      .ant-card-body {
+        padding: 24px 40px;
+
+        ul {
+          list-style-type: none;
+          padding-left: 0;
+
+          li {
+            border-top: solid #dfe1ef 1px;
+            padding: 12px 0;
+
+            h3 {
+              color: #71737b;
+              font-size: 0.875rem;
+              font-weight: medium;
+              margin-bottom: 0.5rem;
+            }
+
+            p {
+              margin-bottom: 0;
+              font-weight: medium;
+            }
+
+            .anticon-right {
+              font-size: 0.8rem;
+            }
+          }
+        }
+
+        .ant-tabs {
+          margin-top: 20px;
+
+          .ant-table-cell {
+            .ant-progress {
+              margin-right: 20px;
+            }
+
+            .expand-body {
+              padding: 20px 0;
+              text-align: center;
+              background-color: #f2f2f5;
+            }
+          }
+
+          .ant-table-cell:nth-child(2) {
+            .ant-row {
+              div:first-child {
+                margin-right: 10px;
+              }
+
+              .ant-col:nth-child(2) {
+                div:nth-child(2) {
+                  font-size: 0.9rem;
+                }
+              }
+            }
+          }
+        }
+
+        button.light {
+          background-color: #b2b3b7;
+          color: #fffe;
+          font-weight: 600;
+          width: auto;
+          margin-left: 0.4rem;
+          border: 0 none;
+        }
+        button.light:hover {
+          background-color: #969799;
+          border: 0 none;
+        }
+      }
+    }
+  }
+}
