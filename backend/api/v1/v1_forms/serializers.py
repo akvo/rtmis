@@ -4,11 +4,12 @@ from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field, inline_serializer
 from rest_framework import serializers
 
-from api.v1.v1_forms.constants import QuestionTypes
+from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, QuestionGroup, Questions, \
     QuestionOptions
 from api.v1.v1_profile.models import Administration
 from rtmis.settings import FORM_GEO_VALUE
+from utils.custom_serializer_fields import CustomChoiceField
 
 
 class ListOptionSerializer(serializers.ModelSerializer):
@@ -129,10 +130,20 @@ class WebFormDetailSerializer(serializers.ModelSerializer):
         fields = ['name', 'question_group', 'cascade']
 
 
+class ListFormRequestSerializer(serializers.Serializer):
+    type = CustomChoiceField(choices=list(FormTypes.FieldStr.keys()),
+                             required=False)
+
+
 class ListFormSerializer(serializers.ModelSerializer):
+    type_text = serializers.SerializerMethodField()
+
+    def get_type_text(self, instance):
+        return FormTypes.FieldStr.get(instance.type)
+
     class Meta:
         model = Forms
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'type', 'version', 'type_text']
 
 
 class FormDataListQuestionSerializer(serializers.ModelSerializer):
