@@ -4,7 +4,6 @@ import {
   Row,
   Col,
   Card,
-  Button,
   Breadcrumb,
   Divider,
   Typography,
@@ -20,63 +19,10 @@ import {
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { api, store } from "../../lib";
+import DataDetail from "./DataDetail";
 import { DataFilters } from "../../components";
 
 const { Title } = Typography;
-
-const DataDetail = ({ questionGroups, record }) => {
-  const { answer } = record;
-  const columns = [
-    {
-      title: "Field",
-      dataIndex: "field",
-      key: "field",
-      width: "50%",
-    },
-    {
-      title: "Value",
-      dataIndex: "value",
-      key: "value",
-    },
-  ];
-  const dataset = questionGroups
-    .map((qg) => {
-      const question = qg.question.map((q) => {
-        return {
-          key: q.id,
-          field: q.name,
-          value: answer?.find((r) => r.question === q.id)?.value,
-        };
-      });
-      return [
-        {
-          key: qg.id,
-          field: qg.name,
-          render: (value) => <h1>{value}</h1>,
-        },
-        ...question,
-      ];
-    })
-    .flatMap((x) => x);
-  return (
-    <>
-      <Table
-        columns={columns}
-        dataSource={dataset}
-        pagination={false}
-        scroll={{ y: 300 }}
-      />
-      <Row justify="space-between">
-        <Col>
-          <Button className="light">Delete</Button>
-        </Col>
-        <Col>
-          <Button className="light">Upload CSV</Button>
-        </Col>
-      </Row>
-    </>
-  );
-};
 
 const ManageData = () => {
   const [loading, setLoading] = useState(false);
@@ -96,12 +42,6 @@ const ManageData = () => {
 
   const columns = [
     {
-      title: "",
-      dataIndex: "id",
-      key: "id",
-      render: () => <ExclamationCircleOutlined />,
-    },
-    {
       title: "Name",
       dataIndex: "name",
       key: "name",
@@ -109,6 +49,12 @@ const ManageData = () => {
       filteredValue: query.trim() === "" ? [] : [query],
       onFilter: (value, filters) =>
         filters.name.toLowerCase().includes(value.toLowerCase()),
+      render: (value) => (
+        <span className="with-icon">
+          <ExclamationCircleOutlined />
+          {value}
+        </span>
+      ),
     },
     {
       title: "Last Updated",
