@@ -1,9 +1,18 @@
 @import "../../variables";
 
 #root {
-  .filter-row {
-    .ant-select {
-      max-width: 190px;
+  .ant-input-search {
+    border: 1px solid #d9d9d9;
+    .ant-input-affix-wrapper,
+    .ant-input-affix-wrapper.ant-input-affix-wrapper-focused {
+      border: none;
+    }
+    .ant-input-affix-wrapper:focus {
+      border: none;
+    }
+
+    .ant-input-search-button {
+      border: none;
     }
   }
 }

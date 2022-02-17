@@ -7,7 +7,6 @@ import {
   Button,
   Breadcrumb,
   Divider,
-  Checkbox,
   Typography,
   Table,
   message,
@@ -16,77 +15,10 @@ import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import { useCookies } from "react-cookie";
+import UserDetail from "./UserDetail";
 import { UserFilters } from "../../components";
 
 const { Title } = Typography;
-
-const renderDetails = (record) => {
-  return (
-    <div>
-      <div className="expand-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Field</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Name</td>
-              <td>
-                <a href="#">
-                  {record.first_name} {record.last_name}
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>Organization</td>
-              <td>
-                <a href="#">-</a>
-              </td>
-            </tr>
-            <tr>
-              <td>Email</td>
-              <td>
-                <a href="#">{record.email}</a>
-              </td>
-            </tr>
-            <tr>
-              <td>Role</td>
-              <td>
-                <a href="#">{record.role?.value}</a>
-              </td>
-            </tr>
-            <tr>
-              <td>Region</td>
-              <td>
-                <a href="#">{record.administration?.name}</a>
-              </td>
-            </tr>
-            <tr>
-              <td>Questionnaire</td>
-              <td>
-                <a href="#">-</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div className="expand-footer">
-        <div>
-          <Checkbox onChange={() => {}}>Inform User of Changes</Checkbox>
-        </div>
-        <div>
-          <Link to={"/user/edit/" + record.id}>
-            <Button type="secondary">Edit</Button>
-          </Link>{" "}
-          <Button danger>Delete</Button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const Users = () => {
   const [cookies] = useCookies(["AUTH_TOKEN"]);
@@ -177,6 +109,10 @@ const Users = () => {
       });
   }, [cookies.AUTH_TOKEN, pending, currentPage, selectedAdministration]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedAdministration]);
+
   return (
     <div id="users">
       <Row justify="space-between">
@@ -227,12 +163,13 @@ const Users = () => {
           loading={loading}
           onChange={handleChange}
           pagination={{
+            showSizeChanger: false,
             total: totalCount,
             pageSize: 10,
           }}
           rowKey="id"
           expandable={{
-            expandedRowRender: renderDetails,
+            expandedRowRender: UserDetail,
             expandIcon: ({ expanded, onExpand, record }) =>
               expanded ? (
                 <CloseSquareOutlined
