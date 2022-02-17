@@ -11,6 +11,7 @@ import {
   ManageData,
   Questionnaires,
   QuestionnairesCounty,
+  Approvers,
 } from "./pages";
 import { message, Spin } from "antd";
 import { useCookies } from "react-cookie";
@@ -112,6 +113,10 @@ const App = () => {
             element={
               authUser ? <QuestionnairesCounty /> : <Navigate to="/login" />
             }
+          />
+          <Route
+            path="/approvers"
+            element={authUser ? <Approvers /> : <Navigate to="/login" />}
           />
         </Routes>
       </Layout.Body>
