@@ -7,3 +7,4 @@ export { default as AddUser } from "./add-user/AddUser";
 export { default as ManageData } from "./manage-data/ManageData";
 export { default as Questionnaires } from "./questionnaires/Questionnaires";
 export { default as QuestionnairesCounty } from "./questionnaires/QuestionnairesCounty";
+export { default as Approvers } from "./questionnaires/Approvers";
