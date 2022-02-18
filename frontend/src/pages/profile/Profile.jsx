@@ -6,6 +6,8 @@ import {
   Table,
   Tabs,
   Progress,
+  Breadcrumb,
+  Typography,
   Divider,
   Row,
   Button,
@@ -16,23 +18,14 @@ import {
   message,
   Select,
 } from "antd";
+import { Link } from "react-router-dom";
 import { FileTextFilled, InfoCircleOutlined } from "@ant-design/icons";
 import { useCookies } from "react-cookie";
 import { api } from "../../lib";
-import { Breadcrumbs } from "../../components";
 
+const { Title } = Typography;
 const { TabPane } = Tabs;
 const { Option } = Select;
-
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Data",
-  },
-];
 
 const datasetApproved = [
   {
@@ -419,7 +412,26 @@ const Profile = () => {
   return (
     <div id="profile">
       <Space>
-        <Breadcrumbs pagePath={pagePath} />
+        <Breadcrumb
+          separator={
+            <h2 className="ant-typography" style={{ display: "inline" }}>
+              {">"}
+            </h2>
+          }
+        >
+          <Breadcrumb.Item>
+            <Link to="/control-center">
+              <Title style={{ display: "inline" }} level={2}>
+                Control Center
+              </Title>
+            </Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <Title style={{ display: "inline" }} level={2}>
+              {profileData?.name || "Profile"}
+            </Title>
+          </Breadcrumb.Item>
+        </Breadcrumb>
       </Space>
       <Divider />
       <Card style={{ padding: 0, marginBottom: 12 }}>
@@ -470,7 +482,7 @@ const Profile = () => {
             <Table
               dataSource={datasetApproved}
               columns={columnsApproved}
-              pagination={{ position: ["none", "none"] }}
+              pagination={false}
               scroll={{ y: 270 }}
               rowKey="key"
             />
@@ -479,6 +491,7 @@ const Profile = () => {
             <Table
               dataSource={datasetPending}
               columns={columnsPending}
+              pagination={false}
               scroll={{ y: 270 }}
               rowKey="key"
             />
@@ -487,7 +500,7 @@ const Profile = () => {
       </Card>
       <Modal
         visible={modalVisible}
-        onChange={() => {
+        onCancel={() => {
           setModalVisible(false);
         }}
         footer={
@@ -521,7 +534,7 @@ const Profile = () => {
           <Table
             dataSource={selectedRows}
             columns={columnsSelected}
-            pagination={{ position: ["none", "none"] }}
+            pagination={false}
             scroll={{ y: 270 }}
             rowKey="key"
           />
