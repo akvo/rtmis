@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import {
-  Row,
-  Col,
-  Card,
-  Divider,
-  Typography,
-  Table,
-  ConfigProvider,
-  Empty,
-} from "antd";
+import { Row, Col, Card, Divider, Table, ConfigProvider, Empty } from "antd";
 import {
   PlusSquareOutlined,
   CloseSquareOutlined,

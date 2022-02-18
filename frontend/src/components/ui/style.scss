@@ -1,6 +1,5 @@
 @import "../../variables";
 #root {
-
   .ant-breadcrumb {
     .ant-breadcrumb-separator {
       margin: 0 16px;
@@ -15,9 +14,9 @@
       font-size: 1.6rem;
     }
 
-    span:last-child span h2, span:last-child span h3 {
+    span:last-child span h2,
+    span:last-child span h3 {
       color: #0058ff;
     }
   }
-
 }

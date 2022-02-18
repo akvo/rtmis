@@ -6,8 +6,6 @@ import {
   Table,
   Tabs,
   Progress,
-  Breadcrumb,
-  Typography,
   Divider,
   Row,
   Button,
@@ -18,12 +16,11 @@ import {
   message,
   Select,
 } from "antd";
-import { Link } from "react-router-dom";
 import { FileTextFilled, InfoCircleOutlined } from "@ant-design/icons";
 import { useCookies } from "react-cookie";
 import { api } from "../../lib";
+import { Breadcrumbs } from "../../components";
 
-const { Title } = Typography;
 const { TabPane } = Tabs;
 const { Option } = Select;
 
@@ -422,26 +419,7 @@ const Profile = () => {
   return (
     <div id="profile">
       <Space>
-        <Breadcrumb
-          separator={
-            <h2 className="ant-typography" style={{ display: "inline" }}>
-              {">"}
-            </h2>
-          }
-        >
-          <Breadcrumb.Item>
-            <Link to="/control-center">
-              <Title style={{ display: "inline" }} level={2}>
-                Control Center
-              </Title>
-            </Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <Title style={{ display: "inline" }} level={2}>
-              {profileData?.name || "Profile"}
-            </Title>
-          </Breadcrumb.Item>
-        </Breadcrumb>
+        <Breadcrumbs pagePath={pagePath} />
       </Space>
       <Divider />
       <Card style={{ padding: 0, marginBottom: 12 }}>

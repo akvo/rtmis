@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import {
-  Row,
-  Col,
-  Card,
-  Button,
-  Breadcrumb,
-  Divider,
-  Typography,
-  Table,
-  message,
-} from "antd";
+import { Row, Col, Card, Button, Divider, Table, message } from "antd";
 import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store } from "../../lib";
@@ -18,7 +8,15 @@ import { useCookies } from "react-cookie";
 import UserDetail from "./UserDetail";
 import { UserFilters, Breadcrumbs } from "../../components";
 
-const { Title } = Typography;
+const pagePath = [
+  {
+    title: "Control Center",
+    link: "/control-center",
+  },
+  {
+    title: "Manage Users",
+  },
+];
 
 const Users = () => {
   const [cookies] = useCookies(["AUTH_TOKEN"]);
@@ -117,26 +115,7 @@ const Users = () => {
     <div id="users">
       <Row justify="space-between">
         <Col>
-          <Breadcrumb
-            separator={
-              <h2 className="ant-typography" style={{ display: "inline" }}>
-                {">"}
-              </h2>
-            }
-          >
-            <Breadcrumb.Item>
-              <Link to="/control-center">
-                <Title style={{ display: "inline" }} level={2}>
-                  Control Center
-                </Title>
-              </Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Title style={{ display: "inline" }} level={2}>
-                Manage Users
-              </Title>
-            </Breadcrumb.Item>
-          </Breadcrumb>
+          <Breadcrumbs pagePath={pagePath} />
         </Col>
         <Col>
           <Link to="/user/add">
