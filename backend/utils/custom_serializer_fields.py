@@ -270,16 +270,27 @@ def validate_serializers_message(errors):
 
             else:
                 for k1, v1 in v.items():
-                    for val1 in v1:
-                        if isinstance(val1, dict):
-                            for xk1, xv1 in val1.items():
-                                for xvv1 in xv1:
-                                    msg.append(xvv1.replace("field_title",
-                                                            key_map.get(xk1,
-                                                                        xk1)))
-                        else:
-                            msg.append(val1.replace("field_title",
-                                                    key_map.get(str(k1),
-                                                                str(k1))))
+                    if isinstance(v1, dict):
+
+                        for k1k1, v1v1 in v1.items():
+                            for v1v1v in v1v1:
+                                msg.append(v1v1v.replace("field_title",
+                                                         key_map.get(
+                                                             k1k1,
+                                                             str(k1k1))))
+                    else:
+
+                        for val1 in v1:
+                            if isinstance(val1, dict):
+                                for xk1, xv1 in val1.items():
+                                    for xvv1 in xv1:
+                                        msg.append(xvv1.replace("field_title",
+                                                                key_map.get(
+                                                                    xk1,
+                                                                    xk1)))
+                            else:
+                                msg.append(val1.replace("field_title",
+                                                        key_map.get(str(k1),
+                                                                    str(k1))))
 
     return "|".join(msg)
