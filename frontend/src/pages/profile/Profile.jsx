@@ -343,7 +343,7 @@ const Profile = () => {
     },
     {
       title: "",
-      render: (row) => <Checkbox />,
+      render: () => <Checkbox />,
     },
   ];
 

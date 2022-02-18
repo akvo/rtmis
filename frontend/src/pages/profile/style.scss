@@ -77,7 +77,6 @@
             }
           }
         }
-
       }
     }
   }
@@ -93,13 +92,13 @@
   .ant-card {
     border: solid #ebf4fb 1px;
 
-
     .ant-table {
       width: 100%;
       text-align: left;
       margin-bottom: 1rem;
 
-      th, td {
+      th,
+      td {
         padding: 0.7rem;
         border-bottom: solid #ebf4fb 1px;
       }
@@ -119,5 +118,4 @@
   .ant-modal-footer {
     padding-bottom: 1.8rem;
   }
-  
 }
