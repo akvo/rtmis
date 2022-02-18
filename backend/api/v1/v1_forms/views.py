@@ -8,11 +8,13 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from api.v1.v1_forms.models import Forms
+from api.v1.v1_forms.models import Forms, FormApprovalRule
 from api.v1.v1_forms.serializers import ListFormSerializer, \
     WebFormDetailSerializer, FormDataSerializer, ListFormRequestSerializer, \
     EditFormTypeSerializer, EditFormApprovalSerializer, \
-    ApprovalFormUserSerializer
+    ApprovalFormUserSerializer, FormApprovalLevelListSerializer, \
+    FormApproverRequestSerializer, FormApproverResponseSerializer
+from api.v1.v1_profile.models import Administration
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
 
@@ -132,5 +134,64 @@ def approval_form_users(request, version, pk):
         return Response({'message': 'Forms updated successfully'},
                         status=status.HTTP_200_OK)
     except ArithmeticError as ex:
+        return Response({'message': ex.args},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@extend_schema(responses={200: FormApprovalLevelListSerializer(many=True)},
+               tags=['Form'])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsAdmin])
+def form_approval_level(request, version):
+    instance = FormApprovalRule.objects.filter(
+        administration=request.user.user_access.administration)
+    return Response(
+        FormApprovalLevelListSerializer(instance=instance, many=True).data,
+        status=status.HTTP_200_OK)
+
+
+@extend_schema(responses={200: FormApprovalLevelListSerializer(many=True)},
+               tags=['Form'])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsSuperAdmin])
+def form_approval_level_administration(request, version, pk):
+    administration = get_object_or_404(Administration, pk=pk)
+    instance = FormApprovalRule.objects.filter(
+        administration=administration)
+    return Response(
+        FormApprovalLevelListSerializer(instance=instance, many=True).data,
+        status=status.HTTP_200_OK)
+
+
+@extend_schema(parameters=[
+    OpenApiParameter(name='administration_id',
+                     required=True,
+                     type=OpenApiTypes.NUMBER,
+                     location=OpenApiParameter.QUERY),
+    OpenApiParameter(name='form_id',
+                     required=True,
+                     type=OpenApiTypes.NUMBER,
+                     location=OpenApiParameter.QUERY),
+],
+    responses={200: FormApproverResponseSerializer(many=True)},
+    tags=['Form'])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
+def form_approver(request, version):
+    try:
+        serializer = FormApproverRequestSerializer(data=request.GET)
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(serializer.errors)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        instance = Administration.objects.filter(
+            parent=serializer.validated_data.get('administration_id'),
+        )
+        return Response(FormApproverResponseSerializer(instance=instance,
+                                                       many=True).data,
+                        status=status.HTTP_200_OK)
+    except Exception as ex:
         return Response({'message': ex.args},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
