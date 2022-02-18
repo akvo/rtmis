@@ -20,6 +20,7 @@ import {
 } from "antd";
 import { Link } from "react-router-dom";
 import { FileTextFilled, InfoCircleOutlined } from "@ant-design/icons";
+import { useCookies } from "react-cookie";
 import { api } from "../../lib";
 
 const { Title } = Typography;
@@ -199,6 +200,7 @@ const Profile = () => {
   const [questionnaires, setQuestionnaires] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [cookies] = useCookies(["AUTH_TOKEN"]);
 
   const columnsApproved = [
     {
@@ -374,38 +376,38 @@ const Profile = () => {
     return "";
   }, [selectedRows]);
 
-  const fetchProfile = () => {
-    setLoading(true);
-    api
-      .get(`get/profile/`)
-      .then((res) => {
-        setProfileData(res.data);
-        setLoading(false);
-      })
-      .catch(() => {
-        message.error("Could not load profile");
-        setLoading(false);
-      });
-  };
-
-  const fetchQuestionnaires = () => {
-    setQuestionnairesLoading(true);
-    api
-      .get(`forms/`)
-      .then((res) => {
-        setQuestionnaires(res.data);
-        setQuestionnairesLoading(false);
-      })
-      .catch(() => {
-        message.error("Could not load profile");
-        setQuestionnairesLoading(false);
-      });
-  };
-
   useEffect(() => {
+    const fetchProfile = () => {
+      setLoading(true);
+      api
+        .get(`get/profile/`, {
+          headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
+        })
+        .then((res) => {
+          setProfileData(res.data);
+          setLoading(false);
+        })
+        .catch(() => {
+          message.error("Could not load profile");
+          setLoading(false);
+        });
+    };
+    const fetchQuestionnaires = () => {
+      setQuestionnairesLoading(true);
+      api
+        .get(`forms/`)
+        .then((res) => {
+          setQuestionnaires(res.data);
+          setQuestionnairesLoading(false);
+        })
+        .catch(() => {
+          message.error("Could not load profile");
+          setQuestionnairesLoading(false);
+        });
+    };
     fetchProfile();
     fetchQuestionnaires();
-  }, []);
+  }, [cookies.AUTH_TOKEN]);
 
   return (
     <div id="profile">
