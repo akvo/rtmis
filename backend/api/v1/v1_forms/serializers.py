@@ -9,7 +9,7 @@ from rest_framework import serializers
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, QuestionGroup, Questions, \
     QuestionOptions, FormApprovalRule, FormApprovalAssignment
-from api.v1.v1_profile.models import Administration, Levels
+from api.v1.v1_profile.models import Administration, Levels, Access
 from api.v1.v1_users.models import SystemUser
 from rtmis.settings import FORM_GEO_VALUE
 from utils.custom_serializer_fields import CustomChoiceField, \
@@ -302,3 +302,46 @@ class ApprovalFormUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = FormApprovalAssignment
         fields = ['user_id', 'administration_id']
+
+
+class FormApprovalLevelListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FormApprovalRule
+        fields = ['form_id', 'levels']
+
+
+class FormApproverRequestSerializer(serializers.Serializer):
+    administration_id = CustomPrimaryKeyRelatedField(
+        queryset=Administration.objects.none())
+    form_id = CustomPrimaryKeyRelatedField(
+        queryset=Forms.objects.none())
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get('form_id').queryset = Forms.objects.all()
+        self.fields.get(
+            'administration_id').queryset = Administration.objects.all()
+
+
+class FormApproverUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SystemUser
+        fields = ['id', 'first_name', 'last_name', 'email']
+
+
+class FormApproverResponseSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+    administration = serializers.SerializerMethodField()
+
+    def get_user(self, instance: Administration):
+        access: Access = instance.user_administration.first()
+        if access:
+            return FormApproverUserSerializer(instance=access.user).data
+        return None
+
+    def get_administration(self, instance: Administration):
+        return {'id': instance.id, 'name': instance.name}
+
+    class Meta:
+        model = Administration
+        fields = ['user', 'administration']
