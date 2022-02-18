@@ -6,21 +6,18 @@ import {
   Card,
   Form,
   Button,
-  Breadcrumb,
   Divider,
   Input,
   Select,
   Checkbox,
-  Typography,
   message,
 } from "antd";
 import { useCookies } from "react-cookie";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { api } from "../../lib";
 import { Breadcrumbs } from "../../components";
 
 const { Option } = Select;
-const { Title } = Typography;
 
 const pagePath = [
   {
@@ -38,7 +35,6 @@ const pagePath = [
 
 const AddUser = () => {
   const [cookies] = useCookies(["AUTH_TOKEN"]);
-  // const [organizations, setOrganizations] = useState([]);
   const [counties, setCounties] = useState([]);
   const [subCounties, setSubCounties] = useState([]);
   const [wards, setWards] = useState([]);

@@ -349,6 +349,16 @@ const Profile = () => {
     },
   ];
 
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: "/control-center",
+    },
+    {
+      title: profileData?.name || "Profile",
+    },
+  ];
+
   const handleSelect = (row) => {
     const resultIndex = selectedRows.findIndex((sR) => sR.key === row.key);
     if (resultIndex === -1) {

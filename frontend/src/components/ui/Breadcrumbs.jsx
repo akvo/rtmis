@@ -1,6 +1,8 @@
 import React from "react";
 import { Breadcrumb, Typography } from "antd";
 import { Link } from "react-router-dom";
+import "./style.scss";
+
 const { Title } = Typography;
 
 const Breadcrumbs = ({ pagePath }) => {

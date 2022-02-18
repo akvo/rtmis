@@ -16,7 +16,7 @@ import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import { useCookies } from "react-cookie";
 import UserDetail from "./UserDetail";
-import { UserFilters } from "../../components";
+import { UserFilters, Breadcrumbs } from "../../components";
 
 const { Title } = Typography;
 
