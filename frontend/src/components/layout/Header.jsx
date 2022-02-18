@@ -28,6 +28,9 @@ const Header = ({ className = "header", ...props }) => {
       <Menu.Item key="controlCenter">
         <Link to="/control-center">Control Center</Link>
       </Menu.Item>
+      <Menu.Item key="profile">
+        <Link to="/profile">My Profile</Link>
+      </Menu.Item>
       <Menu.Item key="signOut" danger>
         <a
           onClick={() => {
