@@ -482,7 +482,7 @@ const Profile = () => {
             <Table
               dataSource={datasetApproved}
               columns={columnsApproved}
-              pagination={{ position: ["none", "none"] }}
+              pagination={false}
               scroll={{ y: 270 }}
               rowKey="key"
             />
@@ -491,6 +491,7 @@ const Profile = () => {
             <Table
               dataSource={datasetPending}
               columns={columnsPending}
+              pagination={false}
               scroll={{ y: 270 }}
               rowKey="key"
             />
@@ -533,7 +534,7 @@ const Profile = () => {
           <Table
             dataSource={selectedRows}
             columns={columnsSelected}
-            pagination={{ position: ["none", "none"] }}
+            pagination={false}
             scroll={{ y: 270 }}
             rowKey="key"
           />
