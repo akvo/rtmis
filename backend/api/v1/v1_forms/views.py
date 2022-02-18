@@ -93,7 +93,8 @@ def edit_form_type(request, version):
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
 def edit_form_approval(request, version):
     try:
-        serializer = EditFormApprovalSerializer(data=request.data, many=True)
+        serializer = EditFormApprovalSerializer(data=request.data, many=True,
+                                                context={'user': request.user})
         if not serializer.is_valid():
             return Response(
                 {'message': validate_serializers_message(serializer.errors)},
@@ -102,7 +103,7 @@ def edit_form_approval(request, version):
         serializer.save()
         return Response({'message': 'Forms updated successfully'},
                         status=status.HTTP_200_OK)
-    except ArithmeticError as ex:
+    except Exception as ex:
         return Response({'message': ex.args},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
