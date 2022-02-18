@@ -17,9 +17,24 @@ import {
 import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../lib";
+import { Breadcrumbs } from "../../components";
 
 const { Option } = Select;
 const { Title } = Typography;
+
+const pagePath = [
+  {
+    title: "Control Center",
+    link: "/control-center",
+  },
+  {
+    title: "Manage Users",
+    link: "/users",
+  },
+  {
+    title: "Add User",
+  },
+];
 
 const AddUser = () => {
   const [cookies] = useCookies(["AUTH_TOKEN"]);
@@ -124,33 +139,7 @@ const AddUser = () => {
     <div id="addUser">
       <Row justify="space-between">
         <Col>
-          <Breadcrumb
-            separator={
-              <h2 className="ant-typography" style={{ display: "inline" }}>
-                {">"}
-              </h2>
-            }
-          >
-            <Breadcrumb.Item>
-              <Link to="/control-center">
-                <Title style={{ display: "inline" }} level={2}>
-                  Control Center
-                </Title>
-              </Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Link to="/users">
-                <Title style={{ display: "inline" }} level={2}>
-                  Manage Users
-                </Title>
-              </Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Title style={{ display: "inline" }} level={2}>
-                Add User
-              </Title>
-            </Breadcrumb.Item>
-          </Breadcrumb>
+          <Breadcrumbs pagePath={pagePath} />
         </Col>
       </Row>
       <Divider />
