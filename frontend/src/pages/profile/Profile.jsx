@@ -500,7 +500,7 @@ const Profile = () => {
       </Card>
       <Modal
         visible={modalVisible}
-        onChange={() => {
+        onCancel={() => {
           setModalVisible(false);
         }}
         footer={
