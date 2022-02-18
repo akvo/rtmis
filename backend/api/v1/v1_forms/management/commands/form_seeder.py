@@ -25,8 +25,8 @@ class Command(BaseCommand):
             for json_file in os.listdir(source_folder)
         ]
         source_files = list(
-            filter(lambda x: "example" in x
-            if test else "example" not in x, source_files))
+            filter(lambda x: "example" in x if test else "example" not in x,
+                   source_files))
         Forms.objects.all().delete()
         for index, source in enumerate(source_files):
             json_form = open(source, 'r')

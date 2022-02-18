@@ -52,7 +52,6 @@ Level - [2,4]
 """
 path administration with level [2,4]
  Removed Level - 3
- 
 Assign Approval
 Form - 1
 User - 2
@@ -73,7 +72,6 @@ administration - User's administration - 4
 
 form_id,administration_id
 direct children - administration_id
- 
 # FormApprovalAssignment
 
 """
