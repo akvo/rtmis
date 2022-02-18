@@ -14,17 +14,17 @@ import {
   Col,
   Checkbox,
   Spin,
+  Modal,
   message,
+  Select,
 } from "antd";
 import { Link } from "react-router-dom";
-import {
-  FileTextFilled,
-  InfoCircleOutlined,
-} from "@ant-design/icons";
+import { FileTextFilled, InfoCircleOutlined } from "@ant-design/icons";
 import { api } from "../../lib";
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
+const { Option } = Select;
 
 const datasetApproved = [
   {
@@ -197,7 +197,8 @@ const Profile = () => {
   const [questionnairesloading, setQuestionnairesLoading] = useState(false);
   const [profileData, setProfileData] = useState(null);
   const [questionnaires, setQuestionnaires] = useState([]);
-  const [selectedKeys, setSelectedKeys] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const columnsApproved = [
     {
@@ -319,35 +320,59 @@ const Profile = () => {
     },
     {
       title: "Batch Datasets",
-      dataIndex: "key",
-      key: "key",
-      render: (cell) => (
+      render: (row) => (
         <Checkbox
           onChange={() => {
-            handleSelect(cell);
+            handleSelect(row);
           }}
         />
       ),
     },
   ];
 
-  const handleSelect = (key) => {
-    const resultIndex = selectedKeys.findIndex((sk) => sk === key);
+  const columnsSelected = [
+    {
+      title: "Dataset",
+      dataIndex: "filename",
+      key: "filename",
+    },
+    {
+      title: "Date Uploaded",
+      dataIndex: "created_at",
+      key: "created_at",
+    },
+    {
+      title: "",
+      render: (row) => <Checkbox />,
+    },
+  ];
+
+  const handleSelect = (row) => {
+    const resultIndex = selectedRows.findIndex((sR) => sR.key === row.key);
     if (resultIndex === -1) {
-      setSelectedKeys([...selectedKeys, key]);
+      setSelectedRows([...selectedRows, row]);
     } else {
-      const clonedKeys = JSON.parse(JSON.stringify(selectedKeys));
-      clonedKeys.splice(resultIndex, 1);
-      setSelectedKeys(clonedKeys);
+      const clonedRows = JSON.parse(JSON.stringify(selectedRows));
+      clonedRows.splice(resultIndex, 1);
+      setSelectedRows(clonedRows);
     }
   };
 
   const btnBatchSelected = useMemo(() => {
-    if (selectedKeys.length > 0) {
-      return <Button type="primary">Batch Selected Datasets</Button>;
+    if (selectedRows.length > 0) {
+      return (
+        <Button
+          type="primary"
+          onClick={() => {
+            setModalVisible(true);
+          }}
+        >
+          Batch Selected Datasets
+        </Button>
+      );
     }
     return "";
-  }, [selectedKeys]);
+  }, [selectedRows]);
 
   const fetchProfile = () => {
     setLoading(true);
@@ -470,6 +495,54 @@ const Profile = () => {
           </TabPane>
         </Tabs>
       </Card>
+      <Modal
+        visible={modalVisible}
+        onChange={() => {
+          setModalVisible(false);
+        }}
+        footer={
+          <Row>
+            <Col xs={12} align="left">
+              <Checkbox>Send a new approval request</Checkbox>
+            </Col>
+            <Col xs={12}>
+              <Button
+                className="light"
+                onClick={() => {
+                  setModalVisible(false);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button type="primary">Create a new batch</Button>
+            </Col>
+          </Row>
+        }
+      >
+        <p>You are about to create a Batch CSV File</p>
+        <p>
+          <FileTextFilled style={{ color: "#666666", fontSize: 64 }} />
+        </p>
+        <p>
+          The operation of merging datasets cannot be undone, and will Create a
+          new batch that will require approval from you admin
+        </p>
+        <Card style={{ padding: 0 }} bodyStyle={{ padding: 0 }}>
+          <Table
+            dataSource={selectedRows}
+            columns={columnsSelected}
+            pagination={{ position: ["none", "none"] }}
+            scroll={{ y: 270 }}
+            rowKey="key"
+          />
+          <div>
+            <label>Approver</label>
+          </div>
+          <Select defaultValue="admin" style={{ width: 120 }}>
+            <Option value="admin">Auma Awiti</Option>
+          </Select>
+        </Card>
+      </Modal>
     </div>
   );
 };
