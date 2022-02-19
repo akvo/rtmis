@@ -1,0 +1,147 @@
+@import "../../variables";
+
+#root {
+  #approvals {
+    .ant-card-body {
+      .ant-tabs {
+        .ant-table-thead tr th {
+          font-weight: 700;
+        }
+
+        .ant-table-tbody {
+          .ant-table-row {
+            .ant-table-cell:first-child {
+              color: #525152;
+            }
+
+            .ant-table-cell:nth-child(2) {
+              .ant-row {
+                justify-content: flex-start;
+
+                div:first-child {
+                  margin-right: 10px;
+                  color: #666566;
+                }
+
+                div:nth-child(2) {
+                  div:nth-child(2) {
+                    font-size: 12px;
+                    font-weight: 300;
+                  }
+                }
+              }
+            }
+
+            .ant-table-cell:nth-child(3) {
+              .ant-row {
+                .ant-col:first-child {
+                  padding-right: 5px;
+
+                  .ant-progress-bg,
+                  .ant-progress-success-bg {
+                    background-color: #b5b5b5;
+                  }
+                }
+              }
+            }
+          }
+
+          .ant-table-row.table-row-expanded {
+            color: #0058ff;
+
+            .ant-table-cell:first-child {
+              color: #525152;
+            }
+            .ant-table-cell:nth-child(2) {
+              .ant-row {
+                div:first-child {
+                  margin-right: 10px;
+                  color: #0058ff;
+                }
+              }
+            }
+            .ant-table-cell:nth-child(3) {
+              .ant-row {
+                .ant-col:first-child {
+                  .ant-progress-bg,
+                  .ant-progress-success-bg {
+                    background-color: #0058ff;
+                  }
+                }
+              }
+            }
+          }
+
+          tr.ant-table-expanded-row > td > div {
+            width: 80%;
+            margin: 0 10%;
+            background-color: #faf9fb;
+            padding: 0 0 2rem;
+
+            .ant-tabs {
+              margin-bottom: 1.2rem;
+              .ant-tabs-nav {
+                margin-bottom: 8px;
+                font-weight: 600;
+              }
+              .ant-tabs-content-holder {
+                font-size: 13px;
+
+                table,
+                .ant-table {
+                  thead {
+                    tr {
+                      th {
+                        background-color: #dededf;
+                        padding: 18px 24px 15px;
+                        font-weight: 600;
+                        white-space: nowrap;
+                      }
+                    }
+                  }
+                  tbody {
+                    tr {
+                      td {
+                        padding: 18px 24px 15px;
+                        border-bottom: solid #d7dbec 1px;
+                      }
+                    }
+                  }
+                }
+
+                .ant-tabs-tabpane:first-child {
+                  table,
+                  .ant-table {
+                    tbody {
+                      tr {
+                        td:nth-child(2) {
+                          color: #0058ff;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
+            textarea {
+              margin: 0.5rem 0 0.9rem;
+              border: solid #dededf 16px;
+            }
+
+            .ant-row {
+              .ant-checkbox-wrapper {
+                margin-right: 12px;
+              }
+              .ant-col:nth-child(2) {
+                button.light {
+                  margin-right: 0.4rem;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

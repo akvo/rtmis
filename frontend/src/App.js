@@ -10,7 +10,8 @@ import {
   Forms,
   ManageData,
   Questionnaires,
-  QuestionnairesCounty,
+  QuestionnairesAdmin,
+  Approvals,
   Approvers,
   Profile,
 } from "./pages";
@@ -21,7 +22,7 @@ import { Layout } from "./components";
 
 const App = () => {
   const authUser = store.useState((state) => state.user);
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["AUTH_TOKEN"]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -110,10 +111,14 @@ const App = () => {
             element={authUser ? <Questionnaires /> : <Navigate to="/login" />}
           />
           <Route
-            path="/questionnaires/county"
+            path="/questionnaires/admin"
             element={
-              authUser ? <QuestionnairesCounty /> : <Navigate to="/login" />
+              authUser ? <QuestionnairesAdmin /> : <Navigate to="/login" />
             }
+          />
+          <Route
+            path="/approvals"
+            element={authUser ? <Approvals /> : <Navigate to="/login" />}
           />
           <Route
             path="/approvers"
