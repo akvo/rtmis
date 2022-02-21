@@ -320,7 +320,9 @@ const ControlCenter = () => {
               </TabPane>
             </Tabs>
             <Row justify="space-between">
-              <Button type="primary">View All</Button>
+              <Link to="/approvals">
+                <Button className="light">View All</Button>
+              </Link>
               <Link to="/approvers">
                 <Button className="light">Manage Approvers</Button>
               </Link>

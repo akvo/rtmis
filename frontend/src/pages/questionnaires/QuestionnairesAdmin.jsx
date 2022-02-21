@@ -27,7 +27,7 @@ const pagePath = [
   },
 ];
 
-const QuestionnairesCounty = () => {
+const QuestionnairesAdmin = () => {
   const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
 
@@ -108,4 +108,4 @@ const QuestionnairesCounty = () => {
   );
 };
 
-export default React.memo(QuestionnairesCounty);
+export default React.memo(QuestionnairesAdmin);
