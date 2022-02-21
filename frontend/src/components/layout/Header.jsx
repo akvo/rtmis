@@ -8,14 +8,14 @@ import { config, store } from "../../lib";
 
 const Header = ({ className = "header", ...props }) => {
   const { isLoggedIn, user } = store.useState();
-  const [cookies, removeCookie] = useCookies(["user"]);
+  const [cookies, removeCookie] = useCookies(["AUTH_TOKEN"]);
   const navigate = useNavigate();
   const location = useLocation();
 
   const signOut = async () => {
     store.update((s) => {
-      if (cookies["user"]) {
-        removeCookie("user");
+      if (cookies["AUTH_TOKEN"]) {
+        removeCookie("AUTH_TOKEN");
       }
       s.isLoggedIn = false;
       s.user = null;
