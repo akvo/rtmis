@@ -12,7 +12,8 @@ class Command(BaseCommand):
         for form in Forms.objects.all():
             for user in Access.objects.filter(administration__level_id=2):
                 limit = random.choices([1, 2])
-                levels = Levels.objects.filter(level__gt=1)[:limit[0]]
+                levels = Levels.objects.filter(level__gt=1).order_by('?')[
+                         :limit[0]]
                 rule = FormApprovalRule.objects.create(
                     form=form,
                     administration=user.administration
