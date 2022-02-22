@@ -190,6 +190,7 @@ class ListUserRequestSerializer(serializers.Serializer):
     administration = CustomPrimaryKeyRelatedField(
         queryset=Administration.objects.none(), required=False)
     pending = CustomBooleanField(default=False)
+    descendants = CustomBooleanField(default=True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
