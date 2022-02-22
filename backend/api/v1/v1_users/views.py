@@ -254,7 +254,6 @@ def list_users(request, version):
                 filter_descendants.append(filter_administration.id)
 
             set1 = set(filter_descendants)
-            print(filter_descendants)
             final_set = set1.intersection(allowed_descendants)
             filter_data[
                 'user_access__administration_id__in'] = list(final_set)
