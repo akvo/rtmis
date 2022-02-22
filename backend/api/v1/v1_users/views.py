@@ -46,8 +46,9 @@ def get_config_file(request, version):
         if not Path("source/config/config.min.js").exists():
             call_command('generate_config')
         data = jsmin(open("source/config/config.min.js", "r").read())
-        response = HttpResponse(data,
-                                content_type="application/x-javascript; charset=utf-8")
+        response = HttpResponse(
+            data, content_type="application/x-javascript; charset=utf-8"
+        )
         return response
     except Exception as ex:
         print(ex.args)
