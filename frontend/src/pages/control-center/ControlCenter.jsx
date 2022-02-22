@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./style.scss";
 import { Row, Col, Card, Button, Table, Tabs, Progress } from "antd";
 import { Link } from "react-router-dom";
-import { store, api } from "../../lib";
 import {
   PlusSquareOutlined,
   CloseSquareOutlined,
@@ -232,23 +231,6 @@ const renderDetails = (record) => {
 };
 
 const ControlCenter = () => {
-  const isLoggedIn = store.useState((state) => state.isLoggedIn);
-
-  const init = () => {
-    api
-      .get("forms/")
-      .then(() => {})
-      .catch((err) => {
-        console.error(err.response.data.message);
-      });
-  };
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      init(); // Test with an auth route
-    }
-  }, [isLoggedIn]);
-
   return (
     <div id="control-center">
       <h1>Control Center</h1>
@@ -320,7 +302,9 @@ const ControlCenter = () => {
               </TabPane>
             </Tabs>
             <Row justify="space-between">
-              <Button type="primary">View All</Button>
+              <Link to="/approvals">
+                <Button className="light">View All</Button>
+              </Link>
               <Link to="/approvers">
                 <Button className="light">Manage Approvers</Button>
               </Link>
