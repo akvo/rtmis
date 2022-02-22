@@ -113,9 +113,7 @@ const AddUser = () => {
     const init = () => {
       setLoading(true);
       api
-        .get("administration/1", {
-          headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-        })
+        .get("administration/1")
         .then((res) => {
           setCounties(res.data.children);
           setLoading(false);

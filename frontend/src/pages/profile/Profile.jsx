@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import "./style.scss";
 import {
   Space,
@@ -11,14 +11,11 @@ import {
   Button,
   Col,
   Checkbox,
-  Spin,
   Modal,
-  message,
   Select,
 } from "antd";
 import { FileTextFilled, InfoCircleOutlined } from "@ant-design/icons";
-import { useCookies } from "react-cookie";
-import { api } from "../../lib";
+import { store } from "../../lib";
 import { Breadcrumbs } from "../../components";
 
 const { TabPane } = Tabs;
@@ -190,14 +187,27 @@ const datasetPending = [
   },
 ];
 
+const columnsSelected = [
+  {
+    title: "Dataset",
+    dataIndex: "filename",
+    key: "filename",
+  },
+  {
+    title: "Date Uploaded",
+    dataIndex: "created_at",
+    key: "created_at",
+  },
+  {
+    title: "",
+    render: () => <Checkbox />,
+  },
+];
+
 const Profile = () => {
-  const [loading, setLoading] = useState(false);
-  const [questionnairesloading, setQuestionnairesLoading] = useState(false);
-  const [profileData, setProfileData] = useState(null);
-  const [questionnaires, setQuestionnaires] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [cookies] = useCookies(["AUTH_TOKEN"]);
+  const { forms, user } = store.useState((s) => s);
 
   const columnsApproved = [
     {
@@ -329,30 +339,13 @@ const Profile = () => {
     },
   ];
 
-  const columnsSelected = [
-    {
-      title: "Dataset",
-      dataIndex: "filename",
-      key: "filename",
-    },
-    {
-      title: "Date Uploaded",
-      dataIndex: "created_at",
-      key: "created_at",
-    },
-    {
-      title: "",
-      render: () => <Checkbox />,
-    },
-  ];
-
   const pagePath = [
     {
       title: "Control Center",
       link: "/control-center",
     },
     {
-      title: profileData?.name || "Profile",
+      title: user?.name || "Profile",
     },
   ];
 
@@ -383,39 +376,6 @@ const Profile = () => {
     return "";
   }, [selectedRows]);
 
-  useEffect(() => {
-    const fetchProfile = () => {
-      setLoading(true);
-      api
-        .get(`get/profile/`, {
-          headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-        })
-        .then((res) => {
-          setProfileData(res.data);
-          setLoading(false);
-        })
-        .catch(() => {
-          message.error("Could not load profile");
-          setLoading(false);
-        });
-    };
-    const fetchQuestionnaires = () => {
-      setQuestionnairesLoading(true);
-      api
-        .get(`forms/`)
-        .then((res) => {
-          setQuestionnaires(res.data);
-          setQuestionnairesLoading(false);
-        })
-        .catch(() => {
-          message.error("Could not load profile");
-          setQuestionnairesLoading(false);
-        });
-    };
-    fetchProfile();
-    fetchQuestionnaires();
-  }, [cookies.AUTH_TOKEN]);
-
   return (
     <div id="profile">
       <Space>
@@ -424,35 +384,27 @@ const Profile = () => {
       <Divider />
       <Card style={{ padding: 0, marginBottom: 12 }}>
         <h1>My Profile</h1>
-        {loading ? (
-          <Spin />
-        ) : (
-          <ul>
-            <li>
-              <Space size="large" align="center">
-                <span>{profileData?.name}</span>
-                <span>·</span>
-                <span>{profileData?.administration?.name}</span>
-              </Space>
-            </li>
-            <li>
-              <h3>Organization</h3>
-              <p>Ministry of Health - Kisumu Subcounty</p>
-            </li>
-            <li>
-              <h3>Questionnaires</h3>
-              <Space size={[48, 18]} wrap>
-                {questionnairesloading ? (
-                  <Spin />
-                ) : (
-                  questionnaires.map((qi, qiI) => (
-                    <span key={qiI}>{qi.name}</span>
-                  ))
-                )}
-              </Space>
-            </li>
-          </ul>
-        )}
+        <ul>
+          <li>
+            <Space size="large" align="center">
+              <span>{user?.name}</span>
+              <span>·</span>
+              <span>{user?.administration?.name}</span>
+            </Space>
+          </li>
+          <li>
+            <h3>Organization</h3>
+            <p>Ministry of Health - Kisumu Subcounty</p>
+          </li>
+          <li>
+            <h3>Questionnaires</h3>
+            <Space size={[48, 18]} wrap>
+              {forms.map((qi, qiI) => (
+                <span key={qiI}>{qi.name}</span>
+              ))}
+            </Space>
+          </li>
+        </ul>
       </Card>
       <Card
         style={{

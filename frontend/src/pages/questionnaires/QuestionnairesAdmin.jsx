@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./style.scss";
 import {
   Row,
@@ -6,12 +6,11 @@ import {
   Card,
   Divider,
   Table,
-  message,
   ConfigProvider,
   Empty,
   Checkbox,
 } from "antd";
-import { api } from "../../lib";
+import { store } from "../../lib";
 import { Breadcrumbs } from "../../components";
 
 const pagePath = [
@@ -28,8 +27,7 @@ const pagePath = [
 ];
 
 const QuestionnairesAdmin = () => {
-  const [loading, setLoading] = useState(false);
-  const [dataset, setDataset] = useState([]);
+  const { forms } = store.useState((s) => s);
 
   const columns = [
     {
@@ -63,21 +61,6 @@ const QuestionnairesAdmin = () => {
     // setCurrentPage(e.current);
   };
 
-  useEffect(() => {
-    setLoading(true);
-    api
-      .get(`forms`)
-      .then((res) => {
-        setDataset(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        message.error("Could not load questionnaires");
-        setLoading(false);
-        console.error(err);
-      });
-  }, []);
-
   return (
     <div id="questionnaires">
       <Row justify="space-between">
@@ -93,8 +76,8 @@ const QuestionnairesAdmin = () => {
         <ConfigProvider renderEmpty={() => <Empty description="No data" />}>
           <Table
             columns={columns}
-            dataSource={dataset}
-            loading={loading}
+            dataSource={forms}
+            loading={!forms.length}
             onChange={handleChange}
             // pagination={{
             //   total: totalCount,
