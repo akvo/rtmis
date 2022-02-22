@@ -16,12 +16,12 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.v1.v1_profile.constants import UserRoleTypes
-from api.v1.v1_profile.models import Access, Administration
+from api.v1.v1_profile.models import Access, Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     VerifyInviteSerializer, SetUserPasswordSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
-    ListUserRequestSerializer
+    ListUserRequestSerializer, ListLevelSerializer
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
@@ -142,6 +142,15 @@ def list_administration(request, version, pk):
     instance = get_object_or_404(Administration, pk=pk)
     return Response(ListAdministrationSerializer(instance=instance).data,
                     status=status.HTTP_200_OK)
+
+
+@extend_schema(responses={200: ListLevelSerializer(many=True)},
+               tags=['Administration'])
+@api_view(['GET'])
+def list_levels(request, version):
+    return Response(
+        ListLevelSerializer(instance=Levels.objects.all(), many=True).data,
+        status=status.HTTP_200_OK)
 
 
 @extend_schema(request=AddEditUserSerializer,

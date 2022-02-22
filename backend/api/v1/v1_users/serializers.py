@@ -6,7 +6,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from api.v1.v1_profile.constants import UserRoleTypes
-from api.v1.v1_profile.models import Administration, Access
+from api.v1.v1_profile.models import Administration, Access, Levels
 from api.v1.v1_users.models import SystemUser
 from utils.custom_serializer_fields import CustomEmailField, CustomCharField, \
     CustomPrimaryKeyRelatedField, CustomChoiceField, CustomBooleanField
@@ -225,3 +225,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = SystemUser
         fields = ['email', 'name', 'administration', 'role']
+
+
+class ListLevelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Levels
+        fields = ['id', 'name', 'level']

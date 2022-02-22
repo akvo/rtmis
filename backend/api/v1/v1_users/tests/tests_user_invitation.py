@@ -179,3 +179,9 @@ class UserInvitationTestCase(TestCase):
         administration = self.client.get('/api/v1/administration/1/',
                                          content_type='application/json')
         self.assertEqual(administration.status_code, 200)
+
+        response = self.client.get('/api/v1/levels/',
+                                   content_type='application/json')
+        levels = response.json()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(levels[0]), ['id', 'name', 'level'])
