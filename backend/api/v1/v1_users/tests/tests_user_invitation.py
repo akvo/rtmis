@@ -37,6 +37,12 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(
             ['id', 'first_name', 'last_name', 'email', 'administration',
              'role', 'invite'], list(users['data'][0]))
+        response = self.client.get(
+            "/api/v1/list/users/?administration=1&descendants=false",
+            follow=True,
+            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+
+        self.assertEqual(response.status_code, 200)
 
     def test_add_edit_user(self):
         call_command("administration_seeder", "--test")
