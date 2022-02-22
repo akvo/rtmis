@@ -1,12 +1,16 @@
 # Create your views here.
 from math import ceil
+from pathlib import Path
 
 from django.contrib.auth import authenticate
 from django.core import signing
+from django.core.management import call_command
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.http import HttpResponse
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, inline_serializer, \
     OpenApiParameter
+from jsmin import jsmin
 from rest_framework import status, serializers
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import get_object_or_404
@@ -32,6 +36,23 @@ from utils.custom_serializer_fields import validate_serializers_message
 @api_view(['GET'])
 def health_check(request, version):
     return Response({'message': 'OK'}, status=status.HTTP_200_OK)
+
+
+@extend_schema(description='Use to check System health',
+               tags=['Config'])
+@api_view(['GET'])
+def get_config_file(request, version):
+    try:
+        if not Path("source/config/config.min.js").exists():
+            call_command('generate_config')
+        data = jsmin(open("source/config/config.min.js", "r").read())
+        response = HttpResponse(data,
+                                content_type="application/x-javascript; charset=utf-8")
+        return response
+    except Exception as ex:
+        print(ex.args)
+        return Response({'message': ex.args},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 # TODO: Remove temp user entry and invite key from the response.
