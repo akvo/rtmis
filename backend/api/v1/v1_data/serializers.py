@@ -36,32 +36,40 @@ class SubmitFormDataAnswerSerializer(serializers.ModelSerializer):
             'question').queryset = Questions.objects.all()
 
     def validate_value(self, value):
-        if value == '':
-            raise ValidationError('Value is required')
-        if isinstance(value, list) and len(value) == 0:
-            raise ValidationError('Value is required')
         return value
 
     def validate(self, attrs):
+        if attrs.get('value') == '':
+            raise ValidationError('Value is required for Question:{0}'.format(
+                attrs.get('question').id))
+
+        if isinstance(attrs.get('value'), list) and len(
+                attrs.get('value')) == 0:
+            raise ValidationError('Value is required for Question:{0}'.format(
+                attrs.get('question').id))
+
         if not isinstance(attrs.get('value'), list) and attrs.get(
                 'question').type in [QuestionTypes.geo,
                                      QuestionTypes.option,
                                      QuestionTypes.multiple_option]:
             raise ValidationError(
-                {'value': 'Valid list value is required'})
+                'Valid list value is required for Question:{0}'.format(
+                    attrs.get('question').id))
         elif not isinstance(attrs.get('value'), str) and attrs.get(
                 'question').type in [QuestionTypes.text,
                                      QuestionTypes.photo,
                                      QuestionTypes.date]:
-
             raise ValidationError(
-                {'value': 'Valid string value is required'})
+                'Valid string value is required for Question:{0}'.format(
+                    attrs.get('question').id))
 
         elif not isinstance(attrs.get('value'), int) and attrs.get(
                 'question').type in [QuestionTypes.number,
                                      QuestionTypes.administration]:
+
             raise ValidationError(
-                {'value': 'Valid number value is required'})
+                'Valid number value is required for Question:{0}'.format(
+                    attrs.get('question').id))
 
         return attrs
 

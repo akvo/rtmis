@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./style.scss";
 import { Select, message } from "antd";
 import PropTypes from "prop-types";
@@ -7,7 +7,6 @@ import { api, store } from "../../lib";
 
 const FormDropdown = ({ loading: parentLoading = false, ...props }) => {
   const { forms, selectedForm } = store.useState((state) => state);
-  const [loading, setLoading] = useState(true);
 
   const handleChange = (e) => {
     if (!e) {
@@ -27,23 +26,6 @@ const FormDropdown = ({ loading: parentLoading = false, ...props }) => {
   };
 
   useEffect(() => {
-    setLoading(true);
-    api
-      .get("forms/")
-      .then((res) => {
-        store.update((s) => {
-          s.forms = res.data;
-        });
-        setLoading(false);
-      })
-      .catch((err) => {
-        message.error("Could not load forms");
-        setLoading(false);
-        console.error(err);
-      });
-  }, []);
-
-  useEffect(() => {
     if (forms.length && !selectedForm) {
       handleChange(forms[0].id);
     }
@@ -58,7 +40,7 @@ const FormDropdown = ({ loading: parentLoading = false, ...props }) => {
           handleChange(e);
         }}
         value={selectedForm}
-        disabled={loading || parentLoading}
+        disabled={parentLoading}
         {...props}
       >
         {forms.map((optionValue, optionIdx) => (

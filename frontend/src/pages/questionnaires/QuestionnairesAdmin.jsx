@@ -26,7 +26,7 @@ const pagePath = [
   },
 ];
 
-const Questionnaires = () => {
+const QuestionnairesAdmin = () => {
   const { forms } = store.useState((s) => s);
 
   const columns = [
@@ -41,14 +41,19 @@ const Questionnaires = () => {
       render: (cell) => cell || <span>-</span>,
     },
     {
-      title: "County",
-      dataIndex: "county",
-      render: () => <Checkbox />,
+      title: "Community",
+      dataIndex: "community",
+      render: (cell) => <Checkbox checked={cell} />,
     },
     {
-      title: "National",
-      dataIndex: "national",
-      render: () => <Checkbox />,
+      title: "Ward",
+      dataIndex: "ward",
+      render: (cell) => <Checkbox checked={cell} />,
+    },
+    {
+      title: "Sub-County",
+      dataIndex: "subcounty",
+      render: (cell) => <Checkbox checked={cell} />,
     },
   ];
 
@@ -86,4 +91,4 @@ const Questionnaires = () => {
   );
 };
 
-export default React.memo(Questionnaires);
+export default React.memo(QuestionnairesAdmin);

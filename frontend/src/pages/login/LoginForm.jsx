@@ -16,18 +16,27 @@ const LoginForm = () => {
         password: values.password,
       })
       .then((res) => {
-        api.setToken(res.token);
-        const userData = {
-          name: res.data.name,
-          email: res.data.email,
-          invite: res.data.invite,
-        };
+        api.setToken(res.data.token);
         store.update((s) => {
           s.isLoggedIn = true;
-          s.user = userData;
+          s.user = res.data;
         });
-        setLoading(false);
-        navigate("/control-center");
+        api
+          .get("forms/", {
+            headers: { Authorization: `Bearer ${res.data.token}` },
+          })
+          .then((res) => {
+            store.update((s) => {
+              s.forms = res.data;
+            });
+            setLoading(false);
+            navigate("/profile");
+          })
+          .catch((err) => {
+            setLoading(false);
+            console.error(err);
+            navigate("/profile");
+          });
       })
       .catch((err) => {
         if (err.response.status === 401 || err.response.status === 400) {

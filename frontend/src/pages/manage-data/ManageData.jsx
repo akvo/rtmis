@@ -1,17 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import {
-  Row,
-  Col,
-  Card,
-  Breadcrumb,
-  Divider,
-  Typography,
-  Table,
-  ConfigProvider,
-  Empty,
-} from "antd";
-import { Link } from "react-router-dom";
+import { Row, Col, Card, Divider, Table, ConfigProvider, Empty } from "antd";
 import {
   PlusSquareOutlined,
   CloseSquareOutlined,
@@ -19,9 +8,17 @@ import {
 } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import DataDetail from "./DataDetail";
-import { DataFilters } from "../../components";
+import { DataFilters, Breadcrumbs } from "../../components";
 
-const { Title } = Typography;
+const pagePath = [
+  {
+    title: "Control Center",
+    link: "/control-center",
+  },
+  {
+    title: "Manage Data",
+  },
+];
 
 const ManageData = () => {
   const [loading, setLoading] = useState(false);
@@ -105,26 +102,7 @@ const ManageData = () => {
     <div id="manageData">
       <Row justify="space-between">
         <Col>
-          <Breadcrumb
-            separator={
-              <h2 className="ant-typography" style={{ display: "inline" }}>
-                {">"}
-              </h2>
-            }
-          >
-            <Breadcrumb.Item>
-              <Link to="/control-center">
-                <Title style={{ display: "inline" }} level={2}>
-                  Control Center
-                </Title>
-              </Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Title style={{ display: "inline" }} level={2}>
-                Manage Data
-              </Title>
-            </Breadcrumb.Item>
-          </Breadcrumb>
+          <Breadcrumbs pagePath={pagePath} />
         </Col>
       </Row>
       <Divider />
