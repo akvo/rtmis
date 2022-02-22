@@ -51,7 +51,12 @@ const TreeRenderer = ({ nodes }) => {
   }, [administration]);
   const userMenu = useMemo(() => {
     return (
-      <Select value={1}>
+      <Select
+        value={1}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
         {users.map((user, userIndex) => (
           <Option key={userIndex} value={user.id}>
             {user.name}
@@ -92,22 +97,18 @@ const TreeRenderer = ({ nodes }) => {
 
   const renderNodes = useMemo(() => {
     return (
-      <Row>
+      <Row wrap={false}>
         {nodes.map((nodeItem, i) => (
-          <Col
-            key={i}
-            style={{
-              padding: "10px 20px",
-              margin: "10px 40px 10px 20px",
-            }}
-          >
+          <Col key={i} className="tree-col-0">
             {nodeItem.children.map((childItem, j) => (
               <div
                 className={`tree-block tree-form-block-${childItem.id}
                   ${childItem.id === selectedForm ? "active" : ""}`}
                 key={j}
                 onClick={() => {
-                  // TODO
+                  store.update((s) => {
+                    s.selectedForm = childItem.id;
+                  });
                 }}
               >
                 {childItem.name}
@@ -115,74 +116,90 @@ const TreeRenderer = ({ nodes }) => {
             ))}
           </Col>
         ))}
+        {adminNodes.map(
+          (adminItem, k) =>
+            adminItem.children?.length > 0 && (
+              <Col key={k} className={`tree-col-${k + 1}`}>
+                {adminItem.children.map((childItem, l) => (
+                  <div
+                    className={`tree-block tree-block-${k}-${childItem.id}
+                      ${childItem.active ? "active" : ""}`}
+                    key={l}
+                    onClick={() => {
+                      if (!loading) {
+                        handleClick(childItem.id, k);
+                      }
+                    }}
+                  >
+                    <div>{childItem.name}</div>
+                    {userMenu}
+                  </div>
+                ))}
+              </Col>
+            )
+        )}
 
-        {adminNodes.map((adminItem, k) => (
-          <Col
-            key={k}
-            style={{
-              padding: "10px 20px",
-              margin: "10px 40px 10px 20px",
-            }}
-          >
-            {adminItem.children.map((childItem, l) => (
-              <div
-                className={`tree-block tree-block-${k}-${childItem.id}
-                  ${childItem.active ? "active" : ""}`}
-                key={l}
-                onClick={() => {
-                  if (!loading) {
-                    handleClick(childItem.id, k);
-                  }
-                }}
-              >
-                <div>{childItem.name}</div>
-                {userMenu}
-              </div>
-            ))}
-          </Col>
-        ))}
+        {selectedForm && (
+          <SteppedLineTo
+            within="tree-col-0"
+            key={`tree-line-s1`}
+            from={`tree-form-block-${selectedForm}`}
+            to={`tree-col-0`}
+            fromAnchor="right"
+            toAnchor="right"
+            delay={0}
+            borderColor="#0058ff"
+            orientation="h"
+            borderStyle="solid"
+          />
+        )}
 
         {adminNodes.map((adminItem, m) => (
           <div key={m}>
-            {m < 1 ? (
-              <div>
-                {adminItem.children.map((childItem) => {
-                  return (
+            {adminItem.children.map((childItem) => {
+              const isParent =
+                adminNodes[m + 1]?.children[0]?.parent === childItem.id ||
+                false;
+              return (
+                <>
+                  <SteppedLineTo
+                    within={`tree-col-${m + 1}`}
+                    key={`tree-line-${childItem.id}`}
+                    from={`tree-col-${m}`}
+                    to={`tree-block-${m}-${childItem.id}`}
+                    fromAnchor="right"
+                    toAnchor="left"
+                    delay={0}
+                    borderColor={
+                      childItem.active || m >= adminNodes.length - 1
+                        ? "#0058ff"
+                        : "#707070"
+                    }
+                    orientation="h"
+                    borderStyle={
+                      childItem.active || m >= adminNodes.length - 1
+                        ? "solid"
+                        : "dashed"
+                    }
+                  />
+                  {isParent && (
                     <SteppedLineTo
-                      within="tree-wrap"
+                      within={`tree-col-${m + 1}`}
                       key={`tree-line-${childItem.id}`}
-                      from={`tree-form-block-${selectedForm}`}
-                      to={`tree-block-0-${childItem.id}`}
+                      from={`tree-block-${m}-${childItem.id}`}
+                      to={`tree-col-${m + 1}`}
                       fromAnchor="right"
-                      toAnchor="left"
+                      toAnchor="right"
                       delay={0}
-                      borderColor="#707070"
+                      borderColor="#0058ff"
                       orientation="h"
-                      borderStyle="dashed"
+                      borderStyle="solid"
                     />
-                  );
-                })}
-              </div>
-            ) : (
-              <div>
-                {adminItem.children.map((childItem) => {
-                  return (
-                    <SteppedLineTo
-                      within="tree-wrap"
-                      key={`tree-line-${childItem.id}`}
-                      from={`tree-block-${m - 1}-${childItem.parent}`}
-                      to={`tree-block-${m}-${childItem.id}`}
-                      fromAnchor="right"
-                      toAnchor="left"
-                      delay={0}
-                      borderColor="#707070"
-                      orientation="h"
-                      borderStyle="dashed"
-                    />
-                  );
-                })}
-              </div>
-            )}
+                  )}
+                </>
+              );
+              // return "";
+            })}
           </div>
         ))}
       </Row>
@@ -190,18 +207,18 @@ const TreeRenderer = ({ nodes }) => {
   }, [nodes, adminNodes, selectedForm, loading, userMenu]);
 
   return (
-    <div
-      className="tree-wrap"
-      id="tree-wrap"
-      style={{
-        position: "relative",
-        height: "80vh",
-        width: "100%",
-        overflow: "scroll",
-      }}
-    >
-      <div>{renderNodes}</div>
-    </div>
+    <>
+      <Row wrap={false} className="tree-header">
+        <Col>Questionnaire</Col>
+        {adminNodes.map(
+          (aN, anI) =>
+            aN.children.length > 0 && <Col key={anI}>{aN.levelName}</Col>
+        )}
+      </Row>
+      <div className="tree-wrap" id="tree-wrap">
+        {renderNodes}
+      </div>
+    </>
   );
 };
 

@@ -305,7 +305,7 @@ const ControlCenter = () => {
               <Link to="/approvals">
                 <Button className="light">View All</Button>
               </Link>
-              <Link to="/approvers">
+              <Link to="/approvers/tree">
                 <Button className="light">Manage Approvers</Button>
               </Link>
             </Row>
