@@ -37,6 +37,12 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(
             ['id', 'first_name', 'last_name', 'email', 'administration',
              'role', 'invite'], list(users['data'][0]))
+        response = self.client.get(
+            "/api/v1/list/users/?administration=1&descendants=false",
+            follow=True,
+            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+
+        self.assertEqual(response.status_code, 200)
 
     def test_add_edit_user(self):
         call_command("administration_seeder", "--test")
@@ -173,3 +179,9 @@ class UserInvitationTestCase(TestCase):
         administration = self.client.get('/api/v1/administration/1/',
                                          content_type='application/json')
         self.assertEqual(administration.status_code, 200)
+
+        response = self.client.get('/api/v1/levels/',
+                                   content_type='application/json')
+        levels = response.json()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(levels[0]), ['id', 'name', 'level'])
