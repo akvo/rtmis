@@ -19,4 +19,48 @@
       color: #0058ff;
     }
   }
+
+  .tree-block {
+    border: solid #f9fafb 2px;
+    padding: 0.7rem 1rem;
+    background-color: #f9fafb;
+    margin-bottom: 35px;
+    font-size: 0.8rem;
+    text-align: left;
+    min-width: 180px;
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+
+    .ant-select {
+      width: 100%;
+      .ant-select-selector {
+        border: 0 none;
+        background-color: transparent;
+        margin-top: 0.3rem;
+        font-size: 0.9rem;
+        padding-left: 0;
+        box-shadow: none;
+        .ant-select-selection-item {
+          font-weight: 600;
+        }
+      }
+      .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input)
+        .ant-select-selector {
+        border: 0 none;
+        box-shadow: none;
+      }
+      .ant-select-selector:hover {
+        color: #0058ff;
+      }
+    }
+  }
+  .tree-block:hover {
+    // border: solid #e1e8f6 2px;
+    background-color: #f3f4f5;
+  }
+  .tree-block.active,
+  .tree-block.active:hover {
+    border: solid #0058ff 2px;
+    background-color: #fff;
+  }
 }
