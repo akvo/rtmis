@@ -9,7 +9,7 @@ from rest_framework import serializers
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, QuestionGroup, Questions, \
     QuestionOptions, FormApprovalRule, FormApprovalAssignment
-from api.v1.v1_profile.models import Administration, Levels, Access
+from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from rtmis.settings import FORM_GEO_VALUE
 from utils.custom_serializer_fields import CustomChoiceField, \
@@ -334,9 +334,10 @@ class FormApproverResponseSerializer(serializers.ModelSerializer):
     administration = serializers.SerializerMethodField()
 
     def get_user(self, instance: Administration):
-        access: Access = instance.user_administration.first()
-        if access:
-            return FormApproverUserSerializer(instance=access.user).data
+        assignment = instance.administration_data_approval.filter(
+            form=self.context.get('form')).first()
+        if assignment:
+            return FormApproverUserSerializer(instance=assignment.user).data
         return None
 
     def get_administration(self, instance: Administration):
