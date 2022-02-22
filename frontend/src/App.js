@@ -13,6 +13,7 @@ import {
   QuestionnairesAdmin,
   Approvals,
   Approvers,
+  ApproversTree,
   Profile,
 } from "./pages";
 import { message, Spin } from "antd";
@@ -136,6 +137,10 @@ const App = () => {
           <Route
             path="/approvers"
             element={authUser ? <Approvers /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/approvers/tree"
+            element={authUser ? <ApproversTree /> : <Navigate to="/login" />}
           />
           <Route
             path="/profile"
