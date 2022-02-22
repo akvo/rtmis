@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./style.scss";
 import { Select, message, Space } from "antd";
-import { useCookies } from "react-cookie";
 import PropTypes from "prop-types";
 
 import { api, store } from "../../lib";
@@ -10,49 +9,34 @@ const AdministrationDropdown = ({
   loading: parentLoading = false,
   ...props
 }) => {
-  const { administration } = store.useState((state) => state);
-  const [cookies] = useCookies(["AUTH_TOKEN"]);
+  const { user, administration, isLoggedIn } = store.useState((state) => state);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!cookies.AUTH_TOKEN) {
-      return;
-    }
-    setLoading(true);
-    api
-      .get(`get/profile/`, {
-        headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-      })
-      .then((res) => {
-        api
-          .get(`administration/${res.data.administration.id}/`, {
-            headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-          })
-          .then((adminRes) => {
-            store.update((s) => {
-              s.administration = [
-                {
-                  id: adminRes.data.id,
-                  name: adminRes.data.name,
-                  levelName: adminRes.data.level_name,
-                  children: adminRes.data.children,
-                },
-              ];
-            });
-            setLoading(false);
-          })
-          .catch((err) => {
-            message.error("Could not load filters");
-            setLoading(false);
-            console.error(err);
+    if (isLoggedIn) {
+      setLoading(true);
+      api
+        .get(`administration/${user.administration.id}/`)
+        .then((adminRes) => {
+          store.update((s) => {
+            s.administration = [
+              {
+                id: adminRes.data.id,
+                name: adminRes.data.name,
+                levelName: adminRes.data.level_name,
+                children: adminRes.data.children,
+              },
+            ];
           });
-      })
-      .catch((err) => {
-        message.error("Could not load filters");
-        setLoading(false);
-        console.error(err);
-      });
-  }, [cookies.AUTH_TOKEN]);
+          setLoading(false);
+        })
+        .catch((err) => {
+          message.error("Could not load filters");
+          setLoading(false);
+          console.error(err);
+        });
+    }
+  }, [user, isLoggedIn]);
 
   const handleChange = (e, index) => {
     if (!e) {
@@ -60,9 +44,7 @@ const AdministrationDropdown = ({
     }
     setLoading(true);
     api
-      .get(`administration/${e}/`, {
-        headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-      })
+      .get(`administration/${e}/`)
       .then((res) => {
         store.update((s) => {
           s.administration.length = index + 1;

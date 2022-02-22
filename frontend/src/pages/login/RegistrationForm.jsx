@@ -25,17 +25,25 @@ const RegistrationForm = (props) => {
       .post("set/user/password/", postData)
       .then((res) => {
         api.setToken(res.data.token);
-        const userData = {
-          name: res.data.name,
-          email: res.data.email,
-          invite: res.data.invite,
-        };
         store.update((s) => {
           s.isLoggedIn = true;
-          s.user = userData;
+          s.user = res.data;
         });
+        api
+          .get("forms/", {
+            headers: { Authorization: `Bearer ${res.data.token}` },
+          })
+          .then((res) => {
+            store.update((s) => {
+              s.forms = res.data;
+            });
+            navigate("/control-center");
+          })
+          .catch((err) => {
+            console.error(err);
+            navigate("/control-center");
+          });
         message.success("Password updated successfully");
-        navigate("/control-center");
       })
       .catch((err) => {
         console.error(err.response.data.message);

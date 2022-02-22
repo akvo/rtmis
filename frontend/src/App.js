@@ -22,7 +22,7 @@ import { Layout } from "./components";
 
 const App = () => {
   const authUser = store.useState((state) => state.user);
-  const [cookies, setCookie, removeCookie] = useCookies(["AUTH_TOKEN"]);
+  const [cookies, removeCookie] = useCookies(["AUTH_TOKEN"]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -42,7 +42,20 @@ const App = () => {
             s.user = res.data;
           });
           api.setToken(cookies.AUTH_TOKEN);
-          setLoading(false);
+          api
+            .get("forms/", {
+              headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
+            })
+            .then((res) => {
+              store.update((s) => {
+                s.forms = res.data;
+              });
+              setLoading(false);
+            })
+            .catch((err) => {
+              setLoading(false);
+              console.error(err);
+            });
         })
         .catch((err) => {
           if (err.response.status === 401) {
@@ -59,7 +72,7 @@ const App = () => {
     } else {
       setLoading(false);
     }
-  }, [authUser, cookies, setCookie, removeCookie]);
+  }, [authUser, removeCookie, cookies]);
 
   if (loading) {
     return (
