@@ -13,6 +13,7 @@ import {
   QuestionnairesAdmin,
   Approvals,
   Approvers,
+  ApproversTree,
   Profile,
 } from "./pages";
 import { message, Spin } from "antd";
@@ -21,7 +22,7 @@ import { store, api } from "./lib";
 import { Layout } from "./components";
 
 const App = () => {
-  const authUser = store.useState((state) => state.user);
+  const { user: authUser, isLoggedIn } = store.useState((state) => state);
   const [cookies, removeCookie] = useCookies(["AUTH_TOKEN"]);
   const [loading, setLoading] = useState(true);
 
@@ -29,6 +30,7 @@ const App = () => {
     if (
       !location.pathname.includes("/login") &&
       !authUser &&
+      !isLoggedIn &&
       cookies &&
       cookies.AUTH_TOKEN
     ) {
@@ -72,7 +74,7 @@ const App = () => {
     } else {
       setLoading(false);
     }
-  }, [authUser, removeCookie, cookies]);
+  }, [authUser, isLoggedIn, removeCookie, cookies]);
 
   if (loading) {
     return (
@@ -136,6 +138,10 @@ const App = () => {
           <Route
             path="/approvers"
             element={authUser ? <Approvers /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/approvers/tree"
+            element={authUser ? <ApproversTree /> : <Navigate to="/login" />}
           />
           <Route
             path="/profile"

@@ -1,7 +1,7 @@
 from django.core.management import BaseCommand
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
-from api.v1.v1_profile.models import Access, Administration
+from api.v1.v1_profile.models import Access, Administration, Levels
 
 
 class Command(BaseCommand):
@@ -9,6 +9,12 @@ class Command(BaseCommand):
         parser.add_argument("email", nargs='+', type=str)
         parser.add_argument("-t",
                             "--test",
+                            nargs="?",
+                            const=1,
+                            default=False,
+                            type=int)
+        parser.add_argument("-a",
+                            "--admin",
                             nargs="?",
                             const=1,
                             default=False,
@@ -25,8 +31,14 @@ class Command(BaseCommand):
             exit()
         administration = Administration.objects.filter(
             parent__isnull=True).first()
+        role = UserRoleTypes.super_admin
+        if options.get("admin"):
+            administration = Administration.objects.filter(
+                level=Levels.objects.filter(
+                    level=1).first()).order_by('?').first()
+            role = UserRoleTypes.admin
         Access.objects.create(user=user,
-                              role=UserRoleTypes.super_admin,
+                              role=role,
                               administration=administration)
         if not options.get("test"):
             self.stdout.write(
