@@ -15,6 +15,8 @@ import {
   Approvers,
   ApproversTree,
   Profile,
+  ErrorPage,
+  ComingSoon,
 } from "./pages";
 import { message, Spin } from "antd";
 import { useCookies } from "react-cookie";
@@ -103,6 +105,7 @@ const App = () => {
           <Route exact path="/" element={<Home />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/login/:invitationId" element={<Login />} />
+          <Route exact path="/forgot-password" element={<Login />} />
           <Route exact path="/data" element={<Home />} />
           <Route exact path="/form/:formId" element={<Forms />} />
           <Route
@@ -147,6 +150,10 @@ const App = () => {
             path="/profile"
             element={authUser ? <Profile /> : <Navigate to="/login" />}
           />
+          <Route exact path="/coming-soon" element={<ComingSoon />} />
+          <Route path="/error/401" element={<ErrorPage status={401} />} />
+          <Route path="/error/404" element={<ErrorPage status={404} />} />
+          <Route path="*" element={<Navigate replace to="/error/404" />} />
         </Routes>
       </Layout.Body>
       <Layout.Footer />
