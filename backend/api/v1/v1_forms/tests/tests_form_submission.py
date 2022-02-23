@@ -82,7 +82,10 @@ class FormSubmissionTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         self.assertEqual(data, {"message": "ok"})
-        payload = {"data": {}, "answer": payload["answer"]}
+        payload = {"data": {}, "answer": [{
+            "question": 1,
+            "value": ""
+        }]}
         data = self.client.post('/api/v1/form-data/1/',
                                 payload,
                                 content_type='application/json',
@@ -91,7 +94,8 @@ class FormSubmissionTestCase(TestCase):
         data = data.json()
         self.assertEqual(
             data.get('message'),
-            "name is required.|administration is required.")
+            "name is required.|administration is required."
+            "|Value is required for Question:1")
 
     def test_form_data_endpoint(self):
         call_command("administration_seeder", "--test")

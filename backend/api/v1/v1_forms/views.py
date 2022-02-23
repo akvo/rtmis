@@ -189,8 +189,10 @@ def form_approver(request, version):
         instance = Administration.objects.filter(
             parent=serializer.validated_data.get('administration_id'),
         )
-        return Response(FormApproverResponseSerializer(instance=instance,
-                                                       many=True).data,
+        return Response(FormApproverResponseSerializer(
+            instance=instance,
+            many=True,
+            context={'form': serializer.validated_data.get('form_id')}).data,
                         status=status.HTTP_200_OK)
     except Exception as ex:
         return Response({'message': ex.args},
