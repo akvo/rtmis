@@ -161,5 +161,6 @@ class Command(BaseCommand):
             # if Administration.objects.count():
             #    self.stdout.write("You have performed administration seeder")
             #    exit()
+            Levels.objects.all().delete()
             seed_administration_prod()
             self.stdout.write('-- FINISH')

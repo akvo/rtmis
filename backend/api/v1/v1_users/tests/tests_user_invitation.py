@@ -185,3 +185,8 @@ class UserInvitationTestCase(TestCase):
         levels = response.json()
         self.assertEqual(response.status_code, 200)
         self.assertEqual(list(levels[0]), ['id', 'name', 'level'])
+
+    def test_config_js(self):
+        response = self.client.get('/api/v1/config.js',
+                                   content_type='application/json')
+        self.assertEqual(response.status_code, 200)
