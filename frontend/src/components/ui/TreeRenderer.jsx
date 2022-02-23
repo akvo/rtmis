@@ -133,34 +133,35 @@ const TreeRenderer = ({ nodes }) => {
             ))}
           </Col>
         ))}
-        {adminNodes.map(
-          (adminItem, k) =>
-            adminItem.children?.length > 0 && (
-              <Col
-                onScroll={handleColScroll}
-                key={k}
-                span={6}
-                className={`tree-col-${k + 1}`}
-                align="center"
-              >
-                {adminItem.children.map((childItem, l) => (
-                  <div
-                    className={`tree-block tree-block-${k}-${childItem.id}
+        {selectedForm &&
+          adminNodes.map(
+            (adminItem, k) =>
+              adminItem.children?.length > 0 && (
+                <Col
+                  onScroll={handleColScroll}
+                  key={k}
+                  span={6}
+                  className={`tree-col-${k + 1}`}
+                  align="center"
+                >
+                  {adminItem.children.map((childItem, l) => (
+                    <div
+                      className={`tree-block tree-block-${k}-${childItem.id}
                       ${childItem.active ? "active" : ""}`}
-                    key={l}
-                    onClick={() => {
-                      if (!loading) {
-                        handleClick(childItem.id, k);
-                      }
-                    }}
-                  >
-                    <div>{childItem.name}</div>
-                    {userMenu}
-                  </div>
-                ))}
-              </Col>
-            )
-        )}
+                      key={l}
+                      onClick={() => {
+                        if (!loading) {
+                          handleClick(childItem.id, k);
+                        }
+                      }}
+                    >
+                      <div>{childItem.name}</div>
+                      {userMenu}
+                    </div>
+                  ))}
+                </Col>
+              )
+          )}
 
         {selectedForm && (
           <SteppedLineTo
@@ -177,54 +178,55 @@ const TreeRenderer = ({ nodes }) => {
           />
         )}
 
-        {adminNodes.map((adminItem, m) => (
-          <div key={m}>
-            {adminItem.children.map((childItem) => {
-              const isParent =
-                adminNodes[m + 1]?.children[0]?.parent === childItem.id ||
-                false;
-              return (
-                <>
-                  <SteppedLineTo
-                    within={`tree-col-${m + 1}`}
-                    key={`tree-line-${m + 1}-${childItem.id}`}
-                    from={`tree-col-${m}`}
-                    to={`tree-block-${m}-${childItem.id}`}
-                    fromAnchor="right"
-                    toAnchor="left"
-                    delay={scroll ? 0 : 1}
-                    orientation="h"
-                    borderColor={
-                      childItem.active || m >= adminNodes.length - 1
-                        ? "#0058ff"
-                        : "#707070"
-                    }
-                    borderStyle={
-                      childItem.active || m >= adminNodes.length - 1
-                        ? "solid"
-                        : "dashed"
-                    }
-                  />
-                  {isParent && (
+        {selectedForm &&
+          adminNodes.map((adminItem, m) => (
+            <div key={m}>
+              {adminItem.children.map((childItem) => {
+                const isParent =
+                  adminNodes[m + 1]?.children[0]?.parent === childItem.id ||
+                  false;
+                return (
+                  <>
                     <SteppedLineTo
                       within={`tree-col-${m + 1}`}
-                      key={`tree-line-${m}-${childItem.id}`}
-                      from={`tree-block-${m}-${childItem.id}`}
-                      to={`tree-col-${m + 1}`}
+                      key={`tree-line-${m + 1}-${childItem.id}`}
+                      from={`tree-col-${m}`}
+                      to={`tree-block-${m}-${childItem.id}`}
                       fromAnchor="right"
-                      toAnchor="right"
+                      toAnchor="left"
                       delay={scroll ? 0 : 1}
                       orientation="h"
-                      borderColor="#0058ff"
-                      borderStyle="solid"
+                      borderColor={
+                        childItem.active || m >= adminNodes.length - 1
+                          ? "#0058ff"
+                          : "#707070"
+                      }
+                      borderStyle={
+                        childItem.active || m >= adminNodes.length - 1
+                          ? "solid"
+                          : "dashed"
+                      }
                     />
-                  )}
-                </>
-              );
-              // return "";
-            })}
-          </div>
-        ))}
+                    {isParent && (
+                      <SteppedLineTo
+                        within={`tree-col-${m + 1}`}
+                        key={`tree-line-${m}-${childItem.id}`}
+                        from={`tree-block-${m}-${childItem.id}`}
+                        to={`tree-col-${m + 1}`}
+                        fromAnchor="right"
+                        toAnchor="right"
+                        delay={scroll ? 0 : 1}
+                        orientation="h"
+                        borderColor="#0058ff"
+                        borderStyle="solid"
+                      />
+                    )}
+                  </>
+                );
+                // return "";
+              })}
+            </div>
+          ))}
       </Row>
     );
   }, [
@@ -243,15 +245,16 @@ const TreeRenderer = ({ nodes }) => {
         <Col span={6} align="center">
           Questionnaire
         </Col>
-        {adminNodes.map(
-          (aN, anI) =>
-            aN.children.length > 0 && (
-              <Col key={anI} span={6} align="center">
-                {aN.levelName}
-                <div className="shade" id={`shade-for-tree-col-${anI + 1}`} />
-              </Col>
-            )
-        )}
+        {selectedForm &&
+          adminNodes.map(
+            (aN, anI) =>
+              aN.children.length > 0 && (
+                <Col key={anI} span={6} align="center">
+                  {aN.levelName}
+                  <div className="shade" id={`shade-for-tree-col-${anI + 1}`} />
+                </Col>
+              )
+          )}
       </Row>
       <div className="tree-wrap" id="tree-wrap">
         {renderNodes}

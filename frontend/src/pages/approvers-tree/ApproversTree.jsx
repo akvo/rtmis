@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Row, Col, Card, Divider } from "antd";
 import { Breadcrumbs, TreeRenderer } from "../../components";
-import { api } from "../../lib";
+import { store } from "../../lib";
 import ApproverFilters from "../../components/filters/ApproverFilters";
 
 const pagePath = [
@@ -15,33 +15,22 @@ const pagePath = [
   },
 ];
 const ApproversTree = () => {
-  const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
+  const { forms } = store.useState((s) => s);
 
   useEffect(() => {
-    setLoading(true);
-    const url = `forms`;
-    api
-      .get(url)
-      .then((res) => {
-        setDataset([
-          {
-            id: 0,
-            name: "Questionnaire",
-            children: res.data.map((dt) => ({
-              ...dt,
-              user: null,
-              active: false,
-            })),
-          },
-        ]);
-        setLoading(false);
-      })
-      .catch(() => {
-        setDataset([]);
-        setLoading(false);
-      });
-  }, []);
+    setDataset([
+      {
+        id: 0,
+        name: "Questionnaire",
+        children: forms.map((dt) => ({
+          ...dt,
+          user: null,
+          active: false,
+        })),
+      },
+    ]);
+  }, [forms]);
 
   return (
     <div id="approversTree">
@@ -51,12 +40,9 @@ const ApproversTree = () => {
         </Col>
       </Row>
       <Divider />
-      <ApproverFilters loading={loading} />
+      <ApproverFilters loading={false} />
       <Divider />
-      <Card
-        style={{ padding: 0, minHeight: "40vh" }}
-        bodyStyle={{ padding: 30 }}
-      >
+      <Card style={{ padding: 0, minHeight: "40vh" }}>
         <TreeRenderer nodes={dataset} />
       </Card>
     </div>

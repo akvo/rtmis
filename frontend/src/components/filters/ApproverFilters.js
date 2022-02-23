@@ -1,7 +1,6 @@
 import React from "react";
 import "./style.scss";
 import { Row, Col, Space, Button } from "antd";
-import FormDropdown from "./FormDropdown.js";
 import AdministrationDropdown from "./AdministrationDropdown";
 
 const ApproverFilters = ({ loading }) => {
@@ -9,7 +8,6 @@ const ApproverFilters = ({ loading }) => {
     <Row>
       <Col flex={1}>
         <Space>
-          <FormDropdown loading={loading} />
           <AdministrationDropdown loading={loading} />
         </Space>
       </Col>
