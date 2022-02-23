@@ -119,7 +119,12 @@ const TreeRenderer = ({ nodes }) => {
             {nodeItem.children.map((childItem, j) => (
               <div
                 className={`tree-block tree-form-block-${childItem.id}
-                  ${childItem.id === selectedForm ? "active" : ""}`}
+                  ${
+                    childItem.id === selectedForm ||
+                    nodeItem.id === selectedForm
+                      ? "active"
+                      : ""
+                  }`}
                 key={j}
                 onClick={() => {
                   store.update((s) => {
@@ -199,12 +204,18 @@ const TreeRenderer = ({ nodes }) => {
                       borderColor={
                         childItem.active || m >= adminNodes.length - 1
                           ? "#0058ff"
-                          : "#707070"
+                          : "#dedede"
                       }
                       borderStyle={
                         childItem.active || m >= adminNodes.length - 1
                           ? "solid"
-                          : "dashed"
+                          : "dotted"
+                      }
+                      borderWidth={
+                        childItem.active || m >= adminNodes.length - 1 ? 1 : 1.5
+                      }
+                      zIndex={
+                        childItem.active || m >= adminNodes.length - 1 ? 100 : 1
                       }
                     />
                     {isParent && (
@@ -219,11 +230,11 @@ const TreeRenderer = ({ nodes }) => {
                         orientation="h"
                         borderColor="#0058ff"
                         borderStyle="solid"
+                        zIndex={100}
                       />
                     )}
                   </>
                 );
-                // return "";
               })}
             </div>
           ))}
