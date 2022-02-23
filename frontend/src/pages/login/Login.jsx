@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./style.scss";
 import { Row, Col, Spin } from "antd";
-import LoginForm from "./LoginForm";
-import RegistrationForm from "./RegistrationForm";
+import { LoginForm, RegistrationForm, ResetForm } from "./components";
 import { Link, useParams } from "react-router-dom";
 import backgroundImage from "../../assets/banner.png";
 import { api, config } from "../../lib";
@@ -22,7 +21,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (invitationId) {
+    if (!location.pathname.includes("forgot-password") && invitationId) {
       setLoading(true);
       api
         .post("verify/invite/", { invite: invitationId })
@@ -61,54 +60,72 @@ const Login = () => {
           </div>
         </Col>
         <Col span={12} className="right-side">
-          {loading ? (
-            <div>
-              <Spin />
-              <h2>
-                Verifying
+          {location.pathname.includes("forgot-password") ? (
+            <>
+              <h1>
+                Reset your password
                 <br />
-                <small>Please wait..</small>
-              </h2>
-            </div>
+                <small>
+                  Enter the email associated with your account and we&apos;ll
+                  Send an email with instructions to reset your password
+                </small>
+              </h1>
+              <ResetForm />
+            </>
           ) : (
             <>
-              {invitationId ? (
+              {loading ? (
                 <div>
-                  {invitedUser ? (
-                    <>
-                      <h1 data-testid="welcome-title">
-                        Welcome to RTMIS, {invitedUser.name}
-                        <br />
-                        <small>
-                          Set your own password including the following criteria
-                        </small>
-                      </h1>
-                      <RegistrationForm invite={invitedUser.invite} />
-                    </>
-                  ) : (
-                    <div>
-                      <h1>
-                        Invalid Invite Code
-                        <br />
-                        <small>
-                          Lorem, ipsum dolor sit amet consectetur adipisicing
-                          elit. Autem provident voluptatum cum numquam, quidem
-                          vitae, qui quam beatae exercitationem ullam
-                          perferendis! Nobis in aut fuga voluptate harum,
-                          tempore distinctio optio.
-                        </small>
-                      </h1>
-                    </div>
-                  )}
+                  <Spin />
+                  <h2>
+                    Verifying
+                    <br />
+                    <small>Please wait..</small>
+                  </h2>
                 </div>
               ) : (
                 <>
-                  <h1>
-                    Welcome back
-                    <br />
-                    <small>Please enter your account details</small>
-                  </h1>
-                  <LoginForm />
+                  {invitationId ? (
+                    <div>
+                      {invitedUser ? (
+                        // TODO
+                        <>
+                          <h1 data-testid="welcome-title">
+                            Welcome to RTMIS, {invitedUser.name}
+                            <br />
+                            <small>
+                              Set your own password including the following
+                              criteria
+                            </small>
+                          </h1>
+                          <RegistrationForm invite={invitedUser.invite} />
+                        </>
+                      ) : (
+                        <div>
+                          <h1>
+                            Invalid Invite Code
+                            <br />
+                            <small>
+                              Lorem, ipsum dolor sit amet consectetur
+                              adipisicing elit. Autem provident voluptatum cum
+                              numquam, quidem vitae, qui quam beatae
+                              exercitationem ullam perferendis! Nobis in aut
+                              fuga voluptate harum, tempore distinctio optio.
+                            </small>
+                          </h1>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <>
+                      <h1>
+                        Welcome back
+                        <br />
+                        <small>Please enter your account details</small>
+                      </h1>
+                      <LoginForm />
+                    </>
+                  )}
                 </>
               )}
             </>

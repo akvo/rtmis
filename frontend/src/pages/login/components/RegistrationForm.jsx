@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Checkbox, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { api, store } from "../../lib";
+import { api, store } from "../../../lib";
 import { useNavigate } from "react-router-dom";
 
 const checkBoxOptions = [
