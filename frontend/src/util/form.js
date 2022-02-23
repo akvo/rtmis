@@ -1,5 +1,8 @@
 import { api, store } from "../lib";
 export const reloadData = () => {
+  store.update((s) => {
+    s.forms = [];
+  });
   api
     .get("forms/")
     .then((res) => {

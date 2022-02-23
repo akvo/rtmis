@@ -99,10 +99,9 @@ const Questionnaires = () => {
         message.success("Questionnaires updated");
         reloadData();
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        message.error("Could not update Questionnaires");
         setLoading(false);
-        // navigate("/control-center");
       });
   };
 
@@ -125,7 +124,6 @@ const Questionnaires = () => {
             <Button
               className="light"
               disabled={isPristine}
-              loading={loading}
               onClick={() => {
                 const cloned = JSON.parse(JSON.stringify(forms));
                 setDataset(cloned);
