@@ -301,7 +301,7 @@ const ControlCenter = () => {
                 <Table dataSource={approvalsSubordinates} columns={columns} />
               </TabPane>
             </Tabs>
-            <Row justify="space-between">
+            <Row justify="space-between" className="approval-links">
               <Link to="/approvals">
                 <Button className="light">View All</Button>
               </Link>

@@ -3,6 +3,7 @@ import { Row, Col, Select, message } from "antd";
 import { api, store } from "../../lib";
 import "./style.scss";
 import { SteppedLineTo } from "react-lineto";
+import { take, takeRight } from "lodash";
 
 const { Option } = Select;
 const users = [
@@ -31,7 +32,9 @@ const users = [
 const TreeRenderer = ({ nodes }) => {
   const { administration, selectedForm } = store.useState((state) => state);
   const [adminNodes, setAdminNodes] = useState([]);
+  const [scroll, setScroll] = useState(0);
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const adminClone = administration.map((adminNode) => ({
       ...adminNode,
@@ -49,6 +52,7 @@ const TreeRenderer = ({ nodes }) => {
     }
     setAdminNodes(adminClone);
   }, [administration]);
+
   const userMenu = useMemo(() => {
     return (
       <Select
@@ -95,11 +99,23 @@ const TreeRenderer = ({ nodes }) => {
       });
   };
 
+  const handleColScroll = (e) => {
+    setScroll(e.target.scrollTop);
+    const shade = takeRight(e.target.className.split(" "))[0];
+    const shadeComponent = document.getElementById(`shade-for-${shade}`);
+
+    if (e.target.scrollTop > 0) {
+      shadeComponent.classList.add("on");
+    } else {
+      shadeComponent.classList.remove("on");
+    }
+  };
+
   const renderNodes = useMemo(() => {
     return (
-      <Row wrap={false}>
+      <Row wrap={false} justify="left">
         {nodes.map((nodeItem, i) => (
-          <Col key={i} className="tree-col-0">
+          <Col key={i} span={6} className="tree-col-0" align="center">
             {nodeItem.children.map((childItem, j) => (
               <div
                 className={`tree-block tree-form-block-${childItem.id}
@@ -108,6 +124,7 @@ const TreeRenderer = ({ nodes }) => {
                 onClick={() => {
                   store.update((s) => {
                     s.selectedForm = childItem.id;
+                    s.administration = take(administration);
                   });
                 }}
               >
@@ -119,7 +136,13 @@ const TreeRenderer = ({ nodes }) => {
         {adminNodes.map(
           (adminItem, k) =>
             adminItem.children?.length > 0 && (
-              <Col key={k} className={`tree-col-${k + 1}`}>
+              <Col
+                onScroll={handleColScroll}
+                key={k}
+                span={6}
+                className={`tree-col-${k + 1}`}
+                align="center"
+              >
                 {adminItem.children.map((childItem, l) => (
                   <div
                     className={`tree-block tree-block-${k}-${childItem.id}
@@ -142,7 +165,7 @@ const TreeRenderer = ({ nodes }) => {
         {selectedForm && (
           <SteppedLineTo
             within="tree-col-0"
-            key={`tree-line-s1`}
+            key={`tree-line-${selectedForm}`}
             from={`tree-form-block-${selectedForm}`}
             to={`tree-col-0`}
             fromAnchor="right"
@@ -164,7 +187,7 @@ const TreeRenderer = ({ nodes }) => {
                 <>
                   <SteppedLineTo
                     within={`tree-col-${m + 1}`}
-                    key={`tree-line-${childItem.id}`}
+                    key={`tree-line-${m + 1}-${childItem.id}`}
                     from={`tree-col-${m}`}
                     to={`tree-block-${m}-${childItem.id}`}
                     fromAnchor="right"
@@ -185,7 +208,7 @@ const TreeRenderer = ({ nodes }) => {
                   {isParent && (
                     <SteppedLineTo
                       within={`tree-col-${m + 1}`}
-                      key={`tree-line-${childItem.id}`}
+                      key={`tree-line-${m}-${childItem.id}`}
                       from={`tree-block-${m}-${childItem.id}`}
                       to={`tree-col-${m + 1}`}
                       fromAnchor="right"
@@ -204,15 +227,22 @@ const TreeRenderer = ({ nodes }) => {
         ))}
       </Row>
     );
-  }, [nodes, adminNodes, selectedForm, loading, userMenu]);
+  }, [nodes, adminNodes, selectedForm, loading, userMenu, scroll]);
 
   return (
     <>
-      <Row wrap={false} className="tree-header">
-        <Col>Questionnaire</Col>
+      <Row wrap={false} className="tree-header" justify="left">
+        <Col span={6} align="center">
+          Questionnaire
+        </Col>
         {adminNodes.map(
           (aN, anI) =>
-            aN.children.length > 0 && <Col key={anI}>{aN.levelName}</Col>
+            aN.children.length > 0 && (
+              <Col key={anI} span={6} align="center">
+                {aN.levelName}
+                <div className="shade" id={`shade-for-tree-col-${anI + 1}`} />
+              </Col>
+            )
         )}
       </Row>
       <div className="tree-wrap" id="tree-wrap">
