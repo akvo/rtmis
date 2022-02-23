@@ -173,12 +173,14 @@ const columns = [
     title: "",
     dataIndex: "key",
     key: "key",
+    width: "40px",
     render: () => <InfoCircleOutlined />,
   },
   {
     title: "File",
     dataIndex: "filename",
     key: "filename",
+    width: "25%",
     render: (filename, row) => (
       <div className="row">
         <div>
