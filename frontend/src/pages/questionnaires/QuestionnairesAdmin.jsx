@@ -42,7 +42,7 @@ const QuestionnairesAdmin = () => {
     {
       title: "Questionnaire",
       dataIndex: "form_id",
-      render: (cell) => forms.find((f) => f.id == cell)?.name || "",
+      render: (cell) => forms.find((f) => f.id === cell)?.name || "",
     },
     {
       title: "Questionnaire Description",
