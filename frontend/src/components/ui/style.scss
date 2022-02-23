@@ -1,4 +1,5 @@
 @import "../../variables";
+
 #root {
   .ant-breadcrumb {
     .ant-breadcrumb-separator {
@@ -17,6 +18,128 @@
     span:last-child span h2,
     span:last-child span h3 {
       color: #0058ff;
+    }
+  }
+
+  .ant-row.tree-header {
+    border-bottom: solid #d7dbec 1px;
+    padding-bottom: 25px;
+
+    .ant-col {
+      width: 300px;
+      font-weight: 700;
+      font-size: 0.95rem;
+
+      .shade {
+        position: absolute;
+        z-index: 2;
+        top: 70px;
+        width: 100%;
+        height: 15px;
+        opacity: 0;
+        transition: opacity 0.2s ease-out;
+
+        &::before {
+          position: absolute;
+          content: " ";
+          width: 100%;
+          left: 0px;
+          top: 0px;
+          height: 1px;
+          box-shadow: 0 2px 4px #838383;
+        }
+
+        &.on {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  .tree-wrap {
+    position: relative;
+    height: 70vh;
+    width: 100%;
+    padding-top: 25px;
+
+    ::-webkit-scrollbar {
+      width: 0;
+
+      /* Remove scrollbar space */
+      background: transparent;
+
+      /* Optional: just make scrollbar invisible */
+    }
+
+    .ant-row {
+      overflow-y: hidden;
+      overflow-x: scroll;
+      width: 100%;
+      height: 100%;
+
+      .ant-col {
+        stroke-dashoffset: 2px;
+        height: 100%;
+        overflow: scroll;
+        position: relative;
+
+        .tree-block {
+          padding: 0.7rem 1rem;
+          background-color: #f9fafb;
+          margin-bottom: 35px;
+          font-size: 0.8rem;
+          text-align: left;
+          width: 180px;
+          cursor: pointer;
+          transition: all 0.4s ease-in-out;
+          position: relative;
+
+          .ant-select {
+            width: 100%;
+
+            .ant-select-selector {
+              border: 0 none;
+              background-color: transparent;
+              margin-top: 0.3rem;
+              font-size: 0.9rem;
+              padding-left: 0;
+              box-shadow: none;
+
+              .ant-select-selection-item {
+                font-weight: 600;
+              }
+            }
+
+            .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input)
+              .ant-select-selector {
+              border: 0 none;
+              box-shadow: none;
+            }
+
+            .ant-select-selector:hover {
+              color: #0058ff;
+            }
+          }
+        }
+
+        .tree-block:hover {
+          -webkit-box-shadow: inset 0px 0px 0px 2px #0080ff;
+          -moz-box-shadow: inset 0px 0px 0px 2px #0080ff;
+          box-shadow: inset 0px 0px 0px 2px #0080ff;
+        }
+
+        .tree-block.active,
+        .tree-block.active:hover {
+          -webkit-box-shadow: inset 0px 0px 0px 2px #0080ff;
+          box-shadow: inset 0px 0px 0px 2px #0080ff;
+          -moz-box-shadow: inset 0px 0px 0px 2px #0080ff;
+          background-color: #fff;
+        }
+      }
+
+      .ant-col:first-child {
+        border-left: none;
+      }
     }
   }
 }
