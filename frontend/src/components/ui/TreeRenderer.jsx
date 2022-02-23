@@ -99,12 +99,12 @@ const TreeRenderer = ({ nodes }) => {
       });
   };
 
-  const handleColScroll = (e) => {
-    setScroll(e.target.scrollTop);
-    const shade = takeRight(e.target.className.split(" "))[0];
+  const handleColScroll = ({ target }) => {
+    setScroll(target.scrollTop);
+    const shade = takeRight(target.className.split(" "))[0];
     const shadeComponent = document.getElementById(`shade-for-${shade}`);
 
-    if (e.target.scrollTop > 0) {
+    if (target.scrollTop > 0) {
       shadeComponent.classList.add("on");
     } else {
       shadeComponent.classList.remove("on");
@@ -170,9 +170,9 @@ const TreeRenderer = ({ nodes }) => {
             to={`tree-col-0`}
             fromAnchor="right"
             toAnchor="right"
-            delay={0}
-            borderColor="#0058ff"
+            delay={scroll ? 0 : 1}
             orientation="h"
+            borderColor="#0058ff"
             borderStyle="solid"
           />
         )}
@@ -192,13 +192,13 @@ const TreeRenderer = ({ nodes }) => {
                     to={`tree-block-${m}-${childItem.id}`}
                     fromAnchor="right"
                     toAnchor="left"
-                    delay={0}
+                    delay={scroll ? 0 : 1}
+                    orientation="h"
                     borderColor={
                       childItem.active || m >= adminNodes.length - 1
                         ? "#0058ff"
                         : "#707070"
                     }
-                    orientation="h"
                     borderStyle={
                       childItem.active || m >= adminNodes.length - 1
                         ? "solid"
@@ -213,9 +213,9 @@ const TreeRenderer = ({ nodes }) => {
                       to={`tree-col-${m + 1}`}
                       fromAnchor="right"
                       toAnchor="right"
-                      delay={0}
-                      borderColor="#0058ff"
+                      delay={scroll ? 0 : 1}
                       orientation="h"
+                      borderColor="#0058ff"
                       borderStyle="solid"
                     />
                   )}
@@ -227,7 +227,15 @@ const TreeRenderer = ({ nodes }) => {
         ))}
       </Row>
     );
-  }, [nodes, adminNodes, selectedForm, loading, userMenu, scroll]);
+  }, [
+    nodes,
+    adminNodes,
+    selectedForm,
+    loading,
+    userMenu,
+    administration,
+    scroll,
+  ]);
 
   return (
     <>
