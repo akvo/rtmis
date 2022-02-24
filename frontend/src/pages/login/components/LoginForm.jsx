@@ -21,20 +21,18 @@ const LoginForm = () => {
           s.isLoggedIn = true;
           s.user = res.data;
         });
-        api
-          .get("forms/", {
-            headers: { Authorization: `Bearer ${res.data.token}` },
-          })
+        Promise.all([api.get("forms/"), api.get("levels/")])
           .then((res) => {
             store.update((s) => {
-              s.forms = res.data;
+              s.forms = res[0].data;
+              s.levels = res[1].data;
             });
             setLoading(false);
             navigate("/profile");
           })
-          .catch((err) => {
+          .catch((e) => {
             setLoading(false);
-            console.error(err);
+            console.error(e);
             navigate("/profile");
           });
       })
