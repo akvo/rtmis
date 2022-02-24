@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Checkbox, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { api, store } from "../../lib";
+import { api, store } from "../../../lib";
 import { useNavigate } from "react-router-dom";
 
 const checkBoxOptions = [
@@ -13,6 +13,7 @@ const checkBoxOptions = [
 const RegistrationForm = (props) => {
   const { invite } = props;
   const [checkedList, setCheckedList] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const onFinish = (values) => {
@@ -21,24 +22,34 @@ const RegistrationForm = (props) => {
       password: values.password,
       confirm_password: values.confirm,
     };
+    setLoading(true);
     api
       .post("set/user/password/", postData)
       .then((res) => {
         api.setToken(res.data.token);
-        const userData = {
-          name: res.data.name,
-          email: res.data.email,
-          invite: res.data.invite,
-        };
         store.update((s) => {
           s.isLoggedIn = true;
-          s.user = userData;
+          s.user = res.data;
         });
+        Promise.all([api.get("forms/"), api.get("levels/")])
+          .then((res) => {
+            store.update((s) => {
+              s.forms = res[0].data;
+              s.levels = res[1].data;
+            });
+            setLoading(false);
+            navigate("/profile");
+          })
+          .catch((e) => {
+            setLoading(false);
+            console.error(e);
+            navigate("/profile");
+          });
         message.success("Password updated successfully");
-        navigate("/control-center");
       })
       .catch((err) => {
         console.error(err.response.data.message);
+        setLoading(false);
       });
   };
 
@@ -119,7 +130,7 @@ const RegistrationForm = (props) => {
           />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={loading}>
             Set New Password
           </Button>
         </Form.Item>

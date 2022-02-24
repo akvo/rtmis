@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./style.scss";
 import { Row, Col, Card, Button, Table, Tabs, Progress } from "antd";
 import { Link } from "react-router-dom";
-import { store, api } from "../../lib";
 import {
   PlusSquareOutlined,
   CloseSquareOutlined,
@@ -25,7 +24,7 @@ const datasets = [
     buttonLabel: "Data Exports",
     description:
       "Community-led total sanitation (CLTS) is an approach used mainly in developing countries to improve sanitation and hygiene practices in a community. The approach tries to achieve behavior change in mainly rural people by a process of “triggering”, leading to spontaneous and long-term abandonment of open defecation practices.",
-    link: "/",
+    link: "/data/export",
     image: require("../../assets/import.png"),
   },
   {
@@ -33,7 +32,7 @@ const datasets = [
     buttonLabel: "Data Uploads",
     description:
       "WASH is an acronym that stands for “water, sanitation and hygiene”.Universal, affordable and sustainable access to WASH is a key public health issue within international development and is the focus of the first two targets of Sustainable Development Goal 6 (SDG 6).",
-    link: "/",
+    link: "/data/upload",
     image: require("../../assets/upload.png"),
   },
   {
@@ -106,6 +105,66 @@ const approvalsPending = [
       name: "John Doe",
     },
   },
+  {
+    key: "5",
+    filename: "Lorem Ipsum CSV File 1",
+    created_at: "2021-11-08 17:18",
+    completion_status: 100,
+    location: "Baringo",
+    user: {
+      id: 42,
+      name: "Ouma Odhiambo",
+    },
+    waiting_on: {
+      id: 21,
+      name: "K. Choge",
+    },
+  },
+  {
+    key: "6",
+    filename: "Lorem Ipsum CSV File 2",
+    created_at: "2021-11-08 17:18",
+    completion_status: 85,
+    location: "Baringo",
+    user: {
+      id: 42,
+      name: "Ouma Odhiambo",
+    },
+    waiting_on: {
+      id: 22,
+      name: "A. Awiti",
+    },
+  },
+  {
+    key: "7",
+    filename: "Lorem Ipsum CSV File 3",
+    created_at: "2021-11-08 17:18",
+    completion_status: 90,
+    location: "Baringo",
+    user: {
+      id: 42,
+      name: "Ouma Odhiambo",
+    },
+    waiting_on: {
+      id: 23,
+      name: "Ruto Cindy",
+    },
+  },
+  {
+    key: "8",
+    filename: "Lorem Ipsum CSV File 4",
+    created_at: "2021-11-08 17:18",
+    completion_status: 100,
+    location: "Baringo",
+    user: {
+      id: 42,
+      name: "Ouma Odhiambo",
+    },
+    waiting_on: {
+      id: 24,
+      name: "John Doe",
+    },
+  },
 ];
 const approvalsSubordinates = [];
 
@@ -114,12 +173,14 @@ const columns = [
     title: "",
     dataIndex: "key",
     key: "key",
+    width: "40px",
     render: () => <InfoCircleOutlined />,
   },
   {
     title: "File",
     dataIndex: "filename",
     key: "filename",
+    width: "25%",
     render: (filename, row) => (
       <div className="row">
         <div>
@@ -172,23 +233,6 @@ const renderDetails = (record) => {
 };
 
 const ControlCenter = () => {
-  const isLoggedIn = store.useState((state) => state.isLoggedIn);
-
-  const init = () => {
-    api
-      .get("forms/")
-      .then(() => {})
-      .catch((err) => {
-        console.error(err.response.data.message);
-      });
-  };
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      init(); // Test with an auth route
-    }
-  }, [isLoggedIn]);
-
   return (
     <div id="control-center">
       <h1>Control Center</h1>
@@ -234,8 +278,11 @@ const ControlCenter = () => {
             <Tabs defaultActiveKey="1" onChange={() => {}}>
               <TabPane tab="My Pending Approvals" key="1">
                 <Table
+                  className="dev"
                   dataSource={approvalsPending}
                   columns={columns}
+                  pagination={{ position: ["none", "none"] }}
+                  scroll={{ y: 270 }}
                   expandable={{
                     expandedRowRender: renderDetails,
                     expandIcon: ({ expanded, onExpand, record }) =>
@@ -254,9 +301,21 @@ const ControlCenter = () => {
                 />
               </TabPane>
               <TabPane tab="Subordinates Approvals" key="2">
-                <Table dataSource={approvalsSubordinates} columns={columns} />
+                <Table
+                  className="dev"
+                  dataSource={approvalsSubordinates}
+                  columns={columns}
+                />
               </TabPane>
             </Tabs>
+            <Row justify="space-between" className="approval-links">
+              <Link to="/approvals">
+                <Button type="primary">View All</Button>
+              </Link>
+              <Link to="/approvers/tree">
+                <Button className="dev">Manage Approvers</Button>
+              </Link>
+            </Row>
           </Card>
         </Col>
       </Row>

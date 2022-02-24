@@ -8,14 +8,14 @@ import { config, store } from "../../lib";
 
 const Header = ({ className = "header", ...props }) => {
   const { isLoggedIn, user } = store.useState();
-  const [cookies, removeCookie] = useCookies(["user"]);
+  const [cookies, removeCookie] = useCookies(["AUTH_TOKEN"]);
   const navigate = useNavigate();
   const location = useLocation();
 
   const signOut = async () => {
     store.update((s) => {
-      if (cookies["user"]) {
-        removeCookie("user");
+      if (cookies["AUTH_TOKEN"]) {
+        removeCookie("AUTH_TOKEN", "");
       }
       s.isLoggedIn = false;
       s.user = null;
@@ -27,6 +27,9 @@ const Header = ({ className = "header", ...props }) => {
     <Menu>
       <Menu.Item key="controlCenter">
         <Link to="/control-center">Control Center</Link>
+      </Menu.Item>
+      <Menu.Item key="profile">
+        <Link to="/profile">My Profile</Link>
       </Menu.Item>
       <Menu.Item key="signOut" danger>
         <a
@@ -40,7 +43,10 @@ const Header = ({ className = "header", ...props }) => {
     </Menu>
   );
 
-  if (location.pathname.includes("/login")) {
+  if (
+    location.pathname.includes("/login") ||
+    location.pathname.includes("/forgot-password")
+  ) {
     return "";
   }
 
@@ -59,10 +65,18 @@ const Header = ({ className = "header", ...props }) => {
       </Col>
       <Col className="navigation">
         <Space>
-          <Link to="/">Data</Link>
-          <Link to="/">Reports</Link>
-          <Link to="/">Monitoring</Link>
-          <Link to="/">How We Work</Link>
+          <Link className="dev" to="/">
+            Data
+          </Link>
+          <Link className="dev" to="/">
+            Reports
+          </Link>
+          <Link className="dev" to="/">
+            Monitoring
+          </Link>
+          <Link className="dev" to="/">
+            How We Work
+          </Link>
         </Space>
       </Col>
       <Col className="account">

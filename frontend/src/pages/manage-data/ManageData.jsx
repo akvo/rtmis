@@ -1,33 +1,31 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import {
-  Row,
-  Col,
-  Card,
-  Button,
-  Breadcrumb,
-  Divider,
-  Typography,
-  Table,
-  message,
-  ConfigProvider,
-  Empty,
-} from "antd";
-import { Link } from "react-router-dom";
+import { Row, Col, Card, Divider, Table, ConfigProvider, Empty } from "antd";
 import {
   PlusSquareOutlined,
   CloseSquareOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { api, store } from "../../lib";
-import { DataFilters } from "../../components";
+import DataDetail from "./DataDetail";
+import { DataFilters, Breadcrumbs } from "../../components";
 
-const { Title } = Typography;
+const pagePath = [
+  {
+    title: "Control Center",
+    link: "/control-center",
+  },
+  {
+    title: "Manage Data",
+  },
+];
 
 const ManageData = () => {
   const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
   const [query, setQuery] = useState("");
+  const [totalCount, setTotalCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { administration, selectedForm, questionGroups } = store.useState(
     (state) => state
@@ -40,12 +38,6 @@ const ManageData = () => {
 
   const columns = [
     {
-      title: "",
-      dataIndex: "id",
-      key: "id",
-      render: () => <ExclamationCircleOutlined />,
-    },
-    {
       title: "Name",
       dataIndex: "name",
       key: "name",
@@ -53,6 +45,12 @@ const ManageData = () => {
       filteredValue: query.trim() === "" ? [] : [query],
       onFilter: (value, filters) =>
         filters.name.toLowerCase().includes(value.toLowerCase()),
+      render: (value) => (
+        <span className="with-icon">
+          <ExclamationCircleOutlined />
+          {value}
+        </span>
+      ),
     },
     {
       title: "Last Updated",
@@ -70,100 +68,41 @@ const ManageData = () => {
     Table.EXPAND_COLUMN,
   ];
 
-  const handleChange = () => {
-    // setCurrentPage(e.current);
+  const handleChange = (e) => {
+    setCurrentPage(e.current);
   };
 
-  const renderDetails = (record) => {
-    return (
-      <div>
-        <div className="expand-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Field</th>
-                <th>Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              {record.answer.map((answer, answerIdx) => (
-                <tr key={answerIdx}>
-                  <td>
-                    {
-                      questionGroups.find((group) =>
-                        group.question.some(
-                          (item) => item.id === answer.question
-                        )
-                      )?.name
-                    }
-                  </td>
-                  <td>{answer.value}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="expand-footer">
-          <div>
-            <Button danger>Delete</Button>
-          </div>
-          <div>
-            <Button danger>Upload CSV</Button>
-          </div>
-        </div>
-      </div>
-    );
-  };
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedAdministration]);
 
   useEffect(() => {
     if (selectedForm) {
       setLoading(true);
-      let url = `list/form-data/${selectedForm}/?page=1`;
+      let url = `list/form-data/${selectedForm}/?page=${currentPage}`;
       if (selectedAdministration?.id) {
         url += `&administration=${selectedAdministration.id}`;
       }
-      try {
-        api.get(url).then((res) => {
+      api
+        .get(url)
+        .then((res) => {
           setDataset(res.data.data);
-          api.get(`web/form/${selectedForm}`).then((res) => {
-            store.update((s) => {
-              s.questionGroups = res.data.question_group;
-            });
-            setLoading(false);
-          });
+          setTotalCount(res.data.total);
+          setLoading(false);
+        })
+        .catch(() => {
+          setDataset([]);
+          setTotalCount(0);
+          setLoading(false);
         });
-      } catch (err) {
-        message.error("Could not load forms");
-        setLoading(false);
-        console.error(err);
-      }
     }
-  }, [selectedForm, selectedAdministration]);
+  }, [selectedForm, selectedAdministration, currentPage]);
 
   return (
     <div id="manageData">
       <Row justify="space-between">
         <Col>
-          <Breadcrumb
-            separator={
-              <h2 className="ant-typography" style={{ display: "inline" }}>
-                {">"}
-              </h2>
-            }
-          >
-            <Breadcrumb.Item>
-              <Link to="/control-center">
-                <Title style={{ display: "inline" }} level={2}>
-                  Control Center
-                </Title>
-              </Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Title style={{ display: "inline" }} level={2}>
-                Manage Data
-              </Title>
-            </Breadcrumb.Item>
-          </Breadcrumb>
+          <Breadcrumbs pagePath={pagePath} />
         </Col>
       </Row>
       <Divider />
@@ -185,13 +124,16 @@ const ManageData = () => {
             dataSource={dataset}
             loading={loading}
             onChange={handleChange}
-            // pagination={{
-            //   total: totalCount,
-            //   pageSize: 10,
-            // }}
+            pagination={{
+              total: totalCount,
+              pageSize: 10,
+              showSizeChanger: false,
+            }}
             rowKey="id"
             expandable={{
-              expandedRowRender: renderDetails,
+              expandedRowRender: (record) => (
+                <DataDetail questionGroups={questionGroups} record={record} />
+              ),
               expandIcon: ({ expanded, onExpand, record }) =>
                 expanded ? (
                   <CloseSquareOutlined

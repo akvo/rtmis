@@ -1,58 +1,45 @@
 import React, { useEffect, useState } from "react";
 import "./style.scss";
 import { Select, message, Space } from "antd";
-import { useCookies } from "react-cookie";
 import PropTypes from "prop-types";
 
 import { api, store } from "../../lib";
 
 const AdministrationDropdown = ({
   loading: parentLoading = false,
+  withLabel = false,
+  width = 160,
   ...props
 }) => {
-  const { administration } = store.useState((state) => state);
-  const [cookies] = useCookies(["AUTH_TOKEN"]);
+  const { user, administration, isLoggedIn } = store.useState((state) => state);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!cookies.AUTH_TOKEN) {
-      return;
-    }
-    setLoading(true);
-    api
-      .get(`get/profile/`, {
-        headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-      })
-      .then((res) => {
-        api
-          .get(`administration/${res.data.administration.id}/`, {
-            headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-          })
-          .then((adminRes) => {
-            store.update((s) => {
-              s.administration = [
-                {
-                  id: adminRes.data.id,
-                  name: adminRes.data.name,
-                  levelName: adminRes.data.level_name,
-                  children: adminRes.data.children,
-                },
-              ];
-            });
-            setLoading(false);
-          })
-          .catch((err) => {
-            message.error("Could not load filters");
-            setLoading(false);
-            console.error(err);
+    if (isLoggedIn) {
+      setLoading(true);
+      api
+        .get(`administration/${user.administration.id}/`)
+        .then((adminRes) => {
+          store.update((s) => {
+            s.administration = [
+              {
+                id: adminRes.data.id,
+                name: adminRes.data.name,
+                levelName: adminRes.data.level_name,
+                children: adminRes.data.children,
+                childLevelName: adminRes.data.children_level_name,
+              },
+            ];
           });
-      })
-      .catch((err) => {
-        message.error("Could not load filters");
-        setLoading(false);
-        console.error(err);
-      });
-  }, [cookies.AUTH_TOKEN]);
+          setLoading(false);
+        })
+        .catch((err) => {
+          message.error("Could not load filters");
+          setLoading(false);
+          console.error(err);
+        });
+    }
+  }, [user, isLoggedIn]);
 
   const handleChange = (e, index) => {
     if (!e) {
@@ -60,9 +47,7 @@ const AdministrationDropdown = ({
     }
     setLoading(true);
     api
-      .get(`administration/${e}/`, {
-        headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-      })
+      .get(`administration/${e}/`)
       .then((res) => {
         store.update((s) => {
           s.administration.length = index + 1;
@@ -73,6 +58,7 @@ const AdministrationDropdown = ({
               name: res.data.name,
               levelName: res.data.level_name,
               children: res.data.children,
+              childLevelName: res.data.children_level_name,
             },
           ];
         });
@@ -97,26 +83,35 @@ const AdministrationDropdown = ({
         {administration
           .filter((x) => x.children.length)
           .map((region, regionIdx) => (
-            <Select
-              key={regionIdx}
-              placeholder={`Select ${region.levelName}`}
-              style={{ width: 160 }}
-              onChange={(e) => {
-                handleChange(e, regionIdx);
-              }}
-              onClear={() => {
-                handleClear(regionIdx);
-              }}
-              value={administration[regionIdx + 1]?.id || null}
-              disabled={loading || parentLoading}
-              allowClear
-            >
-              {region.children.map((optionValue, optionIdx) => (
-                <Select.Option key={optionIdx} value={optionValue.id}>
-                  {optionValue.name}
-                </Select.Option>
-              ))}
-            </Select>
+            <div key={regionIdx}>
+              {withLabel ? (
+                <label className="ant-form-item-label">
+                  {region?.childLevelName}
+                </label>
+              ) : (
+                ""
+              )}
+              <Select
+                placeholder={`Select ${region?.childLevelName}`}
+                style={{ width: width }}
+                onChange={(e) => {
+                  handleChange(e, regionIdx);
+                }}
+                onClear={() => {
+                  handleClear(regionIdx);
+                }}
+                dropdownMatchSelectWidth={false}
+                value={administration[regionIdx + 1]?.id || null}
+                disabled={loading || parentLoading}
+                allowClear
+              >
+                {region.children.map((optionValue, optionIdx) => (
+                  <Select.Option key={optionIdx} value={optionValue.id}>
+                    {optionValue.name}
+                  </Select.Option>
+                ))}
+              </Select>
+            </div>
           ))}
       </Space>
     );

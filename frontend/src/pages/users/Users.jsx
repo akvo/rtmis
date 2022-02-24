@@ -1,95 +1,23 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import {
-  Row,
-  Col,
-  Card,
-  Button,
-  Breadcrumb,
-  Divider,
-  Checkbox,
-  Typography,
-  Table,
-  message,
-} from "antd";
+import { Row, Col, Card, Button, Divider, Table, message } from "antd";
 import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store } from "../../lib";
-import { useCookies } from "react-cookie";
-import { UserFilters } from "../../components";
+import UserDetail from "./UserDetail";
+import { UserFilters, Breadcrumbs } from "../../components";
 
-const { Title } = Typography;
-
-const renderDetails = (record) => {
-  return (
-    <div>
-      <div className="expand-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Field</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Name</td>
-              <td>
-                <a href="#">
-                  {record.first_name} {record.last_name}
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>Organization</td>
-              <td>
-                <a href="#">-</a>
-              </td>
-            </tr>
-            <tr>
-              <td>Email</td>
-              <td>
-                <a href="#">{record.email}</a>
-              </td>
-            </tr>
-            <tr>
-              <td>Role</td>
-              <td>
-                <a href="#">{record.role?.value}</a>
-              </td>
-            </tr>
-            <tr>
-              <td>Region</td>
-              <td>
-                <a href="#">{record.administration?.name}</a>
-              </td>
-            </tr>
-            <tr>
-              <td>Questionnaire</td>
-              <td>
-                <a href="#">-</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div className="expand-footer">
-        <div>
-          <Checkbox onChange={() => {}}>Inform User of Changes</Checkbox>
-        </div>
-        <div>
-          <Link to={"/user/edit/" + record.id}>
-            <Button type="secondary">Edit</Button>
-          </Link>{" "}
-          <Button danger>Delete</Button>
-        </div>
-      </div>
-    </div>
-  );
-};
+const pagePath = [
+  {
+    title: "Control Center",
+    link: "/control-center",
+  },
+  {
+    title: "Manage Users",
+  },
+];
 
 const Users = () => {
-  const [cookies] = useCookies(["AUTH_TOKEN"]);
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
   const [query, setQuery] = useState("");
@@ -97,9 +25,10 @@ const Users = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { role } = store.useState((state) => state.filters);
-
-  const { administration } = store.useState((state) => state);
+  const { administration, filters, isLoggedIn } = store.useState(
+    (state) => state
+  );
+  const { role } = filters;
 
   const selectedAdministration =
     administration.length > 0
@@ -130,17 +59,6 @@ const Users = () => {
       title: "Role",
       dataIndex: "role",
       render: (role) => role.value || "",
-      filtered: true,
-      filteredValue: role ? [role] : [],
-      filterDropdownVisible: false,
-      filterIcon: () => false,
-      filters: [
-        { text: "Super Admin", value: "Super Admin" },
-        { text: "Admin", value: "Admin" },
-        { text: "Approver", value: "Approver" },
-        { text: "User", value: "User" },
-      ],
-      onFilter: (value, filters) => filters.role.value === value,
     },
     {
       title: "Region",
@@ -155,52 +73,36 @@ const Users = () => {
   };
 
   useEffect(() => {
-    let url = `list/users/?page=${currentPage}&pending=${
-      pending ? "true" : "false"
-    }`;
-    if (selectedAdministration?.id) {
-      url += `&administration=${selectedAdministration.id}`;
+    if (isLoggedIn) {
+      let url = `list/users/?page=${currentPage}&pending=${
+        pending ? "true" : "false"
+      }`;
+      if (selectedAdministration?.id) {
+        url += `&administration=${selectedAdministration.id}`;
+      }
+      if (role) {
+        url += `&role=${role}`;
+      }
+      api
+        .get(url)
+        .then((res) => {
+          setDataset(res.data.data);
+          setTotalCount(res.data.total);
+          setLoading(false);
+        })
+        .catch((err) => {
+          message.error("Could not load users");
+          setLoading(false);
+          console.error(err);
+        });
     }
-    api
-      .get(url, {
-        headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-      })
-      .then((res) => {
-        setDataset(res.data.data);
-        setTotalCount(res.data.total);
-        setLoading(false);
-      })
-      .catch((err) => {
-        message.error("Could not load users");
-        setLoading(false);
-        console.error(err);
-      });
-  }, [cookies.AUTH_TOKEN, pending, currentPage, selectedAdministration]);
+  }, [role, pending, currentPage, selectedAdministration, isLoggedIn]);
 
   return (
     <div id="users">
       <Row justify="space-between">
         <Col>
-          <Breadcrumb
-            separator={
-              <h2 className="ant-typography" style={{ display: "inline" }}>
-                {">"}
-              </h2>
-            }
-          >
-            <Breadcrumb.Item>
-              <Link to="/control-center">
-                <Title style={{ display: "inline" }} level={2}>
-                  Control Center
-                </Title>
-              </Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Title style={{ display: "inline" }} level={2}>
-                Manage Users
-              </Title>
-            </Breadcrumb.Item>
-          </Breadcrumb>
+          <Breadcrumbs pagePath={pagePath} />
         </Col>
         <Col>
           <Link to="/user/add">
@@ -227,12 +129,13 @@ const Users = () => {
           loading={loading}
           onChange={handleChange}
           pagination={{
+            showSizeChanger: false,
             total: totalCount,
             pageSize: 10,
           }}
           rowKey="id"
           expandable={{
-            expandedRowRender: renderDetails,
+            expandedRowRender: UserDetail,
             expandIcon: ({ expanded, onExpand, record }) =>
               expanded ? (
                 <CloseSquareOutlined

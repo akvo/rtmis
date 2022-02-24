@@ -2,7 +2,6 @@ import json
 import os
 
 from django.core.management import BaseCommand
-from django.db.transaction import atomic
 
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, QuestionGroup
@@ -18,7 +17,6 @@ class Command(BaseCommand):
                             default=False,
                             type=int)
 
-    @atomic
     def handle(self, *args, **options):
         test = options.get("test")
         source_folder = './source/forms/'
@@ -27,16 +25,18 @@ class Command(BaseCommand):
             for json_file in os.listdir(source_folder)
         ]
         source_files = list(
-            filter(lambda x: "example" in x
-                   if test else "example" not in x, source_files))
+            filter(lambda x: "example" in x if test else "example" not in x,
+                   source_files))
         Forms.objects.all().delete()
-        for source in source_files:
+        for index, source in enumerate(source_files):
             json_form = open(source, 'r')
             json_form = json.load(json_form)
-            form = Forms(id=json_form["id"],
-                         name=json_form["form"],
-                         version=1,
-                         type=FormTypes.national)
+            form = Forms(
+                id=json_form["id"],
+                name=json_form["form"],
+                version=1,
+                type=FormTypes.national if index > 2 else FormTypes.county
+            )
             form.save()
             for qg in json_form["question_groups"]:
                 question_group = QuestionGroup(name=qg["question_group"],

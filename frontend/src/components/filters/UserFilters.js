@@ -3,11 +3,16 @@ import "./style.scss";
 import { Row, Col, Space, Input, Select, Checkbox } from "antd";
 const { Search } = Input;
 
-import { store } from "../../lib";
+import { store, config } from "../../lib";
 import AdministrationDropdown from "./AdministrationDropdown";
 
+const { Option } = Select;
+
 const UserFilters = ({ query, setQuery, pending, setPending, loading }) => {
-  const { role } = store.useState((state) => state.filters);
+  const { user: authUser, filters } = store.useState((state) => state);
+  const { role } = filters;
+
+  const allowedRole = config.roles.filter((r) => r.id >= authUser.role.id);
 
   return (
     <Row>
@@ -28,7 +33,7 @@ const UserFilters = ({ query, setQuery, pending, setPending, loading }) => {
             style={{ width: 160 }}
             onChange={() => {}}
           >
-            <Select.Option value="Organization 1">Organization 1</Select.Option>
+            <Option value="Organization 1">Organization 1</Option>
           </Select>
           <Select
             placeholder="Role"
@@ -41,16 +46,18 @@ const UserFilters = ({ query, setQuery, pending, setPending, loading }) => {
             }}
             allowClear
           >
-            <Select.Option value="Super Admin">Super Admin</Select.Option>
-            <Select.Option value="Admin">Admin</Select.Option>
-            <Select.Option value="Approver">Approver</Select.Option>
-            <Select.Option value="User">User</Select.Option>
+            {allowedRole.map((r, ri) => (
+              <Option key={ri} value={r.id}>
+                {r.name}
+              </Option>
+            ))}
           </Select>
           <AdministrationDropdown loading={loading} />
         </Space>
       </Col>
       <Col span={4} align="right">
         <Checkbox
+          className="dev"
           onChange={() => {
             setPending(!pending);
           }}

@@ -49,7 +49,7 @@ class FormApprovalAssignment(models.Model):
     administration = models.ForeignKey(
         to=Administration,
         on_delete=models.CASCADE,
-        related_name='administration_data_approval')  # noqa
+        related_name='administration_data_approval')
     user = models.ForeignKey(to=SystemUser,
                              on_delete=models.CASCADE,
                              related_name='user_data_approval')

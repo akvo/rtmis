@@ -1,14 +1,19 @@
 from collections import OrderedDict
 
+from django.db.models import Q
+from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field, inline_serializer
 from rest_framework import serializers
 
-from api.v1.v1_forms.constants import QuestionTypes
+from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, QuestionGroup, Questions, \
-    QuestionOptions
-from api.v1.v1_profile.models import Administration
+    QuestionOptions, FormApprovalRule, FormApprovalAssignment
+from api.v1.v1_profile.models import Administration, Levels
+from api.v1.v1_users.models import SystemUser
 from rtmis.settings import FORM_GEO_VALUE
+from utils.custom_serializer_fields import CustomChoiceField, \
+    CustomPrimaryKeyRelatedField, CustomListField
 
 
 class ListOptionSerializer(serializers.ModelSerializer):
@@ -129,10 +134,20 @@ class WebFormDetailSerializer(serializers.ModelSerializer):
         fields = ['name', 'question_group', 'cascade']
 
 
+class ListFormRequestSerializer(serializers.Serializer):
+    type = CustomChoiceField(choices=list(FormTypes.FieldStr.keys()),
+                             required=False)
+
+
 class ListFormSerializer(serializers.ModelSerializer):
+    type_text = serializers.SerializerMethodField()
+
+    def get_type_text(self, instance):
+        return FormTypes.FieldStr.get(instance.type)
+
     class Meta:
         model = Forms
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'type', 'version', 'type_text']
 
 
 class FormDataListQuestionSerializer(serializers.ModelSerializer):
@@ -197,3 +212,137 @@ class FormDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = Forms
         fields = ['id', 'name', 'question_group']
+
+
+class EditFormTypeSerializer(serializers.ModelSerializer):
+    form_id = CustomPrimaryKeyRelatedField(queryset=Forms.objects.none())
+    type = CustomChoiceField(choices=list(FormTypes.FieldStr.keys()))
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get('form_id').queryset = Forms.objects.all()
+
+    def create(self, validated_data):
+        form: Forms = validated_data.get('form_id')
+        form.type = validated_data.get('type')
+        form.save()
+        return form
+
+    class Meta:
+        model = Forms
+        fields = ['form_id', 'type']
+
+
+class EditFormApprovalSerializer(serializers.ModelSerializer):
+    form_id = CustomPrimaryKeyRelatedField(queryset=Forms.objects.none(),
+                                           source='form')
+    level_id = CustomListField(
+        child=CustomPrimaryKeyRelatedField(queryset=Levels.objects.none()),
+        source='levels')
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get('form_id').queryset = Forms.objects.all()
+        self.fields.get('level_id').child.queryset = Levels.objects.all()
+
+    def create(self, validated_data):
+        administration = self.context.get('user').user_access.administration
+        FormApprovalRule.objects.filter(form=validated_data.get('form'),
+                                        administration=administration).delete()
+
+        validated_data['administration'] = administration
+        rule: FormApprovalRule = super(EditFormApprovalSerializer,
+                                       self).create(validated_data)
+        if administration.path:
+            path = f"{administration.path}{administration.id}."
+        else:
+            path = f"{administration.id}."
+
+        # Get descendants of current admin with selected level
+        descendants = list(Administration.objects.filter(
+            path__startswith=path,
+            level_id__in=rule.levels.all().values_list('id',
+                                                       flat=True)).values_list(
+            'id', flat=True))
+        # Delete assignment for the removed levels
+        FormApprovalAssignment.objects.filter(
+            ~Q(administration_id__in=descendants), form=rule.form).delete()
+        return rule
+
+    class Meta:
+        model = FormApprovalRule
+        fields = ['form_id', 'level_id']
+
+
+class ApprovalFormUserSerializer(serializers.ModelSerializer):
+    user_id = CustomPrimaryKeyRelatedField(queryset=SystemUser.objects.none(),
+                                           source='user')
+    administration_id = CustomPrimaryKeyRelatedField(
+        queryset=Administration.objects.none(), source='administration')
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get('user_id').queryset = SystemUser.objects.all()
+        self.fields.get(
+            'administration_id').queryset = Administration.objects.all()
+
+    def create(self, validated_data):
+        print(validated_data)
+
+        assignment, created = FormApprovalAssignment.objects.get_or_create(
+            form=self.context.get('form'),
+            administration=validated_data.get('administration'),
+            user=validated_data.get('user')
+        )
+        if not created:
+            assignment.updated = timezone.now()
+            assignment.save()
+        return assignment
+
+    class Meta:
+        model = FormApprovalAssignment
+        fields = ['user_id', 'administration_id']
+
+
+class FormApprovalLevelListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FormApprovalRule
+        fields = ['form_id', 'levels']
+
+
+class FormApproverRequestSerializer(serializers.Serializer):
+    administration_id = CustomPrimaryKeyRelatedField(
+        queryset=Administration.objects.none())
+    form_id = CustomPrimaryKeyRelatedField(
+        queryset=Forms.objects.none())
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get('form_id').queryset = Forms.objects.all()
+        self.fields.get(
+            'administration_id').queryset = Administration.objects.all()
+
+
+class FormApproverUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SystemUser
+        fields = ['id', 'first_name', 'last_name', 'email']
+
+
+class FormApproverResponseSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+    administration = serializers.SerializerMethodField()
+
+    def get_user(self, instance: Administration):
+        assignment = instance.administration_data_approval.filter(
+            form=self.context.get('form')).first()
+        if assignment:
+            return FormApproverUserSerializer(instance=assignment.user).data
+        return None
+
+    def get_administration(self, instance: Administration):
+        return {'id': instance.id, 'name': instance.name}
+
+    class Meta:
+        model = Administration
+        fields = ['user', 'administration']

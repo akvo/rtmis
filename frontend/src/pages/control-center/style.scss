@@ -25,6 +25,10 @@
         .ant-tabs {
           margin-top: 20px;
 
+          .ant-table-wrapper {
+            border: 1px solid #f7f7f7;
+          }
+
           .ant-table-cell {
             .ant-progress {
               margin-right: 20px;
@@ -52,6 +56,20 @@
               }
             }
           }
+        }
+
+        button.light {
+          background-color: #b2b3b7;
+          color: #fffe;
+          font-weight: 600;
+          width: auto;
+          margin-left: 0.4rem;
+          border: 0 none;
+        }
+
+        button.light:hover {
+          background-color: #969799;
+          border: 0 none;
         }
       }
     }
@@ -82,6 +100,12 @@
           color: #595b65;
           margin-top: 20px;
         }
+      }
+    }
+
+    .ant-row {
+      &.approval-links {
+        margin-top: 20px;
       }
     }
   }
