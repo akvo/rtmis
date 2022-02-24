@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col, Button } from "antd";
 import backgroundImage from "../../assets/banner.png";
 import { Link, useLocation } from "react-router-dom";
-import ComingSoon from "./custom/CommingSoon";
+import ComingSoon from "./custom/ComingSoon";
 
 const styles = {
   banner: {
