@@ -29,19 +29,19 @@ const RegistrationForm = (props) => {
           s.isLoggedIn = true;
           s.user = res.data;
         });
-        api
-          .get("forms/", {
-            headers: { Authorization: `Bearer ${res.data.token}` },
-          })
+        Promise.all([api.get("forms/"), api.get("levels/")])
           .then((res) => {
             store.update((s) => {
-              s.forms = res.data;
+              s.forms = res[0].data;
+              s.levels = res[1].data;
             });
-            navigate("/control-center");
+            setLoading(false);
+            navigate("/profile");
           })
-          .catch((err) => {
-            console.error(err);
-            navigate("/control-center");
+          .catch((e) => {
+            setLoading(false);
+            console.error(e);
+            navigate("/profile");
           });
         message.success("Password updated successfully");
       })
