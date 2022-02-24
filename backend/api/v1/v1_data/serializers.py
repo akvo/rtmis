@@ -2,10 +2,14 @@ from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from api.v1.v1_data.models import FormData, Answers
+from api.v1.v1_data.constants import DataApprovalStatus
+from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
+    PendingAnswers, PendingDataApproval
 from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Questions, QuestionOptions
+from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration
+from api.v1.v1_users.models import SystemUser
 from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
     UnvalidatedField, CustomListField, CustomCharField
 from utils.functions import update_date_time_format, get_answer_value
@@ -257,3 +261,93 @@ class ListChartQuestionDataPointSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestionOptions
         fields = ['name', 'value']
+
+
+class ListPendingFormDataRequestSerializer(serializers.Serializer):
+    administration = CustomPrimaryKeyRelatedField(
+        queryset=Administration.objects.none(), required=False)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get(
+            'administration').queryset = Administration.objects.all()
+
+
+class ListPendingDataAnswerSerializer(serializers.ModelSerializer):
+    history = serializers.SerializerMethodField()
+    value = serializers.SerializerMethodField()
+
+    def get_history(self, instance):
+        return False
+
+    def get_value(self, instance: Answers):
+        return get_answer_value(instance)
+
+    class Meta:
+        model = PendingAnswers
+        fields = ['history', 'question', 'value']
+
+
+class ListPendingFormDataSerializer(serializers.ModelSerializer):
+    created_by = serializers.SerializerMethodField()
+    created = serializers.SerializerMethodField()
+    administration = serializers.ReadOnlyField(source='administration.name')
+    answer = serializers.SerializerMethodField()
+    approver = serializers.SerializerMethodField()
+
+    def get_created_by(self, instance: PendingFormData):
+        return instance.created_by.get_full_name()
+
+    def get_created(self, instance: PendingFormData):
+        return update_date_time_format(instance.created)
+
+    @extend_schema_field(ListPendingDataAnswerSerializer(many=True))
+    def get_answer(self, instance: PendingFormData):
+        filter_data = {}
+        if self.context.get('questions') and len(
+                self.context.get('questions')):
+            filter_data['question__in'] = self.context.get('questions')
+        return ListPendingDataAnswerSerializer(
+            instance=instance.pending_data_answer.filter(**filter_data),
+            many=True).data
+
+    def get_approver(self, instance: PendingFormData):
+        user: SystemUser = self.context.get('user')
+        data = {}
+        if user.user_access.role == UserRoleTypes.admin:
+            approval: PendingDataApproval = instance.pending_data_form_approval.order_by(
+                'level__level').first()
+            data['name'] = approval.user.get_full_name()
+            data['status'] = approval.status
+            data['status_text'] = DataApprovalStatus.FieldStr.get(
+                approval.status)
+            data['allow_approve'] = False
+
+        else:
+            if len(self.context.get('descendants')) == 0:
+                data['name'] = user.get_full_name()
+                approval = instance.pending_data_form_approval.get(user=user)
+                data['status'] = approval.status
+                data['status_text'] = DataApprovalStatus.FieldStr.get(
+                    approval.status)
+                data['allow_approve'] = True
+            else:
+                level = user.user_access.administration.level
+                approval: PendingDataApproval = instance.pending_data_form_approval.filter(
+                    level__level__gt=level.level).order_by(
+                    'level__level').first()
+                data['name'] = approval.user.get_full_name()
+                data['status'] = approval.status
+                data['status_text'] = DataApprovalStatus.FieldStr.get(
+                    approval.status)
+                if approval.status == DataApprovalStatus.approved:
+                    data['allow_approve'] = True
+                else:
+                    data['allow_approve'] = False
+
+        return data
+
+    class Meta:
+        model = PendingFormData
+        fields = ['id', 'name', 'form', 'administration', 'geo', 'created_by',
+                  'created', 'approver', 'answer']
