@@ -27,16 +27,16 @@ const Footer = ({ className = "footer", ...props }) => {
             <li>Phone : +254 123436789</li>
             <li>Email : info@nashrtmis.co.ke</li>
           </ul>
-          <Button type="primary" size="small">
+          <Button className="dev" size="small">
             Contact Us
           </Button>
         </Col>
         <Col span={4}>
           <h3>Quick Links</h3>
           <ul>
-            <li> JMP </li>
-            <li> CLTS </li>
-            <li> GLASS </li>
+            <li className="dev"> JMP </li>
+            <li className="dev"> CLTS </li>
+            <li className="dev"> GLASS </li>
           </ul>
         </Col>
         <Col span={3}>
@@ -50,8 +50,12 @@ const Footer = ({ className = "footer", ...props }) => {
         <Col>Copyright 2021</Col>
         <Col>
           <Space>
-            <Link to="/">Terms of Service</Link>
-            <Link to="/">Privacy Policy</Link>
+            <Link className="dev" to="/">
+              Terms of Service
+            </Link>
+            <Link className="dev" to="/">
+              Privacy Policy
+            </Link>
           </Space>
         </Col>
       </Row>

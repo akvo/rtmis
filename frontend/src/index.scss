@@ -10,4 +10,58 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   letter-spacing: 0.11px;
+
+  #root {
+    /* Development Mode */
+    a.dev {
+      border: 1px double red;
+      color: red !important;
+    }
+
+    button {
+      &.dev {
+        border: 1px double red;
+        color: red !important;
+        background: #253239;
+      }
+
+      &.ant-btn-background-ghost {
+        &.dev {
+          background: none;
+          color: red !important;
+          border: 1px double red !important;
+          padding: 2px 5px;
+          border-radius: 0px;
+          font-weight: 300 !important;
+          margin-left: 5px;
+        }
+      }
+    }
+
+    .ant-table-wrapper {
+      &.dev {
+        border: 1px solid red !important;
+        box-shadow: 0px 0px 2px red;
+        -webkit-box-shadow: 0px 0px 2px red;
+        -moz-box-shadow: 0px 0px 2px red;
+      }
+    }
+
+    .ant-checkbox-wrapper {
+      &.dev {
+        border: 1px solid red !important;
+        padding: 0px 5px;
+      }
+    }
+
+    li {
+      &.dev {
+        border: 1px solid red !important;
+        padding: 1px 5px;
+        margin-bottom: 2px;
+      }
+    }
+
+    /* End Development Mode */
+  }
 }

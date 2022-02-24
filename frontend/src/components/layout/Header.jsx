@@ -65,10 +65,18 @@ const Header = ({ className = "header", ...props }) => {
       </Col>
       <Col className="navigation">
         <Space>
-          <Link to="/">Data</Link>
-          <Link to="/">Reports</Link>
-          <Link to="/">Monitoring</Link>
-          <Link to="/">How We Work</Link>
+          <Link className="dev" to="/">
+            Data
+          </Link>
+          <Link className="dev" to="/">
+            Reports
+          </Link>
+          <Link className="dev" to="/">
+            Monitoring
+          </Link>
+          <Link className="dev" to="/">
+            How We Work
+          </Link>
         </Space>
       </Col>
       <Col className="account">

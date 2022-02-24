@@ -324,30 +324,10 @@ const columnsRawData = [
     title: "",
     dataIndex: "key",
     key: "key",
-    // width: 40,
+    width: 40,
   },
   {
-    title: "County",
-    dataIndex: "county",
-    key: "county",
-  },
-  {
-    title: "Sub-county",
-    dataIndex: "subcounty",
-    key: "subcounty",
-  },
-  {
-    title: "Ward",
-    dataIndex: "ward",
-    key: "ward",
-  },
-  {
-    title: "Sub-Location",
-    dataIndex: "sublocation",
-    key: "sublocation",
-  },
-  {
-    title: "Community",
+    title: "Location",
     dataIndex: "community",
     key: "community",
   },
@@ -360,11 +340,13 @@ const columnsRawData = [
     title: "Monitor",
     dataIndex: "monitor",
     key: "monitor",
+    width: 200,
   },
   {
     title: "No exposed Human excreta",
     dataIndex: "q1",
     key: "q1",
+    align: "center",
   },
 ];
 
@@ -374,7 +356,7 @@ const renderDetails = () => {
       <Tabs centered defaultActiveKey="1" onChange={() => {}}>
         <TabPane tab="Data Summary" key="1">
           <div>
-            <table>
+            <table className="dev">
               <thead>
                 <tr>
                   <th>Field</th>
@@ -439,9 +421,10 @@ const renderDetails = () => {
         </TabPane>
         <TabPane tab="Raw Data" key="2">
           <Table
+            className="dev"
             dataSource={datasetRawdata}
             columns={columnsRawData}
-            scroll={{ x: "max-content" }}
+            scroll={{ y: 300 }}
             pagination={false}
           />
         </TabPane>
@@ -456,8 +439,8 @@ const renderDetails = () => {
           </Row>
         </Col>
         <Col>
-          <Button className="light">Decline</Button>
-          <Button type="primary" htmlType="submit">
+          <Button className="light dev">Decline</Button>
+          <Button className="primary dev" htmlType="submit">
             Approve
           </Button>
         </Col>
@@ -498,6 +481,7 @@ const Approvals = () => {
         <Tabs defaultActiveKey="1" onChange={() => {}}>
           <TabPane tab="My Pending Approvals" key="1">
             <Table
+              className="dev"
               dataSource={approvalsPending}
               columns={columns}
               pagination={{ position: ["none", "none"] }}
@@ -532,7 +516,11 @@ const Approvals = () => {
             />
           </TabPane>
           <TabPane tab="Subordinates Approvals" key="2">
-            <Table dataSource={approvalsSubordinates} columns={columns} />
+            <Table
+              className="dev"
+              dataSource={approvalsSubordinates}
+              columns={columns}
+            />
           </TabPane>
         </Tabs>
       </Card>
