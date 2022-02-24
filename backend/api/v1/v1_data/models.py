@@ -90,7 +90,7 @@ class PendingAnswers(models.Model):
     question = models.ForeignKey(to=Questions,
                                  on_delete=models.CASCADE,
                                  related_name='question_pending_answer')
-    name = models.TextField()
+    name = models.TextField(null=True, default=None)
     value = models.BigIntegerField(null=True, default=None)
     options = models.JSONField(default=None, null=True)
     created_by = models.ForeignKey(to=SystemUser,
