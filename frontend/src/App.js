@@ -1,6 +1,6 @@
 import "./App.scss";
 import React, { useEffect, useState } from "react";
-import { Route, Navigate, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import {
   Home,
   Login,
@@ -13,6 +13,7 @@ import {
   QuestionnairesAdmin,
   Approvals,
   Approvers,
+  ApproversTree,
   Profile,
 } from "./pages";
 import { message, Spin } from "antd";
@@ -21,7 +22,7 @@ import { store, api } from "./lib";
 import { Layout } from "./components";
 
 const App = () => {
-  const authUser = store.useState((state) => state.user);
+  const { user: authUser, isLoggedIn } = store.useState((state) => state);
   const [cookies, removeCookie] = useCookies(["AUTH_TOKEN"]);
   const [loading, setLoading] = useState(true);
 
@@ -29,6 +30,7 @@ const App = () => {
     if (
       !location.pathname.includes("/login") &&
       !authUser &&
+      !isLoggedIn &&
       cookies &&
       cookies.AUTH_TOKEN
     ) {
@@ -72,7 +74,7 @@ const App = () => {
     } else {
       setLoading(false);
     }
-  }, [authUser, removeCookie, cookies]);
+  }, [authUser, isLoggedIn, removeCookie, cookies]);
 
   if (loading) {
     return (
@@ -101,6 +103,7 @@ const App = () => {
           <Route exact path="/" element={<Home />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/login/:invitationId" element={<Login />} />
+          <Route exact path="/forgot-password" element={<Login />} />
           <Route exact path="/data" element={<Home />} />
           <Route exact path="/form/:formId" element={<Forms />} />
           <Route
@@ -138,9 +141,16 @@ const App = () => {
             element={authUser ? <Approvers /> : <Navigate to="/login" />}
           />
           <Route
+            path="/approvers/tree"
+            element={authUser ? <ApproversTree /> : <Navigate to="/login" />}
+          />
+          <Route
             path="/profile"
             element={authUser ? <Profile /> : <Navigate to="/login" />}
           />
+          <Route exact path="/coming-soon" element={<div />} />
+          <Route exact path="/not-found" element={<div />} />
+          <Route path="*" element={<Navigate replace to="/not-found" />} />
         </Routes>
       </Layout.Body>
       <Layout.Footer />

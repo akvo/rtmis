@@ -9,4 +9,6 @@ export { default as Questionnaires } from "./questionnaires/Questionnaires";
 export { default as QuestionnairesAdmin } from "./questionnaires/QuestionnairesAdmin";
 export { default as Approvals } from "./approvals/Approvals";
 export { default as Approvers } from "./questionnaires/Approvers";
+export { default as ApproversTree } from "./approvers-tree/ApproversTree";
 export { default as Profile } from "./profile/Profile";
+export { default as ComingSoon } from "./special/ComingSoon";
