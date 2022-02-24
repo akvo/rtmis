@@ -15,7 +15,6 @@ import {
   Approvers,
   ApproversTree,
   Profile,
-  ComingSoon,
 } from "./pages";
 import { message, Spin } from "antd";
 import { useCookies } from "react-cookie";
