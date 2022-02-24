@@ -11,5 +11,4 @@ export { default as Approvals } from "./approvals/Approvals";
 export { default as Approvers } from "./questionnaires/Approvers";
 export { default as ApproversTree } from "./approvers-tree/ApproversTree";
 export { default as Profile } from "./profile/Profile";
-export { default as ErrorPage } from "./special/ErrorPage";
 export { default as ComingSoon } from "./special/ComingSoon";
