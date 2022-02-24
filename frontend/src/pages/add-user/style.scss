@@ -1,13 +1,28 @@
 @import "../../variables";
 
 #root {
-  #addUser {
+  #add-user {
     padding-bottom: 30px;
 
     .ant-card {
       text-align: left;
       margin-bottom: 30px;
 
+      .form-row-adm {
+        .ant-space {
+          width: 100%;
+
+          .ant-space-item {
+            width: 100%;
+
+            .ant-select {
+              width: 100%;
+            }
+          }
+        }
+      }
+
+      .form-row-adm,
       .form-row {
         margin-bottom: 8px;
 
@@ -24,10 +39,6 @@
       .ant-row {
         .ant-col:first-child {
           padding-right: 10px;
-        }
-
-        .ant-col:nth-child(2) {
-          padding-left: 10px;
         }
       }
     }
