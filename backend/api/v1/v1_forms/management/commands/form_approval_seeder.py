@@ -12,7 +12,7 @@ class Command(BaseCommand):
         for form in Forms.objects.all():
             for user in Access.objects.filter(
                     administration__level=Levels.objects.filter(
-                        level=1).first()):
+                        level=1).first()).distinct('administration_id'):
                 randoms = Levels.objects.filter(level__gt=1).count()
                 randoms = [n + 1 for n in range(randoms)]
                 limit = random.choices(randoms)
