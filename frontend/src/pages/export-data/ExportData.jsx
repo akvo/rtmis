@@ -54,19 +54,6 @@ const ExportData = () => {
         </Row>
       ),
     },
-    // {
-    //   title: "Last Updated",
-    //   dataIndex: "updated",
-    //   render: (cell, row) => cell || row.created,
-    // },
-    // {
-    //   title: "User",
-    //   dataIndex: "created_by",
-    // },
-    // {
-    //   title: "Region",
-    //   dataIndex: "administration",
-    // },
   ];
 
   useEffect(() => {
