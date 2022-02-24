@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col, Button } from "antd";
 import backgroundImage from "../../assets/banner.png";
 import { Link, useLocation } from "react-router-dom";
+import { ComingSoon } from "../../pages";
 
 const styles = {
   banner: {
@@ -60,10 +61,29 @@ const ErrorBanner = ({ status, message, description }) => {
   );
 };
 
+const ComingSoonBanner = () => {
+  return (
+    <>
+      <h1>
+        Welcome to the National
+        <br />
+        Sanitation and Hygiene
+        <br />
+        Real-Time Monitoring System
+      </h1>
+      <ComingSoon />
+    </>
+  );
+};
+
 const Banner = () => {
   const { pathname } = useLocation();
 
-  if (pathname !== "/" && pathname !== "/not-found") {
+  if (
+    pathname !== "/" &&
+    pathname !== "/not-found" &&
+    pathname !== "/coming-soon"
+  ) {
     return "";
   }
 
@@ -71,10 +91,12 @@ const Banner = () => {
     <div style={styles.banner}>
       <Row className="banner" align="middle">
         <Col span={20}>
-          {pathname !== "/not-found" ? (
-            <HomeBanner />
-          ) : (
+          {pathname === "/not-found" ? (
             <ErrorBanner status={404} />
+          ) : pathname === "/coming-soon" ? (
+            <ComingSoonBanner />
+          ) : (
+            <HomeBanner />
           )}
         </Col>
       </Row>
