@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_forms.models import Forms, Questions
-from api.v1.v1_profile.models import Administration
+from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 
 
@@ -49,6 +49,7 @@ class PendingFormData(models.Model):
         related_name='administration_pending_form_data')  # noqa
     geo = models.JSONField(null=True, default=None)
     approved = models.BooleanField(default=False)
+    batch = models.UUIDField(default=None, null=True)
     created_by = models.ForeignKey(to=SystemUser,
                                    on_delete=models.CASCADE,
                                    related_name='pending_form_data_created')
@@ -69,6 +70,9 @@ class PendingDataApproval(models.Model):
     user = models.ForeignKey(to=SystemUser,
                              on_delete=models.CASCADE,
                              related_name='user_assigned_pending_data')
+    level = models.ForeignKey(to=Levels,
+                              on_delete=models.CASCADE,
+                              related_name='level_assigned_pending_data')
     status = models.IntegerField(choices=DataApprovalStatus.FieldStr.items(),
                                  default=DataApprovalStatus.pending)
 
