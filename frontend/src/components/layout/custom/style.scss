@@ -1,0 +1,21 @@
+@import "../../../variables";
+
+#coming-soon {
+  .countdown-wrap {
+    color: #fff;
+    font-size: $font-size-large;
+
+    & .ant-row {
+      & .ant-col:nth-child(2n) {
+        padding: 0 1rem;
+        font-size: $font-size-large;
+        font-weight: 400;
+      }
+
+      & .ant-col > div:nth-child(2) {
+        font-size: $font-size-large;
+        font-weight: 500;
+      }
+    }
+  }
+}

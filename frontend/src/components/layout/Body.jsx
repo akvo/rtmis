@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 
 const Body = ({ children, className = "body", ...props }) => {
   const { pathname } = useLocation();
-  if (pathname === "/not-found") {
+  if (["/not-found", "/coming-soon"].includes(pathname)) {
     return "";
   }
   return (
