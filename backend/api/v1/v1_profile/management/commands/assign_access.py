@@ -37,9 +37,14 @@ class Command(BaseCommand):
                 level=Levels.objects.filter(
                     level=1).first()).order_by('?').first()
             role = UserRoleTypes.admin
-        Access.objects.create(user=user,
-                              role=role,
-                              administration=administration)
+        access = Access.objects.filter(user=user).first()
+        if not access:
+            Access.objects.create(user=user,
+                                  role=role,
+                                  administration=administration)
+        else:
+            access.administration = administration
+            access.save()
         if not options.get("test"):
             self.stdout.write(
                 f"{user.email} now has access to {administration.name}")
