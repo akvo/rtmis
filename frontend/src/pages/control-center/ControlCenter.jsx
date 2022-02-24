@@ -278,6 +278,7 @@ const ControlCenter = () => {
             <Tabs defaultActiveKey="1" onChange={() => {}}>
               <TabPane tab="My Pending Approvals" key="1">
                 <Table
+                  className="dev"
                   dataSource={approvalsPending}
                   columns={columns}
                   pagination={{ position: ["none", "none"] }}
@@ -300,15 +301,19 @@ const ControlCenter = () => {
                 />
               </TabPane>
               <TabPane tab="Subordinates Approvals" key="2">
-                <Table dataSource={approvalsSubordinates} columns={columns} />
+                <Table
+                  className="dev"
+                  dataSource={approvalsSubordinates}
+                  columns={columns}
+                />
               </TabPane>
             </Tabs>
             <Row justify="space-between" className="approval-links">
               <Link to="/approvals">
-                <Button className="light">View All</Button>
+                <Button type="primary">View All</Button>
               </Link>
               <Link to="/approvers/tree">
-                <Button className="light">Manage Approvers</Button>
+                <Button className="dev">Manage Approvers</Button>
               </Link>
             </Row>
           </Card>

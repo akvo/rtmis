@@ -66,7 +66,7 @@ const UploadData = () => {
               </Option>
             ))}
           </Select>
-          <Button className="light">Download</Button>
+          <Button className="light dev">Download</Button>
         </Space>
         <Space align="center" size={32}>
           <img src={dataUploadIcon} />
@@ -86,7 +86,7 @@ const UploadData = () => {
               <FileTextFilled style={{ color: "#707070" }} />
             </p>
             <p className="ant-upload-text">Drop your file here</p>
-            <Button type="primary">Browse your computer</Button>
+            <Button className="dev">Browse your computer</Button>
           </Dragger>
         </div>
       </Card>

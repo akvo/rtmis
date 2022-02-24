@@ -49,8 +49,12 @@ const ExportData = () => {
     {
       render: () => (
         <Row>
-          <Button ghost>Download</Button>
-          <Button ghost>Delete</Button>
+          <Button ghost className="dev">
+            Download
+          </Button>
+          <Button ghost className="dev">
+            Delete
+          </Button>
         </Row>
       ),
     },
@@ -87,6 +91,7 @@ const ExportData = () => {
       >
         <ConfigProvider renderEmpty={() => <Empty description="No data" />}>
           <Table
+            className="dev"
             columns={columns}
             dataSource={dataset}
             showHeader={false}

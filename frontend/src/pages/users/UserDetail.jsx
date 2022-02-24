@@ -38,6 +38,11 @@ const UserDetail = (record) => {
               value: `${record?.role?.value || "-"}`,
             },
             {
+              key: "invite",
+              field: "Invitation Code",
+              value: `/login/${record?.invite || "-"}`,
+            },
+            {
               key: "region",
               field: "Region",
               value: `${record?.administration?.name || "-"}`,

@@ -24,10 +24,10 @@ const DataFilters = ({ loading }) => {
             </Link>
           </Col>
           <Col>
-            <Button className="light">Bulk Update</Button>
+            <Button className="light dev">Bulk Update</Button>
           </Col>
           <Col>
-            <Button className="light">Export Data</Button>
+            <Button className="light dev">Export Data</Button>
           </Col>
         </Row>
       </Col>
