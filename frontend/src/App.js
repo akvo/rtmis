@@ -15,6 +15,8 @@ import {
   Approvers,
   ApproversTree,
   Profile,
+  ExportData,
+  UploadData,
 } from "./pages";
 import { message, Spin } from "antd";
 import { useCookies } from "react-cookie";
@@ -145,6 +147,14 @@ const App = () => {
           <Route
             path="/profile"
             element={authUser ? <Profile /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/data/export"
+            element={authUser ? <ExportData /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/data/upload"
+            element={authUser ? <UploadData /> : <Navigate to="/login" />}
           />
           <Route exact path="/coming-soon" element={<div />} />
           <Route exact path="/not-found" element={<div />} />

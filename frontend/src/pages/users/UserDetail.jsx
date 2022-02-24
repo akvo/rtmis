@@ -38,6 +38,17 @@ const UserDetail = (record) => {
               value: `${record?.role?.value || "-"}`,
             },
             {
+              key: "invite",
+              field: "Invitation Code",
+              value: (
+                <Link to={`/login/${record?.invite}`}>
+                  <Button className="dev" size="small">
+                    Change Password [Dev Only]
+                  </Button>
+                </Link>
+              ),
+            },
+            {
               key: "region",
               field: "Region",
               value: `${record?.administration?.name || "-"}`,

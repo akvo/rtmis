@@ -47,10 +47,12 @@ const DataDetail = ({ questionGroups, record }) => {
       </Col>
       <Divider />
       <Col span={10} align="left">
-        <Button danger>Delete</Button>
+        <Button danger className="dev">
+          Delete
+        </Button>
       </Col>
       <Col span={10} align="right">
-        <Button className="light">Upload CSV</Button>
+        <Button className="light dev">Upload CSV</Button>
       </Col>
     </Row>
   );
