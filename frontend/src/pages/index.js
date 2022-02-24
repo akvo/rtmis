@@ -12,3 +12,4 @@ export { default as Approvers } from "./questionnaires/Approvers";
 export { default as ApproversTree } from "./approvers-tree/ApproversTree";
 export { default as Profile } from "./profile/Profile";
 export { default as ComingSoon } from "./special/ComingSoon";
+export { default as ExportData } from "./export-data/ExportData";
