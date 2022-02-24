@@ -1,0 +1,52 @@
+@import "../../variables";
+
+#root {
+  & .layout {
+    & .body {
+      // padding: 0 0 0 0;
+      #comingSoon {
+        .wrapper {
+          min-height: 56vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: flex-start;
+          padding: 0 3rem;
+
+          & h1 {
+            color: #fff;
+            font-size: 3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+          }
+
+          & h2 {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-top: 2.4rem;
+          }
+
+          .countdown-wrap {
+            color: #fff;
+            font-size: 1rem;
+            margin-top: 0.7rem;
+
+            & .ant-row {
+              & .ant-col:nth-child(2n) {
+                padding: 0 1rem;
+                font-size: 2.3rem;
+                font-weight: 400;
+              }
+
+              & .ant-col > div:nth-child(2) {
+                font-size: 2.3rem;
+                font-weight: 500;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
