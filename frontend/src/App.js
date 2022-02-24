@@ -45,19 +45,17 @@ const App = () => {
             s.user = res.data;
           });
           api.setToken(cookies.AUTH_TOKEN);
-          api
-            .get("forms/", {
-              headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-            })
+          Promise.all([api.get("forms/"), api.get("levels/")])
             .then((res) => {
               store.update((s) => {
-                s.forms = res.data;
+                s.forms = res[0].data;
+                s.levels = res[1].data;
               });
               setLoading(false);
             })
-            .catch((err) => {
+            .catch((e) => {
               setLoading(false);
-              console.error(err);
+              console.error(e);
             });
         })
         .catch((err) => {

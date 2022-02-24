@@ -34,7 +34,7 @@ const renderer = ({ days, hours, minutes, seconds, completed }) => {
 
 const ComingSoon = () => {
   return (
-    <div className="coming-soon">
+    <div id="coming-soon">
       <h2>Launching in:</h2>
       <div className="countdown-wrap">
         <Countdown date="2022-07-01" renderer={renderer} />
