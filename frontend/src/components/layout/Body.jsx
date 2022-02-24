@@ -1,7 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useLocation } from "react-router-dom";
 
 const Body = ({ children, className = "body", ...props }) => {
+  const { pathname } = useLocation();
+  if (pathname === "/not-found") {
+    return "";
+  }
   return (
     <div className={className} {...props}>
       {children}
