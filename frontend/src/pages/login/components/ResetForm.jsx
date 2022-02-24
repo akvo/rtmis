@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Checkbox, message } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { Link, useNavigate } from "react-router-dom";
-import { api, store } from "../../lib";
+import { Form, Input, Button, message } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+import { api, store } from "../../../lib";
 
-const LoginForm = () => {
+const ResetForm = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -21,18 +21,20 @@ const LoginForm = () => {
           s.isLoggedIn = true;
           s.user = res.data;
         });
-        Promise.all([api.get("forms/"), api.get("levels/")])
+        api
+          .get("forms/", {
+            headers: { Authorization: `Bearer ${res.data.token}` },
+          })
           .then((res) => {
             store.update((s) => {
-              s.forms = res[0].data;
-              s.levels = res[1].data;
+              s.forms = res.data;
             });
             setLoading(false);
             navigate("/profile");
           })
-          .catch((e) => {
+          .catch((err) => {
             setLoading(false);
-            console.error(e);
+            console.error(err);
             navigate("/profile");
           });
       })
@@ -68,38 +70,13 @@ const LoginForm = () => {
           placeholder="Email"
         />
       </Form.Item>
-      <Form.Item
-        name="password"
-        label="Password"
-        disabled={loading}
-        rules={[
-          {
-            required: true,
-            message: "Please input your Password!",
-          },
-        ]}
-      >
-        <Input.Password
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          disabled={loading}
-          placeholder="Password"
-        />
-      </Form.Item>
-      <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-        <Link className="login-form-forgot" to="/forgot-password">
-          Forgot password
-        </Link>
-      </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit" loading={loading}>
-          Log in
+          Send Instructions
         </Button>
       </Form.Item>
     </Form>
   );
 };
 
-export default LoginForm;
+export default ResetForm;
