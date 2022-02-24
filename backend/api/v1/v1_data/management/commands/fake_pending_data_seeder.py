@@ -91,7 +91,7 @@ def seed_data(form, fake_geo, level_names, repeat, test):
             administration=Administration.objects.first(),
             created_by=SystemUser.objects.order_by('?').first())
         level_id = 1
-        admin_ids = []
+        # admin_ids = []
         if not test:
             for level_name in level_names:
                 level = level_name.split("_")
