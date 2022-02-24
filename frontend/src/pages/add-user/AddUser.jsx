@@ -14,7 +14,7 @@ import {
 } from "antd";
 import { AdministrationDropdown } from "../../components";
 import { useNavigate } from "react-router-dom";
-import { api, store } from "../../lib";
+import { api, store, config } from "../../lib";
 import { Breadcrumbs } from "../../components";
 import { takeRight } from "lodash";
 
@@ -31,25 +31,6 @@ const pagePath = [
   },
   {
     title: "Add User",
-  },
-];
-
-const roles = [
-  {
-    id: 1,
-    name: "Super Admin",
-  },
-  {
-    id: 2,
-    name: "Admin",
-  },
-  {
-    id: 3,
-    name: "Approver",
-  },
-  {
-    id: 4,
-    name: "User",
   },
 ];
 
@@ -90,7 +71,7 @@ const AddUser = () => {
     }
   };
 
-  const allowedRole = roles.filter((r) => r.id >= authUser.role.id);
+  const allowedRole = config.roles.filter((r) => r.id >= authUser.role.id);
 
   return (
     <div id="add-user">
