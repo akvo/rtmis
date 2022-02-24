@@ -1,6 +1,6 @@
 import "./App.scss";
 import React, { useEffect, useState } from "react";
-import { Route, Navigate, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import {
   Home,
   Login,
@@ -15,6 +15,7 @@ import {
   Approvers,
   ApproversTree,
   Profile,
+  ComingSoon,
 } from "./pages";
 import { message, Spin } from "antd";
 import { useCookies } from "react-cookie";
@@ -103,6 +104,7 @@ const App = () => {
           <Route exact path="/" element={<Home />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/login/:invitationId" element={<Login />} />
+          <Route exact path="/forgot-password" element={<Login />} />
           <Route exact path="/data" element={<Home />} />
           <Route exact path="/form/:formId" element={<Forms />} />
           <Route
@@ -147,6 +149,10 @@ const App = () => {
             path="/profile"
             element={authUser ? <Profile /> : <Navigate to="/login" />}
           />
+          <Route exact path="/coming-soon" element={<div />} />
+          <Route exact path="/old-coming-soon" element={<ComingSoon />} />
+          <Route exact path="/not-found" element={<div />} />
+          <Route path="*" element={<Navigate replace to="/not-found" />} />
         </Routes>
       </Layout.Body>
       <Layout.Footer />
