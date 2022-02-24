@@ -1,6 +1,6 @@
 import "./App.scss";
 import React, { useEffect, useState } from "react";
-import { Route, Navigate, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import {
   Home,
   Login,
@@ -15,7 +15,6 @@ import {
   Approvers,
   ApproversTree,
   Profile,
-  ErrorPage,
   ComingSoon,
 } from "./pages";
 import { message, Spin } from "antd";
@@ -150,10 +149,9 @@ const App = () => {
             path="/profile"
             element={authUser ? <Profile /> : <Navigate to="/login" />}
           />
-          <Route exact path="/coming-soon" element={<ComingSoon />} />
-          <Route path="/error/401" element={<ErrorPage status={401} />} />
-          <Route path="/error/404" element={<ErrorPage status={404} />} />
-          <Route path="*" element={<Navigate replace to="/error/404" />} />
+          <Route exact path="/comming-soon" element={<ComingSoon />} />
+          <Route exact path="/not-found" element={<div />} />
+          <Route path="*" element={<Navigate replace to="/not-found" />} />
         </Routes>
       </Layout.Body>
       <Layout.Footer />
