@@ -1,12 +1,16 @@
 # Create your views here.
 from math import ceil
+from pathlib import Path
 
 from django.contrib.auth import authenticate
 from django.core import signing
+from django.core.management import call_command
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.http import HttpResponse
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, inline_serializer, \
     OpenApiParameter
+from jsmin import jsmin
 from rest_framework import status, serializers
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import get_object_or_404
@@ -16,12 +20,12 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.v1.v1_profile.constants import UserRoleTypes
-from api.v1.v1_profile.models import Access, Administration
+from api.v1.v1_profile.models import Access, Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     VerifyInviteSerializer, SetUserPasswordSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
-    ListUserRequestSerializer
+    ListUserRequestSerializer, ListLevelSerializer
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
@@ -32,6 +36,24 @@ from utils.custom_serializer_fields import validate_serializers_message
 @api_view(['GET'])
 def health_check(request, version):
     return Response({'message': 'OK'}, status=status.HTTP_200_OK)
+
+
+@extend_schema(description='Use to check System health',
+               tags=['Config'])
+@api_view(['GET'])
+def get_config_file(request, version):
+    try:
+        if not Path("source/config/config.min.js").exists():
+            call_command('generate_config')
+        data = jsmin(open("source/config/config.min.js", "r").read())
+        response = HttpResponse(
+            data, content_type="application/x-javascript; charset=utf-8"
+        )
+        return response
+    except Exception as ex:
+        print(ex.args)
+        return Response({'message': ex.args},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 # TODO: Remove temp user entry and invite key from the response.
@@ -144,6 +166,15 @@ def list_administration(request, version, pk):
                     status=status.HTTP_200_OK)
 
 
+@extend_schema(responses={200: ListLevelSerializer(many=True)},
+               tags=['Administration'])
+@api_view(['GET'])
+def list_levels(request, version):
+    return Response(
+        ListLevelSerializer(instance=Levels.objects.all(), many=True).data,
+        status=status.HTTP_200_OK)
+
+
 @extend_schema(request=AddEditUserSerializer,
                responses={
                    (200, 'application/json'):
@@ -199,6 +230,11 @@ def add_user(request, version):
                          required=False,
                          type=OpenApiTypes.BOOL,
                          location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='descendants',
+                         required=False,
+                         default=True,
+                         type=OpenApiTypes.BOOL,
+                         location=OpenApiParameter.QUERY),
     ])
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
@@ -226,17 +262,20 @@ def list_users(request, version):
         if serializer.validated_data.get('administration'):
             filter_administration = serializer.validated_data.get(
                 'administration')
-            if filter_administration.path:
-                filter_path = '{0}{1}.'.format(filter_administration.path,
-                                               filter_administration.id)
+            if not serializer.validated_data.get('descendants'):
+                filter_descendants = list(Administration.objects.filter(
+                    parent=filter_administration).values_list('id', flat=True))
             else:
-                filter_path = f"{filter_administration.id}."
-            filter_descendants = list(Administration.objects.filter(
-                path__startswith=filter_path).values_list('id', flat=True))
-            filter_descendants.append(filter_administration.id)
+                if filter_administration.path:
+                    filter_path = '{0}{1}.'.format(filter_administration.path,
+                                                   filter_administration.id)
+                else:
+                    filter_path = f"{filter_administration.id}."
+                filter_descendants = list(Administration.objects.filter(
+                    path__startswith=filter_path).values_list('id', flat=True))
+                filter_descendants.append(filter_administration.id)
 
             set1 = set(filter_descendants)
-            print(filter_descendants)
             final_set = set1.intersection(allowed_descendants)
             filter_data[
                 'user_access__administration_id__in'] = list(final_set)
