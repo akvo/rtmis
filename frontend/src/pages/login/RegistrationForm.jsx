@@ -13,6 +13,7 @@ const checkBoxOptions = [
 const RegistrationForm = (props) => {
   const { invite } = props;
   const [checkedList, setCheckedList] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const onFinish = (values) => {
@@ -21,6 +22,7 @@ const RegistrationForm = (props) => {
       password: values.password,
       confirm_password: values.confirm,
     };
+    setLoading(true);
     api
       .post("set/user/password/", postData)
       .then((res) => {
@@ -47,6 +49,7 @@ const RegistrationForm = (props) => {
       })
       .catch((err) => {
         console.error(err.response.data.message);
+        setLoading(false);
       });
   };
 
@@ -127,7 +130,7 @@ const RegistrationForm = (props) => {
           />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={loading}>
             Set New Password
           </Button>
         </Form.Item>
