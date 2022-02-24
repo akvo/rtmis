@@ -64,7 +64,7 @@ const AddUser = () => {
   };
 
   const onChange = (a) => {
-    if (a?.role === 2) {
+    if (a?.role === authUser.role.id) {
       setShowAdministration(false);
     } else {
       setShowAdministration(true);
@@ -182,8 +182,9 @@ const AddUser = () => {
         <Row justify="space-between">
           <Col>
             <Row>
-              <Checkbox id="informUser" onChange={() => {}}></Checkbox>
-              <label htmlFor="informUser">Inform User of Changes</label>
+              <Checkbox id="informUser" className="dev" onChange={() => {}}>
+                Inform User of Changes
+              </Checkbox>
             </Row>
           </Col>
           <Col>

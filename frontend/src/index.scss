@@ -54,6 +54,14 @@ body {
       }
     }
 
+    li {
+      &.dev {
+        border: 1px solid red !important;
+        padding: 1px 5px;
+        margin-bottom: 2px;
+      }
+    }
+
     /* End Development Mode */
   }
 }

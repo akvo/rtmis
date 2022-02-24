@@ -40,7 +40,13 @@ const UserDetail = (record) => {
             {
               key: "invite",
               field: "Invitation Code",
-              value: `/login/${record?.invite || "-"}`,
+              value: (
+                <Link to={`/login/${record?.invite}`}>
+                  <Button className="dev" size="small">
+                    Change Password [Dev Only]
+                  </Button>
+                </Link>
+              ),
             },
             {
               key: "region",

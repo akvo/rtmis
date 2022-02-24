@@ -49,8 +49,9 @@ const UploadData = () => {
       </Row>
       <Divider />
       <Row align="middle">
-        <Checkbox id="updateExisting" onChange={() => {}}></Checkbox>
-        <label htmlFor="updateExisting">Update Existing Data</label>
+        <Checkbox id="updateExisting" className="dev" onChange={() => {}}>
+          Update Existing Data
+        </Checkbox>
       </Row>
       <Card
         style={{ padding: 0, minHeight: "40vh" }}
