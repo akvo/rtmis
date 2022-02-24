@@ -32,71 +32,56 @@ const pagePath = [
 ];
 
 const QuestionnairesAdmin = () => {
-  const { forms } = store.useState((s) => s);
+  const { forms, levels } = store.useState((s) => s);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [dataset, setDataset] = useState([]);
   const [dataOriginal, setDataOriginal] = useState("");
 
-  const columns = [
-    {
-      title: "Questionnaire",
-      dataIndex: "form_id",
-      render: (cell) => forms.find((f) => f.id === cell)?.name || "",
-    },
-    {
-      title: "Questionnaire Description",
-      dataIndex: "description",
-      render: (cell) => cell || <span>-</span>,
-    },
-    {
-      title: "Sub-County",
-      render: (row) => (
-        <Checkbox
-          checked={row.levels?.includes(3)}
-          onChange={() => {
-            handleChecked(row.form_id, 3);
-          }}
-        />
-      ),
-    },
-    {
-      title: "Ward",
-      render: (row) => (
-        <Checkbox
-          checked={row.levels?.includes(4)}
-          onChange={() => {
-            handleChecked(row.form_id, 4);
-          }}
-        />
-      ),
-    },
-    {
-      title: "Community",
-      render: (row) => (
-        <Checkbox
-          checked={row.levels?.includes(5)}
-          onChange={() => {
-            handleChecked(row.form_id, 5);
-          }}
-        />
-      ),
-    },
-  ];
-
-  const handleChecked = (id, val) => {
-    const pos = dataset.findIndex((d) => d.form_id === id);
-    if (pos !== -1) {
-      const cloned = JSON.parse(JSON.stringify(dataset));
-      const exists = dataset[pos].levels?.includes(val);
-      if (exists) {
-        cloned[pos].levels = cloned[pos].levels.filter((i) => i !== val);
-      } else {
-        cloned[pos].levels.push(val);
+  const columns = useMemo(() => {
+    const handleChecked = (id, val) => {
+      const pos = dataset.findIndex((d) => d.form_id === id);
+      if (pos !== -1) {
+        const cloned = JSON.parse(JSON.stringify(dataset));
+        const exists = dataset[pos].levels?.includes(val);
+        if (exists) {
+          cloned[pos].levels = cloned[pos].levels.filter((i) => i !== val);
+        } else {
+          cloned[pos].levels.push(val);
+        }
+        setDataset(cloned);
       }
-      setDataset(cloned);
-    }
-  };
+    };
+    return [
+      {
+        title: "Questionnaire",
+        dataIndex: "form_id",
+        render: (cell) => forms.find((f) => f.id === cell)?.name || "",
+      },
+      {
+        title: "Questionnaire Description",
+        dataIndex: "description",
+        render: (cell) => cell || <span>-</span>,
+      },
+    ].concat(
+      levels
+        .filter((lv) => lv.level !== 0)
+        .map((level) => {
+          return {
+            title: level.name,
+            key: `lvl-${level.level}`,
+            render: (row) => (
+              <Checkbox
+                checked={row.levels?.includes(level.level)}
+                onChange={() => {
+                  handleChecked(row.form_id, level.level);
+                }}
+              />
+            ),
+          };
+        })
+    );
+  }, [levels, forms, dataset]);
 
   useEffect(() => {
     if (forms.length) {
@@ -182,7 +167,7 @@ const QuestionnairesAdmin = () => {
             dataSource={dataset}
             loading={!dataset.length}
             onChange={handleChange}
-            paagination={false}
+            pagination={false}
             // pagination={{
             //   total: totalCount,
             //   pageSize: 10,
