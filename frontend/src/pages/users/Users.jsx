@@ -59,17 +59,6 @@ const Users = () => {
       title: "Role",
       dataIndex: "role",
       render: (role) => role.value || "",
-      filtered: true,
-      filteredValue: role ? [role] : [],
-      filterDropdownVisible: false,
-      filterIcon: () => false,
-      filters: [
-        { text: "Super Admin", value: "Super Admin" },
-        { text: "Admin", value: "Admin" },
-        { text: "Approver", value: "Approver" },
-        { text: "User", value: "User" },
-      ],
-      onFilter: (value, filters) => filters.role.value === value,
     },
     {
       title: "Region",
@@ -91,6 +80,9 @@ const Users = () => {
       if (selectedAdministration?.id) {
         url += `&administration=${selectedAdministration.id}`;
       }
+      if (role) {
+        url += `&role=${role}`;
+      }
       api
         .get(url)
         .then((res) => {
@@ -104,7 +96,7 @@ const Users = () => {
           console.error(err);
         });
     }
-  }, [pending, currentPage, selectedAdministration, isLoggedIn]);
+  }, [role, pending, currentPage, selectedAdministration, isLoggedIn]);
 
   return (
     <div id="users">

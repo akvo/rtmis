@@ -49,8 +49,10 @@ class SetUserPasswordSerializer(serializers.Serializer):
     def validate(self, attrs):
         if attrs.get('password') != attrs.get('confirm_password'):
             raise ValidationError({
-                'confirm_password': 'Confirm password and password'
-                                    ' are not same'})
+                'confirm_password':
+                'Confirm password and password'
+                ' are not same'
+            })
         return attrs
 
 
@@ -64,15 +66,25 @@ class ListAdministrationSerializer(serializers.ModelSerializer):
     children = serializers.SerializerMethodField()
     level_name = serializers.ReadOnlyField(source='level.name')
     level = serializers.ReadOnlyField(source='level.level')
+    children_level_name = serializers.SerializerMethodField()
 
     @extend_schema_field(ListAdministrationChildrenSerializer(many=True))
     def get_children(self, instance: Administration):
         return ListAdministrationChildrenSerializer(
             instance=instance.parent_administration.all(), many=True).data
 
+    def get_children_level_name(self, instance: Administration):
+        child: Administration = instance.parent_administration.first()
+        if child:
+            return child.level.name
+        return None
+
     class Meta:
         model = Administration
-        fields = ['id', 'parent', 'name', 'level_name', 'level', 'children']
+        fields = [
+            'id', 'parent', 'name', 'level_name', 'level', 'children',
+            'children_level_name'
+        ]
 
 
 class AddEditUserSerializer(serializers.ModelSerializer):
@@ -89,8 +101,10 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         if self.context.get(
                 'user').user_access.role == UserRoleTypes.admin and \
                 role not in [UserRoleTypes.approver, UserRoleTypes.user]:
-            raise ValidationError({'You do not have permission to create/edit '
-                                   'user with selected role.'})
+            raise ValidationError({
+                'You do not have permission to create/edit '
+                'user with selected role.'
+            })
         return role
 
     def validate_administration(self, administration):
@@ -98,8 +112,10 @@ class AddEditUserSerializer(serializers.ModelSerializer):
                 'user').user_access.role == UserRoleTypes.super_admin \
                 and administration.level.level <= self.context.get('user') \
                 .user_access.administration.level.level:
-            raise ValidationError({'You do not have permission to create/edit '
-                                   'user with selected administration.'})
+            raise ValidationError({
+                'You do not have permission to create/edit '
+                'user with selected administration.'
+            })
         return administration
 
     def validate(self, attrs):
@@ -117,25 +133,24 @@ class AddEditUserSerializer(serializers.ModelSerializer):
                 'administration').level.level == 0:
             raise ValidationError({
                 'administration':
-                    'administration level is not valid with selected role'})
+                'administration level is not valid with selected role'
+            })
         return attrs
 
     def create(self, validated_data):
         administration = validated_data.pop('administration')
         role = validated_data.pop('role')
         user = super(AddEditUserSerializer, self).create(validated_data)
-        Access.objects.create(
-            user=user,
-            administration=administration,
-            role=role
-        )
+        Access.objects.create(user=user,
+                              administration=administration,
+                              role=role)
         return user
 
     def update(self, instance, validated_data):
         administration = validated_data.pop('administration')
         role = validated_data.pop('role')
-        instance: SystemUser = super(AddEditUserSerializer, self).update(
-            instance, validated_data)
+        instance: SystemUser = super(AddEditUserSerializer,
+                                     self).update(instance, validated_data)
 
         instance.user_access.role = role
         instance.user_access.administration = administration
@@ -165,10 +180,12 @@ class ListUserSerializer(serializers.ModelSerializer):
         return UserAdministrationSerializer(
             instance=instance.user_access.administration).data
 
-    @extend_schema_field(inline_serializer('role', fields={
-        'id': serializers.IntegerField(),
-        'value': serializers.CharField(),
-    }))
+    @extend_schema_field(
+        inline_serializer('role',
+                          fields={
+                              'id': serializers.IntegerField(),
+                              'value': serializers.CharField(),
+                          }))
     def get_role(self, instance: SystemUser):
         return {
             'id': instance.user_access.role,
@@ -180,8 +197,10 @@ class ListUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SystemUser
-        fields = ['id', 'first_name', 'last_name', 'email', 'administration',
-                  'role', 'invite']
+        fields = [
+            'id', 'first_name', 'last_name', 'email', 'administration', 'role',
+            'invite'
+        ]
 
 
 class ListUserRequestSerializer(serializers.Serializer):
@@ -208,10 +227,12 @@ class UserSerializer(serializers.ModelSerializer):
         return UserAdministrationSerializer(
             instance=instance.user_access.administration).data
 
-    @extend_schema_field(inline_serializer('role', fields={
-        'id': serializers.IntegerField(),
-        'value': serializers.CharField(),
-    }))
+    @extend_schema_field(
+        inline_serializer('role',
+                          fields={
+                              'id': serializers.IntegerField(),
+                              'value': serializers.CharField(),
+                          }))
     def get_role(self, instance: SystemUser):
         return {
             'id': instance.user_access.role,
