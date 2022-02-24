@@ -57,6 +57,7 @@ const UserFilters = ({ query, setQuery, pending, setPending, loading }) => {
       </Col>
       <Col span={4} align="right">
         <Checkbox
+          className="dev"
           onChange={() => {
             setPending(!pending);
           }}

@@ -364,7 +364,7 @@ const Profile = () => {
     if (selectedRows.length > 0) {
       return (
         <Button
-          type="primary"
+          className="dev"
           onClick={() => {
             setModalVisible(true);
           }}
@@ -420,6 +420,7 @@ const Profile = () => {
         >
           <TabPane tab="Approved Uploads" key="1">
             <Table
+              className="dev"
               dataSource={datasetApproved}
               columns={columnsApproved}
               pagination={false}
@@ -429,6 +430,7 @@ const Profile = () => {
           </TabPane>
           <TabPane tab="Pending Approval" key="2">
             <Table
+              className="dev"
               dataSource={datasetPending}
               columns={columnsPending}
               pagination={false}
@@ -457,7 +459,7 @@ const Profile = () => {
               >
                 Cancel
               </Button>
-              <Button type="primary">Create a new batch</Button>
+              <Button className="dev">Create a new batch</Button>
             </Col>
           </Row>
         }
