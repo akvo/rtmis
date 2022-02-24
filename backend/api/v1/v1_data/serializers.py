@@ -4,7 +4,7 @@ from rest_framework.exceptions import ValidationError
 
 from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
-    PendingAnswers, PendingDataApproval
+    PendingAnswers
 from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Questions, QuestionOptions
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -315,7 +315,7 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
         user: SystemUser = self.context.get('user')
         data = {}
         if user.user_access.role == UserRoleTypes.admin:
-            approval: PendingDataApproval = instance.pending_data_form_approval.order_by(
+            approval = instance.pending_data_form_approval.order_by(
                 'level__level').first()
             data['name'] = approval.user.get_full_name()
             data['status'] = approval.status
@@ -333,7 +333,7 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
                 data['allow_approve'] = True
             else:
                 level = user.user_access.administration.level
-                approval: PendingDataApproval = instance.pending_data_form_approval.filter(
+                approval = instance.pending_data_form_approval.filter(
                     level__level__gt=level.level).order_by(
                     'level__level').first()
                 data['name'] = approval.user.get_full_name()
