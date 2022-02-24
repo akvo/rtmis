@@ -91,6 +91,7 @@ def seed_data(form, fake_geo, level_names, repeat, test):
             administration=Administration.objects.first(),
             created_by=SystemUser.objects.order_by('?').first())
         level_id = 1
+        admin_ids = []
         if not test:
             for level_name in level_names:
                 level = level_name.split("_")
@@ -128,3 +129,31 @@ class Command(BaseCommand):
             print(f"Seeding - {form.name}")
             seed_data(form, fake_geo, level_names, options.get("repeat"),
                       options.get("test"))
+
+
+"""
+Form1 - 1
+Form2 - 2
+
+Admin - 3 level 3
+Admin - 5 level 4
+Admin - 7 level 4
+
+Admin - 4 level 4
+Admin - 6 level 3
+
+Form1:
+ - User1 admin 3 1.3
+ - User2 admin 5
+ - User2 admin 7 1.3
+
+Form1:
+ - User3 admin 6
+ - User4 admin 4
+
+PendingFormData
+form - Form1
+data - data1
+administration - Admin 7 parent=3 [1.3.5.7.]
+
+"""

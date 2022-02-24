@@ -10,7 +10,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         FormApprovalRule.objects.all().delete()
         for form in Forms.objects.all():
-            for user in Access.objects.filter(administration__level_id=2):
+            for user in Access.objects.filter(
+                    administration__level_id=2).distinct('administration_id'):
                 limit = random.choices([1, 2])
                 levels = Levels.objects.filter(level__gt=1).order_by('?')[
                          :limit[0]]
