@@ -15,7 +15,7 @@ const Header = ({ className = "header", ...props }) => {
   const signOut = async () => {
     store.update((s) => {
       if (cookies["AUTH_TOKEN"]) {
-        removeCookie("AUTH_TOKEN");
+        removeCookie("AUTH_TOKEN", "");
       }
       s.isLoggedIn = false;
       s.user = null;
@@ -43,7 +43,10 @@ const Header = ({ className = "header", ...props }) => {
     </Menu>
   );
 
-  if (location.pathname.includes("/login")) {
+  if (
+    location.pathname.includes("/login") ||
+    location.pathname.includes("/forgot-password")
+  ) {
     return "";
   }
 

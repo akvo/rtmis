@@ -3,7 +3,7 @@ import { Webform } from "akvo-react-form";
 import "akvo-react-form/dist/index.css";
 import "./style.scss";
 import { useParams, useNavigate } from "react-router-dom";
-import { Row, Col, Progress, notification } from "antd";
+import { Row, Col, Progress, Spin, notification } from "antd";
 import { api } from "../../lib";
 import { take, takeRight, tail, pick } from "lodash";
 
@@ -110,19 +110,18 @@ const Forms = () => {
     })();
   }, [formId, loading]);
 
-  if (loading) {
-    return "";
-  }
-  if (!formId) {
-    return "";
-  }
-
   return (
     <div id="form">
       <Row justify="center">
         <Col span={24} className="webform">
-          <Webform forms={forms} onFinish={onFinish} onChange={onChange} />
-          <Progress className="progress-bar" percent={percentage} />
+          {loading || !formId ? (
+            <Spin />
+          ) : (
+            <>
+              <Webform forms={forms} onFinish={onFinish} onChange={onChange} />
+              <Progress className="progress-bar" percent={percentage} />
+            </>
+          )}
         </Col>
       </Row>
     </div>

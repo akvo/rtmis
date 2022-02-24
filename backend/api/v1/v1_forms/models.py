@@ -42,41 +42,6 @@ class FormApprovalRule(models.Model):
         db_table = 'form_approval_rule'
 
 
-"""
-Approval Rule
-Form - 1
-administration - Current user's administration 1
-Level - [2,4]
-"""
-
-"""
-path administration with level [2,4]
- Removed Level - 3
-Assign Approval
-Form - 1
-User - 2
-administration - User's administration - 2
-
-
-Assign Approval
-Form - 1
-User - 3
-administration - User's administration - 3
-
-Assign Approval
-Form - 1
-User - 4
-administration - User's administration - 4
-
---------- GET /form/approvers/ ------------
-
-form_id,administration_id
-direct children - administration_id
-# FormApprovalAssignment
-
-"""
-
-
 class FormApprovalAssignment(models.Model):
     form = models.ForeignKey(to=Forms,
                              on_delete=models.CASCADE,
@@ -84,7 +49,7 @@ class FormApprovalAssignment(models.Model):
     administration = models.ForeignKey(
         to=Administration,
         on_delete=models.CASCADE,
-        related_name='administration_data_approval')  # noqa
+        related_name='administration_data_approval')
     user = models.ForeignKey(to=SystemUser,
                              on_delete=models.CASCADE,
                              related_name='user_data_approval')
