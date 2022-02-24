@@ -150,7 +150,6 @@ const App = () => {
             element={authUser ? <Profile /> : <Navigate to="/login" />}
           />
           <Route exact path="/coming-soon" element={<div />} />
-          <Route exact path="/old-coming-soon" element={<ComingSoon />} />
           <Route exact path="/not-found" element={<div />} />
           <Route path="*" element={<Navigate replace to="/not-found" />} />
         </Routes>
