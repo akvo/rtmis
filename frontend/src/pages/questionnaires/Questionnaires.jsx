@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import "./style.scss";
 import {
   Row,
   Col,
   Card,
+  Button,
   Divider,
   Table,
   ConfigProvider,
-  Empty,
   Checkbox,
+  Empty,
+  Space,
+  message,
 } from "antd";
-import { store } from "../../lib";
+import { api, store } from "../../lib";
 import { Breadcrumbs } from "../../components";
+import { reloadData } from "../../util/form";
 
 const pagePath = [
   {
@@ -20,6 +24,7 @@ const pagePath = [
   },
   {
     title: "Approvals",
+    link: "/approvals",
   },
   {
     title: "Manage Questionnaires Approvals",
@@ -28,6 +33,14 @@ const pagePath = [
 
 const Questionnaires = () => {
   const { forms } = store.useState((s) => s);
+  const [dataset, setDataset] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (forms.length) {
+      setDataset([...forms]);
+    }
+  }, [forms]);
 
   const columns = [
     {
@@ -42,25 +55,91 @@ const Questionnaires = () => {
     },
     {
       title: "County",
-      dataIndex: "county",
-      render: () => <Checkbox />,
+      render: (row) => (
+        <Checkbox
+          checked={row.type === 2}
+          onChange={() => {
+            handleChecked(row.id, 2);
+          }}
+        />
+      ),
     },
     {
       title: "National",
-      dataIndex: "national",
-      render: () => <Checkbox />,
+      render: (row) => (
+        <Checkbox
+          checked={row.type === 1}
+          onChange={() => {
+            handleChecked(row.id, 1);
+          }}
+        />
+      ),
     },
   ];
+
+  const handleChecked = (id, val) => {
+    const pos = dataset.findIndex((d) => d.id === id);
+    if (pos !== -1) {
+      const cloned = JSON.parse(JSON.stringify(dataset));
+      cloned[pos].type = val;
+      setDataset(cloned);
+    }
+  };
+
+  const handleSubmit = () => {
+    const data = dataset.map((d) => ({
+      form_id: d.id,
+      type: d.type,
+    }));
+    setLoading(true);
+    api
+      .put("edit/forms/", data)
+      .then(() => {
+        setLoading(false);
+        message.success("Questionnaires updated");
+        reloadData();
+      })
+      .catch(() => {
+        message.error("Could not update Questionnaires");
+        setLoading(false);
+      });
+  };
 
   const handleChange = () => {
     // setCurrentPage(e.current);
   };
+
+  const isPristine = useMemo(() => {
+    return JSON.stringify(dataset) === JSON.stringify(forms);
+  }, [dataset, forms]);
 
   return (
     <div id="questionnaires">
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
+        </Col>
+        <Col>
+          <Space size={6}>
+            <Button
+              className="light"
+              disabled={isPristine}
+              onClick={() => {
+                const cloned = JSON.parse(JSON.stringify(forms));
+                setDataset(cloned);
+              }}
+            >
+              Reset
+            </Button>
+            <Button
+              type="primary"
+              disabled={isPristine}
+              onClick={handleSubmit}
+              loading={loading}
+            >
+              Save
+            </Button>
+          </Space>
         </Col>
       </Row>
       <Divider />
@@ -71,13 +150,14 @@ const Questionnaires = () => {
         <ConfigProvider renderEmpty={() => <Empty description="No data" />}>
           <Table
             columns={columns}
-            dataSource={forms}
-            loading={!forms.length}
+            dataSource={dataset}
+            loading={!dataset.length}
             onChange={handleChange}
             // pagination={{
             //   total: totalCount,
             //   pageSize: 10,
             // }}
+            pagination={false}
             rowKey="id"
           />
         </ConfigProvider>
