@@ -11,13 +11,14 @@ class Command(BaseCommand):
         FormApprovalRule.objects.all().delete()
         for form in Forms.objects.all():
             for user in Access.objects.filter(
-                    administration__level_id=2).distinct('administration_id'):
-                limit = random.choices([1, 2])
-                levels = Levels.objects.filter(level__gt=1).order_by('?')[
-                         :limit[0]]
+                    administration__level=Levels.objects.filter(
+                        level=1).first()):
+                randoms = Levels.objects.filter(level__gt=1).count()
+                randoms = [n + 1 for n in range(randoms)]
+                limit = random.choices(randoms)
+                levels = Levels.objects.filter(
+                    level__gt=1).order_by('?')[:limit[0]]
                 rule = FormApprovalRule.objects.create(
-                    form=form,
-                    administration=user.administration
-                )
+                    form=form, administration=user.administration)
                 rule.levels.set(levels)
                 rule.save()

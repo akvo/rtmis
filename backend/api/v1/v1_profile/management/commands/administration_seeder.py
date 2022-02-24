@@ -60,15 +60,17 @@ def seed_administration_test():
                                     name=fake.company(),
                                     parent=administration,
                                     level=level_2,
-                                    path='{0}{1}.'.format(administration.path,
-                                                          administration.id))
+                                    path='{0}{1}.'.format(
+                                        administration.path,
+                                        administration.id))
     administration.save()
     administration = Administration(id=4,
                                     name=fake.company(),
                                     parent=administration,
                                     level=level_3,
-                                    path='{0}{1}.'.format(administration.path,
-                                                          administration.id))
+                                    path='{0}{1}.'.format(
+                                        administration.path,
+                                        administration.id))
     administration.save()
 
 
@@ -94,7 +96,8 @@ def seed_administration_prod():
         d for d in [p["properties"] for p in ob[ob_name]["geometries"]]
     ]
     level_list = [
-        Levels(name=g.get("alias"), level=g.get("level")) for g in geo_config
+        Levels(id=(i + 1), name=g.get("alias"), level=g.get("level"))
+        for i, g in enumerate(geo_config)
     ]
     Levels.objects.bulk_create(level_list)
     df = pd.DataFrame(properties)
