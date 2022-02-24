@@ -29,7 +29,7 @@ body { padding-top: 60px; }
 <li class=''>
 <a href='../../../general.html'>General</a>
 </li>
-<li class='active'>
+<li class=''>
 <a href='../../../activity/by_date.html'>Activity</a>
 </li>
 <li class='active'>
@@ -38,7 +38,7 @@ body { padding-top: 60px; }
 <li class=''>
 <a href='../../../files/by_date.html'>Files</a>
 </li>
-<li class=''>
+<li class='active'>
 <a href='../../../lines/by_date.html'>Lines</a>
 </li>
 <li class=''>
@@ -53,94 +53,40 @@ body { padding-top: 60px; }
 <div class='tabbable tabs-left'>
 <ul class='nav nav-tabs'>
 <li class=''>
-<a href='by_date.html'>Activity by date</a>
-</li>
-<li class=''>
-<a href='hour_of_day.html'>Hour of day</a>
-</li>
-<li class=''>
-<a href='day_of_week.html'>Day of week</a>
-</li>
-<li class=''>
-<a href='hour_of_week.html'>Hour of week</a>
+<a href='commits_by_date.html'>Commits by date</a>
 </li>
 <li class='active'>
-<a href='month_of_year.html'>Month of year</a>
+<a href='changed_lines_by_date.html'>Changed lines by date</a>
 </li>
 <li class=''>
-<a href='year.html'>Year</a>
+<a href='insertions_by_date.html'>Lines added by date</a>
 </li>
 <li class=''>
-<a href='year_month.html'>Year and month</a>
+<a href='deletions_by_date.html'>Lines deleted by date</a>
 </li>
 </ul>
 <div class='tab-content'>
 <div class='tab-pane active'>
-<div class='page-header pagination-centered'>
-<h1>Month of year</h1>
-<h3>Nirav &lt;nirav.rajguru@9spl.com&gt;</h3>
+<div class='page-header'>
+<h1 class='pagination-centered'>Changed lines by date</h1>
 </div>
-</div>
-<table class='table table-bordered table-condensed'>
-<tr>
-<th>Month</th>
-<th>Jan</th>
-<th>Feb</th>
-<th>Mar</th>
-<th>Apr</th>
-<th>May</th>
-<th>Jun</th>
-<th>Jul</th>
-<th>Aug</th>
-<th>Sep</th>
-<th>Oct</th>
-<th>Nov</th>
-<th>Dec</th>
-</tr>
-<tr>
-<th>Commits</th>
-<td>28</td>
-<td>81</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<th>Percentage</th>
-<td>25.7</td>
-<td>74.3</td>
-<td>0.0</td>
-<td>0.0</td>
-<td>0.0</td>
-<td>0.0</td>
-<td>0.0</td>
-<td>0.0</td>
-<td>0.0</td>
-<td>0.0</td>
-<td>0.0</td>
-<td>0.0</td>
-</tr>
-</table>
                 <script type="text/javascript">
         (function() {
 
           window.addEventListener('load', function() {
-                    var options = { "title": { "text": "" },"legend": { "enabled": false },"xAxis": { "title": { "text": "Month" },"categories": [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec" ] },"yAxis": { "title": { "text": "Commits" },"labels": {  } },"tooltip": { "enabled": true },"credits": { "enabled": false },"plotOptions": { "areaspline": {  } },"chart": { "defaultSeriesType": "line","renderTo": "charts.activity_by_month","type": "column" },"subtitle": {  },"series": [{ "name": "Commits by month","data": [ 28,81,0,0,0,0,0,0,0,0,0,0 ] }] };
+                    var options = { "title": { "text": "" },"legend": { "enabled": true,"layout": "vertical","backgroundColor": "#FFFFFF","align": "left","verticalAlign": "top","x": 100,"y": 70,"floating": true,"shadow": true },"xAxis": { "title": { "text": null } },"yAxis": { "title": { "text": "Lines" },"labels": {  } },"tooltip": { "enabled": true },"credits": { "enabled": false },"plotOptions": { "areaspline": {  } },"chart": { "defaultSeriesType": "line","renderTo": "charts.changed_lines_by_author_by_date" },"subtitle": {  },"series": [{ "name": "mantiz8x","type": "spline","data": [  ] }] };
         
-        window.chart_charts.activity_by_month = new Highcharts.Chart(options);
+        window.chart_charts.changed_lines_by_author_by_date = new Highcharts.StockChart(options);
 
           });
                 })()
         </script>
 
-<div id="charts.activity_by_month"></div>
+<div id="charts.changed_lines_by_author_by_date"></div>
+<small>
+<center>5 best authors shown</center>
+</small>
+</div>
 </div>
 </div>
 
