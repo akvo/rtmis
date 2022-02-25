@@ -3,14 +3,14 @@ from rest_framework.exceptions import ValidationError
 
 from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
-    PendingAnswers
+    PendingAnswers, PendingDataApproval
 from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Questions, QuestionOptions
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import SystemUser
 from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
-    UnvalidatedField, CustomListField, CustomCharField
+    UnvalidatedField, CustomListField, CustomCharField, CustomChoiceField
 from utils.functions import update_date_time_format, get_answer_value
 
 
@@ -318,6 +318,7 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
         if user.user_access.role == UserRoleTypes.admin:
             approval = instance.pending_data_form_approval.order_by(
                 'level__level').first()
+            data['id'] = approval.user.pk
             data['name'] = approval.user.get_full_name()
             data['status'] = approval.status
             data['status_text'] = DataApprovalStatus.FieldStr.get(
@@ -326,6 +327,7 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
 
         else:
             if len(self.context.get('descendants')) == 0:
+                data['id'] = user.pk
                 data['name'] = user.get_full_name()
                 approval = instance.pending_data_form_approval.get(user=user)
                 data['status'] = approval.status
@@ -337,6 +339,7 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
                 approval = instance.pending_data_form_approval.filter(
                     level__level__gt=level.level).order_by(
                     'level__level').first()
+                data['id'] = approval.user.pk
                 data['name'] = approval.user.get_full_name()
                 data['status'] = approval.status
                 data['status_text'] = DataApprovalStatus.FieldStr.get(
@@ -352,3 +355,58 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
         model = PendingFormData
         fields = ['id', 'name', 'form', 'administration', 'geo', 'created_by',
                   'created', 'approver']
+
+
+class ApprovePendingDataRequestSerializer(serializers.Serializer):
+    pending_data = CustomListField(child=CustomPrimaryKeyRelatedField(
+        queryset=PendingFormData.objects.none(), required=False))
+    status = CustomChoiceField(
+        choices=[DataApprovalStatus.approved, DataApprovalStatus.rejected])
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        user: SystemUser = self.context.get('user')
+        if user:
+            self.fields.get('pending_data').child.queryset = \
+                PendingFormData.objects.filter(
+                    pending_data_form_approval__user=user, approved=False)
+
+    def create(self, validated_data):
+        data: PendingFormData
+        for data in validated_data.get('pending_data'):
+            approval = PendingDataApproval.objects.get(
+                user=self.context.get('user'),
+                pending_data=data
+            )
+            approval.status = validated_data.get('status')
+            approval.save()
+            if not PendingDataApproval.objects.filter(
+                    pending_data=data,
+                    status__in=[DataApprovalStatus.pending,
+                                DataApprovalStatus.rejected]).count():
+                form_data = FormData.objects.create(
+                    name=data.name,
+                    form=data.form,
+                    administration=data.administration,
+                    geo=data.geo,
+                    created_by=data.created_by,
+                )
+                data.data = form_data
+                data.approved = True
+                data.save()
+
+                answer: PendingAnswers
+                for answer in data.pending_data_answer.all():
+                    Answers.objects.create(
+                        data=form_data,
+                        question=answer.question,
+                        name=answer.name,
+                        value=answer.value,
+                        options=answer.options,
+                        created_by=answer.created_by,
+                    )
+
+        return object
+
+    def update(self, instance, validated_data):
+        pass

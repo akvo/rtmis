@@ -21,7 +21,8 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
     ListMapDataPointRequestSerializer, ListChartDataPointRequestSerializer, \
     ListChartQuestionDataPointSerializer, ListPendingFormDataSerializer, \
-    ListPendingFormDataRequestSerializer, ListPendingDataAnswerSerializer
+    ListPendingFormDataRequestSerializer, ListPendingDataAnswerSerializer, \
+    ApprovePendingDataRequestSerializer
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Administration, Access
 from rtmis.settings import REST_FRAMEWORK
@@ -355,6 +356,37 @@ def pending_data_answers(request, version, pk):
                 instance=data.pending_data_answer.all(),
                 many=True).data,
             status=status.HTTP_200_OK)
+    except Exception as ex:
+        return Response({'message': ex.args},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@extend_schema(request=ApprovePendingDataRequestSerializer(),
+               responses={
+                   (200, 'application/json'):
+                       inline_serializer("DataList", fields={
+                           "current": serializers.IntegerField(),
+                           "total": serializers.IntegerField(),
+                           "total_page": serializers.IntegerField(),
+                           "data": ListPendingFormDataSerializer(many=True),
+                       })},
+               tags=['Data'], )
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsApprover])
+def approve_pending_data(request, version):
+    try:
+        serializer = ApprovePendingDataRequestSerializer(
+            data=request.data,
+            context={'user': request.user}
+        )
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(serializer.errors)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        serializer.save()
+        return Response({'message': 'Ok'},
+                        status=status.HTTP_200_OK)
     except Exception as ex:
         return Response({'message': ex.args},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
