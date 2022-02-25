@@ -42,6 +42,12 @@
         }
       }
 
+      h2 {
+        color: $white;
+        font-weight: $font-weight-semi-bold;
+        font-size: $font-size-large;
+      }
+
       button {
         &.ant-btn {
           &.ant-btn-lg {
