@@ -9,6 +9,7 @@ from rest_framework import serializers
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, QuestionGroup, Questions, \
     QuestionOptions, FormApprovalRule, FormApprovalAssignment
+from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from rtmis.settings import FORM_GEO_VALUE
@@ -329,9 +330,21 @@ class FormApproverUserSerializer(serializers.ModelSerializer):
         fields = ['id', 'first_name', 'last_name', 'email']
 
 
+class FormApproverUserListSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+
+    def get_name(self, instance: SystemUser):
+        return instance.get_full_name()
+
+    class Meta:
+        model = SystemUser
+        fields = ['id', 'name']
+
+
 class FormApproverResponseSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
     administration = serializers.SerializerMethodField()
+    user_list = serializers.SerializerMethodField()
 
     def get_user(self, instance: Administration):
         assignment = instance.administration_data_approval.filter(
@@ -343,6 +356,13 @@ class FormApproverResponseSerializer(serializers.ModelSerializer):
     def get_administration(self, instance: Administration):
         return {'id': instance.id, 'name': instance.name}
 
+    def get_user_list(self, instance: Administration):
+        users = SystemUser.objects.filter(
+            user_access__role=UserRoleTypes.approver,
+            user_access__administration=instance)
+        return FormApproverUserListSerializer(instance=users,
+                                              many=True).data
+
     class Meta:
         model = Administration
-        fields = ['user', 'administration']
+        fields = ['user', 'administration', 'user_list']
