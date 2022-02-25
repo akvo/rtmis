@@ -29,11 +29,7 @@ class DataTestCase(TestCase):
                          ['current', 'total', 'total_page', 'data'])
         self.assertEqual(list(result['data'][0]),
                          ['id', 'name', 'form', 'administration', 'geo',
-                          'created_by', 'updated_by', 'created', 'updated',
-                          'answer']
-                         )
-        self.assertEqual(list(result['data'][0]['answer'][0]),
-                         ['history', 'question', 'value']
+                          'created_by', 'updated_by', 'created', 'updated']
                          )
 
         data = self.client.get("/api/v1/list/form-data/1?page=2", follow=True,
