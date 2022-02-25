@@ -15,13 +15,13 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from api.v1.v1_data.models import FormData, Answers
+from api.v1.v1_data.models import FormData, Answers, PendingFormData
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
     ListMapDataPointRequestSerializer, ListChartDataPointRequestSerializer, \
     ListChartQuestionDataPointSerializer, ListPendingFormDataSerializer, \
-    ListPendingFormDataRequestSerializer
+    ListPendingFormDataRequestSerializer, ListPendingDataAnswerSerializer
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Administration, Access
 from rtmis.settings import REST_FRAMEWORK
@@ -338,6 +338,23 @@ def list_pending_form_data(request, version, pk):
     except (InvalidPage, EmptyPage):
         return Response({'message': 'data not found'},
                         status=status.HTTP_404_NOT_FOUND)
+    except Exception as ex:
+        return Response({'message': ex.args},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@extend_schema(responses={200: ListPendingDataAnswerSerializer(many=True)},
+               tags=['Data'])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def pending_data_answers(request, version, pk):
+    data = get_object_or_404(PendingFormData, pk=pk)
+    try:
+        return Response(
+            ListPendingDataAnswerSerializer(
+                instance=data.pending_data_answer.all(),
+                many=True).data,
+            status=status.HTTP_200_OK)
     except Exception as ex:
         return Response({'message': ex.args},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)

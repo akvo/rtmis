@@ -1,8 +1,11 @@
 from django.core.management import call_command
 from django.test import TestCase
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.v1.v1_data.models import FormData
 from api.v1.v1_forms.models import Forms
+from api.v1.v1_profile.constants import UserRoleTypes
+from api.v1.v1_users.models import SystemUser
 
 
 class DataTestCase(TestCase):
@@ -106,3 +109,38 @@ class DataTestCase(TestCase):
         self.assertEqual(list(data.json().get('data')[0]), ['group', 'child'])
         self.assertEqual(list(data.json().get('data')[0]['child'][0]),
                          ['name', 'value'])
+
+        call_command("fake_user_seeder", "-r", 10)
+        call_command('form_approval_seeder')
+        call_command('form_approval_assignment_seeder')
+        call_command('fake_pending_data_seeder', '-r', 1, '-t', True)
+        admin_user = SystemUser.objects.filter(
+            user_access__role=UserRoleTypes.admin).first()
+        if admin_user:
+            t = RefreshToken.for_user(admin_user)
+            header = {
+                'HTTP_AUTHORIZATION': f'Bearer {t.access_token}'
+            }
+            response = self.client.get(
+                '/api/v1/list/pending/form-data/{0}/?page=1'.format(
+                    Forms.objects.first().pk),
+                content_type='application/json',
+                **header)
+            self.assertEqual(200, response.status_code)
+
+            self.assertEqual(['current', 'total', 'total_page', 'data'],
+                             list(response.json()))
+            if response.json().get('total') > 0:
+                data = response.json().get('data')
+                self.assertEqual(
+                    ['id', 'name', 'form', 'administration', 'geo',
+                     'created_by', 'created', 'approver'],
+                    list(data[0]))
+                response = self.client.get(
+                    '/api/v1/list/pending/answers/{0}/'.format(
+                        data[0].get('id')),
+                    content_type='application/json',
+                    **header)
+                self.assertEqual(200, response.status_code)
+                self.assertEqual(['history', 'question', 'value'],
+                                 list(response.json()[0]))

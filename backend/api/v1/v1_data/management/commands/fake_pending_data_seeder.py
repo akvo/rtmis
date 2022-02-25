@@ -88,11 +88,15 @@ def seed_data(form, fake_geo, repeat, test):
                                                    flat=True).filter(
             form=form))
     for i in range(repeat):
-
-        administration = Administration.objects.filter(
-            id__in=admin_ids,
-            level=Levels.objects.order_by('-level').first()).order_by(
-            '?').first()
+        if test:
+            administration = Administration.objects.filter(
+                id__in=admin_ids).order_by(
+                '?').first()
+        else:
+            administration = Administration.objects.filter(
+                id__in=admin_ids,
+                level=Levels.objects.order_by('-level').first()).order_by(
+                '?').first()
         geo = fake_geo.iloc[i].to_dict()
         data = PendingFormData.objects.create(
             name=fake.pystr_format(),
@@ -130,6 +134,12 @@ class Command(BaseCommand):
                             const=1,
                             default=5,
                             type=int)
+        parser.add_argument("-t",
+                            "--test",
+                            nargs="?",
+                            const=1,
+                            default=False,
+                            type=bool)
 
     def handle(self, *args, **options):
         PendingFormData.objects.all().delete()
