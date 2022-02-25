@@ -24,7 +24,7 @@ class FormSeederTestCase(TestCase):
         output = self.call_command()
         json_forms = [
             "Health Facilities",
-            "Household Survey",
+            "Household",
             "CLTS",
             "WASH in School",
             "Water System",

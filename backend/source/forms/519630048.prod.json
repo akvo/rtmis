@@ -599,23 +599,6 @@
               ]
             }
           ]
-        },
-        {
-          "id": 513690064,
-          "meta": false,
-          "question": "Take a photo of the toilet facility",
-          "order": 14,
-          "required": true,
-          "type": null,
-          "options": null,
-          "dependency": [
-            {
-              "id": "Q513690063",
-              "options": [
-                "Yes"
-              ]
-            }
-          ]
         }
       ]
     },
