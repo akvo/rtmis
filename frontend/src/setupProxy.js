@@ -8,4 +8,14 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   );
+  app.use(
+    ["/config.js"],
+    createProxyMiddleware({
+      target: "http://localhost:8000",
+      changeOrigin: true,
+      pathRewrite: {
+        "^/config.js": "/api/v1/config.js",
+      },
+    })
+  );
 };
