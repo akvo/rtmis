@@ -1,4 +1,3 @@
-from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
@@ -175,7 +174,8 @@ class ListFormDataSerializer(serializers.ModelSerializer):
     created = serializers.SerializerMethodField()
     updated = serializers.SerializerMethodField()
     administration = serializers.ReadOnlyField(source='administration.name')
-    answer = serializers.SerializerMethodField()
+
+    # answer = serializers.SerializerMethodField()
 
     def get_created_by(self, instance: FormData):
         return instance.created_by.get_full_name()
@@ -191,20 +191,21 @@ class ListFormDataSerializer(serializers.ModelSerializer):
     def get_updated(self, instance: FormData):
         return update_date_time_format(instance.updated)
 
-    @extend_schema_field(ListDataAnswerSerializer(many=True))
-    def get_answer(self, instance: FormData):
-        filter_data = {}
-        if self.context.get('questions') and len(
-                self.context.get('questions')):
-            filter_data['question__in'] = self.context.get('questions')
-        return ListDataAnswerSerializer(
-            instance=instance.data_answer.filter(**filter_data),
-            many=True).data
+    #
+    # @extend_schema_field(ListDataAnswerSerializer(many=True))
+    # def get_answer(self, instance: FormData):
+    #     filter_data = {}
+    #     if self.context.get('questions') and len(
+    #             self.context.get('questions')):
+    #         filter_data['question__in'] = self.context.get('questions')
+    #     return ListDataAnswerSerializer(
+    #         instance=instance.data_answer.filter(**filter_data),
+    #         many=True).data
 
     class Meta:
         model = FormData
         fields = ['id', 'name', 'form', 'administration', 'geo', 'created_by',
-                  'updated_by', 'created', 'updated', 'answer']
+                  'updated_by', 'created', 'updated']
 
 
 class ListMapDataPointRequestSerializer(serializers.Serializer):
@@ -292,7 +293,7 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
     created_by = serializers.SerializerMethodField()
     created = serializers.SerializerMethodField()
     administration = serializers.ReadOnlyField(source='administration.name')
-    answer = serializers.SerializerMethodField()
+    # answer = serializers.SerializerMethodField()
     approver = serializers.SerializerMethodField()
 
     def get_created_by(self, instance: PendingFormData):
@@ -301,15 +302,15 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
     def get_created(self, instance: PendingFormData):
         return update_date_time_format(instance.created)
 
-    @extend_schema_field(ListPendingDataAnswerSerializer(many=True))
-    def get_answer(self, instance: PendingFormData):
-        filter_data = {}
-        if self.context.get('questions') and len(
-                self.context.get('questions')):
-            filter_data['question__in'] = self.context.get('questions')
-        return ListPendingDataAnswerSerializer(
-            instance=instance.pending_data_answer.filter(**filter_data),
-            many=True).data
+    # @extend_schema_field(ListPendingDataAnswerSerializer(many=True))
+    # def get_answer(self, instance: PendingFormData):
+    #     filter_data = {}
+    #     if self.context.get('questions') and len(
+    #             self.context.get('questions')):
+    #         filter_data['question__in'] = self.context.get('questions')
+    #     return ListPendingDataAnswerSerializer(
+    #         instance=instance.pending_data_answer.filter(**filter_data),
+    #         many=True).data
 
     def get_approver(self, instance: PendingFormData):
         user: SystemUser = self.context.get('user')
@@ -350,4 +351,4 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = PendingFormData
         fields = ['id', 'name', 'form', 'administration', 'geo', 'created_by',
-                  'created', 'approver', 'answer']
+                  'created', 'approver']
