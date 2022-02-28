@@ -45,6 +45,7 @@ EXTERNAL_APPS = [
     'rest_framework_simplejwt',
     'drf_spectacular',
     'django_dbml',
+    'django_extensions'
 ]
 
 # Add API apps below
