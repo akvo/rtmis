@@ -3,7 +3,7 @@ import "./style.scss";
 import { Row, Col, Space, Button } from "antd";
 import AdministrationDropdown from "./AdministrationDropdown";
 
-const ApproverFilters = ({ loading, isPristine, reset, save }) => {
+const ApproverFilters = ({ loading, disabled, visible, reset, save }) => {
   return (
     <Row>
       <Col flex={1}>
@@ -12,27 +12,27 @@ const ApproverFilters = ({ loading, isPristine, reset, save }) => {
         </Space>
       </Col>
       <Col>
-        <Row justify="end">
-          <Col>
-            <Space size={6}>
-              <Button
-                className="light"
-                disabled={isPristine || loading}
-                onClick={reset}
-              >
-                Reset
-              </Button>
-              <Button
-                type="primary"
-                disabled={isPristine}
-                onClick={save}
-                loading={loading}
-              >
-                Save
-              </Button>
-            </Space>
-          </Col>
-        </Row>
+        {visible ? (
+          <Row justify="end">
+            <Col>
+              <Space size={6}>
+                <Button className="light" disabled={disabled} onClick={reset}>
+                  Reset
+                </Button>
+                <Button
+                  type="primary"
+                  disabled={disabled}
+                  onClick={save}
+                  loading={loading}
+                >
+                  Save
+                </Button>
+              </Space>
+            </Col>
+          </Row>
+        ) : (
+          ""
+        )}
       </Col>
     </Row>
   );

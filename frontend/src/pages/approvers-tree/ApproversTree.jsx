@@ -16,11 +16,33 @@ const pagePath = [
     title: "Manage Approvers",
   },
 ];
+const users = [
+  {
+    id: 1,
+    name: "A. Awiti",
+  },
+  {
+    id: 2,
+    name: "Kerubo Stacy",
+  },
+  {
+    id: 3,
+    name: "Kimeli. K",
+  },
+  {
+    id: 4,
+    name: "Kipsang Kipchoge",
+  },
+  {
+    id: 5,
+    name: "Maina Mwangi",
+  },
+];
 const ApproversTree = () => {
   const { administration, forms, selectedForm } = store.useState((s) => s);
   const [nodes, setNodes] = useState([]);
-  const [adminNodes, setAdminNodes] = useState([]);
-  const [adminNodesJson, setAdminNodesJson] = useState([]);
+  const [dataset, setDataset] = useState([]);
+  const [datasetJson, setDatasetJson] = useState("[]");
   const [scroll, setScroll] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -40,75 +62,71 @@ const ApproversTree = () => {
 
   useEffect(() => {
     if (administration.length && selectedForm) {
+      const selectedAdministration = takeRight(administration, 1)[0];
       setLoading(true);
       api
         .get(
-          `form/approver/?administration_id=${
-            takeRight(administration, 1)[0].id
-          }&form_id=${selectedForm}`
+          `form/approver/?administration_id=${selectedAdministration.id}&form_id=${selectedForm}`
         )
         .then((res) => {
-          const adminClone = administration.map((adminNode, anI) => ({
-            ...adminNode,
-            children: [...adminNode.children].map((cN, cnI) => ({
-              ...cN,
-              active: false,
-              user:
-                anI === administration.length - 1
-                  ? res.data.find((d) => {
-                      return (
-                        d.administration.id ===
-                        takeRight(administration, 1)[0]?.children[cnI].id
-                      );
-                    })?.user?.id || null
-                  : null,
-              users: cN.user_list || [],
-            })),
-          }));
-          for (let i = 0; i < adminClone.length - 1; i++) {
-            const pos = adminClone[i].children.findIndex(
-              (c) => c.name === adminClone[i + 1].name
-            );
-            if (pos !== -1) {
-              adminClone[i].children[pos].active = true;
-            }
-          }
-          adminClone[adminClone.length - 1].children = adminClone[
-            adminClone.length - 1
-          ].children.map((el) => ({ ...el, active: true }));
-          setAdminNodes(adminClone);
-          setAdminNodesJson(JSON.stringify(takeRight(adminClone, 1)[0]));
+          setDataset((prev) => {
+            let adminClone = JSON.parse(JSON.stringify(prev));
+            adminClone.length = administration.length - 1;
+            adminClone = [
+              ...adminClone,
+              {
+                id: selectedAdministration.id,
+                childLevelName: selectedAdministration.childLevelName,
+                children: res.data.map((cI) => ({
+                  ...cI,
+                  user_list: users,
+                  user: cI.user?.id,
+                })),
+              },
+            ];
+            setDatasetJson(JSON.stringify(adminClone));
+            return adminClone;
+          });
           setLoading(false);
         })
-        .catch((err) => {
+        .catch(() => {
           message.error("Could not fetch data");
           setLoading(false);
-          console.error(err);
         });
     }
   }, [administration, selectedForm]);
 
   const isPristine = useMemo(() => {
-    return JSON.stringify(takeRight(adminNodes, 1)[0]) === adminNodesJson;
-  }, [adminNodes, adminNodesJson]);
+    return JSON.stringify(dataset) === datasetJson;
+  }, [dataset, datasetJson]);
 
   const resetForm = () => {
-    const cloned = JSON.parse(adminNodesJson);
-    setAdminNodes(cloned);
+    if (administration.length === 1) {
+      setDataset(JSON.parse(datasetJson));
+    } else {
+      store.update((s) => {
+        s.administration.length = 1;
+      });
+    }
   };
 
   const handleSubmit = () => {
-    const formData = takeRight(adminNodes, 1)[0]
-      .children.filter((c) => c.user !== null)
-      .map((c) => ({
-        user_id: c.user,
-        administration_id: takeRight(adminNodes, 1)[0].id,
-      }));
+    const formData = dataset.reduce((arr, adminData) => {
+      adminData.children
+        .filter((c) => c.user)
+        .map((childData) => {
+          arr.push({
+            user_id: childData.user,
+            administration_id: childData.administration.id,
+          });
+        });
+      return arr;
+    }, []);
     setLoading(true);
     api
       .post(`approval/form/${selectedForm}/`, formData)
       .then(() => {
-        setAdminNodesJson(JSON.stringify(takeRight(adminNodes, 1)[0]));
+        setDatasetJson(JSON.stringify(dataset));
         message.success("Approvers updated");
         setLoading(false);
       })
@@ -130,7 +148,33 @@ const ApproversTree = () => {
     }
   };
 
-  const renderNodes = useMemo(() => {
+  const renderFormNodes = useMemo(() => {
+    return nodes.map((nodeItem, i) => (
+      <Col key={i} span={6} className="tree-col-0" align="center">
+        {nodeItem.children.map((childItem, j) => (
+          <div
+            className={`tree-block tree-form-block-${childItem.id}
+              ${
+                childItem.id === selectedForm || nodeItem.id === selectedForm
+                  ? "active"
+                  : ""
+              }`}
+            key={j}
+            onClick={() => {
+              store.update((s) => {
+                s.selectedForm = childItem.id;
+                s.administration = take(administration);
+              });
+            }}
+          >
+            {childItem.name}
+          </div>
+        ))}
+      </Col>
+    ));
+  }, [nodes, selectedForm, administration]);
+
+  const renderAdminNodes = useMemo(() => {
     const handleClick = (e, index) => {
       if (!e || loading) {
         return;
@@ -154,168 +198,160 @@ const ApproversTree = () => {
           });
           setLoading(false);
         })
-        .catch((err) => {
+        .catch(() => {
           message.error("Could not load filters");
           setLoading(false);
-          console.error(err);
         });
     };
-    return (
-      <Row wrap={false} justify="left">
-        {nodes.map((nodeItem, i) => (
-          <Col key={i} span={6} className="tree-col-0" align="center">
-            {nodeItem.children.map((childItem, j) => (
-              <div
-                className={`tree-block tree-form-block-${childItem.id}
-                  ${
-                    childItem.id === selectedForm ||
-                    nodeItem.id === selectedForm
-                      ? "active"
-                      : ""
-                  }`}
-                key={j}
-                onClick={() => {
-                  store.update((s) => {
-                    s.selectedForm = childItem.id;
-                    s.administration = take(administration);
-                  });
-                }}
+    return selectedForm
+      ? administration.map(
+          (adminItem, k) =>
+            adminItem.children?.length > 0 && (
+              <Col
+                onScroll={handleColScroll}
+                key={k}
+                span={6}
+                className={`tree-col-${k + 1}`}
+                align="center"
               >
-                {childItem.name}
-              </div>
-            ))}
-          </Col>
-        ))}
-        {selectedForm &&
-          adminNodes.map(
-            (adminItem, k) =>
-              adminItem.children?.length > 0 && (
-                <Col
-                  onScroll={handleColScroll}
-                  key={k}
-                  span={6}
-                  className={`tree-col-${k + 1}`}
-                  align="center"
-                >
-                  {adminItem.children.map((childItem, l) => (
-                    <div
-                      className={`tree-block tree-block-${k}-${childItem.id}
-                      ${childItem.active ? "active" : ""}`}
-                      key={l}
-                      onClick={() => {
-                        handleClick(childItem.id, k);
+                {adminItem.children?.map((childItem, l) => (
+                  <div
+                    className={`tree-block tree-block-${k + 1}-${childItem.id}
+                      ${
+                        k >= administration.length - 1 ||
+                        administration[k + 1]?.children[0]?.parent ===
+                          childItem.id
+                          ? "active"
+                          : ""
+                      }
+                    `}
+                    key={l}
+                    onClick={() => {
+                      handleClick(childItem.id, k);
+                    }}
+                  >
+                    <div>{childItem.name}</div>
+                    <Select
+                      key={`user-dropdown-${childItem.id}`}
+                      allowClear
+                      placeholder="Not assigned"
+                      value={
+                        dataset[k]?.children?.find(
+                          (c) => c.administration.id === childItem.id
+                        )?.user
+                      }
+                      onClick={(e) => {
+                        e.stopPropagation();
                       }}
+                      onChange={(e) => {
+                        if (!e) {
+                          return;
+                        }
+                        const newNodes = JSON.parse(JSON.stringify(dataset));
+                        newNodes[k].children[l].user = e;
+                        setDataset(newNodes);
+                      }}
+                      onClear={() => {
+                        const cleared = [...dataset];
+                        cleared[k].children[l].user = null;
+                        setDataset(cleared);
+                      }}
+                      disabled={loading}
                     >
-                      <div>{childItem.name}</div>
-                      <Select
-                        key={`user-dropdown-${childItem.id}`}
-                        allowClear
-                        placeholder="Not assigned"
-                        value={childItem.user}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                        onChange={(e) => {
-                          if (!e) {
-                            return;
-                          }
-                          const newNodes = JSON.parse(
-                            JSON.stringify(adminNodes)
-                          );
-                          newNodes[k].children[l].user = e;
-                          setAdminNodes(newNodes);
-                        }}
-                        onClear={() => {
-                          const cleared = [...adminNodes];
-                          cleared[k].children[l].user = null;
-                          setAdminNodes(cleared);
-                        }}
-                      >
-                        {childItem.users.map((user, userIndex) => (
-                          <Option key={userIndex} value={user.id}>
-                            {user.name}
-                          </Option>
-                        ))}
-                      </Select>
-                    </div>
-                  ))}
-                </Col>
-              )
-          )}
+                      {(
+                        dataset[k]?.children?.find(
+                          (c) => c.administration?.id === childItem.id
+                        )?.user_list || []
+                      ).map((user, userIndex) => (
+                        <Option key={userIndex} value={user.id}>
+                          {user.name}
+                        </Option>
+                      ))}
+                    </Select>
+                  </div>
+                ))}
+              </Col>
+            )
+        )
+      : "";
+  }, [administration, dataset, selectedForm, loading]);
 
-        {selectedForm && (
-          <SteppedLineTo
-            within="tree-col-0"
-            key={`tree-line-${selectedForm}`}
-            from={`tree-form-block-${selectedForm}`}
-            to={`tree-col-0`}
-            fromAnchor="right"
-            toAnchor="right"
-            delay={scroll ? 0 : 1}
-            orientation="h"
-            borderColor="#0058ff"
-            borderStyle="solid"
-          />
-        )}
-
-        {selectedForm &&
-          adminNodes.map((adminItem, m) => (
-            <div key={m}>
-              {adminItem.children.map((childItem) => {
-                const isParent =
-                  adminNodes[m + 1]?.children[0]?.parent === childItem.id ||
-                  false;
-                return (
-                  <>
-                    <SteppedLineTo
-                      within={`tree-col-${m + 1}`}
-                      key={`tree-line-${m + 1}-${childItem.id}`}
-                      from={`tree-col-${m}`}
-                      to={`tree-block-${m}-${childItem.id}`}
-                      fromAnchor="right"
-                      toAnchor="left"
-                      delay={scroll ? 0 : 1}
-                      orientation="h"
-                      borderColor={
-                        childItem.active || m >= adminNodes.length - 1
-                          ? "#0058ff"
-                          : "#dedede"
-                      }
-                      borderStyle={
-                        childItem.active || m >= adminNodes.length - 1
-                          ? "solid"
-                          : "dotted"
-                      }
-                      borderWidth={
-                        childItem.active || m >= adminNodes.length - 1 ? 1 : 1.5
-                      }
-                      zIndex={
-                        childItem.active || m >= adminNodes.length - 1 ? 100 : 1
-                      }
-                    />
-                    {isParent && (
-                      <SteppedLineTo
-                        within={`tree-col-${m + 1}`}
-                        key={`tree-line-${m}-${childItem.id}`}
-                        from={`tree-block-${m}-${childItem.id}`}
-                        to={`tree-col-${m + 1}`}
-                        fromAnchor="right"
-                        toAnchor="right"
-                        delay={scroll ? 0 : 1}
-                        orientation="h"
-                        borderColor="#0058ff"
-                        borderStyle="solid"
-                        zIndex={100}
-                      />
-                    )}
-                  </>
-                );
-              })}
-            </div>
-          ))}
-      </Row>
+  const renderFormLine = useMemo(() => {
+    return (
+      selectedForm &&
+      administration.length && (
+        <SteppedLineTo
+          within="tree-col-0"
+          key={`tree-line-${selectedForm}`}
+          from={`tree-form-block-${selectedForm}`}
+          to={`tree-col-0`}
+          fromAnchor="right"
+          toAnchor="right"
+          delay={scroll ? 0 : 1}
+          orientation="h"
+          borderColor="#0058ff"
+          borderStyle="solid"
+        />
+      )
     );
-  }, [nodes, adminNodes, selectedForm, administration, scroll, loading]);
+  }, [administration, selectedForm, scroll]);
+
+  const renderAdminLines = useMemo(() => {
+    return (
+      selectedForm &&
+      administration.map((adminItem, m) => (
+        <div key={m}>
+          {adminItem.children.map((childItem) => {
+            const isParent =
+              administration[m + 1]?.children[0]?.parent === childItem.id;
+            return (
+              <>
+                <SteppedLineTo
+                  within={`tree-col-${m + 1}`}
+                  key={`tree-line-${m + 1}-${childItem.id}`}
+                  from={`tree-col-${m}`}
+                  to={`tree-block-${m + 1}-${childItem.id}`}
+                  fromAnchor="right"
+                  toAnchor="left"
+                  delay={scroll ? 0 : 1}
+                  orientation="h"
+                  borderColor={
+                    m >= administration.length - 1 || isParent
+                      ? "#0058ff"
+                      : "#dedede"
+                  }
+                  borderStyle={
+                    m >= administration.length - 1 || isParent
+                      ? "solid"
+                      : "dotted"
+                  }
+                  borderWidth={
+                    m >= administration.length - 1 || isParent ? 1 : 1.5
+                  }
+                  zIndex={m >= administration.length - 1 || isParent ? 100 : 1}
+                />
+                {isParent && (
+                  <SteppedLineTo
+                    within={`tree-col-${m + 1}`}
+                    key={`tree-line-${m}-${childItem.id}`}
+                    from={`tree-block-${m + 1}-${childItem.id}`}
+                    to={`tree-col-${m + 2}`}
+                    fromAnchor="right"
+                    toAnchor="right"
+                    delay={scroll ? 0 : 1}
+                    orientation="h"
+                    borderColor="#0058ff"
+                    borderStyle="solid"
+                    zIndex={100}
+                  />
+                )}
+              </>
+            );
+          })}
+        </div>
+      ))
+    );
+  }, [administration, selectedForm, scroll]);
 
   return (
     <div id="approversTree">
@@ -326,8 +362,9 @@ const ApproversTree = () => {
       </Row>
       <Divider />
       <ApproverFilters
-        isPristine={isPristine}
         loading={false}
+        disabled={isPristine || loading}
+        visible={dataset.length}
         reset={resetForm}
         save={handleSubmit}
       />
@@ -338,7 +375,7 @@ const ApproversTree = () => {
             Questionnaire
           </Col>
           {selectedForm &&
-            adminNodes.map(
+            dataset.map(
               (aN, anI) =>
                 aN.children.length > 0 && (
                   <Col key={anI} span={6} align="center">
@@ -352,7 +389,12 @@ const ApproversTree = () => {
             )}
         </Row>
         <div className="tree-wrap" id="tree-wrap">
-          {renderNodes}
+          <Row wrap={false} justify="left">
+            {renderFormNodes}
+            {renderAdminNodes}
+            {renderFormLine}
+            {renderAdminLines}
+          </Row>
         </div>
       </Card>
     </div>
