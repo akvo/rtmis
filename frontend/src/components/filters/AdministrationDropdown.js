@@ -104,6 +104,9 @@ const AdministrationDropdown = ({
                 value={administration[regionIdx + 1]?.id || null}
                 disabled={loading || parentLoading}
                 allowClear
+                showSearch
+                filterOption={true}
+                optionFilterProp="children"
               >
                 {region.children.map((optionValue, optionIdx) => (
                   <Select.Option key={optionIdx} value={optionValue.id}>
