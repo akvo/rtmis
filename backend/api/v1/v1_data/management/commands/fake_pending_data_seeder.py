@@ -1,3 +1,4 @@
+import uuid
 from datetime import timedelta
 
 import pandas as pd
@@ -6,9 +7,9 @@ from django.utils import timezone
 from faker import Faker
 
 from api.v1.v1_data.models import PendingFormData, \
-    PendingAnswers
+    PendingAnswers, PendingDataApproval
 from api.v1.v1_forms.constants import QuestionTypes
-from api.v1.v1_forms.models import Forms
+from api.v1.v1_forms.models import Forms, FormApprovalAssignment
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 
@@ -81,27 +82,41 @@ def add_fake_answers(data: PendingFormData):
     data.save()
 
 
-def seed_data(form, fake_geo, level_names, repeat, test):
+def seed_data(form, fake_geo, repeat, test):
+    admin_ids = list(
+        FormApprovalAssignment.objects.values_list('administration_id',
+                                                   flat=True).filter(
+            form=form))
     for i in range(repeat):
+        if test:
+            administration = Administration.objects.filter(
+                id__in=admin_ids).order_by(
+                '?').first()
+        else:
+            administration = Administration.objects.filter(
+                id__in=admin_ids,
+                level=Levels.objects.order_by('-level').first()).order_by(
+                '?').first()
         geo = fake_geo.iloc[i].to_dict()
         data = PendingFormData.objects.create(
             name=fake.pystr_format(),
             geo=[geo["X"], geo["Y"]],
             form=form,
-            administration=Administration.objects.first(),
+            administration=administration,
             created_by=SystemUser.objects.order_by('?').first())
-        level_id = 1
-        # admin_ids = []
-        if not test:
-            for level_name in level_names:
-                level = level_name.split("_")
-                administration = Administration.objects.filter(
-                    parent_id=level_id,
-                    level=Levels.objects.filter(level=level[1]).first(),
-                    name=geo[level_name]).first()
-                level_id = administration.id
-                data.administration = administration
-                data.save()
+
+        complete_path = '{0}{1}'.format(administration.path, administration.id)
+
+        for path in complete_path.split('.'):
+            assignment = FormApprovalAssignment.objects.filter(
+                form=form,
+                administration_id=path).first()
+            if assignment:
+                PendingDataApproval.objects.create(
+                    pending_data=data,
+                    user=assignment.user,
+                    level=assignment.user.user_access.administration.level
+                )
         add_fake_answers(data)
 
 
@@ -111,49 +126,36 @@ class Command(BaseCommand):
                             "--repeat",
                             nargs="?",
                             const=20,
-                            default=20,
+                            default=5,
+                            type=int)
+        parser.add_argument("-b",
+                            "--batch",
+                            nargs="?",
+                            const=1,
+                            default=5,
                             type=int)
         parser.add_argument("-t",
                             "--test",
                             nargs="?",
-                            const=False,
+                            const=1,
                             default=False,
                             type=bool)
 
     def handle(self, *args, **options):
         PendingFormData.objects.all().delete()
         fake_geo = pd.read_csv("./source/kenya_random_points.csv")
-        level_names = list(
-            filter(lambda x: True if "NAME_" in x else False, list(fake_geo)))
         for form in Forms.objects.all():
-            print(f"Seeding - {form.name}")
-            seed_data(form, fake_geo, level_names, options.get("repeat"),
+            seed_data(form, fake_geo, options.get("repeat"),
                       options.get("test"))
+        pending_data_count = PendingFormData.objects.all().count()
+        limit = int(pending_data_count / options.get('batch'))
+        if limit:
+            while PendingFormData.objects.filter(
+                    batch__isnull=True).count() >= limit:
 
-
-"""
-Form1 - 1
-Form2 - 2
-
-Admin - 3 level 3
-Admin - 5 level 4
-Admin - 7 level 4
-
-Admin - 4 level 4
-Admin - 6 level 3
-
-Form1:
- - User1 admin 3 1.3
- - User2 admin 5
- - User2 admin 7 1.3
-
-Form1:
- - User3 admin 6
- - User4 admin 4
-
-PendingFormData
-form - Form1
-data - data1
-administration - Admin 7 parent=3 [1.3.5.7.]
-
-"""
+                objs = PendingFormData.objects.filter(batch__isnull=True)[
+                       :limit]
+                val = uuid.uuid4()
+                for obj in objs:
+                    obj.batch = val
+                PendingFormData.objects.bulk_update(objs, fields=['batch'])

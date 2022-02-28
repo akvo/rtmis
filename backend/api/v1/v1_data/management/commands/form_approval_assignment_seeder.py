@@ -18,9 +18,13 @@ class Command(BaseCommand):
                     filter_path = '{0}{1}.'.format(previous.path,
                                                    previous.id)
                 else:
-                    filter_path = '{0}{1}.'.format(
-                        rule.administration.path,
-                        rule.administration.id)
+                    if rule.administration.path:
+                        filter_path = '{0}{1}.'.format(
+                            rule.administration.path,
+                            rule.administration.id)
+                    else:
+                        filter_path = '{0}.'.format(
+                            rule.administration.id)
                 administration = Administration.objects.filter(
                     path__startswith=filter_path,
                     level=level).first()
