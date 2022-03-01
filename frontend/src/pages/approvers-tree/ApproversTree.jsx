@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Card, Divider, Select, Button } from "antd";
+import { Row, Col, Card, Divider, Select } from "antd";
 import { Breadcrumbs } from "../../components";
 import { api, store } from "../../lib";
 import ApproverFilters from "../../components/filters/ApproverFilters";
@@ -352,28 +352,6 @@ const ApproversTree = () => {
           <Breadcrumbs pagePath={pagePath} />
         </Col>
       </Row>
-      <Divider />
-      <Button
-        onClick={() => {
-          notify({ type: "success", message: "SUCCESS" });
-        }}
-      >
-        Btn1
-      </Button>
-      <Button
-        onClick={() => {
-          notify({ type: "error", message: "ERROR" });
-        }}
-      >
-        Btn2
-      </Button>
-      <Button
-        onClick={() => {
-          notify({ type: "warning", message: "WARNING" });
-        }}
-      >
-        Btn3
-      </Button>
       <Divider />
       <ApproverFilters
         loading={saving}
