@@ -137,7 +137,7 @@ class DataTestCase(TestCase):
                      'created_by', 'created', 'approver'],
                     list(data[0]))
                 response = self.client.get(
-                    '/api/v1/list/pending/answers/{0}/'.format(
+                    '/api/v1/pending-data/{0}'.format(
                         data[0].get('id')),
                     content_type='application/json',
                     **header)
