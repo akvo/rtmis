@@ -10,13 +10,13 @@ import {
   Input,
   Select,
   Checkbox,
-  message,
 } from "antd";
 import { AdministrationDropdown } from "../../components";
 import { useNavigate } from "react-router-dom";
 import { api, store, config } from "../../lib";
 import { Breadcrumbs } from "../../components";
 import { takeRight } from "lodash";
+import { useNotification } from "../../util/hooks";
 
 const { Option } = Select;
 
@@ -40,6 +40,7 @@ const AddUser = () => {
   const [form] = Form.useForm();
   const { user: authUser, administration } = store.useState((s) => s);
   const navigate = useNavigate();
+  const { notify } = useNotification();
 
   const onFinish = (values) => {
     setSubmitting(true);
@@ -53,12 +54,18 @@ const AddUser = () => {
         role: values.role,
       })
       .then(() => {
-        message.success("User added");
+        notify({
+          type: "success",
+          message: "User added",
+        });
         setSubmitting(false);
         navigate("/users");
       })
       .catch((err) => {
-        message.error(err.response?.data?.message || "User could not be added");
+        notify({
+          type: "error",
+          message: err.response?.data?.message || "User could not be added",
+        });
         setSubmitting(false);
       });
   };

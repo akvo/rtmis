@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Row, Col, Card, Button, Divider, Table, message } from "antd";
+import { Row, Col, Card, Button, Divider, Table } from "antd";
 import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import UserDetail from "./UserDetail";
-import { UserFilters, Breadcrumbs } from "../../components";
+import { UserFilters, Breadcrumbs, PageLoader } from "../../components";
+import { useNotification } from "../../util/hooks";
 
 const pagePath = [
   {
@@ -25,10 +26,10 @@ const Users = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { administration, filters, isLoggedIn } = store.useState(
-    (state) => state
-  );
+  const { administration, loadingAdministration, filters, isLoggedIn } =
+    store.useState((state) => state);
   const { role } = filters;
+  const { notify } = useNotification();
 
   const selectedAdministration =
     administration.length > 0
@@ -83,6 +84,7 @@ const Users = () => {
       if (role) {
         url += `&role=${role}`;
       }
+      setLoading(true);
       api
         .get(url)
         .then((res) => {
@@ -91,12 +93,15 @@ const Users = () => {
           setLoading(false);
         })
         .catch((err) => {
-          message.error("Could not load users");
+          notify({
+            type: "error",
+            message: "Could not load users",
+          });
           setLoading(false);
           console.error(err);
         });
     }
-  }, [role, pending, currentPage, selectedAdministration, isLoggedIn]);
+  }, [role, pending, currentPage, selectedAdministration, isLoggedIn, notify]);
 
   return (
     <div id="users">
@@ -123,33 +128,37 @@ const Users = () => {
         style={{ padding: 0, minHeight: "40vh" }}
         bodyStyle={{ padding: 0 }}
       >
-        <Table
-          columns={columns}
-          dataSource={dataset}
-          loading={loading}
-          onChange={handleChange}
-          pagination={{
-            showSizeChanger: false,
-            total: totalCount,
-            pageSize: 10,
-          }}
-          rowKey="id"
-          expandable={{
-            expandedRowRender: UserDetail,
-            expandIcon: ({ expanded, onExpand, record }) =>
-              expanded ? (
-                <CloseSquareOutlined
-                  onClick={(e) => onExpand(record, e)}
-                  style={{ color: "#e94b4c" }}
-                />
-              ) : (
-                <PlusSquareOutlined
-                  onClick={(e) => onExpand(record, e)}
-                  style={{ color: "#7d7d7d" }}
-                />
-              ),
-          }}
-        />
+        {loading || loadingAdministration ? (
+          <PageLoader message="Loading.." />
+        ) : (
+          <Table
+            columns={columns}
+            dataSource={dataset}
+            // loading={loading}
+            onChange={handleChange}
+            pagination={{
+              showSizeChanger: false,
+              total: totalCount,
+              pageSize: 10,
+            }}
+            rowKey="id"
+            expandable={{
+              expandedRowRender: UserDetail,
+              expandIcon: ({ expanded, onExpand, record }) =>
+                expanded ? (
+                  <CloseSquareOutlined
+                    onClick={(e) => onExpand(record, e)}
+                    style={{ color: "#e94b4c" }}
+                  />
+                ) : (
+                  <PlusSquareOutlined
+                    onClick={(e) => onExpand(record, e)}
+                    style={{ color: "#7d7d7d" }}
+                  />
+                ),
+            }}
+          />
+        )}
       </Card>
     </div>
   );

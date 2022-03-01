@@ -5,6 +5,9 @@
     .ant-row.tree-header {
       border-bottom: solid #d7dbec 1px;
       padding-bottom: 25px;
+      &.loading {
+        opacity: 0.3;
+      }
 
       .ant-col {
         width: 300px;

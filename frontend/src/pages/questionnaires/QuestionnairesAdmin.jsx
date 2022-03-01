@@ -11,11 +11,11 @@ import {
   Checkbox,
   Space,
   Button,
-  message,
 } from "antd";
 import { api, store } from "../../lib";
 import { Breadcrumbs } from "../../components";
 import { reloadData } from "../../util/form";
+import { useNotification } from "../../util/hooks";
 
 const pagePath = [
   {
@@ -37,6 +37,7 @@ const QuestionnairesAdmin = () => {
   const [saving, setSaving] = useState(false);
   const [dataset, setDataset] = useState([]);
   const [dataOriginal, setDataOriginal] = useState("");
+  const { notify } = useNotification();
 
   const columns = useMemo(() => {
     const handleChecked = (id, val) => {
@@ -114,11 +115,17 @@ const QuestionnairesAdmin = () => {
       .post("edit/form/approval/", data)
       .then(() => {
         setSaving(false);
-        message.success("Questionnaires updated");
+        notify({
+          type: "success",
+          message: "Questionnaires updated",
+        });
         reloadData();
       })
       .catch(() => {
-        message.error("Could not update Questionnaires");
+        notify({
+          type: "error",
+          message: "Could not update Questionnaires",
+        });
         setSaving(false);
       });
   };
