@@ -70,12 +70,12 @@ const Home = () => {
             <Col className="card-wrapper" span={8} key={index} align="center">
               <Card title={dataset.title} bordered={false} hoverable>
                 <p>{dataset.description}</p>
-                <Link to={dataset.link} className="read-more">
+                <Link to={dataset.link} className="read-more dev">
                   Read More
                   <RightOutlined />
                 </Link>
                 <Link to={dataset.link} className="explore">
-                  <Button type="primary">Explore The Data</Button>
+                  <Button className="dev">Explore The Data</Button>
                 </Link>
               </Card>
             </Col>
@@ -85,7 +85,7 @@ const Home = () => {
       <div className="highlights">
         <h1>Highlights</h1>
         <div className="body">
-          <Tabs defaultActiveKey="1" centered>
+          <Tabs defaultActiveKey="1" centered className="dev">
             {highlights.map((highlight, index) => (
               <TabPane tab={highlight.name} key={index + 1}>
                 {highlight.description}
