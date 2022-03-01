@@ -1,10 +1,11 @@
 # Create your views here.
+import datetime
 from math import ceil
 
 from django.contrib.postgres.aggregates import StringAgg
 from django.core.paginator import InvalidPage, EmptyPage, Paginator
-from django.db.models import Count, TextField
-from django.db.models.functions import Cast
+from django.db.models import Count, TextField, Value
+from django.db.models.functions import Cast, Coalesce
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, inline_serializer, \
     OpenApiParameter
@@ -112,8 +113,10 @@ def list_form_data(request, version, pk):
         page_size = REST_FRAMEWORK.get('PAGE_SIZE')
         page = request.GET.get('page')
 
-        queryset = form.form_form_data.filter(**filter_data).order_by(
-            'created', 'updated')
+        the_past = datetime.datetime.now() - datetime.timedelta(days=10 * 365)
+        queryset = form.form_form_data.filter(**filter_data).annotate(
+            last_updated=Coalesce('updated', Value(the_past))).order_by(
+            '-last_updated', '-created')
         paginator_temp = Paginator(queryset, page_size)
         paginator_temp.page(request.GET.get('page', page))
 
@@ -317,7 +320,7 @@ def list_pending_form_data(request, version, pk):
 
         queryset = form.pending_form_form_data.filter(
             administration_id__in=descendants,
-            **filter_data).order_by('created')
+            **filter_data).order_by('-created')
         paginator_temp = Paginator(queryset, page_size)
         paginator_temp.page(request.GET.get('page', page))
 
