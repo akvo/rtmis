@@ -310,11 +310,11 @@ const ApproversTree = () => {
                 {isParent && (
                   <SteppedLineTo
                     within={`tree-col-${m + 1}`}
-                    key={`tree-line-${m}-${childItem.id}`}
+                    key={`tree-line-p-${m}-${childItem.id}`}
                     from={`tree-block-${m + 1}-${childItem.id}`}
                     to={`tree-col-${m + 2}`}
                     fromAnchor="right"
-                    toAnchor="right"
+                    toAnchor="left"
                     delay={scroll ? 0 : 1}
                     orientation="h"
                     borderColor="#0058ff"
@@ -354,8 +354,7 @@ const ApproversTree = () => {
           {selectedForm &&
             dataset.map(
               (aN, anI) =>
-                aN.children &&
-                aN.children.length > 0 && (
+                !!aN.children?.length && (
                   <Col key={anI} span={6} align="center">
                     {aN.childLevelName}
                     <div
