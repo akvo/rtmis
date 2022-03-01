@@ -12,7 +12,7 @@ class DataTestCase(TestCase):
     def test_list_form_data(self):
         call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login/',
+        user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
         token = user_response.json().get('token')
@@ -42,7 +42,7 @@ class DataTestCase(TestCase):
     def test_maps_data(self):
         call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login/',
+        user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
         token = user_response.json().get('token')
@@ -76,7 +76,7 @@ class DataTestCase(TestCase):
     def test_chart_data(self):
         call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login/',
+        user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
         token = user_response.json().get('token')

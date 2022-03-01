@@ -40,7 +40,7 @@ class FormSubmissionTestCase(TestCase):
         self.maxDiff = None
         seed_administration_test()
         user = {"email": "admin@rtmis.com", "password": "Test105*"}
-        user = self.client.post('/api/v1/login/',
+        user = self.client.post('/api/v1/login',
                                 user,
                                 content_type='application/json')
         user = user.json()
@@ -111,7 +111,7 @@ class FormSubmissionTestCase(TestCase):
         call_command("administration_seeder", "--test")
         call_command("form_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login/',
+        user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
         user = user_response.json()
@@ -142,7 +142,7 @@ class FormSubmissionTestCase(TestCase):
         call_command("administration_seeder", "--test")
         call_command("form_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login/',
+        user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
         user = user_response.json()
@@ -174,7 +174,7 @@ class FormSubmissionTestCase(TestCase):
         call_command("administration_seeder", "--test")
         call_command("form_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login/',
+        user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
         user = user_response.json()

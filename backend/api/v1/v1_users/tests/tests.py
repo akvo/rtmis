@@ -1,9 +1,9 @@
+from django.core.management import call_command
 from django.test import TestCase
 
+from api.v1.v1_profile.models import Access
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
-from django.core.management import call_command
-from api.v1.v1_profile.models import Access
 
 
 class SystemUserTestCase(TestCase):
@@ -58,7 +58,7 @@ class SystemUserEndpointsTestCase(TestCase):
         administration.save()
         self.assertEqual(0, SystemUser.objects.count())
         user = {"email": "admin@rtmis.com", "password": "Test105*"}
-        user = self.client.post('/api/v1/login/',
+        user = self.client.post('/api/v1/login',
                                 user,
                                 content_type='application/json')
         self.assertEqual(1, SystemUser.objects.count())
@@ -69,13 +69,13 @@ class SystemUserEndpointsTestCase(TestCase):
             list(user))
 
         user = {"email": "admin@rtmis.com", "password": "Test105"}
-        user = self.client.post('/api/v1/login/',
+        user = self.client.post('/api/v1/login',
                                 user,
                                 content_type='application/json')
         self.assertEqual(user.status_code, 401)
 
         user = {"email": "admin@rtmis.com"}
-        user = self.client.post('/api/v1/login/',
+        user = self.client.post('/api/v1/login',
                                 user,
                                 content_type='application/json')
         self.assertEqual(user.status_code, 400)

@@ -59,7 +59,7 @@ def get_config_file(request, version):
 # TODO: Remove temp user entry and invite key from the response.
 @extend_schema(request=LoginSerializer,
                responses={200: UserSerializer},
-               tags=['User'])
+               tags=['Auth'])
 @api_view(['POST'])
 def login(request, version):
     serializer = LoginSerializer(data=request.data)
@@ -96,7 +96,8 @@ def login(request, version):
 
 
 @extend_schema(responses={200: UserSerializer},
-               tags=['User'])
+               tags=['Auth'],
+               summary='Get user details from token')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_profile(request, version):
@@ -158,16 +159,18 @@ def set_user_password(request, version):
 
 
 @extend_schema(responses={200: ListAdministrationSerializer},
-               tags=['Administration'])
+               tags=['Administration'],
+               summary='Get list of administration')
 @api_view(['GET'])
-def list_administration(request, version, pk):
-    instance = get_object_or_404(Administration, pk=pk)
+def list_administration(request, version, administration_id):
+    instance = get_object_or_404(Administration, pk=administration_id)
     return Response(ListAdministrationSerializer(instance=instance).data,
                     status=status.HTTP_200_OK)
 
 
 @extend_schema(responses={200: ListLevelSerializer(many=True)},
-               tags=['Administration'])
+               tags=['Administration'],
+               summary='Get list of levels')
 @api_view(['GET'])
 def list_levels(request, version):
     return Response(

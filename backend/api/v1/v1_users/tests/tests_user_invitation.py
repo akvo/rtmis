@@ -10,7 +10,7 @@ class UserInvitationTestCase(TestCase):
     def test_user_list(self):
         call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login/',
+        user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
         user = user_response.json()
@@ -47,7 +47,7 @@ class UserInvitationTestCase(TestCase):
     def test_add_edit_user(self):
         call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login/',
+        user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
         user = user_response.json()
@@ -112,7 +112,7 @@ class UserInvitationTestCase(TestCase):
     def test_get_user_profile(self):
         call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login/',
+        user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
         user = user_response.json()
@@ -120,7 +120,7 @@ class UserInvitationTestCase(TestCase):
         header = {
             'HTTP_AUTHORIZATION': f'Bearer {token}'
         }
-        response = self.client.get("/api/v1/get/profile/",
+        response = self.client.get("/api/v1/profile",
                                    content_type='application/json',
                                    **header)
         self.assertEqual(response.status_code, 200)
@@ -138,7 +138,7 @@ class UserInvitationTestCase(TestCase):
     def test_verify_invite(self):
         call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
-        self.client.post('/api/v1/login/',
+        self.client.post('/api/v1/login',
                          user_payload,
                          content_type='application/json')
         user = SystemUser.objects.first()
@@ -156,7 +156,7 @@ class UserInvitationTestCase(TestCase):
     def test_set_user_password(self):
         call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
-        self.client.post('/api/v1/login/',
+        self.client.post('/api/v1/login',
                          user_payload,
                          content_type='application/json')
         user = SystemUser.objects.first()
@@ -176,11 +176,11 @@ class UserInvitationTestCase(TestCase):
 
     def test_list_administration(self):
         call_command("administration_seeder", "--test")
-        administration = self.client.get('/api/v1/administration/1/',
+        administration = self.client.get('/api/v1/administration/1',
                                          content_type='application/json')
         self.assertEqual(administration.status_code, 200)
 
-        response = self.client.get('/api/v1/levels/',
+        response = self.client.get('/api/v1/levels',
                                    content_type='application/json')
         levels = response.json()
         self.assertEqual(response.status_code, 200)
