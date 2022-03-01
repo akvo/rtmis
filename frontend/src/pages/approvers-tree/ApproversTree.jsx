@@ -23,6 +23,7 @@ const ApproversTree = () => {
   const [datasetJson, setDatasetJson] = useState("[]");
   const [scroll, setScroll] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     setNodes([
@@ -99,17 +100,17 @@ const ApproversTree = () => {
         });
       return arr;
     }, []);
-    setLoading(true);
+    setSaving(true);
     api
       .post(`approval/form/${selectedForm}/`, formData)
       .then(() => {
         setDatasetJson(JSON.stringify(dataset));
         message.success("Approvers updated");
-        setLoading(false);
+        setSaving(false);
       })
       .catch(() => {
         message.error("Could not update Approvers");
-        setLoading(false);
+        setSaving(false);
       });
   };
 
@@ -339,7 +340,7 @@ const ApproversTree = () => {
       </Row>
       <Divider />
       <ApproverFilters
-        loading={false}
+        loading={saving}
         disabled={isPristine || loading}
         visible={dataset.length}
         reset={resetForm}
@@ -347,7 +348,11 @@ const ApproversTree = () => {
       />
       <Divider />
       <Card style={{ padding: 0, minHeight: "40vh" }}>
-        <Row wrap={false} className="tree-header" justify="left">
+        <Row
+          wrap={false}
+          className={`tree-header ${loading ? "loading" : ""}`}
+          justify="left"
+        >
           <Col span={6} align="center">
             Questionnaire
           </Col>

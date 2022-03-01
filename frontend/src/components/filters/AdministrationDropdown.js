@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./style.scss";
 import { Select, message, Space } from "antd";
 import PropTypes from "prop-types";
@@ -6,17 +6,19 @@ import PropTypes from "prop-types";
 import { api, store } from "../../lib";
 
 const AdministrationDropdown = ({
-  loading: parentLoading = false,
+  loading = false,
   withLabel = false,
   width = 160,
   ...props
 }) => {
-  const { user, administration, isLoggedIn } = store.useState((state) => state);
-  const [loading, setLoading] = useState(true);
+  const { user, administration, isLoggedIn, loadingAdministration } =
+    store.useState((state) => state);
 
   useEffect(() => {
     if (isLoggedIn) {
-      setLoading(true);
+      store.update((s) => {
+        s.loadingAdministration = true;
+      });
       api
         .get(`administration/${user.administration.id}/`)
         .then((adminRes) => {
@@ -31,11 +33,15 @@ const AdministrationDropdown = ({
               },
             ];
           });
-          setLoading(false);
+          store.update((s) => {
+            s.loadingAdministration = false;
+          });
         })
         .catch((err) => {
           message.error("Could not load filters");
-          setLoading(false);
+          store.update((s) => {
+            s.loadingAdministration = false;
+          });
           console.error(err);
         });
     }
@@ -45,7 +51,9 @@ const AdministrationDropdown = ({
     if (!e) {
       return;
     }
-    setLoading(true);
+    store.update((s) => {
+      s.loadingAdministration = true;
+    });
     api
       .get(`administration/${e}/`)
       .then((res) => {
@@ -62,11 +70,15 @@ const AdministrationDropdown = ({
             },
           ];
         });
-        setLoading(false);
+        store.update((s) => {
+          s.loadingAdministration = false;
+        });
       })
       .catch((err) => {
         message.error("Could not load filters");
-        setLoading(false);
+        store.update((s) => {
+          s.loadingAdministration = false;
+        });
         console.error(err);
       });
   };
@@ -102,7 +114,7 @@ const AdministrationDropdown = ({
                 }}
                 dropdownMatchSelectWidth={false}
                 value={administration[regionIdx + 1]?.id || null}
-                disabled={loading || parentLoading}
+                disabled={loadingAdministration || loading}
                 allowClear
                 showSearch
                 filterOption={true}
@@ -119,7 +131,6 @@ const AdministrationDropdown = ({
       </Space>
     );
   }
-
   return "";
 };
 
