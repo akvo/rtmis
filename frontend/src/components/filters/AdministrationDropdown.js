@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import "./style.scss";
-import { Select, message, Space } from "antd";
+import { Select, Space } from "antd";
 import PropTypes from "prop-types";
 
 import { api, store } from "../../lib";
+import { useNotification } from "../../util/hooks";
 
 const AdministrationDropdown = ({
   loading = false,
@@ -13,6 +14,7 @@ const AdministrationDropdown = ({
 }) => {
   const { user, administration, isLoggedIn, loadingAdministration } =
     store.useState((state) => state);
+  const { notify } = useNotification();
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -38,14 +40,17 @@ const AdministrationDropdown = ({
           });
         })
         .catch((err) => {
-          message.error("Could not load filters");
+          notify({
+            type: "error",
+            message: "Could not load filters",
+          });
           store.update((s) => {
             s.loadingAdministration = false;
           });
           console.error(err);
         });
     }
-  }, [user, isLoggedIn]);
+  }, [user, isLoggedIn, notify]);
 
   const handleChange = (e, index) => {
     if (!e) {
@@ -75,7 +80,10 @@ const AdministrationDropdown = ({
         });
       })
       .catch((err) => {
-        message.error("Could not load filters");
+        notify({
+          type: "error",
+          message: "Could not load filters",
+        });
         store.update((s) => {
           s.loadingAdministration = false;
         });

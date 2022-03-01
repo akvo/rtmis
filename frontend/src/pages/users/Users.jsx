@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Row, Col, Card, Button, Divider, Table, message } from "antd";
+import { Row, Col, Card, Button, Divider, Table } from "antd";
 import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import UserDetail from "./UserDetail";
 import { UserFilters, Breadcrumbs, PageLoader } from "../../components";
+import { useNotification } from "../../util/hooks";
 
 const pagePath = [
   {
@@ -28,6 +29,7 @@ const Users = () => {
   const { administration, loadingAdministration, filters, isLoggedIn } =
     store.useState((state) => state);
   const { role } = filters;
+  const { notify } = useNotification();
 
   const selectedAdministration =
     administration.length > 0
@@ -91,12 +93,15 @@ const Users = () => {
           setLoading(false);
         })
         .catch((err) => {
-          message.error("Could not load users");
+          notify({
+            type: "error",
+            message: "Could not load users",
+          });
           setLoading(false);
           console.error(err);
         });
     }
-  }, [role, pending, currentPage, selectedAdministration, isLoggedIn]);
+  }, [role, pending, currentPage, selectedAdministration, isLoggedIn, notify]);
 
   return (
     <div id="users">

@@ -17,15 +17,16 @@ import {
   ExportData,
   UploadData,
 } from "./pages";
-import { message } from "antd";
 import { useCookies } from "react-cookie";
 import { store, api } from "./lib";
 import { Layout, PageLoader } from "./components";
+import { useNotification } from "./util/hooks";
 
 const App = () => {
   const { user: authUser, isLoggedIn } = store.useState((state) => state);
   const [cookies, removeCookie] = useCookies(["AUTH_TOKEN"]);
   const [loading, setLoading] = useState(true);
+  const { notify } = useNotification();
 
   useEffect(() => {
     if (
@@ -60,7 +61,10 @@ const App = () => {
         })
         .catch((err) => {
           if (err.response.status === 401) {
-            message.error("Your session has expired");
+            notify({
+              type: "error",
+              message: "Your session has expired",
+            });
             removeCookie("AUTH_TOKEN");
             store.update((s) => {
               s.isLoggedIn = false;
@@ -73,7 +77,7 @@ const App = () => {
     } else {
       setLoading(false);
     }
-  }, [authUser, isLoggedIn, removeCookie, cookies]);
+  }, [authUser, isLoggedIn, removeCookie, cookies, notify]);
 
   return (
     <Layout>
