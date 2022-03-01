@@ -1,10 +1,11 @@
 # Create your views here.
+import datetime
 from math import ceil
 
 from django.contrib.postgres.aggregates import StringAgg
 from django.core.paginator import InvalidPage, EmptyPage, Paginator
-from django.db.models import Count, TextField
-from django.db.models.functions import Cast
+from django.db.models import Count, TextField, Value
+from django.db.models.functions import Cast, Coalesce
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, inline_serializer, \
     OpenApiParameter
@@ -37,11 +38,12 @@ from utils.custom_serializer_fields import validate_serializers_message
                            "message": serializers.CharField()
                        })
                },
-               tags=['Form'])
+               tags=['Data'],
+               summary='Submit form data')
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def submit_form(request, version, pk):
-    form = get_object_or_404(Forms, pk=pk)
+def submit_form(request, version, form_id):
+    form = get_object_or_404(Forms, pk=form_id)
     try:
         serializer = SubmitFormSerializer(data=request.data,
                                           context={'user': request.user,
@@ -82,11 +84,12 @@ def submit_form(request, version, pk):
                          required=False,
                          type={'type': 'array', 'items': {'type': 'number'}},
                          location=OpenApiParameter.QUERY),
-    ])
+    ],
+    summary='To get list of form data')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def list_form_data(request, version, pk):
-    form = get_object_or_404(Forms, pk=pk)
+def list_form_data(request, version, form_id):
+    form = get_object_or_404(Forms, pk=form_id)
     try:
         serializer = ListFormDataRequestSerializer(data=request.GET)
         if not serializer.is_valid():
@@ -112,8 +115,10 @@ def list_form_data(request, version, pk):
         page_size = REST_FRAMEWORK.get('PAGE_SIZE')
         page = request.GET.get('page')
 
-        queryset = form.form_form_data.filter(**filter_data).order_by(
-            'created', 'updated')
+        the_past = datetime.datetime.now() - datetime.timedelta(days=10 * 365)
+        queryset = form.form_form_data.filter(**filter_data).annotate(
+            last_updated=Coalesce('updated', Value(the_past))).order_by(
+            '-last_updated', '-created')
         paginator_temp = Paginator(queryset, page_size)
         paginator_temp.page(request.GET.get('page', page))
 
@@ -139,11 +144,12 @@ def list_form_data(request, version, pk):
 
 
 @extend_schema(responses={200: ListDataAnswerSerializer(many=True)},
-               tags=['Data'])
+               tags=['Data'],
+               summary='To get answers for form data')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def data_answers(request, version, pk):
-    data = get_object_or_404(FormData, pk=pk)
+def data_answers(request, version, data_id):
+    data = get_object_or_404(FormData, pk=data_id)
     try:
         return Response(
             ListDataAnswerSerializer(instance=data.data_answer.all(),
@@ -165,11 +171,12 @@ def data_answers(request, version, pk):
                                     type=OpenApiTypes.NUMBER,
                                     location=OpenApiParameter.QUERY),
                ],
-               tags=['Map'])
+               tags=['Visualisation'],
+               summary='To get Map data points')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_map_data_point(request, version, pk):
-    instance = get_object_or_404(Forms, pk=pk)
+def get_map_data_point(request, version, form_id):
+    instance = get_object_or_404(Forms, pk=form_id)
     try:
         serializer = ListMapDataPointRequestSerializer(data=request.GET,
                                                        context={
@@ -204,11 +211,12 @@ def get_map_data_point(request, version, pk):
                                     type=OpenApiTypes.NUMBER,
                                     location=OpenApiParameter.QUERY),
                ],
-               tags=['Chart'])
+               tags=['Visualisation'],
+               summary='To get Chart data points')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_chart_data_point(request, version, pk):
-    instance = get_object_or_404(Forms, pk=pk)
+def get_chart_data_point(request, version, form_id):
+    instance = get_object_or_404(Forms, pk=form_id)
     try:
         serializer = ListChartDataPointRequestSerializer(data=request.GET,
                                                          context={
@@ -268,7 +276,7 @@ def get_chart_data_point(request, version, pk):
             "total_page": serializers.IntegerField(),
             "data": ListPendingFormDataSerializer(many=True),
         })},
-    tags=['Data'],
+    tags=['Pending Data'],
     parameters=[
         OpenApiParameter(name='page',
                          required=True,
@@ -278,11 +286,12 @@ def get_chart_data_point(request, version, pk):
                          required=False,
                          type=OpenApiTypes.NUMBER,
                          location=OpenApiParameter.QUERY)
-    ])
+    ],
+    summary='To get list of pending form data')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsAdmin | IsApprover])
-def list_pending_form_data(request, version, pk):
-    form = get_object_or_404(Forms, pk=pk)
+def list_pending_form_data(request, version, form_id):
+    form = get_object_or_404(Forms, pk=form_id)
     try:
         serializer = ListPendingFormDataRequestSerializer(data=request.GET)
         if not serializer.is_valid():
@@ -317,7 +326,7 @@ def list_pending_form_data(request, version, pk):
 
         queryset = form.pending_form_form_data.filter(
             administration_id__in=descendants,
-            **filter_data).order_by('created')
+            **filter_data).order_by('-created')
         paginator_temp = Paginator(queryset, page_size)
         paginator_temp.page(request.GET.get('page', page))
 
@@ -345,11 +354,12 @@ def list_pending_form_data(request, version, pk):
 
 
 @extend_schema(responses={200: ListPendingDataAnswerSerializer(many=True)},
-               tags=['Data'])
+               tags=['Pending Data'],
+               summary='To get list of answers for pending data')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def pending_data_answers(request, version, pk):
-    data = get_object_or_404(PendingFormData, pk=pk)
+def pending_data_answers(request, version, pending_data_id):
+    data = get_object_or_404(PendingFormData, pk=pending_data_id)
     try:
         return Response(
             ListPendingDataAnswerSerializer(
@@ -370,7 +380,8 @@ def pending_data_answers(request, version, pk):
                            "total_page": serializers.IntegerField(),
                            "data": ListPendingFormDataSerializer(many=True),
                        })},
-               tags=['Data'], )
+               tags=['Pending Data'],
+               summary='Approve pending data')
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsApprover])
 def approve_pending_data(request, version):
