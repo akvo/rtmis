@@ -354,7 +354,8 @@ const ApproversTree = () => {
           {selectedForm &&
             dataset.map(
               (aN, anI) =>
-                aN.children?.length > 0 && (
+                aN.children &&
+                aN.children.length > 0 && (
                   <Col key={anI} span={6} align="center">
                     {aN.childLevelName}
                     <div
