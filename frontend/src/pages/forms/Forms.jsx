@@ -100,21 +100,19 @@ const Forms = () => {
   };
 
   useEffect(() => {
-    (async function () {
-      if (formId && loading) {
-        api.get(`/web/form/${formId}/`).then((x) => {
-          setForms(x.data);
-          setLoading(false);
-        });
-      }
-    })();
+    if (formId && loading) {
+      api.get(`/web/form/${formId}/`).then((x) => {
+        setForms(x.data);
+        setLoading(false);
+      });
+    }
   }, [formId, loading]);
 
   return (
     <div id="form">
       <Row justify="center">
         <Col span={24} className="webform">
-          {loading || !formId ? (
+          {loading ? (
             <Spin />
           ) : (
             <>
