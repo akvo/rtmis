@@ -11,15 +11,15 @@ urlpatterns = [
     re_path(r'^(?P<version>(v1))/profile', get_profile),
     re_path(r'^(?P<version>(v1))/login', login),
 
+    re_path(r'^(?P<version>(v1))/users', list_users),
+    re_path(r'^(?P<version>(v1))/user/(?P<user_id>[0-9]+)', edit_user),
+    re_path(r'^(?P<version>(v1))/user/set-password', set_user_password),
+    re_path(r'^(?P<version>(v1))/user/roles', get_user_roles),
+    re_path(r'^(?P<version>(v1))/user', add_user),
+    re_path(r'^(?P<version>(v1))/invitation/(?P<invitation_id>.*)$',
+            verify_invite),
+
     re_path(r'^(?P<version>(v1))/health/check/', health_check),
     re_path(r'^(?P<version>(v1))/config.js', get_config_file),
 
-    re_path(r'^(?P<version>(v1))/verify/invite/', verify_invite),
-    re_path(r'^(?P<version>(v1))/set/user/password/', set_user_password),
-
-    re_path(r'^(?P<version>(v1))/add/user/', add_user),
-    re_path(r'^(?P<version>(v1))/list/users/', list_users),
-    re_path(r'^(?P<version>(v1))/edit/user/(?P<pk>[0-9]+)/', edit_user),
-
-    re_path(r'^(?P<version>(v1))/user/roles/', get_user_roles),
 ]
