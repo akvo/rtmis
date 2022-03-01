@@ -42,7 +42,7 @@ class SystemUserTestCase(TestCase):
 
 class SystemUserEndpointsTestCase(TestCase):
     def test_health_check(self):
-        response = self.client.get('/api/v1/health/check/',
+        response = self.client.get('/api/v1/health/check',
                                    HTTP_ACCEPT='application/json')
 
         self.assertEqual(200, response.status_code)

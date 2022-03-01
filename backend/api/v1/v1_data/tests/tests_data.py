@@ -56,11 +56,11 @@ class DataTestCase(TestCase):
         form = Forms.objects.first()
 
         data = self.client.get(
-            "/api/v1/maps/{0}/".format(form.id), follow=True,
+            "/api/v1/maps/{0}".format(form.id), follow=True,
             **header)
         self.assertEqual(data.status_code, 400)
         data = self.client.get(
-            "/api/v1/maps/{0}/?shape=1&marker=2".format(form.id), follow=True,
+            "/api/v1/maps/{0}?shape=1&marker=2".format(form.id), follow=True,
             **header)
         self.assertEqual(data.status_code, 200)
         self.assertEqual(list(data.json()[0]),
@@ -90,18 +90,18 @@ class DataTestCase(TestCase):
         form = Forms.objects.first()
 
         data = self.client.get(
-            "/api/v1/chart/data/{0}/".format(form.id), follow=True,
+            "/api/v1/chart/data/{0}".format(form.id), follow=True,
             **header)
         self.assertEqual(data.status_code, 400)
         data = self.client.get(
-            "/api/v1/chart/data/{0}/?question=2".format(form.id), follow=True,
+            "/api/v1/chart/data/{0}?question=2".format(form.id), follow=True,
             **header)
         self.assertEqual(data.status_code, 200)
         self.assertEqual(list(data.json().get('data')[0]),
                          ['name', 'value'])
         self.assertEqual(data.json().get('type'), 'BAR')
         data = self.client.get(
-            "/api/v1/chart/data/{0}/?question=2&stack=2".format(form.id),
+            "/api/v1/chart/data/{0}?question=2&stack=2".format(form.id),
             follow=True,
             **header)
         self.assertEqual(data.status_code, 200)

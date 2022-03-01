@@ -1,8 +1,8 @@
 from django.urls import re_path
 
-from api.v1.v1_users.views import health_check, login, verify_invite, \
+from api.v1.v1_users.views import login, verify_invite, \
     set_user_password, list_administration, add_user, list_users, edit_user, \
-    get_profile, get_user_roles, list_levels, get_config_file
+    get_profile, get_user_roles, list_levels
 
 urlpatterns = [
     re_path(r'^(?P<version>(v1))/levels', list_levels),
@@ -18,8 +18,5 @@ urlpatterns = [
     re_path(r'^(?P<version>(v1))/user', add_user),
     re_path(r'^(?P<version>(v1))/invitation/(?P<invitation_id>.*)$',
             verify_invite),
-
-    re_path(r'^(?P<version>(v1))/health/check/', health_check),
-    re_path(r'^(?P<version>(v1))/config.js', get_config_file),
 
 ]

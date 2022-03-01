@@ -33,14 +33,14 @@ from utils.custom_serializer_fields import validate_serializers_message
 
 
 @extend_schema(description='Use to check System health',
-               tags=['User'])
+               tags=['Dev'])
 @api_view(['GET'])
 def health_check(request, version):
     return Response({'message': 'OK'}, status=status.HTTP_200_OK)
 
 
 @extend_schema(description='Use to check System health',
-               tags=['Config'])
+               tags=['Dev'])
 @api_view(['GET'])
 def get_config_file(request, version):
     try:
