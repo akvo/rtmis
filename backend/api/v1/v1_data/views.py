@@ -38,11 +38,12 @@ from utils.custom_serializer_fields import validate_serializers_message
                            "message": serializers.CharField()
                        })
                },
-               tags=['Data'])
+               tags=['Data'],
+               summary='Submit form data')
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def submit_form(request, version, pk):
-    form = get_object_or_404(Forms, pk=pk)
+def submit_form(request, version, form_id):
+    form = get_object_or_404(Forms, pk=form_id)
     try:
         serializer = SubmitFormSerializer(data=request.data,
                                           context={'user': request.user,
@@ -83,11 +84,12 @@ def submit_form(request, version, pk):
                          required=False,
                          type={'type': 'array', 'items': {'type': 'number'}},
                          location=OpenApiParameter.QUERY),
-    ])
+    ],
+    summary='To get list of form data')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def list_form_data(request, version, pk):
-    form = get_object_or_404(Forms, pk=pk)
+def list_form_data(request, version, form_id):
+    form = get_object_or_404(Forms, pk=form_id)
     try:
         serializer = ListFormDataRequestSerializer(data=request.GET)
         if not serializer.is_valid():
@@ -142,11 +144,12 @@ def list_form_data(request, version, pk):
 
 
 @extend_schema(responses={200: ListDataAnswerSerializer(many=True)},
-               tags=['Data'])
+               tags=['Data'],
+               summary='To get answers for form data')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def data_answers(request, version, pk):
-    data = get_object_or_404(FormData, pk=pk)
+def data_answers(request, version, data_id):
+    data = get_object_or_404(FormData, pk=data_id)
     try:
         return Response(
             ListDataAnswerSerializer(instance=data.data_answer.all(),
@@ -273,7 +276,7 @@ def get_chart_data_point(request, version, form_id):
             "total_page": serializers.IntegerField(),
             "data": ListPendingFormDataSerializer(many=True),
         })},
-    tags=['Data'],
+    tags=['Pending Data'],
     parameters=[
         OpenApiParameter(name='page',
                          required=True,
@@ -283,11 +286,12 @@ def get_chart_data_point(request, version, form_id):
                          required=False,
                          type=OpenApiTypes.NUMBER,
                          location=OpenApiParameter.QUERY)
-    ])
+    ],
+    summary='To get list of pending form data')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsAdmin | IsApprover])
-def list_pending_form_data(request, version, pk):
-    form = get_object_or_404(Forms, pk=pk)
+def list_pending_form_data(request, version, form_id):
+    form = get_object_or_404(Forms, pk=form_id)
     try:
         serializer = ListPendingFormDataRequestSerializer(data=request.GET)
         if not serializer.is_valid():
@@ -350,11 +354,12 @@ def list_pending_form_data(request, version, pk):
 
 
 @extend_schema(responses={200: ListPendingDataAnswerSerializer(many=True)},
-               tags=['Data'])
+               tags=['Pending Data'],
+               summary='To get list of answers for pending data')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def pending_data_answers(request, version, pk):
-    data = get_object_or_404(PendingFormData, pk=pk)
+def pending_data_answers(request, version, pending_data_id):
+    data = get_object_or_404(PendingFormData, pk=pending_data_id)
     try:
         return Response(
             ListPendingDataAnswerSerializer(
@@ -375,7 +380,8 @@ def pending_data_answers(request, version, pk):
                            "total_page": serializers.IntegerField(),
                            "data": ListPendingFormDataSerializer(many=True),
                        })},
-               tags=['Data'], )
+               tags=['Pending Data'],
+               summary='Approve pending data')
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsApprover])
 def approve_pending_data(request, version):

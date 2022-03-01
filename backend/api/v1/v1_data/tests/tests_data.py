@@ -122,7 +122,7 @@ class DataTestCase(TestCase):
                 'HTTP_AUTHORIZATION': f'Bearer {t.access_token}'
             }
             response = self.client.get(
-                '/api/v1/list/pending/form-data/{0}/?page=1'.format(
+                '/api/v1/form-pending-data/{0}?page=1'.format(
                     Forms.objects.first().pk),
                 content_type='application/json',
                 **header)
