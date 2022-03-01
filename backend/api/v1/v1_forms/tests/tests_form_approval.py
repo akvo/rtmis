@@ -20,7 +20,7 @@ class FormApprovalTestCase(TestCase):
         header = {
             'HTTP_AUTHORIZATION': f'Bearer {token}'
         }
-        response = self.client.get('/api/v1/form/approval-level/',
+        response = self.client.get('/api/v1/form/approval-level',
                                    content_type='application/json',
                                    **header)
         self.assertEqual(403, response.status_code)
@@ -40,7 +40,7 @@ class FormApprovalTestCase(TestCase):
             'HTTP_AUTHORIZATION': f'Bearer {token}'
         }
 
-        response = self.client.get('/api/v1/admin/form/approval-level/1/',
+        response = self.client.get('/api/v1/form/approval-level/1',
                                    content_type='application/json',
                                    **header)
         self.assertEqual(200, response.status_code)

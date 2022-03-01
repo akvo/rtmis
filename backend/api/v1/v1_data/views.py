@@ -38,7 +38,7 @@ from utils.custom_serializer_fields import validate_serializers_message
                            "message": serializers.CharField()
                        })
                },
-               tags=['Form'])
+               tags=['Data'])
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def submit_form(request, version, pk):
