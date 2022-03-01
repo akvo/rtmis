@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import DataDetail from "./DataDetail";
-import { DataFilters, Breadcrumbs } from "../../components";
+import { DataFilters, Breadcrumbs, PageLoader } from "../../components";
 
 const pagePath = [
   {
@@ -131,53 +131,57 @@ const ManageData = () => {
       <Divider />
       <DataFilters query={query} setQuery={setQuery} loading={loading} />
       <Divider />
-      <Card
-        style={{ padding: 0, minHeight: "40vh" }}
-        bodyStyle={{ padding: 0 }}
-      >
-        <ConfigProvider
-          renderEmpty={() => (
-            <Empty
-              description={selectedForm ? "No data" : "No form selected"}
-            />
-          )}
+      {loading ? (
+        <PageLoader message="Loading.." />
+      ) : (
+        <Card
+          style={{ padding: 0, minHeight: "40vh" }}
+          bodyStyle={{ padding: 0 }}
         >
-          <Table
-            columns={columns}
-            dataSource={dataset}
-            loading={loading}
-            onChange={handleChange}
-            pagination={{
-              total: totalCount,
-              pageSize: 10,
-              showSizeChanger: false,
-            }}
-            rowKey="id"
-            expandable={{
-              onExpand: getDataDetail,
-              expandedRowRender: (record) => (
-                <DataDetail
-                  questionGroups={questionGroups}
-                  record={record}
-                  loading={detailLoading}
-                />
-              ),
-              expandIcon: ({ expanded, onExpand, record }) =>
-                expanded ? (
-                  <CloseSquareOutlined
-                    onClick={(e) => onExpand(record, e)}
-                    style={{ color: "#e94b4c" }}
-                  />
-                ) : (
-                  <PlusSquareOutlined
-                    onClick={(e) => onExpand(record, e)}
-                    style={{ color: "#7d7d7d" }}
+          <ConfigProvider
+            renderEmpty={() => (
+              <Empty
+                description={selectedForm ? "No data" : "No form selected"}
+              />
+            )}
+          >
+            <Table
+              columns={columns}
+              dataSource={dataset}
+              loading={loading}
+              onChange={handleChange}
+              pagination={{
+                total: totalCount,
+                pageSize: 10,
+                showSizeChanger: false,
+              }}
+              rowKey="id"
+              expandable={{
+                onExpand: getDataDetail,
+                expandedRowRender: (record) => (
+                  <DataDetail
+                    questionGroups={questionGroups}
+                    record={record}
+                    loading={detailLoading}
                   />
                 ),
-            }}
-          />
-        </ConfigProvider>
-      </Card>
+                expandIcon: ({ expanded, onExpand, record }) =>
+                  expanded ? (
+                    <CloseSquareOutlined
+                      onClick={(e) => onExpand(record, e)}
+                      style={{ color: "#e94b4c" }}
+                    />
+                  ) : (
+                    <PlusSquareOutlined
+                      onClick={(e) => onExpand(record, e)}
+                      style={{ color: "#7d7d7d" }}
+                    />
+                  ),
+              }}
+            />
+          </ConfigProvider>
+        </Card>
+      )}
     </div>
   );
 };
