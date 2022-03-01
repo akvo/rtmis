@@ -16,28 +16,6 @@ const pagePath = [
     title: "Manage Approvers",
   },
 ];
-const users = [
-  {
-    id: 1,
-    name: "A. Awiti",
-  },
-  {
-    id: 2,
-    name: "Kerubo Stacy",
-  },
-  {
-    id: 3,
-    name: "Kimeli. K",
-  },
-  {
-    id: 4,
-    name: "Kipsang Kipchoge",
-  },
-  {
-    id: 5,
-    name: "Maina Mwangi",
-  },
-];
 const ApproversTree = () => {
   const { administration, forms, selectedForm } = store.useState((s) => s);
   const [nodes, setNodes] = useState([]);
@@ -79,7 +57,6 @@ const ApproversTree = () => {
                 childLevelName: selectedAdministration.childLevelName,
                 children: res.data.map((cI) => ({
                   ...cI,
-                  user_list: users,
                   user: cI.user?.id,
                 })),
               },
@@ -377,7 +354,7 @@ const ApproversTree = () => {
           {selectedForm &&
             dataset.map(
               (aN, anI) =>
-                aN.children.length > 0 && (
+                aN.children?.length > 0 && (
                   <Col key={anI} span={6} align="center">
                     {aN.childLevelName}
                     <div
