@@ -30,53 +30,49 @@ const App = () => {
   const { notify } = useNotification();
 
   useEffect(() => {
-    if (
-      !location.pathname.includes("/login") &&
-      !authUser &&
-      !isLoggedIn &&
-      cookies &&
-      cookies.AUTH_TOKEN
-    ) {
-      api
-        .get("get/profile/", {
-          headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-        })
-        .then((res) => {
-          store.update((s) => {
-            s.isLoggedIn = true;
-            s.user = res.data;
-          });
-          api.setToken(cookies.AUTH_TOKEN);
-          Promise.all([api.get("forms/"), api.get("levels/")])
-            .then((res) => {
-              store.update((s) => {
-                s.forms = res[0].data;
-                s.levels = res[1].data;
-              });
-              setLoading(false);
-            })
-            .catch((e) => {
-              setLoading(false);
-              console.error(e);
-            });
-        })
-        .catch((err) => {
-          if (err.response.status === 401) {
-            notify({
-              type: "error",
-              message: "Your session has expired",
-            });
-            removeCookie("AUTH_TOKEN");
+    if (!location.pathname.includes("/login")) {
+      if (!authUser && !isLoggedIn && cookies && !!cookies.AUTH_TOKEN) {
+        api
+          .get("profile/", {
+            headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
+          })
+          .then((res) => {
             store.update((s) => {
-              s.isLoggedIn = false;
-              s.user = null;
+              s.isLoggedIn = true;
+              s.user = res.data;
             });
-          }
-          setLoading(false);
-          console.error(err);
-        });
-    } else {
-      setLoading(false);
+            api.setToken(cookies.AUTH_TOKEN);
+            Promise.all([api.get("forms/"), api.get("levels/")])
+              .then((res) => {
+                store.update((s) => {
+                  s.forms = res[0].data;
+                  s.levels = res[1].data;
+                });
+                setLoading(false);
+              })
+              .catch((e) => {
+                setLoading(false);
+                console.error(e);
+              });
+          })
+          .catch((err) => {
+            if (err.response.status === 401) {
+              notify({
+                type: "error",
+                message: "Your session has expired",
+              });
+              removeCookie("AUTH_TOKEN");
+              store.update((s) => {
+                s.isLoggedIn = false;
+                s.user = null;
+              });
+            }
+            setLoading(false);
+            console.error(err);
+          });
+      } else if (authUser && isLoggedIn && !cookies.AUTH_TOKEN) {
+        setLoading(false);
+      }
     }
   }, [authUser, isLoggedIn, removeCookie, cookies, notify]);
 
