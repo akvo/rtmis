@@ -75,7 +75,7 @@ const Users = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      let url = `list/users/?page=${currentPage}&pending=${
+      let url = `users/?page=${currentPage}&pending=${
         pending ? "true" : "false"
       }`;
       if (selectedAdministration?.id) {

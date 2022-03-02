@@ -107,7 +107,7 @@ const ApproversTree = () => {
     }, []);
     setSaving(true);
     api
-      .post(`approval/form/${selectedForm}/`, formData)
+      .post(`form/approver/${selectedForm}/`, formData)
       .then(() => {
         setDatasetJson(JSON.stringify(dataset));
         notify({
@@ -373,7 +373,7 @@ const ApproversTree = () => {
           {selectedForm &&
             dataset.map(
               (aN, anI) =>
-                !!aN.children?.length && (
+                !!aN?.children?.length && (
                   <Col key={anI} span={6} align="center">
                     {aN.childLevelName}
                     <div
