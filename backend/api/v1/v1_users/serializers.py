@@ -50,8 +50,8 @@ class SetUserPasswordSerializer(serializers.Serializer):
         if attrs.get('password') != attrs.get('confirm_password'):
             raise ValidationError({
                 'confirm_password':
-                'Confirm password and password'
-                ' are not same'
+                    'Confirm password and password'
+                    ' are not same'
             })
         return attrs
 
@@ -133,7 +133,7 @@ class AddEditUserSerializer(serializers.ModelSerializer):
                 'administration').level.level == 0:
             raise ValidationError({
                 'administration':
-                'administration level is not valid with selected role'
+                    'administration level is not valid with selected role'
             })
         return attrs
 
@@ -159,7 +159,8 @@ class AddEditUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SystemUser
-        fields = ['first_name', 'last_name', 'email', 'administration', 'role']
+        fields = ['first_name', 'last_name', 'email', 'administration', 'role',
+                  'phone_number', 'designation']
 
 
 class UserAdministrationSerializer(serializers.ModelSerializer):
@@ -197,10 +198,8 @@ class ListUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SystemUser
-        fields = [
-            'id', 'first_name', 'last_name', 'email', 'administration', 'role',
-            'invite'
-        ]
+        fields = ['id', 'first_name', 'last_name', 'email', 'administration',
+                  'role', 'phone_number', 'designation', 'invite']
 
 
 class ListUserRequestSerializer(serializers.Serializer):
@@ -245,7 +244,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SystemUser
-        fields = ['email', 'name', 'administration', 'role']
+        fields = ['email', 'name', 'administration', 'role', 'phone_number',
+                  'designation']
 
 
 class ListLevelSerializer(serializers.ModelSerializer):
