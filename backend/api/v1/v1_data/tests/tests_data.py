@@ -12,7 +12,7 @@ class DataTestCase(TestCase):
     def test_list_form_data(self):
         call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login/',
+        user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
         token = user_response.json().get('token')
@@ -42,7 +42,7 @@ class DataTestCase(TestCase):
     def test_maps_data(self):
         call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login/',
+        user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
         token = user_response.json().get('token')
@@ -56,11 +56,11 @@ class DataTestCase(TestCase):
         form = Forms.objects.first()
 
         data = self.client.get(
-            "/api/v1/maps/{0}/".format(form.id), follow=True,
+            "/api/v1/maps/{0}".format(form.id), follow=True,
             **header)
         self.assertEqual(data.status_code, 400)
         data = self.client.get(
-            "/api/v1/maps/{0}/?shape=1&marker=2".format(form.id), follow=True,
+            "/api/v1/maps/{0}?shape=1&marker=2".format(form.id), follow=True,
             **header)
         self.assertEqual(data.status_code, 200)
         self.assertEqual(list(data.json()[0]),
@@ -76,7 +76,7 @@ class DataTestCase(TestCase):
     def test_chart_data(self):
         call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login/',
+        user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
         token = user_response.json().get('token')
@@ -90,18 +90,18 @@ class DataTestCase(TestCase):
         form = Forms.objects.first()
 
         data = self.client.get(
-            "/api/v1/chart/data/{0}/".format(form.id), follow=True,
+            "/api/v1/chart/data/{0}".format(form.id), follow=True,
             **header)
         self.assertEqual(data.status_code, 400)
         data = self.client.get(
-            "/api/v1/chart/data/{0}/?question=2".format(form.id), follow=True,
+            "/api/v1/chart/data/{0}?question=2".format(form.id), follow=True,
             **header)
         self.assertEqual(data.status_code, 200)
         self.assertEqual(list(data.json().get('data')[0]),
                          ['name', 'value'])
         self.assertEqual(data.json().get('type'), 'BAR')
         data = self.client.get(
-            "/api/v1/chart/data/{0}/?question=2&stack=2".format(form.id),
+            "/api/v1/chart/data/{0}?question=2&stack=2".format(form.id),
             follow=True,
             **header)
         self.assertEqual(data.status_code, 200)
@@ -122,7 +122,7 @@ class DataTestCase(TestCase):
                 'HTTP_AUTHORIZATION': f'Bearer {t.access_token}'
             }
             response = self.client.get(
-                '/api/v1/list/pending/form-data/{0}/?page=1'.format(
+                '/api/v1/form-pending-data/{0}?page=1'.format(
                     Forms.objects.first().pk),
                 content_type='application/json',
                 **header)
@@ -137,7 +137,7 @@ class DataTestCase(TestCase):
                      'created_by', 'created', 'approver'],
                     list(data[0]))
                 response = self.client.get(
-                    '/api/v1/list/pending/answers/{0}/'.format(
+                    '/api/v1/pending-data/{0}'.format(
                         data[0].get('id')),
                     content_type='application/json',
                     **header)

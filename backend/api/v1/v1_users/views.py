@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate
 from django.core import signing
 from django.core.management import call_command
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.core.signing import BadSignature
 from django.http import HttpResponse
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, inline_serializer, \
@@ -32,14 +33,14 @@ from utils.custom_serializer_fields import validate_serializers_message
 
 
 @extend_schema(description='Use to check System health',
-               tags=['User'])
+               tags=['Dev'])
 @api_view(['GET'])
 def health_check(request, version):
     return Response({'message': 'OK'}, status=status.HTTP_200_OK)
 
 
 @extend_schema(description='Use to check System health',
-               tags=['Config'])
+               tags=['Dev'])
 @api_view(['GET'])
 def get_config_file(request, version):
     try:
@@ -51,7 +52,6 @@ def get_config_file(request, version):
         )
         return response
     except Exception as ex:
-        print(ex.args)
         return Response({'message': ex.args},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -59,7 +59,7 @@ def get_config_file(request, version):
 # TODO: Remove temp user entry and invite key from the response.
 @extend_schema(request=LoginSerializer,
                responses={200: UserSerializer},
-               tags=['User'])
+               tags=['Auth'])
 @api_view(['POST'])
 def login(request, version):
     serializer = LoginSerializer(data=request.data)
@@ -96,7 +96,8 @@ def login(request, version):
 
 
 @extend_schema(responses={200: UserSerializer},
-               tags=['User'])
+               tags=['Auth'],
+               summary='Get user details from token')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_profile(request, version):
@@ -111,20 +112,23 @@ def get_profile(request, version):
                            "message": serializers.CharField()
                        })
                },
-               tags=['User'])
-@api_view(['POST'])
-def verify_invite(request, version):
+               tags=['User'],
+               summary='To verify invitation code')
+@api_view(['GET'])
+def verify_invite(request, version, invitation_id):
     try:
-        serializer = VerifyInviteSerializer(data=request.data)
-        if not serializer.is_valid():
-            return Response(
-                {'message': validate_serializers_message(serializer.errors)},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        pk = signing.loads(invitation_id)
+        user = SystemUser.objects.get(pk=pk)
         return Response(
-            {'name': serializer.validated_data.get('invite').get_full_name()},
+            {'name': user.get_full_name()},
             status=status.HTTP_200_OK
         )
+    except BadSignature:
+        return Response({'message': 'Invalid invite code'},
+                        status=status.HTTP_400_BAD_REQUEST)
+    except SystemUser.DoesNotExist:
+        return Response({'message': 'Invalid invite code'},
+                        status=status.HTTP_400_BAD_REQUEST)
     except Exception as ex:
         return Response({'message': ex.args},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -132,8 +136,9 @@ def verify_invite(request, version):
 
 @extend_schema(request=SetUserPasswordSerializer,
                responses={200: UserSerializer},
-               tags=['User'])
-@api_view(['POST'])
+               tags=['User'],
+               summary="To set user's password")
+@api_view(['PUT'])
 def set_user_password(request, version):
     try:
         serializer = SetUserPasswordSerializer(data=request.data)
@@ -158,16 +163,18 @@ def set_user_password(request, version):
 
 
 @extend_schema(responses={200: ListAdministrationSerializer},
-               tags=['Administration'])
+               tags=['Administration'],
+               summary='Get list of administration')
 @api_view(['GET'])
-def list_administration(request, version, pk):
-    instance = get_object_or_404(Administration, pk=pk)
+def list_administration(request, version, administration_id):
+    instance = get_object_or_404(Administration, pk=administration_id)
     return Response(ListAdministrationSerializer(instance=instance).data,
                     status=status.HTTP_200_OK)
 
 
 @extend_schema(responses={200: ListLevelSerializer(many=True)},
-               tags=['Administration'])
+               tags=['Administration'],
+               summary='Get list of levels')
 @api_view(['GET'])
 def list_levels(request, version):
     return Response(
@@ -184,7 +191,8 @@ def list_levels(request, version):
                },
                tags=['User'],
                description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
-                           'User:4')
+                           'User:4',
+               summary='To add user')
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
 def add_user(request, version):
@@ -213,6 +221,7 @@ def add_user(request, version):
             "data": ListUserSerializer(many=True),
         })},
     tags=['User'],
+    summary='Get list of users',
     parameters=[
         OpenApiParameter(name='page',
                          required=True,
@@ -316,11 +325,12 @@ def list_users(request, version):
                },
                tags=['User'],
                description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
-                           'User:4')
+                           'User:4',
+               summary='To update user')
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
-def edit_user(request, version, pk):
-    instance = get_object_or_404(SystemUser, pk=pk)
+def edit_user(request, version, user_id):
+    instance = get_object_or_404(SystemUser, pk=user_id)
     try:
         serializer = AddEditUserSerializer(data=request.data,
                                            context={'user': request.user},
@@ -341,7 +351,7 @@ def edit_user(request, version, pk):
 @extend_schema(responses=inline_serializer('user_role', fields={
     'id': serializers.IntegerField(),
     'value': serializers.CharField(),
-}, many=True), tags=['User'])
+}, many=True), tags=['User'], summary='Get list of roles')
 @api_view(['GET'])
 def get_user_roles(request, version):
     data = []
