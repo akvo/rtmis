@@ -7,6 +7,7 @@ const defaultUIState = {
     role: null,
   },
   administration: [],
+  loadingAdministration: false,
   forms: [],
   levels: [],
   selectedForm: null,

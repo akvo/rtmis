@@ -16,5 +16,8 @@ python manage.py createsuperuser --email admin@akvo.org --first_name Admin --las
 python manage.py assign_access admin@akvo.org --admin
 python manage.py form_approval_seeder
 python manage.py fake_user_seeder --repeat 50
+python manage.py fake_approver_seeder
 python manage.py fake_data_seeder
+# python manage.py fake_pending_data_seeder
+# python manage.py fake_form_approval_assignment_seeder
 python manage.py generate_config

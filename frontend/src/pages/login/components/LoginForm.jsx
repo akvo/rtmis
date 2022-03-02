@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Checkbox, message } from "antd";
+import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { api, store } from "../../../lib";
+import { useNotification } from "../../../util/hooks";
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { notify } = useNotification();
 
   const onFinish = (values) => {
     setLoading(true);
@@ -39,7 +41,10 @@ const LoginForm = () => {
       .catch((err) => {
         if (err.response.status === 401 || err.response.status === 400) {
           setLoading(false);
-          message.error(err.response.data.message);
+          notify({
+            type: "error",
+            message: err.response?.data?.message,
+          });
         }
       });
   };

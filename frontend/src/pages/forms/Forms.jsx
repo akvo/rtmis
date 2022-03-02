@@ -3,9 +3,10 @@ import { Webform } from "akvo-react-form";
 import "akvo-react-form/dist/index.css";
 import "./style.scss";
 import { useParams, useNavigate } from "react-router-dom";
-import { Row, Col, Progress, Spin, notification } from "antd";
+import { Row, Col, Progress, notification } from "antd";
 import { api } from "../../lib";
 import { take, takeRight, tail, pick } from "lodash";
+import { PageLoader } from "../../components";
 
 const parseCascade = (cascade, names, results = []) => {
   if (names.length) {
@@ -100,14 +101,12 @@ const Forms = () => {
   };
 
   useEffect(() => {
-    (async function () {
-      if (formId && loading) {
-        api.get(`/web/form/${formId}/`).then((x) => {
-          setForms(x.data);
-          setLoading(false);
-        });
-      }
-    })();
+    if (formId && loading) {
+      api.get(`/web/form/${formId}/`).then((x) => {
+        setForms(x.data);
+        setLoading(false);
+      });
+    }
   }, [formId, loading]);
 
   return (
@@ -115,7 +114,7 @@ const Forms = () => {
       <Row justify="center">
         <Col span={24} className="webform">
           {loading || !formId ? (
-            <Spin />
+            <PageLoader message="Fetching form.." />
           ) : (
             <>
               <Webform forms={forms} onFinish={onFinish} onChange={onChange} />

@@ -38,6 +38,13 @@ body {
       }
     }
 
+    .ant-tabs {
+      &.dev {
+        border: 1px solid red !important;
+        padding: 10px;
+      }
+    }
+
     .ant-table-wrapper {
       &.dev {
         border: 1px solid red !important;
