@@ -110,7 +110,7 @@ SPECTACULAR_SETTINGS = {
     'TITLE': 'RTMIS',
     'DESCRIPTION': '',
     'VERSION': '1.0.0',
-    # 'SCHEMA_PATH_PREFIX': r'/api/v[0-9]',
+    'SORT_OPERATIONS': False,
 }
 # JWT Config
 SIMPLE_JWT = {
