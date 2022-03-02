@@ -16,6 +16,7 @@ import {
   Profile,
   ExportData,
   UploadData,
+  Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
 import { store, api } from "./lib";
@@ -139,6 +140,10 @@ const App = () => {
             <Route
               path="/data/upload"
               element={authUser ? <UploadData /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/visualisation"
+              element={authUser ? <Visualisation /> : <Navigate to="/login" />}
             />
             <Route exact path="/coming-soon" element={<div />} />
             <Route exact path="/not-found" element={<div />} />
