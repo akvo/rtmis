@@ -75,7 +75,8 @@ class PendingFormData(models.Model):
     geo = models.JSONField(null=True, default=None)
     approved = models.BooleanField(default=False)
     batch = models.ForeignKey(to=PendingDataBatch, on_delete=models.SET_NULL,
-                              default=None, null=True)
+                              default=None, null=True,
+                              related_name='batch_pending_data_batch')
     created_by = models.ForeignKey(to=SystemUser,
                                    on_delete=models.CASCADE,
                                    related_name='pending_form_data_created')

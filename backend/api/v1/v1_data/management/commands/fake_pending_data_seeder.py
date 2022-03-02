@@ -144,6 +144,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         PendingFormData.objects.all().delete()
+        PendingDataBatch.objects.all().delete()
         fake_geo = pd.read_csv("./source/kenya_random_points.csv")
         for form in Forms.objects.all():
             seed_data(form, fake_geo, options.get("repeat"),
