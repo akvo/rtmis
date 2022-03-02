@@ -70,9 +70,11 @@ const App = () => {
             setLoading(false);
             console.error(err);
           });
-      } else if (authUser && isLoggedIn && !cookies.AUTH_TOKEN) {
+      } else if (!cookies.AUTH_TOKEN) {
         setLoading(false);
       }
+    } else {
+      setLoading(false);
     }
   }, [authUser, isLoggedIn, removeCookie, cookies, notify]);
 
