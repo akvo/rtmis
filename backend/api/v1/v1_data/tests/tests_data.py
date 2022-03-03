@@ -169,3 +169,8 @@ class DataTestCase(TestCase):
         self.assertEqual(list(response.json()[0]),
                          ['name', 'form', 'administration', 'file',
                           'total_data', 'created', 'updated'])
+        response = self.client.get(
+            '/api/v1/export/form/{0}'.format(Forms.objects.first().id),
+            content_type='application/json',
+            **header)
+        self.assertEqual(response.status_code, 200)
