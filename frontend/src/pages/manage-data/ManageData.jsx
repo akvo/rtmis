@@ -151,6 +151,7 @@ const ManageData = () => {
               loading={loading}
               onChange={handleChange}
               pagination={{
+                current: currentPage,
                 total: totalCount,
                 pageSize: 10,
                 showSizeChanger: false,
