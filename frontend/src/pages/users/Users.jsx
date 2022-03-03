@@ -138,6 +138,7 @@ const Users = () => {
             onChange={handleChange}
             pagination={{
               showSizeChanger: false,
+              current: currentPage,
               total: totalCount,
               pageSize: 10,
             }}
