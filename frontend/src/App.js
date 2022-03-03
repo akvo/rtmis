@@ -78,6 +78,13 @@ const App = () => {
     }
   }, [authUser, isLoggedIn, removeCookie, cookies, notify]);
 
+  const ProtectedRoute = ({ children }) => {
+    if (!authUser) {
+      return <Navigate to="/login" replace />;
+    }
+    return children;
+  };
+
   return (
     <Layout>
       <Layout.Header />
@@ -95,53 +102,99 @@ const App = () => {
             <Route exact path="/form/:formId" element={<Forms />} />
             <Route
               path="/users"
-              element={authUser ? <Users /> : <Navigate to="/login" />}
+              element={
+                <ProtectedRoute>
+                  <Users />
+                </ProtectedRoute>
+              }
             />
             <Route
               path="/user/add"
-              element={authUser ? <AddUser /> : <Navigate to="/login" />}
+              element={
+                <ProtectedRoute>
+                  <AddUser />
+                </ProtectedRoute>
+              }
             />
             <Route
               path="/control-center"
-              element={authUser ? <ControlCenter /> : <Navigate to="/login" />}
+              element={
+                <ProtectedRoute>
+                  <ControlCenter />
+                </ProtectedRoute>
+              }
             />
             <Route
               path="/data/manage"
-              element={authUser ? <ManageData /> : <Navigate to="/login" />}
+              element={
+                <ProtectedRoute>
+                  <ManageData />
+                </ProtectedRoute>
+              }
             />
             <Route
               path="/questionnaires"
-              element={authUser ? <Questionnaires /> : <Navigate to="/login" />}
+              element={
+                <ProtectedRoute>
+                  <Questionnaires />
+                </ProtectedRoute>
+              }
             />
             <Route
               path="/questionnaires/admin"
               element={
-                authUser ? <QuestionnairesAdmin /> : <Navigate to="/login" />
+                <ProtectedRoute>
+                  <QuestionnairesAdmin />
+                </ProtectedRoute>
               }
             />
             <Route
               path="/approvals"
-              element={authUser ? <Approvals /> : <Navigate to="/login" />}
+              element={
+                <ProtectedRoute>
+                  <Approvals />
+                </ProtectedRoute>
+              }
             />
             <Route
               path="/approvers/tree"
-              element={authUser ? <ApproversTree /> : <Navigate to="/login" />}
+              element={
+                <ProtectedRoute>
+                  <ApproversTree />
+                </ProtectedRoute>
+              }
             />
             <Route
               path="/profile"
-              element={authUser ? <Profile /> : <Navigate to="/login" />}
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
             />
             <Route
               path="/data/export"
-              element={authUser ? <ExportData /> : <Navigate to="/login" />}
+              element={
+                <ProtectedRoute>
+                  <ExportData />
+                </ProtectedRoute>
+              }
             />
             <Route
               path="/data/upload"
-              element={authUser ? <UploadData /> : <Navigate to="/login" />}
+              element={
+                <ProtectedRoute>
+                  <UploadData />
+                </ProtectedRoute>
+              }
             />
             <Route
               path="/visualisation"
-              element={authUser ? <Visualisation /> : <Navigate to="/login" />}
+              element={
+                <ProtectedRoute>
+                  <Visualisation />
+                </ProtectedRoute>
+              }
             />
             <Route exact path="/coming-soon" element={<div />} />
             <Route exact path="/not-found" element={<div />} />
