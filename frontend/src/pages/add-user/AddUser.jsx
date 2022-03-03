@@ -46,7 +46,7 @@ const AddUser = () => {
     setSubmitting(true);
     const admin = takeRight(administration, 1)?.[0];
     api
-      .post("add/user/", {
+      .post("user/", {
         first_name: values.first_name,
         last_name: values.last_name,
         email: values.email,

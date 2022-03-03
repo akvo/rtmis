@@ -94,7 +94,7 @@ const Questionnaires = () => {
     }));
     setLoading(true);
     api
-      .put("edit/forms/", data)
+      .post("form/type/", data)
       .then(() => {
         setLoading(false);
         notify({

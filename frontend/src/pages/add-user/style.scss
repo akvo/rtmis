@@ -27,7 +27,7 @@
         margin-bottom: 8px;
 
         label {
-          font-weight: 600;
+          font-weight: $font-weight-semi-bold;
         }
 
         input,
@@ -41,10 +41,6 @@
           padding-right: 10px;
         }
       }
-    }
-
-    .ant-checkbox-wrapper {
-      margin-right: 12px;
     }
   }
 }

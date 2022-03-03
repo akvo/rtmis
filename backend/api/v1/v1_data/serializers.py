@@ -1,9 +1,11 @@
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema_field, inline_serializer
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
-    PendingAnswers, PendingDataApproval
+    PendingAnswers, PendingDataApproval, PendingDataBatch
 from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Questions, QuestionOptions
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -407,6 +409,104 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
                     )
 
         return object
+
+    def update(self, instance, validated_data):
+        pass
+
+
+class ListBatchSerializer(serializers.ModelSerializer):
+    form = serializers.SerializerMethodField()
+    administration = serializers.SerializerMethodField()
+    file = serializers.SerializerMethodField()
+    total_data = serializers.SerializerMethodField()
+
+    @extend_schema_field(inline_serializer(
+        'batch_form',
+        fields={
+            'id': serializers.IntegerField(),
+            'name': serializers.CharField(),
+        }))
+    def get_form(self, instance: PendingDataBatch):
+        return {
+            'id': instance.form.id,
+            'name': instance.form.name,
+        }
+
+    @extend_schema_field(inline_serializer(
+        'batch_administration',
+        fields={
+            'id': serializers.IntegerField(),
+            'name': serializers.CharField(),
+        }))
+    def get_administration(self, instance: PendingDataBatch):
+        return {
+            'id': instance.administration_id,
+            'name': instance.administration.name,
+        }
+
+    @extend_schema_field(inline_serializer(
+        'batch_file',
+        fields={
+            'name': serializers.CharField(),
+            'file': serializers.URLField(),
+        }))
+    def get_file(self, instance: PendingDataBatch):
+        if instance.file:
+            path = instance.file
+            first_pos = path.rfind("/")
+            last_pos = len(path)
+            return {
+                'name': path[first_pos + 1:last_pos],
+                'file': instance.file
+            }
+        return None
+
+    @extend_schema_field(OpenApiTypes.INT)
+    def get_total_data(self, instance: PendingDataBatch):
+        return instance.batch_pending_data_batch.all().count()
+
+    class Meta:
+        model = PendingDataBatch
+        fields = ['name', 'form', 'administration', 'file', 'total_data',
+                  'created', 'updated']
+
+
+class CreateBatchSerializer(serializers.Serializer):
+    name = CustomCharField()
+    data = CustomListField(child=CustomPrimaryKeyRelatedField(
+        queryset=PendingFormData.objects.none()), required=False)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get(
+            'data').child.queryset = PendingFormData.objects.all()
+
+    def validate_name(self, name):
+        if PendingDataBatch.objects.filter(name__iexact=name).exists():
+            raise ValidationError('name has already been taken')
+        return name
+
+    def validate(self, attrs):
+        form = attrs.get('data')[0].form
+        for pending in attrs.get('data'):
+            if pending.form_id != form.id:
+                raise ValidationError(
+                    {'data': 'Form id is different for provided data'})
+        return attrs
+
+    def create(self, validated_data):
+        form_id = validated_data.get('data')[0].form_id
+        user: SystemUser = validated_data.get('user')
+        obj = PendingDataBatch.objects.create(
+            form_id=form_id,
+            administration_id=user.user_access.administration_id,
+            user=user,
+            name=validated_data.get('name')
+        )
+        for data in validated_data.get('data'):
+            data.batch = obj
+            data.save()
+        return obj
 
     def update(self, instance, validated_data):
         pass

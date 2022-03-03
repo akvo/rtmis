@@ -11,6 +11,7 @@ import {
   Input,
   Checkbox,
   Button,
+  Space,
 } from "antd";
 import { Breadcrumbs } from "../../components";
 import { Link } from "react-router-dom";
@@ -439,10 +440,12 @@ const renderDetails = () => {
           </Row>
         </Col>
         <Col>
-          <Button className="light dev">Decline</Button>
-          <Button className="primary dev" htmlType="submit">
-            Approve
-          </Button>
+          <Space>
+            <Button className="light dev">Decline</Button>
+            <Button className="primary dev" htmlType="submit">
+              Approve
+            </Button>
+          </Space>
         </Col>
       </Row>
     </div>

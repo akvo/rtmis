@@ -5,13 +5,13 @@
     .ant-card-body {
       .ant-tabs {
         .ant-table-thead tr th {
-          font-weight: 700;
+          font-weight: $font-weight-bold;
         }
 
         .ant-table-tbody {
           .ant-table-row {
             .ant-table-cell:first-child {
-              color: #525152;
+              color: $color-default;
             }
 
             .ant-table-cell:nth-child(2) {
@@ -20,13 +20,13 @@
 
                 div:first-child {
                   margin-right: 10px;
-                  color: #666566;
+                  color: $color-default;
                 }
 
                 div:nth-child(2) {
                   div:nth-child(2) {
-                    font-size: 12px;
-                    font-weight: 300;
+                    font-size: $font-size-small;
+                    font-weight: $font-weight-normal;
                   }
                 }
               }
@@ -39,7 +39,7 @@
 
                   .ant-progress-bg,
                   .ant-progress-success-bg {
-                    background-color: #b5b5b5;
+                    background-color: $bg-progress;
                   }
                 }
               }
@@ -47,16 +47,16 @@
           }
 
           .ant-table-row.table-row-expanded {
-            color: #0058ff;
+            color: $blue;
 
             .ant-table-cell:first-child {
-              color: #525152;
+              color: $color-default;
             }
             .ant-table-cell:nth-child(2) {
               .ant-row {
                 div:first-child {
                   margin-right: 10px;
-                  color: #0058ff;
+                  color: $blue;
                 }
               }
             }
@@ -65,7 +65,7 @@
                 .ant-col:first-child {
                   .ant-progress-bg,
                   .ant-progress-success-bg {
-                    background-color: #0058ff;
+                    background-color: $blue;
                   }
                 }
               }
@@ -76,25 +76,25 @@
             width: 80%;
             margin: 0 10%;
             background-color: #faf9fb;
-            padding: 0 0 2rem;
+            padding: 0 0 32px;
 
             .ant-tabs {
-              margin-bottom: 1.2rem;
+              margin-bottom: 20px;
               .ant-tabs-nav {
                 margin-bottom: 8px;
-                font-weight: 600;
+                font-weight: $font-weight-semi-bold;
               }
               .ant-tabs-content-holder {
-                font-size: 13px;
+                font-size: $font-size-small;
 
                 table,
                 .ant-table {
                   thead {
                     tr {
                       th {
-                        background-color: #dededf;
+                        background-color: $bg-semi-light;
                         padding: 18px 24px 15px;
-                        font-weight: 600;
+                        font-weight: $font-weight-semi-bold;
                         white-space: nowrap;
                       }
                     }
@@ -103,7 +103,7 @@
                     tr {
                       td {
                         padding: 18px 24px 15px;
-                        border-bottom: solid #d7dbec 1px;
+                        border-bottom: solid $color-semi-light 1px;
                       }
                     }
                   }
@@ -115,7 +115,7 @@
                     tbody {
                       tr {
                         td:nth-child(2) {
-                          color: #0058ff;
+                          color: $blue;
                         }
                       }
                     }
@@ -125,19 +125,8 @@
             }
 
             textarea {
-              margin: 0.5rem 0 0.9rem;
-              border: solid #dededf 16px;
-            }
-
-            .ant-row {
-              .ant-checkbox-wrapper {
-                margin-right: 12px;
-              }
-              .ant-col:nth-child(2) {
-                button.light {
-                  margin-right: 0.4rem;
-                }
-              }
+              margin: 8px 0 15px;
+              border: solid $color-semi-light 16px;
             }
           }
         }

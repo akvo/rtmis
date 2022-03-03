@@ -1,10 +1,11 @@
-from faker import Faker
 import random
 
 from django.core.management import BaseCommand
-from api.v1.v1_users.models import SystemUser
-from api.v1.v1_profile.models import Levels, Access, Administration
+from faker import Faker
+
 from api.v1.v1_profile.constants import UserRoleTypes
+from api.v1.v1_profile.models import Levels, Access, Administration
+from api.v1.v1_users.models import SystemUser
 
 fake = Faker()
 
@@ -28,11 +29,16 @@ class Command(BaseCommand):
                 UserRoleTypes.approver, UserRoleTypes.user
             ]
             password = random.choice(["Test105*", None])
-            user = SystemUser.objects.create_user(
+            user = SystemUser.objects.create(
                 email=profile.get("mail"),
-                password=password,
                 first_name=name[0],
-                last_name=name[1])
+                last_name=name[1],
+                phone_number=fake.msisdn(),
+                designation=profile.get('job')[:49]
+            )
+            if password:
+                user.set_password(password)
+                user.save()
             level = Levels.objects.filter(level=role_level).first()
             Access.objects.create(user=user,
                                   role=roles[role_level],

@@ -2,7 +2,7 @@ from django.core.management import call_command
 from django.test import TestCase
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from api.v1.v1_data.models import FormData
+from api.v1.v1_data.models import FormData, PendingFormData
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_users.models import SystemUser
@@ -144,3 +144,28 @@ class DataTestCase(TestCase):
                 self.assertEqual(200, response.status_code)
                 self.assertEqual(['history', 'question', 'value'],
                                  list(response.json()[0]))
+
+        values = list(
+            PendingFormData.objects.all().values_list('id', flat=True))
+        payload = {"name": "Test Batch", "data": values}
+        response = self.client.post('/api/v1/batch',
+                                    payload,
+                                    content_type='application/json',
+                                    **header)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json().get('message'),
+                         'Data updated successfully')
+        payload = {"name": "Test Batch", "data": values}
+        response = self.client.post('/api/v1/batch',
+                                    payload,
+                                    content_type='application/json',
+                                    **header)
+        self.assertEqual(response.status_code, 400)
+
+        response = self.client.get('/api/v1/list/batch',
+                                   content_type='application/json',
+                                   **header)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(response.json()[0]),
+                         ['name', 'form', 'administration', 'file',
+                          'total_data', 'created', 'updated'])

@@ -7,17 +7,17 @@
 
       h2 {
         font-weight: 300;
-        color: #8388a8;
+        color: $color-arrows;
       }
     }
 
     h2 {
-      font-size: 1.6rem;
+      font-size: 28px;
     }
 
     span:last-child span h2,
     span:last-child span h3 {
-      color: #0058ff;
+      color: $blue;
     }
   }
 }
