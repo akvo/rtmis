@@ -173,4 +173,4 @@ class DataTestCase(TestCase):
             '/api/v1/export/form/{0}'.format(Forms.objects.first().id),
             content_type='application/json',
             **header)
-        # self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)

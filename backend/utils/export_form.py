@@ -1,4 +1,5 @@
 import os
+import pathlib
 
 import pandas as pd
 
@@ -65,7 +66,9 @@ def generate_excel(form: Forms, user: SystemUser):
         index=[0])
     form_name = form.name
     filename = f"{form.id}-{form_name}"
-    filepath = f"./tmp/{filename}.xlsx"
+    directory = 'tmp'
+    pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
+    filepath = f"./{directory}/{filename}.xlsx"
     if os.path.exists(filepath):
         os.remove(filepath)
     writer = pd.ExcelWriter(filepath, engine='xlsxwriter')
