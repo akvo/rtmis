@@ -110,7 +110,7 @@ class DataTestCase(TestCase):
         self.assertEqual(list(data.json().get('data')[0]['child'][0]),
                          ['name', 'value'])
 
-        call_command("fake_user_seeder", "-r", 10)
+        call_command("fake_user_seeder", "-r", 100)
         call_command('form_approval_seeder')
         call_command('form_approval_assignment_seeder')
         call_command('fake_pending_data_seeder', '-r', 1, '-t', True)
