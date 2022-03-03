@@ -3,16 +3,16 @@
 #root {
   #uploadData {
     .ant-card {
-      margin-top: 1rem;
+      margin-top: 16px;
       .ant-space {
-        padding: 1.6rem 3rem;
+        padding: 26px 48px;
         width: 100%;
         img {
           width: 48px;
           height: 48px;
         }
         .ant-space-item:nth-child(2) {
-          font-weight: 600;
+          font-weight: $font-weight-semi-bold;
           color: #707070;
         }
       }
@@ -30,14 +30,11 @@
         padding: 32px 0;
       }
       .upload-wrap {
-        padding: 0 2rem 2rem;
+        padding: 0 32px 32px;
         .ant-upload-text {
-          margin-bottom: 1rem;
+          margin-bottom: 16px;
         }
       }
-    }
-    .ant-checkbox-wrapper {
-      margin-right: 0.6rem;
     }
   }
 }
