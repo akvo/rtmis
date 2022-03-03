@@ -38,7 +38,7 @@ const App = () => {
       cookies.AUTH_TOKEN
     ) {
       api
-        .get("get/profile/", {
+        .get("profile/", {
           headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
         })
         .then((res) => {
