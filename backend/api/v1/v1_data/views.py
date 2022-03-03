@@ -6,6 +6,7 @@ from django.contrib.postgres.aggregates import StringAgg
 from django.core.paginator import InvalidPage, EmptyPage, Paginator
 from django.db.models import Count, TextField, Value
 from django.db.models.functions import Cast, Coalesce
+from django.http import FileResponse
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, inline_serializer, \
     OpenApiParameter
@@ -31,6 +32,7 @@ from api.v1.v1_profile.models import Administration, Access
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import IsAdmin, IsApprover
 from utils.custom_serializer_fields import validate_serializers_message
+from utils.export_form import generate_excel
 
 
 @extend_schema(request=SubmitFormSerializer,
@@ -433,6 +435,24 @@ def post_batch(request, version):
         serializer.save(user=request.user)
         return Response({'message': 'Data updated successfully'},
                         status=status.HTTP_200_OK)
+    except Exception as ex:
+        return Response(
+            {'message': ex.args},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@extend_schema(tags=['File'],
+               summary='Export Form data')
+@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def export_form_data(request, version, form_id):
+    form = get_object_or_404(Forms, pk=form_id)
+    try:
+        filepath = generate_excel(form=form, user=request.user)
+        filename = filepath.split("/")[-1].replace(" ", "-")
+        file = FileResponse(open(filepath, 'rb'), filename=filename)
+        return file
     except Exception as ex:
         return Response(
             {'message': ex.args},
