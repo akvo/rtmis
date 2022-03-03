@@ -1,4 +1,3 @@
-import uuid
 from datetime import timedelta
 
 import pandas as pd
@@ -7,9 +6,10 @@ from django.utils import timezone
 from faker import Faker
 
 from api.v1.v1_data.models import PendingFormData, \
-    PendingAnswers, PendingDataApproval
+    PendingAnswers, PendingDataApproval, PendingDataBatch
 from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Forms, FormApprovalAssignment
+from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 
@@ -103,7 +103,8 @@ def seed_data(form, fake_geo, repeat, test):
             geo=[geo["X"], geo["Y"]],
             form=form,
             administration=administration,
-            created_by=SystemUser.objects.order_by('?').first())
+            created_by=SystemUser.objects.filter(
+                user_access__role=UserRoleTypes.user).order_by('?').first())
 
         complete_path = '{0}{1}'.format(administration.path, administration.id)
 
@@ -143,19 +144,28 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         PendingFormData.objects.all().delete()
+        PendingDataBatch.objects.all().delete()
         fake_geo = pd.read_csv("./source/kenya_random_points.csv")
         for form in Forms.objects.all():
             seed_data(form, fake_geo, options.get("repeat"),
                       options.get("test"))
-        pending_data_count = PendingFormData.objects.all().count()
-        limit = int(pending_data_count / options.get('batch'))
-        if limit:
-            while PendingFormData.objects.filter(
-                    batch__isnull=True).count() >= limit:
+            limit = options.get('batch')
+            if limit:
+                while PendingFormData.objects.filter(
+                        batch__isnull=True, form=form).count() >= limit:
+                    user = SystemUser.objects.filter(
+                        user_access__role=UserRoleTypes.user).order_by(
+                        '?').first()
+                    batch = PendingDataBatch.objects.create(
+                        name=fake.text(),
+                        form=form,
+                        administration=user.user_access.administration,
+                        user=user,
 
-                objs = PendingFormData.objects.filter(batch__isnull=True)[
-                       :limit]
-                val = uuid.uuid4()
-                for obj in objs:
-                    obj.batch = val
-                PendingFormData.objects.bulk_update(objs, fields=['batch'])
+                    )
+
+                    objs = PendingFormData.objects.filter(
+                        batch__isnull=True, form=form)[:limit]
+                    for obj in objs:
+                        obj.batch = batch
+                    PendingFormData.objects.bulk_update(objs, fields=['batch'])

@@ -33,6 +33,31 @@ class FormData(models.Model):
         db_table = 'data'
 
 
+class PendingDataBatch(models.Model):
+    form = models.ForeignKey(to=Forms,
+                             on_delete=models.CASCADE,
+                             related_name='form_batch_data')
+    administration = models.ForeignKey(
+        to=Administration,
+        on_delete=models.CASCADE,
+        related_name='administration_pending_data_batch')
+    user = models.ForeignKey(
+        to=SystemUser,
+        on_delete=models.CASCADE,
+        related_name='user_pending_data_batch')
+    name = models.TextField()
+    uuid = models.UUIDField(default=None, null=True)
+    file = models.URLField(default=None, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(default=None, null=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'batch'
+
+
 class PendingFormData(models.Model):
     name = models.TextField()
     form = models.ForeignKey(to=Forms,
@@ -49,7 +74,9 @@ class PendingFormData(models.Model):
         related_name='administration_pending_form_data')  # noqa
     geo = models.JSONField(null=True, default=None)
     approved = models.BooleanField(default=False)
-    batch = models.UUIDField(default=None, null=True)
+    batch = models.ForeignKey(to=PendingDataBatch, on_delete=models.SET_NULL,
+                              default=None, null=True,
+                              related_name='batch_pending_data_batch')
     created_by = models.ForeignKey(to=SystemUser,
                                    on_delete=models.CASCADE,
                                    related_name='pending_form_data_created')

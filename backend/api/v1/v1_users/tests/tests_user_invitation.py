@@ -36,7 +36,8 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(len(users['data']), 10)
         self.assertEqual(
             ['id', 'first_name', 'last_name', 'email', 'administration',
-             'role', 'invite'], list(users['data'][0]))
+             'role', 'phone_number', 'designation', 'invite'],
+            list(users['data'][0]))
         response = self.client.get(
             "/api/v1/users?administration=1&descendants=false",
             follow=True,
@@ -125,8 +126,8 @@ class UserInvitationTestCase(TestCase):
                                    **header)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            ['email', 'name', 'administration', 'role'],
-            list(response.json().keys()))
+            ['email', 'name', 'administration', 'role', 'phone_number',
+             'designation'], list(response.json().keys()))
 
     def test_get_user_roles(self):
         response = self.client.get("/api/v1/user/roles",

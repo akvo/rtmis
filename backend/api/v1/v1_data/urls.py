@@ -2,7 +2,7 @@ from django.urls import re_path
 
 from api.v1.v1_data.views import submit_form, list_form_data, data_answers, \
     get_map_data_point, get_chart_data_point, list_pending_form_data, \
-    pending_data_answers, approve_pending_data
+    pending_data_answers, approve_pending_data, get_batch, post_batch
 from api.v1.v1_users.views import health_check, get_config_file
 
 urlpatterns = [
@@ -18,6 +18,8 @@ urlpatterns = [
             pending_data_answers),
     re_path(r'^(?P<version>(v1))/pending-data/approve',
             approve_pending_data),
+    re_path(r'^(?P<version>(v1))/list/batch', get_batch),
+    re_path(r'^(?P<version>(v1))/batch', post_batch),
 
     re_path(r'^(?P<version>(v1))/maps/(?P<form_id>[0-9]+)',
             get_map_data_point),
