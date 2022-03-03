@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import DataDetail from "./DataDetail";
-import { DataFilters, Breadcrumbs, PageLoader } from "../../components";
+import { DataFilters, Breadcrumbs } from "../../components";
 
 const pagePath = [
   {
@@ -131,58 +131,54 @@ const ManageData = () => {
       <Divider />
       <DataFilters query={query} setQuery={setQuery} loading={loading} />
       <Divider />
-      {loading ? (
-        <PageLoader message="Loading.." />
-      ) : (
-        <Card
-          style={{ padding: 0, minHeight: "40vh" }}
-          bodyStyle={{ padding: 0 }}
+      <Card
+        style={{ padding: 0, minHeight: "40vh" }}
+        bodyStyle={{ padding: 0 }}
+      >
+        <ConfigProvider
+          renderEmpty={() => (
+            <Empty
+              description={selectedForm ? "No data" : "No form selected"}
+            />
+          )}
         >
-          <ConfigProvider
-            renderEmpty={() => (
-              <Empty
-                description={selectedForm ? "No data" : "No form selected"}
-              />
-            )}
-          >
-            <Table
-              columns={columns}
-              dataSource={dataset}
-              loading={loading}
-              onChange={handleChange}
-              pagination={{
-                current: currentPage,
-                total: totalCount,
-                pageSize: 10,
-                showSizeChanger: false,
-              }}
-              rowKey="id"
-              expandable={{
-                onExpand: getDataDetail,
-                expandedRowRender: (record) => (
-                  <DataDetail
-                    questionGroups={questionGroups}
-                    record={record}
-                    loading={detailLoading}
+          <Table
+            columns={columns}
+            dataSource={dataset}
+            loading={loading}
+            onChange={handleChange}
+            pagination={{
+              current: currentPage,
+              total: totalCount,
+              pageSize: 10,
+              showSizeChanger: false,
+            }}
+            rowKey="id"
+            expandable={{
+              onExpand: getDataDetail,
+              expandedRowRender: (record) => (
+                <DataDetail
+                  questionGroups={questionGroups}
+                  record={record}
+                  loading={detailLoading}
+                />
+              ),
+              expandIcon: ({ expanded, onExpand, record }) =>
+                expanded ? (
+                  <CloseSquareOutlined
+                    onClick={(e) => onExpand(record, e)}
+                    style={{ color: "#e94b4c" }}
+                  />
+                ) : (
+                  <PlusSquareOutlined
+                    onClick={(e) => onExpand(record, e)}
+                    style={{ color: "#7d7d7d" }}
                   />
                 ),
-                expandIcon: ({ expanded, onExpand, record }) =>
-                  expanded ? (
-                    <CloseSquareOutlined
-                      onClick={(e) => onExpand(record, e)}
-                      style={{ color: "#e94b4c" }}
-                    />
-                  ) : (
-                    <PlusSquareOutlined
-                      onClick={(e) => onExpand(record, e)}
-                      style={{ color: "#7d7d7d" }}
-                    />
-                  ),
-              }}
-            />
-          </ConfigProvider>
-        </Card>
-      )}
+            }}
+          />
+        </ConfigProvider>
+      </Card>
     </div>
   );
 };
