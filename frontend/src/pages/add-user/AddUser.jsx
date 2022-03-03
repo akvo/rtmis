@@ -51,6 +51,8 @@ const AddUser = () => {
         last_name: values.last_name,
         email: values.email,
         administration: admin.id,
+        phone_number: values.phone_number,
+        designation: values.designation,
         role: values.role,
       })
       .then(() => {
@@ -71,6 +73,7 @@ const AddUser = () => {
   };
 
   const onChange = (a) => {
+    console.log("onChange", a);
     if (a?.role === authUser.role.id) {
       setShowAdministration(false);
     } else {
@@ -95,6 +98,8 @@ const AddUser = () => {
         initialValues={{
           first_name: "",
           last_name: "",
+          phone_number: "",
+          designation: null,
           email: "",
           role: null,
           county: null,
@@ -150,6 +155,20 @@ const AddUser = () => {
           </div>
           <div className="form-row">
             <Form.Item
+              label="Phone Number"
+              name="phone_number"
+              rules={[
+                {
+                  required: true,
+                  message: "Phone number is required",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </div>
+          <div className="form-row">
+            <Form.Item
               name="organization"
               label="Organization"
               rules={[{ required: false }]}
@@ -157,6 +176,23 @@ const AddUser = () => {
               <Select disabled placeholder="Select one.." allowClear>
                 <Option value="1">MOH</Option>
                 <Option value="2">UNICEF</Option>
+              </Select>
+            </Form.Item>
+          </div>
+          <div className="form-row">
+            <Form.Item
+              name="designation"
+              label="Designation"
+              rules={[
+                { required: true, message: "Please select a Designation" },
+              ]}
+            >
+              <Select placeholder="Select one..">
+                {config?.designations?.map((d, di) => (
+                  <Option key={di} value={d.id}>
+                    {d.name}
+                  </Option>
+                ))}
               </Select>
             </Form.Item>
           </div>

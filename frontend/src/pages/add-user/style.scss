@@ -37,8 +37,11 @@
       }
 
       .ant-row {
-        .ant-col:first-child {
+        .ant-col {
           padding-right: 10px;
+          &:last-child {
+            padding-right: 0;
+          }
         }
       }
     }
