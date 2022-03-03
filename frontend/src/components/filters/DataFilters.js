@@ -17,19 +17,13 @@ const DataFilters = ({ loading }) => {
         </Space>
       </Col>
       <Col>
-        <Row justify="end">
-          <Col>
-            <Link to={`/form/${selectedForm}`}>
-              <Button type="primary">Add New</Button>
-            </Link>
-          </Col>
-          <Col>
-            <Button className="light dev">Bulk Update</Button>
-          </Col>
-          <Col>
-            <Button className="light dev">Export Data</Button>
-          </Col>
-        </Row>
+        <Space>
+          <Link to={`/form/${selectedForm}`}>
+            <Button type="primary">Add New</Button>
+          </Link>
+          <Button className="light dev">Bulk Update</Button>
+          <Button className="light dev">Export Data</Button>
+        </Space>
       </Col>
     </Row>
   );
