@@ -26,7 +26,7 @@ const RegistrationForm = (props) => {
     };
     setLoading(true);
     api
-      .post("set/user/password/", postData)
+      .put("user/set-password/", postData)
       .then((res) => {
         api.setToken(res.data.token);
         store.update((s) => {

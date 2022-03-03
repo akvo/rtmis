@@ -112,7 +112,7 @@ const QuestionnairesAdmin = () => {
     }));
     setSaving(true);
     api
-      .post("edit/form/approval/", data)
+      .put("form/approval/", data)
       .then(() => {
         setSaving(false);
         notify({
