@@ -65,8 +65,8 @@ class SystemUserEndpointsTestCase(TestCase):
         user = user.json()
 
         self.assertEqual(
-            ["email", "name", "administration", "role", "token", "invite"],
-            list(user))
+            ["email", "name", "administration", "role", 'phone_number',
+             'designation', "token", "invite"], list(user))
 
         user = {"email": "admin@rtmis.com", "password": "Test105"}
         user = self.client.post('/api/v1/login',

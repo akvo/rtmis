@@ -16,14 +16,16 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from api.v1.v1_data.models import FormData, Answers, PendingFormData
+from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
+    PendingDataBatch
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
     ListMapDataPointRequestSerializer, ListChartDataPointRequestSerializer, \
     ListChartQuestionDataPointSerializer, ListPendingFormDataSerializer, \
     ListPendingFormDataRequestSerializer, ListPendingDataAnswerSerializer, \
-    ApprovePendingDataRequestSerializer
+    ApprovePendingDataRequestSerializer, ListBatchSerializer, \
+    CreateBatchSerializer
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Administration, Access
 from rtmis.settings import REST_FRAMEWORK
@@ -401,3 +403,38 @@ def approve_pending_data(request, version):
     except Exception as ex:
         return Response({'message': ex.args},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@extend_schema(responses={200: ListBatchSerializer(many=True)},
+               tags=['Pending Data'],
+               summary='To get list of batch')
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_batch(request, version):
+    return Response(
+        ListBatchSerializer(instance=PendingDataBatch.objects.all(),
+                            many=True).data,
+        status=status.HTTP_200_OK)
+
+
+@extend_schema(request=CreateBatchSerializer(),
+               tags=['Pending Data'],
+               summary='To create batch')
+@permission_classes([IsAuthenticated])
+@api_view(['POST'])
+def post_batch(request, version):
+    try:
+        serializer = CreateBatchSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(serializer.errors)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        serializer.save(user=request.user)
+        return Response({'message': 'Data updated successfully'},
+                        status=status.HTTP_200_OK)
+    except Exception as ex:
+        return Response(
+            {'message': ex.args},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
