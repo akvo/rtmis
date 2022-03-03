@@ -24,7 +24,7 @@ const Login = () => {
     if (!location.pathname.includes("forgot-password") && invitationId) {
       setLoading(true);
       api
-        .post("verify/invite/", { invite: invitationId })
+        .get(`invitation/${invitationId}/`)
         .then((res) => {
           setInvitedUser({
             name: res.data.name,
