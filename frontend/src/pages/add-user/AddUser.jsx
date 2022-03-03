@@ -73,10 +73,9 @@ const AddUser = () => {
   };
 
   const onChange = (a) => {
-    console.log("onChange", a);
     if (a?.role === authUser.role.id) {
       setShowAdministration(false);
-    } else {
+    } else if (a?.role) {
       setShowAdministration(true);
     }
   };
