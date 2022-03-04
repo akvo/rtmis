@@ -1,6 +1,6 @@
 import "./App.scss";
 import React, { useEffect, useState } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, Outlet } from "react-router-dom";
 import {
   Home,
   Login,
@@ -78,79 +78,140 @@ const App = () => {
     }
   }, [authUser, isLoggedIn, removeCookie, cookies, notify]);
 
+  const ProtectedRoute = ({ children }) => {
+    if (authUser) {
+      return children;
+    }
+    return <Navigate to="/login" />;
+  };
+
+  const Template = () => {
+    return (
+      <Layout>
+        <Layout.Header />
+        <Layout.Banner />
+        <Layout.Body>
+          {loading ? (
+            <PageLoader message="Initializing. Please wait.." />
+          ) : (
+            <Outlet />
+          )}
+        </Layout.Body>
+        <Layout.Footer />
+      </Layout>
+    );
+  };
+
   return (
-    <Layout>
-      <Layout.Header />
-      <Layout.Banner />
-      <Layout.Body>
-        {loading ? (
-          <PageLoader message="Initializing. Please wait.." />
-        ) : (
-          <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route exact path="/login" element={<Login />} />
-            <Route exact path="/login/:invitationId" element={<Login />} />
-            <Route exact path="/forgot-password" element={<Login />} />
-            <Route exact path="/data" element={<Home />} />
-            <Route exact path="/form/:formId" element={<Forms />} />
-            <Route
-              path="/users"
-              element={authUser ? <Users /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/user/add"
-              element={authUser ? <AddUser /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/control-center"
-              element={authUser ? <ControlCenter /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/data/manage"
-              element={authUser ? <ManageData /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/questionnaires"
-              element={authUser ? <Questionnaires /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/questionnaires/admin"
-              element={
-                authUser ? <QuestionnairesAdmin /> : <Navigate to="/login" />
-              }
-            />
-            <Route
-              path="/approvals"
-              element={authUser ? <Approvals /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/approvers/tree"
-              element={authUser ? <ApproversTree /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/profile"
-              element={authUser ? <Profile /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/data/export"
-              element={authUser ? <ExportData /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/data/upload"
-              element={authUser ? <UploadData /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/visualisation"
-              element={authUser ? <Visualisation /> : <Navigate to="/login" />}
-            />
-            <Route exact path="/coming-soon" element={<div />} />
-            <Route exact path="/not-found" element={<div />} />
-            <Route path="*" element={<Navigate replace to="/not-found" />} />
-          </Routes>
-        )}
-      </Layout.Body>
-      <Layout.Footer />
-    </Layout>
+    <Routes>
+      <Route element={<Template />}>
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/login/:invitationId" element={<Login />} />
+        <Route exact path="/forgot-password" element={<Login />} />
+        <Route exact path="/data" element={<Home />} />
+        <Route exact path="/form/:formId" element={<Forms />} />
+        <Route
+          path="/users"
+          element={
+            <ProtectedRoute>
+              <Users />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user/add"
+          element={
+            <ProtectedRoute>
+              <AddUser />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/control-center"
+          element={
+            <ProtectedRoute>
+              <ControlCenter />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/data/manage"
+          element={
+            <ProtectedRoute>
+              <ManageData />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/questionnaires"
+          element={
+            <ProtectedRoute>
+              <Questionnaires />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/questionnaires/admin"
+          element={
+            <ProtectedRoute>
+              <QuestionnairesAdmin />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/approvals"
+          element={
+            <ProtectedRoute>
+              <Approvals />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/approvers/tree"
+          element={
+            <ProtectedRoute>
+              <ApproversTree />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/data/export"
+          element={
+            <ProtectedRoute>
+              <ExportData />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/data/upload"
+          element={
+            <ProtectedRoute>
+              <UploadData />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/visualisation"
+          element={
+            <ProtectedRoute>
+              <Visualisation />
+            </ProtectedRoute>
+          }
+        />
+        <Route exact path="/coming-soon" element={<div />} />
+        <Route exact path="/not-found" element={<div />} />
+        <Route path="*" element={<Navigate replace to="/not-found" />} />
+      </Route>
+    </Routes>
   );
 };
 
