@@ -39,7 +39,7 @@ const panels = [
   },
   {
     title: "User Management",
-    buttonLabel: "Manage User",
+    buttonLabel: "Manage Users",
     description:
       "WASH is an acronym that stands for “water, sanitation and hygiene”.Universal, affordable and sustainable access to WASH is a key public health issue within international development and is the focus of the first two targets of Sustainable Development Goal 6 (SDG 6).",
     link: "/users",
