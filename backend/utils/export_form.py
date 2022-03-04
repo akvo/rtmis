@@ -103,12 +103,12 @@ def generate_excel(form: Forms, user: SystemUser):
         'level__level')
     admins = []
     for descendant in allowed_descendants:
-        # parents = list(Administration.objects.filter(
-        #     id__in=descendant.path.split('.')[:-1]).values_list(
-        #     'name',
-        #     flat=True).order_by('level__level'))
-        admins.append(
-            '{0}|{1}'.format(descendant.parent.name, descendant.name))
+        parents = list(Administration.objects.filter(
+            id__in=descendant.path.split('.')[:-1]).values_list(
+            'name',
+            flat=True).order_by('level__level'))
+        parents.append(descendant.name)
+        admins.append('|'.join(parents))
 
     v = pd.DataFrame(admins)
     v.to_excel(writer,
