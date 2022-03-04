@@ -23,6 +23,58 @@ import { store, api } from "./lib";
 import { Layout, PageLoader } from "./components";
 import { useNotification } from "./util/hooks";
 
+const Private = ({ element: Element }) => {
+  const { user: authUser } = store.useState((state) => state);
+  if (authUser) {
+    return <Element />;
+  }
+  return <Navigate to="/login" />;
+};
+
+const RouteList = () => {
+  return (
+    <Routes>
+      <Route exact path="/" element={<Home />} />
+      <Route exact path="/login" element={<Login />} />
+      <Route exact path="/login/:invitationId" element={<Login />} />
+      <Route exact path="/forgot-password" element={<Login />} />
+      <Route exact path="/data" element={<Home />} />
+      <Route exact path="/form/:formId" element={<Forms />} />
+      <Route path="/users" element={<Private element={Users} />} />
+      <Route path="/user/add" element={<Private element={AddUser} />} />
+      <Route
+        path="/control-center"
+        element={<Private element={ControlCenter} />}
+      />
+      <Route path="/data/manage" element={<Private element={ManageData} />} />
+      <Route path="/data/export" element={<Private element={ExportData} />} />
+      <Route path="/data/upload" element={<Private element={UploadData} />} />
+      <Route
+        path="/data/visualisation"
+        element={<Private element={Visualisation} />}
+      />
+      <Route
+        path="/questionnaires"
+        element={<Private element={Questionnaires} />}
+      >
+        <Route
+          path="admin"
+          element={<Private element={QuestionnairesAdmin} />}
+        />
+      </Route>
+      <Route path="/approvals" element={<Private element={Approvals} />} />
+      <Route
+        path="/approvers/tree"
+        element={<Private element={ApproversTree} />}
+      />
+      <Route path="/profile" element={<Private element={Profile} />} />
+      <Route exact path="/coming-soon" element={<div />} />
+      <Route exact path="/not-found" element={<div />} />
+      <Route path="*" element={<Navigate replace to="/not-found" />} />
+    </Routes>
+  );
+};
+
 const App = () => {
   const { user: authUser, isLoggedIn } = store.useState((state) => state);
   const [cookies, removeCookie] = useCookies(["AUTH_TOKEN"]);
@@ -86,67 +138,7 @@ const App = () => {
         {loading ? (
           <PageLoader message="Initializing. Please wait.." />
         ) : (
-          <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route exact path="/login" element={<Login />} />
-            <Route exact path="/login/:invitationId" element={<Login />} />
-            <Route exact path="/forgot-password" element={<Login />} />
-            <Route exact path="/data" element={<Home />} />
-            <Route exact path="/form/:formId" element={<Forms />} />
-            <Route
-              path="/users"
-              element={authUser ? <Users /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/user/add"
-              element={authUser ? <AddUser /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/control-center"
-              element={authUser ? <ControlCenter /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/data/manage"
-              element={authUser ? <ManageData /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/questionnaires"
-              element={authUser ? <Questionnaires /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/questionnaires/admin"
-              element={
-                authUser ? <QuestionnairesAdmin /> : <Navigate to="/login" />
-              }
-            />
-            <Route
-              path="/approvals"
-              element={authUser ? <Approvals /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/approvers/tree"
-              element={authUser ? <ApproversTree /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/profile"
-              element={authUser ? <Profile /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/data/export"
-              element={authUser ? <ExportData /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/data/upload"
-              element={authUser ? <UploadData /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/visualisation"
-              element={authUser ? <Visualisation /> : <Navigate to="/login" />}
-            />
-            <Route exact path="/coming-soon" element={<div />} />
-            <Route exact path="/not-found" element={<div />} />
-            <Route path="*" element={<Navigate replace to="/not-found" />} />
-          </Routes>
+          <RouteList />
         )}
       </Layout.Body>
       <Layout.Footer />
