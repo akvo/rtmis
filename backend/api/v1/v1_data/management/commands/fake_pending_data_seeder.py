@@ -82,10 +82,10 @@ def add_fake_answers(data: PendingFormData):
 
 
 def seed_data(form, fake_geo, repeat, created_by, test):
-    admin_ids = list(
-        FormApprovalAssignment.objects.values_list('administration_id',
-                                                   flat=True).filter(
-            form=form))
+    # admin_ids = list(
+    #     FormApprovalAssignment.objects.values_list('administration_id',
+    #                                                flat=True).filter(
+    #         form=form))
     for i in range(repeat):
         # if test:
         #     administration = Administration.objects.filter(

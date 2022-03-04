@@ -39,11 +39,13 @@ def get_parent_id(df, x):
 
 def seed_administration_test():
     fake = Faker()
-    level = Levels(name="country", level=1)
+    level = Levels(name="National", level=0)
     level.save()
-    level_2 = Levels(name=fake.company(), level=2)
+    level_1 = Levels(name="County", level=1)
+    level_1.save()
+    level_2 = Levels(name="Sub-County", level=2)
     level_2.save()
-    level_3 = Levels(name=fake.company(), level=3)
+    level_3 = Levels(name="Ward", level=3)
     level_3.save()
     administration = Administration(id=1,
                                     name="Indonesia",
@@ -53,7 +55,7 @@ def seed_administration_test():
     administration = Administration(id=2,
                                     name="Jakarta",
                                     parent=administration,
-                                    level=level,
+                                    level=level_1,
                                     path='{0}.'.format(administration.id))
     administration.save()
     administration = Administration(id=3,
