@@ -1,6 +1,6 @@
 import "./App.scss";
 import React, { useEffect, useState } from "react";
-import { Route, Routes, Navigate, Outlet } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import {
   Home,
   Login,
@@ -22,6 +22,58 @@ import { useCookies } from "react-cookie";
 import { store, api } from "./lib";
 import { Layout, PageLoader } from "./components";
 import { useNotification } from "./util/hooks";
+
+const Private = ({ element: Element }) => {
+  const { user: authUser } = store.useState((state) => state);
+  if (authUser) {
+    return <Element />;
+  }
+  return <Navigate to="/login" />;
+};
+
+const RouteList = () => {
+  return (
+    <Routes>
+      <Route exact path="/" element={<Home />} />
+      <Route exact path="/login" element={<Login />} />
+      <Route exact path="/login/:invitationId" element={<Login />} />
+      <Route exact path="/forgot-password" element={<Login />} />
+      <Route exact path="/data" element={<Home />} />
+      <Route exact path="/form/:formId" element={<Forms />} />
+      <Route path="/users" element={<Private element={Users} />} />
+      <Route path="/user/add" element={<Private element={AddUser} />} />
+      <Route
+        path="/control-center"
+        element={<Private element={ControlCenter} />}
+      />
+      <Route path="/data/manage" element={<Private element={ManageData} />} />
+      <Route path="/data/export" element={<Private element={ExportData} />} />
+      <Route path="/data/upload" element={<Private element={UploadData} />} />
+      <Route
+        path="/data/visualisation"
+        element={<Private element={Visualisation} />}
+      />
+      <Route
+        path="/questionnaires"
+        element={<Private element={Questionnaires} />}
+      >
+        <Route
+          path="admin"
+          element={<Private element={QuestionnairesAdmin} />}
+        />
+      </Route>
+      <Route path="/approvals" element={<Private element={Approvals} />} />
+      <Route
+        path="/approvers/tree"
+        element={<Private element={ApproversTree} />}
+      />
+      <Route path="/profile" element={<Private element={Profile} />} />
+      <Route exact path="/coming-soon" element={<div />} />
+      <Route exact path="/not-found" element={<div />} />
+      <Route path="*" element={<Navigate replace to="/not-found" />} />
+    </Routes>
+  );
+};
 
 const App = () => {
   const { user: authUser, isLoggedIn } = store.useState((state) => state);
@@ -78,140 +130,19 @@ const App = () => {
     }
   }, [authUser, isLoggedIn, removeCookie, cookies, notify]);
 
-  const ProtectedRoute = ({ children }) => {
-    if (authUser) {
-      return children;
-    }
-    return <Navigate to="/login" />;
-  };
-
-  const Template = () => {
-    return (
-      <Layout>
-        <Layout.Header />
-        <Layout.Banner />
-        <Layout.Body>
-          {loading ? (
-            <PageLoader message="Initializing. Please wait.." />
-          ) : (
-            <Outlet />
-          )}
-        </Layout.Body>
-        <Layout.Footer />
-      </Layout>
-    );
-  };
-
   return (
-    <Routes>
-      <Route element={<Template />}>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/login/:invitationId" element={<Login />} />
-        <Route exact path="/forgot-password" element={<Login />} />
-        <Route exact path="/data" element={<Home />} />
-        <Route exact path="/form/:formId" element={<Forms />} />
-        <Route
-          path="/users"
-          element={
-            <ProtectedRoute>
-              <Users />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/user/add"
-          element={
-            <ProtectedRoute>
-              <AddUser />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/control-center"
-          element={
-            <ProtectedRoute>
-              <ControlCenter />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/data/manage"
-          element={
-            <ProtectedRoute>
-              <ManageData />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/questionnaires"
-          element={
-            <ProtectedRoute>
-              <Questionnaires />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/questionnaires/admin"
-          element={
-            <ProtectedRoute>
-              <QuestionnairesAdmin />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/approvals"
-          element={
-            <ProtectedRoute>
-              <Approvals />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/approvers/tree"
-          element={
-            <ProtectedRoute>
-              <ApproversTree />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/data/export"
-          element={
-            <ProtectedRoute>
-              <ExportData />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/data/upload"
-          element={
-            <ProtectedRoute>
-              <UploadData />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/visualisation"
-          element={
-            <ProtectedRoute>
-              <Visualisation />
-            </ProtectedRoute>
-          }
-        />
-        <Route exact path="/coming-soon" element={<div />} />
-        <Route exact path="/not-found" element={<div />} />
-        <Route path="*" element={<Navigate replace to="/not-found" />} />
-      </Route>
-    </Routes>
+    <Layout>
+      <Layout.Header />
+      <Layout.Banner />
+      <Layout.Body>
+        {loading ? (
+          <PageLoader message="Initializing. Please wait.." />
+        ) : (
+          <RouteList />
+        )}
+      </Layout.Body>
+      <Layout.Footer />
+    </Layout>
   );
 };
 
