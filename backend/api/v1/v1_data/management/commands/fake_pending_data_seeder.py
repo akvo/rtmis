@@ -7,10 +7,9 @@ from faker import Faker
 
 from api.v1.v1_data.models import PendingFormData, \
     PendingAnswers, PendingDataApproval, PendingDataBatch
-from api.v1.v1_forms.constants import QuestionTypes
+from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, FormApprovalAssignment
 from api.v1.v1_profile.constants import UserRoleTypes
-from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 
 fake = Faker()
@@ -82,42 +81,50 @@ def add_fake_answers(data: PendingFormData):
     data.save()
 
 
-def seed_data(form, fake_geo, repeat, test):
+def seed_data(form, fake_geo, repeat, created_by, test):
     admin_ids = list(
         FormApprovalAssignment.objects.values_list('administration_id',
                                                    flat=True).filter(
             form=form))
     for i in range(repeat):
-        if test:
-            administration = Administration.objects.filter(
-                id__in=admin_ids).order_by(
-                '?').first()
-        else:
-            administration = Administration.objects.filter(
-                id__in=admin_ids,
-                level=Levels.objects.order_by('-level').first()).order_by(
-                '?').first()
+        # if test:
+        #     administration = Administration.objects.filter(
+        #         id__in=admin_ids).order_by(
+        #         '?').first()
+        # else:
+        #     if form.type == FormTypes.county:
+        #         administration = Administration.objects.filter(
+        #             id__in=admin_ids,
+        #             level=Levels.objects.order_by('-level').first()).order_by(
+        #             '?').first()
+        #     else:
+        #         administration = Administration.objects.filter(
+        #             id__in=admin_ids,
+        #             level=Levels.objects.get(level=0)).order_by(
+        #             '?').first()
+        administration = created_by.user_access.administration
         geo = fake_geo.iloc[i].to_dict()
         data = PendingFormData.objects.create(
             name=fake.pystr_format(),
             geo=[geo["X"], geo["Y"]],
             form=form,
             administration=administration,
-            created_by=SystemUser.objects.filter(
-                user_access__role=UserRoleTypes.user).order_by('?').first())
+            created_by=created_by)
 
-        complete_path = '{0}{1}'.format(administration.path, administration.id)
+        if form.type == FormTypes.county:
+            complete_path = '{0}{1}'.format(administration.path,
+                                            administration.id)
 
-        for path in complete_path.split('.'):
-            assignment = FormApprovalAssignment.objects.filter(
-                form=form,
-                administration_id=path).first()
-            if assignment:
-                PendingDataApproval.objects.create(
-                    pending_data=data,
-                    user=assignment.user,
-                    level=assignment.user.user_access.administration.level
-                )
+            for path in complete_path.split('.'):
+                assignment = FormApprovalAssignment.objects.filter(
+                    form=form,
+                    administration_id=path).first()
+                if assignment:
+                    PendingDataApproval.objects.create(
+                        pending_data=data,
+                        user=assignment.user,
+                        level=assignment.user.user_access.administration.level
+                    )
         add_fake_answers(data)
 
 
@@ -141,21 +148,52 @@ class Command(BaseCommand):
                             const=1,
                             default=False,
                             type=bool)
+        parser.add_argument("-e",
+                            "--email",
+                            nargs="?",
+                            const=1,
+                            default=None,
+                            type=str)
 
     def handle(self, *args, **options):
         PendingFormData.objects.all().delete()
         PendingDataBatch.objects.all().delete()
         fake_geo = pd.read_csv("./source/kenya_random_points.csv")
-        for form in Forms.objects.all():
-            seed_data(form, fake_geo, options.get("repeat"),
+        user = None
+        if options.get('email'):
+            # if user type is 'user' -> seed county form only
+            try:
+                user = SystemUser.objects.get(email=options.get('email'))
+            except SystemUser.DoesNotExist:
+                print('User with this {0} is not exists'.format(
+                    options.get('email')))
+                return
+            if user.user_access.role == UserRoleTypes.user:
+                forms = Forms.objects.filter(type=FormTypes.county)
+            elif user.user_access.role == UserRoleTypes.admin:
+                forms = Forms.objects.filter(type=FormTypes.national)
+            else:
+                print(
+                    'User with this {0} is not allowed to submit data '.format(
+                        options.get('email')))
+                return
+        else:
+            forms = Forms.objects.all()
+
+        for form in forms:
+            if not user:
+                role = UserRoleTypes.user \
+                    if form.type == FormTypes.county else UserRoleTypes.admin
+                user = SystemUser.objects.filter(
+                    user_access__role=role).order_by('?').first()
+            seed_data(form, fake_geo, options.get("repeat"), user,
                       options.get("test"))
             limit = options.get('batch')
             if limit:
                 while PendingFormData.objects.filter(
                         batch__isnull=True, form=form).count() >= limit:
-                    user = SystemUser.objects.filter(
-                        user_access__role=UserRoleTypes.user).order_by(
-                        '?').first()
+                    print(user)
+
                     batch = PendingDataBatch.objects.create(
                         name=fake.text(),
                         form=form,
