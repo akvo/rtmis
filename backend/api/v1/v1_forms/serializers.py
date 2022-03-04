@@ -358,7 +358,8 @@ class FormApproverResponseSerializer(serializers.ModelSerializer):
 
     def get_user_list(self, instance: Administration):
         users = SystemUser.objects.filter(
-            user_access__role=UserRoleTypes.approver,
+            user_access__role__in=[UserRoleTypes.approver,
+                                   UserRoleTypes.admin],
             user_access__administration=instance)
         return FormApproverUserListSerializer(instance=users,
                                               many=True).data

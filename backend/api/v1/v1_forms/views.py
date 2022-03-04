@@ -8,6 +8,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from api.v1.v1_forms.constants import FormTypes
 from api.v1.v1_forms.models import Forms, FormApprovalRule
 from api.v1.v1_forms.serializers import ListFormSerializer, \
     WebFormDetailSerializer, FormDataSerializer, ListFormRequestSerializer, \
@@ -23,10 +24,12 @@ from utils.custom_serializer_fields import validate_serializers_message
                parameters=[
                    OpenApiParameter(name='type',
                                     required=False,
+                                    enum=FormTypes.FieldStr.keys(),
                                     type=OpenApiTypes.NUMBER,
                                     location=OpenApiParameter.QUERY), ],
                tags=['Form'],
-               summary='To get list of forms')
+               summary='To get list of forms',
+               description='Form type 1=County and 2=National')
 @api_view(['GET'])
 def list_form(request, version):
     serializer = ListFormRequestSerializer(data=request.GET)
