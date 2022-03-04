@@ -110,7 +110,7 @@ class DataTestCase(TestCase):
         self.assertEqual(list(data.json().get('data')[0]['child'][0]),
                          ['name', 'value'])
 
-        call_command("fake_user_seeder", "-r", 10)
+        call_command("fake_user_seeder", "-r", 100)
         call_command('form_approval_seeder')
         call_command('form_approval_assignment_seeder')
         call_command('fake_pending_data_seeder', '-r', 1, '-t', True)
@@ -169,3 +169,25 @@ class DataTestCase(TestCase):
         self.assertEqual(list(response.json()[0]),
                          ['name', 'form', 'administration', 'file',
                           'total_data', 'created', 'updated'])
+
+    def test_export_form(self):
+        call_command("administration_seeder", "--test")
+        user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user_response = self.client.post('/api/v1/login',
+                                         user_payload,
+                                         content_type='application/json')
+        token = user_response.json().get('token')
+        header = {
+            'HTTP_AUTHORIZATION': f'Bearer {token}'
+        }
+        call_command("form_seeder", "--test")
+        call_command("fake_data_seeder", "-r", 1, '-t', True)
+        call_command("fake_user_seeder", "-r", 100)
+        call_command('form_approval_seeder')
+        call_command('form_approval_assignment_seeder')
+        call_command('fake_pending_data_seeder', '-r', 1, '-t', True)
+        response = self.client.get(
+            '/api/v1/export/form/{0}'.format(Forms.objects.first().id),
+            content_type='application/json',
+            **header)
+        self.assertEqual(response.status_code, 200)
