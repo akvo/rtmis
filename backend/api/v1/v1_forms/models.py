@@ -42,17 +42,6 @@ class FormApprovalRule(models.Model):
         db_table = 'form_approval_rule'
 
 
-"""
-Form - HouseHold
-administration - L3 User1 A3 1.
-administration - L4 User2 A4 1.3.
-
-To post data,
-
-User - Any user under Level path 1.3 with user type= user  
-"""
-
-
 class FormApprovalAssignment(models.Model):
     form = models.ForeignKey(to=Forms,
                              on_delete=models.CASCADE,
