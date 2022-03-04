@@ -1,4 +1,5 @@
 # Create your views here.
+import datetime
 from math import ceil
 from pathlib import Path
 
@@ -7,7 +8,10 @@ from django.core import signing
 from django.core.management import call_command
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.signing import BadSignature
+from django.db.models import Value
+from django.db.models.functions import Coalesce
 from django.http import HttpResponse
+from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, inline_serializer, \
     OpenApiParameter
@@ -149,6 +153,7 @@ def set_user_password(request, version):
             )
         user: SystemUser = serializer.validated_data.get('invite')
         user.set_password(serializer.validated_data.get('password'))
+        user.updated = timezone.now()
         user.save()
         refresh = RefreshToken.for_user(user)
         data = UserSerializer(instance=user).data
@@ -296,7 +301,10 @@ def list_users(request, version):
                 'pending')
 
         page_size = REST_FRAMEWORK.get('PAGE_SIZE')
-        queryset = SystemUser.objects.filter(**filter_data).order_by('id')
+        the_past = timezone.now() - datetime.timedelta(days=10 * 365)
+        queryset = SystemUser.objects.filter(**filter_data).annotate(
+            last_updated=Coalesce('updated', Value(the_past))).order_by(
+            '-last_updated', '-date_joined')
         paginator_temp = Paginator(queryset, page_size)
         paginator_temp.page(request.GET.get('page', 1))
         paginator = PageNumberPagination()
@@ -346,6 +354,24 @@ def edit_user(request, version, user_id):
     except Exception as ex:
         return Response({'message': ex.args},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@extend_schema(
+    responses={
+        (200, 'application/json'):
+            inline_serializer("Response", fields={
+                "message": serializers.CharField()
+            })
+    },
+    tags=['User'],
+    summary='To delete user')
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
+def delete_user(request, version, user_id):
+    instance = get_object_or_404(SystemUser, pk=user_id)
+    instance.delete()
+    return Response({'message': 'User deleted successfully'},
+                    status=status.HTTP_200_OK)
 
 
 @extend_schema(responses=inline_serializer('user_role', fields={
