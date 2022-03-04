@@ -25,7 +25,7 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(users['data'][0]['last_name'], 'RTMIS')
         self.assertEqual(users['data'][0]['email'], 'admin@rtmis.com')
         self.assertEqual(users['data'][0]['administration'],
-                         {'id': 1, 'name': 'Indonesia', 'level': 1})
+                         {'id': 1, 'name': 'Indonesia', 'level': 0})
         self.assertEqual(users['data'][0]['role'],
                          {'id': 1, 'value': 'Super Admin'})
         call_command("fake_user_seeder", "-r", 33)
