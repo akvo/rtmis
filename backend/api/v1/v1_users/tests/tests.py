@@ -1,11 +1,13 @@
 from django.core.management import call_command
 from django.test import TestCase
+from django.test.utils import override_settings
 
 from api.v1.v1_profile.models import Access
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 
 
+@override_settings(USE_TZ=False)
 class SystemUserTestCase(TestCase):
     """
     This test case is just an example.
@@ -40,6 +42,7 @@ class SystemUserTestCase(TestCase):
         self.assertEqual(access.user, user)
 
 
+@override_settings(USE_TZ=False)
 class SystemUserEndpointsTestCase(TestCase):
     def test_health_check(self):
         response = self.client.get('/api/v1/health/check',
