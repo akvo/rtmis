@@ -1,4 +1,5 @@
 # Create your views here.
+import datetime
 from math import ceil
 from pathlib import Path
 
@@ -7,7 +8,10 @@ from django.core import signing
 from django.core.management import call_command
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.signing import BadSignature
+from django.db.models import Value
+from django.db.models.functions import Coalesce
 from django.http import HttpResponse
+from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, inline_serializer, \
     OpenApiParameter
@@ -18,6 +22,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -149,6 +154,7 @@ def set_user_password(request, version):
             )
         user: SystemUser = serializer.validated_data.get('invite')
         user.set_password(serializer.validated_data.get('password'))
+        user.updated = timezone.now()
         user.save()
         refresh = RefreshToken.for_user(user)
         data = UserSerializer(instance=user).data
@@ -296,7 +302,10 @@ def list_users(request, version):
                 'pending')
 
         page_size = REST_FRAMEWORK.get('PAGE_SIZE')
-        queryset = SystemUser.objects.filter(**filter_data).order_by('id')
+        the_past = timezone.now() - datetime.timedelta(days=10 * 365)
+        queryset = SystemUser.objects.filter(**filter_data).annotate(
+            last_updated=Coalesce('updated', Value(the_past))).order_by(
+            '-last_updated', '-date_joined')
         paginator_temp = Paginator(queryset, page_size)
         paginator_temp.page(request.GET.get('page', 1))
         paginator = PageNumberPagination()
@@ -316,38 +325,6 @@ def list_users(request, version):
         return Response(ex.args, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-@extend_schema(request=AddEditUserSerializer,
-               responses={
-                   (200, 'application/json'):
-                       inline_serializer("Response", fields={
-                           "message": serializers.CharField()
-                       })
-               },
-               tags=['User'],
-               description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
-                           'User:4',
-               summary='To update user')
-@api_view(['PUT'])
-@permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
-def edit_user(request, version, user_id):
-    instance = get_object_or_404(SystemUser, pk=user_id)
-    try:
-        serializer = AddEditUserSerializer(data=request.data,
-                                           context={'user': request.user},
-                                           instance=instance)
-        if not serializer.is_valid():
-            return Response(
-                {'message': validate_serializers_message(serializer.errors)},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        serializer.save()
-        return Response({'message': 'User updated successfully'},
-                        status=status.HTTP_200_OK)
-    except Exception as ex:
-        return Response({'message': ex.args},
-                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
 @extend_schema(responses=inline_serializer('user_role', fields={
     'id': serializers.IntegerField(),
     'value': serializers.CharField(),
@@ -361,3 +338,48 @@ def get_user_roles(request, version):
             'value': v,
         })
     return Response(data, status=status.HTTP_200_OK)
+
+
+class UserEditDeleteView(APIView):
+    permission_classes = [IsAuthenticated, IsSuperAdmin | IsAdmin]
+
+    @extend_schema(
+        responses={
+            (200, 'application/json'):
+                inline_serializer("Response", fields={
+                    "message": serializers.CharField()
+                })
+        },
+        tags=['User'],
+        summary='To delete user')
+    def delete(self, request, user_id, version):
+        instance = get_object_or_404(SystemUser, pk=user_id)
+        instance.delete()
+        return Response({'message': 'User deleted successfully'},
+                        status=status.HTTP_200_OK)
+
+    @extend_schema(
+        request=AddEditUserSerializer,
+        responses={
+            (200, 'application/json'):
+                inline_serializer("Response", fields={
+                    "message": serializers.CharField()
+                })
+        },
+        tags=['User'],
+        description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
+                    'User:4',
+        summary='To update user')
+    def put(self, request, user_id, version):
+        instance = get_object_or_404(SystemUser, pk=user_id)
+        serializer = AddEditUserSerializer(data=request.data,
+                                           context={'user': request.user},
+                                           instance=instance)
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(serializer.errors)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        serializer.save()
+        return Response({'message': 'User updated successfully'},
+                        status=status.HTTP_200_OK)

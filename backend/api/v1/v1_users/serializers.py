@@ -1,5 +1,6 @@
 from django.core import signing
 from django.core.signing import BadSignature
+from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field, inline_serializer
 from rest_framework import serializers
@@ -151,7 +152,8 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         role = validated_data.pop('role')
         instance: SystemUser = super(AddEditUserSerializer,
                                      self).update(instance, validated_data)
-
+        instance.updated = timezone.now()
+        instance.save()
         instance.user_access.role = role
         instance.user_access.administration = administration
         instance.user_access.save()

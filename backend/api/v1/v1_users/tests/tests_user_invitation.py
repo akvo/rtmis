@@ -2,6 +2,7 @@ from django.core import signing
 from django.core.management import call_command
 from django.test import TestCase
 
+from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_users.models import SystemUser
 
 
@@ -192,4 +193,25 @@ class UserInvitationTestCase(TestCase):
     def test_config_js(self):
         response = self.client.get('/api/v1/config.js',
                                    content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
+    def test_delete_user(self):
+        call_command("administration_seeder", "--test")
+        user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user_response = self.client.post('/api/v1/login',
+                                         user_payload,
+                                         content_type='application/json')
+        user = user_response.json()
+        token = user.get('token')
+        header = {
+            'HTTP_AUTHORIZATION': f'Bearer {token}'
+        }
+        call_command("fake_user_seeder")
+        call_command("fake_approver_seeder")
+        u = SystemUser.objects.filter(
+            user_access__role__in=[UserRoleTypes.approver,
+                                   UserRoleTypes.user]).first()
+        response = self.client.delete('/api/v1/user/{0}'.format(u.id),
+                                      content_type='application/json',
+                                      **header)
         self.assertEqual(response.status_code, 200)
