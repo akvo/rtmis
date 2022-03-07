@@ -26,14 +26,14 @@ const RegistrationForm = (props) => {
     };
     setLoading(true);
     api
-      .put("user/set-password/", postData)
+      .put("user/set-password", postData)
       .then((res) => {
         api.setToken(res.data.token);
         store.update((s) => {
           s.isLoggedIn = true;
           s.user = res.data;
         });
-        Promise.all([api.get("forms/"), api.get("levels/")])
+        Promise.all([api.get("forms"), api.get("levels")])
           .then((res) => {
             store.update((s) => {
               s.forms = res[0].data;

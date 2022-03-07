@@ -107,7 +107,7 @@ const ApproversTree = () => {
     }, []);
     setSaving(true);
     api
-      .post(`form/approver/${selectedForm}/`, formData)
+      .post(`form/approver/${selectedForm}`, formData)
       .then(() => {
         setDatasetJson(JSON.stringify(dataset));
         notify({
@@ -170,7 +170,7 @@ const ApproversTree = () => {
       }
       setLoading(true);
       api
-        .get(`administration/${e}/`)
+        .get(`administration/${e}`)
         .then((res) => {
           store.update((s) => {
             s.administration.length = index + 1;

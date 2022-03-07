@@ -13,7 +13,7 @@ const ResetForm = () => {
   const onFinish = (values) => {
     setLoading(true);
     api
-      .post("login/", {
+      .post("login", {
         email: values.email,
         password: values.password,
       })
@@ -23,7 +23,7 @@ const ResetForm = () => {
           s.isLoggedIn = true;
           s.user = res.data;
         });
-        Promise.all([api.get("forms/"), api.get("levels/")])
+        Promise.all([api.get("forms"), api.get("levels")])
           .then((res) => {
             store.update((s) => {
               s.forms = res[0].data;

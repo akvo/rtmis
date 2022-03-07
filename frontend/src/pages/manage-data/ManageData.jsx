@@ -102,7 +102,7 @@ const ManageData = () => {
   useEffect(() => {
     if (selectedForm) {
       setLoading(true);
-      let url = `list/form-data/${selectedForm}/?page=${currentPage}`;
+      let url = `/form-data/${selectedForm}/?page=${currentPage}`;
       if (selectedAdministration?.id) {
         url += `&administration=${selectedAdministration.id}`;
       }

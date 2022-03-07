@@ -16,7 +16,7 @@ const FormDropdown = ({ loading: parentLoading = false, ...props }) => {
         return;
       }
       api
-        .get(`/form/${e}/`)
+        .get(`/form/${e}`)
         .then((res) => {
           store.update((s) => {
             s.questionGroups = res.data.question_group;
@@ -32,12 +32,6 @@ const FormDropdown = ({ loading: parentLoading = false, ...props }) => {
     },
     [notify]
   );
-
-  useEffect(() => {
-    if (!!forms?.length && !selectedForm) {
-      handleChange(forms[0].id);
-    }
-  }, [forms, selectedForm, handleChange]);
 
   if (forms) {
     return (

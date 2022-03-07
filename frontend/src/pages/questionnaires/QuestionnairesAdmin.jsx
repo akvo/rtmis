@@ -88,7 +88,7 @@ const QuestionnairesAdmin = () => {
     if (forms.length) {
       setLoading(true);
       api
-        .get("form/approval-level/")
+        .get("form/approval-level")
         .then((res) => {
           setDataset(res.data);
           setDataOriginal(JSON.stringify(res.data));
@@ -112,7 +112,7 @@ const QuestionnairesAdmin = () => {
     }));
     setSaving(true);
     api
-      .put("form/approval/", data)
+      .put("form/approval", data)
       .then(() => {
         setSaving(false);
         notify({

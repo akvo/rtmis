@@ -85,7 +85,7 @@ const App = () => {
     if (!location.pathname.includes("/login")) {
       if (!authUser && !isLoggedIn && cookies && !!cookies.AUTH_TOKEN) {
         api
-          .get("profile/", {
+          .get("profile", {
             headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
           })
           .then((res) => {
@@ -94,7 +94,7 @@ const App = () => {
               s.user = res.data;
             });
             api.setToken(cookies.AUTH_TOKEN);
-            Promise.all([api.get("forms/"), api.get("levels/")])
+            Promise.all([api.get("forms"), api.get("levels")])
               .then((res) => {
                 store.update((s) => {
                   s.forms = res[0].data;

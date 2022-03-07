@@ -22,7 +22,7 @@ const AdministrationDropdown = ({
         s.loadingAdministration = true;
       });
       api
-        .get(`administration/${user.administration.id}/`)
+        .get(`administration/${user.administration.id}`)
         .then((adminRes) => {
           store.update((s) => {
             s.administration = [
@@ -60,7 +60,7 @@ const AdministrationDropdown = ({
       s.loadingAdministration = true;
     });
     api
-      .get(`administration/${e}/`)
+      .get(`administration/${e}`)
       .then((res) => {
         store.update((s) => {
           s.administration.length = index + 1;

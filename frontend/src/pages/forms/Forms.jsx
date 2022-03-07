@@ -80,7 +80,7 @@ const Forms = () => {
         .map((x) => pick(x, ["question", "value"])),
     };
     api
-      .post(`form-data/${formId}/`, data)
+      .post(`form-data/${formId}`, data)
       .then(() => {
         notification.success({
           message: "Submitted",
@@ -102,7 +102,7 @@ const Forms = () => {
 
   useEffect(() => {
     if (formId && loading) {
-      api.get(`/web/form/${formId}/`).then((x) => {
+      api.get(`/web/form/${formId}`).then((x) => {
         setForms(x.data);
         setLoading(false);
       });
