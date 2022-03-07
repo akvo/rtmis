@@ -1,5 +1,6 @@
 import React from "react";
 import { Row, Col, Table, Tabs, Input, Checkbox, Button, Space } from "antd";
+import { api } from "../../lib";
 
 const { TextArea } = Input;
 const { TabPane } = Tabs;
@@ -38,7 +39,17 @@ const columnsRawData = [
   },
 ];
 
-const ApprovalDetail = ({ record, loading }) => {
+const ApprovalDetail = ({ record, loading, reload, setReload }) => {
+  const handleApprove = (id) => {
+    api
+      .post("pending-data/approve", { batch: [id], status: 2 })
+      .then((res) => {
+        setReload(id);
+        console.info(res);
+      })
+      .catch((e) => console.error(e));
+  };
+
   return (
     <div>
       <Tabs centered defaultActiveKey="1" onChange={() => {}}>
@@ -128,8 +139,25 @@ const ApprovalDetail = ({ record, loading }) => {
         </Col>
         <Col>
           <Space>
-            <Button className="light dev">Decline</Button>
-            <Button className="primary dev" htmlType="submit">
+            <Button
+              type="danger"
+              disabled={
+                record.approved
+                  ? !record.approved
+                  : !record.approver.allow_approve
+              }
+            >
+              Decline
+            </Button>
+            <Button
+              type="primary"
+              onClick={() => handleApprove(record.id)}
+              disabled={
+                record.approved
+                  ? !record.approved
+                  : !record.approver.allow_approve
+              }
+            >
               Approve
             </Button>
           </Space>

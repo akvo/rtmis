@@ -31,6 +31,7 @@ const Approvals = () => {
   const [expandedKeys, setExpandedKeys] = useState([]);
   const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [reload, setReload] = useState(0);
   const { user } = store.useState((state) => state);
 
   useEffect(() => {
@@ -50,7 +51,7 @@ const Approvals = () => {
         console.error(e);
         setLoading(false);
       });
-  }, [currentPage]);
+  }, [currentPage, reload]);
 
   const handleChange = (e) => {
     setCurrentPage(e.current);
@@ -113,7 +114,12 @@ const Approvals = () => {
               expandable={{
                 onExpand: getDataDetail,
                 expandedRowRender: (record) => (
-                  <ApprovalDetails record={record} loading={detailLoading} />
+                  <ApprovalDetails
+                    record={record}
+                    loading={detailLoading}
+                    reload={reload}
+                    setReload={setReload}
+                  />
                 ),
                 expandIcon: ({ expanded, onExpand, record }) =>
                   expanded ? (
