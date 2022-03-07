@@ -119,11 +119,13 @@ class Command(BaseCommand):
                             type=bool)
 
     def handle(self, *args, **options):
+        test = options.get("test")
         FormData.objects.all().delete()
         fake_geo = pd.read_csv("./source/kenya_random_points.csv")
         level_names = list(
             filter(lambda x: True if "NAME_" in x else False, list(fake_geo)))
         for form in Forms.objects.all():
-            print(f"Seeding - {form.name}")
+            if not test:
+                print(f"\nSeeding - {form.name}")
             seed_data(form, fake_geo, level_names, options.get("repeat"),
                       options.get("test"))
