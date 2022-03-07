@@ -117,7 +117,6 @@ const Approvals = () => {
                   <ApprovalDetails
                     record={record}
                     loading={detailLoading}
-                    reload={reload}
                     setReload={setReload}
                   />
                 ),

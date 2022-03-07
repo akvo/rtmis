@@ -39,7 +39,7 @@ const columnsRawData = [
   },
 ];
 
-const ApprovalDetail = ({ record, loading, reload, setReload }) => {
+const ApprovalDetail = ({ record, loading, setReload }) => {
   const handleApprove = (id) => {
     api
       .post("pending-data/approve", { batch: [id], status: 2 })
