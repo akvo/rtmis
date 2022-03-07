@@ -24,12 +24,13 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
     ListMapDataPointRequestSerializer, ListChartDataPointRequestSerializer, \
-    ListChartQuestionDataPointSerializer, ListPendingFormDataSerializer, \
-    ListPendingFormDataRequestSerializer, ListPendingDataAnswerSerializer, \
+    ListChartQuestionDataPointSerializer, \
+    ListPendingDataAnswerSerializer, \
     ApprovePendingDataRequestSerializer, ListBatchSerializer, \
-    CreateBatchSerializer
+    CreateBatchSerializer, ListPendingDataBatchSerializer, \
+    ListPendingFormDataSerializer, PendingBatchDataFilterSerializer
 from api.v1.v1_forms.models import Forms
-from api.v1.v1_profile.models import Administration, Access
+from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import SystemUser
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import IsAdmin, IsApprover
@@ -274,13 +275,98 @@ def get_chart_data_point(request, version, form_id):
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+# @extend_schema(responses={
+#     (200, 'application/json'):
+#         inline_serializer("DataList", fields={
+#             "current": serializers.IntegerField(),
+#             "total": serializers.IntegerField(),
+#             "total_page": serializers.IntegerField(),
+#             "data": ListPendingFormDataSerializer(many=True),
+#         })},
+#     tags=['Pending Data'],
+#     parameters=[
+#         OpenApiParameter(name='page',
+#                          required=True,
+#                          type=OpenApiTypes.NUMBER,
+#                          location=OpenApiParameter.QUERY),
+#         OpenApiParameter(name='administration',
+#                          required=False,
+#                          type=OpenApiTypes.NUMBER,
+#                          location=OpenApiParameter.QUERY)
+#     ],
+#     summary='To get list of pending form data')
+# @api_view(['GET'])
+# @permission_classes([IsAuthenticated, IsAdmin | IsApprover])
+# def list_pending_form_data(request, version, form_id):
+#     form = get_object_or_404(Forms, pk=form_id)
+#     try:
+#         serializer = ListPendingFormDataRequestSerializer(data=request.GET)
+#         if not serializer.is_valid():
+#             return Response(
+#                 {'message': validate_serializers_message(serializer.errors)},
+#                 status=status.HTTP_400_BAD_REQUEST
+#             )
+#         filter_data = {}
+#         access: Access = request.user.user_access
+#         path = '{0}{1}.'.format(access.administration.path,
+#                                 access.administration.id)
+#         descendants = list(Administration.objects.filter(
+#             path__startswith=path).values_list('id', flat=True))
+#         my_descendants = descendants.copy()
+#         descendants.append(access.administration.id)
+#         if serializer.validated_data.get('administration'):
+#             filter_administration = serializer.validated_data.get(
+#                 'administration')
+#             if filter_administration.path:
+#                 filter_path = '{0}{1}.'.format(filter_administration.path,
+#                                                filter_administration.id)
+#             else:
+#                 filter_path = f"{filter_administration.id}."
+#             filter_descendants = list(Administration.objects.filter(
+#                 path__startswith=filter_path).values_list('id', flat=True))
+#             filter_descendants.append(filter_administration.id)
+#
+#             filter_data['administration_id__in'] = filter_descendants
+#
+#         page_size = REST_FRAMEWORK.get('PAGE_SIZE')
+#         page = request.GET.get('page')
+#
+#         queryset = form.pending_form_form_data.filter(
+#             administration_id__in=descendants,
+#             **filter_data).order_by('-created')
+#         paginator_temp = Paginator(queryset, page_size)
+#         paginator_temp.page(request.GET.get('page', page))
+#
+#         paginator = PageNumberPagination()
+#         instance = paginator.paginate_queryset(queryset, request)
+#
+#         data = {
+#             "current": int(request.GET.get('page', '1')),
+#             "total": queryset.count(),
+#             "total_page": ceil(queryset.count() / page_size),
+#             "data": ListPendingFormDataSerializer(
+#                 instance=instance, context={
+#                     'questions': serializer.validated_data.get('questions'),
+#                     'descendants': my_descendants,
+#                     'user': request.user, },
+#                 many=True).data,
+#         }
+#         return Response(data, status=status.HTTP_200_OK)
+#     except (InvalidPage, EmptyPage):
+#         return Response({'message': 'data not found'},
+#                         status=status.HTTP_404_NOT_FOUND)
+#     except Exception as ex:
+#         return Response({'message': ex.args},
+#                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 @extend_schema(responses={
     (200, 'application/json'):
         inline_serializer("DataList", fields={
             "current": serializers.IntegerField(),
             "total": serializers.IntegerField(),
             "total_page": serializers.IntegerField(),
-            "data": ListPendingFormDataSerializer(many=True),
+            "data": ListPendingDataBatchSerializer(many=True),
         })},
     tags=['Pending Data'],
     parameters=[
@@ -288,53 +374,34 @@ def get_chart_data_point(request, version, form_id):
                          required=True,
                          type=OpenApiTypes.NUMBER,
                          location=OpenApiParameter.QUERY),
-        OpenApiParameter(name='administration',
-                         required=False,
-                         type=OpenApiTypes.NUMBER,
-                         location=OpenApiParameter.QUERY)
+        OpenApiParameter(name='approved',
+                         required=True,
+                         default=False,
+                         type=OpenApiTypes.BOOL,
+                         location=OpenApiParameter.QUERY),
     ],
-    summary='To get list of pending form data')
+    summary='To get list of pending batch')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsAdmin | IsApprover])
-def list_pending_form_data(request, version, form_id):
-    form = get_object_or_404(Forms, pk=form_id)
+def list_pending_batch(request, version):
     try:
-        serializer = ListPendingFormDataRequestSerializer(data=request.GET)
+        serializer = PendingBatchDataFilterSerializer(data=request.GET)
         if not serializer.is_valid():
             return Response(
                 {'message': validate_serializers_message(serializer.errors)},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        filter_data = {}
-        access: Access = request.user.user_access
-        path = '{0}{1}.'.format(access.administration.path,
-                                access.administration.id)
-        descendants = list(Administration.objects.filter(
-            path__startswith=path).values_list('id', flat=True))
-        my_descendants = descendants.copy()
-        descendants.append(access.administration.id)
-        if serializer.validated_data.get('administration'):
-            filter_administration = serializer.validated_data.get(
-                'administration')
-            if filter_administration.path:
-                filter_path = '{0}{1}.'.format(filter_administration.path,
-                                               filter_administration.id)
-            else:
-                filter_path = f"{filter_administration.id}."
-            filter_descendants = list(Administration.objects.filter(
-                path__startswith=filter_path).values_list('id', flat=True))
-            filter_descendants.append(filter_administration.id)
-
-            filter_data['administration_id__in'] = filter_descendants
-
         page_size = REST_FRAMEWORK.get('PAGE_SIZE')
-        page = request.GET.get('page')
+        batch_ids = list(
+            request.user.user_assigned_pending_data.values_list('batch_id',
+                                                                flat=True))
+        queryset = PendingDataBatch.objects.filter(
+            id__in=batch_ids,
+            approved=serializer.validated_data.get('approved')
+        ).order_by('-created')
 
-        queryset = form.pending_form_form_data.filter(
-            administration_id__in=descendants,
-            **filter_data).order_by('-created')
         paginator_temp = Paginator(queryset, page_size)
-        paginator_temp.page(request.GET.get('page', page))
+        paginator_temp.page(request.GET.get('page', 1))
 
         paginator = PageNumberPagination()
         instance = paginator.paginate_queryset(queryset, request)
@@ -343,10 +410,8 @@ def list_pending_form_data(request, version, form_id):
             "current": int(request.GET.get('page', '1')),
             "total": queryset.count(),
             "total_page": ceil(queryset.count() / page_size),
-            "data": ListPendingFormDataSerializer(
+            "batch": ListPendingDataBatchSerializer(
                 instance=instance, context={
-                    'questions': serializer.validated_data.get('questions'),
-                    'descendants': my_descendants,
                     'user': request.user, },
                 many=True).data,
         }
@@ -354,6 +419,22 @@ def list_pending_form_data(request, version, form_id):
     except (InvalidPage, EmptyPage):
         return Response({'message': 'data not found'},
                         status=status.HTTP_404_NOT_FOUND)
+    except Exception as ex:
+        return Response({'message': ex.args},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@extend_schema(responses={200: ListPendingFormDataSerializer(many=True)},
+               tags=['Pending Data'],
+               summary='To get list of pending data by batch')
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsAdmin | IsApprover])
+def list_pending_data_batch(request, version, batch_id):
+    batch = get_object_or_404(PendingDataBatch, pk=batch_id)
+    try:
+        return Response(ListPendingFormDataSerializer(
+            instance=batch.batch_pending_data_batch.all(), many=True
+        ).data, status=status.HTTP_200_OK)
     except Exception as ex:
         return Response({'message': ex.args},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -380,16 +461,13 @@ def pending_data_answers(request, version, pending_data_id):
 @extend_schema(request=ApprovePendingDataRequestSerializer(),
                responses={
                    (200, 'application/json'):
-                       inline_serializer("DataList", fields={
-                           "current": serializers.IntegerField(),
-                           "total": serializers.IntegerField(),
-                           "total_page": serializers.IntegerField(),
-                           "data": ListPendingFormDataSerializer(many=True),
+                       inline_serializer("ApproveData", fields={
+                           "message": serializers.CharField()
                        })},
                tags=['Pending Data'],
                summary='Approve pending data')
 @api_view(['POST'])
-@permission_classes([IsAuthenticated, IsApprover])
+@permission_classes([IsAuthenticated, IsApprover | IsAdmin])
 def approve_pending_data(request, version):
     try:
         serializer = ApprovePendingDataRequestSerializer(
@@ -416,8 +494,9 @@ def approve_pending_data(request, version):
 @permission_classes([IsAuthenticated])
 def get_batch(request, version):
     return Response(
-        ListBatchSerializer(instance=PendingDataBatch.objects.all(),
-                            many=True).data,
+        ListBatchSerializer(
+            instance=PendingDataBatch.objects.filter(user=request.user),
+            many=True).data,
         status=status.HTTP_200_OK)
 
 
