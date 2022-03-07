@@ -214,4 +214,4 @@ class UserInvitationTestCase(TestCase):
         response = self.client.delete('/api/v1/user/{0}'.format(u.id),
                                       content_type='application/json',
                                       **header)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 204)

@@ -14,7 +14,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, inline_serializer, \
-    OpenApiParameter
+    OpenApiParameter, OpenApiResponse
 from jsmin import jsmin
 from rest_framework import status, serializers
 from rest_framework.decorators import api_view, permission_classes
@@ -345,18 +345,14 @@ class UserEditDeleteView(APIView):
 
     @extend_schema(
         responses={
-            (200, 'application/json'):
-                inline_serializer("Response", fields={
-                    "message": serializers.CharField()
-                })
+            204: OpenApiResponse(description='Deletion with no response')
         },
         tags=['User'],
         summary='To delete user')
     def delete(self, request, user_id, version):
         instance = get_object_or_404(SystemUser, pk=user_id)
         instance.delete()
-        return Response({'message': 'User deleted successfully'},
-                        status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     @extend_schema(
         request=AddEditUserSerializer,
