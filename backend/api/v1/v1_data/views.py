@@ -17,6 +17,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
     PendingDataBatch
@@ -38,116 +39,119 @@ from utils.custom_serializer_fields import validate_serializers_message
 from utils.export_form import generate_excel
 
 
-@extend_schema(request=SubmitFormSerializer,
-               responses={
-                   (200, 'application/json'):
-                       inline_serializer("FormSubmit", fields={
-                           "message": serializers.CharField()
-                       })
-               },
-               tags=['Data'],
-               summary='Submit form data')
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def submit_form(request, version, form_id):
-    form = get_object_or_404(Forms, pk=form_id)
-    try:
-        serializer = SubmitFormSerializer(data=request.data,
-                                          context={'user': request.user,
-                                                   'form': form})
-        if not serializer.is_valid():
-            return Response(
-                {'message': validate_serializers_message(serializer.errors),
-                 'details': serializer.errors},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+class FormDataAddListView(APIView):
+    permission_classes = [IsAuthenticated]
 
-        serializer.save()
-        return Response({'message': 'ok'}, status=status.HTTP_200_OK)
-    except Exception as ex:
-        return Response({'message': ex.args},
-                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    @extend_schema(responses={
+        (200, 'application/json'):
+            inline_serializer("DataList", fields={
+                "current": serializers.IntegerField(),
+                "total": serializers.IntegerField(),
+                "total_page": serializers.IntegerField(),
+                "data": ListFormDataSerializer(many=True),
+            })},
+        tags=['Data'],
+        parameters=[
+            OpenApiParameter(name='page',
+                             required=True,
+                             type=OpenApiTypes.NUMBER,
+                             location=OpenApiParameter.QUERY),
+            OpenApiParameter(name='administration',
+                             required=False,
+                             type=OpenApiTypes.NUMBER,
+                             location=OpenApiParameter.QUERY),
+            OpenApiParameter(name='questions',
+                             required=False,
+                             type={'type': 'array',
+                                   'items': {'type': 'number'}},
+                             location=OpenApiParameter.QUERY),
+        ],
+        summary='To get list of form data')
+    def get(self, request, form_id, version):
+        form = get_object_or_404(Forms, pk=form_id)
+        try:
+            serializer = ListFormDataRequestSerializer(data=request.GET)
+            if not serializer.is_valid():
+                return Response(
+                    {'message': validate_serializers_message(
+                        serializer.errors)},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            filter_data = {}
+            if serializer.validated_data.get('administration'):
+                filter_administration = serializer.validated_data.get(
+                    'administration')
+                if filter_administration.path:
+                    filter_path = '{0}{1}.'.format(filter_administration.path,
+                                                   filter_administration.id)
+                else:
+                    filter_path = f"{filter_administration.id}."
+                filter_descendants = list(Administration.objects.filter(
+                    path__startswith=filter_path).values_list('id', flat=True))
+                filter_descendants.append(filter_administration.id)
 
+                filter_data['administration_id__in'] = filter_descendants
 
-@extend_schema(responses={
-    (200, 'application/json'):
-        inline_serializer("DataList", fields={
-            "current": serializers.IntegerField(),
-            "total": serializers.IntegerField(),
-            "total_page": serializers.IntegerField(),
-            "data": ListFormDataSerializer(many=True),
-        })},
-    tags=['Data'],
-    parameters=[
-        OpenApiParameter(name='page',
-                         required=True,
-                         type=OpenApiTypes.NUMBER,
-                         location=OpenApiParameter.QUERY),
-        OpenApiParameter(name='administration',
-                         required=False,
-                         type=OpenApiTypes.NUMBER,
-                         location=OpenApiParameter.QUERY),
-        OpenApiParameter(name='questions',
-                         required=False,
-                         type={'type': 'array', 'items': {'type': 'number'}},
-                         location=OpenApiParameter.QUERY),
-    ],
-    summary='To get list of form data')
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def list_form_data(request, version, form_id):
-    form = get_object_or_404(Forms, pk=form_id)
-    try:
-        serializer = ListFormDataRequestSerializer(data=request.GET)
-        if not serializer.is_valid():
-            return Response(
-                {'message': validate_serializers_message(serializer.errors)},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        filter_data = {}
-        if serializer.validated_data.get('administration'):
-            filter_administration = serializer.validated_data.get(
-                'administration')
-            if filter_administration.path:
-                filter_path = '{0}{1}.'.format(filter_administration.path,
-                                               filter_administration.id)
-            else:
-                filter_path = f"{filter_administration.id}."
-            filter_descendants = list(Administration.objects.filter(
-                path__startswith=filter_path).values_list('id', flat=True))
-            filter_descendants.append(filter_administration.id)
+            page_size = REST_FRAMEWORK.get('PAGE_SIZE')
+            page = request.GET.get('page')
 
-            filter_data['administration_id__in'] = filter_descendants
+            the_past = datetime.datetime.now() - datetime.timedelta(
+                days=10 * 365)
+            queryset = form.form_form_data.filter(**filter_data).annotate(
+                last_updated=Coalesce('updated', Value(the_past))).order_by(
+                '-last_updated', '-created')
+            paginator_temp = Paginator(queryset, page_size)
+            paginator_temp.page(request.GET.get('page', page))
 
-        page_size = REST_FRAMEWORK.get('PAGE_SIZE')
-        page = request.GET.get('page')
+            paginator = PageNumberPagination()
+            instance = paginator.paginate_queryset(queryset, request)
 
-        the_past = datetime.datetime.now() - datetime.timedelta(days=10 * 365)
-        queryset = form.form_form_data.filter(**filter_data).annotate(
-            last_updated=Coalesce('updated', Value(the_past))).order_by(
-            '-last_updated', '-created')
-        paginator_temp = Paginator(queryset, page_size)
-        paginator_temp.page(request.GET.get('page', page))
+            data = {
+                "current": int(request.GET.get('page', '1')),
+                "total": queryset.count(),
+                "total_page": ceil(queryset.count() / page_size),
+                "data": ListFormDataSerializer(
+                    instance=instance, context={
+                        'questions': serializer.validated_data.get(
+                            'questions')},
+                    many=True).data,
+            }
+            return Response(data, status=status.HTTP_200_OK)
+        except (InvalidPage, EmptyPage):
+            return Response({'message': 'data not found'},
+                            status=status.HTTP_404_NOT_FOUND)
+        except Exception as ex:
+            return Response({'message': ex.args},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        paginator = PageNumberPagination()
-        instance = paginator.paginate_queryset(queryset, request)
+    @extend_schema(request=SubmitFormSerializer,
+                   responses={
+                       (200, 'application/json'):
+                           inline_serializer("FormSubmit", fields={
+                               "message": serializers.CharField()
+                           })
+                   },
+                   tags=['Data'],
+                   summary='Submit form data')
+    def post(self, request, form_id, version):
+        form = get_object_or_404(Forms, pk=form_id)
+        try:
+            serializer = SubmitFormSerializer(data=request.data,
+                                              context={'user': request.user,
+                                                       'form': form})
+            if not serializer.is_valid():
+                return Response(
+                    {'message': validate_serializers_message(
+                        serializer.errors),
+                        'details': serializer.errors},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
-        data = {
-            "current": int(request.GET.get('page', '1')),
-            "total": queryset.count(),
-            "total_page": ceil(queryset.count() / page_size),
-            "data": ListFormDataSerializer(
-                instance=instance, context={
-                    'questions': serializer.validated_data.get('questions')},
-                many=True).data,
-        }
-        return Response(data, status=status.HTTP_200_OK)
-    except (InvalidPage, EmptyPage):
-        return Response({'message': 'data not found'},
-                        status=status.HTTP_404_NOT_FOUND)
-    except Exception as ex:
-        return Response({'message': ex.args},
-                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            serializer.save()
+            return Response({'message': 'ok'}, status=status.HTTP_200_OK)
+        except Exception as ex:
+            return Response({'message': ex.args},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @extend_schema(responses={200: ListDataAnswerSerializer(many=True)},

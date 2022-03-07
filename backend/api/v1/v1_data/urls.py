@@ -1,15 +1,15 @@
 from django.urls import re_path
 
-from api.v1.v1_data.views import submit_form, list_form_data, data_answers, \
+from api.v1.v1_data.views import data_answers, \
     get_map_data_point, get_chart_data_point, \
     pending_data_answers, approve_pending_data, get_batch, post_batch, \
-    export_form_data, list_pending_batch, list_pending_data_batch
+    export_form_data, list_pending_batch, list_pending_data_batch, \
+    FormDataAddListView
 from api.v1.v1_users.views import health_check, get_config_file
 
 urlpatterns = [
-    re_path(r'^(?P<version>(v1))/form-data/(?P<form_id>[0-9]+)', submit_form),
-    re_path(r'^(?P<version>(v1))/list/form-data/(?P<form_id>[0-9]+)',
-            list_form_data),
+    re_path(r'^(?P<version>(v1))/form-data/(?P<form_id>[0-9]+)',
+            FormDataAddListView.as_view()),
     re_path(r'^(?P<version>(v1))/data/(?P<data_id>[0-9]+)',
             data_answers),
 
