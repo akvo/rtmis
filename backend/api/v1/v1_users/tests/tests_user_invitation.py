@@ -207,10 +207,11 @@ class UserInvitationTestCase(TestCase):
             'HTTP_AUTHORIZATION': f'Bearer {token}'
         }
         call_command("fake_user_seeder")
+        call_command("fake_approver_seeder")
         u = SystemUser.objects.filter(
             user_access__role__in=[UserRoleTypes.approver,
                                    UserRoleTypes.user]).first()
-        response = self.client.delete('/api/v1/delete/user/{0}'.format(u.id),
+        response = self.client.delete('/api/v1/user/{0}'.format(u.id),
                                       content_type='application/json',
                                       **header)
         self.assertEqual(response.status_code, 200)
