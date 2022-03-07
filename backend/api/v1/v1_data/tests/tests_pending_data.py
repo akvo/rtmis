@@ -4,7 +4,6 @@ from django.test.utils import override_settings
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.v1.v1_data.models import PendingFormData
-from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_users.models import SystemUser
 
@@ -24,20 +23,18 @@ class PendingDataTestCase(TestCase):
             t = RefreshToken.for_user(admin_user)
             header = {'HTTP_AUTHORIZATION': f'Bearer {t.access_token}'}
             response = self.client.get(
-                '/api/v1/form-pending-data/{0}?page=1'.format(
-                    Forms.objects.first().pk),
+                '/api/v1/form-pending-batch?page=1',
                 content_type='application/json',
                 **header)
             self.assertEqual(200, response.status_code)
 
-            self.assertEqual(['current', 'total', 'total_page', 'data'],
+            self.assertEqual(['current', 'total', 'total_page', 'batch'],
                              list(response.json()))
             if response.json().get('total') > 0:
-                data = response.json().get('data')
+                data = response.json().get('batch')
                 self.assertEqual([
-                    'id', 'name', 'form', 'administration', 'geo',
-                    'created_by', 'created', 'approver'
-                ], list(data[0]))
+                    'id', 'name', 'form', 'administration', 'created_by',
+                    'created', 'approver', 'approved'], list(data[0]))
                 response = self.client.get('/api/v1/pending-data/{0}'.format(
                     data[0].get('id')),
                     content_type='application/json',
@@ -45,6 +42,14 @@ class PendingDataTestCase(TestCase):
                 self.assertEqual(200, response.status_code)
                 self.assertEqual(['history', 'question', 'value'],
                                  list(response.json()[0]))
+                response = self.client.get(
+                    '/api/v1/form-pending-data-batch/{}'.format(data[0]['id']),
+                    content_type='application/json',
+                    **header)
+                self.assertEqual(200, response.status_code)
+                self.assertEqual(
+                    ['id', 'name', 'form', 'administration', 'geo',
+                     'created_by', 'created'], list(response.json()[0]))
 
         values = list(PendingFormData.objects.all().values_list('id',
                                                                 flat=True))

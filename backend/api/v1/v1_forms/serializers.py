@@ -288,8 +288,6 @@ class ApprovalFormUserSerializer(serializers.ModelSerializer):
             'administration_id').queryset = Administration.objects.all()
 
     def create(self, validated_data):
-        print(validated_data)
-
         assignment, created = FormApprovalAssignment.objects.get_or_create(
             form=self.context.get('form'),
             administration=validated_data.get('administration'),

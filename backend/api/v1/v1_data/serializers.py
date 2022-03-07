@@ -1,3 +1,4 @@
+from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field, inline_serializer
 from rest_framework import serializers
@@ -8,11 +9,11 @@ from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
     PendingAnswers, PendingDataApproval, PendingDataBatch
 from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Questions, QuestionOptions
-from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import SystemUser
 from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
-    UnvalidatedField, CustomListField, CustomCharField, CustomChoiceField
+    UnvalidatedField, CustomListField, CustomCharField, CustomChoiceField, \
+    CustomBooleanField
 from utils.functions import update_date_time_format, get_answer_value
 
 
@@ -54,24 +55,24 @@ class SubmitFormDataAnswerSerializer(serializers.ModelSerializer):
 
         if not isinstance(attrs.get('value'),
                           list) and attrs.get('question').type in [
-                              QuestionTypes.geo, QuestionTypes.option,
-                              QuestionTypes.multiple_option
-                          ]:
+            QuestionTypes.geo, QuestionTypes.option,
+            QuestionTypes.multiple_option
+        ]:
             raise ValidationError(
                 'Valid list value is required for Question:{0}'.format(
                     attrs.get('question').id))
         elif not isinstance(
                 attrs.get('value'), str) and attrs.get('question').type in [
-                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
-                ]:
+            QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+        ]:
             raise ValidationError(
                 'Valid string value is required for Question:{0}'.format(
                     attrs.get('question').id))
 
         elif not isinstance(
                 attrs.get('value'), int) and attrs.get('question').type in [
-                    QuestionTypes.number, QuestionTypes.administration
-                ]:
+            QuestionTypes.number, QuestionTypes.administration
+        ]:
 
             raise ValidationError(
                 'Valid number value is required for Question:{0}'.format(
@@ -119,12 +120,12 @@ class SubmitFormSerializer(serializers.Serializer):
             option = None
 
             if answer.get('question').type in [
-                    QuestionTypes.geo, QuestionTypes.option,
-                    QuestionTypes.multiple_option
+                QuestionTypes.geo, QuestionTypes.option,
+                QuestionTypes.multiple_option
             ]:
                 option = answer.get('value')
             elif answer.get('question').type in [
-                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+                QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
             ]:
                 name = answer.get('value')
             else:
@@ -294,12 +295,86 @@ class ListPendingDataAnswerSerializer(serializers.ModelSerializer):
         fields = ['history', 'question', 'value']
 
 
+class PendingBatchDataFilterSerializer(serializers.Serializer):
+    approved = CustomBooleanField(default=False)
+
+
+class ListPendingDataBatchSerializer(serializers.ModelSerializer):
+    created_by = serializers.SerializerMethodField()
+    created = serializers.SerializerMethodField()
+    approver = serializers.SerializerMethodField()
+    form = serializers.SerializerMethodField()
+    administration = serializers.SerializerMethodField()
+
+    def get_created_by(self, instance: PendingDataBatch):
+        return instance.user.get_full_name()
+
+    @extend_schema_field(
+        inline_serializer('batch_pending_form',
+                          fields={
+                              'id': serializers.IntegerField(),
+                              'name': serializers.CharField(),
+                          }))
+    def get_form(self, instance: PendingDataBatch):
+        return {
+            'id': instance.form.id,
+            'name': instance.form.name,
+        }
+
+    @extend_schema_field(
+        inline_serializer('batch_pending_administration',
+                          fields={
+                              'id': serializers.IntegerField(),
+                              'name': serializers.CharField(),
+                          }))
+    def get_administration(self, instance: PendingDataBatch):
+        return {
+            'id': instance.administration_id,
+            'name': instance.administration.name,
+        }
+
+    def get_created(self, instance: PendingDataBatch):
+        return update_date_time_format(instance.created)
+
+    def get_approver(self, instance: PendingDataBatch):
+        user: SystemUser = self.context.get('user')
+        data = {}
+        approval = instance.batch_approval.filter(
+            level__level__gt=user.user_access.administration.level.level) \
+            .order_by(
+            'level__level').first()
+        if approval:
+
+            data['id'] = approval.user.pk
+            data['name'] = approval.user.get_full_name()
+            data['status'] = approval.status
+            data['status_text'] = DataApprovalStatus.FieldStr.get(
+                approval.status)
+            if approval.status == DataApprovalStatus.approved:
+                data['allow_approve'] = True
+            else:
+                data['allow_approve'] = False
+        else:
+            approval = instance.batch_approval.get(user=user)
+            data['id'] = approval.user.pk
+            data['name'] = approval.user.get_full_name()
+            data['status'] = approval.status
+            data['status_text'] = DataApprovalStatus.FieldStr.get(
+                approval.status)
+            data['allow_approve'] = True
+
+        return data
+
+    class Meta:
+        model = PendingDataBatch
+        fields = ['id', 'name', 'form', 'administration', 'created_by',
+                  'created', 'approver', 'approved']
+
+
 class ListPendingFormDataSerializer(serializers.ModelSerializer):
     created_by = serializers.SerializerMethodField()
     created = serializers.SerializerMethodField()
     administration = serializers.ReadOnlyField(source='administration.name')
-    # answer = serializers.SerializerMethodField()
-    approver = serializers.SerializerMethodField()
 
     def get_created_by(self, instance: PendingFormData):
         return instance.created_by.get_full_name()
@@ -307,61 +382,11 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
     def get_created(self, instance: PendingFormData):
         return update_date_time_format(instance.created)
 
-    # @extend_schema_field(ListPendingDataAnswerSerializer(many=True))
-    # def get_answer(self, instance: PendingFormData):
-    #     filter_data = {}
-    #     if self.context.get('questions') and len(
-    #             self.context.get('questions')):
-    #         filter_data['question__in'] = self.context.get('questions')
-    #     return ListPendingDataAnswerSerializer(
-    #         instance=instance.pending_data_answer.filter(**filter_data),
-    #         many=True).data
-
-    def get_approver(self, instance: PendingFormData):
-        user: SystemUser = self.context.get('user')
-        data = {}
-        if user.user_access.role == UserRoleTypes.admin:
-            approval = instance.batch.batch_approval.order_by(
-                'level__level').first()
-            data['id'] = approval.user.pk
-            data['name'] = approval.user.get_full_name()
-            data['status'] = approval.status
-            data['status_text'] = DataApprovalStatus.FieldStr.get(
-                approval.status)
-            data['allow_approve'] = False
-
-        else:
-            if len(self.context.get('descendants')) == 0:
-                data['id'] = user.pk
-                data['name'] = user.get_full_name()
-                approval = instance.batch.batch_approval.get(user=user)
-                data['status'] = approval.status
-                data['status_text'] = DataApprovalStatus.FieldStr.get(
-                    approval.status)
-                data['allow_approve'] = True
-            else:
-                level = user.user_access.administration.level
-                approval = instance.batch.batch_approval.filter(
-                    level__level__gt=level.level).order_by(
-                    'level__level').first()
-                data['id'] = approval.user.pk
-                data['name'] = approval.user.get_full_name()
-                data['status'] = approval.status
-                data['status_text'] = DataApprovalStatus.FieldStr.get(
-                    approval.status)
-                if approval.status == DataApprovalStatus.approved:
-                    data['allow_approve'] = True
-                else:
-                    data['allow_approve'] = False
-
-        return data
-
     class Meta:
         model = PendingFormData
         fields = [
             'id', 'name', 'form', 'administration', 'geo', 'created_by',
-            'created', 'approver'
-        ]
+            'created']
 
 
 class ApprovePendingDataRequestSerializer(serializers.Serializer):
@@ -414,7 +439,9 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
                             options=answer.options,
                             created_by=answer.created_by,
                         )
-
+                batch.approved = True
+                batch.updated = timezone.now()
+                batch.save()
         return object
 
     def update(self, instance, validated_data):
@@ -484,7 +511,7 @@ class CreateBatchSerializer(serializers.Serializer):
     name = CustomCharField()
     data = CustomListField(child=CustomPrimaryKeyRelatedField(
         queryset=PendingFormData.objects.none()),
-                           required=False)
+        required=False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

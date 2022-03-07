@@ -1,7 +1,7 @@
+import random
 from datetime import timedelta
 
 import pandas as pd
-import random
 from django.core.management import BaseCommand
 from django.utils import timezone
 from faker import Faker
@@ -9,8 +9,8 @@ from faker import Faker
 from api.v1.v1_data.models import PendingFormData, \
     PendingAnswers, PendingDataApproval, PendingDataBatch
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
-from api.v1.v1_forms.models import Forms
 from api.v1.v1_forms.models import FormApprovalRule, FormApprovalAssignment
+from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Access, Levels
 from api.v1.v1_users.models import SystemUser
@@ -208,7 +208,7 @@ class Command(BaseCommand):
             limit = options.get('batch')
             if limit:
                 while PendingFormData.objects.filter(
-                        batch__isnull=True, form=form).count() >= limit:
+                        batch__isnull=True, form=form).count():
                     batch = PendingDataBatch.objects.create(
                         name=fake.text(),
                         form=form,
