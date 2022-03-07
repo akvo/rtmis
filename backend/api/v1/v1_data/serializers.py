@@ -321,7 +321,7 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
         user: SystemUser = self.context.get('user')
         data = {}
         if user.user_access.role == UserRoleTypes.admin:
-            approval = instance.pending_data_form_approval.order_by(
+            approval = instance.batch.batch_approval.order_by(
                 'level__level').first()
             data['id'] = approval.user.pk
             data['name'] = approval.user.get_full_name()
@@ -334,16 +334,16 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
             if len(self.context.get('descendants')) == 0:
                 data['id'] = user.pk
                 data['name'] = user.get_full_name()
-                approval = instance.pending_data_form_approval.get(user=user)
+                approval = instance.batch.batch_approval.get(user=user)
                 data['status'] = approval.status
                 data['status_text'] = DataApprovalStatus.FieldStr.get(
                     approval.status)
                 data['allow_approve'] = True
             else:
                 level = user.user_access.administration.level
-                approval = instance.pending_data_form_approval.filter(
+                approval = instance.batch.batch_approval.filter(
                     level__level__gt=level.level).order_by(
-                        'level__level').first()
+                    'level__level').first()
                 data['id'] = approval.user.pk
                 data['name'] = approval.user.get_full_name()
                 data['status'] = approval.status

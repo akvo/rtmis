@@ -17,7 +17,7 @@ class PendingDataTestCase(TestCase):
         call_command("fake_user_seeder", "-r", 100)
         call_command('form_approval_seeder')
         call_command('form_approval_assignment_seeder')
-        call_command('fake_pending_data_seeder', '-r', 1, '-t', True)
+        call_command('fake_pending_data_seeder', '-r', 1, '-t', True, '-b', 1)
         admin_user = SystemUser.objects.filter(
             user_access__role=UserRoleTypes.admin).first()
         if admin_user:
@@ -28,7 +28,6 @@ class PendingDataTestCase(TestCase):
                     Forms.objects.first().pk),
                 content_type='application/json',
                 **header)
-            print(response)
             self.assertEqual(200, response.status_code)
 
             self.assertEqual(['current', 'total', 'total_page', 'data'],
@@ -41,8 +40,8 @@ class PendingDataTestCase(TestCase):
                 ], list(data[0]))
                 response = self.client.get('/api/v1/pending-data/{0}'.format(
                     data[0].get('id')),
-                                           content_type='application/json',
-                                           **header)
+                    content_type='application/json',
+                    **header)
                 self.assertEqual(200, response.status_code)
                 self.assertEqual(['history', 'question', 'value'],
                                  list(response.json()[0]))
