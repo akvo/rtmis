@@ -52,6 +52,7 @@
             .ant-table-cell:first-child {
               color: $color-default;
             }
+
             .ant-table-cell:nth-child(2) {
               .ant-row {
                 div:first-child {
@@ -60,6 +61,7 @@
                 }
               }
             }
+
             .ant-table-cell:nth-child(3) {
               .ant-row {
                 .ant-col:first-child {
@@ -80,10 +82,12 @@
 
             .ant-tabs {
               margin-bottom: 20px;
+
               .ant-tabs-nav {
                 margin-bottom: 8px;
                 font-weight: $font-weight-semi-bold;
               }
+
               .ant-tabs-content-holder {
                 font-size: $font-size-small;
 
@@ -99,6 +103,7 @@
                       }
                     }
                   }
+
                   tbody {
                     tr {
                       td {
@@ -121,6 +126,13 @@
                     }
                   }
                 }
+              }
+            }
+
+            .ant-input {
+              &:focus,
+              &:hover {
+                border-right-width: 16px !important;
               }
             }
 

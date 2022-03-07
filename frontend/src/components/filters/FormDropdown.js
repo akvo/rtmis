@@ -33,6 +33,12 @@ const FormDropdown = ({ loading: parentLoading = false, ...props }) => {
     [notify]
   );
 
+  useEffect(() => {
+    if (!!forms?.length && !selectedForm) {
+      handleChange(forms[0].id);
+    }
+  }, [forms, selectedForm, handleChange]);
+
   if (forms) {
     return (
       <Select

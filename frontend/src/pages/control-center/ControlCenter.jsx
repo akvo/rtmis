@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Row, Col, Card, Button, Table, Tabs, Progress } from "antd";
+import { Row, Col, Card, Button, Table, Tabs } from "antd";
 import { Link } from "react-router-dom";
-import {
-  PlusSquareOutlined,
-  CloseSquareOutlined,
-  FileTextFilled,
-  InfoCircleOutlined,
-} from "@ant-design/icons";
-import { api, store } from "../../lib";
+import { api } from "../../lib";
+import { columnsApproval } from "../approvals";
 
 const { TabPane } = Tabs;
 const panels = [
@@ -47,194 +42,7 @@ const panels = [
     image: require("../../assets/personal-information.png"),
   },
 ];
-const pprovalsPending = [
-  {
-    key: "1",
-    filename: "Lorem Ipsum CSV File 1",
-    created_at: "2021-11-08 17:18",
-    completion_status: 100,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 21,
-      name: "K. Choge",
-    },
-  },
-  {
-    key: "2",
-    filename: "Lorem Ipsum CSV File 2",
-    created_at: "2021-11-08 17:18",
-    completion_status: 85,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 22,
-      name: "A. Awiti",
-    },
-  },
-  {
-    key: "3",
-    filename: "Lorem Ipsum CSV File 3",
-    created_at: "2021-11-08 17:18",
-    completion_status: 90,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 23,
-      name: "Ruto Cindy",
-    },
-  },
-  {
-    key: "4",
-    filename: "Lorem Ipsum CSV File 4",
-    created_at: "2021-11-08 17:18",
-    completion_status: 100,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 24,
-      name: "John Doe",
-    },
-  },
-  {
-    key: "5",
-    filename: "Lorem Ipsum CSV File 1",
-    created_at: "2021-11-08 17:18",
-    completion_status: 100,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 21,
-      name: "K. Choge",
-    },
-  },
-  {
-    key: "6",
-    filename: "Lorem Ipsum CSV File 2",
-    created_at: "2021-11-08 17:18",
-    completion_status: 85,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 22,
-      name: "A. Awiti",
-    },
-  },
-  {
-    key: "7",
-    filename: "Lorem Ipsum CSV File 3",
-    created_at: "2021-11-08 17:18",
-    completion_status: 90,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 23,
-      name: "Ruto Cindy",
-    },
-  },
-  {
-    key: "8",
-    filename: "Lorem Ipsum CSV File 4",
-    created_at: "2021-11-08 17:18",
-    completion_status: 100,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 24,
-      name: "John Doe",
-    },
-  },
-];
 const approvalsSubordinates = [];
-
-const columns = [
-  {
-    title: "",
-    dataIndex: "key",
-    key: "key",
-    width: "40px",
-    render: () => <InfoCircleOutlined />,
-  },
-  {
-    title: "Submission",
-    dataIndex: "name",
-    key: "name",
-    width: "25%",
-    render: (filename, row) => (
-      <div className="row">
-        <div>
-          <FileTextFilled style={{ color: "#666666", fontSize: 28 }} />
-        </div>
-        <div>
-          <div>{filename}</div>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Form",
-    dataIndex: "form",
-    key: "form",
-    render: (form) => form.name,
-  },
-  {
-    title: "Date",
-    dataIndex: "created",
-    key: "created",
-  },
-  {
-    title: "Submitter",
-    dataIndex: "created_by",
-    key: "created_by",
-  },
-  {
-    title: "Location",
-    dataIndex: "administration",
-    key: "administration",
-    render: (administration) => administration.name,
-  },
-  {
-    title: "Status",
-    dataIndex: "approver",
-    key: "approver",
-    render: (approver) => approver.status_text,
-  },
-  {
-    title: "Waiting on",
-    dataIndex: "approver",
-    key: "waiting_on",
-    render: (approver) => approver.name,
-  },
-  Table.EXPAND_COLUMN,
-];
-
-const renderDetails = (record) => {
-  return <div className="expand-body">Details View for {record.filename}</div>;
-};
 
 const ControlCenter = () => {
   const [approvalsPending, setApprovalsPending] = useState([]);
@@ -306,31 +114,16 @@ const ControlCenter = () => {
                 <Table
                   dataSource={approvalsPending}
                   loading={loading}
-                  columns={columns}
+                  columns={columnsApproval}
                   pagination={{ position: ["none", "none"] }}
                   scroll={{ y: 270 }}
-                  expandable={{
-                    expandedRowRender: renderDetails,
-                    expandIcon: ({ expanded, onExpand, record }) =>
-                      expanded ? (
-                        <CloseSquareOutlined
-                          onClick={(e) => onExpand(record, e)}
-                          style={{ color: "#e94b4c" }}
-                        />
-                      ) : (
-                        <PlusSquareOutlined
-                          onClick={(e) => onExpand(record, e)}
-                          style={{ color: "#7d7d7d" }}
-                        />
-                      ),
-                  }}
                 />
               </TabPane>
               <TabPane tab="Subordinates Approvals" key="2">
                 <Table
                   className="dev"
                   dataSource={approvalsSubordinates}
-                  columns={columns}
+                  columns={columnsApproval}
                 />
               </TabPane>
             </Tabs>
