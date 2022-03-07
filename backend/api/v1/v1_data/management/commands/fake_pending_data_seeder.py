@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 import pandas as pd
+import random
 from django.core.management import BaseCommand
 from django.utils import timezone
 from faker import Faker
@@ -8,9 +9,10 @@ from faker import Faker
 from api.v1.v1_data.models import PendingFormData, \
     PendingAnswers, PendingDataApproval, PendingDataBatch
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
-from api.v1.v1_forms.models import Forms, FormApprovalAssignment
+from api.v1.v1_forms.models import Forms
+from api.v1.v1_forms.models import FormApprovalRule, FormApprovalAssignment
 from api.v1.v1_profile.constants import UserRoleTypes
-from api.v1.v1_profile.models import Access
+from api.v1.v1_profile.models import Administration, Access, Levels
 from api.v1.v1_users.models import SystemUser
 
 fake = Faker()
@@ -99,9 +101,27 @@ def assign_batch_for_approval(batch, user):
     administration = user.user_access.administration
     complete_path = '{0}{1}'.format(administration.path, administration.id)
     complete_path = complete_path.split('.')[1:]
-    for path_index, path in enumerate(complete_path):
+    approval_rule = FormApprovalRule.objects.filter(
+        administration_id=complete_path[0], form=batch.form).first()
+    levels = None
+    if approval_rule:
+        levels = approval_rule.levels.all()
+    if not approval_rule:
+        randoms = Levels.objects.filter(level__gt=1).count()
+        randoms = [n + 1 for n in range(randoms)]
+        limit = random.choices(randoms)
+        levels = Levels.objects.filter(level__gt=1).order_by('?')[:limit[0]]
+        levels |= Levels.objects.filter(level=1)
+        rule = FormApprovalRule.objects.create(
+            form=batch.form,
+            administration=Administration.objects.filter(
+                id=complete_path[0]).first())
+        rule.levels.set(levels)
+    administrations = Administration.objects.filter(id__in=complete_path,
+                                                    level__in=levels).all()
+    for administration in administrations:
         assignment = FormApprovalAssignment.objects.filter(
-            form=batch.form, administration_id=path).first()
+            form=batch.form, administration=administration).first()
         if not assignment:
             profile = fake.profile()
             name = profile.get("name").split(" ")
@@ -111,13 +131,13 @@ def assign_batch_for_approval(batch, user):
                 first_name=name[0],
                 last_name=name[1])
             role = UserRoleTypes.approver
-            if path_index:
+            if administration.level.level == 1:
                 role = UserRoleTypes.admin
             Access.objects.create(user=approver,
                                   role=role,
-                                  administration_id=path)
+                                  administration=administration)
             assignment = FormApprovalAssignment.objects.create(
-                form=batch.form, administration_id=path, user=approver)
+                form=batch.form, administration=administration, user=approver)
         PendingDataApproval.objects.create(
             batch=batch,
             user=assignment.user,
