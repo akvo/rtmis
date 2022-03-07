@@ -10,6 +10,7 @@ from api.v1.v1_data.models import PendingFormData, \
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, FormApprovalAssignment
 from api.v1.v1_profile.constants import UserRoleTypes
+from api.v1.v1_profile.models import Access
 from api.v1.v1_users.models import SystemUser
 
 fake = Faker()
@@ -94,6 +95,32 @@ def seed_data(form, fake_geo, repeat, created_by, test):
         add_fake_answers(data)
 
 
+def assign_batch_for_approval(batch, user):
+    administration = user.user_access.administration
+    complete_path = '{0}{1}'.format(
+        administration.path, administration.id)
+    for path in complete_path.split('.')[1:]:
+        assignment = FormApprovalAssignment.objects.filter(
+            form=batch.form, administration_id=path).first()
+        if not assignment:
+            profile = fake.profile()
+            name = profile.get("name").split(" ")
+            approver = SystemUser.objects.create_user(
+                email=profile.get("mail"),
+                password="Test105",
+                first_name=name[0],
+                last_name=name[1])
+            Access.objects.create(user=approver,
+                                  role=UserRoleTypes.approver,
+                                  administration_id=path)
+            assignment = FormApprovalAssignment.objects.create(
+                form=batch.form, administration_id=path, user=approver)
+        PendingDataApproval.objects.create(
+            batch=batch,
+            user=assignment.user,
+            level=assignment.user.user_access.administration.level)
+
+
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("-r",
@@ -122,8 +149,9 @@ class Command(BaseCommand):
                             type=str)
 
     def handle(self, *args, **options):
-        PendingFormData.objects.all().delete()
+        PendingDataApproval.objects.all().delete()
         PendingDataBatch.objects.all().delete()
+        PendingFormData.objects.all().delete()
         fake_geo = pd.read_csv("./source/kenya_random_points.csv")
         user = None
         if options.get('email'):
@@ -171,16 +199,4 @@ class Command(BaseCommand):
                         obj.batch = batch
                     PendingFormData.objects.bulk_update(objs, fields=['batch'])
                     if form.type == FormTypes.county:
-                        administration = user.user_access.administration
-                        complete_path = '{0}{1}'.format(
-                            administration.path, administration.id)
-
-                        for path in complete_path.split('.'):
-                            assignment = FormApprovalAssignment.objects.filter(
-                                form=form, administration_id=path).first()
-                            if assignment:
-                                PendingDataApproval.objects.create(
-                                    batch=batch,
-                                    user=assignment.user,
-                                    level=assignment.user.user_access.
-                                    administration.level)
+                        assign_batch_for_approval(batch, user)
