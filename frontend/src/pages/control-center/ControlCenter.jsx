@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Row, Col, Card, Button, Table, Tabs, Progress } from "antd";
 import { Link } from "react-router-dom";
@@ -8,6 +8,7 @@ import {
   FileTextFilled,
   InfoCircleOutlined,
 } from "@ant-design/icons";
+import { api, store } from "../../lib";
 
 const { TabPane } = Tabs;
 const panels = [
@@ -46,7 +47,7 @@ const panels = [
     image: require("../../assets/personal-information.png"),
   },
 ];
-const approvalsPending = [
+const pprovalsPending = [
   {
     key: "1",
     filename: "Lorem Ipsum CSV File 1",
@@ -179,9 +180,9 @@ const columns = [
     render: () => <InfoCircleOutlined />,
   },
   {
-    title: "File",
-    dataIndex: "filename",
-    key: "filename",
+    title: "Submission",
+    dataIndex: "name",
+    key: "name",
     width: "25%",
     render: (filename, row) => (
       <div className="row">
@@ -190,42 +191,43 @@ const columns = [
         </div>
         <div>
           <div>{filename}</div>
-          <div>{row.created_at}</div>
         </div>
       </div>
     ),
   },
   {
-    title: "Completion Status",
-    dataIndex: "completion_status",
-    key: "completion_status",
-    render: (status) => (
-      <div className="row">
-        <Progress
-          percent={parseInt(status)}
-          showInfo={false}
-          strokeColor="#b5b5b5"
-        />
-        <div>{status}%</div>
-      </div>
-    ),
+    title: "Form",
+    dataIndex: "form",
+    key: "form",
+    render: (form) => form.name,
+  },
+  {
+    title: "Date",
+    dataIndex: "created",
+    key: "created",
+  },
+  {
+    title: "Submitter",
+    dataIndex: "created_by",
+    key: "created_by",
   },
   {
     title: "Location",
-    dataIndex: "location",
-    key: "location",
+    dataIndex: "administration",
+    key: "administration",
+    render: (administration) => administration.name,
   },
   {
-    title: "Uploaded By",
-    dataIndex: "user",
-    render: (user) => user.name || "",
-    key: "user.id",
+    title: "Status",
+    dataIndex: "approver",
+    key: "approver",
+    render: (approver) => approver.status_text,
   },
   {
-    title: "Waiting On",
-    dataIndex: "waiting_on",
-    render: (user) => user.name || "",
-    key: "waiting_on.id",
+    title: "Waiting on",
+    dataIndex: "approver",
+    key: "waiting_on",
+    render: (approver) => approver.name,
   },
   Table.EXPAND_COLUMN,
 ];
@@ -235,6 +237,23 @@ const renderDetails = (record) => {
 };
 
 const ControlCenter = () => {
+  const [approvalsPending, setApprovalsPending] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    api
+      .get(`/form-pending-batch/?page=1`)
+      .then((res) => {
+        setApprovalsPending(res.data.batch);
+        setLoading(false);
+      })
+      .catch((e) => {
+        console.error(e);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <div id="control-center">
       <h1>Control Center</h1>
@@ -285,8 +304,8 @@ const ControlCenter = () => {
             <Tabs defaultActiveKey="1" onChange={() => {}}>
               <TabPane tab="My Pending Approvals" key="1">
                 <Table
-                  className="dev"
                   dataSource={approvalsPending}
+                  loading={loading}
                   columns={columns}
                   pagination={{ position: ["none", "none"] }}
                   scroll={{ y: 270 }}
@@ -317,7 +336,7 @@ const ControlCenter = () => {
             </Tabs>
             <Row justify="space-between" className="approval-links">
               <Link to="/approvals">
-                <Button className="dev">View All</Button>
+                <Button type="primary">View All</Button>
               </Link>
               <Link to="/approvers/tree">
                 <Button className="dev">Manage Approvers</Button>
