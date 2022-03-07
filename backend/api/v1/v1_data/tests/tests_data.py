@@ -18,7 +18,7 @@ class DataTestCase(TestCase):
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
 
         data = self.client.get(
-            "/api/v1/list/form-data/1?page=1&administration=1",
+            "/api/v1/form-data/1?page=1&administration=1",
             follow=True,
             **header)
         result = data.json()
@@ -30,7 +30,7 @@ class DataTestCase(TestCase):
             'updated_by', 'created', 'updated'
         ])
 
-        data = self.client.get("/api/v1/list/form-data/1?page=2",
+        data = self.client.get("/api/v1/form-data/1?page=2",
                                follow=True,
                                **header)
         self.assertEqual(data.status_code, 404)
