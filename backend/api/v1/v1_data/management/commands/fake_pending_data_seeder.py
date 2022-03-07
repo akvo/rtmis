@@ -97,9 +97,9 @@ def seed_data(form, fake_geo, repeat, created_by, test):
 
 def assign_batch_for_approval(batch, user):
     administration = user.user_access.administration
-    complete_path = '{0}{1}'.format(
-        administration.path, administration.id)
-    for path in complete_path.split('.')[1:]:
+    complete_path = '{0}{1}'.format(administration.path, administration.id)
+    complete_path = complete_path.split('.')[1:]
+    for path_index, path in enumerate(complete_path):
         assignment = FormApprovalAssignment.objects.filter(
             form=batch.form, administration_id=path).first()
         if not assignment:
@@ -110,8 +110,11 @@ def assign_batch_for_approval(batch, user):
                 password="Test105",
                 first_name=name[0],
                 last_name=name[1])
+            role = UserRoleTypes.approver
+            if path_index:
+                role = UserRoleTypes.admin
             Access.objects.create(user=approver,
-                                  role=UserRoleTypes.approver,
+                                  role=role,
                                   administration_id=path)
             assignment = FormApprovalAssignment.objects.create(
                 form=batch.form, administration_id=path, user=approver)
