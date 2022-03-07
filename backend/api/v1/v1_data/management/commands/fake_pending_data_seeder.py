@@ -82,49 +82,15 @@ def add_fake_answers(data: PendingFormData):
 
 
 def seed_data(form, fake_geo, repeat, created_by, test):
-    # admin_ids = list(
-    #     FormApprovalAssignment.objects.values_list('administration_id',
-    #                                                flat=True).filter(
-    #         form=form))
     for i in range(repeat):
-        # if test:
-        #     administration = Administration.objects.filter(
-        #         id__in=admin_ids).order_by(
-        #         '?').first()
-        # else:
-        #     if form.type == FormTypes.county:
-        #         administration = Administration.objects.filter(
-        #             id__in=admin_ids,
-        #             level=Levels.objects.order_by('-level').first()).order_by(
-        #             '?').first()
-        #     else:
-        #         administration = Administration.objects.filter(
-        #             id__in=admin_ids,
-        #             level=Levels.objects.get(level=0)).order_by(
-        #             '?').first()
         administration = created_by.user_access.administration
         geo = fake_geo.iloc[i].to_dict()
-        data = PendingFormData.objects.create(
-            name=fake.pystr_format(),
-            geo=[geo["X"], geo["Y"]],
-            form=form,
-            administration=administration,
-            created_by=created_by)
+        data = PendingFormData.objects.create(name=fake.pystr_format(),
+                                              geo=[geo["X"], geo["Y"]],
+                                              form=form,
+                                              administration=administration,
+                                              created_by=created_by)
 
-        if form.type == FormTypes.county:
-            complete_path = '{0}{1}'.format(administration.path,
-                                            administration.id)
-
-            for path in complete_path.split('.'):
-                assignment = FormApprovalAssignment.objects.filter(
-                    form=form,
-                    administration_id=path).first()
-                if assignment:
-                    PendingDataApproval.objects.create(
-                        pending_data=data,
-                        user=assignment.user,
-                        level=assignment.user.user_access.administration.level
-                    )
         add_fake_answers(data)
 
 
@@ -192,18 +158,29 @@ class Command(BaseCommand):
             if limit:
                 while PendingFormData.objects.filter(
                         batch__isnull=True, form=form).count() >= limit:
-                    print(user)
-
                     batch = PendingDataBatch.objects.create(
                         name=fake.text(),
                         form=form,
                         administration=user.user_access.administration,
                         user=user,
-
                     )
 
-                    objs = PendingFormData.objects.filter(
-                        batch__isnull=True, form=form)[:limit]
+                    objs = PendingFormData.objects.filter(batch__isnull=True,
+                                                          form=form)[:limit]
                     for obj in objs:
                         obj.batch = batch
                     PendingFormData.objects.bulk_update(objs, fields=['batch'])
+                    if form.type == FormTypes.county:
+                        administration = user.user_access.administration
+                        complete_path = '{0}{1}'.format(
+                            administration.path, administration.id)
+
+                        for path in complete_path.split('.'):
+                            assignment = FormApprovalAssignment.objects.filter(
+                                form=form, administration_id=path).first()
+                            if assignment:
+                                PendingDataApproval.objects.create(
+                                    batch=batch,
+                                    user=assignment.user,
+                                    level=assignment.user.user_access.
+                                    administration.level)

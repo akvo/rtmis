@@ -2,5 +2,6 @@
 /.mypy_cache
 __pycache__
 .coverage
+.coverage.*
 db.dbml
 **.min.js
