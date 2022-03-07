@@ -55,24 +55,24 @@ class SubmitFormDataAnswerSerializer(serializers.ModelSerializer):
 
         if not isinstance(attrs.get('value'),
                           list) and attrs.get('question').type in [
-            QuestionTypes.geo, QuestionTypes.option,
-            QuestionTypes.multiple_option
-        ]:
+                              QuestionTypes.geo, QuestionTypes.option,
+                              QuestionTypes.multiple_option
+                          ]:
             raise ValidationError(
                 'Valid list value is required for Question:{0}'.format(
                     attrs.get('question').id))
         elif not isinstance(
                 attrs.get('value'), str) and attrs.get('question').type in [
-            QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
-        ]:
+                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+                ]:
             raise ValidationError(
                 'Valid string value is required for Question:{0}'.format(
                     attrs.get('question').id))
 
         elif not isinstance(
                 attrs.get('value'), int) and attrs.get('question').type in [
-            QuestionTypes.number, QuestionTypes.administration
-        ]:
+                    QuestionTypes.number, QuestionTypes.administration
+                ]:
 
             raise ValidationError(
                 'Valid number value is required for Question:{0}'.format(
@@ -120,12 +120,12 @@ class SubmitFormSerializer(serializers.Serializer):
             option = None
 
             if answer.get('question').type in [
-                QuestionTypes.geo, QuestionTypes.option,
-                QuestionTypes.multiple_option
+                    QuestionTypes.geo, QuestionTypes.option,
+                    QuestionTypes.multiple_option
             ]:
                 option = answer.get('value')
             elif answer.get('question').type in [
-                QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
             ]:
                 name = answer.get('value')
             else:
@@ -340,9 +340,9 @@ class ListPendingDataBatchSerializer(serializers.ModelSerializer):
         user: SystemUser = self.context.get('user')
         data = {}
         approval = instance.batch_approval.filter(
-            level__level__gt=user.user_access.administration.level.level) \
-            .order_by(
-            'level__level').first()
+            status=DataApprovalStatus.pending,
+            level__level__gt=user.user_access.administration.level.level
+        ).order_by('level__level').first()
         if approval:
 
             data['id'] = approval.user.pk
@@ -367,8 +367,10 @@ class ListPendingDataBatchSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PendingDataBatch
-        fields = ['id', 'name', 'form', 'administration', 'created_by',
-                  'created', 'approver', 'approved']
+        fields = [
+            'id', 'name', 'form', 'administration', 'created_by', 'created',
+            'approver', 'approved'
+        ]
 
 
 class ListPendingFormDataSerializer(serializers.ModelSerializer):
@@ -386,7 +388,8 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
         model = PendingFormData
         fields = [
             'id', 'name', 'form', 'administration', 'geo', 'created_by',
-            'created']
+            'created'
+        ]
 
 
 class ApprovePendingDataRequestSerializer(serializers.Serializer):
@@ -511,7 +514,7 @@ class CreateBatchSerializer(serializers.Serializer):
     name = CustomCharField()
     data = CustomListField(child=CustomPrimaryKeyRelatedField(
         queryset=PendingFormData.objects.none()),
-        required=False)
+                           required=False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
