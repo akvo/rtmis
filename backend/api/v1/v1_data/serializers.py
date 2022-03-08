@@ -7,8 +7,10 @@ from rest_framework.exceptions import ValidationError
 from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
     PendingAnswers, PendingDataApproval, PendingDataBatch
-from api.v1.v1_forms.constants import QuestionTypes
-from api.v1.v1_forms.models import Questions, QuestionOptions
+from api.v1.v1_forms.constants import QuestionTypes, FormTypes
+from api.v1.v1_forms.models import Questions, QuestionOptions, Forms, \
+    FormApprovalAssignment
+from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import SystemUser
 from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
@@ -55,24 +57,24 @@ class SubmitFormDataAnswerSerializer(serializers.ModelSerializer):
 
         if not isinstance(attrs.get('value'),
                           list) and attrs.get('question').type in [
-                              QuestionTypes.geo, QuestionTypes.option,
-                              QuestionTypes.multiple_option
-                          ]:
+            QuestionTypes.geo, QuestionTypes.option,
+            QuestionTypes.multiple_option
+        ]:
             raise ValidationError(
                 'Valid list value is required for Question:{0}'.format(
                     attrs.get('question').id))
         elif not isinstance(
                 attrs.get('value'), str) and attrs.get('question').type in [
-                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
-                ]:
+            QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+        ]:
             raise ValidationError(
                 'Valid string value is required for Question:{0}'.format(
                     attrs.get('question').id))
 
         elif not isinstance(
                 attrs.get('value'), int) and attrs.get('question').type in [
-                    QuestionTypes.number, QuestionTypes.administration
-                ]:
+            QuestionTypes.number, QuestionTypes.administration
+        ]:
 
             raise ValidationError(
                 'Valid number value is required for Question:{0}'.format(
@@ -120,12 +122,12 @@ class SubmitFormSerializer(serializers.Serializer):
             option = None
 
             if answer.get('question').type in [
-                    QuestionTypes.geo, QuestionTypes.option,
-                    QuestionTypes.multiple_option
+                QuestionTypes.geo, QuestionTypes.option,
+                QuestionTypes.multiple_option
             ]:
                 option = answer.get('value')
             elif answer.get('question').type in [
-                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+                QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
             ]:
                 name = answer.get('value')
             else:
@@ -514,7 +516,7 @@ class CreateBatchSerializer(serializers.Serializer):
     name = CustomCharField()
     data = CustomListField(child=CustomPrimaryKeyRelatedField(
         queryset=PendingFormData.objects.none()),
-                           required=False)
+        required=False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -536,15 +538,157 @@ class CreateBatchSerializer(serializers.Serializer):
     def create(self, validated_data):
         form_id = validated_data.get('data')[0].form_id
         user: SystemUser = validated_data.get('user')
+        path = '{0}{1}'.format(user.user_access.administration.path,
+                               user.user_access.administration_id)
         obj = PendingDataBatch.objects.create(
             form_id=form_id,
             administration_id=user.user_access.administration_id,
             user=user,
             name=validated_data.get('name'))
         for data in validated_data.get('data'):
+            for administration in Administration.objects.filter(
+                    id__in=path.split('.')):
+
+                assignment = FormApprovalAssignment.objects.filter(
+                    form_id=form_id, administration=administration).first()
+                if assignment:
+                    level = assignment.user.user_access.administration.level_id
+                    PendingDataApproval.objects.create(
+                        batch=obj,
+                        user=assignment.user,
+                        level_id=level
+                    )
+
             data.batch = obj
             data.save()
         return obj
 
     def update(self, instance, validated_data):
         pass
+
+
+class SubmitPendingFormDataSerializer(serializers.ModelSerializer):
+    administration = CustomPrimaryKeyRelatedField(
+        queryset=Administration.objects.none())
+    name = CustomCharField()
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get(
+            'administration').queryset = Administration.objects.all()
+
+    class Meta:
+        model = PendingFormData
+        fields = ['name', 'geo', 'administration']
+
+
+class SubmitPendingFormDataAnswerSerializer(serializers.ModelSerializer):
+    value = UnvalidatedField(allow_null=False)
+    question = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none())
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get('question').queryset = Questions.objects.all()
+
+    def validate_value(self, value):
+        return value
+
+    def validate(self, attrs):
+        if attrs.get('value') == '':
+            raise ValidationError('Value is required for Question:{0}'.format(
+                attrs.get('question').id))
+
+        if isinstance(attrs.get('value'), list) and len(
+                attrs.get('value')) == 0:
+            raise ValidationError('Value is required for Question:{0}'.format(
+                attrs.get('question').id))
+
+        if not isinstance(attrs.get('value'),
+                          list) and attrs.get('question').type in [
+            QuestionTypes.geo, QuestionTypes.option,
+            QuestionTypes.multiple_option
+        ]:
+            raise ValidationError(
+                'Valid list value is required for Question:{0}'.format(
+                    attrs.get('question').id))
+        elif not isinstance(
+                attrs.get('value'), str) and attrs.get('question').type in [
+            QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+        ]:
+            raise ValidationError(
+                'Valid string value is required for Question:{0}'.format(
+                    attrs.get('question').id))
+
+        elif not isinstance(
+                attrs.get('value'), int) and attrs.get('question').type in [
+            QuestionTypes.number, QuestionTypes.administration
+        ]:
+
+            raise ValidationError(
+                'Valid number value is required for Question:{0}'.format(
+                    attrs.get('question').id))
+
+        return attrs
+
+    class Meta:
+        model = PendingAnswers
+        fields = ['question', 'value']
+
+
+class SubmitPendingFormSerializer(serializers.Serializer):
+    data = SubmitPendingFormDataSerializer()
+    answer = SubmitPendingFormDataAnswerSerializer(many=True)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def validate(self, attrs):
+        form: Forms = self.context.get('form')
+        user: SystemUser = self.context.get('user')
+        if form.type == FormTypes.county and \
+                user.user_access.role == UserRoleTypes.admin:
+            raise ValidationError(
+                {'data': 'You do not permission to submit the data'})
+        if form.type == FormTypes.national and \
+                user.user_access.role == UserRoleTypes.user:
+            raise ValidationError(
+                {'data': 'You do not permission to submit the data'})
+        return attrs
+
+    def update(self, instance, validated_data):
+        pass
+
+    def create(self, validated_data):
+        data = validated_data.get('data')
+        data['form'] = self.context.get('form')
+        data['created_by'] = self.context.get('user')
+        obj_data = self.fields.get('data').create(data)
+
+        for answer in validated_data.get('answer'):
+            name = None
+            value = None
+            option = None
+
+            if answer.get('question').type in [
+                QuestionTypes.geo, QuestionTypes.option,
+                QuestionTypes.multiple_option
+            ]:
+                option = answer.get('value')
+            elif answer.get('question').type in [
+                QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+            ]:
+                name = answer.get('value')
+            else:
+                # for administration,number question type
+                value = answer.get('value')
+
+            PendingAnswers.objects.create(
+                pending_data=obj_data,
+                question=answer.get('question'),
+                name=name,
+                value=value,
+                options=option,
+                created_by=self.context.get('user'),
+            )
+
+        return obj_data
