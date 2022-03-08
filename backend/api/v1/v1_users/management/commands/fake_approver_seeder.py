@@ -1,24 +1,42 @@
 from faker import Faker
+import re
 
 from django.core.management import BaseCommand
+from django.db.utils import IntegrityError
 from api.v1.v1_users.models import SystemUser
-from api.v1.v1_profile.models import Access, Administration
+from api.v1.v1_profile.models import Access, Levels, Administration
 from api.v1.v1_profile.constants import UserRoleTypes
 
 fake = Faker()
 
 
+def new_user(administrations, roles):
+    for administration in administrations:
+        email = ("{}{}@test.com").format(
+            re.sub('[^A-Za-z0-9]+', '', administration.name.lower()),
+            administration.id)
+        user, created = SystemUser.objects.get_or_create(
+            email=email, first_name=administration.name, last_name="Admin")
+        user.set_password("test")
+        user.save()
+        try:
+            Access.objects.create(user=user,
+                                  role=roles[administration.level.level - 1],
+                                  administration=administration)
+        except IntegrityError:
+            pass
+
+
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        # Admin
+        roles = [UserRoleTypes.admin]
+        levels = Levels.objects.filter(level__gt=1).all()
+        for _ in levels:
+            roles.append(UserRoleTypes.approver)
+        administrations = Administration.objects.filter(level__level=1).all()
+        new_user(administrations, roles)
+        # Approver
         administrations = Administration.objects.filter(
-                level__level__gt=1).order_by('?')[:50]
-        for administration in administrations:
-            profile = fake.profile()
-            name = profile.get("name").split(" ")
-            user = SystemUser.objects.create_user(email=profile.get("mail"),
-                                                  password="Test105",
-                                                  first_name=name[0],
-                                                  last_name=name[1])
-            Access.objects.create(user=user,
-                                  role=UserRoleTypes.approver,
-                                  administration=administration)
+            level__level__gt=1).order_by('?')[:50]
+        new_user(administrations, roles)

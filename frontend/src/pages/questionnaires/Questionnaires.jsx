@@ -55,7 +55,7 @@ const Questionnaires = () => {
       render: (cell) => cell || <span>-</span>,
     },
     {
-      title: "County",
+      title: "National",
       render: (row) => (
         <Checkbox
           checked={row.type === 2}
@@ -66,7 +66,7 @@ const Questionnaires = () => {
       ),
     },
     {
-      title: "National",
+      title: "County",
       render: (row) => (
         <Checkbox
           checked={row.type === 1}

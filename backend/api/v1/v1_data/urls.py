@@ -2,9 +2,10 @@ from django.urls import re_path
 
 from api.v1.v1_data.views import data_answers, \
     get_map_data_point, get_chart_data_point, \
-    pending_data_answers, approve_pending_data, get_batch, post_batch, \
+    approve_pending_data, \
     export_form_data, list_pending_batch, list_pending_data_batch, \
-    FormDataAddListView
+    FormDataAddListView, PendingFormDataView, BatchView, \
+    PendingDataDetailDeleteView
 from api.v1.v1_users.views import health_check, get_config_file
 
 urlpatterns = [
@@ -13,18 +14,17 @@ urlpatterns = [
     re_path(r'^(?P<version>(v1))/data/(?P<data_id>[0-9]+)',
             data_answers),
 
-    # re_path(r'^(?P<version>(v1))/form-pending-data/(?P<form_id>[0-9]+)',
-    #         list_pending_form_data),
+    re_path(r'^(?P<version>(v1))/form-pending-data/(?P<form_id>[0-9]+)',
+            PendingFormDataView.as_view()),
     re_path(r'^(?P<version>(v1))/form-pending-batch',
             list_pending_batch),
     re_path(r'^(?P<version>(v1))/form-pending-data-batch/(?P<batch_id>[0-9]+)',
             list_pending_data_batch),
     re_path(r'^(?P<version>(v1))/pending-data/(?P<pending_data_id>[0-9]+)',
-            pending_data_answers),
+            PendingDataDetailDeleteView.as_view()),
     re_path(r'^(?P<version>(v1))/pending-data/approve',
             approve_pending_data),
-    re_path(r'^(?P<version>(v1))/list/batch', get_batch),
-    re_path(r'^(?P<version>(v1))/batch', post_batch),
+    re_path(r'^(?P<version>(v1))/batch', BatchView.as_view()),
     re_path(r'^(?P<version>(v1))/export/form/(?P<form_id>[0-9]+)',
             export_form_data),
 
