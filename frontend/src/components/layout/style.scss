@@ -28,7 +28,7 @@
     }
 
     .banner {
-      min-height: calc(100vh - 140px);
+      min-height: calc(100vh - #{$layout-padding});
 
       h1 {
         color: $white;

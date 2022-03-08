@@ -99,7 +99,7 @@
 
             th {
               background-color: #dededf;
-              font-weight: 600;
+              font-weight: $font-weight-semi-bold;
             }
 
             tr {
@@ -137,7 +137,7 @@
 
     .ant-pagination-item-active {
       border: none;
-      background-color: #0057ff;
+      background-color: $blue;
 
       a {
         color: #fff;
@@ -152,9 +152,8 @@
   button.light {
     background-color: #b2b3b7;
     color: #fffe;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     width: auto;
-    margin-left: 0.4rem;
     border: 0 none;
     &:hover {
       background-color: #969799;

@@ -94,6 +94,21 @@ class Questions(models.Model):
     def __str__(self):
         return self.text
 
+    def to_definition(self):
+        options = [options.name
+                   for options in
+                   self.question_question_options.all()] \
+            if self.question_question_options.count() else False
+        return {
+            "id": self.id,
+            "name": self.name,
+            "type": QuestionTypes.FieldStr.get(self.type),
+            "required": self.required,
+            "rule": self.rule,
+            "dependency": self.dependency,
+            "options": options,
+        }
+
     class Meta:
         db_table = 'question'
 

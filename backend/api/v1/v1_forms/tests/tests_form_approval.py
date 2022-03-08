@@ -1,18 +1,21 @@
 from django.core.management import call_command
 from django.test import TestCase
+from django.test.utils import override_settings
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_users.models import SystemUser
 
 
+@override_settings(USE_TZ=False)
 class FormApprovalTestCase(TestCase):
+
     def test_approval_endpoint(self):
         call_command("form_seeder", "--test")
         call_command("administration_seeder", "--test")
         call_command("form_approval_seeder")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login/',
+        user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
         user = user_response.json()
@@ -20,7 +23,7 @@ class FormApprovalTestCase(TestCase):
         header = {
             'HTTP_AUTHORIZATION': f'Bearer {token}'
         }
-        response = self.client.get('/api/v1/form/approval-level/',
+        response = self.client.get('/api/v1/form/approval-level',
                                    content_type='application/json',
                                    **header)
         self.assertEqual(403, response.status_code)
@@ -40,7 +43,7 @@ class FormApprovalTestCase(TestCase):
             'HTTP_AUTHORIZATION': f'Bearer {token}'
         }
 
-        response = self.client.get('/api/v1/admin/form/approval-level/1/',
+        response = self.client.get('/api/v1/form/approval-level/1',
                                    content_type='application/json',
                                    **header)
         self.assertEqual(200, response.status_code)

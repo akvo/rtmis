@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Row, Col, Card, Button, Divider, Table, message } from "antd";
+import { Row, Col, Card, Button, Divider, Table } from "antd";
 import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import UserDetail from "./UserDetail";
 import { UserFilters, Breadcrumbs } from "../../components";
+import { useNotification } from "../../util/hooks";
 
 const pagePath = [
   {
@@ -29,6 +30,7 @@ const Users = () => {
     (state) => state
   );
   const { role } = filters;
+  const { notify } = useNotification();
 
   const selectedAdministration =
     administration.length > 0
@@ -74,7 +76,7 @@ const Users = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      let url = `list/users/?page=${currentPage}&pending=${
+      let url = `users/?page=${currentPage}&pending=${
         pending ? "true" : "false"
       }`;
       if (selectedAdministration?.id) {
@@ -83,6 +85,7 @@ const Users = () => {
       if (role) {
         url += `&role=${role}`;
       }
+      setLoading(true);
       api
         .get(url)
         .then((res) => {
@@ -91,12 +94,15 @@ const Users = () => {
           setLoading(false);
         })
         .catch((err) => {
-          message.error("Could not load users");
+          notify({
+            type: "error",
+            message: "Could not load users",
+          });
           setLoading(false);
           console.error(err);
         });
     }
-  }, [role, pending, currentPage, selectedAdministration, isLoggedIn]);
+  }, [role, pending, currentPage, selectedAdministration, isLoggedIn, notify]);
 
   return (
     <div id="users">
@@ -130,6 +136,7 @@ const Users = () => {
           onChange={handleChange}
           pagination={{
             showSizeChanger: false,
+            current: currentPage,
             total: totalCount,
             pageSize: 10,
           }}

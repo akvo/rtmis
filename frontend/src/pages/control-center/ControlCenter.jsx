@@ -1,13 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Row, Col, Card, Button, Table, Tabs, Progress } from "antd";
+import { Row, Col, Card, Button, Table, Tabs } from "antd";
 import { Link } from "react-router-dom";
-import {
-  PlusSquareOutlined,
-  CloseSquareOutlined,
-  FileTextFilled,
-  InfoCircleOutlined,
-} from "@ant-design/icons";
+import { api } from "../../lib";
+import { columnsApproval } from "../approvals";
 
 const { TabPane } = Tabs;
 const panels = [
@@ -39,202 +35,33 @@ const panels = [
   },
   {
     title: "User Management",
-    buttonLabel: "Manage User",
+    buttonLabel: "Manage Users",
     description:
       "WASH is an acronym that stands for “water, sanitation and hygiene”.Universal, affordable and sustainable access to WASH is a key public health issue within international development and is the focus of the first two targets of Sustainable Development Goal 6 (SDG 6).",
     link: "/users",
     image: require("../../assets/personal-information.png"),
   },
 ];
-const approvalsPending = [
-  {
-    key: "1",
-    filename: "Lorem Ipsum CSV File 1",
-    created_at: "2021-11-08 17:18",
-    completion_status: 100,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 21,
-      name: "K. Choge",
-    },
-  },
-  {
-    key: "2",
-    filename: "Lorem Ipsum CSV File 2",
-    created_at: "2021-11-08 17:18",
-    completion_status: 85,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 22,
-      name: "A. Awiti",
-    },
-  },
-  {
-    key: "3",
-    filename: "Lorem Ipsum CSV File 3",
-    created_at: "2021-11-08 17:18",
-    completion_status: 90,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 23,
-      name: "Ruto Cindy",
-    },
-  },
-  {
-    key: "4",
-    filename: "Lorem Ipsum CSV File 4",
-    created_at: "2021-11-08 17:18",
-    completion_status: 100,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 24,
-      name: "John Doe",
-    },
-  },
-  {
-    key: "5",
-    filename: "Lorem Ipsum CSV File 1",
-    created_at: "2021-11-08 17:18",
-    completion_status: 100,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 21,
-      name: "K. Choge",
-    },
-  },
-  {
-    key: "6",
-    filename: "Lorem Ipsum CSV File 2",
-    created_at: "2021-11-08 17:18",
-    completion_status: 85,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 22,
-      name: "A. Awiti",
-    },
-  },
-  {
-    key: "7",
-    filename: "Lorem Ipsum CSV File 3",
-    created_at: "2021-11-08 17:18",
-    completion_status: 90,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 23,
-      name: "Ruto Cindy",
-    },
-  },
-  {
-    key: "8",
-    filename: "Lorem Ipsum CSV File 4",
-    created_at: "2021-11-08 17:18",
-    completion_status: 100,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 24,
-      name: "John Doe",
-    },
-  },
-];
 const approvalsSubordinates = [];
 
-const columns = [
-  {
-    title: "",
-    dataIndex: "key",
-    key: "key",
-    width: "40px",
-    render: () => <InfoCircleOutlined />,
-  },
-  {
-    title: "File",
-    dataIndex: "filename",
-    key: "filename",
-    width: "25%",
-    render: (filename, row) => (
-      <div className="row">
-        <div>
-          <FileTextFilled style={{ color: "#666666", fontSize: 28 }} />
-        </div>
-        <div>
-          <div>{filename}</div>
-          <div>{row.created_at}</div>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Completion Status",
-    dataIndex: "completion_status",
-    key: "completion_status",
-    render: (status) => (
-      <div className="row">
-        <Progress
-          percent={parseInt(status)}
-          showInfo={false}
-          strokeColor="#b5b5b5"
-        />
-        <div>{status}%</div>
-      </div>
-    ),
-  },
-  {
-    title: "Location",
-    dataIndex: "location",
-    key: "location",
-  },
-  {
-    title: "Uploaded By",
-    dataIndex: "user",
-    render: (user) => user.name || "",
-    key: "user.id",
-  },
-  {
-    title: "Waiting On",
-    dataIndex: "waiting_on",
-    render: (user) => user.name || "",
-    key: "waiting_on.id",
-  },
-  Table.EXPAND_COLUMN,
-];
-
-const renderDetails = (record) => {
-  return <div className="expand-body">Details View for {record.filename}</div>;
-};
-
 const ControlCenter = () => {
+  const [approvalsPending, setApprovalsPending] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    api
+      .get(`/form-pending-batch/?page=1`)
+      .then((res) => {
+        setApprovalsPending(res.data.batch);
+        setLoading(false);
+      })
+      .catch((e) => {
+        console.error(e);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <div id="control-center">
       <h1>Control Center</h1>
@@ -285,39 +112,24 @@ const ControlCenter = () => {
             <Tabs defaultActiveKey="1" onChange={() => {}}>
               <TabPane tab="My Pending Approvals" key="1">
                 <Table
-                  className="dev"
                   dataSource={approvalsPending}
-                  columns={columns}
+                  loading={loading}
+                  columns={columnsApproval}
                   pagination={{ position: ["none", "none"] }}
                   scroll={{ y: 270 }}
-                  expandable={{
-                    expandedRowRender: renderDetails,
-                    expandIcon: ({ expanded, onExpand, record }) =>
-                      expanded ? (
-                        <CloseSquareOutlined
-                          onClick={(e) => onExpand(record, e)}
-                          style={{ color: "#e94b4c" }}
-                        />
-                      ) : (
-                        <PlusSquareOutlined
-                          onClick={(e) => onExpand(record, e)}
-                          style={{ color: "#7d7d7d" }}
-                        />
-                      ),
-                  }}
                 />
               </TabPane>
               <TabPane tab="Subordinates Approvals" key="2">
                 <Table
                   className="dev"
                   dataSource={approvalsSubordinates}
-                  columns={columns}
+                  columns={columnsApproval}
                 />
               </TabPane>
             </Tabs>
             <Row justify="space-between" className="approval-links">
               <Link to="/approvals">
-                <Button className="dev">View All</Button>
+                <Button type="primary">View All</Button>
               </Link>
               <Link to="/approvers/tree">
                 <Button className="dev">Manage Approvers</Button>

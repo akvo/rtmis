@@ -27,7 +27,7 @@
         margin-bottom: 8px;
 
         label {
-          font-weight: 600;
+          font-weight: $font-weight-semi-bold;
         }
 
         input,
@@ -37,14 +37,13 @@
       }
 
       .ant-row {
-        .ant-col:first-child {
+        .ant-col {
           padding-right: 10px;
+          &:last-child {
+            padding-right: 0;
+          }
         }
       }
-    }
-
-    .ant-checkbox-wrapper {
-      margin-right: 12px;
     }
   }
 }

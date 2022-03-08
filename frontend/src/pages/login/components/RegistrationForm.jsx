@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Checkbox, message } from "antd";
+import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { api, store } from "../../../lib";
 import { useNavigate } from "react-router-dom";
+import { useNotification } from "../../../util/hooks";
 
 const checkBoxOptions = [
   { name: "Lowercase Character", re: /[a-z]/ },
@@ -15,6 +16,7 @@ const RegistrationForm = (props) => {
   const [checkedList, setCheckedList] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { notify } = useNotification();
 
   const onFinish = (values) => {
     const postData = {
@@ -24,14 +26,14 @@ const RegistrationForm = (props) => {
     };
     setLoading(true);
     api
-      .post("set/user/password/", postData)
+      .put("user/set-password", postData)
       .then((res) => {
         api.setToken(res.data.token);
         store.update((s) => {
           s.isLoggedIn = true;
           s.user = res.data;
         });
-        Promise.all([api.get("forms/"), api.get("levels/")])
+        Promise.all([api.get("forms"), api.get("levels")])
           .then((res) => {
             store.update((s) => {
               s.forms = res[0].data;
@@ -45,7 +47,10 @@ const RegistrationForm = (props) => {
             console.error(e);
             navigate("/profile");
           });
-        message.success("Password updated successfully");
+        notify({
+          type: "success",
+          message: "Password updated successfully",
+        });
       })
       .catch((err) => {
         console.error(err.response.data.message);

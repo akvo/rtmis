@@ -1,17 +1,19 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Checkbox, message } from "antd";
+import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { api, store } from "../../../lib";
+import { useNotification } from "../../../util/hooks";
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { notify } = useNotification();
 
   const onFinish = (values) => {
     setLoading(true);
     api
-      .post("login/", {
+      .post("login", {
         email: values.email,
         password: values.password,
       })
@@ -21,7 +23,7 @@ const LoginForm = () => {
           s.isLoggedIn = true;
           s.user = res.data;
         });
-        Promise.all([api.get("forms/"), api.get("levels/")])
+        Promise.all([api.get("forms"), api.get("levels")])
           .then((res) => {
             store.update((s) => {
               s.forms = res[0].data;
@@ -39,7 +41,10 @@ const LoginForm = () => {
       .catch((err) => {
         if (err.response.status === 401 || err.response.status === 400) {
           setLoading(false);
-          message.error(err.response.data.message);
+          notify({
+            type: "error",
+            message: err.response?.data?.message,
+          });
         }
       });
   };

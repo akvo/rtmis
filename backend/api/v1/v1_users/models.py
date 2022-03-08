@@ -12,6 +12,9 @@ class SystemUser(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(auto_now_add=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+    phone_number = models.CharField(max_length=15, default=None, null=True)
+    designation = models.CharField(max_length=50, default=None, null=True)
+    updated = models.DateTimeField(default=None, null=True)
     objects = UserManager()
 
     USERNAME_FIELD = 'email'

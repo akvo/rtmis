@@ -34,16 +34,11 @@ class ListQuestionSerializer(serializers.ModelSerializer):
     option = serializers.SerializerMethodField()
     type = serializers.SerializerMethodField()
     center = serializers.SerializerMethodField()
+    api = serializers.SerializerMethodField()
 
     @extend_schema_field(ListOptionSerializer(many=True))
     def get_option(self, instance: Questions):
-        if instance.type in [QuestionTypes.administration,
-                             QuestionTypes.cascade]:
-            return QuestionTypes.FieldStr.get(
-                QuestionTypes.administration).lower()
-        if instance.type in [QuestionTypes.geo,
-                             QuestionTypes.administration,
-                             QuestionTypes.option,
+        if instance.type in [QuestionTypes.option,
                              QuestionTypes.multiple_option]:
             return ListOptionSerializer(
                 instance=instance.question_question_options.all(),
@@ -55,6 +50,20 @@ class ListQuestionSerializer(serializers.ModelSerializer):
         if instance.type == QuestionTypes.administration:
             return QuestionTypes.FieldStr.get(QuestionTypes.cascade).lower()
         return QuestionTypes.FieldStr.get(instance.type).lower()
+
+    @extend_schema_field(inline_serializer('api', fields={
+            'endpoint': serializers.CharField(),
+            'list': serializers.CharField(),
+            'initial': serializers.BooleanField()
+        }))
+    def get_api(self, instance: Questions):
+        if instance.type == QuestionTypes.administration:
+            return {
+               "endpoint": "/api/v1/administration",
+               "list": "children",
+               "initial": 1,
+            }
+        return None
 
     @extend_schema_field(inline_serializer('center',
                                            fields={
@@ -75,7 +84,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Questions
         fields = ['id', 'name', 'order', 'type', 'required',
-                  'dependency', 'option', 'center', 'meta']
+                  'dependency', 'option', 'center', 'api', 'meta']
 
 
 # TODO: confirm Order in QuestionGroup model
@@ -114,25 +123,15 @@ class ListAdministrationCascadeSerializer(serializers.ModelSerializer):
 
 class WebFormDetailSerializer(serializers.ModelSerializer):
     question_group = serializers.SerializerMethodField()
-    cascade = serializers.SerializerMethodField()
 
     @extend_schema_field(ListQuestionGroupSerializer(many=True))
     def get_question_group(self, instance: Forms):
         return ListQuestionGroupSerializer(
             instance=instance.form_question_group.all(), many=True).data
 
-    @extend_schema_field(
-        inline_serializer('administration', fields={
-            'administrator': ListAdministrationCascadeSerializer(
-                many=True)}))
-    def get_cascade(self, instance):
-        return {'administration': ListAdministrationCascadeSerializer(
-            instance=Administration.objects.filter(parent__isnull=True),
-            many=True).data}
-
     class Meta:
         model = Forms
-        fields = ['name', 'question_group', 'cascade']
+        fields = ['name', 'question_group']
 
 
 class ListFormRequestSerializer(serializers.Serializer):
@@ -288,8 +287,6 @@ class ApprovalFormUserSerializer(serializers.ModelSerializer):
             'administration_id').queryset = Administration.objects.all()
 
     def create(self, validated_data):
-        print(validated_data)
-
         assignment, created = FormApprovalAssignment.objects.get_or_create(
             form=self.context.get('form'),
             administration=validated_data.get('administration'),
@@ -358,7 +355,8 @@ class FormApproverResponseSerializer(serializers.ModelSerializer):
 
     def get_user_list(self, instance: Administration):
         users = SystemUser.objects.filter(
-            user_access__role=UserRoleTypes.approver,
+            user_access__role__in=[UserRoleTypes.approver,
+                                   UserRoleTypes.admin],
             user_access__administration=instance)
         return FormApproverUserListSerializer(instance=users,
                                               many=True).data

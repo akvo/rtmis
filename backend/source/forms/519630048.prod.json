@@ -232,7 +232,7 @@
           ],
           "dependency": [
             {
-              "id": "Q444670046",
+              "id": 444670046,
               "options": [
                 "Yes"
               ]
@@ -256,7 +256,7 @@
           ],
           "dependency": [
             {
-              "id": "Q513690068",
+              "id": 513690068,
               "options": [
                 "No toilet observed",
                 "Toilet with inadequate privacy",
@@ -323,7 +323,7 @@
           ],
           "dependency": [
             {
-              "id": "Q513690068",
+              "id": 513690068,
               "options": [
                 "Toilet with inadequate privacy",
                 "Functional toilet with privacy"
@@ -351,7 +351,7 @@
           ],
           "dependency": [
             {
-              "id": "Q513690062",
+              "id": 513690062,
               "options": [
                 "Yes"
               ]
@@ -381,7 +381,7 @@
           ],
           "dependency": [
             {
-              "id": "Q513690068",
+              "id": 513690068,
               "options": [
                 "Toilet with inadequate privacy",
                 "Toilet not functional (Collapsed, full, abandoned)",
@@ -410,7 +410,7 @@
           ],
           "dependency": [
             {
-              "id": "Q513690068",
+              "id": 13690068,
               "options": [
                 "Toilet with inadequate privacy",
                 "Toilet not functional (Collapsed, full, abandoned)",
@@ -436,7 +436,7 @@
           ],
           "dependency": [
             {
-              "id": "Q513690068",
+              "id": 513690068,
               "options": [
                 "Toilet with inadequate privacy",
                 "Toilet not functional (Collapsed, full, abandoned)",
@@ -474,7 +474,7 @@
           ],
           "dependency": [
             {
-              "id": "Q513690059",
+              "id": 513690059,
               "options": [
                 "Yes"
               ]
@@ -498,7 +498,7 @@
           ],
           "dependency": [
             {
-              "id": "Q513690068",
+              "id": 513690068,
               "options": [
                 "Toilet with inadequate privacy",
                 "Toilet not functional (Collapsed, full, abandoned)",
@@ -530,7 +530,7 @@
           ],
           "dependency": [
             {
-              "id": "Q496550059",
+              "id": 496550059,
               "options": [
                 "No"
               ]
@@ -591,7 +591,7 @@
           ],
           "dependency": [
             {
-              "id": "Q513690068",
+              "id": 513690068,
               "options": [
                 "Toilet with inadequate privacy",
                 "Toilet not functional (Collapsed, full, abandoned)",
@@ -675,7 +675,7 @@
           ],
           "dependency": [
             {
-              "id": "Q466680043",
+              "id": 466680043,
               "options": [
                 "Fixed facility observed (sink/tap) In dwelling",
                 "Fixed facility observed (sink/tap)  In yard/plot",
@@ -701,7 +701,7 @@
           ],
           "dependency": [
             {
-              "id": "Q466680043",
+              "id": 466680043,
               "options": [
                 "Fixed facility observed (sink/tap) In dwelling",
                 "Fixed facility observed (sink/tap)  In yard/plot",
@@ -749,7 +749,7 @@
           ],
           "dependency": [
             {
-              "id": "Q466680043",
+              "id": 466680043,
               "options": [
                 "Fixed facility observed (sink/tap) In dwelling",
                 "Fixed facility observed (sink/tap)  In yard/plot",
@@ -768,7 +768,7 @@
           "options": null,
           "dependency": [
             {
-              "id": "Q466680039",
+              "id": 466680039,
               "options": [
                 "Yes"
               ]
@@ -933,7 +933,7 @@
           ],
           "dependency": [
             {
-              "id": "Q524810057",
+              "id": 524810057,
               "options": [
                 "Cloth/reusable sanitary pads",
                 "Disposable sanitary pads",
@@ -961,7 +961,7 @@
           ],
           "dependency": [
             {
-              "id": "Q524810057",
+              "id": 524810057,
               "options": [
                 "Cloth/reusable sanitary pads",
                 "Disposable sanitary pads",

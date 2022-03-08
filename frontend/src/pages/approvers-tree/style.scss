@@ -5,11 +5,14 @@
     .ant-row.tree-header {
       border-bottom: solid #d7dbec 1px;
       padding-bottom: 25px;
+      &.loading {
+        opacity: 0.3;
+      }
 
       .ant-col {
         width: 300px;
-        font-weight: 700;
-        font-size: 0.95rem;
+        font-weight: $font-weight-bold;
+        font-size: 15px;
 
         .shade {
           position: absolute;
@@ -65,11 +68,11 @@
           position: relative;
 
           .tree-block {
-            padding: 0.7rem 1rem;
+            padding: 12px 16px;
             border-radius: 4px;
             background-color: #f9fafb;
             margin-bottom: 35px;
-            font-size: 0.8rem;
+            font-size: $font-size-small;
             text-align: left;
             width: 180px;
             cursor: pointer;
@@ -82,13 +85,13 @@
               .ant-select-selector {
                 border: 0 none;
                 background-color: transparent;
-                margin-top: 0.3rem;
-                font-size: 0.9rem;
+                margin-top: 5px;
+                font-size: 15px;
                 padding-left: 0;
                 box-shadow: none;
 
                 .ant-select-selection-item {
-                  font-weight: 600;
+                  font-weight: $font-weight-semi-bold;
                 }
               }
 
@@ -99,7 +102,7 @@
               }
 
               .ant-select-selector:hover {
-                color: #0058ff;
+                color: $blue;
               }
             }
           }
