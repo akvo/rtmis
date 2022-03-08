@@ -32,9 +32,6 @@ class FormSubmissionTestCase(TestCase):
         question_group = webform.get("question_group")
         self.assertEqual(len(question_group), 1)
         self.assertEqual(question_group[0].get("name"), "Question Group 01")
-        self.assertEqual(
-            list(webform.get("cascade").get('administration')[0]),
-            ['value', 'label', 'children'])
 
     def test_create_new_submission(self):
         self.maxDiff = None
