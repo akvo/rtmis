@@ -42,12 +42,12 @@ class Command(BaseCommand):
                 question_group = QuestionGroup(name=qg["question_group"],
                                                form=form)
                 question_group.save()
-                for q in qg["questions"]:
+                for qi, q in enumerate(qg["questions"]):
                     question = Questions.objects.create(
                         id=q.get("id"),
                         name=q["question"],
                         text=q["question"],
-                        order=q.get("order"),
+                        order=qi,
                         meta=q.get("meta"),
                         form=form,
                         question_group=question_group,
