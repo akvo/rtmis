@@ -5,7 +5,7 @@ import "./style.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import { Row, Col, Progress, notification } from "antd";
 import { api } from "../../lib";
-import { take, takeRight, tail, pick } from "lodash";
+import { takeRight, pick } from "lodash";
 import { PageLoader } from "../../components";
 
 const Forms = () => {
@@ -40,7 +40,6 @@ const Forms = () => {
         return false;
       })
       .filter((x) => x);
-    const cascade = forms?.cascade?.administration || [];
     const names = answers
       .filter((x) => !["geo", "cascade"].includes(x.type) && x.meta)
       .map((x) => {
