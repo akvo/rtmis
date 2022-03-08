@@ -5,17 +5,8 @@ import "./style.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import { Row, Col, Progress, notification } from "antd";
 import { api } from "../../lib";
-import { take, takeRight, tail, pick } from "lodash";
+import { takeRight, pick } from "lodash";
 import { PageLoader } from "../../components";
-
-const parseCascade = (cascade, names, results = []) => {
-  if (names.length) {
-    cascade = cascade.find((c) => c.value === take(names)[0]);
-    results = [...results, cascade.label];
-    return parseCascade(cascade?.children, tail(names), results);
-  }
-  return tail(results);
-};
 
 const Forms = () => {
   const navigate = useNavigate();
@@ -49,13 +40,9 @@ const Forms = () => {
         return false;
       })
       .filter((x) => x);
-    const cascade = forms?.cascade?.administration || [];
     const names = answers
-      .filter((x) => x.type !== "geo" && x.meta)
+      .filter((x) => !["geo", "cascade"].includes(x.type) && x.meta)
       .map((x) => {
-        if (x.type === "cascade") {
-          return parseCascade(cascade, x.value);
-        }
         return x.value;
       })
       .flatMap((x) => x)
