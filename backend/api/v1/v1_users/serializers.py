@@ -1,5 +1,6 @@
 from django.core import signing
 from django.core.signing import BadSignature
+from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field, inline_serializer
 from rest_framework import serializers
@@ -50,8 +51,8 @@ class SetUserPasswordSerializer(serializers.Serializer):
         if attrs.get('password') != attrs.get('confirm_password'):
             raise ValidationError({
                 'confirm_password':
-                'Confirm password and password'
-                ' are not same'
+                    'Confirm password and password'
+                    ' are not same'
             })
         return attrs
 
@@ -133,7 +134,7 @@ class AddEditUserSerializer(serializers.ModelSerializer):
                 'administration').level.level == 0:
             raise ValidationError({
                 'administration':
-                'administration level is not valid with selected role'
+                    'administration level is not valid with selected role'
             })
         return attrs
 
@@ -151,7 +152,8 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         role = validated_data.pop('role')
         instance: SystemUser = super(AddEditUserSerializer,
                                      self).update(instance, validated_data)
-
+        instance.updated = timezone.now()
+        instance.save()
         instance.user_access.role = role
         instance.user_access.administration = administration
         instance.user_access.save()
@@ -159,7 +161,8 @@ class AddEditUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SystemUser
-        fields = ['first_name', 'last_name', 'email', 'administration', 'role']
+        fields = ['first_name', 'last_name', 'email', 'administration', 'role',
+                  'phone_number', 'designation']
 
 
 class UserAdministrationSerializer(serializers.ModelSerializer):
@@ -197,10 +200,8 @@ class ListUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SystemUser
-        fields = [
-            'id', 'first_name', 'last_name', 'email', 'administration', 'role',
-            'invite'
-        ]
+        fields = ['id', 'first_name', 'last_name', 'email', 'administration',
+                  'role', 'phone_number', 'designation', 'invite']
 
 
 class ListUserRequestSerializer(serializers.Serializer):
@@ -245,7 +246,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SystemUser
-        fields = ['email', 'name', 'administration', 'role']
+        fields = ['email', 'name', 'administration', 'role', 'phone_number',
+                  'designation']
 
 
 class ListLevelSerializer(serializers.ModelSerializer):

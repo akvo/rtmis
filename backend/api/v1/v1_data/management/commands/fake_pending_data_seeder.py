@@ -1,4 +1,4 @@
-import uuid
+import random
 from datetime import timedelta
 
 import pandas as pd
@@ -7,10 +7,12 @@ from django.utils import timezone
 from faker import Faker
 
 from api.v1.v1_data.models import PendingFormData, \
-    PendingAnswers, PendingDataApproval
-from api.v1.v1_forms.constants import QuestionTypes
-from api.v1.v1_forms.models import Forms, FormApprovalAssignment
-from api.v1.v1_profile.models import Administration, Levels
+    PendingAnswers, PendingDataApproval, PendingDataBatch
+from api.v1.v1_forms.constants import QuestionTypes, FormTypes
+from api.v1.v1_forms.models import FormApprovalRule, FormApprovalAssignment
+from api.v1.v1_forms.models import Forms
+from api.v1.v1_profile.constants import UserRoleTypes
+from api.v1.v1_profile.models import Administration, Access, Levels
 from api.v1.v1_users.models import SystemUser
 
 fake = Faker()
@@ -82,42 +84,64 @@ def add_fake_answers(data: PendingFormData):
     data.save()
 
 
-def seed_data(form, fake_geo, repeat, test):
-    admin_ids = list(
-        FormApprovalAssignment.objects.values_list('administration_id',
-                                                   flat=True).filter(
-            form=form))
+def seed_data(form, fake_geo, repeat, created_by, test):
     for i in range(repeat):
-        if test:
-            administration = Administration.objects.filter(
-                id__in=admin_ids).order_by(
-                '?').first()
-        else:
-            administration = Administration.objects.filter(
-                id__in=admin_ids,
-                level=Levels.objects.order_by('-level').first()).order_by(
-                '?').first()
+        administration = created_by.user_access.administration
         geo = fake_geo.iloc[i].to_dict()
-        data = PendingFormData.objects.create(
-            name=fake.pystr_format(),
-            geo=[geo["X"], geo["Y"]],
-            form=form,
-            administration=administration,
-            created_by=SystemUser.objects.order_by('?').first())
+        data = PendingFormData.objects.create(name=fake.pystr_format(),
+                                              geo=[geo["X"], geo["Y"]],
+                                              form=form,
+                                              administration=administration,
+                                              created_by=created_by)
 
-        complete_path = '{0}{1}'.format(administration.path, administration.id)
-
-        for path in complete_path.split('.'):
-            assignment = FormApprovalAssignment.objects.filter(
-                form=form,
-                administration_id=path).first()
-            if assignment:
-                PendingDataApproval.objects.create(
-                    pending_data=data,
-                    user=assignment.user,
-                    level=assignment.user.user_access.administration.level
-                )
         add_fake_answers(data)
+
+
+def assign_batch_for_approval(batch, user):
+    administration = user.user_access.administration
+    complete_path = '{0}{1}'.format(administration.path, administration.id)
+    complete_path = complete_path.split('.')[1:]
+    approval_rule = FormApprovalRule.objects.filter(
+        administration_id=complete_path[0], form=batch.form).first()
+    levels = None
+    if approval_rule:
+        levels = approval_rule.levels.all()
+    if not approval_rule:
+        randoms = Levels.objects.filter(level__gt=1).count()
+        randoms = [n + 1 for n in range(randoms)]
+        limit = random.choices(randoms)
+        levels = Levels.objects.filter(level__gt=1).order_by('?')[:limit[0]]
+        levels |= Levels.objects.filter(level=1)
+        rule = FormApprovalRule.objects.create(
+            form=batch.form,
+            administration=Administration.objects.filter(
+                id=complete_path[0]).first())
+        rule.levels.set(levels)
+    administrations = Administration.objects.filter(id__in=complete_path,
+                                                    level__in=levels).all()
+    for administration in administrations:
+        assignment = FormApprovalAssignment.objects.filter(
+            form=batch.form, administration=administration).first()
+        if not assignment:
+            profile = fake.profile()
+            name = profile.get("name").split(" ")
+            approver = SystemUser.objects.create_user(
+                email=profile.get("mail"),
+                password="Test105",
+                first_name=name[0],
+                last_name=name[1])
+            role = UserRoleTypes.approver
+            if administration.level.level == 1:
+                role = UserRoleTypes.admin
+            Access.objects.create(user=approver,
+                                  role=role,
+                                  administration=administration)
+            assignment = FormApprovalAssignment.objects.create(
+                form=batch.form, administration=administration, user=approver)
+        PendingDataApproval.objects.create(
+            batch=batch,
+            user=assignment.user,
+            level=assignment.user.user_access.administration.level)
 
 
 class Command(BaseCommand):
@@ -140,22 +164,62 @@ class Command(BaseCommand):
                             const=1,
                             default=False,
                             type=bool)
+        parser.add_argument("-e",
+                            "--email",
+                            nargs="?",
+                            const=1,
+                            default=None,
+                            type=str)
 
     def handle(self, *args, **options):
+        PendingDataApproval.objects.all().delete()
+        PendingDataBatch.objects.all().delete()
         PendingFormData.objects.all().delete()
         fake_geo = pd.read_csv("./source/kenya_random_points.csv")
-        for form in Forms.objects.all():
-            seed_data(form, fake_geo, options.get("repeat"),
-                      options.get("test"))
-        pending_data_count = PendingFormData.objects.all().count()
-        limit = int(pending_data_count / options.get('batch'))
-        if limit:
-            while PendingFormData.objects.filter(
-                    batch__isnull=True).count() >= limit:
+        user = None
+        if options.get('email'):
+            # if user type is 'user' -> seed county form only
+            try:
+                user = SystemUser.objects.get(email=options.get('email'))
+            except SystemUser.DoesNotExist:
+                print('User with this {0} is not exists'.format(
+                    options.get('email')))
+                return
+            if user.user_access.role == UserRoleTypes.user:
+                forms = Forms.objects.filter(type=FormTypes.county)
+            elif user.user_access.role == UserRoleTypes.admin:
+                forms = Forms.objects.filter(type=FormTypes.national)
+            else:
+                print(
+                    'User with this {0} is not allowed to submit data '.format(
+                        options.get('email')))
+                return
+        else:
+            forms = Forms.objects.all()
 
-                objs = PendingFormData.objects.filter(batch__isnull=True)[
-                       :limit]
-                val = uuid.uuid4()
-                for obj in objs:
-                    obj.batch = val
-                PendingFormData.objects.bulk_update(objs, fields=['batch'])
+        for form in forms:
+            if not user:
+                role = UserRoleTypes.user \
+                    if form.type == FormTypes.county else UserRoleTypes.admin
+                user = SystemUser.objects.filter(
+                    user_access__role=role).order_by('?').first()
+            seed_data(form, fake_geo, options.get("repeat"), user,
+                      options.get("test"))
+            limit = options.get('batch')
+            if limit:
+                while PendingFormData.objects.filter(
+                        batch__isnull=True, form=form).count():
+                    batch = PendingDataBatch.objects.create(
+                        name=fake.text(),
+                        form=form,
+                        administration=user.user_access.administration,
+                        user=user,
+                    )
+
+                    objs = PendingFormData.objects.filter(batch__isnull=True,
+                                                          form=form)[:limit]
+                    for obj in objs:
+                        obj.batch = batch
+                    PendingFormData.objects.bulk_update(objs, fields=['batch'])
+                    if form.type == FormTypes.county:
+                        assign_batch_for_approval(batch, user)

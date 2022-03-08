@@ -10,13 +10,13 @@ import {
   Input,
   Select,
   Checkbox,
-  message,
 } from "antd";
 import { AdministrationDropdown } from "../../components";
 import { useNavigate } from "react-router-dom";
 import { api, store, config } from "../../lib";
 import { Breadcrumbs } from "../../components";
 import { takeRight } from "lodash";
+import { useNotification } from "../../util/hooks";
 
 const { Option } = Select;
 
@@ -40,25 +40,34 @@ const AddUser = () => {
   const [form] = Form.useForm();
   const { user: authUser, administration } = store.useState((s) => s);
   const navigate = useNavigate();
+  const { notify } = useNotification();
 
   const onFinish = (values) => {
     setSubmitting(true);
     const admin = takeRight(administration, 1)?.[0];
     api
-      .post("add/user/", {
+      .post("user", {
         first_name: values.first_name,
         last_name: values.last_name,
         email: values.email,
         administration: admin.id,
+        phone_number: values.phone_number,
+        designation: values.designation,
         role: values.role,
       })
       .then(() => {
-        message.success("User added");
+        notify({
+          type: "success",
+          message: "User added",
+        });
         setSubmitting(false);
         navigate("/users");
       })
       .catch((err) => {
-        message.error(err.response?.data?.message || "User could not be added");
+        notify({
+          type: "error",
+          message: err.response?.data?.message || "User could not be added",
+        });
         setSubmitting(false);
       });
   };
@@ -66,7 +75,7 @@ const AddUser = () => {
   const onChange = (a) => {
     if (a?.role === authUser.role.id) {
       setShowAdministration(false);
-    } else {
+    } else if (a?.role) {
       setShowAdministration(true);
     }
   };
@@ -88,6 +97,8 @@ const AddUser = () => {
         initialValues={{
           first_name: "",
           last_name: "",
+          phone_number: "",
+          designation: null,
           email: "",
           role: null,
           county: null,
@@ -143,6 +154,20 @@ const AddUser = () => {
           </div>
           <div className="form-row">
             <Form.Item
+              label="Phone Number"
+              name="phone_number"
+              rules={[
+                {
+                  required: true,
+                  message: "Phone number is required",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </div>
+          <div className="form-row">
+            <Form.Item
               name="organization"
               label="Organization"
               rules={[{ required: false }]}
@@ -150,6 +175,23 @@ const AddUser = () => {
               <Select disabled placeholder="Select one.." allowClear>
                 <Option value="1">MOH</Option>
                 <Option value="2">UNICEF</Option>
+              </Select>
+            </Form.Item>
+          </div>
+          <div className="form-row">
+            <Form.Item
+              name="designation"
+              label="Designation"
+              rules={[
+                { required: true, message: "Please select a Designation" },
+              ]}
+            >
+              <Select placeholder="Select one..">
+                {config?.designations?.map((d, di) => (
+                  <Option key={di} value={d.id}>
+                    {d.name}
+                  </Option>
+                ))}
               </Select>
             </Form.Item>
           </div>

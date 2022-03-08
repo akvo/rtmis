@@ -1,26 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./style.scss";
-import {
-  Row,
-  Col,
-  Card,
-  Divider,
-  Table,
-  Tabs,
-  Progress,
-  Input,
-  Checkbox,
-  Button,
-} from "antd";
+import { Row, Col, Card, Divider, Table, Tabs, Button } from "antd";
 import { Breadcrumbs } from "../../components";
 import { Link } from "react-router-dom";
-import {
-  PlusSquareOutlined,
-  CloseSquareOutlined,
-  FileTextFilled,
-  InfoCircleOutlined,
-} from "@ant-design/icons";
-import { store } from "../../lib";
+import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
+import { api, store } from "../../lib";
+import { columnsApproval } from "./";
+import ApprovalDetails from "./ApprovalsDetail";
+
+const columns = [...columnsApproval, Table.EXPAND_COLUMN];
 
 const pagePath = [
   {
@@ -32,432 +20,64 @@ const pagePath = [
   },
 ];
 const { TabPane } = Tabs;
-const { TextArea } = Input;
 
-const approvalsPending = [
-  {
-    key: "1",
-    filename: "Lorem Ipsum CSV File 1",
-    created_at: "2021-11-08 17:18",
-    completion_status: 100,
-    location: "Baringo",
-    questionnaire: "G1-1 Households V1",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    approved_by: {
-      id: 21,
-      name: "K. Choge",
-    },
-  },
-  {
-    key: "2",
-    filename: "Lorem Ipsum CSV File 2",
-    created_at: "2021-11-08 17:18",
-    completion_status: 85,
-    location: "Baringo",
-    questionnaire: "G1-2 Households V1",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    approved_by: {
-      id: 22,
-      name: "A. Awiti",
-    },
-  },
-  {
-    key: "3",
-    filename: "Lorem Ipsum CSV File 3",
-    created_at: "2021-11-08 17:18",
-    completion_status: 90,
-    location: "Baringo",
-    questionnaire: "G1-3 Households V1",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    approved_by: {
-      id: 23,
-      name: "Ruto Cindy",
-    },
-  },
-  {
-    key: "4",
-    filename: "Lorem Ipsum CSV File 4",
-    created_at: "2021-11-08 17:18",
-    completion_status: 100,
-    location: "Baringo",
-    questionnaire: "G1-4 Households V1",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    approved_by: {
-      id: 24,
-      name: "John Doe",
-    },
-  },
-  {
-    key: "5",
-    filename: "Lorem Ipsum CSV File 1",
-    created_at: "2021-11-08 17:18",
-    completion_status: 100,
-    location: "Baringo",
-    questionnaire: "G1-5 Households V1",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    approved_by: {
-      id: 21,
-      name: "K. Choge",
-    },
-  },
-  {
-    key: "6",
-    filename: "Lorem Ipsum CSV File 2",
-    created_at: "2021-11-08 17:18",
-    completion_status: 85,
-    location: "Baringo",
-    questionnaire: "G1-6 Households V1",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    approved_by: {
-      id: 22,
-      name: "A. Awiti",
-    },
-  },
-  {
-    key: "7",
-    filename: "Lorem Ipsum CSV File 3",
-    created_at: "2021-11-08 17:18",
-    completion_status: 90,
-    location: "Baringo",
-    questionnaire: "G1-7 Households V1",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    approved_by: {
-      id: 23,
-      name: "Ruto Cindy",
-    },
-  },
-  {
-    key: "8",
-    filename: "Lorem Ipsum CSV File 4",
-    created_at: "2021-11-08 17:18",
-    completion_status: 100,
-    location: "Baringo",
-    questionnaire: "G1-8 Households V1",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    approved_by: {
-      id: 24,
-      name: "John Doe",
-    },
-  },
-];
 const approvalsSubordinates = [];
 
-const columns = [
-  {
-    title: "",
-    dataIndex: "key",
-    key: "key",
-    render: () => <InfoCircleOutlined />,
-    width: 40,
-  },
-  {
-    title: "File",
-    dataIndex: "filename",
-    key: "filename",
-    render: (filename, row) => (
-      <Row>
-        <Col>
-          <FileTextFilled style={{ fontSize: 28 }} />
-        </Col>
-        <Col>
-          <div>{filename}</div>
-          <div>{row.created_at}</div>
-        </Col>
-      </Row>
-    ),
-  },
-  {
-    title: "Completion Status",
-    dataIndex: "completion_status",
-    key: "completion_status",
-    render: (status) => (
-      <Row>
-        <Col xs={16}>
-          <Progress percent={parseInt(status)} showInfo={false} />
-        </Col>
-        <Col>{status}%</Col>
-      </Row>
-    ),
-  },
-  {
-    title: "Questionnaire",
-    dataIndex: "questionnaire",
-    key: "questionnaire",
-  },
-  {
-    title: "Location",
-    dataIndex: "location",
-    key: "location",
-  },
-  {
-    title: "Uploaded By",
-    dataIndex: "user",
-    render: (user) => user.name || "",
-    key: "user.id",
-  },
-  {
-    title: "Approved By",
-    dataIndex: "approved_by",
-    render: (user) => user.name || "",
-    key: "approved_by.id",
-  },
-  Table.EXPAND_COLUMN,
-];
-
-const datasetRawdata = [
-  {
-    key: 1,
-    county: "Kisumu",
-    subcounty: "Nyando",
-    ward: "Lolwe",
-    sublocation: "Lolwe - North",
-    community: "Kenya Re",
-    date: "27-10-2021",
-    monitor: "Ouma Odhiambo",
-    q1: "6/4",
-  },
-  {
-    key: 2,
-    county: "Kisumu",
-    subcounty: "Nyando",
-    ward: "Kolwa",
-    sublocation: "Kolwa - East",
-    community: "Nyamware",
-    date: "27-10-2021",
-    monitor: "Ouma Odhiambo",
-    q1: "7/3",
-  },
-  {
-    key: 3,
-    county: "Kisumu",
-    subcounty: "Nyando",
-    ward: "Lolwe",
-    sublocation: "Lolwe - North",
-    community: "Kenya Re",
-    date: "27-10-2021",
-    monitor: "Ouma Odhiambo",
-    q1: "6/4",
-  },
-  {
-    key: 4,
-    county: "Kisumu",
-    subcounty: "Nyando",
-    ward: "Kolwa",
-    sublocation: "Kolwa - East",
-    community: "Nyamware",
-    date: "27-10-2021",
-    monitor: "Ouma Odhiambo",
-    q1: "7/3",
-  },
-  {
-    key: 5,
-    county: "Kisumu",
-    subcounty: "Nyando",
-    ward: "Lolwe",
-    sublocation: "Lolwe - North",
-    community: "Kenya Re",
-    date: "27-10-2021",
-    monitor: "Ouma Odhiambo",
-    q1: "6/4",
-  },
-  {
-    key: 6,
-    county: "Kisumu",
-    subcounty: "Nyando",
-    ward: "Kolwa",
-    sublocation: "Kolwa - East",
-    community: "Nyamware",
-    date: "27-10-2021",
-    monitor: "Ouma Odhiambo",
-    q1: "7/3",
-  },
-  {
-    key: 7,
-    county: "Kisumu",
-    subcounty: "Nyando",
-    ward: "Lolwe",
-    sublocation: "Lolwe - North",
-    community: "Kenya Re",
-    date: "27-10-2021",
-    monitor: "Ouma Odhiambo",
-    q1: "6/4",
-  },
-  {
-    key: 8,
-    county: "Kisumu",
-    subcounty: "Nyando",
-    ward: "Kolwa",
-    sublocation: "Kolwa - East",
-    community: "Nyamware",
-    date: "27-10-2021",
-    monitor: "Ouma Odhiambo",
-    q1: "7/3",
-  },
-];
-
-const columnsRawData = [
-  {
-    title: "",
-    dataIndex: "key",
-    key: "key",
-    width: 40,
-  },
-  {
-    title: "Location",
-    dataIndex: "community",
-    key: "community",
-  },
-  {
-    title: "Date",
-    dataIndex: "date",
-    key: "date",
-  },
-  {
-    title: "Monitor",
-    dataIndex: "monitor",
-    key: "monitor",
-    width: 200,
-  },
-  {
-    title: "No exposed Human excreta",
-    dataIndex: "q1",
-    key: "q1",
-    align: "center",
-  },
-];
-
-const renderDetails = () => {
-  return (
-    <div>
-      <Tabs centered defaultActiveKey="1" onChange={() => {}}>
-        <TabPane tab="Data Summary" key="1">
-          <div>
-            <table className="dev">
-              <thead>
-                <tr>
-                  <th>Field</th>
-                  <th>Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>County</td>
-                  <td>20</td>
-                </tr>
-                <tr>
-                  <td>Sub-county</td>
-                  <td>64</td>
-                </tr>
-                <tr>
-                  <td>Ward</td>
-                  <td>300</td>
-                </tr>
-                <tr>
-                  <td>Sub-Location</td>
-                  <td>570</td>
-                </tr>
-                <tr>
-                  <td>Community</td>
-                  <td>2000</td>
-                </tr>
-                <tr>
-                  <td>Date</td>
-                  <td>12-02-2021</td>
-                </tr>
-                <tr>
-                  <td>Monitor Name</td>
-                  <td>Odhiambo Ouma</td>
-                </tr>
-                <tr>
-                  <td>No exposed human excreta (G1-1)</td>
-                  <td>7/3</td>
-                </tr>
-                <tr>
-                  <td>Safe disposal of child excreta and diapers (G1-2)</td>
-                  <td>20</td>
-                </tr>
-                <tr>
-                  <td>
-                    Presence of handwashing facility with water {"&"}
-                    soap (G1-4)
-                  </td>
-                  <td>6/4</td>
-                </tr>
-                <tr>
-                  <td>Handwashing facility with soap (G2-4)</td>
-                  <td>6/4</td>
-                </tr>
-                <tr>
-                  <td>Permanent Hand washing facility (G3-4)</td>
-                  <td>6/2/2</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </TabPane>
-        <TabPane tab="Raw Data" key="2">
-          <Table
-            className="dev"
-            dataSource={datasetRawdata}
-            columns={columnsRawData}
-            scroll={{ y: 300 }}
-            pagination={false}
-          />
-        </TabPane>
-      </Tabs>
-      <label>Notes {"&"} Feedback</label>
-      <TextArea rows={4} />
-      <Row justify="space-between">
-        <Col>
-          <Row>
-            <Checkbox id="informUser" onChange={() => {}}></Checkbox>
-            <label htmlFor="informUser">Inform User of Changes</label>
-          </Row>
-        </Col>
-        <Col>
-          <Button className="light dev">Decline</Button>
-          <Button className="primary dev" htmlType="submit">
-            Approve
-          </Button>
-        </Col>
-      </Row>
-    </div>
-  );
-};
-
 const Approvals = () => {
+  const [approvalsPending, setApprovalsPending] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [detailLoading, setDetailLoading] = useState(false);
   const [expandedKeys, setExpandedKeys] = useState([]);
   const [role, setRole] = useState(null);
-
+  const [loading, setLoading] = useState(true);
+  const [reload, setReload] = useState(0);
   const { user } = store.useState((state) => state);
 
   useEffect(() => {
     setRole(user?.role?.id);
   }, [user]);
+
+  useEffect(() => {
+    setLoading(true);
+    api
+      .get(`/form-pending-batch/?page=${currentPage}`)
+      .then((res) => {
+        setApprovalsPending(res.data.batch);
+        setTotalCount(res.data.total);
+        setLoading(false);
+      })
+      .catch((e) => {
+        console.error(e);
+        setLoading(false);
+      });
+  }, [currentPage, reload]);
+
+  const handleChange = (e) => {
+    setCurrentPage(e.current);
+  };
+
+  const getDataDetail = (expanded, record) => {
+    const oldDataset = approvalsPending.find((d) => d.id === record.id);
+    if (expanded && !oldDataset?.answer) {
+      setDetailLoading(true);
+      api
+        .get(`/form-pending-data-batch/${record.id}`)
+        .then((res) => {
+          const newDataset = approvalsPending.map((d) => {
+            if (d.id === record.id) {
+              d = { ...d, data: res.data };
+            }
+            return d;
+          });
+          setApprovalsPending(newDataset);
+          setDetailLoading(false);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }
+  };
 
   return (
     <div id="approvals">
@@ -481,12 +101,25 @@ const Approvals = () => {
         <Tabs defaultActiveKey="1" onChange={() => {}}>
           <TabPane tab="My Pending Approvals" key="1">
             <Table
-              className="dev"
               dataSource={approvalsPending}
+              onChange={handleChange}
               columns={columns}
-              pagination={{ position: ["none", "none"] }}
+              loading={loading}
+              pagination={{
+                current: currentPage,
+                total: totalCount,
+                pageSize: 10,
+                showSizeChanger: false,
+              }}
               expandable={{
-                expandedRowRender: renderDetails,
+                onExpand: getDataDetail,
+                expandedRowRender: (record) => (
+                  <ApprovalDetails
+                    record={record}
+                    loading={detailLoading}
+                    setReload={setReload}
+                  />
+                ),
                 expandIcon: ({ expanded, onExpand, record }) =>
                   expanded ? (
                     <CloseSquareOutlined
@@ -519,6 +152,7 @@ const Approvals = () => {
             <Table
               className="dev"
               dataSource={approvalsSubordinates}
+              loading={loading}
               columns={columns}
             />
           </TabPane>

@@ -1,4 +1,5 @@
 # Create your views here.
+import datetime
 from math import ceil
 from pathlib import Path
 
@@ -6,10 +7,14 @@ from django.contrib.auth import authenticate
 from django.core import signing
 from django.core.management import call_command
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.core.signing import BadSignature
+from django.db.models import Value
+from django.db.models.functions import Coalesce
 from django.http import HttpResponse
+from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, inline_serializer, \
-    OpenApiParameter
+    OpenApiParameter, OpenApiResponse
 from jsmin import jsmin
 from rest_framework import status, serializers
 from rest_framework.decorators import api_view, permission_classes
@@ -17,6 +22,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -32,14 +38,14 @@ from utils.custom_serializer_fields import validate_serializers_message
 
 
 @extend_schema(description='Use to check System health',
-               tags=['User'])
+               tags=['Dev'])
 @api_view(['GET'])
 def health_check(request, version):
     return Response({'message': 'OK'}, status=status.HTTP_200_OK)
 
 
 @extend_schema(description='Use to check System health',
-               tags=['Config'])
+               tags=['Dev'])
 @api_view(['GET'])
 def get_config_file(request, version):
     try:
@@ -51,7 +57,6 @@ def get_config_file(request, version):
         )
         return response
     except Exception as ex:
-        print(ex.args)
         return Response({'message': ex.args},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -59,7 +64,7 @@ def get_config_file(request, version):
 # TODO: Remove temp user entry and invite key from the response.
 @extend_schema(request=LoginSerializer,
                responses={200: UserSerializer},
-               tags=['User'])
+               tags=['Auth'])
 @api_view(['POST'])
 def login(request, version):
     serializer = LoginSerializer(data=request.data)
@@ -96,7 +101,8 @@ def login(request, version):
 
 
 @extend_schema(responses={200: UserSerializer},
-               tags=['User'])
+               tags=['Auth'],
+               summary='Get user details from token')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_profile(request, version):
@@ -111,20 +117,23 @@ def get_profile(request, version):
                            "message": serializers.CharField()
                        })
                },
-               tags=['User'])
-@api_view(['POST'])
-def verify_invite(request, version):
+               tags=['User'],
+               summary='To verify invitation code')
+@api_view(['GET'])
+def verify_invite(request, version, invitation_id):
     try:
-        serializer = VerifyInviteSerializer(data=request.data)
-        if not serializer.is_valid():
-            return Response(
-                {'message': validate_serializers_message(serializer.errors)},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        pk = signing.loads(invitation_id)
+        user = SystemUser.objects.get(pk=pk)
         return Response(
-            {'name': serializer.validated_data.get('invite').get_full_name()},
+            {'name': user.get_full_name()},
             status=status.HTTP_200_OK
         )
+    except BadSignature:
+        return Response({'message': 'Invalid invite code'},
+                        status=status.HTTP_400_BAD_REQUEST)
+    except SystemUser.DoesNotExist:
+        return Response({'message': 'Invalid invite code'},
+                        status=status.HTTP_400_BAD_REQUEST)
     except Exception as ex:
         return Response({'message': ex.args},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -132,8 +141,9 @@ def verify_invite(request, version):
 
 @extend_schema(request=SetUserPasswordSerializer,
                responses={200: UserSerializer},
-               tags=['User'])
-@api_view(['POST'])
+               tags=['User'],
+               summary="To set user's password")
+@api_view(['PUT'])
 def set_user_password(request, version):
     try:
         serializer = SetUserPasswordSerializer(data=request.data)
@@ -144,6 +154,7 @@ def set_user_password(request, version):
             )
         user: SystemUser = serializer.validated_data.get('invite')
         user.set_password(serializer.validated_data.get('password'))
+        user.updated = timezone.now()
         user.save()
         refresh = RefreshToken.for_user(user)
         data = UserSerializer(instance=user).data
@@ -158,16 +169,18 @@ def set_user_password(request, version):
 
 
 @extend_schema(responses={200: ListAdministrationSerializer},
-               tags=['Administration'])
+               tags=['Administration'],
+               summary='Get list of administration')
 @api_view(['GET'])
-def list_administration(request, version, pk):
-    instance = get_object_or_404(Administration, pk=pk)
+def list_administration(request, version, administration_id):
+    instance = get_object_or_404(Administration, pk=administration_id)
     return Response(ListAdministrationSerializer(instance=instance).data,
                     status=status.HTTP_200_OK)
 
 
 @extend_schema(responses={200: ListLevelSerializer(many=True)},
-               tags=['Administration'])
+               tags=['Administration'],
+               summary='Get list of levels')
 @api_view(['GET'])
 def list_levels(request, version):
     return Response(
@@ -184,7 +197,8 @@ def list_levels(request, version):
                },
                tags=['User'],
                description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
-                           'User:4')
+                           'User:4',
+               summary='To add user')
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
 def add_user(request, version):
@@ -213,6 +227,7 @@ def add_user(request, version):
             "data": ListUserSerializer(many=True),
         })},
     tags=['User'],
+    summary='Get list of users',
     parameters=[
         OpenApiParameter(name='page',
                          required=True,
@@ -287,7 +302,10 @@ def list_users(request, version):
                 'pending')
 
         page_size = REST_FRAMEWORK.get('PAGE_SIZE')
-        queryset = SystemUser.objects.filter(**filter_data).order_by('id')
+        the_past = timezone.now() - datetime.timedelta(days=10 * 365)
+        queryset = SystemUser.objects.filter(**filter_data).annotate(
+            last_updated=Coalesce('updated', Value(the_past))).order_by(
+            '-last_updated', '-date_joined')
         paginator_temp = Paginator(queryset, page_size)
         paginator_temp.page(request.GET.get('page', 1))
         paginator = PageNumberPagination()
@@ -307,21 +325,49 @@ def list_users(request, version):
         return Response(ex.args, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-@extend_schema(request=AddEditUserSerializer,
-               responses={
-                   (200, 'application/json'):
-                       inline_serializer("Response", fields={
-                           "message": serializers.CharField()
-                       })
-               },
-               tags=['User'],
-               description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
-                           'User:4')
-@api_view(['PUT'])
-@permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
-def edit_user(request, version, pk):
-    instance = get_object_or_404(SystemUser, pk=pk)
-    try:
+@extend_schema(responses=inline_serializer('user_role', fields={
+    'id': serializers.IntegerField(),
+    'value': serializers.CharField(),
+}, many=True), tags=['User'], summary='Get list of roles')
+@api_view(['GET'])
+def get_user_roles(request, version):
+    data = []
+    for k, v in UserRoleTypes.FieldStr.items():
+        data.append({
+            'id': k,
+            'value': v,
+        })
+    return Response(data, status=status.HTTP_200_OK)
+
+
+class UserEditDeleteView(APIView):
+    permission_classes = [IsAuthenticated, IsSuperAdmin | IsAdmin]
+
+    @extend_schema(
+        responses={
+            204: OpenApiResponse(description='Deletion with no response')
+        },
+        tags=['User'],
+        summary='To delete user')
+    def delete(self, request, user_id, version):
+        instance = get_object_or_404(SystemUser, pk=user_id)
+        instance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @extend_schema(
+        request=AddEditUserSerializer,
+        responses={
+            (200, 'application/json'):
+                inline_serializer("Response", fields={
+                    "message": serializers.CharField()
+                })
+        },
+        tags=['User'],
+        description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
+                    'User:4',
+        summary='To update user')
+    def put(self, request, user_id, version):
+        instance = get_object_or_404(SystemUser, pk=user_id)
         serializer = AddEditUserSerializer(data=request.data,
                                            context={'user': request.user},
                                            instance=instance)
@@ -333,21 +379,3 @@ def edit_user(request, version, pk):
         serializer.save()
         return Response({'message': 'User updated successfully'},
                         status=status.HTTP_200_OK)
-    except Exception as ex:
-        return Response({'message': ex.args},
-                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-@extend_schema(responses=inline_serializer('user_role', fields={
-    'id': serializers.IntegerField(),
-    'value': serializers.CharField(),
-}, many=True), tags=['User'])
-@api_view(['GET'])
-def get_user_roles(request, version):
-    data = []
-    for k, v in UserRoleTypes.FieldStr.items():
-        data.append({
-            'id': k,
-            'value': v,
-        })
-    return Response(data, status=status.HTTP_200_OK)

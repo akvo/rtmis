@@ -32,15 +32,12 @@ class FormSubmissionTestCase(TestCase):
         question_group = webform.get("question_group")
         self.assertEqual(len(question_group), 1)
         self.assertEqual(question_group[0].get("name"), "Question Group 01")
-        self.assertEqual(
-            list(webform.get("cascade").get('administration')[0]),
-            ['value', 'label', 'children'])
 
     def test_create_new_submission(self):
         self.maxDiff = None
         seed_administration_test()
         user = {"email": "admin@rtmis.com", "password": "Test105*"}
-        user = self.client.post('/api/v1/login/',
+        user = self.client.post('/api/v1/login',
                                 user,
                                 content_type='application/json')
         user = user.json()
@@ -111,7 +108,7 @@ class FormSubmissionTestCase(TestCase):
         call_command("administration_seeder", "--test")
         call_command("form_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login/',
+        user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
         user = user_response.json()
@@ -122,18 +119,18 @@ class FormSubmissionTestCase(TestCase):
 
         form = Forms.objects.first()
         payload = [{"form_id": form.id, "type": 3}]
-        response = self.client.put('/api/v1/edit/forms/',
-                                   payload,
-                                   content_type='application/json',
-                                   **header)
+        response = self.client.post('/api/v1/form/type',
+                                    payload,
+                                    content_type='application/json',
+                                    **header)
         self.assertEqual(400, response.status_code)
 
         payload = [{"form_id": form.id, "type": 1}]
 
-        response = self.client.put('/api/v1/edit/forms/',
-                                   payload,
-                                   content_type='application/json',
-                                   **header)
+        response = self.client.post('/api/v1/form/type',
+                                    payload,
+                                    content_type='application/json',
+                                    **header)
         self.assertEqual(200, response.status_code)
         self.assertEqual(response.json().get('message'),
                          'Forms updated successfully')
@@ -142,7 +139,7 @@ class FormSubmissionTestCase(TestCase):
         call_command("administration_seeder", "--test")
         call_command("form_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login/',
+        user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
         user = user_response.json()
@@ -153,19 +150,19 @@ class FormSubmissionTestCase(TestCase):
 
         form = Forms.objects.first()
         payload = [{"form_id": form.id, "level_id": 3}]
-        response = self.client.post('/api/v1/edit/form/approval/',
-                                    payload,
-                                    content_type='application/json',
-                                    **header)
+        response = self.client.put('/api/v1/form/approval',
+                                   payload,
+                                   content_type='application/json',
+                                   **header)
 
         self.assertEqual(400, response.status_code)
         level = Levels.objects.first()
         payload = [{"form_id": form.id, "level_id": [level.id]}]
 
-        response = self.client.post('/api/v1/edit/form/approval/',
-                                    payload,
-                                    content_type='application/json',
-                                    **header)
+        response = self.client.put('/api/v1/form/approval',
+                                   payload,
+                                   content_type='application/json',
+                                   **header)
         self.assertEqual(200, response.status_code)
         self.assertEqual(response.json().get('message'),
                          'Forms updated successfully')
@@ -174,7 +171,7 @@ class FormSubmissionTestCase(TestCase):
         call_command("administration_seeder", "--test")
         call_command("form_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login/',
+        user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
         user = user_response.json()
@@ -184,7 +181,7 @@ class FormSubmissionTestCase(TestCase):
         }
         u = SystemUser.objects.first()
         payload = [{"user_id": u.id, "administration_id": 0}]
-        response = self.client.post('/api/v1/approval/form/1/',
+        response = self.client.post('/api/v1/form/approver/1',
                                     payload,
                                     content_type='application/json',
                                     **header)
@@ -193,7 +190,7 @@ class FormSubmissionTestCase(TestCase):
 
         payload = [{"user_id": u.id, "administration_id": 1}]
 
-        response = self.client.post('/api/v1/approval/form/1/',
+        response = self.client.post('/api/v1/form/approver/1',
                                     payload,
                                     content_type='application/json',
                                     **header)

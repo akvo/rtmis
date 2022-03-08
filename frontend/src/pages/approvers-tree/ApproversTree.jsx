@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Card, Divider, Select, message } from "antd";
+import { Row, Col, Card, Divider, Select } from "antd";
 import { Breadcrumbs } from "../../components";
 import { api, store } from "../../lib";
 import ApproverFilters from "../../components/filters/ApproverFilters";
 import { SteppedLineTo } from "react-lineto";
 import { take, takeRight } from "lodash";
+import { useNotification } from "../../util/hooks";
 const { Option } = Select;
 const pagePath = [
   {
@@ -23,6 +24,8 @@ const ApproversTree = () => {
   const [datasetJson, setDatasetJson] = useState("[]");
   const [scroll, setScroll] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const { notify } = useNotification();
 
   useEffect(() => {
     setNodes([
@@ -67,11 +70,14 @@ const ApproversTree = () => {
           setLoading(false);
         })
         .catch(() => {
-          message.error("Could not fetch data");
+          notify({
+            type: "error",
+            message: "Could not fetch data",
+          });
           setLoading(false);
         });
     }
-  }, [administration, selectedForm]);
+  }, [administration, selectedForm, notify]);
 
   const isPristine = useMemo(() => {
     return JSON.stringify(dataset) === datasetJson;
@@ -99,17 +105,23 @@ const ApproversTree = () => {
         });
       return arr;
     }, []);
-    setLoading(true);
+    setSaving(true);
     api
-      .post(`approval/form/${selectedForm}/`, formData)
+      .post(`form/approver/${selectedForm}`, formData)
       .then(() => {
         setDatasetJson(JSON.stringify(dataset));
-        message.success("Approvers updated");
-        setLoading(false);
+        notify({
+          type: "success",
+          message: "Approvers updated",
+        });
+        setSaving(false);
       })
       .catch(() => {
-        message.error("Could not update Approvers");
-        setLoading(false);
+        notify({
+          type: "error",
+          message: "Could not update approvers",
+        });
+        setSaving(false);
       });
   };
 
@@ -158,7 +170,7 @@ const ApproversTree = () => {
       }
       setLoading(true);
       api
-        .get(`administration/${e}/`)
+        .get(`administration/${e}`)
         .then((res) => {
           store.update((s) => {
             s.administration.length = index + 1;
@@ -176,7 +188,10 @@ const ApproversTree = () => {
           setLoading(false);
         })
         .catch(() => {
-          message.error("Could not load filters");
+          notify({
+            type: "error",
+            message: "Could not load filters",
+          });
           setLoading(false);
         });
     };
@@ -251,7 +266,7 @@ const ApproversTree = () => {
             )
         )
       : "";
-  }, [administration, dataset, selectedForm, loading]);
+  }, [administration, dataset, selectedForm, loading, notify]);
 
   const renderFormLine = useMemo(() => {
     return (
@@ -339,7 +354,7 @@ const ApproversTree = () => {
       </Row>
       <Divider />
       <ApproverFilters
-        loading={false}
+        loading={saving}
         disabled={isPristine || loading}
         visible={dataset.length}
         reset={resetForm}
@@ -347,14 +362,18 @@ const ApproversTree = () => {
       />
       <Divider />
       <Card style={{ padding: 0, minHeight: "40vh" }}>
-        <Row wrap={false} className="tree-header" justify="left">
+        <Row
+          wrap={false}
+          className={`tree-header ${loading ? "loading" : ""}`}
+          justify="left"
+        >
           <Col span={6} align="center">
             Questionnaire
           </Col>
           {selectedForm &&
             dataset.map(
               (aN, anI) =>
-                !!aN.children?.length && (
+                !!aN?.children?.length && (
                   <Col key={anI} span={6} align="center">
                     {aN.childLevelName}
                     <div

@@ -1,17 +1,19 @@
 import React, { useState } from "react";
-import { Form, Input, Button, message } from "antd";
+import { Form, Input, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { api, store } from "../../../lib";
+import { useNotification } from "../../../util/hooks";
 
 const ResetForm = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { notify } = useNotification();
 
   const onFinish = (values) => {
     setLoading(true);
     api
-      .post("login/", {
+      .post("login", {
         email: values.email,
         password: values.password,
       })
@@ -21,27 +23,28 @@ const ResetForm = () => {
           s.isLoggedIn = true;
           s.user = res.data;
         });
-        api
-          .get("forms/", {
-            headers: { Authorization: `Bearer ${res.data.token}` },
-          })
+        Promise.all([api.get("forms"), api.get("levels")])
           .then((res) => {
             store.update((s) => {
-              s.forms = res.data;
+              s.forms = res[0].data;
+              s.levels = res[1].data;
             });
             setLoading(false);
             navigate("/profile");
           })
-          .catch((err) => {
+          .catch((e) => {
             setLoading(false);
-            console.error(err);
+            console.error(e);
             navigate("/profile");
           });
       })
       .catch((err) => {
         if (err.response.status === 401 || err.response.status === 400) {
           setLoading(false);
-          message.error(err.response.data.message);
+          notify({
+            type: "error",
+            message: err.response?.data?.message,
+          });
         }
       });
   };

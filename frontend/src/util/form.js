@@ -4,7 +4,7 @@ export const reloadData = () => {
     s.forms = [];
   });
   api
-    .get("forms/")
+    .get("forms")
     .then((res) => {
       store.update((s) => {
         s.forms = res.data;

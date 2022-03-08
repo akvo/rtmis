@@ -8,6 +8,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from api.v1.v1_forms.constants import FormTypes
 from api.v1.v1_forms.models import Forms, FormApprovalRule
 from api.v1.v1_forms.serializers import ListFormSerializer, \
     WebFormDetailSerializer, FormDataSerializer, ListFormRequestSerializer, \
@@ -23,9 +24,12 @@ from utils.custom_serializer_fields import validate_serializers_message
                parameters=[
                    OpenApiParameter(name='type',
                                     required=False,
+                                    enum=FormTypes.FieldStr.keys(),
                                     type=OpenApiTypes.NUMBER,
                                     location=OpenApiParameter.QUERY), ],
-               tags=['Form'])
+               tags=['Form'],
+               summary='To get list of forms',
+               description='Form type 1=County and 2=National')
 @api_view(['GET'])
 def list_form(request, version):
     serializer = ListFormRequestSerializer(data=request.GET)
@@ -44,19 +48,21 @@ def list_form(request, version):
 
 
 @extend_schema(responses={200: WebFormDetailSerializer},
-               tags=['Form'])
+               tags=['Form'],
+               summary='To get form data with cascade')
 @api_view(['GET'])
-def web_form_details(request, version, pk):
-    instance = get_object_or_404(Forms, pk=pk)
+def web_form_details(request, version, form_id):
+    instance = get_object_or_404(Forms, pk=form_id)
     return Response(WebFormDetailSerializer(instance=instance).data,
                     status=status.HTTP_200_OK)
 
 
 @extend_schema(responses={200: FormDataSerializer},
-               tags=['Form'])
+               tags=['Form'],
+               summary='To get form data')
 @api_view(['GET'])
-def form_data(request, version, pk):
-    instance = get_object_or_404(Forms, pk=pk)
+def form_data(request, version, form_id):
+    instance = get_object_or_404(Forms, pk=form_id)
     return Response(FormDataSerializer(instance=instance).data,
                     status=status.HTTP_200_OK)
 
@@ -68,8 +74,9 @@ def form_data(request, version, pk):
                            "message": serializers.CharField()
                        })
                },
-               tags=['Form'])
-@api_view(['PUT'])
+               tags=['Form'],
+               summary='To update the form type')
+@api_view(['POST'])
 @permission_classes([IsAuthenticated, IsSuperAdmin])
 def edit_form_type(request, version):
     serializer = EditFormTypeSerializer(data=request.data, many=True)
@@ -90,8 +97,9 @@ def edit_form_type(request, version):
                            "message": serializers.CharField()
                        })
                },
-               tags=['Form'])
-@api_view(['POST'])
+               tags=['Form'],
+               summary='To update form approval rule levels')
+@api_view(['PUT'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
 def edit_form_approval(request, version):
     try:
@@ -117,11 +125,12 @@ def edit_form_approval(request, version):
                            "message": serializers.CharField()
                        })
                },
-               tags=['Form'])
+               tags=['Form'],
+               summary='To assign approver to form')
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
-def approval_form_users(request, version, pk):
-    form = get_object_or_404(Forms, pk=pk)
+def approval_form_users(request, version, form_id):
+    form = get_object_or_404(Forms, pk=form_id)
     try:
         serializer = ApprovalFormUserSerializer(data=request.data, many=True,
                                                 context={'form': form})
@@ -139,7 +148,8 @@ def approval_form_users(request, version, pk):
 
 
 @extend_schema(responses={200: FormApprovalLevelListSerializer(many=True)},
-               tags=['Form'])
+               tags=['Form'],
+               summary='To check the approval level assigned to fom')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsAdmin])
 def form_approval_level(request, version):
@@ -151,11 +161,13 @@ def form_approval_level(request, version):
 
 
 @extend_schema(responses={200: FormApprovalLevelListSerializer(many=True)},
-               tags=['Form'])
+               tags=['Form'],
+               summary='SuperAdmin: To check the approval level assigned'
+                       ' to fom by administration')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsSuperAdmin])
-def form_approval_level_administration(request, version, pk):
-    administration = get_object_or_404(Administration, pk=pk)
+def form_approval_level_administration(request, version, administration_id):
+    administration = get_object_or_404(Administration, pk=administration_id)
     instance = FormApprovalRule.objects.filter(
         administration=administration)
     return Response(
@@ -174,7 +186,8 @@ def form_approval_level_administration(request, version, pk):
                      location=OpenApiParameter.QUERY),
 ],
     responses={200: FormApproverResponseSerializer(many=True)},
-    tags=['Form'])
+    tags=['Form'],
+    summary='To get approver user list')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
 def form_approver(request, version):

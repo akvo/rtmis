@@ -43,7 +43,6 @@ class FormSeederTestCase(TestCase):
 
         response = self.client.get("/api/v1/web/form/952774024", follow=True)
         response = response.json()
-        self.assertEqual({"administration": []}, response["cascade"])
         self.assertEqual("Water Quality",
                          response["question_group"][0]["name"])
         self.assertEqual(968554020,
