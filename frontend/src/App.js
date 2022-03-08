@@ -56,12 +56,11 @@ const RouteList = () => {
       <Route
         path="/questionnaires"
         element={<Private element={Questionnaires} />}
-      >
-        <Route
-          path="admin"
-          element={<Private element={QuestionnairesAdmin} />}
-        />
-      </Route>
+      />
+      <Route
+        path="/questionnaires/admin"
+        element={<Private element={QuestionnairesAdmin} />}
+      />
       <Route path="/approvals" element={<Private element={Approvals} />} />
       <Route
         path="/approvers/tree"
