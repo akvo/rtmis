@@ -68,7 +68,7 @@ class PendingDataTestCase(TestCase):
                                     **header)
         self.assertEqual(response.status_code, 400)
 
-        response = self.client.get('/api/v1/list/batch',
+        response = self.client.get('/api/v1/batch',
                                    content_type='application/json',
                                    **header)
         self.assertEqual(response.status_code, 200)

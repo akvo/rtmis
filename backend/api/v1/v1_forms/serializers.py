@@ -287,14 +287,21 @@ class ApprovalFormUserSerializer(serializers.ModelSerializer):
             'administration_id').queryset = Administration.objects.all()
 
     def create(self, validated_data):
-        assignment, created = FormApprovalAssignment.objects.get_or_create(
-            form=self.context.get('form'),
-            administration=validated_data.get('administration'),
-            user=validated_data.get('user')
-        )
-        if not created:
+        try:
+            assignment = FormApprovalAssignment.objects.get(
+                form=self.context.get('form'),
+                administration=validated_data.get('administration')
+            )
+            assignment.user = validated_data.get('user')
             assignment.updated = timezone.now()
             assignment.save()
+        except FormApprovalAssignment.DoesNotExist:
+            assignment = FormApprovalAssignment.objects.create(
+                form=self.context.get('form'),
+                administration=validated_data.get('administration'),
+                user=validated_data.get('user')
+            )
+
         return assignment
 
     class Meta:

@@ -6,6 +6,8 @@ from drf_spectacular.utils import extend_schema_field, inline_serializer
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
+from api.v1.v1_data.constants import DataApprovalStatus
+from api.v1.v1_forms.models import FormApprovalAssignment
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Access, Levels
 from api.v1.v1_users.models import SystemUser
@@ -254,3 +256,41 @@ class ListLevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Levels
         fields = ['id', 'name', 'level']
+
+
+class UserDetailsFormSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField(source='form.id')
+    name = serializers.ReadOnlyField(source='form.name')
+
+    class Meta:
+        model = FormApprovalAssignment
+        fields = ['id', 'name']
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    administration = serializers.ReadOnlyField(
+        source='user_access.administration.id')
+    role = serializers.ReadOnlyField(source='user_access.role')
+    forms = serializers.SerializerMethodField()
+    pending_approval = serializers.SerializerMethodField()
+    data = serializers.SerializerMethodField()
+
+    @extend_schema_field(UserDetailsFormSerializer(many=True))
+    def get_forms(self, instance: SystemUser):
+        return UserDetailsFormSerializer(
+            instance=instance.user_data_approval.all(), many=True).data
+
+    @extend_schema_field(OpenApiTypes.INT)
+    def get_pending_approval(self, instance: SystemUser):
+        return instance.user_assigned_pending_data.filter(
+            status=DataApprovalStatus.pending).count()
+
+    @extend_schema_field(OpenApiTypes.INT)
+    def get_data(self, instance: SystemUser):
+        return instance.form_data_created.all().count()
+
+    class Meta:
+        model = SystemUser
+        fields = ['first_name', 'last_name', 'email', 'administration', 'role',
+                  'phone_number', 'designation', 'forms', 'pending_approval',
+                  'data']
