@@ -131,6 +131,7 @@ const Users = () => {
       >
         <Table
           columns={columns}
+          rowClassName={() => "editable-row"}
           dataSource={dataset}
           loading={loading}
           onChange={handleChange}
