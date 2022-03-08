@@ -110,6 +110,15 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(add_response.status_code, 200)
         self.assertEqual(add_response.json(),
                          {'message': 'User updated successfully'})
+        get_response = self.client.get(
+            "/api/v1/user/{0}".format(fl[0]['id']),
+            content_type='application/json',
+            **header)
+        self.assertEqual(get_response.status_code, 200)
+        self.assertEqual(
+            ['first_name', 'last_name', 'email', 'administration', 'role',
+             'phone_number', 'designation', 'forms', 'pending_approval',
+             'data'], list(get_response.json()))
 
     def test_get_user_profile(self):
         call_command("administration_seeder", "--test")
