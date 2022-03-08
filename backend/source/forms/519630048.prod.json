@@ -16,7 +16,7 @@
         },
         {
           "id": 517690051,
-          "meta": false,
+          "meta": true,
           "question": "Household code",
           "order": 2,
           "required": true,
