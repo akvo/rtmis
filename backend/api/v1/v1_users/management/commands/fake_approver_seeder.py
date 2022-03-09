@@ -10,13 +10,13 @@ from api.v1.v1_profile.constants import UserRoleTypes
 fake = Faker()
 
 
-def new_user(administrations, roles):
+def new_user(administrations, roles, last_name):
     for administration in administrations:
         email = ("{}{}@test.com").format(
             re.sub('[^A-Za-z0-9]+', '', administration.name.lower()),
             administration.id)
         user, created = SystemUser.objects.get_or_create(
-            email=email, first_name=administration.name, last_name="Admin")
+            email=email, first_name=administration.name, last_name=last_name)
         user.set_password("test")
         user.save()
         try:
@@ -35,8 +35,8 @@ class Command(BaseCommand):
         for _ in levels:
             roles.append(UserRoleTypes.approver)
         administrations = Administration.objects.filter(level__level=1).all()
-        new_user(administrations, roles)
+        new_user(administrations, roles, "Admin")
         # Approver
         administrations = Administration.objects.filter(
             level__level__gt=1).order_by('?')[:50]
-        new_user(administrations, roles)
+        new_user(administrations, roles, "Approver")

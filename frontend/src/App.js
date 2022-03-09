@@ -19,14 +19,22 @@ import {
   Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
-import { store, api } from "./lib";
+import { store, api, config } from "./lib";
 import { Layout, PageLoader } from "./components";
 import { useNotification } from "./util/hooks";
+import { getFormUrl } from "./util/form";
 
-const Private = ({ element: Element }) => {
+const Private = ({ element: Element, alias }) => {
   const { user: authUser } = store.useState((state) => state);
   if (authUser) {
-    return <Element />;
+    const page_access = config.roles.find(
+      (r) => r.id === authUser?.role?.id
+    ).page_access;
+    return page_access.includes(alias) ? (
+      <Element />
+    ) : (
+      <Navigate to="/not-found" />
+    );
   }
   return <Navigate to="/login" />;
 };
@@ -40,33 +48,53 @@ const RouteList = () => {
       <Route exact path="/forgot-password" element={<Login />} />
       <Route exact path="/data" element={<Home />} />
       <Route exact path="/form/:formId" element={<Forms />} />
-      <Route path="/users" element={<Private element={Users} />} />
-      <Route path="/user/add" element={<Private element={AddUser} />} />
+      <Route path="/users" element={<Private element={Users} alias="user" />} />
+      <Route
+        path="/user/add"
+        element={<Private element={AddUser} alias="user" />}
+      />
       <Route
         path="/control-center"
-        element={<Private element={ControlCenter} />}
+        element={<Private element={ControlCenter} alias="control-center" />}
       />
-      <Route path="/data/manage" element={<Private element={ManageData} />} />
-      <Route path="/data/export" element={<Private element={ExportData} />} />
-      <Route path="/data/upload" element={<Private element={UploadData} />} />
+      <Route
+        path="/data/manage"
+        element={<Private element={ManageData} alias="data" />}
+      />
+      <Route
+        path="/data/export"
+        element={<Private element={ExportData} alias="data" />}
+      />
+      <Route
+        path="/data/upload"
+        element={<Private element={UploadData} alias="data" />}
+      />
       <Route
         path="/data/visualisation"
-        element={<Private element={Visualisation} />}
+        element={<Private element={Visualisation} alias="visualisation" />}
       />
       <Route
         path="/questionnaires"
-        element={<Private element={Questionnaires} />}
+        element={<Private element={Questionnaires} alias="questionnaires" />}
       />
       <Route
         path="/questionnaires/admin"
-        element={<Private element={QuestionnairesAdmin} />}
+        element={
+          <Private element={QuestionnairesAdmin} alias="questionnaires" />
+        }
       />
-      <Route path="/approvals" element={<Private element={Approvals} />} />
+      <Route
+        path="/approvals"
+        element={<Private element={Approvals} alias="approvals" />}
+      />
       <Route
         path="/approvers/tree"
-        element={<Private element={ApproversTree} />}
+        element={<Private element={ApproversTree} alias="approvers" />}
       />
-      <Route path="/profile" element={<Private element={Profile} />} />
+      <Route
+        path="/profile"
+        element={<Private element={Profile} alias="profile" />}
+      />
       <Route exact path="/coming-soon" element={<div />} />
       <Route exact path="/not-found" element={<div />} />
       <Route path="*" element={<Navigate replace to="/not-found" />} />
@@ -93,7 +121,7 @@ const App = () => {
               s.user = res.data;
             });
             api.setToken(cookies.AUTH_TOKEN);
-            Promise.all([api.get("forms"), api.get("levels")])
+            Promise.all([api.get(getFormUrl(res.data)), api.get("levels")])
               .then((res) => {
                 store.update((s) => {
                   s.forms = res[0].data;

@@ -22,7 +22,7 @@
       .ant-card-body {
         padding: 24px 40px;
 
-        ul {
+        ul.profile-detail {
           list-style-type: none;
           padding-left: 0;
 
@@ -86,6 +86,10 @@
   // To be moved to separate component scss module
   p {
     text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .batch-name-field {
     margin-bottom: 20px;
   }
 

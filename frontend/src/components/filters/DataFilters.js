@@ -7,7 +7,7 @@ import FormDropdown from "./FormDropdown.js";
 import { store } from "../../lib";
 
 const DataFilters = ({ loading }) => {
-  const { selectedForm } = store.useState((s) => s);
+  const { user: authUser, selectedForm } = store.useState((s) => s);
   return (
     <Row>
       <Col flex={1}>
@@ -16,15 +16,17 @@ const DataFilters = ({ loading }) => {
           <AdministrationDropdown loading={loading} />
         </Space>
       </Col>
-      <Col>
-        <Space>
-          <Link to={`/form/${selectedForm}`}>
-            <Button type="primary">Add New</Button>
-          </Link>
-          <Button className="light dev">Bulk Update</Button>
-          <Button className="light dev">Export Data</Button>
-        </Space>
-      </Col>
+      {["Super Admin", "Admin", "User"].includes(authUser?.role?.value) && (
+        <Col>
+          <Space>
+            <Link to={`/form/${selectedForm}`}>
+              <Button type="primary">Add New</Button>
+            </Link>
+            <Button className="light dev">Bulk Update</Button>
+            <Button className="light dev">Export Data</Button>
+          </Space>
+        </Col>
+      )}
     </Row>
   );
 };

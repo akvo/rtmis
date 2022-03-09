@@ -1,3 +1,4 @@
+import re
 import random
 
 from django.core.management import BaseCommand
@@ -22,20 +23,22 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         for a in range(options.get("repeat")):
             profile = fake.profile()
-            name = profile.get("name").split(" ")
+            name = profile.get("name")
+            email = ("{}@test.com").format(
+                re.sub('[^A-Za-z0-9]+', '', name.lower()))
+            name = name.split(" ")
             role_level = fake.random_int(min=1, max=3)
             roles = [
                 UserRoleTypes.super_admin, UserRoleTypes.admin,
                 UserRoleTypes.approver, UserRoleTypes.user
             ]
-            password = random.choice(["Test105*", None])
+            password = random.choice(["test", None])
             user = SystemUser.objects.create(
-                email=profile.get("mail"),
+                email=email,
                 first_name=name[0],
                 last_name=name[1],
                 phone_number=fake.msisdn(),
-                designation=profile.get('job')[:49]
-            )
+                designation=profile.get('job')[:49])
             if password:
                 user.set_password(password)
                 user.save()

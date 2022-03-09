@@ -338,6 +338,15 @@ class ListPendingDataBatchSerializer(serializers.ModelSerializer):
     def get_created(self, instance: PendingDataBatch):
         return update_date_time_format(instance.created)
 
+    @extend_schema_field(
+        inline_serializer('batch_pending_approver',
+                          fields={
+                              'id': serializers.IntegerField(),
+                              'name': serializers.CharField(),
+                              'status': serializers.IntegerField(),
+                              'status_text': serializers.CharField(),
+                              'allow_approve': serializers.BooleanField(),
+                          }))
     def get_approver(self, instance: PendingDataBatch):
         user: SystemUser = self.context.get('user')
         data = {}
@@ -545,20 +554,18 @@ class CreateBatchSerializer(serializers.Serializer):
             administration_id=user.user_access.administration_id,
             user=user,
             name=validated_data.get('name'))
+        for administration in Administration.objects.filter(
+                id__in=path.split('.')):
+            assignment = FormApprovalAssignment.objects.filter(
+                form_id=form_id, administration=administration).first()
+            if assignment:
+                level = assignment.user.user_access.administration.level_id
+                PendingDataApproval.objects.create(
+                    batch=obj,
+                    user=assignment.user,
+                    level_id=level
+                )
         for data in validated_data.get('data'):
-            for administration in Administration.objects.filter(
-                    id__in=path.split('.')):
-
-                assignment = FormApprovalAssignment.objects.filter(
-                    form_id=form_id, administration=administration).first()
-                if assignment:
-                    level = assignment.user.user_access.administration.level_id
-                    PendingDataApproval.objects.create(
-                        batch=obj,
-                        user=assignment.user,
-                        level_id=level
-                    )
-
             data.batch = obj
             data.save()
         return obj
