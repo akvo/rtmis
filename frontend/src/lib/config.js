@@ -5,18 +5,22 @@ const config = {
     {
       id: 1,
       name: "Super Admin",
+      filter_form: false,
     },
     {
       id: 2,
       name: "Admin",
+      filter_form: false,
     },
     {
       id: 3,
       name: "Approver",
+      filter_form: 1,
     },
     {
       id: 4,
       name: "User",
+      filter_form: 1,
     },
   ],
   designations: [

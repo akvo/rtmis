@@ -22,6 +22,7 @@ import { useCookies } from "react-cookie";
 import { store, api } from "./lib";
 import { Layout, PageLoader } from "./components";
 import { useNotification } from "./util/hooks";
+import { getFormUrl } from "./util/form";
 
 const Private = ({ element: Element }) => {
   const { user: authUser } = store.useState((state) => state);
@@ -93,7 +94,7 @@ const App = () => {
               s.user = res.data;
             });
             api.setToken(cookies.AUTH_TOKEN);
-            Promise.all([api.get("forms"), api.get("levels")])
+            Promise.all([api.get(getFormUrl(res.data)), api.get("levels")])
               .then((res) => {
                 store.update((s) => {
                   s.forms = res[0].data;

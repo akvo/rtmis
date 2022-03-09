@@ -67,13 +67,13 @@ const Forms = () => {
         .map((x) => pick(x, ["question", "value"])),
     };
     api
-      .post(`form-data/${formId}`, data)
+      .post(`form-pending-data/${formId}`, data)
       .then(() => {
         notification.success({
           message: "Submitted",
         });
         setTimeout(() => {
-          navigate("/control-center");
+          navigate("/profile");
         }, 3000);
       })
       .catch(() => {
