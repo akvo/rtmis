@@ -3,17 +3,32 @@ import { Webform } from "akvo-react-form";
 import "akvo-react-form/dist/index.css";
 import "./style.scss";
 import { useParams, useNavigate } from "react-router-dom";
-import { Row, Col, Progress, notification } from "antd";
-import { api } from "../../lib";
+import { Row, Col, Space, Progress, notification } from "antd";
+import { api, store } from "../../lib";
 import { takeRight, pick } from "lodash";
-import { PageLoader } from "../../components";
+import { PageLoader, Breadcrumbs } from "../../components";
 
 const Forms = () => {
   const navigate = useNavigate();
+  const { user: authUser } = store.useState((s) => s);
   const { formId } = useParams();
   const [loading, setLoading] = useState(true);
   const [forms, setForms] = useState([]);
   const [percentage, setPercentage] = useState(0);
+
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: authUser?.role?.value === "User" ? false : "/control-center",
+    },
+    {
+      title: authUser?.role?.value === "User" ? authUser.name : "Manage Data",
+      link: authUser?.role?.value === "User" ? "/profile" : "/data/manage",
+    },
+    {
+      title: forms.name,
+    },
+  ];
 
   const onFinish = (values) => {
     const questions = forms.question_group
@@ -100,6 +115,9 @@ const Forms = () => {
     <div id="form">
       <Row justify="center">
         <Col span={24} className="webform">
+          <Space>
+            <Breadcrumbs pagePath={pagePath} />
+          </Space>
           {loading || !formId ? (
             <PageLoader message="Fetching form.." />
           ) : (

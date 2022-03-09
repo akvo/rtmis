@@ -25,9 +25,11 @@ const Header = ({ className = "header", ...props }) => {
 
   const userMenu = (
     <Menu>
-      <Menu.Item key="controlCenter">
-        <Link to="/control-center">Control Center</Link>
-      </Menu.Item>
+      {["Super Admin", "Admin", "Approver"].includes(user?.role?.value) && (
+        <Menu.Item key="controlCenter">
+          <Link to="/control-center">Control Center</Link>
+        </Menu.Item>
+      )}
       <Menu.Item key="profile">
         <Link to="/profile">My Profile</Link>
       </Menu.Item>
