@@ -76,14 +76,19 @@ const UserDetail = (record) => {
               },
             ]}
           >
-            <Input ref={inputRef} onPressEnter={save} />
+            <Input
+              className="dev"
+              ref={inputRef}
+              onPressEnter={save}
+              disabled
+            />
           </Form.Item>
-          <button type="link" onClick={save}>
+          <Button className="dev" onClick={save} disabled>
             Save
-          </button>
-          <button type="link" onClick={toggleEdit}>
+          </Button>
+          <Button onClick={toggleEdit} danger>
             Cancel
-          </button>
+          </Button>
         </Space>
       ) : (
         <div
@@ -207,9 +212,7 @@ const UserDetail = (record) => {
       </Col>
       <Col span={10} align="right">
         <Space>
-          <Link to={"/user/edit/" + record.id}>
-            <Button className="light">Edit</Button>
-          </Link>
+          <Button className="light dev">Edit</Button>
           <Button danger>Delete</Button>
         </Space>
       </Col>
