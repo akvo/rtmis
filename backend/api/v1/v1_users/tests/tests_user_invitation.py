@@ -29,7 +29,7 @@ class UserInvitationTestCase(TestCase):
                          {'id': 1, 'name': 'Indonesia', 'level': 0})
         self.assertEqual(users['data'][0]['role'],
                          {'id': 1, 'value': 'Super Admin'})
-        call_command("fake_user_seeder", "-r", 33)
+        call_command("fake_user_seeder", "-r", 100)
         response = self.client.get(
             "/api/v1/users?page=3", follow=True,
             **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
@@ -40,10 +40,11 @@ class UserInvitationTestCase(TestCase):
              'role', 'phone_number', 'designation', 'invite'],
             list(users['data'][0]))
         response = self.client.get(
-            "/api/v1/users?administration=1&descendants=false",
+            "/api/v1/users?pending=true",
             follow=True,
             **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
 
+        self.assertGreater(len(response.json().get('data')), 0)
         self.assertEqual(response.status_code, 200)
 
     def test_add_edit_user(self):
@@ -89,7 +90,8 @@ class UserInvitationTestCase(TestCase):
             'HTTP_AUTHORIZATION': f'Bearer {token}'
         }
 
-        list_response = self.client.get("/api/v1/users", follow=True,
+        list_response = self.client.get("/api/v1/users?pending=true",
+                                        follow=True,
                                         **header)
         users = list_response.json()
         fl = list(
@@ -110,6 +112,15 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(add_response.status_code, 200)
         self.assertEqual(add_response.json(),
                          {'message': 'User updated successfully'})
+        get_response = self.client.get(
+            "/api/v1/user/{0}".format(fl[0]['id']),
+            content_type='application/json',
+            **header)
+        self.assertEqual(get_response.status_code, 200)
+        self.assertEqual(
+            ['first_name', 'last_name', 'email', 'administration', 'role',
+             'phone_number', 'designation', 'forms', 'pending_approval',
+             'data'], list(get_response.json()))
 
     def test_get_user_profile(self):
         call_command("administration_seeder", "--test")

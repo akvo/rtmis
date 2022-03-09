@@ -17,12 +17,14 @@ class Levels(models.Model):
 
 
 class Administration(models.Model):
-    parent = models.ForeignKey('self', on_delete=models.SET_NULL,
+    parent = models.ForeignKey('self',
+                               on_delete=models.SET_NULL,
                                related_name='parent_administration',
                                default=None,
                                null=True)
     code = models.CharField(max_length=255, null=True, default=None)
-    level = models.ForeignKey(to=Levels, on_delete=models.CASCADE,
+    level = models.ForeignKey(to=Levels,
+                              on_delete=models.CASCADE,
                               related_name='administrator_level')
     name = models.TextField()
     path = models.TextField(null=True, default=None)
@@ -30,12 +32,28 @@ class Administration(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def ancestors(self):
+        if self.path:
+            ids = self.path.split(".")[:-1]
+            administrations = Administration.objects.filter(id__in=ids).all()
+            return administrations
+        return None
+
+    @property
+    def full_name(self):
+        if self.path:
+            names = " - ".join([a.name for a in self.ancestors])
+            return "{} - {}".format(names, self.name)
+        return self.name
+
     class Meta:
         db_table = 'administrator'
 
 
 class Access(models.Model):
-    user = models.OneToOneField(to=SystemUser, on_delete=models.CASCADE,
+    user = models.OneToOneField(to=SystemUser,
+                                on_delete=models.CASCADE,
                                 related_name='user_access')
     administration = models.ForeignKey(to=Administration,
                                        on_delete=models.CASCADE,

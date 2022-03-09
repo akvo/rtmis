@@ -31,7 +31,7 @@ from api.v1.v1_users.models import SystemUser
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     VerifyInviteSerializer, SetUserPasswordSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
-    ListUserRequestSerializer, ListLevelSerializer
+    ListUserRequestSerializer, ListLevelSerializer, UserDetailSerializer
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
@@ -273,6 +273,7 @@ def list_users(request, version):
         allowed_descendants.append(user_allowed.id)
         filter_data = {
             'user_access__administration_id__in': allowed_descendants}
+        exclude_data = {'password__exact': ''}
 
         if serializer.validated_data.get('administration'):
             filter_administration = serializer.validated_data.get(
@@ -298,12 +299,13 @@ def list_users(request, version):
             filter_data['user_access__role'] = serializer.validated_data.get(
                 'role')
         if serializer.validated_data.get('pending'):
-            filter_data['password__isnull'] = serializer.validated_data.get(
-                'pending')
+            filter_data['password__exact'] = ''
+            exclude_data.pop('password__exact')
 
         page_size = REST_FRAMEWORK.get('PAGE_SIZE')
         the_past = timezone.now() - datetime.timedelta(days=10 * 365)
-        queryset = SystemUser.objects.filter(**filter_data).annotate(
+        queryset = SystemUser.objects.filter(**filter_data).exclude(
+            **exclude_data).annotate(
             last_updated=Coalesce('updated', Value(the_past))).order_by(
             '-last_updated', '-date_joined')
         paginator_temp = Paginator(queryset, page_size)
@@ -342,6 +344,22 @@ def get_user_roles(request, version):
 
 class UserEditDeleteView(APIView):
     permission_classes = [IsAuthenticated, IsSuperAdmin | IsAdmin]
+
+    @extend_schema(
+        responses={
+            200: UserDetailSerializer
+        },
+        tags=['User'],
+        summary='To get user details')
+    def get(self, request, user_id, version):
+        instance = get_object_or_404(SystemUser, pk=user_id)
+        try:
+            return Response(UserDetailSerializer(instance=instance).data,
+                            status=status.HTTP_200_OK)
+        except Exception as ex:
+            print(ex.args)
+            return Response(ex.args,
+                            status=status.HTTP_200_OK)
 
     @extend_schema(
         responses={
