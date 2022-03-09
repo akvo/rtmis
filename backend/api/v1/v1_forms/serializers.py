@@ -52,16 +52,16 @@ class ListQuestionSerializer(serializers.ModelSerializer):
         return QuestionTypes.FieldStr.get(instance.type).lower()
 
     @extend_schema_field(inline_serializer('api', fields={
-            'endpoint': serializers.CharField(),
-            'list': serializers.CharField(),
-            'initial': serializers.BooleanField()
-        }))
+        'endpoint': serializers.CharField(),
+        'list': serializers.CharField(),
+        'initial': serializers.BooleanField()
+    }))
     def get_api(self, instance: Questions):
         if instance.type == QuestionTypes.administration:
             return {
-               "endpoint": "/api/v1/administration",
-               "list": "children",
-               "initial": 1,
+                "endpoint": "/api/v1/administration",
+                "list": "children",
+                "initial": 1,
             }
         return None
 
@@ -350,6 +350,7 @@ class FormApproverResponseSerializer(serializers.ModelSerializer):
     administration = serializers.SerializerMethodField()
     user_list = serializers.SerializerMethodField()
 
+    @extend_schema_field(FormApproverUserSerializer(many=True))
     def get_user(self, instance: Administration):
         assignment = instance.administration_data_approval.filter(
             form=self.context.get('form')).first()
@@ -357,9 +358,16 @@ class FormApproverResponseSerializer(serializers.ModelSerializer):
             return FormApproverUserSerializer(instance=assignment.user).data
         return None
 
+    @extend_schema_field(
+        inline_serializer('form_approver_field',
+                          fields={
+                              'id': serializers.IntegerField(),
+                              'name': serializers.CharField(),
+                          }))
     def get_administration(self, instance: Administration):
         return {'id': instance.id, 'name': instance.name}
 
+    @extend_schema_field(FormApproverUserListSerializer(many=True))
     def get_user_list(self, instance: Administration):
         users = SystemUser.objects.filter(
             user_access__role__in=[UserRoleTypes.approver,
