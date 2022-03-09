@@ -111,21 +111,26 @@ const Approvals = () => {
                 pageSize: 10,
                 showSizeChanger: false,
               }}
+              expandedRowKeys={expandedKeys}
               expandable={{
                 onExpand: getDataDetail,
-                expandedRowRender: (record) => (
-                  <ApprovalDetails
-                    record={record}
-                    loading={detailLoading}
-                    setReload={setReload}
-                  />
-                ),
+                expandedRowRender: (record) => {
+                  return (
+                    <ApprovalDetails
+                      record={record}
+                      loading={detailLoading}
+                      setReload={setReload}
+                      expandedParentKeys={expandedKeys}
+                      setExpandedParentKeys={setExpandedKeys}
+                    />
+                  );
+                },
                 expandIcon: ({ expanded, onExpand, record }) =>
                   expanded ? (
                     <CloseSquareOutlined
                       onClick={(e) => {
                         setExpandedKeys(
-                          expandedKeys.filter((k) => k !== record.key)
+                          expandedKeys.filter((k) => k !== record.id)
                         );
                         onExpand(record, e);
                       }}
@@ -134,18 +139,14 @@ const Approvals = () => {
                   ) : (
                     <PlusSquareOutlined
                       onClick={(e) => {
-                        setExpandedKeys(expandedKeys.concat(record.key));
+                        setExpandedKeys(expandedKeys.concat(record.id));
                         onExpand(record, e);
                       }}
                       style={{ color: "#7d7d7d" }}
                     />
                   ),
               }}
-              onRow={({ key }) =>
-                expandedKeys.includes(key) && {
-                  className: "table-row-expanded",
-                }
-              }
+              rowKey="id"
             />
           </TabPane>
           <TabPane tab="Subordinates Approvals" key="2">
