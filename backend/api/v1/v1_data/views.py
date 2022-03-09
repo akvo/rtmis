@@ -355,8 +355,8 @@ def list_pending_batch(request, version):
                         batch_ids.append(approval.batch.id)
                     else:
                         if pending.filter(
-                                status=DataApprovalStatus.approved).order_by(
-                            'level__level').first():
+                                status=DataApprovalStatus.approved) \
+                                .order_by('level__level').first():
                             batch_ids.append(approval.batch.id)
         queryset = PendingDataBatch.objects.filter(
             id__in=batch_ids,
