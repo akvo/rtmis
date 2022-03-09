@@ -554,20 +554,18 @@ class CreateBatchSerializer(serializers.Serializer):
             administration_id=user.user_access.administration_id,
             user=user,
             name=validated_data.get('name'))
+        for administration in Administration.objects.filter(
+                id__in=path.split('.')):
+            assignment = FormApprovalAssignment.objects.filter(
+                form_id=form_id, administration=administration).first()
+            if assignment:
+                level = assignment.user.user_access.administration.level_id
+                PendingDataApproval.objects.create(
+                    batch=obj,
+                    user=assignment.user,
+                    level_id=level
+                )
         for data in validated_data.get('data'):
-            for administration in Administration.objects.filter(
-                    id__in=path.split('.')):
-
-                assignment = FormApprovalAssignment.objects.filter(
-                    form_id=form_id, administration=administration).first()
-                if assignment:
-                    level = assignment.user.user_access.administration.level_id
-                    PendingDataApproval.objects.create(
-                        batch=obj,
-                        user=assignment.user,
-                        level_id=level
-                    )
-
             data.batch = obj
             data.save()
         return obj
