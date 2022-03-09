@@ -71,4 +71,4 @@ class Command(BaseCommand):
                                   administration=ancestor)
         print("\nSubmitter:")
         print(f"- Administration: {administration.full_name}")
-        print("- Email: {}\n".format(assignment.user.email))
+        print("- Email: {}\n".format(submitter.email))
