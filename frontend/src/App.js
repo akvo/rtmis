@@ -89,7 +89,7 @@ const RouteList = () => {
       />
       <Route
         path="/approvers/tree"
-        element={<Private element={ApproversTree} alias="approvals" />}
+        element={<Private element={ApproversTree} alias="approvers" />}
       />
       <Route
         path="/profile"

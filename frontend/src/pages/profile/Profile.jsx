@@ -1,6 +1,6 @@
 import React from "react";
 import "./style.scss";
-import { Row, Col, Space, Button, Card, Divider } from "antd";
+import { Space, Card, Divider } from "antd";
 import { store } from "../../lib";
 import { Breadcrumbs } from "../../components";
 import { PanelDataUpload } from "./components";
