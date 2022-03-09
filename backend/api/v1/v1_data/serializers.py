@@ -299,6 +299,7 @@ class ListPendingDataAnswerSerializer(serializers.ModelSerializer):
 
 class PendingBatchDataFilterSerializer(serializers.Serializer):
     approved = CustomBooleanField(default=False)
+    subordinate = CustomBooleanField(default=False)
 
 
 class ListPendingDataBatchSerializer(serializers.ModelSerializer):

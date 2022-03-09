@@ -19,8 +19,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
-    PendingDataBatch
+    PendingDataBatch, PendingDataApproval
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
@@ -304,6 +305,11 @@ def get_chart_data_point(request, version, form_id):
                          default=False,
                          type=OpenApiTypes.BOOL,
                          location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='subordinate',
+                         required=True,
+                         default=False,
+                         type=OpenApiTypes.BOOL,
+                         location=OpenApiParameter.QUERY),
     ],
     summary='To get list of pending batch')
 @api_view(['GET'])
@@ -316,13 +322,45 @@ def list_pending_batch(request, version):
                 {'message': validate_serializers_message(serializer.errors)},
                 status=status.HTTP_400_BAD_REQUEST
             )
+        user: SystemUser = request.user
+        level = user.user_access.administration.level.level
         page_size = REST_FRAMEWORK.get('PAGE_SIZE')
-        batch_ids = list(
-            request.user.user_assigned_pending_data.values_list('batch_id',
-                                                                flat=True))
+        batch_ids = []
+
+        subordinate = serializer.validated_data.get('subordinate')
+        approved = serializer.validated_data.get('approved')
+        if approved:
+            batch_ids = list(
+                user.user_assigned_pending_data.filter(
+                    status=DataApprovalStatus.approved).values_list('batch_id',
+                                                                    flat=True))
+        else:
+            for approval in user.user_assigned_pending_data.filter(
+                    status=DataApprovalStatus.pending):
+                if subordinate:
+                    pending = PendingDataApproval.objects.filter(
+                        batch_id=approval.batch.id,
+                        level__level__gt=level,
+                        status=DataApprovalStatus.pending
+                    )
+                    if pending:
+                        batch_ids.append(approval.batch.id)
+
+                else:
+                    pending = PendingDataApproval.objects.filter(
+                        batch_id=approval.batch.id,
+                        level__level__gt=level,
+                    )
+                    if not pending.count():
+                        batch_ids.append(approval.batch.id)
+                    else:
+                        if pending.filter(
+                                status=DataApprovalStatus.approved).order_by(
+                            'level__level').first():
+                            batch_ids.append(approval.batch.id)
         queryset = PendingDataBatch.objects.filter(
             id__in=batch_ids,
-            approved=serializer.validated_data.get('approved')
+            approved=False
         ).order_by('-created')
 
         paginator_temp = Paginator(queryset, page_size)
@@ -337,7 +375,7 @@ def list_pending_batch(request, version):
             "total_page": ceil(queryset.count() / page_size),
             "batch": ListPendingDataBatchSerializer(
                 instance=instance, context={
-                    'user': request.user, },
+                    'user': user, },
                 many=True).data,
         }
         return Response(data, status=status.HTTP_200_OK)
