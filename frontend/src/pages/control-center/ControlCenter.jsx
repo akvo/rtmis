@@ -134,7 +134,7 @@ const ControlCenter = () => {
               </Link>
               {["Super Admin", "Admin"].includes(authUser?.role?.value) && (
                 <Link to="/approvers/tree">
-                  <Button className="dev">Manage Approvers</Button>
+                  <Button type="primary">Manage Approvers</Button>
                 </Link>
               )}
             </Row>

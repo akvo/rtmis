@@ -54,6 +54,15 @@ body {
       }
     }
 
+    table {
+      &.dev {
+        border: 1px solid red !important;
+        box-shadow: 0px 0px 2px red;
+        -webkit-box-shadow: 0px 0px 2px red;
+        -moz-box-shadow: 0px 0px 2px red;
+      }
+    }
+
     .ant-checkbox-wrapper {
       &.dev {
         border: 1px solid red !important;
@@ -61,9 +70,21 @@ body {
       }
     }
 
+    .ant-input {
+      &.dev {
+        border: 1px solid red !important;
+        box-shadow: 0px 0px 2px red;
+        -webkit-box-shadow: 0px 0px 2px red;
+        -moz-box-shadow: 0px 0px 2px red;
+      }
+    }
+
     li {
       &.dev {
         border: 1px solid red !important;
+        box-shadow: 0px 0px 2px red;
+        -webkit-box-shadow: 0px 0px 2px red;
+        -moz-box-shadow: 0px 0px 2px red;
         padding: 1px 5px;
         margin-bottom: 2px;
       }

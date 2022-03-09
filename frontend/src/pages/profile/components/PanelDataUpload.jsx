@@ -175,13 +175,16 @@ const PanelDataUpload = () => {
           .then((res) => {
             setDatasetBatch(res.data);
             setLoading(false);
+            setModalVisible(false);
           })
           .catch(() => {
             setLoading(false);
+            setModalVisible(false);
           });
       })
       .catch(() => {
         setLoading(false);
+        setModalVisible(false);
       });
   };
 
@@ -189,7 +192,7 @@ const PanelDataUpload = () => {
     if (selectedRows.length > 0) {
       return (
         <Button
-          className="dev"
+          type="primary"
           onClick={() => {
             setModalVisible(true);
           }}
