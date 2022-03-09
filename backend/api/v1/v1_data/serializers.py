@@ -338,6 +338,15 @@ class ListPendingDataBatchSerializer(serializers.ModelSerializer):
     def get_created(self, instance: PendingDataBatch):
         return update_date_time_format(instance.created)
 
+    @extend_schema_field(
+        inline_serializer('batch_pending_approver',
+                          fields={
+                              'id': serializers.IntegerField(),
+                              'name': serializers.CharField(),
+                              'status': serializers.IntegerField(),
+                              'status_text': serializers.CharField(),
+                              'allow_approve': serializers.BooleanField(),
+                          }))
     def get_approver(self, instance: PendingDataBatch):
         user: SystemUser = self.context.get('user')
         data = {}

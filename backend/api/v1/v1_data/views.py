@@ -212,19 +212,24 @@ def get_map_data_point(request, version, form_id):
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-@extend_schema(responses={200: OpenApiTypes.OBJECT},
-               parameters=[
-                   OpenApiParameter(name='question',
-                                    required=True,
-                                    type=OpenApiTypes.NUMBER,
-                                    location=OpenApiParameter.QUERY),
-                   OpenApiParameter(name='stack',
-                                    required=False,
-                                    type=OpenApiTypes.NUMBER,
-                                    location=OpenApiParameter.QUERY),
-               ],
-               tags=['Visualisation'],
-               summary='To get Chart data points')
+@extend_schema(responses={200: inline_serializer(
+    'chart_data',
+    fields={
+        'type': serializers.CharField(),
+        'data': ListChartQuestionDataPointSerializer(many=True)
+    })},
+    parameters=[
+        OpenApiParameter(name='question',
+                         required=True,
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='stack',
+                         required=False,
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY),
+    ],
+    tags=['Visualisation'],
+    summary='To get Chart data points')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_chart_data_point(request, version, form_id):
@@ -282,7 +287,7 @@ def get_chart_data_point(request, version, form_id):
 
 @extend_schema(responses={
     (200, 'application/json'):
-        inline_serializer("DataList", fields={
+        inline_serializer("PendingDataBatch", fields={
             "current": serializers.IntegerField(),
             "total": serializers.IntegerField(),
             "total_page": serializers.IntegerField(),
