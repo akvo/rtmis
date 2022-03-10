@@ -45,9 +45,10 @@ class Command(BaseCommand):
                     user.set_password(password)
                     user.save()
                 level = Levels.objects.filter(level=role_level).first()
-                Access.objects.create(user=user,
-                                      role=roles[role_level],
-                                      administration=Administration.objects.filter(
-                                          level=level).order_by('?').first())
+                Access.objects.create(
+                    user=user,
+                    role=roles[role_level],
+                    administration=Administration.objects.filter(
+                        level=level).order_by('?').first())
             except IntegrityError:
                 pass
