@@ -50,7 +50,6 @@ const RouteList = () => {
       <Route exact path="/form/:formId" element={<Forms />} />
       <Route path="/users" element={<Private element={Users} alias="user" />} />
       <Route
-        exact
         path="/user/add"
         element={<Private element={AddUser} alias="user" />}
       />
