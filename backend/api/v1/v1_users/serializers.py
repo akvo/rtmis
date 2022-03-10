@@ -53,8 +53,8 @@ class SetUserPasswordSerializer(serializers.Serializer):
         if attrs.get('password') != attrs.get('confirm_password'):
             raise ValidationError({
                 'confirm_password':
-                    'Confirm password and password'
-                    ' are not same'
+                'Confirm password and password'
+                ' are not same'
             })
         return attrs
 
@@ -73,6 +73,12 @@ class ListAdministrationSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(ListAdministrationChildrenSerializer(many=True))
     def get_children(self, instance: Administration):
+        filter = self.context.get('filter')
+        if filter:
+            filtered_administration = Administration.objects.filter(
+                id=filter).all()
+            return ListAdministrationChildrenSerializer(
+                filtered_administration, many=True).data
         return ListAdministrationChildrenSerializer(
             instance=instance.parent_administration.all(), many=True).data
 
@@ -136,7 +142,7 @@ class AddEditUserSerializer(serializers.ModelSerializer):
                 'administration').level.level == 0:
             raise ValidationError({
                 'administration':
-                    'administration level is not valid with selected role'
+                'administration level is not valid with selected role'
             })
         return attrs
 
@@ -163,8 +169,10 @@ class AddEditUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SystemUser
-        fields = ['first_name', 'last_name', 'email', 'administration', 'role',
-                  'phone_number', 'designation']
+        fields = [
+            'first_name', 'last_name', 'email', 'administration', 'role',
+            'phone_number', 'designation'
+        ]
 
 
 class UserAdministrationSerializer(serializers.ModelSerializer):
@@ -202,8 +210,10 @@ class ListUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SystemUser
-        fields = ['id', 'first_name', 'last_name', 'email', 'administration',
-                  'role', 'phone_number', 'designation', 'invite']
+        fields = [
+            'id', 'first_name', 'last_name', 'email', 'administration', 'role',
+            'phone_number', 'designation', 'invite'
+        ]
 
 
 class ListUserRequestSerializer(serializers.Serializer):
@@ -248,8 +258,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SystemUser
-        fields = ['email', 'name', 'administration', 'role', 'phone_number',
-                  'designation']
+        fields = [
+            'email', 'name', 'administration', 'role', 'phone_number',
+            'designation'
+        ]
 
 
 class ListLevelSerializer(serializers.ModelSerializer):
@@ -291,6 +303,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SystemUser
-        fields = ['first_name', 'last_name', 'email', 'administration', 'role',
-                  'phone_number', 'designation', 'forms', 'pending_approval',
-                  'data']
+        fields = [
+            'first_name', 'last_name', 'email', 'administration', 'role',
+            'phone_number', 'designation', 'forms', 'pending_approval', 'data'
+        ]
