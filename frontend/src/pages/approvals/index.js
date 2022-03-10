@@ -4,7 +4,7 @@ import { FileTextFilled, InfoCircleOutlined } from "@ant-design/icons";
 export const columnsApproval = [
   {
     title: "",
-    dataIndex: "key",
+    dataIndex: "id",
     key: "id",
     width: "40px",
     render: () => <InfoCircleOutlined />,

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Row, Col, Card, Button, Table, Tabs } from "antd";
 import { Link } from "react-router-dom";
-import { api } from "../../lib";
+import { api, store } from "../../lib";
 import { columnsApproval } from "../approvals";
 
 const { TabPane } = Tabs;
@@ -47,6 +47,7 @@ const approvalsSubordinates = [];
 const ControlCenter = () => {
   const [approvalsPending, setApprovalsPending] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { user: authUser } = store.useState((s) => s);
 
   useEffect(() => {
     setLoading(true);
@@ -131,9 +132,11 @@ const ControlCenter = () => {
               <Link to="/approvals">
                 <Button type="primary">View All</Button>
               </Link>
-              <Link to="/approvers/tree">
-                <Button className="dev">Manage Approvers</Button>
-              </Link>
+              {["Super Admin", "Admin"].includes(authUser?.role?.value) && (
+                <Link to="/approvers/tree">
+                  <Button type="primary">Manage Approvers</Button>
+                </Link>
+              )}
             </Row>
           </Card>
         </Col>

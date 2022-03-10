@@ -39,20 +39,28 @@ const columnsRawData = [
   },
 ];
 
-const ApprovalDetail = ({ record, loading, setReload }) => {
+const ApprovalDetail = ({
+  record,
+  loading,
+  setReload,
+  expandedParentKeys,
+  setExpandedParentKeys,
+}) => {
   const handleApprove = (id) => {
     api
       .post("pending-data/approve", { batch: [id], status: 2 })
-      .then((res) => {
+      .then(() => {
+        setExpandedParentKeys(
+          expandedParentKeys.filter((e) => e !== record.id)
+        );
         setReload(id);
-        console.info(res);
       })
       .catch((e) => console.error(e));
   };
 
   return (
     <div>
-      <Tabs centered defaultActiveKey="1" onChange={() => {}}>
+      <Tabs centered defaultActiveKey="2" onChange={() => {}}>
         <TabPane tab="Data Summary" key="1">
           <div>
             <table className="dev">
@@ -129,12 +137,13 @@ const ApprovalDetail = ({ record, loading, setReload }) => {
         </TabPane>
       </Tabs>
       <label>Notes {"&"} Feedback</label>
-      <TextArea rows={4} />
+      <TextArea rows={4} className="dev" />
       <Row justify="space-between">
         <Col>
           <Row>
-            <Checkbox id="informUser" onChange={() => {}}></Checkbox>
-            <label htmlFor="informUser">Inform User of Changes</label>
+            <Checkbox className="dev" id="informUser" onChange={() => {}}>
+              Inform User of Changes
+            </Checkbox>
           </Row>
         </Col>
         <Col>
@@ -143,8 +152,9 @@ const ApprovalDetail = ({ record, loading, setReload }) => {
               type="danger"
               disabled={
                 record.approved
-                  ? !record.approved
-                  : !record.approver.allow_approve
+                  ? record.approved
+                  : record.approver.status === 2 &&
+                    record.approver.allow_approve
               }
             >
               Decline
@@ -154,8 +164,9 @@ const ApprovalDetail = ({ record, loading, setReload }) => {
               onClick={() => handleApprove(record.id)}
               disabled={
                 record.approved
-                  ? !record.approved
-                  : !record.approver.allow_approve
+                  ? record.approved
+                  : record.approver.status === 2 &&
+                    record.approver.allow_approve
               }
             >
               Approve

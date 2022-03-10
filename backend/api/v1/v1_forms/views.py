@@ -49,7 +49,7 @@ def list_form(request, version):
 
 @extend_schema(responses={200: WebFormDetailSerializer},
                tags=['Form'],
-               summary='To get form data with cascade')
+               summary='To get form in webform format')
 @api_view(['GET'])
 def web_form_details(request, version, form_id):
     instance = get_object_or_404(Forms, pk=form_id)

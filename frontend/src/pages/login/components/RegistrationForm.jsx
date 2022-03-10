@@ -3,6 +3,7 @@ import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { api, store } from "../../../lib";
 import { useNavigate } from "react-router-dom";
+import { getFormUrl } from "../../../util/form";
 import { useNotification } from "../../../util/hooks";
 
 const checkBoxOptions = [
@@ -33,7 +34,7 @@ const RegistrationForm = (props) => {
           s.isLoggedIn = true;
           s.user = res.data;
         });
-        Promise.all([api.get("forms"), api.get("levels")])
+        Promise.all([api.get(getFormUrl(res.data)), api.get("levels")])
           .then((res) => {
             store.update((s) => {
               s.forms = res[0].data;
