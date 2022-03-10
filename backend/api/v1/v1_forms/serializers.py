@@ -18,12 +18,10 @@ from utils.custom_serializer_fields import CustomChoiceField, \
 
 
 class ListOptionSerializer(serializers.ModelSerializer):
-
     def to_representation(self, instance):
-        result = super(ListOptionSerializer, self).to_representation(
-            instance)
-        return OrderedDict(
-            [(key, result[key]) for key in result if result[key] is not None])
+        result = super(ListOptionSerializer, self).to_representation(instance)
+        return OrderedDict([(key, result[key]) for key in result
+                            if result[key] is not None])
 
     class Meta:
         model = QuestionOptions
@@ -38,8 +36,9 @@ class ListQuestionSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(ListOptionSerializer(many=True))
     def get_option(self, instance: Questions):
-        if instance.type in [QuestionTypes.option,
-                             QuestionTypes.multiple_option]:
+        if instance.type in [
+                QuestionTypes.option, QuestionTypes.multiple_option
+        ]:
             return ListOptionSerializer(
                 instance=instance.question_question_options.all(),
                 many=True).data
@@ -51,40 +50,57 @@ class ListQuestionSerializer(serializers.ModelSerializer):
             return QuestionTypes.FieldStr.get(QuestionTypes.cascade).lower()
         return QuestionTypes.FieldStr.get(instance.type).lower()
 
-    @extend_schema_field(inline_serializer('api', fields={
-        'endpoint': serializers.CharField(),
-        'list': serializers.CharField(),
-        'initial': serializers.BooleanField()
-    }))
+    @extend_schema_field(
+        inline_serializer('api',
+                          fields={
+                              'endpoint': serializers.CharField(),
+                              'list': serializers.CharField(),
+                              'id': serializers.IntegerField(),
+                          }))
     def get_api(self, instance: Questions):
         if instance.type == QuestionTypes.administration:
+            user = self.context.get('user')
+            administration = user.user_access.administration
+            if user.user_access.role == UserRoleTypes.user:
+                return {
+                    "endpoint":
+                    "/api/v1/administration",
+                    "list":
+                    "children",
+                    "initial":
+                    "{0}?filter={1}".format(administration.parent_id,
+                                            administration.id)
+                }
             return {
                 "endpoint": "/api/v1/administration",
                 "list": "children",
-                "initial": 1,
+                "initial": administration.id,
             }
         return None
 
-    @extend_schema_field(inline_serializer('center',
-                                           fields={
-                                               'lat': serializers.FloatField(),
-                                               'lng': serializers.FloatField(),
-                                           }))
+    @extend_schema_field(
+        inline_serializer('center',
+                          fields={
+                              'lat': serializers.FloatField(),
+                              'lng': serializers.FloatField(),
+                          }))
     def get_center(self, instance: Questions):
         if instance.type == QuestionTypes.geo:
             return FORM_GEO_VALUE
         return None
 
     def to_representation(self, instance):
-        result = super(ListQuestionSerializer, self).to_representation(
-            instance)
-        return OrderedDict(
-            [(key, result[key]) for key in result if result[key] is not None])
+        result = super(ListQuestionSerializer,
+                       self).to_representation(instance)
+        return OrderedDict([(key, result[key]) for key in result
+                            if result[key] is not None])
 
     class Meta:
         model = Questions
-        fields = ['id', 'name', 'order', 'type', 'required',
-                  'dependency', 'option', 'center', 'api', 'meta']
+        fields = [
+            'id', 'name', 'order', 'type', 'required', 'dependency', 'option',
+            'center', 'api', 'meta'
+        ]
 
 
 # TODO: confirm Order in QuestionGroup model
@@ -95,6 +111,9 @@ class ListQuestionGroupSerializer(serializers.ModelSerializer):
     def get_question(self, instance: QuestionGroup):
         return ListQuestionSerializer(
             instance=instance.question_group_question.all().order_by('order'),
+            context={
+                'user': self.context.get('user')
+            },
             many=True).data
 
     class Meta:
@@ -107,14 +126,16 @@ class ListAdministrationCascadeSerializer(serializers.ModelSerializer):
     label = serializers.ReadOnlyField(source='name')
     children = serializers.SerializerMethodField()
 
-    @extend_schema_field(inline_serializer('children', fields={
-        'value': serializers.IntegerField(),
-        'label': serializers.CharField(),
-    }, many=True))
+    @extend_schema_field(
+        inline_serializer('children',
+                          fields={
+                              'value': serializers.IntegerField(),
+                              'label': serializers.CharField(),
+                          },
+                          many=True))
     def get_children(self, instance: Administration):
         return ListAdministrationCascadeSerializer(
-            instance=instance.parent_administration.all(), many=True
-        ).data
+            instance=instance.parent_administration.all(), many=True).data
 
     class Meta:
         model = Administration
@@ -127,7 +148,11 @@ class WebFormDetailSerializer(serializers.ModelSerializer):
     @extend_schema_field(ListQuestionGroupSerializer(many=True))
     def get_question_group(self, instance: Forms):
         return ListQuestionGroupSerializer(
-            instance=instance.form_question_group.all(), many=True).data
+            instance=instance.form_question_group.all(),
+            many=True,
+            context={
+                'user': self.context.get('user')
+            }).data
 
     class Meta:
         model = Forms
@@ -156,9 +181,10 @@ class FormDataListQuestionSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(ListOptionSerializer(many=True))
     def get_option(self, instance: Questions):
-        if instance.type in [QuestionTypes.geo,
-                             QuestionTypes.option,
-                             QuestionTypes.multiple_option]:
+        if instance.type in [
+                QuestionTypes.geo, QuestionTypes.option,
+                QuestionTypes.multiple_option
+        ]:
             return ListOptionSerializer(
                 instance=instance.question_question_options.all(),
                 many=True).data
@@ -170,21 +196,24 @@ class FormDataListQuestionSerializer(serializers.ModelSerializer):
             return QuestionTypes.FieldStr.get(QuestionTypes.cascade).lower()
         return QuestionTypes.FieldStr.get(instance.type).lower()
 
-    @extend_schema_field(inline_serializer('center',
-                                           fields={
-                                               'lat': serializers.FloatField(),
-                                               'lng': serializers.FloatField(),
-                                           }))
+    @extend_schema_field(
+        inline_serializer('center',
+                          fields={
+                              'lat': serializers.FloatField(),
+                              'lng': serializers.FloatField(),
+                          }))
     def to_representation(self, instance):
-        result = super(FormDataListQuestionSerializer, self).to_representation(
-            instance)
-        return OrderedDict(
-            [(key, result[key]) for key in result if result[key] is not None])
+        result = super(FormDataListQuestionSerializer,
+                       self).to_representation(instance)
+        return OrderedDict([(key, result[key]) for key in result
+                            if result[key] is not None])
 
     class Meta:
         model = Questions
-        fields = ['id', 'form', 'question_group', 'name', 'order',
-                  'meta', 'type', 'required', 'rule', 'option', 'dependency']
+        fields = [
+            'id', 'form', 'question_group', 'name', 'order', 'meta', 'type',
+            'required', 'rule', 'option', 'dependency'
+        ]
 
 
 class FormDataQuestionGroupSerializer(serializers.ModelSerializer):
@@ -247,8 +276,9 @@ class EditFormApprovalSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         administration = self.context.get('user').user_access.administration
-        FormApprovalRule.objects.filter(form=validated_data.get('form'),
-                                        administration=administration).delete()
+        FormApprovalRule.objects.filter(
+            form=validated_data.get('form'),
+            administration=administration).delete()
 
         validated_data['administration'] = administration
         rule: FormApprovalRule = super(EditFormApprovalSerializer,
@@ -259,11 +289,11 @@ class EditFormApprovalSerializer(serializers.ModelSerializer):
             path = f"{administration.id}."
 
         # Get descendants of current admin with selected level
-        descendants = list(Administration.objects.filter(
-            path__startswith=path,
-            level_id__in=rule.levels.all().values_list('id',
-                                                       flat=True)).values_list(
-            'id', flat=True))
+        descendants = list(
+            Administration.objects.filter(
+                path__startswith=path,
+                level_id__in=rule.levels.all().values_list(
+                    'id', flat=True)).values_list('id', flat=True))
         # Delete assignment for the removed levels
         FormApprovalAssignment.objects.filter(
             ~Q(administration_id__in=descendants), form=rule.form).delete()
@@ -290,8 +320,7 @@ class ApprovalFormUserSerializer(serializers.ModelSerializer):
         try:
             assignment = FormApprovalAssignment.objects.get(
                 form=self.context.get('form'),
-                administration=validated_data.get('administration')
-            )
+                administration=validated_data.get('administration'))
             assignment.user = validated_data.get('user')
             assignment.updated = timezone.now()
             assignment.save()
@@ -299,8 +328,7 @@ class ApprovalFormUserSerializer(serializers.ModelSerializer):
             assignment = FormApprovalAssignment.objects.create(
                 form=self.context.get('form'),
                 administration=validated_data.get('administration'),
-                user=validated_data.get('user')
-            )
+                user=validated_data.get('user'))
 
         return assignment
 
@@ -318,8 +346,7 @@ class FormApprovalLevelListSerializer(serializers.ModelSerializer):
 class FormApproverRequestSerializer(serializers.Serializer):
     administration_id = CustomPrimaryKeyRelatedField(
         queryset=Administration.objects.none())
-    form_id = CustomPrimaryKeyRelatedField(
-        queryset=Forms.objects.none())
+    form_id = CustomPrimaryKeyRelatedField(queryset=Forms.objects.none())
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -369,12 +396,11 @@ class FormApproverResponseSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(FormApproverUserListSerializer(many=True))
     def get_user_list(self, instance: Administration):
-        users = SystemUser.objects.filter(
-            user_access__role__in=[UserRoleTypes.approver,
-                                   UserRoleTypes.admin],
-            user_access__administration=instance)
-        return FormApproverUserListSerializer(instance=users,
-                                              many=True).data
+        users = SystemUser.objects.filter(user_access__role__in=[
+            UserRoleTypes.approver, UserRoleTypes.admin
+        ],
+                                          user_access__administration=instance)
+        return FormApproverUserListSerializer(instance=users, many=True).data
 
     class Meta:
         model = Administration

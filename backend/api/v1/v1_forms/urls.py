@@ -8,7 +8,7 @@ urlpatterns = [
     re_path(r'^(?P<version>(v1))/forms', list_form),
     re_path(r'^(?P<version>(v1))/form/(?P<form_id>[0-9]+)',
             form_data),
-    re_path(r'^(?P<version>(v1))/web/form/(?P<form_id>[0-9]+)',
+    re_path(r'^(?P<version>(v1))/form/web/(?P<form_id>[0-9]+)',
             web_form_details),
     re_path(r'^(?P<version>(v1))/form/approver/(?P<form_id>[0-9]+)',
             approval_form_users),

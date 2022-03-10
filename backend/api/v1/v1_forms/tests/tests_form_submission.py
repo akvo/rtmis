@@ -24,9 +24,19 @@ def seed_administration_test():
 class FormSubmissionTestCase(TestCase):
     def test_webform_endpoint(self):
         self.maxDiff = None
+        seed_administration_test()
         call_command("form_seeder", "--test")
-        call_command("administration_seeder", "--test")
-        webform = self.client.get("/api/v1/web/form/1", follow=True)
+        user = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user = self.client.post('/api/v1/login',
+                                user,
+                                content_type='application/json')
+        user = user.json()
+        token = user.get("token")
+        self.assertTrue(token)
+        webform = self.client.get("/api/v1/form/web/1",
+                                  follow=True,
+                                  content_type='application/json',
+                                  **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
         webform = webform.json()
         self.assertEqual(webform.get("name"), "Test Form")
         question_group = webform.get("question_group")
@@ -79,10 +89,7 @@ class FormSubmissionTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         self.assertEqual(data, {"message": "ok"})
-        payload = {"data": {}, "answer": [{
-            "question": 1,
-            "value": ""
-        }]}
+        payload = {"data": {}, "answer": [{"question": 1, "value": ""}]}
         data = self.client.post('/api/v1/form-data/1/',
                                 payload,
                                 content_type='application/json',
@@ -113,9 +120,7 @@ class FormSubmissionTestCase(TestCase):
                                          content_type='application/json')
         user = user_response.json()
         token = user.get('token')
-        header = {
-            'HTTP_AUTHORIZATION': f'Bearer {token}'
-        }
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
 
         form = Forms.objects.first()
         payload = [{"form_id": form.id, "type": 3}]
@@ -144,9 +149,7 @@ class FormSubmissionTestCase(TestCase):
                                          content_type='application/json')
         user = user_response.json()
         token = user.get('token')
-        header = {
-            'HTTP_AUTHORIZATION': f'Bearer {token}'
-        }
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
 
         form = Forms.objects.first()
         payload = [{"form_id": form.id, "level_id": 3}]
@@ -176,9 +179,7 @@ class FormSubmissionTestCase(TestCase):
                                          content_type='application/json')
         user = user_response.json()
         token = user.get('token')
-        header = {
-            'HTTP_AUTHORIZATION': f'Bearer {token}'
-        }
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         u = SystemUser.objects.first()
         payload = [{"user_id": u.id, "administration_id": 0}]
         response = self.client.post('/api/v1/form/approver/1',

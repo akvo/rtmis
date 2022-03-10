@@ -26,7 +26,8 @@ from utils.custom_serializer_fields import validate_serializers_message
                                     required=False,
                                     enum=FormTypes.FieldStr.keys(),
                                     type=OpenApiTypes.NUMBER,
-                                    location=OpenApiParameter.QUERY), ],
+                                    location=OpenApiParameter.QUERY),
+               ],
                tags=['Form'],
                summary='To get list of forms',
                description='Form type 1=County and 2=National')
@@ -36,24 +37,26 @@ def list_form(request, version):
     if not serializer.is_valid():
         return Response(
             {'message': validate_serializers_message(serializer.errors)},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+            status=status.HTTP_400_BAD_REQUEST)
     filter_data = {}
     if serializer.validated_data.get('type'):
         filter_data['type'] = serializer.validated_data.get('type')
     instance = Forms.objects.filter(**filter_data)
-    return Response(
-        ListFormSerializer(instance=instance, many=True).data,
-        status=status.HTTP_200_OK)
+    return Response(ListFormSerializer(instance=instance, many=True).data,
+                    status=status.HTTP_200_OK)
 
 
 @extend_schema(responses={200: WebFormDetailSerializer},
                tags=['Form'],
                summary='To get form in webform format')
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def web_form_details(request, version, form_id):
     instance = get_object_or_404(Forms, pk=form_id)
-    return Response(WebFormDetailSerializer(instance=instance).data,
+    return Response(WebFormDetailSerializer(instance=instance,
+                                            context={
+                                                'user': request.user
+                                            }).data,
                     status=status.HTTP_200_OK)
 
 
@@ -70,9 +73,8 @@ def form_data(request, version, form_id):
 @extend_schema(request=EditFormTypeSerializer(many=True),
                responses={
                    (200, 'application/json'):
-                       inline_serializer("EditForm", fields={
-                           "message": serializers.CharField()
-                       })
+                   inline_serializer(
+                       "EditForm", fields={"message": serializers.CharField()})
                },
                tags=['Form'],
                summary='To update the form type')
@@ -83,8 +85,7 @@ def edit_form_type(request, version):
     if not serializer.is_valid():
         return Response(
             {'message': validate_serializers_message(serializer.errors)},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+            status=status.HTTP_400_BAD_REQUEST)
     serializer.save()
     return Response({'message': 'Forms updated successfully'},
                     status=status.HTTP_200_OK)
@@ -93,9 +94,9 @@ def edit_form_type(request, version):
 @extend_schema(request=EditFormApprovalSerializer(many=True),
                responses={
                    (200, 'application/json'):
-                       inline_serializer("EditApproval", fields={
-                           "message": serializers.CharField()
-                       })
+                   inline_serializer(
+                       "EditApproval",
+                       fields={"message": serializers.CharField()})
                },
                tags=['Form'],
                summary='To update form approval rule levels')
@@ -103,13 +104,13 @@ def edit_form_type(request, version):
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
 def edit_form_approval(request, version):
     try:
-        serializer = EditFormApprovalSerializer(data=request.data, many=True,
+        serializer = EditFormApprovalSerializer(data=request.data,
+                                                many=True,
                                                 context={'user': request.user})
         if not serializer.is_valid():
             return Response(
                 {'message': validate_serializers_message(serializer.errors)},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+                status=status.HTTP_400_BAD_REQUEST)
         serializer.save()
         return Response({'message': 'Forms updated successfully'},
                         status=status.HTTP_200_OK)
@@ -121,9 +122,9 @@ def edit_form_approval(request, version):
 @extend_schema(request=ApprovalFormUserSerializer(many=True),
                responses={
                    (200, 'application/json'):
-                       inline_serializer("EditApproval", fields={
-                           "message": serializers.CharField()
-                       })
+                   inline_serializer(
+                       "EditApproval",
+                       fields={"message": serializers.CharField()})
                },
                tags=['Form'],
                summary='To assign approver to form')
@@ -132,13 +133,13 @@ def edit_form_approval(request, version):
 def approval_form_users(request, version, form_id):
     form = get_object_or_404(Forms, pk=form_id)
     try:
-        serializer = ApprovalFormUserSerializer(data=request.data, many=True,
+        serializer = ApprovalFormUserSerializer(data=request.data,
+                                                many=True,
                                                 context={'form': form})
         if not serializer.is_valid():
             return Response(
                 {'message': validate_serializers_message(serializer.errors)},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+                status=status.HTTP_400_BAD_REQUEST)
         serializer.save()
         return Response({'message': 'Forms updated successfully'},
                         status=status.HTTP_200_OK)
@@ -155,24 +156,23 @@ def approval_form_users(request, version, form_id):
 def form_approval_level(request, version):
     instance = FormApprovalRule.objects.filter(
         administration=request.user.user_access.administration)
-    return Response(
-        FormApprovalLevelListSerializer(instance=instance, many=True).data,
-        status=status.HTTP_200_OK)
+    return Response(FormApprovalLevelListSerializer(instance=instance,
+                                                    many=True).data,
+                    status=status.HTTP_200_OK)
 
 
 @extend_schema(responses={200: FormApprovalLevelListSerializer(many=True)},
                tags=['Form'],
                summary='SuperAdmin: To check the approval level assigned'
-                       ' to fom by administration')
+               ' to fom by administration')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsSuperAdmin])
 def form_approval_level_administration(request, version, administration_id):
     administration = get_object_or_404(Administration, pk=administration_id)
-    instance = FormApprovalRule.objects.filter(
-        administration=administration)
-    return Response(
-        FormApprovalLevelListSerializer(instance=instance, many=True).data,
-        status=status.HTTP_200_OK)
+    instance = FormApprovalRule.objects.filter(administration=administration)
+    return Response(FormApprovalLevelListSerializer(instance=instance,
+                                                    many=True).data,
+                    status=status.HTTP_200_OK)
 
 
 @extend_schema(parameters=[
@@ -185,9 +185,9 @@ def form_approval_level_administration(request, version, administration_id):
                      type=OpenApiTypes.NUMBER,
                      location=OpenApiParameter.QUERY),
 ],
-    responses={200: FormApproverResponseSerializer(many=True)},
-    tags=['Form'],
-    summary='To get approver user list')
+               responses={200: FormApproverResponseSerializer(many=True)},
+               tags=['Form'],
+               summary='To get approver user list')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
 def form_approver(request, version):
@@ -196,16 +196,16 @@ def form_approver(request, version):
         if not serializer.is_valid():
             return Response(
                 {'message': validate_serializers_message(serializer.errors)},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+                status=status.HTTP_400_BAD_REQUEST)
 
         instance = Administration.objects.filter(
-            parent=serializer.validated_data.get('administration_id'),
-        )
+            parent=serializer.validated_data.get('administration_id'), )
         return Response(FormApproverResponseSerializer(
             instance=instance,
             many=True,
-            context={'form': serializer.validated_data.get('form_id')}).data,
+            context={
+                'form': serializer.validated_data.get('form_id')
+            }).data,
                         status=status.HTTP_200_OK)
     except Exception as ex:
         return Response({'message': ex.args},
