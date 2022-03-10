@@ -3,167 +3,178 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 #root {
-  font-family: "Poppins", sans-serif;
-  font-weight: $font-weight-normal;
-  font-size: $font-size-regular;
+    font-family: "Poppins", sans-serif;
+    font-weight: $font-weight-normal;
+    font-size: $font-size-regular;
 
-  h1 {
-    font-size: 28px;
-    font-weight: $font-weight-semi-bold;
-    line-height: 1.2;
-  }
-
-  .ant-btn {
-    border-radius: 4px;
-    text-transform: uppercase;
-
-    &.ant-btn-sm {
-      font-size: 12px;
-    }
-
-    &.ant-btn-primary {
-      background-color: $blue;
-      border-color: $blue;
-      &[disabled] {
-        color: #fffa;
-        opacity: 0.7;
-      }
-    }
-  }
-
-  .ant-checkbox-checked .ant-checkbox-inner {
-    background-color: #ffffff;
-    border-color: #d9d9d9;
-  }
-
-  .ant-checkbox-checked .ant-checkbox-inner::after {
-    border-color: $blue;
-  }
-
-  .ant-card {
-    text-align: center;
-    height: 100%;
-    padding: 30px;
-    box-shadow: $box-shadow;
-    border-radius: $border-radius;
-
-    .ant-card-head {
-      border-bottom: none;
-
-      .ant-card-head-title {
-        font-size: 18px;
+    h1 {
+        font-size: 28px;
         font-weight: $font-weight-semi-bold;
-      }
-    }
-  }
-
-  .ant-form-item-explain-error {
-    text-align: left;
-  }
-
-  .ant-table {
-    td {
-      .with-icon {
-        .anticon {
-          margin-right: 10px;
-        }
-      }
+        line-height: 1.2;
     }
 
-    tr:nth-child(2n) td {
-      background-color: #faf9fb;
-    }
+    .ant-btn {
+        border-radius: 4px;
+        text-transform: uppercase;
 
-    .ant-table-expanded-row {
-      .ant-table-cell {
-        .table-child {
-          border-radius: $border-radius;
-
-          tr {
-            td {
-              background-color: $white;
-            }
-          }
+        &.ant-btn-sm {
+            font-size: 12px;
         }
 
-        .ant-table-wrapper {
-          table {
-            border-collapse: collapse;
+        &.ant-btn-primary {
+            background-color: $blue;
+            border-color: $blue;
 
-            td,
-            th {
-              padding: 12px 18px;
-              border-bottom: solid #dededf 1px;
-              width: 50%;
+            &[disabled] {
+                color: #fffa;
+                opacity: 0.7;
             }
-
-            th {
-              background-color: #dededf;
-              font-weight: $font-weight-semi-bold;
-            }
-
-            tr {
-              td {
-                color: #959495;
-              }
-
-              td:last-child {
-                color: #1b66ff;
-              }
-            }
-
-            tr:last-child td {
-              border-bottom: 0 none;
-            }
-          }
         }
-      }
-    }
-  }
-
-  .ant-pagination {
-    li,
-    button {
-      border: none;
-
-      a {
-        color: #898eab;
-      }
-
-      a:hover {
-        color: #595e7b;
-      }
     }
 
-    .ant-pagination-item-active {
-      border: none;
-      background-color: $blue;
-
-      a {
-        color: #fff;
-      }
-
-      a:hover {
-        color: #fff;
-      }
+    .ant-checkbox-checked .ant-checkbox-inner {
+        background-color: #ffffff;
+        border-color: #d9d9d9;
     }
-  }
 
-  button.light {
-    background-color: #b2b3b7;
-    color: #fffe;
-    font-weight: $font-weight-medium;
-    width: auto;
-    border: 0 none;
-    &:hover {
-      background-color: #969799;
-      border: 0 none;
+    .ant-checkbox-checked .ant-checkbox-inner::after {
+        border-color: $blue;
     }
-    &[disabled],
-    &[disabled]:hover {
-      background-color: #b2b3b7;
-      color: #fffa;
-      opacity: 0.7;
+
+    .ant-card {
+        text-align: center;
+        height: 100%;
+        padding: 30px;
+        box-shadow: $box-shadow;
+        border-radius: $border-radius;
+
+        .ant-card-head {
+            border-bottom: none;
+
+            .ant-card-head-title {
+                font-size: 18px;
+                font-weight: $font-weight-semi-bold;
+            }
+        }
     }
-  }
+
+    .ant-form-item-explain-error {
+        text-align: left;
+    }
+
+    .ant-table {
+        td {
+            .with-icon {
+                .anticon {
+                    margin-right: 10px;
+                }
+            }
+        }
+
+        tr:nth-child(2n) td {
+            background-color: #faf9fb;
+        }
+
+        .ant-table-expanded-row {
+            .ant-table-cell {
+                .table-child {
+                    border-radius: $border-radius;
+
+                    tr {
+                        td {
+                            background-color: $white;
+                        }
+                    }
+                }
+
+                .ant-table-wrapper {
+                    table {
+                        border-collapse: collapse;
+
+                        td,
+                        th {
+                            padding: 12px 18px;
+                            border-bottom: solid #dededf 1px;
+                            width: 50%;
+                        }
+
+                        th {
+                            background-color: #dededf;
+                            font-weight: $font-weight-semi-bold;
+                        }
+
+                        tr {
+                            td {
+                                color: #959495;
+                            }
+
+                            td:last-child {
+                                color: #1b66ff;
+                            }
+                        }
+
+                        tr:last-child td {
+                            border-bottom: 0 none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .ant-pagination {
+        li,
+        button {
+            border: none;
+
+            a {
+                color: #898eab;
+            }
+
+            a:hover {
+                color: #595e7b;
+            }
+        }
+
+        .ant-pagination-item-active {
+            border: none;
+            background-color: $blue;
+
+            a {
+                color: #fff;
+            }
+
+            a:hover {
+                color: #fff;
+            }
+        }
+    }
+
+    button.light {
+        background-color: #b2b3b7;
+        color: #fffe;
+        font-weight: $font-weight-medium;
+        width: auto;
+        border: 0 none;
+
+        &:hover {
+            background-color: #969799;
+            border: 0 none;
+        }
+
+        &[disabled],
+        &[disabled]:hover {
+            background-color: #b2b3b7;
+            color: #fffa;
+            opacity: 0.7;
+        }
+    }
+
+    .hidden-field {
+        .ant-form-item-control {
+            .ant-form-item-control-input {
+                display: none;
+            }
+        }
+    }
 }

@@ -17,6 +17,7 @@ const config = {
         "approvers",
         "form",
       ],
+      administration_level: [1],
     },
     {
       id: 2,
@@ -33,6 +34,7 @@ const config = {
         "approvers",
         "form",
       ],
+      administration_level: [2],
     },
     {
       id: 3,
@@ -46,12 +48,14 @@ const config = {
         "approvals",
         "questionnaires",
       ],
+      administration_level: [3, 4],
     },
     {
       id: 4,
       name: "User",
       filter_form: 1,
       page_access: ["profile", "form"],
+      administration_level: [4],
     },
   ],
   designations: [
