@@ -104,7 +104,7 @@ const Forms = () => {
 
   useEffect(() => {
     if (formId && loading) {
-      api.get(`/web/form/${formId}`).then((x) => {
+      api.get(`/form/web/${formId}`).then((x) => {
         setForms(x.data);
         setLoading(false);
       });
