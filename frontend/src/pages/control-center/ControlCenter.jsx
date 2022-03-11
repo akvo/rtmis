@@ -42,17 +42,21 @@ const panels = [
     image: require("../../assets/personal-information.png"),
   },
 ];
-const approvalsSubordinates = [];
 
 const ControlCenter = () => {
   const [approvalsPending, setApprovalsPending] = useState([]);
+  const [approvalTab, setApprovalTab] = useState("my-pending");
   const [loading, setLoading] = useState(true);
   const { user: authUser } = store.useState((s) => s);
 
   useEffect(() => {
     setLoading(true);
+    let url = "/form-pending-batch/?page=1";
+    if (approvalTab === "subordinate") {
+      url = "/form-pending-batch/?page=1&subordinate=true";
+    }
     api
-      .get(`/form-pending-batch/?page=1`)
+      .get(url)
       .then((res) => {
         setApprovalsPending(res.data.batch);
         setLoading(false);
@@ -61,7 +65,7 @@ const ControlCenter = () => {
         console.error(e);
         setLoading(false);
       });
-  }, []);
+  }, [approvalTab]);
 
   return (
     <div id="control-center">
@@ -110,24 +114,17 @@ const ControlCenter = () => {
                 />
               </div>
             </div>
-            <Tabs defaultActiveKey="1" onChange={() => {}}>
-              <TabPane tab="My Pending Approvals" key="1">
-                <Table
-                  dataSource={approvalsPending}
-                  loading={loading}
-                  columns={columnsApproval}
-                  pagination={{ position: ["none", "none"] }}
-                  scroll={{ y: 270 }}
-                />
-              </TabPane>
-              <TabPane tab="Subordinates Approvals" key="2">
-                <Table
-                  className="dev"
-                  dataSource={approvalsSubordinates}
-                  columns={columnsApproval}
-                />
-              </TabPane>
+            <Tabs defaultActiveKey={approvalTab} onChange={setApprovalTab}>
+              <TabPane tab="My Pending Approvals" key="my-pending"></TabPane>
+              <TabPane tab="Subordinates Approvals" key="subordinate"></TabPane>
             </Tabs>
+            <Table
+              dataSource={approvalsPending}
+              loading={loading}
+              columns={columnsApproval}
+              pagination={{ position: ["none", "none"] }}
+              scroll={{ y: 270 }}
+            />
             <Row justify="space-between" className="approval-links">
               <Link to="/approvals">
                 <Button type="primary">View All</Button>
