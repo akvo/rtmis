@@ -336,7 +336,7 @@ def list_pending_batch(request, version):
                     level_id__lt=F('pending_level'),
                     batch__approved=False)
             else:
-                queryset = ViewPendingDataApproval.objects.filter(
+                queryset = queryset.filter(
                     level_id=F('pending_level'),
                     batch__approved=False)
         queryset = queryset.values_list('batch_id', flat=True).order_by('-id')
