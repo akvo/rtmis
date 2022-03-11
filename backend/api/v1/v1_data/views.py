@@ -328,58 +328,40 @@ def list_pending_batch(request, version):
         approved = serializer.validated_data.get('approved')
 
         if approved:
-            batch_ids = list(ViewPendingDataApproval.objects.filter(
+            queryset = ViewPendingDataApproval.objects.filter(
                 level_id__gt=F('pending_level'),
-                user_id=user.id).values_list('batch_id', flat=True))
+                user_id=user.id,
+                batch__approved=False).values_list('batch_id',
+                                                   flat=True).order_by('-id')
         else:
             if subordinate:
-                batch_ids = ViewPendingDataApproval.objects.filter(
+                queryset = ViewPendingDataApproval.objects.filter(
                     level_id__lt=F('pending_level'),
-                    user_id=user.id).values_list('batch_id', flat=True)
+                    user_id=user.id,
+                    batch__approved=False).values_list('batch_id',
+                                                       flat=True).order_by(
+                    '-id')
             else:
-                batch_ids = ViewPendingDataApproval.objects.filter(
+                queryset = ViewPendingDataApproval.objects.filter(
                     level_id=F('pending_level'),
-                    user_id=user.id).values_list('batch_id', flat=True)
-            # for approval in user.user_assigned_pending_data.filter(
-            #         status=DataApprovalStatus.pending):
-            #     if subordinate:
-            #         pending = PendingDataApproval.objects.filter(
-            #             batch_id=approval.batch.id,
-            #             level__level__gt=level,
-            #             status=DataApprovalStatus.pending
-            #         )
-            #         if pending:
-            #             batch_ids.append(approval.batch.id)
-            #
-            #     else:
-            #         pending = PendingDataApproval.objects.filter(
-            #             batch_id=approval.batch.id,
-            #             level__level__gt=level,
-            #         )
-            #         if not pending.count():
-            #             batch_ids.append(approval.batch.id)
-            #         else:
-            #             if pending.filter(
-            #                     status=DataApprovalStatus.approved) \
-            #                     .order_by('level__level').first():
-            #                 batch_ids.append(approval.batch.id)
-        queryset = PendingDataBatch.objects.filter(
-            id__in=batch_ids,
-            approved=False
-        ).order_by('-created')
-
-        paginator_temp = Paginator(queryset, page_size)
-        paginator_temp.page(request.GET.get('page', 1))
+                    user_id=user.id,
+                    batch__approved=False).values_list('batch_id',
+                                                       flat=True).order_by(
+                    '-id')
 
         paginator = PageNumberPagination()
         instance = paginator.paginate_queryset(queryset, request)
+
+        values = PendingDataBatch.objects.filter(
+            id__in=list(instance)
+        ).order_by('-created')
 
         data = {
             "current": int(request.GET.get('page', '1')),
             "total": queryset.count(),
             "total_page": ceil(queryset.count() / page_size),
             "batch": ListPendingDataBatchSerializer(
-                instance=instance, context={
+                instance=values, context={
                     'user': user, },
                 many=True).data,
         }

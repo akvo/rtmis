@@ -18,7 +18,7 @@ class PendingDataTestCase(TestCase):
         call_command('form_approval_seeder')
         call_command('form_approval_assignment_seeder')
         call_command('fake_pending_data_seeder', '-r', 1, '-t', True, '-b', 1)
-        call_command('createmodelview')
+
         admin_user = SystemUser.objects.filter(
             user_access__role=UserRoleTypes.admin).first()
         if admin_user:
@@ -87,7 +87,6 @@ class PendingDataTestCase(TestCase):
         call_command('form_approval_seeder')
         call_command('form_approval_assignment_seeder')
         call_command('fake_pending_data_seeder', '-r', 5, '-t', True, '-b', 5)
-        call_command('createmodelview')
 
         # get the lowest level approver
         approval: PendingDataApproval = PendingDataApproval.objects.filter(

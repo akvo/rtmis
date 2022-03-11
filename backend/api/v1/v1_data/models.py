@@ -182,19 +182,16 @@ class AnswerHistory(models.Model):
 
 
 class ViewPendingDataApproval(models.Model):
-    status = models.IntegerField()
-    user_id = models.BigIntegerField()
-    level_id = models.IntegerField()
-    batch_id = models.BigIntegerField()
+    id = models.BigIntegerField(primary_key=True)
+    status = models.IntegerField(choices=DataApprovalStatus.FieldStr.items(),
+                                 default=DataApprovalStatus.pending)
+    user = models.ForeignKey(to=SystemUser, on_delete=models.DO_NOTHING,
+                             related_name='user_view_pending_data')
+    level = models.ForeignKey(to=Levels, on_delete=models.DO_NOTHING,
+                              related_name='level_view_pending_data')
+    batch = models.ForeignKey(to=PendingDataBatch, on_delete=models.DO_NOTHING,
+                              related_name='batch_view_pending_data')
     pending_level = models.IntegerField()
-
-    @classmethod
-    def get_query(cls):
-        return 'SELECT DISTINCT pa.*, COALESCE(max(pa2.level_id), 0)' \
-               ' as pending_level FROM pending_data_approval pa ' \
-               'LEFT JOIN (SELECT * FROM pending_data_approval pda ' \
-               'WHERE pda.status = 1) as pa2 ON pa2.batch_id = pa.batch_id ' \
-               'GROUP BY pa.id;'
 
     class Meta:
         managed = False
