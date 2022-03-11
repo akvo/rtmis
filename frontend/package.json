@@ -52,8 +52,8 @@
     "lint": "eslint --config .eslintrc.json src --ext .js,.jsx",
     "prettier": "prettier --check src",
     "build": "react-scripts build",
-    "test": "react-scripts test --updateSnapshot",
-    "test:ci": "CI=true react-scripts test --watchAll=false --coverage",
+    "test": "react-scripts test --updateSnapshot --transformIgnorePatterns \"node_modules/(?!d3|d3-geo|d3-array|internmap|delaunator|robust-predicates)/\"",
+    "test:ci": "CI=true react-scripts test --watchAll=false --coverage --transformIgnorePatterns \"node_modules/(?!d3|d3-geo|d3-array|internmap|delaunator|robust-predicates)/\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
