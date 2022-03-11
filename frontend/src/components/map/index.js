@@ -1,40 +1,33 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { tileLayer } from "../../util/tileLayer";
+import React from "react";
+import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
+import { geo } from "../../lib";
 import "leaflet/dist/leaflet.css";
 
-import L from "leaflet";
+const { geojson, tile, defaultPos } = geo;
+const defPos = defaultPos();
 
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
-  iconUrl: require("leaflet/dist/images/marker-icon.png"),
-  shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
-});
-const position = [0, 0];
-
-const Map = ({ markerData, style }) => {
+const Map = ({ style }) => {
   return (
     <div className="map-container">
       <MapContainer
-        center={position}
-        zoom={false}
+        bounds={defPos.bbox}
+        zoomControl={false}
         scrollWheelZoom={false}
         style={style}
       >
-        {markerData.features.map((park) => (
-          <Marker
-            key={park.properties.PARK_ID}
-            position={[
-              park.geometry.coordinates[1],
-              park.geometry.coordinates[0],
-            ]}
-          >
-            <Popup>
-              <span>{park.properties.NAME}</span>
-            </Popup>
-          </Marker>
-        ))}
-        <TileLayer {...tileLayer} />
+        <TileLayer {...tile} />
+        {geojson.features.length > 0 && (
+          <GeoJSON
+            key="geodata"
+            style={{
+              fillColor: "#00989f",
+              fillOpacity: 0.5,
+              opacity: 0.5,
+              color: "#FFF",
+            }}
+            data={geojson}
+          />
+        )}
       </MapContainer>
     </div>
   );
