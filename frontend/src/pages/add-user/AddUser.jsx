@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import "./style.scss";
 import {
   Row,
@@ -38,7 +38,7 @@ const AddUser = () => {
   const [submitting, setSubmitting] = useState(false);
   const [showAdministration, setShowAdministration] = useState(false);
   const [form] = Form.useForm();
-  const { user: authUser, administration } = store.useState((s) => s);
+  const { user: authUser, administration, levels } = store.useState((s) => s);
   const navigate = useNavigate();
   const { notify } = useNotification();
 
@@ -72,15 +72,37 @@ const AddUser = () => {
       });
   };
 
+  const allowedRole = useMemo(() => {
+    return config.roles.filter((r) => r.id >= authUser.role.id);
+  }, [authUser]);
+
+  const checkRole = useCallback(() => {
+    const admin = takeRight(administration, 1)?.[0];
+    const role = form.getFieldValue("role");
+    const allowed_level = allowedRole.find(
+      (a) => a.id === role
+    )?.administration_level;
+    form.setFieldsValue({
+      administration: allowed_level?.includes(administration.length)
+        ? admin?.id
+        : null,
+    });
+  }, [administration, allowedRole, form]);
+
   const onChange = (a) => {
-    if (a?.role === authUser.role.id) {
+    if (a?.role === 1) {
       setShowAdministration(false);
-    } else if (a?.role) {
+      checkRole(administration);
+    }
+    if (a?.role > 1) {
       setShowAdministration(true);
+      checkRole(administration);
     }
   };
 
-  const allowedRole = config.roles.filter((r) => r.id >= authUser.role.id);
+  useEffect(() => {
+    checkRole(administration);
+  }, [administration, checkRole]);
 
   return (
     <div id="add-user">
@@ -210,6 +232,40 @@ const AddUser = () => {
               </Select>
             </Form.Item>
           </div>
+          <Form.Item noStyle shouldUpdate>
+            {(f) => {
+              return f.getFieldValue("role") > 1 ? (
+                <Form.Item
+                  name="administration"
+                  label="Administration"
+                  rules={[
+                    { required: true, message: "" },
+                    {
+                      validator() {
+                        const role = allowedRole.find(
+                          (a) => a.id === form.getFieldValue("role")
+                        );
+                        const allowed_levels = role?.administration_level;
+                        if (allowed_levels?.includes(administration.length)) {
+                          return Promise.resolve();
+                        }
+                        const level_names = levels
+                          .filter((l) => allowed_levels.includes(l.id))
+                          .map((l) => l.name)
+                          .join("/");
+                        return Promise.reject(
+                          `${role.name} Level is allowed with ${level_names} administration`
+                        );
+                      },
+                    },
+                  ]}
+                  className="form-row hidden-field"
+                >
+                  <Input hidden />
+                </Form.Item>
+              ) : null;
+            }}
+          </Form.Item>
           {showAdministration && (
             <div className="form-row-adm">
               <AdministrationDropdown

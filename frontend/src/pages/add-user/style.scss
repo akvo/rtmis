@@ -27,7 +27,7 @@
         margin-bottom: 8px;
 
         label {
-          font-weight: $font-weight-semi-bold;
+          font-weight: $font-weight-semi-bold !important;
         }
 
         input,
@@ -39,6 +39,7 @@
       .ant-row {
         .ant-col {
           padding-right: 10px;
+
           &:last-child {
             padding-right: 0;
           }
