@@ -1,8 +1,8 @@
 from faker import Faker
 import re
+import uuid
 
 from django.core.management import BaseCommand
-from django.db.utils import IntegrityError
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.models import Access, Levels, Administration
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -15,16 +15,14 @@ def new_user(administrations, roles, last_name):
         email = ("{}{}@test.com").format(
             re.sub('[^A-Za-z0-9]+', '', administration.name.lower()),
             administration.id)
+        email = "{}_{}".format(str(uuid.uuid4())[:4], email)
         user, created = SystemUser.objects.get_or_create(
             email=email, first_name=administration.name, last_name=last_name)
         user.set_password("test")
         user.save()
-        try:
-            Access.objects.create(user=user,
-                                  role=roles[administration.level.level - 1],
-                                  administration=administration)
-        except IntegrityError:
-            pass
+        Access.objects.create(user=user,
+                              role=roles[administration.level.level - 1],
+                              administration=administration)
 
 
 class Command(BaseCommand):
