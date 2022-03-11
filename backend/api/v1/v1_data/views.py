@@ -5,7 +5,7 @@ from wsgiref.util import FileWrapper
 
 from django.contrib.postgres.aggregates import StringAgg
 from django.core.paginator import InvalidPage, EmptyPage, Paginator
-from django.db.models import Count, TextField, Value
+from django.db.models import Count, TextField, Value, F
 from django.db.models.functions import Cast, Coalesce
 from django.http import HttpResponse
 from drf_spectacular.types import OpenApiTypes
@@ -20,7 +20,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
-    PendingDataBatch
+    PendingDataBatch, ViewPendingDataApproval
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
@@ -300,7 +300,12 @@ def get_chart_data_point(request, version, form_id):
                          type=OpenApiTypes.NUMBER,
                          location=OpenApiParameter.QUERY),
         OpenApiParameter(name='approved',
-                         required=True,
+                         required=False,
+                         default=False,
+                         type=OpenApiTypes.BOOL,
+                         location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='subordinate',
+                         required=False,
                          default=False,
                          type=OpenApiTypes.BOOL,
                          location=OpenApiParameter.QUERY),
@@ -316,28 +321,40 @@ def list_pending_batch(request, version):
                 {'message': validate_serializers_message(serializer.errors)},
                 status=status.HTTP_400_BAD_REQUEST
             )
+        user: SystemUser = request.user
         page_size = REST_FRAMEWORK.get('PAGE_SIZE')
-        batch_ids = list(
-            request.user.user_assigned_pending_data.values_list('batch_id',
-                                                                flat=True))
-        queryset = PendingDataBatch.objects.filter(
-            id__in=batch_ids,
-            approved=serializer.validated_data.get('approved')
-        ).order_by('-created')
 
-        paginator_temp = Paginator(queryset, page_size)
-        paginator_temp.page(request.GET.get('page', 1))
+        subordinate = serializer.validated_data.get('subordinate')
+        approved = serializer.validated_data.get('approved')
+        queryset = ViewPendingDataApproval.objects.filter(user_id=user.id)
+
+        if approved:
+            queryset = queryset.filter(level_id__gt=F('pending_level'))
+        else:
+            if subordinate:
+                queryset = queryset.filter(
+                    level_id__lt=F('pending_level'),
+                    batch__approved=False)
+            else:
+                queryset = ViewPendingDataApproval.objects.filter(
+                    level_id=F('pending_level'),
+                    batch__approved=False)
+        queryset = queryset.values_list('batch_id', flat=True).order_by('-id')
 
         paginator = PageNumberPagination()
         instance = paginator.paginate_queryset(queryset, request)
+
+        values = PendingDataBatch.objects.filter(
+            id__in=list(instance)
+        ).order_by('-created')
 
         data = {
             "current": int(request.GET.get('page', '1')),
             "total": queryset.count(),
             "total_page": ceil(queryset.count() / page_size),
             "batch": ListPendingDataBatchSerializer(
-                instance=instance, context={
-                    'user': request.user, },
+                instance=values, context={
+                    'user': user, },
                 many=True).data,
         }
         return Response(data, status=status.HTTP_200_OK)

@@ -179,3 +179,20 @@ class AnswerHistory(models.Model):
 
     class Meta:
         db_table = 'answer_history'
+
+
+class ViewPendingDataApproval(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    status = models.IntegerField(choices=DataApprovalStatus.FieldStr.items(),
+                                 default=DataApprovalStatus.pending)
+    user = models.ForeignKey(to=SystemUser, on_delete=models.DO_NOTHING,
+                             related_name='user_view_pending_data')
+    level = models.ForeignKey(to=Levels, on_delete=models.DO_NOTHING,
+                              related_name='level_view_pending_data')
+    batch = models.ForeignKey(to=PendingDataBatch, on_delete=models.DO_NOTHING,
+                              related_name='batch_view_pending_data')
+    pending_level = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'view_pending_approval'
