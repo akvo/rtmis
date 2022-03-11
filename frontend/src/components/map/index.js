@@ -1,8 +1,10 @@
-import { MapContainer, TileLayer } from "react-leaflet";
+import React from "react";
+import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import { geo } from "../../lib";
 import "leaflet/dist/leaflet.css";
 
-const defPos = geo.defaultPos();
+const { geojson, tile, defaultPos } = geo;
+const defPos = defaultPos();
 
 const Map = ({ style }) => {
   return (
@@ -13,7 +15,19 @@ const Map = ({ style }) => {
         scrollWheelZoom={false}
         style={style}
       >
-        <TileLayer {...geo.tile} />
+        <TileLayer {...tile} />
+        {geojson.features.length > 0 && (
+          <GeoJSON
+            key="geodata"
+            style={{
+              fillColor: "#00989f",
+              fillOpacity: 0.5,
+              opacity: 0.5,
+              color: "#FFF",
+            }}
+            data={geojson}
+          />
+        )}
       </MapContainer>
     </div>
   );

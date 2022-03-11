@@ -1,7 +1,6 @@
-import { feature } from "topojson-client";
+import { feature, merge } from "topojson-client";
 import { geoCentroid, geoBounds } from "d3-geo";
 import { takeRight } from "lodash";
-import { merge } from "topojson-client";
 
 const topojson = window.topojson;
 const topojson_object = topojson.objects[Object.keys(topojson.objects)[0]];
@@ -22,7 +21,7 @@ const getBounds = (selected, administration) => {
       prop: shapeLevels[i],
     };
   });
-  const geoFilter = geo.geometries.filter((x) => {
+  const geoFilter = topojson_object.geometries.filter((x) => {
     const filters = [];
     selected.forEach((s) => {
       if (x?.properties?.[s.prop] === s.value) {
@@ -35,7 +34,7 @@ const getBounds = (selected, administration) => {
   });
   const mergeTopo = merge(
     topojson,
-    geoFilter.length ? geoFilter : geo.geometries
+    geoFilter.length ? geoFilter : topojson_object.geometries
   );
   const center = geoCentroid(mergeTopo).reverse();
   const bounds = geoBounds(mergeTopo);
@@ -57,8 +56,10 @@ const defaultPos = () => {
   };
 };
 
+const geojson = feature(topojson, topojson_object);
+
 const geo = {
-  geojson: feature(topojson, topojson_object),
+  geojson: geojson,
   shapeLevels: shapeLevels,
   tile: tile,
   getBounds: getBounds,
