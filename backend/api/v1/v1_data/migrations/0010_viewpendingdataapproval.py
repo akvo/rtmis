@@ -12,11 +12,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ViewPendingDataApproval',
             fields=[
-                ('id',
-                 models.BigIntegerField(primary_key=True, serialize=False)),
-                ('status', models.IntegerField(
-                    choices=[(1, 'Pending'), (2, 'Approved'), (3, 'Rejected')],
-                    default=1)),
+                ('id', models.BigIntegerField(primary_key=True,
+                                              serialize=False)),
+                ('status',
+                 models.IntegerField(choices=[(1, 'Pending'), (2, 'Approved'),
+                                              (3, 'Rejected')],
+                                     default=1)),
                 ('pending_level', models.IntegerField()),
             ],
             options={
@@ -25,25 +26,15 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.RunSQL(
-            """CREATE VIEW view_pending_approval as SELECT 
-  DISTINCT pa.*, 
-  COALESCE(
-    max(pa2.level_id), 
-    0
-  ) as pending_level 
-FROM 
-  pending_data_approval pa 
-  LEFT JOIN (
-    SELECT 
-      * 
-    FROM 
-      pending_data_approval pda 
-    WHERE 
-      pda.status = 1
-  ) as pa2 ON pa2.batch_id = pa.batch_id 
-GROUP BY 
-  pa.id
-""",
-            "DROP VIEW view_pending_approval;"
-        )
+            """
+            CREATE VIEW view_pending_approval as
+                SELECT
+                DISTINCT pa.*, COALESCE(max(pa2.level_id), 0) as pending_level
+                FROM pending_data_approval pa
+                LEFT JOIN (
+                    SELECT * FROM pending_data_approval pda
+                    WHERE pda.status = 1) as pa2
+                ON pa2.batch_id = pa.batch_id
+            GROUP BY pa.id
+            """, "DROP VIEW view_pending_approval;")
     ]

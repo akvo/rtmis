@@ -300,12 +300,12 @@ def get_chart_data_point(request, version, form_id):
                          type=OpenApiTypes.NUMBER,
                          location=OpenApiParameter.QUERY),
         OpenApiParameter(name='approved',
-                         required=True,
+                         required=False,
                          default=False,
                          type=OpenApiTypes.BOOL,
                          location=OpenApiParameter.QUERY),
         OpenApiParameter(name='subordinate',
-                         required=True,
+                         required=False,
                          default=False,
                          type=OpenApiTypes.BOOL,
                          location=OpenApiParameter.QUERY),
@@ -326,28 +326,20 @@ def list_pending_batch(request, version):
 
         subordinate = serializer.validated_data.get('subordinate')
         approved = serializer.validated_data.get('approved')
+        queryset = ViewPendingDataApproval.objects.filter(user_id=user.id)
 
         if approved:
-            queryset = ViewPendingDataApproval.objects.filter(
-                level_id__gt=F('pending_level'),
-                user_id=user.id,
-                batch__approved=False).values_list('batch_id',
-                                                   flat=True).order_by('-id')
+            queryset = queryset.filter(level_id__gt=F('pending_level'))
         else:
             if subordinate:
-                queryset = ViewPendingDataApproval.objects.filter(
+                queryset = queryset.filter(
                     level_id__lt=F('pending_level'),
-                    user_id=user.id,
-                    batch__approved=False).values_list('batch_id',
-                                                       flat=True).order_by(
-                    '-id')
+                    batch__approved=False)
             else:
                 queryset = ViewPendingDataApproval.objects.filter(
                     level_id=F('pending_level'),
-                    user_id=user.id,
-                    batch__approved=False).values_list('batch_id',
-                                                       flat=True).order_by(
-                    '-id')
+                    batch__approved=False)
+        queryset = queryset.values_list('batch_id', flat=True).order_by('-id')
 
         paginator = PageNumberPagination()
         instance = paginator.paginate_queryset(queryset, request)
