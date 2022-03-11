@@ -25,8 +25,8 @@ const Visualisation = () => {
       <VisualisationFilters />
       <Divider />
       <Card style={{ padding: 0, minHeight: "40vh", textAlign: "left" }}>
-        <Row>
-          <Col span={14} padding={20}>
+        <Row justify="space-between">
+          <Col span={11}>
             <h2>{forms?.find((f) => f.id === selectedForm)?.name}</h2>
             <Collapse
               onChange={() => {}}
@@ -50,7 +50,7 @@ const Visualisation = () => {
               ))}
             </Collapse>
           </Col>
-          <Col span={8} offset={2}>
+          <Col span={12}>
             <Map markerData={{ features: [] }} style={{ height: 400 }} />
           </Col>
         </Row>
