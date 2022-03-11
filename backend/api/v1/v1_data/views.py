@@ -5,7 +5,7 @@ from wsgiref.util import FileWrapper
 
 from django.contrib.postgres.aggregates import StringAgg
 from django.core.paginator import InvalidPage, EmptyPage, Paginator
-from django.db.models import Count, TextField, Value
+from django.db.models import Count, TextField, Value, F
 from django.db.models.functions import Cast, Coalesce
 from django.http import HttpResponse
 from drf_spectacular.types import OpenApiTypes
@@ -19,9 +19,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
-    PendingDataBatch, PendingDataApproval
+    PendingDataBatch, ViewPendingDataApproval
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
@@ -323,41 +322,47 @@ def list_pending_batch(request, version):
                 status=status.HTTP_400_BAD_REQUEST
             )
         user: SystemUser = request.user
-        level = user.user_access.administration.level.level
         page_size = REST_FRAMEWORK.get('PAGE_SIZE')
-        batch_ids = []
 
         subordinate = serializer.validated_data.get('subordinate')
         approved = serializer.validated_data.get('approved')
-        if approved:
-            batch_ids = list(
-                user.user_assigned_pending_data.filter(
-                    status=DataApprovalStatus.approved).values_list('batch_id',
-                                                                    flat=True))
-        else:
-            for approval in user.user_assigned_pending_data.filter(
-                    status=DataApprovalStatus.pending):
-                if subordinate:
-                    pending = PendingDataApproval.objects.filter(
-                        batch_id=approval.batch.id,
-                        level__level__gt=level,
-                        status=DataApprovalStatus.pending
-                    )
-                    if pending:
-                        batch_ids.append(approval.batch.id)
 
-                else:
-                    pending = PendingDataApproval.objects.filter(
-                        batch_id=approval.batch.id,
-                        level__level__gt=level,
-                    )
-                    if not pending.count():
-                        batch_ids.append(approval.batch.id)
-                    else:
-                        if pending.filter(
-                                status=DataApprovalStatus.approved) \
-                                .order_by('level__level').first():
-                            batch_ids.append(approval.batch.id)
+        if approved:
+            batch_ids = list(ViewPendingDataApproval.objects.filter(
+                level_id__gt=F('pending_level'),
+                user_id=user.id).values_list('batch_id', flat=True))
+        else:
+            if subordinate:
+                batch_ids = ViewPendingDataApproval.objects.filter(
+                    level_id__lt=F('pending_level'),
+                    user_id=user.id).values_list('batch_id', flat=True)
+            else:
+                batch_ids = ViewPendingDataApproval.objects.filter(
+                    level_id=F('pending_level'),
+                    user_id=user.id).values_list('batch_id', flat=True)
+            # for approval in user.user_assigned_pending_data.filter(
+            #         status=DataApprovalStatus.pending):
+            #     if subordinate:
+            #         pending = PendingDataApproval.objects.filter(
+            #             batch_id=approval.batch.id,
+            #             level__level__gt=level,
+            #             status=DataApprovalStatus.pending
+            #         )
+            #         if pending:
+            #             batch_ids.append(approval.batch.id)
+            #
+            #     else:
+            #         pending = PendingDataApproval.objects.filter(
+            #             batch_id=approval.batch.id,
+            #             level__level__gt=level,
+            #         )
+            #         if not pending.count():
+            #             batch_ids.append(approval.batch.id)
+            #         else:
+            #             if pending.filter(
+            #                     status=DataApprovalStatus.approved) \
+            #                     .order_by('level__level').first():
+            #                 batch_ids.append(approval.batch.id)
         queryset = PendingDataBatch.objects.filter(
             id__in=batch_ids,
             approved=False
