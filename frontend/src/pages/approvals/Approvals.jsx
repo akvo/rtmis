@@ -21,10 +21,9 @@ const pagePath = [
 ];
 const { TabPane } = Tabs;
 
-const approvalsSubordinates = [];
-
 const Approvals = () => {
   const [approvalsPending, setApprovalsPending] = useState([]);
+  const [approvalTab, setApprovalTab] = useState("my-pending");
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [detailLoading, setDetailLoading] = useState(false);
@@ -40,8 +39,15 @@ const Approvals = () => {
 
   useEffect(() => {
     setLoading(true);
+    let url = `/form-pending-batch/?page=${currentPage}`;
+    if (approvalTab === "subordinate") {
+      url = `${url}&subordinate=true`;
+    }
+    if (approvalTab === "approved") {
+      url = `${url}&approved=true`;
+    }
     api
-      .get(`/form-pending-batch/?page=${currentPage}`)
+      .get(url)
       .then((res) => {
         setApprovalsPending(res.data.batch);
         setTotalCount(res.data.total);
@@ -51,7 +57,7 @@ const Approvals = () => {
         console.error(e);
         setLoading(false);
       });
-  }, [currentPage, reload]);
+  }, [approvalTab, currentPage, reload]);
 
   const handleChange = (e) => {
     setCurrentPage(e.current);
@@ -98,66 +104,59 @@ const Approvals = () => {
         style={{ padding: 0, minHeight: "40vh" }}
         bodyStyle={{ padding: 30 }}
       >
-        <Tabs defaultActiveKey="1" onChange={() => {}}>
-          <TabPane tab="My Pending Approvals" key="1">
-            <Table
-              dataSource={approvalsPending}
-              onChange={handleChange}
-              columns={columns}
-              loading={loading}
-              pagination={{
-                current: currentPage,
-                total: totalCount,
-                pageSize: 10,
-                showSizeChanger: false,
-              }}
-              expandedRowKeys={expandedKeys}
-              expandable={{
-                onExpand: getDataDetail,
-                expandedRowRender: (record) => {
-                  return (
-                    <ApprovalDetails
-                      record={record}
-                      loading={detailLoading}
-                      setReload={setReload}
-                      expandedParentKeys={expandedKeys}
-                      setExpandedParentKeys={setExpandedKeys}
-                    />
-                  );
-                },
-                expandIcon: ({ expanded, onExpand, record }) =>
-                  expanded ? (
-                    <CloseSquareOutlined
-                      onClick={(e) => {
-                        setExpandedKeys(
-                          expandedKeys.filter((k) => k !== record.id)
-                        );
-                        onExpand(record, e);
-                      }}
-                      style={{ color: "#e94b4c" }}
-                    />
-                  ) : (
-                    <PlusSquareOutlined
-                      onClick={(e) => {
-                        setExpandedKeys(expandedKeys.concat(record.id));
-                        onExpand(record, e);
-                      }}
-                      style={{ color: "#7d7d7d" }}
-                    />
-                  ),
-              }}
-              rowKey="id"
-            />
-          </TabPane>
-          <TabPane tab="Subordinates Approvals" key="2">
-            <Table
-              className="dev"
-              dataSource={approvalsSubordinates}
-              loading={loading}
-              columns={columns}
-            />
-          </TabPane>
+        <Tabs defaultActiveKey={approvalTab} onChange={setApprovalTab}>
+          <TabPane tab="My Pending Approvals" key="my-pending"></TabPane>
+          <TabPane tab="Subordinates Approvals" key="subordinate"></TabPane>
+          <TabPane tab="Approved" key="approved"></TabPane>
         </Tabs>
+        <Table
+          dataSource={approvalsPending}
+          onChange={handleChange}
+          columns={columns}
+          loading={loading}
+          pagination={{
+            current: currentPage,
+            total: totalCount,
+            pageSize: 10,
+            showSizeChanger: false,
+          }}
+          expandedRowKeys={expandedKeys}
+          expandable={{
+            onExpand: getDataDetail,
+            expandedRowRender: (record) => {
+              return (
+                <ApprovalDetails
+                  record={record}
+                  loading={detailLoading}
+                  setReload={setReload}
+                  expandedParentKeys={expandedKeys}
+                  setExpandedParentKeys={setExpandedKeys}
+                />
+              );
+            },
+            expandIcon: ({ expanded, onExpand, record }) =>
+              expanded ? (
+                <CloseSquareOutlined
+                  onClick={(e) => {
+                    setExpandedKeys(
+                      expandedKeys.filter((k) => k !== record.id)
+                    );
+                    onExpand(record, e);
+                  }}
+                  style={{ color: "#e94b4c" }}
+                />
+              ) : (
+                <PlusSquareOutlined
+                  onClick={(e) => {
+                    setExpandedKeys(expandedKeys.concat(record.id));
+                    onExpand(record, e);
+                  }}
+                  style={{ color: "#7d7d7d" }}
+                />
+              ),
+          }}
+          rowKey="id"
+        />
       </Card>
     </div>
   );

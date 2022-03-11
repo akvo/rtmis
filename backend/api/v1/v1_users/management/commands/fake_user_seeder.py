@@ -1,5 +1,6 @@
-import re
 import random
+import re
+import uuid
 
 from django.core.management import BaseCommand
 from faker import Faker
@@ -26,6 +27,7 @@ class Command(BaseCommand):
             name = profile.get("name")
             email = ("{}@test.com").format(
                 re.sub('[^A-Za-z0-9]+', '', name.lower()))
+            email = "{}_{}".format(str(uuid.uuid4())[:4], email)
             name = name.split(" ")
             role_level = fake.random_int(min=1, max=3)
             roles = [
@@ -43,7 +45,8 @@ class Command(BaseCommand):
                 user.set_password(password)
                 user.save()
             level = Levels.objects.filter(level=role_level).first()
-            Access.objects.create(user=user,
-                                  role=roles[role_level],
-                                  administration=Administration.objects.filter(
-                                      level=level).order_by('?').first())
+            Access.objects.create(
+                user=user,
+                role=roles[role_level],
+                administration=Administration.objects.filter(
+                    level=level).order_by('?').first())

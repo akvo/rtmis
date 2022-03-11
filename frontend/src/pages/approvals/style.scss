@@ -4,142 +4,143 @@
   #approvals {
     .ant-card-body {
       .ant-tabs {
-        .ant-table-thead tr th {
-          font-weight: $font-weight-bold;
+      }
+
+      .ant-table-thead tr th {
+        font-weight: $font-weight-bold;
+      }
+
+      .ant-table-tbody {
+        .ant-table-row {
+          .ant-table-cell:first-child {
+            color: $color-default;
+          }
+
+          .ant-table-cell:nth-child(2) {
+            .ant-row {
+              justify-content: flex-start;
+
+              div:first-child {
+                margin-right: 10px;
+                color: $color-default;
+              }
+
+              div:nth-child(2) {
+                div:nth-child(2) {
+                  font-size: $font-size-small;
+                  font-weight: $font-weight-normal;
+                }
+              }
+            }
+          }
+
+          .ant-table-cell:nth-child(3) {
+            .ant-row {
+              .ant-col:first-child {
+                padding-right: 5px;
+
+                .ant-progress-bg,
+                .ant-progress-success-bg {
+                  background-color: $bg-progress;
+                }
+              }
+            }
+          }
         }
 
-        .ant-table-tbody {
-          .ant-table-row {
-            .ant-table-cell:first-child {
-              color: $color-default;
-            }
+        .ant-table-row.table-row-expanded {
+          color: $blue;
 
-            .ant-table-cell:nth-child(2) {
-              .ant-row {
-                justify-content: flex-start;
+          .ant-table-cell:first-child {
+            color: $color-default;
+          }
 
-                div:first-child {
-                  margin-right: 10px;
-                  color: $color-default;
-                }
-
-                div:nth-child(2) {
-                  div:nth-child(2) {
-                    font-size: $font-size-small;
-                    font-weight: $font-weight-normal;
-                  }
-                }
-              }
-            }
-
-            .ant-table-cell:nth-child(3) {
-              .ant-row {
-                .ant-col:first-child {
-                  padding-right: 5px;
-
-                  .ant-progress-bg,
-                  .ant-progress-success-bg {
-                    background-color: $bg-progress;
-                  }
-                }
+          .ant-table-cell:nth-child(2) {
+            .ant-row {
+              div:first-child {
+                margin-right: 10px;
+                color: $blue;
               }
             }
           }
 
-          .ant-table-row.table-row-expanded {
-            color: $blue;
-
-            .ant-table-cell:first-child {
-              color: $color-default;
-            }
-
-            .ant-table-cell:nth-child(2) {
-              .ant-row {
-                div:first-child {
-                  margin-right: 10px;
-                  color: $blue;
-                }
-              }
-            }
-
-            .ant-table-cell:nth-child(3) {
-              .ant-row {
-                .ant-col:first-child {
-                  .ant-progress-bg,
-                  .ant-progress-success-bg {
-                    background-color: $blue;
-                  }
+          .ant-table-cell:nth-child(3) {
+            .ant-row {
+              .ant-col:first-child {
+                .ant-progress-bg,
+                .ant-progress-success-bg {
+                  background-color: $blue;
                 }
               }
             }
           }
+        }
 
-          tr.ant-table-expanded-row > td > div {
-            width: 80%;
-            margin: 0 10%;
-            background-color: #faf9fb;
-            padding: 0 0 32px;
+        tr.ant-table-expanded-row > td > div {
+          width: 80%;
+          margin: 0 10%;
+          background-color: #faf9fb;
+          padding: 0 0 32px;
 
-            .ant-tabs {
-              margin-bottom: 20px;
+          .ant-tabs {
+            margin-bottom: 20px;
 
-              .ant-tabs-nav {
-                margin-bottom: 8px;
-                font-weight: $font-weight-semi-bold;
+            .ant-tabs-nav {
+              margin-bottom: 8px;
+              font-weight: $font-weight-semi-bold;
+            }
+
+            .ant-tabs-content-holder {
+              font-size: $font-size-small;
+
+              table,
+              .ant-table {
+                thead {
+                  tr {
+                    th {
+                      background-color: $bg-semi-light;
+                      padding: 18px 24px 15px;
+                      font-weight: $font-weight-semi-bold;
+                      white-space: nowrap;
+                    }
+                  }
+                }
+
+                tbody {
+                  tr {
+                    td {
+                      padding: 18px 24px 15px;
+                      border-bottom: solid $color-semi-light 1px;
+                    }
+                  }
+                }
               }
 
-              .ant-tabs-content-holder {
-                font-size: $font-size-small;
-
+              .ant-tabs-tabpane:first-child {
                 table,
                 .ant-table {
-                  thead {
-                    tr {
-                      th {
-                        background-color: $bg-semi-light;
-                        padding: 18px 24px 15px;
-                        font-weight: $font-weight-semi-bold;
-                        white-space: nowrap;
-                      }
-                    }
-                  }
-
                   tbody {
                     tr {
-                      td {
-                        padding: 18px 24px 15px;
-                        border-bottom: solid $color-semi-light 1px;
-                      }
-                    }
-                  }
-                }
-
-                .ant-tabs-tabpane:first-child {
-                  table,
-                  .ant-table {
-                    tbody {
-                      tr {
-                        td:nth-child(2) {
-                          color: $blue;
-                        }
+                      td:nth-child(2) {
+                        color: $blue;
                       }
                     }
                   }
                 }
               }
             }
+          }
 
-            .ant-input {
-              &:focus,
-              &:hover {
-                border-right-width: 16px !important;
-              }
+          .ant-input {
+            &:focus,
+            &:hover {
+              border-right-width: 16px !important;
             }
+          }
 
-            textarea {
-              margin: 8px 0 15px;
-              border: solid $color-semi-light 16px;
-            }
+          textarea {
+            margin: 8px 0 15px;
+            border: solid $color-semi-light 16px;
           }
         }
       }
