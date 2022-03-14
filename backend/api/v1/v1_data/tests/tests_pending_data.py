@@ -4,7 +4,9 @@ from django.test.utils import override_settings
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.v1.v1_data.constants import DataApprovalStatus
-from api.v1.v1_data.models import PendingFormData, PendingDataApproval
+from api.v1.v1_data.models import PendingFormData, PendingDataApproval, \
+    PendingDataBatch
+from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_users.models import SystemUser
 
@@ -164,3 +166,28 @@ class PendingDataTestCase(TestCase):
                 **header)
             self.assertEqual(200, response.status_code)
             self.assertGreaterEqual(len(response.json().get('batch')), 1)
+
+    def test_batch_summary(self):
+        call_command("administration_seeder", "--test")
+        user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user_response = self.client.post('/api/v1/login',
+                                         user_payload,
+                                         content_type='application/json')
+        call_command("form_seeder", "--test")
+        call_command("fake_user_seeder", "-r", 100)
+        call_command('form_approval_seeder')
+        call_command('form_approval_assignment_seeder')
+        call_command('fake_pending_data_seeder', '-r', 5, '-t', True, '-b', 5)
+        token = user_response.json().get('token')
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        response = self.client.get('/api/v1/batch/summary/{0}'.format(
+            PendingDataBatch.objects.first().id), follow=True, **header)
+        self.assertEqual(200, response.status_code)
+        for summary in response.json():
+            if summary.get('type') == QuestionTypes.FieldStr.get(
+                    QuestionTypes.option):
+                self.assertEqual(['type', 'total'],
+                                 list(summary.get('value')[0]))
+            else:
+                self.assertEqual(int,
+                                 type(summary.get('value')))
