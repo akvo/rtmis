@@ -1,3 +1,4 @@
+from django.db.models import Sum
 from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field, inline_serializer
@@ -520,6 +521,43 @@ class ListBatchSerializer(serializers.ModelSerializer):
             'name', 'form', 'administration', 'file', 'total_data', 'created',
             'updated'
         ]
+
+
+class ListBatchSummarySerializer(serializers.ModelSerializer):
+    question = serializers.ReadOnlyField(source='question.text')
+    type = serializers.SerializerMethodField()
+    value = serializers.SerializerMethodField()
+
+    def get_type(self, instance):
+        return QuestionTypes.FieldStr.get(instance.question.type)
+
+    def get_value(self, instance: PendingAnswers):
+        batch: PendingDataBatch = self.context.get('batch')
+        if instance.question.type == QuestionTypes.number:
+            val = PendingAnswers.objects.filter(
+                pending_data__batch=batch,
+                question_id=instance.question.id).aggregate(Sum('value'))
+            return val.get('value__sum')
+        elif instance.question.type == QuestionTypes.administration:
+            return PendingAnswers.objects.filter(
+                pending_data__batch=batch,
+                question_id=instance.question.id).distinct('value').count()
+        else:
+            data = []
+            for option in instance.question.question_question_options.all():
+                val = PendingAnswers.objects.filter(
+                    pending_data__batch=batch,
+                    question_id=instance.question.id,
+                    options__contains=option.name).count()
+                data.append({
+                    'type': option.name,
+                    'total': val
+                })
+            return data
+
+    class Meta:
+        model = PendingAnswers
+        fields = ['question', 'type', 'value']
 
 
 class CreateBatchSerializer(serializers.Serializer):
