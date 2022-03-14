@@ -184,8 +184,9 @@ class PendingDataTestCase(TestCase):
             PendingDataBatch.objects.first().id), follow=True, **header)
         self.assertEqual(200, response.status_code)
         for summary in response.json():
-            if summary.get('type') == QuestionTypes.FieldStr.get(
-                    QuestionTypes.option):
+            if summary.get('type') in [QuestionTypes.FieldStr.get(
+                    QuestionTypes.option), QuestionTypes.FieldStr.get(
+                QuestionTypes.multiple_option)]:
                 self.assertEqual(['type', 'total'],
                                  list(summary.get('value')[0]))
             else:

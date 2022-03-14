@@ -1,4 +1,4 @@
-from django.db.models import Sum, Count
+from django.db.models import Sum
 from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field, inline_serializer
@@ -543,17 +543,16 @@ class ListBatchSummarySerializer(serializers.ModelSerializer):
                 pending_data__batch=batch,
                 question_id=instance.question.id).distinct('value').count()
         else:
-            val = PendingAnswers.objects.filter(
-                pending_data__batch=batch,
-                question_id=instance.question.id).values('options').annotate(
-                total=Count('id'))
             data = []
-            for v in val:
+            for option in instance.question.question_question_options.all():
+                val = PendingAnswers.objects.filter(
+                    pending_data__batch=batch,
+                    question_id=instance.question.id,
+                    options__contains=option.name).count()
                 data.append({
-                    'type': v.get('options')[0],
-                    'total': v.get('total')
+                    'type': option.name,
+                    'total': val
                 })
-
             return data
 
     class Meta:

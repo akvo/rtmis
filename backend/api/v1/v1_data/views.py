@@ -493,7 +493,8 @@ class BatchSummaryView(APIView):
         instance = PendingAnswers.objects.filter(
             pending_data__batch_id=batch.id,
             question__type__in=[QuestionTypes.option, QuestionTypes.number,
-                                QuestionTypes.administration]
+                                QuestionTypes.administration,
+                                QuestionTypes.multiple_option]
         ).distinct('question')
         return Response(
             ListBatchSummarySerializer(
