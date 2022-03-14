@@ -20,7 +20,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
-    PendingDataBatch, ViewPendingDataApproval
+    PendingDataBatch, ViewPendingDataApproval, PendingAnswers
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
@@ -30,7 +30,8 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ApprovePendingDataRequestSerializer, ListBatchSerializer, \
     CreateBatchSerializer, ListPendingDataBatchSerializer, \
     ListPendingFormDataSerializer, PendingBatchDataFilterSerializer, \
-    SubmitPendingFormSerializer
+    SubmitPendingFormSerializer, ListBatchSummarySerializer
+from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import SystemUser
@@ -479,6 +480,27 @@ class BatchView(APIView):
                 {'message': ex.args},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+
+class BatchSummaryView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @extend_schema(responses={200: ListBatchSummarySerializer(many=True)},
+                   tags=['Pending Data'],
+                   summary='To get batch summary')
+    def get(self, request, batch_id, version):
+        batch = get_object_or_404(PendingDataBatch, pk=batch_id)
+        instance = PendingAnswers.objects.filter(
+            pending_data__batch_id=batch.id,
+            question__type__in=[QuestionTypes.option, QuestionTypes.number,
+                                QuestionTypes.administration]
+        ).distinct('question')
+        return Response(
+            ListBatchSummarySerializer(
+                instance=instance,
+                many=True,
+                context={'batch': batch}).data,
+            status=status.HTTP_200_OK)
 
 
 @extend_schema(tags=['File'],

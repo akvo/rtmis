@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 from api.v1.v1_data.constants import DataApprovalStatus
+from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
@@ -129,7 +130,7 @@ class PendingAnswers(models.Model):
     updated = models.DateTimeField(default=None, null=True)
 
     def __str__(self):
-        return self.name
+        return QuestionTypes.FieldStr.get(self.question.type)
 
     class Meta:
         db_table = 'pending_answer'
