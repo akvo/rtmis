@@ -10,10 +10,16 @@
         font-weight: $font-weight-bold;
       }
 
+      ul.option-list {
+        padding-inline-start: 17.5px;
+        margin-block-end: 0px;
+      }
+
       .ant-table-tbody {
         .ant-table-row {
           .ant-table-cell:first-child {
             color: $color-default;
+            vertical-align: top;
           }
 
           .ant-table-cell:nth-child(2) {
