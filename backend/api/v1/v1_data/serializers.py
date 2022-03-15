@@ -413,7 +413,7 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
         queryset=PendingDataBatch.objects.none())
     status = CustomChoiceField(
         choices=[DataApprovalStatus.approved, DataApprovalStatus.rejected])
-    comment = CustomCharField()
+    comment = CustomCharField(required=False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -571,7 +571,7 @@ class ListBatchSummarySerializer(serializers.ModelSerializer):
 
 class CreateBatchSerializer(serializers.Serializer):
     name = CustomCharField()
-    comment = CustomCharField()
+    comment = CustomCharField(required=False)
     data = CustomListField(child=CustomPrimaryKeyRelatedField(
         queryset=PendingFormData.objects.none()),
         required=False)
