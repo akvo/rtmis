@@ -78,10 +78,18 @@ const ApprovalDetail = ({
   const [columns, setColumns] = useState(summaryColumns);
   const [loading, setLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState("data-summary");
+  const [comment, setComment] = useState("");
 
-  const handleApprove = (id) => {
+  const handleApprove = (id, status) => {
+    let payload = {
+      batch: id,
+      status: status,
+    };
+    if (comment.length) {
+      payload = { ...payload, comment: comment };
+    }
     api
-      .post("pending-data/approve", { batch: [id], status: 2 })
+      .post("pending-data/approve", payload)
       .then(() => {
         setExpandedParentKeys(
           expandedParentKeys.filter((e) => e !== record.id)
@@ -144,7 +152,11 @@ const ApprovalDetail = ({
         pagination={false}
       />
       <label>Notes {"&"} Feedback</label>
-      <TextArea rows={4} className="dev" />
+      <TextArea
+        rows={4}
+        onChange={(e) => setComment(e.target.value)}
+        disabled={!approve}
+      />
       <Row justify="space-between">
         <Col>
           <Row>
@@ -155,12 +167,16 @@ const ApprovalDetail = ({
         </Col>
         <Col>
           <Space>
-            <Button type="danger" disabled={!approve}>
+            <Button
+              type="danger"
+              onClick={() => handleApprove(record.id, 3)}
+              disabled={!approve}
+            >
               Decline
             </Button>
             <Button
               type="primary"
-              onClick={() => handleApprove(record.id)}
+              onClick={() => handleApprove(record.id, 2)}
               disabled={!approve}
             >
               Approve
