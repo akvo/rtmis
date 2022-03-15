@@ -58,7 +58,8 @@ class PendingDataTestCase(TestCase):
 
         values = list(PendingFormData.objects.all().values_list('id',
                                                                 flat=True))
-        payload = {"name": "Test Batch", "data": values}
+        payload = {"name": "Test Batch", "data": values,
+                   'comment': 'Test comment'}
         response = self.client.post('/api/v1/batch',
                                     payload,
                                     content_type='application/json',
@@ -66,7 +67,8 @@ class PendingDataTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json().get('message'),
                          'Data updated successfully')
-        payload = {"name": "Test Batch", "data": values}
+        payload = {"name": "Test Batch", "data": values,
+                   'comment': 'Test comment'}
         response = self.client.post('/api/v1/batch',
                                     payload,
                                     content_type='application/json',
@@ -140,8 +142,9 @@ class PendingDataTestCase(TestCase):
 
             # approve data with child
             payload = {
-                'batch': [approval.batch_id],
-                'status': DataApprovalStatus.approved
+                'batch': approval.batch_id,
+                'status': DataApprovalStatus.approved,
+                'comment': 'Approved comment'
             }
             header = {'HTTP_AUTHORIZATION': f'Bearer {t_child.access_token}'}
             response = self.client.post(
@@ -166,6 +169,32 @@ class PendingDataTestCase(TestCase):
                 **header)
             self.assertEqual(200, response.status_code)
             self.assertGreaterEqual(len(response.json().get('batch')), 1)
+
+            # reject data with child
+            payload = {
+                'batch': approval.batch_id,
+                'status': DataApprovalStatus.rejected,
+                'comment': 'Rejected'
+            }
+            header = {'HTTP_AUTHORIZATION': f'Bearer {t_child.access_token}'}
+            response = self.client.post(
+                '/api/v1/pending-data/approve',
+                payload,
+                content_type='application/json',
+                **header)
+            self.assertEqual(200, response.status_code)
+
+            # check rejected in list. subordinate = true, approved = false
+            header = {'HTTP_AUTHORIZATION': f'Bearer {t_parent.access_token}'}
+            response = self.client.get(
+                '/api/v1/form-pending-batch?page=1&subordinate=true',
+                content_type='application/json',
+                **header)
+            self.assertEqual(200, response.status_code)
+            self.assertGreaterEqual(len(response.json().get('batch')), 1)
+            status = response.json().get('batch')[0].get('approver').get(
+                'status')
+            self.assertEqual(DataApprovalStatus.rejected, status)
 
     def test_batch_summary(self):
         call_command("administration_seeder", "--test")

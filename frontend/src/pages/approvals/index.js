@@ -1,5 +1,11 @@
 import { Row, Col, Tag } from "antd";
-import { FileTextFilled, InfoCircleOutlined } from "@ant-design/icons";
+import {
+  FileTextFilled,
+  InfoCircleOutlined,
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  ClockCircleOutlined,
+} from "@ant-design/icons";
 
 export const columnsApproval = [
   {
@@ -49,14 +55,27 @@ export const columnsApproval = [
     title: "Status",
     dataIndex: "approver",
     key: "approver",
-    render: (approver) => (
+    render: ({ status_text }) => (
       <span>
         <Tag
+          icon={
+            status_text === "Pending" ? (
+              <ClockCircleOutlined />
+            ) : status_text === "Rejected" ? (
+              <CloseCircleOutlined />
+            ) : (
+              <CheckCircleOutlined />
+            )
+          }
           color={
-            approver.status_text.toLowerCase() === "pending" ? "red" : "green"
+            status_text === "Pending"
+              ? "default"
+              : status_text === "Rejected"
+              ? "error"
+              : "success"
           }
         >
-          {approver.status_text}
+          {status_text}
         </Tag>
       </span>
     ),
