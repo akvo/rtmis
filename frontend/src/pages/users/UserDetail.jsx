@@ -15,7 +15,7 @@ import { pick, assign } from "lodash";
 import { api } from "../../lib";
 import { useNotification } from "../../util/hooks";
 
-const UserDetail = (record) => {
+const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
   const EditableContext = React.createContext(null);
   const EditableRow = ({ ...props }) => {
     const [form] = Form.useForm();
@@ -77,6 +77,7 @@ const UserDetail = (record) => {
             type: "success",
             message: "User updated",
           });
+          applyChanges({ ...record, [dataIndex]: values[dataIndex] });
         });
       } catch (errInfo) {
         console.error("Save failed:", errInfo);
@@ -233,7 +234,15 @@ const UserDetail = (record) => {
         <Col span={10} align="right">
           <Space>
             <Button className="light dev">Edit</Button>
-            <Button danger>Delete</Button>
+            <Button
+              danger
+              loading={deleting}
+              onClick={() => {
+                setDeleteUser(record);
+              }}
+            >
+              Delete
+            </Button>
           </Space>
         </Col>
       </Row>
