@@ -7,7 +7,8 @@ from rest_framework.exceptions import ValidationError
 
 from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
-    PendingAnswers, PendingDataApproval, PendingDataBatch
+    PendingAnswers, PendingDataApproval, PendingDataBatch, \
+    PendingDataBatchComments
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Questions, QuestionOptions, Forms, \
     FormApprovalAssignment
@@ -408,58 +409,64 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
 
 
 class ApprovePendingDataRequestSerializer(serializers.Serializer):
-    batch = CustomListField(child=CustomPrimaryKeyRelatedField(
-        queryset=PendingDataBatch.objects.none(), required=False))
+    batch = CustomPrimaryKeyRelatedField(
+        queryset=PendingDataBatch.objects.none())
     status = CustomChoiceField(
         choices=[DataApprovalStatus.approved, DataApprovalStatus.rejected])
+    comment = CustomCharField(required=False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         user: SystemUser = self.context.get('user')
         if user:
-            self.fields.get('batch').child.queryset = \
+            self.fields.get('batch').queryset = \
                 PendingDataBatch.objects.filter(
                     batch_approval__user=user, approved=False)
 
     def create(self, validated_data):
-        batch: PendingDataBatch
-        for batch in validated_data.get('batch'):
-            approval = PendingDataApproval.objects.get(
-                user=self.context.get('user'), batch=batch)
-            approval.status = validated_data.get('status')
-            approval.save()
-            if not PendingDataApproval.objects.filter(
-                    batch=batch,
-                    status__in=[
-                        DataApprovalStatus.pending, DataApprovalStatus.rejected
-                    ]).count():
-                pending_data_list = PendingFormData.objects.filter(
-                    batch=batch).all()
-                for data in pending_data_list:
-                    form_data = FormData.objects.create(
-                        name=data.name,
-                        form=data.form,
-                        administration=data.administration,
-                        geo=data.geo,
-                        created_by=data.created_by,
-                    )
-                    data.data = form_data
-                    data.approved = True
-                    data.save()
+        batch: PendingDataBatch = validated_data.get('batch')
+        approval = PendingDataApproval.objects.get(
+            user=self.context.get('user'), batch=batch)
+        approval.status = validated_data.get('status')
+        approval.save()
+        if validated_data.get('comment'):
+            PendingDataBatchComments.objects.create(
+                user=self.context.get('user'),
+                batch=batch,
+                comment=validated_data.get('comment')
+            )
+        if not PendingDataApproval.objects.filter(
+                batch=batch,
+                status__in=[
+                    DataApprovalStatus.pending, DataApprovalStatus.rejected
+                ]).count():
+            pending_data_list = PendingFormData.objects.filter(
+                batch=batch).all()
+            for data in pending_data_list:
+                form_data = FormData.objects.create(
+                    name=data.name,
+                    form=data.form,
+                    administration=data.administration,
+                    geo=data.geo,
+                    created_by=data.created_by,
+                )
+                data.data = form_data
+                data.approved = True
+                data.save()
 
-                    answer: PendingAnswers
-                    for answer in data.pending_data_answer.all():
-                        Answers.objects.create(
-                            data=form_data,
-                            question=answer.question,
-                            name=answer.name,
-                            value=answer.value,
-                            options=answer.options,
-                            created_by=answer.created_by,
-                        )
-                batch.approved = True
-                batch.updated = timezone.now()
-                batch.save()
+                answer: PendingAnswers
+                for answer in data.pending_data_answer.all():
+                    Answers.objects.create(
+                        data=form_data,
+                        question=answer.question,
+                        name=answer.name,
+                        value=answer.value,
+                        options=answer.options,
+                        created_by=answer.created_by,
+                    )
+            batch.approved = True
+            batch.updated = timezone.now()
+            batch.save()
         return object
 
     def update(self, instance, validated_data):
@@ -564,6 +571,7 @@ class ListBatchSummarySerializer(serializers.ModelSerializer):
 
 class CreateBatchSerializer(serializers.Serializer):
     name = CustomCharField()
+    comment = CustomCharField(required=False)
     data = CustomListField(child=CustomPrimaryKeyRelatedField(
         queryset=PendingFormData.objects.none()),
         required=False)
@@ -595,6 +603,11 @@ class CreateBatchSerializer(serializers.Serializer):
             administration_id=user.user_access.administration_id,
             user=user,
             name=validated_data.get('name'))
+        PendingDataBatchComments.objects.create(
+            user=user,
+            batch=obj,
+            comment=validated_data.get('comment')
+        )
         for administration in Administration.objects.filter(
                 id__in=path.split('.')):
             assignment = FormApprovalAssignment.objects.filter(

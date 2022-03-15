@@ -59,6 +59,21 @@ class PendingDataBatch(models.Model):
         db_table = 'batch'
 
 
+class PendingDataBatchComments(models.Model):
+    batch = models.ForeignKey(to=PendingDataBatch, on_delete=models.CASCADE,
+                              related_name='batch_batch_comment')
+    user = models.ForeignKey(to=SystemUser, on_delete=models.CASCADE,
+                             related_name='user_batch_comment')
+    comment = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.comment
+
+    class Meta:
+        db_table = 'batch_comment'
+
+
 class PendingFormData(models.Model):
     name = models.TextField()
     form = models.ForeignKey(to=Forms,
