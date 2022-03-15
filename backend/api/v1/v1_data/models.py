@@ -129,7 +129,7 @@ class PendingAnswers(models.Model):
     updated = models.DateTimeField(default=None, null=True)
 
     def __str__(self):
-        return self.name
+        return str(self.id)
 
     class Meta:
         db_table = 'pending_answer'

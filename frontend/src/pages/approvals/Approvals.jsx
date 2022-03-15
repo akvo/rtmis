@@ -22,11 +22,10 @@ const pagePath = [
 const { TabPane } = Tabs;
 
 const Approvals = () => {
-  const [approvalsPending, setApprovalsPending] = useState([]);
+  const [batches, setBatches] = useState([]);
   const [approvalTab, setApprovalTab] = useState("my-pending");
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [detailLoading, setDetailLoading] = useState(false);
   const [expandedKeys, setExpandedKeys] = useState([]);
   const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -49,7 +48,7 @@ const Approvals = () => {
     api
       .get(url)
       .then((res) => {
-        setApprovalsPending(res.data.batch);
+        setBatches(res.data.batch);
         setTotalCount(res.data.total);
         setLoading(false);
       })
@@ -61,28 +60,6 @@ const Approvals = () => {
 
   const handleChange = (e) => {
     setCurrentPage(e.current);
-  };
-
-  const getDataDetail = (expanded, record) => {
-    const oldDataset = approvalsPending.find((d) => d.id === record.id);
-    if (expanded && !oldDataset?.answer) {
-      setDetailLoading(true);
-      api
-        .get(`/form-pending-data-batch/${record.id}`)
-        .then((res) => {
-          const newDataset = approvalsPending.map((d) => {
-            if (d.id === record.id) {
-              d = { ...d, data: res.data };
-            }
-            return d;
-          });
-          setApprovalsPending(newDataset);
-          setDetailLoading(false);
-        })
-        .catch((e) => {
-          console.error(e);
-        });
-    }
   };
 
   return (
@@ -110,7 +87,7 @@ const Approvals = () => {
           <TabPane tab="Approved" key="approved"></TabPane>
         </Tabs>
         <Table
-          dataSource={approvalsPending}
+          dataSource={batches}
           onChange={handleChange}
           columns={columns}
           loading={loading}
@@ -122,12 +99,11 @@ const Approvals = () => {
           }}
           expandedRowKeys={expandedKeys}
           expandable={{
-            onExpand: getDataDetail,
             expandedRowRender: (record) => {
               return (
                 <ApprovalDetails
                   record={record}
-                  loading={detailLoading}
+                  approve={approvalTab === "my-pending"}
                   setReload={setReload}
                   expandedParentKeys={expandedKeys}
                   setExpandedParentKeys={setExpandedKeys}
@@ -148,7 +124,7 @@ const Approvals = () => {
               ) : (
                 <PlusSquareOutlined
                   onClick={(e) => {
-                    setExpandedKeys(expandedKeys.concat(record.id));
+                    setExpandedKeys([record.id]);
                     onExpand(record, e);
                   }}
                   style={{ color: "#7d7d7d" }}
