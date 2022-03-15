@@ -15,6 +15,7 @@ import { DataFilters } from "../../../components";
 import { api, store } from "../../../lib";
 
 const { TabPane } = Tabs;
+const { TextArea } = Input;
 
 const columnsSelected = [
   {
@@ -114,6 +115,7 @@ const PanelDataUpload = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [comment, setComment] = useState("");
 
   const { selectedForm } = store.useState((state) => state);
 
@@ -167,8 +169,12 @@ const PanelDataUpload = () => {
 
   const sendBatch = () => {
     setLoading(true);
+    const payload = { name: batchName, data: selectedRows.map((x) => x.id) };
     api
-      .post("batch", { name: batchName, data: selectedRows.map((x) => x.id) })
+      .post(
+        "batch",
+        comment.length ? { ...payload, comment: comment } : payload
+      )
       .then(() => {
         api
           .get("batch")
@@ -266,6 +272,17 @@ const PanelDataUpload = () => {
         }}
         footer={
           <Row align="middle">
+            <Col xs={24} align="left">
+              <div className="batch-name-field">
+                <label>Batch Name</label>
+                <Input
+                  onChange={(e) => setBatchName(e.target.value)}
+                  allowClear
+                />
+              </div>
+              <label>Submission comment (Optional)</label>
+              <TextArea rows={4} onChange={(e) => setComment(e.target.value)} />
+            </Col>
             <Col xs={12} align="left">
               <Checkbox className="dev">Send a new approval request</Checkbox>
             </Col>
@@ -297,13 +314,6 @@ const PanelDataUpload = () => {
           The operation of merging datasets cannot be undone, and will Create a
           new batch that will require approval from you admin
         </p>
-        <div className="batch-name-field">
-          <Input
-            onChange={(e) => setBatchName(e.target.value)}
-            placeholder="Batch Name"
-            allowClear
-          />
-        </div>
         <Table
           bordered
           size="small"

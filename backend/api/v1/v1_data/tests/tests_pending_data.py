@@ -58,7 +58,8 @@ class PendingDataTestCase(TestCase):
 
         values = list(PendingFormData.objects.all().values_list('id',
                                                                 flat=True))
-        payload = {"name": "Test Batch", "data": values}
+        payload = {"name": "Test Batch", "data": values,
+                   'comment': 'Test comment'}
         response = self.client.post('/api/v1/batch',
                                     payload,
                                     content_type='application/json',
@@ -66,7 +67,8 @@ class PendingDataTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json().get('message'),
                          'Data updated successfully')
-        payload = {"name": "Test Batch", "data": values}
+        payload = {"name": "Test Batch", "data": values,
+                   'comment': 'Test comment'}
         response = self.client.post('/api/v1/batch',
                                     payload,
                                     content_type='application/json',
@@ -140,8 +142,9 @@ class PendingDataTestCase(TestCase):
 
             # approve data with child
             payload = {
-                'batch': [approval.batch_id],
-                'status': DataApprovalStatus.approved
+                'batch': approval.batch_id,
+                'status': DataApprovalStatus.approved,
+                'comment': 'Approved comment'
             }
             header = {'HTTP_AUTHORIZATION': f'Bearer {t_child.access_token}'}
             response = self.client.post(
@@ -169,8 +172,9 @@ class PendingDataTestCase(TestCase):
 
             # reject data with child
             payload = {
-                'batch': [approval.batch_id],
-                'status': DataApprovalStatus.rejected
+                'batch': approval.batch_id,
+                'status': DataApprovalStatus.rejected,
+                'comment': 'Rejected'
             }
             header = {'HTTP_AUTHORIZATION': f'Bearer {t_child.access_token}'}
             response = self.client.post(

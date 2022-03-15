@@ -122,4 +122,16 @@
   .ant-modal-footer {
     padding-bottom: 30px;
   }
+
+  .ant-input {
+    &:focus,
+    &:hover {
+      border-right-width: 16px !important;
+    }
+  }
+
+  textarea {
+    margin: 8px 0 15px;
+    border: solid $color-semi-light 16px;
+  }
 }
