@@ -353,7 +353,9 @@ class ListPendingDataBatchSerializer(serializers.ModelSerializer):
         user: SystemUser = self.context.get('user')
         data = {}
         approval = instance.batch_approval.filter(
-            status=DataApprovalStatus.pending,
+            status__in=[
+                DataApprovalStatus.pending, DataApprovalStatus.rejected
+            ],
             level__level__gt=user.user_access.administration.level.level
         ).order_by('level__level').first()
         if approval:
