@@ -209,6 +209,7 @@ const Users = () => {
             <Col span={12}>
               <Button
                 className="light"
+                disabled={deleting}
                 onClick={() => {
                   setDeleteUser(null);
                 }}
@@ -218,6 +219,7 @@ const Users = () => {
               <Button
                 type="primary"
                 danger
+                loading={deleting}
                 onClick={() => {
                   handleDelete();
                 }}
