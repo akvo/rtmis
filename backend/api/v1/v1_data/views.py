@@ -292,7 +292,7 @@ def get_chart_data_point(request, version, form_id):
             "current": serializers.IntegerField(),
             "total": serializers.IntegerField(),
             "total_page": serializers.IntegerField(),
-            "data": ListPendingDataBatchSerializer(many=True),
+            "batch": ListPendingDataBatchSerializer(many=True),
         })},
     tags=['Pending Data'],
     parameters=[
