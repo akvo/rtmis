@@ -12,15 +12,24 @@ class Migration(migrations.Migration):
         migrations.RunSQL(
             """
             CREATE OR REPLACE VIEW view_pending_approval as
-   SELECT
-   DISTINCT pa.*, COALESCE(max(pa2.level_id), 0) as pending_level
-   FROM pending_data_approval pa
-   LEFT JOIN (
-       SELECT * FROM pending_data_approval pda
-       WHERE pda.status in (1,3)) as pa2
-   ON pa2.batch_id = pa.batch_id
-GROUP BY pa.id
-
+               SELECT
+               DISTINCT pa.*, COALESCE(max(pa2.level_id), 0) as pending_level
+               FROM pending_data_approval pa
+               LEFT JOIN (
+                   SELECT * FROM pending_data_approval pda
+                   WHERE pda.status in (1,3)) as pa2
+               ON pa2.batch_id = pa.batch_id
+            GROUP BY pa.id
+            """, """
+            REPLACE VIEW view_pending_approval as
+                SELECT
+                DISTINCT pa.*, COALESCE(max(pa2.level_id), 0) as pending_level
+                FROM pending_data_approval pa
+                LEFT JOIN (
+                    SELECT * FROM pending_data_approval pda
+                    WHERE pda.status = 1) as pa2
+                ON pa2.batch_id = pa.batch_id
+            GROUP BY pa.id
             """
         )
     ]
