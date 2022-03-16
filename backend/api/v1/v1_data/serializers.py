@@ -541,16 +541,19 @@ class ListBatchSerializer(serializers.ModelSerializer):
         inline_serializer('batch_approver',
                           fields={
                               'name': serializers.CharField(),
-                              'administration': serializers.IntegerField(),
+                              'administration': serializers.CharField(),
                               'status': serializers.IntegerField(),
+                              'status_text': serializers.CharField(),
                           }, many=True))
     def get_approvers(self, instance: PendingDataBatch):
         data = []
         for approver in instance.batch_approval.all():
+            approver_administration = approver.user.user_access.administration
             data.append({
                 'name': approver.user.get_full_name(),
-                'administration': approver.user.user_access.administration_id,
+                'administration': approver_administration.name,
                 'status': approver.status,
+                'status_text': DataApprovalStatus.FieldStr.get(approver.status)
             })
         return data
 
@@ -564,7 +567,7 @@ class ListBatchSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PendingDataBatch
-        fields = ['name', 'form', 'administration', 'file', 'total_data',
+        fields = ['id', 'name', 'form', 'administration', 'file', 'total_data',
                   'created', 'updated', 'status', 'approvers']
 
 
