@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Table, Tabs, Input, Checkbox, Button, Space } from "antd";
+import {
+  Row,
+  Col,
+  Table,
+  Tabs,
+  Input,
+  Checkbox,
+  Button,
+  Space,
+  Tag,
+  List,
+  Avatar,
+} from "antd";
 import { api } from "../../lib";
 
 const { TextArea } = Input;
@@ -78,6 +90,7 @@ const ApprovalDetail = ({
   const [columns, setColumns] = useState(summaryColumns);
   const [loading, setLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState("data-summary");
+  const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
 
   const handleApprove = (id, status) => {
@@ -100,10 +113,11 @@ const ApprovalDetail = ({
   };
 
   useEffect(() => {
-    if (expandedParentKeys.length) {
-      setSelectedTab("data-summary");
-    }
-  }, [expandedParentKeys]);
+    setSelectedTab("data-summary");
+    api.get(`/batch/comment/${record.id}`).then((res) => {
+      setComments(res.data);
+    });
+  }, [record]);
 
   useEffect(() => {
     setLoading(true);
@@ -150,8 +164,34 @@ const ApprovalDetail = ({
         columns={columns}
         scroll={{ y: 500 }}
         pagination={false}
+        style={{ borderBottom: "solid 1px #ddd" }}
       />
-      <label>Notes {"&"} Feedback</label>
+      <h3>Notes {"&"} Feedback</h3>
+      {!!comments.length && (
+        <div className="comments">
+          <List
+            itemLayout="horizontal"
+            dataSource={comments}
+            renderItem={(item, index) => (
+              <List.Item>
+                {/* TODO: Change Avatar */}
+                <List.Item.Meta
+                  avatar={
+                    <Avatar src={`https://i.pravatar.cc/150?img=${index}`} />
+                  }
+                  title={
+                    <div>
+                      <Tag>{item.created}</Tag>
+                      {item.user.name}
+                    </div>
+                  }
+                  description={item.comment}
+                />
+              </List.Item>
+            )}
+          />
+        </div>
+      )}
       <TextArea
         rows={4}
         onChange={(e) => setComment(e.target.value)}
