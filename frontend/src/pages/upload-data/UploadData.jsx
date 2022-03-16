@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./style.scss";
 import {
   Row,
@@ -16,11 +16,12 @@ import dataUploadIcon from "../../assets/data-upload.svg";
 import dataDownloadIcon from "../../assets/data-download.svg";
 import { Breadcrumbs } from "../../components";
 import { AdministrationDropdown } from "../../components";
-import { store } from "../../lib";
+import { api, store } from "../../lib";
+import { useNotification } from "../../util/hooks";
 
 const { Option } = Select;
 const { Dragger } = Upload;
-
+const regExpFilename = /filename="(?<filename>.*)"/;
 const pagePath = [
   {
     title: "Control Center",
@@ -33,11 +34,52 @@ const pagePath = [
 
 const UploadData = () => {
   const { forms } = store.useState((state) => state);
+  const [formId, setFormId] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { notify } = useNotification();
 
   const props = {
     name: "file",
     multiple: true,
     action: "",
+  };
+
+  const handleChange = (e) => {
+    setFormId(e);
+  };
+
+  const downloadTemplate = () => {
+    setLoading(true);
+    api
+      .get(`export/form/${formId}`, { responseType: "blob" })
+      .then((res) => {
+        const contentDispositionHeader = res.headers["content-disposition"];
+        const filename = regExpFilename.exec(contentDispositionHeader)?.groups
+          ?.filename;
+        if (filename) {
+          const url = window.URL.createObjectURL(new Blob([res.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", filename);
+          document.body.appendChild(link);
+          link.click();
+          setLoading(false);
+        } else {
+          notify({
+            type: "error",
+            message: "Could not fetch template",
+          });
+          setLoading(false);
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+        notify({
+          type: "error",
+          message: "Could not fetch template",
+        });
+        setLoading(false);
+      });
   };
 
   return (
@@ -60,14 +102,16 @@ const UploadData = () => {
         <Space align="center" size={32}>
           <img src={dataDownloadIcon} />
           <p>If you do not already have a template please download it</p>
-          <Select placeholder="Select Form...">
+          <Select placeholder="Select Form..." onChange={handleChange}>
             {forms.map((f, fI) => (
               <Option key={fI} value={f.id}>
                 {f.name}
               </Option>
             ))}
           </Select>
-          <Button className="light dev">Download</Button>
+          <Button loading={loading} type="primary" onClick={downloadTemplate}>
+            Download
+          </Button>
         </Space>
         <Space align="center" size={32}>
           <img src={dataUploadIcon} />
