@@ -47,6 +47,7 @@ const columnsBatch = [
     title: "",
     dataIndex: "id",
     key: "id",
+    align: "center",
     render: () => <InfoCircleOutlined />,
     width: 50,
   },
@@ -82,8 +83,9 @@ const columnsBatch = [
     title: "Status",
     dataIndex: "approvers",
     key: "approvers",
+    align: "center",
     render: (approvers) => {
-      if (approvers.length) {
+      if (approvers?.length) {
         const status_text = approvers[0].status_text;
         return (
           <span>
@@ -128,11 +130,7 @@ const columnsBatch = [
     title: "Total Data",
     dataIndex: "total_data",
     key: "total_data",
-  },
-  {
-    title: "Date Submitted",
-    dataIndex: "created",
-    key: "created",
+    align: "center",
   },
 ];
 
@@ -268,6 +266,12 @@ const PanelDataUpload = () => {
     }
   }, [selectedForm]);
 
+  useEffect(() => {
+    if (selectedTab) {
+      setDataset([]);
+    }
+  }, [selectedTab]);
+
   const handlePageChange = (e) => {
     setCurrentPage(e.current);
   };
@@ -302,7 +306,7 @@ const PanelDataUpload = () => {
   };
 
   const btnBatchSelected = useMemo(() => {
-    if (selectedRows.length > 0 && modalButton) {
+    if (selectedRows.length && modalButton) {
       return (
         <Button
           type="primary"
@@ -316,26 +320,6 @@ const PanelDataUpload = () => {
     }
     return "";
   }, [selectedRows, modalButton]);
-
-  const expandable =
-    selectedTab === "pending-batch"
-      ? {
-          expandedRowRender: ApproverDetail,
-          expandIcon: ({ expanded, _, record }) => {
-            return expanded ? (
-              <CloseSquareOutlined
-                onClick={(e) => setExpandedKeys([])}
-                style={{ color: "#e94b4c" }}
-              />
-            ) : (
-              <PlusSquareOutlined
-                onClick={(e) => setExpandedKeys([record.id])}
-                style={{ color: "#7d7d7d" }}
-              />
-            );
-          },
-        }
-      : {};
 
   return (
     <>
@@ -353,43 +337,69 @@ const PanelDataUpload = () => {
           onChange={setSelectedTab}
           tabBarExtraContent={btnBatchSelected}
         >
-          <TabPane tab="Pending Submission" key={"pending-data"} />
-          <TabPane tab="Pending Approval" key={"pending-batch"} />
+          <TabPane tab="Pending Submission" key={"pending-data"}>
+            <Table
+              loading={loading}
+              dataSource={dataset}
+              columns={[
+                ...columnsPending,
+                {
+                  title: "Batch Datasets",
+                  render: (row) => (
+                    <Checkbox
+                      checked={
+                        selectedRows.filter((s) => s.id === row.id).length
+                      }
+                      onChange={(e) => {
+                        handleSelect(row, e.target.checked);
+                      }}
+                    />
+                  ),
+                },
+              ]}
+              onChange={handlePageChange}
+              pagination={{
+                current: currentPage,
+                total: totalCount,
+                pageSize: 10,
+                showSizeChanger: false,
+              }}
+              rowKey="id"
+            />
+          </TabPane>
+          <TabPane tab="Pending Approval" key={"pending-batch"}>
+            <Table
+              loading={loading}
+              dataSource={dataset}
+              columns={[...columnsBatch, Table.EXPAND_COLUMN]}
+              onChange={handlePageChange}
+              pagination={{
+                current: currentPage,
+                total: totalCount,
+                pageSize: 10,
+                showSizeChanger: false,
+              }}
+              rowKey="id"
+              expandedRowKeys={expandedKeys}
+              expandable={{
+                expandedRowRender: ApproverDetail,
+                expandIcon: (expand) => {
+                  return expand.expanded ? (
+                    <CloseSquareOutlined
+                      onClick={() => setExpandedKeys([])}
+                      style={{ color: "#e94b4c" }}
+                    />
+                  ) : (
+                    <PlusSquareOutlined
+                      onClick={() => setExpandedKeys([expand.record.id])}
+                      style={{ color: "#7d7d7d" }}
+                    />
+                  );
+                },
+              }}
+            />
+          </TabPane>
         </Tabs>
-        <Table
-          loading={loading}
-          dataSource={dataset}
-          columns={
-            selectedTab === "pending-data"
-              ? [
-                  ...columnsPending,
-                  {
-                    title: "Batch Datasets",
-                    render: (row) => (
-                      <Checkbox
-                        checked={
-                          selectedRows.filter((s) => s.id === row.id).length
-                        }
-                        onChange={(e) => {
-                          handleSelect(row, e.target.checked);
-                        }}
-                      />
-                    ),
-                  },
-                ]
-              : [...columnsBatch, Table.EXPAND_COLUMN]
-          }
-          onChange={handlePageChange}
-          pagination={{
-            current: currentPage,
-            total: totalCount,
-            pageSize: 10,
-            showSizeChanger: false,
-          }}
-          rowKey="id"
-          expandedRowKeys={expandedKeys}
-          expandable={expandable}
-        />
       </Card>
       <Modal
         visible={modalVisible}
