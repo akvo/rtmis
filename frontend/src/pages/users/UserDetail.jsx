@@ -9,11 +9,13 @@ import {
   Divider,
   Form,
   Input,
+  Select,
 } from "antd";
 import { Link } from "react-router-dom";
 import { pick, assign } from "lodash";
-import { api } from "../../lib";
+import { api, config } from "../../lib";
 import { useNotification } from "../../util/hooks";
+const { Option } = Select;
 
 const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
   const EditableContext = React.createContext(null);
@@ -48,7 +50,10 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
     const toggleEdit = () => {
       setEditing(!editing);
       form.setFieldsValue({
-        [dataIndex]: record[dataIndex],
+        [dataIndex]:
+          dataIndex === "designation"
+            ? parseInt(record[dataIndex]) || null
+            : record[dataIndex],
       });
     };
 
@@ -77,7 +82,18 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
             type: "success",
             message: "User updated",
           });
-          applyChanges({ ...record, [dataIndex]: values[dataIndex] });
+          let val = values[dataIndex];
+          if (dataIndex === "role") {
+            const userRole = config.roles.find(
+              (r) => r.id === values[dataIndex]
+            );
+            val = { id: userRole?.id, value: userRole?.name } || null;
+          }
+          const output = {
+            ...record,
+            [dataIndex]: val,
+          };
+          applyChanges(output);
         });
       } catch (errInfo) {
         console.error("Save failed:", errInfo);
@@ -88,28 +104,50 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
     let childNode = children;
     if (editable) {
       childNode = editing ? (
-        <Space>
-          <Form.Item
-            style={{
-              margin: 0,
-            }}
-            name={dataIndex}
-            rules={[
-              {
-                required: true,
-                message: `${title} is required.`,
-              },
-            ]}
-          >
-            <Input ref={inputRef} onPressEnter={save} />
-          </Form.Item>
-          <Button type="primary" loading={saving} onClick={save}>
-            Save
-          </Button>
-          <Button onClick={toggleEdit} disabled={saving} danger>
-            Cancel
-          </Button>
-        </Space>
+        <Row>
+          <Col flex={1} style={{ marginRight: 8 }}>
+            <Form.Item
+              style={{
+                margin: 0,
+              }}
+              name={dataIndex}
+              rules={[
+                {
+                  required: true,
+                  message: `${title} is required.`,
+                },
+              ]}
+            >
+              {dataIndex === "role" ? (
+                <Select style={{ width: "98%" }} ref={inputRef}>
+                  {config?.roles?.map((r, rI) => (
+                    <Option key={rI} value={r.id}>
+                      {r.name}
+                    </Option>
+                  ))}
+                </Select>
+              ) : dataIndex === "designation" ? (
+                <Select style={{ width: "98%" }} ref={inputRef}>
+                  {config?.designations?.map((d, dI) => (
+                    <Option key={dI} value={parseInt(d.id)}>
+                      {d.name}
+                    </Option>
+                  ))}
+                </Select>
+              ) : (
+                <Input ref={inputRef} onPressEnter={save} />
+              )}
+            </Form.Item>
+          </Col>
+          <Space>
+            <Button type="primary" loading={saving} onClick={save}>
+              Save
+            </Button>
+            <Button onClick={toggleEdit} disabled={saving} danger>
+              Cancel
+            </Button>
+          </Space>
+        </Row>
       ) : (
         <div
           className="editable-cell-value-wrap"
@@ -207,14 +245,13 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
                 ),
               },
               {
-                key: "region",
-                field: "Region",
-                value: `${record?.administration?.name || "-"}`,
-              },
-              {
                 key: "designation",
                 field: "Designation",
-                value: `${record?.designation || "-"}`,
+                value: `${
+                  config?.designations?.find(
+                    (d) => d.id === parseInt(record.designation)
+                  )?.name || "-"
+                }`,
               },
               {
                 key: "phone_number",
