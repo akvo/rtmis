@@ -451,14 +451,36 @@ def approve_pending_data(request, version):
 class BatchView(APIView):
     permission_classes = [IsAuthenticated]
 
-    @extend_schema(responses={200: ListBatchSerializer(many=True)},
-                   tags=['Pending Data'],
-                   summary='To get list of batch')
+    @extend_schema(responses={
+        (200, 'application/json'):
+            inline_serializer("ListDataBatch", fields={
+                "current": serializers.IntegerField(),
+                "total": serializers.IntegerField(),
+                "total_page": serializers.IntegerField(),
+                "data": ListBatchSerializer(many=True),
+            })},
+        tags=['Pending Data'],
+        summary='To get list of batch',
+        parameters=[
+            OpenApiParameter(name='page',
+                             required=True,
+                             type=OpenApiTypes.NUMBER,
+                             location=OpenApiParameter.QUERY),
+        ])
     def get(self, request, version):
+        queryset = PendingDataBatch.objects.filter(user=request.user).order_by(
+            '-id')
+        paginator = PageNumberPagination()
+        instance = paginator.paginate_queryset(queryset, request)
+        page_size = REST_FRAMEWORK.get('PAGE_SIZE')
+        data = {
+            "current": int(request.GET.get('page', '1')),
+            "total": queryset.count(),
+            "total_page": ceil(queryset.count() / page_size),
+            "data": ListBatchSerializer(instance=instance, many=True).data
+        }
         return Response(
-            ListBatchSerializer(
-                instance=PendingDataBatch.objects.filter(user=request.user),
-                many=True).data,
+            data,
             status=status.HTTP_200_OK)
 
     @extend_schema(request=CreateBatchSerializer(),

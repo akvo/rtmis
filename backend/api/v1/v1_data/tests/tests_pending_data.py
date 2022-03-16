@@ -86,13 +86,13 @@ class PendingDataTestCase(TestCase):
                                     **header)
         self.assertEqual(response.status_code, 400)
 
-        response = self.client.get('/api/v1/batch',
+        response = self.client.get('/api/v1/batch?page=1',
                                    content_type='application/json',
                                    **header)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(list(response.json()[0]), [
+        self.assertEqual(list(response.json()['data'][0]), [
             'name', 'form', 'administration', 'file', 'total_data', 'created',
-            'updated'
+            'updated', 'status', 'approvers'
         ])
 
     def test_pending_batch_list(self):

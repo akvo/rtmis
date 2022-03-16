@@ -479,6 +479,10 @@ class ListBatchSerializer(serializers.ModelSerializer):
     administration = serializers.SerializerMethodField()
     file = serializers.SerializerMethodField()
     total_data = serializers.SerializerMethodField()
+    status = serializers.ReadOnlyField(source='approved')
+    approvers = serializers.SerializerMethodField()
+    created = serializers.SerializerMethodField()
+    updated = serializers.SerializerMethodField()
 
     @extend_schema_field(
         inline_serializer('batch_form',
@@ -525,12 +529,35 @@ class ListBatchSerializer(serializers.ModelSerializer):
     def get_total_data(self, instance: PendingDataBatch):
         return instance.batch_pending_data_batch.all().count()
 
+    @extend_schema_field(
+        inline_serializer('batch_approver',
+                          fields={
+                              'name': serializers.CharField(),
+                              'administration': serializers.IntegerField(),
+                              'status': serializers.IntegerField(),
+                          }, many=True))
+    def get_approvers(self, instance: PendingDataBatch):
+        data = []
+        for approver in instance.batch_approval.all():
+            data.append({
+                'name': approver.user.get_full_name(),
+                'administration': approver.user.user_access.administration_id,
+                'status': approver.status,
+            })
+        return data
+
+    @extend_schema_field(OpenApiTypes.DATE)
+    def get_created(self, instance):
+        return update_date_time_format(instance.created)
+
+    @extend_schema_field(OpenApiTypes.DATE)
+    def get_updated(self, instance):
+        return update_date_time_format(instance.updated)
+
     class Meta:
         model = PendingDataBatch
-        fields = [
-            'name', 'form', 'administration', 'file', 'total_data', 'created',
-            'updated'
-        ]
+        fields = ['name', 'form', 'administration', 'file', 'total_data',
+                  'created', 'updated', 'status', 'approvers']
 
 
 class ListBatchSummarySerializer(serializers.ModelSerializer):
