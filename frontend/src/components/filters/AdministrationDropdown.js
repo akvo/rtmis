@@ -10,6 +10,7 @@ const AdministrationDropdown = ({
   loading = false,
   withLabel = false,
   width = 160,
+  persist = false,
   ...props
 }) => {
   const { user, administration, isLoggedIn, loadingAdministration } =
@@ -17,7 +18,7 @@ const AdministrationDropdown = ({
   const { notify } = useNotification();
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && !persist) {
       store.update((s) => {
         s.loadingAdministration = true;
       });
@@ -50,7 +51,7 @@ const AdministrationDropdown = ({
           console.error(err);
         });
     }
-  }, [user, isLoggedIn, notify]);
+  }, [user, isLoggedIn, notify, persist]);
 
   const handleChange = (e, index) => {
     if (!e) {
@@ -144,6 +145,7 @@ const AdministrationDropdown = ({
 
 AdministrationDropdown.propTypes = {
   loading: PropTypes.bool,
+  persist: PropTypes.bool,
 };
 
 export default React.memo(AdministrationDropdown);
