@@ -166,6 +166,7 @@ class UserInvitationTestCase(TestCase):
         invite_response = self.client.get(
             '/api/v1/invitation/{0}'.format(invite_payload),
             content_type='application/json')
+        self.assertEqual(invite_response.json(), {'name': "Admin RTMIS"})
         self.assertEqual(invite_response.status_code, 200)
 
     def test_set_user_password(self):
@@ -199,6 +200,7 @@ class UserInvitationTestCase(TestCase):
                                    content_type='application/json')
         levels = response.json()
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json()), 4)
         self.assertEqual(list(levels[0]), ['id', 'name', 'level'])
 
     def test_config_js(self):
