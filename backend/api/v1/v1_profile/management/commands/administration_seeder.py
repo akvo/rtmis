@@ -3,8 +3,6 @@ import json
 import numpy as np
 import pandas as pd
 from django.core.management import BaseCommand
-from faker import Faker
-
 from api.v1.v1_profile.models import Levels, Administration
 
 geo_config = [{
@@ -38,7 +36,6 @@ def get_parent_id(df, x):
 
 
 def seed_administration_test():
-    fake = Faker()
     level = Levels(name="National", level=0)
     level.save()
     level_1 = Levels(name="County", level=1)
@@ -59,7 +56,7 @@ def seed_administration_test():
                                     path='{0}.'.format(administration.id))
     administration.save()
     administration = Administration(id=3,
-                                    name=fake.company(),
+                                    name="East Jakarta",
                                     parent=administration,
                                     level=level_2,
                                     path='{0}{1}.'.format(
@@ -67,7 +64,7 @@ def seed_administration_test():
                                         administration.id))
     administration.save()
     administration = Administration(id=4,
-                                    name=fake.company(),
+                                    name="Kramat Jati",
                                     parent=administration,
                                     level=level_3,
                                     path='{0}{1}.'.format(
