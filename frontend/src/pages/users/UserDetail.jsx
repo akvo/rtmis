@@ -271,7 +271,7 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
         <Col span={10} align="right">
           <Space>
             <Link to={`/user/${record.id}`}>
-              <Button className="light dev">Edit</Button>
+              <Button type="primary">Edit</Button>
             </Link>
             <Button
               danger
