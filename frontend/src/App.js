@@ -54,6 +54,10 @@ const RouteList = () => {
         element={<Private element={AddUser} alias="user" />}
       />
       <Route
+        path="/user/:id"
+        element={<Private element={AddUser} alias="user" />}
+      />
+      <Route
         path="/control-center"
         element={<Private element={ControlCenter} alias="control-center" />}
       />

@@ -270,7 +270,9 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
         </Col>
         <Col span={10} align="right">
           <Space>
-            <Button className="light dev">Edit</Button>
+            <Link to={`/user/${record.id}`}>
+              <Button className="light dev">Edit</Button>
+            </Link>
             <Button
               danger
               loading={deleting}
