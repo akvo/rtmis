@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { api, store } from "../../../lib";
+import { api, store, config } from "../../../lib";
 import { useNavigate } from "react-router-dom";
 import { getFormUrl } from "../../../util/form";
 import { useNotification } from "../../../util/hooks";
@@ -30,11 +30,14 @@ const RegistrationForm = (props) => {
       .put("user/set-password", postData)
       .then((res) => {
         api.setToken(res.data.token);
+        const role_details = config.roles.find(
+          (r) => r.id === res.data.role.id
+        );
         store.update((s) => {
           s.isLoggedIn = true;
-          s.user = res.data;
+          s.user = { ...res.data, role_detail: role_details };
         });
-        Promise.all([api.get(getFormUrl(res.data)), api.get("levels")])
+        Promise.all([api.get(getFormUrl(role_details)), api.get("levels")])
           .then((res) => {
             store.update((s) => {
               s.forms = res[0].data;

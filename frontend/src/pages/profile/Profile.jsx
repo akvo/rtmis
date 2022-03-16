@@ -1,9 +1,9 @@
 import React from "react";
 import "./style.scss";
 import { Space, Card, Divider } from "antd";
-import { store } from "../../lib";
+import { store, config } from "../../lib";
 import { Breadcrumbs } from "../../components";
-import { PanelDataUpload } from "./components";
+import { PanelApprovals, PanelDataUpload } from "./components";
 
 const Profile = () => {
   const { forms, user: authUser } = store.useState((s) => s);
@@ -48,7 +48,10 @@ const Profile = () => {
           </li>
         </ul>
       </Card>
-      <PanelDataUpload />
+      {config.checkAccess(authUser?.role_detail, "form") && <PanelDataUpload />}
+      {config.checkAccess(authUser?.role_detail, "approvals") && (
+        <PanelApprovals />
+      )}
     </div>
   );
 };
