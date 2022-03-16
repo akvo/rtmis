@@ -1,4 +1,4 @@
-import { api, store, config } from "../lib";
+import { api, store } from "../lib";
 
 export const reloadData = () => {
   store.update((s) => {
@@ -16,10 +16,9 @@ export const reloadData = () => {
     });
 };
 
-export const getFormUrl = ({ role }) => {
-  const form_filter = config.roles.find((r) => r.id === role?.id)?.filter_form;
-  if (form_filter) {
-    return `forms/?type=${form_filter}`;
+export const getFormUrl = ({ filter_form }) => {
+  if (filter_form) {
+    return `forms/?type=${filter_form}`;
   }
   return `forms`;
 };

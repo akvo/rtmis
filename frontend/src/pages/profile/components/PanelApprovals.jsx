@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, Table, Tabs, Row, Button } from "antd";
-import { api, store } from "../../../lib";
+import { api, store, config } from "../../../lib";
 import { Link } from "react-router-dom";
 import { columnsApproval } from "../../approvals";
 import "./style.scss";
@@ -65,7 +65,7 @@ const PanelApprovals = () => {
         <Link to="/approvals">
           <Button type="primary">View All</Button>
         </Link>
-        {["Super Admin", "Admin"].includes(authUser?.role?.value) && (
+        {config.checkAccess(authUser?.role_detail, "approvers") && (
           <Link to="/approvers/tree">
             <Button type="primary">Manage Approvers</Button>
           </Link>

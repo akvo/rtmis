@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.scss";
 import { Space, Card, Divider } from "antd";
-import { store } from "../../lib";
+import { store, config } from "../../lib";
 import { Breadcrumbs } from "../../components";
 import { PanelApprovals, PanelDataUpload } from "./components";
 
@@ -48,8 +48,10 @@ const Profile = () => {
           </li>
         </ul>
       </Card>
-      {[2, 4].includes(authUser?.role?.id) && <PanelDataUpload />}
-      {[2, 3].includes(authUser?.role?.id) && <PanelApprovals />}
+      {config.checkAccess(authUser?.role_detail, "form") && <PanelDataUpload />}
+      {config.checkAccess(authUser?.role_detail, "approvals") && (
+        <PanelApprovals />
+      )}
     </div>
   );
 };

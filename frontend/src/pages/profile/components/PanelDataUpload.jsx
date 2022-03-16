@@ -246,18 +246,20 @@ const PanelDataUpload = () => {
       setModalButton(false);
     }
     setLoading(true);
-    api
-      .get(url)
-      .then((res) => {
-        setDataset(res.data.data);
-        setTotalCount(res.data.total);
-        setLoading(false);
-      })
-      .catch(() => {
-        setDataset([]);
-        setTotalCount(0);
-        setLoading(false);
-      });
+    if (selectedTab === "pending-batch" || selectedForm) {
+      api
+        .get(url)
+        .then((res) => {
+          setDataset(res.data.data);
+          setTotalCount(res.data.total);
+          setLoading(false);
+        })
+        .catch(() => {
+          setDataset([]);
+          setTotalCount(0);
+          setLoading(false);
+        });
+    }
   }, [selectedTab, selectedForm, currentPage]);
 
   useEffect(() => {
