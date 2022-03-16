@@ -67,7 +67,7 @@ const Users = () => {
     {
       title: "Role",
       dataIndex: "role",
-      render: (role) => role.value || "",
+      render: (role) => role?.value || "",
     },
     {
       title: "Region",
