@@ -109,11 +109,7 @@ const UploadData = () => {
               </Option>
             ))}
           </Select>
-          <Button
-            loading={loading}
-            className="light"
-            onClick={downloadTemplate}
-          >
+          <Button loading={loading} type="primary" onClick={downloadTemplate}>
             Download
           </Button>
         </Space>
