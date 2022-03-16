@@ -150,31 +150,32 @@
     }
   }
 
-  button.light {
-    background-color: #b2b3b7;
-    color: #fffe;
-    font-weight: $font-weight-medium;
-    width: auto;
-    border: 0 none;
-
-    &:hover {
-      background-color: #969799;
-      border: 0 none;
-    }
-
-    &[disabled],
-    &[disabled]:hover {
-      background-color: #b2b3b7;
-      color: #fffa;
-      opacity: 0.7;
-    }
-  }
-
   .hidden-field {
     .ant-form-item-control {
       .ant-form-item-control-input {
         display: none;
       }
     }
+  }
+}
+
+button.light {
+  background-color: #b2b3b7;
+  color: #fffe;
+  font-weight: $font-weight-medium;
+  width: auto;
+  border: 0 none;
+
+  &:hover {
+    background-color: #969799;
+    border: 0 none;
+    color: #fff;
+  }
+
+  &[disabled],
+  &[disabled]:hover {
+    background-color: #b2b3b7;
+    color: #fffa;
+    opacity: 0.7;
   }
 }
