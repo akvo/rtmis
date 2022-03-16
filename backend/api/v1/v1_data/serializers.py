@@ -370,7 +370,15 @@ class ListPendingDataBatchSerializer(serializers.ModelSerializer):
                 data['allow_approve'] = True
             else:
                 data['allow_approve'] = False
-            data['rejected'] = {'name', 'id', 'administration(name)'}
+            rejected: PendingDataApproval = instance.batch_approval.filter(
+                status=DataApprovalStatus.rejected).first()
+            if rejected:
+                data['rejected'] = {
+                    'name': rejected.user.get_full_name(),
+                    'id': rejected.user_id,
+                    'administration':
+                        rejected.user.user_access.administration.name
+                }
         else:
             approval = instance.batch_approval.get(user=user)
             data['id'] = approval.user.pk

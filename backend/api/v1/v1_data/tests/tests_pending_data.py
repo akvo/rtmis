@@ -90,7 +90,7 @@ class PendingDataTestCase(TestCase):
                                    content_type='application/json',
                                    **header)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(list(response.json()['data'][0]), [
+        self.assertEqual(list(response.json()['batch'][0]), [
             'name', 'form', 'administration', 'file', 'total_data', 'created',
             'updated', 'status', 'approvers'
         ])

@@ -457,7 +457,7 @@ class BatchView(APIView):
                 "current": serializers.IntegerField(),
                 "total": serializers.IntegerField(),
                 "total_page": serializers.IntegerField(),
-                "data": ListBatchSerializer(many=True),
+                "batch": ListBatchSerializer(many=True),
             })},
         tags=['Pending Data'],
         summary='To get list of batch',
@@ -477,7 +477,7 @@ class BatchView(APIView):
             "current": int(request.GET.get('page', '1')),
             "total": queryset.count(),
             "total_page": ceil(queryset.count() / page_size),
-            "data": ListBatchSerializer(instance=instance, many=True).data
+            "batch": ListBatchSerializer(instance=instance, many=True).data
         }
         return Response(
             data,
