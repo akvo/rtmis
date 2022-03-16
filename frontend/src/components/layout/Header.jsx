@@ -25,7 +25,7 @@ const Header = ({ className = "header", ...props }) => {
 
   const userMenu = (
     <Menu>
-      {["Super Admin", "Admin", "Approver"].includes(user?.role?.value) && (
+      {config.checkAccess(user?.role_detail, "control-center") && (
         <Menu.Item key="controlCenter">
           <Link to="/control-center">Control Center</Link>
         </Menu.Item>
