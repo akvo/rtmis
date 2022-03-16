@@ -254,6 +254,7 @@ const Users = () => {
             },
           ]}
           dataSource={[deleteUser]}
+          rowKey="id"
           pagination={false}
         />
       </Modal>

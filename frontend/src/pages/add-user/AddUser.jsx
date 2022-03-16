@@ -12,7 +12,7 @@ import {
   Checkbox,
 } from "antd";
 import { AdministrationDropdown } from "../../components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { api, store, config } from "../../lib";
 import { Breadcrumbs } from "../../components";
 import { takeRight } from "lodash";
@@ -20,45 +20,50 @@ import { useNotification } from "../../util/hooks";
 
 const { Option } = Select;
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Users",
-    link: "/users",
-  },
-  {
-    title: "Add User",
-  },
-];
-
 const AddUser = () => {
   const [submitting, setSubmitting] = useState(false);
   const [showAdministration, setShowAdministration] = useState(false);
   const [form] = Form.useForm();
-  const { user: authUser, administration, levels } = store.useState((s) => s);
+  const {
+    user: authUser,
+    administration,
+    levels,
+    loadingAdministration,
+  } = store.useState((s) => s);
   const navigate = useNavigate();
   const { notify } = useNotification();
+  const { id } = useParams();
+
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: "/control-center",
+    },
+    {
+      title: "Manage Users",
+      link: "/users",
+    },
+    {
+      title: id ? "Edit User" : "Add User",
+    },
+  ];
 
   const onFinish = (values) => {
     setSubmitting(true);
     const admin = takeRight(administration, 1)?.[0];
-    api
-      .post("user", {
-        first_name: values.first_name,
-        last_name: values.last_name,
-        email: values.email,
-        administration: admin.id,
-        phone_number: values.phone_number,
-        designation: values.designation,
-        role: values.role,
-      })
+    api[id ? "put" : "post"](id ? `user/${id}` : "user", {
+      first_name: values.first_name,
+      last_name: values.last_name,
+      email: values.email,
+      administration: admin.id,
+      phone_number: values.phone_number,
+      designation: values.designation,
+      role: values.role,
+    })
       .then(() => {
         notify({
           type: "success",
-          message: "User added",
+          message: `User ${id ? "updated" : "added"}`,
         });
         setSubmitting(false);
         navigate("/users");
@@ -66,7 +71,9 @@ const AddUser = () => {
       .catch((err) => {
         notify({
           type: "error",
-          message: err.response?.data?.message || "User could not be added",
+          message:
+            err?.response?.data?.message ||
+            `User could not be ${id ? "updated" : "added"}`,
         });
         setSubmitting(false);
       });
@@ -103,6 +110,52 @@ const AddUser = () => {
   useEffect(() => {
     checkRole(administration);
   }, [administration, checkRole]);
+
+  useEffect(() => {
+    const fetchData = (adminId, acc) => {
+      api.get(`administration/${adminId}`).then((res) => {
+        acc.unshift({
+          id: res.data.id,
+          name: res.data.name,
+          levelName: res.data.level_name,
+          children: res.data.children,
+          childLevelName: res.data.children_level_name,
+        });
+        if (res.data.level > 0) {
+          fetchData(res.data.parent, acc);
+        } else {
+          store.update((s) => {
+            s.administration = acc;
+          });
+          store.update((s) => {
+            s.loadingAdministration = false;
+          });
+        }
+      });
+    };
+    if (id) {
+      try {
+        store.update((s) => {
+          s.loadingAdministration = true;
+        });
+        setShowAdministration(true);
+        api.get(`user/${id}`).then((res) => {
+          form.setFieldsValue({
+            administration: res.data?.administration,
+            designation: parseInt(res.data?.designation) || null,
+            email: res.data?.email,
+            first_name: res.data?.first_name,
+            last_name: res.data?.last_name,
+            phone_number: res.data?.phone_number,
+            role: res.data?.role,
+          });
+          fetchData(res.data.administration, []);
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }, [id, form]);
 
   return (
     <div id="add-user">
@@ -268,12 +321,17 @@ const AddUser = () => {
           </Form.Item>
           {showAdministration && (
             <div className="form-row-adm">
-              <AdministrationDropdown
-                direction="vertical"
-                withLabel={true}
-                size="large"
-                width="100%"
-              />
+              {loadingAdministration ? (
+                <p style={{ paddingLeft: 12, color: "#6b6b6f" }}>Loading..</p>
+              ) : (
+                <AdministrationDropdown
+                  direction="vertical"
+                  withLabel={true}
+                  persist={true}
+                  size="large"
+                  width="100%"
+                />
+              )}
             </div>
           )}
         </Card>
@@ -287,7 +345,7 @@ const AddUser = () => {
           </Col>
           <Col>
             <Button type="primary" htmlType="submit" loading={submitting}>
-              Add User
+              {id ? "Update User" : "Add User"}
             </Button>
           </Col>
         </Row>
