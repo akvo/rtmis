@@ -1,0 +1,16 @@
+{
+  "configurations": {
+    "django": {
+      "host": "localhost",
+      "port": 5000,
+      "adapter": "multi-session",
+      "filetypes": [
+        "python"
+      ],
+      "configuration": {
+        "request": "attach",
+        "django": true
+      }
+    }
+  }
+}
