@@ -30,7 +30,8 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ApprovePendingDataRequestSerializer, ListBatchSerializer, \
     CreateBatchSerializer, ListPendingDataBatchSerializer, \
     ListPendingFormDataSerializer, PendingBatchDataFilterSerializer, \
-    SubmitPendingFormSerializer, ListBatchSummarySerializer
+    SubmitPendingFormSerializer, ListBatchSummarySerializer, \
+    ListBatchCommentSerializer
 from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Administration
@@ -292,7 +293,7 @@ def get_chart_data_point(request, version, form_id):
             "current": serializers.IntegerField(),
             "total": serializers.IntegerField(),
             "total_page": serializers.IntegerField(),
-            "data": ListPendingDataBatchSerializer(many=True),
+            "batch": ListPendingDataBatchSerializer(many=True),
         })},
     tags=['Pending Data'],
     parameters=[
@@ -450,14 +451,36 @@ def approve_pending_data(request, version):
 class BatchView(APIView):
     permission_classes = [IsAuthenticated]
 
-    @extend_schema(responses={200: ListBatchSerializer(many=True)},
-                   tags=['Pending Data'],
-                   summary='To get list of batch')
+    @extend_schema(responses={
+        (200, 'application/json'):
+            inline_serializer("ListDataBatch", fields={
+                "current": serializers.IntegerField(),
+                "total": serializers.IntegerField(),
+                "total_page": serializers.IntegerField(),
+                "data": ListBatchSerializer(many=True),
+            })},
+        tags=['Pending Data'],
+        summary='To get list of batch',
+        parameters=[
+            OpenApiParameter(name='page',
+                             required=True,
+                             type=OpenApiTypes.NUMBER,
+                             location=OpenApiParameter.QUERY),
+        ])
     def get(self, request, version):
+        queryset = PendingDataBatch.objects.filter(user=request.user).order_by(
+            '-id')
+        paginator = PageNumberPagination()
+        instance = paginator.paginate_queryset(queryset, request)
+        page_size = REST_FRAMEWORK.get('PAGE_SIZE')
+        data = {
+            "current": int(request.GET.get('page', '1')),
+            "total": queryset.count(),
+            "total_page": ceil(queryset.count() / page_size),
+            "data": ListBatchSerializer(instance=instance, many=True).data
+        }
         return Response(
-            ListBatchSerializer(
-                instance=PendingDataBatch.objects.filter(user=request.user),
-                many=True).data,
+            data,
             status=status.HTTP_200_OK)
 
     @extend_schema(request=CreateBatchSerializer(),
@@ -501,6 +524,22 @@ class BatchSummaryView(APIView):
                 instance=instance,
                 many=True,
                 context={'batch': batch}).data,
+            status=status.HTTP_200_OK)
+
+
+class BatchCommentView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @extend_schema(responses={200: ListBatchCommentSerializer(many=True)},
+                   tags=['Pending Data'],
+                   summary='To get batch comment')
+    def get(self, request, batch_id, version):
+        batch = get_object_or_404(PendingDataBatch, pk=batch_id)
+        instance = batch.batch_batch_comment.all().order_by('-id')
+        return Response(
+            ListBatchCommentSerializer(
+                instance=instance,
+                many=True).data,
             status=status.HTTP_200_OK)
 
 

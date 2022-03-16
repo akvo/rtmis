@@ -9,34 +9,38 @@ import {
   Divider,
   Form,
   Input,
+  Select,
 } from "antd";
 import { Link } from "react-router-dom";
+import { pick, assign } from "lodash";
+import { api, config } from "../../lib";
+import { useNotification } from "../../util/hooks";
+const { Option } = Select;
 
-const EditableContext = React.createContext(null);
-const EditableRow = ({ ...props }) => {
-  const [form] = Form.useForm();
-  return (
-    <Form form={form} component={false}>
-      <EditableContext.Provider value={form}>
-        <tr {...props} />
-      </EditableContext.Provider>
-    </Form>
-  );
-};
-
-const UserDetail = (record) => {
+const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
+  const EditableContext = React.createContext(null);
+  const EditableRow = ({ ...props }) => {
+    const [form] = Form.useForm();
+    return (
+      <Form form={form} component={false}>
+        <EditableContext.Provider value={form}>
+          <tr {...props} />
+        </EditableContext.Provider>
+      </Form>
+    );
+  };
   const EditableCell = ({
     title,
     editable,
     children,
     dataIndex,
-    record,
-    handleSave,
     ...restProps
   }) => {
     const [editing, setEditing] = useState(false);
     const inputRef = useRef(null);
     const form = useContext(EditableContext);
+    const { notify } = useNotification();
+    const [saving, setSaving] = useState(false);
     useEffect(() => {
       if (editing) {
         inputRef.current.focus();
@@ -46,50 +50,104 @@ const UserDetail = (record) => {
     const toggleEdit = () => {
       setEditing(!editing);
       form.setFieldsValue({
-        [dataIndex]: record[dataIndex],
+        [dataIndex]:
+          dataIndex === "designation"
+            ? parseInt(record[dataIndex]) || null
+            : record[dataIndex],
       });
     };
 
     const save = async () => {
       try {
         const values = await form.validateFields();
-        toggleEdit();
-        handleSave({ ...record, ...values });
+        const body = assign(
+          pick(record, [
+            "first_name",
+            "last_name",
+            "email",
+            "phone_number",
+            "designation",
+          ]),
+          {
+            role: record.role.id,
+            administration: record.administration.id,
+          }
+        );
+        const data = { ...body, [dataIndex]: values[dataIndex] };
+        setSaving(true);
+        api.put(`user/${record.id}`, data).then(() => {
+          setSaving(false);
+          toggleEdit();
+          notify({
+            type: "success",
+            message: "User updated",
+          });
+          let val = values[dataIndex];
+          if (dataIndex === "role") {
+            const userRole = config.roles.find(
+              (r) => r.id === values[dataIndex]
+            );
+            val = { id: userRole?.id, value: userRole?.name } || null;
+          }
+          const output = {
+            ...record,
+            [dataIndex]: val,
+          };
+          applyChanges(output);
+        });
       } catch (errInfo) {
         console.error("Save failed:", errInfo);
+        toggleEdit();
       }
     };
 
     let childNode = children;
     if (editable) {
       childNode = editing ? (
-        <Space>
-          <Form.Item
-            style={{
-              margin: 0,
-            }}
-            name={dataIndex}
-            rules={[
-              {
-                required: true,
-                message: `${title} is required.`,
-              },
-            ]}
-          >
-            <Input
-              className="dev"
-              ref={inputRef}
-              onPressEnter={save}
-              disabled
-            />
-          </Form.Item>
-          <Button className="dev" onClick={save} disabled>
-            Save
-          </Button>
-          <Button onClick={toggleEdit} danger>
-            Cancel
-          </Button>
-        </Space>
+        <Row>
+          <Col flex={1} style={{ marginRight: 8 }}>
+            <Form.Item
+              style={{
+                margin: 0,
+              }}
+              name={dataIndex}
+              rules={[
+                {
+                  required: true,
+                  message: `${title} is required.`,
+                },
+              ]}
+            >
+              {dataIndex === "role" ? (
+                <Select style={{ width: "98%" }} ref={inputRef}>
+                  {config?.roles?.map((r, rI) => (
+                    <Option key={rI} value={r.id}>
+                      {r.name}
+                    </Option>
+                  ))}
+                </Select>
+              ) : dataIndex === "designation" ? (
+                <Select style={{ width: "98%" }} ref={inputRef}>
+                  {config?.designations?.map((d, dI) => (
+                    <Option key={dI} value={parseInt(d.id)}>
+                      {d.name}
+                    </Option>
+                  ))}
+                </Select>
+              ) : (
+                <Input ref={inputRef} onPressEnter={save} />
+              )}
+            </Form.Item>
+          </Col>
+          <Space>
+            <Button type="primary" loading={saving} onClick={save}>
+              Save
+            </Button>
+            <Button onClick={toggleEdit} disabled={saving} danger>
+              Cancel
+            </Button>
+          </Space>
+        </Row>
       ) : (
         <div
           className="editable-cell-value-wrap"
@@ -107,8 +165,6 @@ const UserDetail = (record) => {
 
     return <td {...restProps}>{childNode}</td>;
   };
-
-  const handleSave = () => {};
 
   const columnData = [
     {
@@ -138,86 +194,99 @@ const UserDetail = (record) => {
 
     return {
       ...col,
-      onCell: (record) => {
-        record.editable = col.editable;
+      onCell: (cell) => {
         return {
-          record,
           editable: col.editable,
-          dataIndex: col.dataIndex,
-          title: col.title,
-          handleSave: handleSave,
+          dataIndex: cell.key,
+          title: cell.field,
         };
       },
     };
   });
 
-  return [
-    <Row justify="center" key="top">
-      <Col span={20}>
-        <Table
-          columns={columns}
-          components={components}
-          className="table-child"
-          dataSource={[
-            {
-              key: "name",
-              field: "Name",
-              value: `${record.first_name} ${record.last_name}`,
-            },
-            {
-              key: "organisation",
-              field: "Organisation",
-              value: "-",
-            },
-            {
-              key: "role",
-              field: "Role",
-              value: `${record?.role?.value || "-"}`,
-            },
-            {
-              key: "invite",
-              field: "Invitation Code",
-              value: (
-                <Link to={`/login/${record?.invite}`}>
-                  <Button className="dev" size="small">
-                    Change Password [Dev Only]
-                  </Button>
-                </Link>
-              ),
-            },
-            {
-              key: "region",
-              field: "Region",
-              value: `${record?.administration?.name || "-"}`,
-            },
-            {
-              key: "designation",
-              field: "Designation",
-              value: `${record?.designation || "-"}`,
-            },
-            {
-              key: "phone_number",
-              field: "Phone Number",
-              value: `${record?.phone_number || "-"}`,
-            },
-          ]}
-          pagination={false}
-        />
-      </Col>
-      <Divider />
-    </Row>,
-    <Row justify="center" key="bottom">
-      <Col span={10}>
-        <Checkbox onChange={() => {}}>Inform User of Changes</Checkbox>
-      </Col>
-      <Col span={10} align="right">
-        <Space>
-          <Button className="light dev">Edit</Button>
-          <Button danger>Delete</Button>
-        </Space>
-      </Col>
-    </Row>,
-  ];
+  return (
+    <>
+      <Row justify="center" key="top">
+        <Col span={20}>
+          <Table
+            columns={columns}
+            components={components}
+            className="table-child"
+            dataSource={[
+              {
+                key: "first_name",
+                field: "First Name",
+                value: record?.first_name || "",
+              },
+              {
+                key: "last_name",
+                field: "Last Name",
+                value: record?.last_name || "",
+              },
+              {
+                key: "organisation",
+                field: "Organisation",
+                value: "-",
+              },
+              {
+                key: "role",
+                field: "Role",
+                value: `${record?.role?.value || "-"}`,
+              },
+              {
+                key: "invite",
+                field: "Invitation Code",
+                value: (
+                  <Link to={`/login/${record?.invite}`}>
+                    <Button className="dev" size="small">
+                      Change Password [Dev Only]
+                    </Button>
+                  </Link>
+                ),
+              },
+              {
+                key: "designation",
+                field: "Designation",
+                value: `${
+                  config?.designations?.find(
+                    (d) => d.id === parseInt(record.designation)
+                  )?.name || "-"
+                }`,
+              },
+              {
+                key: "phone_number",
+                field: "Phone Number",
+                value: `${record?.phone_number || "-"}`,
+              },
+            ]}
+            pagination={false}
+          />
+        </Col>
+        <Divider />
+      </Row>
+      <Row justify="center" key="bottom">
+        <Col span={10}>
+          <Checkbox onChange={() => {}}>Inform User of Changes</Checkbox>
+        </Col>
+        <Col span={10} align="right">
+          <Space>
+            <Link to={`/user/${record.id}`}>
+              <Button type="primary">Edit</Button>
+            </Link>
+            <Button
+              danger
+              loading={deleting}
+              onClick={() => {
+                setDeleteUser(record);
+              }}
+            >
+              Delete
+            </Button>
+          </Space>
+        </Col>
+      </Row>
+    </>
+  );
 };
 
 export default UserDetail;

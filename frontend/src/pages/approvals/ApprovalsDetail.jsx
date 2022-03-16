@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Table, Tabs, Input, Checkbox, Button, Space } from "antd";
+import {
+  Row,
+  Col,
+  Table,
+  Tabs,
+  Input,
+  Checkbox,
+  Button,
+  Space,
+  Tag,
+  List,
+  Avatar,
+} from "antd";
 import { api } from "../../lib";
 
 const { TextArea } = Input;
@@ -78,10 +90,19 @@ const ApprovalDetail = ({
   const [columns, setColumns] = useState(summaryColumns);
   const [loading, setLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState("data-summary");
+  const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState("");
 
-  const handleApprove = (id) => {
+  const handleApprove = (id, status) => {
+    let payload = {
+      batch: id,
+      status: status,
+    };
+    if (comment.length) {
+      payload = { ...payload, comment: comment };
+    }
     api
-      .post("pending-data/approve", { batch: [id], status: 2 })
+      .post("pending-data/approve", payload)
       .then(() => {
         setExpandedParentKeys(
           expandedParentKeys.filter((e) => e !== record.id)
@@ -92,10 +113,11 @@ const ApprovalDetail = ({
   };
 
   useEffect(() => {
-    if (expandedParentKeys.length) {
-      setSelectedTab("data-summary");
-    }
-  }, [expandedParentKeys]);
+    setSelectedTab("data-summary");
+    api.get(`/batch/comment/${record.id}`).then((res) => {
+      setComments(res.data);
+    });
+  }, [record]);
 
   useEffect(() => {
     setLoading(true);
@@ -142,9 +164,39 @@ const ApprovalDetail = ({
         columns={columns}
         scroll={{ y: 500 }}
         pagination={false}
+        style={{ borderBottom: "solid 1px #ddd" }}
       />
-      <label>Notes {"&"} Feedback</label>
-      <TextArea rows={4} className="dev" />
+      <h3>Notes {"&"} Feedback</h3>
+      {!!comments.length && (
+        <div className="comments">
+          <List
+            itemLayout="horizontal"
+            dataSource={comments}
+            renderItem={(item, index) => (
+              <List.Item>
+                {/* TODO: Change Avatar */}
+                <List.Item.Meta
+                  avatar={
+                    <Avatar src={`https://i.pravatar.cc/150?img=${index}`} />
+                  }
+                  title={
+                    <div>
+                      <Tag>{item.created}</Tag>
+                      {item.user.name}
+                    </div>
+                  }
+                  description={item.comment}
+                />
+              </List.Item>
+            )}
+          />
+        </div>
+      )}
+      <TextArea
+        rows={4}
+        onChange={(e) => setComment(e.target.value)}
+        disabled={!approve}
+      />
       <Row justify="space-between">
         <Col>
           <Row>
@@ -155,12 +207,16 @@ const ApprovalDetail = ({
         </Col>
         <Col>
           <Space>
-            <Button type="danger" disabled={!approve}>
+            <Button
+              type="danger"
+              onClick={() => handleApprove(record.id, 3)}
+              disabled={!approve}
+            >
               Decline
             </Button>
             <Button
               type="primary"
-              onClick={() => handleApprove(record.id)}
+              onClick={() => handleApprove(record.id, 2)}
               disabled={!approve}
             >
               Approve

@@ -5,7 +5,7 @@ from api.v1.v1_data.views import data_answers, \
     approve_pending_data, \
     export_form_data, list_pending_batch, list_pending_data_batch, \
     FormDataAddListView, PendingFormDataView, BatchView, \
-    PendingDataDetailDeleteView, BatchSummaryView
+    PendingDataDetailDeleteView, BatchSummaryView, BatchCommentView
 from api.v1.v1_users.views import health_check, get_config_file
 
 urlpatterns = [
@@ -26,6 +26,8 @@ urlpatterns = [
             approve_pending_data),
     re_path(r'^(?P<version>(v1))/batch/summary/(?P<batch_id>[0-9]+)',
             BatchSummaryView.as_view()),
+    re_path(r'^(?P<version>(v1))/batch/comment/(?P<batch_id>[0-9]+)',
+            BatchCommentView.as_view()),
     re_path(r'^(?P<version>(v1))/batch', BatchView.as_view()),
     re_path(r'^(?P<version>(v1))/export/form/(?P<form_id>[0-9]+)',
             export_form_data),

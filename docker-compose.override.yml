@@ -8,6 +8,8 @@ services:
       - 3000:3000
       - 8000:8000
       - 5050:5050
+      # backend debuger port
+      - 8888:8888
   frontend:
     network_mode: service:mainnetwork
   backend:
