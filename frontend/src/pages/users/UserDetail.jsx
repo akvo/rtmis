@@ -11,32 +11,34 @@ import {
   Input,
 } from "antd";
 import { Link } from "react-router-dom";
+import { pick, assign } from "lodash";
+import { api } from "../../lib";
+import { useNotification } from "../../util/hooks";
 
-const EditableContext = React.createContext(null);
-const EditableRow = ({ ...props }) => {
-  const [form] = Form.useForm();
-  return (
-    <Form form={form} component={false}>
-      <EditableContext.Provider value={form}>
-        <tr {...props} />
-      </EditableContext.Provider>
-    </Form>
-  );
-};
-
-const UserDetail = (record) => {
+const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
+  const EditableContext = React.createContext(null);
+  const EditableRow = ({ ...props }) => {
+    const [form] = Form.useForm();
+    return (
+      <Form form={form} component={false}>
+        <EditableContext.Provider value={form}>
+          <tr {...props} />
+        </EditableContext.Provider>
+      </Form>
+    );
+  };
   const EditableCell = ({
     title,
     editable,
     children,
     dataIndex,
-    record,
-    handleSave,
     ...restProps
   }) => {
     const [editing, setEditing] = useState(false);
     const inputRef = useRef(null);
     const form = useContext(EditableContext);
+    const { notify } = useNotification();
+    const [saving, setSaving] = useState(false);
     useEffect(() => {
       if (editing) {
         inputRef.current.focus();
@@ -53,10 +55,33 @@ const UserDetail = (record) => {
     const save = async () => {
       try {
         const values = await form.validateFields();
-        toggleEdit();
-        handleSave({ ...record, ...values });
+        const body = assign(
+          pick(record, [
+            "first_name",
+            "last_name",
+            "email",
+            "phone_number",
+            "designation",
+          ]),
+          {
+            role: record.role.id,
+            administration: record.administration.id,
+          }
+        );
+        const data = { ...body, [dataIndex]: values[dataIndex] };
+        setSaving(true);
+        api.put(`user/${record.id}`, data).then(() => {
+          setSaving(false);
+          toggleEdit();
+          notify({
+            type: "success",
+            message: "User updated",
+          });
+          applyChanges({ ...record, [dataIndex]: values[dataIndex] });
+        });
       } catch (errInfo) {
         console.error("Save failed:", errInfo);
+        toggleEdit();
       }
     };
 
@@ -76,17 +101,12 @@ const UserDetail = (record) => {
               },
             ]}
           >
-            <Input
-              className="dev"
-              ref={inputRef}
-              onPressEnter={save}
-              disabled
-            />
+            <Input ref={inputRef} onPressEnter={save} />
           </Form.Item>
-          <Button className="dev" onClick={save} disabled>
+          <Button type="primary" loading={saving} onClick={save}>
             Save
           </Button>
-          <Button onClick={toggleEdit} danger>
+          <Button onClick={toggleEdit} disabled={saving} danger>
             Cancel
           </Button>
         </Space>
@@ -107,8 +127,6 @@ const UserDetail = (record) => {
 
     return <td {...restProps}>{childNode}</td>;
   };
-
-  const handleSave = () => {};
 
   const columnData = [
     {
@@ -138,86 +156,98 @@ const UserDetail = (record) => {
 
     return {
       ...col,
-      onCell: (record) => {
-        record.editable = col.editable;
+      onCell: (cell) => {
         return {
-          record,
           editable: col.editable,
-          dataIndex: col.dataIndex,
-          title: col.title,
-          handleSave: handleSave,
+          dataIndex: cell.key,
+          title: cell.field,
         };
       },
     };
   });
 
-  return [
-    <Row justify="center" key="top">
-      <Col span={20}>
-        <Table
-          columns={columns}
-          components={components}
-          className="table-child"
-          dataSource={[
-            {
-              key: "name",
-              field: "Name",
-              value: `${record.first_name} ${record.last_name}`,
-            },
-            {
-              key: "organisation",
-              field: "Organisation",
-              value: "-",
-            },
-            {
-              key: "role",
-              field: "Role",
-              value: `${record?.role?.value || "-"}`,
-            },
-            {
-              key: "invite",
-              field: "Invitation Code",
-              value: (
-                <Link to={`/login/${record?.invite}`}>
-                  <Button className="dev" size="small">
-                    Change Password [Dev Only]
-                  </Button>
-                </Link>
-              ),
-            },
-            {
-              key: "region",
-              field: "Region",
-              value: `${record?.administration?.name || "-"}`,
-            },
-            {
-              key: "designation",
-              field: "Designation",
-              value: `${record?.designation || "-"}`,
-            },
-            {
-              key: "phone_number",
-              field: "Phone Number",
-              value: `${record?.phone_number || "-"}`,
-            },
-          ]}
-          pagination={false}
-        />
-      </Col>
-      <Divider />
-    </Row>,
-    <Row justify="center" key="bottom">
-      <Col span={10}>
-        <Checkbox onChange={() => {}}>Inform User of Changes</Checkbox>
-      </Col>
-      <Col span={10} align="right">
-        <Space>
-          <Button className="light dev">Edit</Button>
-          <Button danger>Delete</Button>
-        </Space>
-      </Col>
-    </Row>,
-  ];
+  return (
+    <>
+      <Row justify="center" key="top">
+        <Col span={20}>
+          <Table
+            columns={columns}
+            components={components}
+            className="table-child"
+            dataSource={[
+              {
+                key: "first_name",
+                field: "First Name",
+                value: record?.first_name || "",
+              },
+              {
+                key: "last_name",
+                field: "Last Name",
+                value: record?.last_name || "",
+              },
+              {
+                key: "organisation",
+                field: "Organisation",
+                value: "-",
+              },
+              {
+                key: "role",
+                field: "Role",
+                value: `${record?.role?.value || "-"}`,
+              },
+              {
+                key: "invite",
+                field: "Invitation Code",
+                value: (
+                  <Link to={`/login/${record?.invite}`}>
+                    <Button className="dev" size="small">
+                      Change Password [Dev Only]
+                    </Button>
+                  </Link>
+                ),
+              },
+              {
+                key: "region",
+                field: "Region",
+                value: `${record?.administration?.name || "-"}`,
+              },
+              {
+                key: "designation",
+                field: "Designation",
+                value: `${record?.designation || "-"}`,
+              },
+              {
+                key: "phone_number",
+                field: "Phone Number",
+                value: `${record?.phone_number || "-"}`,
+              },
+            ]}
+            pagination={false}
+          />
+        </Col>
+        <Divider />
+      </Row>
+      <Row justify="center" key="bottom">
+        <Col span={10}>
+          <Checkbox onChange={() => {}}>Inform User of Changes</Checkbox>
+        </Col>
+        <Col span={10} align="right">
+          <Space>
+            <Button className="light dev">Edit</Button>
+            <Button
+              danger
+              loading={deleting}
+              onClick={() => {
+                setDeleteUser(record);
+              }}
+            >
+              Delete
+            </Button>
+          </Space>
+        </Col>
+      </Row>
+    </>
+  );
 };
 
 export default UserDetail;
