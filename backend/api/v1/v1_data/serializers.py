@@ -370,6 +370,15 @@ class ListPendingDataBatchSerializer(serializers.ModelSerializer):
                 data['allow_approve'] = True
             else:
                 data['allow_approve'] = False
+            rejected: PendingDataApproval = instance.batch_approval.filter(
+                status=DataApprovalStatus.rejected).first()
+            if rejected:
+                data['rejected'] = {
+                    'name': rejected.user.get_full_name(),
+                    'id': rejected.user_id,
+                    'administration':
+                        rejected.user.user_access.administration.name
+                }
         else:
             approval = instance.batch_approval.get(user=user)
             data['id'] = approval.user.pk
@@ -478,6 +487,10 @@ class ListBatchSerializer(serializers.ModelSerializer):
     administration = serializers.SerializerMethodField()
     file = serializers.SerializerMethodField()
     total_data = serializers.SerializerMethodField()
+    status = serializers.ReadOnlyField(source='approved')
+    approvers = serializers.SerializerMethodField()
+    created = serializers.SerializerMethodField()
+    updated = serializers.SerializerMethodField()
 
     @extend_schema_field(
         inline_serializer('batch_form',
@@ -524,12 +537,38 @@ class ListBatchSerializer(serializers.ModelSerializer):
     def get_total_data(self, instance: PendingDataBatch):
         return instance.batch_pending_data_batch.all().count()
 
+    @extend_schema_field(
+        inline_serializer('batch_approver',
+                          fields={
+                              'name': serializers.CharField(),
+                              'administration': serializers.CharField(),
+                              'status': serializers.IntegerField(),
+                              'status_text': serializers.CharField(),
+                          }, many=True))
+    def get_approvers(self, instance: PendingDataBatch):
+        data = []
+        for approver in instance.batch_approval.all():
+            approver_administration = approver.user.user_access.administration
+            data.append({
+                'name': approver.user.get_full_name(),
+                'administration': approver_administration.name,
+                'status': approver.status,
+                'status_text': DataApprovalStatus.FieldStr.get(approver.status)
+            })
+        return data
+
+    @extend_schema_field(OpenApiTypes.DATE)
+    def get_created(self, instance):
+        return update_date_time_format(instance.created)
+
+    @extend_schema_field(OpenApiTypes.DATE)
+    def get_updated(self, instance):
+        return update_date_time_format(instance.updated)
+
     class Meta:
         model = PendingDataBatch
-        fields = [
-            'name', 'form', 'administration', 'file', 'total_data', 'created',
-            'updated'
-        ]
+        fields = ['id', 'name', 'form', 'administration', 'file', 'total_data',
+                  'created', 'updated', 'status', 'approvers']
 
 
 class ListBatchSummarySerializer(serializers.ModelSerializer):
@@ -567,6 +606,29 @@ class ListBatchSummarySerializer(serializers.ModelSerializer):
     class Meta:
         model = PendingAnswers
         fields = ['question', 'type', 'value']
+
+
+class ListBatchCommentSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+    created = serializers.SerializerMethodField()
+
+    @extend_schema_field(
+        inline_serializer('batch_comment_user',
+                          fields={
+                              'name': serializers.CharField(),
+                              'email': serializers.CharField(),
+                          }))
+    def get_user(self, instance: PendingDataBatchComments):
+        return {'name': instance.user.get_full_name(),
+                'email': instance.user.email}
+
+    @extend_schema_field(OpenApiTypes.DATE)
+    def get_created(self, instance: PendingDataBatchComments):
+        return update_date_time_format(instance.created)
+
+    class Meta:
+        model = PendingDataBatchComments
+        fields = ['user', 'comment', 'created']
 
 
 class CreateBatchSerializer(serializers.Serializer):
