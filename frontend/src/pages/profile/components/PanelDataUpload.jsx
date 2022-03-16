@@ -9,8 +9,19 @@ import {
   Col,
   Checkbox,
   Modal,
+  Tag,
+  Popover,
 } from "antd";
-import { FileTextFilled, InfoCircleOutlined } from "@ant-design/icons";
+import {
+  PlusSquareOutlined,
+  CloseSquareOutlined,
+  FileTextFilled,
+  InfoCircleOutlined,
+  ClockCircleOutlined,
+  CloseCircleOutlined,
+  CheckCircleOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
 import { DataFilters } from "../../../components";
 import { api, store } from "../../../lib";
 
@@ -36,6 +47,7 @@ const columnsBatch = [
     title: "",
     dataIndex: "id",
     key: "id",
+    align: "center",
     render: () => <InfoCircleOutlined />,
     width: 50,
   },
@@ -68,9 +80,57 @@ const columnsBatch = [
     render: (administration) => administration.name || "",
   },
   {
+    title: "Status",
+    dataIndex: "approvers",
+    key: "approvers",
+    align: "center",
+    render: (approvers) => {
+      if (approvers?.length) {
+        const status_text = approvers[0].status_text;
+        return (
+          <span>
+            <Tag
+              icon={
+                status_text === "Pending" ? (
+                  <ClockCircleOutlined />
+                ) : status_text === "Rejected" ? (
+                  <CloseCircleOutlined />
+                ) : (
+                  <CheckCircleOutlined />
+                )
+              }
+              color={
+                status_text === "Pending"
+                  ? "default"
+                  : status_text === "Rejected"
+                  ? "error"
+                  : "success"
+              }
+            >
+              {status_text}
+            </Tag>
+          </span>
+        );
+      }
+      return (
+        <span>
+          <Popover
+            content="There is no approvers for this data, please contact admin"
+            title="No Approver"
+          >
+            <Tag color="warning" icon={<ExclamationCircleOutlined />}>
+              No Approver
+            </Tag>
+          </Popover>
+        </span>
+      );
+    },
+  },
+  {
     title: "Total Data",
     dataIndex: "total_data",
     key: "total_data",
+    align: "center",
   },
 ];
 
@@ -105,50 +165,110 @@ const columnsPending = [
   },
 ];
 
+const columnsApprover = [
+  {
+    title: "Approver",
+    dataIndex: "name",
+    key: "name",
+  },
+  {
+    title: "Administration",
+    dataIndex: "administration",
+    key: "administration",
+  },
+  {
+    title: "Status",
+    dataIndex: "status_text",
+    key: "status_text",
+    render: (status_text) => (
+      <span>
+        <Tag
+          icon={
+            status_text === "Pending" ? (
+              <ClockCircleOutlined />
+            ) : status_text === "Rejected" ? (
+              <CloseCircleOutlined />
+            ) : (
+              <CheckCircleOutlined />
+            )
+          }
+          color={
+            status_text === "Pending"
+              ? "default"
+              : status_text === "Rejected"
+              ? "error"
+              : "success"
+          }
+        >
+          {status_text}
+        </Tag>
+      </span>
+    ),
+  },
+];
+
+const ApproverDetail = (record) => {
+  return (
+    <Table
+      columns={columnsApprover}
+      dataSource={record.approvers.map((r, ri) => ({
+        key: ri,
+        ...r,
+      }))}
+      pagination={false}
+    />
+  );
+};
+
 const PanelDataUpload = () => {
-  const [datasetPending, setDatasetPending] = useState([]);
-  const [datasetBatch, setDatasetBatch] = useState([]);
+  const [dataset, setDataset] = useState([]);
+  const [expandedKeys, setExpandedKeys] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedTab, setSelectedTab] = useState("pending-data");
   const [batchName, setBatchName] = useState("");
+  const [modalButton, setModalButton] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [comment, setComment] = useState("");
 
   const { selectedForm } = store.useState((state) => state);
 
   useEffect(() => {
-    if (selectedForm && selectedTab === "pending-data") {
-      setLoading(true);
-      const url = `form-pending-data/${selectedForm}/?page=${currentPage}`;
-      api
-        .get(url)
-        .then((res) => {
-          setDatasetPending(res.data.data);
-          setTotalCount(res.data.total);
-          setLoading(false);
-        })
-        .catch(() => {
-          setDatasetPending([]);
-          setTotalCount(0);
-          setLoading(false);
-        });
+    let url = `form-pending-data/${selectedForm}/?page=${currentPage}`;
+    if (selectedTab === "pending-data") {
+      setExpandedKeys([]);
+      setModalButton(true);
     }
-  }, [datasetBatch, selectedTab, selectedForm, currentPage]);
+    if (selectedTab === "pending-batch") {
+      url = `batch/?page=${currentPage}`;
+      setModalButton(false);
+    }
+    setLoading(true);
+    api
+      .get(url)
+      .then((res) => {
+        setDataset(res.data.data);
+        setTotalCount(res.data.total);
+        setLoading(false);
+      })
+      .catch(() => {
+        setDataset([]);
+        setTotalCount(0);
+        setLoading(false);
+      });
+  }, [selectedTab, selectedForm, currentPage]);
 
   useEffect(() => {
-    if (selectedTab === "pending-batch") {
-      api
-        .get("batch")
-        .then((res) => {
-          setDatasetBatch(res.data);
-          setLoading(false);
-        })
-        .catch(() => {
-          setLoading(false);
-        });
+    if (selectedForm) {
+      setSelectedRows([]);
+    }
+  }, [selectedForm]);
+
+  useEffect(() => {
+    if (selectedTab) {
+      setDataset([]);
     }
   }, [selectedTab]);
 
@@ -156,14 +276,12 @@ const PanelDataUpload = () => {
     setCurrentPage(e.current);
   };
 
-  const handleSelect = (row) => {
-    const resultIndex = selectedRows.findIndex((sR) => sR.id === row.id);
-    if (resultIndex === -1) {
-      setSelectedRows([...selectedRows, row]);
+  const handleSelect = (row, checked) => {
+    const current = selectedRows.filter((s) => s.id !== row.id);
+    if (checked) {
+      setSelectedRows([...current, row]);
     } else {
-      const clonedRows = JSON.parse(JSON.stringify(selectedRows));
-      clonedRows.splice(resultIndex, 1);
-      setSelectedRows(clonedRows);
+      setSelectedRows(current);
     }
   };
 
@@ -176,17 +294,10 @@ const PanelDataUpload = () => {
         comment.length ? { ...payload, comment: comment } : payload
       )
       .then(() => {
-        api
-          .get("batch")
-          .then((res) => {
-            setDatasetBatch(res.data);
-            setLoading(false);
-            setModalVisible(false);
-          })
-          .catch(() => {
-            setLoading(false);
-            setModalVisible(false);
-          });
+        setSelectedRows([]);
+        setModalVisible(false);
+        setLoading(false);
+        setSelectedTab("pending-batch");
       })
       .catch(() => {
         setLoading(false);
@@ -195,7 +306,7 @@ const PanelDataUpload = () => {
   };
 
   const btnBatchSelected = useMemo(() => {
-    if (selectedRows.length > 0) {
+    if (selectedRows.length && modalButton) {
       return (
         <Button
           type="primary"
@@ -208,7 +319,7 @@ const PanelDataUpload = () => {
       );
     }
     return "";
-  }, [selectedRows]);
+  }, [selectedRows, modalButton]);
 
   return (
     <>
@@ -221,29 +332,32 @@ const PanelDataUpload = () => {
         <h1>Data Uploads</h1>
         <DataFilters />
         <Tabs
-          defaultActiveKey={"pending-data"}
+          activeKey={selectedTab}
+          defaultActiveKey={selectedTab}
           onChange={setSelectedTab}
           tabBarExtraContent={btnBatchSelected}
         >
           <TabPane tab="Pending Submission" key={"pending-data"}>
             <Table
               loading={loading}
-              dataSource={datasetPending}
+              dataSource={dataset}
               columns={[
                 ...columnsPending,
                 {
                   title: "Batch Datasets",
                   render: (row) => (
                     <Checkbox
-                      onChange={() => {
-                        handleSelect(row);
+                      checked={
+                        selectedRows.filter((s) => s.id === row.id).length
+                      }
+                      onChange={(e) => {
+                        handleSelect(row, e.target.checked);
                       }}
                     />
                   ),
                 },
               ]}
               onChange={handlePageChange}
-              scroll={{ y: 500 }}
               pagination={{
                 current: currentPage,
                 total: totalCount,
@@ -256,11 +370,33 @@ const PanelDataUpload = () => {
           <TabPane tab="Pending Approval" key={"pending-batch"}>
             <Table
               loading={loading}
-              dataSource={datasetBatch}
-              columns={columnsBatch}
-              pagination={false}
-              scroll={{ y: 500 }}
+              dataSource={dataset}
+              columns={[...columnsBatch, Table.EXPAND_COLUMN]}
+              onChange={handlePageChange}
+              pagination={{
+                current: currentPage,
+                total: totalCount,
+                pageSize: 10,
+                showSizeChanger: false,
+              }}
               rowKey="id"
+              expandedRowKeys={expandedKeys}
+              expandable={{
+                expandedRowRender: ApproverDetail,
+                expandIcon: (expand) => {
+                  return expand.expanded ? (
+                    <CloseSquareOutlined
+                      onClick={() => setExpandedKeys([])}
+                      style={{ color: "#e94b4c" }}
+                    />
+                  ) : (
+                    <PlusSquareOutlined
+                      onClick={() => setExpandedKeys([expand.record.id])}
+                      style={{ color: "#7d7d7d" }}
+                    />
+                  );
+                },
+              }}
             />
           </TabPane>
         </Tabs>
