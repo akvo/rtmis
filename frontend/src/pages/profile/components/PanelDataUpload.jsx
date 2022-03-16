@@ -9,8 +9,19 @@ import {
   Col,
   Checkbox,
   Modal,
+  Tag,
+  Popover,
 } from "antd";
-import { FileTextFilled, InfoCircleOutlined } from "@ant-design/icons";
+import {
+  PlusSquareOutlined,
+  CloseSquareOutlined,
+  FileTextFilled,
+  InfoCircleOutlined,
+  ClockCircleOutlined,
+  CloseCircleOutlined,
+  CheckCircleOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
 import { DataFilters } from "../../../components";
 import { api, store } from "../../../lib";
 
@@ -68,6 +79,52 @@ const columnsBatch = [
     render: (administration) => administration.name || "",
   },
   {
+    title: "Status",
+    dataIndex: "approvers",
+    key: "approvers",
+    render: (approvers) => {
+      if (approvers.length) {
+        const status_text = approvers[0].status_text;
+        return (
+          <span>
+            <Tag
+              icon={
+                status_text === "Pending" ? (
+                  <ClockCircleOutlined />
+                ) : status_text === "Rejected" ? (
+                  <CloseCircleOutlined />
+                ) : (
+                  <CheckCircleOutlined />
+                )
+              }
+              color={
+                status_text === "Pending"
+                  ? "default"
+                  : status_text === "Rejected"
+                  ? "error"
+                  : "success"
+              }
+            >
+              {status_text}
+            </Tag>
+          </span>
+        );
+      }
+      return (
+        <span>
+          <Popover
+            content="There is no approvers for this data, please contact admin"
+            title="No Approver"
+          >
+            <Tag color="warning" icon={<ExclamationCircleOutlined />}>
+              No Approver
+            </Tag>
+          </Popover>
+        </span>
+      );
+    },
+  },
+  {
     title: "Total Data",
     dataIndex: "total_data",
     key: "total_data",
@@ -110,8 +167,64 @@ const columnsPending = [
   },
 ];
 
+const columnsApprover = [
+  {
+    title: "Approver",
+    dataIndex: "name",
+    key: "name",
+  },
+  {
+    title: "Administration",
+    dataIndex: "administration",
+    key: "administration",
+  },
+  {
+    title: "Status",
+    dataIndex: "status_text",
+    key: "status_text",
+    render: (status_text) => (
+      <span>
+        <Tag
+          icon={
+            status_text === "Pending" ? (
+              <ClockCircleOutlined />
+            ) : status_text === "Rejected" ? (
+              <CloseCircleOutlined />
+            ) : (
+              <CheckCircleOutlined />
+            )
+          }
+          color={
+            status_text === "Pending"
+              ? "default"
+              : status_text === "Rejected"
+              ? "error"
+              : "success"
+          }
+        >
+          {status_text}
+        </Tag>
+      </span>
+    ),
+  },
+];
+
+const ApproverDetail = (record) => {
+  return (
+    <Table
+      columns={columnsApprover}
+      dataSource={record.approvers.map((r, ri) => ({
+        key: ri,
+        ...r,
+      }))}
+      pagination={false}
+    />
+  );
+};
+
 const PanelDataUpload = () => {
   const [dataset, setDataset] = useState([]);
+  const [expandedKeys, setExpandedKeys] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -127,6 +240,7 @@ const PanelDataUpload = () => {
   useEffect(() => {
     let url = `form-pending-data/${selectedForm}/?page=${currentPage}`;
     if (selectedTab === "pending-data") {
+      setExpandedKeys([]);
       setModalButton(true);
     }
     if (selectedTab === "pending-batch") {
@@ -203,6 +317,26 @@ const PanelDataUpload = () => {
     return "";
   }, [selectedRows, modalButton]);
 
+  const expandable =
+    selectedTab === "pending-batch"
+      ? {
+          expandedRowRender: ApproverDetail,
+          expandIcon: ({ expanded, _, record }) => {
+            return expanded ? (
+              <CloseSquareOutlined
+                onClick={(e) => setExpandedKeys([])}
+                style={{ color: "#e94b4c" }}
+              />
+            ) : (
+              <PlusSquareOutlined
+                onClick={(e) => setExpandedKeys([record.id])}
+                style={{ color: "#7d7d7d" }}
+              />
+            );
+          },
+        }
+      : {};
+
   return (
     <>
       <Card
@@ -243,7 +377,7 @@ const PanelDataUpload = () => {
                     ),
                   },
                 ]
-              : columnsBatch
+              : [...columnsBatch, Table.EXPAND_COLUMN]
           }
           onChange={handlePageChange}
           pagination={{
@@ -253,6 +387,8 @@ const PanelDataUpload = () => {
             showSizeChanger: false,
           }}
           rowKey="id"
+          expandedRowKeys={expandedKeys}
+          expandable={expandable}
         />
       </Card>
       <Modal
