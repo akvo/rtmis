@@ -30,7 +30,8 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ApprovePendingDataRequestSerializer, ListBatchSerializer, \
     CreateBatchSerializer, ListPendingDataBatchSerializer, \
     ListPendingFormDataSerializer, PendingBatchDataFilterSerializer, \
-    SubmitPendingFormSerializer, ListBatchSummarySerializer
+    SubmitPendingFormSerializer, ListBatchSummarySerializer, \
+    ListBatchCommentSerializer
 from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Administration
@@ -501,6 +502,22 @@ class BatchSummaryView(APIView):
                 instance=instance,
                 many=True,
                 context={'batch': batch}).data,
+            status=status.HTTP_200_OK)
+
+
+class BatchCommentView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @extend_schema(responses={200: ListBatchCommentSerializer(many=True)},
+                   tags=['Pending Data'],
+                   summary='To get batch comment')
+    def get(self, request, batch_id, version):
+        batch = get_object_or_404(PendingDataBatch, pk=batch_id)
+        instance = batch.batch_batch_comment.all().order_by('-id')
+        return Response(
+            ListBatchCommentSerializer(
+                instance=instance,
+                many=True).data,
             status=status.HTTP_200_OK)
 
 

@@ -370,6 +370,7 @@ class ListPendingDataBatchSerializer(serializers.ModelSerializer):
                 data['allow_approve'] = True
             else:
                 data['allow_approve'] = False
+            data['rejected'] = {'name', 'id', 'administration(name)'}
         else:
             approval = instance.batch_approval.get(user=user)
             data['id'] = approval.user.pk
@@ -567,6 +568,29 @@ class ListBatchSummarySerializer(serializers.ModelSerializer):
     class Meta:
         model = PendingAnswers
         fields = ['question', 'type', 'value']
+
+
+class ListBatchCommentSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+    created = serializers.SerializerMethodField()
+
+    @extend_schema_field(
+        inline_serializer('batch_comment_user',
+                          fields={
+                              'name': serializers.CharField(),
+                              'email': serializers.CharField(),
+                          }))
+    def get_user(self, instance: PendingDataBatchComments):
+        return {'name': instance.user.get_full_name(),
+                'email': instance.user.email}
+
+    @extend_schema_field(OpenApiTypes.DATE)
+    def get_created(self, instance: PendingDataBatchComments):
+        return update_date_time_format(instance.created)
+
+    class Meta:
+        model = PendingDataBatchComments
+        fields = ['user', 'comment', 'created']
 
 
 class CreateBatchSerializer(serializers.Serializer):

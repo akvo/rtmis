@@ -67,6 +67,17 @@ class PendingDataTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json().get('message'),
                          'Data updated successfully')
+
+        response = self.client.get('/api/v1/batch/comment/{0}'.format(
+            PendingDataBatch.objects.last().id),
+            follow=True,
+            **header)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(response.json()[0]),
+                         ['user', 'comment', 'created'])
+        self.assertEqual(list(response.json()[0]['user']),
+                         ['name', 'email'])
+
         payload = {"name": "Test Batch", "data": values,
                    'comment': 'Test comment'}
         response = self.client.post('/api/v1/batch',
