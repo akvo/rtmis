@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./style.scss";
-import { Row, Col, Card, Button, Table, Tabs } from "antd";
+import { Row, Col, Card, Button } from "antd";
 import { Link } from "react-router-dom";
-import { api, store } from "../../lib";
-import { columnsApproval } from "../approvals";
+import { PanelApprovals } from "../profile/components";
 
-const { TabPane } = Tabs;
 const panels = [
   {
     title: "Manage Data",
@@ -44,29 +42,6 @@ const panels = [
 ];
 
 const ControlCenter = () => {
-  const [approvalsPending, setApprovalsPending] = useState([]);
-  const [approvalTab, setApprovalTab] = useState("my-pending");
-  const [loading, setLoading] = useState(true);
-  const { user: authUser } = store.useState((s) => s);
-
-  useEffect(() => {
-    setLoading(true);
-    let url = "/form-pending-batch/?page=1";
-    if (approvalTab === "subordinate") {
-      url = "/form-pending-batch/?page=1&subordinate=true";
-    }
-    api
-      .get(url)
-      .then((res) => {
-        setApprovalsPending(res.data.batch);
-        setLoading(false);
-      })
-      .catch((e) => {
-        console.error(e);
-        setLoading(false);
-      });
-  }, [approvalTab]);
-
   return (
     <div id="control-center">
       <h1>Control Center</h1>
@@ -94,48 +69,8 @@ const ControlCenter = () => {
             </Card>
           </Col>
         ))}
-
         <Col span={24}>
-          <Card bordered={false}>
-            <div className="row">
-              <div className="flex-1">
-                <h2>Approvals</h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-                  faucibus nisi at quam bibendum consequat. Maecenas tempor
-                  accumsan enim. Integer luctus, eros ut maximus gravida
-                </p>
-              </div>
-              <div>
-                <img
-                  src={require("../../assets/approval.png")}
-                  width={100}
-                  height={100}
-                />
-              </div>
-            </div>
-            <Tabs defaultActiveKey={approvalTab} onChange={setApprovalTab}>
-              <TabPane tab="My Pending Approvals" key="my-pending"></TabPane>
-              <TabPane tab="Subordinates Approvals" key="subordinate"></TabPane>
-            </Tabs>
-            <Table
-              dataSource={approvalsPending}
-              loading={loading}
-              columns={columnsApproval}
-              pagination={{ position: ["none", "none"] }}
-              scroll={{ y: 270 }}
-            />
-            <Row justify="space-between" className="approval-links">
-              <Link to="/approvals">
-                <Button type="primary">View All</Button>
-              </Link>
-              {["Super Admin", "Admin"].includes(authUser?.role?.value) && (
-                <Link to="/approvers/tree">
-                  <Button type="primary">Manage Approvers</Button>
-                </Link>
-              )}
-            </Row>
-          </Card>
+          <PanelApprovals />
         </Col>
       </Row>
     </div>

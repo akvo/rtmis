@@ -3,7 +3,7 @@ import "./style.scss";
 import { Space, Card, Divider } from "antd";
 import { store } from "../../lib";
 import { Breadcrumbs } from "../../components";
-import { PanelDataUpload } from "./components";
+import { PanelApprovals, PanelDataUpload } from "./components";
 
 const Profile = () => {
   const { forms, user: authUser } = store.useState((s) => s);
@@ -48,7 +48,8 @@ const Profile = () => {
           </li>
         </ul>
       </Card>
-      <PanelDataUpload />
+      {[2, 4].includes(authUser?.role?.id) && <PanelDataUpload />}
+      {[2, 3].includes(authUser?.role?.id) && <PanelApprovals />}
     </div>
   );
 };
