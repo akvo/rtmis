@@ -27,9 +27,7 @@ import { getFormUrl } from "./util/form";
 const Private = ({ element: Element, alias }) => {
   const { user: authUser } = store.useState((state) => state);
   if (authUser) {
-    const page_access = config.roles.find(
-      (r) => r.id === authUser?.role?.id
-    ).page_access;
+    const page_access = authUser?.role_detail?.page_access;
     return page_access.includes(alias) ? (
       <Element />
     ) : (
@@ -120,12 +118,15 @@ const App = () => {
             headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
           })
           .then((res) => {
+            const role_details = config.roles.find(
+              (r) => r.id === res.data.role.id
+            );
             store.update((s) => {
               s.isLoggedIn = true;
-              s.user = res.data;
+              s.user = { ...res.data, role_detail: role_details };
             });
             api.setToken(cookies.AUTH_TOKEN);
-            Promise.all([api.get(getFormUrl(res.data)), api.get("levels")])
+            Promise.all([api.get(getFormUrl(role_details)), api.get("levels")])
               .then((res) => {
                 store.update((s) => {
                   s.forms = res[0].data;

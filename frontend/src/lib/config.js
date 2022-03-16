@@ -58,6 +58,9 @@ const config = {
       administration_level: [4],
     },
   ],
+  checkAccess: (roles, page) => {
+    return roles?.page_access?.includes(page);
+  },
   designations: [
     {
       id: 1,
