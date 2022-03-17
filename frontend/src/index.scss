@@ -18,6 +18,10 @@ body {
       color: red !important;
     }
 
+    span.dev {
+      color: red !important;
+    }
+
     button {
       &.dev {
         border: 1px double red;
