@@ -13,7 +13,7 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
       >
         <div
           class="background"
-          style="background-image: url(banner.png); background-size: cover; background-position: center; background-repeat: no-repeat;"
+          style="background-image: url(/assets/banner.png); background-size: cover; background-position: center; background-repeat: no-repeat;"
         />
         <div
           class="logo"
@@ -301,7 +301,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
       >
         <div
           class="background"
-          style="background-image: url(banner.png); background-size: cover; background-position: center; background-repeat: no-repeat;"
+          style="background-image: url(/assets/banner.png); background-size: cover; background-position: center; background-repeat: no-repeat;"
         />
         <div
           class="logo"
