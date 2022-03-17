@@ -1,12 +1,11 @@
 import React from "react";
 import { Row, Col, Button } from "antd";
-import backgroundImage from "../../assets/banner.png";
 import { Link, useLocation } from "react-router-dom";
 import ComingSoon from "./custom/ComingSoon";
 
 const styles = {
   banner: {
-    backgroundImage: `url(${backgroundImage})`,
+    backgroundImage: `url("/assets/banner.png")`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",

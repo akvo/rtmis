@@ -7,7 +7,6 @@ import { api, store } from "../../lib";
 import UserDetail from "./UserDetail";
 import { UserFilters, Breadcrumbs } from "../../components";
 import { useNotification } from "../../util/hooks";
-import userIcon from "../../assets/user.svg";
 
 const pagePath = [
   {
@@ -232,7 +231,7 @@ const Users = () => {
         bodyStyle={{ textAlign: "center" }}
       >
         <p>You are about to delete the user</p>
-        <img src={userIcon} height="80" />
+        <img src="/assets/user.svg" height="80" />
         <h2>
           {deleteUser?.first_name} {deleteUser?.last_name}
         </h2>
