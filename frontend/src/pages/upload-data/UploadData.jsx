@@ -12,8 +12,6 @@ import {
   Upload,
 } from "antd";
 import { FileTextFilled } from "@ant-design/icons";
-import dataUploadIcon from "../../assets/data-upload.svg";
-import dataDownloadIcon from "../../assets/data-download.svg";
 import { Breadcrumbs } from "../../components";
 import { AdministrationDropdown } from "../../components";
 import { api, store } from "../../lib";
@@ -100,7 +98,7 @@ const UploadData = () => {
         bodyStyle={{ padding: 0 }}
       >
         <Space align="center" size={32}>
-          <img src={dataDownloadIcon} />
+          <img src="/assets/data-download.svg" />
           <p>If you do not already have a template please download it</p>
           <Select placeholder="Select Form..." onChange={handleChange}>
             {forms.map((f, fI) => (
@@ -114,7 +112,7 @@ const UploadData = () => {
           </Button>
         </Space>
         <Space align="center" size={32}>
-          <img src={dataUploadIcon} />
+          <img src="/assets/data-upload.svg" />
           <p>Upload your data</p>
           <Select placeholder="Select Form...">
             {forms.map((f, fI) => (
