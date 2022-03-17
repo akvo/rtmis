@@ -69,7 +69,6 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
             "designation",
           ]),
           {
-            role: record.role.id,
             administration: record.administration.id,
           }
         );
@@ -82,16 +81,9 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
             type: "success",
             message: "User updated",
           });
-          let val = values[dataIndex];
-          if (dataIndex === "role") {
-            const userRole = config.roles.find(
-              (r) => r.id === values[dataIndex]
-            );
-            val = { id: userRole?.id, value: userRole?.name } || null;
-          }
           const output = {
             ...record,
-            [dataIndex]: val,
+            [dataIndex]: values[dataIndex],
           };
           applyChanges(output);
         });
@@ -118,15 +110,7 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
                 },
               ]}
             >
-              {dataIndex === "role" ? (
-                <Select style={{ width: "98%" }} ref={inputRef}>
-                  {config?.roles?.map((r, rI) => (
-                    <Option key={rI} value={r.id}>
-                      {r.name}
-                    </Option>
-                  ))}
-                </Select>
-              ) : dataIndex === "designation" ? (
+              {dataIndex === "designation" ? (
                 <Select style={{ width: "98%" }} ref={inputRef}>
                   {config?.designations?.map((d, dI) => (
                     <Option key={dI} value={parseInt(d.id)}>
@@ -196,7 +180,7 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
       ...col,
       onCell: (cell) => {
         return {
-          editable: col.editable,
+          editable: cell.editable,
           dataIndex: cell.key,
           title: cell.field,
         };
@@ -217,21 +201,19 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
                 key: "first_name",
                 field: "First Name",
                 value: record?.first_name || "",
+                editable: true,
               },
               {
                 key: "last_name",
                 field: "Last Name",
                 value: record?.last_name || "",
+                editable: true,
               },
               {
                 key: "organisation",
                 field: "Organisation",
-                value: "-",
-              },
-              {
-                key: "role",
-                field: "Role",
-                value: `${record?.role?.value || "-"}`,
+                value: <span className="dev">-</span>,
+                editable: false,
               },
               {
                 key: "invite",
@@ -243,6 +225,7 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
                     </Button>
                   </Link>
                 ),
+                editable: false,
               },
               {
                 key: "designation",
@@ -252,11 +235,13 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
                     (d) => d.id === parseInt(record.designation)
                   )?.name || "-"
                 }`,
+                editable: true,
               },
               {
                 key: "phone_number",
                 field: "Phone Number",
                 value: `${record?.phone_number || "-"}`,
+                editable: true,
               },
             ]}
             pagination={false}
