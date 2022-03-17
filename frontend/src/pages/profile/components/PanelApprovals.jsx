@@ -43,11 +43,7 @@ const PanelApprovals = () => {
           </p>
         </div>
         <div>
-          <img
-            src={require("../../../assets/approval.png")}
-            width={100}
-            height={100}
-          />
+          <img src="/assets/approval.png" width={100} height={100} />
         </div>
       </div>
       <Tabs defaultActiveKey={approvalTab} onChange={setApprovalTab}>
