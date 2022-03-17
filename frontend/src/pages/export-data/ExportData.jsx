@@ -11,7 +11,6 @@ import {
   Button,
 } from "antd";
 import { FileTextFilled } from "@ant-design/icons";
-import formTemplateIcon from "../../assets/formtemplate.svg";
 import { Breadcrumbs } from "../../components";
 
 const pagePath = [
@@ -30,7 +29,11 @@ const ExportData = () => {
   const columns = [
     {
       render: (row) =>
-        row.type === 1 ? <img src={formTemplateIcon} /> : <FileTextFilled />,
+        row.type === 1 ? (
+          <img src="/assets/formtemplate.svg" />
+        ) : (
+          <FileTextFilled />
+        ),
       width: 40,
     },
     {

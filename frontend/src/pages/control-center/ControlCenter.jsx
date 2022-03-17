@@ -13,7 +13,7 @@ const panels = [
     description:
       "Open defecation free (ODF) is a term used to describe communities that have shifted to using toilets instead of open defecation. This can happen, for example, after community-led total sanitation programs have been implemented.",
     link: "/data/manage",
-    image: require("../../assets/big-data.png"),
+    image: "/assets/big-data.png",
   },
   {
     title: "Exports",
@@ -22,7 +22,7 @@ const panels = [
     description:
       "Community-led total sanitation (CLTS) is an approach used mainly in developing countries to improve sanitation and hygiene practices in a community. The approach tries to achieve behavior change in mainly rural people by a process of “triggering”, leading to spontaneous and long-term abandonment of open defecation practices.",
     link: "/data/export",
-    image: require("../../assets/import.png"),
+    image: "/assets/import.png",
     dev: true,
   },
   {
@@ -32,7 +32,7 @@ const panels = [
     description:
       "WASH is an acronym that stands for “water, sanitation and hygiene”.Universal, affordable and sustainable access to WASH is a key public health issue within international development and is the focus of the first two targets of Sustainable Development Goal 6 (SDG 6).",
     link: "/data/upload",
-    image: require("../../assets/upload.png"),
+    image: "/assets/upload.png",
     dev: true,
   },
   {
@@ -42,7 +42,7 @@ const panels = [
     description:
       "WASH is an acronym that stands for “water, sanitation and hygiene”.Universal, affordable and sustainable access to WASH is a key public health issue within international development and is the focus of the first two targets of Sustainable Development Goal 6 (SDG 6).",
     link: "/users",
-    image: require("../../assets/personal-information.png"),
+    image: "/assets/personal-information.png",
   },
 ];
 
