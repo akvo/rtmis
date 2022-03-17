@@ -70,15 +70,9 @@ const Header = ({ className = "header", ...props }) => {
           <Link className="dev" to="/data/visualisation">
             Data
           </Link>
-          <Link className="dev" to="/">
-            Reports
-          </Link>
-          <Link className="dev" to="/">
-            Monitoring
-          </Link>
-          <Link className="dev" to="/">
-            How We Work
-          </Link>
+          <a className="dev">Reports</a>
+          <a className="dev">Monitoring</a>
+          <a className="dev">How We Work</a>
         </Space>
       </Col>
       <Col className="account">
