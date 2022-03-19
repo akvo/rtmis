@@ -1,6 +1,5 @@
--- SHOW LEVELS
-SELECT a.* from form a;
-SELECT * FROM system_user;
+-- DEBUG
+SELECT * FROM data;
 
 -- SHOW APPROVER
 SELECT

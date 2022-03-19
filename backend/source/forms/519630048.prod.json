@@ -1,6 +1,7 @@
 {
   "id": 519630048,
   "form": "Household",
+  "type": 1,
   "question_groups": [
     {
       "question_group": "Introduction",

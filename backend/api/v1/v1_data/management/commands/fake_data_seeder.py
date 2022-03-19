@@ -41,11 +41,7 @@ def set_answer_data(data, question):
     elif question.type == QuestionTypes.date:
         name = fake.date_between_dates(
             date_start=timezone.datetime.now().date() - timedelta(days=90),
-            date_end=timezone.datetime.now().date())
-    elif question.type == QuestionTypes.date:
-        name = fake.date_between_dates(
-            date_start=timezone.datetime.now().date() - timedelta(days=90),
-            date_end=timezone.datetime.now().date())
+            date_end=timezone.datetime.now().date()).strftime("%m/%d/%Y")
     else:
         pass
     return name, value, option

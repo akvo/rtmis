@@ -3,7 +3,7 @@ import os
 
 from django.core.management import BaseCommand
 
-from api.v1.v1_forms.constants import QuestionTypes, FormTypes
+from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Forms, QuestionGroup
 from api.v1.v1_forms.models import Questions, QuestionOptions
 
@@ -28,14 +28,14 @@ class Command(BaseCommand):
             filter(lambda x: "example" in x if test else "example" not in x,
                    source_files))
         Forms.objects.all().delete()
-        for index, source in enumerate(source_files):
+        for source in source_files:
             json_form = open(source, 'r')
             json_form = json.load(json_form)
             form = Forms(
                 id=json_form["id"],
                 name=json_form["form"],
                 version=1,
-                type=FormTypes.national if index > 2 else FormTypes.county
+                type=json_form["type"]
             )
             form.save()
             for qg in json_form["question_groups"]:

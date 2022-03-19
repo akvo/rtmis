@@ -61,22 +61,22 @@ class FormSubmissionTestCase(TestCase):
                 "geo": [6.2088, 106.8456]
             },
             "answer": [{
-                "question": 1,
+                "question": 101,
                 "value": "John"
             }, {
-                "question": 2,
+                "question": 102,
                 "value": ["Male"]
             }, {
-                "question": 3,
+                "question": 103,
                 "value": 31208200175
             }, {
-                "question": 4,
+                "question": 104,
                 "value": 2
             }, {
-                "question": 5,
+                "question": 105,
                 "value": [6.2088, 106.8456]
             }, {
-                "question": 6,
+                "question": 106,
                 "value": ["Parent", "Children"]
             }]
         }
@@ -89,7 +89,7 @@ class FormSubmissionTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         self.assertEqual(data, {"message": "ok"})
-        payload = {"data": {}, "answer": [{"question": 1, "value": ""}]}
+        payload = {"data": {}, "answer": [{"question": 101, "value": ""}]}
         data = self.client.post('/api/v1/form-data/1/',
                                 payload,
                                 content_type='application/json',
@@ -99,7 +99,7 @@ class FormSubmissionTestCase(TestCase):
         self.assertEqual(
             data.get('message'),
             "name is required.|administration is required."
-            "|Value is required for Question:1")
+            "|Value is required for Question:101")
 
     def test_form_data_endpoint(self):
         call_command("administration_seeder", "--test")
