@@ -1,3 +1,4 @@
+import re
 import random
 from datetime import timedelta
 
@@ -93,8 +94,31 @@ def seed_data(form, fake_geo, repeat, created_by, test):
                                               form=form,
                                               administration=administration,
                                               created_by=created_by)
-
         add_fake_answers(data)
+
+
+def create_or_get_submitter(role):
+    level = Levels.objects.order_by('-level').first()
+    last_name = "User"
+    email = "user"
+    if role == UserRoleTypes.admin:
+        level = Levels.objects.order_by('level')[1]
+        last_name = "Admin"
+        email = "test"
+    administration = Administration.objects.filter(
+        level=level).order_by('?').first()
+    email = ("{}{}@{}.com").format(
+        re.sub('[^A-Za-z0-9]+', '', administration.name.lower()),
+        administration.id, email)
+    submitter, created = SystemUser.objects.get_or_create(
+        email=email, first_name=administration.name, last_name=last_name)
+    if created:
+        submitter.set_password("test")
+        submitter.save()
+        Access.objects.create(user=submitter,
+                              role=role,
+                              administration=administration)
+    return submitter
 
 
 def assign_batch_for_approval(batch, user):
@@ -120,24 +144,36 @@ def assign_batch_for_approval(batch, user):
     administrations = Administration.objects.filter(id__in=complete_path,
                                                     level__in=levels).all()
     for administration in administrations:
+        # check if approval assignment for the path is not available
         assignment = FormApprovalAssignment.objects.filter(
             form=batch.form, administration=administration).first()
         if not assignment:
-            profile = fake.profile()
-            name = profile.get("name").split(" ")
-            approver = SystemUser.objects.create_user(
-                email=profile.get("mail"),
-                password="Test105",
-                first_name=name[0],
-                last_name=name[1])
+            email = ("{}{}@test.com").format(
+                re.sub('[^A-Za-z0-9]+', '', administration.name.lower()),
+                administration.id)
+            last_name = "Approver"
             role = UserRoleTypes.approver
             if administration.level.level == 1:
                 role = UserRoleTypes.admin
-            Access.objects.create(user=approver,
-                                  role=role,
-                                  administration=administration)
+                last_name = "Admin"
+            # check if someone has access to ancestor adminisration
+            approver, created = SystemUser.objects.get_or_create(
+                email=email,
+                first_name=administration.name,
+                last_name=last_name)
+            if created:
+                approver.set_password("test")
+                approver.save()
+                Access.objects.create(user=approver,
+                                      role=role,
+                                      administration=administration)
             assignment = FormApprovalAssignment.objects.create(
                 form=batch.form, administration=administration, user=approver)
+            print("Level: {} ({})".format(administration.level.level,
+                                          administration.level.name))
+            print(f"- Administration Name: {administration.name}")
+            print("- Approver: {} ({})".format(assignment.user.email,
+                                               last_name))
         PendingDataApproval.objects.create(
             batch=batch,
             user=assignment.user,
@@ -176,6 +212,7 @@ class Command(BaseCommand):
         PendingDataBatch.objects.all().delete()
         PendingFormData.objects.all().delete()
         fake_geo = pd.read_csv("./source/kenya_random_points.csv")
+        forms = Forms.objects.all()
         user = None
         if options.get('email'):
             # if user type is 'user' -> seed county form only
@@ -194,26 +231,45 @@ class Command(BaseCommand):
                     'User with this {0} is not allowed to submit data '.format(
                         options.get('email')))
                 return
-        else:
-            forms = Forms.objects.all()
-
         for form in forms:
-            if not user:
-                role = UserRoleTypes.user \
-                    if form.type == FormTypes.county else UserRoleTypes.admin
-                user = SystemUser.objects.filter(
-                    user_access__role=role).order_by('?').first()
-            seed_data(form, fake_geo, options.get("repeat"), user,
+            submitter = None
+            if user:
+                submitter = user
+            else:
+                role = UserRoleTypes.admin
+                if form.type == FormTypes.county:
+                    role = UserRoleTypes.user
+                submitter = create_or_get_submitter(role)
+            seed_data(form, fake_geo, options.get("repeat"), submitter,
                       options.get("test"))
+            administration = submitter.user_access.administration
+            print(f"\nForm Name: {form.name}\n")
+            print("\nSubmitter:")
+            print(f"- Administration: {administration.full_name}")
+            print("- Email: {}\n".format(submitter.email))
             limit = options.get('batch')
             if limit:
-                while PendingFormData.objects.filter(
-                        batch__isnull=True, form=form).count():
+                print(f"Batch: {limit} datapoints\n")
+                if form.type == FormTypes.county:
+                    print("Approvers:\n")
+                else:
+                    level = Levels.objects.filter(level=0).first()
+                    administration = Administration.objects.filter(
+                        level=level).first()
+                    assignment = Access.objects.filter(
+                        role=UserRoleTypes.super_admin).first()
+                    print("Approvers:\n")
+                    print(f"Level: 0 ({level.name})")
+                    print(f"- Administration Name: {administration.name}")
+                    print("- Approver: {} ({})".format(
+                        assignment.user.email, assignment.user.last_name))
+                while PendingFormData.objects.filter(batch__isnull=True,
+                                                     form=form).count():
                     batch = PendingDataBatch.objects.create(
-                        name=fake.text(),
+                        name=fake.catch_phrase(),
                         form=form,
-                        administration=user.user_access.administration,
-                        user=user,
+                        administration=submitter.user_access.administration,
+                        user=submitter,
                     )
 
                     objs = PendingFormData.objects.filter(batch__isnull=True,
@@ -222,4 +278,5 @@ class Command(BaseCommand):
                         obj.batch = batch
                     PendingFormData.objects.bulk_update(objs, fields=['batch'])
                     if form.type == FormTypes.county:
-                        assign_batch_for_approval(batch, user)
+                        assign_batch_for_approval(batch, submitter)
+            print("\n==================================")

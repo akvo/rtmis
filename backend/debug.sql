@@ -1,3 +1,7 @@
+-- SHOW LEVELS
+SELECT a.* from form a;
+SELECT * FROM system_user;
+
 -- SHOW APPROVER
 SELECT
   pa.*,
