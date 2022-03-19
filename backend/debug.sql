@@ -1,3 +1,6 @@
+-- DEBUG
+SELECT * FROM data;
+
 -- SHOW APPROVER
 SELECT
   pa.*,

@@ -3,7 +3,8 @@ from django.test import TestCase
 from django.test.utils import override_settings
 
 from api.v1.v1_data.models import FormData
-from api.v1.v1_forms.models import Forms
+from api.v1.v1_forms.models import Forms, Questions
+from api.v1.v1_forms.constants import QuestionTypes
 
 
 @override_settings(USE_TZ=False)
@@ -17,17 +18,20 @@ class DataVisualisationTestCase(TestCase):
         token = user_response.json().get('token')
 
         call_command("form_seeder", "--test")
-        call_command("fake_data_seeder", "-r", 1, '-t', True)
+        call_command("fake_data_seeder", "-r", 2, '-t', True)
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
 
         form = Forms.objects.first()
+        questions = Questions.objects.filter(form=form)
+        shape = questions.filter(type=QuestionTypes.number).first().id
+        marker = questions.filter(type=QuestionTypes.option).first().id
 
         data = self.client.get("/api/v1/maps/{0}".format(form.id),
                                follow=True,
                                **header)
         self.assertEqual(data.status_code, 400)
-        data = self.client.get("/api/v1/maps/{0}?shape=1&marker=2".format(
-            form.id),
+        data = self.client.get("/api/v1/maps/{0}?shape={1}&marker={2}".format(
+            form.id, shape, marker),
                                follow=True,
                                **header)
         self.assertEqual(data.status_code, 200)
@@ -50,24 +54,27 @@ class DataVisualisationTestCase(TestCase):
         token = user_response.json().get('token')
 
         call_command("form_seeder", "--test")
-        call_command("fake_data_seeder", "-r", 1, '-t', True)
+        call_command("fake_data_seeder", "-r", 2, '-t', True)
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
 
         form = Forms.objects.first()
+        question = Questions.objects.filter(form=form,
+                                            type=QuestionTypes.option).first()
 
         data = self.client.get("/api/v1/chart/data/{0}".format(form.id),
                                follow=True,
                                **header)
         self.assertEqual(data.status_code, 400)
-        data = self.client.get("/api/v1/chart/data/{0}?question=2".format(
-            form.id),
+        data = self.client.get("/api/v1/chart/data/{0}?question={1}".format(
+            form.id, question.id),
                                follow=True,
                                **header)
         self.assertEqual(data.status_code, 200)
         self.assertEqual(list(data.json().get('data')[0]), ['name', 'value'])
         self.assertEqual(data.json().get('type'), 'BAR')
         data = self.client.get(
-            "/api/v1/chart/data/{0}?question=2&stack=2".format(form.id),
+            "/api/v1/chart/data/{0}?question={1}&stack={1}".format(
+                form.id, question.id),
             follow=True,
             **header)
         self.assertEqual(data.status_code, 200)

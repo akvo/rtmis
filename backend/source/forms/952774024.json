@@ -1,6 +1,7 @@
 {
-  "form": "Health Facilities",
   "id": 952774024,
+  "form": "Health Facilities",
+  "type": 1,
   "question_groups": [
     {
       "question_group": "Water Quality",

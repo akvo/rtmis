@@ -1,6 +1,7 @@
 {
-  "form": "Water System",
   "id": 571070071,
+  "form": "Water System",
+  "type": 2,
   "question_groups": [
     {
       "question_group": "Location Demographics",
