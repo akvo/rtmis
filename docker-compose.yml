@@ -20,6 +20,24 @@ services:
     depends_on:
       - db
       - cache
+  worker:
+    image: python:3.8.5
+    working_dir: /app
+    command: ["./run_worker.sh"]
+    volumes:
+      - ./backend:/app:delegated
+    environment:
+      - DB_SCHEMA=rtmis
+      - DB_USER=akvo
+      - DB_PASSWORD=password
+      - DB_HOST=db
+      - DEBUG=True
+      - DJANGO_SECRET=local-secret
+      - REDIS_HOST=cache
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=password
+    depends_on:
+      - backend
   frontend:
     image: akvo/akvo-node-17-alpine:20220121.024749.f30b815
     command: ["./start.sh"]

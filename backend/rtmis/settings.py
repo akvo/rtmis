@@ -45,7 +45,8 @@ EXTERNAL_APPS = [
     'rest_framework_simplejwt',
     'drf_spectacular',
     'django_dbml',
-    'django_extensions'
+    'django_extensions',
+    'django_q'
 ]
 
 # Add API apps below
@@ -175,3 +176,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "v1_users.SystemUser"
 
 FORM_GEO_VALUE = {"lat": 9.145, "lng": 40.4897}
+
+Q_CLUSTER = {
+    'name': 'rtmis',
+    'workers': 8,
+    'recycle': 500,
+    'timeout': 60,
+    'compress': True,
+    'save_limit': 250,
+    'queue_limit': 500,
+    'cpu_affinity': 1,
+    'label': 'Django Q',
+    'redis': {
+        'host': environ["REDIS_HOST"],
+        'port': environ["REDIS_PORT"],
+        'db': 0,
+        'password': environ["REDIS_PASSWORD"]
+    }
+}
