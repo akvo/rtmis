@@ -6,7 +6,7 @@ services:
     working_dir: /app/backend
     volumes:
       - ./:/app:delegated
-      - ./credentials:/credentials/:ro
+      - ${SERVICE_ACCOUNT}:/credentials/:ro
     environment:
       - DB_SCHEMA=rtmis
       - DB_USER=akvo

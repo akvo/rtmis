@@ -28,11 +28,10 @@ then
     FRONTEND_CHANGES=1
 fi
 
-if [ ! -d "./credentials" ]
+if [ ! -d "${SERVICE_ACCOUNT}" ]
 then
-    ls
     echo "Service account not exists"
-    exit 0
+    exit 1
 fi
 
 
