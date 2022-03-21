@@ -19,8 +19,12 @@ services:
       - SEMAPHORE_WORKFLOW_ID=${SEMAPHORE_WORKFLOW_ID:-}
       - SEMAPHORE_GIT_PR_NUMBER=${SEMAPHORE_GIT_PR_NUMBER:-}
       - DEBUG=True
+      - REDIS_HOST=cache
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=password
     depends_on:
       - db
+      - cache
     command: tail -f /dev/null
   db:
     image: postgres:12-alpine
@@ -28,3 +32,7 @@ services:
       - ./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     environment:
       - POSTGRES_PASSWORD=password
+  cache:
+    image: redis:6.2-alpine
+    command: redis-server --save 20 1 --loglevel warning --requirepass password
+    restart: always

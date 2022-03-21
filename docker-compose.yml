@@ -14,8 +14,12 @@ services:
       - DB_HOST=db
       - DEBUG=True
       - DJANGO_SECRET=local-secret
+      - REDIS_HOST=cache
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=password
     depends_on:
       - db
+      - cache
   frontend:
     image: akvo/akvo-node-17-alpine:20220121.024749.f30b815
     command: ["./start.sh"]
@@ -35,5 +39,14 @@ services:
       - POSTGRES_PASSWORD=password
     ports:
       - 5432:5432
+  cache:
+    image: redis:6.2-alpine
+    command: redis-server --save 20 1 --loglevel warning --requirepass password
+    volumes:
+      - cache-data:/data
+    restart: always
+    ports:
+      - 6379:6379
 volumes:
   pg-data:
+  cache-data:

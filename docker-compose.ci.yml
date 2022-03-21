@@ -2,6 +2,7 @@
 version: '3.9'
 services:
   backend:
+    image: eu.gcr.io/akvo-lumen/rtmis/backend:latest
     command: ["sh", "run.sh"]
     depends_on:
       db:
@@ -13,30 +14,33 @@ services:
       - DB_HOST=db
       - DJANGO_SECRET=ci-secret
       - DEBUG=True
-    image: eu.gcr.io/akvo-lumen/rtmis/backend:latest
+      - REDIS_HOST=cache
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=password
     network_mode: service:mainnetwork
     restart: always
     volumes:
       - ./backend:/app:delegated
     working_dir: /app
   ci:
+    image: alpine:3.14
     depends_on:
       - backend
+      - cache
       - db
       - frontend
     entrypoint: ./entrypoint.sh
-    image: alpine:3.14
     network_mode: service:mainnetwork
     volumes:
       - ./ci/test:/test:ro
     working_dir: /test
   db:
+    image: postgres:12-alpine
     command: postgres -c 'shared_buffers=128MB' -c 'fsync=off' -c 'synchronous_commit=off'
       -c 'full_page_writes=off' -c 'max_connections=100' -c 'bgwriter_lru_maxpages=0'
       -c 'client_min_messages=warning'
     environment:
       - POSTGRES_PASSWORD=password
-    image: postgres:12-alpine
     ports:
       - 5432:5432
     restart: always
@@ -48,11 +52,19 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  cache:
+    image: redis:6.2-alpine
+    command: redis-server --save 20 1 --loglevel warning --requirepass password
+    ports:
+      - 6379:6379
+    restart: always
+    volumes:
+      - cache-data:/data
   frontend:
+    image: eu.gcr.io/akvo-lumen/rtmis/frontend:latest
     command: ["nginx", "-g", "daemon off;"]
     depends_on:
       - backend
-    image: eu.gcr.io/akvo-lumen/rtmis/frontend:latest
     network_mode: service:mainnetwork
     volumes:
       - ./frontend:/app:delegated
@@ -64,3 +76,4 @@ services:
       - 8000:8000
 volumes:
   pg-data: {}
+  cache-data: {}
