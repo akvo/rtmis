@@ -30,6 +30,7 @@ fi
 
 if [ ! -d "./credentials" ]
 then
+    ls
     echo "Service account not exists"
     exit 0
 fi
