@@ -28,6 +28,12 @@ then
     FRONTEND_CHANGES=1
 fi
 
+if [ ! -d "./credentials" ]
+then
+    echo "Service account not exists"
+    exit 0
+fi
+
 
 
 [[ -n "${CI_TAG:=}" ]] && { echo "Skip build"; exit 0; }
