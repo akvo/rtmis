@@ -1,16 +1,17 @@
 import os
 from pathlib import Path
 from google.cloud import storage
-from rtmis.settings import BUCKET_NAME
+from django.conf import settings
 import shutil
+
+BUCKET_NAME = settings.BUCKET_NAME
 
 
 def upload(file: str, folder: str, filename: str = None, public: bool = False):
     if not filename:
         filename = file.split("/")[-1]
-    TESTING = os.environ.get("TESTING")
-    if TESTING:
-        fake_location = f"./tmp/fake-storage/{filename}"
+    if settings.FAKE_STORAGE:
+        fake_location = f"./tmp/fake_storage/{filename}"
         shutil.copy2(file, fake_location)
         return fake_location
     storage_client = storage.Client()
@@ -28,8 +29,7 @@ def upload(file: str, folder: str, filename: str = None, public: bool = False):
 def delete(url: str):
     file = url.split("/")[-1]
     folder = url.split("/")[-2]
-    TESTING = os.environ.get("TESTING")
-    if TESTING:
+    if settings.FAKE_STORAGE:
         os.remove(url)
         return url
     storage_client = storage.Client()
@@ -40,8 +40,7 @@ def delete(url: str):
 
 
 def check(url: str):
-    TESTING = os.environ.get("TESTING")
-    if TESTING:
+    if settings.FAKE_STORAGE:
         path = Path(url)
         return path.is_file()
     storage_client = storage.Client()
@@ -50,8 +49,7 @@ def check(url: str):
 
 
 def download(url):
-    TESTING = os.environ.get("TESTING")
-    if TESTING:
+    if settings.FAKE_STORAGE:
         return url
     storage_client = storage.Client()
     bucket = storage_client.bucket(BUCKET_NAME)
