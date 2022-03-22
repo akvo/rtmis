@@ -11,7 +11,6 @@ from django.db.models import Value
 from django.db.models.functions import Coalesce
 from django.http import HttpResponse
 from django.utils import timezone
-from django_q.tasks import async_task, result
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, inline_serializer, \
     OpenApiParameter, OpenApiResponse
@@ -379,28 +378,3 @@ class UserEditDeleteView(APIView):
         serializer.save()
         return Response({'message': 'User updated successfully'},
                         status=status.HTTP_200_OK)
-
-
-@extend_schema(description='To get the result of job', tags=['Job'],
-               parameters=[
-                   OpenApiParameter(name='task_id',
-                                    required=False,
-                                    type=OpenApiTypes.STR,
-                                    location=OpenApiParameter.QUERY),
-               ])
-@api_view(['GET'])
-def job_check(request, version):
-    r = result(request.GET.get('task_id'))
-    if r:
-        return Response({'message': r}, status=status.HTTP_200_OK)
-    return Response({'message': 'Job is in-progress'},
-                    status=status.HTTP_200_OK)
-
-
-@extend_schema(description='To create new job', tags=['Job'])
-@api_view(['GET'])
-def create_job(request, version):
-    user = SystemUser.objects.first()
-    task_id = async_task('utils.functions.demo_q_func', user.id,
-                         hook='utils.functions.demo_q_response_func')
-    return Response({'task_id': task_id}, status=status.HTTP_200_OK)

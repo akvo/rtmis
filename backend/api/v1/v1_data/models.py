@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 from api.v1.v1_data.constants import DataApprovalStatus
+from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
@@ -29,6 +30,27 @@ class FormData(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def to_data_frame(self):
+        data = {
+            "id": self.id,
+            "datapoint_name": self.name,
+            "administration": self.administration.name,
+            "geolocation":
+                f"{self.geo[0], self.geo[1]}" if self.geo else None,
+            "created_by":
+                self.created_by.get_full_name(),
+            "updated_by":
+                self.updated_by.get_full_name() if self.updated_by else None,
+            "created_at":
+                self.created.strftime("%B %d, %Y"),
+            "updated_at":
+                self.updated.strftime("%B %d, %Y") if self.updated else None,
+        }
+        for a in self.data_answer.all():
+            data.update(a.to_data_frame)
+        return data
 
     class Meta:
         db_table = 'data'
@@ -168,6 +190,24 @@ class Answers(models.Model):
 
     def __str__(self):
         return self.data.name
+
+    @property
+    def to_data_frame(self) -> dict:
+        answer = None
+        q = self.question
+        qname = f"{self.question.id}|{self.question.name}"
+        if q.type in [
+            QuestionTypes.geo, QuestionTypes.option,
+            QuestionTypes.multiple_option
+        ]:
+            answer = self.options
+        elif q.type in [
+            QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+        ]:
+            answer = self.name
+        else:
+            answer = self.value
+        return {qname: answer}
 
     class Meta:
         db_table = 'answer'

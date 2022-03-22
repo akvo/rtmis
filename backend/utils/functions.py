@@ -1,8 +1,5 @@
-from time import sleep
-
 from api.v1.v1_data.models import Answers
 from api.v1.v1_forms.constants import QuestionTypes
-from api.v1.v1_users.models import SystemUser
 
 
 def update_date_time_format(date):
@@ -21,13 +18,3 @@ def get_answer_value(answer: Answers):
         return answer.value
     else:
         return answer.name
-
-
-def demo_q_func(user_id):
-    sleep(10)
-    print(user_id)
-    return {'name': SystemUser.objects.get(pk=user_id).get_full_name()}
-
-
-def demo_q_response_func(task):
-    print('Result', task.result)
