@@ -6,6 +6,7 @@ services:
     working_dir: /app/backend
     volumes:
       - ./:/app:delegated
+      - ${SERVICE_ACCOUNT}:/credentials/:ro
     environment:
       - DB_SCHEMA=rtmis
       - DB_USER=akvo
@@ -22,6 +23,7 @@ services:
       - REDIS_HOST=cache
       - REDIS_PORT=6379
       - REDIS_PASSWORD=password
+      - GOOGLE_APPLICATION_CREDENTIALS=/credentials/rtmis-service-account.json
     depends_on:
       - db
       - cache

@@ -32,6 +32,7 @@ blocks:
         - name: Build & Test
           commands:
             - export COVERALLS_REPO_TOKEN="${COVERALLS_RTMIS_TOKEN}"
+            - export SERVICE_ACCOUNT=/home/semaphore/credentials
             - ./ci/build.sh
             - ./ci/deploy.sh
   - name: "Promote to production"
