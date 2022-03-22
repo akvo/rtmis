@@ -11,7 +11,7 @@ class Jobs(models.Model):
     status = models.IntegerField(choices=JobStatus.FieldStr.items(),
                                  default=JobStatus.pending)
     attempt = models.IntegerField(default=0)
-    payload = models.TextField()
+    result = models.TextField(default=None, null=True)
     info = models.JSONField(default=None, null=True)
     user = models.ForeignKey(to=SystemUser, on_delete=models.CASCADE,
                              related_name='user_jobs')
