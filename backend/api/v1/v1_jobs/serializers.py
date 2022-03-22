@@ -1,7 +1,5 @@
 from rest_framework import serializers
 
-from rest_framework import serializers
-
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Administration
 from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField
