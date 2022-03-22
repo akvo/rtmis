@@ -45,7 +45,8 @@ EXTERNAL_APPS = [
     'rest_framework_simplejwt',
     'drf_spectacular',
     'django_dbml',
-    'django_extensions'
+    'django_extensions',
+    'django_q'
 ]
 
 # Add API apps below
@@ -54,6 +55,7 @@ API_APPS = [
     'api.v1.v1_profile',
     'api.v1.v1_forms',
     'api.v1.v1_data',
+    'api.v1.v1_jobs',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + API_APPS + EXTERNAL_APPS
@@ -178,3 +180,21 @@ FORM_GEO_VALUE = {"lat": 9.145, "lng": 40.4897}
 
 BUCKET_NAME = "rtmis"
 FAKE_STORAGE = False
+
+Q_CLUSTER = {
+    'name': 'rtmis',
+    'workers': 8,
+    'recycle': 500,
+    'timeout': 60,
+    'compress': True,
+    'save_limit': 250,
+    'queue_limit': 500,
+    'cpu_affinity': 1,
+    'label': 'Django Q',
+    'redis': {
+        'host': environ["REDIS_HOST"],
+        'port': environ["REDIS_PORT"],
+        'db': 0,
+        'password': environ["REDIS_PASSWORD"]
+    }
+}
