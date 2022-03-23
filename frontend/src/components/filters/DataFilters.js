@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import AdministrationDropdown from "./AdministrationDropdown";
 import FormDropdown from "./FormDropdown.js";
 import { store } from "../../lib";
+import RemoveFiltersButton from "./RemoveFiltersButton";
 
 const DataFilters = ({ loading }) => {
   const { user: authUser, selectedForm } = store.useState((s) => s);
@@ -14,6 +15,7 @@ const DataFilters = ({ loading }) => {
         <Space>
           <FormDropdown loading={loading} />
           <AdministrationDropdown loading={loading} />
+          <RemoveFiltersButton />
         </Space>
       </Col>
       {["Super Admin", "Admin", "User"].includes(authUser?.role?.value) && (
