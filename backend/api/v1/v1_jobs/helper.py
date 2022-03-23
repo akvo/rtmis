@@ -1,6 +1,5 @@
 import os
 import re
-from time import sleep
 
 import pandas as pd
 
@@ -47,7 +46,6 @@ def rearrange_columns(col_names: list):
 
 
 def job_generate_download(job_id, **kwargs):
-    sleep(10)
     job = Jobs.objects.get(pk=job_id)
     file_path = './tmp/{0}'.format(job.result)
     if os.path.exists(file_path):

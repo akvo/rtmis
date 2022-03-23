@@ -193,7 +193,6 @@ class Answers(models.Model):
 
     @property
     def to_data_frame(self) -> dict:
-        answer = None
         q = self.question
         qname = f"{self.question.id}|{self.question.name}"
         if q.type in [
