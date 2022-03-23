@@ -2,6 +2,7 @@ import React from "react";
 import "./style.scss";
 import { Row, Col, Space, Button } from "antd";
 import AdministrationDropdown from "./AdministrationDropdown";
+import RemoveFiltersButton from "./RemoveFiltersButton";
 
 const ApproverFilters = ({ loading, disabled, visible, reset, save }) => {
   return (
@@ -9,6 +10,7 @@ const ApproverFilters = ({ loading, disabled, visible, reset, save }) => {
       <Col flex={1}>
         <Space>
           <AdministrationDropdown loading={loading} />
+          <RemoveFiltersButton />
         </Space>
       </Col>
       <Col>
