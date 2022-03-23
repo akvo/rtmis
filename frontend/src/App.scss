@@ -159,6 +159,10 @@
   }
 }
 
+.text-muted {
+  color: $color-default;
+}
+
 button.light {
   background-color: #b2b3b7;
   color: #fffe;
@@ -166,6 +170,10 @@ button.light {
   width: auto;
   border: 0 none;
   padding: 0 8px;
+
+  &.active {
+    background-color: #969799;
+  }
 
   &:hover {
     background-color: #969799;
