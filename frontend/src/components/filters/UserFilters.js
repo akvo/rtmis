@@ -5,6 +5,7 @@ const { Search } = Input;
 
 import { store, config } from "../../lib";
 import AdministrationDropdown from "./AdministrationDropdown";
+import RemoveFiltersButton from "./RemoveFiltersButton";
 
 const { Option } = Select;
 
@@ -53,6 +54,11 @@ const UserFilters = ({ query, setQuery, pending, setPending, loading }) => {
             ))}
           </Select>
           <AdministrationDropdown loading={loading} />
+          <RemoveFiltersButton
+            extra={(s) => {
+              s.filters = { role: null };
+            }}
+          />
         </Space>
       </Col>
       <Col span={4} align="right">
