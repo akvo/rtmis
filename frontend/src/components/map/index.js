@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
-import { geo } from "../../lib";
+import { geo, store } from "../../lib";
 import "leaflet/dist/leaflet.css";
 
-const { geojson, tile, defaultPos } = geo;
+const { geojson, tile, defaultPos, getBounds } = geo;
 const defPos = defaultPos();
 
 const Map = ({ style }) => {
+  const { administration } = store.useState((s) => s);
+  const [map, setMap] = useState(null);
+
+  useEffect(() => {
+    if (map && administration.length) {
+      const pos = getBounds(administration);
+      map.fitBounds(pos.bbox);
+    }
+  }, [map, administration]);
   return (
     <div className="map-container">
       <MapContainer
@@ -14,6 +23,7 @@ const Map = ({ style }) => {
         zoomControl={false}
         scrollWheelZoom={false}
         style={style}
+        whenCreated={setMap}
       >
         <TileLayer {...tile} />
         {geojson.features.length > 0 && (
