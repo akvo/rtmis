@@ -6,7 +6,8 @@ from api.v1.v1_users.models import SystemUser
 
 
 class Jobs(models.Model):
-    id = models.CharField(max_length=50, unique=True, primary_key=True)
+    task_id = models.CharField(max_length=50, unique=True, null=True,
+                               default=None)
     type = models.IntegerField(choices=JobTypes.FieldStr.items())
     status = models.IntegerField(choices=JobStatus.FieldStr.items(),
                                  default=JobStatus.pending)
