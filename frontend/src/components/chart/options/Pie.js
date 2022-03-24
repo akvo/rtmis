@@ -18,6 +18,7 @@ const Pie = (data, chartTitle, extra, Doughnut = false) => {
   }
   const { textStyle } = TextStyle;
   const rose = {};
+
   const option = {
     title: {
       ...Title,
@@ -70,6 +71,15 @@ const Pie = (data, chartTitle, extra, Doughnut = false) => {
       ...Legend,
       top: "top",
       left: "center",
+      icon: "circle",
+      align: "left",
+      orient: "horizontal",
+      itemGap: 10,
+      textStyle: {
+        fontWeight: "normal",
+        fontSize: 12,
+        marginLeft: 20,
+      },
     },
     ...Color,
     ...backgroundColor,
