@@ -1,7 +1,7 @@
 from django.urls import re_path
 
 from api.v1.v1_jobs.views import download_generate, download_status, \
-    download_file
+    download_file, download_list
 
 urlpatterns = [
     re_path(r'^(?P<version>(v1))/download/generate', download_generate),
@@ -9,4 +9,5 @@ urlpatterns = [
             download_status),
     re_path(r'^(?P<version>(v1))/download/file/(?P<file_name>.*)$',
             download_file),
+    re_path(r'^(?P<version>(v1))/download/list', download_list),
 ]
