@@ -14,7 +14,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from api.v1.v1_jobs.constants import JobStatus
+from api.v1.v1_jobs.constants import JobStatus, JobTypes
 from api.v1.v1_jobs.models import Jobs
 from api.v1.v1_jobs.serializers import GenerateDownloadRequestSerializer, \
     DownloadListSerializer
@@ -111,7 +111,8 @@ def download_file(request, version, file_name):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def download_list(request, version):
-    queryset = request.user.user_jobs.all().order_by('-created')
+    queryset = request.user.user_jobs.filter(
+        type=JobTypes.download).order_by('-created')
     paginator = PageNumberPagination()
     paginator.page_size = 5
     try:
