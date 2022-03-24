@@ -6,8 +6,7 @@ from api.v1.v1_data.views import data_answers, \
     export_form_data, list_pending_batch, list_pending_data_batch, \
     FormDataAddListView, PendingFormDataView, BatchView, \
     PendingDataDetailDeleteView, BatchSummaryView, BatchCommentView
-from api.v1.v1_users.views import health_check, get_config_file, job_check, \
-    create_job
+from api.v1.v1_users.views import health_check, get_config_file
 
 urlpatterns = [
     re_path(r'^(?P<version>(v1))/form-data/(?P<form_id>[0-9]+)',
@@ -40,6 +39,5 @@ urlpatterns = [
 
     re_path(r'^(?P<version>(v1))/health/check', health_check),
     re_path(r'^(?P<version>(v1))/config.js', get_config_file),
-    re_path(r'^(?P<version>(v1))/create/job', create_job),
-    re_path(r'^(?P<version>(v1))/job/check', job_check),
+
 ]
