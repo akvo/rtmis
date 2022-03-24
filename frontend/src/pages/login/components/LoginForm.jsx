@@ -3,7 +3,6 @@ import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { api, store, config } from "../../../lib";
-import { getFormUrl } from "../../../util/form";
 import { useNotification } from "../../../util/hooks";
 
 const LoginForm = () => {
@@ -26,21 +25,12 @@ const LoginForm = () => {
         store.update((s) => {
           s.isLoggedIn = true;
           s.user = { ...res.data, role_detail: role_details };
+          s.forms = role_details.filter_form
+            ? window.forms.filter((x) => x.type === role_details.filter_form)
+            : window.forms;
         });
-        Promise.all([api.get(getFormUrl(role_details)), api.get("levels")])
-          .then((res) => {
-            store.update((s) => {
-              s.forms = res[0].data;
-              s.levels = res[1].data;
-            });
-            setLoading(false);
-            navigate("/profile");
-          })
-          .catch((e) => {
-            setLoading(false);
-            console.error(e);
-            navigate("/profile");
-          });
+        setLoading(false);
+        navigate("/profile");
       })
       .catch((err) => {
         if (err.response.status === 401 || err.response.status === 400) {

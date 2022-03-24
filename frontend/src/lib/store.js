@@ -8,8 +8,8 @@ const defaultUIState = {
   },
   administration: [],
   loadingAdministration: false,
-  forms: [],
-  levels: [],
+  forms: window.forms,
+  levels: window.levels,
   selectedForm: null,
   questionGroups: [],
 };
