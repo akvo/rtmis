@@ -8,13 +8,16 @@ from drf_spectacular.utils import extend_schema, OpenApiParameter, \
     inline_serializer
 from rest_framework import status, serializers
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.exceptions import NotFound
 from rest_framework.generics import get_object_or_404
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from api.v1.v1_jobs.constants import JobStatus
+from api.v1.v1_jobs.constants import JobStatus, JobTypes
 from api.v1.v1_jobs.models import Jobs
-from api.v1.v1_jobs.serializers import GenerateDownloadRequestSerializer
+from api.v1.v1_jobs.serializers import GenerateDownloadRequestSerializer, \
+    DownloadListSerializer
 from utils.custom_serializer_fields import validate_serializers_message
 from utils.storage import download
 
@@ -70,6 +73,7 @@ def download_generate(request, version):
                        })}
                )
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def download_status(request, version, task_id):
     job = get_object_or_404(Jobs, task_id=task_id)
     return Response({'status': JobStatus.FieldStr.get(job.status)},
@@ -78,8 +82,8 @@ def download_status(request, version, task_id):
 
 @extend_schema(tags=['Job'],
                summary='Download file', )
-@permission_classes([IsAuthenticated])
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def download_file(request, version, file_name):
     job = get_object_or_404(Jobs, result=file_name)
     url = f"download/{job.result}"
@@ -93,3 +97,28 @@ def download_file(request, version, file_name):
     response[
         'Content-Disposition'] = 'attachment; filename="%s"' % filename
     return response
+
+
+@extend_schema(
+    tags=['Job'],
+    summary='Download list',
+    parameters=[
+        OpenApiParameter(name='page',
+                         required=True,
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY)
+    ])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def download_list(request, version):
+    queryset = request.user.user_jobs.filter(
+        type=JobTypes.download).order_by('-created')
+    paginator = PageNumberPagination()
+    paginator.page_size = 5
+    try:
+        instance = paginator.paginate_queryset(queryset, request)
+        return Response(
+            DownloadListSerializer(instance=instance, many=True).data,
+            status=status.HTTP_200_OK)
+    except NotFound:
+        return Response([], status=status.HTTP_200_OK)

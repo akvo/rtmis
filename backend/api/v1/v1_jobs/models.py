@@ -20,7 +20,7 @@ class Jobs(models.Model):
     available = models.DateTimeField(default=None, null=True)
 
     def __str__(self):
-        return self.info
+        return self.user.get_full_name()
 
     class Meta:
         db_table = 'jobs'
