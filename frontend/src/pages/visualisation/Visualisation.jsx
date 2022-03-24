@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Row, Col, Card, Divider, Collapse, Space, Button, List } from "antd";
+import { Row, Col, Card, Divider, Collapse, Space, Button, Select } from "antd";
 import {
   PlusSquareOutlined,
   CloseSquareOutlined,
@@ -11,6 +11,7 @@ import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { VisualisationFilters, Map, Chart } from "../../components";
 const { Panel } = Collapse;
+const { Option } = Select;
 
 const Visualisation = () => {
   const [dataset, setDataset] = useState([]);
@@ -33,30 +34,58 @@ const Visualisation = () => {
           return {
             id: qg.id,
             title: qg.name,
+            selected:
+              qg.question.filter((qi) => qi.type === "option")[0]?.id + "" ||
+              null,
+            data: [],
+            chart: "BAR",
             question:
               qg.question?.map((qn) => ({
                 ...qn,
-                chart: "BAR",
-                data: [],
               })) || [],
           };
         });
     });
   }, [questionGroups]);
 
-  const setChartType = (main, sub, type) => {
+  const setChartType = (questionGroupId, type) => {
     const temp = dataset.map((ds) => {
-      return ds.id === main
+      return ds.id === questionGroupId
         ? {
             ...ds,
-            question:
-              ds.question?.map((dQ) =>
-                dQ.id === sub ? { ...dQ, chart: type } : dQ
-              ) || [],
+            chart: type,
           }
         : ds;
     });
     setDataset(temp);
+  };
+
+  const fetchData = (questionGroupId, questionId) => {
+    setLoading(true);
+    api
+      .get(`chart/data/${selectedForm}?question=${questionId}`)
+      .then((res) => {
+        let temp = [...dataset];
+        temp = temp.map((ds) => {
+          return ds.id === questionGroupId
+            ? {
+                ...ds,
+                chart: res.data?.type || "BAR",
+                data: res.data?.data || [],
+                selected: questionId + "",
+              }
+            : ds;
+        });
+        setDataset(temp);
+        setLoading(false);
+      })
+      .catch(() => {
+        notify({
+          type: "error",
+          message: "Could not load data",
+        });
+        setLoading(false);
+      });
   };
 
   const handleChange = (panel) => {
@@ -64,51 +93,17 @@ const Visualisation = () => {
       return;
     }
     if (panel) {
-      setActiveKey(panel);
       const questionGroupRes = questionGroups.find(
-        (qgS) => qgS.id === dataset[panel]?.id
+        (qgS) => qgS.id === dataset[parseInt(panel)]?.id
       );
-      const questionIds =
-        questionGroupRes.question
-          ?.filter((qn) => qn.type === "option")
-          .map((qn) => qn.id) || [];
-      setLoading(true);
-      const apiCall = questionIds?.map((questionId) =>
-        api.get(`chart/data/${selectedForm}?question=${questionId}`)
-      );
-      Promise.all(apiCall)
-        .then((res) => {
-          let temp = [...dataset];
-          res.map((rItem, rIdx) => {
-            temp = temp.map((ds) => {
-              return ds.id === questionGroupRes.id
-                ? {
-                    ...ds,
-                    question:
-                      ds.question?.map((dQ) =>
-                        dQ.id === questionIds[rIdx]
-                          ? {
-                              ...dQ,
-                              chart: rItem.data?.type || "BAR",
-                              data: rItem.data?.data || [],
-                            }
-                          : dQ
-                      ) || [],
-                  }
-                : ds;
-            });
-          });
-          setDataset(temp);
-          setLoading(false);
-        })
-        .catch(() => {
-          notify({
-            type: "error",
-            message: "Could not load data",
-          });
-          setLoading(false);
-        });
+      const questionIdRes = questionGroupRes?.question.filter(
+        (gq) => gq.type === "option"
+      )[0]?.id;
+      if (questionIdRes) {
+        fetchData(questionGroupRes.id, questionIdRes);
+      }
     }
+    setActiveKey(panel);
   };
 
   return (
@@ -138,67 +133,76 @@ const Visualisation = () => {
             >
               {dataset.map((d, dI) => (
                 <Panel key={dI} header={d.title}>
-                  <List
-                    dataSource={d.question?.filter(
-                      (qn) => qn.type === "option"
-                    )}
-                    renderItem={(item) => (
-                      <List.Item>
-                        <Row
-                          style={{
-                            width: "100%",
-                            flexWrap: "nowrap",
-                            marginBottom: 12,
+                  <Row
+                    style={{
+                      width: "100%",
+                      flexWrap: "nowrap",
+                      marginBottom: 12,
+                    }}
+                  >
+                    <Col flex={1}>
+                      <Select
+                        value={d.selected}
+                        disabled={loading}
+                        onChange={(e) => {
+                          fetchData(d.id, e);
+                        }}
+                        placeholder="Select one.."
+                      >
+                        {d.question
+                          ?.filter((qn) => qn.type === "option")
+                          .map((qn, qnI) => (
+                            <Option key={qnI} value={qn.id + ""}>
+                              {qn.name}
+                            </Option>
+                          ))}
+                      </Select>
+                    </Col>
+                    <Col>
+                      <Space>
+                        <Button
+                          title="Bar Chart"
+                          className={
+                            d.chart === "BAR" ? "light active" : "light"
+                          }
+                          icon={<BarChartOutlined />}
+                          onClick={() => {
+                            setChartType(d.id, "BAR");
                           }}
-                        >
-                          <Col flex={1}>
-                            <h3>{item.name}</h3>
-                          </Col>
-                          <Col>
-                            <Space>
-                              <Button
-                                title="Bar Chart"
-                                className={
-                                  item.chart === "BAR"
-                                    ? "light active"
-                                    : "light"
-                                }
-                                icon={<BarChartOutlined />}
-                                onClick={() => {
-                                  setChartType(d.id, item.id, "BAR");
-                                }}
-                              />
-                              <Button
-                                title="Pie Chart"
-                                className={
-                                  item.chart === "PIE"
-                                    ? "light active"
-                                    : "light"
-                                }
-                                icon={<PieChartOutlined />}
-                                onClick={() => {
-                                  setChartType(d.id, item.id, "PIE");
-                                }}
-                              />
-                            </Space>
-                          </Col>
-                        </Row>
-                        <div>
-                          {loading ? (
-                            <div className="text-muted">Loading..</div>
-                          ) : (
-                            <Chart
-                              span={24}
-                              type={item.chart || "BAR"}
-                              data={item.data}
-                              wrapper={false}
-                            />
-                          )}
-                        </div>
-                      </List.Item>
-                    )}
-                    itemLayout="vertical"
-                  />
+                        />
+                        <Button
+                          title="Pie Chart"
+                          className={
+                            d.chart === "PIE" ? "light active" : "light"
+                          }
+                          icon={<PieChartOutlined />}
+                          onClick={() => {
+                            setChartType(d.id, "PIE");
+                          }}
+                        />
+                      </Space>
+                    </Col>
+                  </Row>
+
+                  {loading ? (
+                    <div style={{ color: "#777", margin: "12px 0" }}>
+                      Loading..
+                    </div>
+                  ) : d.chart === "PIE" ? (
+                    <Chart
+                      span={24}
+                      type={"PIE"}
+                      data={d.data}
+                      wrapper={false}
+                    />
+                  ) : (
+                    <Chart
+                      span={24}
+                      type={"BAR"}
+                      data={d.data}
+                      wrapper={false}
+                    />
+                  )}
                 </Panel>
               ))}
             </Collapse>
