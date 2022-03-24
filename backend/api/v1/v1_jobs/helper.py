@@ -2,6 +2,7 @@ import os
 import re
 
 import pandas as pd
+from django.utils import timezone
 
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_jobs.constants import JobStatus
@@ -116,8 +117,10 @@ def job_generate_download(job_id, **kwargs):
 
 def job_generate_download_result(task):
     job = Jobs.objects.get(task_id=task.id)
+    job.attempt = job.attempt + 1
     if task.success:
         job.status = JobStatus.done
+        job.available = timezone.now()
     else:
         job.status = JobStatus.failed
     job.save()
