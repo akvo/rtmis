@@ -1,8 +1,10 @@
 import os
 import re
+from time import sleep
 
 import pandas as pd
 from django.utils import timezone
+from django_q.tasks import async_task
 
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_jobs.constants import JobStatus
@@ -124,3 +126,32 @@ def job_generate_download_result(task):
     else:
         job.status = JobStatus.failed
     job.save()
+
+
+def seed_data_result(task):
+    if task.success:
+        print('Data uploaded successfully')
+
+
+def seed_data():
+    print('seeding data...')
+    sleep(10)
+    return True
+
+
+def validate_upload():
+    sleep(10)
+    print('data validated')
+    # if data is invalid upload write and upload CSV
+    return True  # return True if data is valid or False if invalid
+
+
+def validate_upload_result(task):
+    if task.result:
+        print('start new task')
+        task_id = async_task(
+            'api.v1.v1_jobs.helper.seed_data',
+            hook='api.v1.v1_jobs.helper.seed_data_result')
+        print(task_id)
+    else:
+        print('Invalid data')

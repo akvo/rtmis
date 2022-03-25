@@ -3,6 +3,7 @@ from wsgiref.util import FileWrapper
 
 from django.core.management import call_command
 from django.http import HttpResponse
+from django_q.tasks import async_task
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter, \
     inline_serializer
@@ -122,3 +123,15 @@ def download_list(request, version):
             status=status.HTTP_200_OK)
     except NotFound:
         return Response([], status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    tags=['POC'],
+    summary='Continuous Tasks POC')
+@api_view(['GET'])
+def task_poc(request, version):
+    task_id = async_task(
+        'api.v1.v1_jobs.helper.validate_upload',
+        hook='api.v1.v1_jobs.helper.validate_upload_result')
+    print(task_id)
+    return Response('ok', status=status.HTTP_200_OK)
