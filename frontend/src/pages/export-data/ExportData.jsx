@@ -10,8 +10,10 @@ import {
   Empty,
   Button,
 } from "antd";
-import { FileTextFilled } from "@ant-design/icons";
+import { FileTextFilled, LoadingOutlined } from "@ant-design/icons";
 import { Breadcrumbs } from "../../components";
+import { api, store } from "../../lib";
+import { useNotification } from "../../util/hooks";
 
 const pagePath = [
   {
@@ -25,6 +27,10 @@ const pagePath = [
 
 const ExportData = () => {
   const [dataset, setDataset] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { notify } = useNotification();
+  const { forms } = store.useState((state) => state);
+  const handleDownload = () => {};
 
   const columns = [
     {
@@ -40,20 +46,28 @@ const ExportData = () => {
       render: (row) => (
         <div>
           <div>
-            <strong>{row.name}</strong> - From {row.from} to {row.to}
+            <strong>{row.result}</strong> - From 2018-06-01 to 2018-07-05 02:00
           </div>
-          <div>{row.survey}</div>
+          <div>
+            {forms.find((f) => f.id === row.info?.form_id)?.name || "-"}
+          </div>
         </div>
       ),
     },
     {
-      dataIndex: "date",
+      dataIndex: "created",
     },
     {
-      render: () => (
+      render: (row) => (
         <Row>
-          <Button ghost className="dev">
-            Download
+          <Button
+            icon={row.status === "on_progress" ? <LoadingOutlined /> : false}
+            disabled={row.status !== "done"}
+            onClick={() => {
+              handleDownload(row.id);
+            }}
+          >
+            {row.status === "on_progress" ? "Generating" : "Download"}
           </Button>
           <Button ghost className="dev">
             Delete
@@ -64,21 +78,21 @@ const ExportData = () => {
   ];
 
   useEffect(() => {
-    const temp = new Array(10);
-    for (let i = 0; i < 20; i++) {
-      temp[i] = {
-        id: i + 1,
-        name:
-          i % 2 ? `Form template ${i + 1}` : `Data analysis export ${i + 1}`,
-        from: "2018-06-01",
-        to: "2018-07-05 02:00",
-        survey: "AECOM rock and roll > Demo Survey",
-        date: "2021-11-08 17:18",
-        type: i % 2,
-      };
-    }
-    setDataset(temp);
-  }, []);
+    api
+      .get("download/list")
+      .then((res) => {
+        setDataset(res.data.filter((d) => d.status !== "failed"));
+        setLoading(false);
+      })
+      .catch((e) => {
+        setLoading(false);
+        notify({
+          type: "error",
+          message: "Could not fetch File list",
+        });
+        console.error(e);
+      });
+  }, [notify]);
 
   return (
     <div id="exportData">
@@ -94,12 +108,12 @@ const ExportData = () => {
       >
         <ConfigProvider renderEmpty={() => <Empty description="No data" />}>
           <Table
-            className="dev"
             columns={columns}
             dataSource={dataset}
             showHeader={false}
             rowClassName={(record) => (record.type === 1 ? "template" : "")}
             rowKey="id"
+            loading={loading}
           />
         </ConfigProvider>
       </Card>
