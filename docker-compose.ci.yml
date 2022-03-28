@@ -14,9 +14,6 @@ services:
       - DB_HOST=db
       - DJANGO_SECRET=ci-secret
       - DEBUG=True
-      - REDIS_HOST=cache
-      - REDIS_PORT=6379
-      - REDIS_PASSWORD=password
     network_mode: service:mainnetwork
     restart: always
     volumes:
@@ -27,7 +24,6 @@ services:
     image: alpine:3.14
     depends_on:
       - backend
-      - cache
       - db
       - frontend
     entrypoint: ./entrypoint.sh
@@ -53,14 +49,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-  cache:
-    image: redis:6.2-alpine
-    command: redis-server --save 20 1 --loglevel warning --requirepass password
-    ports:
-      - 6379:6379
-    restart: always
-    volumes:
-      - cache-data:/data
   frontend:
     image: eu.gcr.io/akvo-lumen/rtmis/frontend:latest
     command: ["nginx", "-g", "daemon off;"]
@@ -77,4 +65,3 @@ services:
       - 8000:8000
 volumes:
   pg-data: {}
-  cache-data: {}
