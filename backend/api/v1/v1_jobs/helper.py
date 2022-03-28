@@ -1,3 +1,4 @@
+import enum
 import os
 import re
 from time import sleep
@@ -28,6 +29,25 @@ class HText(str):
         self.obj = [string] if "|" not in string else string.split("|")
         self.clean = "|".join([tr(o) for o in self.obj])
         self.hasnum = contain_numbers(string)
+
+
+class ValidationText(enum.Enum):
+    header_name_missing = "Header name is missing"
+    header_no_question_id = "doesn't have question id"
+    header_invalid_id = "has invalid id"
+    numeric_validation = "Value should be numeric"
+    numeric_max_rule = "Maximum value for --question-- is --rule--"
+    numeric_min_rule = "Minimum value for --question-- is --rule--"
+    lat_long_validation = "Invalid lat long format"
+    administration_validation = "Wrong administration format"
+    administration_not_valid = "Wrong administration data for"
+    administration_not_part_of = "--answer-- is not part of --administration--"
+    template_validation = "Wrong sheet names or invalid file upload template"
+    file_empty_validation = "You have uploaded an empty sheet"
+    is_required = "is required"
+    start_validation = "DATA VALIDATION STARTED"
+    successfully_validation = "IS SUCCESSFULLY VALIDATED"
+    error_validation = "VALIDATION ERROR"
 
 
 def download(form: Forms, administration_ids):
@@ -141,6 +161,7 @@ def seed_data():
 
 def validate_upload():
     sleep(10)
+    # validate(1,30,'download-health_facilities-220324-2c2e8298-629f-4361-aeab-3a4167d2fadb.xlsx')
     print('data validated')
     # if data is invalid upload write and upload CSV
     return True  # return True if data is valid or False if invalid

@@ -133,5 +133,16 @@ def task_poc(request, version):
     task_id = async_task(
         'api.v1.v1_jobs.helper.validate_upload',
         hook='api.v1.v1_jobs.helper.validate_upload_result')
-    print(task_id)
-    return Response('ok', status=status.HTTP_200_OK)
+    return Response(task_id, status=status.HTTP_200_OK)
+    # try:
+    #     data = validate(1, 30,
+    #                     './tmp/download-health_facilities-220324-2c2e8298-629f-4361-aeab-3a4167d2fadb.xlsx')
+    #     if len(data):
+    #         error_list = pd.DataFrame(data)
+    #         error_list = error_list[list(
+    #             filter(lambda x: x != "error", list(error_list)))]
+    #         error_file = f"./tmp/error-{1}.csv"
+    #         error_list = error_list.to_csv(error_file, index=False)
+    #     return Response('data', status=status.HTTP_200_OK)
+    # except Exception as wx:
+    #     return Response(wx.args, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
