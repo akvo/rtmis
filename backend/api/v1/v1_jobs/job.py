@@ -1,31 +1,17 @@
 import os
-import re
 
 import pandas as pd
 from django.utils import timezone
 
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_jobs.constants import JobStatus
+from api.v1.v1_jobs.functions import HText
 from api.v1.v1_jobs.models import Jobs
+from api.v1.v1_jobs.validate_upload import validate
 from api.v1.v1_profile.models import Administration
+from utils import storage
 from utils.functions import update_date_time_format
 from utils.storage import upload
-
-
-def tr(obj):
-    return " ".join(filter(lambda x: len(x), obj.strip().split(" ")))
-
-
-def contain_numbers(input_string):
-    return bool(re.search(r'\d', input_string))
-
-
-class HText(str):
-    def __init__(self, string):
-        super().__init__()
-        self.obj = [string] if "|" not in string else string.split("|")
-        self.clean = "|".join([tr(o) for o in self.obj])
-        self.hasnum = contain_numbers(string)
 
 
 def download(form: Forms, administration_ids):
@@ -124,3 +110,26 @@ def job_generate_download_result(task):
     else:
         job.status = JobStatus.failed
     job.save()
+
+
+def validate_excel(job_id):
+    job = Jobs.objects.get(pk=job_id)
+    storage.download(f"upload/{job.info.get('file')}")
+    data = validate(job.info.get('form'), job.info.get('administration'),
+                    f"./tmp/{job.info.get('file')}")
+
+    if len(data):
+        error_list = pd.DataFrame(data)
+        error_list = error_list[list(
+            filter(lambda x: x != "error", list(error_list)))]
+        error_file = f"./tmp/error-{1}.csv"
+        error_list.to_csv(error_file, index=False)
+        return False
+    return True
+
+
+def validate_excel_result(task):
+    if task.result:
+        print('Seed Data')
+    else:
+        print('Invalid data')
