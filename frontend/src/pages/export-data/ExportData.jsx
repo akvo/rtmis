@@ -10,8 +10,15 @@ import {
   Empty,
   Button,
 } from "antd";
-import { FileTextFilled } from "@ant-design/icons";
+import {
+  FileTextFilled,
+  LoadingOutlined,
+  DownloadOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
 import { Breadcrumbs } from "../../components";
+import { api, store } from "../../lib";
+import { useNotification } from "../../util/hooks";
 
 const pagePath = [
   {
@@ -25,6 +32,12 @@ const pagePath = [
 
 const ExportData = () => {
   const [dataset, setDataset] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showLoadMore, setShowLoadMore] = useState(true);
+  const [page, setPage] = useState(1);
+  const [downloading, setDownloading] = useState(false);
+  const { notify } = useNotification();
+  const { forms } = store.useState((state) => state);
 
   const columns = [
     {
@@ -40,20 +53,41 @@ const ExportData = () => {
       render: (row) => (
         <div>
           <div>
-            <strong>{row.name}</strong> - From {row.from} to {row.to}
+            <strong>{row.result}</strong>
           </div>
-          <div>{row.survey}</div>
+          <div>
+            {forms.find((f) => f.id === row.info?.form_id)?.name || "-"}
+          </div>
         </div>
       ),
     },
     {
-      dataIndex: "date",
+      dataIndex: "created",
     },
     {
-      render: () => (
+      render: (row) => (
         <Row>
-          <Button ghost className="dev">
-            Download
+          <Button
+            icon={
+              row.status === "on_progress" || row.result === downloading ? (
+                <LoadingOutlined />
+              ) : row.status === "done" ? (
+                <DownloadOutlined />
+              ) : (
+                <ExclamationCircleOutlined style={{ color: "red" }} />
+              )
+            }
+            ghost
+            disabled={row.status !== "done"}
+            onClick={() => {
+              handleDownload(row.result);
+            }}
+          >
+            {row.status === "on_progress"
+              ? "Generating"
+              : row.status === "failed"
+              ? "Failed"
+              : "Download"}
           </Button>
           <Button ghost className="dev">
             Delete
@@ -64,21 +98,87 @@ const ExportData = () => {
   ];
 
   useEffect(() => {
-    const temp = new Array(10);
-    for (let i = 0; i < 20; i++) {
-      temp[i] = {
-        id: i + 1,
-        name:
-          i % 2 ? `Form template ${i + 1}` : `Data analysis export ${i + 1}`,
-        from: "2018-06-01",
-        to: "2018-07-05 02:00",
-        survey: "AECOM rock and roll > Demo Survey",
-        date: "2021-11-08 17:18",
-        type: i % 2,
-      };
+    api
+      .get(`download/list`)
+      .then((res) => {
+        setDataset(res.data);
+        setLoading(false);
+      })
+      .catch((e) => {
+        setLoading(false);
+        setDataset([]);
+        setShowLoadMore(false);
+        notify({
+          type: "error",
+          message: "Could not fetch File list",
+        });
+        console.error(e);
+      });
+  }, [notify]);
+
+  const pending = dataset.filter((d) => d.status === "on_progress");
+
+  useEffect(() => {
+    if (pending.length) {
+      setTimeout(() => {
+        api.get(`download/status/${pending?.[0]?.task_id}`).then((res) => {
+          if (res?.data?.status === "done") {
+            setDataset((ds) =>
+              ds.map((d) =>
+                d.task_id === pending?.[0]?.task_id
+                  ? { ...d, status: "done" }
+                  : d
+              )
+            );
+          }
+        });
+      }, 3000);
     }
-    setDataset(temp);
-  }, []);
+  }, [pending]);
+
+  const handleDownload = (filename) => {
+    setDownloading(filename);
+    api
+      .get(`download/file/${filename}`, { responseType: "blob" })
+      .then((res) => {
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", filename);
+        document.body.appendChild(link);
+        link.click();
+        setDownloading(null);
+      });
+  };
+
+  const onLoadMore = () => {
+    setLoading(true);
+    api
+      .get(`download/list?page=${page + 1}`)
+      .then((res) => {
+        setDataset([...dataset, ...res.data]);
+        if (res.data.length < 5) {
+          setShowLoadMore(false);
+        }
+        setPage(page + 1);
+        setLoading(false);
+      })
+      .catch((e) => {
+        console.error(e);
+        setShowLoadMore(false);
+        setLoading(false);
+      });
+  };
+
+  const loadMore = () => {
+    return showLoadMore ? (
+      <Button type="link" onClick={onLoadMore}>
+        Load More
+      </Button>
+    ) : !loading ? (
+      <span className="text-muted">End of List</span>
+    ) : null;
+  };
 
   return (
     <div id="exportData">
@@ -94,12 +194,14 @@ const ExportData = () => {
       >
         <ConfigProvider renderEmpty={() => <Empty description="No data" />}>
           <Table
-            className="dev"
             columns={columns}
             dataSource={dataset}
             showHeader={false}
             rowClassName={(record) => (record.type === 1 ? "template" : "")}
             rowKey="id"
+            loading={loading}
+            footer={loadMore}
+            pagination={false}
           />
         </ConfigProvider>
       </Card>
