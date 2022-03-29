@@ -45,7 +45,8 @@ EXTERNAL_APPS = [
     'rest_framework_simplejwt',
     'drf_spectacular',
     'django_dbml',
-    'django_extensions'
+    'django_extensions',
+    'django_q'
 ]
 
 # Add API apps below
@@ -54,6 +55,7 @@ API_APPS = [
     'api.v1.v1_profile',
     'api.v1.v1_forms',
     'api.v1.v1_data',
+    'api.v1.v1_jobs',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + API_APPS + EXTERNAL_APPS
@@ -175,3 +177,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "v1_users.SystemUser"
 
 FORM_GEO_VALUE = {"lat": 9.145, "lng": 40.4897}
+
+BUCKET_NAME = "rtmis"
+FAKE_STORAGE = False
+
+Q_CLUSTER = {
+    'name': 'DjangORM',
+    'workers': 4,
+    'timeout': 90,
+    'retry': 120,
+    'queue_limit': 50,
+    'bulk': 10,
+    'orm': 'default'
+}

@@ -101,7 +101,7 @@ const Questionnaires = () => {
           type: "success",
           message: "Questionnaires updated",
         });
-        reloadData();
+        reloadData(dataset);
       })
       .catch(() => {
         notify({
