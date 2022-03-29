@@ -19,6 +19,7 @@ from api.v1.v1_jobs.constants import JobStatus, JobTypes
 from api.v1.v1_jobs.models import Jobs
 from api.v1.v1_jobs.serializers import GenerateDownloadRequestSerializer, \
     DownloadListSerializer
+from utils import storage
 from utils.custom_serializer_fields import validate_serializers_message
 from utils.storage import download
 
@@ -129,20 +130,36 @@ def download_list(request, version):
     tags=['POC'],
     summary='Continuous Tasks POC')
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def task_poc(request, version):
-    task_id = async_task(
-        'api.v1.v1_jobs.helper.validate_upload',
-        hook='api.v1.v1_jobs.helper.validate_upload_result')
-    return Response(task_id, status=status.HTTP_200_OK)
-    # try:
-    #     data = validate(1, 30,'./tmp/file.xlsx')
-    #     if len(data):
-    #         error_list = pd.DataFrame(data)
-    #         error_list = error_list[list(
-    #             filter(lambda x: x != "error", list(error_list)))]
-    #         error_file = f"./tmp/error-{1}.csv"
-    #         error_list = error_list.to_csv(error_file, index=False)
-    #     return Response('data', status=status.HTTP_200_OK)
-    # except Exception as wx:
-    #     return Response(wx.args,
-    #     status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    # task_id = async_task(
+    #     'api.v1.v1_jobs.helper.validate_upload',
+    #     hook='api.v1.v1_jobs.helper.validate_upload_result')
+    # return Response(task_id, status=status.HTTP_200_OK)
+    try:
+        name = storage.upload('./tmp/571070071-water-test.xlsx', 'upload')
+        job = Jobs.objects.create(
+            type=JobTypes.validate_data,
+            status=JobStatus.on_progress,
+            user=request.user,
+            info={'file': name}
+        )
+        task_id = async_task(
+            'api.v1.v1_jobs.helper.validate_upload', job.id,
+            hook='api.v1.v1_jobs.helper.validate_upload_result')
+        job.task_id = task_id
+        job.save()
+
+        # import pandas as pd
+        # data = validate(571070071, 30, './tmp/571070071-water-test.xlsx')
+        # if len(data):
+        #     error_list = pd.DataFrame(data)
+        #     error_list = error_list[list(
+        #         filter(lambda x: x != "error", list(error_list)))]
+        #     error_file = f"./tmp/error-{1}.csv"
+        #     error_list = error_list.to_csv(error_file, index=False)
+        #     return Response('err', status=status.HTTP_200_OK)
+        return Response('ok', status=status.HTTP_200_OK)
+    except Exception as wx:
+        return Response(wx.args,
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)

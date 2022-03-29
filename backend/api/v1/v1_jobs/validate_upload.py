@@ -8,7 +8,7 @@ import pandas as pd
 
 from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Questions
-from api.v1.v1_jobs.helper import ValidationText, HText
+from api.v1.v1_jobs.functions import ValidationText, HText
 from api.v1.v1_profile.models import Administration
 
 
@@ -101,6 +101,7 @@ def validate_administration(answer, adm):
         return {
             "error_message": ValidationText.administration_validation.value
         }
+    print(aw[0], adm['name'])
     if aw[0] != adm["name"]:
         return {
             "error_message":
@@ -164,7 +165,7 @@ def validate_option(options, answer):
     return False
 
 
-def validate_row_data(col, answer, question, adm):
+def validate_row_data(col, answer, question: Questions, adm):
     default = {"error": ExcelError.value, "cell": col}
     if answer != answer:
         if question.required:
@@ -178,6 +179,7 @@ def validate_row_data(col, answer, question, adm):
         answer = HText(answer).clean
     if question.type == QuestionTypes.administration:
         err = validate_administration(answer, adm)
+        print(err)
         if err:
             default.update(err)
             return default
@@ -197,7 +199,7 @@ def validate_row_data(col, answer, question, adm):
             default.update(err)
             return default
     if question.type in [QuestionTypes.option, QuestionTypes.multiple_option]:
-        err = validate_option(question.option, answer)
+        err = validate_option(question.question_question_options.all(), answer)
         if err:
             default.update(err)
             return default
@@ -237,9 +239,6 @@ def validate(form: int, administration: int, file: str):
     header_error = []
     data_error = []
 
-    # childs = crud_administration.get_all_childs(session=session,
-    #                                             parents=[administration],
-    #                                             current=[])
     adm = Administration.objects.get(id=administration)
     if adm.path:
         filter_path = '{0}{1}.'.format(adm.path,
@@ -255,11 +254,12 @@ def validate(form: int, administration: int, file: str):
     for col in excel_head:
         header = excel_head[col]
         error = validate_header_names(header, f"{col}1", header_names)
+
         if error:
             header_error.append(error)
         if not error:
             qid = header.split("|")[0]
-            question = questions.filter(id == int(qid)).first()
+            question = questions.filter(id=int(qid)).first()
             answers = list(df[header])
             for i, answer in enumerate(answers):
                 ix = i + 2
