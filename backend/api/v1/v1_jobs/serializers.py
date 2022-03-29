@@ -32,5 +32,5 @@ class DownloadListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Jobs
-        fields = ['id', 'type', 'status', 'info', 'attempt', 'created_by',
-                  'created', 'result', 'available']
+        fields = ['id', 'task_id', 'type', 'status', 'info', 'attempt',
+                  'created_by', 'created', 'result', 'available']
