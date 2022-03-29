@@ -182,19 +182,11 @@ BUCKET_NAME = "rtmis"
 FAKE_STORAGE = False
 
 Q_CLUSTER = {
-    'name': 'rtmis',
-    'workers': 8,
-    'recycle': 500,
-    'timeout': 60,
-    'compress': True,
-    'save_limit': 250,
-    'queue_limit': 500,
-    'cpu_affinity': 1,
-    'label': 'Django Q',
-    'redis': {
-        'host': environ["REDIS_HOST"],
-        'port': environ["REDIS_PORT"],
-        'db': 0,
-        'password': environ["REDIS_PASSWORD"]
-    }
+    'name': 'DjangORM',
+    'workers': 4,
+    'timeout': 90,
+    'retry': 120,
+    'queue_limit': 50,
+    'bulk': 10,
+    'orm': 'default'
 }
