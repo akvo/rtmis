@@ -9,6 +9,7 @@ import {
   ConfigProvider,
   Empty,
   Button,
+  Tag,
 } from "antd";
 import {
   FileTextFilled,
@@ -57,6 +58,9 @@ const ExportData = () => {
           </div>
           <div>
             {forms.find((f) => f.id === row.info?.form_id)?.name || "-"}
+          </div>
+          <div>
+            Filters: <Tag>None</Tag>
           </div>
         </div>
       ),
