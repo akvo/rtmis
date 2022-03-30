@@ -101,8 +101,7 @@ def validate_administration(answer, adm):
         return {
             "error_message": ValidationText.administration_validation.value
         }
-    print(aw[0], adm['name'])
-    if aw[0] != adm["name"]:
+    if aw[-1] != adm["name"]:
         return {
             "error_message":
                 f"{ValidationText.administration_not_valid.value} {name}"
@@ -179,7 +178,6 @@ def validate_row_data(col, answer, question: Questions, adm):
         answer = HText(answer).clean
     if question.type == QuestionTypes.administration:
         err = validate_administration(answer, adm)
-        print(err)
         if err:
             default.update(err)
             return default
