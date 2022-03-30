@@ -48,14 +48,10 @@ const DataFilters = ({ loading }) => {
             <Link to={`/form/${selectedForm}`}>
               <Button type="primary">Add New</Button>
             </Link>
-            <Button className="light dev">Bulk Update</Button>
-            <Button
-              className="light dev"
-              onClick={exportGenerate}
-              loading={exporting}
-            >
+            <Button type="primary" onClick={exportGenerate} loading={exporting}>
               Export Data
             </Button>
+            <Button className="light dev">Bulk Upload</Button>
           </Space>
         </Col>
       )}
