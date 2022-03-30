@@ -22,7 +22,6 @@ import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
 import { Layout, PageLoader } from "./components";
 import { useNotification } from "./util/hooks";
-import { getFormUrl } from "./util/form";
 
 const Private = ({ element: Element, alias }) => {
   const { user: authUser } = store.useState((state) => state);
@@ -124,20 +123,14 @@ const App = () => {
             store.update((s) => {
               s.isLoggedIn = true;
               s.user = { ...res.data, role_detail: role_details };
+              s.forms = role_details.filter_form
+                ? window.forms.filter(
+                    (x) => x.type === role_details.filter_form
+                  )
+                : window.forms;
             });
             api.setToken(cookies.AUTH_TOKEN);
-            Promise.all([api.get(getFormUrl(role_details)), api.get("levels")])
-              .then((res) => {
-                store.update((s) => {
-                  s.forms = res[0].data;
-                  s.levels = res[1].data;
-                });
-                setLoading(false);
-              })
-              .catch((e) => {
-                setLoading(false);
-                console.error(e);
-              });
+            setLoading(false);
           })
           .catch((err) => {
             if (err.response.status === 401) {

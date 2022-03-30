@@ -1,6 +1,5 @@
 import { feature, merge } from "topojson-client";
 import { geoCentroid, geoBounds } from "d3-geo";
-import { takeRight } from "lodash";
 
 const topojson = window.topojson;
 const topojson_object = topojson.objects[Object.keys(topojson.objects)[0]];
@@ -12,12 +11,10 @@ const tile = {
     "Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri",
 };
 
-const getBounds = (selected, administration) => {
-  selected = takeRight(selected, selected.length - 1);
-  selected = selected.map((x, i) => {
-    const adminName = administration?.find((a) => a.id === x)?.name;
+const getBounds = (administration) => {
+  const selected = administration.map((x, i) => {
     return {
-      value: adminName,
+      value: x.name,
       prop: shapeLevels[i],
     };
   });

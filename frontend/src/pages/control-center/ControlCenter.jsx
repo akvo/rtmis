@@ -23,7 +23,6 @@ const panels = [
       "Community-led total sanitation (CLTS) is an approach used mainly in developing countries to improve sanitation and hygiene practices in a community. The approach tries to achieve behavior change in mainly rural people by a process of “triggering”, leading to spontaneous and long-term abandonment of open defecation practices.",
     link: "/data/export",
     image: "/assets/import.png",
-    dev: true,
   },
   {
     title: "Data Uploads",
