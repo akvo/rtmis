@@ -20,12 +20,20 @@
         color: #707070;
         margin-bottom: 3px;
       }
+      .ant-table-cell:nth-child(2) > div > div:nth-child(3) {
+        margin-top: 6px;
+        .ant-tag {
+          border-style: dashed;
+        }
+      }
+
       .ant-table-cell:last-child {
         .ant-btn {
           color: $blue;
           text-transform: none;
           font-weight: $font-weight-medium;
           border-color: transparent;
+          background-color: transparent;
           box-shadow: none;
         }
         .ant-btn:hover {
