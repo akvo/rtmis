@@ -81,6 +81,14 @@ backend_build () {
         backend ./run-qc.sh
 }
 
+worker_build() {
+
+    docker build \
+        --tag "${image_prefix}/worker:latest" \
+        --tag "${image_prefix}/worker:${CI_COMMIT}" backend -f ./backend/Dockerfile.worker
+
+}
+
 update_dbdocs() {
     if [[ "${CI_BRANCH}" ==  "main" || "${CI_BRANCH}" ==  "develop" ]]; then
         npm install -g dbdocs
@@ -107,6 +115,7 @@ else
 fi
 
 if [[ ${FRONTEND_CHANGES} == 1 && ${BACKEND_CHANGES} == 1 ]]; then
+    worker_build
     if ! dci run -T ci ./basic.sh; then
       dci logs
       echo "Build failed when running basic.sh"

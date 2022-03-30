@@ -64,6 +64,8 @@ spec:
                 secretKeyRef:
                   name: rtmis
                   key: django-secret
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /secrets/credentials.json
           readinessProbe:
             httpGet:
               path: /api/v1/health/check
@@ -74,6 +76,11 @@ spec:
               path: /api/v1/health/check
               port: 8000
             initialDelaySeconds: 30
+          volumeMounts:
+            - name: rtmis-secrets
+              mountPath: /secrets/credentials.json
+              subPath: rtmis-service-account.json
+              readOnly: true
           resources:
             requests:
               cpu: "100m"
@@ -81,3 +88,49 @@ spec:
             limits:
               cpu: "500m"
               memory: "1024Mi"
+        - name: worker
+          image: eu.gcr.io/akvo-lumen/rtmis/worker:${CI_COMMIT}
+          env:
+            - name: DB_SCHEMA
+              valueFrom:
+                secretKeyRef:
+                  name: rtmis
+                  key: db-schema
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: rtmis
+                  key: db-user
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rtmis
+                  key: db-password
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: rtmis
+                  key: db-host
+            - name: DJANGO_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: rtmis
+                  key: django-secret
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /secrets/credentials.json
+          volumeMounts:
+            - name: rtmis-secrets
+              mountPath: /secrets/credentials.json
+              subPath: rtmis-service-account.json
+              readOnly: true
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "1024Mi"
+      volumes:
+        - name: rtmis-secrets
+          secret:
+            secretName: rtmis
