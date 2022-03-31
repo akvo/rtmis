@@ -10,6 +10,7 @@ import {
 import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { VisualisationFilters, Map, Chart } from "../../components";
+import { flatten, sample } from "lodash";
 const { Panel } = Collapse;
 const { Option } = Select;
 
@@ -59,6 +60,20 @@ const Visualisation = () => {
     });
     setDataset(temp);
   };
+
+  const question =
+    [
+      sample(
+        flatten(
+          dataset?.map((d) => d.question.filter((q) => q.type === "option"))
+        )
+      ) || null,
+      sample(
+        flatten(
+          dataset?.map((d) => d.question.filter((q) => q.type === "number"))
+        )
+      ) || null,
+    ] || null;
 
   const fetchData = (questionGroupId, questionId) => {
     setLoading(true);
@@ -208,7 +223,11 @@ const Visualisation = () => {
             </Collapse>
           </Col>
           <Col span={12}>
-            <Map markerData={{ features: [] }} style={{ height: 400 }} />
+            <Map
+              markerData={{ features: [] }}
+              style={{ height: 400 }}
+              question={question.includes(null) ? null : question}
+            />
           </Col>
         </Row>
       </Card>

@@ -14,3 +14,26 @@
   width: 100%;
   z-index: 0;
 }
+
+.shape-tooltip-container {
+  padding: 4px 7px;
+  min-width: 200px;
+  max-width: 250px;
+
+  h4 {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .shape-tooltip-name {
+    font-size: 12px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: initial;
+  }
+
+  .shape-tooltip-value {
+    font-size: 12px;
+    font-weight: bold;
+  }
+}
