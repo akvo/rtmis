@@ -12,6 +12,7 @@ from api.v1.v1_jobs.seed_data import seed_excel_data
 from api.v1.v1_jobs.validate_upload import validate
 from api.v1.v1_profile.models import Administration
 from utils import storage
+from utils.email_helper import send_email
 from utils.functions import update_date_time_format
 from utils.storage import upload
 
@@ -144,9 +145,13 @@ def validate_excel(job_id):
         error_list = pd.DataFrame(data)
         error_list = error_list[list(
             filter(lambda x: x != "error", list(error_list)))]
-        error_file = f"./tmp/error-{1}.csv"
+        error_file = f"./tmp/error-{job_id}.csv"
         error_list.to_csv(error_file, index=False)
-        # TODO: send email with error file
+        data = {
+            'subject': 'RTMIS:Errors in uploaded data',
+            'send_to': [job.user.email],
+        }
+        send_email(data, 'upload_error.html', error_file, 'text/csv')
         return False
     return True
 

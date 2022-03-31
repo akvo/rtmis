@@ -75,7 +75,7 @@ ROOT_URLCONF = 'rtmis.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [Path.joinpath(BASE_DIR, 'rtmis/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -181,6 +181,11 @@ FORM_GEO_VALUE = {"lat": 9.145, "lng": 40.4897}
 
 BUCKET_NAME = "rtmis"
 FAKE_STORAGE = False
+
+EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
+MAILJET_API_KEY = '7533830a46632cf65c2413c7d8f5ca9e'
+MAILJET_API_SECRET = '04891e81a7254c683ba2f5570a2e7876'
+EMAIL_FROM = 'deden@akvo.org'
 
 Q_CLUSTER = {
     'name': 'DjangORM',
