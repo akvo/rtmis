@@ -73,9 +73,13 @@ def save_data(user: SystemUser, batch: PendingDataBatch, dp: dict, qs: dict):
                 if q.meta:
                     names.append(str(aw))
         if q.type == QuestionTypes.option:
-            answer.options = [aw]
+            answer.options = [aw] if aw else None
+            if q.meta and aw:
+                names.append(aw)
         if q.type == QuestionTypes.multiple_option:
             answer.options = aw
+            if q.meta:
+                names = names + aw
         if valid:
             answerlist.append(answer)
     name = " - ".join([str(n) for n in names])

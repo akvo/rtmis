@@ -101,13 +101,16 @@ def validate_administration(answer, adm):
         return {
             "error_message": ValidationText.administration_validation.value
         }
-    if aw[-1] != adm["name"]:
-        return {
-            "error_message":
-                f"{ValidationText.administration_not_valid.value} {name}"
-        }
-    children = Administration.objects.filter(name=aw[-1]).first()
-    if not children:
+    path = []
+    for i, a in enumerate(aw):
+        if not i:
+            administration = Administration.objects.filter(name=a).first()
+        else:
+            administration = Administration.objects.filter(
+                name=a, parent_id=path[-1]).first()
+        path.append(administration.id)
+
+    if adm['id'] not in path:
         return {
             "error_message":
                 ValidationText.administration_not_part_of.value.replace(
@@ -181,26 +184,29 @@ def validate_row_data(col, answer, question: Questions, adm):
         if err:
             default.update(err)
             return default
-    if question.type == QuestionTypes.geo:
+    elif question.type == QuestionTypes.geo:
         err = validate_geo(answer)
         if err:
             default.update(err)
             return default
-    if question.type == QuestionTypes.number:
+    elif question.type == QuestionTypes.number:
         err = validate_number(answer, question)
         if err:
             default.update(err)
             return default
-    if question.type == QuestionTypes.date:
+    elif question.type == QuestionTypes.date:
         err = validate_date(answer)
         if err:
             default.update(err)
             return default
-    if question.type in [QuestionTypes.option, QuestionTypes.multiple_option]:
+    elif question.type in [QuestionTypes.option,
+                           QuestionTypes.multiple_option]:
         err = validate_option(question.question_question_options.all(), answer)
         if err:
             default.update(err)
             return default
+    else:
+        pass
     return False
 
 
@@ -238,17 +244,8 @@ def validate(form: int, administration: int, file: str):
     data_error = []
 
     adm = Administration.objects.get(id=administration)
-    if adm.path:
-        filter_path = '{0}{1}.'.format(adm.path,
-                                       adm.id)
-    else:
-        filter_path = f"{adm.id}."
-    childs = list(
-        Administration.objects.filter(
-            path__startswith=filter_path).values_list('id',
-                                                      flat=True))
 
-    adm = {"id": adm.id, "name": adm.name, "childs": childs}
+    adm = {"id": adm.id, "name": adm.name}
     for col in excel_head:
         header = excel_head[col]
         error = validate_header_names(header, f"{col}1", header_names)
