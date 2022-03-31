@@ -55,6 +55,7 @@ const Chart = ({
         <Card title={title}>
           <ReactECharts
             option={option}
+            notMerge={true}
             style={{ height: height - 50, width: "100%" }}
           />
         </Card>
@@ -64,6 +65,7 @@ const Chart = ({
   return (
     <ReactECharts
       option={option}
+      notMerge={true}
       style={{ height: height - 50, width: "100%" }}
     />
   );
