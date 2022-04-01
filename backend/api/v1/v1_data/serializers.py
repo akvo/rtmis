@@ -440,7 +440,7 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
         approval.status = validated_data.get('status')
         approval.save()
         first_data = PendingFormData.objects.filter(
-            batch=batch).first
+            batch=batch).first()
         data = {
             'subject': 'RTMIS:Pending Approvals',
             'send_to': [first_data.created_by.email],
