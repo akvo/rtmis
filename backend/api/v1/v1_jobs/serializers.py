@@ -1,10 +1,12 @@
+from django.core.validators import FileExtensionValidator
 from rest_framework import serializers
 
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_jobs.constants import JobTypes, JobStatus
 from api.v1.v1_jobs.models import Jobs
 from api.v1.v1_profile.models import Administration
-from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField
+from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
+    CustomFileField
 
 
 class GenerateDownloadRequestSerializer(serializers.Serializer):
@@ -34,3 +36,7 @@ class DownloadListSerializer(serializers.ModelSerializer):
         model = Jobs
         fields = ['id', 'task_id', 'type', 'status', 'info', 'attempt',
                   'created_by', 'created', 'result', 'available']
+
+
+class UploadExcelSerializer(serializers.Serializer):
+    file = CustomFileField(validators=[FileExtensionValidator(['xlsx'])])
