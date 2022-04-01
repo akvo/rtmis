@@ -1,23 +1,29 @@
 # Create your views here.
 from wsgiref.util import FileWrapper
 
+from django.core.files.storage import FileSystemStorage
 from django.core.management import call_command
 from django.http import HttpResponse
+from django_q.tasks import async_task
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter, \
     inline_serializer
 from rest_framework import status, serializers
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, \
+    parser_classes
 from rest_framework.exceptions import NotFound
 from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from api.v1.v1_forms.models import Forms
 from api.v1.v1_jobs.constants import JobStatus, JobTypes
 from api.v1.v1_jobs.models import Jobs
 from api.v1.v1_jobs.serializers import GenerateDownloadRequestSerializer, \
-    DownloadListSerializer
+    DownloadListSerializer, UploadExcelSerializer
+from utils import storage
 from utils.custom_serializer_fields import validate_serializers_message
 from utils.storage import download
 
@@ -122,3 +128,50 @@ def download_list(request, version):
             status=status.HTTP_200_OK)
     except NotFound:
         return Response([], status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    tags=['Job'],
+    summary='Upload Excel',
+    request=UploadExcelSerializer,
+    responses={
+        (200, 'application/json'): inline_serializer(
+            "UploadExcel",
+            fields={
+                "task_id": serializers.CharField()
+            })},
+)
+@api_view(['POST'])
+@parser_classes([MultiPartParser])
+@permission_classes([IsAuthenticated])
+def upload_excel(request, form_id, version):
+    get_object_or_404(Forms, pk=form_id)
+    serializer = UploadExcelSerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST)
+    fs = FileSystemStorage()
+    file = fs.save(
+        f"./tmp/{serializer.validated_data.get('file').name}",
+        serializer.validated_data.get('file')
+    )
+    file_path = fs.path(file)
+    name = storage.upload(file_path, 'upload')
+    job = Jobs.objects.create(
+        type=JobTypes.validate_data,
+        status=JobStatus.on_progress,
+        user=request.user,
+        info={
+            'file': name.split('/')[-1],
+            'form': form_id,
+            'administration': request.user.user_access.administration_id
+        }
+    )
+    task_id = async_task(
+        'api.v1.v1_jobs.job.validate_excel', job.id,
+        hook='api.v1.v1_jobs.job.validate_excel_result')
+    job.task_id = task_id
+    job.save()
+
+    return Response({'task_id': task_id}, status=status.HTTP_200_OK)
