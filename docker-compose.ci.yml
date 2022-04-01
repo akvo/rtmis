@@ -14,6 +14,8 @@ services:
       - DB_HOST=db
       - DJANGO_SECRET=ci-secret
       - DEBUG=True
+      - MAILJET_APIKEY=$MAILJET_APIKEY
+      - MAILJET_SECRET=$MAILJET_SECRET
     network_mode: service:mainnetwork
     restart: always
     volumes:
