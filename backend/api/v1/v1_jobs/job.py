@@ -130,6 +130,11 @@ def seed_data_job_result(task):
     if task.result:
         job.status = JobStatus.done
         job.available = timezone.now()
+        data = {
+            'subject': 'New Request @{0}'.format(job.user.get_full_name()),
+            'send_to': [job.user.email],
+        }
+        send_email(data, 'new_request.html')
     else:
         job.status = JobStatus.failed
     job.save()
