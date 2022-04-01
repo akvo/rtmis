@@ -11,6 +11,7 @@ from api.v1.v1_jobs.functions import HText
 from api.v1.v1_jobs.models import Jobs
 from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import SystemUser
+from utils.email_helper import send_email
 
 
 def save_data(user: SystemUser, batch: PendingDataBatch, dp: dict, qs: dict):
@@ -135,5 +136,13 @@ def seed_excel_data(job: Jobs):
                 user=assignment.user,
                 level_id=level
             )
+            data = {
+                'subject': 'RTMIS:Pending Approvals',
+                'send_to': [assignment.user.email],
+                'form': batch.form,
+                'user': job.user,
+            }
+            send_email(data, 'pending_approval.html')
+
     os.remove(file)
     return records
