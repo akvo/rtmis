@@ -38,10 +38,10 @@ class Command(BaseCommand):
             result=out_file
         )
         task_id = async_task(
-            'api.v1.v1_jobs.helper.job_generate_download',
+            'api.v1.v1_jobs.job.job_generate_download',
             job.id,
             **info,
-            hook='api.v1.v1_jobs.helper.job_generate_download_result')
+            hook='api.v1.v1_jobs.job.job_generate_download_result')
         job.task_id = task_id
         job.save()
         return str(job.id)

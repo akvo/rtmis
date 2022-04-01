@@ -32,6 +32,7 @@ coveralls==3.3.1
 jsmin==3.0.0
 django-extensions==3.1.5
 XlsxWriter==3.0.3
+django-mailjet==0.3.1
 
 #debugger
 debugpy==1.5.1
