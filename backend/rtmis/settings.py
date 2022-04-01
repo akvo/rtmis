@@ -75,7 +75,7 @@ ROOT_URLCONF = 'rtmis.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [Path.joinpath(BASE_DIR, 'rtmis/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -113,6 +113,7 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': '',
     'VERSION': '1.0.0',
     'SORT_OPERATIONS': False,
+    'COMPONENT_SPLIT_REQUEST': True
 }
 # JWT Config
 SIMPLE_JWT = {
@@ -180,6 +181,11 @@ FORM_GEO_VALUE = {"lat": 9.145, "lng": 40.4897}
 
 BUCKET_NAME = "rtmis"
 FAKE_STORAGE = False
+
+EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
+MAILJET_API_KEY = environ["MAILJET_API_KEY"]
+MAILJET_API_SECRET = environ["MAILJET_API_SECRET"]
+EMAIL_FROM = 'noreply@akvo.org'
 
 Q_CLUSTER = {
     'name': 'DjangORM',

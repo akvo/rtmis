@@ -492,8 +492,8 @@ class BatchCommentView(APIView):
 
 @extend_schema(tags=['File'],
                summary='Export Form data')
-@permission_classes([IsAuthenticated])
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def export_form_data(request, version, form_id):
     form = get_object_or_404(Forms, pk=form_id)
     filepath = generate_excel(form=form, user=SystemUser.objects.first())
