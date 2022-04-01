@@ -14,8 +14,6 @@ services:
       - DB_HOST=db
       - DEBUG=True
       - DJANGO_SECRET=local-secret
-      - MAILJET_APIKEY=$MAILJET_APIKEY
-      - MAILJET_SECRET=$MAILJET_SECRET
     depends_on:
       - db
   worker:
@@ -31,8 +29,6 @@ services:
       - DB_HOST=db
       - DEBUG=True
       - DJANGO_SECRET=local-secret
-      - MAILJET_APIKEY=$MAILJET_APIKEY
-      - MAILJET_SECRET=$MAILJET_SECRET
     depends_on:
       - backend
   frontend:
