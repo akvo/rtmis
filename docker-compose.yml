@@ -14,8 +14,8 @@ services:
       - DB_HOST=db
       - DEBUG=True
       - DJANGO_SECRET=local-secret
-      - MAILJET_API_KEY=7533830a46632cf65c2413c7d8f5ca9e
-      - MAILJET_API_SECRET=04891e81a7254c683ba2f5570a2e7876
+      - MAILJET_API_KEY=$MAILJET_APIKEY
+      - MAILJET_API_SECRET=$MAILJET_SECRET
     depends_on:
       - db
   worker:
@@ -31,8 +31,8 @@ services:
       - DB_HOST=db
       - DEBUG=True
       - DJANGO_SECRET=local-secret
-      - MAILJET_API_KEY=7533830a46632cf65c2413c7d8f5ca9e
-      - MAILJET_API_SECRET=04891e81a7254c683ba2f5570a2e7876
+      - MAILJET_API_KEY=$MAILJET_APIKEY
+      - MAILJET_API_SECRET=$MAILJET_SECRET
     depends_on:
       - backend
   frontend:

@@ -185,7 +185,7 @@ FAKE_STORAGE = False
 EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
 MAILJET_API_KEY = environ["MAILJET_API_KEY"]
 MAILJET_API_SECRET = environ["MAILJET_API_SECRET"]
-EMAIL_FROM = 'deden@akvo.org'
+EMAIL_FROM = 'noreply@akvo.org'
 
 Q_CLUSTER = {
     'name': 'DjangORM',
