@@ -54,7 +54,7 @@ const config = {
       id: 4,
       name: "User",
       filter_form: 1,
-      page_access: ["profile", "form"],
+      page_access: ["profile", "form", "data"],
       administration_level: [4],
     },
   ],
