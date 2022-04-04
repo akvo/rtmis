@@ -51,7 +51,9 @@ const DataFilters = ({ loading }) => {
             <Button type="primary" onClick={exportGenerate} loading={exporting}>
               Export Data
             </Button>
-            <Button className="light dev">Bulk Upload</Button>
+            <Link to="/data/upload">
+              <Button className="light">Bulk Upload</Button>
+            </Link>
           </Space>
         </Col>
       )}
