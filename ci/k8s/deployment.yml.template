@@ -64,6 +64,16 @@ spec:
                 secretKeyRef:
                   name: rtmis
                   key: django-secret
+            - name: MAILJET_APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: rtmis
+                  key: mailjet-apikey
+            - name: MAILJET_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: rtmis
+                  key: mailjet-secret
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /secrets/credentials.json
           readinessProbe:
@@ -116,6 +126,16 @@ spec:
                 secretKeyRef:
                   name: rtmis
                   key: django-secret
+            - name: MAILJET_APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: rtmis
+                  key: mailjet-apikey
+            - name: MAILJET_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: rtmis
+                  key: mailjet-secret
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /secrets/credentials.json
           volumeMounts:

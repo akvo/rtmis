@@ -299,7 +299,11 @@ const AddUser = () => {
                           (a) => a.id === form.getFieldValue("role")
                         );
                         const allowed_levels = role?.administration_level;
-                        if (allowed_levels?.includes(administration.length)) {
+                        const adm_length =
+                          authUser.role.value === "Admin"
+                            ? administration.length + 1
+                            : administration.length;
+                        if (allowed_levels?.includes(adm_length)) {
                           return Promise.resolve();
                         }
                         const level_names = levels
