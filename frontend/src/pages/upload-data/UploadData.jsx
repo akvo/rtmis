@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.scss";
 import {
   Row,
@@ -14,9 +14,16 @@ import {
 import { FileTextFilled } from "@ant-design/icons";
 import { Breadcrumbs } from "../../components";
 import { AdministrationDropdown } from "../../components";
+import { useNavigate } from "react-router-dom";
 import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
+import { snakeCase, takeRight } from "lodash";
+import moment from "moment";
 
+const allowedFiles = [
+  "application/vnd.ms-excel",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+];
 const { Option } = Select;
 const { Dragger } = Upload;
 const regExpFilename = /filename="(?<filename>.*)"/;
@@ -31,15 +38,63 @@ const pagePath = [
 ];
 
 const UploadData = () => {
-  const { forms } = store.useState((state) => state);
+  const { forms, user, administration } = store.useState((state) => state);
   const [formId, setFormId] = useState(null);
+  const [fileName, setFileName] = useState(null);
   const [loading, setLoading] = useState(false);
   const { notify } = useNotification();
+  const navigate = useNavigate();
+
+  const selectedAdministration = takeRight(administration, 1)[0]?.id;
+
+  useEffect(() => {
+    if (formId && selectedAdministration && user) {
+      const date = moment().format("YYYYMMDD");
+      setFileName(
+        [date, formId, selectedAdministration, snakeCase(user.name)].join("-")
+      );
+    }
+  }, [user, selectedAdministration, formId]);
+
+  const onChange = (info) => {
+    if (info.file?.status === "done") {
+      notify({
+        type: "success",
+        message: "File uploaded successfully",
+      });
+      navigate("/profile");
+    } else if (info.file?.status === "error") {
+      notify({
+        type: "error",
+        message: `Could not upload file ${info.file?.name}`,
+      });
+    }
+  };
+
+  const uploadRequest = ({ file, onSuccess }) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    api
+      .post(`upload/excel/${formId}`, formData)
+      .then((res) => {
+        onSuccess(res.data);
+      })
+      .catch(() => {
+        notify({
+          type: "error",
+          message: "Could not upload file",
+        });
+      });
+  };
 
   const props = {
-    name: "file",
-    multiple: true,
-    action: "",
+    name: fileName,
+    multiple: false,
+    maxCount: 1,
+    showUploadList: false,
+    accept: allowedFiles.join(","),
+    customRequest: uploadRequest,
+    onChange: onChange,
   };
 
   const handleChange = (e) => {
@@ -114,7 +169,11 @@ const UploadData = () => {
         <Space align="center" size={32}>
           <img src="/assets/data-upload.svg" />
           <p>Upload your data</p>
-          <Select placeholder="Select Form...">
+          <Select
+            placeholder="Select Form..."
+            value={formId}
+            onChange={handleChange}
+          >
             {forms.map((f, fI) => (
               <Option key={fI} value={f.id}>
                 {f.name}
