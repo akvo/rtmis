@@ -42,10 +42,11 @@ const UploadData = () => {
   const [formId, setFormId] = useState(null);
   const [fileName, setFileName] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const { notify } = useNotification();
   const navigate = useNavigate();
 
-  const selectedAdministration = takeRight(administration, 1)[0]?.id;
+  const selectedAdministration = takeRight(administration, 1)[0]?.name;
 
   useEffect(() => {
     if (formId && selectedAdministration && user) {
@@ -62,18 +63,21 @@ const UploadData = () => {
         type: "success",
         message: "File uploaded successfully",
       });
+      setUploading(false);
       navigate("/profile");
     } else if (info.file?.status === "error") {
       notify({
         type: "error",
-        message: `Could not upload file ${info.file?.name}`,
+        message: `Could not upload file`,
       });
+      setUploading(false);
     }
   };
 
   const uploadRequest = ({ file, onSuccess }) => {
     const formData = new FormData();
     formData.append("file", file);
+    setUploading(true);
     api
       .post(`upload/excel/${formId}`, formData)
       .then((res) => {
@@ -84,6 +88,7 @@ const UploadData = () => {
           type: "error",
           message: "Could not upload file",
         });
+        setUploading(false);
       });
   };
 
@@ -93,6 +98,7 @@ const UploadData = () => {
     maxCount: 1,
     showUploadList: false,
     accept: allowedFiles.join(","),
+    disabled: !fileName || uploading,
     customRequest: uploadRequest,
     onChange: onChange,
   };
@@ -187,8 +193,16 @@ const UploadData = () => {
             <p className="ant-upload-drag-icon">
               <FileTextFilled style={{ color: "#707070" }} />
             </p>
-            <p className="ant-upload-text">Drop your file here</p>
-            <Button className="dev">Browse your computer</Button>
+            <p className="ant-upload-text">
+              {formId
+                ? uploading
+                  ? "Uploading.."
+                  : "Drop your file here"
+                : "Please select a form"}
+            </p>
+            <Button disabled={uploading || !formId}>
+              Browse your computer
+            </Button>
           </Dragger>
         </div>
       </Card>
