@@ -38,7 +38,7 @@ class FormData(models.Model):
             "datapoint_name": self.name,
             "administration": self.administration.name,
             "geolocation":
-                f"{self.geo[0], self.geo[1]}" if self.geo else None,
+                f"{self.geo[0]}, {self.geo[1]}" if self.geo else None,
             "created_by":
                 self.created_by.get_full_name(),
             "updated_by":
@@ -199,7 +199,7 @@ class Answers(models.Model):
             QuestionTypes.geo, QuestionTypes.option,
             QuestionTypes.multiple_option
         ]:
-            answer = self.options
+            answer = '|'.join(map(str, self.options))
         elif q.type in [
             QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
         ]:

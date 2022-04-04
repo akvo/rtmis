@@ -1,11 +1,13 @@
 import datetime
 import enum
 import itertools
+import math
 import os
 from string import ascii_uppercase
 
 import pandas as pd
 
+from api.v1.v1_data.models import FormData
 from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Questions
 from api.v1.v1_jobs.functions import ValidationText, HText
@@ -28,6 +30,8 @@ def generate_excel_columns():
 
 def validate_header_names(header, col, header_names):
     default = {"error": ExcelError.header, "cell": col}
+    if header == "data_id":
+        return False
     if "Unnamed:" in header:
         default.update(
             {"error_message": ValidationText.header_name_missing.value})
@@ -215,6 +219,17 @@ def validate_sheet_name(file: str):
     return xl.sheet_names
 
 
+def validate_data_id(col, data_id):
+    default = {"error": ExcelError.value, "cell": col}
+    if data_id and not FormData.objects.filter(id=data_id).exists():
+        default.update({
+            "error_message": ValidationText.invalid_data_id.value.replace(
+                "--data_id--", str(data_id))
+        })
+        return default
+    return False
+
+
 def validate(form: int, administration: int, file: str):
     sheet_names = validate_sheet_name(file)
     template_sheets = ['data', 'definitions', 'administration']
@@ -253,13 +268,22 @@ def validate(form: int, administration: int, file: str):
         if error:
             header_error.append(error)
         if not error:
-            qid = header.split("|")[0]
-            question = questions.filter(id=int(qid)).first()
-            answers = list(df[header])
-            for i, answer in enumerate(answers):
-                ix = i + 2
-                error = validate_row_data(f"{col}{ix}", answer,
-                                          question, adm)
-                if error:
-                    data_error.append(error)
+            if header == 'data_id':
+                data_ids = list(df[header])
+                for i, data_id in enumerate(data_ids):
+                    ix = i + 2
+                    data_id = None if math.isnan(data_id) else data_id
+                    error = validate_data_id(f"{col}{ix}", data_id)
+                    if error:
+                        data_error.append(error)
+            else:
+                qid = header.split("|")[0]
+                question = questions.filter(id=int(qid)).first()
+                answers = list(df[header])
+                for i, answer in enumerate(answers):
+                    ix = i + 2
+                    error = validate_row_data(f"{col}{ix}", answer,
+                                              question, adm)
+                    if error:
+                        data_error.append(error)
     return header_error + data_error

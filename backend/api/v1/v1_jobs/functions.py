@@ -35,3 +35,4 @@ class ValidationText(enum.Enum):
     start_validation = "DATA VALIDATION STARTED"
     successfully_validation = "IS SUCCESSFULLY VALIDATED"
     error_validation = "VALIDATION ERROR"
+    invalid_data_id = "--data_id-- is not a valid data id"
