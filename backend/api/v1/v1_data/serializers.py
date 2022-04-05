@@ -247,7 +247,7 @@ class ListMapDataPointSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FormData
-        fields = ['id', 'name', 'geo', 'marker', 'shape']
+        fields = ['id', 'loc', 'name', 'geo', 'marker', 'shape']
 
 
 class ListChartDataPointRequestSerializer(serializers.Serializer):
