@@ -175,7 +175,7 @@ const ExportData = () => {
   };
 
   const loadMore = () => {
-    return showLoadMore ? (
+    return showLoadMore && dataset.length > 0 ? (
       <Button type="link" onClick={onLoadMore}>
         Load More
       </Button>

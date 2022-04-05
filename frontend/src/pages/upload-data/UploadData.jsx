@@ -43,8 +43,30 @@ const UploadData = () => {
   const [fileName, setFileName] = useState(null);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const [updateExisting, setUpdateExisting] = useState(false);
   const { notify } = useNotification();
   const navigate = useNavigate();
+  const exportGenerate = () => {
+    setExporting(true);
+    api
+      .get(`download/generate?form_id=${formId}`)
+      .then(() => {
+        notify({
+          type: "success",
+          message: `Data exported successfully`,
+        });
+        setExporting(false);
+        navigate("/data/export");
+      })
+      .catch(() => {
+        notify({
+          type: "error",
+          message: "Export failed",
+        });
+        setExporting(false);
+      });
+  };
 
   const selectedAdministration = takeRight(administration, 1)[0]?.name;
 
@@ -64,7 +86,11 @@ const UploadData = () => {
         message: "File uploaded successfully",
       });
       setUploading(false);
-      navigate("/profile");
+      if (updateExisting === true) {
+        exportGenerate();
+      } else {
+        navigate("/profile");
+      }
     } else if (info.file?.status === "error") {
       notify({
         type: "error",
@@ -98,7 +124,7 @@ const UploadData = () => {
     maxCount: 1,
     showUploadList: false,
     accept: allowedFiles.join(","),
-    disabled: !fileName || uploading,
+    disabled: !fileName || uploading || exporting,
     customRequest: uploadRequest,
     onChange: onChange,
   };
@@ -150,7 +176,13 @@ const UploadData = () => {
       </Row>
       <Divider />
       <Row align="middle">
-        <Checkbox id="updateExisting" className="dev" onChange={() => {}}>
+        <Checkbox
+          id="updateExisting"
+          checked={updateExisting}
+          onChange={() => {
+            setUpdateExisting(!updateExisting);
+          }}
+        >
           Update Existing Data
         </Checkbox>
       </Row>
@@ -197,10 +229,12 @@ const UploadData = () => {
               {formId
                 ? uploading
                   ? "Uploading.."
+                  : exporting
+                  ? "Updating existing data.."
                   : "Drop your file here"
                 : "Please select a form"}
             </p>
-            <Button disabled={uploading || !formId}>
+            <Button disabled={!formId} loading={uploading || exporting}>
               Browse your computer
             </Button>
           </Dragger>
