@@ -19,7 +19,11 @@ def save_data(user: SystemUser, batch: PendingDataBatch, dp: dict, qs: dict):
     geo = None
     answerlist = []
     names = []
+    data_id = None
     for a in dp:
+        if a == 'data_id':
+            data_id = None if math.isnan(dp[a]) else dp[a]
+            continue
         aw = dp[a]
         if isinstance(aw, str):
             aw = HText(aw).clean
@@ -89,6 +93,7 @@ def save_data(user: SystemUser, batch: PendingDataBatch, dp: dict, qs: dict):
         form_id=batch.form_id,
         administration_id=administration,
         geo=geo,
+        data_id=data_id,
         batch=batch,
         created_by=batch.user
     )
@@ -104,10 +109,11 @@ def seed_excel_data(job: Jobs):
     questions = {}
     columns = {}
     for q in list(df):
-        id = q.split("|")[0]
-        columns.update({q: id})
-        question = Questions.objects.get(pk=id)
-        questions.update({id: question})
+        if q != 'data_id':
+            id = q.split("|")[0]
+            columns.update({q: id})
+            question = Questions.objects.get(pk=id)
+            questions.update({id: question})
     df = df.rename(columns=columns)
     datapoints = df.to_dict("records")
     batch = PendingDataBatch.objects.create(

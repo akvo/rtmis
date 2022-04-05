@@ -8,7 +8,7 @@ from rest_framework.exceptions import ValidationError
 from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
     PendingAnswers, PendingDataApproval, PendingDataBatch, \
-    PendingDataBatchComments
+    PendingDataBatchComments, AnswerHistory
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Questions, QuestionOptions, Forms, \
     FormApprovalAssignment
@@ -413,8 +413,8 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = PendingFormData
         fields = [
-            'id', 'name', 'form', 'administration', 'geo', 'created_by',
-            'created'
+            'id', 'data_id', 'name', 'form', 'administration', 'geo',
+            'created_by', 'created'
         ]
 
 
@@ -465,16 +465,39 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
             pending_data_list = PendingFormData.objects.filter(
                 batch=batch).all()
             for data in pending_data_list:
-                form_data = FormData.objects.create(
-                    name=data.name,
-                    form=data.form,
-                    administration=data.administration,
-                    geo=data.geo,
-                    created_by=data.created_by,
-                )
-                data.data = form_data
-                data.approved = True
-                data.save()
+                if data.data:
+                    form_data: FormData = data.data
+                    form_data.name = data.name
+                    form_data.form = data.form
+                    form_data.administration = data.administration
+                    form_data.geo = data.geo
+                    form_data.updated_by = data.created_by
+                    form_data.updated = timezone.now()
+                    form_data.save()
+                    answers = form_data.data_answer.all()
+                    # TODO: Need to check with existing answer and then
+                    #  move to the AnswerHistory
+                    for answer in answers:
+                        AnswerHistory.objects.create(
+                            data=answer.data,
+                            question=answer.question,
+                            name=answer.name,
+                            value=answer.value,
+                            options=answer.options,
+                            created_by=answer.created_by
+                        )
+                    answers.delete()
+                else:
+                    form_data = FormData.objects.create(
+                        name=data.name,
+                        form=data.form,
+                        administration=data.administration,
+                        geo=data.geo,
+                        created_by=data.created_by,
+                    )
+                    data.data = form_data
+                    data.approved = True
+                    data.save()
 
                 answer: PendingAnswers
                 for answer in data.pending_data_answer.all():
