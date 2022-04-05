@@ -16,6 +16,7 @@ const { Option } = Select;
 
 const Visualisation = () => {
   const [dataset, setDataset] = useState([]);
+  const [question, setQuestion] = useState(null);
   const [loading, setLoading] = useState(false);
   const [activeKey, setActiveKey] = useState(null);
   const { selectedForm, forms, questionGroups } = store.useState(
@@ -24,29 +25,43 @@ const Visualisation = () => {
   const { notify } = useNotification();
 
   useEffect(() => {
-    setDataset(() => {
-      return questionGroups
-        .filter((q) => {
-          return (
-            !!q.question?.filter((qn) => qn.type === "option").length || false
-          );
-        })
-        .map((qg) => {
-          return {
-            id: qg.id,
-            title: qg.name,
-            selected:
-              qg.question.filter((qi) => qi.type === "option")[0]?.id + "" ||
-              null,
-            data: [],
-            chart: "BAR",
-            question:
-              qg.question?.map((qn) => ({
-                ...qn,
-              })) || [],
-          };
-        });
-    });
+    const rawData = questionGroups
+      .filter((q) => {
+        return (
+          !!q.question?.filter((qn) => qn.type === "option").length || false
+        );
+      })
+      .map((qg) => {
+        return {
+          id: qg.id,
+          title: qg.name,
+          selected:
+            qg.question.filter((qi) => qi.type === "option")[0]?.id + "" ||
+            null,
+          data: [],
+          chart: "BAR",
+          question:
+            qg.question?.map((qn) => ({
+              ...qn,
+            })) || [],
+        };
+      });
+    setDataset(rawData);
+    const shapeQuestion =
+      sample(
+        flatten(
+          rawData?.map((d) => d.question.filter((q) => q.type === "option"))
+        )
+      ) || null;
+    const markerQuestion =
+      sample(
+        flatten(
+          rawData?.map((d) => d.question.filter((q) => q.type === "number"))
+        )
+      ) || null;
+    if (markerQuestion && shapeQuestion) {
+      setQuestion({ markerQuestion, shapeQuestion });
+    }
   }, [questionGroups]);
 
   const setChartType = (questionGroupId, type) => {
@@ -60,20 +75,6 @@ const Visualisation = () => {
     });
     setDataset(temp);
   };
-
-  const question =
-    [
-      sample(
-        flatten(
-          dataset?.map((d) => d.question.filter((q) => q.type === "option"))
-        )
-      ) || null,
-      sample(
-        flatten(
-          dataset?.map((d) => d.question.filter((q) => q.type === "number"))
-        )
-      ) || null,
-    ] || null;
 
   const fetchData = (questionGroupId, questionId) => {
     setLoading(true);
@@ -226,7 +227,7 @@ const Visualisation = () => {
             <Map
               markerData={{ features: [] }}
               style={{ height: 400 }}
-              question={question.includes(null) ? null : question}
+              question={question}
             />
           </Col>
         </Row>

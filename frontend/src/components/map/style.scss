@@ -11,18 +11,20 @@
 
 .leaflet-container {
   height: 585px;
-  width: 100%;
+  // width: 100%;
   z-index: 0;
 }
 
 .shape-tooltip-container {
   padding: 4px 7px;
-  min-width: 200px;
+  min-width: 150px;
   max-width: 250px;
+  white-space: break-spaces;
 
-  h4 {
+  h3 {
     font-size: 14px;
     font-weight: bold;
+    margin-bottom: 2px;
   }
 
   .shape-tooltip-name {
@@ -35,5 +37,15 @@
   .shape-tooltip-value {
     font-size: 12px;
     font-weight: bold;
+    margin-bottom: 7px;
+  }
+}
+.map-container {
+  position: relative;
+  .map-buttons {
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    z-index: 1;
   }
 }
