@@ -129,7 +129,7 @@ const UploadData = () => {
 
   const downloadTemplate = () => {
     setLoading(true);
-    if (updateExisting === true) {
+    if (updateExisting) {
       exportGenerate();
     } else {
       api
