@@ -43,12 +43,10 @@ const UploadData = () => {
   const [fileName, setFileName] = useState(null);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [exporting, setExporting] = useState(false);
   const [updateExisting, setUpdateExisting] = useState(false);
   const { notify } = useNotification();
   const navigate = useNavigate();
   const exportGenerate = () => {
-    setExporting(true);
     api
       .get(`download/generate?form_id=${formId}`)
       .then(() => {
@@ -56,15 +54,15 @@ const UploadData = () => {
           type: "success",
           message: `Data exported successfully`,
         });
-        setExporting(false);
+        setLoading(false);
         navigate("/data/export");
       })
       .catch(() => {
         notify({
           type: "error",
-          message: "Export failed",
+          message: "Data export failed",
         });
-        setExporting(false);
+        setLoading(false);
       });
   };
 
@@ -86,11 +84,7 @@ const UploadData = () => {
         message: "File uploaded successfully",
       });
       setUploading(false);
-      if (updateExisting === true) {
-        exportGenerate();
-      } else {
-        navigate("/profile");
-      }
+      navigate("/profile");
     } else if (info.file?.status === "error") {
       notify({
         type: "error",
@@ -124,7 +118,7 @@ const UploadData = () => {
     maxCount: 1,
     showUploadList: false,
     accept: allowedFiles.join(","),
-    disabled: !fileName || uploading || exporting,
+    disabled: !fileName || uploading,
     customRequest: uploadRequest,
     onChange: onChange,
   };
@@ -135,36 +129,40 @@ const UploadData = () => {
 
   const downloadTemplate = () => {
     setLoading(true);
-    api
-      .get(`export/form/${formId}`, { responseType: "blob" })
-      .then((res) => {
-        const contentDispositionHeader = res.headers["content-disposition"];
-        const filename = regExpFilename.exec(contentDispositionHeader)?.groups
-          ?.filename;
-        if (filename) {
-          const url = window.URL.createObjectURL(new Blob([res.data]));
-          const link = document.createElement("a");
-          link.href = url;
-          link.setAttribute("download", filename);
-          document.body.appendChild(link);
-          link.click();
-          setLoading(false);
-        } else {
+    if (updateExisting === true) {
+      exportGenerate();
+    } else {
+      api
+        .get(`export/form/${formId}`, { responseType: "blob" })
+        .then((res) => {
+          const contentDispositionHeader = res.headers["content-disposition"];
+          const filename = regExpFilename.exec(contentDispositionHeader)?.groups
+            ?.filename;
+          if (filename) {
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", filename);
+            document.body.appendChild(link);
+            link.click();
+            setLoading(false);
+          } else {
+            notify({
+              type: "error",
+              message: "Could not fetch template",
+            });
+            setLoading(false);
+          }
+        })
+        .catch((e) => {
+          console.error(e);
           notify({
             type: "error",
             message: "Could not fetch template",
           });
           setLoading(false);
-        }
-      })
-      .catch((e) => {
-        console.error(e);
-        notify({
-          type: "error",
-          message: "Could not fetch template",
         });
-        setLoading(false);
-      });
+    }
   };
 
   return (
@@ -229,12 +227,10 @@ const UploadData = () => {
               {formId
                 ? uploading
                   ? "Uploading.."
-                  : exporting
-                  ? "Updating existing data.."
                   : "Drop your file here"
                 : "Please select a form"}
             </p>
-            <Button disabled={!formId} loading={uploading || exporting}>
+            <Button disabled={!formId} loading={uploading}>
               Browse your computer
             </Button>
           </Dragger>
