@@ -6,15 +6,16 @@ import {
   backgroundColor,
   Title,
 } from "./common";
-import isEmpty from "lodash/isEmpty";
+import { isEmpty, sumBy } from "lodash";
 
 const Pie = (data, chartTitle, extra, Doughnut = false) => {
   data = !data ? [] : data;
   let labels = [];
   if (data.length > 0) {
-    // filter value < 0
-    data = data.filter((x) => x.value >= 0);
     labels = data.map((x) => x.name);
+    data = data.filter((x) => x.value >= 0);
+    const total = sumBy(data, "value");
+    data = data.map((x) => ({ ...x, percentage: x.value / total }));
   }
   const { textStyle } = TextStyle;
   const rose = {};
@@ -46,8 +47,8 @@ const Pie = (data, chartTitle, extra, Doughnut = false) => {
         top: "30px",
         label: {
           formatter: function (params) {
-            if (params.value >= 0) {
-              return Math.round(params.value) + "%";
+            if (params.value > 0) {
+              return `${params.data.percentage} % (${params.value})`;
             }
             return "";
           },
