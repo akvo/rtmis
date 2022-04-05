@@ -52,6 +52,10 @@ class FormData(models.Model):
             data.update(a.to_data_frame)
         return data
 
+    @property
+    def loc(self):
+        return self.administration.name
+
     class Meta:
         db_table = 'data'
 
