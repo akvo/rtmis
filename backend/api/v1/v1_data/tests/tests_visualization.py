@@ -36,13 +36,14 @@ class DataVisualisationTestCase(TestCase):
                                **header)
         self.assertEqual(data.status_code, 200)
         self.assertEqual(list(data.json()[0]),
-                         ['id', 'name', 'geo', 'marker', 'shape'])
+                         ['id', 'loc', 'name', 'geo', 'marker', 'shape'])
         data = data.json()
         for d in data:
             form_data = FormData.objects.get(id=d.get('id'))
             self.assertEqual(d.get("name"), form_data.name)
             self.assertEqual(len(d.get("geo")), 2)
             self.assertIsNotNone(d.get("marker"))
+            self.assertIsNotNone(d.get("loc"))
             self.assertIsNotNone(d.get("shape"))
 
     def test_chart_data(self):
