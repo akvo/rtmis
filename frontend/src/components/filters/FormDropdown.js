@@ -49,6 +49,7 @@ const FormDropdown = ({ loading: parentLoading = false, ...props }) => {
         }}
         value={selectedForm}
         disabled={parentLoading}
+        getPopupContainer={(trigger) => trigger.parentNode}
         {...props}
       >
         {forms.map((optionValue, optionIdx) => (
