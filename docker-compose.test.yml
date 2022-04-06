@@ -21,6 +21,8 @@ services:
       - SEMAPHORE_GIT_PR_NUMBER=${SEMAPHORE_GIT_PR_NUMBER:-}
       - DEBUG=True
       - GOOGLE_APPLICATION_CREDENTIALS=/credentials/rtmis-service-account.json
+      - MAILJET_APIKEY=$MAILJET_APIKEY
+      - MAILJET_SECRET=$MAILJET_SECRET
     depends_on:
       - db
     command: tail -f /dev/null
