@@ -19,7 +19,7 @@ const Visualisation = () => {
   const [question, setQuestion] = useState(null);
   const [loading, setLoading] = useState(false);
   const [activeKey, setActiveKey] = useState(null);
-  const { selectedForm, forms, questionGroups } = store.useState(
+  const { selectedForm, forms, loadingForm, questionGroups } = store.useState(
     (state) => state
   );
   const { notify } = useNotification();
@@ -105,7 +105,7 @@ const Visualisation = () => {
   };
 
   const handleChange = (panel) => {
-    if (loading) {
+    if (loading || loadingForm) {
       return;
     }
     if (panel) {

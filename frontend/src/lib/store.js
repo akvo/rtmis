@@ -11,6 +11,7 @@ const defaultUIState = {
   forms: window.forms,
   levels: window.levels,
   selectedForm: null,
+  loadingForm: false,
   questionGroups: [],
 };
 
