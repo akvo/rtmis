@@ -474,19 +474,31 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
                     form_data.updated_by = data.created_by
                     form_data.updated = timezone.now()
                     form_data.save()
-                    answers = form_data.data_answer.all()
-                    # TODO: Need to check with existing answer and then
-                    #  move to the AnswerHistory
-                    for answer in answers:
-                        AnswerHistory.objects.create(
-                            data=answer.data,
-                            question=answer.question,
-                            name=answer.name,
-                            value=answer.value,
-                            options=answer.options,
-                            created_by=answer.created_by
-                        )
-                    answers.delete()
+
+                    for answer in data.pending_data_answer.all():
+                        form_answer = Answers.objects.get(
+                            data=form_data, question=answer.question)
+                        if not (form_answer.name == answer.name and
+                                form_answer.options == answer.options and
+                                form_answer.value == answer.value):
+                            AnswerHistory.objects.create(
+                                data=form_answer.data,
+                                question=form_answer.question,
+                                name=form_answer.name,
+                                value=form_answer.value,
+                                options=form_answer.options,
+                                created_by=form_answer.created_by
+                            )
+                            form_answer.delete()
+                            Answers.objects.create(
+                                data=form_data,
+                                question=answer.question,
+                                name=answer.name,
+                                value=answer.value,
+                                options=answer.options,
+                                created_by=answer.created_by,
+                            )
+
                 else:
                     form_data = FormData.objects.create(
                         name=data.name,
@@ -499,16 +511,16 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
                     data.approved = True
                     data.save()
 
-                answer: PendingAnswers
-                for answer in data.pending_data_answer.all():
-                    Answers.objects.create(
-                        data=form_data,
-                        question=answer.question,
-                        name=answer.name,
-                        value=answer.value,
-                        options=answer.options,
-                        created_by=answer.created_by,
-                    )
+                    answer: PendingAnswers
+                    for answer in data.pending_data_answer.all():
+                        Answers.objects.create(
+                            data=form_data,
+                            question=answer.question,
+                            name=answer.name,
+                            value=answer.value,
+                            options=answer.options,
+                            created_by=answer.created_by,
+                        )
             batch.approved = True
             batch.updated = timezone.now()
             batch.save()
