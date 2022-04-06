@@ -122,6 +122,12 @@ const Visualisation = () => {
     setActiveKey(panel);
   };
 
+  useEffect(() => {
+    if (selectedForm) {
+      setActiveKey(null);
+    }
+  }, [selectedForm]);
+
   return (
     <div id="visualisation">
       <VisualisationFilters />
