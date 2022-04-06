@@ -8,8 +8,8 @@ import {
   Tooltip,
 } from "react-leaflet";
 import { api, geo, store } from "../../lib";
-import { takeRight } from "lodash";
-import { Button, Space } from "antd";
+import { flatten, takeRight, uniq } from "lodash";
+import { Button, Space, Spin } from "antd";
 import {
   ZoomInOutlined,
   ZoomOutOutlined,
@@ -20,6 +20,18 @@ import "leaflet/dist/leaflet.css";
 const { geojson, shapeLevels, tile, defaultPos, getBounds } = geo;
 const defPos = defaultPos();
 const mapMaxZoom = 13;
+const shapeColors = [
+  "#47CC65",
+  "#EC8964",
+  "#5195ED",
+  "#D187DD",
+  "#9E84E9",
+  "#D36B6B",
+  "#CFB52A",
+  "#43C6CE",
+  "#AA9B7E",
+  "#8D8D8D",
+];
 
 const Map = ({ style, question }) => {
   const { administration, selectedForm } = store.useState((s) => s);
@@ -30,6 +42,7 @@ const Map = ({ style, question }) => {
   const [hoveredShape, setHoveredShape] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(null);
   const [shapeTooltip, setShapeTooltip] = useState("");
+  const [shapeOptions, setShapeOptions] = useState([]);
   useEffect(() => {
     if (map && administration.length) {
       const pos = getBounds(administration);
@@ -86,28 +99,19 @@ const Map = ({ style, question }) => {
       const gname = g.properties[shapeLevels[administration.length - 1]];
       const adminName = takeRight(administration, 1)[0]?.name;
       const geoSelected = adminName === gname;
-
-      const geoname = takeRight(Object.values(g.properties), 1)[0];
-      let gRes = null;
-      if (geoname) {
-        gRes = results.find((r) => r.loc === geoname);
-      }
-      let fillColor = geoSelected ? "#e6e8f4" : "#fff";
-      if (gRes) {
-        fillColor = "#0057ff";
-      }
+      const fillColor = geoSelected ? "#bbedda" : "#e6e8f4";
       return {
         fillColor,
-        fillOpacity: geoSelected ? 1 : 0.1,
-        opacity: geoSelected ? 0.8 : 0.1,
-        color: "#fff",
+        fillOpacity: 1,
+        opacity: geoSelected ? 0.8 : 0.3,
+        color: geoSelected ? "#82B09F" : "#A0D4C1",
       };
     }
     return {
       fillColor: "#e6e8f4",
-      fillOpacity: 0.1,
-      opacity: 0.8,
-      color: "#fff",
+      fillOpacity: 1,
+      opacity: 0.3,
+      color: "#A0D4C1",
     };
   };
 
@@ -159,13 +163,15 @@ const Map = ({ style, question }) => {
     if (data.length) {
       data = data.filter((d) => d.geo.length === 2);
       return data.map(({ id, geo, shape, name }) => {
+        const shapeRes = shapeOptions.findIndex((sO) => sO === shape[0]);
+        const markerColor = shapeRes === -1 ? "#111" : shapeColors[shapeRes];
         return (
           <Circle
             key={id}
             center={{ lat: geo[1], lng: geo[0] }}
             pathOptions={{
-              fillColor: "#7EE8B5",
-              color: "#7EE8B5",
+              fillColor: markerColor,
+              color: markerColor,
               opacity: 1,
               fillOpacity: 1,
             }}
@@ -180,7 +186,7 @@ const Map = ({ style, question }) => {
                 <div className="shape-tooltip-name">
                   {question?.shapeQuestion?.name}
                 </div>
-                <div className="shape-tooltip-value">{shape}</div>
+                <div className="shape-tooltip-value">{shape[0]}</div>
               </div>
             </Tooltip>
           </Circle>
@@ -190,8 +196,44 @@ const Map = ({ style, question }) => {
     return null;
   };
 
+  useEffect(() => {
+    if (results.length) {
+      const shapeValues = uniq(flatten(results.map((r) => r.shape)));
+      setShapeOptions(shapeValues);
+    }
+  }, [results]);
+
+  const ShapeLegend = () => {
+    if (shapeOptions.length) {
+      return (
+        <div className="shape-legend">
+          <h4>{question?.shapeQuestion?.name}</h4>
+          {shapeOptions.map((sO, sI) => (
+            <div key={sI}>
+              <Space direction="horizontal">
+                <div
+                  className="circle-legend"
+                  style={{ backgroundColor: shapeColors[sI] }}
+                />
+                <span>{sO}</span>
+              </Space>
+            </div>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="map-container">
+      {loading ? (
+        <div className="map-loading">
+          <Spin />
+        </div>
+      ) : (
+        <ShapeLegend />
+      )}
       <div className="map-buttons">
         <Space size="small" direction="vertical">
           <Button
@@ -247,6 +289,7 @@ const Map = ({ style, question }) => {
         )}
         {!loading && results.length && <Markers data={results} />}
       </MapContainer>
+      {/* <MarkerLegend /> */}
     </div>
   );
 };
