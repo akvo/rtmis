@@ -43,8 +43,28 @@ const UploadData = () => {
   const [fileName, setFileName] = useState(null);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [updateExisting, setUpdateExisting] = useState(false);
   const { notify } = useNotification();
   const navigate = useNavigate();
+  const exportGenerate = () => {
+    api
+      .get(`download/generate?form_id=${formId}`)
+      .then(() => {
+        notify({
+          type: "success",
+          message: `Data exported successfully`,
+        });
+        setLoading(false);
+        navigate("/data/export");
+      })
+      .catch(() => {
+        notify({
+          type: "error",
+          message: "Data export failed",
+        });
+        setLoading(false);
+      });
+  };
 
   const selectedAdministration = takeRight(administration, 1)[0]?.name;
 
@@ -109,36 +129,40 @@ const UploadData = () => {
 
   const downloadTemplate = () => {
     setLoading(true);
-    api
-      .get(`export/form/${formId}`, { responseType: "blob" })
-      .then((res) => {
-        const contentDispositionHeader = res.headers["content-disposition"];
-        const filename = regExpFilename.exec(contentDispositionHeader)?.groups
-          ?.filename;
-        if (filename) {
-          const url = window.URL.createObjectURL(new Blob([res.data]));
-          const link = document.createElement("a");
-          link.href = url;
-          link.setAttribute("download", filename);
-          document.body.appendChild(link);
-          link.click();
-          setLoading(false);
-        } else {
+    if (updateExisting) {
+      exportGenerate();
+    } else {
+      api
+        .get(`export/form/${formId}`, { responseType: "blob" })
+        .then((res) => {
+          const contentDispositionHeader = res.headers["content-disposition"];
+          const filename = regExpFilename.exec(contentDispositionHeader)?.groups
+            ?.filename;
+          if (filename) {
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", filename);
+            document.body.appendChild(link);
+            link.click();
+            setLoading(false);
+          } else {
+            notify({
+              type: "error",
+              message: "Could not fetch template",
+            });
+            setLoading(false);
+          }
+        })
+        .catch((e) => {
+          console.error(e);
           notify({
             type: "error",
             message: "Could not fetch template",
           });
           setLoading(false);
-        }
-      })
-      .catch((e) => {
-        console.error(e);
-        notify({
-          type: "error",
-          message: "Could not fetch template",
         });
-        setLoading(false);
-      });
+    }
   };
 
   return (
@@ -150,7 +174,13 @@ const UploadData = () => {
       </Row>
       <Divider />
       <Row align="middle">
-        <Checkbox id="updateExisting" className="dev" onChange={() => {}}>
+        <Checkbox
+          id="updateExisting"
+          checked={updateExisting}
+          onChange={() => {
+            setUpdateExisting(!updateExisting);
+          }}
+        >
           Update Existing Data
         </Checkbox>
       </Row>
@@ -200,7 +230,7 @@ const UploadData = () => {
                   : "Drop your file here"
                 : "Please select a form"}
             </p>
-            <Button disabled={uploading || !formId}>
+            <Button disabled={!formId} loading={uploading}>
               Browse your computer
             </Button>
           </Dragger>
