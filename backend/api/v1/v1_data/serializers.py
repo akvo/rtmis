@@ -679,6 +679,10 @@ class ListBatchCommentSerializer(serializers.ModelSerializer):
         fields = ['user', 'comment', 'created']
 
 
+class BatchListRequestSerializer(serializers.Serializer):
+    approved = CustomBooleanField(default=False)
+
+
 class CreateBatchSerializer(serializers.Serializer):
     name = CustomCharField()
     comment = CustomCharField(required=False)
