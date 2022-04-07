@@ -4,7 +4,7 @@ import os
 import pandas as pd
 
 from api.v1.v1_data.models import PendingAnswers, PendingDataBatch, \
-    PendingFormData, PendingDataApproval
+    PendingFormData, PendingDataApproval, Answers
 from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Questions, FormApprovalAssignment
 from api.v1.v1_jobs.functions import HText
@@ -19,10 +19,10 @@ def save_data(user: SystemUser, batch: PendingDataBatch, dp: dict, qs: dict):
     geo = None
     answerlist = []
     names = []
-    data_id = None
+    data_id = None if math.isnan(dp['data_id']) else dp['data_id']
+
     for a in dp:
         if a == 'data_id':
-            data_id = None if math.isnan(dp[a]) else dp[a]
             continue
         aw = dp[a]
         if isinstance(aw, str):
@@ -86,7 +86,17 @@ def save_data(user: SystemUser, batch: PendingDataBatch, dp: dict, qs: dict):
             if q.meta:
                 names = names + aw
         if valid:
-            answerlist.append(answer)
+            if data_id:
+                form_answer = Answers.objects.get(
+                    data_id=data_id,
+                    question_id=answer.question_id
+                )
+                if not (form_answer.name == answer.name and
+                        form_answer.options == answer.options and
+                        form_answer.value == answer.value):
+                    answerlist.append(answer)
+            else:
+                answerlist.append(answer)
     name = " - ".join([str(n) for n in names])
     data = PendingFormData.objects.create(
         name=name,
@@ -124,11 +134,25 @@ def seed_excel_data(job: Jobs):
     )
     records = []
     for datapoint in datapoints:
-        data = save_data(user=job.user,
-                         batch=batch,
-                         dp=datapoint,
-                         qs=questions)
-        records.append(data)
+        data: PendingFormData = save_data(user=job.user,
+                                          batch=batch,
+                                          dp=datapoint,
+                                          qs=questions)
+        if data.pending_data_answer.count():
+            records.append(data)
+        else:
+            data.delete()
+    if len(records) == 0:
+        context = {
+            'subject': 'RTMIS:No Data Updates found',
+            'send_to': [batch.user.email],
+            'form': batch.form,
+            'user': job.user,
+        }
+        send_email(context, 'unchanged_data.html')
+        batch.delete()
+        os.remove(file)
+        return None
     path = '{0}{1}'.format(batch.administration.path,
                            batch.administration_id)
     for administration in Administration.objects.filter(
@@ -142,13 +166,13 @@ def seed_excel_data(job: Jobs):
                 user=assignment.user,
                 level_id=level
             )
-            data = {
+            context = {
                 'subject': 'RTMIS:Pending Approvals',
                 'send_to': [assignment.user.email],
                 'form': batch.form,
                 'user': job.user,
             }
-            send_email(data, 'pending_approval.html')
+            send_email(context, 'pending_approval.html')
 
     os.remove(file)
     return records
