@@ -121,6 +121,7 @@ const AdministrationDropdown = ({
                 onClear={() => {
                   handleClear(regionIdx);
                 }}
+                getPopupContainer={(trigger) => trigger.parentNode}
                 dropdownMatchSelectWidth={false}
                 value={administration[regionIdx + 1]?.id || null}
                 disabled={loadingAdministration || loading}

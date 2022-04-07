@@ -111,7 +111,11 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
               ]}
             >
               {dataIndex === "designation" ? (
-                <Select style={{ width: "98%" }} ref={inputRef}>
+                <Select
+                  style={{ width: "98%" }}
+                  ref={inputRef}
+                  getPopupContainer={(trigger) => trigger.parentNode}
+                >
                   {config?.designations?.map((d, dI) => (
                     <Option key={dI} value={parseInt(d.id)}>
                       {d.name}
