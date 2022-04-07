@@ -311,9 +311,14 @@ class ListPendingDataBatchSerializer(serializers.ModelSerializer):
     approver = serializers.SerializerMethodField()
     form = serializers.SerializerMethodField()
     administration = serializers.SerializerMethodField()
+    total_data = serializers.SerializerMethodField()
 
     def get_created_by(self, instance: PendingDataBatch):
         return instance.user.get_full_name()
+
+    @extend_schema_field(OpenApiTypes.INT)
+    def get_total_data(self, instance: PendingDataBatch):
+        return instance.batch_pending_data_batch.count()
 
     @extend_schema_field(
         inline_serializer('batch_pending_form',
@@ -395,7 +400,7 @@ class ListPendingDataBatchSerializer(serializers.ModelSerializer):
         model = PendingDataBatch
         fields = [
             'id', 'name', 'form', 'administration', 'created_by', 'created',
-            'approver', 'approved'
+            'approver', 'approved', 'total_data'
         ]
 
 
@@ -478,26 +483,16 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
                     for answer in data.pending_data_answer.all():
                         form_answer = Answers.objects.get(
                             data=form_data, question=answer.question)
-                        if not (form_answer.name == answer.name and
-                                form_answer.options == answer.options and
-                                form_answer.value == answer.value):
-                            AnswerHistory.objects.create(
-                                data=form_answer.data,
-                                question=form_answer.question,
-                                name=form_answer.name,
-                                value=form_answer.value,
-                                options=form_answer.options,
-                                created_by=form_answer.created_by
-                            )
-                            form_answer.delete()
-                            Answers.objects.create(
-                                data=form_data,
-                                question=answer.question,
-                                name=answer.name,
-                                value=answer.value,
-                                options=answer.options,
-                                created_by=answer.created_by,
-                            )
+
+                        AnswerHistory.objects.create(
+                            data=form_answer.data,
+                            question=form_answer.question,
+                            name=form_answer.name,
+                            value=form_answer.value,
+                            options=form_answer.options,
+                            created_by=form_answer.created_by
+                        )
+                        form_answer.delete()
 
                 else:
                     form_data = FormData.objects.create(
@@ -511,16 +506,16 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
                     data.approved = True
                     data.save()
 
-                    answer: PendingAnswers
-                    for answer in data.pending_data_answer.all():
-                        Answers.objects.create(
-                            data=form_data,
-                            question=answer.question,
-                            name=answer.name,
-                            value=answer.value,
-                            options=answer.options,
-                            created_by=answer.created_by,
-                        )
+                answer: PendingAnswers
+                for answer in data.pending_data_answer.all():
+                    Answers.objects.create(
+                        data=form_data,
+                        question=answer.question,
+                        name=answer.name,
+                        value=answer.value,
+                        options=answer.options,
+                        created_by=answer.created_by,
+                    )
             batch.approved = True
             batch.updated = timezone.now()
             batch.save()

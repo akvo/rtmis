@@ -45,7 +45,7 @@ class PendingDataTestCase(TestCase):
                 data = response.json().get('batch')
                 self.assertEqual([
                     'id', 'name', 'form', 'administration', 'created_by',
-                    'created', 'approver', 'approved'
+                    'created', 'approver', 'approved', 'total_data'
                 ], list(data[0]))
                 response = self.client.get('/api/v1/pending-data/{0}'.format(
                     data[0].get('id')),
