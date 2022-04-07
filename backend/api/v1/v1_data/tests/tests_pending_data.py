@@ -6,8 +6,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import PendingFormData, PendingDataApproval, \
     PendingDataBatch
-from api.v1.v1_forms.models import Forms
 from api.v1.v1_forms.constants import FormTypes, QuestionTypes
+from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_users.models import SystemUser
 
@@ -45,12 +45,12 @@ class PendingDataTestCase(TestCase):
                 data = response.json().get('batch')
                 self.assertEqual([
                     'id', 'name', 'form', 'administration', 'created_by',
-                    'created', 'approver', 'approved'
+                    'created', 'approver', 'approved', 'total_data'
                 ], list(data[0]))
                 response = self.client.get('/api/v1/pending-data/{0}'.format(
                     data[0].get('id')),
-                                           content_type='application/json',
-                                           **header)
+                    content_type='application/json',
+                    **header)
                 self.assertEqual(200, response.status_code)
                 self.assertEqual(['history', 'question', 'value'],
                                  list(response.json()[0]))
@@ -60,7 +60,7 @@ class PendingDataTestCase(TestCase):
                     **header)
                 self.assertEqual(200, response.status_code)
                 self.assertEqual([
-                    'id', 'name', 'form', 'administration', 'geo',
+                    'id', 'data_id', 'name', 'form', 'administration', 'geo',
                     'created_by', 'created'
                 ], list(response.json()[0]))
 
@@ -83,8 +83,8 @@ class PendingDataTestCase(TestCase):
 
         response = self.client.get('/api/v1/batch/comment/{0}'.format(
             PendingDataBatch.objects.last().id),
-                                   follow=True,
-                                   **header)
+            follow=True,
+            **header)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(list(response.json()[0]),
                          ['user', 'comment', 'created'])
@@ -153,7 +153,7 @@ class PendingDataTestCase(TestCase):
             p_approval = PendingDataApproval.objects.filter(
                 batch_id=approval.batch_id,
                 level__level__lt=approval.level.level).order_by(
-                    '-level__level').first()
+                '-level__level').first()
             t_parent = RefreshToken.for_user(p_approval.user)
             header = {'HTTP_AUTHORIZATION': f'Bearer {t_parent.access_token}'}
             # subordinate = false, approved = false
@@ -238,8 +238,8 @@ class PendingDataTestCase(TestCase):
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         response = self.client.get('/api/v1/batch/summary/{0}'.format(
             PendingDataBatch.objects.first().id),
-                                   follow=True,
-                                   **header)
+            follow=True,
+            **header)
         self.assertEqual(200, response.status_code)
         for summary in response.json():
             if summary.get('type') in \
