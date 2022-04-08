@@ -3,6 +3,8 @@
 
 set -exuo pipefail
 
+[[ -n "${CI_TAG:=}" ]] && { echo "Skip build"; exit 0; }
+
 if grep -q .yml .gitignore; then
     echo "ERROR: .gitignore contains other docker-compose file"
     exit 1
@@ -33,10 +35,6 @@ then
     echo "Service account not exists"
     exit 1
 fi
-
-
-
-[[ -n "${CI_TAG:=}" ]] && { echo "Skip build"; exit 0; }
 
 image_prefix="eu.gcr.io/akvo-lumen/rtmis"
 
