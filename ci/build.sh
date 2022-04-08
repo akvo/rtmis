@@ -17,6 +17,7 @@ while IFS= read -r IMAGE_CACHE; do
         docker load < "${IMAGE_CACHE_LOC}"
     fi
 done <<< "${IMAGE_CACHE_LIST}"
+## END RESTORE IMAGE CACHE
 
 if grep -q .yml .gitignore; then
     echo "ERROR: .gitignore contains other docker-compose file"
@@ -125,15 +126,6 @@ else
     echo "No Changes detected for frontend -- SKIP BUILD"
 fi
 
-## STORE IMAGE CACHE
-while IFS= read -r IMAGE_CACHE; do
-    IMAGE_CACHE_LOC="${HOME}/.cache/${IMAGE_CACHE//\//-}.tar"
-    if [[ ! -f "${IMAGE_CACHE_LOC}" ]]; then
-        echo "${IMAGE_CACHE_LOC} not exists"
-        docker save "${IMAGE_CACHE}" > "${IMAGE_CACHE_LOC}"
-    fi
-done <<< "${IMAGE_CACHE_LIST}"
-
 if [[ ${FRONTEND_CHANGES} == 1 && ${BACKEND_CHANGES} == 1 ]]; then
     worker_build
     if ! dci run -T ci ./basic.sh; then
@@ -142,3 +134,13 @@ if [[ ${FRONTEND_CHANGES} == 1 && ${BACKEND_CHANGES} == 1 ]]; then
       exit 1
     fi
 fi
+
+## STORE IMAGE CACHE
+while IFS= read -r IMAGE_CACHE; do
+    IMAGE_CACHE_LOC="${HOME}/.cache/${IMAGE_CACHE//\//-}.tar"
+    if [[ ! -f "${IMAGE_CACHE_LOC}" ]]; then
+        echo "${IMAGE_CACHE_LOC} not exists"
+        docker save "${IMAGE_CACHE}" > "${IMAGE_CACHE_LOC}"
+    fi
+done <<< "${IMAGE_CACHE_LIST}"
+## END STORE IMAGE CACHE
