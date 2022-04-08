@@ -11,10 +11,10 @@ IMAGE_CACHE_LIST=$(grep image ./docker-compose.yml \
     | sed 's/^ *//g')
 
 while IFS= read -r IMAGE_CACHE; do
-    IMAGE_CACHE_LOCATION="${HOME}./cache/${IMAGE_CACHE}.tar"
-    if [ -f "${IMAGE_CACHE_LOCATION}" ]; then
-        echo "${IMAGE_CACHE_LOCATION} exists"
-        docker load < "${IMAGE_CACHE_LOCATION}"
+    IMAGE_CACHE_LOC="${HOME}/.cache/${IMAGE_CACHE//\//-}.tar"
+    if [ -f "${IMAGE_CACHE_LOC}" ]; then
+        echo "${IMAGE_CACHE_LOC} exists"
+        docker load < "${IMAGE_CACHE_LOC}"
     fi
 done <<< "${IMAGE_CACHE_LIST}"
 
@@ -127,10 +127,10 @@ fi
 
 ## STORE IMAGE CACHE
 while IFS= read -r IMAGE_CACHE; do
-    IMAGE_CACHE_LOCATION="${HOME}./cache/${IMAGE_CACHE}.tar"
-    if [[ ! -f "${IMAGE_CACHE_LOCATION}" ]]; then
-        echo "${IMAGE_CACHE} not exists."
-        docker save "${IMAGE_CACHE}" > "${IMAGE_CACHE_LOCATION}"
+    IMAGE_CACHE_LOC="${HOME}/.cache/${IMAGE_CACHE//\//-}.tar"
+    if [[ ! -f "${IMAGE_CACHE_LOC}" ]]; then
+        echo "${IMAGE_CACHE_LOC} not exists"
+        docker save "${IMAGE_CACHE}" > "${IMAGE_CACHE_LOC}"
     fi
 done <<< "${IMAGE_CACHE_LIST}"
 
