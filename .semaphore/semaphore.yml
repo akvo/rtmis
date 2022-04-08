@@ -36,6 +36,7 @@ blocks:
           - cache restore "node-modules-$(checksum frontend/package.json)"
           - cache restore "pip-$(checksum backend/requirements.txt)"
           - cache restore "$SEMAPHORE_PROJECT_ID-$SEMAPHORE_GIT_BRANCH"
+          - cache restore "images-${SEMAPHORE_PROJECT_ID}"
       epilogue:
         commands:
           - cache store "npm-$(checksum frontend/package.json)" "$HOME/.npm"
@@ -45,6 +46,7 @@ blocks:
             "backend/.pip"
           - cache store "$SEMAPHORE_PROJECT_ID-$SEMAPHORE_GIT_BRANCH"
             "$HOME/.cache"
+          - cache store "images-${SEMAPHORE_PROJECT_ID}" "ci/images"
       jobs:
         - name: Build & Test
           commands:

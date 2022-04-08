@@ -9,14 +9,16 @@ set -exuo pipefail
 IMAGE_CACHE_LIST=$(grep image ./docker-compose.yml \
     | sort -u | sed 's/image\://g' \
     | sed 's/^ *//g')
+mkdir -p ./ci/images
 
 while IFS= read -r IMAGE_CACHE; do
-    IMAGE_CACHE_LOC="${HOME}/.cache/${IMAGE_CACHE//\//-}.tar"
+    IMAGE_CACHE_LOC="./ci/images/${IMAGE_CACHE//\//-}.tar"
     if [ -f "${IMAGE_CACHE_LOC}" ]; then
         echo "${IMAGE_CACHE_LOC} exists"
         docker load -i "${IMAGE_CACHE_LOC}"
     fi
 done <<< "${IMAGE_CACHE_LIST}"
+ls -al ./ci/images
 ## END RESTORE IMAGE CACHE
 
 if grep -q .yml .gitignore; then
@@ -137,7 +139,7 @@ fi
 
 ## STORE IMAGE CACHE
 while IFS= read -r IMAGE_CACHE; do
-    IMAGE_CACHE_LOC="${HOME}/.cache/${IMAGE_CACHE//\//-}.tar"
+    IMAGE_CACHE_LOC="./ci/images/${IMAGE_CACHE//\//-}.tar"
     if [[ ! -f "${IMAGE_CACHE_LOC}" ]]; then
         echo "${IMAGE_CACHE_LOC} not exists"
         docker save -o "${IMAGE_CACHE_LOC}" "${IMAGE_CACHE}"
