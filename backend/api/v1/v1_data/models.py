@@ -36,7 +36,7 @@ class FormData(models.Model):
         data = {
             "id": self.id,
             "datapoint_name": self.name,
-            "administration": self.administration.name,
+            "administration": self.administration.administration_column,
             "geolocation":
                 f"{self.geo[0]}, {self.geo[1]}" if self.geo else None,
             "created_by":
@@ -208,6 +208,9 @@ class Answers(models.Model):
             QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
         ]:
             answer = self.name
+        elif q.type == QuestionTypes.administration:
+            answer = Administration.objects.get(
+                pk=self.value).administration_column
         else:
             answer = self.value
         return {qname: answer}
