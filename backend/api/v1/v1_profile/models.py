@@ -36,7 +36,8 @@ class Administration(models.Model):
     def ancestors(self):
         if self.path:
             ids = self.path.split(".")[:-1]
-            administrations = Administration.objects.filter(id__in=ids).all()
+            administrations = Administration.objects.filter(
+                id__in=ids).order_by('level__level')
             return administrations
         return None
 
@@ -45,6 +46,13 @@ class Administration(models.Model):
         if self.path:
             names = " - ".join([a.name for a in self.ancestors])
             return "{} - {}".format(names, self.name)
+        return self.name
+
+    @property
+    def administration_column(self):
+        if self.path:
+            names = "|".join([a.name for a in self.ancestors])
+            return "{}|{}".format(names, self.name)
         return self.name
 
     class Meta:
