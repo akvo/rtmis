@@ -61,14 +61,14 @@ def validate_number(answer, question):
         rule = question.rule
         qname = question.name
         for r in rule:
-            if r == "max" and rule[r] < answer:
+            if r == "max" and float(rule[r]) < answer:
                 return {
                     "error_message":
                         ValidationText.numeric_max_rule.value.replace(
                             "--question--", qname).replace("--rule--",
                                                            str(rule[r]))
                 }
-            if r == "min" and rule[r] > answer:
+            if r == "min" and float(rule[r]) > answer:
                 return {
                     "error_message":
                         ValidationText.numeric_min_rule.value.replace(
@@ -246,6 +246,9 @@ def validate(form: int, administration: int, file: str):
     questions = Questions.objects.filter(form_id=form)
     header_names = [q.to_excel_header for q in questions]
     df = pd.read_excel(file, sheet_name='data')
+    if 'id' in list(df):
+        df = df.rename(columns={'id': 'data_id'})
+    df = df[header_names + ['data_id']]
     if df.shape[0] == 0:
         return [{
             "error": ExcelError.sheet,

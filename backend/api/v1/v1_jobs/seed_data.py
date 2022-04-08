@@ -130,7 +130,7 @@ def seed_excel_data(job: Jobs):
         form_id=job.info.get('form'),
         administration_id=job.info.get('administration'),
         user=job.user,
-        name='Auto Generated'
+        name=job.info.get('file')
     )
     records = []
     for datapoint in datapoints:
