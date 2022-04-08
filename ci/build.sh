@@ -14,7 +14,7 @@ while IFS= read -r IMAGE_CACHE; do
     IMAGE_CACHE_LOC="${HOME}/.cache/${IMAGE_CACHE//\//-}.tar"
     if [ -f "${IMAGE_CACHE_LOC}" ]; then
         echo "${IMAGE_CACHE_LOC} exists"
-        docker load < "${IMAGE_CACHE_LOC}"
+        docker load -i "${IMAGE_CACHE_LOC}"
     fi
 done <<< "${IMAGE_CACHE_LIST}"
 ## END RESTORE IMAGE CACHE
@@ -140,7 +140,7 @@ while IFS= read -r IMAGE_CACHE; do
     IMAGE_CACHE_LOC="${HOME}/.cache/${IMAGE_CACHE//\//-}.tar"
     if [[ ! -f "${IMAGE_CACHE_LOC}" ]]; then
         echo "${IMAGE_CACHE_LOC} not exists"
-        docker save "${IMAGE_CACHE}" > "${IMAGE_CACHE_LOC}"
+        docker save -o "${IMAGE_CACHE_LOC}" "${IMAGE_CACHE}"
     fi
 done <<< "${IMAGE_CACHE_LIST}"
 ## END STORE IMAGE CACHE
