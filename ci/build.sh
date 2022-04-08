@@ -14,11 +14,10 @@ mkdir -p ./ci/images
 while IFS= read -r IMAGE_CACHE; do
     IMAGE_CACHE_LOC="./ci/images/${IMAGE_CACHE//\//-}.tar"
     if [ -f "${IMAGE_CACHE_LOC}" ]; then
-        echo "${IMAGE_CACHE_LOC} exists"
         docker load -i "${IMAGE_CACHE_LOC}"
     fi
 done <<< "${IMAGE_CACHE_LIST}"
-ls -al ./ci/images
+docker images
 ## END RESTORE IMAGE CACHE
 
 if grep -q .yml .gitignore; then
@@ -141,7 +140,6 @@ fi
 while IFS= read -r IMAGE_CACHE; do
     IMAGE_CACHE_LOC="./ci/images/${IMAGE_CACHE//\//-}.tar"
     if [[ ! -f "${IMAGE_CACHE_LOC}" ]]; then
-        echo "${IMAGE_CACHE_LOC} not exists"
         docker save -o "${IMAGE_CACHE_LOC}" "${IMAGE_CACHE}"
     fi
 done <<< "${IMAGE_CACHE_LIST}"
