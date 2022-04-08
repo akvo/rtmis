@@ -3,6 +3,22 @@
 
 set -exuo pipefail
 
+[[ -n "${CI_TAG:=}" ]] && { echo "Skip build"; exit 0; }
+
+## RESTORE IMAGE CACHE
+IMAGE_CACHE_LIST=$(grep image ./docker-compose.yml \
+    | sort -u | sed 's/image\://g' \
+    | sed 's/^ *//g')
+mkdir -p ./ci/images
+
+while IFS= read -r IMAGE_CACHE; do
+    IMAGE_CACHE_LOC="./ci/images/${IMAGE_CACHE//\//-}.tar"
+    if [ -f "${IMAGE_CACHE_LOC}" ]; then
+        docker load -i "${IMAGE_CACHE_LOC}"
+    fi
+done <<< "${IMAGE_CACHE_LIST}"
+## END RESTORE IMAGE CACHE
+
 if grep -q .yml .gitignore; then
     echo "ERROR: .gitignore contains other docker-compose file"
     exit 1
@@ -33,10 +49,6 @@ then
     echo "Service account not exists"
     exit 1
 fi
-
-
-
-[[ -n "${CI_TAG:=}" ]] && { echo "Skip build"; exit 0; }
 
 image_prefix="eu.gcr.io/akvo-lumen/rtmis"
 
@@ -122,3 +134,12 @@ if [[ ${FRONTEND_CHANGES} == 1 && ${BACKEND_CHANGES} == 1 ]]; then
       exit 1
     fi
 fi
+
+## STORE IMAGE CACHE
+while IFS= read -r IMAGE_CACHE; do
+    IMAGE_CACHE_LOC="./ci/images/${IMAGE_CACHE//\//-}.tar"
+    if [[ ! -f "${IMAGE_CACHE_LOC}" ]]; then
+        docker save -o "${IMAGE_CACHE_LOC}" "${IMAGE_CACHE}"
+    fi
+done <<< "${IMAGE_CACHE_LIST}"
+## END STORE IMAGE CACHE
