@@ -54,7 +54,8 @@ def save_data(user: SystemUser, batch: PendingDataBatch, dp: dict, qs: dict):
 
         if q.type == QuestionTypes.geo:
             if aw:
-                geo = [float(g.strip()) for g in aw.split(",")]
+                aw = aw.strip().replace('|', ',')
+                geo = [float(g) for g in aw.split(",")]
                 answer.options = geo
             else:
                 valid = False
@@ -82,18 +83,21 @@ def save_data(user: SystemUser, batch: PendingDataBatch, dp: dict, qs: dict):
             if q.meta and aw:
                 names.append(aw)
         if q.type == QuestionTypes.multiple_option:
-            answer.options = aw
+            answer.options = aw.split('|')
             if q.meta:
-                names = names + aw
+                names = names + aw.replace('|', '-')
         if valid:
             if data_id:
-                form_answer = Answers.objects.get(
-                    data_id=data_id,
-                    question_id=answer.question_id
-                )
-                if not (form_answer.name == answer.name and
-                        form_answer.options == answer.options and
-                        form_answer.value == answer.value):
+                try:
+                    form_answer = Answers.objects.get(
+                        data_id=data_id,
+                        question_id=answer.question_id
+                    )
+                    if not (form_answer.name == answer.name and
+                            form_answer.options == answer.options and
+                            form_answer.value == answer.value):
+                        answerlist.append(answer)
+                except Answers.DoesNotExist:
                     answerlist.append(answer)
             else:
                 answerlist.append(answer)
@@ -116,6 +120,8 @@ def save_data(user: SystemUser, batch: PendingDataBatch, dp: dict, qs: dict):
 def seed_excel_data(job: Jobs):
     file = f"./tmp/{job.info.get('file')}"
     df = pd.read_excel(file, sheet_name="data")
+    df = df.rename(columns={'id': 'data_id'})
+    df = df[list(filter(lambda x: "|" in x, list(df))) + ['data_id']]
     questions = {}
     columns = {}
     for q in list(df):
