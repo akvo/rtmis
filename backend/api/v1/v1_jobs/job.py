@@ -55,6 +55,7 @@ def job_generate_download(job_id, **kwargs):
             Administration.objects.filter(
                 path__startswith=filter_path).values_list('id',
                                                           flat=True))
+        administration_ids.append(administration.id)
 
         administration_name = list(
             Administration.objects.filter(
