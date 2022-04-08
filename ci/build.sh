@@ -17,7 +17,6 @@ while IFS= read -r IMAGE_CACHE; do
         docker load -i "${IMAGE_CACHE_LOC}"
     fi
 done <<< "${IMAGE_CACHE_LIST}"
-docker images
 ## END RESTORE IMAGE CACHE
 
 if grep -q .yml .gitignore; then
