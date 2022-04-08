@@ -19,7 +19,7 @@ const Visualisation = () => {
   const [question, setQuestion] = useState(null);
   const [loading, setLoading] = useState(false);
   const [activeKey, setActiveKey] = useState(null);
-  const { selectedForm, forms, questionGroups } = store.useState(
+  const { selectedForm, forms, loadingForm, questionGroups } = store.useState(
     (state) => state
   );
   const { notify } = useNotification();
@@ -105,7 +105,7 @@ const Visualisation = () => {
   };
 
   const handleChange = (panel) => {
-    if (loading) {
+    if (loading || loadingForm) {
       return;
     }
     if (panel) {
@@ -121,6 +121,12 @@ const Visualisation = () => {
     }
     setActiveKey(panel);
   };
+
+  useEffect(() => {
+    if (selectedForm) {
+      setActiveKey(null);
+    }
+  }, [selectedForm]);
 
   return (
     <div id="visualisation">
@@ -226,7 +232,7 @@ const Visualisation = () => {
           <Col span={12}>
             <Map
               markerData={{ features: [] }}
-              style={{ height: 400 }}
+              style={{ height: 500 }}
               question={question}
             />
           </Col>

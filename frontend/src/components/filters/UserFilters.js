@@ -31,6 +31,7 @@ const UserFilters = ({ query, setQuery, pending, setPending, loading }) => {
           <Select
             disabled
             placeholder="Organization"
+            getPopupContainer={(trigger) => trigger.parentNode}
             style={{ width: 160 }}
             onChange={() => {}}
           >
@@ -38,6 +39,7 @@ const UserFilters = ({ query, setQuery, pending, setPending, loading }) => {
           </Select>
           <Select
             placeholder="Role"
+            getPopupContainer={(trigger) => trigger.parentNode}
             style={{ width: 160 }}
             value={role}
             onChange={(e) => {
