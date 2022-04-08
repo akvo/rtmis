@@ -16,7 +16,7 @@ while IFS= read -r IMAGE_CACHE; do
         echo "${IMAGE_CACHE_LOCATION} exists"
         docker load < "${IMAGE_CACHE_LOCATION}"
     fi
-done <<< "${IMAGE_LIST}"
+done <<< "${IMAGE_CACHE_LIST}"
 
 if grep -q .yml .gitignore; then
     echo "ERROR: .gitignore contains other docker-compose file"
