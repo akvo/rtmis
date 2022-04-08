@@ -247,7 +247,12 @@ const AddUser = () => {
               label="Organization"
               rules={[{ required: false }]}
             >
-              <Select disabled placeholder="Select one.." allowClear>
+              <Select
+                getPopupContainer={(trigger) => trigger.parentNode}
+                disabled
+                placeholder="Select one.."
+                allowClear
+              >
                 <Option value="1">MOH</Option>
                 <Option value="2">UNICEF</Option>
               </Select>
@@ -261,7 +266,10 @@ const AddUser = () => {
                 { required: true, message: "Please select a Designation" },
               ]}
             >
-              <Select placeholder="Select one..">
+              <Select
+                placeholder="Select one.."
+                getPopupContainer={(trigger) => trigger.parentNode}
+              >
                 {config?.designations?.map((d, di) => (
                   <Option key={di} value={d.id}>
                     {d.name}
@@ -276,7 +284,10 @@ const AddUser = () => {
               label="Role"
               rules={[{ required: true, message: "Please select a Role" }]}
             >
-              <Select placeholder="Select one..">
+              <Select
+                getPopupContainer={(trigger) => trigger.parentNode}
+                placeholder="Select one.."
+              >
                 {allowedRole.map((r, ri) => (
                   <Option key={ri} value={r.id}>
                     {r.name}

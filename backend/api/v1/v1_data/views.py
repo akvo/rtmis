@@ -30,7 +30,7 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     CreateBatchSerializer, ListPendingDataBatchSerializer, \
     ListPendingFormDataSerializer, PendingBatchDataFilterSerializer, \
     SubmitPendingFormSerializer, ListBatchSummarySerializer, \
-    ListBatchCommentSerializer
+    ListBatchCommentSerializer, BatchListRequestSerializer
 from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Administration
@@ -419,10 +419,23 @@ class BatchView(APIView):
                              required=True,
                              type=OpenApiTypes.NUMBER,
                              location=OpenApiParameter.QUERY),
+            OpenApiParameter(name='approved',
+                             default=False,
+                             type=OpenApiTypes.BOOL,
+                             location=OpenApiParameter.QUERY),
         ])
     def get(self, request, version):
-        queryset = PendingDataBatch.objects.filter(user=request.user).order_by(
-            '-id')
+        serializer = BatchListRequestSerializer(data=request.GET)
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(
+                    serializer.errors)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        queryset = PendingDataBatch.objects.filter(
+            user=request.user,
+            approved=serializer.validated_data.get('approved')
+        ).order_by('-id')
         paginator = PageNumberPagination()
         instance = paginator.paginate_queryset(queryset, request)
         page_size = REST_FRAMEWORK.get('PAGE_SIZE')
