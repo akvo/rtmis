@@ -5,6 +5,19 @@ set -exuo pipefail
 
 [[ -n "${CI_TAG:=}" ]] && { echo "Skip build"; exit 0; }
 
+## RESTORE IMAGE CACHE
+IMAGE_CACHE_LIST=$(grep image ./docker-compose.yml \
+    | sort -u | sed 's/image\://g' \
+    | sed 's/^ *//g')
+
+while IFS= read -r IMAGE_CACHE; do
+    IMAGE_CACHE_LOCATION="${HOME}./cache/${IMAGE_CACHE}.tar"
+    if [ -f "${IMAGE_CACHE_LOCATION}" ]; then
+        echo "${IMAGE_CACHE_LOCATION} exists"
+        docker load < "${IMAGE_CACHE_LOCATION}"
+    fi
+done <<< "${IMAGE_LIST}"
+
 if grep -q .yml .gitignore; then
     echo "ERROR: .gitignore contains other docker-compose file"
     exit 1
@@ -111,6 +124,15 @@ then
 else
     echo "No Changes detected for frontend -- SKIP BUILD"
 fi
+
+## STORE IMAGE CACHE
+while IFS= read -r IMAGE_CACHE; do
+    IMAGE_CACHE_LOCATION="${HOME}./cache/${IMAGE_CACHE}.tar"
+    if [[ ! -f "${IMAGE_CACHE_LOCATION}" ]]; then
+        echo "${IMAGE_CACHE} not exists."
+        docker save "${IMAGE_CACHE}" > "${IMAGE_CACHE_LOCATION}"
+    fi
+done <<< "${IMAGE_CACHE_LIST}"
 
 if [[ ${FRONTEND_CHANGES} == 1 && ${BACKEND_CHANGES} == 1 ]]; then
     worker_build
