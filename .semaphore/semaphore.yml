@@ -10,6 +10,7 @@ global_job_config:
     - name: GCP
     - name: docker-hub-credentials
     - name: coveralls
+    - name: rtmis
   prologue:
     commands:
       - echo "${DOCKER_PASSWORD}" | docker login --username
