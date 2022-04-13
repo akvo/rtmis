@@ -8,8 +8,9 @@ import {
   Tooltip,
 } from "react-leaflet";
 import { api, geo, store } from "../../lib";
-import { flatten, takeRight, uniq } from "lodash";
+import { flatten, takeRight, uniq, chain, groupBy, sumBy } from "lodash";
 import { Button, Space, Spin } from "antd";
+import { scaleQuantize } from "d3-scale";
 import {
   ZoomInOutlined,
   ZoomOutOutlined,
@@ -20,7 +21,7 @@ import "leaflet/dist/leaflet.css";
 const { geojson, shapeLevels, tile, defaultPos, getBounds } = geo;
 const defPos = defaultPos();
 const mapMaxZoom = 13;
-const shapeColors = [
+const shapeColorRange = [
   "#47CC65",
   "#EC8964",
   "#5195ED",
@@ -32,6 +33,7 @@ const shapeColors = [
   "#AA9B7E",
   "#8D8D8D",
 ];
+const colorRange = ["#bbedda", "#a7e1cb", "#92d5bd", "#7dcaaf", "#67bea1"];
 
 const Map = ({ style, question }) => {
   const { administration, selectedForm } = store.useState((s) => s);
@@ -99,11 +101,20 @@ const Map = ({ style, question }) => {
       const gname = g.properties[shapeLevels[administration.length - 1]];
       const adminName = takeRight(administration, 1)[0]?.name;
       const geoSelected = adminName === gname;
-      const fillColor = geoSelected ? "#bbedda" : "#e6e8f4";
+      const sc = shapeColors.find(
+        (sC) => sC.name === takeRight(Object.values(g.properties), 1)[0]
+      );
+      const fillColor = geoSelected
+        ? sc
+          ? getFillColor(sc.values)
+          : "#e6e8f4"
+        : "#e6e8f4";
+      const opacity = geoSelected ? (sc ? 0.8 : 0.3) : 0;
+      const fillOpacity = geoSelected ? 1 : 0;
       return {
         fillColor,
-        fillOpacity: 1,
-        opacity: geoSelected ? 0.8 : 0.3,
+        fillOpacity,
+        opacity,
         color: geoSelected ? "#82B09F" : "#A0D4C1",
       };
     }
@@ -138,8 +149,8 @@ const Map = ({ style, question }) => {
       const geoName =
         Object.values(hoveredShape)[Object.values(hoveredShape).length - 1];
       if (geoName) {
-        const geoRes = results.find((r) => r.loc === geoName);
-        if (geoRes) {
+        const geoRes = results.filter((r) => r.loc === geoName);
+        if (geoRes.length) {
           const tooltipElement = (
             <div className="shape-tooltip-container">
               <h3>{geoName}</h3>
@@ -147,7 +158,9 @@ const Map = ({ style, question }) => {
                 <span className="shape-tooltip-name">
                   {question?.markerQuestion?.name}
                 </span>
-                <h3 className="shape-tooltip-value">{geoRes.marker}</h3>
+                <h3 className="shape-tooltip-value">
+                  {geoRes.length ? sumBy(geoRes, "marker") : 0}
+                </h3>
               </Space>
             </div>
           );
@@ -155,7 +168,7 @@ const Map = ({ style, question }) => {
           return;
         }
       }
-      setShapeTooltip(null);
+      setShapeTooltip(<span className="text-muted">No data</span>);
     }
   }, [hoveredShape, results, question]);
 
@@ -164,7 +177,8 @@ const Map = ({ style, question }) => {
       data = data.filter((d) => d.geo.length === 2);
       return data.map(({ id, geo, shape, name }) => {
         const shapeRes = shapeOptions.findIndex((sO) => sO === shape[0]);
-        const markerColor = shapeRes === -1 ? "#111" : shapeColors[shapeRes];
+        const markerColor =
+          shapeRes === -1 ? "#111" : shapeColorRange[shapeRes];
         return (
           <Circle
             key={id}
@@ -210,10 +224,10 @@ const Map = ({ style, question }) => {
           <h4>{question?.shapeQuestion?.name}</h4>
           {shapeOptions.map((sO, sI) => (
             <div key={sI}>
-              <Space direction="horizontal">
+              <Space direction="horizontal" align="top">
                 <div
                   className="circle-legend"
-                  style={{ backgroundColor: shapeColors[sI] }}
+                  style={{ backgroundColor: shapeColorRange[sI] }}
                 />
                 <span>{sO}</span>
               </Space>
@@ -223,6 +237,49 @@ const Map = ({ style, question }) => {
       );
     }
     return null;
+  };
+
+  const shapeColors = chain(groupBy(results, "loc"))
+    .map((l, lI) => {
+      const values = sumBy(l, "marker");
+      return { name: lI, values };
+    })
+    .value();
+
+  const domain = shapeColors
+    .reduce(
+      (acc, curr) => {
+        const v = curr.values;
+        const [min, max] = acc;
+        return [min, v > max ? v : max];
+      },
+      [0, 0]
+    )
+    .map((acc, index) => {
+      if (index && acc) {
+        acc = acc < 10 ? 10 : acc;
+        const neaerestTo = Math.pow(
+          10,
+          Math.floor(Math.log(acc) / Math.log(10))
+        );
+        acc = Math.ceil(acc / neaerestTo) * neaerestTo;
+      }
+      return acc;
+    });
+
+  const colorScale = scaleQuantize().domain(domain).range(colorRange);
+
+  const getFillColor = (v) => {
+    const color = v === 0 ? "#FFF" : colorScale(v);
+    return color;
+  };
+
+  const MarkerLegend = () => {
+    return question && !loading ? (
+      <div className="marker-legend">
+        <div>{question?.markerQuestion?.name}</div>
+      </div>
+    ) : null;
   };
 
   return (
@@ -289,7 +346,7 @@ const Map = ({ style, question }) => {
         )}
         {!loading && results.length && <Markers data={results} />}
       </MapContainer>
-      {/* <MarkerLegend /> */}
+      <MarkerLegend />
     </div>
   );
 };
