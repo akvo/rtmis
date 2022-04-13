@@ -120,7 +120,7 @@ const Map = ({ style, question }) => {
         fillColor,
         fillOpacity,
         opacity,
-        color: geoSelected ? "#82B09F" : "#A0D4C1",
+        color: geoSelected ? "#000" : "#A0D4C1",
       };
     }
     return {
@@ -366,6 +366,7 @@ const Map = ({ style, question }) => {
             style={geoStyle}
             data={geojson}
             onEachFeature={onEachFeature}
+            weight={1}
           >
             {hoveredShape && shapeTooltip && (
               <Tooltip className="shape-tooltip-wrapper">
