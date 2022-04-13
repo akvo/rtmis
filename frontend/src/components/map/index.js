@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./style.scss";
 import {
   Circle,
@@ -9,7 +9,7 @@ import {
 } from "react-leaflet";
 import { api, geo, store } from "../../lib";
 import { flatten, takeRight, uniq, chain, groupBy, sumBy } from "lodash";
-import { Button, Space, Spin } from "antd";
+import { Button, Space, Spin, Row, Col } from "antd";
 import { scaleQuantize } from "d3-scale";
 import {
   ZoomInOutlined,
@@ -36,7 +36,9 @@ const shapeColorRange = [
 const colorRange = ["#bbedda", "#a7e1cb", "#92d5bd", "#7dcaaf", "#67bea1"];
 
 const Map = ({ style, question }) => {
-  const { administration, selectedForm } = store.useState((s) => s);
+  const { administration, selectedForm, loadingForm } = store.useState(
+    (s) => s
+  );
   const [map, setMap] = useState(null);
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
@@ -52,6 +54,10 @@ const Map = ({ style, question }) => {
       setZoomLevel(map.getZoom());
     }
   }, [map, administration]);
+
+  const adminName = useMemo(() => {
+    return administration.length ? takeRight(administration, 1)[0]?.name : null;
+  }, [administration]);
 
   useEffect(() => {
     if (selectedShape && administration.length) {
@@ -99,7 +105,6 @@ const Map = ({ style, question }) => {
   const geoStyle = (g) => {
     if (administration.length > 0 && results.length && map) {
       const gname = g.properties[shapeLevels[administration.length - 1]];
-      const adminName = takeRight(administration, 1)[0]?.name;
       const geoSelected = adminName === gname;
       const sc = shapeColors.find(
         (sC) => sC.name === takeRight(Object.values(g.properties), 1)[0]
@@ -127,7 +132,11 @@ const Map = ({ style, question }) => {
   };
 
   useEffect(() => {
-    if (question && selectedForm) {
+    if (
+      question &&
+      selectedForm &&
+      question?.shapeQuestion?.form === selectedForm
+    ) {
       setLoading(true);
       api
         .get(
@@ -145,10 +154,12 @@ const Map = ({ style, question }) => {
   }, [selectedForm, question]);
 
   useEffect(() => {
-    if (hoveredShape && results.length) {
+    if (hoveredShape && results.length && administration.length) {
       const geoName =
         Object.values(hoveredShape)[Object.values(hoveredShape).length - 1];
-      if (geoName) {
+      const gname = Object.values(hoveredShape)[administration.length - 1];
+      const geoSelected = adminName === gname;
+      if (geoName && geoSelected) {
         const geoRes = results.filter((r) => r.loc === geoName);
         if (geoRes.length) {
           const tooltipElement = (
@@ -167,10 +178,12 @@ const Map = ({ style, question }) => {
           setShapeTooltip(tooltipElement);
           return;
         }
+        setShapeTooltip(<span className="text-muted">No data</span>);
+        return;
       }
-      setShapeTooltip(<span className="text-muted">No data</span>);
+      setShapeTooltip(null);
     }
-  }, [hoveredShape, results, question]);
+  }, [hoveredShape, results, question, administration, adminName]);
 
   const Markers = ({ data }) => {
     if (data.length) {
@@ -274,10 +287,27 @@ const Map = ({ style, question }) => {
     return color;
   };
 
-  const MarkerLegend = () => {
-    return question && !loading ? (
+  const MarkerLegend = ({ thresholds }) => {
+    return question && !loading && thresholds.length ? (
       <div className="marker-legend">
         <div>{question?.markerQuestion?.name}</div>
+        <Row className="legend-wrap">
+          {thresholds.map((t, tI) => (
+            <Col
+              key={tI}
+              flex={1}
+              className="legend-item"
+              style={{ backgroundColor: colorRange[tI] }}
+            >
+              {tI === 0 && "0 - "}
+              {tI >= thresholds.length - 1 && "> "}
+              {tI > 0 &&
+                tI < thresholds.length - 1 &&
+                `${thresholds[tI - 1] + 1} - `}
+              {t}
+            </Col>
+          ))}
+        </Row>
       </div>
     ) : null;
   };
@@ -338,7 +368,7 @@ const Map = ({ style, question }) => {
             onEachFeature={onEachFeature}
           >
             {hoveredShape && shapeTooltip && (
-              <Tooltip className="shape-tooltip-container">
+              <Tooltip className="shape-tooltip-wrapper">
                 {shapeTooltip}
               </Tooltip>
             )}
@@ -346,7 +376,9 @@ const Map = ({ style, question }) => {
         )}
         {!loading && results.length && <Markers data={results} />}
       </MapContainer>
-      <MarkerLegend />
+      {!loading && !loadingForm && (
+        <MarkerLegend thresholds={colorScale.thresholds()} />
+      )}
     </div>
   );
 };

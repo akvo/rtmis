@@ -7,8 +7,7 @@ const shapeLevels = Object.keys(topojson_object.geometries[0].properties);
 
 const tile = {
   url: "https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}",
-  attribution:
-    "Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri",
+  attribution: "Tiles &copy; Esri &mdash; DeLorme, NAVTEQ, Esri",
 };
 
 const getBounds = (administration) => {
