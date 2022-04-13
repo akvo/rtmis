@@ -232,7 +232,7 @@ const Visualisation = () => {
           <Col span={12}>
             <Map
               markerData={{ features: [] }}
-              style={{ height: 500 }}
+              style={{ height: 585 }}
               question={question}
             />
           </Col>
