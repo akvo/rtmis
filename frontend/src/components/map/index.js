@@ -299,14 +299,16 @@ const Map = ({ style, question }) => {
               className="legend-item"
               style={{ backgroundColor: colorRange[tI] }}
             >
-              {tI === 0 && "0 - "}
-              {tI >= thresholds.length - 1 && "> "}
-              {tI > 0 &&
-                tI < thresholds.length - 1 &&
-                `${thresholds[tI - 1] + 1} - `}
-              {t}
+              {`${thresholds[0] * tI + 1} - ${t}`}
             </Col>
           ))}
+          <Col
+            flex={1}
+            className="legend-item"
+            style={{ backgroundColor: colorRange[thresholds.length - 1] }}
+          >
+            {`> ${thresholds[thresholds.length - 1]}`}
+          </Col>
         </Row>
       </div>
     ) : null;
