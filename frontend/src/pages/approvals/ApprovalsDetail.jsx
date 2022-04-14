@@ -12,6 +12,7 @@ import {
   List,
   Avatar,
 } from "antd";
+import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api } from "../../lib";
 
 const { TextArea } = Input;
@@ -49,6 +50,7 @@ const columnsRawData = [
     key: "created_by",
     width: 200,
   },
+  Table.EXPAND_COLUMN,
 ];
 
 const summaryColumns = [
@@ -87,9 +89,11 @@ const ApprovalDetail = ({
   setExpandedParentKeys,
 }) => {
   const [values, setValues] = useState([]);
+  const [rawValues, setRawValues] = useState([]);
   const [columns, setColumns] = useState(summaryColumns);
   const [loading, setLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState("data-summary");
+  const [expandedRowKeys, setExpandedRowKeys] = useState([]);
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
 
@@ -119,6 +123,19 @@ const ApprovalDetail = ({
     });
   }, [record]);
 
+  const handleTabSelect = (e) => {
+    if (loading) {
+      return;
+    }
+    if (e === "data-summary") {
+      setColumns(summaryColumns);
+    } else {
+      setExpandedRowKeys([]);
+      setColumns(columnsRawData);
+    }
+    setSelectedTab(e);
+  };
+
   useEffect(() => {
     setLoading(true);
     if (selectedTab === "data-summary") {
@@ -142,7 +159,9 @@ const ApprovalDetail = ({
         .get(`/form-pending-data-batch/${record.id}`)
         .then((res) => {
           setColumns(columnsRawData);
-          setValues(res.data.map((x) => ({ key: x.id, ...x })));
+          setRawValues(
+            res.data.map((x) => ({ key: x.id, data: [], loading: false, ...x }))
+          );
           setLoading(false);
         })
         .catch((e) => {
@@ -152,19 +171,101 @@ const ApprovalDetail = ({
     }
   }, [selectedTab, record]);
 
+  const fetchData = (recordId) => {
+    setRawValues((rv) =>
+      rv.map((rI) => (rI.id === recordId ? { ...rI, loading: true } : rI))
+    );
+    api
+      .get(`pending-data/${recordId}`)
+      .then((res) => {
+        const data = res.data
+          .map((r) => {
+            const question = values.find((v) => v.id === r.question)?.question;
+            return question
+              ? {
+                  key: r.question,
+                  question,
+                  value: r.value,
+                }
+              : null;
+          })
+          .filter((vf) => !!vf);
+        setRawValues((rv) =>
+          rv.map((rI) =>
+            rI.id === recordId ? { ...rI, data, loading: false } : rI
+          )
+        );
+      })
+      .catch((e) => {
+        console.error(e);
+        setRawValues((rv) =>
+          rv.map((rI) => (rI.id === recordId ? { ...rI, loading: false } : rI))
+        );
+      });
+  };
+
   return (
     <div>
-      <Tabs centered activeKey={selectedTab} onTabClick={setSelectedTab}>
+      <Tabs centered activeKey={selectedTab} onTabClick={handleTabSelect}>
         <TabPane tab="Data Summary" key="data-summary" />
         <TabPane tab="Raw Data" key="raw-data" />
       </Tabs>
       <Table
         loading={loading}
-        dataSource={values}
+        dataSource={selectedTab === "raw-data" ? rawValues : values}
         columns={columns}
         scroll={{ y: 500 }}
         pagination={false}
         style={{ borderBottom: "solid 1px #ddd" }}
+        rowKey="id"
+        expandable={
+          selectedTab === "raw-data"
+            ? {
+                expandedRowKeys,
+                expandedRowRender: (record) => {
+                  return (
+                    <Table
+                      loading={record.loading}
+                      dataSource={record.data}
+                      rowKey="key"
+                      columns={[
+                        {
+                          title: "Question",
+                          dataIndex: "question",
+                        },
+                        {
+                          title: "Answer",
+                          dataIndex: "value",
+                          render: (v) => v[0] || "-",
+                        },
+                      ]}
+                    />
+                  );
+                },
+                expandIcon: ({ expanded, onExpand, record }) =>
+                  expanded ? (
+                    <CloseSquareOutlined
+                      onClick={(e) => {
+                        setExpandedRowKeys([]);
+                        onExpand(record, e);
+                      }}
+                      style={{ color: "#e94b4c" }}
+                    />
+                  ) : (
+                    <PlusSquareOutlined
+                      onClick={(e) => {
+                        setExpandedRowKeys([record.id]);
+                        if (!record.data?.length) {
+                          fetchData(record.id);
+                        }
+                        onExpand(record, e);
+                      }}
+                      style={{ color: "#7d7d7d" }}
+                    />
+                  ),
+              }
+            : false
+        }
       />
       <h3>Notes {"&"} Feedback</h3>
       {!!comments.length && (
