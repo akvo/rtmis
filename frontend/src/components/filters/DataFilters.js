@@ -9,7 +9,11 @@ import { api, store } from "../../lib";
 import RemoveFiltersButton from "./RemoveFiltersButton";
 
 const DataFilters = ({ loading }) => {
-  const { user: authUser, selectedForm } = store.useState((s) => s);
+  const {
+    user: authUser,
+    selectedForm,
+    loadingForm,
+  } = store.useState((s) => s);
   const navigate = useNavigate();
   const { notify } = useNotification();
   const [exporting, setExporting] = useState(false);
@@ -38,7 +42,7 @@ const DataFilters = ({ loading }) => {
       <Col flex={1}>
         <Space>
           <FormDropdown loading={loading} />
-          <AdministrationDropdown loading={loading} />
+          <AdministrationDropdown loading={loading || loadingForm} />
           <RemoveFiltersButton />
         </Space>
       </Col>
