@@ -7,7 +7,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from api.v1.v1_data.constants import DataApprovalStatus
-from api.v1.v1_forms.models import FormApprovalAssignment
+from api.v1.v1_forms.models import FormApprovalAssignment, UserForms
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Access, Levels
 from api.v1.v1_users.models import SystemUser
@@ -270,7 +270,7 @@ class ListLevelSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'level']
 
 
-class UserDetailsFormSerializer(serializers.ModelSerializer):
+class UserApprovalAssignmentSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField(source='form.id')
     name = serializers.ReadOnlyField(source='form.name')
 
@@ -279,18 +279,33 @@ class UserDetailsFormSerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 
+class UserFormSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField(source='form.id')
+    name = serializers.ReadOnlyField(source='form.name')
+
+    class Meta:
+        model = UserForms
+        fields = ['id', 'name']
+
+
 class UserDetailSerializer(serializers.ModelSerializer):
     administration = serializers.ReadOnlyField(
         source='user_access.administration.id')
     role = serializers.ReadOnlyField(source='user_access.role')
+    approval_assignment = serializers.SerializerMethodField()
     forms = serializers.SerializerMethodField()
     pending_approval = serializers.SerializerMethodField()
     data = serializers.SerializerMethodField()
 
-    @extend_schema_field(UserDetailsFormSerializer(many=True))
-    def get_forms(self, instance: SystemUser):
-        return UserDetailsFormSerializer(
+    @extend_schema_field(UserApprovalAssignmentSerializer(many=True))
+    def get_approval_assignment(self, instance: SystemUser):
+        return UserApprovalAssignmentSerializer(
             instance=instance.user_data_approval.all(), many=True).data
+
+    @extend_schema_field(UserFormSerializer(many=True))
+    def get_forms(self, instance: SystemUser):
+        return UserFormSerializer(instance=instance.user_form.all(),
+                                  many=True).data
 
     @extend_schema_field(OpenApiTypes.INT)
     def get_pending_approval(self, instance: SystemUser):
@@ -305,5 +320,6 @@ class UserDetailSerializer(serializers.ModelSerializer):
         model = SystemUser
         fields = [
             'first_name', 'last_name', 'email', 'administration', 'role',
-            'phone_number', 'designation', 'forms', 'pending_approval', 'data'
+            'phone_number', 'designation', 'forms', 'approval_assignment',
+            'pending_approval', 'data'
         ]
