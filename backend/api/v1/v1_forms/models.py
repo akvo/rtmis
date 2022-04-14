@@ -133,7 +133,7 @@ class QuestionOptions(models.Model):
         db_table = 'option'
 
 
-class UserForm(models.Model):
+class UserForms(models.Model):
     user = models.ForeignKey(to=SystemUser,
                              on_delete=models.CASCADE,
                              related_name='user_form')
