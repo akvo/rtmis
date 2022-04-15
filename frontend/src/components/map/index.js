@@ -47,13 +47,16 @@ const Map = ({ style, question }) => {
   const [zoomLevel, setZoomLevel] = useState(null);
   const [shapeTooltip, setShapeTooltip] = useState("");
   const [shapeOptions, setShapeOptions] = useState([]);
+  const [reloadMap, setReloadMap] = useState(false);
+
   useEffect(() => {
-    if (map && administration.length) {
+    if (map && administration.length && reloadMap) {
       const pos = getBounds(administration);
       map.fitBounds(pos.bbox);
       setZoomLevel(map.getZoom());
+      setReloadMap(false);
     }
-  }, [map, administration]);
+  }, [map, administration, reloadMap]);
 
   const adminName = useMemo(() => {
     return administration.length ? takeRight(administration, 1)[0]?.name : null;
@@ -80,6 +83,7 @@ const Map = ({ style, question }) => {
             store.update((s) => {
               s.loadingAdministration = false;
             });
+            setReloadMap(true);
           }
         });
       };
@@ -230,7 +234,7 @@ const Map = ({ style, question }) => {
     }
   }, [results]);
 
-  const ShapeLegend = () => {
+  const MarkerLegend = () => {
     if (shapeOptions.length) {
       return (
         <div className="shape-legend">
@@ -271,11 +275,7 @@ const Map = ({ style, question }) => {
     .map((acc, index) => {
       if (index && acc) {
         acc = acc < 10 ? 10 : acc;
-        const neaerestTo = Math.pow(
-          10,
-          Math.floor(Math.log(acc) / Math.log(10))
-        );
-        acc = Math.ceil(acc / neaerestTo) * neaerestTo;
+        acc = 100 * Math.floor((acc + 50) / 100);
       }
       return acc;
     });
@@ -287,7 +287,7 @@ const Map = ({ style, question }) => {
     return color;
   };
 
-  const MarkerLegend = ({ thresholds }) => {
+  const ShapeLegend = ({ thresholds }) => {
     return question && !loading && thresholds.length ? (
       <div className="marker-legend">
         <div>{question?.markerQuestion?.name}</div>
@@ -319,7 +319,7 @@ const Map = ({ style, question }) => {
           <Spin />
         </div>
       ) : (
-        <ShapeLegend />
+        <MarkerLegend />
       )}
       <div className="map-buttons">
         <Space size="small" direction="vertical">
@@ -378,7 +378,7 @@ const Map = ({ style, question }) => {
         {!loading && results.length && <Markers data={results} />}
       </MapContainer>
       {!loading && !loadingForm && (
-        <MarkerLegend thresholds={colorScale.thresholds()} />
+        <ShapeLegend thresholds={colorScale.thresholds()} />
       )}
     </div>
   );
