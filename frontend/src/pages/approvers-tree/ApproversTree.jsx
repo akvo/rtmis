@@ -235,7 +235,13 @@ const ApproversTree = () => {
                         )?.user
                       }
                       onClick={(e) => {
-                        e.stopPropagation();
+                        if (
+                          k >= administration.length - 1 ||
+                          administration[k + 1]?.children[0]?.parent ===
+                            childItem.id
+                        ) {
+                          e.stopPropagation();
+                        }
                       }}
                       onChange={(e) => {
                         if (!e) {
