@@ -41,11 +41,7 @@ def set_answer_data(data, question):
     elif question.type == QuestionTypes.date:
         name = fake.date_between_dates(
             date_start=timezone.datetime.now().date() - timedelta(days=90),
-            date_end=timezone.datetime.now().date())
-    elif question.type == QuestionTypes.date:
-        name = fake.date_between_dates(
-            date_start=timezone.datetime.now().date() - timedelta(days=90),
-            date_end=timezone.datetime.now().date())
+            date_end=timezone.datetime.now().date()).strftime("%m/%d/%Y")
     else:
         pass
     return name, value, option
@@ -119,11 +115,13 @@ class Command(BaseCommand):
                             type=bool)
 
     def handle(self, *args, **options):
+        test = options.get("test")
         FormData.objects.all().delete()
         fake_geo = pd.read_csv("./source/kenya_random_points.csv")
         level_names = list(
             filter(lambda x: True if "NAME_" in x else False, list(fake_geo)))
         for form in Forms.objects.all():
-            print(f"Seeding - {form.name}")
+            if not test:
+                print(f"\nSeeding - {form.name}")
             seed_data(form, fake_geo, level_names, options.get("repeat"),
                       options.get("test"))

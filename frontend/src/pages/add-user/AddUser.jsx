@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import "./style.scss";
 import {
   Row,
@@ -10,68 +10,152 @@ import {
   Input,
   Select,
   Checkbox,
-  message,
 } from "antd";
 import { AdministrationDropdown } from "../../components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { api, store, config } from "../../lib";
 import { Breadcrumbs } from "../../components";
 import { takeRight } from "lodash";
+import { useNotification } from "../../util/hooks";
 
 const { Option } = Select;
-
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Users",
-    link: "/users",
-  },
-  {
-    title: "Add User",
-  },
-];
 
 const AddUser = () => {
   const [submitting, setSubmitting] = useState(false);
   const [showAdministration, setShowAdministration] = useState(false);
   const [form] = Form.useForm();
-  const { user: authUser, administration } = store.useState((s) => s);
+  const {
+    user: authUser,
+    administration,
+    levels,
+    loadingAdministration,
+  } = store.useState((s) => s);
   const navigate = useNavigate();
+  const { notify } = useNotification();
+  const { id } = useParams();
+
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: "/control-center",
+    },
+    {
+      title: "Manage Users",
+      link: "/users",
+    },
+    {
+      title: id ? "Edit User" : "Add User",
+    },
+  ];
 
   const onFinish = (values) => {
     setSubmitting(true);
     const admin = takeRight(administration, 1)?.[0];
-    api
-      .post("add/user/", {
-        first_name: values.first_name,
-        last_name: values.last_name,
-        email: values.email,
-        administration: admin.id,
-        role: values.role,
-      })
+    api[id ? "put" : "post"](id ? `user/${id}` : "user", {
+      first_name: values.first_name,
+      last_name: values.last_name,
+      email: values.email,
+      administration: admin.id,
+      phone_number: values.phone_number,
+      designation: values.designation,
+      role: values.role,
+    })
       .then(() => {
-        message.success("User added");
+        notify({
+          type: "success",
+          message: `User ${id ? "updated" : "added"}`,
+        });
         setSubmitting(false);
         navigate("/users");
       })
       .catch((err) => {
-        message.error(err.response?.data?.message || "User could not be added");
+        notify({
+          type: "error",
+          message:
+            err?.response?.data?.message ||
+            `User could not be ${id ? "updated" : "added"}`,
+        });
         setSubmitting(false);
       });
   };
 
+  const allowedRole = useMemo(() => {
+    return config.roles.filter((r) => r.id >= authUser.role.id);
+  }, [authUser]);
+
+  const checkRole = useCallback(() => {
+    const admin = takeRight(administration, 1)?.[0];
+    const role = form.getFieldValue("role");
+    const allowed_level = allowedRole.find(
+      (a) => a.id === role
+    )?.administration_level;
+    form.setFieldsValue({
+      administration: allowed_level?.includes(administration.length)
+        ? admin?.id
+        : null,
+    });
+  }, [administration, allowedRole, form]);
+
   const onChange = (a) => {
-    if (a?.role === authUser.role.id) {
+    if (a?.role === 1) {
       setShowAdministration(false);
-    } else {
+      checkRole(administration);
+    }
+    if (a?.role > 1) {
       setShowAdministration(true);
+      checkRole(administration);
     }
   };
 
-  const allowedRole = config.roles.filter((r) => r.id >= authUser.role.id);
+  useEffect(() => {
+    checkRole(administration);
+  }, [administration, checkRole]);
+
+  useEffect(() => {
+    const fetchData = (adminId, acc) => {
+      api.get(`administration/${adminId}`).then((res) => {
+        acc.unshift({
+          id: res.data.id,
+          name: res.data.name,
+          levelName: res.data.level_name,
+          children: res.data.children,
+          childLevelName: res.data.children_level_name,
+        });
+        if (res.data.level > 0) {
+          fetchData(res.data.parent, acc);
+        } else {
+          store.update((s) => {
+            s.administration = acc;
+          });
+          store.update((s) => {
+            s.loadingAdministration = false;
+          });
+        }
+      });
+    };
+    if (id) {
+      try {
+        store.update((s) => {
+          s.loadingAdministration = true;
+        });
+        setShowAdministration(true);
+        api.get(`user/${id}`).then((res) => {
+          form.setFieldsValue({
+            administration: res.data?.administration,
+            designation: parseInt(res.data?.designation) || null,
+            email: res.data?.email,
+            first_name: res.data?.first_name,
+            last_name: res.data?.last_name,
+            phone_number: res.data?.phone_number,
+            role: res.data?.role,
+          });
+          fetchData(res.data.administration, []);
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }, [id, form]);
 
   return (
     <div id="add-user">
@@ -88,6 +172,8 @@ const AddUser = () => {
         initialValues={{
           first_name: "",
           last_name: "",
+          phone_number: "",
+          designation: null,
           email: "",
           role: null,
           county: null,
@@ -143,13 +229,52 @@ const AddUser = () => {
           </div>
           <div className="form-row">
             <Form.Item
+              label="Phone Number"
+              name="phone_number"
+              rules={[
+                {
+                  required: true,
+                  message: "Phone number is required",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </div>
+          <div className="form-row">
+            <Form.Item
               name="organization"
               label="Organization"
               rules={[{ required: false }]}
             >
-              <Select disabled placeholder="Select one.." allowClear>
+              <Select
+                getPopupContainer={(trigger) => trigger.parentNode}
+                disabled
+                placeholder="Select one.."
+                allowClear
+              >
                 <Option value="1">MOH</Option>
                 <Option value="2">UNICEF</Option>
+              </Select>
+            </Form.Item>
+          </div>
+          <div className="form-row">
+            <Form.Item
+              name="designation"
+              label="Designation"
+              rules={[
+                { required: true, message: "Please select a Designation" },
+              ]}
+            >
+              <Select
+                placeholder="Select one.."
+                getPopupContainer={(trigger) => trigger.parentNode}
+              >
+                {config?.designations?.map((d, di) => (
+                  <Option key={di} value={d.id}>
+                    {d.name}
+                  </Option>
+                ))}
               </Select>
             </Form.Item>
           </div>
@@ -159,7 +284,10 @@ const AddUser = () => {
               label="Role"
               rules={[{ required: true, message: "Please select a Role" }]}
             >
-              <Select placeholder="Select one..">
+              <Select
+                getPopupContainer={(trigger) => trigger.parentNode}
+                placeholder="Select one.."
+              >
                 {allowedRole.map((r, ri) => (
                   <Option key={ri} value={r.id}>
                     {r.name}
@@ -168,14 +296,57 @@ const AddUser = () => {
               </Select>
             </Form.Item>
           </div>
+          <Form.Item noStyle shouldUpdate>
+            {(f) => {
+              return f.getFieldValue("role") > 1 ? (
+                <Form.Item
+                  name="administration"
+                  label="Administration"
+                  rules={[
+                    { required: true, message: "" },
+                    {
+                      validator() {
+                        const role = allowedRole.find(
+                          (a) => a.id === form.getFieldValue("role")
+                        );
+                        const allowed_levels = role?.administration_level;
+                        const adm_length =
+                          authUser.role.value === "Admin"
+                            ? administration.length + 1
+                            : administration.length;
+                        if (allowed_levels?.includes(adm_length)) {
+                          return Promise.resolve();
+                        }
+                        const level_names = levels
+                          .filter((l) => allowed_levels.includes(l.id))
+                          .map((l) => l.name)
+                          .join("/");
+                        return Promise.reject(
+                          `${role.name} Level is allowed with ${level_names} administration`
+                        );
+                      },
+                    },
+                  ]}
+                  className="form-row hidden-field"
+                >
+                  <Input hidden />
+                </Form.Item>
+              ) : null;
+            }}
+          </Form.Item>
           {showAdministration && (
             <div className="form-row-adm">
-              <AdministrationDropdown
-                direction="vertical"
-                withLabel={true}
-                size="large"
-                width="100%"
-              />
+              {loadingAdministration ? (
+                <p style={{ paddingLeft: 12, color: "#6b6b6f" }}>Loading..</p>
+              ) : (
+                <AdministrationDropdown
+                  direction="vertical"
+                  withLabel={true}
+                  persist={true}
+                  size="large"
+                  width="100%"
+                />
+              )}
             </div>
           )}
         </Card>
@@ -189,7 +360,7 @@ const AddUser = () => {
           </Col>
           <Col>
             <Button type="primary" htmlType="submit" loading={submitting}>
-              Add User
+              {id ? "Update User" : "Add User"}
             </Button>
           </Col>
         </Row>

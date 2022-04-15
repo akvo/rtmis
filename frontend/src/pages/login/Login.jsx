@@ -3,12 +3,11 @@ import "./style.scss";
 import { Row, Col, Spin } from "antd";
 import { LoginForm, RegistrationForm, ResetForm } from "./components";
 import { Link, useParams } from "react-router-dom";
-import backgroundImage from "../../assets/banner.png";
 import { api, config } from "../../lib";
 
 const styles = {
   side: {
-    backgroundImage: `url(${backgroundImage})`,
+    backgroundImage: `url("/assets/banner.png")`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
@@ -24,7 +23,7 @@ const Login = () => {
     if (!location.pathname.includes("forgot-password") && invitationId) {
       setLoading(true);
       api
-        .post("verify/invite/", { invite: invitationId })
+        .get(`invitation/${invitationId}`)
         .then((res) => {
           setInvitedUser({
             name: res.data.name,

@@ -3,25 +3,32 @@ import { Webform } from "akvo-react-form";
 import "akvo-react-form/dist/index.css";
 import "./style.scss";
 import { useParams, useNavigate } from "react-router-dom";
-import { Row, Col, Progress, Spin, notification } from "antd";
-import { api } from "../../lib";
-import { take, takeRight, tail, pick } from "lodash";
-
-const parseCascade = (cascade, names, results = []) => {
-  if (names.length) {
-    cascade = cascade.find((c) => c.value === take(names)[0]);
-    results = [...results, cascade.label];
-    return parseCascade(cascade?.children, tail(names), results);
-  }
-  return tail(results);
-};
+import { Row, Col, Space, Progress, notification } from "antd";
+import { api, store } from "../../lib";
+import { takeRight, pick } from "lodash";
+import { PageLoader, Breadcrumbs } from "../../components";
 
 const Forms = () => {
   const navigate = useNavigate();
+  const { user: authUser } = store.useState((s) => s);
   const { formId } = useParams();
   const [loading, setLoading] = useState(true);
   const [forms, setForms] = useState([]);
   const [percentage, setPercentage] = useState(0);
+
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: authUser?.role?.value === "User" ? false : "/control-center",
+    },
+    {
+      title: authUser?.role?.value === "User" ? authUser.name : "Manage Data",
+      link: authUser?.role?.value === "User" ? "/profile" : "/data/manage",
+    },
+    {
+      title: forms.name,
+    },
+  ];
 
   const onFinish = (values) => {
     const questions = forms.question_group
@@ -48,13 +55,9 @@ const Forms = () => {
         return false;
       })
       .filter((x) => x);
-    const cascade = forms?.cascade?.administration || [];
     const names = answers
-      .filter((x) => x.type !== "geo" && x.meta)
+      .filter((x) => !["geo", "cascade"].includes(x.type) && x.meta)
       .map((x) => {
-        if (x.type === "cascade") {
-          return parseCascade(cascade, x.value);
-        }
         return x.value;
       })
       .flatMap((x) => x)
@@ -79,13 +82,13 @@ const Forms = () => {
         .map((x) => pick(x, ["question", "value"])),
     };
     api
-      .post(`form-data/${formId}/`, data)
+      .post(`form-pending-data/${formId}`, data)
       .then(() => {
         notification.success({
           message: "Submitted",
         });
         setTimeout(() => {
-          navigate("/control-center");
+          navigate("/profile");
         }, 3000);
       })
       .catch(() => {
@@ -100,22 +103,23 @@ const Forms = () => {
   };
 
   useEffect(() => {
-    (async function () {
-      if (formId && loading) {
-        api.get(`/web/form/${formId}/`).then((x) => {
-          setForms(x.data);
-          setLoading(false);
-        });
-      }
-    })();
+    if (formId && loading) {
+      api.get(`/form/web/${formId}`).then((x) => {
+        setForms(x.data);
+        setLoading(false);
+      });
+    }
   }, [formId, loading]);
 
   return (
     <div id="form">
       <Row justify="center">
         <Col span={24} className="webform">
+          <Space>
+            <Breadcrumbs pagePath={pagePath} />
+          </Space>
           {loading || !formId ? (
-            <Spin />
+            <PageLoader message="Fetching form.." />
           ) : (
             <>
               <Webform forms={forms} onFinish={onFinish} onChange={onChange} />

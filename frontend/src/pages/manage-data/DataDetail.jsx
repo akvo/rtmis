@@ -1,6 +1,6 @@
 import { Row, Col, Table, Button, Divider } from "antd";
 
-const DataDetail = ({ questionGroups, record }) => {
+const DataDetail = ({ loading, questionGroups, record }) => {
   const { answer } = record;
   const columns = [
     {
@@ -43,6 +43,7 @@ const DataDetail = ({ questionGroups, record }) => {
           pagination={false}
           scroll={{ y: 300 }}
           className="table-child"
+          loading={loading}
         />
       </Col>
       <Divider />

@@ -7,9 +7,11 @@ const defaultUIState = {
     role: null,
   },
   administration: [],
-  forms: [],
-  levels: [],
+  loadingAdministration: false,
+  forms: window.forms,
+  levels: window.levels,
   selectedForm: null,
+  loadingForm: false,
   questionGroups: [],
 };
 

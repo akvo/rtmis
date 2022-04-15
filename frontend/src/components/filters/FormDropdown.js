@@ -1,35 +1,52 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import "./style.scss";
-import { Select, message } from "antd";
+import { Select } from "antd";
 import PropTypes from "prop-types";
 
 import { api, store } from "../../lib";
+import { useNotification } from "../../util/hooks";
 
 const FormDropdown = ({ loading: parentLoading = false, ...props }) => {
-  const { forms, selectedForm } = store.useState((state) => state);
+  const { forms, selectedForm, loadingForm } = store.useState((state) => state);
+  const { notify } = useNotification();
 
-  const handleChange = (e) => {
-    if (!e) {
-      return;
-    }
-    api
-      .get(`/form/${e}/`)
-      .then((res) => {
-        store.update((s) => {
-          s.questionGroups = res.data.question_group;
-          s.selectedForm = e;
-        });
-      })
-      .catch(() => {
-        message.error("Could not load form data");
+  const handleChange = useCallback(
+    (e) => {
+      if (!e) {
+        return;
+      }
+      store.update((s) => {
+        s.loadingForm = true;
       });
-  };
+      api
+        .get(`/form/${e}`)
+        .then((res) => {
+          store.update((s) => {
+            s.questionGroups = res.data.question_group;
+            s.selectedForm = e;
+          });
+          store.update((s) => {
+            s.loadingForm = false;
+          });
+        })
+        .catch(() => {
+          notify({
+            type: "error",
+            message: "Could not load form data",
+          });
+          store.update((s) => {
+            s.loadingForm = false;
+          });
+        });
+    },
+    [notify]
+  );
 
   useEffect(() => {
-    if (forms.length && !selectedForm) {
+    if (!!forms?.length && !selectedForm) {
       handleChange(forms[0].id);
     }
-  }, [forms, selectedForm]);
+  }, [forms, selectedForm, handleChange]);
 
   if (forms) {
     return (
@@ -40,7 +57,8 @@ const FormDropdown = ({ loading: parentLoading = false, ...props }) => {
           handleChange(e);
         }}
         value={selectedForm}
-        disabled={parentLoading}
+        disabled={parentLoading || loadingForm}
+        getPopupContainer={(trigger) => trigger.parentNode}
         {...props}
       >
         {forms.map((optionValue, optionIdx) => (

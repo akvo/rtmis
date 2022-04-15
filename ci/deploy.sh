@@ -40,6 +40,7 @@ auth
 
 if [[ -z "${CI_TAG:=}" ]]; then
     push_image backend
+    push_image worker
     push_image frontend
 fi
 

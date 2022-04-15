@@ -8,7 +8,7 @@
 
     h1 {
       text-align: left;
-      font: normal normal 600 1.7rem Poppins;
+      font: normal normal 600 $font-size-large $font-family;
       letter-spacing: 0.49px;
       color: #595a65;
       opacity: 1;
@@ -22,7 +22,7 @@
       .ant-card-body {
         padding: 24px 40px;
 
-        ul {
+        ul.profile-detail {
           list-style-type: none;
           padding-left: 0;
 
@@ -32,18 +32,18 @@
 
             h3 {
               color: #71737b;
-              font-size: 0.875rem;
-              font-weight: medium;
-              margin-bottom: 0.5rem;
+              font-size: 14px;
+              font-weight: $font-weight-medium;
+              margin-bottom: 8px;
             }
 
             p {
               margin-bottom: 0;
-              font-weight: medium;
+              font-weight: $font-weight-medium;
             }
 
             .anticon-right {
-              font-size: 0.8rem;
+              font-size: 13px;
             }
           }
         }
@@ -71,7 +71,7 @@
 
               .ant-col:nth-child(2) {
                 div:nth-child(2) {
-                  font-size: 0.9rem;
+                  font-size: 14px;
                 }
               }
             }
@@ -86,7 +86,11 @@
   // To be moved to separate component scss module
   p {
     text-align: center;
-    margin-bottom: 1.2rem;
+    margin-bottom: 20px;
+  }
+
+  .batch-name-field {
+    margin-bottom: 20px;
   }
 
   .ant-card {
@@ -95,27 +99,39 @@
     .ant-table {
       width: 100%;
       text-align: left;
-      margin-bottom: 1rem;
+      margin-bottom: 16px;
 
       th,
       td {
-        padding: 0.7rem;
+        padding: 11px;
         border-bottom: solid #ebf4fb 1px;
       }
 
       th {
         color: #b2b1b2;
-        font-weight: 400;
+        font-weight: $font-weight-normal;
       }
 
       tr td:last-child {
         text-align: right;
-        padding-right: 2rem;
+        padding-right: 32px;
       }
     }
   }
 
   .ant-modal-footer {
-    padding-bottom: 1.8rem;
+    padding-bottom: 30px;
+  }
+
+  .ant-input {
+    &:focus,
+    &:hover {
+      border-right-width: 16px !important;
+    }
+  }
+
+  textarea {
+    margin: 8px 0 15px;
+    border: solid $color-semi-light 16px;
   }
 }

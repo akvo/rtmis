@@ -18,24 +18,32 @@
       }
       .ant-table-cell:nth-child(2) > div > div:first-child {
         color: #707070;
-        margin-bottom: 0.2rem;
+        margin-bottom: 3px;
       }
+      .ant-table-cell:nth-child(2) > div > div:nth-child(3) {
+        margin-top: 6px;
+        .ant-tag {
+          border-style: dashed;
+        }
+      }
+
       .ant-table-cell:last-child {
         .ant-btn {
-          color: #0058ff;
+          color: $blue;
           text-transform: none;
-          font-weight: 500;
+          font-weight: $font-weight-medium;
           border-color: transparent;
+          background-color: transparent;
           box-shadow: none;
         }
         .ant-btn:hover {
-          color: #487ad8;
+          color: $blue;
           border-color: transparent;
         }
       }
       .ant-table-row.template {
         .ant-table-cell:nth-child(2) > div > div:first-child {
-          color: #0058ff;
+          color: $blue;
         }
       }
     }

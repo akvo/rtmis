@@ -11,11 +11,11 @@ import {
   Checkbox,
   Empty,
   Space,
-  message,
 } from "antd";
 import { api, store } from "../../lib";
 import { Breadcrumbs } from "../../components";
 import { reloadData } from "../../util/form";
+import { useNotification } from "../../util/hooks";
 
 const pagePath = [
   {
@@ -35,6 +35,7 @@ const Questionnaires = () => {
   const { forms } = store.useState((s) => s);
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { notify } = useNotification();
 
   useEffect(() => {
     if (forms.length) {
@@ -54,7 +55,7 @@ const Questionnaires = () => {
       render: (cell) => cell || <span>-</span>,
     },
     {
-      title: "County",
+      title: "National",
       render: (row) => (
         <Checkbox
           checked={row.type === 2}
@@ -65,7 +66,7 @@ const Questionnaires = () => {
       ),
     },
     {
-      title: "National",
+      title: "County",
       render: (row) => (
         <Checkbox
           checked={row.type === 1}
@@ -93,14 +94,20 @@ const Questionnaires = () => {
     }));
     setLoading(true);
     api
-      .put("edit/forms/", data)
+      .post("form/type", data)
       .then(() => {
         setLoading(false);
-        message.success("Questionnaires updated");
-        reloadData();
+        notify({
+          type: "success",
+          message: "Questionnaires updated",
+        });
+        reloadData(dataset);
       })
       .catch(() => {
-        message.error("Could not update Questionnaires");
+        notify({
+          type: "error",
+          message: "Could not update Questionnaires",
+        });
         setLoading(false);
       });
   };

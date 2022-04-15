@@ -25,9 +25,11 @@ const Header = ({ className = "header", ...props }) => {
 
   const userMenu = (
     <Menu>
-      <Menu.Item key="controlCenter">
-        <Link to="/control-center">Control Center</Link>
-      </Menu.Item>
+      {config.checkAccess(user?.role_detail, "control-center") && (
+        <Menu.Item key="controlCenter">
+          <Link to="/control-center">Control Center</Link>
+        </Menu.Item>
+      )}
       <Menu.Item key="profile">
         <Link to="/profile">My Profile</Link>
       </Menu.Item>
@@ -65,18 +67,12 @@ const Header = ({ className = "header", ...props }) => {
       </Col>
       <Col className="navigation">
         <Space>
-          <Link className="dev" to="/">
+          <Link className="dev" to="/data/visualisation">
             Data
           </Link>
-          <Link className="dev" to="/">
-            Reports
-          </Link>
-          <Link className="dev" to="/">
-            Monitoring
-          </Link>
-          <Link className="dev" to="/">
-            How We Work
-          </Link>
+          <a className="dev">Reports</a>
+          <a className="dev">Monitoring</a>
+          <a className="dev">How We Work</a>
         </Space>
       </Col>
       <Col className="account">

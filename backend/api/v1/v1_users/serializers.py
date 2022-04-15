@@ -1,10 +1,13 @@
 from django.core import signing
 from django.core.signing import BadSignature
+from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field, inline_serializer
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
+from api.v1.v1_data.constants import DataApprovalStatus
+from api.v1.v1_forms.models import FormApprovalAssignment
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Access, Levels
 from api.v1.v1_users.models import SystemUser
@@ -70,6 +73,12 @@ class ListAdministrationSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(ListAdministrationChildrenSerializer(many=True))
     def get_children(self, instance: Administration):
+        filter = self.context.get('filter')
+        if filter:
+            filtered_administration = Administration.objects.filter(
+                id=filter).all()
+            return ListAdministrationChildrenSerializer(
+                filtered_administration, many=True).data
         return ListAdministrationChildrenSerializer(
             instance=instance.parent_administration.all(), many=True).data
 
@@ -151,7 +160,8 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         role = validated_data.pop('role')
         instance: SystemUser = super(AddEditUserSerializer,
                                      self).update(instance, validated_data)
-
+        instance.updated = timezone.now()
+        instance.save()
         instance.user_access.role = role
         instance.user_access.administration = administration
         instance.user_access.save()
@@ -159,7 +169,10 @@ class AddEditUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SystemUser
-        fields = ['first_name', 'last_name', 'email', 'administration', 'role']
+        fields = [
+            'first_name', 'last_name', 'email', 'administration', 'role',
+            'phone_number', 'designation'
+        ]
 
 
 class UserAdministrationSerializer(serializers.ModelSerializer):
@@ -199,7 +212,7 @@ class ListUserSerializer(serializers.ModelSerializer):
         model = SystemUser
         fields = [
             'id', 'first_name', 'last_name', 'email', 'administration', 'role',
-            'invite'
+            'phone_number', 'designation', 'invite'
         ]
 
 
@@ -245,10 +258,52 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SystemUser
-        fields = ['email', 'name', 'administration', 'role']
+        fields = [
+            'email', 'name', 'administration', 'role', 'phone_number',
+            'designation'
+        ]
 
 
 class ListLevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Levels
         fields = ['id', 'name', 'level']
+
+
+class UserDetailsFormSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField(source='form.id')
+    name = serializers.ReadOnlyField(source='form.name')
+
+    class Meta:
+        model = FormApprovalAssignment
+        fields = ['id', 'name']
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    administration = serializers.ReadOnlyField(
+        source='user_access.administration.id')
+    role = serializers.ReadOnlyField(source='user_access.role')
+    forms = serializers.SerializerMethodField()
+    pending_approval = serializers.SerializerMethodField()
+    data = serializers.SerializerMethodField()
+
+    @extend_schema_field(UserDetailsFormSerializer(many=True))
+    def get_forms(self, instance: SystemUser):
+        return UserDetailsFormSerializer(
+            instance=instance.user_data_approval.all(), many=True).data
+
+    @extend_schema_field(OpenApiTypes.INT)
+    def get_pending_approval(self, instance: SystemUser):
+        return instance.user_assigned_pending_data.filter(
+            status=DataApprovalStatus.pending).count()
+
+    @extend_schema_field(OpenApiTypes.INT)
+    def get_data(self, instance: SystemUser):
+        return instance.form_data_created.all().count()
+
+    class Meta:
+        model = SystemUser
+        fields = [
+            'first_name', 'last_name', 'email', 'administration', 'role',
+            'phone_number', 'designation', 'forms', 'pending_approval', 'data'
+        ]

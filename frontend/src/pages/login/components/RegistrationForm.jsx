@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Checkbox, message } from "antd";
+import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { api, store } from "../../../lib";
+import { api, store, config } from "../../../lib";
 import { useNavigate } from "react-router-dom";
+import { useNotification } from "../../../util/hooks";
 
 const checkBoxOptions = [
   { name: "Lowercase Character", re: /[a-z]/ },
@@ -15,6 +16,7 @@ const RegistrationForm = (props) => {
   const [checkedList, setCheckedList] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { notify } = useNotification();
 
   const onFinish = (values) => {
     const postData = {
@@ -24,31 +26,33 @@ const RegistrationForm = (props) => {
     };
     setLoading(true);
     api
-      .post("set/user/password/", postData)
+      .put("user/set-password", postData)
       .then((res) => {
         api.setToken(res.data.token);
+        const role_details = config.roles.find(
+          (r) => r.id === res.data.role.id
+        );
         store.update((s) => {
           s.isLoggedIn = true;
-          s.user = res.data;
+          s.user = { ...res.data, role_detail: role_details };
+          s.forms = role_details.filter_form
+            ? window.forms.filter((x) => x.type === role_details.filter_form)
+            : window.forms;
         });
-        Promise.all([api.get("forms/"), api.get("levels/")])
-          .then((res) => {
-            store.update((s) => {
-              s.forms = res[0].data;
-              s.levels = res[1].data;
-            });
-            setLoading(false);
-            navigate("/profile");
-          })
-          .catch((e) => {
-            setLoading(false);
-            console.error(e);
-            navigate("/profile");
-          });
-        message.success("Password updated successfully");
+        setLoading(false);
+        notify({
+          type: "success",
+          message: "Password updated successfully",
+        });
+        setTimeout(() => {
+          navigate("/profile");
+        }, [2000]);
       })
       .catch((err) => {
-        console.error(err.response.data.message);
+        notify({
+          type: "error",
+          message: err.response?.data?.message,
+        });
         setLoading(false);
       });
   };

@@ -5,6 +5,7 @@ const { Search } = Input;
 
 import { store, config } from "../../lib";
 import AdministrationDropdown from "./AdministrationDropdown";
+import RemoveFiltersButton from "./RemoveFiltersButton";
 
 const { Option } = Select;
 
@@ -30,6 +31,7 @@ const UserFilters = ({ query, setQuery, pending, setPending, loading }) => {
           <Select
             disabled
             placeholder="Organization"
+            getPopupContainer={(trigger) => trigger.parentNode}
             style={{ width: 160 }}
             onChange={() => {}}
           >
@@ -37,6 +39,7 @@ const UserFilters = ({ query, setQuery, pending, setPending, loading }) => {
           </Select>
           <Select
             placeholder="Role"
+            getPopupContainer={(trigger) => trigger.parentNode}
             style={{ width: 160 }}
             value={role}
             onChange={(e) => {
@@ -53,11 +56,15 @@ const UserFilters = ({ query, setQuery, pending, setPending, loading }) => {
             ))}
           </Select>
           <AdministrationDropdown loading={loading} />
+          <RemoveFiltersButton
+            extra={(s) => {
+              s.filters = { role: null };
+            }}
+          />
         </Space>
       </Col>
       <Col span={4} align="right">
         <Checkbox
-          className="dev"
           onChange={() => {
             setPending(!pending);
           }}

@@ -2,15 +2,30 @@
 version: "3.9"
 services:
   mainnetwork:
-    image: alpine:3.14.0
+    image: alpine:3.14
     command: ["tail", "-f", "/dev/null"]
     ports:
       - 3000:3000
       - 8000:8000
       - 5050:5050
+      # backend debuger port
+      - 8888:8888
   frontend:
     network_mode: service:mainnetwork
+  worker:
+    volumes:
+      - ../akvo-config/k8s-secrets/test/rtmis:/credentials/:ro
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/credentials/rtmis-service-account.json
+      - MAILJET_APIKEY=$MAILJET_APIKEY
+      - MAILJET_SECRET=$MAILJET_SECRET
   backend:
+    volumes:
+      - ../akvo-config/k8s-secrets/test/rtmis:/credentials/:ro
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/credentials/rtmis-service-account.json
+      - MAILJET_APIKEY=$MAILJET_APIKEY
+      - MAILJET_SECRET=$MAILJET_SECRET
     network_mode: service:mainnetwork
   pgadmin:
     image: dpage/pgadmin4:5.7
