@@ -47,13 +47,13 @@ const Visualisation = () => {
         };
       });
     setDataset(rawData);
-    const shapeQuestion =
+    const markerQuestion =
       sample(
         flatten(
           rawData?.map((d) => d.question.filter((q) => q.type === "option"))
         )
       ) || null;
-    const markerQuestion =
+    const shapeQuestion =
       sample(
         flatten(
           rawData?.map((d) => d.question.filter((q) => q.type === "number"))

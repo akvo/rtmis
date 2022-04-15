@@ -47,7 +47,7 @@ const Map = ({ style, question }) => {
   const [hoveredShape, setHoveredShape] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(null);
   const [shapeTooltip, setShapeTooltip] = useState("");
-  const [shapeOptions, setShapeOptions] = useState([]);
+  const [markerOptions, setMarkerOptions] = useState([]);
   const [reloadMap, setReloadMap] = useState(false);
 
   // shape legend click filter
@@ -143,12 +143,12 @@ const Map = ({ style, question }) => {
     if (
       question &&
       selectedForm &&
-      question?.shapeQuestion?.form === selectedForm
+      question?.markerQuestion?.form === selectedForm
     ) {
       setLoading(true);
       api
         .get(
-          `maps/${selectedForm}?marker=${question?.markerQuestion?.id}&shape=${question?.shapeQuestion?.id}`
+          `maps/${selectedForm}?marker=${question?.shapeQuestion?.id}&shape=${question?.markerQuestion?.id}`
         )
         .then((res) => {
           setResults(res.data);
@@ -175,7 +175,7 @@ const Map = ({ style, question }) => {
               <h3>{geoName}</h3>
               <Space align="top" direction="horizontal">
                 <span className="shape-tooltip-name">
-                  {question?.markerQuestion?.name}
+                  {question?.shapeQuestion?.name}
                 </span>
                 <h3 className="shape-tooltip-value">
                   {geoRes.length ? sumBy(geoRes, "marker") : 0}
@@ -197,7 +197,7 @@ const Map = ({ style, question }) => {
     if (data.length) {
       data = data.filter((d) => d.geo.length === 2);
       return data.map(({ id, geo, shape, name }) => {
-        const shapeRes = shapeOptions.findIndex((sO) => sO === shape[0]);
+        const shapeRes = markerOptions.findIndex((sO) => sO === shape[0]);
         const markerColor =
           shapeRes === -1 ? "#111" : shapeColorRange[shapeRes];
         return (
@@ -219,7 +219,7 @@ const Map = ({ style, question }) => {
                   {takeRight(name.split(" - "), 1)[0]}
                 </div>
                 <div className="shape-tooltip-name">
-                  {question?.shapeQuestion?.name}
+                  {question?.markerQuestion?.name}
                 </div>
                 <div className="shape-tooltip-value">{shape[0]}</div>
               </div>
@@ -234,17 +234,17 @@ const Map = ({ style, question }) => {
   useEffect(() => {
     if (results.length) {
       const shapeValues = uniq(flatten(results.map((r) => r.shape)));
-      setShapeOptions(shapeValues);
+      setMarkerOptions(shapeValues);
     }
   }, [results]);
 
   const MarkerLegend = () => {
-    if (shapeOptions.length) {
+    if (markerOptions.length) {
       return (
         <div className="marker-legend">
-          <h4>{question?.shapeQuestion?.name}</h4>
-          {shapeOptions.map((sO, sI) => (
-            <div key={sI}>
+          <h4>{question?.markerQuestion?.name}</h4>
+          {markerOptions.map((sO, sI) => (
+            <div key={sI} onClick={() => console.info(sO)}>
               <Space direction="horizontal" align="top">
                 <div
                   className="circle-legend"
@@ -305,7 +305,7 @@ const Map = ({ style, question }) => {
 
     return question && !loading && thresholds.length ? (
       <div className="shape-legend">
-        <div>{question?.markerQuestion?.name}</div>
+        <div>{question?.shapeQuestion?.name}</div>
         <Row className="legend-wrap">
           {thresholds.map((t, tI) => (
             <Col
