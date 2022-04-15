@@ -34,6 +34,7 @@ const shapeColorRange = [
   "#8D8D8D",
 ];
 const colorRange = ["#bbedda", "#a7e1cb", "#92d5bd", "#7dcaaf", "#67bea1"];
+const higlightColor = "#84b4cc";
 
 const Map = ({ style, question }) => {
   const { administration, selectedForm, loadingForm } = store.useState(
@@ -48,6 +49,9 @@ const Map = ({ style, question }) => {
   const [shapeTooltip, setShapeTooltip] = useState("");
   const [shapeOptions, setShapeOptions] = useState([]);
   const [reloadMap, setReloadMap] = useState(false);
+
+  // shape legend click filter
+  const [shapeFilterColor, setShapeFilterColor] = useState(null);
 
   useEffect(() => {
     if (map && administration.length && reloadMap) {
@@ -115,7 +119,7 @@ const Map = ({ style, question }) => {
       );
       const fillColor = geoSelected
         ? sc
-          ? getFillColor(sc.values)
+          ? getFillColor(sc.values || 0)
           : "#e6e8f4"
         : "#e6e8f4";
       const opacity = geoSelected ? (sc ? 0.8 : 0.3) : 0;
@@ -237,7 +241,7 @@ const Map = ({ style, question }) => {
   const MarkerLegend = () => {
     if (shapeOptions.length) {
       return (
-        <div className="shape-legend">
+        <div className="marker-legend">
           <h4>{question?.shapeQuestion?.name}</h4>
           {shapeOptions.map((sO, sI) => (
             <div key={sI}>
@@ -284,19 +288,33 @@ const Map = ({ style, question }) => {
 
   const getFillColor = (v) => {
     const color = v === 0 ? "#FFF" : colorScale(v);
+    if (shapeFilterColor === color) {
+      return higlightColor;
+    }
     return color;
   };
 
   const ShapeLegend = ({ thresholds }) => {
+    const handleShapeLegendClick = (index) => {
+      if (shapeFilterColor === colorRange[index]) {
+        setShapeFilterColor(null);
+        return;
+      }
+      setShapeFilterColor(colorRange[index]);
+    };
+
     return question && !loading && thresholds.length ? (
-      <div className="marker-legend">
+      <div className="shape-legend">
         <div>{question?.markerQuestion?.name}</div>
         <Row className="legend-wrap">
           {thresholds.map((t, tI) => (
             <Col
               key={tI}
               flex={1}
-              className="legend-item"
+              className={`legend-item ${
+                shapeFilterColor === colorRange[tI] ? "legend-selected" : ""
+              }`}
+              onClick={() => handleShapeLegendClick(tI)}
               style={{ backgroundColor: colorRange[tI] }}
             >
               {tI === 0 && "0 - "}

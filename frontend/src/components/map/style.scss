@@ -64,7 +64,7 @@
       margin: auto;
     }
   }
-  .shape-legend {
+  .marker-legend {
     position: absolute;
     z-index: 1;
     top: 12px;
@@ -83,7 +83,7 @@
     }
   }
 }
-.marker-legend {
+.shape-legend {
   position: absolute;
   bottom: 21px;
   left: 0px;
@@ -99,7 +99,14 @@
     margin-top: 5px;
     font-weight: $font-weight-medium;
     .legend-item {
+      cursor: pointer;
       margin: 0 1px;
+      border: solid transparent 2px;
+      &.legend-selected {
+        border: solid #036799 2px;
+        border-right: solid 2px #036799;
+        color: #fff;
+      }
     }
   }
 }
