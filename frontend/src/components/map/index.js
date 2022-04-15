@@ -8,7 +8,7 @@ import {
   Tooltip,
 } from "react-leaflet";
 import { api, geo, store } from "../../lib";
-import { flatten, takeRight, uniq, chain, groupBy, sumBy } from "lodash";
+import { takeRight, intersection, chain, groupBy, sumBy } from "lodash";
 import { Button, Space, Spin, Row, Col } from "antd";
 import { scaleQuantize } from "d3-scale";
 import {
@@ -43,15 +43,15 @@ const Map = ({ style, question }) => {
   const [map, setMap] = useState(null);
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
+  const [zoomLevel, setZoomLevel] = useState(null);
+  const [reloadMap, setReloadMap] = useState(false);
+  // shape legend click filter
+  const [shapeTooltip, setShapeTooltip] = useState("");
   const [selectedShape, setSelectedShape] = useState(null);
   const [hoveredShape, setHoveredShape] = useState(null);
-  const [zoomLevel, setZoomLevel] = useState(null);
-  const [shapeTooltip, setShapeTooltip] = useState("");
-  const [markerOptions, setMarkerOptions] = useState([]);
-  const [reloadMap, setReloadMap] = useState(false);
-
-  // shape legend click filter
   const [shapeFilterColor, setShapeFilterColor] = useState(null);
+  // marker legend click filter
+  const [markerLegendSelected, setMarkerLegendSelected] = useState(null);
 
   useEffect(() => {
     if (map && administration.length && reloadMap) {
@@ -193,11 +193,27 @@ const Map = ({ style, question }) => {
     }
   }, [hoveredShape, results, question, administration, adminName]);
 
+  const markerLegendOptions = useMemo(() => {
+    if (
+      question &&
+      question?.markerQuestion &&
+      question.markerQuestion?.option
+    ) {
+      return question.markerQuestion.option;
+    }
+  }, [question]);
+
   const Markers = ({ data }) => {
     if (data.length) {
+      const r = 5;
       data = data.filter((d) => d.geo.length === 2);
       return data.map(({ id, geo, shape, name }) => {
-        const shapeRes = markerOptions.findIndex((sO) => sO === shape[0]);
+        const shapeRes = markerLegendOptions
+          .map((x) => x.name)
+          .findIndex((sO) => sO === shape[0]);
+        const highlight =
+          markerLegendSelected?.name &&
+          intersection([markerLegendSelected.name], shape).length;
         const markerColor =
           shapeRes === -1 ? "#111" : shapeColorRange[shapeRes];
         return (
@@ -210,7 +226,7 @@ const Map = ({ style, question }) => {
               opacity: 1,
               fillOpacity: 1,
             }}
-            radius={500}
+            radius={r * 100 * (highlight ? 5 : 1)}
           >
             <Tooltip direction="top">
               <div className="shape-tooltip-container">
@@ -231,26 +247,32 @@ const Map = ({ style, question }) => {
     return null;
   };
 
-  useEffect(() => {
-    if (results.length) {
-      const shapeValues = uniq(flatten(results.map((r) => r.shape)));
-      setMarkerOptions(shapeValues);
-    }
-  }, [results]);
-
   const MarkerLegend = () => {
-    if (markerOptions.length) {
+    const handleMarkerLegendClick = (value) => {
+      if (markerLegendSelected?.id === value.id) {
+        setMarkerLegendSelected(null);
+        return;
+      }
+      setMarkerLegendSelected(value);
+    };
+
+    if (markerLegendOptions) {
+      const { markerQuestion } = question;
       return (
         <div className="marker-legend">
-          <h4>{question?.markerQuestion?.name}</h4>
-          {markerOptions.map((sO, sI) => (
-            <div key={sI} onClick={() => console.info(sO)}>
+          <h4>{markerQuestion?.name}</h4>
+          {markerLegendOptions.map((sO, sI) => (
+            <div
+              key={sI}
+              className="legend-item"
+              onClick={() => handleMarkerLegendClick(sO)}
+            >
               <Space direction="horizontal" align="top">
                 <div
                   className="circle-legend"
                   style={{ backgroundColor: shapeColorRange[sI] }}
                 />
-                <span>{sO}</span>
+                <span>{sO?.name || "NA"}</span>
               </Space>
             </div>
           ))}
