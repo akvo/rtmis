@@ -86,4 +86,9 @@ export const columnsApproval = [
     key: "waiting_on",
     render: (_, row) => row.approver.name,
   },
+  {
+    title: "Total Data",
+    dataIndex: "total_data",
+    key: "total_data",
+  },
 ];
