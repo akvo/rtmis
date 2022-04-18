@@ -22,7 +22,9 @@ class Command(BaseCommand):
         geometris_with_id = []
         for obj in topojson['objects']['kenya']['geometries']:
             key = obj['properties']['NAME_3']
-            find_id = all_administrations[key]
+            find_id = 0
+            if key in all_administrations:
+                find_id = all_administrations[key]
             obj['properties'].update({"SHAPE_ADMIN_ID": find_id})
             geometris_with_id.append(obj)
         topojson['objects']['kenya']['geometries'] = geometris_with_id
