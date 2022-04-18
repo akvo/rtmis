@@ -245,8 +245,16 @@ const PanelDataUpload = () => {
       url = `batch/?page=${currentPage}`;
       setModalButton(false);
     }
+    if (selectedTab === "approved-batch") {
+      url = `batch/?page=${currentPage}&approved=true`;
+      setModalButton(false);
+    }
     setLoading(true);
-    if (selectedTab === "pending-batch" || selectedForm) {
+    if (
+      selectedTab === "pending-batch" ||
+      selectedTab === "approved-batch" ||
+      selectedForm
+    ) {
       api
         .get(url)
         .then((res) => {
@@ -323,6 +331,64 @@ const PanelDataUpload = () => {
     return "";
   }, [selectedRows, modalButton]);
 
+  const DataTable = ({ pane }) => {
+    return (
+      <Table
+        loading={loading}
+        dataSource={dataset}
+        columns={
+          pane === "pending-data"
+            ? [
+                ...columnsPending,
+                {
+                  title: "Batch Datasets",
+                  render: (row) => (
+                    <Checkbox
+                      checked={
+                        selectedRows.filter((s) => s.id === row.id).length
+                      }
+                      onChange={(e) => {
+                        handleSelect(row, e.target.checked);
+                      }}
+                    />
+                  ),
+                },
+              ]
+            : [...columnsBatch, Table.EXPAND_COLUMN]
+        }
+        onChange={handlePageChange}
+        pagination={{
+          current: currentPage,
+          total: totalCount,
+          pageSize: 10,
+          showSizeChanger: false,
+        }}
+        rowKey="id"
+        expandedRowKeys={expandedKeys}
+        expandable={
+          pane === "pending-data"
+            ? false
+            : {
+                expandedRowRender: ApproverDetail,
+                expandIcon: (expand) => {
+                  return expand.expanded ? (
+                    <CloseSquareOutlined
+                      onClick={() => setExpandedKeys([])}
+                      style={{ color: "#e94b4c" }}
+                    />
+                  ) : (
+                    <PlusSquareOutlined
+                      onClick={() => setExpandedKeys([expand.record.id])}
+                      style={{ color: "#7d7d7d" }}
+                    />
+                  );
+                },
+              }
+        }
+      />
+    );
+  };
+
   return (
     <>
       <Card
@@ -340,66 +406,13 @@ const PanelDataUpload = () => {
           tabBarExtraContent={btnBatchSelected}
         >
           <TabPane tab="Pending Submission" key={"pending-data"}>
-            <Table
-              loading={loading}
-              dataSource={dataset}
-              columns={[
-                ...columnsPending,
-                {
-                  title: "Batch Datasets",
-                  render: (row) => (
-                    <Checkbox
-                      checked={
-                        selectedRows.filter((s) => s.id === row.id).length
-                      }
-                      onChange={(e) => {
-                        handleSelect(row, e.target.checked);
-                      }}
-                    />
-                  ),
-                },
-              ]}
-              onChange={handlePageChange}
-              pagination={{
-                current: currentPage,
-                total: totalCount,
-                pageSize: 10,
-                showSizeChanger: false,
-              }}
-              rowKey="id"
-            />
+            <DataTable pane="pending-data" />
           </TabPane>
           <TabPane tab="Pending Approval" key={"pending-batch"}>
-            <Table
-              loading={loading}
-              dataSource={dataset}
-              columns={[...columnsBatch, Table.EXPAND_COLUMN]}
-              onChange={handlePageChange}
-              pagination={{
-                current: currentPage,
-                total: totalCount,
-                pageSize: 10,
-                showSizeChanger: false,
-              }}
-              rowKey="id"
-              expandedRowKeys={expandedKeys}
-              expandable={{
-                expandedRowRender: ApproverDetail,
-                expandIcon: (expand) => {
-                  return expand.expanded ? (
-                    <CloseSquareOutlined
-                      onClick={() => setExpandedKeys([])}
-                      style={{ color: "#e94b4c" }}
-                    />
-                  ) : (
-                    <PlusSquareOutlined
-                      onClick={() => setExpandedKeys([expand.record.id])}
-                      style={{ color: "#7d7d7d" }}
-                    />
-                  );
-                },
-              }}
-            />
+            <DataTable pane="pending-batch" />
+          </TabPane>
+          <TabPane tab="Approved" key={"approved-batch"}>
+            <DataTable pane="approved-batch" />
           </TabPane>
         </Tabs>
       </Card>
