@@ -95,7 +95,6 @@ const Map = ({ style, question }) => {
         s.loadingAdministration = true;
       });
       fetchData(selectedAdmin, []);
-      // FIXME: Replace administration name with id (not available)
     }
   }, [selectedShape, administration]);
 
@@ -115,7 +114,7 @@ const Map = ({ style, question }) => {
       const gname = g.properties[shapeLevels[administration.length - 1]];
       const geoSelected = adminName === gname;
       const sc = shapeColors.find(
-        (sC) => sC.name === takeRight(Object.values(g.properties), 1)[0]
+        (sC) => sC.name === takeRight(Object.values(g.properties), 2)[0]
       );
       const fillColor = geoSelected
         ? sc
