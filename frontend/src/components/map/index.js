@@ -171,8 +171,7 @@ const Map = ({ style, question }) => {
 
   useEffect(() => {
     if (hoveredShape && results.length && administration.length) {
-      const geoName =
-        Object.values(hoveredShape)[Object.values(hoveredShape).length - 1];
+      const geoName = takeRight(Object.values(hoveredShape), 2)[0];
       const gname = Object.values(hoveredShape)[administration.length - 1];
       const geoSelected = adminName === gname;
       if (geoName && geoSelected) {
@@ -238,10 +237,8 @@ const Map = ({ style, question }) => {
           >
             <Tooltip direction="top">
               <div className="shape-tooltip-container">
-                <div className="shape-tooltip-name">Village Name</div>
-                <div className="shape-tooltip-value">
-                  {takeRight(name.split(" - "), 1)[0]}
-                </div>
+                <h3>{takeRight(name.split(" - "), 1)[0]}</h3>
+                <div className="shape-tooltip-value">&nbsp;</div>
                 <div className="shape-tooltip-name">
                   {question?.markerQuestion?.name}
                 </div>
