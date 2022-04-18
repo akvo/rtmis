@@ -37,38 +37,41 @@ const colorRange = ["#bbedda", "#a7e1cb", "#92d5bd", "#7dcaaf", "#67bea1"];
 const higlightColor = "#84b4cc";
 
 const Map = ({ style, question }) => {
-  const { administration, selectedForm, loadingForm } = store.useState(
-    (s) => s
-  );
+  const {
+    administration,
+    selectedForm,
+    loadingForm,
+    selectedAdministration,
+    loadingMap,
+  } = store.useState((s) => s);
   const [map, setMap] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(null);
-  const [reloadMap, setReloadMap] = useState(false);
   // shape legend click filter
   const [shapeTooltip, setShapeTooltip] = useState("");
-  const [selectedShape, setSelectedShape] = useState(null);
   const [hoveredShape, setHoveredShape] = useState(null);
   const [shapeFilterColor, setShapeFilterColor] = useState(null);
   // marker legend click filter
   const [markerLegendSelected, setMarkerLegendSelected] = useState(null);
 
   useEffect(() => {
-    if (map && administration.length && reloadMap) {
+    if (map && administration.length) {
       const pos = getBounds(administration);
       map.fitBounds(pos.bbox);
       setZoomLevel(map.getZoom());
-      setReloadMap(false);
     }
-  }, [map, administration, reloadMap]);
+  }, [map, administration]);
 
   const adminName = useMemo(() => {
     return administration.length ? takeRight(administration, 1)[0]?.name : null;
   }, [administration]);
 
   useEffect(() => {
-    if (selectedShape && administration.length) {
-      const selectedAdmin = takeRight(Object.values(selectedShape), 1)[0];
+    if (selectedAdministration && administration.length && loadingMap) {
+      const selectedAdmin = takeRight(
+        Object.values(selectedAdministration),
+        1
+      )[0];
       const fetchData = (adminId, acc) => {
         api.get(`administration/${adminId}`).then((res) => {
           acc.unshift({
@@ -83,11 +86,9 @@ const Map = ({ style, question }) => {
           } else {
             store.update((s) => {
               s.administration = acc;
-            });
-            store.update((s) => {
               s.loadingAdministration = false;
+              s.loadingMap = false;
             });
-            setReloadMap(true);
           }
         });
       };
@@ -96,12 +97,15 @@ const Map = ({ style, question }) => {
       });
       fetchData(selectedAdmin, []);
     }
-  }, [selectedShape, administration]);
+  }, [selectedAdministration, administration, loadingMap]);
 
   const onEachFeature = (feature, layer) => {
     layer.on({
       click: () => {
-        setSelectedShape(feature?.properties);
+        store.update((s) => {
+          s.loadingMap = true;
+          s.selectedAdministration = feature?.properties;
+        });
       },
       mouseover: () => {
         setHoveredShape(feature?.properties);
@@ -144,18 +148,23 @@ const Map = ({ style, question }) => {
       selectedForm &&
       question?.markerQuestion?.form === selectedForm
     ) {
-      setLoading(true);
+      store.update((s) => {
+        s.loadingMap = true;
+      });
       api
         .get(
           `maps/${selectedForm}?marker=${question?.shapeQuestion?.id}&shape=${question?.markerQuestion?.id}`
         )
         .then((res) => {
           setResults(res.data);
-          setLoading(false);
         })
         .catch((e) => {
           console.error("e", e);
-          setLoading(false);
+        })
+        .finally(() => {
+          store.update((s) => {
+            s.loadingMap = false;
+          });
         });
     }
   }, [selectedForm, question]);
@@ -324,7 +333,7 @@ const Map = ({ style, question }) => {
       setShapeFilterColor(colorRange[index]);
     };
 
-    return question && !loading && thresholds.length ? (
+    return question && !loadingMap && thresholds.length ? (
       <div className="shape-legend">
         <div>{question?.shapeQuestion?.name}</div>
         <Row className="legend-wrap">
@@ -353,7 +362,7 @@ const Map = ({ style, question }) => {
 
   return (
     <div className="map-container">
-      {loading ? (
+      {loadingMap ? (
         <div className="map-loading">
           <Spin />
         </div>
@@ -414,9 +423,9 @@ const Map = ({ style, question }) => {
             )}
           </GeoJSON>
         )}
-        {!loading && results.length && <Markers data={results} />}
+        {!loadingMap && results.length && <Markers data={results} />}
       </MapContainer>
-      {!loading && !loadingForm && (
+      {!loadingMap && !loadingForm && (
         <ShapeLegend thresholds={colorScale.thresholds()} />
       )}
     </div>
