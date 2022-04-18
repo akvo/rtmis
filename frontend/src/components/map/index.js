@@ -18,7 +18,7 @@ import {
 } from "@ant-design/icons";
 import "leaflet/dist/leaflet.css";
 
-const { geojson, shapeLevels, tile, defaultPos, getBounds } = geo;
+const { geojson, tile, defaultPos, getBounds } = geo;
 const defPos = defaultPos();
 const mapMaxZoom = 13;
 const shapeColorRange = [
@@ -115,23 +115,24 @@ const Map = ({ style, question }) => {
 
   const geoStyle = (g) => {
     if (administration.length > 0 && results.length && map) {
-      const gname = g.properties[shapeLevels[administration.length - 1]];
-      const geoSelected = adminName === gname;
+      const selectedAdmin = selectedAdministration
+        ? takeRight(Object.values(selectedAdministration), 2)[0]
+        : null;
       const sc = shapeColors.find(
         (sC) => sC.name === takeRight(Object.values(g.properties), 2)[0]
       );
-      const fillColor = geoSelected
-        ? sc
+      const fillColor =
+        selectedAdmin === sc?.name
+          ? higlightColor
+          : sc
           ? getFillColor(sc.values || 0)
-          : "#e6e8f4"
-        : "#e6e8f4";
-      const opacity = geoSelected ? (sc ? 0.8 : 0.3) : 0;
-      const fillOpacity = geoSelected ? 1 : 0;
+          : "#e6e8f4";
+      const opacity = sc ? 0.8 : 0.3;
       return {
         fillColor,
-        fillOpacity,
+        fillOpacity: 1,
         opacity,
-        color: geoSelected ? "#000" : "#A0D4C1",
+        color: "#000",
       };
     }
     return {
@@ -228,7 +229,7 @@ const Map = ({ style, question }) => {
             key={id}
             center={{ lat: geo[1], lng: geo[0] }}
             pathOptions={{
-              fillColor: markerColor,
+              fillColor: highlight ? "#FFF" : markerColor,
               color: markerColor,
               opacity: 1,
               fillOpacity: 1,
