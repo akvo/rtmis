@@ -173,9 +173,7 @@ const Map = ({ style, question }) => {
   useEffect(() => {
     if (hoveredShape && results.length && administration.length) {
       const geoName = takeRight(Object.values(hoveredShape), 2)[0];
-      const gname = Object.values(hoveredShape)[administration.length - 1];
-      const geoSelected = adminName === gname;
-      if (geoName && geoSelected) {
+      if (geoName) {
         const geoRes = results.filter((r) => r.loc === geoName);
         if (geoRes.length) {
           const tooltipElement = (
