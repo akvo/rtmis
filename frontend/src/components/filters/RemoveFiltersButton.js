@@ -10,6 +10,7 @@ const RemoveFiltersButton = ({ extra = () => {} }) => {
         store.update([
           (s) => {
             s.administration.length = 1;
+            s.advancedFilters = [];
           },
           extra,
         ]);
