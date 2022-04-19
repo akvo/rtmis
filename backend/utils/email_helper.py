@@ -15,6 +15,9 @@ class EmailTypes:
     batch_approval = 'batch_approval'
     batch_rejection = 'batch_rejection'
     pending_approval = 'pending_approval'
+    upload_error = 'upload_error'
+    new_request = 'new_request'
+    unchanged_data = 'unchanged_data'
 
     FieldStr = {
         user_register: 'user_register',
@@ -23,7 +26,10 @@ class EmailTypes:
         data_rejection: 'data_rejection',
         batch_approval: 'batch_approval',
         batch_rejection: 'batch_rejection',
-        pending_approval: 'pending_approval'
+        pending_approval: 'pending_approval',
+        upload_error: 'upload_error',
+        new_request: 'new_request',
+        unchanged_data: 'unchanged_data'
     }
 
 
@@ -119,6 +125,24 @@ def email_context(context: dict, type: str):
             "image": "https://rtmis.akvotest.org/email-icons/info-circle.png",
             "info_text": info_text,
         })
+    if type == EmailTypes.new_request:
+        context.update({
+            "image": "https://rtmis.akvotest.org/email-icons/info-circle.png",
+            "info_text": "Data has been successfully validated and submitted",
+        })
+    if type == EmailTypes.upload_error:
+        context.update({
+            "body": '''Invalid data in the uploaded file,
+                    please correct it and try again.''',
+            "image": "https://rtmis.akvotest.org/email-icons/close-circle.png",
+            "failed_text": "Upload Error",
+            "info_text": "Please find attached file for reference"
+        })
+    if type == EmailTypes.unchanged_data:
+        context.update({
+            "image": "https://rtmis.akvotest.org/email-icons/info-circle.png",
+            "info_text": "No updated data found in the last uploaded file",
+        })
     # prevent multiline if inside html template
     show_content = context.get('message_list') \
         or context.get('user_credentials') \
@@ -127,8 +151,8 @@ def email_context(context: dict, type: str):
     return context
 
 
-def send_email(context: dict, path=None, content_type=None,
-               send=True, type=None):
+def send_email(context: dict, type=str, path=None,
+               content_type=None, send=True):
     context = email_context(context=context, type=type)
     try:
 
