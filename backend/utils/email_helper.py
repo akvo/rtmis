@@ -102,7 +102,8 @@ def email_context(context: dict, type: str):
         body = "{0} of {1} data has been approved by {2}"
         success_text = "{0} Approved"
         if batch and user:
-            body = body.format(batch.name, batch.form.name, user.email)
+            body = body.format(batch.name, batch.form.name,
+                               user.get_full_name())
             success_text = success_text.format(batch.name)
         else:
             body = body.format("Batch name", "Form name", "User email")
@@ -119,7 +120,8 @@ def email_context(context: dict, type: str):
         body = "{0} of {1} data has been rejected by {2}"
         failed_text = "{0} Rejected"
         if batch and user:
-            body = body.format(batch.name, batch.form.name, user.email)
+            body = body.format(batch.name, batch.form.name,
+                               user.get_full_name())
             failed_text = failed_text.format(batch.name)
         else:
             body = body.format("Batch name", "Form name", "User email")
@@ -136,7 +138,7 @@ def email_context(context: dict, type: str):
         body = "You have pending approval for {0} data from {1}, {2}"
         info_text = "{0} Pending Approval"
         if form and user:
-            body = body.format(form.name, user.email,
+            body = body.format(form.name, user.get_full_name(),
                                user.user_access.administration.full_name)
             info_text = info_text.format(form.name)
         else:
