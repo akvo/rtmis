@@ -12,12 +12,18 @@ class EmailTypes:
     user_approval = 'user_approval'
     data_approval = 'data_approval'
     data_rejection = 'data_rejection'
+    batch_approval = 'batch_approval'
+    batch_rejection = 'batch_rejection'
+    pending_approval = 'pending_approval'
 
     FieldStr = {
         user_register: 'user_register',
         user_approval: 'user_approval',
         data_approval: 'data_approval',
-        data_rejection: 'data_rejection'
+        data_rejection: 'data_rejection',
+        batch_approval: 'batch_approval',
+        batch_rejection: 'batch_rejection',
+        pending_approval: 'pending_approval'
     }
 
 
@@ -26,14 +32,12 @@ class ListEmailTypeRequestSerializer(serializers.Serializer):
                              required=True)
 
 
-def send_email(context: dict, path=None, content_type=None,
-               send=True, type=None):
+def email_context(context: dict, type: str):
     context.update({
         "webdomain": "https://rtmis.akvotest.org",
         "logo": "https://rtmis.akvotest.org/logo.png",
         "site_name": "MOH"
     })
-
     if type == EmailTypes.user_register:
         context.update({
             "body": '''Welcome to the lore Epsom door sit amen
@@ -44,7 +48,6 @@ def send_email(context: dict, path=None, content_type=None,
                              "CLTS Progress",
                              "Water Infrastructure"]
         })
-
     if type == EmailTypes.user_approval:
         context.update({
             "body": '''Congratulations!! You are now a verified user,
@@ -60,7 +63,6 @@ def send_email(context: dict, path=None, content_type=None,
                 "credential": "View Only"
             }]
         })
-
     if type == EmailTypes.data_approval:
         context.update({
             "body": '''Your Data Upload has been approved by
@@ -68,7 +70,6 @@ def send_email(context: dict, path=None, content_type=None,
             "image": "https://rtmis.akvotest.org/email-icons/check-circle.png",
             "success_text": "Filename Approved"
         })
-
     if type == EmailTypes.data_rejection:
         context.update({
             "body": '''Your Data Upload has been rejected by
@@ -85,13 +86,50 @@ def send_email(context: dict, path=None, content_type=None,
                     vestibulum.",
                 "Nullam sed magna a ligula ultrices rhoncus nec in sapien."]
         })
-
+    if type == EmailTypes.batch_rejection:
+        batch = context.get("batch")
+        user = context.get("user")
+        body = "{0} of {1} data has been rejected by {2}"
+        failed_text = "{0} Rejected"
+        if batch and user:
+            body = body.format(batch.name, batch.form.name, user.email)
+            failed_text = failed_text.format(batch.name)
+        else:
+            body = body.format("Batch name", "Form name", "User email")
+            failed_text = failed_text.format("Batch name")
+        context.update({
+            "body": body,
+            "image": "https://rtmis.akvotest.org/email-icons/close-circle.png",
+            "failed_text": failed_text,
+        })
+    if type == EmailTypes.pending_approval:
+        form = context.get("form")
+        user = context.get("user")
+        body = "You have pending approval for {0} data from {1}, {2}"
+        info_text = "{0} Pending Approval"
+        if form and user:
+            body = body.format(form.name, user.email,
+                               user.user_access.administration.full_name)
+            info_text = info_text.format(form.name)
+        else:
+            body = body.format("Form name", "User email", "Administration")
+            info_text = info_text.format("Form name")
+        context.update({
+            "body": body,
+            "image": "https://rtmis.akvotest.org/email-icons/info-circle.png",
+            "info_text": info_text,
+        })
     # prevent multiline if inside html template
     show_content = context.get('message_list') \
         or context.get('user_credentials') \
         or context.get('feedback')
     context.update({"show_content": show_content})
+    return context
 
+
+def send_email(context: dict, path=None, content_type=None,
+               send=True, type=None):
+    context = email_context(context=context, type=type)
     try:
 
         email_html_message = render_to_string("email/main.html", context)
