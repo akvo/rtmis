@@ -17,6 +17,7 @@ import {
   ExportData,
   UploadData,
   Visualisation,
+  NewsEvents,
 } from "./pages";
 import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
@@ -96,6 +97,7 @@ const RouteList = () => {
         path="/profile"
         element={<Private element={Profile} alias="profile" />}
       />
+      <Route path="/news-events" element={<NewsEvents />} />
       <Route exact path="/coming-soon" element={<div />} />
       <Route exact path="/not-found" element={<div />} />
       <Route path="*" element={<Navigate replace to="/not-found" />} />
