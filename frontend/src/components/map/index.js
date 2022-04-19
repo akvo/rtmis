@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./style.scss";
 import {
   Circle,
@@ -8,8 +8,9 @@ import {
   Tooltip,
 } from "react-leaflet";
 import { api, geo, store } from "../../lib";
-import { flatten, takeRight, uniq } from "lodash";
-import { Button, Space, Spin } from "antd";
+import { takeRight, intersection, chain, groupBy, sumBy } from "lodash";
+import { Button, Space, Spin, Row, Col } from "antd";
+import { scaleQuantize } from "d3-scale";
 import {
   ZoomInOutlined,
   ZoomOutOutlined,
@@ -17,10 +18,10 @@ import {
 } from "@ant-design/icons";
 import "leaflet/dist/leaflet.css";
 
-const { geojson, shapeLevels, tile, defaultPos, getBounds } = geo;
+const { geojson, tile, defaultPos, getBounds } = geo;
 const defPos = defaultPos();
 const mapMaxZoom = 13;
-const shapeColors = [
+const shapeColorRange = [
   "#47CC65",
   "#EC8964",
   "#5195ED",
@@ -32,17 +33,27 @@ const shapeColors = [
   "#AA9B7E",
   "#8D8D8D",
 ];
+const colorRange = ["#bbedda", "#a7e1cb", "#92d5bd", "#7dcaaf", "#67bea1"];
+const higlightColor = "#84b4cc";
 
 const Map = ({ style, question }) => {
-  const { administration, selectedForm } = store.useState((s) => s);
+  const {
+    administration,
+    selectedForm,
+    loadingForm,
+    selectedAdministration,
+    loadingMap,
+  } = store.useState((s) => s);
   const [map, setMap] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
-  const [selectedShape, setSelectedShape] = useState(null);
-  const [hoveredShape, setHoveredShape] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(null);
+  // shape legend click filter
   const [shapeTooltip, setShapeTooltip] = useState("");
-  const [shapeOptions, setShapeOptions] = useState([]);
+  const [hoveredShape, setHoveredShape] = useState(null);
+  const [shapeFilterColor, setShapeFilterColor] = useState(null);
+  // marker legend click filter
+  const [markerLegendSelected, setMarkerLegendSelected] = useState(null);
+
   useEffect(() => {
     if (map && administration.length) {
       const pos = getBounds(administration);
@@ -51,9 +62,16 @@ const Map = ({ style, question }) => {
     }
   }, [map, administration]);
 
+  const adminName = useMemo(() => {
+    return administration.length ? takeRight(administration, 1)[0]?.name : null;
+  }, [administration]);
+
   useEffect(() => {
-    if (selectedShape && administration.length) {
-      const selectedAdmin = takeRight(Object.values(selectedShape), 1)[0];
+    if (selectedAdministration && administration.length && loadingMap) {
+      const selectedAdmin = takeRight(
+        Object.values(selectedAdministration),
+        1
+      )[0];
       const fetchData = (adminId, acc) => {
         api.get(`administration/${adminId}`).then((res) => {
           acc.unshift({
@@ -68,9 +86,8 @@ const Map = ({ style, question }) => {
           } else {
             store.update((s) => {
               s.administration = acc;
-            });
-            store.update((s) => {
               s.loadingAdministration = false;
+              s.loadingMap = false;
             });
           }
         });
@@ -79,14 +96,16 @@ const Map = ({ style, question }) => {
         s.loadingAdministration = true;
       });
       fetchData(selectedAdmin, []);
-      // FIXME: Replace administration name with id (not available)
     }
-  }, [selectedShape, administration]);
+  }, [selectedAdministration, administration, loadingMap]);
 
   const onEachFeature = (feature, layer) => {
     layer.on({
       click: () => {
-        setSelectedShape(feature?.properties);
+        store.update((s) => {
+          s.loadingMap = true;
+          s.selectedAdministration = feature?.properties;
+        });
       },
       mouseover: () => {
         setHoveredShape(feature?.properties);
@@ -96,15 +115,24 @@ const Map = ({ style, question }) => {
 
   const geoStyle = (g) => {
     if (administration.length > 0 && results.length && map) {
-      const gname = g.properties[shapeLevels[administration.length - 1]];
-      const adminName = takeRight(administration, 1)[0]?.name;
-      const geoSelected = adminName === gname;
-      const fillColor = geoSelected ? "#bbedda" : "#e6e8f4";
+      const selectedAdmin = selectedAdministration
+        ? takeRight(Object.values(selectedAdministration), 2)[0]
+        : null;
+      const sc = shapeColors.find(
+        (sC) => sC.name === takeRight(Object.values(g.properties), 2)[0]
+      );
+      const fillColor =
+        selectedAdmin === sc?.name
+          ? higlightColor
+          : sc
+          ? getFillColor(sc.values || 0)
+          : "#e6e8f4";
+      const opacity = sc ? 0.8 : 0.3;
       return {
         fillColor,
         fillOpacity: 1,
-        opacity: geoSelected ? 0.8 : 0.3,
-        color: geoSelected ? "#82B09F" : "#A0D4C1",
+        opacity,
+        color: "#000",
       };
     }
     return {
@@ -116,75 +144,102 @@ const Map = ({ style, question }) => {
   };
 
   useEffect(() => {
-    if (question && selectedForm) {
-      setLoading(true);
+    if (
+      question &&
+      selectedForm &&
+      question?.markerQuestion?.form === selectedForm
+    ) {
+      store.update((s) => {
+        s.loadingMap = true;
+      });
       api
         .get(
-          `maps/${selectedForm}?marker=${question?.markerQuestion?.id}&shape=${question?.shapeQuestion?.id}`
+          `maps/${selectedForm}?marker=${question?.shapeQuestion?.id}&shape=${question?.markerQuestion?.id}`
         )
         .then((res) => {
           setResults(res.data);
-          setLoading(false);
         })
         .catch((e) => {
           console.error("e", e);
-          setLoading(false);
+        })
+        .finally(() => {
+          store.update((s) => {
+            s.loadingMap = false;
+          });
         });
     }
   }, [selectedForm, question]);
 
   useEffect(() => {
-    if (hoveredShape && results.length) {
-      const geoName =
-        Object.values(hoveredShape)[Object.values(hoveredShape).length - 1];
+    if (hoveredShape && results.length && administration.length) {
+      const geoName = takeRight(Object.values(hoveredShape), 2)[0];
       if (geoName) {
-        const geoRes = results.find((r) => r.loc === geoName);
-        if (geoRes) {
+        const geoRes = results.filter((r) => r.loc === geoName);
+        if (geoRes.length) {
           const tooltipElement = (
             <div className="shape-tooltip-container">
               <h3>{geoName}</h3>
               <Space align="top" direction="horizontal">
                 <span className="shape-tooltip-name">
-                  {question?.markerQuestion?.name}
+                  {question?.shapeQuestion?.name}
                 </span>
-                <h3 className="shape-tooltip-value">{geoRes.marker}</h3>
+                <h3 className="shape-tooltip-value">
+                  {geoRes.length ? sumBy(geoRes, "marker") : 0}
+                </h3>
               </Space>
             </div>
           );
           setShapeTooltip(tooltipElement);
           return;
         }
+        setShapeTooltip(<span className="text-muted">No data</span>);
+        return;
       }
       setShapeTooltip(null);
     }
-  }, [hoveredShape, results, question]);
+  }, [hoveredShape, results, question, administration, adminName]);
+
+  const markerLegendOptions = useMemo(() => {
+    if (
+      question &&
+      question?.markerQuestion &&
+      question.markerQuestion?.option
+    ) {
+      return question.markerQuestion.option;
+    }
+  }, [question]);
 
   const Markers = ({ data }) => {
     if (data.length) {
+      const r = 5;
       data = data.filter((d) => d.geo.length === 2);
       return data.map(({ id, geo, shape, name }) => {
-        const shapeRes = shapeOptions.findIndex((sO) => sO === shape[0]);
-        const markerColor = shapeRes === -1 ? "#111" : shapeColors[shapeRes];
+        const shapeRes = markerLegendOptions
+          .map((x) => x.name)
+          .findIndex((sO) => sO === shape[0]);
+        const highlight =
+          markerLegendSelected?.name &&
+          intersection([markerLegendSelected.name], shape).length;
+        const markerColor =
+          shapeRes === -1 ? "#111" : shapeColorRange[shapeRes];
         return (
           <Circle
             key={id}
             center={{ lat: geo[1], lng: geo[0] }}
             pathOptions={{
-              fillColor: markerColor,
+              fillColor: highlight ? "#FFF" : markerColor,
               color: markerColor,
               opacity: 1,
               fillOpacity: 1,
             }}
-            radius={500}
+            radius={r * 100 * (highlight ? 5 : 1)}
           >
             <Tooltip direction="top">
               <div className="shape-tooltip-container">
-                <div className="shape-tooltip-name">Village Name</div>
-                <div className="shape-tooltip-value">
-                  {takeRight(name.split(" - "), 1)[0]}
-                </div>
+                <h3>{takeRight(name.split(" - "), 1)[0]}</h3>
+                <div className="shape-tooltip-value">&nbsp;</div>
                 <div className="shape-tooltip-name">
-                  {question?.shapeQuestion?.name}
+                  {question?.markerQuestion?.name}
                 </div>
                 <div className="shape-tooltip-value">{shape[0]}</div>
               </div>
@@ -196,26 +251,32 @@ const Map = ({ style, question }) => {
     return null;
   };
 
-  useEffect(() => {
-    if (results.length) {
-      const shapeValues = uniq(flatten(results.map((r) => r.shape)));
-      setShapeOptions(shapeValues);
-    }
-  }, [results]);
+  const MarkerLegend = () => {
+    const handleMarkerLegendClick = (value) => {
+      if (markerLegendSelected?.id === value.id) {
+        setMarkerLegendSelected(null);
+        return;
+      }
+      setMarkerLegendSelected(value);
+    };
 
-  const ShapeLegend = () => {
-    if (shapeOptions.length) {
+    if (markerLegendOptions) {
+      const { markerQuestion } = question;
       return (
-        <div className="shape-legend">
-          <h4>{question?.shapeQuestion?.name}</h4>
-          {shapeOptions.map((sO, sI) => (
-            <div key={sI}>
-              <Space direction="horizontal">
+        <div className="marker-legend">
+          <h4>{markerQuestion?.name}</h4>
+          {markerLegendOptions.map((sO, sI) => (
+            <div
+              key={sI}
+              className="legend-item"
+              onClick={() => handleMarkerLegendClick(sO)}
+            >
+              <Space direction="horizontal" align="top">
                 <div
                   className="circle-legend"
-                  style={{ backgroundColor: shapeColors[sI] }}
+                  style={{ backgroundColor: shapeColorRange[sI] }}
                 />
-                <span>{sO}</span>
+                <span>{sO?.name || "NA"}</span>
               </Space>
             </div>
           ))}
@@ -225,14 +286,84 @@ const Map = ({ style, question }) => {
     return null;
   };
 
+  const shapeColors = chain(groupBy(results, "loc"))
+    .map((l, lI) => {
+      const values = sumBy(l, "marker");
+      return { name: lI, values };
+    })
+    .value();
+
+  const domain = shapeColors
+    .reduce(
+      (acc, curr) => {
+        const v = curr.values;
+        const [min, max] = acc;
+        return [min, v > max ? v : max];
+      },
+      [0, 0]
+    )
+    .map((acc, index) => {
+      if (index && acc) {
+        acc = acc < 10 ? 10 : acc;
+        acc = 100 * Math.floor((acc + 50) / 100);
+      }
+      return acc;
+    });
+
+  const colorScale = scaleQuantize().domain(domain).range(colorRange);
+
+  const getFillColor = (v) => {
+    const color = v === 0 ? "#FFF" : colorScale(v);
+    if (shapeFilterColor === color) {
+      return higlightColor;
+    }
+    return color;
+  };
+
+  const ShapeLegend = ({ thresholds }) => {
+    const handleShapeLegendClick = (index) => {
+      if (shapeFilterColor === colorRange[index]) {
+        setShapeFilterColor(null);
+        return;
+      }
+      setShapeFilterColor(colorRange[index]);
+    };
+
+    return question && !loadingMap && thresholds.length ? (
+      <div className="shape-legend">
+        <div>{question?.shapeQuestion?.name}</div>
+        <Row className="legend-wrap">
+          {thresholds.map((t, tI) => (
+            <Col
+              key={tI}
+              flex={1}
+              className={`legend-item ${
+                shapeFilterColor === colorRange[tI] ? "legend-selected" : ""
+              }`}
+              onClick={() => handleShapeLegendClick(tI)}
+              style={{ backgroundColor: colorRange[tI] }}
+            >
+              {tI === 0 && "0 - "}
+              {tI >= thresholds.length - 1 && "> "}
+              {tI > 0 &&
+                tI < thresholds.length - 1 &&
+                `${thresholds[tI - 1] + 1} - `}
+              {t}
+            </Col>
+          ))}
+        </Row>
+      </div>
+    ) : null;
+  };
+
   return (
     <div className="map-container">
-      {loading ? (
+      {loadingMap ? (
         <div className="map-loading">
           <Spin />
         </div>
       ) : (
-        <ShapeLegend />
+        <MarkerLegend />
       )}
       <div className="map-buttons">
         <Space size="small" direction="vertical">
@@ -279,17 +410,20 @@ const Map = ({ style, question }) => {
             style={geoStyle}
             data={geojson}
             onEachFeature={onEachFeature}
+            weight={1}
           >
             {hoveredShape && shapeTooltip && (
-              <Tooltip className="shape-tooltip-container">
+              <Tooltip className="shape-tooltip-wrapper">
                 {shapeTooltip}
               </Tooltip>
             )}
           </GeoJSON>
         )}
-        {!loading && results.length && <Markers data={results} />}
+        {!loadingMap && results.length && <Markers data={results} />}
       </MapContainer>
-      {/* <MarkerLegend /> */}
+      {!loadingMap && !loadingForm && (
+        <ShapeLegend thresholds={colorScale.thresholds()} />
+      )}
     </div>
   );
 };
