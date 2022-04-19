@@ -11,6 +11,7 @@ const RemoveFiltersButton = ({ extra = () => {} }) => {
           (s) => {
             s.administration.length = 1;
             s.selectedAdministration = null;
+            s.advancedFilters = [];
           },
           extra,
         ]);
