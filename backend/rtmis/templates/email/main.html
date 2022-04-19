@@ -467,7 +467,7 @@
                         class="heading-section"
                         style="
                           text-align: center;
-                          padding: 0 30px;
+                          padding: 0.75em 4.5em;
                           -ms-text-size-adjust: 100%;
                           -webkit-text-size-adjust: 100%;
                         "
@@ -497,7 +497,7 @@
                           {{ body }}
                         </p>
                       </div>
-                      {%if image or message or message_list or error_feedback%}
+                      {% if image or message or show_content %}
                       <table style="width: 90%; margin: auto; padding: 20px">
                         <tbody>
                           {% if image %}
@@ -509,15 +509,21 @@
                                 alt="email-icon"
                                 style="margin-top: 2em"
                               />
-                              {% if success_text %}
-                              <p style="color: #11a840; font-weight: 600">
-                                {{ success_text }}
-                              </p>
-                              {% endif %} {% if failed_text %}
-                              <p style="color: #c05652; font-weight: 600">
-                                {{ failed_text }}
-                              </p>
-                              {% endif %}
+                              <div style="padding: 0 75px">
+                                {% if success_text %}
+                                <p style="color: #11a840; font-weight: 600">
+                                  {{ success_text }}
+                                </p>
+                                {% endif %} {% if failed_text %}
+                                <p style="color: #c05652; font-weight: 600">
+                                  {{ failed_text }}
+                                </p>
+                                {% endif %} {% if info_text %}
+                                <p style="color: #0058ff; font-weight: 400">
+                                  {{ info_text }}
+                                </p>
+                                {% endif %}
+                              </div>
                             </td>
                           </tr>
                           {% endif %} {% if message %}
@@ -534,7 +540,7 @@
                               </div>
                             </td>
                           </tr>
-                          {% endif %} {% if error_feedback %}
+                          {% endif %} {% if feedback %}
                           <tr>
                             <td style="text-align: left">
                               <p style="color: #000000; font-weight: 600">
@@ -549,10 +555,33 @@
                                   padding: 0.5em 1.5em;
                                 "
                               >
-                                {% for item in error_feedback %}
+                                {% for item in feedback %}
                                 <p>{{ item }}</p>
                                 {% endfor %}
                               </div>
+                            </td>
+                          </tr>
+                          {% endif %} {% if user_credentials %}
+                          <tr>
+                            <td style="text-align: left">
+                              <table border="1" style="width: 65%">
+                                <tr>
+                                  <td style="padding-left: 12px">Locations</td>
+                                  <td style="padding-left: 12px">
+                                    Credentials
+                                  </td>
+                                </tr>
+                                {% for item in user_credentials %}
+                                <tr style="color: #000000">
+                                  <td style="padding-left: 12px">
+                                    {{ item.location }}
+                                  </td>
+                                  <td style="padding-left: 12px">
+                                    {{ item.credential }}
+                                  </td>
+                                </tr>
+                                {% endfor %}
+                              </table>
                             </td>
                           </tr>
                           {% endif %} {% if context %}
@@ -582,7 +611,7 @@
                         text-align: center;
                       "
                     >
-                      <p style="color: #b2b2b2; margin: 0">
+                      <p style="color: #b2b2b2; margin: 5px">
                         Get started exploring the data
                       </p>
                       <a

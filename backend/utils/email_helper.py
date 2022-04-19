@@ -8,12 +8,14 @@ from rtmis.settings import EMAIL_FROM
 
 
 class EmailTypes:
-    register = 'register'
+    user_register = 'user_register'
+    user_approval = 'user_approval'
     data_approval = 'data_approval'
     data_rejection = 'data_rejection'
 
     FieldStr = {
-        register: 'register',
+        user_register: 'user_register',
+        user_approval: 'user_approval',
         data_approval: 'data_approval',
         data_rejection: 'data_rejection'
     }
@@ -32,7 +34,7 @@ def send_email(context: dict, path=None, content_type=None,
         "site_name": "MOH"
     })
 
-    if type == EmailTypes.register:
+    if type == EmailTypes.user_register:
         context.update({
             "body": '''Welcome to the lore Epsom door sit amen
                 some Descriptive welcome copy goes here''',
@@ -41,6 +43,22 @@ def send_email(context: dict, path=None, content_type=None,
             "message_list": ["JMP/SDG Status",
                              "CLTS Progress",
                              "Water Infrastructure"]
+        })
+
+    if type == EmailTypes.user_approval:
+        context.update({
+            "body": '''Congratulations!! You are now a verified user,
+                    with great power comes great responsibility''',
+            "image": "https://rtmis.akvotest.org/email-icons/user.png",
+            "info_text": "You can now view, upload and export out data from \
+                the following regions.",
+            "user_credentials": [{
+                "location": "Kisumu",
+                "credential": "Admin"
+            }, {
+                "location": "Nakuru",
+                "credential": "View Only"
+            }]
         })
 
     if type == EmailTypes.data_approval:
@@ -57,7 +75,7 @@ def send_email(context: dict, path=None, content_type=None,
                     Your admin - Ouma Odhiambo''',
             "image": "https://rtmis.akvotest.org/email-icons/close-circle.png",
             "failed_text": "Filename Rejected",
-            "error_feedback": [
+            "feedback": [
                 "Donec dictum neque ac cursus sollicitudin.",
                 "Vivamus sodales quam at felis scelerisque, ut tincidunt quam \
                     vestibulum.",
@@ -67,6 +85,12 @@ def send_email(context: dict, path=None, content_type=None,
                     vestibulum.",
                 "Nullam sed magna a ligula ultrices rhoncus nec in sapien."]
         })
+
+    # prevent multiline if inside html template
+    show_content = context.get('message_list') \
+        or context.get('user_credentials') \
+        or context.get('feedback')
+    context.update({"show_content": show_content})
 
     try:
 
