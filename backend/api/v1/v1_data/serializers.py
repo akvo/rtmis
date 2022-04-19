@@ -615,6 +615,7 @@ class ListBatchSerializer(serializers.ModelSerializer):
 
 
 class ListBatchSummarySerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField(source='question.id')
     question = serializers.ReadOnlyField(source='question.text')
     type = serializers.SerializerMethodField()
     value = serializers.SerializerMethodField()
@@ -648,7 +649,7 @@ class ListBatchSummarySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PendingAnswers
-        fields = ['question', 'type', 'value']
+        fields = ['id', 'question', 'type', 'value']
 
 
 class ListBatchCommentSerializer(serializers.ModelSerializer):
