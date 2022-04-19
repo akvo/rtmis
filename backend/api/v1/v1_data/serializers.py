@@ -18,7 +18,7 @@ from api.v1.v1_users.models import SystemUser
 from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
     UnvalidatedField, CustomListField, CustomCharField, CustomChoiceField, \
     CustomBooleanField
-from utils.email_helper import send_email
+from utils.email_helper import send_email, EmailTypes
 from utils.functions import update_date_time_format, get_answer_value
 
 
@@ -453,9 +453,9 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
             'user': self.context.get('user'),
         }
         if approval.status == DataApprovalStatus.approved:
-            send_email(data, 'pending_data_approved.html')
+            send_email(context=data, type=EmailTypes.batch_approval)
         else:
-            send_email(data, 'pending_data_rejected.html')
+            send_email(context=data, type=EmailTypes.batch_rejection)
         if validated_data.get('comment'):
             PendingDataBatchComments.objects.create(
                 user=self.context.get('user'),
@@ -734,7 +734,7 @@ class CreateBatchSerializer(serializers.Serializer):
                     'form': obj.form,
                     'user': obj.user,
                 }
-                send_email(data, 'pending_approval.html')
+                send_email(context=data, type=EmailTypes.pending_approval)
         for data in validated_data.get('data'):
             data.batch = obj
             data.save()
