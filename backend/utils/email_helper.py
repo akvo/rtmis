@@ -150,7 +150,6 @@ def email_context(context: dict, type: str):
         })
     if type == EmailTypes.new_request:
         context.update({
-            "subject": "New Request",
             "image": "https://rtmis.akvotest.org/email-icons/info-circle.png",
             "info_text": "Data has been successfully validated and submitted",
         })
@@ -165,7 +164,7 @@ def email_context(context: dict, type: str):
         })
     if type == EmailTypes.unchanged_data:
         context.update({
-            "subject": "Not Updated",
+            "subject": "No Data Updates found",
             "image": "https://rtmis.akvotest.org/email-icons/info-circle.png",
             "info_text": "No updated data found in the last uploaded file",
         })

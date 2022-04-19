@@ -183,10 +183,7 @@ def validate_excel(job_id):
             filter(lambda x: x != "error", list(error_list)))]
         error_file = f"./tmp/error-{job_id}.csv"
         error_list.to_csv(error_file, index=False)
-        data = {
-            'subject': 'RTMIS:Errors in uploaded data',
-            'send_to': [job.user.email],
-        }
+        data = {'send_to': [job.user.email]}
         send_email(context=data,
                    type=EmailTypes.upload_error,
                    path=error_file,

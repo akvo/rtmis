@@ -74,7 +74,7 @@ def email_template(request, version):
     email_type = None
     if serializer.validated_data.get('type'):
         email_type = serializer.validated_data.get('type')
-    data = {'subject': 'RTMIS:Test', 'send_to': []}
+    data = {'subject': 'Test', 'send_to': []}
     email = send_email(type=email_type, context=data, send=False)
     return HttpResponse(email)
 

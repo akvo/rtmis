@@ -150,7 +150,6 @@ def seed_excel_data(job: Jobs):
             data.delete()
     if len(records) == 0:
         context = {
-            'subject': 'RTMIS:No Data Updates found',
             'send_to': [batch.user.email],
             'form': batch.form,
             'user': job.user,
@@ -173,7 +172,6 @@ def seed_excel_data(job: Jobs):
                 level_id=level
             )
             context = {
-                'subject': 'RTMIS:Pending Approvals',
                 'send_to': [assignment.user.email],
                 'form': batch.form,
                 'user': job.user,

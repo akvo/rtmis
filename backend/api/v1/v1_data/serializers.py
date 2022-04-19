@@ -447,7 +447,6 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
         first_data = PendingFormData.objects.filter(
             batch=batch).first()
         data = {
-            'subject': 'RTMIS:Pending Approvals',
             'send_to': [first_data.created_by.email],
             'batch': batch,
             'user': self.context.get('user'),
@@ -729,7 +728,6 @@ class CreateBatchSerializer(serializers.Serializer):
                     level_id=level
                 )
                 data = {
-                    'subject': 'RTMIS:Pending Approvals',
                     'send_to': [assignment.user.email],
                     'form': obj.form,
                     'user': obj.user,
