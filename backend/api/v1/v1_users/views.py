@@ -34,6 +34,8 @@ from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
+from utils.email_helper import send_email
+from utils.email_helper import ListEmailTypeRequestSerializer, EmailTypes
 
 
 @extend_schema(description='Use to check System health', tags=['Dev'])
@@ -51,6 +53,30 @@ def get_config_file(request, version):
     response = HttpResponse(
         data, content_type="application/x-javascript; charset=utf-8")
     return response
+
+
+@extend_schema(description='Use to show email templates', tags=['Dev'],
+               parameters=[
+                   OpenApiParameter(name='type',
+                                    required=False,
+                                    enum=EmailTypes.FieldStr.keys(),
+                                    type=OpenApiTypes.STR,
+                                    location=OpenApiParameter.QUERY),
+               ],
+               summary='To show email template by type')
+@api_view(['GET'])
+def email_template(request, version):
+    serializer = ListEmailTypeRequestSerializer(data=request.GET)
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST)
+    email_type = None
+    if serializer.validated_data.get('type'):
+        email_type = serializer.validated_data.get('type')
+    data = {'subject': 'Test', 'send_to': []}
+    email = send_email(type=email_type, context=data, send=False)
+    return HttpResponse(email)
 
 
 # TODO: Remove temp user entry and invite key from the response.
