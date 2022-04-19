@@ -72,7 +72,9 @@ const Header = ({ className = "header", ...props }) => {
           </Link>
           <a className="dev">Reports</a>
           <a className="dev">Monitoring</a>
-          <a className="dev">How We Work</a>
+          <Link className="dev" to="/how-we-work">
+            How We Work
+          </Link>
           <Link className="dev" to="/news-events">
             News {"&"} Events
           </Link>

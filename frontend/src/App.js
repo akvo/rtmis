@@ -18,6 +18,9 @@ import {
   UploadData,
   Visualisation,
   NewsEvents,
+  HowWeWork,
+  Terms,
+  Privacy,
 } from "./pages";
 import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
@@ -98,6 +101,9 @@ const RouteList = () => {
         element={<Private element={Profile} alias="profile" />}
       />
       <Route path="/news-events" element={<NewsEvents />} />
+      <Route path="/how-we-work" element={<HowWeWork />} />
+      <Route path="/terms" element={<Terms />} />
+      <Route path="/privacy-policy" element={<Privacy />} />
       <Route exact path="/coming-soon" element={<div />} />
       <Route exact path="/not-found" element={<div />} />
       <Route path="*" element={<Navigate replace to="/not-found" />} />
