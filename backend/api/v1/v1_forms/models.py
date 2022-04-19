@@ -131,3 +131,18 @@ class QuestionOptions(models.Model):
 
     class Meta:
         db_table = 'option'
+
+
+class UserForms(models.Model):
+    user = models.ForeignKey(to=SystemUser,
+                             on_delete=models.CASCADE,
+                             related_name='user_form')
+    form = models.ForeignKey(to=Forms,
+                             on_delete=models.CASCADE,
+                             related_name='form_user')
+
+    def __str__(self):
+        return self.user.email
+
+    class Meta:
+        db_table = 'user_form'
