@@ -46,6 +46,7 @@ def email_context(context: dict, type: str):
     })
     if type == EmailTypes.user_register:
         context.update({
+            "subject": "Registration",
             "body": '''Welcome to the lore Epsom door sit amen
                 some Descriptive welcome copy goes here''',
             "image": "https://rtmis.akvotest.org/email-icons/check-circle.png",
@@ -56,6 +57,7 @@ def email_context(context: dict, type: str):
         })
     if type == EmailTypes.user_approval:
         context.update({
+            "subject": "Verified",
             "body": '''Congratulations!! You are now a verified user,
                     with great power comes great responsibility''',
             "image": "https://rtmis.akvotest.org/email-icons/user.png",
@@ -71,6 +73,7 @@ def email_context(context: dict, type: str):
         })
     if type == EmailTypes.data_approval:
         context.update({
+            "subject": "Data Upload Approved",
             "body": '''Your Data Upload has been approved by
                     Your admin - Ouma Odhiambo''',
             "image": "https://rtmis.akvotest.org/email-icons/check-circle.png",
@@ -78,6 +81,7 @@ def email_context(context: dict, type: str):
         })
     if type == EmailTypes.data_rejection:
         context.update({
+            "subject": "Data Upload Rejected",
             "body": '''Your Data Upload has been rejected by
                     Your admin - Ouma Odhiambo''',
             "image": "https://rtmis.akvotest.org/email-icons/close-circle.png",
@@ -92,6 +96,23 @@ def email_context(context: dict, type: str):
                     vestibulum.",
                 "Nullam sed magna a ligula ultrices rhoncus nec in sapien."]
         })
+    if type == EmailTypes.batch_approval:
+        batch = context.get("batch")
+        user = context.get("user")
+        body = "{0} of {1} data has been approved by {2}"
+        success_text = "{0} Approved"
+        if batch and user:
+            body = body.format(batch.name, batch.form.name, user.email)
+            success_text = success_text.format(batch.name)
+        else:
+            body = body.format("Batch name", "Form name", "User email")
+            success_text = success_text.format("Batch name")
+        context.update({
+            "subject": "Batch Approved",
+            "body": body,
+            "image": "https://rtmis.akvotest.org/email-icons/check-circle.png",
+            "success_text": success_text,
+        })
     if type == EmailTypes.batch_rejection:
         batch = context.get("batch")
         user = context.get("user")
@@ -104,6 +125,7 @@ def email_context(context: dict, type: str):
             body = body.format("Batch name", "Form name", "User email")
             failed_text = failed_text.format("Batch name")
         context.update({
+            "subject": "Batch Rejected",
             "body": body,
             "image": "https://rtmis.akvotest.org/email-icons/close-circle.png",
             "failed_text": failed_text,
@@ -121,17 +143,20 @@ def email_context(context: dict, type: str):
             body = body.format("Form name", "User email", "Administration")
             info_text = info_text.format("Form name")
         context.update({
+            "subject": "Pending Approval",
             "body": body,
             "image": "https://rtmis.akvotest.org/email-icons/info-circle.png",
             "info_text": info_text,
         })
     if type == EmailTypes.new_request:
         context.update({
+            "subject": "New Request",
             "image": "https://rtmis.akvotest.org/email-icons/info-circle.png",
             "info_text": "Data has been successfully validated and submitted",
         })
     if type == EmailTypes.upload_error:
         context.update({
+            "subject": "Upload Error",
             "body": '''Invalid data in the uploaded file,
                     please correct it and try again.''',
             "image": "https://rtmis.akvotest.org/email-icons/close-circle.png",
@@ -140,6 +165,7 @@ def email_context(context: dict, type: str):
         })
     if type == EmailTypes.unchanged_data:
         context.update({
+            "subject": "Not Updated",
             "image": "https://rtmis.akvotest.org/email-icons/info-circle.png",
             "info_text": "No updated data found in the last uploaded file",
         })
@@ -158,7 +184,7 @@ def send_email(context: dict, type=str, path=None,
 
         email_html_message = render_to_string("email/main.html", context)
         msg = EmailMultiAlternatives(
-            context.get('subject'),
+            "RTMIS - {0}".format(context.get('subject')),
             'Email plain text',
             EMAIL_FROM,
             context.get('send_to'),
