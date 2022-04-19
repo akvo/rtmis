@@ -43,6 +43,31 @@ def send_email(context: dict, path=None, content_type=None,
                              "Water Infrastructure"]
         })
 
+    if type == EmailTypes.data_approval:
+        context.update({
+            "body": '''Your Data Upload has been approved by
+                    Your admin - Ouma Odhiambo''',
+            "image": "https://rtmis.akvotest.org/email-icons/check-circle.png",
+            "success_text": "Filename Approved"
+        })
+
+    if type == EmailTypes.data_rejection:
+        context.update({
+            "body": '''Your Data Upload has been rejected by
+                    Your admin - Ouma Odhiambo''',
+            "image": "https://rtmis.akvotest.org/email-icons/close-circle.png",
+            "failed_text": "Filename Rejected",
+            "error_feedback": [
+                "Donec dictum neque ac cursus sollicitudin.",
+                "Vivamus sodales quam at felis scelerisque, ut tincidunt quam \
+                    vestibulum.",
+                "Nullam sed magna a ligula ultrices rhoncus nec in sapien.",
+                "Quisque tincidunt diam in ligula ornare condimentum.",
+                "Vivamus sodales quam at felis scelerisque, ut tincidunt quam \
+                    vestibulum.",
+                "Nullam sed magna a ligula ultrices rhoncus nec in sapien."]
+        })
+
     try:
 
         email_html_message = render_to_string("email/main.html", context)
