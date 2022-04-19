@@ -5,7 +5,7 @@ const levels = ["h1", "h2", "h3", "h4"];
 
 const Static = ({ title, data }) => {
   const Heading = ({ title, level }) => {
-    const TagName = levels[level || 2];
+    const TagName = levels[level || 2] || "h3";
     return <TagName>{title}</TagName>;
   };
   return (
