@@ -14,3 +14,7 @@ export { default as ComingSoon } from "../components/layout/custom/ComingSoon";
 export { default as ExportData } from "./export-data/ExportData";
 export { default as UploadData } from "./upload-data/UploadData";
 export { default as Visualisation } from "./visualisation/Visualisation";
+export { default as NewsEvents } from "./news-events/NewsEvents";
+export { default as HowWeWork } from "./static/HowWeWork";
+export { default as Terms } from "./static/Terms";
+export { default as Privacy } from "./static/Privacy";
