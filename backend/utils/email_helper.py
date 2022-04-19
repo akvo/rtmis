@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from django.core.mail import EmailMultiAlternatives
@@ -39,9 +40,10 @@ class ListEmailTypeRequestSerializer(serializers.Serializer):
 
 
 def email_context(context: dict, type: str):
+    webdomain = os.environ["WEBDOMAIN"]
     context.update({
-        "webdomain": "https://rtmis.akvotest.org",
-        "logo": "https://rtmis.akvotest.org/logo.png",
+        "webdomain": webdomain,
+        "logo": f"{webdomain}/logo.png",
         "site_name": "MOH"
     })
     if type == EmailTypes.user_register:
@@ -49,7 +51,7 @@ def email_context(context: dict, type: str):
             "subject": "Registration",
             "body": '''Welcome to the lore Epsom door sit amen
                 some Descriptive welcome copy goes here''',
-            "image": "https://rtmis.akvotest.org/email-icons/check-circle.png",
+            "image": f"{webdomain}/email-icons/check-circle.png",
             "success_text": "Successfully Registered",
             "message_list": ["JMP/SDG Status",
                              "CLTS Progress",
@@ -60,7 +62,7 @@ def email_context(context: dict, type: str):
             "subject": "Verified",
             "body": '''Congratulations!! You are now a verified user,
                     with great power comes great responsibility''',
-            "image": "https://rtmis.akvotest.org/email-icons/user.png",
+            "image": f"{webdomain}/email-icons/user.png",
             "info_text": "You can now view, upload and export out data from \
                 the following regions.",
             "user_credentials": [{
@@ -76,7 +78,7 @@ def email_context(context: dict, type: str):
             "subject": "Data Upload Approved",
             "body": '''Your Data Upload has been approved by
                     Your admin - Ouma Odhiambo''',
-            "image": "https://rtmis.akvotest.org/email-icons/check-circle.png",
+            "image": f"{webdomain}/email-icons/check-circle.png",
             "success_text": "Filename Approved"
         })
     if type == EmailTypes.data_rejection:
@@ -84,7 +86,7 @@ def email_context(context: dict, type: str):
             "subject": "Data Upload Rejected",
             "body": '''Your Data Upload has been rejected by
                     Your admin - Ouma Odhiambo''',
-            "image": "https://rtmis.akvotest.org/email-icons/close-circle.png",
+            "image": f"{webdomain}/email-icons/close-circle.png",
             "failed_text": "Filename Rejected",
             "feedback": [
                 "Donec dictum neque ac cursus sollicitudin.",
@@ -111,7 +113,7 @@ def email_context(context: dict, type: str):
         context.update({
             "subject": "Batch Approved",
             "body": body,
-            "image": "https://rtmis.akvotest.org/email-icons/check-circle.png",
+            "image": f"{webdomain}/email-icons/check-circle.png",
             "success_text": success_text,
         })
     if type == EmailTypes.batch_rejection:
@@ -129,7 +131,7 @@ def email_context(context: dict, type: str):
         context.update({
             "subject": "Batch Rejected",
             "body": body,
-            "image": "https://rtmis.akvotest.org/email-icons/close-circle.png",
+            "image": f"{webdomain}/email-icons/close-circle.png",
             "failed_text": failed_text,
         })
     if type == EmailTypes.pending_approval:
@@ -147,12 +149,12 @@ def email_context(context: dict, type: str):
         context.update({
             "subject": "Pending Approval",
             "body": body,
-            "image": "https://rtmis.akvotest.org/email-icons/info-circle.png",
+            "image": f"{webdomain}/email-icons/info-circle.png",
             "info_text": info_text,
         })
     if type == EmailTypes.new_request:
         context.update({
-            "image": "https://rtmis.akvotest.org/email-icons/info-circle.png",
+            "image": f"{webdomain}/email-icons/info-circle.png",
             "info_text": "Data has been successfully validated and submitted",
         })
     if type == EmailTypes.upload_error:
@@ -160,14 +162,14 @@ def email_context(context: dict, type: str):
             "subject": "Upload Error",
             "body": '''Invalid data in the uploaded file,
                     please correct it and try again.''',
-            "image": "https://rtmis.akvotest.org/email-icons/close-circle.png",
+            "image": f"{webdomain}/email-icons/close-circle.png",
             "failed_text": "Upload Error",
             "info_text": "Please find attached file for reference"
         })
     if type == EmailTypes.unchanged_data:
         context.update({
             "subject": "No Data Updates found",
-            "image": "https://rtmis.akvotest.org/email-icons/info-circle.png",
+            "image": f"{webdomain}/email-icons/info-circle.png",
             "info_text": "No updated data found in the last uploaded file",
         })
     # prevent multiline if inside html template
