@@ -52,6 +52,7 @@ class UserInvitationTestCase(TestCase):
 
     def test_add_edit_user(self):
         call_command("administration_seeder", "--test")
+        call_command("form_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
         user_response = self.client.post('/api/v1/login',
                                          user_payload,
@@ -63,6 +64,7 @@ class UserInvitationTestCase(TestCase):
             "last_name": "Doe",
             "email": "john@example.com",
             "administration": 2,
+            "forms": [1],
         }
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         add_response = self.client.post("/api/v1/user",
@@ -85,7 +87,8 @@ class UserInvitationTestCase(TestCase):
             "last_name": "Doe",
             "email": "john@example.com",
             "administration": 2,
-            "role": 6
+            "role": 6,
+            "forms": [1, 2],
         }
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
 
@@ -113,11 +116,19 @@ class UserInvitationTestCase(TestCase):
                                        content_type='application/json',
                                        **header)
         self.assertEqual(get_response.status_code, 200)
+        responses = get_response.json()
         self.assertEqual([
             'first_name', 'last_name', 'email', 'administration', 'role',
             'phone_number', 'designation', 'forms', 'approval_assignment',
             'pending_approval', 'data'
-        ], list(get_response.json()))
+        ], list(responses))
+        self.assertEqual(responses["forms"], [{
+            'id': 1,
+            'name': 'Test Form'
+        }, {
+            'id': 2,
+            'name': 'Test Form 2'
+        }])
 
     def test_get_user_profile(self):
         call_command("administration_seeder", "--test")
