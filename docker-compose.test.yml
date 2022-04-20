@@ -23,6 +23,7 @@ services:
       - GOOGLE_APPLICATION_CREDENTIALS=/credentials/rtmis-service-account.json
       - MAILJET_APIKEY=$MAILJET_APIKEY
       - MAILJET_SECRET=$MAILJET_SECRET
+      - WEBDOMAIN=notset
     depends_on:
       - db
     command: tail -f /dev/null

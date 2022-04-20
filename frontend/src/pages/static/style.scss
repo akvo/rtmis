@@ -1,0 +1,40 @@
+@import "../../variables";
+
+#root {
+  #static {
+    h1 {
+      text-align: left;
+      font: normal normal 600 #{$font-size-super-large}/ 82px $font-family;
+      letter-spacing: 0.49px;
+      color: #131523;
+      opacity: 1;
+    }
+    .list {
+      padding: 0;
+      .list-item {
+        margin-bottom: 12px;
+        padding: 12px;
+        text-align: left;
+        h1 {
+          text-align: left;
+          font: normal normal 600 #{$font-size-super-large}/ 82px $font-family;
+          letter-spacing: 0.49px;
+          color: #131523;
+          opacity: 1;
+        }
+        h2 {
+          font-size: 27px;
+          font-weight: $font-weight-semi-bold;
+          color: #595b65;
+          margin-bottom: 14px;
+        }
+        h3 {
+          line-height: 22px;
+          font-size: 18px;
+          margin-bottom: 0px;
+          font-weight: $font-weight-semi-bold;
+        }
+      }
+    }
+  }
+}

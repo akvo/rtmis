@@ -64,26 +64,29 @@
       margin: auto;
     }
   }
-  .shape-legend {
+  .marker-legend {
     position: absolute;
     z-index: 1;
     top: 12px;
     left: 12px;
     max-width: 45%;
     max-height: 320px;
-    overflow-y: scroll;
+    overflow-y: auto;
     background-color: #fffa;
     padding: 8px 12px;
     font-size: 13px;
-    .circle-legend {
-      width: 8px;
-      height: 8px;
-      margin-top: 6px;
-      border-radius: 4px;
+    .legend-item {
+      cursor: pointer;
+      .circle-legend {
+        width: 8px;
+        height: 8px;
+        margin-top: 6px;
+        border-radius: 4px;
+      }
     }
   }
 }
-.marker-legend {
+.shape-legend {
   position: absolute;
   bottom: 21px;
   left: 0px;
@@ -99,7 +102,14 @@
     margin-top: 5px;
     font-weight: $font-weight-medium;
     .legend-item {
+      cursor: pointer;
       margin: 0 1px;
+      border: solid transparent 2px;
+      &.legend-selected {
+        border: solid #036799 2px;
+        border-right: solid 2px #036799;
+        color: #fff;
+      }
     }
   }
 }

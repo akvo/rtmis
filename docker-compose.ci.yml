@@ -1,5 +1,5 @@
 ---
-version: '3.9'
+version: "3.9"
 services:
   backend:
     image: eu.gcr.io/akvo-lumen/rtmis/backend:latest
@@ -16,6 +16,7 @@ services:
       - DEBUG=True
       - MAILJET_APIKEY=$MAILJET_APIKEY
       - MAILJET_SECRET=$MAILJET_SECRET
+      - WEBDOMAIN=notset
     network_mode: service:mainnetwork
     restart: always
     volumes:
@@ -35,7 +36,8 @@ services:
     working_dir: /test
   db:
     image: postgres:12-alpine
-    command: postgres -c 'shared_buffers=128MB' -c 'fsync=off' -c 'synchronous_commit=off'
+    command:
+      postgres -c 'shared_buffers=128MB' -c 'fsync=off' -c 'synchronous_commit=off'
       -c 'full_page_writes=off' -c 'max_connections=100' -c 'bgwriter_lru_maxpages=0'
       -c 'client_min_messages=warning'
     environment:

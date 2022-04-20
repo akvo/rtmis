@@ -18,7 +18,7 @@ from api.v1.v1_users.models import SystemUser
 from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
     UnvalidatedField, CustomListField, CustomCharField, CustomChoiceField, \
     CustomBooleanField
-from utils.email_helper import send_email
+from utils.email_helper import send_email, EmailTypes
 from utils.functions import update_date_time_format, get_answer_value
 
 
@@ -60,24 +60,24 @@ class SubmitFormDataAnswerSerializer(serializers.ModelSerializer):
 
         if not isinstance(attrs.get('value'),
                           list) and attrs.get('question').type in [
-            QuestionTypes.geo, QuestionTypes.option,
-            QuestionTypes.multiple_option
-        ]:
+                              QuestionTypes.geo, QuestionTypes.option,
+                              QuestionTypes.multiple_option
+                          ]:
             raise ValidationError(
                 'Valid list value is required for Question:{0}'.format(
                     attrs.get('question').id))
         elif not isinstance(
                 attrs.get('value'), str) and attrs.get('question').type in [
-            QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
-        ]:
+                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+                ]:
             raise ValidationError(
                 'Valid string value is required for Question:{0}'.format(
                     attrs.get('question').id))
 
         elif not isinstance(
                 attrs.get('value'), int) and attrs.get('question').type in [
-            QuestionTypes.number, QuestionTypes.administration
-        ]:
+                    QuestionTypes.number, QuestionTypes.administration
+                ]:
 
             raise ValidationError(
                 'Valid number value is required for Question:{0}'.format(
@@ -125,12 +125,12 @@ class SubmitFormSerializer(serializers.Serializer):
             option = None
 
             if answer.get('question').type in [
-                QuestionTypes.geo, QuestionTypes.option,
-                QuestionTypes.multiple_option
+                    QuestionTypes.geo, QuestionTypes.option,
+                    QuestionTypes.multiple_option
             ]:
                 option = answer.get('value')
             elif answer.get('question').type in [
-                QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
             ]:
                 name = answer.get('value')
             else:
@@ -383,7 +383,7 @@ class ListPendingDataBatchSerializer(serializers.ModelSerializer):
                     'name': rejected.user.get_full_name(),
                     'id': rejected.user_id,
                     'administration':
-                        rejected.user.user_access.administration.name
+                    rejected.user.user_access.administration.name
                 }
         else:
             approval = instance.batch_approval.get(user=user)
@@ -444,24 +444,21 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
             user=self.context.get('user'), batch=batch)
         approval.status = validated_data.get('status')
         approval.save()
-        first_data = PendingFormData.objects.filter(
-            batch=batch).first()
+        first_data = PendingFormData.objects.filter(batch=batch).first()
         data = {
-            'subject': 'RTMIS:Pending Approvals',
             'send_to': [first_data.created_by.email],
             'batch': batch,
             'user': self.context.get('user'),
         }
         if approval.status == DataApprovalStatus.approved:
-            send_email(data, 'pending_data_approved.html')
+            send_email(context=data, type=EmailTypes.batch_approval)
         else:
-            send_email(data, 'pending_data_rejected.html')
+            send_email(context=data, type=EmailTypes.batch_rejection)
         if validated_data.get('comment'):
             PendingDataBatchComments.objects.create(
                 user=self.context.get('user'),
                 batch=batch,
-                comment=validated_data.get('comment')
-            )
+                comment=validated_data.get('comment'))
         if not PendingDataApproval.objects.filter(
                 batch=batch,
                 status__in=[
@@ -490,8 +487,7 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
                             name=form_answer.name,
                             value=form_answer.value,
                             options=form_answer.options,
-                            created_by=form_answer.created_by
-                        )
+                            created_by=form_answer.created_by)
                         form_answer.delete()
 
                 else:
@@ -587,16 +583,21 @@ class ListBatchSerializer(serializers.ModelSerializer):
                               'administration': serializers.CharField(),
                               'status': serializers.IntegerField(),
                               'status_text': serializers.CharField(),
-                          }, many=True))
+                          },
+                          many=True))
     def get_approvers(self, instance: PendingDataBatch):
         data = []
         for approver in instance.batch_approval.all():
             approver_administration = approver.user.user_access.administration
             data.append({
-                'name': approver.user.get_full_name(),
-                'administration': approver_administration.name,
-                'status': approver.status,
-                'status_text': DataApprovalStatus.FieldStr.get(approver.status)
+                'name':
+                approver.user.get_full_name(),
+                'administration':
+                approver_administration.name,
+                'status':
+                approver.status,
+                'status_text':
+                DataApprovalStatus.FieldStr.get(approver.status)
             })
         return data
 
@@ -610,11 +611,14 @@ class ListBatchSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PendingDataBatch
-        fields = ['id', 'name', 'form', 'administration', 'file', 'total_data',
-                  'created', 'updated', 'status', 'approvers']
+        fields = [
+            'id', 'name', 'form', 'administration', 'file', 'total_data',
+            'created', 'updated', 'status', 'approvers'
+        ]
 
 
 class ListBatchSummarySerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField(source='question.id')
     question = serializers.ReadOnlyField(source='question.text')
     type = serializers.SerializerMethodField()
     value = serializers.SerializerMethodField()
@@ -640,15 +644,12 @@ class ListBatchSummarySerializer(serializers.ModelSerializer):
                     pending_data__batch=batch,
                     question_id=instance.question.id,
                     options__contains=option.name).count()
-                data.append({
-                    'type': option.name,
-                    'total': val
-                })
+                data.append({'type': option.name, 'total': val})
             return data
 
     class Meta:
         model = PendingAnswers
-        fields = ['question', 'type', 'value']
+        fields = ['id', 'question', 'type', 'value']
 
 
 class ListBatchCommentSerializer(serializers.ModelSerializer):
@@ -662,8 +663,10 @@ class ListBatchCommentSerializer(serializers.ModelSerializer):
                               'email': serializers.CharField(),
                           }))
     def get_user(self, instance: PendingDataBatchComments):
-        return {'name': instance.user.get_full_name(),
-                'email': instance.user.email}
+        return {
+            'name': instance.user.get_full_name(),
+            'email': instance.user.email
+        }
 
     @extend_schema_field(OpenApiTypes.DATE)
     def get_created(self, instance: PendingDataBatchComments):
@@ -683,7 +686,7 @@ class CreateBatchSerializer(serializers.Serializer):
     comment = CustomCharField(required=False)
     data = CustomListField(child=CustomPrimaryKeyRelatedField(
         queryset=PendingFormData.objects.none()),
-        required=False)
+                           required=False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -713,28 +716,22 @@ class CreateBatchSerializer(serializers.Serializer):
             user=user,
             name=validated_data.get('name'))
         PendingDataBatchComments.objects.create(
-            user=user,
-            batch=obj,
-            comment=validated_data.get('comment')
-        )
+            user=user, batch=obj, comment=validated_data.get('comment'))
         for administration in Administration.objects.filter(
                 id__in=path.split('.')):
             assignment = FormApprovalAssignment.objects.filter(
                 form_id=form_id, administration=administration).first()
             if assignment:
                 level = assignment.user.user_access.administration.level_id
-                PendingDataApproval.objects.create(
-                    batch=obj,
-                    user=assignment.user,
-                    level_id=level
-                )
+                PendingDataApproval.objects.create(batch=obj,
+                                                   user=assignment.user,
+                                                   level_id=level)
                 data = {
-                    'subject': 'RTMIS:Pending Approvals',
                     'send_to': [assignment.user.email],
                     'form': obj.form,
                     'user': obj.user,
                 }
-                send_email(data, 'pending_approval.html')
+                send_email(context=data, type=EmailTypes.pending_approval)
         for data in validated_data.get('data'):
             data.batch = obj
             data.save()
@@ -782,24 +779,24 @@ class SubmitPendingFormDataAnswerSerializer(serializers.ModelSerializer):
 
         if not isinstance(attrs.get('value'),
                           list) and attrs.get('question').type in [
-            QuestionTypes.geo, QuestionTypes.option,
-            QuestionTypes.multiple_option
-        ]:
+                              QuestionTypes.geo, QuestionTypes.option,
+                              QuestionTypes.multiple_option
+                          ]:
             raise ValidationError(
                 'Valid list value is required for Question:{0}'.format(
                     attrs.get('question').id))
         elif not isinstance(
                 attrs.get('value'), str) and attrs.get('question').type in [
-            QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
-        ]:
+                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+                ]:
             raise ValidationError(
                 'Valid string value is required for Question:{0}'.format(
                     attrs.get('question').id))
 
         elif not isinstance(
                 attrs.get('value'), int) and attrs.get('question').type in [
-            QuestionTypes.number, QuestionTypes.administration
-        ]:
+                    QuestionTypes.number, QuestionTypes.administration
+                ]:
 
             raise ValidationError(
                 'Valid number value is required for Question:{0}'.format(
@@ -847,12 +844,12 @@ class SubmitPendingFormSerializer(serializers.Serializer):
             option = None
 
             if answer.get('question').type in [
-                QuestionTypes.geo, QuestionTypes.option,
-                QuestionTypes.multiple_option
+                    QuestionTypes.geo, QuestionTypes.option,
+                    QuestionTypes.multiple_option
             ]:
                 option = answer.get('value')
             elif answer.get('question').type in [
-                QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
             ]:
                 name = answer.get('value')
             else:
