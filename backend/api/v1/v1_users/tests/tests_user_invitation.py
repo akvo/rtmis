@@ -208,6 +208,11 @@ class UserInvitationTestCase(TestCase):
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
+    def test_get_email_template(self):
+        response = self.client.get('/api/v1/email_template?type=user_register',
+                                   content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
     def test_delete_user(self):
         call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
