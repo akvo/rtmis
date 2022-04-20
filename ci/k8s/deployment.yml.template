@@ -74,6 +74,11 @@ spec:
                 secretKeyRef:
                   name: rtmis
                   key: mailjet-secret
+            - name: WEBDOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: rtmis
+                  key: webdomain
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /secrets/credentials.json
           readinessProbe:
@@ -136,6 +141,11 @@ spec:
                 secretKeyRef:
                   name: rtmis
                   key: mailjet-secret
+            - name: WEBDOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: rtmis
+                  key: webdomain
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /secrets/credentials.json
           volumeMounts:

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Button, Space } from "antd";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { config } from "../../lib";
 
 const Footer = ({ className = "footer", ...props }) => {
@@ -50,8 +50,12 @@ const Footer = ({ className = "footer", ...props }) => {
         <Col>Copyright 2021</Col>
         <Col>
           <Space>
-            <a className="dev">Terms of Service</a>
-            <a className="dev">Privacy Policy</a>
+            <Link to="terms" className="dev">
+              Terms of Service
+            </Link>
+            <Link to="privacy-policy" className="dev">
+              Privacy Policy
+            </Link>
           </Space>
         </Col>
       </Row>
