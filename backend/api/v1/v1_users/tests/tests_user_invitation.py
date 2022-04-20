@@ -104,6 +104,12 @@ class UserInvitationTestCase(TestCase):
                                        content_type='application/json',
                                        **header)
         self.assertEqual(add_response.status_code, 400)
+        edit_payload["role"] = 4
+        add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
+                                       edit_payload,
+                                       content_type='application/json',
+                                       **header)
+        self.assertEqual(add_response.status_code, 400)
         edit_payload["role"] = 2
         add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
                                        edit_payload,

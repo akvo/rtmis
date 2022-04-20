@@ -8,6 +8,7 @@ from rest_framework.exceptions import ValidationError
 
 from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_forms.models import FormApprovalAssignment, UserForms, Forms
+from api.v1.v1_forms.constants import FormTypes
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Access, Levels
 from api.v1.v1_users.models import SystemUser
@@ -148,6 +149,13 @@ class AddEditUserSerializer(serializers.ModelSerializer):
             raise ValidationError({
                 'administration':
                 'administration level is not valid with selected role'
+            })
+        form_types = [f.type for f in Forms.objects.all()]
+        if attrs.get('role') == UserRoleTypes.user \
+                and FormTypes.county in form_types:
+            raise ValidationError({
+                'User with role User only allow to '
+                'access County forms type'
             })
         return attrs
 
