@@ -14,6 +14,8 @@ import {
 } from "antd";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api } from "../../lib";
+import EditableCell from "./EditableCell";
+import { useNotification } from "../../util/hooks";
 
 const { TextArea } = Input;
 const { TabPane } = Tabs;
@@ -92,10 +94,13 @@ const ApprovalDetail = ({
   const [rawValues, setRawValues] = useState([]);
   const [columns, setColumns] = useState(summaryColumns);
   const [loading, setLoading] = useState(true);
+  // const [edited, setEdited] = useState(false);
   const [selectedTab, setSelectedTab] = useState("data-summary");
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
+  const [questionGroups, setQuestionGroups] = useState([]);
+  const { notify } = useNotification();
 
   const handleApprove = (id, status) => {
     let payload = {
@@ -171,25 +176,48 @@ const ApprovalDetail = ({
     }
   }, [selectedTab, record]);
 
-  const fetchData = (recordId) => {
+  const updateCell = (answer) => {
+    notify({
+      type: "success",
+      message: `Update ${answer} in state here`,
+    });
+  };
+
+  const initData = (recordId) => {
     setRawValues((rv) =>
       rv.map((rI) => (rI.id === recordId ? { ...rI, loading: true } : rI))
     );
+    if (questionGroups.length < 1) {
+      api
+        .get(`form/${record.form?.id}`)
+        .then((res) => {
+          setQuestionGroups(res.data.question_group);
+          fetchData(recordId, res.data.question_group);
+        })
+        .catch((e) => {
+          console.error(e);
+          setRawValues((rv) =>
+            rv.map((rI) =>
+              rI.id === recordId ? { ...rI, loading: false } : rI
+            )
+          );
+        });
+    } else {
+      fetchData(recordId, questionGroups);
+    }
+  };
+
+  const fetchData = (recordId, questionGroups) => {
     api
       .get(`pending-data/${recordId}`)
       .then((res) => {
-        const data = res.data
-          .map((r) => {
-            const question = values.find((v) => v.id === r.question)?.question;
-            return question
-              ? {
-                  key: r.question,
-                  question,
-                  value: r.value,
-                }
-              : null;
-          })
-          .filter((vf) => !!vf);
+        const data = questionGroups.map((qg) => ({
+          ...qg,
+          question: qg.question.map((q) => ({
+            ...q,
+            answer: res.data.find((d) => d.question === q.id)?.value || null,
+          })),
+        }));
         setRawValues((rv) =>
           rv.map((rI) =>
             rI.id === recordId ? { ...rI, data, loading: false } : rI
@@ -224,22 +252,34 @@ const ApprovalDetail = ({
                 expandedRowKeys,
                 expandedRowRender: (record) => {
                   return (
-                    <Table
-                      loading={record.loading}
-                      dataSource={record.data}
-                      rowKey="key"
-                      columns={[
-                        {
-                          title: "Question",
-                          dataIndex: "question",
-                        },
-                        {
-                          title: "Answer",
-                          dataIndex: "value",
-                          render: (v) => v[0] || "-",
-                        },
-                      ]}
-                    />
+                    <div>
+                      {record.data?.map((r, rI) => (
+                        <div key={rI}>
+                          <h3>{r.name}</h3>
+                          <Table
+                            loading={record.loading}
+                            pagination={false}
+                            dataSource={r.question}
+                            rowKey="id"
+                            columns={[
+                              {
+                                title: "Question",
+                                dataIndex: "name",
+                              },
+                              {
+                                title: "Answer",
+                                render: (row) => (
+                                  <EditableCell
+                                    record={row}
+                                    updateCell={updateCell}
+                                  />
+                                ),
+                              },
+                            ]}
+                          />
+                        </div>
+                      ))}
+                    </div>
                   );
                 },
                 expandIcon: ({ expanded, onExpand, record }) =>
@@ -256,7 +296,7 @@ const ApprovalDetail = ({
                       onClick={(e) => {
                         setExpandedRowKeys([record.id]);
                         if (!record.data?.length) {
-                          fetchData(record.id);
+                          initData(record.id);
                         }
                         onExpand(record, e);
                       }}
