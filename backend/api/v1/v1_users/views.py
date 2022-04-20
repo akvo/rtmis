@@ -71,9 +71,7 @@ def email_template(request, version):
         return Response(
             {'message': validate_serializers_message(serializer.errors)},
             status=status.HTTP_400_BAD_REQUEST)
-    email_type = None
-    if serializer.validated_data.get('type'):
-        email_type = serializer.validated_data.get('type')
+    email_type = serializer.validated_data.get('type')
     data = {'subject': 'Test', 'send_to': []}
     email = send_email(type=email_type, context=data, send=False)
     return HttpResponse(email)

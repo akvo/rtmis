@@ -209,9 +209,18 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_get_email_template(self):
+        # test get user_registration template
         response = self.client.get('/api/v1/email_template?type=user_register',
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
+        # not send type
+        response = self.client.get('/api/v1/email_template',
+                                   content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+        # test invalid type
+        response = self.client.get('/api/v1/email_template?type=registration',
+                                   content_type='application/json')
+        self.assertEqual(response.status_code, 400)
 
     def test_delete_user(self):
         call_command("administration_seeder", "--test")
