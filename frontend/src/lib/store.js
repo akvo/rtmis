@@ -15,6 +15,8 @@ const defaultUIState = {
   selectedForm: null,
   loadingForm: false,
   questionGroups: [],
+  showAdvancedFilters: false,
+  advancedFilters: [],
 };
 
 const store = new Store(defaultUIState);

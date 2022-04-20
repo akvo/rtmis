@@ -15,4 +15,16 @@
       border: none;
     }
   }
+  .advanced-filters {
+    margin-top: 12px;
+    .ant-card {
+      text-align: left;
+    }
+    .filter-options {
+      padding-top: 12px;
+    }
+    .filters-active {
+      padding-top: 12px;
+    }
+  }
 }
