@@ -118,6 +118,15 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(add_response.status_code, 200)
         self.assertEqual(add_response.json(),
                          {'message': 'User updated successfully'})
+        edit_payload["role"] = 2
+        edit_payload["forms"] = [1]
+        add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
+                                       edit_payload,
+                                       content_type='application/json',
+                                       **header)
+        self.assertEqual(add_response.status_code, 200)
+        self.assertEqual(add_response.json(),
+                         {'message': 'User updated successfully'})
         get_response = self.client.get("/api/v1/user/{0}".format(fl[0]['id']),
                                        content_type='application/json',
                                        **header)
@@ -131,9 +140,6 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(responses["forms"], [{
             'id': 1,
             'name': 'Test Form'
-        }, {
-            'id': 2,
-            'name': 'Test Form 2'
         }])
 
     def test_get_user_profile(self):

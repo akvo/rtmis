@@ -150,9 +150,9 @@ class AddEditUserSerializer(serializers.ModelSerializer):
                 'administration':
                 'administration level is not valid with selected role'
             })
-        form_types = [f.type for f in Forms.objects.all()]
+        form_types = [f.type for f in attrs.get('forms')]
         if attrs.get('role') == UserRoleTypes.user \
-                and FormTypes.county in form_types:
+                and FormTypes.national in form_types:
             raise ValidationError({
                 'User with role User only allow to '
                 'access County forms type'
@@ -185,7 +185,7 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         instance.user_access.administration = administration
         instance.user_access.save()
         # delete old user forms
-        user_forms = UserForms.objects.get(user=instance)
+        user_forms = UserForms.objects.filter(user=instance).all()
         if user_forms:
             user_forms.delete()
         # add new user forms
