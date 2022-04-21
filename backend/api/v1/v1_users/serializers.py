@@ -7,7 +7,8 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from api.v1.v1_data.constants import DataApprovalStatus
-from api.v1.v1_forms.models import FormApprovalAssignment
+from api.v1.v1_forms.models import FormApprovalAssignment, UserForms, Forms
+from api.v1.v1_forms.constants import FormTypes
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Access, Levels
 from api.v1.v1_users.models import SystemUser
@@ -100,6 +101,8 @@ class AddEditUserSerializer(serializers.ModelSerializer):
     administration = CustomPrimaryKeyRelatedField(
         queryset=Administration.objects.none())
     role = CustomChoiceField(choices=list(UserRoleTypes.FieldStr.keys()))
+    forms = CustomPrimaryKeyRelatedField(
+        queryset=Forms.objects.all(), many=True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -127,6 +130,9 @@ class AddEditUserSerializer(serializers.ModelSerializer):
             })
         return administration
 
+    def validate_forms(self, forms):
+        return forms
+
     def validate(self, attrs):
         if self.instance:
             if self.instance == self.context.get('user'):
@@ -144,20 +150,33 @@ class AddEditUserSerializer(serializers.ModelSerializer):
                 'administration':
                 'administration level is not valid with selected role'
             })
+        form_types = [f.type for f in attrs.get('forms')]
+        if attrs.get('role') == UserRoleTypes.user \
+                and FormTypes.national in form_types:
+            raise ValidationError({
+                'User with role User only allow to '
+                'access County forms type'
+            })
         return attrs
 
     def create(self, validated_data):
         administration = validated_data.pop('administration')
         role = validated_data.pop('role')
+        forms = validated_data.pop('forms')
         user = super(AddEditUserSerializer, self).create(validated_data)
         Access.objects.create(user=user,
                               administration=administration,
                               role=role)
+        # add new user forms
+        if forms:
+            for form in forms:
+                UserForms.objects.create(user=user, form=form)
         return user
 
     def update(self, instance, validated_data):
         administration = validated_data.pop('administration')
         role = validated_data.pop('role')
+        forms = validated_data.pop('forms')
         instance: SystemUser = super(AddEditUserSerializer,
                                      self).update(instance, validated_data)
         instance.updated = timezone.now()
@@ -165,13 +184,21 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         instance.user_access.role = role
         instance.user_access.administration = administration
         instance.user_access.save()
+        # delete old user forms
+        user_forms = UserForms.objects.filter(user=instance).all()
+        if user_forms:
+            user_forms.delete()
+        # add new user forms
+        if forms:
+            for form in forms:
+                UserForms.objects.create(user=instance, form=form)
         return instance
 
     class Meta:
         model = SystemUser
         fields = [
             'first_name', 'last_name', 'email', 'administration', 'role',
-            'phone_number', 'designation'
+            'phone_number', 'designation', 'forms'
         ]
 
 
@@ -270,7 +297,7 @@ class ListLevelSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'level']
 
 
-class UserDetailsFormSerializer(serializers.ModelSerializer):
+class UserApprovalAssignmentSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField(source='form.id')
     name = serializers.ReadOnlyField(source='form.name')
 
@@ -279,18 +306,33 @@ class UserDetailsFormSerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 
+class UserFormSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField(source='form.id')
+    name = serializers.ReadOnlyField(source='form.name')
+
+    class Meta:
+        model = UserForms
+        fields = ['id', 'name']
+
+
 class UserDetailSerializer(serializers.ModelSerializer):
     administration = serializers.ReadOnlyField(
         source='user_access.administration.id')
     role = serializers.ReadOnlyField(source='user_access.role')
+    approval_assignment = serializers.SerializerMethodField()
     forms = serializers.SerializerMethodField()
     pending_approval = serializers.SerializerMethodField()
     data = serializers.SerializerMethodField()
 
-    @extend_schema_field(UserDetailsFormSerializer(many=True))
-    def get_forms(self, instance: SystemUser):
-        return UserDetailsFormSerializer(
+    @extend_schema_field(UserApprovalAssignmentSerializer(many=True))
+    def get_approval_assignment(self, instance: SystemUser):
+        return UserApprovalAssignmentSerializer(
             instance=instance.user_data_approval.all(), many=True).data
+
+    @extend_schema_field(UserFormSerializer(many=True))
+    def get_forms(self, instance: SystemUser):
+        return UserFormSerializer(instance=instance.user_form.all(),
+                                  many=True).data
 
     @extend_schema_field(OpenApiTypes.INT)
     def get_pending_approval(self, instance: SystemUser):
@@ -305,5 +347,6 @@ class UserDetailSerializer(serializers.ModelSerializer):
         model = SystemUser
         fields = [
             'first_name', 'last_name', 'email', 'administration', 'role',
-            'phone_number', 'designation', 'forms', 'pending_approval', 'data'
+            'phone_number', 'designation', 'forms', 'approval_assignment',
+            'pending_approval', 'data'
         ]
