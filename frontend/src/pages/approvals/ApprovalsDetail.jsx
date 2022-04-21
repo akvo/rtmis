@@ -11,12 +11,17 @@ import {
   Tag,
   List,
   Avatar,
+  Spin,
 } from "antd";
-import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
+import {
+  PlusSquareOutlined,
+  CloseSquareOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
 import { api } from "../../lib";
 import EditableCell from "./EditableCell";
 import { isEqual, some } from "lodash";
-
+import { useNotification } from "../../util/hooks";
 const { TextArea } = Input;
 const { TabPane } = Tabs;
 
@@ -99,9 +104,31 @@ const ApprovalDetail = ({
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [questionGroups, setQuestionGroups] = useState([]);
+  const { notify } = useNotification();
 
   const handleSave = () => {
-    // Send to API
+    const data = [];
+    rawValues.map((rI) => {
+      rI.data.map((rd) => {
+        rd.question.map((rq) => {
+          if (rq.newValue) {
+            data.push({ id: rI.id, question: rq.id, value: rq.newValue });
+          }
+        });
+      });
+    });
+    // Placeholder:
+    api
+      .put("form-pending-data", data)
+      .then(() => {
+        notify({
+          type: "success",
+          message: "Data updated",
+        });
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
   const handleApprove = (id, status) => {
     let payload = {
@@ -183,14 +210,14 @@ const ApprovalDetail = ({
     }
   }, [selectedTab, record]);
 
-  const updateCell = (key, answer) => {
+  const updateCell = (key, parentId, answer) => {
     let prev = JSON.parse(JSON.stringify(rawValues));
     prev = prev.map((rI) => {
       let hasEdits = false;
       const data = rI.data.map((rd) => ({
         ...rd,
         question: rd.question.map((rq) => {
-          if (rq.id === key) {
+          if (rq.id === key && rI.id === parentId) {
             if (rq.answer === answer && rq.newValue) {
               delete rq.newValue;
             } else {
@@ -220,14 +247,14 @@ const ApprovalDetail = ({
     setRawValues(prev);
   };
 
-  const resetCell = (key) => {
+  const resetCell = (key, parentId) => {
     let prev = JSON.parse(JSON.stringify(rawValues));
     prev = prev.map((rI) => {
       let hasEdits = false;
       const data = rI.data.map((rd) => ({
         ...rd,
         question: rd.question.map((rq) => {
-          if (rq.id === key) {
+          if (rq.id === key && rI.id === parentId) {
             delete rq.newValue;
             const edited = false;
             return {
@@ -326,36 +353,53 @@ const ApprovalDetail = ({
                 expandedRowRender: (record) => {
                   return (
                     <div>
-                      {record.data?.map((r, rI) => (
-                        <div key={rI}>
-                          <h3>{r.name}</h3>
-                          <Table
-                            loading={record.loading}
-                            pagination={false}
-                            dataSource={r.question}
-                            rowClassName={(record) =>
-                              record.edited ? "row-edited" : "row-normal"
+                      {record.loading ? (
+                        <Space
+                          style={{ paddingTop: 18, color: "#9e9e9e" }}
+                          size="middle"
+                        >
+                          <Spin
+                            indicator={
+                              <LoadingOutlined
+                                style={{ color: "#1b91ff" }}
+                                spin
+                              />
                             }
-                            rowKey="id"
-                            columns={[
-                              {
-                                title: "Question",
-                                dataIndex: "name",
-                              },
-                              {
-                                title: "Answer",
-                                render: (row) => (
-                                  <EditableCell
-                                    record={row}
-                                    updateCell={updateCell}
-                                    resetCell={resetCell}
-                                  />
-                                ),
-                              },
-                            ]}
                           />
-                        </div>
-                      ))}
+                          <span>Loading..</span>
+                        </Space>
+                      ) : (
+                        record.data?.map((r, rI) => (
+                          <div className="pending-data-wrapper" key={rI}>
+                            <h3>{r.name}</h3>
+                            <Table
+                              pagination={false}
+                              dataSource={r.question}
+                              rowClassName={(record) =>
+                                record.edited ? "row-edited" : "row-normal"
+                              }
+                              rowKey="id"
+                              columns={[
+                                {
+                                  title: "Question",
+                                  dataIndex: "name",
+                                },
+                                {
+                                  title: "Response",
+                                  render: (row) => (
+                                    <EditableCell
+                                      record={row}
+                                      parentId={record.id}
+                                      updateCell={updateCell}
+                                      resetCell={resetCell}
+                                    />
+                                  ),
+                                },
+                              ]}
+                            />
+                          </div>
+                        ))
+                      )}
                     </div>
                   );
                 },

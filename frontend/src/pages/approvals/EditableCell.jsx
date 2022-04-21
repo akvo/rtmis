@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input, Select, Row, Col } from "antd";
+import { Button, Input, Select, Row, Col, Spin } from "antd";
 import { api } from "../../lib";
 const { Option } = Select;
-import { UndoOutlined, SaveOutlined } from "@ant-design/icons";
+import { UndoOutlined, SaveOutlined, LoadingOutlined } from "@ant-design/icons";
 
-const EditableCell = ({ record, updateCell, resetCell }) => {
+const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
   const [editing, setEditing] = useState(false);
-  const [locationName, setLocationName] = useState("-");
+  const [locationName, setLocationName] = useState(null);
+  const [locationLoading, setLocationLoading] = useState(false);
   const [value, setValue] = useState(null);
 
   useEffect(() => {
@@ -26,15 +27,17 @@ const EditableCell = ({ record, updateCell, resetCell }) => {
             fetchData(res.data.parent, acc);
           } else {
             setLocationName(acc.join("|"));
+            setLocationLoading(false);
           }
         });
       };
+      setLocationLoading(true);
       fetchData(record.answer, []);
     };
-    if (record && record.type === "cascade") {
+    if (record && record.type === "cascade" && !locationName) {
       getLocationName();
     }
-  }, [record]);
+  }, [record, locationName]);
   const getAnswerValue = () => {
     const finalVal = record.newValue ? record.newValue : record.answer;
     return record.type === "multiple_option"
@@ -92,7 +95,7 @@ const EditableCell = ({ record, updateCell, resetCell }) => {
       <Button
         type="primary"
         onClick={() => {
-          updateCell(record.id, value);
+          updateCell(record.id, parentId, value);
           setEditing(!editing);
         }}
         icon={<SaveOutlined />}
@@ -110,12 +113,24 @@ const EditableCell = ({ record, updateCell, resetCell }) => {
           }
         }}
       >
-        {record.type === "cascade" ? locationName : getAnswerValue()}
+        {record.type === "cascade" ? (
+          locationLoading ? (
+            <Spin
+              indicator={<LoadingOutlined style={{ color: "#1b91ff" }} spin />}
+            />
+          ) : locationName ? (
+            locationName
+          ) : (
+            "-"
+          )
+        ) : (
+          getAnswerValue()
+        )}
       </Col>
       {record.edited && (
         <Button
           onClick={() => {
-            resetCell(record.id);
+            resetCell(record.id, parentId);
           }}
           icon={<UndoOutlined />}
         >
