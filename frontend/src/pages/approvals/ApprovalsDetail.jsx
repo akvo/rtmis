@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Row,
   Col,
@@ -15,7 +15,7 @@ import {
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api } from "../../lib";
 import EditableCell from "./EditableCell";
-import { useNotification } from "../../util/hooks";
+import { isEqual, some } from "lodash";
 
 const { TextArea } = Input;
 const { TabPane } = Tabs;
@@ -94,14 +94,15 @@ const ApprovalDetail = ({
   const [rawValues, setRawValues] = useState([]);
   const [columns, setColumns] = useState(summaryColumns);
   const [loading, setLoading] = useState(true);
-  // const [edited, setEdited] = useState(false);
   const [selectedTab, setSelectedTab] = useState("data-summary");
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [questionGroups, setQuestionGroups] = useState([]);
-  const { notify } = useNotification();
 
+  const handleSave = () => {
+    // Send to API
+  };
   const handleApprove = (id, status) => {
     let payload = {
       batch: id,
@@ -165,7 +166,13 @@ const ApprovalDetail = ({
         .then((res) => {
           setColumns(columnsRawData);
           setRawValues(
-            res.data.map((x) => ({ key: x.id, data: [], loading: false, ...x }))
+            res.data.map((x) => ({
+              key: x.id,
+              data: [],
+              loading: false,
+              edited: false,
+              ...x,
+            }))
           );
           setLoading(false);
         })
@@ -176,11 +183,71 @@ const ApprovalDetail = ({
     }
   }, [selectedTab, record]);
 
-  const updateCell = (answer) => {
-    notify({
-      type: "success",
-      message: `Update ${answer} in state here`,
+  const updateCell = (key, answer) => {
+    let prev = JSON.parse(JSON.stringify(rawValues));
+    prev = prev.map((rI) => {
+      let hasEdits = false;
+      const data = rI.data.map((rd) => ({
+        ...rd,
+        question: rd.question.map((rq) => {
+          if (rq.id === key) {
+            if (rq.answer === answer && rq.newValue) {
+              delete rq.newValue;
+            } else {
+              rq.newValue = answer;
+            }
+            const edited = !isEqual(rq.answer, answer);
+            if (edited && !hasEdits) {
+              hasEdits = true;
+            }
+            return {
+              ...rq,
+              edited,
+            };
+          }
+          if (rq.edited && !hasEdits) {
+            hasEdits = true;
+          }
+          return rq;
+        }),
+      }));
+      return {
+        ...rI,
+        data,
+        edited: hasEdits,
+      };
     });
+    setRawValues(prev);
+  };
+
+  const resetCell = (key) => {
+    let prev = JSON.parse(JSON.stringify(rawValues));
+    prev = prev.map((rI) => {
+      let hasEdits = false;
+      const data = rI.data.map((rd) => ({
+        ...rd,
+        question: rd.question.map((rq) => {
+          if (rq.id === key) {
+            delete rq.newValue;
+            const edited = false;
+            return {
+              ...rq,
+              edited,
+            };
+          }
+          if (rq.edited && !hasEdits) {
+            hasEdits = true;
+          }
+          return rq;
+        }),
+      }));
+      return {
+        ...rI,
+        data,
+        edited: hasEdits,
+      };
+    });
+    setRawValues(prev);
   };
 
   const initData = (recordId) => {
@@ -216,6 +283,7 @@ const ApprovalDetail = ({
           question: qg.question.map((q) => ({
             ...q,
             answer: res.data.find((d) => d.question === q.id)?.value || null,
+            edited: false,
           })),
         }));
         setRawValues((rv) =>
@@ -232,6 +300,10 @@ const ApprovalDetail = ({
       });
   };
 
+  const isEdited = useMemo(() => {
+    return some(rawValues, { edited: true });
+  }, [rawValues]);
+
   return (
     <div>
       <Tabs centered activeKey={selectedTab} onTabClick={handleTabSelect}>
@@ -244,6 +316,7 @@ const ApprovalDetail = ({
         columns={columns}
         scroll={{ y: 500 }}
         pagination={false}
+        rowClassName={(record) => (record.edited ? "row-edited" : "row-normal")}
         style={{ borderBottom: "solid 1px #ddd" }}
         rowKey="id"
         expandable={
@@ -260,6 +333,9 @@ const ApprovalDetail = ({
                             loading={record.loading}
                             pagination={false}
                             dataSource={r.question}
+                            rowClassName={(record) =>
+                              record.edited ? "row-edited" : "row-normal"
+                            }
                             rowKey="id"
                             columns={[
                               {
@@ -272,6 +348,7 @@ const ApprovalDetail = ({
                                   <EditableCell
                                     record={row}
                                     updateCell={updateCell}
+                                    resetCell={resetCell}
                                   />
                                 ),
                               },
@@ -349,6 +426,13 @@ const ApprovalDetail = ({
         <Col>
           <Space>
             <Button
+              type="primary"
+              onClick={() => handleSave()}
+              disabled={!approve || selectedTab !== "raw-data" || !isEdited}
+            >
+              Save Edits
+            </Button>
+            <Button
               type="danger"
               onClick={() => handleApprove(record.id, 3)}
               disabled={!approve}
@@ -369,4 +453,4 @@ const ApprovalDetail = ({
   );
 };
 
-export default ApprovalDetail;
+export default React.memo(ApprovalDetail);
