@@ -64,7 +64,7 @@ const AddUser = () => {
       phone_number: values.phone_number,
       designation: values.designation,
       role: values.role,
-      forms: values.forms.map((f) => f.id),
+      forms: values.forms,
     })
       .then(() => {
         notify({
