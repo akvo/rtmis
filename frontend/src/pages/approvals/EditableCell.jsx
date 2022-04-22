@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input, Select, Row, Col, Spin } from "antd";
+import { Button, DatePicker, Input, Select, Row, Col, Spin } from "antd";
 import { api } from "../../lib";
 const { Option } = Select;
 import { UndoOutlined, SaveOutlined, LoadingOutlined } from "@ant-design/icons";
+import moment from "moment";
 
 const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
   const [editing, setEditing] = useState(false);
@@ -12,7 +13,12 @@ const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
 
   useEffect(() => {
     if (record && (record.newValue || record.answer)) {
-      setValue(record.newValue ? record.newValue : record.answer);
+      const newValue = record.newValue ? record.newValue : record.answer;
+      setValue(
+        record.type === "date"
+          ? moment(newValue).format("YYYY-MM-DD")
+          : newValue
+      );
     }
   }, [record]);
 
@@ -26,7 +32,7 @@ const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
           if (res.data.level > 0) {
             fetchData(res.data.parent, acc);
           } else {
-            setLocationName(acc.join("|"));
+            setLocationName(acc.join(" | "));
             setLocationLoading(false);
           }
         });
@@ -39,14 +45,14 @@ const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
     }
   }, [record, locationName]);
   const getAnswerValue = () => {
-    const finalVal = record.newValue ? record.newValue : record.answer;
+    // const finalVal = record.newValue ? record.newValue : record.answer;
     return record.type === "multiple_option"
-      ? finalVal.join(", ")
+      ? value.join(", ")
       : record.type === "option"
-      ? finalVal
-        ? finalVal[0]
+      ? value
+        ? value[0]
         : "-"
-      : finalVal;
+      : value;
   };
   const renderAnswerInput = () => {
     return record.type === "option" ? (
@@ -78,6 +84,18 @@ const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
           </Option>
         ))}
       </Select>
+    ) : record.type === "date" ? (
+      <DatePicker
+        size="small"
+        value={moment(value)}
+        format="YYYY-MM-DD"
+        animation={false}
+        onChange={(d, ds) => {
+          if (d) {
+            setValue(ds);
+          }
+        }}
+      />
     ) : (
       <Input
         type={record.type === "number" ? "number" : "text"}
