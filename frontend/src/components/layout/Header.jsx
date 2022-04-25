@@ -3,20 +3,28 @@ import PropTypes from "prop-types";
 import { Row, Col, Space, Button, Menu, Dropdown } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import { config, store } from "../../lib";
+
+function eraseCookieFromAllPaths(name) {
+  var pathBits = location.pathname.split("/");
+  var pathCurrent = " path=";
+  document.cookie = name + "=; expires=Thu, 01-Jan-1970 00:00:01 GMT;";
+
+  for (var i = 0; i < pathBits.length; i++) {
+    pathCurrent += (pathCurrent.substr(-1) !== "/" ? "/" : "") + pathBits[i];
+    document.cookie =
+      name + "=; expires=Thu, 01-Jan-1970 00:00:01 GMT;" + pathCurrent + ";";
+  }
+}
 
 const Header = ({ className = "header", ...props }) => {
   const { isLoggedIn, user } = store.useState();
-  const [cookies, removeCookie] = useCookies(["AUTH_TOKEN"]);
   const navigate = useNavigate();
   const location = useLocation();
 
   const signOut = async () => {
+    eraseCookieFromAllPaths("AUTH_TOKEN");
     store.update((s) => {
-      if (cookies["AUTH_TOKEN"]) {
-        removeCookie("AUTH_TOKEN", "");
-      }
       s.isLoggedIn = false;
       s.user = null;
     });
