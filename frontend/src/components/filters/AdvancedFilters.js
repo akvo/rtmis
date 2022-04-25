@@ -67,11 +67,12 @@ const AdvancedFilters = () => {
         (qi) => qi.id === selectedQuestion.id
       );
       if (optionsRes?.option?.length) {
-        return (
+        return optionsRes.option.length < 5 ? (
           <Checkbox.Group
             style={{ width: "100%" }}
             value={selectedFilterOption.map((fo) => fo.value)}
             onChange={onOptionsChange}
+            className="filter-options"
           >
             <Row>
               {optionsRes.option.map((oi) => (
@@ -81,6 +82,21 @@ const AdvancedFilters = () => {
               ))}
             </Row>
           </Checkbox.Group>
+        ) : (
+          <Select
+            mode="multiple"
+            style={{ width: "100%" }}
+            value={selectedFilterOption.map((fo) => fo.value)}
+            onChange={onOptionsChange}
+            className="filter-options"
+            placeholder="Select.."
+          >
+            {optionsRes.option.map((oi) => (
+              <Option value={oi.id} key={oi.id}>
+                {oi.name}
+              </Option>
+            ))}
+          </Select>
         );
       }
     }
