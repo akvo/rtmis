@@ -19,7 +19,7 @@ import {
   LoadingOutlined,
 } from "@ant-design/icons";
 import { api } from "../../lib";
-import EditableCell from "./EditableCell";
+import EditableCell from "../../components/EditableCell";
 import { isEqual, some } from "lodash";
 import { useNotification } from "../../util/hooks";
 const { TextArea } = Input;
@@ -197,7 +197,6 @@ const ApprovalDetail = ({
               key: x.id,
               data: [],
               loading: false,
-              edited: false,
               ...x,
             }))
           );
@@ -210,7 +209,7 @@ const ApprovalDetail = ({
     }
   }, [selectedTab, record]);
 
-  const updateCell = (key, parentId, answer) => {
+  const updateCell = (key, parentId, value) => {
     let prev = JSON.parse(JSON.stringify(rawValues));
     prev = prev.map((rI) => {
       let hasEdits = false;
@@ -218,21 +217,18 @@ const ApprovalDetail = ({
         ...rd,
         question: rd.question.map((rq) => {
           if (rq.id === key && rI.id === parentId) {
-            if (rq.answer === answer && rq.newValue) {
+            if (rq.value === value && rq.newValue) {
               delete rq.newValue;
             } else {
-              rq.newValue = answer;
+              rq.newValue = value;
             }
-            const edited = !isEqual(rq.answer, answer);
+            const edited = !isEqual(rq.value, value);
             if (edited && !hasEdits) {
               hasEdits = true;
             }
-            return {
-              ...rq,
-              edited,
-            };
+            return rq;
           }
-          if (rq.edited && !hasEdits) {
+          if (rq.newValue && !isEqual(rq.value, rq.newValue) && !hasEdits) {
             hasEdits = true;
           }
           return rq;
@@ -256,13 +252,9 @@ const ApprovalDetail = ({
         question: rd.question.map((rq) => {
           if (rq.id === key && rI.id === parentId) {
             delete rq.newValue;
-            const edited = false;
-            return {
-              ...rq,
-              edited,
-            };
+            return rq;
           }
-          if (rq.edited && !hasEdits) {
+          if (rq.newValue && !isEqual(rq.value, rq.newValue) && !hasEdits) {
             hasEdits = true;
           }
           return rq;
@@ -309,8 +301,7 @@ const ApprovalDetail = ({
           ...qg,
           question: qg.question.map((q) => ({
             ...q,
-            answer: res.data.find((d) => d.question === q.id)?.value || null,
-            edited: false,
+            value: res.data.find((d) => d.question === q.id)?.value || null,
           })),
         }));
         setRawValues((rv) =>
@@ -376,7 +367,10 @@ const ApprovalDetail = ({
                               pagination={false}
                               dataSource={r.question}
                               rowClassName={(record) =>
-                                record.edited ? "row-edited" : "row-normal"
+                                record.newValue &&
+                                !isEqual(record.newValue, record.value)
+                                  ? "row-edited"
+                                  : "row-normal"
                               }
                               rowKey="id"
                               columns={[

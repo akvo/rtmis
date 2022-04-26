@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Input, Select, Row, Col, Spin } from "antd";
-import { api } from "../../lib";
+import { api } from "../lib";
+import { isEqual } from "lodash";
 const { Option } = Select;
 import { UndoOutlined, SaveOutlined, LoadingOutlined } from "@ant-design/icons";
 import moment from "moment";
@@ -12,8 +13,8 @@ const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
   const [value, setValue] = useState(null);
 
   useEffect(() => {
-    if (record && (record.newValue || record.answer)) {
-      const newValue = record.newValue ? record.newValue : record.answer;
+    if (record && (record.newValue || record.value)) {
+      const newValue = record.newValue ? record.newValue : record.value;
       setValue(
         record.type === "date"
           ? moment(newValue).format("YYYY-MM-DD")
@@ -23,6 +24,8 @@ const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
   }, [record]);
 
   const notEditable = record.type === "cascade" || record.type === "geo";
+  const edited =
+    record && record.newValue && !isEqual(record.value, record.newValue);
 
   useEffect(() => {
     const getLocationName = () => {
@@ -38,16 +41,15 @@ const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
         });
       };
       setLocationLoading(true);
-      fetchData(record.answer, []);
+      fetchData(record.value, []);
     };
     if (record && record.type === "cascade" && !locationName) {
       getLocationName();
     }
   }, [record, locationName]);
   const getAnswerValue = () => {
-    // const finalVal = record.newValue ? record.newValue : record.answer;
     return record.type === "multiple_option"
-      ? value.join(", ")
+      ? value?.join(", ")
       : record.type === "option"
       ? value
         ? value[0]
@@ -145,7 +147,7 @@ const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
           getAnswerValue()
         )}
       </Col>
-      {record.edited && (
+      {edited && (
         <Button
           onClick={() => {
             resetCell(record.id, parentId);
