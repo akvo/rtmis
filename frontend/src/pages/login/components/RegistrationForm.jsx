@@ -11,6 +11,7 @@ const checkBoxOptions = [
   { name: "Special Character", re: /[-._!"`'#%&,:;<>=@{}~$()*+/?[\]^|]/ },
   { name: "Upercase Character", re: /[A-Z]/ },
   { name: "No White Space", re: /^\S*$/ },
+  { name: "Minimum 8 Character", re: /(?=.{8,})/ },
 ];
 
 const RegistrationForm = (props) => {
@@ -94,7 +95,7 @@ const RegistrationForm = (props) => {
             },
             () => ({
               validator() {
-                if (checkedList.length === 5) {
+                if (checkedList.length === 6) {
                   return Promise.resolve();
                 }
                 return Promise.reject(new Error("False Password Criteria"));
