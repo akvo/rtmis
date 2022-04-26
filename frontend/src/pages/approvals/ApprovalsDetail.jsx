@@ -217,7 +217,7 @@ const ApprovalDetail = ({
         ...rd,
         question: rd.question.map((rq) => {
           if (rq.id === key && rI.id === parentId) {
-            if (rq.value === value && rq.newValue) {
+            if (isEqual(rq.value, value) && rq.newValue) {
               delete rq.newValue;
             } else {
               rq.newValue = value;
@@ -464,7 +464,7 @@ const ApprovalDetail = ({
         <Col>
           <Space>
             <Button
-              type="primary"
+              className="dev"
               onClick={() => handleSave()}
               disabled={!approve || selectedTab !== "raw-data" || !isEdited}
             >

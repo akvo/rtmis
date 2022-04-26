@@ -100,10 +100,15 @@ const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
       />
     ) : (
       <Input
+        autoFocus
         type={record.type === "number" ? "number" : "text"}
         value={value}
         onChange={(e) => {
           setValue(e.target.value);
+        }}
+        onPressEnter={() => {
+          updateCell(record.id, parentId, value);
+          setEditing(false);
         }}
       />
     );
@@ -116,7 +121,7 @@ const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
         type="primary"
         onClick={() => {
           updateCell(record.id, parentId, value);
-          setEditing(!editing);
+          setEditing(false);
         }}
         icon={<SaveOutlined />}
       >
