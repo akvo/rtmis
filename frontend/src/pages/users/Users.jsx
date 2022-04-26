@@ -169,6 +169,8 @@ const Users = () => {
             current: currentPage,
             total: totalCount,
             pageSize: 10,
+            showTotal: (total, range) =>
+              `Results: ${range[0]} - ${range[1]} of ${total} users`,
           }}
           rowKey="id"
           expandable={{
