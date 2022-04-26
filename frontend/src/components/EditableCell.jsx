@@ -5,6 +5,7 @@ import { isEqual } from "lodash";
 const { Option } = Select;
 import { UndoOutlined, SaveOutlined, LoadingOutlined } from "@ant-design/icons";
 import moment from "moment";
+import PropTypes from "prop-types";
 
 const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
   const [editing, setEditing] = useState(false);
@@ -166,4 +167,16 @@ const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
   );
 };
 
+EditableCell.propTypes = {
+  record: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
+    value: PropTypes.any.isRequired,
+    option: PropTypes.array,
+    newValue: PropTypes.any,
+  }),
+  parentId: PropTypes.number.isRequired,
+  updateCell: PropTypes.func.isRequired,
+  resetCell: PropTypes.func.isRequired,
+};
 export default React.memo(EditableCell);
