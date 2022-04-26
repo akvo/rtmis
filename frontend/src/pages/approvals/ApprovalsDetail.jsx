@@ -19,7 +19,7 @@ import {
   LoadingOutlined,
 } from "@ant-design/icons";
 import { api } from "../../lib";
-import EditableCell from "../../components/EditableCell";
+import { EditableCell } from "../../components";
 import { isEqual, some } from "lodash";
 import { useNotification } from "../../util/hooks";
 const { TextArea } = Input;

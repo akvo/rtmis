@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Table, Button, Space, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
-import EditableCell from "../../components/EditableCell";
+import { EditableCell } from "../../components";
 import { api } from "../../lib";
 import { flatten, isEqual } from "lodash";
 
