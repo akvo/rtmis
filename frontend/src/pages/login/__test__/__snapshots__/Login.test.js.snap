@@ -409,6 +409,44 @@ exports[`Login and Registration test if the registration form exists: Registrati
                     Special Character
                   </span>
                 </label>
+                <label
+                  class="ant-checkbox-wrapper ant-checkbox-group-item"
+                >
+                  <span
+                    class="ant-checkbox"
+                  >
+                    <input
+                      class="ant-checkbox-input"
+                      type="checkbox"
+                      value="Upercase Character"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span>
+                    Upercase Character
+                  </span>
+                </label>
+                <label
+                  class="ant-checkbox-wrapper ant-checkbox-group-item"
+                >
+                  <span
+                    class="ant-checkbox"
+                  >
+                    <input
+                      class="ant-checkbox-input"
+                      type="checkbox"
+                      value="No White Space"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span>
+                    No White Space
+                  </span>
+                </label>
               </div>
               <form
                 class="ant-form ant-form-vertical"
