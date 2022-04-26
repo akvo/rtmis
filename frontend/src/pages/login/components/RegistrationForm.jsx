@@ -94,7 +94,7 @@ const RegistrationForm = (props) => {
             },
             () => ({
               validator() {
-                if (checkedList.length === 3) {
+                if (checkedList.length === 5) {
                   return Promise.resolve();
                 }
                 return Promise.reject(new Error("False Password Criteria"));
