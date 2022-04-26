@@ -418,14 +418,14 @@ exports[`Login and Registration test if the registration form exists: Registrati
                     <input
                       class="ant-checkbox-input"
                       type="checkbox"
-                      value="Upercase Character"
+                      value="Uppercase Character"
                     />
                     <span
                       class="ant-checkbox-inner"
                     />
                   </span>
                   <span>
-                    Upercase Character
+                    Uppercase Character
                   </span>
                 </label>
                 <label
@@ -445,6 +445,25 @@ exports[`Login and Registration test if the registration form exists: Registrati
                   </span>
                   <span>
                     No White Space
+                  </span>
+                </label>
+                <label
+                  class="ant-checkbox-wrapper ant-checkbox-group-item"
+                >
+                  <span
+                    class="ant-checkbox"
+                  >
+                    <input
+                      class="ant-checkbox-input"
+                      type="checkbox"
+                      value="Minimum 8 Character"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span>
+                    Minimum 8 Character
                   </span>
                 </label>
               </div>
