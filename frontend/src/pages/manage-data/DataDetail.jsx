@@ -1,62 +1,131 @@
-import { Row, Col, Table, Button, Divider } from "antd";
+import React, { useEffect, useMemo, useState } from "react";
+import { Table, Button, Space, Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+import { EditableCell } from "../../components";
+import { api } from "../../lib";
+import { flatten, isEqual } from "lodash";
 
-const DataDetail = ({ loading, questionGroups, record }) => {
-  const { answer } = record;
-  const columns = [
-    {
-      title: "Field",
-      dataIndex: "field",
-      key: "field",
-      width: "50%",
-    },
-    {
-      title: "Value",
-      dataIndex: "value",
-      key: "value",
-    },
-  ];
-  const dataset = questionGroups
-    .map((qg, qgi) => {
-      const question = qg.question.map((q) => {
-        return {
-          key: `question-${q.id}`,
-          field: q.name,
-          value: answer?.find((r) => r.question === q.id)?.value,
-        };
-      });
-      return [
-        {
-          key: `question-group-${qgi}`,
-          field: qg.name,
-          render: (value) => <h1>{value}</h1>,
-        },
-        ...question,
-      ];
-    })
-    .flatMap((x) => x);
-  return (
-    <Row justify="center">
-      <Col span={20}>
-        <Table
-          columns={columns}
-          dataSource={dataset}
-          pagination={false}
-          scroll={{ y: 300 }}
-          className="table-child"
-          loading={loading}
-        />
-      </Col>
-      <Divider />
-      <Col span={10} align="left">
-        <Button danger className="dev">
-          Delete
+const DataDetail = ({ questionGroups, record }) => {
+  const [dataset, setDataset] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const updateCell = (key, parentId, value) => {
+    let prev = JSON.parse(JSON.stringify(dataset));
+    prev = prev.map((qg) =>
+      qg.id === parentId
+        ? {
+            ...qg,
+            question: qg.question.map((qi) => {
+              if (qi.id === key) {
+                if (isEqual(qi.value, value) && qi.newValue) {
+                  delete qi.newValue;
+                } else {
+                  qi.newValue = value;
+                }
+                return qi;
+              }
+              return qi;
+            }),
+          }
+        : qg
+    );
+    setDataset(prev);
+  };
+
+  const resetCell = (key, parentId) => {
+    let prev = JSON.parse(JSON.stringify(dataset));
+    prev = prev.map((qg) =>
+      qg.id === parentId
+        ? {
+            ...qg,
+            question: qg.question.map((qi) => {
+              if (qi.id === key) {
+                delete qi.newValue;
+              }
+              return qi;
+            }),
+          }
+        : qg
+    );
+    setDataset(prev);
+  };
+
+  useEffect(() => {
+    if (record?.id && !dataset.length) {
+      setLoading(true);
+      api
+        .get(`data/${record.id}`)
+        .then((res) => {
+          const data = questionGroups.map((qg) => ({
+            ...qg,
+            question: qg.question.map((q) => ({
+              ...q,
+              value: res.data.find((d) => d.question === q.id)?.value || null,
+            })),
+          }));
+          setDataset(data);
+          setLoading(false);
+        })
+        .catch((e) => {
+          console.error(e);
+          setLoading(false);
+        });
+    }
+  }, [record, dataset.length, questionGroups]);
+  const edited = useMemo(() => {
+    return dataset.length
+      ? flatten(dataset.map((qg) => qg.question)).findIndex(
+          (fi) => fi.newValue
+        ) > -1
+      : false;
+  }, [dataset]);
+  return loading ? (
+    <Space style={{ paddingTop: 18, color: "#9e9e9e" }} size="middle">
+      <Spin indicator={<LoadingOutlined style={{ color: "#1b91ff" }} spin />} />
+      <span>Loading..</span>
+    </Space>
+  ) : (
+    <>
+      <div className="data-detail">
+        {dataset.map((r, rI) => (
+          <div className="pending-data-wrapper" key={rI}>
+            <h3>{r.name}</h3>
+            <Table
+              pagination={false}
+              dataSource={r.question}
+              rowClassName={(record) =>
+                record.newValue && !isEqual(record.newValue, record.value)
+                  ? "row-edited"
+                  : "row-normal"
+              }
+              rowKey="id"
+              columns={[
+                {
+                  title: "Question",
+                  dataIndex: "name",
+                },
+                {
+                  title: "Response",
+                  render: (row) => (
+                    <EditableCell
+                      record={row}
+                      parentId={row.question_group}
+                      updateCell={updateCell}
+                      resetCell={resetCell}
+                    />
+                  ),
+                },
+              ]}
+            />
+          </div>
+        ))}
+      </div>
+      <div>
+        <Button className="dev" disabled={!edited}>
+          Save Edits
         </Button>
-      </Col>
-      <Col span={10} align="right">
-        <Button className="light dev">Upload CSV</Button>
-      </Col>
-    </Row>
+      </div>
+    </>
   );
 };
 
-export default DataDetail;
+export default React.memo(DataDetail);
