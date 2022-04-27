@@ -36,7 +36,7 @@ const shapeColorRange = [
 const colorRange = ["#bbedda", "#a7e1cb", "#92d5bd", "#7dcaaf", "#67bea1"];
 const higlightColor = "#84b4cc";
 
-const Map = ({ style, question }) => {
+const Map = ({ style }) => {
   const {
     administration,
     selectedForm,
@@ -53,6 +53,16 @@ const Map = ({ style, question }) => {
   const [shapeFilterColor, setShapeFilterColor] = useState(null);
   // marker legend click filter
   const [markerLegendSelected, setMarkerLegendSelected] = useState(null);
+  const [current, setCurrent] = useState(null);
+
+  useEffect(() => {
+    if (selectedForm && window.visualisation) {
+      const configRes = window.visualisation.find((f) => f.id === selectedForm);
+      if (configRes) {
+        setCurrent(configRes);
+      }
+    }
+  }, [selectedForm]);
 
   useEffect(() => {
     if (map && administration.length) {
@@ -144,17 +154,13 @@ const Map = ({ style, question }) => {
   };
 
   useEffect(() => {
-    if (
-      question &&
-      selectedForm &&
-      question?.markerQuestion?.form === selectedForm
-    ) {
+    if (current && selectedForm && current.id === selectedForm) {
       store.update((s) => {
         s.loadingMap = true;
       });
       api
         .get(
-          `maps/${selectedForm}?marker=${question?.shapeQuestion?.id}&shape=${question?.markerQuestion?.id}`
+          `maps/${selectedForm}?marker=${current?.map?.marker?.id}&shape=${current?.map?.shape?.id}`
         )
         .then((res) => {
           setResults(res.data);
@@ -168,7 +174,7 @@ const Map = ({ style, question }) => {
           });
         });
     }
-  }, [selectedForm, question]);
+  }, [selectedForm, current]);
 
   useEffect(() => {
     if (hoveredShape && results.length && administration.length) {
@@ -181,7 +187,7 @@ const Map = ({ style, question }) => {
               <h3>{geoName}</h3>
               <Space align="top" direction="horizontal">
                 <span className="shape-tooltip-name">
-                  {question?.shapeQuestion?.name}
+                  {current?.map?.shape?.name}
                 </span>
                 <h3 className="shape-tooltip-value">
                   {geoRes.length ? sumBy(geoRes, "marker") : 0}
@@ -197,17 +203,14 @@ const Map = ({ style, question }) => {
       }
       setShapeTooltip(null);
     }
-  }, [hoveredShape, results, question, administration, adminName]);
+  }, [hoveredShape, results, current, administration, adminName]);
 
   const markerLegendOptions = useMemo(() => {
-    if (
-      question &&
-      question?.markerQuestion &&
-      question.markerQuestion?.option
-    ) {
-      return question.markerQuestion.option;
+    if (current && current?.map?.marker && current.map.marker?.options) {
+      return current.map?.marker.options;
     }
-  }, [question]);
+    return [];
+  }, [current]);
 
   const Markers = ({ data }) => {
     if (data.length) {
@@ -239,7 +242,7 @@ const Map = ({ style, question }) => {
                 <h3>{takeRight(name.split(" - "), 1)[0]}</h3>
                 <div className="shape-tooltip-value">&nbsp;</div>
                 <div className="shape-tooltip-name">
-                  {question?.markerQuestion?.name}
+                  {current?.map?.marker?.name}
                 </div>
                 <div className="shape-tooltip-value">{shape[0]}</div>
               </div>
@@ -261,10 +264,9 @@ const Map = ({ style, question }) => {
     };
 
     if (markerLegendOptions) {
-      const { markerQuestion } = question;
       return (
         <div className="marker-legend">
-          <h4>{markerQuestion?.name}</h4>
+          <h4>{current?.map?.marker?.name}</h4>
           {markerLegendOptions.map((sO, sI) => (
             <div
               key={sI}
@@ -329,9 +331,9 @@ const Map = ({ style, question }) => {
       setShapeFilterColor(colorRange[index]);
     };
 
-    return question && !loadingMap && thresholds.length ? (
+    return current && !loadingMap && thresholds.length ? (
       <div className="shape-legend">
-        <div>{question?.shapeQuestion?.name}</div>
+        <div>{current?.map?.shape?.name}</div>
         <Row className="legend-wrap">
           {thresholds.map((t, tI) => (
             <Col
@@ -379,9 +381,9 @@ const Map = ({ style, question }) => {
             type="secondary"
             icon={<ZoomOutOutlined />}
             onClick={() => {
-              const current = map.getZoom() - 1;
-              map.setZoom(current);
-              setZoomLevel(current);
+              const currentZoom = map.getZoom() - 1;
+              map.setZoom(currentZoom);
+              setZoomLevel(currentZoom);
             }}
           />
           <Button
@@ -389,9 +391,9 @@ const Map = ({ style, question }) => {
             type="secondary"
             icon={<ZoomInOutlined />}
             onClick={() => {
-              const current = map.getZoom() + 1;
-              map.setZoom(current);
-              setZoomLevel(current);
+              const currentZoom = map.getZoom() + 1;
+              map.setZoom(currentZoom);
+              setZoomLevel(currentZoom);
             }}
           />
         </Space>
