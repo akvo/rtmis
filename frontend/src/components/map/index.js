@@ -8,7 +8,14 @@ import {
   Tooltip,
 } from "react-leaflet";
 import { api, geo, store } from "../../lib";
-import { takeRight, intersection, chain, groupBy, sumBy } from "lodash";
+import {
+  takeRight,
+  intersection,
+  chain,
+  groupBy,
+  sumBy,
+  flatten,
+} from "lodash";
 import { Button, Space, Spin, Row, Col } from "antd";
 import { scaleQuantize } from "d3-scale";
 import {
@@ -21,7 +28,7 @@ import "leaflet/dist/leaflet.css";
 const { geojson, tile, defaultPos, getBounds } = geo;
 const defPos = defaultPos();
 const mapMaxZoom = 13;
-const shapeColorRange = [
+const markerColorRange = [
   "#47CC65",
   "#EC8964",
   "#5195ED",
@@ -43,6 +50,7 @@ const Map = ({ style }) => {
     loadingForm,
     selectedAdministration,
     loadingMap,
+    questionGroups,
   } = store.useState((s) => s);
   const [map, setMap] = useState(null);
   const [results, setResults] = useState([]);
@@ -187,10 +195,10 @@ const Map = ({ style }) => {
               <h3>{geoName}</h3>
               <Space align="top" direction="horizontal">
                 <span className="shape-tooltip-name">
-                  {current?.map?.shape?.name}
+                  {current?.map?.shape?.title}
                 </span>
                 <h3 className="shape-tooltip-value">
-                  {geoRes.length ? sumBy(geoRes, "marker") : 0}
+                  {geoRes.length ? sumBy(geoRes, "shape") : 0}
                 </h3>
               </Space>
             </div>
@@ -207,24 +215,28 @@ const Map = ({ style }) => {
 
   const markerLegendOptions = useMemo(() => {
     if (current && current?.map?.marker && current.map.marker?.options) {
-      return current.map?.marker.options;
+      return (
+        flatten(questionGroups.map((qg) => qg.question)).find(
+          (q) => q.id === current.map.marker.id
+        )?.option || []
+      );
     }
     return [];
-  }, [current]);
+  }, [current, questionGroups]);
 
   const Markers = ({ data }) => {
     if (data.length) {
       const r = 5;
       data = data.filter((d) => d.geo.length === 2);
-      return data.map(({ id, geo, shape, name }) => {
-        const shapeRes = markerLegendOptions
+      return data.map(({ id, geo, marker, name }) => {
+        const markerRes = markerLegendOptions
           .map((x) => x.name)
-          .findIndex((sO) => sO === shape[0]);
+          .findIndex((sO) => sO === marker[0]);
         const highlight =
           markerLegendSelected?.name &&
-          intersection([markerLegendSelected.name], shape).length;
+          intersection([markerLegendSelected.name], marker).length;
         const markerColor =
-          shapeRes === -1 ? "#111" : shapeColorRange[shapeRes];
+          markerRes === -1 ? "#111" : markerColorRange[markerRes];
         return (
           <Circle
             key={id}
@@ -238,13 +250,12 @@ const Map = ({ style }) => {
             radius={r * 100 * (highlight ? 5 : 1)}
           >
             <Tooltip direction="top">
-              <div className="shape-tooltip-container">
+              <div className="marker-tooltip-container">
                 <h3>{takeRight(name.split(" - "), 1)[0]}</h3>
-                <div className="shape-tooltip-value">&nbsp;</div>
-                <div className="shape-tooltip-name">
-                  {current?.map?.marker?.name}
+                <div className="marker-tooltip-name">
+                  {current?.map?.marker?.title}
                 </div>
-                <div className="shape-tooltip-value">{shape[0]}</div>
+                <div className="marker-tooltip-value">{marker[0]}</div>
               </div>
             </Tooltip>
           </Circle>
@@ -266,7 +277,7 @@ const Map = ({ style }) => {
     if (markerLegendOptions) {
       return (
         <div className="marker-legend">
-          <h4>{current?.map?.marker?.name}</h4>
+          <h4>{current?.map?.marker?.title}</h4>
           {markerLegendOptions.map((sO, sI) => (
             <div
               key={sI}
@@ -276,7 +287,7 @@ const Map = ({ style }) => {
               <Space direction="horizontal" align="top">
                 <div
                   className="circle-legend"
-                  style={{ backgroundColor: shapeColorRange[sI] }}
+                  style={{ backgroundColor: markerColorRange[sI] }}
                 />
                 <span>{sO?.name || "NA"}</span>
               </Space>
@@ -290,7 +301,7 @@ const Map = ({ style }) => {
 
   const shapeColors = chain(groupBy(results, "loc"))
     .map((l, lI) => {
-      const values = sumBy(l, "marker");
+      const values = sumBy(l, "shape");
       return { name: lI, values };
     })
     .value();

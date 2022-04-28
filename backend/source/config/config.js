@@ -202,12 +202,10 @@ var visualisation = [
         type: "BARSTACK",
         id: 996994037,
         title: "Separate toilets for girls and boys",
-        stack: [
-          {
-            id: 992994039,
-            title: "Toilets for girls marked with signs",
-          },
-        ],
+        stack: {
+          id: 992994039,
+          title: "Toilets for girls marked with signs",
+        },
       },
     ],
   },

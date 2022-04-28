@@ -22,6 +22,31 @@ const Visualisation = () => {
   );
   const { notify } = useNotification();
 
+  useEffect(() => {
+    const rawData = questionGroups
+      .filter((q) => {
+        return (
+          !!q.question?.filter((qn) => qn.type === "option").length || false
+        );
+      })
+      .map((qg) => {
+        return {
+          id: qg.id,
+          title: qg.name,
+          selected:
+            qg.question.filter((qi) => qi.type === "option")[0]?.id + "" ||
+            null,
+          data: [],
+          chart: "BAR",
+          question:
+            qg.question?.map((qn) => ({
+              ...qn,
+            })) || [],
+        };
+      });
+    setDataset(rawData);
+  }, [questionGroups]);
+
   const setChartType = (questionGroupId, type) => {
     const temp = dataset.map((ds) => {
       return ds.id === questionGroupId
