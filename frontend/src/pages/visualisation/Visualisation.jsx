@@ -10,6 +10,7 @@ import {
 import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { VisualisationFilters, Map, Chart } from "../../components";
+import DataChart from "./DataChart";
 const { Panel } = Collapse;
 const { Option } = Select;
 
@@ -17,10 +18,20 @@ const Visualisation = () => {
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(false);
   const [activeKey, setActiveKey] = useState(null);
+  const [current, setCurrent] = useState(null);
   const { selectedForm, forms, loadingForm, questionGroups } = store.useState(
     (state) => state
   );
   const { notify } = useNotification();
+
+  useEffect(() => {
+    if (selectedForm && window.visualisation) {
+      const configRes = window.visualisation.find((f) => f.id === selectedForm);
+      if (configRes) {
+        setCurrent(configRes);
+      }
+    }
+  }, [selectedForm]);
 
   useEffect(() => {
     const rawData = questionGroups
@@ -38,10 +49,7 @@ const Visualisation = () => {
             null,
           data: [],
           chart: "BAR",
-          question:
-            qg.question?.map((qn) => ({
-              ...qn,
-            })) || [],
+          question: qg.question || [],
         };
       });
     setDataset(rawData);
@@ -116,9 +124,14 @@ const Visualisation = () => {
       <VisualisationFilters />
       <Divider />
       <Card style={{ padding: 0, minHeight: "40vh", textAlign: "left" }}>
-        <Row justify="space-between">
-          <Col span={11}>
+        <Row justify="space-between" gutter={16}>
+          <Col span={14}>
             <h2>{forms?.find((f) => f.id === selectedForm)?.name}</h2>
+            <Map
+              markerData={{ features: [] }}
+              style={{ height: 585 }}
+              current={current}
+            />
             <Collapse
               accordion
               activeKey={activeKey}
@@ -139,13 +152,14 @@ const Visualisation = () => {
               {dataset.map((d, dI) => (
                 <Panel key={dI} header={d.title}>
                   <Row
+                    wrap="false"
                     style={{
                       width: "100%",
-                      flexWrap: "nowrap",
+                      // flexWrap: "nowrap",
                       marginBottom: 12,
                     }}
                   >
-                    <Col flex={1}>
+                    <Col flex="auto">
                       <Select
                         value={d.selected}
                         disabled={loading}
@@ -163,7 +177,7 @@ const Visualisation = () => {
                           ))}
                       </Select>
                     </Col>
-                    <Col>
+                    <Col flex="none">
                       <Space>
                         <Button
                           title="Bar Chart"
@@ -212,8 +226,19 @@ const Visualisation = () => {
               ))}
             </Collapse>
           </Col>
-          <Col span={12}>
-            <Map markerData={{ features: [] }} style={{ height: 585 }} />
+          <Col span={10}>
+            <div className="charts-wrap">
+              {current?.charts?.map((cc) => (
+                <DataChart
+                  key={`chart-${cc.id}`}
+                  type={cc.type}
+                  formId={current.id}
+                  questionId={cc.id}
+                  title={cc.title}
+                  stack={cc.stack}
+                />
+              ))}
+            </div>
           </Col>
         </Row>
       </Card>

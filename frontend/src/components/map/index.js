@@ -38,12 +38,14 @@ const markerColorRange = [
   "#CFB52A",
   "#43C6CE",
   "#AA9B7E",
-  "#8D8D8D",
+  "#BDDF38",
+  "#52B0AE",
+  "#F2AEAD",
 ];
 const colorRange = ["#bbedda", "#a7e1cb", "#92d5bd", "#7dcaaf", "#67bea1"];
 const higlightColor = "#84b4cc";
 
-const Map = ({ style }) => {
+const Map = ({ current, style }) => {
   const {
     administration,
     selectedForm,
@@ -61,16 +63,6 @@ const Map = ({ style }) => {
   const [shapeFilterColor, setShapeFilterColor] = useState(null);
   // marker legend click filter
   const [markerLegendSelected, setMarkerLegendSelected] = useState(null);
-  const [current, setCurrent] = useState(null);
-
-  useEffect(() => {
-    if (selectedForm && window.visualisation) {
-      const configRes = window.visualisation.find((f) => f.id === selectedForm);
-      if (configRes) {
-        setCurrent(configRes);
-      }
-    }
-  }, [selectedForm]);
 
   useEffect(() => {
     if (map && administration.length) {
@@ -289,7 +281,14 @@ const Map = ({ style }) => {
                   className="circle-legend"
                   style={{ backgroundColor: markerColorRange[sI] }}
                 />
-                <span>{sO?.name || "NA"}</span>
+                <span
+                  style={{
+                    fontWeight:
+                      markerLegendSelected?.id === sO.id ? "600" : "400",
+                  }}
+                >
+                  {sO?.name || "NA"}
+                </span>
               </Space>
             </div>
           ))}
