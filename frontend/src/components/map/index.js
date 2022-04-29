@@ -206,7 +206,7 @@ const Map = ({ current, style }) => {
   }, [hoveredShape, results, current, administration, adminName]);
 
   const markerLegendOptions = useMemo(() => {
-    if (current && current?.map?.marker && current.map.marker?.options) {
+    if (current && current?.map?.marker) {
       return (
         flatten(questionGroups.map((qg) => qg.question)).find(
           (q) => q.id === current.map.marker.id

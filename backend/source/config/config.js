@@ -36,11 +36,37 @@ var visualisation = [
         type: "PIE",
         id: 444670046,
         title: "Survey Participation",
+        options: [
+          {
+            id: 685,
+            name: "Yes",
+            color: "#64d985",
+          },
+          {
+            id: 686,
+            name: "No",
+            color: "#e06971",
+          }
+        ],
       },
       {
         type: "PIE",
         id: 517600057,
         title: "Household head's gender",
+        options: [
+          {
+            id: 692,
+            name: "Male",
+            title: "M",
+            color: "#5999e8",
+          },
+          {
+            id: 693,
+            name: "Female",
+            title: "F",
+            color: "#d45dba",
+          }
+        ],
       },
       {
         type: "PIE",
@@ -217,6 +243,32 @@ var visualisation = [
       marker: {
         id: 571050096,
         title: "Water Source Type",
+      },
+      shape: {
+        id: 555960249,
+        title: "Number of functional taps",
+      },
+    },
+    charts: [
+      {
+        type: "PIE",
+        id: 557710145,
+        title: "Water System installed by",
+      },
+      {
+        type: "BAR",
+        id: 569070152,
+        title: "Abstraction/Pump Equipment",
+      },
+      {
+        type: "BAR",
+        id: 571060083,
+        title: "Source of Energy",
+      },
+      {
+        type: "BAR",
+        id: 571050096,
+        title: "Water Source Type",
         options: [
           {
             id: 996,
@@ -247,32 +299,6 @@ var visualisation = [
             name: "Surface water"
           },
         ],
-      },
-      shape: {
-        id: 555960249,
-        title: "Number of functional taps",
-      },
-    },
-    charts: [
-      {
-        type: "PIE",
-        id: 557710145,
-        title: "Water System installed by",
-      },
-      {
-        type: "BAR",
-        id: 569070152,
-        title: "Abstraction/Pump Equipment",
-      },
-      {
-        type: "BAR",
-        id: 571060083,
-        title: "Source of Energy",
-      },
-      {
-        type: "BAR",
-        id: 571050096,
-        title: "Water Source Type",
       },
     ],
   },

@@ -70,7 +70,7 @@ const Visualisation = () => {
   const fetchData = (questionGroupId, questionId) => {
     setLoading(true);
     api
-      .get(`chart/data/${selectedForm}?question=${questionId}`)
+      .get(`chart/data/${current.id}?question=${questionId}`)
       .then((res) => {
         let temp = [...dataset];
         temp = temp.map((ds) => {
@@ -231,11 +231,8 @@ const Visualisation = () => {
               {current?.charts?.map((cc) => (
                 <DataChart
                   key={`chart-${cc.id}`}
-                  type={cc.type}
                   formId={current.id}
-                  questionId={cc.id}
-                  title={cc.title}
-                  stack={cc.stack}
+                  config={cc}
                 />
               ))}
             </div>

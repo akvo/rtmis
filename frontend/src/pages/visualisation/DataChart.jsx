@@ -6,23 +6,49 @@ import { api } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { Chart } from "../../components";
 import PropTypes from "prop-types";
+const defaultColors = [
+  "#5470c6",
+  "#91cc75",
+  "#fac858",
+  "#ee6666",
+  "#73c0de",
+  "#3ba272",
+  "#fc8452",
+  "#9a60b4",
+  "#ea7ccc",
+];
 
-const DataChart = ({ formId, questionId, title, type = "BAR", stack }) => {
+const DataChart = ({ config, formId }) => {
   const [dataset, setDataset] = useState([]);
+  const [chartColors, setChartColors] = useState([]);
   const [loading, setLoading] = useState(false);
   const { notify } = useNotification();
-
+  const { id, title, type, stack, options } = config;
   useEffect(() => {
-    if (formId && questionId) {
+    if (formId && id) {
       setLoading(true);
       const url =
         type === "BARSTACK" && stack?.id
-          ? `chart/data/${formId}?question=${questionId}&stack=${stack.id}`
-          : `chart/data/${formId}?question=${questionId}`;
+          ? `chart/data/${formId}?question=${id}&stack=${stack.id}`
+          : `chart/data/${formId}?question=${id}`;
       api
         .get(url)
         .then((res) => {
-          setDataset(res.data.data);
+          const colors = [];
+          const temp = options?.length
+            ? res.data?.data?.map((d, dI) => {
+                const optRes = options.find(
+                  (op) => op.name.toLowerCase() === d.name.toLowerCase()
+                );
+                colors.push(optRes?.color || defaultColors[dI]);
+                return {
+                  name: optRes?.title || optRes?.name || d.name,
+                  value: d.value,
+                };
+              })
+            : res.data.data;
+          setChartColors(colors);
+          setDataset(temp);
           setLoading(false);
         })
         .catch(() => {
@@ -33,20 +59,24 @@ const DataChart = ({ formId, questionId, title, type = "BAR", stack }) => {
           setLoading(false);
         });
     }
-  }, [formId, questionId, notify, type, stack]);
-
-  const chartTitle = type === "BARSTACK" ? title[0] : title;
+  }, [formId, id, notify, type, stack, options]);
 
   return (
     <div className="chart-wrap">
-      <h3>{chartTitle}</h3>
+      <h3>{title}</h3>
       <div className="chart-inner">
         {loading ? (
           <Spin
             indicator={<LoadingOutlined style={{ color: "#1b91ff" }} spin />}
           />
         ) : (
-          <Chart span={24} type={type} data={dataset} wrapper={false} />
+          <Chart
+            span={24}
+            type={type}
+            data={dataset}
+            wrapper={false}
+            extra={{ color: chartColors.length ? chartColors : defaultColors }}
+          />
         )}
       </div>
     </div>
@@ -55,9 +85,12 @@ const DataChart = ({ formId, questionId, title, type = "BAR", stack }) => {
 
 DataChart.propTypes = {
   formId: PropTypes.number.isRequired,
-  questionId: PropTypes.number.isRequired,
-  type: PropTypes.string,
-  title: PropTypes.string,
-  stack: PropTypes.object,
+  config: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    stack: PropTypes.any,
+    options: PropTypes.array,
+  }),
 };
 export default React.memo(DataChart);
