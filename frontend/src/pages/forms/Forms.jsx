@@ -15,6 +15,7 @@ const Forms = () => {
   const [loading, setLoading] = useState(true);
   const [forms, setForms] = useState([]);
   const [percentage, setPercentage] = useState(0);
+  const [submit, setSubmit] = useState(false);
 
   const pagePath = [
     {
@@ -31,6 +32,7 @@ const Forms = () => {
   ];
 
   const onFinish = (values) => {
+    setSubmit(true);
     const questions = forms.question_group
       .map((x) => x.question)
       .flatMap((x) => x);
@@ -110,7 +112,7 @@ const Forms = () => {
       });
     }
   }, [formId, loading]);
-
+  console.log("forms", forms);
   return (
     <div id="form">
       <Row justify="center">
@@ -122,7 +124,12 @@ const Forms = () => {
             <PageLoader message="Fetching form.." />
           ) : (
             <>
-              <Webform forms={forms} onFinish={onFinish} onChange={onChange} />
+              <Webform
+                forms={forms}
+                onFinish={onFinish}
+                onChange={onChange}
+                submitButtonSetting={{ disabled: submit }}
+              />
               <Progress className="progress-bar" percent={percentage} />
             </>
           )}
