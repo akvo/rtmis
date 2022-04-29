@@ -228,9 +228,43 @@ var visualisation = [
         type: "BARSTACK",
         id: 996994037,
         title: "Separate toilets for girls and boys",
+        options: [
+          {
+            id: 979,
+            name: "Yes",
+            title: "Y",
+            color: "#64d985",
+          },
+          {
+            id: 980,
+            name: "No",
+            title: "N",
+            color: "#e06971",
+          }
+        ],
         stack: {
           id: 992994039,
           title: "Toilets for girls marked with signs",
+          options: [
+            {
+              id: 981,
+              name: "Yes, all of them",
+              title: "Yes, all",
+              color: "#64d985",
+            },
+            {
+              id: 982,
+              name: "Yes, but not all of them",
+              title: "Yes, but not all",
+              color: "#ced88c",
+            },
+            {
+              id: 983,
+              name: "No",
+              title: "No",
+              color: "#e06971",
+            }
+          ],
         },
       },
     ],

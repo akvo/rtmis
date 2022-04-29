@@ -6,17 +6,7 @@ import { api } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { Chart } from "../../components";
 import PropTypes from "prop-types";
-const defaultColors = [
-  "#5470c6",
-  "#91cc75",
-  "#fac858",
-  "#ee6666",
-  "#73c0de",
-  "#3ba272",
-  "#fc8452",
-  "#9a60b4",
-  "#ea7ccc",
-];
+import { Color } from "../../components/chart/options/common";
 
 const DataChart = ({ config, formId }) => {
   const [dataset, setDataset] = useState([]);
@@ -37,10 +27,32 @@ const DataChart = ({ config, formId }) => {
           const colors = [];
           const temp = options?.length
             ? res.data?.data?.map((d, dI) => {
-                const optRes = options.find(
+                let optRes;
+                if (type === "BARSTACK") {
+                  optRes = stack?.options.find(
+                    (op) => op.name.toLowerCase() === d.group.toLowerCase()
+                  );
+                  colors.push(optRes?.color || Color.color[dI]);
+                  return {
+                    name: optRes?.title || optRes?.name || d.name,
+                    stack: d.child.map((dc, dcI) => {
+                      const stackRes = options.find(
+                        (sO) => sO.name.toLowerCase() === dc.name.toLowerCase()
+                      );
+                      if (stackRes) {
+                        return {
+                          name: stackRes?.title || stackRes?.name || dc.name,
+                          value: dc.value,
+                          color: stackRes.color || Color.color[dcI],
+                        };
+                      }
+                    }),
+                  };
+                }
+                optRes = options.find(
                   (op) => op.name.toLowerCase() === d.name.toLowerCase()
                 );
-                colors.push(optRes?.color || defaultColors[dI]);
+                colors.push(optRes?.color || Color.color[dI]);
                 return {
                   name: optRes?.title || optRes?.name || d.name,
                   value: d.value,
@@ -60,10 +72,12 @@ const DataChart = ({ config, formId }) => {
         });
     }
   }, [formId, id, notify, type, stack, options]);
+  const chartTitle =
+    type === "BARSTACK" ? [title, stack.title].join(" - ") : title;
 
   return (
     <div className="chart-wrap">
-      <h3>{title}</h3>
+      <h3>{chartTitle}</h3>
       <div className="chart-inner">
         {loading ? (
           <Spin
@@ -75,7 +89,7 @@ const DataChart = ({ config, formId }) => {
             type={type}
             data={dataset}
             wrapper={false}
-            extra={{ color: chartColors.length ? chartColors : defaultColors }}
+            extra={{ color: chartColors.length ? chartColors : Color.color }}
           />
         )}
       </div>
