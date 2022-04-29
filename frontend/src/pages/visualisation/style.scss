@@ -2,5 +2,37 @@
 
 #root {
   #visualisation {
+    .ant-card {
+      .ant-row {
+        .ant-col {
+          .map-container {
+            margin-bottom: 16px;
+          }
+          .charts-wrap {
+            // height: 960px;
+            // overflow-y: scroll;
+            padding-top: 40px;
+            h3 {
+              // text-align: center;
+            }
+            .chart-wrap {
+              .chart-inner {
+                min-height: 120px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+              }
+              background-color: #f5f5fa;
+              padding: 12px;
+              margin-bottom: 12px;
+              &:last-child {
+                margin-bottom: 0px;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
