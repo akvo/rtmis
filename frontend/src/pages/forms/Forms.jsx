@@ -112,7 +112,6 @@ const Forms = () => {
       });
     }
   }, [formId, loading]);
-  console.log("forms", forms);
   return (
     <div id="form">
       <Row justify="center">
