@@ -70,9 +70,9 @@ var visualisation = [
         title: "Residential Status",
         options: [
           {
-            id: 692,
+            id: 694,
             name: "Permanent",
-            color: "cyan",
+            color: "cyan", // Eg. set option color in config
           },
         ],
       },
@@ -80,6 +80,13 @@ var visualisation = [
         type: "PIE",
         id: 513690065,
         title: "Toilet facility location",
+        options: [
+          {
+            id: 724,
+            name: "Elsewhere",
+            color: "orange", // Eg. set and override default color in config
+          },
+        ],
       },
     ],
   },

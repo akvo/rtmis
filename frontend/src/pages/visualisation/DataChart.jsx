@@ -36,12 +36,11 @@ const DataChart = ({ config, formId }) => {
         .then((res) => {
           const colors = [];
           const temp = res.data?.data?.map((d, dI) => {
-            let optRes;
-            if (type === "BARSTACK") {
-              optRes = stack?.options.find(
+            if (type === "BARSTACK" && stack) {
+              const optRes = stack?.options.find(
                 (op) => op.name.toLowerCase() === d.group.toLowerCase()
               );
-              colors.push(optRes?.color || Color.color[dI]);
+              colors.push(optRes?.color || getOptionColor(d.name, dI));
               return {
                 name: optRes?.title || optRes?.name || d.name,
                 stack: d.child.map((dc, dcI) => {
@@ -52,25 +51,25 @@ const DataChart = ({ config, formId }) => {
                     return {
                       name: stackRes?.title || stackRes?.name || dc.name,
                       value: dc.value,
-                      color:
-                        stackRes?.color ||
-                        getOptionColor(stackRes?.name || dc.name, dcI),
+                      color: stackRes?.color || getOptionColor(dc.name, dcI),
                     };
                   }
                 }),
               };
             }
-            optRes =
-              options?.find(
-                (op) => op.name.toLowerCase() === d.name.toLowerCase()
-              ) || null;
-            colors.push(
-              optRes?.color || getOptionColor(optRes?.name || d.name, dI)
-            );
-            return {
-              name: optRes?.title || optRes?.name || d.name,
-              value: d.value,
-            };
+            if (options?.length) {
+              const optRes =
+                options?.find(
+                  (op) => op.name.toLowerCase() === d.name.toLowerCase()
+                ) || null;
+              colors.push(optRes?.color || getOptionColor(d.name, dI));
+              return {
+                name: optRes?.title || optRes?.name || d.name,
+                value: d.value,
+              };
+            }
+            colors.push(getOptionColor(d.name, dI));
+            return d;
           });
           setChartColors(colors);
           setDataset(temp);
@@ -110,7 +109,7 @@ const DataChart = ({ config, formId }) => {
             type={type}
             data={dataset}
             wrapper={false}
-            extra={{ color: chartColors.length ? chartColors : Color.color }}
+            extra={{ color: chartColors }}
           />
         )}
       </div>
