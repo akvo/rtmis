@@ -5,17 +5,25 @@
     .ant-card {
       .ant-row {
         .ant-col {
+          h2 {
+            font-size: 24px;
+            font-weight: 700;
+          }
           .map-container {
             margin-bottom: 16px;
           }
           .charts-wrap {
-            // height: 960px;
-            // overflow-y: scroll;
-            padding-top: 40px;
-            h3 {
-              // text-align: center;
-            }
+            padding-top: 49px;
             .chart-wrap {
+              h3 {
+                font-weight: 600;
+                text-align: center;
+                .anticon {
+                  margin: 0 10px;
+                  color: #9191a2;
+                  font-size: 16px;
+                }
+              }
               .chart-inner {
                 min-height: 120px;
                 display: flex;

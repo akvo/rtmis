@@ -40,12 +40,10 @@ var visualisation = [
           {
             id: 685,
             name: "Yes",
-            color: "#64d985",
           },
           {
             id: 686,
             name: "No",
-            color: "#e06971",
           }
         ],
       },
@@ -58,13 +56,11 @@ var visualisation = [
             id: 692,
             name: "Male",
             title: "M",
-            color: "#5999e8",
           },
           {
             id: 693,
             name: "Female",
             title: "F",
-            color: "#d45dba",
           }
         ],
       },
@@ -72,6 +68,13 @@ var visualisation = [
         type: "PIE",
         id: 519660052,
         title: "Residential Status",
+        options: [
+          {
+            id: 692,
+            name: "Permanent",
+            color: "cyan",
+          },
+        ],
       },
       {
         type: "PIE",
@@ -233,13 +236,11 @@ var visualisation = [
             id: 979,
             name: "Yes",
             title: "Y",
-            color: "#64d985",
           },
           {
             id: 980,
             name: "No",
             title: "N",
-            color: "#e06971",
           }
         ],
         stack: {
@@ -250,19 +251,16 @@ var visualisation = [
               id: 981,
               name: "Yes, all of them",
               title: "Yes, all",
-              color: "#64d985",
             },
             {
               id: 982,
               name: "Yes, but not all of them",
               title: "Yes, but not all",
-              color: "#ced88c",
             },
             {
               id: 983,
               name: "No",
               title: "No",
-              color: "#e06971",
             }
           ],
         },

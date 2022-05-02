@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined, SwapOutlined } from "@ant-design/icons";
 import { api } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { Chart } from "../../components";
@@ -14,6 +14,16 @@ const DataChart = ({ config, formId }) => {
   const [loading, setLoading] = useState(false);
   const { notify } = useNotification();
   const { id, title, type, stack, options } = config;
+  const getOptionColor = (name, index) => {
+    return (
+      Color.option.find((c) => {
+        const lookUp = name?.toLowerCase();
+        return lookUp
+          ? c.keys?.some((keyStr) => keyStr.toLowerCase() === lookUp)
+          : false;
+      })?.color || Color.color[index]
+    );
+  };
   useEffect(() => {
     if (formId && id) {
       setLoading(true);
@@ -25,40 +35,43 @@ const DataChart = ({ config, formId }) => {
         .get(url)
         .then((res) => {
           const colors = [];
-          const temp = options?.length
-            ? res.data?.data?.map((d, dI) => {
-                let optRes;
-                if (type === "BARSTACK") {
-                  optRes = stack?.options.find(
-                    (op) => op.name.toLowerCase() === d.group.toLowerCase()
+          const temp = res.data?.data?.map((d, dI) => {
+            let optRes;
+            if (type === "BARSTACK") {
+              optRes = stack?.options.find(
+                (op) => op.name.toLowerCase() === d.group.toLowerCase()
+              );
+              colors.push(optRes?.color || Color.color[dI]);
+              return {
+                name: optRes?.title || optRes?.name || d.name,
+                stack: d.child.map((dc, dcI) => {
+                  const stackRes = options.find(
+                    (sO) => sO.name.toLowerCase() === dc.name.toLowerCase()
                   );
-                  colors.push(optRes?.color || Color.color[dI]);
-                  return {
-                    name: optRes?.title || optRes?.name || d.name,
-                    stack: d.child.map((dc, dcI) => {
-                      const stackRes = options.find(
-                        (sO) => sO.name.toLowerCase() === dc.name.toLowerCase()
-                      );
-                      if (stackRes) {
-                        return {
-                          name: stackRes?.title || stackRes?.name || dc.name,
-                          value: dc.value,
-                          color: stackRes.color || Color.color[dcI],
-                        };
-                      }
-                    }),
-                  };
-                }
-                optRes = options.find(
-                  (op) => op.name.toLowerCase() === d.name.toLowerCase()
-                );
-                colors.push(optRes?.color || Color.color[dI]);
-                return {
-                  name: optRes?.title || optRes?.name || d.name,
-                  value: d.value,
-                };
-              })
-            : res.data.data;
+                  if (stackRes) {
+                    return {
+                      name: stackRes?.title || stackRes?.name || dc.name,
+                      value: dc.value,
+                      color:
+                        stackRes?.color ||
+                        getOptionColor(stackRes?.name || dc.name, dcI),
+                    };
+                  }
+                }),
+              };
+            }
+            optRes =
+              options?.find(
+                (op) => op.name.toLowerCase() === d.name.toLowerCase()
+              ) || null;
+            colors.push(
+              optRes?.color || getOptionColor(optRes?.name || d.name, dI)
+            );
+            return {
+              name: optRes?.title || optRes?.name || d.name,
+              value: d.value,
+            };
+          });
           setChartColors(colors);
           setDataset(temp);
           setLoading(false);
@@ -73,11 +86,19 @@ const DataChart = ({ config, formId }) => {
     }
   }, [formId, id, notify, type, stack, options]);
   const chartTitle =
-    type === "BARSTACK" ? [title, stack.title].join(" - ") : title;
+    type === "BARSTACK" ? (
+      <h3>
+        {title}
+        <SwapOutlined />
+        {stack.title}
+      </h3>
+    ) : (
+      <h3>{title}</h3>
+    );
 
   return (
     <div className="chart-wrap">
-      <h3>{chartTitle}</h3>
+      {chartTitle}
       <div className="chart-inner">
         {loading ? (
           <Spin

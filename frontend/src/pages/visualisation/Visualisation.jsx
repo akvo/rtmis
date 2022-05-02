@@ -125,7 +125,7 @@ const Visualisation = () => {
       <Divider />
       <Card style={{ padding: 0, minHeight: "40vh", textAlign: "left" }}>
         <Row justify="space-between" gutter={16}>
-          <Col span={14}>
+          <Col span={16}>
             <h2>{forms?.find((f) => f.id === selectedForm)?.name}</h2>
             <Map
               markerData={{ features: [] }}
@@ -226,7 +226,7 @@ const Visualisation = () => {
               ))}
             </Collapse>
           </Col>
-          <Col span={10}>
+          <Col span={8}>
             <div className="charts-wrap">
               {current?.charts?.map((cc) => (
                 <DataChart
