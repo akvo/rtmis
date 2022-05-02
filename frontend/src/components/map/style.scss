@@ -15,7 +15,7 @@
   z-index: 0;
 }
 
-.shape-tooltip-container {
+.marker-tooltip-container {
   padding: 4px 7px;
   min-width: 150px;
   max-width: 250px;
@@ -24,20 +24,20 @@
   h3 {
     font-size: 14px;
     font-weight: bold;
-    margin-bottom: 2px;
+    margin-bottom: 12px;
   }
 
-  .shape-tooltip-name {
+  .marker-tooltip-name {
     font-size: 12px;
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: initial;
   }
 
-  .shape-tooltip-value {
+  .marker-tooltip-value {
     font-size: 12px;
     font-weight: bold;
-    margin-bottom: 7px;
+    margin-top: 5px;
   }
 }
 
