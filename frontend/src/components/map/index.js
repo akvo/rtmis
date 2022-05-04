@@ -431,7 +431,7 @@ const Map = ({ current, style }) => {
             )}
           </GeoJSON>
         )}
-        {!loadingMap && results.length && <Markers data={results} />}
+        {!loadingMap && !!results.length && <Markers data={results} />}
       </MapContainer>
       {!loadingMap && !loadingForm && (
         <ShapeLegend thresholds={colorScale.thresholds()} />

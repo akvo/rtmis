@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Spin } from "antd";
+import { Card, Spin } from "antd";
 import { LoadingOutlined, SwapOutlined } from "@ant-design/icons";
 import { api } from "../../lib";
 import { useNotification } from "../../util/hooks";
@@ -96,7 +96,7 @@ const DataChart = ({ config, formId }) => {
     );
 
   return (
-    <div className="chart-wrap">
+    <Card className="chart-wrap">
       {chartTitle}
       <div className="chart-inner">
         {loading ? (
@@ -105,7 +105,8 @@ const DataChart = ({ config, formId }) => {
           />
         ) : (
           <Chart
-            span={24}
+            // span={24}
+            height={300}
             type={type}
             data={dataset}
             wrapper={false}
@@ -113,7 +114,7 @@ const DataChart = ({ config, formId }) => {
           />
         )}
       </div>
-    </div>
+    </Card>
   );
 };
 

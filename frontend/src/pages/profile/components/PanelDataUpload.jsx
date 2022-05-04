@@ -316,7 +316,7 @@ const PanelDataUpload = () => {
   };
 
   const btnBatchSelected = useMemo(() => {
-    if (selectedRows.length && modalButton) {
+    if (!!selectedRows.length && modalButton) {
       return (
         <Button
           type="primary"

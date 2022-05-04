@@ -1,0 +1,44 @@
+@import "../../variables";
+
+#root {
+  .widget-wrap {
+    .ant-spin-container {
+      display: flex;
+      flex-direction: column;
+      height: 535px;
+      .ant-table {
+        flex: 1;
+        .ant-table-row-level-0 {
+          th.ant-table-cell {
+            background-color: #e7eaee;
+            color: #9097a1;
+          }
+          th.ant-table-cell:first-child {
+            padding-left: 14px;
+          }
+          td.ant-table-cell {
+            background-color: #fff;
+            color: #5d5d5d;
+            font-size: 13px;
+            border-bottom: 1px solid #0000000f;
+          }
+          td.ant-table-cell:first-child {
+            padding-left: 14px;
+            font-weight: 500;
+            color: #333;
+          }
+          td.ant-table-cell:nth-child(2) {
+            background-color: #e4f7eb;
+          }
+          td.ant-table-cell:nth-child(3) {
+            background-color: #f5fae6;
+          }
+          td.ant-table-cell:nth-child(4) {
+            background-color: #f5e7e7;
+            padding-right: 12px;
+          }
+        }
+      }
+    }
+  }
+}

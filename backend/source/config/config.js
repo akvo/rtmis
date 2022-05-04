@@ -65,7 +65,7 @@ var visualisation = [
         ],
       },
       {
-        type: "PIE",
+        type: "BAR",
         id: 519660052,
         title: "Residential Status",
         options: [
@@ -87,6 +87,13 @@ var visualisation = [
             color: "orange", // Eg. set and override default color in config
           },
         ],
+      },
+    ],
+    tabs: [
+      {
+        name: "JMP",
+        component: "JMP",
+        chartList: [],
       },
     ],
   },
