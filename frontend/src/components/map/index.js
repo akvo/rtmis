@@ -8,7 +8,14 @@ import {
   Tooltip,
 } from "react-leaflet";
 import { api, geo, store } from "../../lib";
-import { takeRight, intersection, chain, groupBy, sumBy } from "lodash";
+import {
+  takeRight,
+  intersection,
+  chain,
+  groupBy,
+  sumBy,
+  flatten,
+} from "lodash";
 import { Button, Space, Spin, Row, Col } from "antd";
 import { scaleQuantize } from "d3-scale";
 import {
@@ -21,7 +28,7 @@ import "leaflet/dist/leaflet.css";
 const { geojson, tile, defaultPos, getBounds } = geo;
 const defPos = defaultPos();
 const mapMaxZoom = 13;
-const shapeColorRange = [
+const markerColorRange = [
   "#47CC65",
   "#EC8964",
   "#5195ED",
@@ -31,18 +38,21 @@ const shapeColorRange = [
   "#CFB52A",
   "#43C6CE",
   "#AA9B7E",
-  "#8D8D8D",
+  "#BDDF38",
+  "#52B0AE",
+  "#F2AEAD",
 ];
 const colorRange = ["#bbedda", "#a7e1cb", "#92d5bd", "#7dcaaf", "#67bea1"];
 const higlightColor = "#84b4cc";
 
-const Map = ({ style, question }) => {
+const Map = ({ current, style }) => {
   const {
     administration,
     selectedForm,
     loadingForm,
     selectedAdministration,
     loadingMap,
+    questionGroups,
   } = store.useState((s) => s);
   const [map, setMap] = useState(null);
   const [results, setResults] = useState([]);
@@ -144,17 +154,13 @@ const Map = ({ style, question }) => {
   };
 
   useEffect(() => {
-    if (
-      question &&
-      selectedForm &&
-      question?.markerQuestion?.form === selectedForm
-    ) {
+    if (current && selectedForm && current.id === selectedForm) {
       store.update((s) => {
         s.loadingMap = true;
       });
       api
         .get(
-          `maps/${selectedForm}?marker=${question?.shapeQuestion?.id}&shape=${question?.markerQuestion?.id}`
+          `maps/${selectedForm}?marker=${current?.map?.marker?.id}&shape=${current?.map?.shape?.id}`
         )
         .then((res) => {
           setResults(res.data);
@@ -168,7 +174,7 @@ const Map = ({ style, question }) => {
           });
         });
     }
-  }, [selectedForm, question]);
+  }, [selectedForm, current]);
 
   useEffect(() => {
     if (hoveredShape && results.length && administration.length) {
@@ -181,10 +187,10 @@ const Map = ({ style, question }) => {
               <h3>{geoName}</h3>
               <Space align="top" direction="horizontal">
                 <span className="shape-tooltip-name">
-                  {question?.shapeQuestion?.name}
+                  {current?.map?.shape?.title}
                 </span>
                 <h3 className="shape-tooltip-value">
-                  {geoRes.length ? sumBy(geoRes, "marker") : 0}
+                  {geoRes.length ? sumBy(geoRes, "shape") : 0}
                 </h3>
               </Space>
             </div>
@@ -197,31 +203,32 @@ const Map = ({ style, question }) => {
       }
       setShapeTooltip(null);
     }
-  }, [hoveredShape, results, question, administration, adminName]);
+  }, [hoveredShape, results, current, administration, adminName]);
 
   const markerLegendOptions = useMemo(() => {
-    if (
-      question &&
-      question?.markerQuestion &&
-      question.markerQuestion?.option
-    ) {
-      return question.markerQuestion.option;
+    if (current && current?.map?.marker) {
+      return (
+        flatten(questionGroups.map((qg) => qg.question)).find(
+          (q) => q.id === current.map.marker.id
+        )?.option || []
+      );
     }
-  }, [question]);
+    return [];
+  }, [current, questionGroups]);
 
   const Markers = ({ data }) => {
     if (data.length) {
       const r = 5;
       data = data.filter((d) => d.geo.length === 2);
-      return data.map(({ id, geo, shape, name }) => {
-        const shapeRes = markerLegendOptions
+      return data.map(({ id, geo, marker, name }) => {
+        const markerRes = markerLegendOptions
           .map((x) => x.name)
-          .findIndex((sO) => sO === shape[0]);
+          .findIndex((sO) => sO === marker[0]);
         const highlight =
           markerLegendSelected?.name &&
-          intersection([markerLegendSelected.name], shape).length;
+          intersection([markerLegendSelected.name], marker).length;
         const markerColor =
-          shapeRes === -1 ? "#111" : shapeColorRange[shapeRes];
+          markerRes === -1 ? "#111" : markerColorRange[markerRes];
         return (
           <Circle
             key={id}
@@ -235,13 +242,12 @@ const Map = ({ style, question }) => {
             radius={r * 100 * (highlight ? 5 : 1)}
           >
             <Tooltip direction="top">
-              <div className="shape-tooltip-container">
+              <div className="marker-tooltip-container">
                 <h3>{takeRight(name.split(" - "), 1)[0]}</h3>
-                <div className="shape-tooltip-value">&nbsp;</div>
-                <div className="shape-tooltip-name">
-                  {question?.markerQuestion?.name}
+                <div className="marker-tooltip-name">
+                  {current?.map?.marker?.title}
                 </div>
-                <div className="shape-tooltip-value">{shape[0]}</div>
+                <div className="marker-tooltip-value">{marker[0]}</div>
               </div>
             </Tooltip>
           </Circle>
@@ -261,10 +267,9 @@ const Map = ({ style, question }) => {
     };
 
     if (markerLegendOptions) {
-      const { markerQuestion } = question;
       return (
         <div className="marker-legend">
-          <h4>{markerQuestion?.name}</h4>
+          <h4>{current?.map?.marker?.title}</h4>
           {markerLegendOptions.map((sO, sI) => (
             <div
               key={sI}
@@ -274,9 +279,16 @@ const Map = ({ style, question }) => {
               <Space direction="horizontal" align="top">
                 <div
                   className="circle-legend"
-                  style={{ backgroundColor: shapeColorRange[sI] }}
+                  style={{ backgroundColor: markerColorRange[sI] }}
                 />
-                <span>{sO?.name || "NA"}</span>
+                <span
+                  style={{
+                    fontWeight:
+                      markerLegendSelected?.id === sO.id ? "600" : "400",
+                  }}
+                >
+                  {sO?.name || "NA"}
+                </span>
               </Space>
             </div>
           ))}
@@ -288,7 +300,7 @@ const Map = ({ style, question }) => {
 
   const shapeColors = chain(groupBy(results, "loc"))
     .map((l, lI) => {
-      const values = sumBy(l, "marker");
+      const values = sumBy(l, "shape");
       return { name: lI, values };
     })
     .value();
@@ -329,9 +341,9 @@ const Map = ({ style, question }) => {
       setShapeFilterColor(colorRange[index]);
     };
 
-    return question && !loadingMap && thresholds.length ? (
+    return current && !loadingMap && thresholds.length ? (
       <div className="shape-legend">
-        <div>{question?.shapeQuestion?.name}</div>
+        <div>{current?.map?.shape?.name}</div>
         <Row className="legend-wrap">
           {thresholds.map((t, tI) => (
             <Col
@@ -379,9 +391,9 @@ const Map = ({ style, question }) => {
             type="secondary"
             icon={<ZoomOutOutlined />}
             onClick={() => {
-              const current = map.getZoom() - 1;
-              map.setZoom(current);
-              setZoomLevel(current);
+              const currentZoom = map.getZoom() - 1;
+              map.setZoom(currentZoom);
+              setZoomLevel(currentZoom);
             }}
           />
           <Button
@@ -389,9 +401,9 @@ const Map = ({ style, question }) => {
             type="secondary"
             icon={<ZoomInOutlined />}
             onClick={() => {
-              const current = map.getZoom() + 1;
-              map.setZoom(current);
-              setZoomLevel(current);
+              const currentZoom = map.getZoom() + 1;
+              map.setZoom(currentZoom);
+              setZoomLevel(currentZoom);
             }}
           />
         </Space>
@@ -419,7 +431,7 @@ const Map = ({ style, question }) => {
             )}
           </GeoJSON>
         )}
-        {!loadingMap && results.length && <Markers data={results} />}
+        {!loadingMap && !!results.length && <Markers data={results} />}
       </MapContainer>
       {!loadingMap && !loadingForm && (
         <ShapeLegend thresholds={colorScale.thresholds()} />

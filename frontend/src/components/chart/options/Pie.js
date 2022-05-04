@@ -15,7 +15,10 @@ const Pie = (data, chartTitle, extra, Doughnut = false) => {
     labels = data.map((x) => x.name);
     data = data.filter((x) => x.value >= 0);
     const total = sumBy(data, "value");
-    data = data.map((x) => ({ ...x, percentage: x.value / total }));
+    data = data.map((x) => ({
+      ...x,
+      percentage: ((x.value / total) * 100)?.toFixed(0) || 0,
+    }));
   }
   const { textStyle } = TextStyle;
   const rose = {};
