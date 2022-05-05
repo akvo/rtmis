@@ -9,3 +9,4 @@ export { default as ApproverFilters } from "./filters/ApproverFilters";
 export { default as RemoveFiltersButton } from "./filters/RemoveFiltersButton.js";
 export { default as Breadcrumbs } from "./ui/Breadcrumbs.jsx";
 export { default as PageLoader } from "./ui/PageLoader.jsx";
+export { default as EditableCell } from "./EditableCell.jsx";

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./style.scss";
-import { Card, Select, Radio, Row, Col, Tag, Popover } from "antd";
+import { Card, Select, Checkbox, Row, Col, Tag, Popover } from "antd";
 import { store } from "../../lib";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { first, flatten } from "lodash";
@@ -46,20 +46,20 @@ const AdvancedFilters = () => {
       );
       const optionRes = flatten(questionGroups.map((qg) => qg.question))
         ?.find((qi) => qi.id === selectedQuestion.id)
-        .option.find((o) => o.id === e.target.value);
+        .option.filter((o) => e.includes(o.id));
       store.update((s) => {
         s.advancedFilters = [
           ...filtered,
-          {
+          ...optionRes.map((o) => ({
             id: selectedQuestion.id,
             question: selectedQuestion.name,
-            value: e.target.value,
-            label: optionRes.name,
-          },
+            value: o.id,
+            label: o.name,
+          })),
         ];
       });
     };
-    const selectedFilterOption = advancedFilters.find(
+    const selectedFilterOption = advancedFilters.filter(
       (f) => f.id === selectedQuestion?.id
     );
     if (selectedQuestion) {
@@ -67,30 +67,47 @@ const AdvancedFilters = () => {
         (qi) => qi.id === selectedQuestion.id
       );
       if (optionsRes?.option?.length) {
-        return (
-          <Radio.Group
-            value={selectedFilterOption?.value}
+        return optionsRes.option.length < 5 ? (
+          <Checkbox.Group
             style={{ width: "100%" }}
+            value={selectedFilterOption.map((fo) => fo.value)}
             onChange={onOptionsChange}
             className="filter-options"
           >
             <Row>
               {optionsRes.option.map((oi) => (
                 <Col span={8} key={oi.id}>
-                  <Radio value={oi.id}>{oi.name}</Radio>
+                  <Checkbox value={oi.id}>{oi.name}</Checkbox>
                 </Col>
               ))}
             </Row>
-          </Radio.Group>
+          </Checkbox.Group>
+        ) : (
+          <Select
+            mode="multiple"
+            style={{ width: "100%" }}
+            value={selectedFilterOption.map((fo) => fo.value)}
+            onChange={onOptionsChange}
+            className="filter-options"
+            placeholder="Select.."
+          >
+            {optionsRes.option.map((oi) => (
+              <Option value={oi.id} key={oi.id}>
+                {oi.name}
+              </Option>
+            ))}
+          </Select>
         );
       }
     }
     return null;
   }, [selectedQuestion, questionGroups, advancedFilters]);
   const activeFilters = useMemo(() => {
-    const handleCloseTag = (id) => {
+    const handleCloseTag = (id, value) => {
       store.update((s) => {
-        s.advancedFilters = advancedFilters.filter((af) => af.id !== id);
+        s.advancedFilters = s.advancedFilters.filter(
+          (af) => af.id !== id || af.value !== value
+        );
       });
     };
     if (advancedFilters.length) {
@@ -105,7 +122,9 @@ const AdvancedFilters = () => {
                 </Popover>
               }
               closable
-              onClose={() => handleCloseTag(af.id)}
+              onClose={() => {
+                handleCloseTag(af.id, af.value);
+              }}
             >
               {af.label}
             </Tag>
