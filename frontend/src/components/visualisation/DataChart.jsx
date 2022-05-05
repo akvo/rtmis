@@ -105,11 +105,27 @@ const DataChart = ({ config, formId }) => {
           />
         ) : (
           <Chart
-            height={260}
+            height={270}
             type={type}
             data={dataset}
             wrapper={false}
             extra={{ color: chartColors }}
+            series={{
+              left: "5%",
+              width: "55%",
+              top: "middle",
+            }}
+            legend={{
+              top: "middle",
+              left: "60%",
+              right: "right",
+              orient: "vertical",
+              itemGap: 12,
+              textStyle: {
+                fontWeight: "normal",
+                fontSize: 12,
+              },
+            }}
           />
         )}
       </div>

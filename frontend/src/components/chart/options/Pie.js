@@ -8,7 +8,14 @@ import {
 } from "./common";
 import { isEmpty, sumBy } from "lodash";
 
-const Pie = (data, chartTitle, extra, Doughnut = false) => {
+const Pie = (
+  data,
+  chartTitle,
+  extra,
+  Doughnut = false,
+  series = {},
+  legend = {}
+) => {
   data = !data ? [] : data;
   let labels = [];
   if (data.length > 0) {
@@ -67,6 +74,7 @@ const Pie = (data, chartTitle, extra, Doughnut = false) => {
           show: true,
         },
         data: data,
+        ...series,
         ...rose,
       },
     ],
@@ -84,6 +92,7 @@ const Pie = (data, chartTitle, extra, Doughnut = false) => {
         fontSize: 12,
         marginLeft: 20,
       },
+      ...legend,
     },
     ...Color,
     ...backgroundColor,
