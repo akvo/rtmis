@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Row, Col, Card, Divider, Collapse, Space, Button, Select } from "antd";
+import { Row, Col, Collapse, Space, Button, Select, Divider } from "antd";
 import {
   PlusSquareOutlined,
   CloseSquareOutlined,
@@ -9,20 +9,28 @@ import {
 } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
-import { VisualisationFilters, Map, Chart } from "../../components";
-import { flatten, sample } from "lodash";
+import { VisualisationFilters, Map, Chart, DataChart } from "../../components";
 const { Panel } = Collapse;
 const { Option } = Select;
 
 const Visualisation = () => {
   const [dataset, setDataset] = useState([]);
-  const [question, setQuestion] = useState(null);
   const [loading, setLoading] = useState(false);
   const [activeKey, setActiveKey] = useState(null);
-  const { selectedForm, forms, loadingForm, questionGroups } = store.useState(
+  const [current, setCurrent] = useState(null);
+  const { selectedForm, loadingForm, questionGroups } = store.useState(
     (state) => state
   );
   const { notify } = useNotification();
+
+  useEffect(() => {
+    if (selectedForm && window.visualisation) {
+      const configRes = window.visualisation.find((f) => f.id === selectedForm);
+      if (configRes) {
+        setCurrent(configRes);
+      }
+    }
+  }, [selectedForm]);
 
   useEffect(() => {
     const rawData = questionGroups
@@ -40,28 +48,10 @@ const Visualisation = () => {
             null,
           data: [],
           chart: "BAR",
-          question:
-            qg.question?.map((qn) => ({
-              ...qn,
-            })) || [],
+          question: qg.question || [],
         };
       });
     setDataset(rawData);
-    const markerQuestion =
-      sample(
-        flatten(
-          rawData?.map((d) => d.question.filter((q) => q.type === "option"))
-        )
-      ) || null;
-    const shapeQuestion =
-      sample(
-        flatten(
-          rawData?.map((d) => d.question.filter((q) => q.type === "number"))
-        )
-      ) || null;
-    if (markerQuestion && shapeQuestion) {
-      setQuestion({ markerQuestion, shapeQuestion });
-    }
   }, [questionGroups]);
 
   const setChartType = (questionGroupId, type) => {
@@ -79,7 +69,7 @@ const Visualisation = () => {
   const fetchData = (questionGroupId, questionId) => {
     setLoading(true);
     api
-      .get(`chart/data/${selectedForm}?question=${questionId}`)
+      .get(`chart/data/${current.id}?question=${questionId}`)
       .then((res) => {
         let temp = [...dataset];
         temp = temp.map((ds) => {
@@ -131,113 +121,109 @@ const Visualisation = () => {
   return (
     <div id="visualisation">
       <VisualisationFilters />
-      <Divider />
-      <Card style={{ padding: 0, minHeight: "40vh", textAlign: "left" }}>
-        <Row justify="space-between">
-          <Col span={11}>
-            <h2>{forms?.find((f) => f.id === selectedForm)?.name}</h2>
-            <Collapse
-              accordion
-              activeKey={activeKey}
-              onChange={handleChange}
-              expandIcon={({ isActive }) =>
-                isActive ? (
-                  <CloseSquareOutlined
-                    style={{ color: "#E00000B3", fontSize: "16px" }}
-                  />
-                ) : (
-                  <PlusSquareOutlined
-                    style={{ color: "#707070B3", fontSize: "16px" }}
-                  />
-                )
-              }
-              expandIconPosition="right"
-            >
-              {dataset.map((d, dI) => (
-                <Panel key={dI} header={d.title}>
-                  <Row
-                    style={{
-                      width: "100%",
-                      flexWrap: "nowrap",
-                      marginBottom: 12,
-                    }}
-                  >
-                    <Col flex={1}>
-                      <Select
-                        value={d.selected}
-                        disabled={loading}
-                        onChange={(e) => {
-                          fetchData(d.id, e);
-                        }}
-                        placeholder="Select one.."
-                      >
-                        {d.question
-                          ?.filter((qn) => qn.type === "option")
-                          .map((qn, qnI) => (
-                            <Option key={qnI} value={qn.id + ""}>
-                              {qn.name}
-                            </Option>
-                          ))}
-                      </Select>
-                    </Col>
-                    <Col>
-                      <Space>
-                        <Button
-                          title="Bar Chart"
-                          className={
-                            d.chart === "BAR" ? "light active" : "light"
-                          }
-                          icon={<BarChartOutlined />}
-                          onClick={() => {
-                            setChartType(d.id, "BAR");
-                          }}
-                        />
-                        <Button
-                          title="Pie Chart"
-                          className={
-                            d.chart === "PIE" ? "light active" : "light"
-                          }
-                          icon={<PieChartOutlined />}
-                          onClick={() => {
-                            setChartType(d.id, "PIE");
-                          }}
-                        />
-                      </Space>
-                    </Col>
-                  </Row>
-
-                  {loading ? (
-                    <div style={{ color: "#777", margin: "12px 0" }}>
-                      Loading..
-                    </div>
-                  ) : d.chart === "PIE" ? (
-                    <Chart
-                      span={24}
-                      type={"PIE"}
-                      data={d.data}
-                      wrapper={false}
-                    />
-                  ) : (
-                    <Chart
-                      span={24}
-                      type={"BAR"}
-                      data={d.data}
-                      wrapper={false}
-                    />
-                  )}
-                </Panel>
+      <Row gutter={12} className="main-wrap" justify="space-between">
+        <Col span={current?.charts?.length ? 14 : 24}>
+          <Map
+            markerData={{ features: [] }}
+            style={{ height: 600 }}
+            current={current}
+          />
+        </Col>
+        {!!current?.charts?.length && (
+          <Col span={10}>
+            <div className="charts-wrap">
+              {!!current?.chartListTitle && (
+                <Divider orientation="left" orientationMargin="0">
+                  {current?.chartListTitle}
+                </Divider>
+              )}
+              {current?.charts?.map((cc) => (
+                <DataChart
+                  key={`chart-${cc.id}`}
+                  formId={current.id}
+                  config={cc}
+                />
               ))}
-            </Collapse>
+            </div>
           </Col>
-          <Col span={12}>
-            <Map
-              markerData={{ features: [] }}
-              style={{ height: 585 }}
-              question={question}
+        )}
+      </Row>
+      <Collapse
+        accordion
+        activeKey={activeKey}
+        onChange={handleChange}
+        expandIcon={({ isActive }) =>
+          isActive ? (
+            <CloseSquareOutlined
+              style={{ color: "#E00000B3", fontSize: "16px" }}
             />
-          </Col>
-        </Row>
-      </Card>
+          ) : (
+            <PlusSquareOutlined
+              style={{ color: "#707070B3", fontSize: "16px" }}
+            />
+          )
+        }
+        expandIconPosition="right"
+      >
+        {dataset.map((d, dI) => (
+          <Panel key={dI} header={d.title}>
+            <Row
+              wrap={false}
+              style={{
+                width: "100%",
+                marginBottom: 12,
+              }}
+            >
+              <Col flex="auto">
+                <Select
+                  value={d.selected}
+                  disabled={loading}
+                  onChange={(e) => {
+                    fetchData(d.id, e);
+                  }}
+                  placeholder="Select one.."
+                >
+                  {d.question
+                    ?.filter((qn) => qn.type === "option")
+                    .map((qn, qnI) => (
+                      <Option key={qnI} value={qn.id + ""}>
+                        {qn.name}
+                      </Option>
+                    ))}
+                </Select>
+              </Col>
+              <Col flex="none">
+                <Space>
+                  <Button
+                    title="Bar Chart"
+                    className={d.chart === "BAR" ? "light active" : "light"}
+                    icon={<BarChartOutlined />}
+                    onClick={() => {
+                      setChartType(d.id, "BAR");
+                    }}
+                  />
+                  <Button
+                    title="Pie Chart"
+                    className={d.chart === "PIE" ? "light active" : "light"}
+                    icon={<PieChartOutlined />}
+                    onClick={() => {
+                      setChartType(d.id, "PIE");
+                    }}
+                  />
+                </Space>
+              </Col>
+            </Row>
+
+            {loading ? (
+              <div style={{ color: "#777", margin: "12px 0" }}>Loading..</div>
+            ) : d.chart === "PIE" ? (
+              <Chart span={24} type={"PIE"} data={d.data} wrapper={false} />
+            ) : (
+              <Chart span={24} type={"BAR"} data={d.data} wrapper={false} />
+            )}
+          </Panel>
+        ))}
+      </Collapse>
     </div>
   );
 };
