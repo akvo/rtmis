@@ -105,8 +105,7 @@ const DataChart = ({ config, formId }) => {
           />
         ) : (
           <Chart
-            // span={24}
-            height={300}
+            height={260}
             type={type}
             data={dataset}
             wrapper={false}

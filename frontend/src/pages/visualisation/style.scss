@@ -3,84 +3,28 @@
 #root {
   #visualisation {
     .main-wrap {
-      margin-top: 33px;
-      .ant-col {
-        h2 {
-          font-size: 24px;
-          font-weight: 700;
-        }
-        .map-container {
-          margin-bottom: 16px;
-        }
-      }
+      margin: 20px 0 24px;
       .ant-col:last-child {
-        padding-left: 32px;
-        .ant-tabs {
-          .ant-tabs-nav {
-            margin-bottom: 10px;
-            &::before {
-              border-bottom: none;
-            }
-            .ant-tabs-tab {
-              border: solid #ebedf0 1px;
-              background-color: #fff;
-              .ant-tabs-tab-btn {
-                color: #8f9aaf;
-              }
-              .ant-tabs-tab-btn:hover {
-                color: #5f6a7e;
-              }
-            }
-            .ant-tabs-tab.ant-tabs-tab-active {
-              background-color: #0257ff;
-              .ant-tabs-tab-btn {
-                color: #fff;
-              }
-              .ant-tabs-tab-btn:hover {
-                color: #fff;
-              }
+        .charts-wrap {
+          height: 600px;
+          overflow-y: scroll;
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+          border-bottom: 1px solid #e3e5e9;
+          padding: 0 8px;
+          .ant-divider {
+            margin-bottom: 12px;
+            .ant-divider-inner-text {
+              color: #7a7e82;
+              font-weight: 600;
+              font-size: 20px;
             }
           }
-          .ant-tabs-content-holder {
-            background-color: #fff;
-            padding: 0;
-          }
+        }
+        .charts-wrap::-webkit-scrollbar {
+          display: none;
         }
       }
-    }
-    .charts-wrap {
-      overflow-y: scroll;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-      overflow-x: scroll;
-      margin: 15px 0 8px;
-      .chart-wrap {
-        padding: 0;
-        text-align: left;
-        h3 {
-          font-weight: 600;
-          .anticon {
-            margin: 0 10px;
-            color: #9191a2;
-            font-size: 16px;
-          }
-        }
-        .chart-inner {
-          padding: 0;
-          min-height: 300px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-        margin-bottom: 12px;
-        &:last-child {
-          margin-bottom: 0px;
-        }
-      }
-    }
-    .charts-wrap::-webkit-scrollbar {
-      display: none;
     }
   }
 }

@@ -13,3 +13,4 @@ export { default as EditableCell } from "./EditableCell.jsx";
 export { default as DataTable } from "./visualisation/DataTable.jsx";
 export { default as JMP } from "./visualisation/JMP.jsx";
 export { default as Progress } from "./visualisation/Progress.jsx";
+export { default as DataChart } from "./visualisation/DataChart.jsx";

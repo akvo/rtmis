@@ -31,6 +31,7 @@ var visualisation = [
         title: "Age of the household head",
       },
     },
+    chartListTitle: "JMP",
     charts: [
       {
         type: "PIE",
@@ -87,13 +88,6 @@ var visualisation = [
             color: "orange", // Eg. set and override default color in config
           },
         ],
-      },
-    ],
-    tabs: [
-      {
-        name: "JMP",
-        component: "JMP",
-        chartList: [],
       },
     ],
   },

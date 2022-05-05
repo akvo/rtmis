@@ -1,28 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Row, Col, Collapse, Space, Button, Select, Tabs } from "antd";
+import { Row, Col, Collapse, Space, Button, Select, Divider } from "antd";
 import {
   PlusSquareOutlined,
   CloseSquareOutlined,
   BarChartOutlined,
   PieChartOutlined,
-  LineChartOutlined,
-  DatabaseOutlined,
 } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
-import {
-  VisualisationFilters,
-  Map,
-  Chart,
-  DataTable,
-  JMP,
-  Progress,
-} from "../../components";
-import DataChart from "./DataChart";
+import { VisualisationFilters, Map, Chart, DataChart } from "../../components";
 const { Panel } = Collapse;
 const { Option } = Select;
-const { TabPane } = Tabs;
 
 const Visualisation = () => {
   const [dataset, setDataset] = useState([]);
@@ -129,65 +118,36 @@ const Visualisation = () => {
     }
   }, [selectedForm]);
 
-  const renderTab = (componentName) => {
-    switch (componentName) {
-      case "JMP":
-        return <JMP />;
-      case "Progress":
-        return <Progress />;
-      default:
-        return null;
-    }
-  };
   return (
     <div id="visualisation">
       <VisualisationFilters />
-      <Row className="main-wrap" justify="space-between">
-        <Col span={12}>
+      <Row gutter={12} className="main-wrap" justify="space-between">
+        <Col span={current?.charts?.length ? 14 : 24}>
           <Map
             markerData={{ features: [] }}
-            style={{ height: 585 }}
+            style={{ height: 600 }}
             current={current}
           />
         </Col>
-        <Col span={12}>
-          <Tabs type="card" className="dev">
-            <TabPane
-              tab={
-                <Space direction="horizontal">
-                  <DatabaseOutlined />
-                  Data
-                </Space>
-              }
-              key="1"
-            >
-              <DataTable />
-            </TabPane>
-            {current?.tabs?.map((cT) => (
-              <TabPane
-                tab={
-                  <Space direction="horizontal" size="small">
-                    <LineChartOutlined />
-                    {cT.name}
-                  </Space>
-                }
-                key={cT.name}
-              >
-                {renderTab(cT?.component)}
-              </TabPane>
-            ))}
-          </Tabs>
-        </Col>
+        {!!current?.charts?.length && (
+          <Col span={10}>
+            <div className="charts-wrap" wrap={false} gutter={12}>
+              {!!current?.chartListTitle && (
+                <Divider orientation="left" orientationMargin="0">
+                  {current?.chartListTitle}
+                </Divider>
+              )}
+              {current?.charts?.map((cc) => (
+                <DataChart
+                  key={`chart-${cc.id}`}
+                  formId={current.id}
+                  config={cc}
+                />
+              ))}
+            </div>
+          </Col>
+        )}
       </Row>
-      {!!current?.charts?.length && (
-        <Row className="charts-wrap" wrap={false} gutter={12}>
-          {current?.charts?.map((cc) => (
-            <Col key={`chart-${cc.id}`} span={10}>
-              <DataChart formId={current.id} config={cc} />
-            </Col>
-          ))}
-        </Row>
-      )}
       <Collapse
         accordion
         activeKey={activeKey}
