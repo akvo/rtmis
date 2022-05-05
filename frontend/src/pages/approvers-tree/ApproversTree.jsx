@@ -44,7 +44,7 @@ const ApproversTree = () => {
   }, [forms]);
 
   useEffect(() => {
-    if (administration.length && selectedForm) {
+    if (!!administration.length && selectedForm) {
       const selectedAdministration = takeRight(administration, 1)[0];
       setLoading(true);
       api
@@ -279,7 +279,7 @@ const ApproversTree = () => {
   const renderFormLine = useMemo(() => {
     return (
       selectedForm &&
-      administration.length && (
+      !!administration.length && (
         <SteppedLineTo
           within="tree-col-0"
           key={`tree-line-${selectedForm}`}

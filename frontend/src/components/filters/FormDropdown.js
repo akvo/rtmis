@@ -6,7 +6,11 @@ import PropTypes from "prop-types";
 import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
 
-const FormDropdown = ({ loading: parentLoading = false, ...props }) => {
+const FormDropdown = ({
+  loading: parentLoading = false,
+  title = false,
+  ...props
+}) => {
   const { forms, selectedForm, loadingForm } = store.useState((state) => state);
   const { notify } = useNotification();
 
@@ -52,11 +56,12 @@ const FormDropdown = ({ loading: parentLoading = false, ...props }) => {
     return (
       <Select
         placeholder={`Select Form`}
-        style={{ width: 160 }}
+        style={{ width: title ? "100%" : 160 }}
         onChange={(e) => {
           handleChange(e);
         }}
         value={selectedForm}
+        className={`form-dropdown ${title ? " form-dropdown-title" : ""}`}
         disabled={parentLoading || loadingForm}
         getPopupContainer={(trigger) => trigger.parentNode}
         {...props}
@@ -75,6 +80,7 @@ const FormDropdown = ({ loading: parentLoading = false, ...props }) => {
 
 FormDropdown.propTypes = {
   loading: PropTypes.bool,
+  title: PropTypes.bool,
 };
 
 export default React.memo(FormDropdown);
