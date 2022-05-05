@@ -22,7 +22,6 @@ const pagePath = [
 
 const ManageData = () => {
   const [loading, setLoading] = useState(false);
-  const [detailLoading, setDetailLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
   const [query, setQuery] = useState("");
   const [totalCount, setTotalCount] = useState(0);
@@ -71,28 +70,6 @@ const ManageData = () => {
 
   const handleChange = (e) => {
     setCurrentPage(e.current);
-  };
-
-  const getDataDetail = (expanded, record) => {
-    const oldDataset = dataset.find((d) => d.id === record.id);
-    if (expanded && !oldDataset?.answer) {
-      setDetailLoading(true);
-      api
-        .get(`data/${record.id}`)
-        .then((res) => {
-          const newDataset = dataset.map((d) => {
-            if (d.id === record.id) {
-              d = { ...d, answer: res.data };
-            }
-            return d;
-          });
-          setDataset(newDataset);
-          setDetailLoading(false);
-        })
-        .catch((e) => {
-          console.error(e);
-        });
-    }
   };
 
   useEffect(() => {
@@ -152,16 +129,13 @@ const ManageData = () => {
               total: totalCount,
               pageSize: 10,
               showSizeChanger: false,
+              showTotal: (total, range) =>
+                `Results: ${range[0]} - ${range[1]} of ${total} data`,
             }}
             rowKey="id"
             expandable={{
-              onExpand: getDataDetail,
               expandedRowRender: (record) => (
-                <DataDetail
-                  questionGroups={questionGroups}
-                  record={record}
-                  loading={detailLoading}
-                />
+                <DataDetail questionGroups={questionGroups} record={record} />
               ),
               expandIcon: ({ expanded, onExpand, record }) =>
                 expanded ? (
