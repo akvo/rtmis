@@ -131,7 +131,7 @@ const Visualisation = () => {
         </Col>
         {!!current?.charts?.length && (
           <Col span={10}>
-            <div className="charts-wrap" wrap={false} gutter={12}>
+            <div className="charts-wrap" gutter={12}>
               {!!current?.chartListTitle && (
                 <Divider orientation="left" orientationMargin="0">
                   {current?.chartListTitle}
@@ -168,7 +168,7 @@ const Visualisation = () => {
         {dataset.map((d, dI) => (
           <Panel key={dI} header={d.title}>
             <Row
-              wrap="false"
+              wrap={false}
               style={{
                 width: "100%",
                 marginBottom: 12,

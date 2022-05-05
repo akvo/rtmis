@@ -219,7 +219,7 @@ const Map = ({ current, style }) => {
   const Markers = ({ data }) => {
     if (data.length) {
       const r = 5;
-      data = data.filter((d) => d.geo.length === 2);
+      data = data.filter((d) => d.geo?.length === 2);
       return data.map(({ id, geo, marker, name }) => {
         const markerRes = markerLegendOptions
           .map((x) => x.name)
