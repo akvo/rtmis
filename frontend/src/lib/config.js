@@ -57,6 +57,20 @@ const config = {
       page_access: ["profile", "form", "data"],
       administration_level: [4],
     },
+    {
+      id: 5,
+      name: "Institutional User",
+      filter_form: false,
+      page_access: [
+        "profile",
+        "data",
+        "visualisation",
+        "approvals",
+        "questionnaires",
+      ],
+      region: [], // we can add our regions here for checking the region
+      administration_level: [4],
+    },
   ],
   checkAccess: (roles, page) => {
     return roles?.page_access?.includes(page);
