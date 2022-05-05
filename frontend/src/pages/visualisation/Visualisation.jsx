@@ -131,7 +131,7 @@ const Visualisation = () => {
         </Col>
         {!!current?.charts?.length && (
           <Col span={10}>
-            <div className="charts-wrap" gutter={12}>
+            <div className="charts-wrap">
               {!!current?.chartListTitle && (
                 <Divider orientation="left" orientationMargin="0">
                   {current?.chartListTitle}
