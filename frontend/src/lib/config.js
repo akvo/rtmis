@@ -61,17 +61,6 @@ const config = {
       administration_level: [4],
       description: "dicta sunt explicabo",
     },
-<<<<<<< Updated upstream
-=======
-    {
-      id: 5,
-      name: "Institutional User",
-      filter_form: false,
-      page_access: ["profile", "visualisation"],
-      administration_level: [1, 2, 3, 4],
-      description: "perspiciatis unde omnis iste natus error",
-    },
->>>>>>> Stashed changes
   ],
   checkAccess: (roles, page) => {
     return roles?.page_access?.includes(page);
