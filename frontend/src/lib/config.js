@@ -18,6 +18,7 @@ const config = {
         "form",
       ],
       administration_level: [1],
+      description: "reprehenderit qui in ea voluptate",
     },
     {
       id: 2,
@@ -35,6 +36,7 @@ const config = {
         "form",
       ],
       administration_level: [2],
+      description: "sed quia non numquam eius",
     },
     {
       id: 3,
@@ -49,6 +51,7 @@ const config = {
         "questionnaires",
       ],
       administration_level: [3, 4],
+      description: "Nemo enim ipsam voluptatem",
     },
     {
       id: 4,
@@ -56,6 +59,7 @@ const config = {
       filter_form: 1,
       page_access: ["profile", "form", "data"],
       administration_level: [4],
+      description: "dicta sunt explicabo",
     },
   ],
   checkAccess: (roles, page) => {
