@@ -86,7 +86,8 @@ const AddUser = () => {
   };
 
   const allowedRole = useMemo(() => {
-    return config.roles.filter((r) => r.id >= authUser.role.id);
+    const lookUp = authUser.role?.id === 2 ? 3 : authUser.role?.id || 4;
+    return config.roles.filter((r) => r.id >= lookUp);
   }, [authUser]);
 
   const checkRole = useCallback(() => {
