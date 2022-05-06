@@ -316,7 +316,7 @@ const PanelDataUpload = () => {
   };
 
   const btnBatchSelected = useMemo(() => {
-    if (selectedRows.length && modalButton) {
+    if (!!selectedRows.length && modalButton) {
       return (
         <Button
           type="primary"
@@ -362,6 +362,8 @@ const PanelDataUpload = () => {
           total: totalCount,
           pageSize: 10,
           showSizeChanger: false,
+          showTotal: (total, range) =>
+            `Results: ${range[0]} - ${range[1]} of ${total} data`,
         }}
         rowKey="id"
         expandedRowKeys={expandedKeys}

@@ -2,5 +2,29 @@
 
 #root {
   #visualisation {
+    .main-wrap {
+      margin: 20px 0 24px;
+      .ant-col:last-child {
+        .charts-wrap {
+          height: 600px;
+          overflow-y: scroll;
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+          border-bottom: 1px solid #e3e5e9;
+          padding: 0 8px;
+          .ant-divider {
+            margin-bottom: 12px;
+            .ant-divider-inner-text {
+              color: #7a7e82;
+              font-weight: 600;
+              font-size: 20px;
+            }
+          }
+        }
+        .charts-wrap::-webkit-scrollbar {
+          display: none;
+        }
+      }
+    }
   }
 }
