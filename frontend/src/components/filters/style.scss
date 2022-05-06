@@ -33,6 +33,33 @@
       }
     }
   }
+  .form-dropdown {
+    width: 100%;
+  }
+  .form-dropdown.form-dropdown-title {
+    border-bottom: solid #d9d9e4 1px;
+    padding-bottom: 4px;
+    background-color: transparent;
+    .ant-select-selector {
+      padding-left: 0;
+      border: none;
+      background-color: transparent;
+      .ant-select-selection-item {
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 38px;
+      }
+    }
+    .ant-select-selector::after {
+      line-height: 38px;
+    }
+    .ant-select-arrow {
+      color: #242426;
+    }
+  }
+  .ant-divider {
+    margin-top: 12px;
+  }
 }
 .ant-popover-inner-content {
   display: none;
