@@ -56,6 +56,33 @@ export const Color = {
     "#F36C42",
     "#D73027",
   ],
+  option: [
+    {
+      keys: [
+        "Yes",
+        "Yes, all of them",
+        "Functional toilet with privacy",
+        "in own dwelling",
+      ],
+      color: "#64d985",
+    },
+    {
+      keys: ["No", "Elsewhere"],
+      color: "#e06971",
+    },
+    {
+      keys: ["male"],
+      color: "#5999e8",
+    },
+    {
+      keys: ["female"],
+      color: "#d45dba",
+    },
+    {
+      keys: ["in own yard/plot", "yes, but not all of them"],
+      color: "#ced88c",
+    },
+  ],
 };
 
 export const visualMap = {
