@@ -92,10 +92,7 @@ const Login = () => {
                           <h1 data-testid="welcome-title">
                             Welcome to RTMIS, {invitedUser.name}
                             <br />
-                            <small>
-                              Set your own password including the following
-                              criteria
-                            </small>
+                            <small>Please set your password</small>
                           </h1>
                           <RegistrationForm invite={invitedUser.invite} />
                         </>

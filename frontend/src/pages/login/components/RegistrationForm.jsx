@@ -8,12 +8,14 @@ import { useNotification } from "../../../util/hooks";
 const checkBoxOptions = [
   { name: "Lowercase Character", re: /[a-z]/ },
   { name: "Numbers", re: /\d/ },
-  { name: "Special Character", re: /[-._!"`'#%&,:;<>=@{}~$()*+/?[\]^|]/ },
+  {
+    name: "Special Character ( -._!`'#%&,:;<>=@{}~$()*+/?[]^|] )",
+    re: /[-._!`'#%&,:;<>=@{}~$()*+/?[\]^|]/,
+  },
   { name: "Uppercase Character", re: /[A-Z]/ },
   { name: "No White Space", re: /^\S*$/ },
   { name: "Minimum 8 Character", re: /(?=.{8,})/ },
 ];
-
 const RegistrationForm = (props) => {
   const { invite } = props;
   const [checkedList, setCheckedList] = useState([]);
