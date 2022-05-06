@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Input, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { api, store, config } from "../../../lib";
+import { api } from "../../../lib";
 import { useNotification } from "../../../util/hooks";
 
 const ResetForm = () => {
