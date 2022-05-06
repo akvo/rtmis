@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Input, Select, Row, Col, Spin } from "antd";
-import { api } from "../../lib";
+import { api } from "../lib";
+import { isEqual } from "lodash";
 const { Option } = Select;
 import { UndoOutlined, SaveOutlined, LoadingOutlined } from "@ant-design/icons";
 import moment from "moment";
+import PropTypes from "prop-types";
 
 const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
   const [editing, setEditing] = useState(false);
@@ -12,8 +14,8 @@ const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
   const [value, setValue] = useState(null);
 
   useEffect(() => {
-    if (record && (record.newValue || record.answer)) {
-      const newValue = record.newValue ? record.newValue : record.answer;
+    if (record && (record.newValue || record.value)) {
+      const newValue = record.newValue ? record.newValue : record.value;
       setValue(
         record.type === "date"
           ? moment(newValue).format("YYYY-MM-DD")
@@ -23,6 +25,8 @@ const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
   }, [record]);
 
   const notEditable = record.type === "cascade" || record.type === "geo";
+  const edited =
+    record && record.newValue && !isEqual(record.value, record.newValue);
 
   useEffect(() => {
     const getLocationName = () => {
@@ -38,16 +42,15 @@ const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
         });
       };
       setLocationLoading(true);
-      fetchData(record.answer, []);
+      fetchData(record.value, []);
     };
     if (record && record.type === "cascade" && !locationName) {
       getLocationName();
     }
   }, [record, locationName]);
   const getAnswerValue = () => {
-    // const finalVal = record.newValue ? record.newValue : record.answer;
     return record.type === "multiple_option"
-      ? value.join(", ")
+      ? value?.join(", ")
       : record.type === "option"
       ? value
         ? value[0]
@@ -98,10 +101,15 @@ const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
       />
     ) : (
       <Input
+        autoFocus
         type={record.type === "number" ? "number" : "text"}
         value={value}
         onChange={(e) => {
           setValue(e.target.value);
+        }}
+        onPressEnter={() => {
+          updateCell(record.id, parentId, value);
+          setEditing(false);
         }}
       />
     );
@@ -114,7 +122,7 @@ const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
         type="primary"
         onClick={() => {
           updateCell(record.id, parentId, value);
-          setEditing(!editing);
+          setEditing(false);
         }}
         icon={<SaveOutlined />}
       >
@@ -145,7 +153,7 @@ const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
           getAnswerValue()
         )}
       </Col>
-      {record.edited && (
+      {edited && (
         <Button
           onClick={() => {
             resetCell(record.id, parentId);
@@ -159,4 +167,16 @@ const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
   );
 };
 
+EditableCell.propTypes = {
+  record: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
+    value: PropTypes.any.isRequired,
+    option: PropTypes.array,
+    newValue: PropTypes.any,
+  }),
+  parentId: PropTypes.number.isRequired,
+  updateCell: PropTypes.func.isRequired,
+  resetCell: PropTypes.func.isRequired,
+};
 export default React.memo(EditableCell);
