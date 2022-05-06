@@ -90,11 +90,8 @@ const AddUser = () => {
     const lookUp = authUser.role?.id === 2 ? 3 : authUser.role?.id || 4;
     return config.roles.filter((r) => r.id >= lookUp);
   }, [authUser]);
-  console.log("allowedRole", allowedRole);
   const checkRole = useCallback(() => {
     const admin = takeRight(administration, 1)?.[0];
-    console.log("administration", administration);
-    console.log("admin", admin);
     const role = form.getFieldValue("role");
     const allowed_level = allowedRole.find(
       (a) => a.id === role
