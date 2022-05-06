@@ -26,6 +26,7 @@ const AddUser = () => {
   const [showForms, setShowForms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [allowedForms, setAllowedForms] = useState([]);
+  const [description, setDescription] = useState("");
   const [form] = Form.useForm();
   const {
     user: authUser,
@@ -86,9 +87,9 @@ const AddUser = () => {
   };
 
   const allowedRole = useMemo(() => {
-    return config.roles.filter((r) => r.id >= authUser.role.id);
+    const lookUp = authUser.role?.id === 2 ? 3 : authUser.role?.id || 4;
+    return config.roles.filter((r) => r.id >= lookUp);
   }, [authUser]);
-
   const checkRole = useCallback(() => {
     const admin = takeRight(administration, 1)?.[0];
     const role = form.getFieldValue("role");
@@ -183,6 +184,10 @@ const AddUser = () => {
     }
   }, [id, form, forms, notify]);
 
+  const roleDescription = (e) => {
+    const role = config.roles.filter((data) => data.id === e);
+    setDescription(role[0].description);
+  };
   return (
     <div id="add-user">
       <Row justify="space-between">
@@ -314,6 +319,7 @@ const AddUser = () => {
               <Select
                 getPopupContainer={(trigger) => trigger.parentNode}
                 placeholder="Select one.."
+                onChange={roleDescription}
               >
                 {allowedRole.map((r, ri) => (
                   <Option key={ri} value={r.id}>
@@ -322,6 +328,9 @@ const AddUser = () => {
                 ))}
               </Select>
             </Form.Item>
+            <span className="role-description">
+              {description ? description : ""}
+            </span>
           </div>
           <Form.Item noStyle shouldUpdate>
             {(f) => {
