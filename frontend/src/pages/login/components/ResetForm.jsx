@@ -13,33 +13,26 @@ const ResetForm = () => {
   const onFinish = (values) => {
     setLoading(true);
     api
-      .post("login", {
+      .post("user/forgot-password", {
         email: values.email,
-        password: values.password,
       })
-      .then((res) => {
-        api.setToken(res.data.token);
-        const role_details = config.roles.find(
-          (r) => r.id === res.data.role.id
-        );
-        store.update((s) => {
-          s.isLoggedIn = true;
-          s.user = { ...res.data, role_detail: role_details };
-          s.forms = role_details.filter_form
-            ? window.forms.filter((x) => x.type === role_details.filter_form)
-            : window.forms;
+      .then(() => {
+        notify({
+          type: "success",
+          message: "Instructions mailed successfully",
         });
-        setLoading(false);
-        navigate("/profile");
+        navigate("/login");
       })
       .catch((err) => {
-        if (err.response.status === 401 || err.response.status === 400) {
-          setLoading(false);
+        if (err?.response?.status === 401 || err?.response?.status === 400) {
           notify({
             type: "error",
-            message: err.response?.data?.message,
+            message: err.response.data?.message,
           });
         }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -48,7 +41,7 @@ const ResetForm = () => {
       name="login-form"
       layout="vertical"
       initialValues={{
-        remember: true,
+        email: "",
       }}
       onFinish={onFinish}
     >
@@ -57,8 +50,9 @@ const ResetForm = () => {
         label="Email Address"
         rules={[
           {
+            type: "email",
             required: true,
-            message: "Please input your Username!",
+            message: "Please enter a valid Email Address!",
           },
         ]}
       >
@@ -67,7 +61,7 @@ const ResetForm = () => {
           placeholder="Email"
         />
       </Form.Item>
-      <Form.Item>
+      <Form.Item style={{ marginTop: 8 }}>
         <Button type="primary" htmlType="submit" loading={loading}>
           Send Instructions
         </Button>
