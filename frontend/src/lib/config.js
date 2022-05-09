@@ -22,7 +22,7 @@ const config = {
     },
     {
       id: 2,
-      name: "Admin",
+      name: "County admin",
       filter_form: false,
       page_access: [
         "profile",
@@ -40,7 +40,7 @@ const config = {
     },
     {
       id: 3,
-      name: "Approver",
+      name: "Data approver",
       filter_form: 1,
       page_access: [
         "profile",
@@ -55,11 +55,19 @@ const config = {
     },
     {
       id: 4,
-      name: "User",
+      name: "Data Entry Staff",
       filter_form: 1,
       page_access: ["profile", "form", "data"],
       administration_level: [4],
       description: "dicta sunt explicabo",
+    },
+    {
+      id: 5,
+      name: "Institutional User",
+      filter_form: false,
+      page_access: ["profile", "visualisation"],
+      administration_level: [1, 2, 3, 4],
+      description: "perspiciatis unde omnis iste natus error",
     },
   ],
   checkAccess: (roles, page) => {

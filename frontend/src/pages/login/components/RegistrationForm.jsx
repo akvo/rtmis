@@ -16,7 +16,6 @@ const checkBoxOptions = [
   { name: "No White Space", re: /^\S*$/ },
   { name: "Minimum 8 Character", re: /(?=.{8,})/ },
 ];
-
 const RegistrationForm = (props) => {
   const { invite } = props;
   const [checkedList, setCheckedList] = useState([]);
