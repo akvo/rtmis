@@ -346,7 +346,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
                 Welcome to RTMIS, John Doe
                 <br />
                 <small>
-                  Please set your password
+                  Please set your password login. Your password must include:
                 </small>
               </h1>
               <div

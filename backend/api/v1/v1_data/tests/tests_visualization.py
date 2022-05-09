@@ -4,6 +4,7 @@ from django.test.utils import override_settings
 
 from api.v1.v1_data.models import FormData
 from api.v1.v1_forms.models import Forms, Questions
+from api.v1.v1_profile.models import Administration
 from api.v1.v1_forms.constants import QuestionTypes
 
 
@@ -78,6 +79,25 @@ class DataVisualisationTestCase(TestCase):
                 form.id, question.id),
             follow=True,
             **header)
+        self.assertEqual(data.status_code, 200)
+        self.assertEqual(data.json().get('type'), 'BARSTACK')
+        self.assertEqual(list(data.json().get('data')[0]), ['group', 'child'])
+        self.assertEqual(list(data.json().get('data')[0]['child'][0]),
+                         ['name', 'value'])
+
+        data = self.client.get(
+            "/api/v1/chart/administration/{0}?question={1}".
+            format(form.id, question.id),
+            follow=True,
+            **header)
+        self.assertEqual(data.status_code, 400)
+        administration = Administration.objects.filter(level_id=1).first()
+        data = self.client.get(
+            "/api/v1/chart/administration/{0}?question={1}&administration={2}".
+            format(form.id, question.id, administration.id),
+            follow=True,
+            **header)
+
         self.assertEqual(data.status_code, 200)
         self.assertEqual(data.json().get('type'), 'BARSTACK')
         self.assertEqual(list(data.json().get('data')[0]), ['group', 'child'])
