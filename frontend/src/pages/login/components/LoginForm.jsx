@@ -27,6 +27,8 @@ const LoginForm = () => {
           s.user = { ...res.data, role_detail: role_details };
           s.forms = role_details.filter_form
             ? window.forms.filter((x) => x.type === role_details.filter_form)
+            : role_details.id === 2
+            ? res.data.forms
             : window.forms;
         });
         setLoading(false);
