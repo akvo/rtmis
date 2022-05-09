@@ -143,7 +143,6 @@ const AddUser = () => {
             s.administration = acc;
           });
           store.update((s) => {
-            privileges;
             s.loadingAdministration = false;
           });
         }
