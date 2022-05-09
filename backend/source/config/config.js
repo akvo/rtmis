@@ -69,7 +69,7 @@ var visualisation = [
         type: "BAR",
         id: 519660052,
         title: "Residential Status",
-        horizontal: false,
+        // horizontal: false,
         options: [
           {
             id: 694,

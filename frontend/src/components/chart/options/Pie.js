@@ -48,6 +48,10 @@ const Pie = (
         fontSize: 12,
       },
     },
+    grid: {
+      top: 0,
+      bottom: 0,
+    },
     series: [
       {
         name: "main",

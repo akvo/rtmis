@@ -105,20 +105,27 @@ const DataChart = ({ config, formId }) => {
           />
         ) : (
           <Chart
-            height={320}
+            height={type === "PIE" ? 290 : 80 * dataset.length}
             type={type}
             data={dataset}
             wrapper={false}
             horizontal={horizontal}
             extra={{ color: chartColors }}
-            series={{
-              left: "5%",
-              width: "55%",
-              top: "middle",
-            }}
+            series={
+              type === "PIE"
+                ? {
+                    left: "5%",
+                    right: "27%",
+                    top: "middle",
+                    radius: "85",
+                  }
+                : {
+                    left: "10%",
+                  }
+            }
             legend={{
               top: "middle",
-              left: "60%",
+              left: "65%",
               right: "right",
               orient: "vertical",
               itemGap: 12,

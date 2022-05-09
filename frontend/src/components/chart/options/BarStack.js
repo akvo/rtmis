@@ -5,6 +5,7 @@ import {
   backgroundColor,
   Icons,
   AxisLabelFormatter,
+  AxisShortLabelFormatter,
   Legend,
   DataView,
   Title,
@@ -44,7 +45,7 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
       stack: "count",
       label: {
         colorBy: "data",
-        position: si % 2 === 0 ? "left" : "right",
+        position: si % 2 === 0 ? (horizontal ? "insideLeft" : "left") : "right",
         show: true,
         padding: 5,
         backgroundColor: "rgba(0,0,0,.3)",
@@ -73,8 +74,10 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
       left: "center",
     },
     grid: {
-      top: "25%",
-      bottom: "23%",
+      top: 0,
+      bottom: 0,
+      left: 100,
+      right: 70,
       show: true,
       label: {
         color: "#222",
@@ -146,8 +149,13 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
       nameGap: 50,
       axisLabel: {
         color: "#222",
+        width: 90,
+        interval: 0,
+        overflow: "truncate",
         ...TextStyle,
-        ...AxisLabelFormatter,
+        formatter: horizontal
+          ? AxisShortLabelFormatter?.formatter
+          : AxisLabelFormatter?.formatter,
       },
       axisTick: {
         alignWithLabel: true,

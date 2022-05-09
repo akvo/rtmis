@@ -5,6 +5,7 @@ import {
   backgroundColor,
   Icons,
   AxisLabelFormatter,
+  AxisShortLabelFormatter,
   Title,
   axisTitle,
   NoData,
@@ -33,10 +34,12 @@ const Bar = (data, chartTitle, extra, horizontal = false) => {
       subtext: chartTitle?.subTitle,
     },
     grid: {
-      top: "25%",
+      top: horizontal ? 0 : 100,
+      bottom: horizontal ? 0 : 100,
+      left: horizontal ? 100 : 0,
+      right: horizontal ? 60 : 0,
       show: true,
       label: {
-        color: "#222",
         ...TextStyle,
       },
     },
@@ -76,9 +79,13 @@ const Bar = (data, chartTitle, extra, horizontal = false) => {
       nameLocation: "middle",
       nameGap: 50,
       axisLabel: {
-        color: "#222",
+        width: horizontal ? 90 : "auto",
+        overflow: horizontal ? "break" : "none",
+        interval: 0,
         ...TextStyle,
-        ...AxisLabelFormatter,
+        formatter: horizontal
+          ? AxisShortLabelFormatter?.formatter
+          : AxisLabelFormatter?.formatter,
       },
       axisTick: {
         alignWithLabel: true,
@@ -96,7 +103,7 @@ const Bar = (data, chartTitle, extra, horizontal = false) => {
         barMaxWidth: 50,
         label: {
           colorBy: "data",
-          position: "top",
+          position: horizontal ? "right" : "top",
           show: true,
           padding: 5,
           backgroundColor: "rgba(0,0,0,.3)",
