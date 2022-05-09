@@ -257,10 +257,20 @@ class ListUserRequestSerializer(serializers.Serializer):
             'administration').queryset = Administration.objects.all()
 
 
+class UserFormSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField(source='form.id')
+    name = serializers.ReadOnlyField(source='form.name')
+
+    class Meta:
+        model = UserForms
+        fields = ['id', 'name']
+
+
 class UserSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
     administration = serializers.SerializerMethodField()
     role = serializers.SerializerMethodField()
+    forms = serializers.SerializerMethodField()
 
     @extend_schema_field(UserAdministrationSerializer)
     def get_administration(self, instance: SystemUser):
@@ -283,11 +293,16 @@ class UserSerializer(serializers.ModelSerializer):
     def get_name(self, instance):
         return instance.get_full_name()
 
+    @extend_schema_field(UserFormSerializer(many=True))
+    def get_forms(self, instance: SystemUser):
+        return UserFormSerializer(instance=instance.user_form.all(),
+                                  many=True).data
+
     class Meta:
         model = SystemUser
         fields = [
             'email', 'name', 'administration', 'role', 'phone_number',
-            'designation'
+            'designation', 'forms'
         ]
 
 
@@ -303,15 +318,6 @@ class UserApprovalAssignmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FormApprovalAssignment
-        fields = ['id', 'name']
-
-
-class UserFormSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField(source='form.id')
-    name = serializers.ReadOnlyField(source='form.name')
-
-    class Meta:
-        model = UserForms
         fields = ['id', 'name']
 
 
