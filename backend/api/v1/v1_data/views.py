@@ -25,6 +25,7 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
     ListMapDataPointRequestSerializer, ListChartDataPointRequestSerializer, \
     ListChartQuestionDataPointSerializer, \
+    ListChartAdministrationRequestSerializer, \
     ListPendingDataAnswerSerializer, \
     ApprovePendingDataRequestSerializer, ListBatchSerializer, \
     CreateBatchSerializer, ListPendingDataBatchSerializer, \
@@ -256,6 +257,71 @@ def get_chart_data_point(request, version, form_id):
                          instance=serializer.validated_data.get(
                              'question').question_question_options.all(),
                          many=True).data},
+                    status=status.HTTP_200_OK)
+
+
+@extend_schema(responses={200: inline_serializer(
+    'chart_administration',
+    fields={
+        'type': serializers.CharField(),
+        'data': ListChartQuestionDataPointSerializer(many=True)
+    })},
+    parameters=[
+        OpenApiParameter(name='question',
+                         required=True,
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='administration',
+                         required=True,
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY),
+    ],
+    tags=['Visualisation'],
+    summary='To get Chart administration')
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_chart_administration(request, version, form_id):
+    instance = get_object_or_404(Forms, pk=form_id)
+    serializer = ListChartAdministrationRequestSerializer(
+            data=request.GET, context={'form': instance})
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    administration = Administration.objects.filter(
+            id=request.GET.get('administration')).first()
+    childs = Administration.objects.filter(parent=administration).all()
+    data = []
+    for child in childs:
+        values = {
+            'group': child.name,
+            'child': []
+        }
+        filter_path = "{0}{1}.".format(child.path, child.id)
+        administration_ids = list(
+                Administration.objects.filter(
+                    path__startswith=filter_path).values_list('id',
+                                                              flat=True))
+        data_ids = list(FormData.objects.filter(
+                form_id=form_id,
+                administration_id__in=administration_ids).values_list(
+                    'id', flat=True))
+        query_set = Answers.objects.filter(
+            data_id__in=data_ids,
+            question=serializer.validated_data.get('question')).values(
+            'options').annotate(c=Count('options'),
+                                ids=StringAgg(Cast('data_id', TextField()),
+                                              delimiter=',',
+                                              output_field=TextField()))
+        for val in query_set:
+            values.get('child').append({
+                'name': val.get('options')[0],
+                'value': val.get('c')
+            })
+        data.append(values)
+
+    return Response({'type': 'BARSTACK', 'data': data},
                     status=status.HTTP_200_OK)
 
 
