@@ -49,7 +49,7 @@ var visualisation = [
         ],
       },
       {
-        type: "PIE",
+        type: "BAR",
         id: 517600057,
         title: "Household head's gender",
         options: [
@@ -69,6 +69,7 @@ var visualisation = [
         type: "BAR",
         id: 519660052,
         title: "Residential Status",
+        horizontal: false,
         options: [
           {
             id: 694,

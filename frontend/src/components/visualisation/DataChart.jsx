@@ -13,7 +13,7 @@ const DataChart = ({ config, formId }) => {
   const [chartColors, setChartColors] = useState([]);
   const [loading, setLoading] = useState(false);
   const { notify } = useNotification();
-  const { id, title, type, stack, options } = config;
+  const { id, title, type, stack, options, horizontal = true } = config;
   const getOptionColor = (name, index) => {
     return (
       Color.option.find((c) => {
@@ -105,10 +105,11 @@ const DataChart = ({ config, formId }) => {
           />
         ) : (
           <Chart
-            height={270}
+            height={320}
             type={type}
             data={dataset}
             wrapper={false}
+            horizontal={horizontal}
             extra={{ color: chartColors }}
             series={{
               left: "5%",

@@ -15,7 +15,7 @@ import uniq from "lodash/uniq";
 import isEmpty from "lodash/isEmpty";
 import upperFirst from "lodash/upperFirst";
 
-const BarStack = (data, chartTitle, extra) => {
+const BarStack = (data, chartTitle, extra, horizontal = false) => {
   if (isEmpty(data) || !data) {
     return NoData;
   }
@@ -130,14 +130,14 @@ const BarStack = (data, chartTitle, extra) => {
         },
       },
     },
-    yAxis: {
+    [horizontal ? "xAxis" : "yAxis"]: {
       type: "value",
       name: yAxisTitle || "",
       nameTextStyle: { ...TextStyle },
       nameLocation: "middle",
       nameGap: 50,
     },
-    xAxis: {
+    [horizontal ? "yAxis" : "xAxis"]: {
       data: xAxis,
       type: "category",
       name: xAxisTitle || "",
