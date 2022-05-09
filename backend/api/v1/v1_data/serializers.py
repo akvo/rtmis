@@ -275,6 +275,20 @@ class ListChartQuestionDataPointSerializer(serializers.ModelSerializer):
         fields = ['name', 'value']
 
 
+class ListChartAdministrationRequestSerializer(serializers.Serializer):
+    question = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none())
+    administration = CustomPrimaryKeyRelatedField(
+            queryset=Administration.objects.none())
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        queryset = self.context.get('form').form_questions.filter(
+            type=QuestionTypes.option)
+        self.fields.get('question').queryset = queryset
+        self.fields.get(
+            'administration').queryset = Administration.objects.all()
+
+
 class ListPendingFormDataRequestSerializer(serializers.Serializer):
     administration = CustomPrimaryKeyRelatedField(
         queryset=Administration.objects.none(), required=False)
