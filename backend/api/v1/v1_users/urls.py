@@ -15,10 +15,10 @@ urlpatterns = [
     re_path(r'^(?P<version>(v1))/users', list_users),
     re_path(r'^(?P<version>(v1))/user/(?P<user_id>[0-9]+)',
             UserEditDeleteView.as_view()),
+    re_path(r'^(?P<version>(v1))/user/forgot-password', forgot_password),
     re_path(r'^(?P<version>(v1))/user/set-password', set_user_password),
     re_path(r'^(?P<version>(v1))/user/roles', get_user_roles),
     re_path(r'^(?P<version>(v1))/user', add_user),
     re_path(r'^(?P<version>(v1))/invitation/(?P<invitation_id>.*)$',
             verify_invite),
-    re_path(r'^(?P<version>(v1))/forgot-password', forgot_password),
 ]
