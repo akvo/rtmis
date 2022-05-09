@@ -55,7 +55,7 @@ const config = {
     },
     {
       id: 4,
-      name: "User",
+      name: "Data Entry Staff",
       filter_form: 1,
       page_access: ["profile", "form", "data"],
       administration_level: [4],
