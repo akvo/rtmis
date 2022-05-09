@@ -41,7 +41,7 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(len(users['data']), 10)
         self.assertEqual([
             'id', 'first_name', 'last_name', 'email', 'administration', 'role',
-            'phone_number', 'designation', 'invite'
+            'phone_number', 'designation', 'invite', 'forms'
         ], list(users['data'][0]))
         response = self.client.get("/api/v1/users?pending=true",
                                    follow=True,
