@@ -82,3 +82,16 @@ class SystemUserEndpointsTestCase(TestCase):
                                 user,
                                 content_type='application/json')
         self.assertEqual(user.status_code, 400)
+
+        # test forgor password to valid email
+        user = {"email": "admin@rtmis.com"}
+        user = self.client.post('/api/v1/forgot-password',
+                                user,
+                                content_type='application/json')
+        self.assertEqual(user.status_code, 200)
+        # test forgor password to invalid email
+        user = {"email": "notuser@domain.com"}
+        user = self.client.post('/api/v1/forgot-password',
+                                user,
+                                content_type='application/json')
+        self.assertEqual(user.status_code, 400)
