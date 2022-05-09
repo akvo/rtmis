@@ -96,6 +96,11 @@ def seed_data(form, fake_geo, level_names, repeat, test):
                 level_id = administration.id
                 data.administration = administration
                 data.save()
+        else:
+            level = Levels.objects.order_by('-id').first()
+            data.administration = Administration.objects.filter(
+                level=level).order_by('?').first()
+            data.save()
         add_fake_answers(data)
 
 
