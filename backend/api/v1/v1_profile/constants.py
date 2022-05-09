@@ -7,8 +7,8 @@ class UserRoleTypes:
 
     FieldStr = {
         super_admin: 'Super Admin',
-        admin: 'Admin',
-        approver: 'Approver',
+        admin: 'County Admin',
+        approver: 'Data Approver',
         user: 'Data Entry Staff',
         read_only: 'Institutional User'
     }
