@@ -324,6 +324,7 @@ const AddUser = () => {
                 {allowedRole.map((r, ri) => (
                   <Option key={ri} value={r.id}>
                     {r.name}
+                    <span className="opt-desc">{r.description}</span>
                   </Option>
                 ))}
               </Select>
@@ -347,7 +348,7 @@ const AddUser = () => {
                         );
                         const allowed_levels = role?.administration_level;
                         const adm_length =
-                          authUser.role.value === "Admin"
+                          authUser.role.value === "County Admin"
                             ? administration.length + 1
                             : administration.length;
                         if (allowed_levels?.includes(adm_length)) {
