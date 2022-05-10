@@ -33,6 +33,14 @@
         input,
         .ant-select {
           margin-top: 4px;
+
+          span.opt-desc {
+            display: block;
+            font-size: 12px;
+            font-weight: 300;
+            font-style: italic;
+            color: gray;
+          }
         }
       }
 
@@ -48,8 +56,10 @@
     }
   }
 }
+
 .role-description {
   color: gray;
   position: relative;
   top: -19px;
+  font-style: italic;
 }
