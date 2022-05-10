@@ -20,27 +20,30 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
   if (isEmpty(data) || !data) {
     return NoData;
   }
-
   // Custom Axis Title
   const { xAxisTitle, yAxisTitle } = axisTitle(extra);
 
-  const stacked = data[0].stack.map((x) => ({ name: x.name, color: x.color }));
+  const stacked = data[0].stack.map((x) => ({
+    name: x.name,
+    title: x.title,
+    color: x.color,
+  }));
   const legends = stacked.map((s, si) => ({
     name: s.name,
     itemStyle: { color: s.color || Color.color[si] },
   }));
-  const xAxis = uniq(data.map((x) => x.name));
+  const xAxis = uniq(data.map((x) => x.title || x.name));
   const series = stacked.map((s, si) => {
     const temp = data.map((d) => {
       const val = d.stack.find((c) => c.name === s.name);
       return {
-        name: val?.name || null,
+        name: val?.title || val?.name || null,
         value: val?.value || null,
         itemStyle: { color: val?.color || s.color },
       };
     });
     return {
-      name: s.name,
+      name: s.title || s.name,
       type: "bar",
       stack: "count",
       label: {

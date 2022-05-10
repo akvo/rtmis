@@ -40,20 +40,20 @@ const DataChart = ({ config, formId }) => {
               const optRes = stack?.options.find(
                 (op) => op.name.toLowerCase() === d.group.toLowerCase()
               );
-              colors.push(optRes?.color || getOptionColor(d.name, dI));
+              colors.push(optRes?.color || getOptionColor(d.group, dI));
               return {
-                name: optRes?.title || optRes?.name || d.name,
+                name: d.group,
+                title: optRes?.title || d.group,
                 stack: d.child.map((dc, dcI) => {
                   const stackRes = options.find(
                     (sO) => sO.name.toLowerCase() === dc.name.toLowerCase()
                   );
-                  if (stackRes) {
-                    return {
-                      name: stackRes?.title || stackRes?.name || dc.name,
-                      value: dc.value,
-                      color: stackRes?.color || getOptionColor(dc.name, dcI),
-                    };
-                  }
+                  return {
+                    name: dc.name,
+                    title: stackRes?.title || dc.name,
+                    value: dc.value,
+                    color: stackRes?.color || getOptionColor(dc.name, dcI),
+                  };
                 }),
               };
             }

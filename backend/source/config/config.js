@@ -37,16 +37,6 @@ var visualisation = [
         type: "PIE",
         id: 444670046,
         title: "Survey Participation",
-        options: [
-          {
-            id: 685,
-            name: "Yes",
-          },
-          {
-            id: 686,
-            name: "No",
-          }
-        ],
       },
       {
         type: "BAR",
@@ -54,12 +44,10 @@ var visualisation = [
         title: "Household head's gender",
         options: [
           {
-            id: 692,
             name: "Male",
             title: "M",
           },
           {
-            id: 693,
             name: "Female",
             title: "F",
           }
@@ -72,7 +60,6 @@ var visualisation = [
         // horizontal: false,
         options: [
           {
-            id: 694,
             name: "Permanent",
             color: "cyan", // Eg. set option color in config
           },
@@ -84,7 +71,6 @@ var visualisation = [
         title: "Toilet facility location",
         options: [
           {
-            id: 724,
             name: "Elsewhere",
             color: "orange", // Eg. set and override default color in config
           },
@@ -93,35 +79,27 @@ var visualisation = [
     ],
   },
   {
-    id: 952774024,
+    id: 533560002,
     title: "Health Facilities",
     type: 1,
     map: {
       marker: {
-        id: 974754044,
-        title: "Type of Health Center",
+        id: 547720005,
+        title: "Health Center Facility Level",
         options: [
           {
-            id: 851,
-            name: "Community clinic"
+            "id": 1158,
+            "name": "L1"
           },
           {
-            id: 852,
-            name: "Union health complex"
-          },
-          {
-            id: 853,
-            name: "Upazila health complex"
-          },
-          {
-            id: 854,
-            name: "Big/Private hospital"
+            "id": 1159,
+            "name": "L2"
           },
         ],
       },
       shape: {
-        id: 1119205561,
-        title: "Mobile number", // Replace with more relevant question
+        id: 555370007,
+        title: "Number of usable toilets",
       },
     },
     charts: [],
@@ -161,115 +139,56 @@ var visualisation = [
     charts: [],
   },
   {
-    id: 976564018,
+    id: 563350033,
     title: "WASH in School",
     type: 2,
     map: {
       marker: {
-        id: 974764034,
-        title: "Type of student toilets at the school",
-        options: [
-          {
-            id: 968,
-            name: "Pit latrine without slab/open pit"
-          },
-          {
-            id: 969,
-            name: "Pit latrine with slab"
-          },
-          {
-            id: 970,
-            name: "Hanging latrine"
-          },
-          {
-            id: 971,
-            name: "toilet that flush/poor flush but don't know where"
-          },
-          {
-            id: 972,
-            name: "Twinpit offset latrine"
-          },
-          {
-            id: 973,
-            name: "Ventilated Improved Pit latrine (VIP)"
-          },
-          {
-            id: 974,
-            name: "Composting toilet"
-          },
-          {
-            id: 975,
-            name: "Bucket"
-          },
-          {
-            id: 976,
-            name: "toilet that flush/poor flush to elsewhere"
-          },
-          {
-            id: 977,
-            name: "toilet that flush/poor flush to septic tank"
-          },
-          {
-            id: 978,
-            name: "toilet that flush/poor flush to piped sewer system"
-          },
-        ],
+        id: 551660011,
+        title: "Main source of drinking water",
       },
       shape: {
-        id: 974754026,
-        title: "No. of students enrolled in the school",
+        id: 551660016,
+        title: "No. of drinking water points",
       },
     },
     charts: [
       {
         type: "PIE",
-        id: 996984031,
-        title: "Type of School",
+        id: 543080036,
+        title: "School level",
       },
       {
         type: "BAR",
-        id: 974764034,
+        id: 551660029,
         title: "Type of student toilets",
       },
       {
         type: "PIE",
-        id: 980804033,
-        title: "Handwashing Facilities available",
+        id: 555460005,
+        title: "Cleanliness of student toilets",
       },
       {
         type: "BARSTACK",
-        id: 996994037,
-        title: "Separate toilets for girls and boys",
+        id: 539710052,
+        title: "Handwashing Facilities available",
         options: [
           {
-            id: 979,
-            name: "Yes",
-            title: "Y",
-          },
-          {
-            id: 980,
             name: "No",
             title: "N",
-          }
+          },
         ],
         stack: {
-          id: 992994039,
-          title: "Toilets for girls marked with signs",
+          id: 539710048,
+          title: "Soap and water available at handwashing facility",
           options: [
             {
-              id: 981,
-              name: "Yes, all of them",
-              title: "Yes, all",
+              name: "Yes, water and soap",
+              title: "Water and soap",
             },
             {
-              id: 982,
-              name: "Yes, but not all of them",
-              title: "Yes, but not all",
-            },
-            {
-              id: 983,
-              name: "No",
-              title: "No",
+              name: "Neither water or soap",
+              title: "Neither",
             }
           ],
         },
@@ -310,36 +229,6 @@ var visualisation = [
         type: "BAR",
         id: 571050096,
         title: "Water Source Type",
-        options: [
-          {
-            id: 996,
-            name: "Deep well with distribution"
-          },
-          {
-            id: 997,
-            name: "Hand dug well"
-          },
-          {
-            id: 998,
-            name: "Shallow well"
-          },
-          {
-            id: 999,
-            name: "Protected spring"
-          },
-          {
-            id: 1000,
-            name: "Unprotected spring"
-          },
-          {
-            id: 1001,
-            name: "Rainwater collection"
-          },
-          {
-            id: 1002,
-            name: "Surface water"
-          },
-        ],
       },
     ],
   },
