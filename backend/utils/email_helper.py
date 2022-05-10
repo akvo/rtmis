@@ -12,6 +12,7 @@ class EmailTypes:
     user_register = 'user_register'
     user_approval = 'user_approval'
     user_forgot_password = 'user_forgot_password'
+    user_invite = 'user_invite'
     data_approval = 'data_approval'
     data_rejection = 'data_rejection'
     batch_approval = 'batch_approval'
@@ -25,6 +26,7 @@ class EmailTypes:
         user_register: 'user_register',
         user_approval: 'user_approval',
         user_forgot_password: 'user_forgot_password',
+        user_invite: 'user_invite',
         data_approval: 'data_approval',
         data_rejection: 'data_rejection',
         batch_approval: 'batch_approval',
@@ -91,6 +93,20 @@ def email_context(context: dict, type: str):
             "button": True,
             "button_url": button_url,
             "button_text": "Reset Password"
+        })
+    if type == EmailTypes.user_invite:
+        button_url = "#"
+        if context.get("button_url"):
+            button_url = context.get("button_url")
+        context.update({
+            "subject": "Set Password",
+            "body": '''You have invited to the National Sanitation and Hygiene
+                    Real-Time Monitoring System. Please click on the button
+                    below to set your password and finalise your account.''',
+            "explore_button": False,
+            "button": True,
+            "button_url": button_url,
+            "button_text": "Set Password"
         })
     if type == EmailTypes.data_approval:
         context.update({
