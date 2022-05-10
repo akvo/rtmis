@@ -21,6 +21,17 @@ class LoginSerializer(serializers.Serializer):
     password = CustomCharField()
 
 
+class ForgotPasswordSerializer(serializers.Serializer):
+    email = CustomEmailField()
+
+    def validate_email(self, email):
+        try:
+            user = SystemUser.objects.get(email=email)
+        except SystemUser.DoesNotExist:
+            raise ValidationError('Invalid email, user not found')
+        return user
+
+
 class VerifyInviteSerializer(serializers.Serializer):
     invite = CustomCharField()
 
