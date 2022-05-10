@@ -5,53 +5,64 @@ import {
   backgroundColor,
   Icons,
   AxisLabelFormatter,
+  AxisShortLabelFormatter,
   Legend,
   DataView,
   Title,
   axisTitle,
   NoData,
 } from "./common";
-import uniq from "lodash/uniq";
-import isEmpty from "lodash/isEmpty";
-import upperFirst from "lodash/upperFirst";
+import { uniq, flatten, uniqBy, isEmpty, upperFirst, sumBy } from "lodash";
 
-const BarStack = (data, chartTitle, extra) => {
+const BarStack = (data, chartTitle, extra, horizontal = false) => {
   if (isEmpty(data) || !data) {
     return NoData;
   }
-
   // Custom Axis Title
   const { xAxisTitle, yAxisTitle } = axisTitle(extra);
 
-  const stacked = data[0].stack.map((x) => ({ name: x.name, color: x.color }));
+  const stacked = uniqBy(flatten(data.map((d) => d.stack)), "title") || []; // TODO: Conditional for administration mode
+
   const legends = stacked.map((s, si) => ({
-    name: s.name,
+    name: s.title || s.name,
     itemStyle: { color: s.color || Color.color[si] },
   }));
-  const xAxis = uniq(data.map((x) => x.name));
+  const xAxis = uniq(data.map((x) => x.title || x.name));
   const series = stacked.map((s, si) => {
     const temp = data.map((d) => {
-      const val = d.stack.find((c) => c.name === s.name);
+      const vals = d.stack?.filter((c) => c.title === s.title);
+      const stackSum = sumBy(d.stack, "value");
       return {
-        name: val?.name || null,
-        value: val?.value || null,
-        itemStyle: { color: val?.color || s.color },
+        name: s.title || s.name,
+        value: vals?.length
+          ? ((sumBy(vals, "value") / stackSum) * 100)?.toFixed(0) || 0
+          : 0,
+        itemStyle: { color: vals[0]?.color || s.color },
       };
     });
     return {
-      name: s.name,
+      name: s.title || s.name,
       type: "bar",
       stack: "count",
       label: {
         colorBy: "data",
-        position: si % 2 === 0 ? "left" : "right",
-        show: true,
+        position:
+          si % 2 === 0
+            ? horizontal
+              ? "insideRight"
+              : "left"
+            : horizontal
+            ? "insideRight"
+            : "right",
+        show: false,
         padding: 5,
+        formatter: (e) => e?.data?.value + "%" || "-",
         backgroundColor: "rgba(0,0,0,.3)",
         ...TextStyle,
         color: "#fff",
       },
-      barMaxWidth: 50,
+      barMaxWidth: 30,
+      barMaxHeight: 22,
       emphasis: {
         focus: "series",
       },
@@ -73,9 +84,12 @@ const BarStack = (data, chartTitle, extra) => {
       left: "center",
     },
     grid: {
-      top: "25%",
-      bottom: "23%",
+      top: 15,
+      bottom: 60,
+      left: 0,
+      right: 0,
       show: true,
+      containLabel: true,
       label: {
         color: "#222",
         ...TextStyle,
@@ -130,14 +144,14 @@ const BarStack = (data, chartTitle, extra) => {
         },
       },
     },
-    yAxis: {
+    [horizontal ? "xAxis" : "yAxis"]: {
       type: "value",
       name: yAxisTitle || "",
       nameTextStyle: { ...TextStyle },
       nameLocation: "middle",
       nameGap: 50,
     },
-    xAxis: {
+    [horizontal ? "yAxis" : "xAxis"]: {
       data: xAxis,
       type: "category",
       name: xAxisTitle || "",
@@ -146,8 +160,13 @@ const BarStack = (data, chartTitle, extra) => {
       nameGap: 50,
       axisLabel: {
         color: "#222",
+        width: 90,
+        interval: 0,
+        overflow: "truncate",
         ...TextStyle,
-        ...AxisLabelFormatter,
+        formatter: horizontal
+          ? AxisShortLabelFormatter?.formatter
+          : AxisLabelFormatter?.formatter,
       },
       axisTick: {
         alignWithLabel: true,

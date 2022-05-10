@@ -34,96 +34,174 @@ var visualisation = [
     chartListTitle: "JMP",
     charts: [
       {
-        type: "PIE",
-        id: 444670046,
-        title: "Survey Participation",
+        type: "ADMINISTRATION",
+        id: 492490054,
+        title: "Sanitation Service Level",
         options: [
           {
-            id: 685,
-            name: "Yes",
+            name: "Flush / pour flush",
+            title: "Safely Managed",
+            color: "#368541",
           },
           {
-            id: 686,
-            name: "No",
+            name: "Pit latrine with slab",
+            title: "Safely Managed",
+            color: "#368541",
+          },
+          {
+            name: "Pit latrine without slab / Open pit",
+            title: "Basic",
+            color: "#79BE7D",
+          },
+          {
+            name: "Twin pit with slab",
+            title: "Safely Managed",
+            color: "#368541",
+          },
+          {
+            name: "Twin pit without slab",
+            title: "Basic",
+            color: "#79BE7D",
+          },
+          {
+            name: "Bucket",
+            title: "Unimproved",
+            color: "#FBD256",
+          },
+          {
+            name: "Container based sanitation",
+            title: "Safely Managed",
+            color: "#368541",
+          },
+          {
+            name: "Hanging toilet / hanging latrine",
+            title: "Unimproved",
+            color: "#FBD256",
+          },
+          {
+            name: "No facility / Bush / Field",
+            title: "Open Defecation",
+            color: "#F1AC2A",
+          },
+          {
+            name: "Other (specify)",
+            title: "Basic",
+            color: "#79BE7D",
           }
         ],
+        stack: {
+          options: [
+            {
+              name: "805",
+              title: "805, Baringo", // Eg. Override administration name
+            },
+          ],
+        },
       },
       {
-        type: "PIE",
-        id: 517600057,
-        title: "Household head's gender",
+        type: "ADMINISTRATION",
+        id: 466680043,
+        title: "Hygiene Service Level",
         options: [
           {
-            id: 692,
-            name: "Male",
-            title: "M",
+            name: "Fixed facility observed (sink/tap) In dwelling",
+            title: "Basic",
+            color: "#753780",
           },
           {
-            id: 693,
-            name: "Female",
-            title: "F",
+            name: "Fixed facility observed (sink/tap)  In yard/plot",
+            title: "Basic",
+            color: "#753780",
+          },
+          {
+            name: "Mobile object observed (bucket/jug/kettle)",
+            title: "Limited",
+            color: "#FDF177",
+          },
+          {
+            name: "No handwashing place in dwelling/yard/plot",
+            title: "No Facility",
+            color: "#F1AC2A",
+          },
+          {
+            name: "No permission to see",
+            title: "No Facility",
+            color: "#F1AC2A",
           }
-        ],
-      },
-      {
-        type: "BAR",
-        id: 519660052,
-        title: "Residential Status",
-        options: [
-          {
-            id: 694,
-            name: "Permanent",
-            color: "cyan", // Eg. set option color in config
-          },
-        ],
-      },
-      {
-        type: "PIE",
-        id: 513690065,
-        title: "Toilet facility location",
-        options: [
-          {
-            id: 724,
-            name: "Elsewhere",
-            color: "orange", // Eg. set and override default color in config
-          },
         ],
       },
     ],
   },
   {
-    id: 952774024,
+    id: 533560002,
     title: "Health Facilities",
     type: 1,
     map: {
       marker: {
-        id: 974754044,
-        title: "Type of Health Center",
+        id: 547720005,
+        title: "Health Center Facility Level",
         options: [
           {
-            id: 851,
-            name: "Community clinic"
+            "id": 1158,
+            "name": "L1"
           },
           {
-            id: 852,
-            name: "Union health complex"
-          },
-          {
-            id: 853,
-            name: "Upazila health complex"
-          },
-          {
-            id: 854,
-            name: "Big/Private hospital"
+            "id": 1159,
+            "name": "L2"
           },
         ],
       },
       shape: {
-        id: 1119205561,
-        title: "Mobile number", // Replace with more relevant question
+        id: 555370007,
+        title: "Number of usable toilets",
       },
     },
-    charts: [],
+    charts: [
+      {
+        type: "ADMINISTRATION",
+        id: 551560004,
+        title: "Sanitation Service Level",
+        options: [
+          {
+            name: "Yes",
+            title: "Basic",
+            color: "#67B769",
+          },
+          {
+            name: "No, there are handwashing facilities near the toilets but lacking soap and/or water",
+            title: "Limited",
+            color: "#FCF176",
+          },
+          {
+            name: "No, no handwashing facilities near toilets (within 5 meters)",
+            title: "No Facility",
+            color: "#F9CA29",
+          }
+        ],
+      },
+      {
+        type: "ADMINISTRATION",
+        id: 551560004,
+        title: "Hygiene Service Level",
+        options: [
+          {
+            name: "Yes",
+            title: "Basic",
+            color: "#753780",
+          },
+          {
+            name: "No, there are handwashing facilities near the toilets but lacking soap and/or water",
+            title: "Limited",
+            color: "#FDF177",
+          },
+          {
+            name: "No, no handwashing facilities near toilets (within 5 meters)",
+            title: "No Facility",
+            color: "#F1AC2A",
+          }
+        ],
+      },
+    ],
   },
   {
     id: 974754029,
@@ -160,118 +238,135 @@ var visualisation = [
     charts: [],
   },
   {
-    id: 976564018,
+    id: 563350033,
     title: "WASH in School",
     type: 2,
     map: {
       marker: {
-        id: 974764034,
-        title: "Type of student toilets at the school",
-        options: [
-          {
-            id: 968,
-            name: "Pit latrine without slab/open pit"
-          },
-          {
-            id: 969,
-            name: "Pit latrine with slab"
-          },
-          {
-            id: 970,
-            name: "Hanging latrine"
-          },
-          {
-            id: 971,
-            name: "toilet that flush/poor flush but don't know where"
-          },
-          {
-            id: 972,
-            name: "Twinpit offset latrine"
-          },
-          {
-            id: 973,
-            name: "Ventilated Improved Pit latrine (VIP)"
-          },
-          {
-            id: 974,
-            name: "Composting toilet"
-          },
-          {
-            id: 975,
-            name: "Bucket"
-          },
-          {
-            id: 976,
-            name: "toilet that flush/poor flush to elsewhere"
-          },
-          {
-            id: 977,
-            name: "toilet that flush/poor flush to septic tank"
-          },
-          {
-            id: 978,
-            name: "toilet that flush/poor flush to piped sewer system"
-          },
-        ],
+        id: 551660011,
+        title: "Main source of drinking water",
       },
       shape: {
-        id: 974754026,
-        title: "No. of students enrolled in the school",
+        id: 551660016,
+        title: "No. of drinking water points",
       },
     },
     charts: [
       {
-        type: "PIE",
-        id: 996984031,
-        title: "Type of School",
-      },
-      {
-        type: "BAR",
-        id: 974764034,
-        title: "Type of student toilets",
-      },
-      {
-        type: "PIE",
-        id: 980804033,
-        title: "Handwashing Facilities available",
-      },
-      {
-        type: "BARSTACK",
-        id: 996994037,
-        title: "Separate toilets for girls and boys",
+        type: "ADMINISTRATION",
+        id: 551660011,
+        title: "Water service level",
         options: [
           {
-            id: 979,
-            name: "Yes",
-            title: "Y",
+            name: "Piped water supply",
+            title: "Basic",
+            color: "#753780",
           },
           {
-            id: 980,
-            name: "No",
-            title: "N",
+            name: "Protected well/spring",
+            title: "Basic",
+            color: "#753780",
+          },
+          {
+            name: "Rainwater",
+            title: "Limited",
+            color: "#FDF177",
+          },
+          {
+            name: "Unprotected well/spring",
+            title: "No Services",
+            color: "#F1AC2A",
+          },
+          {
+            name: "Packaged bottled water",
+            title: "Limited",
+            color: "#FDF177",
+          },
+          {
+            name: "Tanker-truck or cart",
+            title: "Limited",
+            color: "#FDF177",
+          },
+          {
+            name: "Surface water (lake, river, stream)",
+            title: "No Services",
+            color: "#F1AC2A",
+          },
+          {
+            name: "No water source",
+            title: "No Services",
+            color: "#F1AC2A",
           }
         ],
-        stack: {
-          id: 992994039,
-          title: "Toilets for girls marked with signs",
-          options: [
-            {
-              id: 981,
-              name: "Yes, all of them",
-              title: "Yes, all",
-            },
-            {
-              id: 982,
-              name: "Yes, but not all of them",
-              title: "Yes, but not all",
-            },
-            {
-              id: 983,
-              name: "No",
-              title: "No",
-            }
-          ],
-        },
+      },
+      {
+        type: "ADMINISTRATION",
+        id: 551660029,
+        title: "Sanitation Service Level",
+        options: [
+          {
+            name: "Flush / Pour-flush toilets",
+            title: "Basic",
+            color: "#753780",
+          },
+          {
+            name: "Pit latrines with slab",
+            title: "Basic",
+            color: "#753780",
+          },
+          {
+            name: "Composting toilets",
+            title: "Limited",
+            color: "#FDF177",
+          },
+          {
+            name: "Pit latrines without slab",
+            title: "No Service",
+            color: "#F1AC2A",
+          },
+          {
+            name: "Hanging latrines",
+            title: "No Service",
+            color: "#F1AC2A",
+          },
+          {
+            name: "Bucket latrines",
+            title: "No Service",
+            color: "#F1AC2A",
+          },
+          {
+            name: "No toilets or latrines",
+            title: "No Service",
+            color: "#F1AC2A",
+          }
+        ],
+      },
+      {
+        type: "ADMINISTRATION",
+        id: 551660029,
+        title: "Hygiene Service Level",
+        options: [
+          {
+            name: "Yes, water and soap",
+            title: "Basic",
+            color: "#753780",
+          },
+          {
+            name: "Water only",
+            title: "Limited",
+            color: "#FDF177",
+          },
+          {
+            name: "Soap only",
+            title: "Limited",
+            color: "#FDF177",
+          },
+          {
+            name: "Neither water or soap",
+            title: "No Service",
+            color: "#F1AC2A",
+          }
+        ],
       },
     ],
   },
@@ -309,36 +404,6 @@ var visualisation = [
         type: "BAR",
         id: 571050096,
         title: "Water Source Type",
-        options: [
-          {
-            id: 996,
-            name: "Deep well with distribution"
-          },
-          {
-            id: 997,
-            name: "Hand dug well"
-          },
-          {
-            id: 998,
-            name: "Shallow well"
-          },
-          {
-            id: 999,
-            name: "Protected spring"
-          },
-          {
-            id: 1000,
-            name: "Unprotected spring"
-          },
-          {
-            id: 1001,
-            name: "Rainwater collection"
-          },
-          {
-            id: 1002,
-            name: "Surface water"
-          },
-        ],
       },
     ],
   },
