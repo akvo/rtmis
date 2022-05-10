@@ -250,6 +250,11 @@ class UserInvitationTestCase(TestCase):
             '/api/v1/email_template?type=user_forgot_password',
             content_type='application/json')
         self.assertEqual(response.status_code, 200)
+        # test get user_invite template
+        response = self.client.get(
+            '/api/v1/email_template?type=user_intive',
+            content_type='application/json')
+        self.assertEqual(response.status_code, 200)
         # test get data_approval template
         response = self.client.get(
             '/api/v1/email_template?type=data_approval',
