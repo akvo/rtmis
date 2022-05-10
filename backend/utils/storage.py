@@ -5,6 +5,7 @@ from django.conf import settings
 import shutil
 
 BUCKET_NAME = settings.BUCKET_NAME
+BUCKET_FOLDER = "test" if "test" in os.environ["WEBDOMAIN"] else "staging"
 
 
 def upload(file: str, folder: str, filename: str = None, public: bool = False):
@@ -16,7 +17,7 @@ def upload(file: str, folder: str, filename: str = None, public: bool = False):
         return fake_location
     storage_client = storage.Client()
     bucket = storage_client.bucket(BUCKET_NAME)
-    destination_blob_name = f"{folder}/{filename}"
+    destination_blob_name = f"{BUCKET_FOLDER}/{folder}/{filename}"
     blob = bucket.blob(destination_blob_name)
     blob.upload_from_filename(file)
     os.remove(file)
@@ -34,7 +35,7 @@ def delete(url: str):
         return url
     storage_client = storage.Client()
     bucket = storage_client.bucket(BUCKET_NAME)
-    blob = bucket.blob(f"{folder}/{file}")
+    blob = bucket.blob(f"{BUCKET_FOLDER}/{folder}/{file}")
     blob.delete()
     return blob.name
 
