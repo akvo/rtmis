@@ -1,4 +1,5 @@
 import upperFirst from "lodash/upperFirst";
+import take from "lodash/take";
 
 export const popupFormatter = (params) => {
   var value = (params.value + "").split(".");
@@ -43,6 +44,14 @@ export const AxisLabelFormatter = {
     }
     newParamsName = newParamsName.join(" ");
     return upperFirst(newParamsName);
+  },
+};
+
+export const AxisShortLabelFormatter = {
+  formatter: function (params) {
+    const stringArr = String(params).split(" ");
+    const newParamsName = take(stringArr, 3).join("\n");
+    return upperFirst(newParamsName) + (stringArr.length > 3 ? ".." : "-");
   },
 };
 
