@@ -5,6 +5,7 @@ from utils import storage
 from django.test import TestCase, override_settings
 from django.conf import settings
 
+
 def generate_file(filename: str, hex: bool = False):
     if hex:
         hex = uuid.uuid4().hex
@@ -27,7 +28,6 @@ class StorageTestCase(TestCase):
         uploaded_file = storage.upload(file=filename, folder="test")
         self.assertTrue(storage.check(uploaded_file), "File not exists")
         self.assertEqual(uploaded_file, f"{bucket_folder}/test/{filename}")
-        
 
     def test_upload_with_custom_filename(self):
         self.assertFalse(settings.FAKE_STORAGE)
@@ -39,7 +39,6 @@ class StorageTestCase(TestCase):
         self.assertTrue(storage.check(uploaded_file), "File not exists")
         self.assertEqual(uploaded_file,
                          f"{bucket_folder}/test/{custom_filename}")
-        
 
     def test_upload_with_public_access(self):
         self.assertFalse(settings.FAKE_STORAGE)
