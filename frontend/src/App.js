@@ -135,6 +135,8 @@ const App = () => {
                 ? window.forms.filter(
                     (x) => x.type === role_details.filter_form
                   )
+                : role_details.id === 2
+                ? res.data.forms
                 : window.forms;
             });
             api.setToken(cookies.AUTH_TOKEN);
