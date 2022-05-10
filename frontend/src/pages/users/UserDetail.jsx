@@ -247,6 +247,18 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
                 value: `${record?.phone_number || "-"}`,
                 editable: true,
               },
+              {
+                key: "forms",
+                field: "Forms",
+                value: `${
+                  record.forms.length != 0
+                    ? record.forms.map((item) => item.name)
+                    : record.forms.length === 1
+                    ? record.forms.map((item) => item.name) + ", "
+                    : "-"
+                }`,
+                editable: false,
+              },
             ]}
             pagination={false}
           />
