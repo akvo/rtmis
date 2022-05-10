@@ -37,8 +37,8 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
     const temp = data.map((d) => {
       const val = d.stack.find((c) => c.name === s.name);
       return {
-        name: val?.title || val?.name || null,
-        value: val?.value || null,
+        name: s.title || s.name,
+        value: val?.value || 0,
         itemStyle: { color: val?.color || s.color },
       };
     });
@@ -75,6 +75,9 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
       data: legends,
       top: "bottom",
       left: "center",
+      floating: true,
+      // verticalAlign: "bottom",
+      y: -30,
     },
     grid: {
       top: 0,
