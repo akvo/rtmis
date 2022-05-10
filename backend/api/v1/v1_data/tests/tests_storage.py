@@ -18,6 +18,7 @@ def generate_file(filename: str, hex: bool = False):
 
 webdomain = os.environ["WEBDOMAIN"]
 bucket_folder = "test" if "test" in webdomain else "staging"
+bucket_folder = "test" if webdomain == "notset" else "staging"
 
 
 class StorageTestCase(TestCase):
