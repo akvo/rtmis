@@ -7,7 +7,8 @@ import shutil
 BUCKET_NAME = settings.BUCKET_NAME
 webdomain = os.environ["WEBDOMAIN"]
 bucket_folder = "test" if "test" in webdomain else "staging"
-bucket_folder = "test" if webdomain == "notset" else "staging"
+if webdomain == "notset":
+    bucket_folder = "test"
 
 
 def upload(file: str, folder: str, filename: str = None, public: bool = False):

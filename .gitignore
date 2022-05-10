@@ -3,4 +3,5 @@
 *.pyc
 **/.DS_Store
 backend/media/
+notify.team.sh
 .env
