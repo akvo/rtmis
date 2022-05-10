@@ -81,7 +81,7 @@ const AdministrationChart = ({ config, formId }) => {
           />
         ) : (
           <Chart
-            height={max([80 * dataset.length, 80])}
+            height={max([60 * dataset.length, 80])}
             type="BARSTACK"
             data={dataset}
             wrapper={false}

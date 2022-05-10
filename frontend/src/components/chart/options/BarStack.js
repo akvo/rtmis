@@ -12,7 +12,7 @@ import {
   axisTitle,
   NoData,
 } from "./common";
-import { uniq, flatten, uniqBy, isEmpty, upperFirst } from "lodash";
+import { uniq, flatten, uniqBy, isEmpty, upperFirst, sumBy } from "lodash";
 
 const BarStack = (data, chartTitle, extra, horizontal = false) => {
   if (isEmpty(data) || !data) {
@@ -21,7 +21,8 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
   // Custom Axis Title
   const { xAxisTitle, yAxisTitle } = axisTitle(extra);
 
-  const stacked = uniqBy(flatten(data.map((d) => d.stack)), "name") || [];
+  const stacked = uniqBy(flatten(data.map((d) => d.stack)), "title") || []; // TODO: Conditional for administration mode
+
   const legends = stacked.map((s, si) => ({
     name: s.title || s.name,
     itemStyle: { color: s.color || Color.color[si] },
@@ -29,11 +30,14 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
   const xAxis = uniq(data.map((x) => x.title || x.name));
   const series = stacked.map((s, si) => {
     const temp = data.map((d) => {
-      const val = d.stack.find((c) => c.name === s.name);
+      const vals = d.stack?.filter((c) => c.title === s.title);
+      const stackSum = sumBy(d.stack, "value");
       return {
         name: s.title || s.name,
-        value: val?.value || 0,
-        itemStyle: { color: val?.color || s.color },
+        value: vals?.length
+          ? ((sumBy(vals, "value") / stackSum) * 100)?.toFixed(0) || 0
+          : 0,
+        itemStyle: { color: vals[0]?.color || s.color },
       };
     });
     return {
@@ -42,14 +46,23 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
       stack: "count",
       label: {
         colorBy: "data",
-        position: si % 2 === 0 ? (horizontal ? "insideLeft" : "left") : "right",
-        show: true,
+        position:
+          si % 2 === 0
+            ? horizontal
+              ? "insideRight"
+              : "left"
+            : horizontal
+            ? "insideRight"
+            : "right",
+        show: false,
         padding: 5,
+        formatter: (e) => e?.data?.value + "%" || "-",
         backgroundColor: "rgba(0,0,0,.3)",
         ...TextStyle,
         color: "#fff",
       },
-      barMaxWidth: 50,
+      barMaxWidth: 30,
+      barMaxHeight: 22,
       emphasis: {
         focus: "series",
       },
@@ -69,16 +82,14 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
       data: legends,
       top: "bottom",
       left: "center",
-      floating: true,
-      // verticalAlign: "bottom",
-      y: -30,
     },
     grid: {
-      top: 0,
-      bottom: 0,
-      left: 100,
-      right: 70,
+      top: 15,
+      bottom: 60,
+      left: 0,
+      right: 0,
       show: true,
+      containLabel: true,
       label: {
         color: "#222",
         ...TextStyle,

@@ -35,59 +35,99 @@ var visualisation = [
     charts: [
       {
         type: "ADMINISTRATION",
-        id: 444670046,
-        title: "Survey Participation",
+        id: 492490054,
+        title: "Sanitation Service Level",
         options: [
           {
-            name: "Yes",
-            title: "Y",
+            name: "Flush / pour flush",
+            title: "Safely Managed",
+            color: "#368541",
+          },
+          {
+            name: "Pit latrine with slab",
+            title: "Safely Managed",
+            color: "#368541",
+          },
+          {
+            name: "Pit latrine without slab / Open pit",
+            title: "Basic",
+            color: "#79BE7D",
+          },
+          {
+            name: "Twin pit with slab",
+            title: "Safely Managed",
+            color: "#368541",
+          },
+          {
+            name: "Twin pit without slab",
+            title: "Basic",
+            color: "#79BE7D",
+          },
+          {
+            name: "Bucket",
+            title: "Unimproved",
+            color: "#FBD256",
+          },
+          {
+            name: "Container based sanitation",
+            title: "Safely Managed",
+            color: "#368541",
+          },
+          {
+            name: "Hanging toilet / hanging latrine",
+            title: "Unimproved",
+            color: "#FBD256",
+          },
+          {
+            name: "No facility / Bush / Field",
+            title: "Open Defecation",
+            color: "#F1AC2A",
+          },
+          {
+            name: "Other (specify)",
+            title: "Basic",
+            color: "#79BE7D",
           }
         ],
         stack: {
           options: [
             {
               name: "805",
-              title: "805, Baringo",
+              title: "805, Baringo", // Eg. Override administration name
             },
           ],
         },
       },
       {
         type: "ADMINISTRATION",
-        id: 517600057,
-        title: "Household head's gender",
+        id: 466680043,
+        title: "Hygiene Service Level",
         options: [
           {
-            name: "Male",
-            title: "M",
+            name: "Fixed facility observed (sink/tap) In dwelling",
+            title: "Basic",
+            color: "#753780",
           },
           {
-            name: "Female",
-            title: "F",
+            name: "Fixed facility observed (sink/tap)  In yard/plot",
+            title: "Basic",
+            color: "#753780",
+          },
+          {
+            name: "Mobile object observed (bucket/jug/kettle)",
+            title: "Limited",
+            color: "#FDF177",
+          },
+          {
+            name: "No handwashing place in dwelling/yard/plot",
+            title: "No Facility",
+            color: "#F1AC2A",
+          },
+          {
+            name: "No permission to see",
+            title: "No Facility",
+            color: "#F1AC2A",
           }
-        ],
-      },
-      {
-        type: "BAR",
-        id: 519660052,
-        title: "Residential Status",
-        // horizontal: false,
-        options: [
-          {
-            name: "Permanent",
-            color: "cyan", // Eg. set option color in config
-          },
-        ],
-      },
-      {
-        type: "PIE",
-        id: 513690065,
-        title: "Toilet facility location",
-        options: [
-          {
-            name: "Elsewhere",
-            color: "orange", // Eg. set and override default color in config
-          },
         ],
       },
     ],
@@ -116,7 +156,52 @@ var visualisation = [
         title: "Number of usable toilets",
       },
     },
-    charts: [],
+    charts: [
+      {
+        type: "ADMINISTRATION",
+        id: 551560004,
+        title: "Sanitation Service Level",
+        options: [
+          {
+            name: "Yes",
+            title: "Basic",
+            color: "#67B769",
+          },
+          {
+            name: "No, there are handwashing facilities near the toilets but lacking soap and/or water",
+            title: "Limited",
+            color: "#FCF176",
+          },
+          {
+            name: "No, no handwashing facilities near toilets (within 5 meters)",
+            title: "No Facility",
+            color: "#F9CA29",
+          }
+        ],
+      },
+      {
+        type: "ADMINISTRATION",
+        id: 551560004,
+        title: "Hygiene Service Level",
+        options: [
+          {
+            name: "Yes",
+            title: "Basic",
+            color: "#753780",
+          },
+          {
+            name: "No, there are handwashing facilities near the toilets but lacking soap and/or water",
+            title: "Limited",
+            color: "#FDF177",
+          },
+          {
+            name: "No, no handwashing facilities near toilets (within 5 meters)",
+            title: "No Facility",
+            color: "#F1AC2A",
+          }
+        ],
+      },
+    ],
   },
   {
     id: 974754029,
@@ -168,44 +253,120 @@ var visualisation = [
     },
     charts: [
       {
-        type: "PIE",
-        id: 543080036,
-        title: "School level",
-      },
-      {
-        type: "BAR",
-        id: 551660029,
-        title: "Type of student toilets",
-      },
-      {
-        type: "PIE",
-        id: 555460005,
-        title: "Cleanliness of student toilets",
-      },
-      {
-        type: "BARSTACK",
-        id: 539710052,
-        title: "Handwashing Facilities available",
+        type: "ADMINISTRATION",
+        id: 551660011,
+        title: "Water service level",
         options: [
           {
-            name: "No",
-            title: "N",
+            name: "Piped water supply",
+            title: "Basic",
+            color: "#753780",
           },
+          {
+            name: "Protected well/spring",
+            title: "Basic",
+            color: "#753780",
+          },
+          {
+            name: "Rainwater",
+            title: "Limited",
+            color: "#FDF177",
+          },
+          {
+            name: "Unprotected well/spring",
+            title: "No Services",
+            color: "#F1AC2A",
+          },
+          {
+            name: "Packaged bottled water",
+            title: "Limited",
+            color: "#FDF177",
+          },
+          {
+            name: "Tanker-truck or cart",
+            title: "Limited",
+            color: "#FDF177",
+          },
+          {
+            name: "Surface water (lake, river, stream)",
+            title: "No Services",
+            color: "#F1AC2A",
+          },
+          {
+            name: "No water source",
+            title: "No Services",
+            color: "#F1AC2A",
+          }
         ],
-        stack: {
-          id: 539710048,
-          title: "Soap and water available at handwashing facility",
-          options: [
-            {
-              name: "Yes, water and soap",
-              title: "Water and soap",
-            },
-            {
-              name: "Neither water or soap",
-              title: "Neither",
-            }
-          ],
-        },
+      },
+      {
+        type: "ADMINISTRATION",
+        id: 551660029,
+        title: "Sanitation Service Level",
+        options: [
+          {
+            name: "Flush / Pour-flush toilets",
+            title: "Basic",
+            color: "#753780",
+          },
+          {
+            name: "Pit latrines with slab",
+            title: "Basic",
+            color: "#753780",
+          },
+          {
+            name: "Composting toilets",
+            title: "Limited",
+            color: "#FDF177",
+          },
+          {
+            name: "Pit latrines without slab",
+            title: "No Service",
+            color: "#F1AC2A",
+          },
+          {
+            name: "Hanging latrines",
+            title: "No Service",
+            color: "#F1AC2A",
+          },
+          {
+            name: "Bucket latrines",
+            title: "No Service",
+            color: "#F1AC2A",
+          },
+          {
+            name: "No toilets or latrines",
+            title: "No Service",
+            color: "#F1AC2A",
+          }
+        ],
+      },
+      {
+        type: "ADMINISTRATION",
+        id: 551660029,
+        title: "Hygiene Service Level",
+        options: [
+          {
+            name: "Yes, water and soap",
+            title: "Basic",
+            color: "#753780",
+          },
+          {
+            name: "Water only",
+            title: "Limited",
+            color: "#FDF177",
+          },
+          {
+            name: "Soap only",
+            title: "Limited",
+            color: "#FDF177",
+          },
+          {
+            name: "Neither water or soap",
+            title: "No Service",
+            color: "#F1AC2A",
+          }
+        ],
       },
     ],
   },
