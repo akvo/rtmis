@@ -34,7 +34,7 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListBatchCommentSerializer, BatchListRequestSerializer
 from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Forms
-from api.v1.v1_profile.models import Administration
+from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import IsAdmin, IsApprover, IsSuperAdmin
@@ -291,14 +291,19 @@ def get_chart_administration(request, version, form_id):
         )
     administration = Administration.objects.filter(
             id=request.GET.get('administration')).first()
+    max_level = Levels.objects.order_by('-level').first()
     childs = Administration.objects.filter(parent=administration).all()
+    if administration.level.level == max_level.level:
+        childs = [administration]
     data = []
     for child in childs:
         values = {
             'group': child.name,
             'child': []
         }
-        filter_path = "{0}{1}.".format(child.path, child.id)
+        filter_path = child.path
+        if child.level.level < max_level.level:
+            filter_path = "{0}{1}.".format(child.path, child.id)
         administration_ids = list(
                 Administration.objects.filter(
                     path__startswith=filter_path).values_list('id',
