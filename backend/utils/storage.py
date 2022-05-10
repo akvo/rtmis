@@ -43,7 +43,7 @@ def delete(url: str):
 
 def check(url: str):
     if settings.FAKE_STORAGE:
-        path = Path(f"{bucket_folder}/{url}")
+        path = Path(url)
         return path.is_file()
     storage_client = storage.Client()
     bucket = storage_client.bucket(BUCKET_NAME)
