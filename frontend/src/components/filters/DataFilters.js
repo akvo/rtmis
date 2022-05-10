@@ -51,7 +51,9 @@ const DataFilters = ({ loading }) => {
             <AdvancedFiltersButton />
           </Space>
         </Col>
-        {["Super Admin", "Admin", "User"].includes(authUser?.role?.value) && (
+        {["Super Admin", "County Admin", "Data Entry Staff"].includes(
+          authUser?.role?.value
+        ) && (
           <Col>
             <Space>
               <Link to={`/form/${selectedForm}`}>
