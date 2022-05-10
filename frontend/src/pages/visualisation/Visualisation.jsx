@@ -9,7 +9,13 @@ import {
 } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
-import { VisualisationFilters, Map, Chart, DataChart } from "../../components";
+import {
+  VisualisationFilters,
+  Map,
+  Chart,
+  DataChart,
+  AdministrationChart,
+} from "../../components";
 const { Panel } = Collapse;
 const { Option } = Select;
 
@@ -137,13 +143,21 @@ const Visualisation = () => {
                   {current?.chartListTitle}
                 </Divider>
               )}
-              {current?.charts?.map((cc) => (
-                <DataChart
-                  key={`chart-${cc.id}`}
-                  formId={current.id}
-                  config={cc}
-                />
-              ))}
+              {current?.charts?.map((cc, ccI) =>
+                cc.type === "ADMINISTRATION" ? (
+                  <AdministrationChart
+                    key={`chart-${cc.id}-${ccI}`}
+                    formId={current.id}
+                    config={cc}
+                  />
+                ) : (
+                  <DataChart
+                    key={`chart-${cc.id}-${ccI}`}
+                    formId={current.id}
+                    config={cc}
+                  />
+                )
+              )}
             </div>
           </Col>
         )}
