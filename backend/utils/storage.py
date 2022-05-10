@@ -5,7 +5,8 @@ from django.conf import settings
 import shutil
 
 BUCKET_NAME = settings.BUCKET_NAME
-BUCKET_FOLDER = "test" if "test" in os.environ["WEBDOMAIN"] else "staging"
+webdomain = os.environ["WEBDOMAIN"]
+bucket_folder = "test" if "test" in webdomain else "staging"
 
 
 def upload(file: str, folder: str, filename: str = None, public: bool = False):
@@ -17,7 +18,7 @@ def upload(file: str, folder: str, filename: str = None, public: bool = False):
         return fake_location
     storage_client = storage.Client()
     bucket = storage_client.bucket(BUCKET_NAME)
-    destination_blob_name = f"{BUCKET_FOLDER}/{folder}/{filename}"
+    destination_blob_name = f"{bucket_folder}/{folder}/{filename}"
     blob = bucket.blob(destination_blob_name)
     blob.upload_from_filename(file)
     os.remove(file)
@@ -35,14 +36,14 @@ def delete(url: str):
         return url
     storage_client = storage.Client()
     bucket = storage_client.bucket(BUCKET_NAME)
-    blob = bucket.blob(f"{BUCKET_FOLDER}/{folder}/{file}")
+    blob = bucket.blob(f"{bucket_folder}/{folder}/{file}")
     blob.delete()
     return blob.name
 
 
 def check(url: str):
     if settings.FAKE_STORAGE:
-        path = Path(url)
+        path = Path(f"{bucket_folder}/{url}")
         return path.is_file()
     storage_client = storage.Client()
     bucket = storage_client.bucket(BUCKET_NAME)
@@ -54,7 +55,7 @@ def download(url):
         return url
     storage_client = storage.Client()
     bucket = storage_client.bucket(BUCKET_NAME)
-    blob = bucket.blob(url)
+    blob = bucket.blob(f"{bucket_folder}/{url}")
     tmp_file = url.split("/")[-1]
     tmp_file = f"./tmp/{tmp_file}"
     blob.download_to_filename(tmp_file)
