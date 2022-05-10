@@ -2,7 +2,16 @@ import requests as r
 import json
 
 FLOW_ENDPOINT = "http://webform.akvo.org/api/form/"
-FORMS = [{"url": "oqbhqu1erq63wa-jvvt06", "type": "county"}]
+FORMS = [{
+    "url": "oqbhqu1erq63wa-jvvt06",
+    "type": "county"
+}, {
+    "url": "yoa-ophtjoe2332mrrri4",
+    "type": "county"
+}, {
+    "url": "qn71nxt6vn8jhrrjssrr8",
+    "type": "county"
+}]
 
 form_types = {"county": 1, "national": 2}
 
