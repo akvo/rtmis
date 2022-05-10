@@ -216,7 +216,7 @@ def list_levels(request, version):
                },
                tags=['User'],
                description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
-                           'User:4',
+                           'User:4,ReadOnly:5',
                summary='To add user')
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
@@ -227,7 +227,10 @@ def add_user(request, version):
         return Response(
             {'message': validate_serializers_message(serializer.errors)},
             status=status.HTTP_400_BAD_REQUEST)
-    serializer.save()
+    user = serializer.save()
+    url = f"{webdomain}/login/{signing.dumps(user.pk)}"
+    data = {'button_url': url, 'send_to': [user.email]}
+    send_email(type=EmailTypes.user_invite, context=data)
     return Response({'message': 'User added successfully'},
                     status=status.HTTP_200_OK)
 
