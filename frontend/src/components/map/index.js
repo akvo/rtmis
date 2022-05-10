@@ -208,9 +208,14 @@ const Map = ({ current, style }) => {
   const markerLegendOptions = useMemo(() => {
     if (current && current?.map?.marker) {
       return (
-        flatten(questionGroups.map((qg) => qg.question)).find(
-          (q) => q.id === current.map.marker.id
-        )?.option || []
+        flatten(questionGroups.map((qg) => qg.question))
+          .find((q) => q.id === current.map.marker.id)
+          ?.option?.map((o) => {
+            const moRes = current.map.marker.options?.find(
+              (mo) => mo.id === o.id
+            )?.name;
+            return moRes ? { ...o, title: moRes } : o;
+          }) || []
       );
     }
     return [];
@@ -287,7 +292,7 @@ const Map = ({ current, style }) => {
                       markerLegendSelected?.id === sO.id ? "600" : "400",
                   }}
                 >
-                  {sO?.name || "NA"}
+                  {sO?.title || sO?.name || "NA"}
                 </span>
               </Space>
             </div>
@@ -343,7 +348,7 @@ const Map = ({ current, style }) => {
 
     return current && !loadingMap && thresholds.length ? (
       <div className="shape-legend">
-        <div>{current?.map?.shape?.name}</div>
+        <div>{current?.map?.shape?.title}</div>
         <Row className="legend-wrap">
           {thresholds.map((t, tI) => (
             <Col

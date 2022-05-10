@@ -12,7 +12,7 @@ const DataTable = () => {
         name: `Locality ${index + 1}`,
         water: "Safely Managed",
         sanitation: "Basic",
-        hygeine: "No Facility",
+        hygiene: "No Facility",
       });
     }
     setDataset(temp);
@@ -34,9 +34,9 @@ const DataTable = () => {
       key: "sanitation",
     },
     {
-      title: "Hygeine",
-      dataIndex: "hygeine",
-      key: "hygeine",
+      title: "Hygiene",
+      dataIndex: "hygiene",
+      key: "hygiene",
     },
     Table.EXPAND_COLUMN,
   ];
