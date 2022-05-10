@@ -69,29 +69,26 @@ class FormSeederTestCase(TestCase):
                 content_type='application/json',
                 **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
             self.assertEqual(200, response.status_code)
-        response = self.client.get("/api/v1/form/web/952774024",
+        response = self.client.get("/api/v1/form/web/519630048",
                                    follow=True,
                                    content_type='application/json',
                                    **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
         self.assertEqual(200, response.status_code)
         response = response.json()
-        self.assertEqual("Water Quality",
+        self.assertEqual("Introduction",
                          response["question_group"][0]["name"])
-        self.assertEqual(968554020,
+        self.assertEqual(364240038,
                          response["question_group"][0]["question"][0]['id'])
-        self.assertEqual('Can we conduct a water quality test?',
+        self.assertEqual('Name of the data collector (Enumerator)',
                          response["question_group"][0]["question"][0]['name'])
-        self.assertEqual(
-            ['id', 'name'],
-            list(response["question_group"][0]["question"][0]['option'][0]))
         self.assertEqual(False,
                          response["question_group"][0]["question"][0]['meta'])
-        self.assertEqual(996974044,
-                         response["question_group"][0]["question"][1]['id'])
-        self.assertEqual('If yes, can we conduct a test on salinity (taste)?',
-                         response["question_group"][0]["question"][1]['name'])
+        self.assertEqual(444670046,
+                         response["question_group"][0]["question"][2]['id'])
+        self.assertEqual('Are you willing to participate in the survey?',
+                         response["question_group"][0]["question"][2]['name'])
         self.assertEqual(
             ['id', 'name'],
-            list(response["question_group"][0]["question"][1]['option'][0]))
+            list(response["question_group"][0]["question"][2]['option'][0]))
         self.assertEqual(False,
-                         response["question_group"][0]["question"][1]['meta'])
+                         response["question_group"][0]["question"][2]['meta'])
