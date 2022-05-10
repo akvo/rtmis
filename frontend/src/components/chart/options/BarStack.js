@@ -29,7 +29,7 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
     color: x.color,
   }));
   const legends = stacked.map((s, si) => ({
-    name: s.name,
+    name: s.title || s.name,
     itemStyle: { color: s.color || Color.color[si] },
   }));
   const xAxis = uniq(data.map((x) => x.title || x.name));

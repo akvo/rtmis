@@ -4,7 +4,7 @@ import { Card, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
-import { takeRight } from "lodash";
+import { max, takeRight } from "lodash";
 import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
@@ -80,7 +80,7 @@ const AdministrationChart = ({ config, formId }) => {
           />
         ) : (
           <Chart
-            height={80 * dataset.length}
+            height={max([80 * dataset.length, 80])}
             type="BARSTACK"
             data={dataset}
             wrapper={false}
