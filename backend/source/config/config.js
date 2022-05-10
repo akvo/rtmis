@@ -34,12 +34,26 @@ var visualisation = [
     chartListTitle: "JMP",
     charts: [
       {
-        type: "PIE",
+        type: "ADMINISTRATION",
         id: 444670046,
         title: "Survey Participation",
+        options: [
+          {
+            name: "Yes",
+            title: "Y",
+          }
+        ],
+        stack: {
+          options: [
+            {
+              name: "805",
+              title: "805, Baringo",
+            },
+          ],
+        },
       },
       {
-        type: "BAR",
+        type: "ADMINISTRATION",
         id: 517600057,
         title: "Household head's gender",
         options: [

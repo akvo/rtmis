@@ -37,7 +37,7 @@ const DataChart = ({ config, formId }) => {
           const colors = [];
           const temp = res.data?.data?.map((d, dI) => {
             if (type === "BARSTACK" && stack) {
-              const optRes = stack?.options.find(
+              const optRes = stack?.options?.find(
                 (op) => op.name.toLowerCase() === d.group.toLowerCase()
               );
               colors.push(optRes?.color || getOptionColor(d.group, dI));
@@ -45,7 +45,7 @@ const DataChart = ({ config, formId }) => {
                 name: d.group,
                 title: optRes?.title || d.group,
                 stack: d.child.map((dc, dcI) => {
-                  const stackRes = options.find(
+                  const stackRes = options?.find(
                     (sO) => sO.name.toLowerCase() === dc.name.toLowerCase()
                   );
                   return {
