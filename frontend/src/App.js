@@ -135,6 +135,10 @@ const App = () => {
                 ? window.forms.filter(
                     (x) => x.type === role_details.filter_form
                   )
+                : role_details.id === 2
+                ? window.forms.filter((x) =>
+                    res.data.forms.map((f) => f.id).includes(x.id)
+                  )
                 : window.forms;
             });
             api.setToken(cookies.AUTH_TOKEN);

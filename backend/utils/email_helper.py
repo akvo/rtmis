@@ -12,7 +12,7 @@ class EmailTypes:
     user_register = 'user_register'
     user_approval = 'user_approval'
     user_forgot_password = 'user_forgot_password'
-    user_invite = 'user_intive'
+    user_invite = 'user_invite'
     data_approval = 'data_approval'
     data_rejection = 'data_rejection'
     batch_approval = 'batch_approval'
@@ -26,7 +26,7 @@ class EmailTypes:
         user_register: 'user_register',
         user_approval: 'user_approval',
         user_forgot_password: 'user_forgot_password',
-        user_invite: 'user_intive',
+        user_invite: 'user_invite',
         data_approval: 'data_approval',
         data_rejection: 'data_rejection',
         batch_approval: 'batch_approval',
