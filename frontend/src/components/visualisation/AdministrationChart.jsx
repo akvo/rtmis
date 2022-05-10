@@ -59,13 +59,14 @@ const AdministrationChart = ({ config, formId }) => {
           });
           setChartColors(colors);
           setDataset(temp);
-          setLoading(false);
         })
         .catch(() => {
           notify({
             type: "error",
             message: "Could not load data",
           });
+        })
+        .finally(() => {
           setLoading(false);
         });
     }

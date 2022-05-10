@@ -12,9 +12,7 @@ import {
   axisTitle,
   NoData,
 } from "./common";
-import uniq from "lodash/uniq";
-import isEmpty from "lodash/isEmpty";
-import upperFirst from "lodash/upperFirst";
+import { uniq, flatten, uniqBy, isEmpty, upperFirst } from "lodash";
 
 const BarStack = (data, chartTitle, extra, horizontal = false) => {
   if (isEmpty(data) || !data) {
@@ -23,11 +21,7 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
   // Custom Axis Title
   const { xAxisTitle, yAxisTitle } = axisTitle(extra);
 
-  const stacked = data[0].stack.map((x) => ({
-    name: x.name,
-    title: x.title,
-    color: x.color,
-  }));
+  const stacked = uniqBy(flatten(data.map((d) => d.stack)), "name") || [];
   const legends = stacked.map((s, si) => ({
     name: s.title || s.name,
     itemStyle: { color: s.color || Color.color[si] },
