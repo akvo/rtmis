@@ -7,6 +7,7 @@ import shutil
 BUCKET_NAME = settings.BUCKET_NAME
 webdomain = os.environ["WEBDOMAIN"]
 bucket_folder = "test" if "test" in webdomain else "staging"
+bucket_folder = "test" if webdomain == "notset" else "staging"
 
 
 def upload(file: str, folder: str, filename: str = None, public: bool = False):
@@ -43,7 +44,7 @@ def delete(url: str):
 
 def check(url: str):
     if settings.FAKE_STORAGE:
-        path = Path(f"{bucket_folder}/{url}")
+        path = Path(url)
         return path.is_file()
     storage_client = storage.Client()
     bucket = storage_client.bucket(BUCKET_NAME)
