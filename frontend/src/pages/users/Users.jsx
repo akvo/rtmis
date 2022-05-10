@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Row, Col, Card, Button, Divider, Table, Modal, Checkbox } from "antd";
+import {
+  Row,
+  Col,
+  Card,
+  Button,
+  Divider,
+  Table,
+  Modal,
+  Checkbox,
+  Badge,
+} from "antd";
 import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store } from "../../lib";
@@ -72,6 +82,17 @@ const Users = () => {
       title: "Region",
       dataIndex: "administration",
       render: (administration) => administration?.name || "",
+    },
+    {
+      title: "Forms",
+      dataIndex: "forms",
+      render: (forms) => (
+        <Badge
+          count={forms.length}
+          style={{ backgroundColor: "#2358ff" }}
+          showZero
+        />
+      ),
     },
     Table.EXPAND_COLUMN,
   ];
