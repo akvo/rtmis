@@ -22,7 +22,7 @@ class StorageTestCase(TestCase):
         filename = generate_file("test.txt")
         uploaded_file = storage.upload(file=filename, folder="test")
         self.assertTrue(storage.check(uploaded_file), "File not exists")
-        self.assertEqual(uploaded_file, f"test/{filename}")
+        self.assertEqual(uploaded_file, f"test/test/{filename}")
 
     def test_upload_with_custom_filename(self):
         self.assertFalse(settings.FAKE_STORAGE)
@@ -32,7 +32,7 @@ class StorageTestCase(TestCase):
                                        filename=custom_filename,
                                        folder="test")
         self.assertTrue(storage.check(uploaded_file), "File not exists")
-        self.assertEqual(uploaded_file, f"test/{custom_filename}")
+        self.assertEqual(uploaded_file, f"test/test/{custom_filename}")
 
     def test_upload_with_public_access(self):
         self.assertFalse(settings.FAKE_STORAGE)
@@ -40,7 +40,8 @@ class StorageTestCase(TestCase):
         uploaded_file = storage.upload(file=filename,
                                        public=True,
                                        folder="test")
-        output_file = f"https://storage.googleapis.com/rtmis/test/{filename}"
+        output_file = "https://storage.googleapis.com/rtmis/test/test/"
+        output_file = f"{output_file}{filename}"
         self.assertEqual(uploaded_file, output_file)
         response = requests.get(output_file)
         self.assertEqual(response.status_code, 200)
@@ -53,7 +54,7 @@ class StorageTestCase(TestCase):
         self.assertFalse(settings.FAKE_STORAGE)
         filename = generate_file("test.txt")
         uploaded_file = storage.upload(file=filename, folder="test")
-        self.assertEqual(uploaded_file, f"test/{filename}")
+        self.assertEqual(uploaded_file, f"test/test/{filename}")
         downloaded_file = storage.download(uploaded_file)
         self.assertEqual(downloaded_file, f"./tmp/{filename}")
         self.assertTrue(os.path.exists(downloaded_file), "File not exists")
