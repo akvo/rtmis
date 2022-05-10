@@ -1,0 +1,1438 @@
+{
+  "id": 563350033,
+  "form": "WASH in School",
+  "type": 1,
+  "question_groups": [
+    {
+      "question_group": "Demographics",
+      "questions": [
+        {
+          "id": 543080040,
+          "meta": true,
+          "question": "Take the GPS location",
+          "order": 1,
+          "required": true,
+          "type": "geo",
+          "options": null
+        },
+        {
+          "id": 543080041,
+          "meta": true,
+          "question": "Location",
+          "order": 2,
+          "required": true,
+          "type": "administration",
+          "options": null
+        },
+        {
+          "id": 543080037,
+          "meta": true,
+          "question": "School name",
+          "order": 3,
+          "required": true,
+          "type": "text",
+          "options": null
+        },
+        {
+          "id": 543080035,
+          "meta": true,
+          "question": "School code",
+          "order": 4,
+          "required": true,
+          "type": "number",
+          "options": null
+        },
+        {
+          "id": 543080036,
+          "meta": false,
+          "question": "School level",
+          "order": 5,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Pre-primary"
+            },
+            {
+              "name": "Primary"
+            },
+            {
+              "name": "High/secondary school"
+            }
+          ]
+        },
+        {
+          "id": 543080042,
+          "meta": false,
+          "question": "Number of boys",
+          "order": 6,
+          "required": true,
+          "type": "number",
+          "options": null
+        },
+        {
+          "id": 543080033,
+          "meta": false,
+          "question": "Number of girls",
+          "order": 7,
+          "required": true,
+          "type": "number",
+          "options": null
+        },
+        {
+          "id": 539710035,
+          "meta": false,
+          "question": "Number of male staff",
+          "order": 8,
+          "required": true,
+          "type": "number",
+          "options": null
+        },
+        {
+          "id": 543080039,
+          "meta": false,
+          "question": "Number of female staff",
+          "order": 9,
+          "required": true,
+          "type": "number",
+          "options": null
+        }
+      ]
+    },
+    {
+      "question_group": "Water",
+      "questions": [
+        {
+          "id": 551660011,
+          "meta": false,
+          "question": "What is the main source of drinking water provided by the school?",
+          "order": 1,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Piped water supply"
+            },
+            {
+              "name": "Protected well/spring"
+            },
+            {
+              "name": "Rainwater"
+            },
+            {
+              "name": "Unprotected well/spring"
+            },
+            {
+              "name": "Packaged bottled water"
+            },
+            {
+              "name": "Tanker-truck or cart"
+            },
+            {
+              "name": "Surface water (lake, river, stream)"
+            },
+            {
+              "name": "No water source"
+            }
+          ]
+        },
+        {
+          "id": 551660010,
+          "meta": false,
+          "question": "If unimproved, Why does school use water from unimproved water source?",
+          "order": 2,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Improved water source is too far"
+            },
+            {
+              "name": "Improved water source is salty/hard water"
+            },
+            {
+              "name": "Improved water source has system failure"
+            },
+            {
+              "name": "No improved water sources"
+            },
+            {
+              "name": "Expensive water tariff from improved water sources"
+            },
+            {
+              "name": "Long queue at improved water source"
+            },
+            {
+              "name": "Limited working days for improved water source"
+            },
+            {
+              "name": "Limited working hours for improved water source"
+            },
+            {
+              "name": "Improved water source regularly not opened"
+            },
+            {
+              "name": "Unimproved water source is assumed as clean"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 551660011,
+              "options": [
+                "Unprotected well/spring",
+                "Surface water (lake, river, stream)",
+                "No water source"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 551660013,
+          "meta": false,
+          "question": "Is drinking water from the main source currently available at the school?",
+          "order": 3,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 551660018,
+          "meta": false,
+          "question": "Is drinking water from the main source typically available throughout the school year?",
+          "order": 4,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes (always)"
+            },
+            {
+              "name": "Mostly (unavailable <30 days total)"
+            },
+            {
+              "name": "No (unavailable > 30 days total)"
+            }
+          ]
+        },
+        {
+          "id": 557060036,
+          "meta": false,
+          "question": "What is the main reason for drinking water not being available during the school?",
+          "order": 5,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "The water is not clean or not safe"
+            },
+            {
+              "name": "The water is not easily accessible for students"
+            },
+            {
+              "name": "Students are not allowed to drink water in the school"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 551660013,
+              "options": [
+                "No"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 551660014,
+          "meta": false,
+          "question": "Is drinking water accessible to those with limited mobility or vision?",
+          "order": 6,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 551660019,
+          "meta": false,
+          "question": "Is drinking water accessible to the smallest children at the school?",
+          "order": 7,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 551660016,
+          "meta": false,
+          "question": "How many drinking water points (e.g. taps) are at the school?",
+          "order": 8,
+          "required": true,
+          "type": "number",
+          "options": null
+        },
+        {
+          "id": 551660012,
+          "meta": false,
+          "question": "Does the school do anything to the water from the main source to make it safe to drink?",
+          "order": 9,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 551660015,
+          "meta": false,
+          "question": "If yes, what treatment method is used?",
+          "order": 10,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Filtration"
+            },
+            {
+              "name": "Boiling"
+            },
+            {
+              "name": "Chlorination"
+            },
+            {
+              "name": "Solar desinfection (bottle in the sun)"
+            },
+            {
+              "name": "Ultraviolet disinfection (with dedicated device)"
+            }
+          ]
+        },
+        {
+          "id": 551660017,
+          "meta": false,
+          "question": "In your opinion, what are the advantages of providing water in the school?",
+          "order": 11,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Students don’t miss class for searching drinking water"
+            },
+            {
+              "name": "Students can wash their hands/bodies"
+            },
+            {
+              "name": "School girls can use the water washing during their menstruation"
+            },
+            {
+              "name": "Students can use the water for anal wash"
+            },
+            {
+              "name": "The water can be used for cleaning the toilet"
+            },
+            {
+              "name": "I don’t know"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question_group": "Sanitation",
+      "questions": [
+        {
+          "id": 551660029,
+          "meta": false,
+          "question": "What type of student toilets/ latrines are at the school? (check one - most common)",
+          "order": 1,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Flush / Pour-flush toilets"
+            },
+            {
+              "name": "Pit latrines with slab"
+            },
+            {
+              "name": "Composting toilets"
+            },
+            {
+              "name": "Pit latrines without slab"
+            },
+            {
+              "name": "Hanging latrines"
+            },
+            {
+              "name": "Bucket latrines"
+            },
+            {
+              "name": "No toilets or latrines"
+            }
+          ]
+        },
+        {
+          "id": 551660020,
+          "meta": false,
+          "question": "How many girls only toilets available?",
+          "order": 2,
+          "required": true,
+          "type": "number",
+          "options": null,
+          "dependency": [
+            {
+              "id": 551660029,
+              "options": [
+                "No toilets or latrines"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 539710041,
+          "meta": false,
+          "question": "How many girls only toilets available?",
+          "order": 3,
+          "required": true,
+          "type": "number",
+          "options": null,
+          "dependency": [
+            {
+              "id": 551660029,
+              "options": [
+                "No toilets or latrines"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 539710043,
+          "meta": false,
+          "question": "How many boys only toilets available?",
+          "order": 4,
+          "required": true,
+          "type": "number",
+          "options": null,
+          "dependency": [
+            {
+              "id": 551660029,
+              "options": [
+                "No toilets or latrines"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 539710037,
+          "meta": false,
+          "question": "How many boys only toilets are in use?",
+          "order": 5,
+          "required": true,
+          "type": "number",
+          "options": null,
+          "dependency": [
+            {
+              "id": 551660029,
+              "options": [
+                "No toilets or latrines"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 551660025,
+          "meta": false,
+          "question": "How many common use toilets available?",
+          "order": 6,
+          "required": true,
+          "type": "number",
+          "options": null,
+          "dependency": [
+            {
+              "id": 551660029,
+              "options": [
+                "No toilets or latrines"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 539710044,
+          "meta": false,
+          "question": "How many common use toilets IN USE?",
+          "order": 7,
+          "required": true,
+          "type": "number",
+          "options": null,
+          "dependency": [
+            {
+              "id": 551660029,
+              "options": [
+                "No toilets or latrines"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 555460002,
+          "meta": false,
+          "question": "Do boys and girls have problems using the common latrine, and why?",
+          "order": 8,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "No problem"
+            },
+            {
+              "name": "Girls don’t feel comfortable to use common latrine"
+            },
+            {
+              "name": "Boys don’t feel comfortable to use common latrine"
+            },
+            {
+              "name": "Girls’ latrine is different from boys’ latrine"
+            },
+            {
+              "name": "Boys tease girls when they see them in/around latrine"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 551660029,
+              "options": [
+                "No toilets or latrines"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 551660023,
+          "meta": false,
+          "question": "When are students permitted to use the school latrines?",
+          "order": 9,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "At all times during the school day"
+            },
+            {
+              "name": "At specific times during the school day (e.g. break time etc.)"
+            },
+            {
+              "name": "Only, when they get permission from the teachers"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 551660029,
+              "options": [
+                "No toilets or latrines"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 555460003,
+          "meta": false,
+          "question": "Are the latrines being used?",
+          "order": 10,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 551660026,
+          "meta": false,
+          "question": "If the latrines/toilets are not used, what is/are the reason/s?",
+          "order": 11,
+          "required": true,
+          "type": "multiple_option",
+          "options": [
+            {
+              "name": "I don’t use the school latrines because they are always locked"
+            },
+            {
+              "name": "I don’t use the school latrines because they not clean option"
+            },
+            {
+              "name": "I don’t use the school latrines because they have bad smell"
+            },
+            {
+              "name": "I don’t use the school latrines because they do not have doors/lockers"
+            },
+            {
+              "name": "I don’t use the school latrines because they are not sufficient"
+            },
+            {
+              "name": "I don’t use school latrines because they are not safe for use"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 555460003,
+              "options": [
+                "No"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 551660022,
+          "meta": false,
+          "question": "What do you think are the advantage of having latrines in the school?",
+          "order": 12,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Offers privacy"
+            },
+            {
+              "name": "Reduces absenteeism of students"
+            },
+            {
+              "name": "Helps to prevent spread of disease"
+            },
+            {
+              "name": "Avoids traveling to long distance"
+            },
+            {
+              "name": "I don’t know"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 551660029,
+              "options": [
+                "No toilets or latrines"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 539710045,
+          "meta": false,
+          "question": "Have you ever seen in the school any student/s facing a challenge due to lack of latrine?",
+          "order": 13,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 539710042,
+          "meta": false,
+          "question": "What is the challenge they face?",
+          "order": 14,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Students missed class to go home for defecation or urine"
+            },
+            {
+              "name": "Students lose concentration on their lessons in the class"
+            },
+            {
+              "name": "Students have to go far to seek a private placeNew option"
+            },
+            {
+              "name": "Students become sick in the class"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 539710045,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 539710040,
+          "meta": false,
+          "question": "Are there dust bins in the school latrines?",
+          "order": 15,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            },
+            {
+              "name": "There are no latrines"
+            },
+            {
+              "name": "I don't know"
+            }
+          ]
+        },
+        {
+          "id": 551660027,
+          "meta": false,
+          "question": "Can boys and girls use common latrines?",
+          "order": 16,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            },
+            {
+              "name": "I don't know"
+            }
+          ]
+        },
+        {
+          "id": 551660028,
+          "meta": false,
+          "question": "Why can't boys and girls use the common latrine?",
+          "order": 17,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Girls don’t feel comfortable to use common latrine"
+            },
+            {
+              "name": "Boys don’t feel comfortable to use common latrine"
+            },
+            {
+              "name": "Girls’ latrine is different from boys’ latrine"
+            },
+            {
+              "name": "Boys tease girls when they see them in/around latrine"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 551660027,
+              "options": [
+                "No"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 539710036,
+          "meta": false,
+          "question": "How many times per week are the student toilets cleaned?",
+          "order": 18,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "At least once per day"
+            },
+            {
+              "name": "2-4 days/week"
+            },
+            {
+              "name": "Once per week"
+            },
+            {
+              "name": "Less than once per week"
+            }
+          ]
+        },
+        {
+          "id": 555460005,
+          "meta": false,
+          "question": "In general, how clean are the student toilets?",
+          "order": 19,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Clean"
+            },
+            {
+              "name": "Somewhat clean"
+            },
+            {
+              "name": "Not clean"
+            }
+          ]
+        },
+        {
+          "id": 551660021,
+          "meta": false,
+          "question": "Is there at least one usable toilet/latrine that is accessible to the smallest children at the school?",
+          "order": 20,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 539710039,
+          "meta": false,
+          "question": "Is there at least one usable toilet/latrine that is accessible to those with limited mobility or vision?",
+          "order": 21,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 555460004,
+          "meta": false,
+          "question": "Are culturally appropriate anal cleansing materials currently available to all students?",
+          "order": 22,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 551660024,
+          "meta": false,
+          "question": "Is there currently functional lighting in the student toilets?",
+          "order": 23,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 539710038,
+          "meta": false,
+          "question": "Are latrines or septic tanks emptied (or latrines safely covered) when they fill up?",
+          "order": 24,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            },
+            {
+              "name": "Does not apply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question_group": "Hygiene - hand washing",
+      "questions": [
+        {
+          "id": 539710052,
+          "meta": false,
+          "question": "Are there handwashing facilities at the school?",
+          "order": 1,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 539710048,
+          "meta": false,
+          "question": "Are both soap and water currently available at the handwashing facilities?",
+          "order": 2,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes, water and soap"
+            },
+            {
+              "name": "Water only"
+            },
+            {
+              "name": "Soap only"
+            },
+            {
+              "name": "Neither water or soap"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 539710052,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 539710051,
+          "meta": false,
+          "question": "Where are handwashing facilities with water and soap located at the school? (mark all that apply)",
+          "order": 3,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Toilets"
+            },
+            {
+              "name": "Food preparation area"
+            },
+            {
+              "name": "Classrooms"
+            },
+            {
+              "name": "School yard"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 539710052,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 539710055,
+          "meta": false,
+          "question": "How many handwashing facilities with water and soap are located at the school?",
+          "order": 4,
+          "required": true,
+          "type": "number",
+          "options": null,
+          "dependency": [
+            {
+              "id": 539710052,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 539710056,
+          "meta": false,
+          "question": "Do pupils wash their hands in the school?",
+          "order": 5,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 539710050,
+          "meta": false,
+          "question": "How do they usually wash their hands in the school?",
+          "order": 6,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "With water only"
+            },
+            {
+              "name": "With soap and water"
+            },
+            {
+              "name": "I don’t wash"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 539710056,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 539710049,
+          "meta": false,
+          "question": "When do you think is the critical hand washing time for whether you at home or at school?",
+          "order": 7,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "After I wake up from my sleep"
+            },
+            {
+              "name": "After I use the latrine/toilet"
+            },
+            {
+              "name": "Before I eat food"
+            },
+            {
+              "name": "After I eat food"
+            },
+            {
+              "name": "After I play sport on school ground"
+            },
+            {
+              "name": "After working on the field"
+            }
+          ]
+        },
+        {
+          "id": 539710053,
+          "meta": false,
+          "question": "Are there handwashing facilities accessible to those with limited mobility or vision?",
+          "order": 8,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 539710054,
+          "meta": false,
+          "question": "Are there handwashing facilities accessible to the smallest children at the school?",
+          "order": 9,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question_group": "MENSTRUAL HYGIENE",
+      "questions": [
+        {
+          "id": 538000047,
+          "meta": false,
+          "question": "What facilities are available for girls to manage their menses hygienically and without being embarrassed while in school?",
+          "order": 1,
+          "required": true,
+          "type": "multiple_option",
+          "options": [
+            {
+              "name": "Private place / latrine"
+            },
+            {
+              "name": "Water"
+            },
+            {
+              "name": "Sanitary pads/cloth"
+            },
+            {
+              "name": "Soap"
+            }
+          ]
+        },
+        {
+          "id": 538000045,
+          "meta": false,
+          "question": "Do school girls face challenges during their menstruation time in school?",
+          "order": 2,
+          "required": true,
+          "type": "multiple_option",
+          "options": [
+            {
+              "name": "There is no private place (latrine) for changing used sanitary pads or cloth"
+            },
+            {
+              "name": "Lack of water to wash their body"
+            },
+            {
+              "name": "There is no soap for washing their body"
+            },
+            {
+              "name": "There is no safe disposal system for used materials"
+            },
+            {
+              "name": "Boys tease girls when they see lick of blood or solid cloth"
+            },
+            {
+              "name": "They have pain"
+            }
+          ]
+        },
+        {
+          "id": 538000044,
+          "meta": false,
+          "question": "Are there restrictions for girls during their menstruation period?",
+          "order": 3,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            },
+            {
+              "name": "Don't know"
+            }
+          ]
+        },
+        {
+          "id": 538000046,
+          "meta": false,
+          "question": "Are there restrictions for girls during their menstruation period?",
+          "order": 4,
+          "required": true,
+          "type": "multiple_option",
+          "options": [
+            {
+              "name": "Eating some specific type food"
+            },
+            {
+              "name": "Entering the church or mosque"
+            },
+            {
+              "name": "Touching the cross or holly book"
+            },
+            {
+              "name": "Milking animals"
+            },
+            {
+              "name": "Participating in public ceremonies"
+            },
+            {
+              "name": "Preparing/cooking food"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 538000044,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 538000049,
+          "meta": false,
+          "question": "Are there covered bins for disposal of menstrual hygiene materials in girls’ toilets?",
+          "order": 5,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            },
+            {
+              "name": "Does not apply"
+            }
+          ]
+        },
+        {
+          "id": 538000050,
+          "meta": false,
+          "question": "Are there disposal mechanisms for menstrual hygiene waste at the school?",
+          "order": 6,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 538000048,
+          "meta": false,
+          "question": "Are water and soap available in a private space for girls to manage menstrual hygiene?",
+          "order": 7,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes, water and soap"
+            },
+            {
+              "name": "Water, but not soap"
+            },
+            {
+              "name": "No water"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question_group": "CLEANLINESS OF THE SCHOOL ENVIRONMENT",
+      "questions": [
+        {
+          "id": 553480028,
+          "meta": false,
+          "question": "You can use any place to excrete as long as people don’t see you.",
+          "order": 1,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            },
+            {
+              "name": "Don't know"
+            }
+          ]
+        },
+        {
+          "id": 553480030,
+          "meta": false,
+          "question": "My school tolerates open defecation",
+          "order": 2,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            },
+            {
+              "name": "Don't know"
+            }
+          ]
+        },
+        {
+          "id": 553480029,
+          "meta": false,
+          "question": "How often is the school compound swept/cleaned?",
+          "order": 3,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Daily"
+            },
+            {
+              "name": "Twice a week"
+            },
+            {
+              "name": "Three to six times a week"
+            },
+            {
+              "name": "Weekly"
+            },
+            {
+              "name": "Never"
+            },
+            {
+              "name": "Don't know"
+            }
+          ]
+        },
+        {
+          "id": 553480033,
+          "meta": false,
+          "question": "Are there garbage or waste materials that are currently affecting the sanitation of the school?",
+          "order": 4,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            },
+            {
+              "name": "Don't know"
+            }
+          ]
+        },
+        {
+          "id": 553480032,
+          "meta": false,
+          "question": "How are the garbage/waste materials affecting the school sanitation?",
+          "order": 5,
+          "required": true,
+          "type": "multiple_option",
+          "options": [
+            {
+              "name": "The waste contaminates the water"
+            },
+            {
+              "name": "Children play around the waste"
+            },
+            {
+              "name": "The waste is dispersed by wind"
+            },
+            {
+              "name": "The liquid waste creates bad smell"
+            },
+            {
+              "name": "The waste spreads disease"
+            }
+          ]
+        },
+        {
+          "id": 553480034,
+          "meta": false,
+          "question": "How should the garbage or waste materials safely and hygienically be disposed?",
+          "order": 6,
+          "required": true,
+          "type": "multiple_option",
+          "options": [
+            {
+              "name": "They should be buried in a pit within school compound"
+            },
+            {
+              "name": "They should be burned in a pit within school compound"
+            },
+            {
+              "name": "They should be collected in a container"
+            },
+            {
+              "name": "They should be thrown on damping site"
+            },
+            {
+              "name": "They should be thrown in school compound without burying /burning"
+            },
+            {
+              "name": "They should be thrown on open outside school"
+            }
+          ]
+        },
+        {
+          "id": 553480031,
+          "meta": false,
+          "question": "In your opinion, what should the school do to promote good hygiene and sanitation of students?",
+          "order": 7,
+          "required": true,
+          "type": "multiple_option",
+          "options": [
+            {
+              "name": "Make latrine available for students"
+            },
+            {
+              "name": "Make water available for WASH"
+            },
+            {
+              "name": "Make soap available for students"
+            },
+            {
+              "name": "Provide sanitary pads for girls"
+            },
+            {
+              "name": "Make cleaning materials (broom , mop etc.) ready"
+            },
+            {
+              "name": "Provide sanitation and hygiene education to students"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question_group": "General remarks",
+      "questions": [
+        {
+          "id": 539700037,
+          "meta": false,
+          "question": "Any general comments / concerns during the data collection?",
+          "order": 1,
+          "required": true,
+          "type": "text",
+          "options": null
+        }
+      ]
+    }
+  ]
+}
