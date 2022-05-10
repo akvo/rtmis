@@ -13,7 +13,7 @@ const DataChart = ({ config, formId }) => {
   const [chartColors, setChartColors] = useState([]);
   const [loading, setLoading] = useState(false);
   const { notify } = useNotification();
-  const { id, title, type, stack, options } = config;
+  const { id, title, type, stack, options, horizontal = true } = config;
   const getOptionColor = (name, index) => {
     return (
       Color.option.find((c) => {
@@ -37,23 +37,23 @@ const DataChart = ({ config, formId }) => {
           const colors = [];
           const temp = res.data?.data?.map((d, dI) => {
             if (type === "BARSTACK" && stack) {
-              const optRes = stack?.options.find(
+              const optRes = stack?.options?.find(
                 (op) => op.name.toLowerCase() === d.group.toLowerCase()
               );
-              colors.push(optRes?.color || getOptionColor(d.name, dI));
+              colors.push(optRes?.color || getOptionColor(d.group, dI));
               return {
-                name: optRes?.title || optRes?.name || d.name,
+                name: d.group,
+                title: optRes?.title || d.group,
                 stack: d.child.map((dc, dcI) => {
-                  const stackRes = options.find(
+                  const stackRes = options?.find(
                     (sO) => sO.name.toLowerCase() === dc.name.toLowerCase()
                   );
-                  if (stackRes) {
-                    return {
-                      name: stackRes?.title || stackRes?.name || dc.name,
-                      value: dc.value,
-                      color: stackRes?.color || getOptionColor(dc.name, dcI),
-                    };
-                  }
+                  return {
+                    name: dc.name,
+                    title: stackRes?.title || dc.name,
+                    value: dc.value,
+                    color: stackRes?.color || getOptionColor(dc.name, dcI),
+                  };
                 }),
               };
             }
@@ -105,19 +105,27 @@ const DataChart = ({ config, formId }) => {
           />
         ) : (
           <Chart
-            height={270}
+            height={type === "PIE" ? 290 : 80 * dataset.length}
             type={type}
             data={dataset}
             wrapper={false}
+            horizontal={horizontal}
             extra={{ color: chartColors }}
-            series={{
-              left: "5%",
-              width: "55%",
-              top: "middle",
-            }}
+            series={
+              type === "PIE"
+                ? {
+                    left: "5%",
+                    right: "27%",
+                    top: "middle",
+                    radius: "85",
+                  }
+                : {
+                    left: "10%",
+                  }
+            }
             legend={{
               top: "middle",
-              left: "60%",
+              left: "65%",
               right: "right",
               orient: "vertical",
               itemGap: 12,

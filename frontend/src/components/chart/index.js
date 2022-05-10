@@ -7,19 +7,20 @@ export const generateOptions = (
   { type, data, chartTitle },
   extra,
   series,
-  legend
+  legend,
+  horizontal
 ) => {
   switch (type) {
     case "LINE":
       return Line(data, chartTitle, extra);
     case "BARSTACK":
-      return BarStack(data, chartTitle, extra);
+      return BarStack(data, chartTitle, extra, horizontal);
     case "PIE":
       return Pie(data, chartTitle, extra, false, series, legend);
     case "DOUGHNUT":
       return Pie(data, chartTitle, extra, true);
     default:
-      return Bar(data, chartTitle, extra);
+      return Bar(data, chartTitle, extra, horizontal);
   }
 };
 
@@ -33,6 +34,7 @@ const Chart = ({
   extra = {},
   wrapper = true,
   axis = null,
+  horizontal = false,
   styles = {},
   transform = true,
   series,
@@ -51,6 +53,7 @@ const Chart = ({
     extra,
     series,
     legend,
+    horizontal,
     axis
   );
   if (wrapper) {

@@ -16,13 +16,18 @@ def generate_file(filename: str, hex: bool = False):
     return filename
 
 
+webdomain = os.environ["WEBDOMAIN"]
+bucket_folder = "test" if "test" in webdomain else "staging"
+bucket_folder = "test" if webdomain == "notset" else "staging"
+
+
 class StorageTestCase(TestCase):
     def test_upload(self):
         self.assertFalse(settings.FAKE_STORAGE)
         filename = generate_file("test.txt")
         uploaded_file = storage.upload(file=filename, folder="test")
         self.assertTrue(storage.check(uploaded_file), "File not exists")
-        self.assertEqual(uploaded_file, f"test/{filename}")
+        self.assertEqual(uploaded_file, f"{bucket_folder}/test/{filename}")
 
     def test_upload_with_custom_filename(self):
         self.assertFalse(settings.FAKE_STORAGE)
@@ -32,7 +37,8 @@ class StorageTestCase(TestCase):
                                        filename=custom_filename,
                                        folder="test")
         self.assertTrue(storage.check(uploaded_file), "File not exists")
-        self.assertEqual(uploaded_file, f"test/{custom_filename}")
+        self.assertEqual(uploaded_file,
+                         f"{bucket_folder}/test/{custom_filename}")
 
     def test_upload_with_public_access(self):
         self.assertFalse(settings.FAKE_STORAGE)
@@ -40,21 +46,23 @@ class StorageTestCase(TestCase):
         uploaded_file = storage.upload(file=filename,
                                        public=True,
                                        folder="test")
-        output_file = f"https://storage.googleapis.com/rtmis/test/{filename}"
+        storage_path = f"https://storage.googleapis.com/rtmis/{bucket_folder}"
+        output_file = "{}/test/{}".format(storage_path, filename)
         self.assertEqual(uploaded_file, output_file)
         response = requests.get(output_file)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.text, "This is a test file!")
         # Delete
         storage.delete(url=output_file)
-        self.assertFalse(storage.check("test/{filename}"), "File is exists")
+        self.assertFalse(storage.check(f"{bucket_folder}/{filename}"),
+                         "File is exists")
 
     def test_download(self):
         self.assertFalse(settings.FAKE_STORAGE)
         filename = generate_file("test.txt")
         uploaded_file = storage.upload(file=filename, folder="test")
-        self.assertEqual(uploaded_file, f"test/{filename}")
-        downloaded_file = storage.download(uploaded_file)
+        self.assertEqual(uploaded_file, f"{bucket_folder}/test/{filename}")
+        downloaded_file = storage.download(f"{bucket_folder}/{filename}")
         self.assertEqual(downloaded_file, f"./tmp/{filename}")
         self.assertTrue(os.path.exists(downloaded_file), "File not exists")
         os.remove(downloaded_file)

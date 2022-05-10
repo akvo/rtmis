@@ -1,4 +1,5 @@
 # Create your views here.
+import os
 import datetime
 from math import ceil
 from pathlib import Path
@@ -30,12 +31,15 @@ from api.v1.v1_users.models import SystemUser
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     VerifyInviteSerializer, SetUserPasswordSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
-    ListUserRequestSerializer, ListLevelSerializer, UserDetailSerializer
+    ListUserRequestSerializer, ListLevelSerializer, UserDetailSerializer, \
+    ForgotPasswordSerializer
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
 from utils.email_helper import send_email
 from utils.email_helper import ListEmailTypeRequestSerializer, EmailTypes
+
+webdomain = os.environ["WEBDOMAIN"]
 
 
 @extend_schema(description='Use to check System health', tags=['Dev'])
@@ -61,8 +65,7 @@ def get_config_file(request, version):
                                     required=False,
                                     enum=EmailTypes.FieldStr.keys(),
                                     type=OpenApiTypes.STR,
-                                    location=OpenApiParameter.QUERY),
-               ],
+                                    location=OpenApiParameter.QUERY)],
                summary='To show email template by type')
 @api_view(['GET'])
 def email_template(request, version):
@@ -181,8 +184,7 @@ def set_user_password(request, version):
                    OpenApiParameter(name='filter',
                                     required=False,
                                     type=OpenApiTypes.NUMBER,
-                                    location=OpenApiParameter.QUERY),
-               ],
+                                    location=OpenApiParameter.QUERY)],
                summary='Get list of administration')
 @api_view(['GET'])
 def list_administration(request, version, administration_id):
@@ -214,7 +216,7 @@ def list_levels(request, version):
                },
                tags=['User'],
                description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
-                           'User:4',
+                           'User:4,ReadOnly:5',
                summary='To add user')
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
@@ -225,7 +227,10 @@ def add_user(request, version):
         return Response(
             {'message': validate_serializers_message(serializer.errors)},
             status=status.HTTP_400_BAD_REQUEST)
-    serializer.save()
+    user = serializer.save()
+    url = f"{webdomain}/login/{signing.dumps(user.pk)}"
+    data = {'button_url': url, 'send_to': [user.email]}
+    send_email(type=EmailTypes.user_invite, context=data)
     return Response({'message': 'User added successfully'},
                     status=status.HTTP_200_OK)
 
@@ -263,8 +268,7 @@ def add_user(request, version):
                          required=False,
                          default=True,
                          type=OpenApiTypes.BOOL,
-                         location=OpenApiParameter.QUERY),
-    ])
+                         location=OpenApiParameter.QUERY)])
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
 def list_users(request, version):
@@ -388,7 +392,7 @@ class UserEditDeleteView(APIView):
         },
         tags=['User'],
         description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
-                    'User:4',
+                    'User:4,ReadOnly:5',
         summary='To update user')
     def put(self, request, user_id, version):
         instance = get_object_or_404(SystemUser, pk=user_id)
@@ -402,3 +406,28 @@ class UserEditDeleteView(APIView):
         serializer.save()
         return Response({'message': 'User updated successfully'},
                         status=status.HTTP_200_OK)
+
+
+@extend_schema(request=ForgotPasswordSerializer,
+               responses={
+                   (200, 'application/json'):
+                       inline_serializer(
+                           "Response",
+                           fields={"message": serializers.CharField()})
+               },
+               tags=['User'],
+               summary='To send reset password instructions')
+@api_view(['POST'])
+def forgot_password(request, version):
+    serializer = ForgotPasswordSerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST)
+    user: SystemUser = serializer.validated_data.get('email')
+    url = f"{webdomain}/login/{signing.dumps(user.pk)}"
+    data = {'button_url': url, 'send_to': [user.email]}
+    send_email(type=EmailTypes.user_forgot_password, context=data)
+    return Response(
+        {'message': 'Reset password instructions sent to your email'},
+        status=status.HTTP_200_OK)

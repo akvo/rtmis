@@ -11,6 +11,8 @@ from rtmis.settings import EMAIL_FROM
 class EmailTypes:
     user_register = 'user_register'
     user_approval = 'user_approval'
+    user_forgot_password = 'user_forgot_password'
+    user_invite = 'user_invite'
     data_approval = 'data_approval'
     data_rejection = 'data_rejection'
     batch_approval = 'batch_approval'
@@ -23,6 +25,8 @@ class EmailTypes:
     FieldStr = {
         user_register: 'user_register',
         user_approval: 'user_approval',
+        user_forgot_password: 'user_forgot_password',
+        user_invite: 'user_invite',
         data_approval: 'data_approval',
         data_rejection: 'data_rejection',
         batch_approval: 'batch_approval',
@@ -55,7 +59,8 @@ def email_context(context: dict, type: str):
             "success_text": "Successfully Registered",
             "message_list": ["JMP/SDG Status",
                              "CLTS Progress",
-                             "Water Infrastructure"]
+                             "Water Infrastructure"],
+            "explore_button": True
         })
     if type == EmailTypes.user_approval:
         context.update({
@@ -71,7 +76,37 @@ def email_context(context: dict, type: str):
             }, {
                 "location": "Nakuru",
                 "credential": "View Only"
-            }]
+            }],
+            "explore_button": True
+        })
+    if type == EmailTypes.user_forgot_password:
+        button_url = "#"
+        if context.get("button_url"):
+            button_url = context.get("button_url")
+        context.update({
+            "subject": "Reset Password",
+            "body": '''You have submitted a password change request. If it wasn't you
+                please disregard this email and make sure you can still login
+                to your account. If it was you, then click the following
+                button:''',
+            "explore_button": False,
+            "button": True,
+            "button_url": button_url,
+            "button_text": "Reset Password"
+        })
+    if type == EmailTypes.user_invite:
+        button_url = "#"
+        if context.get("button_url"):
+            button_url = context.get("button_url")
+        context.update({
+            "subject": "Set Password",
+            "body": '''You have invited to the National Sanitation and Hygiene
+                    Real-Time Monitoring System. Please click on the button
+                    below to set your password and finalise your account.''',
+            "explore_button": False,
+            "button": True,
+            "button_url": button_url,
+            "button_text": "Set Password"
         })
     if type == EmailTypes.data_approval:
         context.update({
@@ -79,7 +114,8 @@ def email_context(context: dict, type: str):
             "body": '''Your Data Upload has been approved by
                     Your admin - Ouma Odhiambo''',
             "image": f"{webdomain}/email-icons/check-circle.png",
-            "success_text": "Filename Approved"
+            "success_text": "Filename Approved",
+            "explore_button": True
         })
     if type == EmailTypes.data_rejection:
         context.update({
@@ -96,7 +132,8 @@ def email_context(context: dict, type: str):
                 "Quisque tincidunt diam in ligula ornare condimentum.",
                 "Vivamus sodales quam at felis scelerisque, ut tincidunt quam \
                     vestibulum.",
-                "Nullam sed magna a ligula ultrices rhoncus nec in sapien."]
+                "Nullam sed magna a ligula ultrices rhoncus nec in sapien."],
+            "explore_button": True
         })
     if type == EmailTypes.batch_approval:
         batch = context.get("batch")
@@ -115,6 +152,7 @@ def email_context(context: dict, type: str):
             "body": body,
             "image": f"{webdomain}/email-icons/check-circle.png",
             "success_text": success_text,
+            "explore_button": True
         })
     if type == EmailTypes.batch_rejection:
         batch = context.get("batch")
@@ -133,6 +171,7 @@ def email_context(context: dict, type: str):
             "body": body,
             "image": f"{webdomain}/email-icons/close-circle.png",
             "failed_text": failed_text,
+            "explore_button": True
         })
     if type == EmailTypes.pending_approval:
         form = context.get("form")
@@ -151,11 +190,13 @@ def email_context(context: dict, type: str):
             "body": body,
             "image": f"{webdomain}/email-icons/info-circle.png",
             "info_text": info_text,
+            "explore_button": True
         })
     if type == EmailTypes.new_request:
         context.update({
             "image": f"{webdomain}/email-icons/info-circle.png",
             "info_text": "Data has been successfully validated and submitted",
+            "explore_button": True
         })
     if type == EmailTypes.upload_error:
         context.update({
@@ -164,13 +205,15 @@ def email_context(context: dict, type: str):
                     please correct it and try again.''',
             "image": f"{webdomain}/email-icons/close-circle.png",
             "failed_text": "Upload Error",
-            "info_text": "Please find attached file for reference"
+            "info_text": "Please find attached file for reference",
+            "explore_button": True
         })
     if type == EmailTypes.unchanged_data:
         context.update({
             "subject": "No Data Updates found",
             "image": f"{webdomain}/email-icons/info-circle.png",
             "info_text": "No updated data found in the last uploaded file",
+            "explore_button": True
         })
     # prevent multiline if inside html template
     show_content = context.get('message_list') \

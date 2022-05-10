@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "./style.scss";
 import { Row, Col, Space, Button } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import AdministrationDropdown from "./AdministrationDropdown";
 import FormDropdown from "./FormDropdown.js";
 import { useNotification } from "../../util/hooks";
 import { api, store } from "../../lib";
+import { takeRight } from "lodash";
 import RemoveFiltersButton from "./RemoveFiltersButton";
 import AdvancedFiltersButton from "./AdvancedFiltersButton";
 import AdvancedFilters from "./AdvancedFilters";
@@ -15,15 +16,20 @@ const DataFilters = ({ loading }) => {
     user: authUser,
     selectedForm,
     loadingForm,
+    administration,
     showAdvancedFilters,
   } = store.useState((s) => s);
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const { notify } = useNotification();
   const [exporting, setExporting] = useState(false);
   const exportGenerate = () => {
     setExporting(true);
+    const adm_id = takeRight(administration, 1)[0]?.id;
     api
-      .get(`download/generate?form_id=${selectedForm}`)
+      .get(
+        `download/generate?form_id=${selectedForm}&administration_id=${adm_id}`
+      )
       .then(() => {
         notify({
           type: "success",
@@ -51,19 +57,23 @@ const DataFilters = ({ loading }) => {
             <AdvancedFiltersButton />
           </Space>
         </Col>
-        {["Super Admin", "Admin", "User"].includes(authUser?.role?.value) && (
+        {["Super Admin", "County Admin", "Data Entry Staff"].includes(
+          authUser?.role?.value
+        ) && (
           <Col>
             <Space>
               <Link to={`/form/${selectedForm}`}>
                 <Button type="primary">Add New</Button>
               </Link>
-              <Button
-                type="primary"
-                onClick={exportGenerate}
-                loading={exporting}
-              >
-                Export Data
-              </Button>
+              {pathname !== "/profile" && (
+                <Button
+                  type="primary"
+                  onClick={exportGenerate}
+                  loading={exporting}
+                >
+                  Export Data
+                </Button>
+              )}
               <Link to="/data/upload">
                 <Button className="light">Bulk Upload</Button>
               </Link>

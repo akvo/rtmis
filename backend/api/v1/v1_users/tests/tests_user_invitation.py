@@ -41,7 +41,7 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(len(users['data']), 10)
         self.assertEqual([
             'id', 'first_name', 'last_name', 'email', 'administration', 'role',
-            'phone_number', 'designation', 'invite'
+            'phone_number', 'designation', 'invite', 'forms'
         ], list(users['data'][0]))
         response = self.client.get("/api/v1/users?pending=true",
                                    follow=True,
@@ -137,10 +137,7 @@ class UserInvitationTestCase(TestCase):
             'phone_number', 'designation', 'forms', 'approval_assignment',
             'pending_approval', 'data'
         ], list(responses))
-        self.assertEqual(responses["forms"], [{
-            'id': 1,
-            'name': 'Test Form'
-        }])
+        self.assertEqual(responses["forms"], [{'id': 1, 'name': 'Test Form'}])
 
     def test_get_user_profile(self):
         call_command("administration_seeder", "--test")
@@ -157,7 +154,7 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual([
             'email', 'name', 'administration', 'role', 'phone_number',
-            'designation'
+            'designation', 'forms'
         ], list(response.json().keys()))
 
     def test_get_user_roles(self):
@@ -236,19 +233,25 @@ class UserInvitationTestCase(TestCase):
 
     def test_get_email_template(self):
         # test get user_register template
-        response = self.client.get(
-            '/api/v1/email_template?type=user_register',
-            content_type='application/json')
+        response = self.client.get('/api/v1/email_template?type=user_register',
+                                   content_type='application/json')
         self.assertEqual(response.status_code, 200)
         # test get user_approval template
+        response = self.client.get('/api/v1/email_template?type=user_approval',
+                                   content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        # test get user_forgot_password template
         response = self.client.get(
-            '/api/v1/email_template?type=user_approval',
+            '/api/v1/email_template?type=user_forgot_password',
             content_type='application/json')
         self.assertEqual(response.status_code, 200)
+        # test get user_invite template
+        response = self.client.get('/api/v1/email_template?type=user_invite',
+                                   content_type='application/json')
+        self.assertEqual(response.status_code, 200)
         # test get data_approval template
-        response = self.client.get(
-            '/api/v1/email_template?type=data_approval',
-            content_type='application/json')
+        response = self.client.get('/api/v1/email_template?type=data_approval',
+                                   content_type='application/json')
         self.assertEqual(response.status_code, 200)
         # test get data_rejection template
         response = self.client.get(
@@ -271,14 +274,12 @@ class UserInvitationTestCase(TestCase):
             content_type='application/json')
         self.assertEqual(response.status_code, 200)
         # test get upload_error template
-        response = self.client.get(
-            '/api/v1/email_template?type=upload_error',
-            content_type='application/json')
+        response = self.client.get('/api/v1/email_template?type=upload_error',
+                                   content_type='application/json')
         self.assertEqual(response.status_code, 200)
         # test get new_request template
-        response = self.client.get(
-            '/api/v1/email_template?type=new_request',
-            content_type='application/json')
+        response = self.client.get('/api/v1/email_template?type=new_request',
+                                   content_type='application/json')
         self.assertEqual(response.status_code, 200)
         # test get unchanged_data template
         response = self.client.get(

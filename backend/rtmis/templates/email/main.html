@@ -188,6 +188,18 @@
         color: #fff;
       }
 
+      .btn.btn-link {
+        border-radius: 5px;
+        background: transparent;
+        color: #000000;
+        border: 2px solid #000000;
+        min-width: 50%;
+      }
+
+      .btn.block {
+        width: 100%;
+      }
+
       h1,
       h2,
       h3,
@@ -458,7 +470,7 @@
                         -ms-text-size-adjust: 100%;
                         -webkit-text-size-adjust: 100%;
                         background: #ffffff;
-                        padding: 1em;
+                        padding: 0 1em;
                         mso-table-lspace: 0pt !important;
                         mso-table-rspace: 0pt !important;
                       "
@@ -594,6 +606,30 @@
                       {% endif %}
                     </td>
                   </tr>
+                  {% if button and button_url and button_text %}
+                  <tr
+                    style="
+                      -ms-text-size-adjust: 100%;
+                      -webkit-text-size-adjust: 100%;
+                    "
+                  >
+                    <td
+                      style="
+                        -ms-text-size-adjust: 100%;
+                        -webkit-text-size-adjust: 100%;
+                        background: #ffffff;
+                        padding: 0 1em 2em 1em;
+                        mso-table-lspace: 0pt !important;
+                        mso-table-rspace: 0pt !important;
+                        text-align: center;
+                      "
+                    >
+                      <a href="{{button_url}}" target="_blank" rel="noreferrer">
+                        <button class="btn btn-link">{{ button_text }}</button>
+                      </a>
+                    </td>
+                  </tr>
+                  {% endif %} {% if explore_button %}
                   <tr
                     style="
                       -ms-text-size-adjust: 100%;
@@ -623,6 +659,7 @@
                       >
                     </td>
                   </tr>
+                  {% endif %}
                   <tr
                     style="
                       -ms-text-size-adjust: 100%;

@@ -20,11 +20,20 @@ const Forms = () => {
   const pagePath = [
     {
       title: "Control Center",
-      link: authUser?.role?.value === "User" ? false : "/control-center",
+      link:
+        authUser?.role?.value === "Data Entry Staff"
+          ? false
+          : "/control-center",
     },
     {
-      title: authUser?.role?.value === "User" ? authUser.name : "Manage Data",
-      link: authUser?.role?.value === "User" ? "/profile" : "/data/manage",
+      title:
+        authUser?.role?.value === "Data Entry Staff"
+          ? authUser.name
+          : "Manage Data",
+      link:
+        authUser?.role?.value === "Data Entry Staff"
+          ? "/profile"
+          : "/data/manage",
     },
     {
       title: forms.name,
