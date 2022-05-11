@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Table, Button, Space, Spin } from "antd";
+import { Table, Button, Space, Spin, Alert } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { EditableCell } from "../../components";
 import { api } from "../../lib";
@@ -8,6 +8,8 @@ import { flatten, isEqual } from "lodash";
 const DataDetail = ({ questionGroups, record }) => {
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(false);
+  const pendingData = record?.pending_data?.created_by || false;
+
   const updateCell = (key, parentId, value) => {
     let prev = JSON.parse(JSON.stringify(dataset));
     prev = prev.map((qg) =>
@@ -71,6 +73,7 @@ const DataDetail = ({ questionGroups, record }) => {
         });
     }
   }, [record, dataset.length, questionGroups]);
+
   const edited = useMemo(() => {
     return dataset.length
       ? flatten(dataset.map((qg) => qg.question)).findIndex(
@@ -78,6 +81,7 @@ const DataDetail = ({ questionGroups, record }) => {
         ) > -1
       : false;
   }, [dataset]);
+
   return loading ? (
     <Space style={{ paddingTop: 18, color: "#9e9e9e" }} size="middle">
       <Spin indicator={<LoadingOutlined style={{ color: "#1b91ff" }} spin />} />
@@ -86,6 +90,12 @@ const DataDetail = ({ questionGroups, record }) => {
   ) : (
     <>
       <div className="data-detail">
+        {pendingData && (
+          <Alert
+            message={`Can't edit/update this data, because data in pending data by ${pendingData}`}
+            type="warning"
+          />
+        )}
         {dataset.map((r, rI) => (
           <div className="pending-data-wrapper" key={rI}>
             <h3>{r.name}</h3>
@@ -111,6 +121,7 @@ const DataDetail = ({ questionGroups, record }) => {
                       parentId={row.question_group}
                       updateCell={updateCell}
                       resetCell={resetCell}
+                      pendingData={pendingData}
                     />
                   ),
                 },
