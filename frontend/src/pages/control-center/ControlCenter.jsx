@@ -76,9 +76,11 @@ const ControlCenter = () => {
             </Card>
           </Col>
         ))}
-        <Col span={24}>
-          <PanelApprovals />
-        </Col>
+        {authUser.role_detail.page_access.includes("approvals") && (
+          <Col span={24}>
+            <PanelApprovals />
+          </Col>
+        )}
       </Row>
     </div>
   );
