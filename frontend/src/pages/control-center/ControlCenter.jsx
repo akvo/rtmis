@@ -76,7 +76,6 @@ const ControlCenter = () => {
             </Card>
           </Col>
         ))}
-        {console.log("authUser", authUser)}
         {authUser.role_detail.page_access.includes("approvals") && (
           <Col span={24}>
             <PanelApprovals />
