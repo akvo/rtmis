@@ -179,6 +179,11 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
       nameTextStyle: { ...TextStyle },
       nameLocation: "middle",
       nameGap: 50,
+      axisLabel: {
+        formatter: (e) => e + "%",
+        ...TextStyle,
+        color: "#9292ab",
+      },
     },
     [horizontal ? "yAxis" : "xAxis"]: {
       data: xAxis,
@@ -188,11 +193,11 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
       nameLocation: "middle",
       nameGap: 50,
       axisLabel: {
-        color: "#222",
         width: 100,
         interval: 0,
         overflow: "break",
         ...TextStyle,
+        color: "#4b4b4e",
         formatter: horizontal
           ? AxisShortLabelFormatter?.formatter
           : AxisLabelFormatter?.formatter,
