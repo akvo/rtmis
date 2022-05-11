@@ -38,6 +38,7 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
           ? ((sumBy(vals, "value") / stackSum) * 100)?.toFixed(0) || 0
           : 0,
         itemStyle: { color: vals[0]?.color || s.color },
+        original: sumBy(vals, "value"),
       };
     });
     return {
@@ -116,9 +117,10 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
             upperFirst(eI.seriesName) +
             "</span></td>";
           table +=
-            '<td style="width: 60px; text-align: right; font-weight: 500;">' +
+            '<td style="width: 80px; text-align: right; font-weight: 500;">' +
             eI.value +
             "%" +
+            (eI.data?.original ? ` (${eI.data.original})` : "") +
             "</td>";
           table += "</tr>";
         });
