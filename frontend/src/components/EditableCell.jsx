@@ -7,7 +7,13 @@ import { UndoOutlined, SaveOutlined, LoadingOutlined } from "@ant-design/icons";
 import moment from "moment";
 import PropTypes from "prop-types";
 
-const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
+const EditableCell = ({
+  record,
+  parentId,
+  updateCell,
+  resetCell,
+  pendingData,
+}) => {
   const [editing, setEditing] = useState(false);
   const [locationName, setLocationName] = useState(null);
   const [locationLoading, setLocationLoading] = useState(false);
@@ -133,8 +139,11 @@ const EditableCell = ({ record, parentId, updateCell, resetCell }) => {
     <Row>
       <Col
         flex={1}
+        style={{
+          cursor: !notEditable && !pendingData ? "pointer" : "not-allowed",
+        }}
         onClick={() => {
-          if (!notEditable) {
+          if (!notEditable && !pendingData) {
             setEditing(!editing);
           }
         }}
@@ -178,5 +187,6 @@ EditableCell.propTypes = {
   parentId: PropTypes.number.isRequired,
   updateCell: PropTypes.func.isRequired,
   resetCell: PropTypes.func.isRequired,
+  pendingData: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 };
 export default React.memo(EditableCell);

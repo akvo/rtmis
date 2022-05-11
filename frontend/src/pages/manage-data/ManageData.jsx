@@ -31,6 +31,7 @@ const ManageData = () => {
     (state) => state
   );
 
+  const isAdministrationLoaded = administration.length;
   const selectedAdministration =
     administration.length > 0
       ? administration[administration.length - 1]
@@ -77,7 +78,7 @@ const ManageData = () => {
   }, [selectedAdministration]);
 
   useEffect(() => {
-    if (selectedForm) {
+    if (selectedForm && isAdministrationLoaded) {
       setLoading(true);
       let url = `/form-data/${selectedForm}/?page=${currentPage}`;
       if (selectedAdministration?.id) {
@@ -96,7 +97,12 @@ const ManageData = () => {
           setLoading(false);
         });
     }
-  }, [selectedForm, selectedAdministration, currentPage]);
+  }, [
+    selectedForm,
+    selectedAdministration,
+    currentPage,
+    isAdministrationLoaded,
+  ]);
 
   return (
     <div id="manageData">
