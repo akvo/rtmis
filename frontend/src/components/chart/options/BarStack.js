@@ -38,6 +38,7 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
           ? ((sumBy(vals, "value") / stackSum) * 100)?.toFixed(0) || 0
           : 0,
         itemStyle: { color: vals[0]?.color || s.color },
+        original: sumBy(vals, "value"),
       };
     });
     return {
@@ -80,14 +81,14 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
     legend: {
       ...Legend,
       data: legends,
-      top: "bottom",
+      top: 50,
       left: "center",
     },
     grid: {
-      top: 15,
-      bottom: 60,
-      left: 0,
-      right: 0,
+      top: 100,
+      bottom: 15,
+      left: 10,
+      right: 20,
       show: true,
       containLabel: true,
       label: {
@@ -100,14 +101,43 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
       axisPointer: {
         type: "shadow",
       },
+      show: true,
       backgroundColor: "#ffffff",
+      formatter: function (e) {
+        let table =
+          '<table border="0" style="width:100%;border-spacing: 60px;font-size:13px;"><thead>';
+        table += `<tr><th style="font-size: 15px;color:#000;padding-bottom:8px;" colspan=${
+          e?.length || 1
+        }>${e[0]?.axisValueLabel || "-"}</th></tr></thead><tbody>`;
+        e.map((eI) => {
+          table += "<tr>";
+          table += '<td style="width: 18px;">' + eI.marker + "</td>";
+          table +=
+            '<td><span style="font-weight:600;">' +
+            upperFirst(eI.seriesName) +
+            "</span></td>";
+          table +=
+            '<td style="width: 80px; text-align: right; font-weight: 500;">' +
+            eI.value +
+            "%" +
+            (eI.data?.original ? ` (${eI.data.original})` : "") +
+            "</td>";
+          table += "</tr>";
+        });
+        table += "</tbody></table>";
+        return (
+          '<div style="display:flex;align-items:center;justify-content:center">' +
+          table +
+          "</div>"
+        );
+      },
       ...TextStyle,
     },
     toolbox: {
       show: true,
-      orient: "vertical",
+      orient: "horizontal",
       right: 15,
-      top: "top",
+      top: 0,
       feature: {
         saveAsImage: {
           type: "jpg",
@@ -116,21 +146,35 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
         },
         dataView: {
           ...DataView,
-          optionToContent: function ({ xAxis, series }) {
-            xAxis = xAxis.map((x) => x.data)[0];
+          optionToContent: function ({ xAxis, yAxis, series }) {
+            let axisVal = horizontal ? [...yAxis] : [...xAxis];
+            axisVal = axisVal.map((x) => x.data)[0];
             series = series.map((x) => x.data);
             let table =
-              '<table border="1" style="width:90%;text-align:center">';
+              '<table border="1" style="width:85%;text-align:center">';
             table += "<thead><tr><th></th>";
-            for (let a = 0, b = xAxis.length; a < b; a++) {
-              table += "<th>" + upperFirst(xAxis[a]) + "</th>";
+            for (let a = 0, b = axisVal.length; a < b; a++) {
+              table +=
+                '<th style="padding: 8px 12px;">' +
+                upperFirst(axisVal[a]) +
+                "</th>";
             }
             table += "</tr></thead><tbody>";
             for (let i = 0, l = series.length; i < l; i++) {
               table += "<tr>";
-              table += "<td><b>" + upperFirst(series[i][0].name) + "</b></td>";
+              table +=
+                '<td style="<th style="padding: 8px 12px;"><b>' +
+                upperFirst(series[i][0].name) +
+                "</b></td>";
               for (let x = 0, y = series[i].length; x < y; x++) {
-                table += "<td>" + series[i][x].value + "</td>";
+                table +=
+                  `<td style="color: ${
+                    series[i][x]?.value > 0 ? "#121212" : "#8b8b8e"
+                  };padding: 8px 12px;">` +
+                  series[i][x].value +
+                  "%<br/>(" +
+                  (series[i][x].original || series[i][x].value) +
+                  ")</td>";
               }
               table += "</tr>";
             }
@@ -150,6 +194,11 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
       nameTextStyle: { ...TextStyle },
       nameLocation: "middle",
       nameGap: 50,
+      axisLabel: {
+        formatter: (e) => e + "%",
+        ...TextStyle,
+        color: "#9292ab",
+      },
     },
     [horizontal ? "yAxis" : "xAxis"]: {
       data: xAxis,
@@ -159,11 +208,11 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
       nameLocation: "middle",
       nameGap: 50,
       axisLabel: {
-        color: "#222",
-        width: 90,
+        width: 100,
         interval: 0,
-        overflow: "truncate",
+        overflow: "break",
         ...TextStyle,
+        color: "#4b4b4e",
         formatter: horizontal
           ? AxisShortLabelFormatter?.formatter
           : AxisLabelFormatter?.formatter,
