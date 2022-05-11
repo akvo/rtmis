@@ -81,12 +81,12 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
     legend: {
       ...Legend,
       data: legends,
-      top: "bottom",
+      top: 50,
       left: "center",
     },
     grid: {
-      top: 15,
-      bottom: 50,
+      top: 100,
+      bottom: 15,
       left: 10,
       right: 20,
       show: true,
@@ -135,9 +135,9 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
     },
     toolbox: {
       show: true,
-      orient: "vertical",
+      orient: "horizontal",
       right: 15,
-      top: "top",
+      top: 0,
       feature: {
         saveAsImage: {
           type: "jpg",
