@@ -151,17 +151,30 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
             axisVal = axisVal.map((x) => x.data)[0];
             series = series.map((x) => x.data);
             let table =
-              '<table border="1" style="width:75%;text-align:center">';
+              '<table border="1" style="width:85%;text-align:center">';
             table += "<thead><tr><th></th>";
             for (let a = 0, b = axisVal.length; a < b; a++) {
-              table += "<th>" + upperFirst(axisVal[a]) + "</th>";
+              table +=
+                '<th style="padding: 8px 12px;">' +
+                upperFirst(axisVal[a]) +
+                "</th>";
             }
             table += "</tr></thead><tbody>";
             for (let i = 0, l = series.length; i < l; i++) {
               table += "<tr>";
-              table += "<td><b>" + upperFirst(series[i][0].name) + "</b></td>";
+              table +=
+                '<td style="<th style="padding: 8px 12px;"><b>' +
+                upperFirst(series[i][0].name) +
+                "</b></td>";
               for (let x = 0, y = series[i].length; x < y; x++) {
-                table += "<td>" + series[i][x].value + "%" + "</td>";
+                table +=
+                  `<td style="color: ${
+                    series[i][x]?.value > 0 ? "#121212" : "#8b8b8e"
+                  };padding: 8px 12px;">` +
+                  series[i][x].value +
+                  "%<br/>(" +
+                  (series[i][x].original || series[i][x].value) +
+                  ")</td>";
               }
               table += "</tr>";
             }
