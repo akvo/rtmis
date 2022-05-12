@@ -15,7 +15,9 @@ const AdministrationChart = ({ config, formId }) => {
   const [loading, setLoading] = useState(false);
   const { notify } = useNotification();
   const { id, title, type, stack, options, horizontal = true } = config;
-  const { administration } = store.useState((state) => state);
+  const { administration, loadingAdministration } = store.useState(
+    (state) => state
+  );
   const getOptionColor = (name, index) => {
     return (
       Color.option.find((c) => {
@@ -26,8 +28,51 @@ const AdministrationChart = ({ config, formId }) => {
       })?.color || Color.color[index]
     );
   };
-
   const selectedAdministration = takeRight(administration, 1)[0]?.id || null;
+  const onAdminClick = (e) => {
+    if (loadingAdministration || !e) {
+      return;
+    }
+    const adminRes = takeRight(administration, 1)[0]?.children?.find(
+      (c) => c.name.toLowerCase() === e.toLowerCase()
+    );
+    if (
+      adminRes?.id &&
+      takeRight(administration, 1)[0]?.level !== "Sub-County"
+    ) {
+      store.update((s) => {
+        s.loadingAdministration = true;
+      });
+      api
+        .get(`administration/${adminRes.id}`)
+        .then((res) => {
+          store.update((s) => {
+            s.administration = [
+              ...s.administration,
+              {
+                id: res.data.id,
+                name: res.data.name,
+                levelName: res.data.level_name,
+                children: res.data.children,
+                childLevelName: res.data.children_level_name,
+              },
+            ];
+          });
+        })
+        .catch((err) => {
+          notify({
+            type: "error",
+            message: "Could not load region",
+          });
+          console.error(err);
+        })
+        .finally(() => {
+          store.update((s) => {
+            s.loadingAdministration = false;
+          });
+        });
+    }
+  };
   useEffect(() => {
     if (formId && id && selectedAdministration) {
       setLoading(true);
@@ -81,13 +126,14 @@ const AdministrationChart = ({ config, formId }) => {
           />
         ) : (
           <Chart
-            height={max([70 * dataset.length + 50, 175])}
+            height={max([70 * dataset.length + 50, 225])}
             type="BARSTACK"
             data={dataset}
             wrapper={false}
             horizontal={horizontal}
             extra={{ color: chartColors }}
             series={{ left: "10%" }}
+            callbacks={{ onClick: onAdminClick }}
           />
         )}
       </div>
