@@ -2,6 +2,7 @@ from django.core.management import call_command
 from django.test import TestCase
 
 from api.v1.v1_forms.models import Forms
+from api.v1.v1_forms.constants import FormTypes
 from api.v1.v1_profile.models import Administration, Levels
 
 
@@ -33,6 +34,7 @@ class FormDataUpdateTestCase(TestCase):
         form = Forms.objects.first()
         self.assertEqual(form.id, 1)
         self.assertEqual(form.name, "Test Form")
+        self.assertEqual(form.type, FormTypes.county)
         # Add data to edit
         payload = {
             "data": {
@@ -112,7 +114,15 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         self.assertEqual(data, {"message": "direct update success"})
-        # Get answer from data
+        # Get all data from form
+        data = self.client.get('/api/v1/form-data/1?page=1',
+                               content_type='application/json',
+                               **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+        self.assertEqual(data.status_code, 200)
+        data = data.json()
+        self.assertEqual(len(data['data']) > 0, True)
+        self.assertEqual(data['data'][0]['name'], 'Update Testing Data')
+        # Get answer from data with history
         data = self.client.get(f'/api/v1/data/{data_id}',
                                content_type='application/json',
                                **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
@@ -121,7 +131,6 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(len(data) > 0, True)
         self.assertEqual(data[4]['question'], 101)
         self.assertEqual(data[4]['value'], 'Jane Doe')
-        self.assertEqual(data[0]['history'], False)
         self.assertEqual(list(data[4]['history'][0]), [
             'value', 'created', 'created_by'])
         self.assertEqual(data[4]['history'][0]['value'], 'Jane')

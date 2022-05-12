@@ -32,7 +32,7 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListPendingFormDataSerializer, PendingBatchDataFilterSerializer, \
     SubmitPendingFormSerializer, ListBatchSummarySerializer, \
     ListBatchCommentSerializer, BatchListRequestSerializer
-from api.v1.v1_forms.constants import QuestionTypes
+from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
@@ -171,12 +171,21 @@ class FormDataAddListView(APIView):
                     'details': serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST
             )
+
+        # is_national_form = form.type == FormTypes.national
+        is_county_form = form.type == FormTypes.county
+
+        is_super_admin = user_role == UserRoleTypes.super_admin
+        is_county_admin = user_role == UserRoleTypes.admin
+        is_county_admin_with_county_form = is_county_admin and is_county_form
+
         # Direct update
-        if user_role in [UserRoleTypes.super_admin, UserRoleTypes.admin]:
+        if is_super_admin or is_county_admin_with_county_form:
             serializer.save()
             return Response({'message': 'direct update success'},
                             status=status.HTTP_200_OK)
         # Store edit data to pending form data
+        serializer.save()
         return Response({'message': 'store to pending data success'},
                         status=status.HTTP_200_OK)
 
