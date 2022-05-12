@@ -221,7 +221,9 @@ const ApproversTree = () => {
                     `}
                     key={l}
                     onClick={() => {
-                      handleClick(childItem.id, k);
+                      if (adminItem.levelName !== "Sub-County") {
+                        handleClick(childItem.id, k);
+                      }
                     }}
                   >
                     <div>{childItem.name}</div>
