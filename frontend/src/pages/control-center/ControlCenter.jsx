@@ -3,52 +3,54 @@ import "./style.scss";
 import { Row, Col, Card, Button } from "antd";
 import { store, config } from "../../lib";
 import { Link } from "react-router-dom";
-import { PanelApprovals } from "../profile/components";
-
-const panels = [
-  {
-    title: "Manage Data",
-    buttonLabel: "Manage Data",
-    access: "data",
-    description:
-      "Open defecation free (ODF) is a term used to describe communities that have shifted to using toilets instead of open defecation. This can happen, for example, after community-led total sanitation programs have been implemented.",
-    link: "/data/manage",
-    image: "/assets/big-data.png",
-  },
-  {
-    title: "Exports",
-    buttonLabel: "Data Exports",
-    access: "data",
-    description:
-      "Community-led total sanitation (CLTS) is an approach used mainly in developing countries to improve sanitation and hygiene practices in a community. The approach tries to achieve behavior change in mainly rural people by a process of “triggering”, leading to spontaneous and long-term abandonment of open defecation practices.",
-    link: "/data/export",
-    image: "/assets/import.png",
-  },
-  {
-    title: "Data Uploads",
-    buttonLabel: "Data Uploads",
-    access: "form",
-    description:
-      "WASH is an acronym that stands for “water, sanitation and hygiene”.Universal, affordable and sustainable access to WASH is a key public health issue within international development and is the focus of the first two targets of Sustainable Development Goal 6 (SDG 6).",
-    link: "/data/upload",
-    image: "/assets/upload.png",
-  },
-  {
-    title: "User Management",
-    buttonLabel: "Manage Users",
-    access: "user",
-    description:
-      "WASH is an acronym that stands for “water, sanitation and hygiene”.Universal, affordable and sustainable access to WASH is a key public health issue within international development and is the focus of the first two targets of Sustainable Development Goal 6 (SDG 6).",
-    link: "/users",
-    image: "/assets/personal-information.png",
-  },
-];
+import { PanelApprovals, PanelDataUpload } from "../profile/components";
 
 const ControlCenter = () => {
   const { user: authUser } = store.useState((s) => s);
+
+  const panels = [
+    {
+      title: "Manage Data",
+      buttonLabel: "Manage Data",
+      access: "data",
+      description:
+        "Open defecation free (ODF) is a term used to describe communities that have shifted to using toilets instead of open defecation. This can happen, for example, after community-led total sanitation programs have been implemented.",
+      link: "/data/manage",
+      image: "/assets/big-data.png",
+    },
+    {
+      title: "Exports",
+      buttonLabel: "Data Exports",
+      access: "data",
+      description:
+        "Community-led total sanitation (CLTS) is an approach used mainly in developing countries to improve sanitation and hygiene practices in a community. The approach tries to achieve behavior change in mainly rural people by a process of “triggering”, leading to spontaneous and long-term abandonment of open defecation practices.",
+      link: "/data/export",
+      image: "/assets/import.png",
+    },
+    {
+      title: "Data Uploads",
+      buttonLabel: "Data Uploads",
+      access: authUser?.role.id === 4 ? "" : "form",
+      description:
+        "WASH is an acronym that stands for “water, sanitation and hygiene”.Universal, affordable and sustainable access to WASH is a key public health issue within international development and is the focus of the first two targets of Sustainable Development Goal 6 (SDG 6).",
+      link: "/data/upload",
+      image: "/assets/upload.png",
+    },
+    {
+      title: "User Management",
+      buttonLabel: "Manage Users",
+      access: "user",
+      description:
+        "WASH is an acronym that stands for “water, sanitation and hygiene”.Universal, affordable and sustainable access to WASH is a key public health issue within international development and is the focus of the first two targets of Sustainable Development Goal 6 (SDG 6).",
+      link: "/users",
+      image: "/assets/personal-information.png",
+    },
+  ];
+
   const selectedPanels = panels.filter((p) =>
     config.checkAccess(authUser?.role_detail, p.access)
   );
+
   return (
     <div id="control-center">
       <h1>Control Center</h1>
@@ -79,6 +81,11 @@ const ControlCenter = () => {
         {authUser.role_detail.page_access.includes("approvals") && (
           <Col span={24}>
             <PanelApprovals />
+          </Col>
+        )}
+        {authUser?.role_detail.id === 4 && (
+          <Col span={24}>
+            <PanelDataUpload />
           </Col>
         )}
       </Row>
