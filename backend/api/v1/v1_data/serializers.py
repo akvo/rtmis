@@ -20,6 +20,7 @@ from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
     CustomBooleanField
 from utils.email_helper import send_email, EmailTypes
 from utils.functions import update_date_time_format, get_answer_value
+from utils.functions import get_answer_history
 
 
 class SubmitFormDataSerializer(serializers.ModelSerializer):
@@ -98,7 +99,103 @@ class SubmitFormSerializer(serializers.Serializer):
         super().__init__(**kwargs)
 
     def update(self, instance, validated_data):
-        pass
+        user = self.context.get('user')
+        user_role = user.user_access.role
+        form = self.context.get('form')
+        data = validated_data.get('data')  # edited data
+        answers = validated_data.get('answer')  # edited answers
+
+        # is_national_form = form.type == FormTypes.national
+        is_county_form = form.type == FormTypes.county
+
+        is_super_admin = user_role == UserRoleTypes.super_admin
+        is_county_admin = user_role == UserRoleTypes.admin
+        is_county_admin_with_county_form = is_county_admin and is_county_form
+
+        # Direct update
+        if is_super_admin or is_county_admin_with_county_form:
+            # move current answer to answer_history
+            for answer in answers:
+                form_answer = Answers.objects.get(
+                    data=instance, question=answer.get('question'))
+                AnswerHistory.objects.create(
+                    data=form_answer.data,
+                    question=form_answer.question,
+                    name=form_answer.name,
+                    value=form_answer.value,
+                    options=form_answer.options,
+                    created_by=form_answer.created_by
+                )
+                form_answer.delete()
+                # add new answer
+                name = None
+                value = None
+                option = None
+                if answer.get('question').type in [
+                        QuestionTypes.geo, QuestionTypes.option,
+                        QuestionTypes.multiple_option
+                ]:
+                    option = answer.get('value')
+                elif answer.get('question').type in [
+                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+                ]:
+                    name = answer.get('value')
+                else:
+                    # for administration,number question type
+                    value = answer.get('value')
+                Answers.objects.create(
+                    data=instance,
+                    question=answer.get('question'),
+                    name=name,
+                    value=value,
+                    options=option,
+                    created_by=user
+                )
+            # update datapoint
+            instance: FormData = instance
+            instance.name = data['name']
+            instance.administration = data['administration']
+            instance.geo = data['geo']
+            instance.updated = timezone.now()
+            instance.updated_by = user
+            instance.save()
+            return object
+        # Store edit data to pending form data
+        pending_data = PendingFormData.objects.create(
+            name=data['name'],
+            form=instance.form,
+            data=instance,
+            administration=data['administration'],
+            geo=data['geo'],
+            batch=None,
+            created_by=user
+        )
+        for answer in answers:
+            # store to pending answer
+            name = None
+            value = None
+            option = None
+            if answer.get('question').type in [
+                    QuestionTypes.geo, QuestionTypes.option,
+                    QuestionTypes.multiple_option
+            ]:
+                option = answer.get('value')
+            elif answer.get('question').type in [
+                QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+            ]:
+                name = answer.get('value')
+            else:
+                # for administration,number question type
+                value = answer.get('value')
+            PendingAnswers.objects.create(
+                pending_data=pending_data,
+                question=answer.get('question'),
+                name=name,
+                value=value,
+                options=option,
+                created_by=user
+            )
+        return object
 
     def create(self, validated_data):
         data = validated_data.get('data')
@@ -153,7 +250,12 @@ class ListDataAnswerSerializer(serializers.ModelSerializer):
     value = serializers.SerializerMethodField()
 
     def get_history(self, instance):
-        return False
+        answer_history = AnswerHistory.objects.filter(
+            data=instance.data, question=instance.question).all()
+        history = []
+        for h in answer_history:
+            history.append(get_answer_history(h))
+        return history if history else False
 
     def get_value(self, instance: Answers):
         return get_answer_value(instance)
