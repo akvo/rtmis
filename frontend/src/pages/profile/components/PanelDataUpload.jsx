@@ -399,7 +399,7 @@ const PanelDataUpload = () => {
           minHeight: "40vh",
         }}
       >
-        <h1>Data Uploads</h1>
+        <h1 className="data-uploads">Data Uploads</h1>
         <DataFilters />
         <Tabs
           activeKey={selectedTab}
