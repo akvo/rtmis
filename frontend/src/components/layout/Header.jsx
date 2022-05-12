@@ -69,7 +69,11 @@ const Header = ({ className = "header", ...props }) => {
     >
       <Col className="logo">
         <Link to="/">
-          <img src={config.siteLogo} alt={config.siteLogo} />
+          <img
+            className="small-logo"
+            src={config.siteLogo}
+            alt={config.siteLogo}
+          />
           <h1>{config.siteTitle}</h1>
         </Link>
       </Col>
