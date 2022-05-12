@@ -69,15 +69,17 @@ const Header = ({ className = "header", ...props }) => {
     >
       <Col className="logo">
         <Link to="/">
-          <img src={config.siteLogo} alt={config.siteLogo} />
+          <img
+            className="small-logo"
+            src={config.siteLogo}
+            alt={config.siteLogo}
+          />
           <h1>{config.siteTitle}</h1>
         </Link>
       </Col>
       <Col className="navigation">
         <Space>
-          <Link className="dev" to="/data/visualisation">
-            Data
-          </Link>
+          <Link to="/data/visualisation">Data</Link>
           <a className="dev">Reports</a>
           <a className="dev">Monitoring</a>
           <Link className="dev" to="/how-we-work">

@@ -39,6 +39,7 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
           : 0,
         itemStyle: { color: vals[0]?.color || s.color },
         original: sumBy(vals, "value"),
+        cbParam: d.name,
       };
     });
     return {

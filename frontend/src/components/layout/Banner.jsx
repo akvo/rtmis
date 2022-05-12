@@ -24,8 +24,8 @@ const HomeBanner = () => {
         <br />
         <small>Updated estimates for WASH in households accross Kenya</small>
       </h1>
-      <Button size="large" ghost className="dev">
-        Explore the Data
+      <Button size="large" ghost>
+        <Link to="/data/visualisation">Explore the Data</Link>
       </Button>
     </>
   );
