@@ -11,10 +11,7 @@ const Profile = () => {
   const pagePath = [
     {
       title: "Control Center",
-      link:
-        authUser?.role?.value === "Data Entry Staff"
-          ? false
-          : "/control-center",
+      link: "/control-center",
     },
     {
       title: authUser?.name || "Profile",

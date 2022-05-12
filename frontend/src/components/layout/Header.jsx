@@ -75,9 +75,7 @@ const Header = ({ className = "header", ...props }) => {
       </Col>
       <Col className="navigation">
         <Space>
-          <Link className="dev" to="/data/visualisation">
-            Data
-          </Link>
+          <Link to="/data/visualisation">Data</Link>
           <a className="dev">Reports</a>
           <a className="dev">Monitoring</a>
           <Link className="dev" to="/how-we-work">
