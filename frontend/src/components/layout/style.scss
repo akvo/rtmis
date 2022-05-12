@@ -68,6 +68,10 @@
       .logo {
         align-items: center;
 
+        .small-logo {
+          height: 85px;
+        }
+
         img {
           height: $logo-height;
         }
