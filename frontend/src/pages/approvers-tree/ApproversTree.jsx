@@ -221,7 +221,13 @@ const ApproversTree = () => {
                     `}
                     key={l}
                     onClick={() => {
-                      handleClick(childItem.id, k);
+                      if (
+                        adminItem.levelName !== "Sub-County" &&
+                        administration[k + 1]?.children[0]?.parent !==
+                          childItem.id
+                      ) {
+                        handleClick(childItem.id, k);
+                      }
                     }}
                   >
                     <div>{childItem.name}</div>
@@ -235,13 +241,7 @@ const ApproversTree = () => {
                         )?.user
                       }
                       onClick={(e) => {
-                        if (
-                          k >= administration.length - 1 ||
-                          administration[k + 1]?.children[0]?.parent ===
-                            childItem.id
-                        ) {
-                          e.stopPropagation();
-                        }
+                        e.stopPropagation();
                       }}
                       onChange={(e) => {
                         if (!e) {
@@ -256,7 +256,12 @@ const ApproversTree = () => {
                         cleared[k].children[l].user = null;
                         setDataset(cleared);
                       }}
-                      disabled={loading}
+                      disabled={
+                        loading ||
+                        (k < administration.length - 1 &&
+                          administration[k + 1]?.children[0]?.parent !==
+                            childItem.id)
+                      }
                     >
                       {(
                         dataset[k]?.children?.find(
