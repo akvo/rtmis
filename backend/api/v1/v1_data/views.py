@@ -151,7 +151,7 @@ class FormDataAddListView(APIView):
                    tags=['Data'],
                    parameters=[
                        OpenApiParameter(name='data_id',
-                                        required=False,
+                                        required=True,
                                         type=OpenApiTypes.NUMBER,
                                         location=OpenApiParameter.QUERY)],
                    summary='Edit form data')

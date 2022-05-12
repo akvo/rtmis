@@ -126,6 +126,7 @@ class SubmitFormSerializer(serializers.Serializer):
                     options=form_answer.options,
                     created_by=form_answer.created_by
                 )
+                # TODO:: Update not delete
                 form_answer.delete()
                 # add new answer
                 name = None
