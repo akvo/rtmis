@@ -102,8 +102,8 @@ class SubmitFormSerializer(serializers.Serializer):
         user = self.context.get('user')
         user_role = user.user_access.role
         form = self.context.get('form')
-        data = validated_data.get('data')
-        answers = validated_data.get('answer')
+        data = validated_data.get('data')  # edited data
+        answers = validated_data.get('answer')  # edited answers
 
         # is_national_form = form.type == FormTypes.national
         is_county_form = form.type == FormTypes.county
@@ -162,11 +162,11 @@ class SubmitFormSerializer(serializers.Serializer):
             return object
         # Store edit data to pending form data
         pending_data = PendingFormData.objects.create(
-            name=instance.name,
+            name=data['name'],
             form=instance.form,
             data=instance,
-            administration=instance.administration,
-            geo=instance.geo,
+            administration=data['administration'],
+            geo=data['geo'],
             batch=None,
             created_by=user
         )

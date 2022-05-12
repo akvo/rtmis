@@ -333,3 +333,196 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(len(data['data']) > 0, True)
         self.assertEqual(data['data'][0]['pending_data'],
                          {'id': pending_data_id, 'created_by': 'User Wayan'})
+
+    def test_update_datapoint_by_county_admin_with_(self):
+        self.maxDiff = None
+        seed_administration_test()
+        call_command("form_seeder", "--test")
+
+        form = Forms.objects.filter(id=2).first()
+        self.assertEqual(form.id, 2)
+        self.assertEqual(form.name, "Test Form 2")
+        self.assertEqual(form.type, FormTypes.national)
+
+        user = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user = self.client.post('/api/v1/login',
+                                user,
+                                content_type='application/json')
+        user = user.json()
+        token = user.get('token')
+        self.assertTrue(token)
+        # Add data to edit
+        payload = {
+            "data": {
+                "name": "Testing Data National From Type",
+                "administration": 2,
+                "geo": [6.2088, 106.8456]
+            },
+            "answer": [{
+                "question": 201,
+                "value": "Made"
+            }, {
+                "question": 202,
+                "value": ["Other"]
+            }, {
+                "question": 203,
+                "value": 31208200175
+            }, {
+                "question": 204,
+                "value": 2
+            }, {
+                "question": 205,
+                "value": [6.2088, 106.8456]
+            }, {
+                "question": 206,
+                "value": ["Parent", "Children"]
+            }]
+        }
+        data = self.client.post('/api/v1/form-data/2/',
+                                payload,
+                                content_type='application/json',
+                                **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+        self.assertEqual(data.status_code, 200)
+        data = data.json()
+        self.assertEqual(data, {"message": "ok"})
+        # create non admin user/data entry user
+        payload = {
+            "first_name": "County",
+            "last_name": "Admin",
+            "email": "county_admin@example.com",
+            "administration": 2,
+            "forms": [2],
+            "role": UserRoleTypes.admin
+        }
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        res = self.client.post("/api/v1/user",
+                               payload,
+                               content_type='application/json',
+                               **header)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.json(), {'message': 'User added successfully'})
+        county_admin = SystemUser.objects.filter(
+            email="county_admin@example.com").first()
+        # check invitation
+        invite_payload = signing.dumps(county_admin.pk)
+        invite_response = self.client.get(
+            '/api/v1/invitation/{0}'.format(invite_payload),
+            content_type='application/json')
+        self.assertEqual(invite_response.status_code, 200)
+        self.assertEqual(invite_response.json(), {'name': "County Admin"})
+        # set password
+        password_payload = {
+            'invite': invite_payload,
+            'password': 'Test123*',
+            'confirm_password': 'Test123*'
+        }
+        invite_response = self.client.put('/api/v1/user/set-password',
+                                          password_payload,
+                                          content_type='application/json')
+        self.assertEqual(invite_response.status_code, 200)
+
+        # county admin login
+        county_admin = {"email": "county_admin@example.com",
+                        "password": "Test123*"}
+        county_admin = self.client.post('/api/v1/login',
+                                        county_admin,
+                                        content_type='application/json')
+        county_admin = county_admin.json()
+        county_admin_token = county_admin.get('token')
+        self.assertTrue(county_admin_token)
+        # get profile
+        header = {'HTTP_AUTHORIZATION': f'Bearer {county_admin_token}'}
+        response = self.client.get("/api/v1/profile",
+                                   content_type='application/json',
+                                   **header)
+        self.assertEqual(response.status_code, 200)
+        response = response.json()
+        self.assertEqual(response['email'], 'county_admin@example.com')
+        self.assertEqual(response['role']['id'], UserRoleTypes.admin)
+        # Get all data from form
+        data = self.client.get('/api/v1/form-data/2?page=1',
+                               content_type='application/json',
+                               **{'HTTP_AUTHORIZATION':
+                                   f'Bearer {county_admin_token}'})
+        self.assertEqual(data.status_code, 200)
+        data = data.json()
+        self.assertEqual(len(data['data']) > 0, True)
+        data_id = data['data'][0]['id']  # get data_id here
+        # Get answer from data
+        data = self.client.get(f'/api/v1/data/{data_id}',
+                               content_type='application/json',
+                               **{'HTTP_AUTHORIZATION':
+                                   f'Bearer {county_admin_token}'})
+        self.assertEqual(data.status_code, 200)
+        data = data.json()
+        self.assertEqual(len(data) > 0, True)
+        self.assertEqual(data[0]['question'], 201)
+        self.assertEqual(data[0]['value'], 'Made')
+        self.assertEqual(data[0]['history'], False)
+        self.assertEqual(data[1]['question'], 202)
+        self.assertEqual(data[1]['value'], ['Other'])
+        self.assertEqual(data[1]['history'], False)
+        # Update data for question 101 and 102
+        payload = {
+            "data": {
+                "name": "Pending Testing Data National",
+                "administration": 2,
+                "geo": [6.2088, 106.8456]
+            },
+            "answer": [{
+                "question": 201,
+                "value": "Made County Admin"
+            }, {
+                "question": 202,
+                "value": ["Male"]
+            }]
+        }
+        data = self.client.put(f'/api/v1/form-data/2?data_id={data_id}',
+                               payload,
+                               content_type='application/json',
+                               **{'HTTP_AUTHORIZATION':
+                                   f'Bearer {county_admin_token}'})
+        self.assertEqual(data.status_code, 200)
+        data = data.json()
+        self.assertEqual(data, {"message": "store to pending data success"})
+        # Get all data from pending data
+        data = self.client.get('/api/v1/form-pending-data/2?page=1',
+                               content_type='application/json',
+                               **{'HTTP_AUTHORIZATION':
+                                   f'Bearer {county_admin_token}'})
+        self.assertEqual(data.status_code, 200)
+        data = data.json()
+        self.assertEqual(len(data['data']) > 0, True)
+        self.assertEqual(data['data'][0]['name'],
+                         "Pending Testing Data National")
+        self.assertEqual(data['data'][0]['created_by'], "County Admin")
+        self.assertEqual(data['data'][0]['data_id'], data_id)
+        pending_data_id = data['data'][0]['id']  # get pending_data_id here
+        # Get pending answer by pending_data_id
+        data = self.client.get(f'/api/v1/pending-data/{pending_data_id}',
+                               content_type='application/json',
+                               **{'HTTP_AUTHORIZATION':
+                                   f'Bearer {county_admin_token}'})
+        self.assertEqual(data.status_code, 200)
+        data = data.json()
+        self.assertEqual(len(data) > 0, True)
+        results = [{
+            'history': False,
+            'question': 201,
+            'value': 'Made County Admin'
+        }, {
+            'history': False,
+            'question': 202,
+            'value': ['Male']
+        }]
+        self.assertEqual(data, results)
+        # test get form data with pending data object inside
+        data = self.client.get('/api/v1/form-data/2?page=1',
+                               content_type='application/json',
+                               **{'HTTP_AUTHORIZATION':
+                                   f'Bearer {token}'})
+        self.assertEqual(data.status_code, 200)
+        data = data.json()
+        self.assertEqual(len(data['data']) > 0, True)
+        self.assertEqual(data['data'][0]['pending_data'],
+                         {'id': pending_data_id, 'created_by': 'County Admin'})
