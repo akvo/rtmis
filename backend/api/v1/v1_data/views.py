@@ -36,6 +36,7 @@ from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
+from api.v1.v1_profile.constants import UserRoleTypes
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import IsAdmin, IsApprover, IsSuperAdmin
 from utils.custom_serializer_fields import validate_serializers_message
@@ -67,8 +68,7 @@ class FormDataAddListView(APIView):
                              required=False,
                              type={'type': 'array',
                                    'items': {'type': 'number'}},
-                             location=OpenApiParameter.QUERY),
-        ],
+                             location=OpenApiParameter.QUERY)],
         summary='To get list of form data')
     def get(self, request, form_id, version):
         form = get_object_or_404(Forms, pk=form_id)
@@ -140,6 +140,45 @@ class FormDataAddListView(APIView):
 
         serializer.save()
         return Response({'message': 'ok'}, status=status.HTTP_200_OK)
+
+    @extend_schema(request=SubmitFormSerializer,
+                   responses={
+                       (200, 'application/json'):
+                           inline_serializer("FormSubmit", fields={
+                               "message": serializers.CharField()
+                           })
+                   },
+                   tags=['Data'],
+                   parameters=[
+                       OpenApiParameter(name='data_id',
+                                        required=False,
+                                        type=OpenApiTypes.NUMBER,
+                                        location=OpenApiParameter.QUERY)],
+                   summary='Edit form data')
+    def put(self, request, form_id, version):
+        data_id = request.GET['data_id']
+        user_role = request.user.user_access.role
+        form = get_object_or_404(Forms, pk=form_id)
+        data = get_object_or_404(FormData, pk=data_id)
+        serializer = SubmitFormSerializer(data=request.data,
+                                          context={'user': request.user,
+                                                   'form': form},
+                                          instance=data)
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(
+                    serializer.errors),
+                    'details': serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        # Direct update
+        if user_role in [UserRoleTypes.super_admin, UserRoleTypes.admin]:
+            serializer.save()
+            return Response({'message': 'direct update success'},
+                            status=status.HTTP_200_OK)
+        # Store edit data to pending form data
+        return Response({'message': 'store to pending data success'},
+                        status=status.HTTP_200_OK)
 
 
 @extend_schema(responses={200: ListDataAnswerSerializer(many=True)},

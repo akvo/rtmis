@@ -98,6 +98,55 @@ class SubmitFormSerializer(serializers.Serializer):
         super().__init__(**kwargs)
 
     def update(self, instance, validated_data):
+        user = self.context.get('user')
+        user_role = user.user_access.role
+        answers = validated_data.get('answer')
+        # Direct update
+        if user_role in [UserRoleTypes.super_admin, UserRoleTypes.admin]:
+            # move current answer to answer_history
+            for answer in answers:
+                form_answer = Answers.objects.get(
+                    data=instance, question=answer.get('question'))
+                AnswerHistory.objects.create(
+                    data=form_answer.data,
+                    question=form_answer.question,
+                    name=form_answer.name,
+                    value=form_answer.value,
+                    options=form_answer.options,
+                    created_by=form_answer.created_by
+                )
+                form_answer.delete()
+                # add new answer
+                name = None
+                value = None
+                option = None
+                if answer.get('question').type in [
+                        QuestionTypes.geo, QuestionTypes.option,
+                        QuestionTypes.multiple_option
+                ]:
+                    option = answer.get('value')
+                elif answer.get('question').type in [
+                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+                ]:
+                    name = answer.get('value')
+                else:
+                    # for administration,number question type
+                    value = answer.get('value')
+                Answers.objects.create(
+                    data=instance,
+                    question=answer.get('question'),
+                    name=name,
+                    value=value,
+                    options=option,
+                    created_by=user,
+                )
+            # update datapoint
+            instance: FormData = instance
+            instance.updated = timezone.now()
+            instance.updated_by = user
+            instance.save()
+            return object
+        # Store edit data to pending form data
         pass
 
     def create(self, validated_data):
