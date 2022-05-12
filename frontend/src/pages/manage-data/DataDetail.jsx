@@ -1,14 +1,18 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Table, Button, Space, Spin, Alert } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { EditableCell } from "../../components";
-import { api } from "../../lib";
+import { api, store } from "../../lib";
+import { useNotification } from "../../util/hooks";
 import { flatten, isEqual } from "lodash";
 
 const DataDetail = ({ questionGroups, record }) => {
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const pendingData = record?.pending_data?.created_by || false;
+  const { user: authUser, forms } = store.useState((state) => state);
+  const { notify } = useNotification();
 
   const updateCell = (key, parentId, value) => {
     let prev = JSON.parse(JSON.stringify(dataset));
@@ -51,11 +55,55 @@ const DataDetail = ({ questionGroups, record }) => {
     setDataset(prev);
   };
 
-  useEffect(() => {
-    if (record?.id && !dataset.length) {
+  const handleSave = () => {
+    const data = [];
+    const formId = flatten(dataset.map((qg) => qg.question))[0].form;
+    const formRes = forms.find((f) => f.id === formId);
+    dataset.map((rd) => {
+      rd.question.map((rq) => {
+        if (rq.newValue) {
+          data.push({ id: rd.id, question: rq.id, value: rq.newValue });
+        }
+      });
+    });
+    setSaving(true);
+    api
+      .put(`form-data/${formId}?data_id=${record.id}`, data)
+      .then(() => {
+        if (
+          authUser?.role?.id === 4 ||
+          (authUser?.role?.id === 2 && formRes.type === 2)
+        ) {
+          notify({
+            type: "success",
+            message:
+              "Created New Pending Submission. Please go to your Profile to send this data for approval",
+          });
+        } else {
+          notify({
+            type: "success",
+            message: "Data updated successfully",
+          });
+          fetchData(record.id);
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+        notify({
+          type: "error",
+          message: "Could not update data",
+        });
+      })
+      .finally(() => {
+        setSaving(false);
+      });
+  };
+
+  const fetchData = useCallback(
+    (id) => {
       setLoading(true);
       api
-        .get(`data/${record.id}`)
+        .get(`data/${id}`)
         .then((res) => {
           const data = questionGroups.map((qg) => ({
             ...qg,
@@ -65,14 +113,22 @@ const DataDetail = ({ questionGroups, record }) => {
             })),
           }));
           setDataset(data);
-          setLoading(false);
         })
         .catch((e) => {
           console.error(e);
+        })
+        .finally(() => {
           setLoading(false);
         });
+    },
+    [questionGroups]
+  );
+
+  useEffect(() => {
+    if (record?.id && !dataset.length) {
+      fetchData(record.id);
     }
-  }, [record, dataset.length, questionGroups]);
+  }, [record, dataset.length, fetchData]);
 
   const edited = useMemo(() => {
     return dataset.length
@@ -131,7 +187,12 @@ const DataDetail = ({ questionGroups, record }) => {
         ))}
       </div>
       <div>
-        <Button className="dev" disabled={!edited}>
+        <Button
+          type="primary"
+          onClick={handleSave}
+          disabled={!edited || saving}
+          loading={saving}
+        >
           Save Edits
         </Button>
       </div>
