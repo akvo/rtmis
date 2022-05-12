@@ -11,10 +11,7 @@ const Profile = () => {
   const pagePath = [
     {
       title: "Control Center",
-      link:
-        authUser?.role?.value === "Data Entry Staff"
-          ? false
-          : "/control-center",
+      link: "/control-center",
     },
     {
       title: authUser?.name || "Profile",
@@ -51,7 +48,8 @@ const Profile = () => {
           </li>
         </ul>
       </Card>
-      {config.checkAccess(authUser?.role_detail, "form") && <PanelDataUpload />}
+      {config.checkAccess(authUser?.role_detail, "form") &&
+        authUser?.role.id !== 4 && <PanelDataUpload />}
       {config.checkAccess(authUser?.role_detail, "approvals") && (
         <PanelApprovals />
       )}
