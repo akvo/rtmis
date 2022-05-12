@@ -129,11 +129,13 @@ const Visualisation = () => {
       <VisualisationFilters />
       <Row gutter={12} className="main-wrap" justify="space-between">
         <Col span={current?.charts?.length ? 12 : 24}>
-          <Map
-            markerData={{ features: [] }}
-            style={{ height: 600 }}
-            current={current}
-          />
+          {!!current && (
+            <Map
+              markerData={{ features: [] }}
+              style={{ height: 600 }}
+              current={current}
+            />
+          )}
         </Col>
         {!!current?.charts?.length && (
           <Col span={12}>
