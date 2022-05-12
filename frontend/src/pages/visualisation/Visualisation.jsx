@@ -128,15 +128,17 @@ const Visualisation = () => {
     <div id="visualisation">
       <VisualisationFilters />
       <Row gutter={12} className="main-wrap" justify="space-between">
-        <Col span={current?.charts?.length ? 14 : 24}>
-          <Map
-            markerData={{ features: [] }}
-            style={{ height: 600 }}
-            current={current}
-          />
+        <Col span={current?.charts?.length ? 12 : 24}>
+          {!!current && (
+            <Map
+              markerData={{ features: [] }}
+              style={{ height: 600 }}
+              current={current}
+            />
+          )}
         </Col>
         {!!current?.charts?.length && (
-          <Col span={10}>
+          <Col span={12}>
             <div className="charts-wrap">
               {!!current?.chartListTitle && (
                 <Divider orientation="left" orientationMargin="0">
