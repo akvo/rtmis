@@ -39,6 +39,7 @@ const Chart = ({
   transform = true,
   series,
   legend,
+  callbacks = null,
 }) => {
   if (transform) {
     data = data.map((x) => ({
@@ -56,6 +57,13 @@ const Chart = ({
     horizontal,
     axis
   );
+  const onEvents = {
+    click: (e) => {
+      if (callbacks?.onClick) {
+        callbacks.onClick(e.data?.cbParam);
+      }
+    },
+  };
   if (wrapper) {
     return (
       <Col
@@ -69,6 +77,7 @@ const Chart = ({
             option={option}
             notMerge={true}
             style={{ height: height - 50, width: "100%" }}
+            onEvents={onEvents}
           />
         </Card>
       </Col>
@@ -79,6 +88,7 @@ const Chart = ({
       option={option}
       notMerge={true}
       style={{ height: height - 50, width: "100%" }}
+      onEvents={onEvents}
     />
   );
 };
