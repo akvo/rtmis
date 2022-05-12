@@ -20,6 +20,7 @@ from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
     CustomBooleanField
 from utils.email_helper import send_email, EmailTypes
 from utils.functions import update_date_time_format, get_answer_value
+from utils.functions import get_answer_history
 
 
 class SubmitFormDataSerializer(serializers.ModelSerializer):
@@ -202,7 +203,12 @@ class ListDataAnswerSerializer(serializers.ModelSerializer):
     value = serializers.SerializerMethodField()
 
     def get_history(self, instance):
-        return False
+        answer_history = AnswerHistory.objects.filter(
+            data=instance.data, question=instance.question).all()
+        history = []
+        for h in answer_history:
+            history.append(get_answer_history(h))
+        return history if history else False
 
     def get_value(self, instance: Answers):
         return get_answer_value(instance)
