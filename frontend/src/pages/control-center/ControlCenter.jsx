@@ -83,7 +83,7 @@ const ControlCenter = () => {
             <PanelApprovals />
           </Col>
         )}
-        {authUser?.role_detail.id === 4 && (
+        {authUser.role_detail.page_access.includes("form") && (
           <Col span={24}>
             <PanelDataUpload />
           </Col>
