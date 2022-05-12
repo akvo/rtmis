@@ -65,12 +65,14 @@ const Map = ({ current, style }) => {
   const [markerLegendSelected, setMarkerLegendSelected] = useState(null);
 
   useEffect(() => {
-    if (map && administration.length) {
+    if (map && administration?.length && selectedForm && current) {
       const pos = getBounds(administration);
       map.fitBounds(pos.bbox);
+      map.setView(pos.coordinates, map.getZoom());
       setZoomLevel(map.getZoom());
+      map.invalidateSize();
     }
-  }, [map, administration]);
+  }, [map, administration, selectedForm, current]);
 
   const adminName = useMemo(() => {
     return administration.length ? takeRight(administration, 1)[0]?.name : null;
