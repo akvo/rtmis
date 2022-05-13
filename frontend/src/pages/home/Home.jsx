@@ -63,7 +63,7 @@ const highlights = [
 const Home = () => {
   return (
     <div id="home">
-      <div className="datasets">
+      {/* <div className="datasets">
         <h1>Datasets</h1>
         <Row gutter={16}>
           {datasets.map((dataset, index) => (
@@ -81,7 +81,7 @@ const Home = () => {
             </Col>
           ))}
         </Row>
-      </div>
+      </div> */}
       <div className="highlights">
         <h1>Highlights</h1>
         <div className="body">
