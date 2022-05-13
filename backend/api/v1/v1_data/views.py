@@ -2,6 +2,7 @@
 import datetime
 from math import ceil
 from wsgiref.util import FileWrapper
+from django.utils import timezone
 
 from django.contrib.postgres.aggregates import StringAgg
 from django.db.models import Count, TextField, Value, F
@@ -19,7 +20,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
-    PendingDataBatch, ViewPendingDataApproval, PendingAnswers
+    PendingDataBatch, ViewPendingDataApproval, PendingAnswers, AnswerHistory
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
@@ -31,9 +32,10 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     CreateBatchSerializer, ListPendingDataBatchSerializer, \
     ListPendingFormDataSerializer, PendingBatchDataFilterSerializer, \
     SubmitPendingFormSerializer, ListBatchSummarySerializer, \
-    ListBatchCommentSerializer, BatchListRequestSerializer
+    ListBatchCommentSerializer, BatchListRequestSerializer, \
+    SubmitFormDataAnswerSerializer
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
-from api.v1.v1_forms.models import Forms
+from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -141,13 +143,12 @@ class FormDataAddListView(APIView):
         serializer.save()
         return Response({'message': 'ok'}, status=status.HTTP_200_OK)
 
-    @extend_schema(request=SubmitFormSerializer,
+    @extend_schema(request=SubmitFormDataAnswerSerializer(many=True),
                    responses={
                        (200, 'application/json'):
                            inline_serializer("FormSubmit", fields={
                                "message": serializers.CharField()
-                           })
-                   },
+                           })},
                    tags=['Data'],
                    parameters=[
                        OpenApiParameter(name='data_id',
@@ -157,13 +158,12 @@ class FormDataAddListView(APIView):
                    summary='Edit form data')
     def put(self, request, form_id, version):
         data_id = request.GET['data_id']
-        user_role = request.user.user_access.role
+        user = request.user
+        user_role = user.user_access.role
         form = get_object_or_404(Forms, pk=form_id)
         data = get_object_or_404(FormData, pk=data_id)
-        serializer = SubmitFormSerializer(data=request.data,
-                                          context={'user': request.user,
-                                                   'form': form},
-                                          instance=data)
+        serializer = SubmitFormDataAnswerSerializer(
+            data=request.data, many=True)
         if not serializer.is_valid():
             return Response(
                 {'message': validate_serializers_message(
@@ -172,6 +172,7 @@ class FormDataAddListView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
+        answers = request.data
         # is_national_form = form.type == FormTypes.national
         is_county_form = form.type == FormTypes.county
 
@@ -181,11 +182,88 @@ class FormDataAddListView(APIView):
 
         # Direct update
         if is_super_admin or is_county_admin_with_county_form:
-            serializer.save()
+            # move current answer to answer_history
+            for answer in answers:
+                form_answer = Answers.objects.get(
+                    data=data, question=answer.get('question'))
+                AnswerHistory.objects.create(
+                    data=form_answer.data,
+                    question=form_answer.question,
+                    name=form_answer.name,
+                    value=form_answer.value,
+                    options=form_answer.options,
+                    created_by=form_answer.created_by
+                )
+                # prepare updated answer
+                question_id = answer.get('question')
+                question = Questions.objects.get(
+                    id=question_id)
+                name = None
+                value = None
+                option = None
+                if question.type in [
+                    QuestionTypes.geo, QuestionTypes.option,
+                    QuestionTypes.multiple_option
+                ]:
+                    option = answer.get('value')
+                elif question.type in [
+                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+                ]:
+                    name = answer.get('value')
+                else:
+                    # for administration,number question type
+                    value = answer.get('value')
+                # Update answer
+                form_answer.data = data
+                form_answer.question = question
+                form_answer.name = name
+                form_answer.value = value
+                form_answer.options = option
+                form_answer.save()
+            # update datapoint
+            data.updated = timezone.now()
+            data.updated_by = user
+            data.save()
             return Response({'message': 'direct update success'},
                             status=status.HTTP_200_OK)
         # Store edit data to pending form data
-        serializer.save()
+        pending_data = PendingFormData.objects.create(
+            name=data.name,
+            form=data.form,
+            data=data,
+            administration=data.administration,
+            geo=data.geo,
+            batch=None,
+            created_by=user
+        )
+        for answer in answers:
+            # store to pending answer
+            question_id = answer.get('question')
+            question = Questions.objects.get(
+                id=question_id)
+            name = None
+            value = None
+            option = None
+            if question.type in [
+                    QuestionTypes.geo, QuestionTypes.option,
+                    QuestionTypes.multiple_option
+            ]:
+                option = answer.get('value')
+            elif question.type in [
+                QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+            ]:
+                name = answer.get('value')
+            else:
+                # for administration,number question type
+                value = answer.get('value')
+            PendingAnswers.objects.create(
+                pending_data=pending_data,
+                question=question,
+                name=name,
+                value=value,
+                options=option,
+                created_by=user
+            )
         return Response({'message': 'store to pending data success'},
                         status=status.HTTP_200_OK)
 
