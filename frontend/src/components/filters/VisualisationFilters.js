@@ -20,7 +20,7 @@ const VisualisationFilters = () => {
           <Space>
             <AdministrationDropdown />
             <RemoveFiltersButton />
-            <AdvancedFiltersButton />
+            {/* <AdvancedFiltersButton /> */}
           </Space>
         </Col>
       </Row>
