@@ -6,7 +6,7 @@ import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { flatten, isEqual } from "lodash";
 
-const DataDetail = ({ questionGroups, record }) => {
+const DataDetail = ({ questionGroups, record, updater, updateRecord }) => {
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -62,7 +62,10 @@ const DataDetail = ({ questionGroups, record }) => {
     dataset.map((rd) => {
       rd.question.map((rq) => {
         if (rq.newValue) {
-          data.push({ question: rq.id, value: rq.newValue });
+          data.push({
+            question: rq.id,
+            value: rq.type === "number" ? parseInt(rq.newValue) : rq.newValue,
+          });
         }
       });
     });
@@ -70,22 +73,22 @@ const DataDetail = ({ questionGroups, record }) => {
     api
       .put(`form-data/${formId}?data_id=${record.id}`, data)
       .then(() => {
-        if (
-          authUser?.role?.id === 4 ||
-          (authUser?.role?.id === 2 && formRes.type === 2)
-        ) {
-          notify({
-            type: "success",
-            message:
-              "Created New Pending Submission. Please go to your Profile to send this data for approval",
-          });
-        } else {
-          notify({
-            type: "success",
-            message: "Data updated successfully",
-          });
-          fetchData(record.id);
-        }
+        notify({
+          type: "success",
+          message:
+            authUser?.role?.id === 4 ||
+            (authUser?.role?.id === 2 && formRes.type === 2)
+              ? "Created New Pending Submission. Please go to your Profile to send this data for approval"
+              : "Data updated successfully",
+        });
+        updater(
+          updateRecord === record.id
+            ? false
+            : updateRecord === null
+            ? false
+            : record.id
+        );
+        fetchData(record.id);
       })
       .catch((e) => {
         console.error(e);
