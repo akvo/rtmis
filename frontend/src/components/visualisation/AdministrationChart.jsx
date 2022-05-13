@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import "./style.scss";
 import { Card, Spin, Row, Checkbox } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -14,8 +14,9 @@ const AdministrationChart = ({ config, formId }) => {
   const [chartColors, setChartColors] = useState([]);
   const [hideEmpty, setHideEmpty] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [prevForm, setPrevForm] = useState(null);
   const { notify } = useNotification();
-  const { id, title, type, stack, options, horizontal = true } = config;
+  const { id, title, stack, options, horizontal = true } = config;
   const { administration, loadingAdministration } = store.useState(
     (state) => state
   );
@@ -29,7 +30,7 @@ const AdministrationChart = ({ config, formId }) => {
       })?.color || Color.color[index]
     );
   };
-  const selectedAdministration = takeRight(administration, 1)[0]?.id || null;
+  const selectedAdministration = takeRight(administration, 1)[0] || null;
   const onAdminClick = (e) => {
     if (loadingAdministration || !e) {
       return;
@@ -37,10 +38,7 @@ const AdministrationChart = ({ config, formId }) => {
     const adminRes = takeRight(administration, 1)[0]?.children?.find(
       (c) => c.name.toLowerCase() === e.toLowerCase()
     );
-    if (
-      adminRes?.id &&
-      takeRight(administration, 1)[0]?.level !== "Sub-County"
-    ) {
+    if (adminRes?.id) {
       store.update((s) => {
         s.loadingAdministration = true;
       });
@@ -74,10 +72,10 @@ const AdministrationChart = ({ config, formId }) => {
         });
     }
   };
-  useEffect(() => {
-    if (formId && id && selectedAdministration) {
+  const fetchData = useCallback(
+    (form, question, adminId) => {
       setLoading(true);
-      const url = `chart/administration/${formId}?question=${id}&administration=${selectedAdministration}`;
+      const url = `chart/administration/${form}?question=${question}&administration=${adminId}`;
       api
         .get(url)
         .then((res) => {
@@ -105,6 +103,7 @@ const AdministrationChart = ({ config, formId }) => {
           });
           setChartColors(colors);
           setDataset(temp);
+          setPrevForm(formId);
         })
         .catch(() => {
           notify({
@@ -115,14 +114,30 @@ const AdministrationChart = ({ config, formId }) => {
         .finally(() => {
           setLoading(false);
         });
+    },
+    [formId, stack?.options, options, notify]
+  );
+  useEffect(() => {
+    if (formId && id && selectedAdministration) {
+      if (
+        selectedAdministration.levelName !== "Ward" ||
+        (selectedAdministration.levelName === "Ward" && formId !== prevForm)
+      ) {
+        fetchData(formId, id, selectedAdministration.id);
+      }
     }
-  }, [formId, id, notify, type, stack, options, selectedAdministration]);
+  }, [formId, id, selectedAdministration, prevForm, fetchData]);
   const filtered = hideEmpty
     ? dataset.filter((d) => sumBy(d.stack, "value") > 0)
     : dataset;
+  const highlighted = useMemo(() => {
+    return selectedAdministration?.levelName === "Ward"
+      ? selectedAdministration.name
+      : null;
+  }, [selectedAdministration]);
   return (
     <Card className="chart-wrap">
-      <Row justify="space-between">
+      <Row justify="space-between" align="middle">
         <h3>{title}</h3>
         <Checkbox
           onChange={() => {
@@ -151,6 +166,7 @@ const AdministrationChart = ({ config, formId }) => {
             extra={{ color: chartColors }}
             series={{ left: "10%" }}
             callbacks={{ onClick: onAdminClick }}
+            highlighted={highlighted}
           />
         )}
       </div>
@@ -162,7 +178,6 @@ AdministrationChart.propTypes = {
   formId: PropTypes.number.isRequired,
   config: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    type: PropTypes.string.isRequired,
     title: PropTypes.string,
     stack: PropTypes.any,
     options: PropTypes.array,

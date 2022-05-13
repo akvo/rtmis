@@ -22,7 +22,13 @@ import {
   orderBy,
 } from "lodash";
 
-const BarStack = (data, chartTitle, extra, horizontal = false) => {
+const BarStack = (
+  data,
+  chartTitle,
+  extra,
+  horizontal = false,
+  highlighted = null
+) => {
   if (isEmpty(data) || !data) {
     return NoData;
   }
@@ -37,12 +43,16 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
       const temp = data.map((d) => {
         const vals = d.stack?.filter((c) => c.title === s.title);
         const stackSum = sumBy(d.stack, "value");
+
         return {
           name: s.title || s.name,
           value: vals?.length
             ? +((sumBy(vals, "value") / stackSum) * 100)?.toFixed(1) || 0
             : 0,
-          itemStyle: { color: vals[0]?.color || s.color },
+          itemStyle: {
+            color: vals[0]?.color || s.color,
+            opacity: highlighted ? (d.name === highlighted ? 1 : 0.4) : 1,
+          },
           original: sumBy(vals, "value"),
           cbParam: d.name,
         };
