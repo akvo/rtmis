@@ -464,7 +464,6 @@ const ApprovalDetail = ({
         <Col>
           <Space>
             <Button
-              className="dev"
               onClick={() => handleSave()}
               disabled={!approve || selectedTab !== "raw-data" || !isEdited}
             >
