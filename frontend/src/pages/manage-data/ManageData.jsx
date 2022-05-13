@@ -26,6 +26,7 @@ const ManageData = () => {
   const [query, setQuery] = useState("");
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [updateRecord, setUpdateRecord] = useState(false);
 
   const { administration, selectedForm, questionGroups } = store.useState(
     (state) => state
@@ -78,7 +79,7 @@ const ManageData = () => {
   }, [selectedAdministration]);
 
   useEffect(() => {
-    if (selectedForm && isAdministrationLoaded) {
+    if (selectedForm && isAdministrationLoaded && updateRecord !== null) {
       setLoading(true);
       let url = `/form-data/${selectedForm}/?page=${currentPage}`;
       if (selectedAdministration?.id) {
@@ -89,6 +90,7 @@ const ManageData = () => {
         .then((res) => {
           setDataset(res.data.data);
           setTotalCount(res.data.total);
+          setUpdateRecord(null);
           setLoading(false);
         })
         .catch(() => {
@@ -102,6 +104,7 @@ const ManageData = () => {
     selectedAdministration,
     currentPage,
     isAdministrationLoaded,
+    updateRecord,
   ]);
 
   return (
@@ -141,7 +144,12 @@ const ManageData = () => {
             rowKey="id"
             expandable={{
               expandedRowRender: (record) => (
-                <DataDetail questionGroups={questionGroups} record={record} />
+                <DataDetail
+                  questionGroups={questionGroups}
+                  record={record}
+                  updateRecord={updateRecord}
+                  updater={setUpdateRecord}
+                />
               ),
               expandIcon: ({ expanded, onExpand, record }) =>
                 expanded ? (

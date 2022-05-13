@@ -57,6 +57,12 @@
           font-size: 16px;
         }
       }
+      .ant-checkbox-wrapper {
+        color: #0005;
+      }
+      .ant-checkbox-wrapper.ant-checkbox-wrapper-checked {
+        color: #0008;
+      }
       .chart-inner {
         padding: 0;
         min-height: 180px;
