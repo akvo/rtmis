@@ -62,7 +62,7 @@ const DataDetail = ({ questionGroups, record }) => {
     dataset.map((rd) => {
       rd.question.map((rq) => {
         if (rq.newValue) {
-          data.push({ id: rd.id, question: rq.id, value: rq.newValue });
+          data.push({ question: rq.id, value: rq.newValue });
         }
       });
     });
