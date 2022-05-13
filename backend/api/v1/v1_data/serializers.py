@@ -126,9 +126,7 @@ class SubmitFormSerializer(serializers.Serializer):
                     options=form_answer.options,
                     created_by=form_answer.created_by
                 )
-                # TODO:: Update not delete
-                form_answer.delete()
-                # add new answer
+                # prepare updated answer
                 name = None
                 value = None
                 option = None
@@ -144,14 +142,13 @@ class SubmitFormSerializer(serializers.Serializer):
                 else:
                     # for administration,number question type
                     value = answer.get('value')
-                Answers.objects.create(
-                    data=instance,
-                    question=answer.get('question'),
-                    name=name,
-                    value=value,
-                    options=option,
-                    created_by=user
-                )
+                # Update answer
+                form_answer.data = instance
+                form_answer.question = answer.get('question')
+                form_answer.name = name
+                form_answer.value = value
+                form_answer.options = option
+                form_answer.save()
             # update datapoint
             instance: FormData = instance
             instance.name = data['name']

@@ -132,16 +132,16 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         self.assertEqual(len(data) > 0, True)
-        self.assertEqual(data[4]['question'], 101)
-        self.assertEqual(data[4]['value'], 'Jane Doe')
-        self.assertEqual(list(data[4]['history'][0]), [
+        self.assertEqual(data[0]['question'], 101)
+        self.assertEqual(data[0]['value'], 'Jane Doe')
+        self.assertEqual(list(data[0]['history'][0]), [
             'value', 'created', 'created_by'])
-        self.assertEqual(data[4]['history'][0]['value'], 'Jane')
-        self.assertEqual(data[5]['question'], 102)
-        self.assertEqual(data[5]['value'], ['Female'])
-        self.assertEqual(list(data[5]['history'][0]), [
+        self.assertEqual(data[0]['history'][0]['value'], 'Jane')
+        self.assertEqual(data[1]['question'], 102)
+        self.assertEqual(data[1]['value'], ['Female'])
+        self.assertEqual(list(data[1]['history'][0]), [
             'value', 'created', 'created_by'])
-        self.assertEqual(data[5]['history'][0]['value'], ['Male'])
+        self.assertEqual(data[1]['history'][0]['value'], ['Male'])
 
     def test_update_datapoint_by_data_entry_role(self):
         self.maxDiff = None
@@ -693,13 +693,13 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         self.assertEqual(len(data) > 0, True)
-        self.assertEqual(data[4]['question'], 101)
-        self.assertEqual(data[4]['value'], 'Jane Doe')
-        self.assertEqual(list(data[4]['history'][0]), [
+        self.assertEqual(data[0]['question'], 101)
+        self.assertEqual(data[0]['value'], 'Jane Doe')
+        self.assertEqual(list(data[0]['history'][0]), [
             'value', 'created', 'created_by'])
-        self.assertEqual(data[4]['history'][0]['value'], 'Jane')
-        self.assertEqual(data[5]['question'], 102)
-        self.assertEqual(data[5]['value'], ['Female'])
-        self.assertEqual(list(data[5]['history'][0]), [
+        self.assertEqual(data[0]['history'][0]['value'], 'Jane')
+        self.assertEqual(data[1]['question'], 102)
+        self.assertEqual(data[1]['value'], ['Female'])
+        self.assertEqual(list(data[1]['history'][0]), [
             'value', 'created', 'created_by'])
-        self.assertEqual(data[5]['history'][0]['value'], ['Other'])
+        self.assertEqual(data[1]['history'][0]['value'], ['Other'])
