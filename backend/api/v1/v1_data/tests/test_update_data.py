@@ -96,20 +96,13 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(data[1]['value'], ['Male'])
         self.assertEqual(data[1]['history'], False)
         # Update data for question 101 and 102
-        payload = {
-            "data": {
-                "name": "Update Testing Data",
-                "administration": 2,
-                "geo": [6.2088, 106.8456]
-            },
-            "answer": [{
-                "question": 101,
-                "value": "Jane Doe"
-            }, {
-                "question": 102,
-                "value": ["Female"]
-            }]
-        }
+        payload = [{
+            "question": 101,
+            "value": "Jane Doe"
+        }, {
+            "question": 102,
+            "value": ["Female"]
+        }]
         data = self.client.put(f'/api/v1/form-data/1?data_id={data_id}',
                                payload,
                                content_type='application/json',
@@ -124,7 +117,7 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         self.assertEqual(len(data['data']) > 0, True)
-        self.assertEqual(data['data'][0]['name'], 'Update Testing Data')
+        self.assertEqual(data['data'][0]['name'], 'Testing Data')
         # Get answer from data with history
         data = self.client.get(f'/api/v1/data/{data_id}',
                                content_type='application/json',
@@ -272,20 +265,13 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(data[1]['value'], ['Female'])
         self.assertEqual(data[1]['history'], False)
         # Update data for question 101 and 102
-        payload = {
-            "data": {
-                "name": "Pending Testing Data",
-                "administration": 2,
-                "geo": [6.2088, 106.8456]
-            },
-            "answer": [{
-                "question": 101,
-                "value": "User Wayan"
-            }, {
-                "question": 102,
-                "value": ["Male"]
-            }]
-        }
+        payload = [{
+            "question": 101,
+            "value": "User Wayan"
+        }, {
+            "question": 102,
+            "value": ["Male"]
+        }]
         data = self.client.put(f'/api/v1/form-data/1?data_id={data_id}',
                                payload,
                                content_type='application/json',
@@ -302,6 +288,7 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         self.assertEqual(len(data['data']) > 0, True)
+        self.assertEqual(data['data'][0]['name'], 'Testing Data')
         self.assertEqual(data['data'][0]['created_by'], "User Wayan")
         self.assertEqual(data['data'][0]['data_id'], data_id)
         pending_data_id = data['data'][0]['id']  # get pending_data_id here
@@ -463,20 +450,13 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(data[1]['value'], ['Other'])
         self.assertEqual(data[1]['history'], False)
         # Update data for question 101 and 102
-        payload = {
-            "data": {
-                "name": "Pending Testing Data National",
-                "administration": 2,
-                "geo": [6.2088, 106.8456]
-            },
-            "answer": [{
-                "question": 201,
-                "value": "Made County Admin"
-            }, {
-                "question": 202,
-                "value": ["Male"]
-            }]
-        }
+        payload = [{
+            "question": 201,
+            "value": "Made County Admin"
+        }, {
+            "question": 202,
+            "value": ["Male"]
+        }]
         data = self.client.put(f'/api/v1/form-data/2?data_id={data_id}',
                                payload,
                                content_type='application/json',
@@ -494,7 +474,7 @@ class FormDataUpdateTestCase(TestCase):
         data = data.json()
         self.assertEqual(len(data['data']) > 0, True)
         self.assertEqual(data['data'][0]['name'],
-                         "Pending Testing Data National")
+                         "Testing Data National From Type")
         self.assertEqual(data['data'][0]['created_by'], "County Admin")
         self.assertEqual(data['data'][0]['data_id'], data_id)
         pending_data_id = data['data'][0]['id']  # get pending_data_id here
@@ -525,7 +505,8 @@ class FormDataUpdateTestCase(TestCase):
         data = data.json()
         self.assertEqual(len(data['data']) > 0, True)
         self.assertEqual(data['data'][0]['pending_data'],
-                         {'id': pending_data_id, 'created_by': 'County Admin'})
+                         {'id': pending_data_id,
+                          'created_by': 'County Admin'})
 
     def test_update_datapoint_by_county_admin_with_county_form(self):
         self.maxDiff = None
@@ -656,20 +637,13 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(data[1]['value'], ['Other'])
         self.assertEqual(data[1]['history'], False)
         # Update data for question 101 and 102
-        payload = {
-            "data": {
-                "name": "Direct Update",
-                "administration": 2,
-                "geo": [6.2088, 106.8456]
-            },
-            "answer": [{
-                "question": 101,
-                "value": "Jane Doe"
-            }, {
-                "question": 102,
-                "value": ["Female"]
-            }]
-        }
+        payload = [{
+            "question": 101,
+            "value": "Jane Doe"
+        }, {
+            "question": 102,
+            "value": ["Female"]
+        }]
         data = self.client.put(f'/api/v1/form-data/1?data_id={data_id}',
                                payload,
                                content_type='application/json',
@@ -685,7 +659,7 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         self.assertEqual(len(data['data']) > 0, True)
-        self.assertEqual(data['data'][0]['name'], 'Direct Update')
+        self.assertEqual(data['data'][0]['name'], 'Testing Data')
         # Get answer from data with history
         data = self.client.get(f'/api/v1/data/{data_id}',
                                content_type='application/json',
