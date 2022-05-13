@@ -4,7 +4,7 @@ import { Space, Row, Col } from "antd";
 import AdministrationDropdown from "./AdministrationDropdown";
 import FormDropdown from "./FormDropdown.js";
 import RemoveFiltersButton from "./RemoveFiltersButton";
-import AdvancedFiltersButton from "./AdvancedFiltersButton";
+// import AdvancedFiltersButton from "./AdvancedFiltersButton";
 import AdvancedFilters from "./AdvancedFilters";
 import { store } from "../../lib";
 
