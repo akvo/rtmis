@@ -8,13 +8,14 @@ export const generateOptions = (
   extra,
   series,
   legend,
-  horizontal
+  horizontal,
+  highlighted
 ) => {
   switch (type) {
     case "LINE":
       return Line(data, chartTitle, extra);
     case "BARSTACK":
-      return BarStack(data, chartTitle, extra, horizontal);
+      return BarStack(data, chartTitle, extra, horizontal, highlighted);
     case "PIE":
       return Pie(data, chartTitle, extra, false, series, legend);
     case "DOUGHNUT":
@@ -40,6 +41,9 @@ const Chart = ({
   series,
   legend,
   callbacks = null,
+  highlighted,
+  loading = false,
+  loadingOption = {},
 }) => {
   if (transform) {
     data = data.map((x) => ({
@@ -55,6 +59,7 @@ const Chart = ({
     series,
     legend,
     horizontal,
+    highlighted,
     axis
   );
   const onEvents = {
@@ -78,6 +83,8 @@ const Chart = ({
             notMerge={true}
             style={{ height: height - 50, width: "100%" }}
             onEvents={onEvents}
+            showLoading={loading}
+            loadingOption={loadingOption}
           />
         </Card>
       </Col>
@@ -89,6 +96,8 @@ const Chart = ({
       notMerge={true}
       style={{ height: height - 50, width: "100%" }}
       onEvents={onEvents}
+      showLoading={loading}
+      loadingOption={loadingOption}
     />
   );
 };
