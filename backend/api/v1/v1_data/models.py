@@ -257,3 +257,24 @@ class ViewPendingDataApproval(models.Model):
     class Meta:
         managed = False
         db_table = 'view_pending_approval'
+
+
+class ViewDataOptions(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    data = models.ForeignKey(
+        to=FormData,
+        on_delete=models.DO_NOTHING,
+        related_name='data_view_data_options')
+    administration = models.ForeignKey(
+        to=Administration,
+        on_delete=models.DO_NOTHING,
+        related_name='administration_view_data_options')
+    form = models.ForeignKey(
+        to=Forms,
+        on_delete=models.DO_NOTHING,
+        related_name='form_view_data_options')
+    options = models.JSONField(default=None, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'view_data_options'

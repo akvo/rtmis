@@ -20,7 +20,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
-    PendingDataBatch, ViewPendingDataApproval, PendingAnswers, AnswerHistory
+    PendingDataBatch, ViewPendingDataApproval, PendingAnswers, \
+    AnswerHistory, ViewDataOptions
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
@@ -33,7 +34,7 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListPendingFormDataSerializer, PendingBatchDataFilterSerializer, \
     SubmitPendingFormSerializer, ListBatchSummarySerializer, \
     ListBatchCommentSerializer, BatchListRequestSerializer, \
-    SubmitFormDataAnswerSerializer
+    SubmitFormDataAnswerSerializer, ListChartCriteriaRequestSerializer
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.models import Administration, Levels
@@ -452,6 +453,86 @@ def get_chart_administration(request, version, form_id):
             })
         data.append(values)
 
+    return Response({'type': 'BARSTACK', 'data': data},
+                    status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    request=ListChartCriteriaRequestSerializer(many=True),
+    responses={200: inline_serializer(
+        'chart_criteria',
+        fields={
+            'type': serializers.CharField(),
+            'data': ListChartQuestionDataPointSerializer(many=True)
+        })},
+    parameters=[
+        OpenApiParameter(name='administration',
+                         required=True,
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY)],
+    tags=['Visualisation'],
+    summary='To get Chart by a criteria')
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def get_chart_criteria(request, version, form_id):
+    administration_id = request.GET.get('administration')
+    instance = get_object_or_404(Forms, pk=form_id)
+    administration = get_object_or_404(Administration, pk=administration_id)
+    serializer = ListChartCriteriaRequestSerializer(
+        data=request.data, context={'form': instance}, many=True)
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    params = serializer.validated_data
+    max_level = Levels.objects.order_by('-level').first()
+    childs = Administration.objects.filter(parent=administration).all()
+    if administration.level.level == max_level.level:
+        childs = [administration]
+    data = []
+    for child in childs:
+        values = {
+            'group': child.name,
+            'child': []
+        }
+        filter_path = child.path
+        if child.level.level < max_level.level:
+            filter_path = "{0}{1}.".format(child.path, child.id)
+        administration_ids = list(Administration.objects.filter(
+            path__startswith=filter_path).values_list('id', flat=True))
+        data_ids = list(ViewDataOptions.objects.filter(
+            form_id=form_id,
+            administration_id__in=administration_ids
+        ).values_list('data_id', flat=True))
+        # loop for post params
+        for param in params:
+            filter_criteria = []
+            for index, option in enumerate(param.get('options')):
+                question = option.get('question').id
+                ids = filter_criteria if filter_criteria else data_ids
+                for opt in option.get('option'):
+                    option_contains = []
+                    option_contains.append(f"{question}||{opt.lower()}")
+                    filter_data = list(
+                        ViewDataOptions.objects.filter(
+                            data_id__in=ids,
+                            options__contains=option_contains
+                        ).values_list('data_id', flat=True))
+                    if filter_criteria and index > 0:
+                        # reset filter_criteria for next question
+                        # start from second question criteria
+                        # support and filter
+                        filter_criteria = []
+                    for id in filter_data:
+                        if id not in filter_criteria:
+                            # append filter_criteria to support or filter
+                            filter_criteria.append(id)
+            values.get('child').append({
+                'name': param.get('name'),
+                'value': len(filter_criteria)
+            })
+        data.append(values)
     return Response({'type': 'BARSTACK', 'data': data},
                     status=status.HTTP_200_OK)
 
