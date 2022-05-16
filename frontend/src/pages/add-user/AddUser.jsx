@@ -20,6 +20,8 @@ import { useNotification } from "../../util/hooks";
 
 const { Option } = Select;
 
+const descriptionData = "This is add user page we can add user here";
+
 const AddUser = () => {
   const [submitting, setSubmitting] = useState(false);
   const [showAdministration, setShowAdministration] = useState(false);
@@ -192,7 +194,7 @@ const AddUser = () => {
     <div id="add-user">
       <Row justify="space-between">
         <Col>
-          <Breadcrumbs pagePath={pagePath} />
+          <Breadcrumbs pagePath={pagePath} description={descriptionData} />
         </Col>
       </Row>
       <Divider />
