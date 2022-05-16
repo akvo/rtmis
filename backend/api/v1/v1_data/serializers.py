@@ -306,6 +306,23 @@ class ListChartAdministrationRequestSerializer(serializers.Serializer):
             'administration').queryset = Administration.objects.all()
 
 
+class ListOptionsChartCriteriaSerializer(serializers.Serializer):
+    question = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none())
+    option = CustomListField()
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get('question').queryset = Questions.objects.all()
+
+
+class ListChartCriteriaRequestSerializer(serializers.Serializer):
+    name = CustomCharField()
+    options = ListOptionsChartCriteriaSerializer(many=True)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
 class ListPendingFormDataRequestSerializer(serializers.Serializer):
     administration = CustomPrimaryKeyRelatedField(
         queryset=Administration.objects.none(), required=False)
