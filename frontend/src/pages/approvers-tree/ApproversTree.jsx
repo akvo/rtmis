@@ -182,6 +182,7 @@ const ApproversTree = () => {
                 id: res.data.id,
                 name: res.data.name,
                 levelName: res.data.level_name,
+                parent: res.data.parent,
                 children: res.data.children,
                 childLevelName: res.data.children_level_name,
               },
@@ -222,7 +223,8 @@ const ApproversTree = () => {
                     key={l}
                     onClick={() => {
                       if (
-                        adminItem.levelName !== "Sub-County" &&
+                        adminItem.levelName !==
+                          takeRight(window.levels, 2)[0]?.name &&
                         administration[k + 1]?.children[0]?.parent !==
                           childItem.id
                       ) {
