@@ -17,6 +17,7 @@ const pagePath = [
     title: "Manage Users",
   },
 ];
+const descriptionData = "This is manage user page";
 
 const Users = () => {
   const [loading, setLoading] = useState(true);
@@ -143,7 +144,7 @@ const Users = () => {
     <div id="users">
       <Row justify="space-between">
         <Col>
-          <Breadcrumbs pagePath={pagePath} />
+          <Breadcrumbs pagePath={pagePath} description={descriptionData} />
         </Col>
         <Col>
           <Link to="/user/add">

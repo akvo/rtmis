@@ -11,7 +11,7 @@ import {
   Select,
   Checkbox,
 } from "antd";
-import { AdministrationDropdown } from "../../components";
+import { AdministrationDropdownUserPage } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { api, store, config } from "../../lib";
 import { Breadcrumbs } from "../../components";
@@ -19,6 +19,8 @@ import { takeRight } from "lodash";
 import { useNotification } from "../../util/hooks";
 
 const { Option } = Select;
+
+const descriptionData = "This is add user page we can add user here";
 
 const AddUser = () => {
   const [submitting, setSubmitting] = useState(false);
@@ -192,7 +194,7 @@ const AddUser = () => {
     <div id="add-user">
       <Row justify="space-between">
         <Col>
-          <Breadcrumbs pagePath={pagePath} />
+          <Breadcrumbs pagePath={pagePath} description={descriptionData} />
         </Col>
       </Row>
       <Divider />
@@ -376,7 +378,7 @@ const AddUser = () => {
               {loadingAdministration ? (
                 <p style={{ paddingLeft: 12, color: "#6b6b6f" }}>Loading..</p>
               ) : (
-                <AdministrationDropdown
+                <AdministrationDropdownUserPage
                   direction="vertical"
                   withLabel={true}
                   persist={true}
