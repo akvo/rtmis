@@ -35,9 +35,11 @@ const AdministrationChart = ({ config, formId }) => {
     if (loadingAdministration || !e) {
       return;
     }
-    const adminRes = takeRight(administration, 1)[0]?.children?.find(
-      (c) => c.name.toLowerCase() === e.toLowerCase()
-    );
+    const adminRes = (
+      selectedAdministration?.levelName === "Ward"
+        ? takeRight(administration, 2)[0]
+        : takeRight(administration, 1)[0]
+    ).children?.find((c) => c.name.toLowerCase() === e.toLowerCase());
     if (adminRes?.id) {
       store.update((s) => {
         s.loadingAdministration = true;
@@ -118,15 +120,16 @@ const AdministrationChart = ({ config, formId }) => {
     [formId, stack?.options, options, notify]
   );
   useEffect(() => {
-    if (formId && id && selectedAdministration) {
-      if (
-        selectedAdministration.levelName !== "Ward" ||
-        (selectedAdministration.levelName === "Ward" && formId !== prevForm)
-      ) {
-        fetchData(formId, id, selectedAdministration.id);
+    if (formId && id && administration.length) {
+      if (takeRight(administration, 1)[0]?.levelName !== "Ward") {
+        fetchData(formId, id, takeRight(administration, 1)[0]?.id);
+      } else {
+        if (formId !== prevForm) {
+          fetchData(formId, id, takeRight(administration, 2)[0]?.id);
+        }
       }
     }
-  }, [formId, id, selectedAdministration, prevForm, fetchData]);
+  }, [formId, id, administration, prevForm, fetchData]);
   const filtered = hideEmpty
     ? dataset.filter((d) => sumBy(d.stack, "value") > 0)
     : dataset;
