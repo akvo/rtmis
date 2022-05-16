@@ -19,7 +19,7 @@ const pagePath = [
     title: "Manage Data",
   },
 ];
-
+const descriptionData = "This is manage data page...";
 const ManageData = () => {
   const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
@@ -111,7 +111,7 @@ const ManageData = () => {
     <div id="manageData">
       <Row justify="space-between">
         <Col>
-          <Breadcrumbs pagePath={pagePath} />
+          <Breadcrumbs pagePath={pagePath} description={descriptionData} />
         </Col>
       </Row>
       <Divider />
