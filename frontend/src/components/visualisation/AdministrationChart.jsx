@@ -36,7 +36,7 @@ const AdministrationChart = ({ config, formId }) => {
       return;
     }
     const adminRes = (
-      selectedAdministration?.levelName === "Ward"
+      selectedAdministration?.levelName === takeRight(window.levels, 1)[0]?.name
         ? takeRight(administration, 2)[0]
         : takeRight(administration, 1)[0]
     ).children?.find((c) => c.name.toLowerCase() === e.toLowerCase());
@@ -48,6 +48,12 @@ const AdministrationChart = ({ config, formId }) => {
         .get(`administration/${adminRes.id}`)
         .then((res) => {
           store.update((s) => {
+            if (
+              selectedAdministration?.levelName ===
+              takeRight(window.levels, 1)[0]?.name
+            ) {
+              s.administration.length = s.administration.length - 1;
+            }
             s.administration = [
               ...s.administration,
               {
@@ -121,7 +127,10 @@ const AdministrationChart = ({ config, formId }) => {
   );
   useEffect(() => {
     if (formId && id && administration.length) {
-      if (takeRight(administration, 1)[0]?.levelName !== "Ward") {
+      if (
+        takeRight(administration, 1)[0]?.levelName !==
+        takeRight(window.levels, 1)[0]?.name
+      ) {
         fetchData(formId, id, takeRight(administration, 1)[0]?.id);
       } else {
         if (formId !== prevForm) {
@@ -134,10 +143,12 @@ const AdministrationChart = ({ config, formId }) => {
     ? dataset.filter((d) => sumBy(d.stack, "value") > 0)
     : dataset;
   const highlighted = useMemo(() => {
-    return selectedAdministration?.levelName === "Ward"
+    return selectedAdministration?.levelName ===
+      takeRight(window.levels, 1)[0]?.name
       ? selectedAdministration.name
       : null;
   }, [selectedAdministration]);
+
   return (
     <Card className="chart-wrap">
       <Row justify="space-between" align="middle">
