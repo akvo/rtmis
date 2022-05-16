@@ -97,7 +97,47 @@ class DataVisualisationTestCase(TestCase):
             format(form.id, question.id, administration.id),
             follow=True,
             **header)
+        self.assertEqual(data.status_code, 200)
+        self.assertEqual(data.json().get('type'), 'BARSTACK')
+        self.assertEqual(list(data.json().get('data')[0]), ['group', 'child'])
+        self.assertEqual(list(data.json().get('data')[0]['child'][0]),
+                         ['name', 'value'])
 
+        # CHART CRITERIA API
+        administration = Administration.objects.filter(level_id=1).first()
+        payload = [{
+            "name": "Test",
+            "option": [{
+                "question": 102,
+                "options": ["Male"],
+            }, {
+                "question": 106,
+                "options": ["Parent"],
+            }],
+        }]
+        data = self.client.post(
+            "/api/v1/chart/criteria/{0}?administration={1}".
+            format(form.id, administration.id),
+            payload,
+            content_type='application/json',
+            **header)
+        self.assertEqual(data.status_code, 400)
+        payload = [{
+            "name": "Test",
+            "options": [{
+                "question": 102,
+                "option": ["Male"],
+            }, {
+                "question": 106,
+                "option": ["Parent"],
+            }],
+        }]
+        data = self.client.post(
+            "/api/v1/chart/criteria/{0}?administration={1}".
+            format(form.id, administration.id),
+            payload,
+            content_type='application/json',
+            **header)
         self.assertEqual(data.status_code, 200)
         self.assertEqual(data.json().get('type'), 'BARSTACK')
         self.assertEqual(list(data.json().get('data')[0]), ['group', 'child'])
