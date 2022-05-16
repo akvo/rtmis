@@ -11,7 +11,7 @@ import {
   Select,
   Checkbox,
 } from "antd";
-import { AdministrationDropdown } from "../../components";
+import { AdministrationDropdownUserPage } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { api, store, config } from "../../lib";
 import { Breadcrumbs } from "../../components";
@@ -378,7 +378,7 @@ const AddUser = () => {
               {loadingAdministration ? (
                 <p style={{ paddingLeft: 12, color: "#6b6b6f" }}>Loading..</p>
               ) : (
-                <AdministrationDropdown
+                <AdministrationDropdownUserPage
                   direction="vertical"
                   withLabel={true}
                   persist={true}
