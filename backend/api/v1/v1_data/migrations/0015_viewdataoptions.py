@@ -26,6 +26,7 @@ class Migration(migrations.Migration):
             """
             CREATE VIEW view_data_options as
                 SELECT
+                    row_number() over (partition by true) as id,
                     tmp.data_id,
                     d.administration_id,
                     d.form_id,
