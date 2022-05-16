@@ -273,10 +273,6 @@ class ViewDataOptions(models.Model):
         to=Forms,
         on_delete=models.DO_NOTHING,
         related_name='form_view_data_options')
-    question = models.ForeignKey(
-        to=Questions,
-        on_delete=models.DO_NOTHING,
-        related_name='question_view_data_options')
     options = models.JSONField(default=None, null=True)
 
     class Meta:
