@@ -42,6 +42,8 @@ const Chart = ({
   legend,
   callbacks = null,
   highlighted,
+  loading = false,
+  loadingOption = {},
 }) => {
   if (transform) {
     data = data.map((x) => ({
@@ -81,6 +83,8 @@ const Chart = ({
             notMerge={true}
             style={{ height: height - 50, width: "100%" }}
             onEvents={onEvents}
+            showLoading={loading}
+            loadingOption={loadingOption}
           />
         </Card>
       </Col>
@@ -92,6 +96,8 @@ const Chart = ({
       notMerge={true}
       style={{ height: height - 50, width: "100%" }}
       onEvents={onEvents}
+      showLoading={loading}
+      loadingOption={loadingOption}
     />
   );
 };

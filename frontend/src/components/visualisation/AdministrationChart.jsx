@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import "./style.scss";
-import { Card, Spin, Row, Checkbox } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { Card, Row, Checkbox } from "antd";
 import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { max, takeRight, sumBy } from "lodash";
@@ -31,6 +30,45 @@ const AdministrationChart = ({ config, formId }) => {
     );
   };
   const selectedAdministration = takeRight(administration, 1)[0] || null;
+  const fetchAdministration = (adminId) => {
+    store.update((s) => {
+      s.loadingAdministration = true;
+    });
+    api
+      .get(`administration/${adminId}`)
+      .then((res) => {
+        store.update((s) => {
+          if (
+            selectedAdministration?.levelName ===
+            takeRight(window.levels, 1)[0]?.name
+          ) {
+            s.administration.length = s.administration.length - 1;
+          }
+          s.administration = [
+            ...s.administration,
+            {
+              id: res.data.id,
+              name: res.data.name,
+              levelName: res.data.level_name,
+              children: res.data.children,
+              childLevelName: res.data.children_level_name,
+            },
+          ];
+        });
+      })
+      .catch((err) => {
+        notify({
+          type: "error",
+          message: "Could not load region",
+        });
+        console.error(err);
+      })
+      .finally(() => {
+        store.update((s) => {
+          s.loadingAdministration = false;
+        });
+      });
+  };
   const onAdminClick = (e) => {
     if (loadingAdministration || !e) {
       return;
@@ -41,43 +79,7 @@ const AdministrationChart = ({ config, formId }) => {
         : takeRight(administration, 1)[0]
     ).children?.find((c) => c.name.toLowerCase() === e.toLowerCase());
     if (adminRes?.id) {
-      store.update((s) => {
-        s.loadingAdministration = true;
-      });
-      api
-        .get(`administration/${adminRes.id}`)
-        .then((res) => {
-          store.update((s) => {
-            if (
-              selectedAdministration?.levelName ===
-              takeRight(window.levels, 1)[0]?.name
-            ) {
-              s.administration.length = s.administration.length - 1;
-            }
-            s.administration = [
-              ...s.administration,
-              {
-                id: res.data.id,
-                name: res.data.name,
-                levelName: res.data.level_name,
-                children: res.data.children,
-                childLevelName: res.data.children_level_name,
-              },
-            ];
-          });
-        })
-        .catch((err) => {
-          notify({
-            type: "error",
-            message: "Could not load region",
-          });
-          console.error(err);
-        })
-        .finally(() => {
-          store.update((s) => {
-            s.loadingAdministration = false;
-          });
-        });
+      fetchAdministration(adminRes.id);
     }
   };
   const fetchData = useCallback(
@@ -163,26 +165,26 @@ const AdministrationChart = ({ config, formId }) => {
         </Checkbox>
       </Row>
       <div className="chart-inner">
-        {loading ? (
-          <Spin
-            indicator={<LoadingOutlined style={{ color: "#1b91ff" }} spin />}
-          />
-        ) : (
-          <Chart
-            height={max([
-              70 * filtered.length + 50,
-              filtered.length < 2 ? 230 : filtered.length < 3 ? 280 : 330,
-            ])}
-            type="BARSTACK"
-            data={filtered}
-            wrapper={false}
-            horizontal={horizontal}
-            extra={{ color: chartColors }}
-            series={{ left: "10%" }}
-            callbacks={{ onClick: onAdminClick }}
-            highlighted={highlighted}
-          />
-        )}
+        <Chart
+          height={max([
+            70 * filtered.length + 50,
+            filtered.length < 2 ? 230 : filtered.length < 3 ? 280 : 330,
+          ])}
+          type="BARSTACK"
+          data={filtered}
+          wrapper={false}
+          horizontal={horizontal}
+          extra={{ color: chartColors }}
+          series={{ left: "10%" }}
+          callbacks={{ onClick: onAdminClick }}
+          highlighted={highlighted}
+          loading={loadingAdministration || loading}
+          loadingOption={{
+            text: "",
+            color: "#1b91ff",
+            lineWidth: 1,
+          }}
+        />
       </div>
     </Card>
   );
