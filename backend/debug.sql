@@ -68,3 +68,55 @@ FROM (
     GROUP BY a.data_id, d.form_id, d.administration_id
 ) AS source
 WHERE options @> '{"444670046|yes"}'
+
+
+-- HOUSEHOLD SANITATION SAFELY MANAGED VALUE CRITERIA FOR VIEW DATA OPTIONS
+select * from view_data_options
+where (
+	options @> '"492490054||flush / pour flush"'  or
+	options @> '"492490054||pit latrine with slab"' or
+	options @> '"492490054||twin pit with slab"'
+) and (
+	options @> '"513690062||no"'
+) and (
+	options @> '"513690060||removed by service provider to a treatment plant"' or
+	options @> '"513690060||removed by service provider to buried pit"' or
+	options @> '"513690060||emptied by household buried in a covered pit"'
+);
+
+
+-- HOUSEHOLD SANITATION BASIC VALUE CRITERIA FOR VIEW DATA OPTIONS
+select * from view_data_options
+where (
+	options @> '"492490054||flush / pour flush"'  or
+	options @> '"492490054||pit latrine with slab"' or
+	options @> '"492490054||twin pit with slab"'
+) and (
+	options @> '"513690062||no"'
+);
+
+
+-- HOUSEHOLD SANITATION LIMITED VALUE CRITERIA FOR VIEW DATA OPTIONS
+select * from view_data_options
+where (
+	options @> '"492490054||flush / pour flush"'  or
+	options @> '"492490054||pit latrine with slab"' or
+	options @> '"492490054||twin pit with slab"'
+) and (
+	options @> '"513690062||yes"'
+);
+
+
+-- HOUSEHOLD SANITATION UNIMPROVED VALUE CRITERIA FOR VIEW DATA OPTIONS
+select * from view_data_options
+where (
+	options @> '"492490054||pit latrine without slab / open pit"'  or
+	options @> '"492490054||twin pit without slab"' or
+	options @> '"492490054||bucket"' or
+	options @> '"492490054||hanging toilet / hanging latrine"'
+);
+
+
+-- HOUSEHOLD SANITATION OPEN DEFECATION VALUE CRITERIA FOR VIEW DATA OPTIONS
+select * from view_data_options
+where options @> '"492490054||no facility / bush / field"';
