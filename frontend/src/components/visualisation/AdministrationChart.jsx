@@ -13,7 +13,7 @@ const AdministrationChart = ({ config, formId }) => {
   const [chartColors, setChartColors] = useState([]);
   const [hideEmpty, setHideEmpty] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [prevForm, setPrevForm] = useState(null);
+  const [parent, setParent] = useState(null);
   const { notify } = useNotification();
   const { id, title, stack, options, horizontal = true } = config;
   const { administration, loadingAdministration } = store.useState(
@@ -50,6 +50,7 @@ const AdministrationChart = ({ config, formId }) => {
               id: res.data.id,
               name: res.data.name,
               levelName: res.data.level_name,
+              parent: res.data.parent,
               children: res.data.children,
               childLevelName: res.data.children_level_name,
             },
@@ -83,64 +84,74 @@ const AdministrationChart = ({ config, formId }) => {
     }
   };
   const fetchData = useCallback(
-    (form, question, adminId) => {
-      setLoading(true);
-      const url = `chart/administration/${form}?question=${question}&administration=${adminId}`;
-      api
-        .get(url)
-        .then((res) => {
-          const colors = [];
-          const temp = res.data?.data?.map((d, dI) => {
-            const optRes = stack?.options?.find(
-              (op) => op.name.toLowerCase() === d.group.toLowerCase()
-            );
-            colors.push(optRes?.color || getOptionColor(d.group, dI));
-            return {
-              name: d.group,
-              title: optRes?.title || d.group,
-              stack: d.child.map((dc, dcI) => {
-                const stackRes = options?.find(
-                  (sO) => sO.name.toLowerCase() === dc.name.toLowerCase()
-                );
-                return {
-                  name: dc.name,
-                  title: stackRes?.title || dc.name,
-                  value: dc.value,
-                  color: stackRes?.color || getOptionColor(dc.name, dcI),
-                };
-              }),
-            };
+    (adminId) => {
+      if (id && formId && adminId) {
+        setLoading(true);
+        const url = `chart/administration/${formId}?question=${id}&administration=${adminId}`;
+        api
+          .get(url)
+          .then((res) => {
+            const colors = [];
+            const temp = res.data?.data?.map((d, dI) => {
+              const optRes = stack?.options?.find(
+                (op) => op.name.toLowerCase() === d.group.toLowerCase()
+              );
+              colors.push(optRes?.color || getOptionColor(d.group, dI));
+              return {
+                name: d.group,
+                title: optRes?.title || d.group,
+                stack: d.child.map((dc, dcI) => {
+                  const stackRes = options?.find(
+                    (sO) => sO.name.toLowerCase() === dc.name.toLowerCase()
+                  );
+                  return {
+                    name: dc.name,
+                    title: stackRes?.title || dc.name,
+                    value: dc.value,
+                    color: stackRes?.color || getOptionColor(dc.name, dcI),
+                  };
+                }),
+              };
+            });
+            setChartColors(colors);
+            setDataset(temp);
+          })
+          .catch(() => {
+            notify({
+              type: "error",
+              message: "Could not load data",
+            });
+          })
+          .finally(() => {
+            setLoading(false);
           });
-          setChartColors(colors);
-          setDataset(temp);
-          setPrevForm(formId);
-        })
-        .catch(() => {
-          notify({
-            type: "error",
-            message: "Could not load data",
-          });
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      }
     },
-    [formId, stack?.options, options, notify]
+    [formId, id, stack?.options, options, notify]
   );
   useEffect(() => {
-    if (formId && id && administration.length) {
+    if (administration.length && !loadingAdministration) {
       if (
         takeRight(administration, 1)[0]?.levelName !==
         takeRight(window.levels, 1)[0]?.name
       ) {
-        fetchData(formId, id, takeRight(administration, 1)[0]?.id);
+        fetchData(takeRight(administration, 1)[0]?.id);
+        if (takeRight(administration, 2)[0]?.id) {
+          setParent(takeRight(administration, 2)[0].id);
+        }
       } else {
-        if (formId !== prevForm) {
-          fetchData(formId, id, takeRight(administration, 2)[0]?.id);
+        if (
+          parent === null ||
+          takeRight(administration, 1)[0]?.parent !== parent
+        ) {
+          fetchData(takeRight(administration, 2)[0]?.id);
+          if (takeRight(administration, 2)[0]?.id) {
+            setParent(takeRight(administration, 2)[0].id);
+          }
         }
       }
     }
-  }, [formId, id, administration, prevForm, fetchData]);
+  }, [administration, loadingAdministration, fetchData, parent]);
   const filtered = hideEmpty
     ? dataset.filter((d) => sumBy(d.stack, "value") > 0)
     : dataset;
@@ -199,4 +210,4 @@ AdministrationChart.propTypes = {
     options: PropTypes.array,
   }),
 };
-export default React.memo(AdministrationChart);
+export default AdministrationChart;
