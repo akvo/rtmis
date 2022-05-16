@@ -8,13 +8,14 @@ export const generateOptions = (
   extra,
   series,
   legend,
-  horizontal
+  horizontal,
+  highlighted
 ) => {
   switch (type) {
     case "LINE":
       return Line(data, chartTitle, extra);
     case "BARSTACK":
-      return BarStack(data, chartTitle, extra, horizontal);
+      return BarStack(data, chartTitle, extra, horizontal, highlighted);
     case "PIE":
       return Pie(data, chartTitle, extra, false, series, legend);
     case "DOUGHNUT":
@@ -40,6 +41,7 @@ const Chart = ({
   series,
   legend,
   callbacks = null,
+  highlighted,
 }) => {
   if (transform) {
     data = data.map((x) => ({
@@ -55,6 +57,7 @@ const Chart = ({
     series,
     legend,
     horizontal,
+    highlighted,
     axis
   );
   const onEvents = {
