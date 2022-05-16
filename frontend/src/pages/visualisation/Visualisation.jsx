@@ -148,13 +148,13 @@ const Visualisation = () => {
               {current?.charts?.map((cc, ccI) =>
                 cc.type === "ADMINISTRATION" ? (
                   <AdministrationChart
-                    key={`chart-${cc.id}-${ccI}`}
+                    key={`chart-${current.id}-${ccI}`}
                     formId={current.id}
                     config={cc}
                   />
                 ) : (
                   <DataChart
-                    key={`chart-${cc.id}-${ccI}`}
+                    key={`chart-${current.id}-${ccI}`}
                     formId={current.id}
                     config={cc}
                   />
