@@ -507,12 +507,10 @@ def get_chart_criteria(request, version, form_id):
         ).values_list('data_id', flat=True))
         # loop for post params
         for param in params:
-            print("==========", param.get('name'), "=====================")
             filter_criteria = []
             for index, option in enumerate(param.get('options')):
                 question = option.get('question').id
                 ids = filter_criteria if filter_criteria else data_ids
-                print(question, "========================================")
                 for opt in option.get('option'):
                     option_contains = []
                     option_contains.append(f"{question}||{opt.lower()}")
@@ -530,12 +528,10 @@ def get_chart_criteria(request, version, form_id):
                         if id not in filter_criteria:
                             # append filter_criteria to support or filter
                             filter_criteria.append(id)
-                    print(option_contains, ids, filter_data)
             values.get('child').append({
                 'name': param.get('name'),
                 'value': len(filter_criteria)
             })
-            print("================================")
         data.append(values)
     return Response({'type': 'BARSTACK', 'data': data},
                     status=status.HTTP_200_OK)
