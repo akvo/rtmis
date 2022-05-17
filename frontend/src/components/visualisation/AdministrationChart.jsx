@@ -10,7 +10,7 @@ import { Color } from "../../components/chart/options/common";
 
 const AdministrationChart = ({ config, formId }) => {
   const [dataset, setDataset] = useState([]);
-  const [hideEmpty, setHideEmpty] = useState(true);
+  const [hideEmpty, setHideEmpty] = useState(false);
   const [loading, setLoading] = useState(false);
   const [parent, setParent] = useState(null);
   const { notify } = useNotification();
@@ -137,21 +137,25 @@ const AdministrationChart = ({ config, formId }) => {
     if (administration.length && !loadingAdministration) {
       if (
         takeRight(administration, 1)[0]?.levelName !==
-        takeRight(window.levels, 1)[0]?.name
+          takeRight(window.levels, 1)[0]?.name &&
+        (parent === null ||
+          (!!parent && !!takeRight(administration, 1)[0]?.parent))
       ) {
-        fetchData(takeRight(administration, 1)[0]?.id);
         if (takeRight(administration, 2)[0]?.id) {
           setParent(takeRight(administration, 2)[0].id);
         }
+        fetchData(takeRight(administration, 1)[0]?.id);
       } else {
         if (
           parent === null ||
-          takeRight(administration, 1)[0]?.parent !== parent
+          (!!parent &&
+            !!takeRight(administration, 1)[0]?.parent &&
+            takeRight(administration, 1)[0]?.parent !== parent)
         ) {
-          fetchData(takeRight(administration, 2)[0]?.id);
           if (takeRight(administration, 2)[0]?.id) {
             setParent(takeRight(administration, 2)[0].id);
           }
+          fetchData(takeRight(administration, 2)[0]?.id);
         }
       }
     }
@@ -213,4 +217,4 @@ AdministrationChart.propTypes = {
     options: PropTypes.array,
   }),
 };
-export default AdministrationChart;
+export default React.memo(AdministrationChart);
