@@ -145,12 +145,14 @@ const Users = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={descriptionData} />
         </Col>
         <Col>
           <Link to="/user/add">
             <Button type="primary">Add new user</Button>
           </Link>
+        </Col>
+        <Col>
+          <DescriptionPanel description={descriptionData} />
         </Col>
       </Row>
       <Divider />
