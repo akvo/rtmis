@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import UserDetail from "./UserDetail";
-import { UserFilters, Breadcrumbs } from "../../components";
+import { UserFilters, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
 
 const pagePath = [
@@ -17,8 +17,8 @@ const pagePath = [
     title: "Manage Users",
   },
 ];
-const descriptionData = "This is manage user page";
-
+const descriptionData =
+  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
 const Users = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
@@ -144,7 +144,8 @@ const Users = () => {
     <div id="users">
       <Row justify="space-between">
         <Col>
-          <Breadcrumbs pagePath={pagePath} description={descriptionData} />
+          <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel description={descriptionData} />
         </Col>
         <Col>
           <Link to="/user/add">

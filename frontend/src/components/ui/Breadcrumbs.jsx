@@ -5,7 +5,7 @@ import "./style.scss";
 
 const { Title } = Typography;
 
-const Breadcrumbs = ({ pagePath, description }) => {
+const Breadcrumbs = ({ pagePath }) => {
   if (pagePath.length < 1) {
     return "";
   }
@@ -32,12 +32,6 @@ const Breadcrumbs = ({ pagePath, description }) => {
           )}
         </Breadcrumb.Item>
       ))}{" "}
-      <br />
-      {description && (
-        <span className="description-para" style={{ color: "green" }}>
-          {description}
-        </span>
-      )}
     </Breadcrumb>
   );
 };

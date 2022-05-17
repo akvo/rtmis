@@ -17,7 +17,7 @@ import {
   DownloadOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import { Breadcrumbs } from "../../components";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
 
@@ -31,7 +31,7 @@ const pagePath = [
   },
 ];
 const descriptionData =
-  "Lorem ipsum dolor sit amet, consectetur adipisicing elit.";
+  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
 const ExportData = () => {
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -189,7 +189,8 @@ const ExportData = () => {
     <div id="exportData">
       <Row justify="space-between">
         <Col>
-          <Breadcrumbs pagePath={pagePath} description={descriptionData} />
+          <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel description={descriptionData} />
         </Col>
       </Row>
       <Divider />

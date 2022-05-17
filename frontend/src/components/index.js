@@ -16,3 +16,4 @@ export { default as JMP } from "./visualisation/JMP.jsx";
 export { default as Progress } from "./visualisation/Progress.jsx";
 export { default as DataChart } from "./visualisation/DataChart.jsx";
 export { default as AdministrationChart } from "./visualisation/AdministrationChart.jsx";
+export { default as DescriptionPanel } from "./ui/DescriptionPanel";

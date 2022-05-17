@@ -14,13 +14,14 @@ import {
 import { AdministrationDropdownUserPage } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { api, store, config } from "../../lib";
-import { Breadcrumbs } from "../../components";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { takeRight } from "lodash";
 import { useNotification } from "../../util/hooks";
 
 const { Option } = Select;
 
-const descriptionData = "This is add user page we can add user here";
+const descriptionData =
+  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
 
 const AddUser = () => {
   const [submitting, setSubmitting] = useState(false);
@@ -194,7 +195,8 @@ const AddUser = () => {
     <div id="add-user">
       <Row justify="space-between">
         <Col>
-          <Breadcrumbs pagePath={pagePath} description={descriptionData} />
+          <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel description={descriptionData} />
         </Col>
       </Row>
       <Divider />

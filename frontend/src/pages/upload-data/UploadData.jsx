@@ -12,7 +12,7 @@ import {
   Upload,
 } from "antd";
 import { FileTextFilled } from "@ant-design/icons";
-import { Breadcrumbs } from "../../components";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { AdministrationDropdown } from "../../components";
 import { useNavigate } from "react-router-dom";
 import { api, store } from "../../lib";
@@ -36,7 +36,8 @@ const pagePath = [
     title: "Data Upload",
   },
 ];
-const descriptionData = "This is data upload page...";
+const descriptionData =
+  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
 const UploadData = () => {
   const { forms, user, administration } = store.useState((state) => state);
   const [formId, setFormId] = useState(null);
@@ -170,7 +171,8 @@ const UploadData = () => {
     <div id="uploadData">
       <Row justify="space-between">
         <Col>
-          <Breadcrumbs pagePath={pagePath} description={descriptionData} />
+          <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel description={descriptionData} />
         </Col>
       </Row>
       <Divider />
