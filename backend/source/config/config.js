@@ -34,69 +34,106 @@ var visualisation = [
     chartListTitle: "JMP",
     charts: [
       {
-        type: "ADMINISTRATION",
-        id: 492490054,
+        type: "CRITERIA",
         title: "Sanitation Service Level",
         options: [
           {
-            name: "Flush / pour flush",
-            title: "Safely Managed",
+            name: "Safely Managed",
             color: "#368541",
+            options: [
+              {
+                question: 492490054,
+                option: [
+                  "Flush / pour flush",
+                  "Pit latrine with slab",
+                  "Twin pit with slab"
+                ]
+              },
+              {
+                question: 513690062,
+                option: ["No"]
+              },
+              {
+                question: 513690060,
+                option: [
+                  "Removed by service provider to a treatment plant",
+                  "Removed by service provider to buried pit",
+                  "Emptied by household buried in a covered pit"
+                ]
+              }
+            ]
           },
           {
-            name: "Pit latrine with slab",
-            title: "Safely Managed",
-            color: "#368541",
-          },
-          {
-            name: "Pit latrine without slab / Open pit",
-            title: "Basic",
+            name: "Basic",
             color: "#79BE7D",
+            options: [
+              {
+                question: 492490054,
+                option: [
+                  "Flush / pour flush",
+                  "Pit latrine with slab",
+                  "Twin pit with slab"
+                ]
+              },
+              {
+                question: 513690062,
+                option: ["No"]
+              }
+            ]
           },
           {
-            name: "Twin pit with slab",
-            title: "Safely Managed",
-            color: "#368541",
+            name: "Limited",
+            color: "#FDF177",
+            options: [
+              {
+                question: 492490054,
+                option: [
+                  "Flush / pour flush",
+                  "Pit latrine with slab",
+                  "Twin pit with slab"
+                ]
+              },
+              {
+                question: 513690062,
+                option: ["Yes"]
+              }
+            ]
           },
           {
-            name: "Twin pit without slab",
-            title: "Basic",
-            color: "#79BE7D",
-          },
-          {
-            name: "Bucket",
-            title: "Unimproved",
+            name: "Unimproved",
             color: "#FBD256",
+            options: [
+              {
+                question: 492490054,
+                option: [
+                  "Pit latrine without slab / Open pit",
+                  "Twin pit without slab",
+                  "Bucket",
+                  "Hanging toilet / hanging latrine"
+                ]
+              }
+            ]
           },
           {
-            name: "Container based sanitation",
-            title: "Safely Managed",
-            color: "#368541",
-          },
-          {
-            name: "Hanging toilet / hanging latrine",
-            title: "Unimproved",
-            color: "#FBD256",
-          },
-          {
-            name: "No facility / Bush / Field",
-            title: "Open Defecation",
+            name: "Open Defecation",
+            title: "OD",
             color: "#F1AC2A",
-          },
-          {
-            name: "Other (specify)",
-            title: "Basic",
-            color: "#79BE7D",
+            options: [
+              {
+                question: 492490054,
+                option: ["No facility / Bush / Field"]
+              }
+            ]
           }
         ],
-        stack: {
-          options: [
-            {
-              name: "805",
-              title: "805, Baringo", // Eg. Override administration name
-            },
-          ],
-        },
+        // stack: {
+        //   options: [
+        //     {
+        //       name: "805",
+        //       title: "805, Baringo", // Eg. Override administration name
+        //     },
+        //   ],
+        // },
       },
       {
         type: "ADMINISTRATION",
@@ -142,12 +179,12 @@ var visualisation = [
         title: "Health Center Facility Level",
         options: [
           {
-            "id": 1158,
-            "name": "L1"
+            id: 1158,
+            name: "L1"
           },
           {
-            "id": 1159,
-            "name": "L2"
+            id: 1159,
+            name: "L2"
           },
         ],
       },

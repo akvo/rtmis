@@ -10,12 +10,11 @@ import { Color } from "../../components/chart/options/common";
 
 const AdministrationChart = ({ config, formId }) => {
   const [dataset, setDataset] = useState([]);
-  const [chartColors, setChartColors] = useState([]);
-  const [hideEmpty, setHideEmpty] = useState(false);
+  const [hideEmpty, setHideEmpty] = useState(true);
   const [loading, setLoading] = useState(false);
   const [parent, setParent] = useState(null);
   const { notify } = useNotification();
-  const { id, title, stack, options, horizontal = true } = config;
+  const { id, title, stack, options, type, horizontal = true } = config;
   const { administration, loadingAdministration } = store.useState(
     (state) => state
   );
@@ -85,18 +84,24 @@ const AdministrationChart = ({ config, formId }) => {
   };
   const fetchData = useCallback(
     (adminId) => {
-      if (id && formId && adminId) {
+      if (formId && adminId && (type === "CRITERIA" || id)) {
         setLoading(true);
-        const url = `chart/administration/${formId}?question=${id}&administration=${adminId}`;
-        api
-          .get(url)
+        const url =
+          (type === "CRITERIA" ? "chart/criteria/" : "chart/administration/") +
+          `${formId}?` +
+          (type === "ADMINISTRATION" ? `question=${id}&` : "") +
+          `administration=${adminId}`;
+        api[type === "CRITERIA" ? "post" : "get"](
+          url,
+          type === "CRITERIA"
+            ? options.map((o) => ({ name: o.name, options: o.options }))
+            : {}
+        )
           .then((res) => {
-            const colors = [];
-            const temp = res.data?.data?.map((d, dI) => {
+            const temp = res.data?.data?.map((d) => {
               const optRes = stack?.options?.find(
                 (op) => op.name.toLowerCase() === d.group.toLowerCase()
               );
-              colors.push(optRes?.color || getOptionColor(d.group, dI));
               return {
                 name: d.group,
                 title: optRes?.title || d.group,
@@ -113,7 +118,6 @@ const AdministrationChart = ({ config, formId }) => {
                 }),
               };
             });
-            setChartColors(colors);
             setDataset(temp);
           })
           .catch(() => {
@@ -127,7 +131,7 @@ const AdministrationChart = ({ config, formId }) => {
           });
       }
     },
-    [formId, id, stack?.options, options, notify]
+    [formId, id, stack?.options, options, type, notify]
   );
   useEffect(() => {
     if (administration.length && !loadingAdministration) {
@@ -185,7 +189,6 @@ const AdministrationChart = ({ config, formId }) => {
           data={filtered}
           wrapper={false}
           horizontal={horizontal}
-          extra={{ color: chartColors }}
           series={{ left: "10%" }}
           callbacks={{ onClick: onAdminClick }}
           highlighted={highlighted}
@@ -204,7 +207,7 @@ const AdministrationChart = ({ config, formId }) => {
 AdministrationChart.propTypes = {
   formId: PropTypes.number.isRequired,
   config: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.number,
     title: PropTypes.string,
     stack: PropTypes.any,
     options: PropTypes.array,
