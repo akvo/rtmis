@@ -12,9 +12,23 @@ import {
   axisTitle,
   NoData,
 } from "./common";
-import { uniq, flatten, uniqBy, isEmpty, upperFirst, sumBy } from "lodash";
+import {
+  uniq,
+  flatten,
+  uniqBy,
+  isEmpty,
+  upperFirst,
+  sumBy,
+  orderBy,
+} from "lodash";
 
-const BarStack = (data, chartTitle, extra, horizontal = false) => {
+const BarStack = (
+  data,
+  chartTitle,
+  extra,
+  horizontal = false,
+  highlighted = null
+) => {
   if (isEmpty(data) || !data) {
     return NoData;
   }
@@ -23,54 +37,64 @@ const BarStack = (data, chartTitle, extra, horizontal = false) => {
 
   const stacked = uniqBy(flatten(data.map((d) => d.stack)), "title") || []; // TODO: Conditional for administration mode
 
-  const legends = stacked.map((s, si) => ({
-    name: s.title || s.name,
-    itemStyle: { color: s.color || Color.color[si] },
-  }));
   const xAxis = uniq(data.map((x) => x.title || x.name));
-  const series = stacked.map((s, si) => {
-    const temp = data.map((d) => {
-      const vals = d.stack?.filter((c) => c.title === s.title);
-      const stackSum = sumBy(d.stack, "value");
+  const series = orderBy(
+    stacked.map((s, si) => {
+      const temp = data.map((d) => {
+        const vals = d.stack?.filter((c) => c.title === s.title);
+        const stackSum = sumBy(d.stack, "value");
+
+        return {
+          name: s.title || s.name,
+          value: vals?.length
+            ? +((sumBy(vals, "value") / stackSum) * 100)?.toFixed(1) || 0
+            : 0,
+          itemStyle: {
+            color: vals[0]?.color || s.color,
+            opacity: highlighted ? (d.name === highlighted ? 1 : 0.4) : 1,
+          },
+          original: sumBy(vals, "value"),
+          cbParam: d.name,
+        };
+      });
       return {
         name: s.title || s.name,
-        value: vals?.length
-          ? ((sumBy(vals, "value") / stackSum) * 100)?.toFixed(0) || 0
-          : 0,
-        itemStyle: { color: vals[0]?.color || s.color },
-        original: sumBy(vals, "value"),
-        cbParam: d.name,
-      };
-    });
-    return {
-      name: s.title || s.name,
-      type: "bar",
-      stack: "count",
-      label: {
-        colorBy: "data",
-        position:
-          si % 2 === 0
-            ? horizontal
+        type: "bar",
+        stack: "count",
+        label: {
+          colorBy: "data",
+          position:
+            si % 2 === 0
+              ? horizontal
+                ? "insideRight"
+                : "left"
+              : horizontal
               ? "insideRight"
-              : "left"
-            : horizontal
-            ? "insideRight"
-            : "right",
-        show: false,
-        padding: 5,
-        formatter: (e) => e?.data?.value + "%" || "-",
-        backgroundColor: "rgba(0,0,0,.3)",
-        ...TextStyle,
-        color: "#fff",
-      },
-      barMaxWidth: 30,
-      barMaxHeight: 22,
-      emphasis: {
-        focus: "series",
-      },
-      data: temp,
-    };
-  });
+              : "right",
+          show: false,
+          padding: 5,
+          formatter: (e) => e?.data?.value + "%" || "-",
+          backgroundColor: "rgba(0,0,0,.3)",
+          ...TextStyle,
+          color: "#fff",
+        },
+        barMaxWidth: 30,
+        barMaxHeight: 22,
+        emphasis: {
+          focus: "series",
+        },
+        color: s.color,
+        data: temp,
+        total: sumBy(temp, "original"),
+      };
+    }),
+    ["total"],
+    ["desc"]
+  );
+  const legends = series.map((s, si) => ({
+    name: s.name,
+    itemStyle: { color: s.color || Color.color[si] },
+  }));
   const option = {
     ...Color,
     title: {
