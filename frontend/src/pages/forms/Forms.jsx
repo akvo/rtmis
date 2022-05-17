@@ -6,8 +6,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Row, Col, Space, Progress, notification } from "antd";
 import { api, store } from "../../lib";
 import { takeRight, pick } from "lodash";
-import { PageLoader, Breadcrumbs } from "../../components";
-
+import { PageLoader, Breadcrumbs, DescriptionPanel } from "../../components";
+const descriptionData =
+  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
 const Forms = () => {
   const navigate = useNavigate();
   const { user: authUser } = store.useState((s) => s);
@@ -123,8 +124,9 @@ const Forms = () => {
       <Row justify="center">
         <Col span={24} className="webform">
           <Space>
-            <Breadcrumbs pagePath={pagePath} />
+            <Breadcrumbs pagePath={pagePath} description={descriptionData} />
           </Space>
+          <DescriptionPanel description={descriptionData} />
           {loading || !formId ? (
             <PageLoader message="Fetching form.." />
           ) : (
