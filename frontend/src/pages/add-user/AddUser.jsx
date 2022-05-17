@@ -386,6 +386,7 @@ const AddUser = () => {
                   persist={true}
                   size="large"
                   width="100%"
+                  role={form.getFieldValue("role")}
                 />
               )}
             </div>
