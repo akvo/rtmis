@@ -90,6 +90,7 @@ const Map = ({ current, style }) => {
             id: res.data.id,
             name: res.data.name,
             levelName: res.data.level_name,
+            parent: res.data.parent,
             children: res.data.children,
             childLevelName: res.data.children_level_name,
           });
