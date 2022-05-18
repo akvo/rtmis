@@ -114,6 +114,7 @@ const AdministrationChart = ({ config, formId }) => {
                     title: stackRes?.title || dc.name,
                     value: dc.value,
                     color: stackRes?.color || getOptionColor(dc.name, dcI),
+                    score: type === "CRITERIA" ? stackRes?.score || null : null,
                   };
                 }),
               };

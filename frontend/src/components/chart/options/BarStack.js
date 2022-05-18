@@ -85,7 +85,7 @@ const BarStack = (
         },
         color: s.color,
         data: temp,
-        total: sumBy(temp, "original"),
+        total: sumBy(temp, "original") * (s.score || 1),
       };
     }),
     ["total"],
