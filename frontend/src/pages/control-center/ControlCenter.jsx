@@ -6,8 +6,6 @@ import { Link } from "react-router-dom";
 import { PanelApprovals, PanelDataUpload } from "../profile/components";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 
-const descriptionData =
-  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
 const ControlCenter = () => {
   const { user: authUser } = store.useState((s) => s);
 
