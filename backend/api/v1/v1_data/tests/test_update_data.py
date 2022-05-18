@@ -89,12 +89,18 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         self.assertEqual(len(data) > 0, True)
-        self.assertEqual(data[0]['question'], 101)
-        self.assertEqual(data[0]['value'], 'Jane')
-        self.assertEqual(data[0]['history'], False)
-        self.assertEqual(data[1]['question'], 102)
-        self.assertEqual(data[1]['value'], ['Male'])
-        self.assertEqual(data[1]['history'], False)
+        for d in data:
+            question = d.get('question')
+            value = d.get('value')
+            history = d.get('history')
+            if question == 101:
+                self.assertEqual(question, 101)
+                self.assertEqual(value, 'Jane')
+                self.assertEqual(history, False)
+            if question == 102:
+                self.assertEqual(question, 102)
+                self.assertEqual(value, ['Male'])
+                self.assertEqual(history, False)
         # Update data for question 101 and 102
         payload = [{
             "question": 101,
@@ -125,16 +131,22 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         self.assertEqual(len(data) > 0, True)
-        self.assertEqual(data[0]['question'], 101)
-        self.assertEqual(data[0]['value'], 'Jane Doe')
-        self.assertEqual(list(data[0]['history'][0]), [
-            'value', 'created', 'created_by'])
-        self.assertEqual(data[0]['history'][0]['value'], 'Jane')
-        self.assertEqual(data[1]['question'], 102)
-        self.assertEqual(data[1]['value'], ['Female'])
-        self.assertEqual(list(data[1]['history'][0]), [
-            'value', 'created', 'created_by'])
-        self.assertEqual(data[1]['history'][0]['value'], ['Male'])
+        for d in data:
+            question = d.get('question')
+            value = d.get('value')
+            history = d.get('history')
+            if question == 101:
+                self.assertEqual(question, 101)
+                self.assertEqual(value, 'Jane Doe')
+                self.assertEqual(list(history[0]), [
+                    'value', 'created', 'created_by'])
+                self.assertEqual(history[0]['value'], 'Jane')
+            if question == 102:
+                self.assertEqual(question, 102)
+                self.assertEqual(value, ['Female'])
+                self.assertEqual(list(history[0]), [
+                    'value', 'created', 'created_by'])
+                self.assertEqual(history[0]['value'], ['Male'])
 
     def test_update_datapoint_by_data_entry_role(self):
         self.maxDiff = None
@@ -258,12 +270,18 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         self.assertEqual(len(data) > 0, True)
-        self.assertEqual(data[0]['question'], 101)
-        self.assertEqual(data[0]['value'], 'Wayan')
-        self.assertEqual(data[0]['history'], False)
-        self.assertEqual(data[1]['question'], 102)
-        self.assertEqual(data[1]['value'], ['Female'])
-        self.assertEqual(data[1]['history'], False)
+        for d in data:
+            question = d.get('question')
+            value = d.get('value')
+            history = d.get('history')
+            if question == 101:
+                self.assertEqual(question, 101)
+                self.assertEqual(value, 'Wayan')
+                self.assertEqual(history, False)
+            if question == 102:
+                self.assertEqual(question, 102)
+                self.assertEqual(value, ['Female'])
+                self.assertEqual(history, False)
         # Update data for question 101 and 102
         payload = [{
             "question": 101,
@@ -443,12 +461,18 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         self.assertEqual(len(data) > 0, True)
-        self.assertEqual(data[0]['question'], 201)
-        self.assertEqual(data[0]['value'], 'Made')
-        self.assertEqual(data[0]['history'], False)
-        self.assertEqual(data[1]['question'], 202)
-        self.assertEqual(data[1]['value'], ['Other'])
-        self.assertEqual(data[1]['history'], False)
+        for d in data:
+            question = d.get('question')
+            value = d.get('value')
+            history = d.get('history')
+            if question == 101:
+                self.assertEqual(question, 201)
+                self.assertEqual(value, 'Made')
+                self.assertEqual(history, False)
+            if question == 102:
+                self.assertEqual(question, 202)
+                self.assertEqual(value, ['Other'])
+                self.assertEqual(history, False)
         # Update data for question 101 and 102
         payload = [{
             "question": 201,
@@ -630,12 +654,18 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         self.assertEqual(len(data) > 0, True)
-        self.assertEqual(data[0]['question'], 101)
-        self.assertEqual(data[0]['value'], 'Jane')
-        self.assertEqual(data[0]['history'], False)
-        self.assertEqual(data[1]['question'], 102)
-        self.assertEqual(data[1]['value'], ['Other'])
-        self.assertEqual(data[1]['history'], False)
+        for d in data:
+            question = d.get('question')
+            value = d.get('value')
+            history = d.get('history')
+            if question == 101:
+                self.assertEqual(question, 101)
+                self.assertEqual(value, 'Jane')
+                self.assertEqual(history, False)
+            if question == 102:
+                self.assertEqual(question, 102)
+                self.assertEqual(value, ['Other'])
+                self.assertEqual(history, False)
         # Update data for question 101 and 102
         payload = [{
             "question": 101,
@@ -667,13 +697,19 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         self.assertEqual(len(data) > 0, True)
-        self.assertEqual(data[0]['question'], 101)
-        self.assertEqual(data[0]['value'], 'Jane Doe')
-        self.assertEqual(list(data[0]['history'][0]), [
-            'value', 'created', 'created_by'])
-        self.assertEqual(data[0]['history'][0]['value'], 'Jane')
-        self.assertEqual(data[1]['question'], 102)
-        self.assertEqual(data[1]['value'], ['Female'])
-        self.assertEqual(list(data[1]['history'][0]), [
-            'value', 'created', 'created_by'])
-        self.assertEqual(data[1]['history'][0]['value'], ['Other'])
+        for d in data:
+            question = d.get('question')
+            value = d.get('value')
+            history = d.get('history')
+            if question == 101:
+                self.assertEqual(question, 101)
+                self.assertEqual(value, 'Jane Doe')
+                self.assertEqual(list(history[0]), [
+                    'value', 'created', 'created_by'])
+                self.assertEqual(history[0]['value'], 'Jane')
+            if question == 102:
+                self.assertEqual(question, 102)
+                self.assertEqual(value, ['Female'])
+                self.assertEqual(list(history[0]), [
+                    'value', 'created', 'created_by'])
+                self.assertEqual(history[0]['value'], ['Other'])

@@ -15,3 +15,10 @@ export const getDateRange = ({
   }
   return range.map((r) => r.format(dateFormat));
 };
+
+export const timeDiffHours = (last_activity) => {
+  const last = moment.unix(last_activity);
+  const now = moment.utc();
+  const duration = moment.duration(now.diff(last));
+  return duration.asHours();
+};
