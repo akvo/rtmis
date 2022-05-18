@@ -169,6 +169,13 @@
 //   border-radius: 5px;
 // }
 
+.description-paragraph {
+  margin-top: 4px;
+  padding: 4px;
+  background: transparent;
+  color: $color-default;
+}
+
 .text-muted {
   color: $color-default;
 }

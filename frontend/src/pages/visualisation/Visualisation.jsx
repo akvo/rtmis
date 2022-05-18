@@ -146,7 +146,7 @@ const Visualisation = () => {
                 </Divider>
               )}
               {current?.charts?.map((cc, ccI) =>
-                cc.type === "ADMINISTRATION" ? (
+                cc.type === "ADMINISTRATION" || cc.type === "CRITERIA" ? (
                   <AdministrationChart
                     key={`chart-${current.id}-${ccI}`}
                     formId={current.id}

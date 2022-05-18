@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import DataDetail from "./DataDetail";
-import { DataFilters, Breadcrumbs } from "../../components";
+import { DataFilters, Breadcrumbs, DescriptionPanel } from "../../components";
 
 const pagePath = [
   {
@@ -19,7 +19,8 @@ const pagePath = [
     title: "Manage Data",
   },
 ];
-
+const descriptionData =
+  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
 const ManageData = () => {
   const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
@@ -112,6 +113,7 @@ const ManageData = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel description={descriptionData} />
         </Col>
       </Row>
       <Divider />
