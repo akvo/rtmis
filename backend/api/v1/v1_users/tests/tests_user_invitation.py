@@ -154,7 +154,7 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual([
             'email', 'name', 'administration', 'role', 'phone_number',
-            'designation', 'forms'
+            'designation', 'forms', 'last_login'
         ], list(response.json().keys()))
 
     def test_get_user_roles(self):
