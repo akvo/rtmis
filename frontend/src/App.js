@@ -26,6 +26,7 @@ import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
 import { Layout, PageLoader } from "./components";
 import { useNotification } from "./util/hooks";
+import { timeDiffHours } from "./util/date";
 
 const Private = ({ element: Element, alias }) => {
   const { user: authUser } = store.useState((state) => state);
@@ -116,6 +117,19 @@ const App = () => {
   const [cookies, removeCookie] = useCookies(["AUTH_TOKEN"]);
   const [loading, setLoading] = useState(true);
   const { notify } = useNotification();
+
+  document.addEventListener("click", () => {
+    if (isLoggedIn && authUser?.last_login) {
+      const expired = timeDiffHours(authUser.last_login);
+      if (expired >= 2) {
+        removeCookie("AUTH_TOKEN");
+        store.update((s) => {
+          s.isLoggedIn = false;
+          s.user = null;
+        });
+      }
+    }
+  });
 
   useEffect(() => {
     if (!location.pathname.includes("/login")) {
