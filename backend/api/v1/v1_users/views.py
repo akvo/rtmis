@@ -107,6 +107,9 @@ def login(request, version):
                         password=serializer.validated_data['password'])
 
     if user:
+        update = SystemUser.objects.get(email=user.email)
+        update.last_login = timezone.now()
+        update.save()
         refresh = RefreshToken.for_user(user)
         data = UserSerializer(instance=user).data
         data['token'] = str(refresh.access_token)
@@ -127,6 +130,19 @@ def login(request, version):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_profile(request, version):
+    # check user activity
+    user = SystemUser.objects.get(email=request.user)
+    # calculate last activity
+    now = timezone.now()
+    last_active = user.last_login
+    time_diff_hours = None
+    if last_active:
+        time_diff = now - last_active
+        time_diff_hours = time_diff.total_seconds() / 3600
+    if time_diff_hours and time_diff_hours >= 2:
+        # revoke/logout after 2 hours inactivity
+        return Response({'message': 'Expired of 2 hours inactivity'},
+                        status=status.HTTP_401_UNAUTHORIZED)
     return Response(UserSerializer(instance=request.user).data,
                     status=status.HTTP_200_OK)
 
