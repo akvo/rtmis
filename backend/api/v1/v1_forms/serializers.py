@@ -309,6 +309,8 @@ class ApprovalFormUserSerializer(serializers.ModelSerializer):
                                            source='user')
     administration_id = CustomPrimaryKeyRelatedField(
         queryset=Administration.objects.none(), source='administration')
+    flag = CustomChoiceField(choices=["add", "delete"],
+                             required=True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -317,13 +319,17 @@ class ApprovalFormUserSerializer(serializers.ModelSerializer):
             'administration_id').queryset = Administration.objects.all()
 
     def create(self, validated_data):
+        flag = validated_data.get('flag')
         try:
             assignment = FormApprovalAssignment.objects.get(
                 form=self.context.get('form'),
                 administration=validated_data.get('administration'))
-            assignment.user = validated_data.get('user')
-            assignment.updated = timezone.now()
-            assignment.save()
+            if flag == "add":
+                assignment.user = validated_data.get('user')
+                assignment.updated = timezone.now()
+                assignment.save()
+            if flag == "delete":
+                assignment.delete()
         except FormApprovalAssignment.DoesNotExist:
             assignment = FormApprovalAssignment.objects.create(
                 form=self.context.get('form'),
@@ -334,7 +340,7 @@ class ApprovalFormUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FormApprovalAssignment
-        fields = ['user_id', 'administration_id']
+        fields = ['user_id', 'administration_id', 'flag']
 
 
 class FormApprovalLevelListSerializer(serializers.ModelSerializer):
