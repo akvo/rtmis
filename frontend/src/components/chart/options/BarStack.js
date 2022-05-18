@@ -12,15 +12,7 @@ import {
   axisTitle,
   NoData,
 } from "./common";
-import {
-  uniq,
-  flatten,
-  uniqBy,
-  isEmpty,
-  upperFirst,
-  sumBy,
-  orderBy,
-} from "lodash";
+import { uniq, flatten, uniqBy, isEmpty, upperFirst, sumBy } from "lodash";
 
 const BarStack = (
   data,
@@ -35,62 +27,57 @@ const BarStack = (
   // Custom Axis Title
   const { xAxisTitle, yAxisTitle } = axisTitle(extra);
 
-  const stacked = uniqBy(flatten(data.map((d) => d.stack)), "title") || []; // TODO: Conditional for administration mode
+  const stacked = uniqBy(flatten(data.map((d) => d.stack)), "title") || [];
 
   const xAxis = uniq(data.map((x) => x.title || x.name));
-  const series = orderBy(
-    stacked.map((s, si) => {
-      const temp = data.map((d) => {
-        const vals = d.stack?.filter((c) => c.title === s.title);
-        const stackSum = sumBy(d.stack, "value");
+  const series = stacked.map((s, si) => {
+    const temp = data.map((d) => {
+      const vals = d.stack?.filter((c) => c.title === s.title);
+      const stackSum = sumBy(d.stack, "value");
 
-        return {
-          name: s.title || s.name,
-          value: vals?.length
-            ? +((sumBy(vals, "value") / stackSum) * 100)?.toFixed(1) || 0
-            : 0,
-          itemStyle: {
-            color: vals[0]?.color || s.color,
-            opacity: highlighted ? (d.name === highlighted ? 1 : 0.4) : 1,
-          },
-          original: sumBy(vals, "value"),
-          cbParam: d.name,
-        };
-      });
       return {
         name: s.title || s.name,
-        type: "bar",
-        stack: "count",
-        label: {
-          colorBy: "data",
-          position:
-            si % 2 === 0
-              ? horizontal
-                ? "insideRight"
-                : "left"
-              : horizontal
-              ? "insideRight"
-              : "right",
-          show: false,
-          padding: 5,
-          formatter: (e) => e?.data?.value + "%" || "-",
-          backgroundColor: "rgba(0,0,0,.3)",
-          ...TextStyle,
-          color: "#fff",
+        value: vals?.length
+          ? +((sumBy(vals, "value") / stackSum) * 100)?.toFixed(1) || 0
+          : 0,
+        itemStyle: {
+          color: vals[0]?.color || s.color,
+          opacity: highlighted ? (d.name === highlighted ? 1 : 0.4) : 1,
         },
-        barMaxWidth: 30,
-        barMaxHeight: 22,
-        emphasis: {
-          focus: "series",
-        },
-        color: s.color,
-        data: temp,
-        total: sumBy(temp, "original"),
+        original: sumBy(vals, "value"),
+        cbParam: d.name,
       };
-    }),
-    ["total"],
-    ["desc"]
-  );
+    });
+    return {
+      name: s.title || s.name,
+      type: "bar",
+      stack: "count",
+      label: {
+        colorBy: "data",
+        position:
+          si % 2 === 0
+            ? horizontal
+              ? "insideRight"
+              : "left"
+            : horizontal
+            ? "insideRight"
+            : "right",
+        show: false,
+        padding: 5,
+        formatter: (e) => e?.data?.value + "%" || "-",
+        backgroundColor: "rgba(0,0,0,.3)",
+        ...TextStyle,
+        color: "#fff",
+      },
+      barMaxWidth: 30,
+      barMaxHeight: 22,
+      emphasis: {
+        focus: "series",
+      },
+      color: s.color,
+      data: temp,
+    };
+  });
   const legends = series.map((s, si) => ({
     name: s.name,
     itemStyle: { color: s.color || Color.color[si] },
@@ -106,11 +93,11 @@ const BarStack = (
     legend: {
       ...Legend,
       data: legends,
-      top: 50,
+      top: 30,
       left: "center",
     },
     grid: {
-      top: 100,
+      top: 90,
       bottom: 15,
       left: 10,
       right: 20,
@@ -174,41 +161,35 @@ const BarStack = (
           optionToContent: function ({ xAxis, yAxis, series }) {
             let axisVal = horizontal ? [...yAxis] : [...xAxis];
             axisVal = axisVal.map((x) => x.data)[0];
-            series = series.map((x) => x.data);
             let table =
-              '<table border="1" style="width:85%;text-align:center">';
+              '<table border="1" style="width:100%;text-align:left;border-collapse:collapse;font-size:12.5px;margin-top:0px;">';
             table += "<thead><tr><th></th>";
-            for (let a = 0, b = axisVal.length; a < b; a++) {
+            series.map((s) => {
               table +=
-                '<th style="padding: 8px 12px;">' +
-                upperFirst(axisVal[a]) +
+                '<th style="padding: 0 5px; height: 40px; font-weight:600;">' +
+                upperFirst(s.name) +
                 "</th>";
-            }
+            });
             table += "</tr></thead><tbody>";
-            for (let i = 0, l = series.length; i < l; i++) {
-              table += "<tr>";
-              table +=
-                '<td style="<th style="padding: 8px 12px;"><b>' +
-                upperFirst(series[i][0].name) +
-                "</b></td>";
-              for (let x = 0, y = series[i].length; x < y; x++) {
-                table +=
-                  `<td style="color: ${
-                    series[i][x]?.value > 0 ? "#121212" : "#8b8b8e"
-                  };padding: 8px 12px;">` +
-                  series[i][x].value +
-                  "%<br/>(" +
-                  (series[i][x].original || series[i][x].value) +
-                  ")</td>";
-              }
-              table += "</tr>";
-            }
+            axisVal.map((a) => {
+              table += `<tr><th style="padding: 0 5px; height: 52px;font-weight:600;">${a}</th>`;
+              series.map((s) => {
+                const seriesRes = s.data.find((sd) => sd.cbParam === a);
+                if (seriesRes) {
+                  table +=
+                    `<td style="color: ${
+                      seriesRes.value > 0 ? "#121212" : "#8b8b8e"
+                    };padding: 0 5px; height: 52px;">` +
+                    seriesRes.value +
+                    "% (" +
+                    (seriesRes.original || seriesRes.value) +
+                    ")</td>";
+                }
+              });
+              table += `</tr>`;
+            });
             table += "</tbody></table>";
-            return (
-              '<div style="display:flex;align-items:center;justify-content:center">' +
-              table +
-              "</div>"
-            );
+            return table;
           },
         },
       },
