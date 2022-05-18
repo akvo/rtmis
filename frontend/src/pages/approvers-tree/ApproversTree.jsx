@@ -98,11 +98,16 @@ const ApproversTree = () => {
   const handleSubmit = () => {
     const formData = dataset.reduce((arr, adminData) => {
       adminData.children
-        .filter((c) => c.user)
+        .filter((c) => c.user || c?.flag === "delete")
         .map((childData) => {
+          const isDelete = childData?.flag && childData.flag === "delete";
           arr.push({
-            user_id: childData.user,
+            user_id:
+              isDelete && childData?.user_delete
+                ? childData.user_delete
+                : childData.user,
             administration_id: childData.administration.id,
+            flag: isDelete ? childData.flag : "add",
           });
         });
       return arr;
@@ -255,6 +260,9 @@ const ApproversTree = () => {
                       }}
                       onClear={() => {
                         const cleared = [...dataset];
+                        cleared[k].children[l].user_delete =
+                          cleared[k].children[l].user;
+                        cleared[k].children[l].flag = "delete";
                         cleared[k].children[l].user = null;
                         setDataset(cleared);
                       }}
