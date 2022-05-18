@@ -67,7 +67,6 @@ const ControlCenter = () => {
 "
       />
       <Divider />
-
       <Row gutter={[16, 16]}>
         {selectedPanels.map((panel, index) => (
           <Col className="card-wrapper" span={12} key={index}>
