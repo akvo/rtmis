@@ -9,7 +9,6 @@ const Breadcrumbs = ({ pagePath }) => {
   if (pagePath.length < 1) {
     return "";
   }
-
   return (
     <Breadcrumb
       separator={
@@ -32,7 +31,7 @@ const Breadcrumbs = ({ pagePath }) => {
             </Title>
           )}
         </Breadcrumb.Item>
-      ))}
+      ))}{" "}
     </Breadcrumb>
   );
 };
