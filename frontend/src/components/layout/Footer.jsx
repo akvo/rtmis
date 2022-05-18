@@ -42,6 +42,7 @@ const Footer = ({ className = "footer", ...props }) => {
         <Col span={3}>
           <div className="footer-logo">
             <img src={config.siteLogo} alt={config.siteLogo} />
+            <h3>MOH</h3>
           </div>
         </Col>
       </Row>

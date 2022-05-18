@@ -1,15 +1,10 @@
 import React from "react";
 
 function DescriptionPanel({ description }) {
-  return (
-    <div>
-      {description && (
-        <span className="description-paragraph" style={{ color: "green" }}>
-          {description}
-        </span>
-      )}
-    </div>
-  );
+  if (!description) {
+    return "";
+  }
+  return <div className="description-paragraph">{description}</div>;
 }
 
 export default DescriptionPanel;
