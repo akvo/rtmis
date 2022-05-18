@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import { api, store, config } from "../../lib";
 import { useNotification } from "../../util/hooks";
-import { max } from "lodash";
+import { max, min } from "lodash";
 
 const AdministrationDropdownUserPage = ({
   loading = false,
@@ -14,8 +14,13 @@ const AdministrationDropdownUserPage = ({
   persist = false,
   ...props
 }) => {
-  const { user, administration, isLoggedIn, loadingAdministration } =
-    store.useState((state) => state);
+  const {
+    user,
+    administration,
+    isLoggedIn,
+    loadingAdministration,
+    administrationLevel,
+  } = store.useState((state) => state);
   const { notify } = useNotification();
   useEffect(() => {
     if (isLoggedIn && !persist) {
@@ -97,21 +102,63 @@ const AdministrationDropdownUserPage = ({
       s.administration.length = index + 1;
     });
   };
-
+  const admLevelChange = (e) => {
+    store.update((s) => {
+      s.administrationLevel = e;
+    });
+  };
   const maxLevel =
     max(
       config.roles.find((data) => data.id === props.role)
         ?.administration_level || []
     ) - 1;
+  const levelChecker = administrationLevel ? administrationLevel : maxLevel;
+  const userLevel = window.levels.filter((data) => data.id >= user.role.id);
   if (administration) {
     return (
       <Space {...props}>
+        {config.roles.find((usr) => usr.id === props.role).administration_level
+          .length > 1 ? (
+          <div>
+            <label className="ant-form-item-label">Administration Level</label>
+            <Select
+              placeholder={`Select Level`}
+              style={{ width: width }}
+              onChange={(e) => {
+                admLevelChange(e);
+              }}
+              getPopupContainer={(trigger) => trigger.parentNode}
+              dropdownMatchSelectWidth={false}
+              value={administrationLevel || null}
+              disabled={loadingAdministration || loading}
+              allowClear
+              filterOption={true}
+              optionFilterProp="children"
+            >
+              {userLevel
+                .filter(
+                  (data) =>
+                    data.id >=
+                    min(
+                      config.roles.find((data) => data.id === props.role)
+                        ?.administration_level || []
+                    )
+                )
+                .map((optionValue, optionIdx) => (
+                  <Select.Option key={optionIdx} value={optionValue.level}>
+                    {optionValue.name}
+                  </Select.Option>
+                ))}
+            </Select>
+          </div>
+        ) : null}
+
         {administration
           .filter((x) => x.children.length)
           .map((region, regionIdx) => {
             if (
               window.levels.find((e) => e.name === region.levelName).level <
-              maxLevel
+              levelChecker
             ) {
               return (
                 <div key={regionIdx}>

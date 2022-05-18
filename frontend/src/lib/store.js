@@ -17,6 +17,7 @@ const defaultUIState = {
   questionGroups: [],
   showAdvancedFilters: false,
   advancedFilters: [],
+  administrationLevel: null,
 };
 
 const store = new Store(defaultUIState);
