@@ -40,6 +40,7 @@ var visualisation = [
           {
             name: "Safely Managed",
             color: "#368541",
+            score: 15,
             options: [
               {
                 question: 492490054,
@@ -65,6 +66,7 @@ var visualisation = [
           },
           {
             name: "Basic",
+            score: 10,
             color: "#79BE7D",
             options: [
               {
@@ -83,6 +85,7 @@ var visualisation = [
           },
           {
             name: "Limited",
+            score: -1,
             color: "#FDF177",
             options: [
               {
@@ -101,6 +104,7 @@ var visualisation = [
           },
           {
             name: "Unimproved",
+            score: -2,
             color: "#FBD256",
             options: [
               {
@@ -116,7 +120,8 @@ var visualisation = [
           },
           {
             name: "Open Defecation",
-            title: "OD",
+            score: -3,
+            // title: "OD",
             color: "#F1AC2A",
             options: [
               {
