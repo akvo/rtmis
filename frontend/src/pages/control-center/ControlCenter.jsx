@@ -1,9 +1,10 @@
 import React from "react";
 import "./style.scss";
-import { Row, Col, Card, Button } from "antd";
+import { Row, Col, Card, Button, Divider } from "antd";
 import { store, config } from "../../lib";
 import { Link } from "react-router-dom";
 import { PanelApprovals, PanelDataUpload } from "../profile/components";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
 
 const ControlCenter = () => {
   const { user: authUser } = store.useState((s) => s);
@@ -53,7 +54,20 @@ const ControlCenter = () => {
 
   return (
     <div id="control-center">
-      <h1>Control Center</h1>
+      <Breadcrumbs
+        pagePath={[
+          {
+            title: "Control Center",
+            link: "/control-center",
+          },
+        ]}
+      />
+      <DescriptionPanel
+        description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?
+"
+      />
+      <Divider />
+
       <Row gutter={[16, 16]}>
         {selectedPanels.map((panel, index) => (
           <Col className="card-wrapper" span={12} key={index}>
