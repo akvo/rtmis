@@ -188,9 +188,25 @@ class FormSubmissionTestCase(TestCase):
                                     **header)
 
         self.assertEqual(400, response.status_code)
-
-        payload = [{"user_id": u.id, "administration_id": 1}]
-
+        # add/update
+        payload = [{
+            "user_id": u.id,
+            "administration_id": 1,
+            "flag": "add"
+        }]
+        response = self.client.post('/api/v1/form/approver/1',
+                                    payload,
+                                    content_type='application/json',
+                                    **header)
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(response.json().get('message'),
+                         'Forms updated successfully')
+        # delete
+        payload = [{
+            "user_id": u.id,
+            "administration_id": 1,
+            "flag": "delete"
+        }]
         response = self.client.post('/api/v1/form/approver/1',
                                     payload,
                                     content_type='application/json',
