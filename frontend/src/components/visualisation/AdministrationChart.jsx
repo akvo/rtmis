@@ -3,7 +3,7 @@ import "./style.scss";
 import { Card, Row, Checkbox } from "antd";
 import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
-import { max, takeRight, sumBy } from "lodash";
+import { max, takeRight, sumBy, isNil } from "lodash";
 import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
@@ -114,6 +114,12 @@ const AdministrationChart = ({ config, formId }) => {
                     title: stackRes?.title || dc.name,
                     value: dc.value,
                     color: stackRes?.color || getOptionColor(dc.name, dcI),
+                    score:
+                      type === "CRITERIA"
+                        ? !isNil(stackRes?.score)
+                          ? stackRes.score
+                          : null
+                        : null,
                   };
                 }),
               };
@@ -136,12 +142,15 @@ const AdministrationChart = ({ config, formId }) => {
   useEffect(() => {
     if (administration.length && !loadingAdministration) {
       if (
-        takeRight(administration, 1)[0]?.levelName !==
+        administration.length === 1 ||
+        (takeRight(administration, 1)[0]?.levelName !==
           takeRight(window.levels, 1)[0]?.name &&
-        (parent === null ||
-          (!!parent && !!takeRight(administration, 1)[0]?.parent))
+          (parent === null ||
+            (!!parent && !!takeRight(administration, 1)[0]?.parent)))
       ) {
-        if (takeRight(administration, 2)[0]?.id) {
+        if (administration.length === 1) {
+          setParent(null);
+        } else if (takeRight(administration, 2)[0]?.id) {
           setParent(takeRight(administration, 2)[0].id);
         }
         fetchData(takeRight(administration, 1)[0]?.id);
