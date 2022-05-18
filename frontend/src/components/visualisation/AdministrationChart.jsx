@@ -137,12 +137,15 @@ const AdministrationChart = ({ config, formId }) => {
   useEffect(() => {
     if (administration.length && !loadingAdministration) {
       if (
-        takeRight(administration, 1)[0]?.levelName !==
+        administration.length === 1 ||
+        (takeRight(administration, 1)[0]?.levelName !==
           takeRight(window.levels, 1)[0]?.name &&
-        (parent === null ||
-          (!!parent && !!takeRight(administration, 1)[0]?.parent))
+          (parent === null ||
+            (!!parent && !!takeRight(administration, 1)[0]?.parent)))
       ) {
-        if (takeRight(administration, 2)[0]?.id) {
+        if (administration.length === 1) {
+          setParent(null);
+        } else if (takeRight(administration, 2)[0]?.id) {
           setParent(takeRight(administration, 2)[0].id);
         }
         fetchData(takeRight(administration, 1)[0]?.id);
