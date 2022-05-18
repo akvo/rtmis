@@ -3,7 +3,7 @@ import "./style.scss";
 import { Card, Row, Checkbox } from "antd";
 import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
-import { max, takeRight, sumBy } from "lodash";
+import { max, takeRight, sumBy, isNil } from "lodash";
 import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
@@ -114,7 +114,12 @@ const AdministrationChart = ({ config, formId }) => {
                     title: stackRes?.title || dc.name,
                     value: dc.value,
                     color: stackRes?.color || getOptionColor(dc.name, dcI),
-                    score: type === "CRITERIA" ? stackRes?.score || null : null,
+                    score:
+                      type === "CRITERIA"
+                        ? !isNil(stackRes?.score)
+                          ? stackRes.score
+                          : null
+                        : null,
                   };
                 }),
               };

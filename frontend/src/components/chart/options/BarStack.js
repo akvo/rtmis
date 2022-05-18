@@ -35,7 +35,7 @@ const BarStack = (
   // Custom Axis Title
   const { xAxisTitle, yAxisTitle } = axisTitle(extra);
 
-  const stacked = uniqBy(flatten(data.map((d) => d.stack)), "title") || []; // TODO: Conditional for administration mode
+  const stacked = uniqBy(flatten(data.map((d) => d.stack)), "title") || [];
 
   const xAxis = uniq(data.map((x) => x.title || x.name));
   const series = orderBy(
