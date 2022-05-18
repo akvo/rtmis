@@ -11,14 +11,17 @@ import {
   Select,
   Checkbox,
 } from "antd";
-import { AdministrationDropdown } from "../../components";
+import { AdministrationDropdownUserPage } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { api, store, config } from "../../lib";
-import { Breadcrumbs } from "../../components";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { takeRight } from "lodash";
 import { useNotification } from "../../util/hooks";
 
 const { Option } = Select;
+
+const descriptionData =
+  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
 
 const AddUser = () => {
   const [submitting, setSubmitting] = useState(false);
@@ -193,6 +196,7 @@ const AddUser = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel description={descriptionData} />
         </Col>
       </Row>
       <Divider />
@@ -376,12 +380,13 @@ const AddUser = () => {
               {loadingAdministration ? (
                 <p style={{ paddingLeft: 12, color: "#6b6b6f" }}>Loading..</p>
               ) : (
-                <AdministrationDropdown
+                <AdministrationDropdownUserPage
                   direction="vertical"
                   withLabel={true}
                   persist={true}
                   size="large"
                   width="100%"
+                  role={form.getFieldValue("role")}
                 />
               )}
             </div>
