@@ -33,6 +33,8 @@ from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
     ListUserRequestSerializer, ListLevelSerializer, UserDetailSerializer, \
     ForgotPasswordSerializer
+# from api.v1.v1_data.models import PendingDataBatch, \
+#     PendingDataApproval, FormData
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
@@ -107,9 +109,11 @@ def login(request, version):
                         password=serializer.validated_data['password'])
 
     if user:
-        update = SystemUser.objects.get(email=user.email)
-        update.last_login = timezone.now()
-        update.save()
+        if user.deleted_at:
+            return Response({'message': 'User has been deleted'},
+                            status=status.HTTP_401_UNAUTHORIZED)
+        user.last_login = timezone.now()
+        user.save()
         refresh = RefreshToken.for_user(user)
         data = UserSerializer(instance=user).data
         data['token'] = str(refresh.access_token)
@@ -131,7 +135,11 @@ def login(request, version):
 @permission_classes([IsAuthenticated])
 def get_profile(request, version):
     # check user activity
-    user = SystemUser.objects.get(email=request.user)
+    user = SystemUser.objects.filter(
+        email=request.user, deleted_at=None).first()
+    if not user:
+        return Response({'message': 'User has been deleted'},
+                        status=status.HTTP_401_UNAUTHORIZED)
     # calculate last activity
     now = timezone.now()
     last_active = user.last_login
@@ -160,7 +168,7 @@ def get_profile(request, version):
 def verify_invite(request, version, invitation_id):
     try:
         pk = signing.loads(invitation_id)
-        user = SystemUser.objects.get(pk=pk)
+        user = SystemUser.objects.get(pk=pk, deleted_at=None)
         return Response({'name': user.get_full_name()},
                         status=status.HTTP_200_OK)
     except BadSignature:
@@ -341,10 +349,14 @@ def list_users(request, version):
 
     page_size = REST_FRAMEWORK.get('PAGE_SIZE')
     the_past = timezone.now() - datetime.timedelta(days=10 * 365)
-    queryset = SystemUser.objects.filter(**filter_data).exclude(
-        **exclude_data).annotate(
-        last_updated=Coalesce('updated', Value(the_past))).order_by(
-        '-last_updated', '-date_joined')
+    # also filter soft deletes
+    queryset = SystemUser.objects.filter(
+        deleted_at=None, **filter_data
+    ).exclude(
+        **exclude_data
+    ).annotate(
+        last_updated=Coalesce('updated', Value(the_past))
+    ).order_by('-last_updated', '-date_joined')
     paginator = PageNumberPagination()
     instance = paginator.paginate_queryset(queryset, request)
     data = {
@@ -384,7 +396,7 @@ class UserEditDeleteView(APIView):
                    tags=['User'],
                    summary='To get user details')
     def get(self, request, user_id, version):
-        instance = get_object_or_404(SystemUser, pk=user_id)
+        instance = get_object_or_404(SystemUser, pk=user_id, deleted_at=None)
         return Response(UserDetailSerializer(instance=instance).data,
                         status=status.HTTP_200_OK)
 
@@ -395,8 +407,14 @@ class UserEditDeleteView(APIView):
         tags=['User'],
         summary='To delete user')
     def delete(self, request, user_id, version):
+        login_user = SystemUser.objects.get(email=request.user)
         instance = get_object_or_404(SystemUser, pk=user_id)
-        instance.delete()
+        # prevent self deletion
+        if login_user.id == instance.id:
+            return Response({'message': "Could not do self deletion"},
+                            status=status.HTTP_409_CONFLICT)
+        instance.deleted_at = timezone.now()
+        instance.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @extend_schema(
@@ -411,7 +429,7 @@ class UserEditDeleteView(APIView):
                     'User:4,ReadOnly:5',
         summary='To update user')
     def put(self, request, user_id, version):
-        instance = get_object_or_404(SystemUser, pk=user_id)
+        instance = get_object_or_404(SystemUser, pk=user_id, deleted_at=None)
         serializer = AddEditUserSerializer(data=request.data,
                                            context={'user': request.user},
                                            instance=instance)
