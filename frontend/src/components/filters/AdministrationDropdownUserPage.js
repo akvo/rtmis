@@ -129,7 +129,7 @@ const AdministrationDropdownUserPage = ({
               }}
               getPopupContainer={(trigger) => trigger.parentNode}
               dropdownMatchSelectWidth={false}
-              value={administrationLevel || null}
+              value={administrationLevel}
               disabled={loadingAdministration || loading}
               allowClear
               filterOption={true}
