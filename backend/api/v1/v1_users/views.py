@@ -109,7 +109,11 @@ def login(request, version):
                         password=serializer.validated_data['password'])
 
     if user:
-        update = SystemUser.objects.get(email=user.email)
+        update = SystemUser.objects.filter(
+            email=user.email, deleted_at=None).first()
+        if not update:
+            return Response({'message': 'User has been deleted'},
+                            status=status.HTTP_401_UNAUTHORIZED)
         update.last_login = timezone.now()
         update.save()
         refresh = RefreshToken.for_user(user)
@@ -133,7 +137,11 @@ def login(request, version):
 @permission_classes([IsAuthenticated])
 def get_profile(request, version):
     # check user activity
-    user = SystemUser.objects.get(email=request.user)
+    user = SystemUser.objects.filter(
+        email=request.user, deleted_at=None).first()
+    if not user:
+        return Response({'message': 'User has been deleted'},
+                        status=status.HTTP_401_UNAUTHORIZED)
     # calculate last activity
     now = timezone.now()
     last_active = user.last_login
@@ -343,10 +351,14 @@ def list_users(request, version):
 
     page_size = REST_FRAMEWORK.get('PAGE_SIZE')
     the_past = timezone.now() - datetime.timedelta(days=10 * 365)
-    queryset = SystemUser.objects.filter(**filter_data).exclude(
-        **exclude_data).annotate(
-        last_updated=Coalesce('updated', Value(the_past))).order_by(
-        '-last_updated', '-date_joined')
+    # also filter soft deletes
+    queryset = SystemUser.objects.filter(
+        deleted_at=None, **filter_data
+    ).exclude(
+        **exclude_data
+    ).annotate(
+        last_updated=Coalesce('updated', Value(the_past))
+    ).order_by('-last_updated', '-date_joined')
     paginator = PageNumberPagination()
     instance = paginator.paginate_queryset(queryset, request)
     data = {
@@ -403,7 +415,8 @@ class UserEditDeleteView(APIView):
         if login_user.id == instance.id:
             return Response({'message': "Could not do self deletion"},
                             status=status.HTTP_409_CONFLICT)
-        instance.delete()
+        instance.deleted_at = timezone.now()
+        instance.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @extend_schema(
