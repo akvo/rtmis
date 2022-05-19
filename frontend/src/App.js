@@ -131,6 +131,36 @@ const App = () => {
     }
   });
 
+  const administrationApi = async () => {
+    if (isLoggedIn) {
+      await api
+        .get(`administration/${authUser.administration.id}`)
+        .then((adminRes) => {
+          store.update((s) => {
+            s.administration = [
+              {
+                id: adminRes.data.id,
+                name: adminRes.data.name,
+                levelName: adminRes.data.level_name,
+                children: adminRes.data.children,
+                childLevelName: adminRes.data.children_level_name,
+              },
+            ];
+          });
+        })
+        .catch((err) => {
+          notify({
+            type: "error",
+            message: "Could not load filters",
+          });
+          store.update((s) => {
+            s.loadingAdministration = false;
+          });
+          console.error(err);
+        });
+    }
+  };
+
   useEffect(() => {
     if (!location.pathname.includes("/login")) {
       if (!authUser && !isLoggedIn && cookies && !!cookies.AUTH_TOKEN) {
@@ -173,13 +203,14 @@ const App = () => {
             setLoading(false);
             console.error(err);
           });
+        administrationApi();
       } else if (!cookies.AUTH_TOKEN) {
         setLoading(false);
       }
     } else {
       setLoading(false);
     }
-  }, [authUser, isLoggedIn, removeCookie, cookies, notify]);
+  }, [authUser, isLoggedIn, removeCookie, cookies, notify, administrationApi]);
 
   return (
     <Layout>
