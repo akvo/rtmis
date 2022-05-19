@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./style.scss";
 import { Select, Space } from "antd";
 import PropTypes from "prop-types";
