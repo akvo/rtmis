@@ -181,6 +181,36 @@ const App = () => {
     }
   }, [authUser, isLoggedIn, removeCookie, cookies, notify]);
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      api
+        .get(`administration/${authUser.administration.id}`)
+        .then((adminRes) => {
+          store.update((s) => {
+            s.administration = [
+              {
+                id: adminRes.data.id,
+                name: adminRes.data.name,
+                levelName: adminRes.data.level_name,
+                children: adminRes.data.children,
+                childLevelName: adminRes.data.children_level_name,
+              },
+            ];
+          });
+        })
+        .catch((err) => {
+          notify({
+            type: "error",
+            message: "Could not load filters",
+          });
+          store.update((s) => {
+            s.loadingAdministration = false;
+          });
+          console.error(err);
+        });
+    }
+  }, [authUser, isLoggedIn, notify]);
+
   return (
     <Layout>
       <Layout.Header />
