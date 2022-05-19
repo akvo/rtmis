@@ -10,14 +10,17 @@ import {
   Form,
   Input,
   Select,
+  Tooltip,
 } from "antd";
 import { Link } from "react-router-dom";
 import { pick, assign } from "lodash";
-import { api, config } from "../../lib";
+import { api, config, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
 const { Option } = Select;
 
 const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
+  const { user } = store.useState((state) => state);
+  const [isFetchDeleteDetail, setIsFetchDeleteDetail] = useState(false);
   const EditableContext = React.createContext(null);
   const EditableRow = ({ ...props }) => {
     const [form] = Form.useForm();
@@ -154,6 +157,37 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
     return <td {...restProps}>{childNode}</td>;
   };
 
+  const handleOnClickDelete = () => {
+    setIsFetchDeleteDetail(true);
+    api.get(`user/${record.id}`).then((res) => {
+      const { data } = res;
+      const assosiations = [];
+      Object.keys(data).forEach((key) => {
+        const value = data[key];
+        if (key === "pending_approval") {
+          assosiations.push({
+            name: "Pending Data Approval",
+            count: value,
+          });
+        }
+        if (key === "pending_batch") {
+          assosiations.push({
+            name: "Pending Batch Data Submitted",
+            count: value,
+          });
+        }
+        if (key === "data") {
+          assosiations.push({
+            name: "Data Submission",
+            count: value,
+          });
+        }
+      });
+      setDeleteUser({ ...record, assosiations: assosiations });
+      setIsFetchDeleteDetail(false);
+    });
+  };
+
   const columnData = [
     {
       title: "Field",
@@ -274,15 +308,21 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
             <Link to={`/user/${record.id}`}>
               <Button type="primary">Edit</Button>
             </Link>
-            <Button
-              danger
-              loading={deleting}
-              onClick={() => {
-                setDeleteUser(record);
-              }}
-            >
-              Delete
-            </Button>
+            {user && user.email === record.email ? (
+              <Tooltip title="Could not do self deletion">
+                <Button danger disabled>
+                  Delete
+                </Button>
+              </Tooltip>
+            ) : (
+              <Button
+                danger
+                loading={deleting || isFetchDeleteDetail}
+                onClick={handleOnClickDelete}
+              >
+                Delete
+              </Button>
+            )}
           </Space>
         </Col>
       </Row>
