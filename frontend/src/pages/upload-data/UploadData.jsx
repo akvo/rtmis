@@ -36,8 +36,16 @@ const pagePath = [
     title: "Data Upload",
   },
 ];
-const descriptionData =
-  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
+const descriptionData = (
+  <div>
+    This section helps you to:
+    <ul>
+      <li>Download upload template</li>
+      <li>Bulk upload new data</li>
+      <li>Bulk upload existing data</li>
+    </ul>
+  </div>
+);
 const UploadData = () => {
   const { forms, user, administration } = store.useState((state) => state);
   const [formId, setFormId] = useState(null);

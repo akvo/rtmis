@@ -43,6 +43,7 @@ const ControlCenter = () => {
         <div>
           This section helps you to:
           <ul>
+            <li>Download upload template</li>
             <li>Bulk upload new data</li>
             <li>Bulk upload existing data</li>
           </ul>
@@ -84,10 +85,7 @@ const ControlCenter = () => {
           },
         ]}
       />
-      <DescriptionPanel
-        description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?
-"
-      />
+      <DescriptionPanel description="Instant access to the all the administration pages and overview panels for data approvals." />
       <Divider />
       <Row gutter={[16, 16]}>
         {selectedPanels.map((panel, index) => (
