@@ -109,13 +109,11 @@ def login(request, version):
                         password=serializer.validated_data['password'])
 
     if user:
-        update = SystemUser.objects.filter(
-            email=user.email, deleted_at=None).first()
-        if not update:
+        if user.deleted_at:
             return Response({'message': 'User has been deleted'},
                             status=status.HTTP_401_UNAUTHORIZED)
-        update.last_login = timezone.now()
-        update.save()
+        user.last_login = timezone.now()
+        user.save()
         refresh = RefreshToken.for_user(user)
         data = UserSerializer(instance=user).data
         data['token'] = str(refresh.access_token)
