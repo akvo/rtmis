@@ -398,7 +398,7 @@ class UserEditDeleteView(APIView):
                    tags=['User'],
                    summary='To get user details')
     def get(self, request, user_id, version):
-        instance = get_object_or_404(SystemUser, pk=user_id)
+        instance = get_object_or_404(SystemUser, pk=user_id, deleted_at=None)
         return Response(UserDetailSerializer(instance=instance).data,
                         status=status.HTTP_200_OK)
 

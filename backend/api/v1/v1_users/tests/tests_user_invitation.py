@@ -313,3 +313,16 @@ class UserInvitationTestCase(TestCase):
                                       content_type='application/json',
                                       **header)
         self.assertEqual(response.status_code, 204)
+        user = SystemUser.objects.get(pk=u.id)
+        self.assertEqual(user.deleted_at is not None, True)
+        # test login with deleted user
+        user_payload = {"email": u.email, "password": "test"}
+        response = self.client.post('/api/v1/login',
+                                    user_payload,
+                                    content_type='application/json')
+        self.assertEqual(response.status_code, 401)
+        # get deleted user
+        response = self.client.get('/api/v1/user/{0}'.format(u.id),
+                                   content_type='application/json',
+                                   **header)
+        self.assertEqual(response.status_code, 404)
