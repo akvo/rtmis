@@ -217,6 +217,7 @@ const Users = () => {
       </Card>
       <Modal
         visible={deleteUser}
+        onCancel={() => setDeleteUser(null)}
         centered
         width="575px"
         footer={
