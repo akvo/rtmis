@@ -73,8 +73,7 @@ const BarStack = (
         ...TextStyle,
         color: "#fff",
       },
-      barMaxWidth: 30,
-      barMaxHeight: 22,
+      barWidth: 32,
       emphasis: {
         focus: "series",
       },
@@ -102,7 +101,7 @@ const BarStack = (
     },
     grid: {
       top: 90,
-      bottom: 15,
+      bottom: 28,
       left: 10,
       right: 20,
       show: true,
@@ -166,24 +165,24 @@ const BarStack = (
             let axisVal = horizontal ? [...yAxis] : [...xAxis];
             axisVal = axisVal.map((x) => x.data)[0];
             let table =
-              '<table border="1" style="width:100%;text-align:left;border-collapse:collapse;font-size:12.5px;margin-top:0px;">';
+              '<table border="1" style="width:100%;text-align:left;border-collapse:collapse;font-size:12px;margin-top:0px;">';
             table += "<thead><tr><th></th>";
             series.map((s) => {
               table +=
-                '<th style="padding: 0 5px; height: 40px; font-weight:600;">' +
+                '<th style="padding: 0 5px;height: 42px;font-weight:600;">' +
                 upperFirst(s.name) +
                 "</th>";
             });
             table += "</tr></thead><tbody>";
             axisVal.map((a) => {
-              table += `<tr><th style="padding: 0 5px; height: 52px;font-weight:600;">${a}</th>`;
+              table += `<tr><th style="padding: 0 5px;height: 50px;font-weight:600;">${a}</th>`;
               series.map((s) => {
                 const seriesRes = s.data.find((sd) => sd.cbParam === a);
                 if (seriesRes) {
                   table +=
                     `<td style="color: ${
                       seriesRes.value > 0 ? "#121212" : "#8b8b8e"
-                    };padding: 0 5px; height: 52px;">` +
+                    };padding: 0 5px;height: 50px;">` +
                     seriesRes.value +
                     "% (" +
                     (seriesRes.original || seriesRes.value) +
@@ -193,7 +192,7 @@ const BarStack = (
               table += `</tr>`;
             });
             table += "</tbody></table>";
-            return table;
+            return "<div>" + table + "</div>";
           },
         },
       },

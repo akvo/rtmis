@@ -3,14 +3,14 @@ import "./style.scss";
 import { Card, Row, Checkbox } from "antd";
 import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
-import { max, takeRight, sumBy, isNil, orderBy } from "lodash";
+import { takeRight, sumBy, isNil, orderBy } from "lodash";
 import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
 
 const AdministrationChart = ({ config, formId }) => {
   const [dataset, setDataset] = useState([]);
-  const [hideEmpty, setHideEmpty] = useState(false);
+  const [showEmpty, setShowEmpty] = useState(false);
   const [loading, setLoading] = useState(false);
   const [parent, setParent] = useState(null);
   const { notify } = useNotification();
@@ -173,9 +173,9 @@ const AdministrationChart = ({ config, formId }) => {
       }
     }
   }, [administration, loadingAdministration, fetchData, parent]);
-  const filtered = hideEmpty
-    ? dataset.filter((d) => sumBy(d.stack, "value") > 0)
-    : dataset;
+  const filtered = showEmpty
+    ? dataset
+    : dataset.filter((d) => sumBy(d.stack, "value") > 0);
   const highlighted = useMemo(() => {
     return selectedAdministration?.levelName ===
       takeRight(window.levels, 1)[0]?.name
@@ -189,19 +189,16 @@ const AdministrationChart = ({ config, formId }) => {
         <h3>{title}</h3>
         <Checkbox
           onChange={() => {
-            setHideEmpty(!hideEmpty);
+            setShowEmpty(!showEmpty);
           }}
-          checked={hideEmpty}
+          checked={showEmpty}
         >
-          Hide empty values
+          Show empty values
         </Checkbox>
       </Row>
       <div className="chart-inner">
         <Chart
-          height={max([
-            70 * filtered.length + 50,
-            filtered.length < 2 ? 230 : filtered.length < 3 ? 280 : 330,
-          ])}
+          height={50 * filtered.length + 188}
           type="BARSTACK"
           data={filtered}
           wrapper={false}
