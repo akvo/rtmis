@@ -135,7 +135,7 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual([
             'first_name', 'last_name', 'email', 'administration', 'role',
             'phone_number', 'designation', 'forms', 'approval_assignment',
-            'pending_approval', 'data'
+            'pending_approval', 'data', 'pending_batch'
         ], list(responses))
         self.assertEqual(responses["forms"], [{'id': 1, 'name': 'Test Form'}])
 

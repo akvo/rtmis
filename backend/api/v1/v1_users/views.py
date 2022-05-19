@@ -33,6 +33,8 @@ from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
     ListUserRequestSerializer, ListLevelSerializer, UserDetailSerializer, \
     ForgotPasswordSerializer
+# from api.v1.v1_data.models import PendingDataBatch, \
+#     PendingDataApproval, FormData
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
@@ -395,7 +397,12 @@ class UserEditDeleteView(APIView):
         tags=['User'],
         summary='To delete user')
     def delete(self, request, user_id, version):
+        login_user = SystemUser.objects.get(email=request.user)
         instance = get_object_or_404(SystemUser, pk=user_id)
+        # prevent self deletion
+        if login_user.id == instance.id:
+            return Response({'message': "Could not do self deletion"},
+                            status=status.HTTP_409_CONFLICT)
         instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 

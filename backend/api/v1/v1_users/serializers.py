@@ -353,6 +353,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
     forms = serializers.SerializerMethodField()
     pending_approval = serializers.SerializerMethodField()
     data = serializers.SerializerMethodField()
+    pending_batch = serializers.SerializerMethodField()
 
     @extend_schema_field(UserApprovalAssignmentSerializer(many=True))
     def get_approval_assignment(self, instance: SystemUser):
@@ -373,10 +374,15 @@ class UserDetailSerializer(serializers.ModelSerializer):
     def get_data(self, instance: SystemUser):
         return instance.form_data_created.all().count()
 
+    @extend_schema_field(OpenApiTypes.INT)
+    def get_pending_batch(self, instance: SystemUser):
+        return instance.user_pending_data_batch.filter(
+            approved=False).all().count()
+
     class Meta:
         model = SystemUser
         fields = [
             'first_name', 'last_name', 'email', 'administration', 'role',
             'phone_number', 'designation', 'forms', 'approval_assignment',
-            'pending_approval', 'data'
+            'pending_approval', 'data', 'pending_batch'
         ]

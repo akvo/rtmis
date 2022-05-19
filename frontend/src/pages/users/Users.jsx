@@ -101,12 +101,20 @@ const Users = () => {
         });
       })
       .catch((err) => {
-        notify({
-          type: "error",
-          message: "Could not delete user",
-        });
+        const { status, data } = err.response;
+        if (status === 409) {
+          notify({
+            type: "error",
+            message: data?.message || "Could not delete user",
+          });
+        } else {
+          notify({
+            type: "error",
+            message: "Could not delete user",
+          });
+        }
         setDeleting(false);
-        console.error(err);
+        console.error(err.response);
       });
   };
 
