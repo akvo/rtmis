@@ -3,7 +3,7 @@ import "./style.scss";
 import { Card, Row, Checkbox } from "antd";
 import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
-import { max, takeRight, sumBy, isNil, orderBy } from "lodash";
+import { takeRight, sumBy, isNil, orderBy } from "lodash";
 import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
@@ -198,10 +198,7 @@ const AdministrationChart = ({ config, formId }) => {
       </Row>
       <div className="chart-inner">
         <Chart
-          height={max([
-            70 * filtered.length + 50,
-            filtered.length < 2 ? 230 : filtered.length < 3 ? 280 : 330,
-          ])}
+          height={50 * filtered.length + 188}
           type="BARSTACK"
           data={filtered}
           wrapper={false}
