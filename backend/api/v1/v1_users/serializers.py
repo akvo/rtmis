@@ -26,7 +26,7 @@ class ForgotPasswordSerializer(serializers.Serializer):
 
     def validate_email(self, email):
         try:
-            user = SystemUser.objects.get(email=email)
+            user = SystemUser.objects.get(email=email, deleted_at=None)
         except SystemUser.DoesNotExist:
             raise ValidationError('Invalid email, user not found')
         return user
@@ -54,7 +54,7 @@ class SetUserPasswordSerializer(serializers.Serializer):
     def validate_invite(self, invite):
         try:
             pk = signing.loads(invite)
-            user = SystemUser.objects.get(pk=pk)
+            user = SystemUser.objects.get(pk=pk, deleted_at=None)
         except BadSignature:
             raise ValidationError('Invalid invite code')
         except SystemUser.DoesNotExist:

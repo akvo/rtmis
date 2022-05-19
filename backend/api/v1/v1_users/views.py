@@ -170,7 +170,7 @@ def get_profile(request, version):
 def verify_invite(request, version, invitation_id):
     try:
         pk = signing.loads(invitation_id)
-        user = SystemUser.objects.get(pk=pk)
+        user = SystemUser.objects.get(pk=pk, deleted_at=None)
         return Response({'name': user.get_full_name()},
                         status=status.HTTP_200_OK)
     except BadSignature:
@@ -431,7 +431,7 @@ class UserEditDeleteView(APIView):
                     'User:4,ReadOnly:5',
         summary='To update user')
     def put(self, request, user_id, version):
-        instance = get_object_or_404(SystemUser, pk=user_id)
+        instance = get_object_or_404(SystemUser, pk=user_id, deleted_at=None)
         serializer = AddEditUserSerializer(data=request.data,
                                            context={'user': request.user},
                                            instance=instance)
