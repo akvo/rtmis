@@ -29,7 +29,7 @@ const Chart = ({
   type,
   title = "",
   subTitle = "",
-  height,
+  height = 450,
   span = 12,
   data,
   extra = {},
@@ -75,13 +75,13 @@ const Chart = ({
         sm={24}
         md={span * 2}
         lg={span}
-        style={{ height: height ? height : "auto", ...styles }}
+        style={{ height: height, ...styles }}
       >
         <Card title={title}>
           <ReactECharts
             option={option}
             notMerge={true}
-            style={{ height: height ? height : "auto", width: "100%" }}
+            style={{ height: height - 50, width: "100%" }}
             onEvents={onEvents}
             showLoading={loading}
             loadingOption={loadingOption}
