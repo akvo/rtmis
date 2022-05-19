@@ -105,7 +105,7 @@ const DataChart = ({ config, formId }) => {
           />
         ) : (
           <Chart
-            height={type === "PIE" ? 290 : 80 * dataset.length}
+            height={type === "PIE" ? 290 : 50 * dataset.length + 188}
             type={type}
             data={dataset}
             wrapper={false}
