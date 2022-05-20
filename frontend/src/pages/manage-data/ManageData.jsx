@@ -88,7 +88,7 @@ const ManageData = () => {
   }, [selectedAdministration]);
 
   useEffect(() => {
-    if (selectedForm && isAdministrationLoaded && updateRecord == null) {
+    if (selectedForm && isAdministrationLoaded && !updateRecord) {
       setLoading(true);
       let url = `/form-data/${selectedForm}/?page=${currentPage}`;
       if (selectedAdministration?.id) {
