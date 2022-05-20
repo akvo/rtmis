@@ -36,11 +36,6 @@ const PanelApprovals = () => {
       <div className="row">
         <div className="flex-1">
           <h2>Approvals</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-            faucibus nisi at quam bibendum consequat. Maecenas tempor accumsan
-            enim. Integer luctus, eros ut maximus gravida
-          </p>
         </div>
         <div>
           <img src="/assets/approval.png" width={100} height={100} />

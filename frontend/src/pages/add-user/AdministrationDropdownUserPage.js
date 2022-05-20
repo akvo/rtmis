@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import { api, store, config } from "../../lib";
 import { useNotification } from "../../util/hooks";
-import { max, min } from "lodash";
+import { max, min, dropRight } from "lodash";
 
 const AdministrationDropdownUserPage = ({
   loading = false,
@@ -106,6 +106,15 @@ const AdministrationDropdownUserPage = ({
     store.update((s) => {
       s.administrationLevel = e;
     });
+    if (administration.length - 1 - e === 1) {
+      store.update((s) => {
+        s.administration = dropRight(administration);
+      });
+    } else if (administration.length - 1 - e === 2) {
+      store.update((s) => {
+        s.administration = dropRight(administration, 3);
+      });
+    }
   };
   const maxLevel =
     max(
@@ -129,7 +138,7 @@ const AdministrationDropdownUserPage = ({
               }}
               getPopupContainer={(trigger) => trigger.parentNode}
               dropdownMatchSelectWidth={false}
-              value={administrationLevel || null}
+              value={administrationLevel}
               disabled={loadingAdministration || loading}
               allowClear
               filterOption={true}

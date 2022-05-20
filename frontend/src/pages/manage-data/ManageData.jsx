@@ -19,8 +19,16 @@ const pagePath = [
     title: "Manage Data",
   },
 ];
-const descriptionData =
-  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
+const descriptionData = (
+  <div>
+    This section helps you to:
+    <ul>
+      <li>Add new data using webforms</li>
+      <li>Bulk upload data using spreadsheets</li>
+      <li>Export data</li>
+    </ul>
+  </div>
+);
 const ManageData = () => {
   const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
@@ -80,7 +88,7 @@ const ManageData = () => {
   }, [selectedAdministration]);
 
   useEffect(() => {
-    if (selectedForm && isAdministrationLoaded && updateRecord !== null) {
+    if (selectedForm && isAdministrationLoaded && !updateRecord) {
       setLoading(true);
       let url = `/form-data/${selectedForm}/?page=${currentPage}`;
       if (selectedAdministration?.id) {

@@ -67,51 +67,55 @@ const Header = ({ className = "header", ...props }) => {
       justify="space-between"
       {...props}
     >
-      <Col className="logo">
-        <Link to="/">
-          <img
-            className="small-logo"
-            src={config.siteLogo}
-            alt={config.siteLogo}
-          />
-          <h1>{config.siteTitle}</h1>
-        </Link>
+      <Col>
+        <div className="logo">
+          <Link to="/">
+            <img
+              className="small-logo"
+              src={config.siteLogo}
+              alt={config.siteLogo}
+            />
+            <h1>{config.siteTitle}</h1>
+          </Link>
+        </div>
       </Col>
-      <Col className="navigation">
-        <Space>
-          <Link to="/data/visualisation">Data</Link>
-          <a className="dev">Reports</a>
-          {/* <a className="dev">Monitoring</a> */}
-          {/* <Link className="dev" to="/how-we-work">
+      <Col>
+        <div className="navigation">
+          <Space>
+            <Link to="/data/visualisation">Dashboards</Link>
+            <a className="dev">Reports</a>
+            {/* <a className="dev">Monitoring</a> */}
+            {/* <Link className="dev" to="/how-we-work">
             How We Work
           </Link> */}
-          <Link className="dev" to="/news-events">
-            News {"&"} Events
-          </Link>
-        </Space>
-      </Col>
-      <Col className="account">
-        {isLoggedIn ? (
-          <Dropdown overlay={userMenu}>
-            <a
-              className="ant-dropdown-link"
-              onClick={(e) => {
-                e.preventDefault();
-              }}
-            >
-              {user?.name || ""}
-              <span className="icon">
-                <UserOutlined />
-              </span>
-            </a>
-          </Dropdown>
-        ) : (
-          <Link to={"/login"}>
-            <Button type="primary" size="small">
-              Log in
-            </Button>
-          </Link>
-        )}
+            <Link className="dev" to="/news-events">
+              News {"&"} Events
+            </Link>
+          </Space>
+        </div>
+        <div className="account">
+          {isLoggedIn ? (
+            <Dropdown overlay={userMenu}>
+              <a
+                className="ant-dropdown-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                }}
+              >
+                {user?.name || ""}
+                <span className="icon">
+                  <UserOutlined />
+                </span>
+              </a>
+            </Dropdown>
+          ) : (
+            <Link to={"/login"}>
+              <Button type="primary" size="small">
+                Log in
+              </Button>
+            </Link>
+          )}
+        </div>
       </Col>
     </Row>
   );

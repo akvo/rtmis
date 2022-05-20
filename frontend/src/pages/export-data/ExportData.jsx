@@ -30,8 +30,7 @@ const pagePath = [
     title: "Export Data",
   },
 ];
-const descriptionData =
-  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
+const descriptionData = "This section helps you to access exported data";
 const ExportData = () => {
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(true);

@@ -84,7 +84,7 @@ const DataFilters = ({ loading }) => {
                 </Button>
               )}
               <Link to="/data/upload">
-                <Button className="light">Bulk Upload</Button>
+                <Button type="primary">Bulk Upload</Button>
               </Link>
             </Space>
           </Col>
