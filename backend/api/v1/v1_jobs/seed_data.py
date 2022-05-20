@@ -2,6 +2,7 @@ import math
 import os
 
 import pandas as pd
+import numpy as np
 
 from api.v1.v1_data.models import PendingAnswers, PendingDataBatch, \
     PendingFormData, PendingDataApproval, Answers
@@ -123,7 +124,7 @@ def seed_excel_data(job: Jobs):
     if "id" in list(df):
         df = df.rename(columns={'id': 'data_id'})
     if "data_id" not in list(df):
-        df["data_id"] = None
+        df["data_id"] = np.nan
     df = df[list(filter(lambda x: "|" in x, list(df))) + ['data_id']]
     questions = {}
     columns = {}
