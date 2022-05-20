@@ -27,6 +27,7 @@ import { store, api, config } from "./lib";
 import { Layout, PageLoader } from "./components";
 import { useNotification } from "./util/hooks";
 import { timeDiffHours } from "./util/date";
+import { reloadData } from "./util/form";
 
 const Private = ({ element: Element, alias }) => {
   const { user: authUser } = store.useState((state) => state);
@@ -145,16 +146,8 @@ const App = () => {
             store.update((s) => {
               s.isLoggedIn = true;
               s.user = { ...res.data, role_detail: role_details };
-              s.forms = role_details.filter_form
-                ? window.forms.filter(
-                    (x) => x.type === role_details.filter_form
-                  )
-                : role_details.id === 2
-                ? window.forms.filter((x) =>
-                    res.data.forms.map((f) => f.id).includes(x.id)
-                  )
-                : window.forms;
             });
+            reloadData(res.data);
             api.setToken(cookies.AUTH_TOKEN);
             setLoading(false);
           })

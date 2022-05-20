@@ -4,6 +4,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { api, store, config } from "../../../lib";
 import { useNotification } from "../../../util/hooks";
+import { reloadData } from "../../../util/form";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -25,14 +26,8 @@ const LoginForm = () => {
         store.update((s) => {
           s.isLoggedIn = true;
           s.user = { ...res.data, role_detail: role_details };
-          s.forms = role_details.filter_form
-            ? window.forms.filter((x) => x.type === role_details.filter_form)
-            : role_details.id === 2
-            ? window.forms.filter((x) =>
-                res.data.forms.map((f) => f.id).includes(x.id)
-              )
-            : window.forms;
         });
+        reloadData(res.data);
         setLoading(false);
         navigate("/profile");
       })
