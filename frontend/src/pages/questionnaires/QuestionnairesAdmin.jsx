@@ -32,7 +32,7 @@ const pagePath = [
 ];
 
 const QuestionnairesAdmin = () => {
-  const { forms, levels } = store.useState((s) => s);
+  const { forms, levels, user } = store.useState((s) => s);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [dataset, setDataset] = useState([]);
@@ -119,7 +119,7 @@ const QuestionnairesAdmin = () => {
           type: "success",
           message: "Questionnaires updated",
         });
-        reloadData();
+        reloadData(user);
       })
       .catch(() => {
         notify({
