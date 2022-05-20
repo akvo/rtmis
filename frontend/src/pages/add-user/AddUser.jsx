@@ -100,7 +100,7 @@ const AddUser = () => {
       (a) => a.id === role
     )?.administration_level;
     form.setFieldsValue({
-      administration: allowed_level?.includes(administration.length)
+      administration: allowed_level?.includes(administration.length + 1)
         ? admin?.id
         : null,
     });
