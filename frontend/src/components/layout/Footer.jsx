@@ -1,7 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Row, Col, Button, Space } from "antd";
-import { Link, useLocation } from "react-router-dom";
+import {
+  Row,
+  Col,
+  //  Button,
+  //  Space
+} from "antd";
+import {
+  // Link,
+  useLocation,
+} from "react-router-dom";
 import { config } from "../../lib";
 
 const Footer = ({ className = "footer", ...props }) => {
@@ -27,16 +35,40 @@ const Footer = ({ className = "footer", ...props }) => {
             <li>Phone : +254 123436789</li>
             <li>Email : info@nashrtmis.co.ke</li>
           </ul>
-          <Button className="dev" size="small">
+          {/* <Button className="dev" size="small">
             Contact Us
-          </Button>
+          </Button> */}
         </Col>
         <Col span={4}>
           <h3>Quick Links</h3>
           <ul>
-            <li className="dev"> JMP </li>
-            <li className="dev"> CLTS </li>
-            <li className="dev"> GLASS </li>
+            <li>
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href="https://washdata.org/how-we-work/about-jmp#:~:text=Background,hygiene%20(WASH)%20since%201990"
+              >
+                JMP
+              </a>
+            </li>
+            <li>
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href="https://www.communityledtotalsanitation.org/country/kenya"
+              >
+                CLTS
+              </a>
+            </li>
+            <li>
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href="https://www.who.int/teams/environment-climate-change-and-health/water-sanitation-and-health/monitoring-and-evidence/wash-systems-monitoring/un-water-global-analysis-and-assessment-of-sanitation-and-drinking-water"
+              >
+                GLASS
+              </a>
+            </li>
           </ul>
         </Col>
         <Col span={3}>
@@ -48,7 +80,7 @@ const Footer = ({ className = "footer", ...props }) => {
       </Row>
       <Row className="end" align="top" justify="space-between" {...props}>
         <Col>Copyright 2021</Col>
-        <Col>
+        {/* <Col>
           <Space>
             <Link to="terms" className="dev">
               Terms of Service
@@ -57,7 +89,7 @@ const Footer = ({ className = "footer", ...props }) => {
               Privacy Policy
             </Link>
           </Space>
-        </Col>
+        </Col> */}
       </Row>
     </div>
   );
