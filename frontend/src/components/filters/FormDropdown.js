@@ -13,6 +13,7 @@ const FormDropdown = ({
 }) => {
   const { forms, selectedForm, loadingForm } = store.useState((state) => state);
   const { notify } = useNotification();
+  const filterForms = title ? window.forms : forms;
 
   const handleChange = useCallback(
     (e) => {
@@ -47,12 +48,12 @@ const FormDropdown = ({
   );
 
   useEffect(() => {
-    if (!!forms?.length && !selectedForm) {
-      handleChange(forms[0].id);
+    if (!!filterForms?.length && !selectedForm) {
+      handleChange(filterForms[0].id);
     }
-  }, [forms, selectedForm, handleChange]);
+  }, [filterForms, selectedForm, handleChange]);
 
-  if (forms) {
+  if (filterForms) {
     return (
       <Select
         placeholder={`Select Form`}
@@ -66,7 +67,7 @@ const FormDropdown = ({
         getPopupContainer={(trigger) => trigger.parentNode}
         {...props}
       >
-        {forms.map((optionValue, optionIdx) => (
+        {filterForms.map((optionValue, optionIdx) => (
           <Select.Option key={optionIdx} value={optionValue.id}>
             {optionValue.name}
           </Select.Option>
