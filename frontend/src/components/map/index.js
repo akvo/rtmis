@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import "./style.scss";
 import {
   Circle,
@@ -265,46 +265,61 @@ const Map = ({ current, style }) => {
     return null;
   };
 
-  const MarkerLegend = () => {
-    const handleMarkerLegendClick = (value) => {
+  const handleMarkerLegendClick = useCallback(
+    (value) => {
       if (markerLegendSelected?.id === value.id) {
         setMarkerLegendSelected(null);
         return;
       }
       setMarkerLegendSelected(value);
-    };
-
+    },
+    [markerLegendSelected]
+  );
+  const MarkerLegend = useMemo(() => {
     if (markerLegendOptions) {
       return (
         <div className="marker-legend">
           <h4>{current?.map?.marker?.title}</h4>
-          {markerLegendOptions.map((sO, sI) => (
-            <div
-              key={sI}
-              className="legend-item"
-              onClick={() => handleMarkerLegendClick(sO)}
-            >
-              <Space direction="horizontal" align="top">
-                <div
-                  className="circle-legend"
-                  style={{ backgroundColor: markerColorRange[sI] }}
-                />
-                <span
-                  style={{
-                    fontWeight:
-                      markerLegendSelected?.id === sO.id ? "600" : "400",
-                  }}
-                >
-                  {sO?.title || sO?.name || "NA"}
-                </span>
-              </Space>
-            </div>
-          ))}
+          <Space
+            direction="horizontal"
+            align="center"
+            wrap={true}
+            size={[16, 0]}
+            style={{ justifyContent: "center" }}
+          >
+            {markerLegendOptions.map((sO, sI) => (
+              <div
+                key={sI}
+                className="legend-item"
+                onClick={() => handleMarkerLegendClick(sO)}
+              >
+                <Space direction="horizontal" align="top">
+                  <div
+                    className="circle-legend"
+                    style={{ backgroundColor: markerColorRange[sI] }}
+                  />
+                  <span
+                    style={{
+                      fontWeight:
+                        markerLegendSelected?.id === sO.id ? "600" : "400",
+                    }}
+                  >
+                    {sO?.title || sO?.name || "NA"}
+                  </span>
+                </Space>
+              </div>
+            ))}
+          </Space>
         </div>
       );
     }
-    return null;
-  };
+    return <div />;
+  }, [
+    current,
+    markerLegendOptions,
+    markerLegendSelected,
+    handleMarkerLegendClick,
+  ]);
 
   const shapeColors = chain(groupBy(results, "loc"))
     .map((l, lI) => {
@@ -351,7 +366,7 @@ const Map = ({ current, style }) => {
 
     return current && !loadingMap && thresholds.length ? (
       <div className="shape-legend">
-        <div>{current?.map?.shape?.title}</div>
+        <h4>{current?.map?.shape?.title}</h4>
         <Row className="legend-wrap">
           {thresholds.map((t, tI) => (
             <Col
@@ -383,7 +398,7 @@ const Map = ({ current, style }) => {
           <Spin />
         </div>
       ) : (
-        <MarkerLegend />
+        MarkerLegend
       )}
       <div className="map-buttons">
         <Space size="small" direction="vertical">
