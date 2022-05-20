@@ -1,10 +1,42 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Table, Button, Space, Spin, Alert } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined, HistoryOutlined } from "@ant-design/icons";
 import { EditableCell } from "../../components";
 import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { flatten, isEqual } from "lodash";
+
+const HistoryTable = ({ record }) => {
+  const { history, id } = record;
+  return (
+    <Table
+      size="small"
+      rowKey={`history-${id}-${Math.random}`}
+      columns={[
+        {
+          title: "History",
+          dataIndex: "value",
+          key: "value",
+        },
+        {
+          title: "Updated at",
+          dataIndex: "created",
+          key: "created",
+          align: "center",
+        },
+        {
+          title: "Updated by",
+          dataIndex: "created_by",
+          key: "created_by",
+          align: "center",
+        },
+      ]}
+      loading={!history.length}
+      pagination={false}
+      dataSource={history}
+    />
+  );
+};
 
 const DataDetail = ({ questionGroups, record, updater, updateRecord }) => {
   const [dataset, setDataset] = useState([]);
@@ -13,6 +45,7 @@ const DataDetail = ({ questionGroups, record, updater, updateRecord }) => {
   const pendingData = record?.pending_data?.created_by || false;
   const { user: authUser, forms } = store.useState((state) => state);
   const { notify } = useNotification();
+  const [expanded, setExpanded] = useState([]);
 
   const updateCell = (key, parentId, value) => {
     let prev = JSON.parse(JSON.stringify(dataset));
@@ -108,13 +141,20 @@ const DataDetail = ({ questionGroups, record, updater, updateRecord }) => {
       api
         .get(`data/${id}`)
         .then((res) => {
-          const data = questionGroups.map((qg) => ({
-            ...qg,
-            question: qg.question.map((q) => ({
-              ...q,
-              value: res.data.find((d) => d.question === q.id)?.value || null,
-            })),
-          }));
+          const data = questionGroups.map((qg) => {
+            const question = qg.question.map((q) => {
+              const findData = res.data.find((d) => d.question === q.id);
+              return {
+                ...q,
+                value: findData?.value || null,
+                history: findData?.history || false,
+              };
+            });
+            return {
+              ...qg,
+              question: question,
+            };
+          });
           setDataset(data);
         })
         .catch((e) => {
@@ -184,7 +224,24 @@ const DataDetail = ({ questionGroups, record, updater, updateRecord }) => {
                     />
                   ),
                 },
+                Table.EXPAND_COLUMN,
               ]}
+              expandedRowKeys={expanded}
+              onExpand={(expanded, record) => {
+                setExpanded(expanded ? [record.id] : []);
+              }}
+              expandable={{
+                expandIcon: ({ onExpand, record }) => {
+                  if (!record?.history) {
+                    return "";
+                  }
+                  return (
+                    <HistoryOutlined onClick={(e) => onExpand(record, e)} />
+                  );
+                },
+                expandedRowRender: (record) => <HistoryTable record={record} />,
+                rowExpandable: (record) => record?.history,
+              }}
             />
           </div>
         ))}
