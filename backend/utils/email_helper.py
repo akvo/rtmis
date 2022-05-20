@@ -99,7 +99,7 @@ def email_context(context: dict, type: str):
         if context.get("button_url"):
             button_url = context.get("button_url")
         context.update({
-            "subject": "Set Password",
+            "subject": "Invitation",
             "body": '''You have invited to the National Sanitation and Hygiene
                     Real-Time Monitoring System. Please click on the button
                     below to set your password and finalise your account.''',

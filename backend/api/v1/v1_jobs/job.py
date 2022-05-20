@@ -28,6 +28,8 @@ def download(form: Forms, administration_ids):
 
 def rearrange_columns(col_names: list):
     col_question = list(filter(lambda x: HText(x).hasnum, col_names))
+    if len(col_question) == len(col_names):
+        return col_question
     col_names = [
                     "id", "created_at", "created_by", "updated_at",
                     "updated_by",
@@ -200,6 +202,7 @@ def validate_excel_result(task):
         job.available = timezone.now()
         job.save()
         new_job = Jobs.objects.create(
+            result=job.info.get('file'),
             type=JobTypes.seed_data,
             status=JobStatus.on_progress,
             user=job.user,

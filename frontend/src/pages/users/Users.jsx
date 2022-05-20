@@ -17,8 +17,16 @@ const pagePath = [
     title: "Manage Users",
   },
 ];
-const descriptionData =
-  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
+const descriptionData = (
+  <div>
+    This section helps you to:
+    <ul>
+      <li>Add new user</li>
+      <li>Modify existing user</li>
+      <li>Delete existing user</li>
+    </ul>
+  </div>
+);
 const Users = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
@@ -150,17 +158,15 @@ const Users = () => {
 
   return (
     <div id="users">
-      <Row justify="space-between">
+      <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel description={descriptionData} />
         </Col>
         <Col>
           <Link to="/user/add">
             <Button type="primary">Add new user</Button>
           </Link>
-        </Col>
-        <Col>
-          <DescriptionPanel description={descriptionData} />
         </Col>
       </Row>
       <Divider />

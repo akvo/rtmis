@@ -14,8 +14,16 @@ const ControlCenter = () => {
       title: "Manage Data",
       buttonLabel: "Manage Data",
       access: "data",
-      description:
-        "Open defecation free (ODF) is a term used to describe communities that have shifted to using toilets instead of open defecation. This can happen, for example, after community-led total sanitation programs have been implemented.",
+      description: (
+        <div>
+          This section helps you to:
+          <ul>
+            <li>Add new data using webforms</li>
+            <li>Bulk upload data using spreadsheets</li>
+            <li>Export data</li>
+          </ul>
+        </div>
+      ),
       link: "/data/manage",
       image: "/assets/big-data.png",
     },
@@ -23,8 +31,7 @@ const ControlCenter = () => {
       title: "Exports",
       buttonLabel: "Data Exports",
       access: "data",
-      description:
-        "Community-led total sanitation (CLTS) is an approach used mainly in developing countries to improve sanitation and hygiene practices in a community. The approach tries to achieve behavior change in mainly rural people by a process of “triggering”, leading to spontaneous and long-term abandonment of open defecation practices.",
+      description: "This section helps you to access exported data",
       link: "/data/export",
       image: "/assets/import.png",
     },
@@ -32,8 +39,16 @@ const ControlCenter = () => {
       title: "Data Uploads",
       buttonLabel: "Data Uploads",
       access: authUser?.role.id === 4 ? "" : "form",
-      description:
-        "WASH is an acronym that stands for “water, sanitation and hygiene”.Universal, affordable and sustainable access to WASH is a key public health issue within international development and is the focus of the first two targets of Sustainable Development Goal 6 (SDG 6).",
+      description: (
+        <div>
+          This section helps you to:
+          <ul>
+            <li>Download upload template</li>
+            <li>Bulk upload new data</li>
+            <li>Bulk upload existing data</li>
+          </ul>
+        </div>
+      ),
       link: "/data/upload",
       image: "/assets/upload.png",
     },
@@ -41,8 +56,16 @@ const ControlCenter = () => {
       title: "User Management",
       buttonLabel: "Manage Users",
       access: "user",
-      description:
-        "WASH is an acronym that stands for “water, sanitation and hygiene”.Universal, affordable and sustainable access to WASH is a key public health issue within international development and is the focus of the first two targets of Sustainable Development Goal 6 (SDG 6).",
+      description: (
+        <div>
+          This section helps you to:
+          <ul>
+            <li>Add new user</li>
+            <li>Modify existing user</li>
+            <li>Delete existing user</li>
+          </ul>
+        </div>
+      ),
       link: "/users",
       image: "/assets/personal-information.png",
     },
@@ -62,10 +85,7 @@ const ControlCenter = () => {
           },
         ]}
       />
-      <DescriptionPanel
-        description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?
-"
-      />
+      <DescriptionPanel description="Instant access to the all the administration pages and overview panels for data approvals." />
       <Divider />
       <Row gutter={[16, 16]}>
         {selectedPanels.map((panel, index) => (

@@ -1,6 +1,7 @@
 # Create your views here.
 from wsgiref.util import FileWrapper
 
+from uuid import uuid4
 from django.core.files.storage import FileSystemStorage
 from django.core.management import call_command
 from django.http import HttpResponse
@@ -38,15 +39,16 @@ from utils.storage import download
                      type=OpenApiTypes.NUMBER,
                      location=OpenApiParameter.QUERY),
 ],
-    responses={
-        (200, 'application/json'): inline_serializer(
-            "GenerateDownload",
-            fields={
-                "task_id": serializers.CharField(),
-                "file_url": serializers.CharField(),
-            })},
-    tags=['Job'],
-    summary='To generate download')
+               responses={
+                   (200, 'application/json'):
+                   inline_serializer("GenerateDownload",
+                                     fields={
+                                         "task_id": serializers.CharField(),
+                                         "file_url": serializers.CharField(),
+                                     })
+               },
+               tags=['Job'],
+               summary='To generate download')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def download_generate(request, version):
@@ -56,12 +58,10 @@ def download_generate(request, version):
             {'message': validate_serializers_message(serializer.errors)},
             status=status.HTTP_400_BAD_REQUEST)
     administration = serializer.validated_data.get('administration_id')
-    result = call_command(
-        'job_download',
-        serializer.validated_data.get('form_id').id,
-        request.user.id,
-        '-a', administration.id if administration else 0
-    )
+    result = call_command('job_download',
+                          serializer.validated_data.get('form_id').id,
+                          request.user.id, '-a',
+                          administration.id if administration else 0)
     job = Jobs.objects.get(pk=result)
     data = {
         'task_id': job.task_id,
@@ -70,14 +70,14 @@ def download_generate(request, version):
     return Response(data, status=status.HTTP_200_OK)
 
 
-@extend_schema(description='To get the status of download', tags=['Job'],
+@extend_schema(description='To get the status of download',
+               tags=['Job'],
                responses={
-                   (200, 'application/json'): inline_serializer(
+                   (200, 'application/json'):
+                   inline_serializer(
                        "DownloadStatus",
-                       fields={
-                           "status": serializers.CharField()
-                       })}
-               )
+                       fields={"status": serializers.CharField()})
+               })
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def download_status(request, version, task_id):
@@ -86,8 +86,10 @@ def download_status(request, version, task_id):
                     status=status.HTTP_200_OK)
 
 
-@extend_schema(tags=['Job'],
-               summary='Download file', )
+@extend_schema(
+    tags=['Job'],
+    summary='Download file',
+)
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def download_file(request, version, file_name):
@@ -99,21 +101,19 @@ def download_file(request, version, file_name):
     response = HttpResponse(
         FileWrapper(zip_file),
         content_type='application/vnd.openxmlformats-officedocument'
-                     '.spreadsheetml.sheet')
-    response[
-        'Content-Disposition'] = 'attachment; filename="%s"' % filename
+        '.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="%s"' % filename
     return response
 
 
-@extend_schema(
-    tags=['Job'],
-    summary='Download list',
-    parameters=[
-        OpenApiParameter(name='page',
-                         required=True,
-                         type=OpenApiTypes.NUMBER,
-                         location=OpenApiParameter.QUERY)
-    ])
+@extend_schema(tags=['Job'],
+               summary='Download list',
+               parameters=[
+                   OpenApiParameter(name='page',
+                                    required=True,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY)
+               ])
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def download_list(request, version):
@@ -123,9 +123,9 @@ def download_list(request, version):
     paginator.page_size = 5
     try:
         instance = paginator.paginate_queryset(queryset, request)
-        return Response(
-            DownloadListSerializer(instance=instance, many=True).data,
-            status=status.HTTP_200_OK)
+        return Response(DownloadListSerializer(instance=instance,
+                                               many=True).data,
+                        status=status.HTTP_200_OK)
     except NotFound:
         return Response([], status=status.HTTP_200_OK)
 
@@ -135,11 +135,10 @@ def download_list(request, version):
     summary='Upload Excel',
     request=UploadExcelSerializer,
     responses={
-        (200, 'application/json'): inline_serializer(
-            "UploadExcel",
-            fields={
-                "task_id": serializers.CharField()
-            })},
+        (200, 'application/json'):
+        inline_serializer("UploadExcel",
+                          fields={"task_id": serializers.CharField()})
+    },
 )
 @api_view(['POST'])
 @parser_classes([MultiPartParser])
@@ -152,25 +151,24 @@ def upload_excel(request, form_id, version):
             {'message': validate_serializers_message(serializer.errors)},
             status=status.HTTP_400_BAD_REQUEST)
     fs = FileSystemStorage()
-    file = fs.save(
-        f"./tmp/{serializer.validated_data.get('file').name}",
-        serializer.validated_data.get('file')
-    )
+    file = fs.save(f"./tmp/{serializer.validated_data.get('file').name}",
+                   serializer.validated_data.get('file'))
     file_path = fs.path(file)
-    name = storage.upload(file_path, 'upload')
+    filename = "-".join(str(uuid4()).split("-")[0:3])
+    filename = f"{form_id}-{filename}.xlsx"
+    storage.upload(file=file_path, filename=filename, folder='upload')
     job = Jobs.objects.create(
-        type=JobTypes.validate_data,
-        status=JobStatus.on_progress,
-        user=request.user,
-        info={
-            'file': name.split('/')[-1],
-            'form': form_id,
-            'administration': request.user.user_access.administration_id
-        }
-    )
-    task_id = async_task(
-        'api.v1.v1_jobs.job.validate_excel', job.id,
-        hook='api.v1.v1_jobs.job.validate_excel_result')
+            type=JobTypes.validate_data,
+            status=JobStatus.on_progress,
+            user=request.user,
+            info={
+                'file': filename,
+                'form': form_id,
+                'administration': request.user.user_access.administration_id
+            })
+    task_id = async_task('api.v1.v1_jobs.job.validate_excel',
+                         job.id,
+                         hook='api.v1.v1_jobs.job.validate_excel_result')
     job.task_id = task_id
     job.save()
 

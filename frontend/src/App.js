@@ -27,6 +27,7 @@ import { store, api, config } from "./lib";
 import { Layout, PageLoader } from "./components";
 import { useNotification } from "./util/hooks";
 import { timeDiffHours } from "./util/date";
+import { reloadData } from "./util/form";
 
 const Private = ({ element: Element, alias }) => {
   const { user: authUser } = store.useState((state) => state);
@@ -145,16 +146,8 @@ const App = () => {
             store.update((s) => {
               s.isLoggedIn = true;
               s.user = { ...res.data, role_detail: role_details };
-              s.forms = role_details.filter_form
-                ? window.forms.filter(
-                    (x) => x.type === role_details.filter_form
-                  )
-                : role_details.id === 2
-                ? window.forms.filter((x) =>
-                    res.data.forms.map((f) => f.id).includes(x.id)
-                  )
-                : window.forms;
             });
+            reloadData(res.data);
             api.setToken(cookies.AUTH_TOKEN);
             setLoading(false);
           })
@@ -180,6 +173,36 @@ const App = () => {
       setLoading(false);
     }
   }, [authUser, isLoggedIn, removeCookie, cookies, notify]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      api
+        .get(`administration/${authUser.administration.id}`)
+        .then((adminRes) => {
+          store.update((s) => {
+            s.administration = [
+              {
+                id: adminRes.data.id,
+                name: adminRes.data.name,
+                levelName: adminRes.data.level_name,
+                children: adminRes.data.children,
+                childLevelName: adminRes.data.children_level_name,
+              },
+            ];
+          });
+        })
+        .catch((err) => {
+          notify({
+            type: "error",
+            message: "Could not load filters",
+          });
+          store.update((s) => {
+            s.loadingAdministration = false;
+          });
+          console.error(err);
+        });
+    }
+  }, [authUser, isLoggedIn, notify]);
 
   return (
     <Layout>
