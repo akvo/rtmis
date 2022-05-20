@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Row, Col, Card, Button, Divider, Table, Modal, Checkbox } from "antd";
+import { Row, Col, Card, Button, Divider, Table, Modal } from "antd";
 import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store } from "../../lib";
@@ -17,8 +17,16 @@ const pagePath = [
     title: "Manage Users",
   },
 ];
-const descriptionData =
-  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
+const descriptionData = (
+  <div>
+    This section helps you to:
+    <ul>
+      <li>Add new user</li>
+      <li>Modify existing user</li>
+      <li>Delete existing user</li>
+    </ul>
+  </div>
+);
 const Users = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
@@ -101,12 +109,20 @@ const Users = () => {
         });
       })
       .catch((err) => {
-        notify({
-          type: "error",
-          message: "Could not delete user",
-        });
+        const { status, data } = err.response;
+        if (status === 409) {
+          notify({
+            type: "error",
+            message: data?.message || "Could not delete user",
+          });
+        } else {
+          notify({
+            type: "error",
+            message: "Could not delete user",
+          });
+        }
         setDeleting(false);
-        console.error(err);
+        console.error(err.response);
       });
   };
 
@@ -142,17 +158,15 @@ const Users = () => {
 
   return (
     <div id="users">
-      <Row justify="space-between">
+      <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel description={descriptionData} />
         </Col>
         <Col>
           <Link to="/user/add">
             <Button type="primary">Add new user</Button>
           </Link>
-        </Col>
-        <Col>
-          <DescriptionPanel description={descriptionData} />
         </Col>
       </Row>
       <Divider />
@@ -209,15 +223,15 @@ const Users = () => {
       </Card>
       <Modal
         visible={deleteUser}
+        onCancel={() => setDeleteUser(null)}
         centered
+        width="575px"
         footer={
-          <Row>
-            <Col span={12}>
-              <Checkbox id="informUser" className="dev" onChange={() => {}}>
-                Inform User of Changes
-              </Checkbox>
+          <Row justify="center" align="middle">
+            <Col span={14}>
+              <i>Deleting this user will not delete the assosiations</i>
             </Col>
-            <Col span={12}>
+            <Col span={10}>
               <Button
                 className="light"
                 disabled={deleting}
@@ -243,6 +257,7 @@ const Users = () => {
         bodyStyle={{ textAlign: "center" }}
       >
         <p>You are about to delete the user</p>
+        <br />
         <img src="/assets/user.svg" height="80" />
         <h2>
           {deleteUser?.first_name} {deleteUser?.last_name}
@@ -266,6 +281,23 @@ const Users = () => {
           ]}
           dataSource={[deleteUser]}
           rowKey="id"
+          pagination={false}
+        />
+        {/* Assosiation detail */}
+        <Table
+          title={() => "This user has following assosiations"}
+          columns={[
+            {
+              title: "Assosiation",
+              dataIndex: "name",
+            },
+            {
+              title: "Count",
+              dataIndex: "count",
+            },
+          ]}
+          dataSource={deleteUser?.assosiations || []}
+          rowKey={`${deleteUser?.id}-assosiation`}
           pagination={false}
         />
       </Modal>

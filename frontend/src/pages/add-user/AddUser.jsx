@@ -123,6 +123,9 @@ const AddUser = () => {
     } else {
       setAllowedForms(forms.filter((f) => f.type === 1));
     }
+    if (a?.role === 5) {
+      setShowForms(false);
+    }
   };
 
   useEffect(() => {
