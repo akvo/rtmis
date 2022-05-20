@@ -150,31 +150,6 @@ const App = () => {
             reloadData(res.data);
             api.setToken(cookies.AUTH_TOKEN);
             setLoading(false);
-            api
-              .get(`administration/${authUser.administration.id}`)
-              .then((adminRes) => {
-                store.update((s) => {
-                  s.administration = [
-                    {
-                      id: adminRes.data.id,
-                      name: adminRes.data.name,
-                      levelName: adminRes.data.level_name,
-                      children: adminRes.data.children,
-                      childLevelName: adminRes.data.children_level_name,
-                    },
-                  ];
-                });
-              })
-              .catch((err) => {
-                notify({
-                  type: "error",
-                  message: "Could not load filters",
-                });
-                store.update((s) => {
-                  s.loadingAdministration = false;
-                });
-                console.error(err);
-              });
           })
           .catch((err) => {
             if (err.response.status === 401) {
@@ -198,6 +173,36 @@ const App = () => {
       setLoading(false);
     }
   }, [authUser, isLoggedIn, removeCookie, cookies, notify]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      api
+        .get(`administration/${authUser.administration.id}`)
+        .then((adminRes) => {
+          store.update((s) => {
+            s.administration = [
+              {
+                id: adminRes.data.id,
+                name: adminRes.data.name,
+                levelName: adminRes.data.level_name,
+                children: adminRes.data.children,
+                childLevelName: adminRes.data.children_level_name,
+              },
+            ];
+          });
+        })
+        .catch((err) => {
+          notify({
+            type: "error",
+            message: "Could not load filters",
+          });
+          store.update((s) => {
+            s.loadingAdministration = false;
+          });
+          console.error(err);
+        });
+    }
+  }, [authUser, isLoggedIn, notify]);
 
   return (
     <Layout>
