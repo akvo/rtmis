@@ -193,7 +193,7 @@ class FormDataAddListView(APIView):
                     name=form_answer.name,
                     value=form_answer.value,
                     options=form_answer.options,
-                    created_by=form_answer.created_by
+                    created_by=user
                 )
                 # prepare updated answer
                 question_id = answer.get('question')
@@ -220,6 +220,7 @@ class FormDataAddListView(APIView):
                 form_answer.name = name
                 form_answer.value = value
                 form_answer.options = option
+                form_answer.updated = timezone.now()
                 form_answer.save()
             # update datapoint
             data.updated = timezone.now()
