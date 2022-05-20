@@ -4,6 +4,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { api, store, config } from "../../../lib";
 import { useNavigate } from "react-router-dom";
 import { useNotification } from "../../../util/hooks";
+import { reloadData } from "../../../util/form";
 
 const checkBoxOptions = [
   { name: "Lowercase Character", re: /[a-z]/ },
@@ -40,10 +41,8 @@ const RegistrationForm = (props) => {
         store.update((s) => {
           s.isLoggedIn = true;
           s.user = { ...res.data, role_detail: role_details };
-          s.forms = role_details.filter_form
-            ? window.forms.filter((x) => x.type === role_details.filter_form)
-            : window.forms;
         });
+        reloadData(res.data);
         setLoading(false);
         notify({
           type: "success",

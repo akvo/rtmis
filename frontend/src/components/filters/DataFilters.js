@@ -23,6 +23,8 @@ const DataFilters = ({ loading }) => {
   const navigate = useNavigate();
   const { notify } = useNotification();
   const [exporting, setExporting] = useState(false);
+  const isUserHasForms = authUser?.forms ? authUser.forms.length : false;
+
   const exportGenerate = () => {
     setExporting(true);
     const adm_id = takeRight(administration, 1)[0]?.id;
@@ -63,7 +65,14 @@ const DataFilters = ({ loading }) => {
           <Col>
             <Space>
               <Link to={`/form/${selectedForm}`}>
-                <Button type="primary">Add New</Button>
+                <Button
+                  type="primary"
+                  disabled={
+                    !isUserHasForms && authUser?.role?.value !== "Super Admin"
+                  }
+                >
+                  Add New
+                </Button>
               </Link>
               {pathname !== "/profile" && (
                 <Button
