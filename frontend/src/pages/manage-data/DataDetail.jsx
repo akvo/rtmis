@@ -9,32 +9,37 @@ import { flatten, isEqual } from "lodash";
 const HistoryTable = ({ record }) => {
   const { history, id } = record;
   return (
-    <Table
-      size="small"
-      rowKey={`history-${id}-${Math.random}`}
-      columns={[
-        {
-          title: "History",
-          dataIndex: "value",
-          key: "value",
-        },
-        {
-          title: "Updated at",
-          dataIndex: "created",
-          key: "created",
-          align: "center",
-        },
-        {
-          title: "Updated by",
-          dataIndex: "created_by",
-          key: "created_by",
-          align: "center",
-        },
-      ]}
-      loading={!history.length}
-      pagination={false}
-      dataSource={history}
-    />
+    <div className="history-table-wrapper">
+      <Table
+        size="small"
+        rowKey={`history-${id}-${Math.random}`}
+        columns={[
+          {
+            title: "History",
+            dataIndex: "value",
+            key: "value",
+            ellipsis: true,
+          },
+          {
+            title: "Updated at",
+            dataIndex: "created",
+            key: "created",
+            align: "center",
+            ellipsis: true,
+          },
+          {
+            title: "Updated by",
+            dataIndex: "created_by",
+            key: "created_by",
+            align: "center",
+            ellipsis: true,
+          },
+        ]}
+        loading={!history.length}
+        pagination={false}
+        dataSource={history}
+      />
+    </div>
   );
 };
 
@@ -45,7 +50,6 @@ const DataDetail = ({ questionGroups, record, updater, updateRecord }) => {
   const pendingData = record?.pending_data?.created_by || false;
   const { user: authUser, forms } = store.useState((state) => state);
   const { notify } = useNotification();
-  const [expanded, setExpanded] = useState([]);
 
   const updateCell = (key, parentId, value) => {
     let prev = JSON.parse(JSON.stringify(dataset));
@@ -226,17 +230,16 @@ const DataDetail = ({ questionGroups, record, updater, updateRecord }) => {
                 },
                 Table.EXPAND_COLUMN,
               ]}
-              expandedRowKeys={expanded}
-              onExpand={(expanded, record) => {
-                setExpanded(expanded ? [record.id] : []);
-              }}
               expandable={{
                 expandIcon: ({ onExpand, record }) => {
                   if (!record?.history) {
                     return "";
                   }
                   return (
-                    <HistoryOutlined onClick={(e) => onExpand(record, e)} />
+                    <HistoryOutlined
+                      className="expand-icon"
+                      onClick={(e) => onExpand(record, e)}
+                    />
                   );
                 },
                 expandedRowRender: (record) => <HistoryTable record={record} />,
