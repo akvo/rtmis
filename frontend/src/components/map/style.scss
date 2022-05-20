@@ -68,15 +68,16 @@
   .marker-legend {
     position: absolute;
     z-index: 1;
-    top: 12px;
-    left: 12px;
-    max-width: 45%;
-    max-height: 320px;
-    overflow-y: auto;
-    background-color: #fffe;
-    padding: 8px 12px;
+    bottom: 86px;
+    left: 0;
+    right: 0;
+    background-color: #f9f9f9d9;
+    padding: 14px 12px 10px;
     font-size: 13px;
+    text-align: center;
+    padding-bottom: 8px;
     .legend-item {
+      color: #5a5f63;
       cursor: pointer;
       .circle-legend {
         width: 8px;
@@ -94,7 +95,7 @@
   right: 0px;
   width: 100%;
   z-index: 2;
-  background-color: #fffb;
+  background-color: #fffe;
   padding: 8px 12px;
   text-align: center;
   font-size: 13px;
