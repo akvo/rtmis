@@ -49,6 +49,24 @@ class UserInvitationTestCase(TestCase):
 
         self.assertGreater(len(response.json().get('data')), 0)
         self.assertEqual(response.status_code, 200)
+        # search by fullname
+        response = self.client.get("/api/v1/users?search=admin rtmis",
+                                   follow=True,
+                                   **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+        users = response.json()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(users['data'][0]['email'], 'admin@rtmis.com')
+        self.assertEqual(users['data'][0]['first_name'], 'Admin')
+        self.assertEqual(users['data'][0]['last_name'], 'RTMIS')
+        # search by email
+        response = self.client.get("/api/v1/users?search=admin@rtmis",
+                                   follow=True,
+                                   **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+        users = response.json()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(users['data'][0]['email'], 'admin@rtmis.com')
+        self.assertEqual(users['data'][0]['first_name'], 'Admin')
+        self.assertEqual(users['data'][0]['last_name'], 'RTMIS')
 
     def test_add_edit_user(self):
         call_command("administration_seeder", "--test")
