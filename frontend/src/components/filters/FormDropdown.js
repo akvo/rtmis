@@ -52,7 +52,6 @@ const FormDropdown = ({
       handleChange(filterForms[0].id);
     }
   }, [filterForms, selectedForm, handleChange]);
-
   if (filterForms) {
     return (
       <Select
@@ -61,7 +60,7 @@ const FormDropdown = ({
         onChange={(e) => {
           handleChange(e);
         }}
-        value={selectedForm}
+        value={selectedForm || null}
         className={`form-dropdown ${title ? " form-dropdown-title" : ""}`}
         disabled={parentLoading || loadingForm}
         getPopupContainer={(trigger) => trigger.parentNode}
