@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useContext } from "react";
+import React, { useState } from "react";
 import {
   Row,
   Col,
@@ -7,155 +7,14 @@ import {
   Checkbox,
   Space,
   Divider,
-  Form,
-  Input,
-  Select,
   Tooltip,
 } from "antd";
 import { Link } from "react-router-dom";
-import { pick, assign } from "lodash";
 import { api, config, store } from "../../lib";
-import { useNotification } from "../../util/hooks";
-const { Option } = Select;
 
-const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
+const UserDetail = ({ record, setDeleteUser, deleting }) => {
   const { user } = store.useState((state) => state);
   const [isFetchDeleteDetail, setIsFetchDeleteDetail] = useState(false);
-  const EditableContext = React.createContext(null);
-  const EditableRow = ({ ...props }) => {
-    const [form] = Form.useForm();
-    return (
-      <Form form={form} component={false}>
-        <EditableContext.Provider value={form}>
-          <tr {...props} />
-        </EditableContext.Provider>
-      </Form>
-    );
-  };
-  const EditableCell = ({
-    title,
-    editable,
-    children,
-    dataIndex,
-    ...restProps
-  }) => {
-    const [editing, setEditing] = useState(false);
-    const inputRef = useRef(null);
-    const form = useContext(EditableContext);
-    const { notify } = useNotification();
-    const [saving, setSaving] = useState(false);
-    useEffect(() => {
-      if (editing) {
-        inputRef.current.focus();
-      }
-    }, [editing]);
-
-    const toggleEdit = () => {
-      setEditing(!editing);
-      form.setFieldsValue({
-        [dataIndex]:
-          dataIndex === "designation"
-            ? parseInt(record[dataIndex]) || null
-            : record[dataIndex],
-      });
-    };
-
-    const save = async () => {
-      try {
-        const values = await form.validateFields();
-        const body = assign(
-          pick(record, [
-            "first_name",
-            "last_name",
-            "email",
-            "phone_number",
-            "designation",
-          ]),
-          {
-            administration: record.administration.id,
-          }
-        );
-        const data = { ...body, [dataIndex]: values[dataIndex] };
-        setSaving(true);
-        api.put(`user/${record.id}`, data).then(() => {
-          setSaving(false);
-          toggleEdit();
-          notify({
-            type: "success",
-            message: "User updated",
-          });
-          const output = {
-            ...record,
-            [dataIndex]: values[dataIndex],
-          };
-          applyChanges(output);
-        });
-      } catch (errInfo) {
-        console.error("Save failed:", errInfo);
-        toggleEdit();
-      }
-    };
-
-    let childNode = children;
-    if (editable) {
-      childNode = editing ? (
-        <Row>
-          <Col flex={1} style={{ marginRight: 8 }}>
-            <Form.Item
-              style={{
-                margin: 0,
-              }}
-              name={dataIndex}
-              rules={[
-                {
-                  required: true,
-                  message: `${title} is required.`,
-                },
-              ]}
-            >
-              {dataIndex === "designation" ? (
-                <Select
-                  style={{ width: "98%" }}
-                  ref={inputRef}
-                  getPopupContainer={(trigger) => trigger.parentNode}
-                >
-                  {config?.designations?.map((d, dI) => (
-                    <Option key={dI} value={parseInt(d.id)}>
-                      {d.name}
-                    </Option>
-                  ))}
-                </Select>
-              ) : (
-                <Input ref={inputRef} onPressEnter={save} />
-              )}
-            </Form.Item>
-          </Col>
-          <Space>
-            <Button type="primary" loading={saving} onClick={save}>
-              Save
-            </Button>
-            <Button onClick={toggleEdit} disabled={saving} danger>
-              Cancel
-            </Button>
-          </Space>
-        </Row>
-      ) : (
-        <div
-          className="editable-cell-value-wrap"
-          style={{
-            paddingRight: 24,
-          }}
-          onClick={() => {
-            toggleEdit();
-          }}
-        >
-          {children}
-        </div>
-      );
-    }
-
-    return <td {...restProps}>{childNode}</td>;
-  };
 
   const handleOnClickDelete = () => {
     setIsFetchDeleteDetail(true);
@@ -188,7 +47,7 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
     });
   };
 
-  const columnData = [
+  const columns = [
     {
       title: "Field",
       dataIndex: "field",
@@ -199,32 +58,8 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
       title: "Value",
       dataIndex: "value",
       key: "value",
-      editable: true,
     },
   ];
-  const components = {
-    body: {
-      row: EditableRow,
-      cell: EditableCell,
-    },
-  };
-
-  const columns = columnData.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
-
-    return {
-      ...col,
-      onCell: (cell) => {
-        return {
-          editable: cell.editable,
-          dataIndex: cell.key,
-          title: cell.field,
-        };
-      },
-    };
-  });
 
   return (
     <>
@@ -232,26 +67,22 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
         <Col span={20}>
           <Table
             columns={columns}
-            components={components}
             className="table-child"
             dataSource={[
               {
                 key: "first_name",
                 field: "First Name",
                 value: record?.first_name || "",
-                editable: true,
               },
               {
                 key: "last_name",
                 field: "Last Name",
                 value: record?.last_name || "",
-                editable: true,
               },
               {
                 key: "organisation",
                 field: "Organisation",
                 value: <span className="dev">-</span>,
-                editable: false,
               },
               {
                 key: "invite",
@@ -263,7 +94,6 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
                     </Button>
                   </Link>
                 ),
-                editable: false,
               },
               {
                 key: "designation",
@@ -273,13 +103,11 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
                     (d) => d.id === parseInt(record.designation)
                   )?.name || "-"
                 }`,
-                editable: true,
               },
               {
                 key: "phone_number",
                 field: "Phone Number",
                 value: `${record?.phone_number || "-"}`,
-                editable: true,
               },
               {
                 key: "forms",
@@ -291,7 +119,6 @@ const UserDetail = ({ record, applyChanges, setDeleteUser, deleting }) => {
                     ? record.forms.map((item) => item.name) + ", "
                     : "-"
                 }`,
-                editable: false,
               },
             ]}
             pagination={false}
