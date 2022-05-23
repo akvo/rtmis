@@ -1,7 +1,7 @@
 from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import override_settings
-from api.v1.v1_data.models import FormData
+from api.v1.v1_data.models import FormData, Forms
 
 
 @override_settings(USE_TZ=False)
@@ -57,6 +57,55 @@ class DataTestCase(TestCase):
             follow=True, **header)
         self.assertEqual(res.status_code, 204)
 
+    def test_datapoint_with_history_deletion(self):
+        call_command("administration_seeder", "--test")
+        user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user_response = self.client.post('/api/v1/login',
+                                         user_payload,
+                                         content_type='application/json')
+        token = user_response.json().get('token')
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+
+        res = self.client.delete("/api/v1/data/1", follow=True, **header)
+        self.assertEqual(res.status_code, 404)
+
+        call_command("form_seeder", "--test")
+        form = Forms.objects.first()
+        self.assertEqual(form.id, 1)
+        # Add data to edit
+        payload = {
+            "data": {
+                "name": "Testing Data",
+                "administration": 2,
+                "geo": [6.2088, 106.8456]
+            },
+            "answer": [{
+                "question": 101,
+                "value": "Jane"
+            }, {
+                "question": 102,
+                "value": ["Male"]
+            }, {
+                "question": 103,
+                "value": 31208200175
+            }, {
+                "question": 104,
+                "value": 2
+            }, {
+                "question": 105,
+                "value": [6.2088, 106.8456]
+            }, {
+                "question": 106,
+                "value": ["Parent", "Children"]
+            }]
+        }
+        data = self.client.post('/api/v1/form-data/1/',
+                                payload,
+                                content_type='application/json',
+                                **header)
+        self.assertEqual(data.status_code, 200)
+        data = data.json()
+        self.assertEqual(data, {"message": "ok"})
         # update data to test deletion with history
         data_id = FormData.objects.first().id
         payload = [{
