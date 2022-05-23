@@ -43,7 +43,13 @@ const HistoryTable = ({ record }) => {
   );
 };
 
-const DataDetail = ({ questionGroups, record, updater, updateRecord }) => {
+const DataDetail = ({
+  questionGroups,
+  record,
+  updater,
+  updateRecord,
+  setDeleteData,
+}) => {
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -250,14 +256,19 @@ const DataDetail = ({ questionGroups, record, updater, updateRecord }) => {
         ))}
       </div>
       <div>
-        <Button
-          type="primary"
-          onClick={handleSave}
-          disabled={!edited || saving}
-          loading={saving}
-        >
-          Save Edits
-        </Button>
+        <Space>
+          <Button
+            type="primary"
+            onClick={handleSave}
+            disabled={!edited || saving}
+            loading={saving}
+          >
+            Save Edits
+          </Button>
+          <Button type="danger" onClick={() => setDeleteData(record)}>
+            Delete
+          </Button>
+        </Space>
       </div>
     </>
   );

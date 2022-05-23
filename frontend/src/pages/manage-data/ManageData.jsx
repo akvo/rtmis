@@ -1,14 +1,27 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Row, Col, Card, Divider, Table, ConfigProvider, Empty } from "antd";
+import {
+  Row,
+  Col,
+  Card,
+  Divider,
+  Table,
+  ConfigProvider,
+  Empty,
+  Modal,
+  Button,
+  Space,
+} from "antd";
 import {
   PlusSquareOutlined,
   CloseSquareOutlined,
   ExclamationCircleOutlined,
+  DeleteOutlined,
 } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import DataDetail from "./DataDetail";
 import { DataFilters, Breadcrumbs, DescriptionPanel } from "../../components";
+import { useNotification } from "../../util/hooks";
 
 const pagePath = [
   {
@@ -30,12 +43,15 @@ const descriptionData = (
   </div>
 );
 const ManageData = () => {
+  const { notify } = useNotification();
   const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
   const [query, setQuery] = useState("");
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [updateRecord, setUpdateRecord] = useState(false);
+  const [deleteData, setDeleteData] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   const { administration, selectedForm, questionGroups } = store.useState(
     (state) => state
@@ -81,6 +97,32 @@ const ManageData = () => {
 
   const handleChange = (e) => {
     setCurrentPage(e.current);
+  };
+
+  const handleDeleteData = () => {
+    if (deleteData?.id) {
+      setDeleting(true);
+      api
+        .delete(`data/${deleteData.id}`)
+        .then(() => {
+          notify({
+            type: "success",
+            message: `${deleteData.name} deleted`,
+          });
+          setDataset(dataset.filter((d) => d.id !== deleteData.id));
+          setDeleteData(null);
+        })
+        .catch((err) => {
+          notify({
+            type: "error",
+            message: "Could not delete datapoint",
+          });
+          console.error(err.response);
+        })
+        .finally(() => {
+          setDeleting(false);
+        });
+    }
   };
 
   useEffect(() => {
@@ -159,6 +201,7 @@ const ManageData = () => {
                   record={record}
                   updateRecord={updateRecord}
                   updater={setUpdateRecord}
+                  setDeleteData={setDeleteData}
                 />
               ),
               expandIcon: ({ expanded, onExpand, record }) =>
@@ -177,6 +220,46 @@ const ManageData = () => {
           />
         </ConfigProvider>
       </Card>
+      <Modal
+        visible={deleteData}
+        onCancel={() => setDeleteData(null)}
+        centered
+        width="575px"
+        footer={
+          <Row justify="center" align="middle">
+            <Col span={14}>&nbsp;</Col>
+            <Col span={10}>
+              <Button
+                className="light"
+                disabled={deleting}
+                onClick={() => {
+                  setDeleteData(null);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="primary"
+                danger
+                loading={deleting}
+                onClick={handleDeleteData}
+              >
+                Delete
+              </Button>
+            </Col>
+          </Row>
+        }
+        bodyStyle={{ textAlign: "center" }}
+      >
+        <Space direction="vertical">
+          <DeleteOutlined style={{ fontSize: "50px" }} />
+          <p>
+            You are about to delete <i>{`${deleteData?.name}`}</i> data.{" "}
+            <b>Delete a datapoint also will delete the history</b>. Are you sure
+            want to delete this datapoint?
+          </p>
+        </Space>
+      </Modal>
     </div>
   );
 };
