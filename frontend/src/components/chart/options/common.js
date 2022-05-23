@@ -60,10 +60,15 @@ export const Color = {
     "#4475B4",
     "#73ADD1",
     "#AAD9E8",
+    "#70CFAD",
+    "#9ACF70",
+    "#CDCF70",
     "#FEE08F",
     "#FDAE60",
     "#F36C42",
     "#D73027",
+    "#A242B5",
+    "#6042B5",
   ],
   option: [
     {
