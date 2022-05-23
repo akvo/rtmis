@@ -1,7 +1,7 @@
 from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import override_settings
-from api.v1.v1_data.models import FormData, Forms
+from api.v1.v1_data.models import FormData, Forms, Answers, AnswerHistory
 
 
 @override_settings(USE_TZ=False)
@@ -56,6 +56,8 @@ class DataTestCase(TestCase):
             f"/api/v1/data/{data_id}",
             follow=True, **header)
         self.assertEqual(res.status_code, 204)
+        answers = Answers.objects.filter(data_id=data_id).count()
+        self.assertEqual(answers, 0)
 
     def test_datapoint_with_history_deletion(self):
         call_command("administration_seeder", "--test")
@@ -150,3 +152,7 @@ class DataTestCase(TestCase):
             f"/api/v1/data/{data_id}",
             follow=True, **header)
         self.assertEqual(res.status_code, 204)
+        answers = Answers.objects.filter(data_id=data_id).count()
+        self.assertEqual(answers, 0)
+        hitory = AnswerHistory.objects.filter(data_id=data_id).count()
+        self.assertEqual(hitory, 0)
