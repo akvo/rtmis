@@ -141,12 +141,14 @@ class FormDataUpdateTestCase(TestCase):
                 self.assertEqual(list(history[0]), [
                     'value', 'created', 'created_by'])
                 self.assertEqual(history[0]['value'], 'Jane')
+                self.assertEqual(history[0]['created_by'], 'Admin RTMIS')
             if question == 102:
                 self.assertEqual(question, 102)
                 self.assertEqual(value, ['Female'])
                 self.assertEqual(list(history[0]), [
                     'value', 'created', 'created_by'])
                 self.assertEqual(history[0]['value'], ['Male'])
+                self.assertEqual(history[0]['created_by'], 'Admin RTMIS')
 
     def test_update_datapoint_by_data_entry_role(self):
         self.maxDiff = None
@@ -707,9 +709,11 @@ class FormDataUpdateTestCase(TestCase):
                 self.assertEqual(list(history[0]), [
                     'value', 'created', 'created_by'])
                 self.assertEqual(history[0]['value'], 'Jane')
+                self.assertEqual(history[0]['created_by'], 'County Admin')
             if question == 102:
                 self.assertEqual(question, 102)
                 self.assertEqual(value, ['Female'])
                 self.assertEqual(list(history[0]), [
                     'value', 'created', 'created_by'])
                 self.assertEqual(history[0]['value'], ['Other'])
+                self.assertEqual(history[0]['created_by'], 'County Admin')

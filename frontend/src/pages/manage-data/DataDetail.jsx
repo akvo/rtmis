@@ -1,10 +1,47 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Table, Button, Space, Spin, Alert } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined, HistoryOutlined } from "@ant-design/icons";
 import { EditableCell } from "../../components";
 import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { flatten, isEqual } from "lodash";
+
+const HistoryTable = ({ record }) => {
+  const { history, id } = record;
+  return (
+    <div className="history-table-wrapper">
+      <Table
+        size="small"
+        rowKey={`history-${id}-${Math.random}`}
+        columns={[
+          {
+            title: "History",
+            dataIndex: "value",
+            key: "value",
+            ellipsis: true,
+          },
+          {
+            title: "Updated at",
+            dataIndex: "created",
+            key: "created",
+            align: "center",
+            ellipsis: true,
+          },
+          {
+            title: "Updated by",
+            dataIndex: "created_by",
+            key: "created_by",
+            align: "center",
+            ellipsis: true,
+          },
+        ]}
+        loading={!history.length}
+        pagination={false}
+        dataSource={history}
+      />
+    </div>
+  );
+};
 
 const DataDetail = ({ questionGroups, record, updater, updateRecord }) => {
   const [dataset, setDataset] = useState([]);
@@ -108,13 +145,20 @@ const DataDetail = ({ questionGroups, record, updater, updateRecord }) => {
       api
         .get(`data/${id}`)
         .then((res) => {
-          const data = questionGroups.map((qg) => ({
-            ...qg,
-            question: qg.question.map((q) => ({
-              ...q,
-              value: res.data.find((d) => d.question === q.id)?.value || null,
-            })),
-          }));
+          const data = questionGroups.map((qg) => {
+            const question = qg.question.map((q) => {
+              const findData = res.data.find((d) => d.question === q.id);
+              return {
+                ...q,
+                value: findData?.value || null,
+                history: findData?.history || false,
+              };
+            });
+            return {
+              ...qg,
+              question: question,
+            };
+          });
           setDataset(data);
         })
         .catch((e) => {
@@ -184,7 +228,23 @@ const DataDetail = ({ questionGroups, record, updater, updateRecord }) => {
                     />
                   ),
                 },
+                Table.EXPAND_COLUMN,
               ]}
+              expandable={{
+                expandIcon: ({ onExpand, record }) => {
+                  if (!record?.history) {
+                    return "";
+                  }
+                  return (
+                    <HistoryOutlined
+                      className="expand-icon"
+                      onClick={(e) => onExpand(record, e)}
+                    />
+                  );
+                },
+                expandedRowRender: (record) => <HistoryTable record={record} />,
+                rowExpandable: (record) => record?.history,
+              }}
             />
           </div>
         ))}
