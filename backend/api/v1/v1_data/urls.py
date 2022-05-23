@@ -1,6 +1,6 @@
 from django.urls import re_path
 
-from api.v1.v1_data.views import data_answers, \
+from api.v1.v1_data.views import DataAnswerDetailDeleteView, \
     get_map_data_point, get_chart_data_point, get_chart_administration, \
     approve_pending_data, get_chart_criteria, \
     export_form_data, list_pending_batch, list_pending_data_batch, \
@@ -12,7 +12,7 @@ urlpatterns = [
     re_path(r'^(?P<version>(v1))/form-data/(?P<form_id>[0-9]+)',
             FormDataAddListView.as_view()),
     re_path(r'^(?P<version>(v1))/data/(?P<data_id>[0-9]+)',
-            data_answers),
+            DataAnswerDetailDeleteView.as_view()),
 
     re_path(r'^(?P<version>(v1))/form-pending-data/(?P<form_id>[0-9]+)',
             PendingFormDataView.as_view()),
