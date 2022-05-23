@@ -270,19 +270,6 @@ class FormDataAddListView(APIView):
                         status=status.HTTP_200_OK)
 
 
-# @extend_schema(responses={200: ListDataAnswerSerializer(many=True)},
-#                tags=['Data'],
-#                summary='To get answers for form data')
-# @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
-# def data_answers(request, version, data_id):
-#     data = get_object_or_404(FormData, pk=data_id)
-#     return Response(
-#         ListDataAnswerSerializer(instance=data.data_answer.all(),
-#                                  many=True).data,
-#         status=status.HTTP_200_OK)
-
-
 class DataAnswerDetailDeleteView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -306,8 +293,9 @@ class DataAnswerDetailDeleteView(APIView):
         summary='Delete datapoint include answer & history')
     def delete(self, request, data_id, version):
         instance = get_object_or_404(FormData, pk=data_id)
-        instance.data_answer.delete()
-        history = instance.data_answer_history
+        answers = Answers.objects.filter(data_id=data_id)
+        answers.delete()
+        history = AnswerHistory.objects.filter(data_id=data_id)
         if history.count():
             history.delete()
         instance.delete()
