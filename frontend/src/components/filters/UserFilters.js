@@ -9,7 +9,14 @@ import RemoveFiltersButton from "./RemoveFiltersButton";
 
 const { Option } = Select;
 
-const UserFilters = ({ query, setQuery, pending, setPending, loading }) => {
+const UserFilters = ({
+  query,
+  setQuery,
+  fetchData,
+  pending,
+  setPending,
+  loading,
+}) => {
   const { user: authUser, filters } = store.useState((state) => state);
   const { role } = filters;
 
@@ -25,7 +32,11 @@ const UserFilters = ({ query, setQuery, pending, setPending, loading }) => {
             onChange={(e) => {
               setQuery(e.target.value);
             }}
+            onSearch={(e) => {
+              fetchData(e);
+            }}
             style={{ width: 160 }}
+            loading={loading && !!query}
             allowClear
           />
           <Select
