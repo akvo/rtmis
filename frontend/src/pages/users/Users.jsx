@@ -37,10 +37,6 @@ const Users = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const applyChanges = (record) => {
-    setDataset(dataset.map((d) => (d.id === record.id ? record : d)));
-  };
-
   const { administration, filters, isLoggedIn } = store.useState(
     (state) => state
   );
@@ -200,7 +196,6 @@ const Users = () => {
           expandable={{
             expandedRowRender: (record) => (
               <UserDetail
-                applyChanges={applyChanges}
                 record={record}
                 setDeleteUser={setDeleteUser}
                 deleting={deleting}
