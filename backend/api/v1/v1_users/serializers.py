@@ -276,6 +276,7 @@ class ListUserRequestSerializer(serializers.Serializer):
         queryset=Administration.objects.none(), required=False)
     pending = CustomBooleanField(default=False)
     descendants = CustomBooleanField(default=True)
+    search = CustomCharField(required=False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
