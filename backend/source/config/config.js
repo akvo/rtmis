@@ -172,6 +172,66 @@ var visualisation = [
           }
         ],
       },
+      {
+        type: "CRITERIA",
+        title: "Mentsrual Hygiene",
+        options: [
+          {
+            name: "Awareness",
+            color: "#368541",
+            score: 15,
+            options: []
+          },
+          {
+            name: "Use of mensrual materials",
+            score: 10,
+            color: "#79BE7D",
+            options: [
+              // {
+              //   question: 524810053,
+              //   option: [
+              //     "Attending school",
+              //     "Paid work",
+              //     "Participating in social activities",
+              //     "Cooking food?"
+              //   ]
+              // },
+            ]
+          },
+          {
+            name: "Access",
+            score: -1,
+            color: "#FDF177",
+            options: [
+              {
+                question: 524810054,
+                option: [
+                  "Yes"
+                ]
+              },
+            ]
+          },
+          {
+            name: "Participation",
+            score: -2,
+            color: "#FBD256",
+            options: [
+              {
+                question: 524810053,
+                option: [
+                  "Attending school",
+                  "Paid work",
+                  "Participating in social activities",
+                  "Cooking food?",
+                  "Cooking food",
+                  "Eating with others",
+                  "Bathing in regular place"
+                ]
+              }
+            ]
+          },
+        ],
+      },
     ],
   },
   {
