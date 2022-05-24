@@ -141,35 +141,160 @@ var visualisation = [
         // },
       },
       {
-        type: "ADMINISTRATION",
-        id: 466680043,
+        type: "CRITERIA",
         title: "Hygiene Service Level",
         options: [
           {
-            name: "Fixed facility observed (sink/tap) In dwelling",
-            title: "Basic",
+            name: "Basic",
+            score: 10,
             color: "#753780",
+            options: [
+              {
+                question: 466680043,
+                option: [
+                  "Fixed facility observed (sink/tap) In dwelling",
+                  "Fixed facility observed (sink/tap)  In yard/plot",
+                  "Mobile object observed (bucket/jug/kettle)"
+                ]
+              },
+              {
+                question: 466680045,
+                option: ["Water is available"]
+              },
+              {
+                question: 466760036,
+                option: ["Soap or detergent available ."]
+              }
+            ]
           },
           {
-            name: "Fixed facility observed (sink/tap)  In yard/plot",
-            title: "Basic",
-            color: "#753780",
-          },
-          {
-            name: "Mobile object observed (bucket/jug/kettle)",
-            title: "Limited",
+            name: "Limited",
+            score: -1,
             color: "#FDF177",
+            options: [
+              {
+                question: 466680043,
+                option: [
+                  "Fixed facility observed (sink/tap) In dwelling",
+                  "Fixed facility observed (sink/tap)  In yard/plot",
+                  "Mobile object observed (bucket/jug/kettle)"
+                ]
+              },
+              {
+                question: 466680045,
+                option: ["Water is available"]
+              },
+              {
+                question: 466760036,
+                option: ["Soap or detergent available ."]
+              }
+            ]
           },
           {
-            name: "No handwashing place in dwelling/yard/plot",
-            title: "No Facility",
+            name: "No Facility",
+            score: -2,
             color: "#F1AC2A",
+            options: [
+              {
+                question: 466680043,
+                option: [
+                  "No handwashing place in dwelling/yard/plot",
+                  "No permission to see",
+                ]
+              }
+            ]
+          },
+        ],
+      },
+      {
+        type: "CRITERIA",
+        title: "Menstrual Hygiene",
+        options: [
+          {
+            name: "Awareness",
+            color: "#368541",
+            score: 15,
+            options: [
+            ]
           },
           {
-            name: "No permission to see",
-            title: "No Facility",
-            color: "#F1AC2A",
+            name: "Use of menstrual materials",
+            score: 10,
+            color: "#79BE7D",
+            options: []
+          },
+          {
+            name: "Access",
+            score: -1,
+            color: "#FDF177",
+            options: []
+          },
+          {
+            name: "Participation",
+            score: -2,
+            color: "#FBD256",
+            options: []
           }
+        ],
+      },
+      {
+        type: "CRITERIA",
+        title: "Mentsrual Hygiene",
+        options: [
+          {
+            name: "Awareness",
+            color: "#368541",
+            score: 15,
+            options: []
+          },
+          {
+            name: "Use of mensrual materials",
+            score: 10,
+            color: "#79BE7D",
+            options: [
+              // {
+              //   question: 524810053,
+              //   option: [
+              //     "Attending school",
+              //     "Paid work",
+              //     "Participating in social activities",
+              //     "Cooking food?"
+              //   ]
+              // },
+            ]
+          },
+          {
+            name: "Access",
+            score: -1,
+            color: "#FDF177",
+            options: [
+              {
+                question: 524810054,
+                option: [
+                  "Yes"
+                ]
+              },
+            ]
+          },
+          {
+            name: "Participation",
+            score: -2,
+            color: "#FBD256",
+            options: [
+              {
+                question: 524810053,
+                option: [
+                  "Attending school",
+                  "Paid work",
+                  "Participating in social activities",
+                  "Cooking food?",
+                  "Cooking food",
+                  "Eating with others",
+                  "Bathing in regular place"
+                ]
+              }
+            ]
+          },
         ],
       },
     ],
