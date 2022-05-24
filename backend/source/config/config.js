@@ -214,37 +214,6 @@ var visualisation = [
             name: "Awareness",
             color: "#368541",
             score: 15,
-            options: [
-            ]
-          },
-          {
-            name: "Use of menstrual materials",
-            score: 10,
-            color: "#79BE7D",
-            options: []
-          },
-          {
-            name: "Access",
-            score: -1,
-            color: "#FDF177",
-            options: []
-          },
-          {
-            name: "Participation",
-            score: -2,
-            color: "#FBD256",
-            options: []
-          }
-        ],
-      },
-      {
-        type: "CRITERIA",
-        title: "Mentsrual Hygiene",
-        options: [
-          {
-            name: "Awareness",
-            color: "#368541",
-            score: 15,
             options: []
           },
           {
