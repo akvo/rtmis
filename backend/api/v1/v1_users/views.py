@@ -8,8 +8,8 @@ from django.contrib.auth import authenticate
 from django.core import signing
 from django.core.management import call_command
 from django.core.signing import BadSignature
-from django.db.models import Value
-from django.db.models.functions import Coalesce
+from django.db.models import Value, Q
+from django.db.models.functions import Coalesce, Concat
 from django.http import HttpResponse
 from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
@@ -292,6 +292,10 @@ def add_user(request, version):
                          required=False,
                          default=True,
                          type=OpenApiTypes.BOOL,
+                         location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='search',
+                         required=False,
+                         type=OpenApiTypes.STR,
                          location=OpenApiParameter.QUERY)])
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
@@ -352,7 +356,15 @@ def list_users(request, version):
     # also filter soft deletes
     queryset = SystemUser.objects.filter(
         deleted_at=None, **filter_data
-    ).exclude(
+    )
+    # filter by email or fullname
+    if serializer.validated_data.get('search'):
+        search = serializer.validated_data.get('search')
+        queryset = queryset.annotate(
+            fullname=Concat('first_name', Value(' '), 'last_name'))
+        queryset = queryset.filter(
+            Q(email__icontains=search) | Q(fullname__icontains=search))
+    queryset = queryset.exclude(
         **exclude_data
     ).annotate(
         last_updated=Coalesce('updated', Value(the_past))

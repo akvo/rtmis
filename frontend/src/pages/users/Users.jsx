@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./style.scss";
 import { Row, Col, Card, Button, Divider, Table, Modal } from "antd";
 import { Link } from "react-router-dom";
@@ -37,10 +37,6 @@ const Users = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const applyChanges = (record) => {
-    setDataset(dataset.map((d) => (d.id === record.id ? record : d)));
-  };
-
   const { administration, filters, isLoggedIn } = store.useState(
     (state) => state
   );
@@ -67,10 +63,6 @@ const Users = () => {
     {
       title: "Email",
       dataIndex: "email",
-      filtered: true,
-      filteredValue: query.trim() === "" ? [] : [query],
-      onFilter: (value, filters) =>
-        filters.email.toLowerCase().includes(value.toLowerCase()),
     },
     {
       title: "Role",
@@ -126,35 +118,52 @@ const Users = () => {
       });
   };
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      let url = `users/?page=${currentPage}&pending=${
-        pending ? "true" : "false"
-      }`;
-      if (selectedAdministration?.id) {
-        url += `&administration=${selectedAdministration.id}`;
-      }
-      if (role) {
-        url += `&role=${role}`;
-      }
-      setLoading(true);
-      api
-        .get(url)
-        .then((res) => {
-          setDataset(res.data.data);
-          setTotalCount(res.data.total);
-          setLoading(false);
-        })
-        .catch((err) => {
-          notify({
-            type: "error",
-            message: "Could not load users",
+  const fetchData = useCallback(
+    (query = null) => {
+      if (isLoggedIn) {
+        let url = `users/?page=${currentPage}&pending=${
+          pending ? "true" : "false"
+        }`;
+        if (selectedAdministration?.id) {
+          url += `&administration=${selectedAdministration.id}`;
+        }
+        if (role) {
+          url += `&role=${role}`;
+        }
+        if (query) {
+          url += `&search=${query}`;
+        }
+        setLoading(true);
+        api
+          .get(url)
+          .then((res) => {
+            setDataset(res.data.data);
+            setTotalCount(res.data.total);
+            setLoading(false);
+          })
+          .catch((err) => {
+            notify({
+              type: "error",
+              message: "Could not load users",
+            });
+            setLoading(false);
+            console.error(err);
           });
-          setLoading(false);
-          console.error(err);
-        });
-    }
-  }, [role, pending, currentPage, selectedAdministration, isLoggedIn, notify]);
+      }
+    },
+    [role, pending, currentPage, selectedAdministration, isLoggedIn, notify]
+  );
+
+  useEffect(() => {
+    fetchData();
+  }, [
+    role,
+    pending,
+    currentPage,
+    selectedAdministration,
+    isLoggedIn,
+    fetchData,
+  ]);
 
   return (
     <div id="users">
@@ -173,6 +182,7 @@ const Users = () => {
       <UserFilters
         query={query}
         setQuery={setQuery}
+        fetchData={fetchData}
         pending={pending}
         setPending={setPending}
         loading={loading}
@@ -200,7 +210,6 @@ const Users = () => {
           expandable={{
             expandedRowRender: (record) => (
               <UserDetail
-                applyChanges={applyChanges}
                 record={record}
                 setDeleteUser={setDeleteUser}
                 deleting={deleting}
