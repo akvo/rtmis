@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col, Button } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import ComingSoon from "./custom/ComingSoon";
+import Countdown from "react-countdown";
 
 const styles = {
   banner: {
@@ -10,6 +11,34 @@ const styles = {
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
   },
+};
+const renderer = ({ days, hours, minutes, seconds, completed }) => {
+  if (completed) {
+    return "";
+  }
+  return (
+    <Row align="bottom" gutter={[6, 6]}>
+      <Col>
+        <div>Days</div>
+        <div>{days}</div>
+      </Col>
+      <Col>:</Col>
+      <Col>
+        <div>Hours</div>
+        <div>{hours}</div>
+      </Col>
+      <Col>:</Col>
+      <Col>
+        <div>Minutes</div>
+        <div>{minutes}</div>
+      </Col>
+      <Col>:</Col>
+      <Col>
+        <div>Seconds</div>
+        <div>{seconds}</div>
+      </Col>
+    </Row>
+  );
 };
 
 const HomeBanner = () => {
@@ -24,8 +53,12 @@ const HomeBanner = () => {
         <br />
         <small>Updated estimates for WASH in households accross Kenya</small>
       </h1>
-      <Button size="large" ghost className="dev">
-        Explore the Data
+      <div className="launching">
+        <h4>Launching in:</h4>
+        <Countdown date="2022-07-01" renderer={renderer} />
+      </div>
+      <Button size="large" ghost>
+        <Link to="/data/visualisation">Explore the Data</Link>
       </Button>
     </>
   );

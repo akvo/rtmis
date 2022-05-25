@@ -159,6 +159,23 @@
   }
 }
 
+.ant-pagination-total-text {
+  position: absolute;
+  left: 15px;
+}
+
+// .ant-checkbox-wrapper-checked span:nth-child(2) {
+//   background-color: green;
+//   border-radius: 5px;
+// }
+
+.description-paragraph {
+  margin-top: 4px;
+  padding: 4px;
+  background: transparent;
+  color: $color-default;
+}
+
 .text-muted {
   color: $color-default;
 }

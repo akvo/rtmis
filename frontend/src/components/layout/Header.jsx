@@ -3,20 +3,28 @@ import PropTypes from "prop-types";
 import { Row, Col, Space, Button, Menu, Dropdown } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import { config, store } from "../../lib";
+
+function eraseCookieFromAllPaths(name) {
+  var pathBits = location.pathname.split("/");
+  var pathCurrent = " path=";
+  document.cookie = name + "=; expires=Thu, 01-Jan-1970 00:00:01 GMT;";
+
+  for (var i = 0; i < pathBits.length; i++) {
+    pathCurrent += (pathCurrent.substr(-1) !== "/" ? "/" : "") + pathBits[i];
+    document.cookie =
+      name + "=; expires=Thu, 01-Jan-1970 00:00:01 GMT;" + pathCurrent + ";";
+  }
+}
 
 const Header = ({ className = "header", ...props }) => {
   const { isLoggedIn, user } = store.useState();
-  const [cookies, removeCookie] = useCookies(["AUTH_TOKEN"]);
   const navigate = useNavigate();
   const location = useLocation();
 
   const signOut = async () => {
+    eraseCookieFromAllPaths("AUTH_TOKEN");
     store.update((s) => {
-      if (cookies["AUTH_TOKEN"]) {
-        removeCookie("AUTH_TOKEN", "");
-      }
       s.isLoggedIn = false;
       s.user = null;
     });
@@ -59,44 +67,55 @@ const Header = ({ className = "header", ...props }) => {
       justify="space-between"
       {...props}
     >
-      <Col className="logo">
-        <Link to="/">
-          <img src={config.siteLogo} alt={config.siteLogo} />
-          <h1>{config.siteTitle}</h1>
-        </Link>
-      </Col>
-      <Col className="navigation">
-        <Space>
-          <Link className="dev" to="/data/visualisation">
-            Data
+      <Col>
+        <div className="logo">
+          <Link to="/">
+            <img
+              className="small-logo"
+              src={config.siteLogo}
+              alt={config.siteLogo}
+            />
+            <h1>{config.siteTitle}</h1>
           </Link>
-          <a className="dev">Reports</a>
-          <a className="dev">Monitoring</a>
-          <a className="dev">How We Work</a>
-        </Space>
+        </div>
       </Col>
-      <Col className="account">
-        {isLoggedIn ? (
-          <Dropdown overlay={userMenu}>
-            <a
-              className="ant-dropdown-link"
-              onClick={(e) => {
-                e.preventDefault();
-              }}
-            >
-              {user?.name || ""}
-              <span className="icon">
-                <UserOutlined />
-              </span>
-            </a>
-          </Dropdown>
-        ) : (
-          <Link to={"/login"}>
-            <Button type="primary" size="small">
-              Log in
-            </Button>
-          </Link>
-        )}
+      <Col>
+        <div className="navigation">
+          <Space>
+            <Link to="/data/visualisation">Dashboards</Link>
+            <a className="dev">Reports</a>
+            {/* <a className="dev">Monitoring</a> */}
+            {/* <Link className="dev" to="/how-we-work">
+            How We Work
+          </Link> */}
+            <Link className="dev" to="/news-events">
+              News {"&"} Events
+            </Link>
+          </Space>
+        </div>
+        <div className="account">
+          {isLoggedIn ? (
+            <Dropdown overlay={userMenu}>
+              <a
+                className="ant-dropdown-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                }}
+              >
+                {user?.name || ""}
+                <span className="icon">
+                  <UserOutlined />
+                </span>
+              </a>
+            </Dropdown>
+          ) : (
+            <Link to={"/login"}>
+              <Button type="primary" size="small">
+                Log in
+              </Button>
+            </Link>
+          )}
+        </div>
       </Col>
     </Row>
   );

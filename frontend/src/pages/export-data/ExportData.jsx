@@ -17,7 +17,7 @@ import {
   DownloadOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import { Breadcrumbs } from "../../components";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
 
@@ -30,7 +30,7 @@ const pagePath = [
     title: "Export Data",
   },
 ];
-
+const descriptionData = "This section helps you to access exported data";
 const ExportData = () => {
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -136,7 +136,7 @@ const ExportData = () => {
             );
           }
         });
-      }, 3000);
+      }, 300);
     }
   }, [pending]);
 
@@ -189,6 +189,7 @@ const ExportData = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel description={descriptionData} />
         </Col>
       </Row>
       <Divider />

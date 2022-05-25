@@ -11,7 +11,7 @@ from api.v1.v1_data.models import PendingFormData, \
     PendingAnswers, PendingDataApproval, PendingDataBatch
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import FormApprovalRule, FormApprovalAssignment
-from api.v1.v1_forms.models import Forms
+from api.v1.v1_forms.models import Forms, UserForms
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Access, Levels
 from api.v1.v1_users.models import SystemUser
@@ -165,6 +165,7 @@ def assign_batch_for_approval(batch, user, test):
                                       administration=administration)
             assignment = FormApprovalAssignment.objects.create(
                 form=batch.form, administration=administration, user=approver)
+            UserForms.objects.get_or_create(form=batch.form, user=approver)
             if not test:
                 print("Level: {} ({})".format(administration.level.level,
                                               administration.level.name))
@@ -249,6 +250,7 @@ class Command(BaseCommand):
                 submitter = create_or_get_submitter(role)
             seed_data(form, fake_geo, options.get("repeat"), submitter)
             administration = submitter.user_access.administration
+            UserForms.objects.get_or_create(form=form, user=submitter)
             limit = options.get('batch')
             print_info(form, administration, submitter, limit, test)
             if limit:

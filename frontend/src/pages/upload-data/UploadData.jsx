@@ -12,7 +12,7 @@ import {
   Upload,
 } from "antd";
 import { FileTextFilled } from "@ant-design/icons";
-import { Breadcrumbs } from "../../components";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { AdministrationDropdown } from "../../components";
 import { useNavigate } from "react-router-dom";
 import { api, store } from "../../lib";
@@ -36,7 +36,16 @@ const pagePath = [
     title: "Data Upload",
   },
 ];
-
+const descriptionData = (
+  <div>
+    This section helps you to:
+    <ul>
+      <li>Download upload template</li>
+      <li>Bulk upload new data</li>
+      <li>Bulk upload existing data</li>
+    </ul>
+  </div>
+);
 const UploadData = () => {
   const { forms, user, administration } = store.useState((state) => state);
   const [formId, setFormId] = useState(null);
@@ -47,8 +56,9 @@ const UploadData = () => {
   const { notify } = useNotification();
   const navigate = useNavigate();
   const exportGenerate = () => {
+    const adm_id = takeRight(administration, 1)[0]?.id;
     api
-      .get(`download/generate?form_id=${formId}`)
+      .get(`download/generate?form_id=${formId}&administration_id=${adm_id}`)
       .then(() => {
         notify({
           type: "success",
@@ -170,6 +180,7 @@ const UploadData = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel description={descriptionData} />
         </Col>
       </Row>
       <Divider />

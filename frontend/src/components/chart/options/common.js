@@ -1,4 +1,5 @@
 import upperFirst from "lodash/upperFirst";
+import take from "lodash/take";
 
 export const popupFormatter = (params) => {
   var value = (params.value + "").split(".");
@@ -46,15 +47,55 @@ export const AxisLabelFormatter = {
   },
 };
 
+export const AxisShortLabelFormatter = {
+  formatter: function (params) {
+    const stringArr = String(params).split(" ");
+    const newParamsName = take(stringArr, 3).join("\n");
+    return upperFirst(newParamsName) + (stringArr.length > 3 ? ".." : "-");
+  },
+};
+
 export const Color = {
   color: [
     "#4475B4",
     "#73ADD1",
     "#AAD9E8",
+    "#70CFAD",
+    "#9ACF70",
+    "#CDCF70",
     "#FEE08F",
     "#FDAE60",
     "#F36C42",
     "#D73027",
+    "#A242B5",
+    "#6042B5",
+  ],
+  option: [
+    {
+      keys: [
+        "Yes",
+        "Yes, all of them",
+        "Functional toilet with privacy",
+        "in own dwelling",
+      ],
+      color: "#64d985",
+    },
+    {
+      keys: ["No", "Elsewhere"],
+      color: "#e06971",
+    },
+    {
+      keys: ["male"],
+      color: "#5999e8",
+    },
+    {
+      keys: ["female"],
+      color: "#d45dba",
+    },
+    {
+      keys: ["in own yard/plot", "yes, but not all of them"],
+      color: "#ced88c",
+    },
   ],
 };
 

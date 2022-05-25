@@ -67,6 +67,11 @@
 
       .logo {
         align-items: center;
+        display: inline-block;
+
+        .small-logo {
+          height: 85px;
+        }
 
         img {
           height: $logo-height;
@@ -84,6 +89,11 @@
         }
       }
 
+      .account,
+      .navigation {
+        display: inline-block;
+      }
+
       .navigation,
       .menu,
       button {
@@ -99,6 +109,7 @@
       }
 
       .account {
+        margin-left: 30px;
         vertical-align: middle;
 
         button {
@@ -124,6 +135,16 @@
 
     .body {
       background-color: "transparent";
+    }
+
+    .launching {
+      color: #fff;
+      font-size: 20px;
+      padding-bottom: 1.5rem;
+
+      h4 {
+        color: #fff;
+      }
     }
 
     .footer {
@@ -155,7 +176,7 @@
         text-align: center;
 
         img {
-          width: 100%;
+          width: 125px;
         }
 
         h3 {
@@ -168,10 +189,10 @@
       .end {
         border-top: 1px solid $white;
         padding-top: $padding-default - 10;
+      }
 
-        a {
-          color: $white;
-        }
+      a {
+        color: $white;
       }
     }
   }

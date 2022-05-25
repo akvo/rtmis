@@ -18,10 +18,12 @@ const config = {
         "form",
       ],
       administration_level: [1],
+      description:
+        "Overall national administrator of the RTMIS. Assigns roles to all county admins",
     },
     {
       id: 2,
-      name: "Admin",
+      name: "County Admin",
       filter_form: false,
       page_access: [
         "profile",
@@ -35,10 +37,12 @@ const config = {
         "form",
       ],
       administration_level: [2],
+      description:
+        "Overall County administrator of the RTMIS. Assigns roles to all sub county RTMIS admins (approvers) in the county under jusridistion.",
     },
     {
       id: 3,
-      name: "Approver",
+      name: "Data Approver",
       filter_form: 1,
       page_access: [
         "profile",
@@ -49,13 +53,31 @@ const config = {
         "questionnaires",
       ],
       administration_level: [3, 4],
+      description:
+        "Gives final approval to data submitted from the area under jurisdiction. Can edit or return data for correction.",
     },
     {
       id: 4,
-      name: "User",
+      name: "Data Entry Staff",
       filter_form: 1,
-      page_access: ["profile", "form", "data"],
+      page_access: [
+        "profile",
+        "form",
+        "data",
+        "visualisation",
+        "control-center",
+      ],
       administration_level: [4],
+      description:
+        "Overall role to collect data from community/village assigned to them",
+    },
+    {
+      id: 5,
+      name: "Institutional User",
+      filter_form: false,
+      page_access: ["profile", "visualisation"],
+      administration_level: [1, 2, 3, 4],
+      description: "Can view and download data from all counties",
     },
   ],
   checkAccess: (roles, page) => {

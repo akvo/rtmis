@@ -7,12 +7,17 @@ const defaultUIState = {
     role: null,
   },
   administration: [],
+  selectedAdministration: null,
   loadingAdministration: false,
+  loadingMap: false,
   forms: window.forms,
   levels: window.levels,
   selectedForm: null,
   loadingForm: false,
   questionGroups: [],
+  showAdvancedFilters: false,
+  advancedFilters: [],
+  administrationLevel: null,
 };
 
 const store = new Store(defaultUIState);

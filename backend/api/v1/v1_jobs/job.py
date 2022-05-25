@@ -12,7 +12,7 @@ from api.v1.v1_jobs.seed_data import seed_excel_data
 from api.v1.v1_jobs.validate_upload import validate
 from api.v1.v1_profile.models import Administration, Levels
 from utils import storage
-from utils.email_helper import send_email
+from utils.email_helper import send_email, EmailTypes
 from utils.export_form import generate_definition_sheet
 from utils.functions import update_date_time_format
 from utils.storage import upload
@@ -28,6 +28,8 @@ def download(form: Forms, administration_ids):
 
 def rearrange_columns(col_names: list):
     col_question = list(filter(lambda x: HText(x).hasnum, col_names))
+    if len(col_question) == len(col_names):
+        return col_question
     col_names = [
                     "id", "created_at", "created_by", "updated_at",
                     "updated_by",
@@ -165,7 +167,7 @@ def seed_data_job_result(task):
             'subject': 'New Request @{0}'.format(job.user.get_full_name()),
             'send_to': [job.user.email],
         }
-        send_email(data, 'new_request.html')
+        send_email(context=data, type=EmailTypes.new_request)
     else:
         job.status = JobStatus.failed
     job.save()
@@ -183,11 +185,11 @@ def validate_excel(job_id):
             filter(lambda x: x != "error", list(error_list)))]
         error_file = f"./tmp/error-{job_id}.csv"
         error_list.to_csv(error_file, index=False)
-        data = {
-            'subject': 'RTMIS:Errors in uploaded data',
-            'send_to': [job.user.email],
-        }
-        send_email(data, 'upload_error.html', error_file, 'text/csv')
+        data = {'send_to': [job.user.email]}
+        send_email(context=data,
+                   type=EmailTypes.upload_error,
+                   path=error_file,
+                   content_type='text/csv')
         return False
     return True
 
@@ -200,6 +202,7 @@ def validate_excel_result(task):
         job.available = timezone.now()
         job.save()
         new_job = Jobs.objects.create(
+            result=job.info.get('file'),
             type=JobTypes.seed_data,
             status=JobStatus.on_progress,
             user=job.user,

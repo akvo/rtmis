@@ -8,14 +8,24 @@ import {
 } from "./common";
 import { isEmpty, sumBy } from "lodash";
 
-const Pie = (data, chartTitle, extra, Doughnut = false) => {
+const Pie = (
+  data,
+  chartTitle,
+  extra,
+  Doughnut = false,
+  series = {},
+  legend = {}
+) => {
   data = !data ? [] : data;
   let labels = [];
   if (data.length > 0) {
     labels = data.map((x) => x.name);
     data = data.filter((x) => x.value >= 0);
     const total = sumBy(data, "value");
-    data = data.map((x) => ({ ...x, percentage: x.value / total }));
+    data = data.map((x) => ({
+      ...x,
+      percentage: ((x.value / total) * 100)?.toFixed(0) || 0,
+    }));
   }
   const { textStyle } = TextStyle;
   const rose = {};
@@ -37,6 +47,10 @@ const Pie = (data, chartTitle, extra, Doughnut = false) => {
         ...textStyle,
         fontSize: 12,
       },
+    },
+    grid: {
+      top: 0,
+      bottom: 0,
     },
     series: [
       {
@@ -64,6 +78,7 @@ const Pie = (data, chartTitle, extra, Doughnut = false) => {
           show: true,
         },
         data: data,
+        ...series,
         ...rose,
       },
     ],
@@ -81,6 +96,7 @@ const Pie = (data, chartTitle, extra, Doughnut = false) => {
         fontSize: 12,
         marginLeft: 20,
       },
+      ...legend,
     },
     ...Color,
     ...backgroundColor,

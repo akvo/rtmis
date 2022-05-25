@@ -11,24 +11,33 @@ import {
   Select,
   Checkbox,
 } from "antd";
-import { AdministrationDropdown } from "../../components";
+import { AdministrationDropdownUserPage } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { api, store, config } from "../../lib";
-import { Breadcrumbs } from "../../components";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { takeRight } from "lodash";
 import { useNotification } from "../../util/hooks";
 
 const { Option } = Select;
 
+const descriptionData =
+  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
+
 const AddUser = () => {
   const [submitting, setSubmitting] = useState(false);
   const [showAdministration, setShowAdministration] = useState(false);
+  const [showForms, setShowForms] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [allowedForms, setAllowedForms] = useState([]);
+  const [description, setDescription] = useState("");
   const [form] = Form.useForm();
   const {
     user: authUser,
     administration,
     levels,
     loadingAdministration,
+    forms,
+    loadingForm,
   } = store.useState((s) => s);
   const navigate = useNavigate();
   const { notify } = useNotification();
@@ -59,6 +68,7 @@ const AddUser = () => {
       phone_number: values.phone_number,
       designation: values.designation,
       role: values.role,
+      forms: values.forms,
     })
       .then(() => {
         notify({
@@ -80,9 +90,9 @@ const AddUser = () => {
   };
 
   const allowedRole = useMemo(() => {
-    return config.roles.filter((r) => r.id >= authUser.role.id);
+    const lookUp = authUser.role?.id === 2 ? 3 : authUser.role?.id || 4;
+    return config.roles.filter((r) => r.id >= lookUp);
   }, [authUser]);
-
   const checkRole = useCallback(() => {
     const admin = takeRight(administration, 1)?.[0];
     const role = form.getFieldValue("role");
@@ -90,7 +100,7 @@ const AddUser = () => {
       (a) => a.id === role
     )?.administration_level;
     form.setFieldsValue({
-      administration: allowed_level?.includes(administration.length)
+      administration: allowed_level?.includes(administration.length + 1)
         ? admin?.id
         : null,
     });
@@ -99,11 +109,22 @@ const AddUser = () => {
   const onChange = (a) => {
     if (a?.role === 1) {
       setShowAdministration(false);
+      setShowForms(false);
       checkRole(administration);
     }
     if (a?.role > 1) {
       setShowAdministration(true);
+      form.setFieldsValue({ forms: [] });
+      setShowForms(true);
       checkRole(administration);
+    }
+    if (a?.role < 3) {
+      setAllowedForms(forms);
+    } else {
+      setAllowedForms(forms.filter((f) => f.type === 1));
+    }
+    if (a?.role === 5) {
+      setShowForms(false);
     }
   };
 
@@ -139,6 +160,7 @@ const AddUser = () => {
           s.loadingAdministration = true;
         });
         setShowAdministration(true);
+        setLoading(true);
         api.get(`user/${id}`).then((res) => {
           form.setFieldsValue({
             administration: res.data?.administration,
@@ -148,20 +170,36 @@ const AddUser = () => {
             last_name: res.data?.last_name,
             phone_number: res.data?.phone_number,
             role: res.data?.role,
+            forms: res.data?.forms.map((f) => parseInt(f.id)),
           });
+          if (res.data?.role > 1) {
+            setShowForms(true);
+            if (res.data?.role < 3) {
+              setAllowedForms(forms);
+            } else {
+              setAllowedForms(forms.filter((f) => f.type === 1));
+            }
+          }
+          setLoading(false);
           fetchData(res.data.administration, []);
         });
       } catch (error) {
-        console.error(error);
+        notify({ type: "error", message: "Failed to load user data" });
+        setLoading(false);
       }
     }
-  }, [id, form]);
+  }, [id, form, forms, notify]);
 
+  const roleDescription = (e) => {
+    const role = config.roles.filter((data) => data.id === e);
+    setDescription(role[0].description);
+  };
   return (
     <div id="add-user">
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel description={descriptionData} />
         </Col>
       </Row>
       <Divider />
@@ -177,6 +215,7 @@ const AddUser = () => {
           email: "",
           role: null,
           county: null,
+          forms: [],
         }}
         onValuesChange={onChange}
         onFinish={onFinish}
@@ -287,14 +326,19 @@ const AddUser = () => {
               <Select
                 getPopupContainer={(trigger) => trigger.parentNode}
                 placeholder="Select one.."
+                onChange={roleDescription}
               >
                 {allowedRole.map((r, ri) => (
                   <Option key={ri} value={r.id}>
                     {r.name}
+                    <span className="opt-desc">{r.description}</span>
                   </Option>
                 ))}
               </Select>
             </Form.Item>
+            <span className="role-description">
+              {description ? description : ""}
+            </span>
           </div>
           <Form.Item noStyle shouldUpdate>
             {(f) => {
@@ -311,7 +355,7 @@ const AddUser = () => {
                         );
                         const allowed_levels = role?.administration_level;
                         const adm_length =
-                          authUser.role.value === "Admin"
+                          authUser.role.value === "County Admin"
                             ? administration.length + 1
                             : administration.length;
                         if (allowed_levels?.includes(adm_length)) {
@@ -339,13 +383,45 @@ const AddUser = () => {
               {loadingAdministration ? (
                 <p style={{ paddingLeft: 12, color: "#6b6b6f" }}>Loading..</p>
               ) : (
-                <AdministrationDropdown
+                <AdministrationDropdownUserPage
                   direction="vertical"
                   withLabel={true}
                   persist={true}
                   size="large"
                   width="100%"
+                  role={form.getFieldValue("role")}
                 />
+              )}
+            </div>
+          )}
+          {showForms && (
+            <div className="form-row" style={{ marginTop: 24 }}>
+              {loadingForm || loading ? (
+                <>
+                  <div className="ant-form-item-label">
+                    <label title="Questionnaires">Questionnaires</label>
+                  </div>
+                  <p style={{ paddingLeft: 12, color: "#6b6b6f" }}>Loading..</p>
+                </>
+              ) : (
+                <Form.Item
+                  name="forms"
+                  label="Questionnaires"
+                  rules={[{ required: false }]}
+                >
+                  <Select
+                    mode="multiple"
+                    getPopupContainer={(trigger) => trigger.parentNode}
+                    placeholder="Select.."
+                    allowClear
+                  >
+                    {allowedForms.map((f) => (
+                      <Option key={f.id} value={f.id}>
+                        {f.name}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
               )}
             </div>
           )}

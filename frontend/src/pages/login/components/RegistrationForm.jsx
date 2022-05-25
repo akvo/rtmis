@@ -4,13 +4,19 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { api, store, config } from "../../../lib";
 import { useNavigate } from "react-router-dom";
 import { useNotification } from "../../../util/hooks";
+import { reloadData } from "../../../util/form";
 
 const checkBoxOptions = [
   { name: "Lowercase Character", re: /[a-z]/ },
   { name: "Numbers", re: /\d/ },
-  { name: "Special Character", re: /[-._!"`'#%&,:;<>=@{}~$()*+/?[\]^|]/ },
+  {
+    name: "Special Character ( -._!`'#%&,:;<>=@{}~$()*+/?[]^|] )",
+    re: /[-._!`'#%&,:;<>=@{}~$()*+/?[\]^|]/,
+  },
+  { name: "Uppercase Character", re: /[A-Z]/ },
+  { name: "No White Space", re: /^\S*$/ },
+  { name: "Minimum 8 Character", re: /(?=.{8,})/ },
 ];
-
 const RegistrationForm = (props) => {
   const { invite } = props;
   const [checkedList, setCheckedList] = useState([]);
@@ -35,10 +41,8 @@ const RegistrationForm = (props) => {
         store.update((s) => {
           s.isLoggedIn = true;
           s.user = { ...res.data, role_detail: role_details };
-          s.forms = role_details.filter_form
-            ? window.forms.filter((x) => x.type === role_details.filter_form)
-            : window.forms;
         });
+        reloadData(res.data);
         setLoading(false);
         notify({
           type: "success",
@@ -92,7 +96,7 @@ const RegistrationForm = (props) => {
             },
             () => ({
               validator() {
-                if (checkedList.length === 3) {
+                if (checkedList.length === 6) {
                   return Promise.resolve();
                 }
                 return Promise.reject(new Error("False Password Criteria"));

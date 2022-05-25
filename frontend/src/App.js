@@ -17,11 +17,17 @@ import {
   ExportData,
   UploadData,
   Visualisation,
+  NewsEvents,
+  HowWeWork,
+  Terms,
+  Privacy,
 } from "./pages";
 import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
 import { Layout, PageLoader } from "./components";
 import { useNotification } from "./util/hooks";
+import { timeDiffHours } from "./util/date";
+import { reloadData } from "./util/form";
 
 const Private = ({ element: Element, alias }) => {
   const { user: authUser } = store.useState((state) => state);
@@ -96,6 +102,10 @@ const RouteList = () => {
         path="/profile"
         element={<Private element={Profile} alias="profile" />}
       />
+      <Route path="/news-events" element={<NewsEvents />} />
+      <Route path="/how-we-work" element={<HowWeWork />} />
+      <Route path="/terms" element={<Terms />} />
+      <Route path="/privacy-policy" element={<Privacy />} />
       <Route exact path="/coming-soon" element={<div />} />
       <Route exact path="/not-found" element={<div />} />
       <Route path="*" element={<Navigate replace to="/not-found" />} />
@@ -108,6 +118,19 @@ const App = () => {
   const [cookies, removeCookie] = useCookies(["AUTH_TOKEN"]);
   const [loading, setLoading] = useState(true);
   const { notify } = useNotification();
+
+  document.addEventListener("click", () => {
+    if (isLoggedIn && authUser?.last_login) {
+      const expired = timeDiffHours(authUser.last_login);
+      if (expired >= 2) {
+        removeCookie("AUTH_TOKEN");
+        store.update((s) => {
+          s.isLoggedIn = false;
+          s.user = null;
+        });
+      }
+    }
+  });
 
   useEffect(() => {
     if (!location.pathname.includes("/login")) {
@@ -123,12 +146,8 @@ const App = () => {
             store.update((s) => {
               s.isLoggedIn = true;
               s.user = { ...res.data, role_detail: role_details };
-              s.forms = role_details.filter_form
-                ? window.forms.filter(
-                    (x) => x.type === role_details.filter_form
-                  )
-                : window.forms;
             });
+            reloadData(res.data);
             api.setToken(cookies.AUTH_TOKEN);
             setLoading(false);
           })
@@ -154,6 +173,36 @@ const App = () => {
       setLoading(false);
     }
   }, [authUser, isLoggedIn, removeCookie, cookies, notify]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      api
+        .get(`administration/${authUser.administration.id}`)
+        .then((adminRes) => {
+          store.update((s) => {
+            s.administration = [
+              {
+                id: adminRes.data.id,
+                name: adminRes.data.name,
+                levelName: adminRes.data.level_name,
+                children: adminRes.data.children,
+                childLevelName: adminRes.data.children_level_name,
+              },
+            ];
+          });
+        })
+        .catch((err) => {
+          notify({
+            type: "error",
+            message: "Could not load filters",
+          });
+          store.update((s) => {
+            s.loadingAdministration = false;
+          });
+          console.error(err);
+        });
+    }
+  }, [authUser, isLoggedIn, notify]);
 
   return (
     <Layout>

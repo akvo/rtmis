@@ -2,6 +2,7 @@
 import datetime
 from math import ceil
 from wsgiref.util import FileWrapper
+from django.utils import timezone
 
 from django.contrib.postgres.aggregates import StringAgg
 from django.db.models import Count, TextField, Value, F
@@ -19,22 +20,26 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
-    PendingDataBatch, ViewPendingDataApproval, PendingAnswers
+    PendingDataBatch, ViewPendingDataApproval, PendingAnswers, \
+    AnswerHistory, ViewDataOptions
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
     ListMapDataPointRequestSerializer, ListChartDataPointRequestSerializer, \
     ListChartQuestionDataPointSerializer, \
+    ListChartAdministrationRequestSerializer, \
     ListPendingDataAnswerSerializer, \
     ApprovePendingDataRequestSerializer, ListBatchSerializer, \
     CreateBatchSerializer, ListPendingDataBatchSerializer, \
     ListPendingFormDataSerializer, PendingBatchDataFilterSerializer, \
     SubmitPendingFormSerializer, ListBatchSummarySerializer, \
-    ListBatchCommentSerializer, BatchListRequestSerializer
-from api.v1.v1_forms.constants import QuestionTypes
-from api.v1.v1_forms.models import Forms
-from api.v1.v1_profile.models import Administration
+    ListBatchCommentSerializer, BatchListRequestSerializer, \
+    SubmitFormDataAnswerSerializer, ListChartCriteriaRequestSerializer
+from api.v1.v1_forms.constants import QuestionTypes, FormTypes
+from api.v1.v1_forms.models import Forms, Questions
+from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
+from api.v1.v1_profile.constants import UserRoleTypes
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import IsAdmin, IsApprover, IsSuperAdmin
 from utils.custom_serializer_fields import validate_serializers_message
@@ -66,8 +71,7 @@ class FormDataAddListView(APIView):
                              required=False,
                              type={'type': 'array',
                                    'items': {'type': 'number'}},
-                             location=OpenApiParameter.QUERY),
-        ],
+                             location=OpenApiParameter.QUERY)],
         summary='To get list of form data')
     def get(self, request, form_id, version):
         form = get_object_or_404(Forms, pk=form_id)
@@ -140,18 +144,162 @@ class FormDataAddListView(APIView):
         serializer.save()
         return Response({'message': 'ok'}, status=status.HTTP_200_OK)
 
+    @extend_schema(request=SubmitFormDataAnswerSerializer(many=True),
+                   responses={
+                       (200, 'application/json'):
+                           inline_serializer("FormSubmit", fields={
+                               "message": serializers.CharField()
+                           })},
+                   tags=['Data'],
+                   parameters=[
+                       OpenApiParameter(name='data_id',
+                                        required=True,
+                                        type=OpenApiTypes.NUMBER,
+                                        location=OpenApiParameter.QUERY)],
+                   summary='Edit form data')
+    def put(self, request, form_id, version):
+        data_id = request.GET['data_id']
+        user = request.user
+        user_role = user.user_access.role
+        form = get_object_or_404(Forms, pk=form_id)
+        data = get_object_or_404(FormData, pk=data_id)
+        serializer = SubmitFormDataAnswerSerializer(
+            data=request.data, many=True)
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(
+                    serializer.errors),
+                    'details': serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-@extend_schema(responses={200: ListDataAnswerSerializer(many=True)},
-               tags=['Data'],
-               summary='To get answers for form data')
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def data_answers(request, version, data_id):
-    data = get_object_or_404(FormData, pk=data_id)
-    return Response(
-        ListDataAnswerSerializer(instance=data.data_answer.all(),
-                                 many=True).data,
-        status=status.HTTP_200_OK)
+        answers = request.data
+        # is_national_form = form.type == FormTypes.national
+        is_county_form = form.type == FormTypes.county
+
+        is_super_admin = user_role == UserRoleTypes.super_admin
+        is_county_admin = user_role == UserRoleTypes.admin
+        is_county_admin_with_county_form = is_county_admin and is_county_form
+
+        # Direct update
+        if is_super_admin or is_county_admin_with_county_form:
+            # move current answer to answer_history
+            for answer in answers:
+                form_answer = Answers.objects.get(
+                    data=data, question=answer.get('question'))
+                AnswerHistory.objects.create(
+                    data=form_answer.data,
+                    question=form_answer.question,
+                    name=form_answer.name,
+                    value=form_answer.value,
+                    options=form_answer.options,
+                    created_by=user
+                )
+                # prepare updated answer
+                question_id = answer.get('question')
+                question = Questions.objects.get(
+                    id=question_id)
+                name = None
+                value = None
+                option = None
+                if question.type in [
+                    QuestionTypes.geo, QuestionTypes.option,
+                    QuestionTypes.multiple_option
+                ]:
+                    option = answer.get('value')
+                elif question.type in [
+                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+                ]:
+                    name = answer.get('value')
+                else:
+                    # for administration,number question type
+                    value = answer.get('value')
+                # Update answer
+                form_answer.data = data
+                form_answer.question = question
+                form_answer.name = name
+                form_answer.value = value
+                form_answer.options = option
+                form_answer.updated = timezone.now()
+                form_answer.save()
+            # update datapoint
+            data.updated = timezone.now()
+            data.updated_by = user
+            data.save()
+            return Response({'message': 'direct update success'},
+                            status=status.HTTP_200_OK)
+        # Store edit data to pending form data
+        pending_data = PendingFormData.objects.create(
+            name=data.name,
+            form=data.form,
+            data=data,
+            administration=data.administration,
+            geo=data.geo,
+            batch=None,
+            created_by=user
+        )
+        for answer in answers:
+            # store to pending answer
+            question_id = answer.get('question')
+            question = Questions.objects.get(
+                id=question_id)
+            name = None
+            value = None
+            option = None
+            if question.type in [
+                    QuestionTypes.geo, QuestionTypes.option,
+                    QuestionTypes.multiple_option
+            ]:
+                option = answer.get('value')
+            elif question.type in [
+                QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+            ]:
+                name = answer.get('value')
+            else:
+                # for administration,number question type
+                value = answer.get('value')
+            PendingAnswers.objects.create(
+                pending_data=pending_data,
+                question=question,
+                name=name,
+                value=value,
+                options=option,
+                created_by=user
+            )
+        return Response({'message': 'store to pending data success'},
+                        status=status.HTTP_200_OK)
+
+
+class DataAnswerDetailDeleteView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @extend_schema(
+        responses={200: ListDataAnswerSerializer(many=True)},
+        tags=['Data'],
+        summary='To get answers for form data')
+    def get(self, request, data_id, version):
+        data = get_object_or_404(FormData, pk=data_id)
+        return Response(
+            ListDataAnswerSerializer(
+                instance=data.data_answer.all(),
+                many=True).data,
+            status=status.HTTP_200_OK)
+
+    @extend_schema(
+        responses={
+            204: OpenApiResponse(description='Deletion with no response')
+        },
+        tags=['Data'],
+        summary='Delete datapoint include answer & history')
+    def delete(self, request, data_id, version):
+        instance = get_object_or_404(FormData, pk=data_id)
+        answers = Answers.objects.filter(data_id=data_id)
+        answers.delete()
+        history = AnswerHistory.objects.filter(data_id=data_id)
+        if history.count():
+            history.delete()
+        instance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @extend_schema(responses={200: ListMapDataPointSerializer(many=True)},
@@ -256,6 +404,156 @@ def get_chart_data_point(request, version, form_id):
                          instance=serializer.validated_data.get(
                              'question').question_question_options.all(),
                          many=True).data},
+                    status=status.HTTP_200_OK)
+
+
+@extend_schema(responses={200: inline_serializer(
+    'chart_administration',
+    fields={
+        'type': serializers.CharField(),
+        'data': ListChartQuestionDataPointSerializer(many=True)
+    })},
+    parameters=[
+        OpenApiParameter(name='question',
+                         required=True,
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='administration',
+                         required=True,
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY),
+    ],
+    tags=['Visualisation'],
+    summary='To get Chart administration')
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_chart_administration(request, version, form_id):
+    instance = get_object_or_404(Forms, pk=form_id)
+    serializer = ListChartAdministrationRequestSerializer(
+            data=request.GET, context={'form': instance})
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    administration = Administration.objects.filter(
+            id=request.GET.get('administration')).first()
+    max_level = Levels.objects.order_by('-level').first()
+    childs = Administration.objects.filter(parent=administration).all()
+    if administration.level.level == max_level.level:
+        childs = [administration]
+    data = []
+    for child in childs:
+        values = {
+            'group': child.name,
+            'child': []
+        }
+        filter_path = child.path
+        if child.level.level < max_level.level:
+            filter_path = "{0}{1}.".format(child.path, child.id)
+        administration_ids = list(
+                Administration.objects.filter(
+                    path__startswith=filter_path).values_list('id',
+                                                              flat=True))
+        data_ids = list(FormData.objects.filter(
+                form_id=form_id,
+                administration_id__in=administration_ids).values_list(
+                    'id', flat=True))
+        query_set = Answers.objects.filter(
+            data_id__in=data_ids,
+            question=serializer.validated_data.get('question')).values(
+            'options').annotate(c=Count('options'),
+                                ids=StringAgg(Cast('data_id', TextField()),
+                                              delimiter=',',
+                                              output_field=TextField()))
+        for val in query_set:
+            values.get('child').append({
+                'name': val.get('options')[0],
+                'value': val.get('c')
+            })
+        data.append(values)
+
+    return Response({'type': 'BARSTACK', 'data': data},
+                    status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    request=ListChartCriteriaRequestSerializer(many=True),
+    responses={200: inline_serializer(
+        'chart_criteria',
+        fields={
+            'type': serializers.CharField(),
+            'data': ListChartQuestionDataPointSerializer(many=True)
+        })},
+    parameters=[
+        OpenApiParameter(name='administration',
+                         required=True,
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY)],
+    tags=['Visualisation'],
+    summary='To get Chart by a criteria')
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def get_chart_criteria(request, version, form_id):
+    administration_id = request.GET.get('administration')
+    instance = get_object_or_404(Forms, pk=form_id)
+    administration = get_object_or_404(Administration, pk=administration_id)
+    serializer = ListChartCriteriaRequestSerializer(
+        data=request.data, context={'form': instance}, many=True)
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    params = serializer.validated_data
+    max_level = Levels.objects.order_by('-level').first()
+    childs = Administration.objects.filter(parent=administration).all()
+    if administration.level.level == max_level.level:
+        childs = [administration]
+    data = []
+    for child in childs:
+        values = {
+            'group': child.name,
+            'child': []
+        }
+        filter_path = child.path
+        if child.level.level < max_level.level:
+            filter_path = "{0}{1}.".format(child.path, child.id)
+        administration_ids = list(Administration.objects.filter(
+            path__startswith=filter_path).values_list('id', flat=True))
+        data_ids = list(ViewDataOptions.objects.filter(
+            form_id=form_id,
+            administration_id__in=administration_ids
+        ).values_list('data_id', flat=True))
+        # loop for post params
+        for param in params:
+            filter_criteria = []
+            for index, option in enumerate(param.get('options')):
+                question = option.get('question').id
+                ids = filter_criteria if filter_criteria else data_ids
+                for opt in option.get('option'):
+                    option_contains = []
+                    option_contains.append(f"{question}||{opt.lower()}")
+                    filter_data = list(
+                        ViewDataOptions.objects.filter(
+                            data_id__in=ids,
+                            options__contains=option_contains
+                        ).values_list('data_id', flat=True))
+                    if filter_criteria and index > 0:
+                        # reset filter_criteria for next question
+                        # start from second question criteria
+                        # support and filter
+                        filter_criteria = []
+                    for id in filter_data:
+                        if id not in filter_criteria:
+                            # append filter_criteria to support or filter
+                            filter_criteria.append(id)
+            values.get('child').append({
+                'name': param.get('name'),
+                'value': len(filter_criteria)
+            })
+        data.append(values)
+    return Response({'type': 'BARSTACK', 'data': data},
                     status=status.HTTP_200_OK)
 
 

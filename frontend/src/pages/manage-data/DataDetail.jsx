@@ -1,62 +1,277 @@
-import { Row, Col, Table, Button, Divider } from "antd";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { Table, Button, Space, Spin, Alert } from "antd";
+import { LoadingOutlined, HistoryOutlined } from "@ant-design/icons";
+import { EditableCell } from "../../components";
+import { api, store } from "../../lib";
+import { useNotification } from "../../util/hooks";
+import { flatten, isEqual } from "lodash";
 
-const DataDetail = ({ loading, questionGroups, record }) => {
-  const { answer } = record;
-  const columns = [
-    {
-      title: "Field",
-      dataIndex: "field",
-      key: "field",
-      width: "50%",
-    },
-    {
-      title: "Value",
-      dataIndex: "value",
-      key: "value",
-    },
-  ];
-  const dataset = questionGroups
-    .map((qg, qgi) => {
-      const question = qg.question.map((q) => {
-        return {
-          key: `question-${q.id}`,
-          field: q.name,
-          value: answer?.find((r) => r.question === q.id)?.value,
-        };
-      });
-      return [
-        {
-          key: `question-group-${qgi}`,
-          field: qg.name,
-          render: (value) => <h1>{value}</h1>,
-        },
-        ...question,
-      ];
-    })
-    .flatMap((x) => x);
+const HistoryTable = ({ record }) => {
+  const { history, id } = record;
   return (
-    <Row justify="center">
-      <Col span={20}>
-        <Table
-          columns={columns}
-          dataSource={dataset}
-          pagination={false}
-          scroll={{ y: 300 }}
-          className="table-child"
-          loading={loading}
-        />
-      </Col>
-      <Divider />
-      <Col span={10} align="left">
-        <Button danger className="dev">
-          Delete
-        </Button>
-      </Col>
-      <Col span={10} align="right">
-        <Button className="light dev">Upload CSV</Button>
-      </Col>
-    </Row>
+    <div className="history-table-wrapper">
+      <Table
+        size="small"
+        rowKey={`history-${id}-${Math.random}`}
+        columns={[
+          {
+            title: "History",
+            dataIndex: "value",
+            key: "value",
+            ellipsis: true,
+          },
+          {
+            title: "Updated at",
+            dataIndex: "created",
+            key: "created",
+            align: "center",
+            ellipsis: true,
+          },
+          {
+            title: "Updated by",
+            dataIndex: "created_by",
+            key: "created_by",
+            align: "center",
+            ellipsis: true,
+          },
+        ]}
+        loading={!history.length}
+        pagination={false}
+        dataSource={history}
+      />
+    </div>
   );
 };
 
-export default DataDetail;
+const DataDetail = ({
+  questionGroups,
+  record,
+  updater,
+  updateRecord,
+  setDeleteData,
+}) => {
+  const [dataset, setDataset] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const pendingData = record?.pending_data?.created_by || false;
+  const { user: authUser, forms } = store.useState((state) => state);
+  const { notify } = useNotification();
+
+  const updateCell = (key, parentId, value) => {
+    let prev = JSON.parse(JSON.stringify(dataset));
+    prev = prev.map((qg) =>
+      qg.id === parentId
+        ? {
+            ...qg,
+            question: qg.question.map((qi) => {
+              if (qi.id === key) {
+                if (isEqual(qi.value, value) && qi.newValue) {
+                  delete qi.newValue;
+                } else {
+                  qi.newValue = value;
+                }
+                return qi;
+              }
+              return qi;
+            }),
+          }
+        : qg
+    );
+    setDataset(prev);
+  };
+
+  const resetCell = (key, parentId) => {
+    let prev = JSON.parse(JSON.stringify(dataset));
+    prev = prev.map((qg) =>
+      qg.id === parentId
+        ? {
+            ...qg,
+            question: qg.question.map((qi) => {
+              if (qi.id === key) {
+                delete qi.newValue;
+              }
+              return qi;
+            }),
+          }
+        : qg
+    );
+    setDataset(prev);
+  };
+
+  const handleSave = () => {
+    const data = [];
+    const formId = flatten(dataset.map((qg) => qg.question))[0].form;
+    const formRes = forms.find((f) => f.id === formId);
+    dataset.map((rd) => {
+      rd.question.map((rq) => {
+        if (rq.newValue) {
+          data.push({
+            question: rq.id,
+            value: rq.type === "number" ? parseInt(rq.newValue) : rq.newValue,
+          });
+        }
+      });
+    });
+    setSaving(true);
+    api
+      .put(`form-data/${formId}?data_id=${record.id}`, data)
+      .then(() => {
+        notify({
+          type: "success",
+          message:
+            authUser?.role?.id === 4 ||
+            (authUser?.role?.id === 2 && formRes.type === 2)
+              ? "Created New Pending Submission. Please go to your Profile to send this data for approval"
+              : "Data updated successfully",
+        });
+        updater(
+          updateRecord === record.id
+            ? false
+            : updateRecord === null
+            ? false
+            : record.id
+        );
+        fetchData(record.id);
+      })
+      .catch((e) => {
+        console.error(e);
+        notify({
+          type: "error",
+          message: "Could not update data",
+        });
+      })
+      .finally(() => {
+        setSaving(false);
+      });
+  };
+
+  const fetchData = useCallback(
+    (id) => {
+      setLoading(true);
+      api
+        .get(`data/${id}`)
+        .then((res) => {
+          const data = questionGroups.map((qg) => {
+            const question = qg.question.map((q) => {
+              const findData = res.data.find((d) => d.question === q.id);
+              return {
+                ...q,
+                value: findData?.value || null,
+                history: findData?.history || false,
+              };
+            });
+            return {
+              ...qg,
+              question: question,
+            };
+          });
+          setDataset(data);
+        })
+        .catch((e) => {
+          console.error(e);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    },
+    [questionGroups]
+  );
+
+  useEffect(() => {
+    if (record?.id && !dataset.length) {
+      fetchData(record.id);
+    }
+  }, [record, dataset.length, fetchData]);
+
+  const edited = useMemo(() => {
+    return dataset.length
+      ? flatten(dataset.map((qg) => qg.question)).findIndex(
+          (fi) => fi.newValue
+        ) > -1
+      : false;
+  }, [dataset]);
+
+  return loading ? (
+    <Space style={{ paddingTop: 18, color: "#9e9e9e" }} size="middle">
+      <Spin indicator={<LoadingOutlined style={{ color: "#1b91ff" }} spin />} />
+      <span>Loading..</span>
+    </Space>
+  ) : (
+    <>
+      <div className="data-detail">
+        {pendingData && (
+          <Alert
+            message={`Can't edit/update this data, because data in pending data by ${pendingData}`}
+            type="warning"
+          />
+        )}
+        {dataset.map((r, rI) => (
+          <div className="pending-data-wrapper" key={rI}>
+            <h3>{r.name}</h3>
+            <Table
+              pagination={false}
+              dataSource={r.question}
+              rowClassName={(record) =>
+                record.newValue && !isEqual(record.newValue, record.value)
+                  ? "row-edited"
+                  : "row-normal"
+              }
+              rowKey="id"
+              columns={[
+                {
+                  title: "Question",
+                  dataIndex: "name",
+                },
+                {
+                  title: "Response",
+                  render: (row) => (
+                    <EditableCell
+                      record={row}
+                      parentId={row.question_group}
+                      updateCell={updateCell}
+                      resetCell={resetCell}
+                      pendingData={pendingData}
+                    />
+                  ),
+                },
+                Table.EXPAND_COLUMN,
+              ]}
+              expandable={{
+                expandIcon: ({ onExpand, record }) => {
+                  if (!record?.history) {
+                    return "";
+                  }
+                  return (
+                    <HistoryOutlined
+                      className="expand-icon"
+                      onClick={(e) => onExpand(record, e)}
+                    />
+                  );
+                },
+                expandedRowRender: (record) => <HistoryTable record={record} />,
+                rowExpandable: (record) => record?.history,
+              }}
+            />
+          </div>
+        ))}
+      </div>
+      <div>
+        <Space>
+          <Button
+            type="primary"
+            onClick={handleSave}
+            disabled={!edited || saving}
+            loading={saving}
+          >
+            Save Edits
+          </Button>
+          <Button type="danger" onClick={() => setDeleteData(record)}>
+            Delete
+          </Button>
+        </Space>
+      </div>
+    </>
+  );
+};
+
+export default React.memo(DataDetail);

@@ -1,8 +1,19 @@
 import requests as r
 import json
 
-FLOW_ENDPOINT = "http://localhost:3000/api/form/"
-FORM_IDS = ["oqbhqu1erq63wa-jvvt06"]
+FLOW_ENDPOINT = "http://webform.akvo.org/api/form/"
+FORMS = [{
+    "url": "oqbhqu1erq63wa-jvvt06",
+    "type": "county"
+}, {
+    "url": "yoa-ophtjoe2332mrrri4",
+    "type": "county"
+}, {
+    "url": "qn71nxt6vn8jhrrjssrr8",
+    "type": "county"
+}]
+
+form_types = {"county": 1, "national": 2}
 
 question_types = {
     "geo": "geo",
@@ -44,25 +55,30 @@ def tranform_form(flow_form):
             dependency = q.get("dependency")
             if dependency:
                 dependency = [{
-                    "id": d.get("question"),
+                    "id": int(d.get("question").replace("Q", "")),
                     "options": d.get("answerValue")
                 } for d in dependency]
                 question.update({"dependency": dependency})
-            questions.append(question)
+            if qtype:
+                questions.append(question)
         question_group.update({"questions": questions})
         question_groups.append(question_group)
     form_id = flow_form.get("surveyId")
     res = {
         "id": form_id,
         "form": flow_form.get("name"),
+        "type": flow_form.get("type"),
         "question_groups": question_groups,
     }
     return res
 
 
-for FORM_ID in FORM_IDS:
-    form = r.get(f"{FLOW_ENDPOINT}{FORM_ID}")
+for FORM in FORMS:
+    form_url = FORM.get("url")
+    form_type = FORM.get("type")
+    form = r.get(f"{FLOW_ENDPOINT}{form_url}")
     form = form.json()
+    form.update({"type": form_types[form_type]})
     form = tranform_form(form)
     json_object = json.dumps(form, indent=2)
     form_id = form.get("id")

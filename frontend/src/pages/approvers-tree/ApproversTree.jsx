@@ -44,7 +44,7 @@ const ApproversTree = () => {
   }, [forms]);
 
   useEffect(() => {
-    if (administration.length && selectedForm) {
+    if (!!administration.length && selectedForm) {
       const selectedAdministration = takeRight(administration, 1)[0];
       setLoading(true);
       api
@@ -98,11 +98,16 @@ const ApproversTree = () => {
   const handleSubmit = () => {
     const formData = dataset.reduce((arr, adminData) => {
       adminData.children
-        .filter((c) => c.user)
+        .filter((c) => c.user || c?.flag === "delete")
         .map((childData) => {
+          const isDelete = childData?.flag && childData.flag === "delete";
           arr.push({
-            user_id: childData.user,
+            user_id:
+              isDelete && childData?.user_delete
+                ? childData.user_delete
+                : childData.user,
             administration_id: childData.administration.id,
+            flag: isDelete ? childData.flag : "add",
           });
         });
       return arr;
@@ -182,6 +187,7 @@ const ApproversTree = () => {
                 id: res.data.id,
                 name: res.data.name,
                 levelName: res.data.level_name,
+                parent: res.data.parent,
                 children: res.data.children,
                 childLevelName: res.data.children_level_name,
               },
@@ -221,7 +227,14 @@ const ApproversTree = () => {
                     `}
                     key={l}
                     onClick={() => {
-                      handleClick(childItem.id, k);
+                      if (
+                        adminItem.levelName !==
+                          takeRight(window.levels, 2)[0]?.name &&
+                        administration[k + 1]?.children[0]?.parent !==
+                          childItem.id
+                      ) {
+                        handleClick(childItem.id, k);
+                      }
                     }}
                   >
                     <div>{childItem.name}</div>
@@ -247,10 +260,18 @@ const ApproversTree = () => {
                       }}
                       onClear={() => {
                         const cleared = [...dataset];
+                        cleared[k].children[l].user_delete =
+                          cleared[k].children[l].user;
+                        cleared[k].children[l].flag = "delete";
                         cleared[k].children[l].user = null;
                         setDataset(cleared);
                       }}
-                      disabled={loading}
+                      disabled={
+                        loading ||
+                        (k < administration.length - 1 &&
+                          administration[k + 1]?.children[0]?.parent !==
+                            childItem.id)
+                      }
                     >
                       {(
                         dataset[k]?.children?.find(
@@ -273,7 +294,7 @@ const ApproversTree = () => {
   const renderFormLine = useMemo(() => {
     return (
       selectedForm &&
-      administration.length && (
+      !!administration.length && (
         <SteppedLineTo
           within="tree-col-0"
           key={`tree-line-${selectedForm}`}

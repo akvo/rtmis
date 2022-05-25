@@ -2,16 +2,18 @@ import React from "react";
 import "./style.scss";
 import { Space, Card, Divider } from "antd";
 import { store, config } from "../../lib";
-import { Breadcrumbs } from "../../components";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { PanelApprovals, PanelDataUpload } from "./components";
 
+const descriptionData =
+  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
 const Profile = () => {
   const { forms, user: authUser } = store.useState((s) => s);
 
   const pagePath = [
     {
       title: "Control Center",
-      link: authUser?.role?.value === "User" ? false : "/control-center",
+      link: "/control-center",
     },
     {
       title: authUser?.name || "Profile",
@@ -23,6 +25,7 @@ const Profile = () => {
       <Space>
         <Breadcrumbs pagePath={pagePath} />
       </Space>
+      <DescriptionPanel description={descriptionData} />
       <Divider />
       <Card style={{ padding: 0, marginBottom: 12 }}>
         <h1>My Profile</h1>
@@ -48,7 +51,8 @@ const Profile = () => {
           </li>
         </ul>
       </Card>
-      {config.checkAccess(authUser?.role_detail, "form") && <PanelDataUpload />}
+      {config.checkAccess(authUser?.role_detail, "form") &&
+        authUser?.role.id !== 4 && <PanelDataUpload />}
       {config.checkAccess(authUser?.role_detail, "approvals") && (
         <PanelApprovals />
       )}

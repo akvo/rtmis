@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Row,
   Col,
@@ -11,9 +11,17 @@ import {
   Tag,
   List,
   Avatar,
+  Spin,
 } from "antd";
+import {
+  PlusSquareOutlined,
+  CloseSquareOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
 import { api } from "../../lib";
-
+import { EditableCell } from "../../components";
+import { isEqual, some } from "lodash";
+import { useNotification } from "../../util/hooks";
 const { TextArea } = Input;
 const { TabPane } = Tabs;
 
@@ -49,6 +57,7 @@ const columnsRawData = [
     key: "created_by",
     width: 200,
   },
+  Table.EXPAND_COLUMN,
 ];
 
 const summaryColumns = [
@@ -87,12 +96,40 @@ const ApprovalDetail = ({
   setExpandedParentKeys,
 }) => {
   const [values, setValues] = useState([]);
+  const [rawValues, setRawValues] = useState([]);
   const [columns, setColumns] = useState(summaryColumns);
   const [loading, setLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState("data-summary");
+  const [expandedRowKeys, setExpandedRowKeys] = useState([]);
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
+  const [questionGroups, setQuestionGroups] = useState([]);
+  const { notify } = useNotification();
 
+  const handleSave = () => {
+    const data = [];
+    rawValues.map((rI) => {
+      rI.data.map((rd) => {
+        rd.question.map((rq) => {
+          if (rq.newValue) {
+            data.push({ id: rI.id, question: rq.id, value: rq.newValue });
+          }
+        });
+      });
+    });
+    // Placeholder:
+    api
+      .put("form-pending-data", data)
+      .then(() => {
+        notify({
+          type: "success",
+          message: "Data updated",
+        });
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
   const handleApprove = (id, status) => {
     let payload = {
       batch: id,
@@ -119,6 +156,19 @@ const ApprovalDetail = ({
     });
   }, [record]);
 
+  const handleTabSelect = (e) => {
+    if (loading) {
+      return;
+    }
+    if (e === "data-summary") {
+      setColumns(summaryColumns);
+    } else {
+      setExpandedRowKeys([]);
+      setColumns(columnsRawData);
+    }
+    setSelectedTab(e);
+  };
+
   useEffect(() => {
     setLoading(true);
     if (selectedTab === "data-summary") {
@@ -142,7 +192,14 @@ const ApprovalDetail = ({
         .get(`/form-pending-data-batch/${record.id}`)
         .then((res) => {
           setColumns(columnsRawData);
-          setValues(res.data.map((x) => ({ key: x.id, ...x })));
+          setRawValues(
+            res.data.map((x) => ({
+              key: x.id,
+              data: [],
+              loading: false,
+              ...x,
+            }))
+          );
           setLoading(false);
         })
         .catch((e) => {
@@ -152,19 +209,218 @@ const ApprovalDetail = ({
     }
   }, [selectedTab, record]);
 
+  const updateCell = (key, parentId, value) => {
+    let prev = JSON.parse(JSON.stringify(rawValues));
+    prev = prev.map((rI) => {
+      let hasEdits = false;
+      const data = rI.data.map((rd) => ({
+        ...rd,
+        question: rd.question.map((rq) => {
+          if (rq.id === key && rI.id === parentId) {
+            if (isEqual(rq.value, value) && rq.newValue) {
+              delete rq.newValue;
+            } else {
+              rq.newValue = value;
+            }
+            const edited = !isEqual(rq.value, value);
+            if (edited && !hasEdits) {
+              hasEdits = true;
+            }
+            return rq;
+          }
+          if (rq.newValue && !isEqual(rq.value, rq.newValue) && !hasEdits) {
+            hasEdits = true;
+          }
+          return rq;
+        }),
+      }));
+      return {
+        ...rI,
+        data,
+        edited: hasEdits,
+      };
+    });
+    setRawValues(prev);
+  };
+
+  const resetCell = (key, parentId) => {
+    let prev = JSON.parse(JSON.stringify(rawValues));
+    prev = prev.map((rI) => {
+      let hasEdits = false;
+      const data = rI.data.map((rd) => ({
+        ...rd,
+        question: rd.question.map((rq) => {
+          if (rq.id === key && rI.id === parentId) {
+            delete rq.newValue;
+            return rq;
+          }
+          if (rq.newValue && !isEqual(rq.value, rq.newValue) && !hasEdits) {
+            hasEdits = true;
+          }
+          return rq;
+        }),
+      }));
+      return {
+        ...rI,
+        data,
+        edited: hasEdits,
+      };
+    });
+    setRawValues(prev);
+  };
+
+  const initData = (recordId) => {
+    setRawValues((rv) =>
+      rv.map((rI) => (rI.id === recordId ? { ...rI, loading: true } : rI))
+    );
+    if (questionGroups.length < 1) {
+      api
+        .get(`form/${record.form?.id}`)
+        .then((res) => {
+          setQuestionGroups(res.data.question_group);
+          fetchData(recordId, res.data.question_group);
+        })
+        .catch((e) => {
+          console.error(e);
+          setRawValues((rv) =>
+            rv.map((rI) =>
+              rI.id === recordId ? { ...rI, loading: false } : rI
+            )
+          );
+        });
+    } else {
+      fetchData(recordId, questionGroups);
+    }
+  };
+
+  const fetchData = (recordId, questionGroups) => {
+    api
+      .get(`pending-data/${recordId}`)
+      .then((res) => {
+        const data = questionGroups.map((qg) => ({
+          ...qg,
+          question: qg.question.map((q) => ({
+            ...q,
+            value: res.data.find((d) => d.question === q.id)?.value || null,
+          })),
+        }));
+        setRawValues((rv) =>
+          rv.map((rI) =>
+            rI.id === recordId ? { ...rI, data, loading: false } : rI
+          )
+        );
+      })
+      .catch((e) => {
+        console.error(e);
+        setRawValues((rv) =>
+          rv.map((rI) => (rI.id === recordId ? { ...rI, loading: false } : rI))
+        );
+      });
+  };
+
+  const isEdited = useMemo(() => {
+    return some(rawValues, { edited: true });
+  }, [rawValues]);
+
   return (
     <div>
-      <Tabs centered activeKey={selectedTab} onTabClick={setSelectedTab}>
+      <Tabs centered activeKey={selectedTab} onTabClick={handleTabSelect}>
         <TabPane tab="Data Summary" key="data-summary" />
         <TabPane tab="Raw Data" key="raw-data" />
       </Tabs>
       <Table
         loading={loading}
-        dataSource={values}
+        dataSource={selectedTab === "raw-data" ? rawValues : values}
         columns={columns}
         scroll={{ y: 500 }}
         pagination={false}
+        rowClassName={(record) => (record.edited ? "row-edited" : "row-normal")}
         style={{ borderBottom: "solid 1px #ddd" }}
+        rowKey="id"
+        expandable={
+          selectedTab === "raw-data"
+            ? {
+                expandedRowKeys,
+                expandedRowRender: (record) => {
+                  return (
+                    <div>
+                      {record.loading ? (
+                        <Space
+                          style={{ paddingTop: 18, color: "#9e9e9e" }}
+                          size="middle"
+                        >
+                          <Spin
+                            indicator={
+                              <LoadingOutlined
+                                style={{ color: "#1b91ff" }}
+                                spin
+                              />
+                            }
+                          />
+                          <span>Loading..</span>
+                        </Space>
+                      ) : (
+                        record.data?.map((r, rI) => (
+                          <div className="pending-data-wrapper" key={rI}>
+                            <h3>{r.name}</h3>
+                            <Table
+                              pagination={false}
+                              dataSource={r.question}
+                              rowClassName={(record) =>
+                                record.newValue &&
+                                !isEqual(record.newValue, record.value)
+                                  ? "row-edited"
+                                  : "row-normal"
+                              }
+                              rowKey="id"
+                              columns={[
+                                {
+                                  title: "Question",
+                                  dataIndex: "name",
+                                },
+                                {
+                                  title: "Response",
+                                  render: (row) => (
+                                    <EditableCell
+                                      record={row}
+                                      parentId={record.id}
+                                      updateCell={updateCell}
+                                      resetCell={resetCell}
+                                    />
+                                  ),
+                                },
+                              ]}
+                            />
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  );
+                },
+                expandIcon: ({ expanded, onExpand, record }) =>
+                  expanded ? (
+                    <CloseSquareOutlined
+                      onClick={(e) => {
+                        setExpandedRowKeys([]);
+                        onExpand(record, e);
+                      }}
+                      style={{ color: "#e94b4c" }}
+                    />
+                  ) : (
+                    <PlusSquareOutlined
+                      onClick={(e) => {
+                        setExpandedRowKeys([record.id]);
+                        if (!record.data?.length) {
+                          initData(record.id);
+                        }
+                        onExpand(record, e);
+                      }}
+                      style={{ color: "#7d7d7d" }}
+                    />
+                  ),
+              }
+            : false
+        }
       />
       <h3>Notes {"&"} Feedback</h3>
       {!!comments.length && (
@@ -208,6 +464,12 @@ const ApprovalDetail = ({
         <Col>
           <Space>
             <Button
+              onClick={() => handleSave()}
+              disabled={!approve || selectedTab !== "raw-data" || !isEdited}
+            >
+              Save Edits
+            </Button>
+            <Button
               type="danger"
               onClick={() => handleApprove(record.id, 3)}
               disabled={!approve}
@@ -228,4 +490,4 @@ const ApprovalDetail = ({
   );
 };
 
-export default ApprovalDetail;
+export default React.memo(ApprovalDetail);

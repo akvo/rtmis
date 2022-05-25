@@ -3,7 +3,7 @@ from django.core.management import BaseCommand
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Access, Levels
 from api.v1.v1_users.models import SystemUser
-from api.v1.v1_forms.models import Forms
+from api.v1.v1_forms.models import Forms, UserForms
 from api.v1.v1_forms.models import FormApprovalRule, FormApprovalAssignment
 from api.v1.v1_forms.constants import FormTypes
 
@@ -50,6 +50,7 @@ class Command(BaseCommand):
                     Access.objects.create(user=approver,
                                           role=role,
                                           administration=ancestor)
+                UserForms.objects.get_or_create(form=form, user=approver)
                 assignment = FormApprovalAssignment.objects.create(
                     form=form, administration=ancestor, user=approver)
                 print("Level: {} ({})".format(ancestor.level.level,
@@ -69,6 +70,7 @@ class Command(BaseCommand):
             Access.objects.create(user=submitter,
                                   role=UserRoleTypes.user,
                                   administration=ancestor)
+        UserForms.objects.get_or_create(form=form, user=approver)
         print("\nSubmitter:")
         print(f"- Administration: {administration.full_name}")
         print("- Email: {}\n".format(submitter.email))

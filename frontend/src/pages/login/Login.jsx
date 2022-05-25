@@ -93,8 +93,8 @@ const Login = () => {
                             Welcome to RTMIS, {invitedUser.name}
                             <br />
                             <small>
-                              Set your own password including the following
-                              criteria
+                              Please set your password login. Your password must
+                              include:
                             </small>
                           </h1>
                           <RegistrationForm invite={invitedUser.invite} />

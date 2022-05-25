@@ -69,7 +69,8 @@ class SystemUserEndpointsTestCase(TestCase):
 
         self.assertEqual(
             ["email", "name", "administration", "role", 'phone_number',
-             'designation', "token", "invite"], list(user))
+             'designation', 'forms', "last_login", "token", "invite"],
+            list(user))
 
         user = {"email": "admin@rtmis.com", "password": "Test105"}
         user = self.client.post('/api/v1/login',
@@ -79,6 +80,19 @@ class SystemUserEndpointsTestCase(TestCase):
 
         user = {"email": "admin@rtmis.com"}
         user = self.client.post('/api/v1/login',
+                                user,
+                                content_type='application/json')
+        self.assertEqual(user.status_code, 400)
+
+        # test forgor password to valid email
+        user = {"email": "admin@rtmis.com"}
+        user = self.client.post('/api/v1/user/forgot-password',
+                                user,
+                                content_type='application/json')
+        self.assertEqual(user.status_code, 200)
+        # test forgor password to invalid email
+        user = {"email": "notuser@domain.com"}
+        user = self.client.post('/api/v1/user/forgot-password',
                                 user,
                                 content_type='application/json')
         self.assertEqual(user.status_code, 400)

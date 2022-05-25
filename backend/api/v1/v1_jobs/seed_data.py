@@ -2,6 +2,7 @@ import math
 import os
 
 import pandas as pd
+import numpy as np
 
 from api.v1.v1_data.models import PendingAnswers, PendingDataBatch, \
     PendingFormData, PendingDataApproval, Answers
@@ -11,7 +12,7 @@ from api.v1.v1_jobs.functions import HText
 from api.v1.v1_jobs.models import Jobs
 from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import SystemUser
-from utils.email_helper import send_email
+from utils.email_helper import send_email, EmailTypes
 
 
 def save_data(user: SystemUser, batch: PendingDataBatch, dp: dict, qs: dict):
@@ -120,7 +121,10 @@ def save_data(user: SystemUser, batch: PendingDataBatch, dp: dict, qs: dict):
 def seed_excel_data(job: Jobs):
     file = f"./tmp/{job.info.get('file')}"
     df = pd.read_excel(file, sheet_name="data")
-    df = df.rename(columns={'id': 'data_id'})
+    if "id" in list(df):
+        df = df.rename(columns={'id': 'data_id'})
+    if "data_id" not in list(df):
+        df["data_id"] = np.nan
     df = df[list(filter(lambda x: "|" in x, list(df))) + ['data_id']]
     questions = {}
     columns = {}
@@ -150,12 +154,11 @@ def seed_excel_data(job: Jobs):
             data.delete()
     if len(records) == 0:
         context = {
-            'subject': 'RTMIS:No Data Updates found',
             'send_to': [batch.user.email],
             'form': batch.form,
             'user': job.user,
         }
-        send_email(context, 'unchanged_data.html')
+        send_email(context=context, type=EmailTypes.unchanged_data)
         batch.delete()
         os.remove(file)
         return None
@@ -173,12 +176,11 @@ def seed_excel_data(job: Jobs):
                 level_id=level
             )
             context = {
-                'subject': 'RTMIS:Pending Approvals',
                 'send_to': [assignment.user.email],
                 'form': batch.form,
                 'user': job.user,
             }
-            send_email(context, 'pending_approval.html')
+            send_email(context=context, type=EmailTypes.pending_approval)
 
     os.remove(file)
     return records

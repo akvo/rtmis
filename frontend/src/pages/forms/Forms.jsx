@@ -6,8 +6,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Row, Col, Space, Progress, notification } from "antd";
 import { api, store } from "../../lib";
 import { takeRight, pick } from "lodash";
-import { PageLoader, Breadcrumbs } from "../../components";
-
+import { PageLoader, Breadcrumbs, DescriptionPanel } from "../../components";
+const descriptionData =
+  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
 const Forms = () => {
   const navigate = useNavigate();
   const { user: authUser } = store.useState((s) => s);
@@ -15,15 +16,22 @@ const Forms = () => {
   const [loading, setLoading] = useState(true);
   const [forms, setForms] = useState([]);
   const [percentage, setPercentage] = useState(0);
+  const [submit, setSubmit] = useState(false);
 
   const pagePath = [
     {
       title: "Control Center",
-      link: authUser?.role?.value === "User" ? false : "/control-center",
+      link: "/control-center",
     },
     {
-      title: authUser?.role?.value === "User" ? authUser.name : "Manage Data",
-      link: authUser?.role?.value === "User" ? "/profile" : "/data/manage",
+      title:
+        authUser?.role?.value === "Data Entry Staff"
+          ? authUser.name
+          : "Manage Data",
+      link:
+        authUser?.role?.value === "Data Entry Staff"
+          ? "/profile"
+          : "/data/manage",
     },
     {
       title: forms.name,
@@ -31,6 +39,7 @@ const Forms = () => {
   ];
 
   const onFinish = (values) => {
+    setSubmit(true);
     const questions = forms.question_group
       .map((x) => x.question)
       .flatMap((x) => x);
@@ -110,19 +119,24 @@ const Forms = () => {
       });
     }
   }, [formId, loading]);
-
   return (
     <div id="form">
       <Row justify="center">
         <Col span={24} className="webform">
           <Space>
-            <Breadcrumbs pagePath={pagePath} />
+            <Breadcrumbs pagePath={pagePath} description={descriptionData} />
           </Space>
+          <DescriptionPanel description={descriptionData} />
           {loading || !formId ? (
             <PageLoader message="Fetching form.." />
           ) : (
             <>
-              <Webform forms={forms} onFinish={onFinish} onChange={onChange} />
+              <Webform
+                forms={forms}
+                onFinish={onFinish}
+                onChange={onChange}
+                submitButtonSetting={{ disabled: submit }}
+              />
               <Progress className="progress-bar" percent={percentage} />
             </>
           )}

@@ -245,8 +245,16 @@ const PanelDataUpload = () => {
       url = `batch/?page=${currentPage}`;
       setModalButton(false);
     }
+    if (selectedTab === "approved-batch") {
+      url = `batch/?page=${currentPage}&approved=true`;
+      setModalButton(false);
+    }
     setLoading(true);
-    if (selectedTab === "pending-batch" || selectedForm) {
+    if (
+      selectedTab === "pending-batch" ||
+      selectedTab === "approved-batch" ||
+      selectedForm
+    ) {
       api
         .get(url)
         .then((res) => {
@@ -308,7 +316,7 @@ const PanelDataUpload = () => {
   };
 
   const btnBatchSelected = useMemo(() => {
-    if (selectedRows.length && modalButton) {
+    if (!!selectedRows.length && modalButton) {
       return (
         <Button
           type="primary"
@@ -323,27 +331,14 @@ const PanelDataUpload = () => {
     return "";
   }, [selectedRows, modalButton]);
 
-  return (
-    <>
-      <Card
-        style={{
-          padding: 0,
-          minHeight: "40vh",
-        }}
-      >
-        <h1>Data Uploads</h1>
-        <DataFilters />
-        <Tabs
-          activeKey={selectedTab}
-          defaultActiveKey={selectedTab}
-          onChange={setSelectedTab}
-          tabBarExtraContent={btnBatchSelected}
-        >
-          <TabPane tab="Pending Submission" key={"pending-data"}>
-            <Table
-              loading={loading}
-              dataSource={dataset}
-              columns={[
+  const DataTable = ({ pane }) => {
+    return (
+      <Table
+        loading={loading}
+        dataSource={dataset}
+        columns={
+          pane === "pending-data"
+            ? [
                 ...columnsPending,
                 {
                   title: "Batch Datasets",
@@ -358,32 +353,24 @@ const PanelDataUpload = () => {
                     />
                   ),
                 },
-              ]}
-              onChange={handlePageChange}
-              pagination={{
-                current: currentPage,
-                total: totalCount,
-                pageSize: 10,
-                showSizeChanger: false,
-              }}
-              rowKey="id"
-            />
-          </TabPane>
-          <TabPane tab="Pending Approval" key={"pending-batch"}>
-            <Table
-              loading={loading}
-              dataSource={dataset}
-              columns={[...columnsBatch, Table.EXPAND_COLUMN]}
-              onChange={handlePageChange}
-              pagination={{
-                current: currentPage,
-                total: totalCount,
-                pageSize: 10,
-                showSizeChanger: false,
-              }}
-              rowKey="id"
-              expandedRowKeys={expandedKeys}
-              expandable={{
+              ]
+            : [...columnsBatch, Table.EXPAND_COLUMN]
+        }
+        onChange={handlePageChange}
+        pagination={{
+          current: currentPage,
+          total: totalCount,
+          pageSize: 10,
+          showSizeChanger: false,
+          showTotal: (total, range) =>
+            `Results: ${range[0]} - ${range[1]} of ${total} data`,
+        }}
+        rowKey="id"
+        expandedRowKeys={expandedKeys}
+        expandable={
+          pane === "pending-data"
+            ? false
+            : {
                 expandedRowRender: ApproverDetail,
                 expandIcon: (expand) => {
                   return expand.expanded ? (
@@ -398,8 +385,36 @@ const PanelDataUpload = () => {
                     />
                   );
                 },
-              }}
-            />
+              }
+        }
+      />
+    );
+  };
+
+  return (
+    <>
+      <Card
+        style={{
+          padding: 0,
+          minHeight: "40vh",
+        }}
+      >
+        <h1 className="data-uploads">Data Uploads</h1>
+        <DataFilters />
+        <Tabs
+          activeKey={selectedTab}
+          defaultActiveKey={selectedTab}
+          onChange={setSelectedTab}
+          tabBarExtraContent={btnBatchSelected}
+        >
+          <TabPane tab="Pending Submission" key={"pending-data"}>
+            <DataTable pane="pending-data" />
+          </TabPane>
+          <TabPane tab="Pending Approval" key={"pending-batch"}>
+            <DataTable pane="pending-batch" />
+          </TabPane>
+          <TabPane tab="Approved" key={"approved-batch"}>
+            <DataTable pane="approved-batch" />
           </TabPane>
         </Tabs>
       </Card>

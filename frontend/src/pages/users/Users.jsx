@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./style.scss";
-import { Row, Col, Card, Button, Divider, Table, Modal, Checkbox } from "antd";
+import { Row, Col, Card, Button, Divider, Table, Modal } from "antd";
 import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import UserDetail from "./UserDetail";
-import { UserFilters, Breadcrumbs } from "../../components";
+import { UserFilters, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
 
 const pagePath = [
@@ -17,7 +17,16 @@ const pagePath = [
     title: "Manage Users",
   },
 ];
-
+const descriptionData = (
+  <div>
+    This section helps you to:
+    <ul>
+      <li>Add new user</li>
+      <li>Modify existing user</li>
+      <li>Delete existing user</li>
+    </ul>
+  </div>
+);
 const Users = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
@@ -27,10 +36,6 @@ const Users = () => {
   const [deleting, setDeleting] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-
-  const applyChanges = (record) => {
-    setDataset(dataset.map((d) => (d.id === record.id ? record : d)));
-  };
 
   const { administration, filters, isLoggedIn } = store.useState(
     (state) => state
@@ -58,10 +63,6 @@ const Users = () => {
     {
       title: "Email",
       dataIndex: "email",
-      filtered: true,
-      filteredValue: query.trim() === "" ? [] : [query],
-      onFilter: (value, filters) =>
-        filters.email.toLowerCase().includes(value.toLowerCase()),
     },
     {
       title: "Role",
@@ -72,6 +73,12 @@ const Users = () => {
       title: "Region",
       dataIndex: "administration",
       render: (administration) => administration?.name || "",
+    },
+    {
+      title: "Forms",
+      dataIndex: "forms",
+      align: "center",
+      render: (forms) => forms.length || "None",
     },
     Table.EXPAND_COLUMN,
   ];
@@ -94,50 +101,76 @@ const Users = () => {
         });
       })
       .catch((err) => {
-        notify({
-          type: "error",
-          message: "Could not delete user",
-        });
+        const { status, data } = err.response;
+        if (status === 409) {
+          notify({
+            type: "error",
+            message: data?.message || "Could not delete user",
+          });
+        } else {
+          notify({
+            type: "error",
+            message: "Could not delete user",
+          });
+        }
         setDeleting(false);
-        console.error(err);
+        console.error(err.response);
       });
   };
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      let url = `users/?page=${currentPage}&pending=${
-        pending ? "true" : "false"
-      }`;
-      if (selectedAdministration?.id) {
-        url += `&administration=${selectedAdministration.id}`;
-      }
-      if (role) {
-        url += `&role=${role}`;
-      }
-      setLoading(true);
-      api
-        .get(url)
-        .then((res) => {
-          setDataset(res.data.data);
-          setTotalCount(res.data.total);
-          setLoading(false);
-        })
-        .catch((err) => {
-          notify({
-            type: "error",
-            message: "Could not load users",
+  const fetchData = useCallback(
+    (query = null) => {
+      if (isLoggedIn) {
+        let url = `users/?page=${currentPage}&pending=${
+          pending ? "true" : "false"
+        }`;
+        if (selectedAdministration?.id) {
+          url += `&administration=${selectedAdministration.id}`;
+        }
+        if (role) {
+          url += `&role=${role}`;
+        }
+        if (query) {
+          url += `&search=${query}`;
+        }
+        setLoading(true);
+        api
+          .get(url)
+          .then((res) => {
+            setDataset(res.data.data);
+            setTotalCount(res.data.total);
+            setLoading(false);
+          })
+          .catch((err) => {
+            notify({
+              type: "error",
+              message: "Could not load users",
+            });
+            setLoading(false);
+            console.error(err);
           });
-          setLoading(false);
-          console.error(err);
-        });
-    }
-  }, [role, pending, currentPage, selectedAdministration, isLoggedIn, notify]);
+      }
+    },
+    [role, pending, currentPage, selectedAdministration, isLoggedIn, notify]
+  );
+
+  useEffect(() => {
+    fetchData();
+  }, [
+    role,
+    pending,
+    currentPage,
+    selectedAdministration,
+    isLoggedIn,
+    fetchData,
+  ]);
 
   return (
     <div id="users">
-      <Row justify="space-between">
+      <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel description={descriptionData} />
         </Col>
         <Col>
           <Link to="/user/add">
@@ -149,6 +182,7 @@ const Users = () => {
       <UserFilters
         query={query}
         setQuery={setQuery}
+        fetchData={fetchData}
         pending={pending}
         setPending={setPending}
         loading={loading}
@@ -169,12 +203,13 @@ const Users = () => {
             current: currentPage,
             total: totalCount,
             pageSize: 10,
+            showTotal: (total, range) =>
+              `Results: ${range[0]} - ${range[1]} of ${total} users`,
           }}
           rowKey="id"
           expandable={{
             expandedRowRender: (record) => (
               <UserDetail
-                applyChanges={applyChanges}
                 record={record}
                 setDeleteUser={setDeleteUser}
                 deleting={deleting}
@@ -197,15 +232,15 @@ const Users = () => {
       </Card>
       <Modal
         visible={deleteUser}
+        onCancel={() => setDeleteUser(null)}
         centered
+        width="575px"
         footer={
-          <Row>
-            <Col span={12}>
-              <Checkbox id="informUser" className="dev" onChange={() => {}}>
-                Inform User of Changes
-              </Checkbox>
+          <Row justify="center" align="middle">
+            <Col span={14}>
+              <i>Deleting this user will not delete the assosiations</i>
             </Col>
-            <Col span={12}>
+            <Col span={10}>
               <Button
                 className="light"
                 disabled={deleting}
@@ -231,6 +266,7 @@ const Users = () => {
         bodyStyle={{ textAlign: "center" }}
       >
         <p>You are about to delete the user</p>
+        <br />
         <img src="/assets/user.svg" height="80" />
         <h2>
           {deleteUser?.first_name} {deleteUser?.last_name}
@@ -254,6 +290,23 @@ const Users = () => {
           ]}
           dataSource={[deleteUser]}
           rowKey="id"
+          pagination={false}
+        />
+        {/* Assosiation detail */}
+        <Table
+          title={() => "This user has following assosiations"}
+          columns={[
+            {
+              title: "Assosiation",
+              dataIndex: "name",
+            },
+            {
+              title: "Count",
+              dataIndex: "count",
+            },
+          ]}
+          dataSource={deleteUser?.assosiations || []}
+          rowKey={`${deleteUser?.id}-assosiation`}
           pagination={false}
         />
       </Modal>

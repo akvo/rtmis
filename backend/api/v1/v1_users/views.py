@@ -1,4 +1,5 @@
 # Create your views here.
+import os
 import datetime
 from math import ceil
 from pathlib import Path
@@ -7,8 +8,8 @@ from django.contrib.auth import authenticate
 from django.core import signing
 from django.core.management import call_command
 from django.core.signing import BadSignature
-from django.db.models import Value
-from django.db.models.functions import Coalesce
+from django.db.models import Value, Q
+from django.db.models.functions import Coalesce, Concat
 from django.http import HttpResponse
 from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
@@ -30,10 +31,17 @@ from api.v1.v1_users.models import SystemUser
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     VerifyInviteSerializer, SetUserPasswordSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
-    ListUserRequestSerializer, ListLevelSerializer, UserDetailSerializer
+    ListUserRequestSerializer, ListLevelSerializer, UserDetailSerializer, \
+    ForgotPasswordSerializer
+# from api.v1.v1_data.models import PendingDataBatch, \
+#     PendingDataApproval, FormData
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
+from utils.email_helper import send_email
+from utils.email_helper import ListEmailTypeRequestSerializer, EmailTypes
+
+webdomain = os.environ["WEBDOMAIN"]
 
 
 @extend_schema(description='Use to check System health', tags=['Dev'])
@@ -51,6 +59,27 @@ def get_config_file(request, version):
     response = HttpResponse(
         data, content_type="application/x-javascript; charset=utf-8")
     return response
+
+
+@extend_schema(description='Use to show email templates', tags=['Dev'],
+               parameters=[
+                   OpenApiParameter(name='type',
+                                    required=False,
+                                    enum=EmailTypes.FieldStr.keys(),
+                                    type=OpenApiTypes.STR,
+                                    location=OpenApiParameter.QUERY)],
+               summary='To show email template by type')
+@api_view(['GET'])
+def email_template(request, version):
+    serializer = ListEmailTypeRequestSerializer(data=request.GET)
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST)
+    email_type = serializer.validated_data.get('type')
+    data = {'subject': 'Test', 'send_to': []}
+    email = send_email(type=email_type, context=data, send=False)
+    return HttpResponse(email)
 
 
 # TODO: Remove temp user entry and invite key from the response.
@@ -80,6 +109,11 @@ def login(request, version):
                         password=serializer.validated_data['password'])
 
     if user:
+        if user.deleted_at:
+            return Response({'message': 'User has been deleted'},
+                            status=status.HTTP_401_UNAUTHORIZED)
+        user.last_login = timezone.now()
+        user.save()
         refresh = RefreshToken.for_user(user)
         data = UserSerializer(instance=user).data
         data['token'] = str(refresh.access_token)
@@ -100,6 +134,23 @@ def login(request, version):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_profile(request, version):
+    # check user activity
+    user = SystemUser.objects.filter(
+        email=request.user, deleted_at=None).first()
+    if not user:
+        return Response({'message': 'User has been deleted'},
+                        status=status.HTTP_401_UNAUTHORIZED)
+    # calculate last activity
+    now = timezone.now()
+    last_active = user.last_login
+    time_diff_hours = None
+    if last_active:
+        time_diff = now - last_active
+        time_diff_hours = time_diff.total_seconds() / 3600
+    if time_diff_hours and time_diff_hours >= 2:
+        # revoke/logout after 2 hours inactivity
+        return Response({'message': 'Expired of 2 hours inactivity'},
+                        status=status.HTTP_401_UNAUTHORIZED)
     return Response(UserSerializer(instance=request.user).data,
                     status=status.HTTP_200_OK)
 
@@ -117,7 +168,7 @@ def get_profile(request, version):
 def verify_invite(request, version, invitation_id):
     try:
         pk = signing.loads(invitation_id)
-        user = SystemUser.objects.get(pk=pk)
+        user = SystemUser.objects.get(pk=pk, deleted_at=None)
         return Response({'name': user.get_full_name()},
                         status=status.HTTP_200_OK)
     except BadSignature:
@@ -157,8 +208,7 @@ def set_user_password(request, version):
                    OpenApiParameter(name='filter',
                                     required=False,
                                     type=OpenApiTypes.NUMBER,
-                                    location=OpenApiParameter.QUERY),
-               ],
+                                    location=OpenApiParameter.QUERY)],
                summary='Get list of administration')
 @api_view(['GET'])
 def list_administration(request, version, administration_id):
@@ -190,7 +240,7 @@ def list_levels(request, version):
                },
                tags=['User'],
                description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
-                           'User:4',
+                           'User:4,ReadOnly:5',
                summary='To add user')
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
@@ -201,7 +251,10 @@ def add_user(request, version):
         return Response(
             {'message': validate_serializers_message(serializer.errors)},
             status=status.HTTP_400_BAD_REQUEST)
-    serializer.save()
+    user = serializer.save()
+    url = f"{webdomain}/login/{signing.dumps(user.pk)}"
+    data = {'button_url': url, 'send_to': [user.email]}
+    send_email(type=EmailTypes.user_invite, context=data)
     return Response({'message': 'User added successfully'},
                     status=status.HTTP_200_OK)
 
@@ -240,7 +293,10 @@ def add_user(request, version):
                          default=True,
                          type=OpenApiTypes.BOOL,
                          location=OpenApiParameter.QUERY),
-    ])
+        OpenApiParameter(name='search',
+                         required=False,
+                         type=OpenApiTypes.STR,
+                         location=OpenApiParameter.QUERY)])
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
 def list_users(request, version):
@@ -297,10 +353,22 @@ def list_users(request, version):
 
     page_size = REST_FRAMEWORK.get('PAGE_SIZE')
     the_past = timezone.now() - datetime.timedelta(days=10 * 365)
-    queryset = SystemUser.objects.filter(**filter_data).exclude(
-        **exclude_data).annotate(
-        last_updated=Coalesce('updated', Value(the_past))).order_by(
-        '-last_updated', '-date_joined')
+    # also filter soft deletes
+    queryset = SystemUser.objects.filter(
+        deleted_at=None, **filter_data
+    )
+    # filter by email or fullname
+    if serializer.validated_data.get('search'):
+        search = serializer.validated_data.get('search')
+        queryset = queryset.annotate(
+            fullname=Concat('first_name', Value(' '), 'last_name'))
+        queryset = queryset.filter(
+            Q(email__icontains=search) | Q(fullname__icontains=search))
+    queryset = queryset.exclude(
+        **exclude_data
+    ).annotate(
+        last_updated=Coalesce('updated', Value(the_past))
+    ).order_by('-last_updated', '-date_joined')
     paginator = PageNumberPagination()
     instance = paginator.paginate_queryset(queryset, request)
     data = {
@@ -340,7 +408,7 @@ class UserEditDeleteView(APIView):
                    tags=['User'],
                    summary='To get user details')
     def get(self, request, user_id, version):
-        instance = get_object_or_404(SystemUser, pk=user_id)
+        instance = get_object_or_404(SystemUser, pk=user_id, deleted_at=None)
         return Response(UserDetailSerializer(instance=instance).data,
                         status=status.HTTP_200_OK)
 
@@ -351,8 +419,14 @@ class UserEditDeleteView(APIView):
         tags=['User'],
         summary='To delete user')
     def delete(self, request, user_id, version):
+        login_user = SystemUser.objects.get(email=request.user)
         instance = get_object_or_404(SystemUser, pk=user_id)
-        instance.delete()
+        # prevent self deletion
+        if login_user.id == instance.id:
+            return Response({'message': "Could not do self deletion"},
+                            status=status.HTTP_409_CONFLICT)
+        instance.deleted_at = timezone.now()
+        instance.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @extend_schema(
@@ -364,10 +438,10 @@ class UserEditDeleteView(APIView):
         },
         tags=['User'],
         description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
-                    'User:4',
+                    'User:4,ReadOnly:5',
         summary='To update user')
     def put(self, request, user_id, version):
-        instance = get_object_or_404(SystemUser, pk=user_id)
+        instance = get_object_or_404(SystemUser, pk=user_id, deleted_at=None)
         serializer = AddEditUserSerializer(data=request.data,
                                            context={'user': request.user},
                                            instance=instance)
@@ -378,3 +452,28 @@ class UserEditDeleteView(APIView):
         serializer.save()
         return Response({'message': 'User updated successfully'},
                         status=status.HTTP_200_OK)
+
+
+@extend_schema(request=ForgotPasswordSerializer,
+               responses={
+                   (200, 'application/json'):
+                       inline_serializer(
+                           "Response",
+                           fields={"message": serializers.CharField()})
+               },
+               tags=['User'],
+               summary='To send reset password instructions')
+@api_view(['POST'])
+def forgot_password(request, version):
+    serializer = ForgotPasswordSerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST)
+    user: SystemUser = serializer.validated_data.get('email')
+    url = f"{webdomain}/login/{signing.dumps(user.pk)}"
+    data = {'button_url': url, 'send_to': [user.email]}
+    send_email(type=EmailTypes.user_forgot_password, context=data)
+    return Response(
+        {'message': 'Reset password instructions sent to your email'},
+        status=status.HTTP_200_OK)
