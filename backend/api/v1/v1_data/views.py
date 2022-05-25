@@ -26,7 +26,7 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
     ListMapDataPointRequestSerializer, ListChartDataPointRequestSerializer, \
-    ListChartQuestionDataPointSerializer, \
+    ListChartQuestionDataPointSerializer, ListChartOverviewRequestSerializer, \
     ListChartAdministrationRequestSerializer, \
     ListPendingDataAnswerSerializer, \
     ApprovePendingDataRequestSerializer, ListBatchSerializer, \
@@ -408,6 +408,130 @@ def get_chart_data_point(request, version, form_id):
 
 
 @extend_schema(responses={200: inline_serializer(
+    'chart_overview',
+    fields={
+        'type': serializers.CharField(),
+        'data': ListChartQuestionDataPointSerializer(many=True)
+    })},
+    parameters=[
+        OpenApiParameter(name='question',
+                         required=True,
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='stack',
+                         required=False,
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY)],
+    tags=['Visualisation'],
+    summary='To get overview chart at National level')
+@api_view(['GET'])
+def get_chart_overview(request, version, form_id):
+    instance = get_object_or_404(Forms, pk=form_id)
+    serializer = ListChartOverviewRequestSerializer(
+        data=request.GET, context={'form': instance})
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    question = serializer.validated_data.get('question')
+    stack = serializer.validated_data.get('stack')
+    if stack:
+        stack_options = stack.question_question_options.all()
+        data = []
+        for so in stack_options:
+            query_set = Answers.objects.filter(
+                question=stack, options__contains=so.name).values(
+                    'options').annotate(
+                        ids=StringAgg(
+                            Cast('data_id', TextField()),
+                            delimiter=',',
+                            output_field=TextField()))
+            # temp values
+            values = {
+                'group': so.name,
+                'child': []
+            }
+            # get child
+            for val in query_set:
+                child_query_set = Answers.objects.filter(
+                    data_id__in=val.get('ids').split(','),
+                    question=question)
+                # Option type
+                if question.type == QuestionTypes.option:
+                    child_query_set = child_query_set.values(
+                        'options').annotate(c=Count('options'))
+                    for child in child_query_set:
+                        values.get('child').append({
+                            'name': child.get('options')[0],
+                            'value': child.get('c')
+                        })
+                # Number type
+                if question.type == QuestionTypes.number:
+                    child_query_set = child_query_set.values('value')
+                    for child in child_query_set:
+                        values.get('child').append({
+                            'name': 'value',
+                            'value': child.get('value')
+                        })
+                # Multiple option type
+                if question.type == QuestionTypes.multiple_option:
+                    multiple_options = question.question_question_options.all()
+                    for mo in multiple_options:
+                        count = child_query_set.filter(
+                            options__contains=mo.name).count()
+                        values.get('child').append({
+                            'name': mo.name,
+                            'value': count
+                        })
+            data.append(values)
+
+        # query_set = Answers.objects.filter(question=stack).values(
+        #     'options').annotate(
+        #         c=Count('options'),
+        #         ids=StringAgg(Cast('data_id', TextField()),
+        #                       delimiter=',',
+        #                       output_field=TextField()))
+        # data = []
+        # for val in query_set:
+        #     values = {
+        #         'group': val.get('options')[0],
+        #         'child': []
+        #     }
+        #     child_query_set = Answers.objects.filter(
+        #         data_id__in=val.get('ids').split(','),
+        #         question=question)
+        #     # Option type
+        #     if question.type == QuestionTypes.option:
+        #         child_query_set = child_query_set.values(
+        #             'options').annotate(c=Count('options'))
+        #         for child in child_query_set:
+        #             values.get('child').append({
+        #                 'name': child.get('options')[0],
+        #                 'value': child.get('c')
+        #             })
+        #     # Number type
+        #     if question.type == QuestionTypes.number:
+        #         child_query_set = child_query_set.values('value')
+        #         for child in child_query_set:
+        #             values.get('child').append({
+        #                 'name': 'value',
+        #                 'value': child.get('value')
+        #             })
+        #     data.append(values)
+
+        return Response({'type': 'BARSTACK', 'data': data},
+                        status=status.HTTP_200_OK)
+
+    return Response({'type': 'BAR',
+                     'data': ListChartQuestionDataPointSerializer(
+                         instance=question.question_question_options.all(),
+                         many=True).data},
+                    status=status.HTTP_200_OK)
+
+
+@extend_schema(responses={200: inline_serializer(
     'chart_administration',
     fields={
         'type': serializers.CharField(),
@@ -525,6 +649,68 @@ def get_chart_criteria(request, version, form_id):
             form_id=form_id,
             administration_id__in=administration_ids
         ).values_list('data_id', flat=True))
+        # loop for post params
+        for param in params:
+            filter_criteria = []
+            for index, option in enumerate(param.get('options')):
+                question = option.get('question').id
+                ids = filter_criteria if filter_criteria else data_ids
+                for opt in option.get('option'):
+                    option_contains = []
+                    option_contains.append(f"{question}||{opt.lower()}")
+                    filter_data = list(
+                        ViewDataOptions.objects.filter(
+                            data_id__in=ids,
+                            options__contains=option_contains
+                        ).values_list('data_id', flat=True))
+                    if filter_criteria and index > 0:
+                        # reset filter_criteria for next question
+                        # start from second question criteria
+                        # support and filter
+                        filter_criteria = []
+                    for id in filter_data:
+                        if id not in filter_criteria:
+                            # append filter_criteria to support or filter
+                            filter_criteria.append(id)
+            values.get('child').append({
+                'name': param.get('name'),
+                'value': len(filter_criteria)
+            })
+        data.append(values)
+    return Response({'type': 'BARSTACK', 'data': data},
+                    status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    request=ListChartCriteriaRequestSerializer(many=True),
+    responses={200: inline_serializer(
+        'chart_overview_criteria',
+        fields={
+            'type': serializers.CharField(),
+            'data': ListChartQuestionDataPointSerializer(many=True)
+        })},
+    tags=['Visualisation'],
+    summary='To get overview with criteria chart at National level')
+@api_view(['POST'])
+def get_chart_overview_criteria(request, version, form_id):
+    instance = get_object_or_404(Forms, pk=form_id)
+    serializer = ListChartCriteriaRequestSerializer(
+        data=request.data, context={'form': instance}, many=True)
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    params = serializer.validated_data
+    childs = Administration.objects.filter(level_id=1).all()
+    data = []
+    for child in childs:
+        values = {
+            'group': child.name,
+            'child': []
+        }
+        data_ids = list(ViewDataOptions.objects.filter(
+            form_id=form_id).values_list('data_id', flat=True))
         # loop for post params
         for param in params:
             filter_criteria = []
