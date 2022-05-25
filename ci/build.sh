@@ -3,6 +3,7 @@
 
 set -exuo pipefail
 
+[[ "${CI_BRANCH}" ==  "gh-pages" ]] && { echo "GH Pages update. Skip all"; exit 0; }
 [[ -n "${CI_TAG:=}" ]] && { echo "Skip build"; exit 0; }
 
 ## RESTORE IMAGE CACHE
@@ -17,7 +18,6 @@ while IFS= read -r IMAGE_CACHE; do
         docker load -i "${IMAGE_CACHE_LOC}"
     fi
 done <<< "${IMAGE_CACHE_LIST}"
-## END RESTORE IMAGE CACHE
 
 if grep -q .yml .gitignore; then
     echo "ERROR: .gitignore contains other docker-compose file"
@@ -34,6 +34,11 @@ then
 fi
 
 if grep -q "frontend" <<< "${COMMIT_CONTENT}"
+then
+    FRONTEND_CHANGES=1
+fi
+
+if grep -q "docs" <<< "${COMMIT_CONTENT}"
 then
     FRONTEND_CHANGES=1
 fi
@@ -60,6 +65,12 @@ dc () {
 
 dci () {
     dc -f docker-compose.ci.yml "$@"
+}
+
+documentation_build() {
+    docker run -it --rm -v "$(pwd)/docs:/docs" \
+        akvo/akvo-sphinx:20220525.082728.594558b make html
+    cp -r docs/build/html frontend/public/documentation
 }
 
 frontend_build () {
@@ -121,6 +132,7 @@ fi
 if [[ ${FRONTEND_CHANGES} == 1 ]];
 then
     echo "================== * FRONTEND BUILD * =================="
+    documentation_build
     frontend_build
 else
     echo "No Changes detected for frontend -- SKIP BUILD"
