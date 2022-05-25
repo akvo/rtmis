@@ -1,0 +1,85 @@
+@media print {
+    /*
+        Typography
+    */
+    body {
+        font-family: 'Noto Serif CJK JP' !important;
+        font-weight: 80;
+    }
+    h2 {
+        border: 1px solid #B1BCC1;
+        padding: 1mm 2mm;
+        background: #D2E0E6;
+        color: #404040;
+        font-family: 'Noto Serif CJK JP' !important;
+        font-size: 12pt;
+    }
+    h3 {
+        padding: 1mm 2mm;
+        border-bottom: 1px solid #B1BCC1;
+        border-top: 1px solid #B1BCC1;
+        border-right: 1px solid #B1BCC1;
+        border-left: 2mm solid #B1BCC1;
+        font-family: 'Noto Serif CJK JP' !important;
+        font-size: 12pt;
+    }
+    p, ul, ol, dl {
+        font-size: 10pt;
+    }
+    /* `この部分` */
+    code, .rst-content tt, .rst-content code, span.pre {
+        font-family: Consolas,"Andale Mono WT","Andale Mono","Lucida Console","Lucida Sans Typewriter","DejaVu Sans Mono","Bitstream Vera Sans Mono","Liberation Mono","Nimbus Mono L",Monaco,"Courier New",Courier,monospace !important;
+        font-size: 9pt;
+    }
+    /* Code block */
+    .codeblock, 
+    pre.literal-block,
+    .rst-content .literal-block,
+    .rst-content pre.literal-block,
+    div[class^='highlight'],
+    div[class^='highlight'] pre {
+        font-family: Consolas,"Andale Mono WT","Andale Mono","Lucida Console","Lucida Sans Typewriter","DejaVu Sans Mono","Bitstream Vera Sans Mono","Liberation Mono","Nimbus Mono L",Monaco,"Courier New",Courier,monospace !important;
+        white-space: pre-wrap !important;
+    }
+    /* table cell */
+    .wy-table td,
+    .rst-content table.docutils td,
+    .rst-content table.field-list td,
+    .wy-table th,
+    .rst-content table.docutils th,
+    .rst-content table.field-list th {
+        font-size: 10pt;
+        padding: 2mm 4mm;
+    }
+
+    /* Front cover page -------------------- */
+    h1 {
+        padding: 4mm;
+        background: #2F4B56;
+        text-align: center;
+        color: #fff;
+        font-family: 'Noto Serif CJK JP' !important;
+        font-size: 22pt;
+        font-weight: 80;
+    }
+    .wy-nav-side {
+        margin-top: calc(50% - (11pt + 2mm + 20pt));
+        margin-bottom: 10mm;
+        padding-bottom: 10mm;
+        border-bottom: 1px dashed #B1BCC1;
+    }
+    /* Project name */
+    .wy-side-nav-search {
+        line-height: 1.6;
+        text-align: center;
+    }
+    .wy-side-nav-search > .icon.icon-home {
+        color: #333;
+    }
+    /* Version number */
+    .wy-side-nav-search > div.version,
+    .wy-side-nav-search > div.version:before {
+        font-size: 10pt;
+    }
+    /* End */
+}

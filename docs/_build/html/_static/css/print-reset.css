@@ -1,0 +1,108 @@
+@media print {
+    /*
+        Page settings
+    */
+    @page {
+        margin: 15mm;
+    }
+
+    /*
+        Reset Styles for Print
+    */
+    * {
+        position: static !important;
+        float: none !important;
+        overflow: visible !important;
+        white-space: normal !important;
+        word-break: break-all !important;
+        word-wrap: break-word !important;
+    }
+    body {
+        color: #000;
+        font-size: 12pt;
+    }
+    a {
+        color: #000;
+    }
+    a:visited {
+        color: #000;
+    }
+    h1 {
+        page-break-after: always;
+        break-after: always;
+    }
+    [aria-label="breadcrumbs navigation"] {
+        display: none;
+    }
+    /* Display project name -------------------- */
+    .rst-versions, footer, .wy-nav-side {
+        display: block;
+    }
+    .wy-nav-side {
+        width: auto;
+        max-width: none;
+        min-height: 0;
+        margin: auto;
+        padding: 0;
+        background: transparent;
+    }
+    .wy-side-scroll {
+        width: auto;
+        height: auto;
+        position: static;
+    }
+    .wy-menu-vertical {
+        display: none;
+    }
+    .wy-side-nav-search {
+        width: auto;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        text-align: start;
+    }
+    .wy-side-nav-search [role="search"] {
+        display: none;
+    }
+    .wy-side-nav-search > a, .wy-side-nav-search .wy-dropdown > a {
+        margin: 0;
+        padding: 0;
+    }
+    /* Hide home icon */
+    .wy-side-nav-search > .icon:before {
+        display: none;
+    }
+    /* Version number */
+    .wy-side-nav-search > div.version {
+        color: #000;
+        margin: 0;
+        padding: 0;
+    }
+    .wy-side-nav-search > div.version:before {
+        content: 'ver.';
+    }
+    /* End */
+
+    /* Contents area -------------------- *//* コンテンツエリア */
+    .wy-nav-content {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+    }
+    /* Code block */
+    .codeblock, pre.literal-block,
+    .rst-content .literal-block,
+    .rst-content pre.literal-block,
+    div[class^='highlight'],
+    div[class^='highlight'] pre {
+        line-height: 0;
+    }
+    /* End */
+
+    /* Footer -------------------- */
+    footer {
+        display: none !important;
+    }
+    /* End */
+}
