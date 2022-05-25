@@ -681,6 +681,68 @@ def get_chart_criteria(request, version, form_id):
                     status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    request=ListChartCriteriaRequestSerializer(many=True),
+    responses={200: inline_serializer(
+        'chart_overview_criteria',
+        fields={
+            'type': serializers.CharField(),
+            'data': ListChartQuestionDataPointSerializer(many=True)
+        })},
+    tags=['Visualisation'],
+    summary='To get overview with criteria chart at National level')
+@api_view(['POST'])
+def get_chart_overview_criteria(request, version, form_id):
+    instance = get_object_or_404(Forms, pk=form_id)
+    serializer = ListChartCriteriaRequestSerializer(
+        data=request.data, context={'form': instance}, many=True)
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    params = serializer.validated_data
+    childs = Administration.objects.filter(level_id=1).all()
+    data = []
+    for child in childs:
+        values = {
+            'group': child.name,
+            'child': []
+        }
+        data_ids = list(ViewDataOptions.objects.filter(
+            form_id=form_id).values_list('data_id', flat=True))
+        # loop for post params
+        for param in params:
+            filter_criteria = []
+            for index, option in enumerate(param.get('options')):
+                question = option.get('question').id
+                ids = filter_criteria if filter_criteria else data_ids
+                for opt in option.get('option'):
+                    option_contains = []
+                    option_contains.append(f"{question}||{opt.lower()}")
+                    filter_data = list(
+                        ViewDataOptions.objects.filter(
+                            data_id__in=ids,
+                            options__contains=option_contains
+                        ).values_list('data_id', flat=True))
+                    if filter_criteria and index > 0:
+                        # reset filter_criteria for next question
+                        # start from second question criteria
+                        # support and filter
+                        filter_criteria = []
+                    for id in filter_data:
+                        if id not in filter_criteria:
+                            # append filter_criteria to support or filter
+                            filter_criteria.append(id)
+            values.get('child').append({
+                'name': param.get('name'),
+                'value': len(filter_criteria)
+            })
+        data.append(values)
+    return Response({'type': 'BARSTACK', 'data': data},
+                    status=status.HTTP_200_OK)
+
+
 @extend_schema(responses={
     (200, 'application/json'):
         inline_serializer("PendingDataBatch", fields={
