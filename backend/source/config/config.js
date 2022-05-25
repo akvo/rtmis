@@ -10,19 +10,19 @@ var visualisation = [
         options: [
           {
             id: 697,
-            name: "No toilet observed"
+            name: "No toilet observed",
           },
           {
             id: 698,
-            name: "Toilet with inadequate privacy"
+            name: "Toilet with inadequate privacy",
           },
           {
             id: 699,
-            name: "Toilet not functional"
+            name: "Toilet not functional",
           },
           {
             id: 700,
-            name: "Functional toilet with privacy"
+            name: "Functional toilet with privacy",
           },
         ],
       },
@@ -47,22 +47,22 @@ var visualisation = [
                 option: [
                   "Flush / pour flush",
                   "Pit latrine with slab",
-                  "Twin pit with slab"
-                ]
+                  "Twin pit with slab",
+                ],
               },
               {
                 question: 513690062,
-                option: ["No"]
+                option: ["No"],
               },
               {
                 question: 513690060,
                 option: [
                   "Removed by service provider to a treatment plant",
                   "Removed by service provider to buried pit",
-                  "Emptied by household buried in a covered pit"
-                ]
-              }
-            ]
+                  "Emptied by household buried in a covered pit",
+                ],
+              },
+            ],
           },
           {
             name: "Basic",
@@ -74,14 +74,14 @@ var visualisation = [
                 option: [
                   "Flush / pour flush",
                   "Pit latrine with slab",
-                  "Twin pit with slab"
-                ]
+                  "Twin pit with slab",
+                ],
               },
               {
                 question: 513690062,
-                option: ["No"]
-              }
-            ]
+                option: ["No"],
+              },
+            ],
           },
           {
             name: "Limited",
@@ -93,14 +93,14 @@ var visualisation = [
                 option: [
                   "Flush / pour flush",
                   "Pit latrine with slab",
-                  "Twin pit with slab"
-                ]
+                  "Twin pit with slab",
+                ],
               },
               {
                 question: 513690062,
-                option: ["Yes"]
-              }
-            ]
+                option: ["Yes"],
+              },
+            ],
           },
           {
             name: "Unimproved",
@@ -113,10 +113,10 @@ var visualisation = [
                   "Pit latrine without slab / Open pit",
                   "Twin pit without slab",
                   "Bucket",
-                  "Hanging toilet / hanging latrine"
-                ]
-              }
-            ]
+                  "Hanging toilet / hanging latrine",
+                ],
+              },
+            ],
           },
           {
             name: "Open Defecation",
@@ -126,10 +126,10 @@ var visualisation = [
             options: [
               {
                 question: 492490054,
-                option: ["No facility / Bush / Field"]
-              }
-            ]
-          }
+                option: ["No facility / Bush / Field"],
+              },
+            ],
+          },
         ],
         // stack: {
         //   options: [
@@ -169,7 +169,7 @@ var visualisation = [
             name: "No permission to see",
             title: "No Facility",
             color: "#F1AC2A",
-          }
+          },
         ],
       },
     ],
@@ -185,11 +185,11 @@ var visualisation = [
         options: [
           {
             id: 1158,
-            name: "L1"
+            name: "L1",
           },
           {
             id: 1159,
-            name: "L2"
+            name: "L2",
           },
         ],
       },
@@ -218,7 +218,7 @@ var visualisation = [
             name: "No, no handwashing facilities near toilets (within 5 meters)",
             title: "No Facility",
             color: "#F9CA29",
-          }
+          },
         ],
       },
       {
@@ -240,7 +240,7 @@ var visualisation = [
             name: "No, no handwashing facilities near toilets (within 5 meters)",
             title: "No Facility",
             color: "#F1AC2A",
-          }
+          },
         ],
       },
     ],
@@ -256,19 +256,19 @@ var visualisation = [
         options: [
           {
             id: 890,
-            name: "Open Defecation"
+            name: "Open Defecation",
           },
           {
             id: 891,
-            name: "Triggered"
+            name: "Triggered",
           },
           {
             id: 892,
-            name: "Declared ODF"
+            name: "Declared ODF",
           },
           {
             id: 893,
-            name: "Verified ODF"
+            name: "Verified ODF",
           },
         ],
       },
@@ -338,7 +338,7 @@ var visualisation = [
             name: "No water source",
             title: "No Services",
             color: "#F1AC2A",
-          }
+          },
         ],
       },
       {
@@ -380,7 +380,7 @@ var visualisation = [
             name: "No toilets or latrines",
             title: "No Service",
             color: "#F1AC2A",
-          }
+          },
         ],
       },
       {
@@ -407,7 +407,7 @@ var visualisation = [
             name: "Neither water or soap",
             title: "No Service",
             color: "#F1AC2A",
-          }
+          },
         ],
       },
     ],
@@ -448,5 +448,160 @@ var visualisation = [
         title: "Water Source Type",
       },
     ],
+  },
+];
+
+var highlights = [
+  {
+    name: "Sanitation",
+    description:
+      "proportion of population with access to hand washing facilities with water and soap",
+    charts: [
+      {
+        // api chart/overview
+        form_id: 519630048,
+        type: "PIE",
+        id: 513690066,
+        title:
+          "Does your sanitation facility leak or overflow wastes at any time of year?",
+      },
+      {
+        // api chart/overview
+        form_id: 563350033,
+        type: "BARSTACK",
+        id: 553480031, // support option / multiple_option / number
+        title:
+          "In your opinion, what should the school do to promote good hygiene and sanitation of students?",
+        stack: {
+          id: 553480033, // support option / multiple_option
+          title:
+            "Are there garbage or waste materials that are currently affecting the sanitation of the school?",
+        },
+      },
+      {
+        // api chart/overview/criteria
+        form_id: 519630048,
+        type: "CRITERIA",
+        title: "Sanitation Service Level",
+        options: [
+          {
+            name: "Safely Managed",
+            color: "#368541",
+            score: 15,
+            options: [
+              {
+                question: 492490054,
+                option: [
+                  "Flush / pour flush",
+                  "Pit latrine with slab",
+                  "Twin pit with slab",
+                ],
+              },
+              {
+                question: 513690062,
+                option: ["No"],
+              },
+              {
+                question: 513690060,
+                option: [
+                  "Removed by service provider to a treatment plant",
+                  "Removed by service provider to buried pit",
+                  "Emptied by household buried in a covered pit",
+                ],
+              },
+            ],
+          },
+          {
+            name: "Basic",
+            score: 10,
+            color: "#79BE7D",
+            options: [
+              {
+                question: 492490054,
+                option: [
+                  "Flush / pour flush",
+                  "Pit latrine with slab",
+                  "Twin pit with slab",
+                ],
+              },
+              {
+                question: 513690062,
+                option: ["No"],
+              },
+            ],
+          },
+          {
+            name: "Limited",
+            score: -1,
+            color: "#FDF177",
+            options: [
+              {
+                question: 492490054,
+                option: [
+                  "Flush / pour flush",
+                  "Pit latrine with slab",
+                  "Twin pit with slab",
+                ],
+              },
+              {
+                question: 513690062,
+                option: ["Yes"],
+              },
+            ],
+          },
+          {
+            name: "Unimproved",
+            score: -2,
+            color: "#FBD256",
+            options: [
+              {
+                question: 492490054,
+                option: [
+                  "Pit latrine without slab / Open pit",
+                  "Twin pit without slab",
+                  "Bucket",
+                  "Hanging toilet / hanging latrine",
+                ],
+              },
+            ],
+          },
+          {
+            name: "Open Defecation",
+            score: -3,
+            color: "#F1AC2A",
+            options: [
+              {
+                question: 492490054,
+                option: ["No facility / Bush / Field"],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Hygiene",
+    description: "Hygiene Text Description",
+  },
+  {
+    name: "Waste Water",
+    description: "Waste Water Text Description",
+  },
+  {
+    name: "Water Quality",
+    description: "Water Quality Text Description",
+  },
+  {
+    name: "Efficiency",
+    description: "Efficiency Text Description",
+  },
+  {
+    name: "Water Stress",
+    description: "Water Stress Text Description",
+  },
+  {
+    name: "Ecosystems",
+    description: "Ecosystems Text Description",
   },
 ];
