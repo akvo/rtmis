@@ -38,6 +38,11 @@ then
     FRONTEND_CHANGES=1
 fi
 
+if grep -q "docs" <<< "${COMMIT_CONTENT}"
+then
+    FRONTEND_CHANGES=1
+fi
+
 if [[ "${CI_BRANCH}" ==  "main" || "${CI_BRANCH}" ==  "develop" && "${CI_PULL_REQUEST}" !=  "true" ]];
 then
     BACKEND_CHANGES=1
@@ -60,6 +65,12 @@ dc () {
 
 dci () {
     dc -f docker-compose.ci.yml "$@"
+}
+
+documentation_build() {
+    docker run -it --rm -v "$(pwd)/docs:/docs" \
+        akvo/akvo-sphinx:20220525.082728.594558b make html
+    cp -r docs/build/html frontend/public/documentation
 }
 
 frontend_build () {
@@ -121,6 +132,7 @@ fi
 if [[ ${FRONTEND_CHANGES} == 1 ]];
 then
     echo "================== * FRONTEND BUILD * =================="
+    documentation_build
     frontend_build
 else
     echo "No Changes detected for frontend -- SKIP BUILD"

@@ -208,9 +208,14 @@ class ListFormDataSerializer(serializers.ModelSerializer):
         return update_date_time_format(instance.updated)
 
     def get_pending_data(self, instance: FormData):
+        batch = None
         pending_data = PendingFormData.objects.filter(
             data=instance.pk).first()
         if pending_data:
+            batch = PendingDataBatch.objects.filter(
+                pk=pending_data.batch_id).first()
+        if pending_data and batch and not batch.approved \
+           or pending_data and not batch:
             return {
                 "id": pending_data.id,
                 "created_by": pending_data.created_by.get_full_name()
