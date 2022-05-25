@@ -40,6 +40,11 @@
       background-color: $white;
       padding-top: $padding-default;
       margin-bottom: -$padding-default;
+      .highlight-title {
+        margin: 12px 0 24px;
+        text-align: center;
+        font-size: 16px;
+      }
     }
   }
 }
