@@ -13,7 +13,7 @@ const Home = () => {
         <h1>Highlights</h1>
         <div className="body">
           <Tabs defaultActiveKey="1" centered className="dev">
-            {highlights.map((highlight, index) => (
+            {highlights?.map((highlight, index) => (
               <TabPane tab={highlight.name} key={index + 1}>
                 <h4 className="highlight-title">{highlight.description}</h4>
                 <div style={{ borderColor: "red", borderWidth: 1 }}>
