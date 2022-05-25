@@ -3,6 +3,7 @@
 
 set -exuo pipefail
 
+[[ "${CI_BRANCH}" ==  "gh-pages" ]] && { echo "GH Pages update. Skip all"; exit 0; }
 [[ -n "${CI_TAG:=}" ]] && { echo "Skip build"; exit 0; }
 
 ## RESTORE IMAGE CACHE
@@ -17,7 +18,6 @@ while IFS= read -r IMAGE_CACHE; do
         docker load -i "${IMAGE_CACHE_LOC}"
     fi
 done <<< "${IMAGE_CACHE_LIST}"
-## END RESTORE IMAGE CACHE
 
 if grep -q .yml .gitignore; then
     echo "ERROR: .gitignore contains other docker-compose file"
