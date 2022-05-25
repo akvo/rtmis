@@ -294,47 +294,298 @@ var visualisation = [
     },
     charts: [
       {
-        type: "ADMINISTRATION",
-        id: 551560004,
-        title: "Sanitation Service Level",
+        type: "CRITERIA",
+        title: "Sanitation",
         options: [
           {
-            name: "Yes",
-            title: "Basic",
-            color: "#67B769",
+            name: "Basic",
+            color: "#368541",
+            score: 15,
+            options: [
+              {
+                question: 555370004,
+                option: [
+                  "Flush / Pour-flush toilet to sewer connection",
+                  "Flush / Pour-flush toilet to tank or pit",
+                  "Pit latrine with slab",
+                  "Composting toilet",
+                ]
+              },
+              {
+                question: 530250002,
+                option: ["Yes"]
+              },
+              {
+                question: 555370009,
+                option: ["Yes"]
+              },
+              {
+                question: 555370003,
+                option: ["Yes"]
+              },
+              {
+                question: 555370005,
+                option: ["Yes"]
+              },
+              {
+                question: 555370006,
+                option: ["Yes"]
+              }
+            ]
           },
           {
-            name: "No, there are handwashing facilities near the toilets but lacking soap and/or water",
-            title: "Limited",
-            color: "#FCF176",
+            name: "Limited",
+            score: 10,
+            color: "#79BE7D",
+            options: [
+              {
+                question: 555370004,
+                option: [
+                  "Flush / Pour-flush toilet to sewer connection",
+                  "Flush / Pour-flush toilet to tank or pit",
+                  "Pit latrine with slab",
+                  "Composting toilet",
+                ]
+              },
+              {
+                question: 530250002,
+                option: ["No"]
+              },
+              {
+                question: 555370009,
+                option: ["No"]
+              },
+              {
+                question: 555370003,
+                option: ["No"]
+              },
+              {
+                question: 555370005,
+                option: ["No"]
+              },
+              {
+                question: 555370006,
+                option: ["No"]
+              }
+            ]
           },
           {
-            name: "No, no handwashing facilities near toilets (within 5 meters)",
-            title: "No Facility",
-            color: "#F9CA29",
-          }
+            name: "No service",
+            score: -1,
+            color: "#FDF177",
+            options: [
+              {
+                question: 555370004,
+                option: [
+                  "Flush / Pour-flush toilet to open drain",
+                  "Pit latrine without slab/open pit",
+                  "Bucket",
+                  "Hanging toilet/latrine",
+                  "No toilet/latrine"
+                ]
+              },
+            ]
+          },
+        ],
+      },
+
+      {
+        type: "CRITERIA",
+        title: "Hygiene (Hand washing)",
+        options: [
+          {
+            name: "Basic",
+            color: "#368541",
+            score: 15,
+            options: [
+              {
+                question: 551560007,
+                option: [
+                  "Yes",
+                ]
+              },
+              {
+                question: 551560004,
+                option: ["Yes"]
+              },
+            ]
+          },
+          {
+            name: "Limited",
+            score: 10,
+            color: "#79BE7D",
+            options: [
+              {
+                question: 551560007,
+                option: [
+                  "No, there are hand hygiene facilities at points of care but not functional, or lacking soap and water or alcohol-based hand rub.",
+                ]
+              },
+              {
+                question: 551560004,
+                option: ["Yes"]
+              },
+            ]
+          },
+          {
+            name: "No service",
+            score: -1,
+            color: "#FDF177",
+            options: [
+              {
+                question: 551560007,
+                option: [
+                  "No, there are hand hygiene facilities at points of care but not functional, or lacking soap and water or alcohol-based hand rub.",
+                  "No, no hand hygiene facilities at points of care",
+                ]
+              },
+              {
+                question: 551560004,
+                option: ["No, there are handwashing facilities near the toilets but lacking soap and/or water",
+                  "No, no handwashing facilities near toilets (within 5 meters)"]
+              },
+            ]
+          },
         ],
       },
       {
-        type: "ADMINISTRATION",
-        id: 551560004,
-        title: "Hygiene Service Level",
+        type: "CRITERIA",
+        title: "Health care waste management",
         options: [
           {
-            name: "Yes",
-            title: "Basic",
-            color: "#753780",
+            name: "Basic",
+            color: "#368541",
+            score: 15,
+            options: [
+              {
+                question: 541950008,
+                option: [
+                  "Yes, waste is segregated into three labelled bins",
+                ]
+              },
+              {
+                question: 541950011,
+                option: ["Autoclaved",
+                  "Incinerated (two chamber, 850-1000 °C incinerator)",
+                  "Incinerated (other)",
+                  "Burning in a protected pit",
+                  "Not treated, but buried in lined, protected pit",
+                  "Not treated, but collected for medical waste disposal off-site"]
+              },
+              {
+                question: 541950005,
+                option: ["Autoclaved",
+                  "Incinerated (two chamber, 850-1000 °C incinerator)",
+                  "Incinerated (other)",
+                  "Burning in a protected pit",
+                  "Not treated, but buried in lined, protected pit",
+                  "Not treated, but collected for medical waste disposal off-site"]
+              },
+            ]
           },
           {
-            name: "No, there are handwashing facilities near the toilets but lacking soap and/or water",
-            title: "Limited",
+            name: "Limited",
+            score: 10,
+            color: "#79BE7D",
+            options: [
+              {
+                question: 541950008,
+                option: [
+                  "No, bins are present but do not meet all requirements or waste is not correctly segregated",
+                ]
+              },
+              {
+                question: 541950011,
+                option: ["Autoclaved",
+                  "Incinerated (two chamber, 850-1000 °C incinerator)",
+                  "Incinerated (other)",
+                  "Burning in a protected pit",
+                  "Not treated, but buried in lined, protected pit",
+                  "Not treated, but collected for medical waste disposal off-site"]
+              },
+              {
+                question: 541950005,
+                option: ["Autoclaved",
+                  "Incinerated (two chamber, 850-1000 °C incinerator)",
+                  "Incinerated (other)",
+                  "Burning in a protected pit",
+                  "Not treated, but buried in lined, protected pit",
+                  "Not treated, but collected for medical waste disposal off-site"]
+              },
+            ]
+          },
+          {
+            name: "No service",
+            score: -1,
             color: "#FDF177",
+            options: [
+              {
+                question: 541950008,
+                option: [
+                  "No, bins are not present"
+                ]
+              },
+            ]
+          },
+        ],
+      },
+      {
+        type: "CRITERIA",
+        title: "Environmental cleaning",
+        options: [
+          {
+            name: "Basic",
+            color: "#368541",
+            score: 15,
+            options: [
+              {
+                question: 551560009,
+                option: [
+                  "Yes",
+                ]
+              },
+              {
+                question: 551560005,
+                option: ["Yes, all have been trained"]
+              },
+            ]
           },
           {
-            name: "No, no handwashing facilities near toilets (within 5 meters)",
-            title: "No Facility",
-            color: "#F1AC2A",
-          }
+            name: "Limited",
+            score: 10,
+            color: "#79BE7D",
+            options: [
+              {
+                question: 551560009,
+                option: [
+                  "Yes",
+                ]
+              },
+              {
+                question: 551560005,
+                option: ["No, some but not all have been trained"]
+              },
+            ]
+          },
+          {
+            name: "No service",
+            score: -1,
+            color: "#FDF177",
+            options: [
+              {
+                question: 551560009,
+                option: [
+                  "Yes but limited",
+                ]
+              },
+              {
+                question: 551560005,
+                option: ["No, none have been trained",
+                  "No, there are no staff responsible for cleaning"
+                ]
+              },
+            ]
+          },
         ],
       },
     ],
@@ -389,119 +640,318 @@ var visualisation = [
     },
     charts: [
       {
-        type: "ADMINISTRATION",
-        id: 551660011,
-        title: "Water service level",
+        type: "CRITERIA",
+        title: "Drinking water",
         options: [
           {
-            name: "Piped water supply",
-            title: "Basic",
+            name: "Basic",
+            score: 10,
             color: "#753780",
+            options: [
+              // {
+              //   question: 466680043,
+              //   option: [
+              //     "Fixed facility observed (sink/tap) In dwelling",
+              //     "Fixed facility observed (sink/tap)  In yard/plot",
+              //     "Mobile object observed (bucket/jug/kettle)"
+              //   ]
+              // },
+              // {
+              //   question: 466680045,
+              //   option: ["Water is available"]
+              // },
+              // {
+              //   question: 466760036,
+              //   option: ["Soap or detergent available ."]
+              // }
+            ]
           },
           {
-            name: "Protected well/spring",
-            title: "Basic",
-            color: "#753780",
-          },
-          {
-            name: "Rainwater",
-            title: "Limited",
+            name: "Limited",
+            score: -1,
             color: "#FDF177",
+            options: [
+              // {
+              //   question: 466680043,
+              //   option: [
+              //     "Fixed facility observed (sink/tap) In dwelling",
+              //     "Fixed facility observed (sink/tap)  In yard/plot",
+              //     "Mobile object observed (bucket/jug/kettle)"
+              //   ]
+              // },
+              // {
+              //   question: 466680045,
+              //   option: ["Water is available"]
+              // },
+              // {
+              //   question: 466760036,
+              //   option: ["Soap or detergent available ."]
+              // }
+            ]
           },
           {
-            name: "Unprotected well/spring",
-            title: "No Services",
+            name: "No Service",
+            score: -2,
             color: "#F1AC2A",
+            options: [
+              // {
+              //   question: 466680043,
+              //   option: [
+              //     "No handwashing place in dwelling/yard/plot",
+              //     "No permission to see",
+              //   ]
+              // }
+            ]
           },
-          {
-            name: "Packaged bottled water",
-            title: "Limited",
-            color: "#FDF177",
-          },
-          {
-            name: "Tanker-truck or cart",
-            title: "Limited",
-            color: "#FDF177",
-          },
-          {
-            name: "Surface water (lake, river, stream)",
-            title: "No Services",
-            color: "#F1AC2A",
-          },
-          {
-            name: "No water source",
-            title: "No Services",
-            color: "#F1AC2A",
-          }
         ],
       },
       {
-        type: "ADMINISTRATION",
-        id: 551660029,
-        title: "Sanitation Service Level",
+        type: "CRITERIA",
+        title: "Sanitation",
         options: [
           {
-            name: "Flush / Pour-flush toilets",
-            title: "Basic",
+            name: "Basic",
+            score: 10,
             color: "#753780",
+            options: [
+              // {
+              //   question: 466680043,
+              //   option: [
+              //     "Fixed facility observed (sink/tap) In dwelling",
+              //     "Fixed facility observed (sink/tap)  In yard/plot",
+              //     "Mobile object observed (bucket/jug/kettle)"
+              //   ]
+              // },
+              // {
+              //   question: 466680045,
+              //   option: ["Water is available"]
+              // },
+              // {
+              //   question: 466760036,
+              //   option: ["Soap or detergent available ."]
+              // }
+            ]
           },
           {
-            name: "Pit latrines with slab",
-            title: "Basic",
-            color: "#753780",
-          },
-          {
-            name: "Composting toilets",
-            title: "Limited",
+            name: "Limited",
+            score: -1,
             color: "#FDF177",
+            options: [
+              // {
+              //   question: 466680043,
+              //   option: [
+              //     "Fixed facility observed (sink/tap) In dwelling",
+              //     "Fixed facility observed (sink/tap)  In yard/plot",
+              //     "Mobile object observed (bucket/jug/kettle)"
+              //   ]
+              // },
+              // {
+              //   question: 466680045,
+              //   option: ["Water is available"]
+              // },
+              // {
+              //   question: 466760036,
+              //   option: ["Soap or detergent available ."]
+              // }
+            ]
           },
           {
-            name: "Pit latrines without slab",
-            title: "No Service",
+            name: "No Service",
+            score: -2,
             color: "#F1AC2A",
+            options: [
+              // {
+              //   question: 466680043,
+              //   option: [
+              //     "No handwashing place in dwelling/yard/plot",
+              //     "No permission to see",
+              //   ]
+              // }
+            ]
           },
-          {
-            name: "Hanging latrines",
-            title: "No Service",
-            color: "#F1AC2A",
-          },
-          {
-            name: "Bucket latrines",
-            title: "No Service",
-            color: "#F1AC2A",
-          },
-          {
-            name: "No toilets or latrines",
-            title: "No Service",
-            color: "#F1AC2A",
-          }
         ],
       },
       {
-        type: "ADMINISTRATION",
-        id: 539710048,
-        title: "Hygiene Service Level",
+        type: "CRITERIA",
+        title: "Hygiene (handwashing)",
         options: [
           {
-            name: "Yes, water and soap",
-            title: "Basic",
+            name: "Basic",
+            score: 10,
             color: "#753780",
+            options: [
+              {
+                question: 539710052,
+                option: [
+                  "Yes",
+                ]
+              },
+              {
+                question: 539710048,
+                option: ["Yes, water and soap"]
+              },
+            ]
           },
           {
-            name: "Water only",
-            title: "Limited",
+            name: "Limited",
+            score: -1,
             color: "#FDF177",
+            options: [
+              {
+                question: 539710052,
+                option: [
+                  "Yes"
+                ]
+              },
+              {
+                question: 539710048,
+                option: ["Water only"]
+              },
+            ]
           },
           {
-            name: "Soap only",
-            title: "Limited",
-            color: "#FDF177",
-          },
-          {
-            name: "Neither water or soap",
-            title: "No Service",
+            name: "No Service",
+            score: -2,
             color: "#F1AC2A",
-          }
+            options: [
+              {
+                question: 539710052,
+                option: [
+                  "No",
+                ]
+              }
+            ]
+          },
+        ],
+      },
+      {
+        type: "CRITERIA",
+        title: "Hygiene (MHM)",
+        options: [
+          {
+            name: "Awareness",
+            score: 10,
+            color: "#753780",
+            options: [
+              // {
+              //   question: 539710052,
+              //   option: [
+              //     "Yes",
+              //   ]
+              // },
+              // {
+              //   question: 539710048,
+              //   option: ["Yes, water and soap"]
+              // },
+            ]
+          },
+          {
+            name: "Use menstrual materials",
+            score: -1,
+            color: "#FDF177",
+            options: [
+              // {
+              //   question: 539710052,
+              //   option: [
+              //     "Yes"
+              //   ]
+              // },
+              // {
+              //   question: 539710048,
+              //   option: ["Water only"]
+              // },
+            ]
+          },
+          {
+            name: "Access",
+            score: -2,
+            color: "#F1AC2A",
+            options: [
+              {
+                question: 538000047,
+                option: [
+                  "Private place / latrine",
+                  "Water",
+                  "Sanitary pads/cloth",
+                  "Soap"
+                ]
+              }
+            ]
+          },
+          {
+            name: "Participation",
+            score: -2,
+            color: "#F1AC2A",
+            options: [
+              {
+                question: 538000047,
+                option: [
+                  "Private place / latrine",
+                  "Water",
+                  "Sanitary pads/cloth",
+                  "Soap"
+                ]
+              }
+            ]
+          },
+        ],
+      },
+      {
+        type: "CRITERIA",
+        title: "Enviromental cleaning",
+        options: [
+          {
+            name: "Basic",
+            score: 10,
+            color: "#753780",
+            options: [
+              {
+                question: 545530057,
+                option: [
+                  "Yes",
+                ]
+              },
+              {
+                question: 575740004,
+                option: ["Yes, all have been trained"]
+              },
+            ]
+          },
+          {
+            name: "Limited",
+            score: -1,
+            color: "#FDF177",
+            options: [
+              {
+                question: 545530057,
+                option: [
+                  "Yes",
+                ]
+              },
+              {
+                question: 575740004,
+                option: ["No, some but not all have been trained"]
+              },
+            ]
+          },
+          {
+            name: "No service",
+            score: -2,
+            color: "#F1AC2A",
+            options: [
+              {
+                question: 545530057,
+                option: [
+                  "No",
+                ]
+              },
+              {
+                question: 575740004,
+                option: ["No, none have been trained",
+                  "No, there are no staff responsible for cleaning"]
+              },
+            ]
+          },
         ],
       },
     ],
