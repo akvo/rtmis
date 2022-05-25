@@ -1,4 +1,4 @@
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field, inline_serializer
@@ -295,6 +295,23 @@ class ListChartQuestionDataPointSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestionOptions
         fields = ['name', 'value']
+
+
+class ListChartOverviewRequestSerializer(serializers.Serializer):
+    stack = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none(),
+                                         required=False)
+    question = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none())
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        queryset = self.context.get('form').form_questions
+        self.fields.get('question').queryset = queryset.filter(Q(
+            type=QuestionTypes.option) | Q(
+                type=QuestionTypes.number) | Q(
+                    type=QuestionTypes.multiple_option))
+        self.fields.get('stack').queryset = queryset.filter(Q(
+            type=QuestionTypes.option) | Q(
+                type=QuestionTypes.multiple_option))
 
 
 class ListChartAdministrationRequestSerializer(serializers.Serializer):
