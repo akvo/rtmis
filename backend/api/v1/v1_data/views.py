@@ -1047,8 +1047,7 @@ class PendingFormDataView(APIView):
             OpenApiParameter(name='page',
                              required=True,
                              type=OpenApiTypes.NUMBER,
-                             location=OpenApiParameter.QUERY),
-        ],
+                             location=OpenApiParameter.QUERY)],
         summary='To get list of pending form data')
     def get(self, request, form_id, version):
         form = get_object_or_404(Forms, pk=form_id)
