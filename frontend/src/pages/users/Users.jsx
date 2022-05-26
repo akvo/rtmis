@@ -87,7 +87,6 @@ const Users = () => {
     },
     Table.EXPAND_COLUMN,
   ];
-  console.log("filters", filters);
   const handleChange = (e) => {
     setCurrentPage(e.current);
   };
