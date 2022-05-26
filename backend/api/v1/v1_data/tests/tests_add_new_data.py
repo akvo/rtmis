@@ -1,12 +1,46 @@
+import uuid
+import re
 from django.core.management import call_command
 from django.test import TestCase
+from faker import Faker
 
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_forms.constants import FormTypes
+from api.v1.v1_profile.models import Access, Levels, Administration
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_data.models import FormData, PendingFormData, \
     Answers, PendingAnswers
+
+fake = Faker()
+
+
+def create_user(role_level):
+    profile = fake.profile()
+    name = profile.get("name")
+    email = ("{}@test.com").format(
+        re.sub('[^A-Za-z0-9]+', '', name.lower()))
+    email = "{}_{}".format(str(uuid.uuid4())[:4], email)
+    name = name.split(" ")
+    roles = [
+        UserRoleTypes.super_admin, UserRoleTypes.admin,
+        UserRoleTypes.approver, UserRoleTypes.user
+    ]
+    user = SystemUser.objects.create(
+        email=email,
+        first_name=name[0],
+        last_name=name[1],
+        phone_number=fake.msisdn(),
+        designation=profile.get('job')[:49])
+    user.set_password('Test105*')
+    user.save()
+    level = Levels.objects.filter(level=role_level).first()
+    Access.objects.create(
+        user=user,
+        role=roles[role_level],
+        administration=Administration.objects.filter(
+            level=level).order_by('?').first())
+    return user
 
 
 class AddNewDataTestCase(TestCase):
@@ -70,14 +104,8 @@ class AddNewDataTestCase(TestCase):
 
     def test_add_new_data_by_county_admin(self):
         call_command("administration_seeder", "--test")
-        repeat = True
-        while repeat:
-            call_command("fake_user_seeder", "--repeat", 100)
-            user = SystemUser.objects.filter(
-                user_access__role=UserRoleTypes.admin).first()
-            repeat = False if user else True
-
-        user = {"email": user.email, "password": "test"}
+        user = create_user(1)
+        user = {"email": user.email, "password": "Test105*"}
         user = self.client.post('/api/v1/login',
                                 user,
                                 content_type='application/json')
@@ -187,14 +215,8 @@ class AddNewDataTestCase(TestCase):
 
     def test_add_new_data_by_data_entry(self):
         call_command("administration_seeder", "--test")
-        repeat = True
-        while repeat:
-            call_command("fake_user_seeder", "--repeat", 100)
-            user = SystemUser.objects.filter(
-                user_access__role=UserRoleTypes.user).first()
-            repeat = False if user else True
-
-        user = {"email": user.email, "password": "test"}
+        user = create_user(3)
+        user = {"email": user.email, "password": "Test105*"}
         user = self.client.post('/api/v1/login',
                                 user,
                                 content_type='application/json')
