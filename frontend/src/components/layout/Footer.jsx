@@ -1,16 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  Row,
-  Col,
-  //  Button,
-  //  Space
-} from "antd";
-import {
-  // Link,
-  useLocation,
-} from "react-router-dom";
-import { config } from "../../lib";
+import { Row, Col } from "antd";
+import { useLocation } from "react-router-dom";
 
 const Footer = ({ className = "footer", ...props }) => {
   const location = useLocation();
