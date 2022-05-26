@@ -176,6 +176,32 @@ class PendingAnswers(models.Model):
         db_table = 'pending_answer'
 
 
+class PendingAnswerHistory(models.Model):
+    pending_data = models.ForeignKey(
+        to=PendingFormData,
+        on_delete=models.CASCADE,
+        related_name='pending_data_answer_history')
+    question = models.ForeignKey(
+        to=Questions,
+        on_delete=models.CASCADE,
+        related_name='question_pending_answer_history')
+    name = models.TextField(null=True, default=None)
+    value = models.BigIntegerField(null=True, default=None)
+    options = models.JSONField(default=None, null=True)
+    created_by = models.ForeignKey(
+        to=SystemUser,
+        on_delete=models.CASCADE,
+        related_name='pending_answer_history_created')
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(default=None, null=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'pending_answer_history'
+
+
 class Answers(models.Model):
     data = models.ForeignKey(to=FormData,
                              on_delete=models.CASCADE,
