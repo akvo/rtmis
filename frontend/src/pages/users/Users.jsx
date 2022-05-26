@@ -75,6 +75,11 @@ const Users = () => {
       render: (administration) => administration?.name || "",
     },
     {
+      title: "Phone",
+      dataIndex: "phone_number",
+      render: (phone_number) => (phone_number ? phone_number : "-"),
+    },
+    {
       title: "Forms",
       dataIndex: "forms",
       align: "center",
@@ -82,7 +87,7 @@ const Users = () => {
     },
     Table.EXPAND_COLUMN,
   ];
-
+  console.log("filters", filters);
   const handleChange = (e) => {
     setCurrentPage(e.current);
   };
