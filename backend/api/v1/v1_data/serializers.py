@@ -360,7 +360,13 @@ class ListPendingDataAnswerSerializer(serializers.ModelSerializer):
     value = serializers.SerializerMethodField()
 
     def get_history(self, instance):
-        return False
+        pending_answer_history = PendingAnswerHistory.objects.filter(
+            pending_data=instance.pending_data,
+            question=instance.question).all()
+        history = []
+        for h in pending_answer_history:
+            history.append(get_answer_history(h))
+        return history if history else False
 
     def get_value(self, instance: Answers):
         return get_answer_value(instance)
