@@ -29,7 +29,7 @@ const Footer = ({ className = "footer", ...props }) => {
             ullamcorper tincidunt ligula, et malesuada purus.
           </p>
         </Col>
-        <Col span={4}>
+        <Col span={6}>
           <h3>Contact</h3>
           <ul>
             <li>Phone : +254 123436789</li>
@@ -39,7 +39,7 @@ const Footer = ({ className = "footer", ...props }) => {
             Contact Us
           </Button> */}
         </Col>
-        <Col span={4}>
+        <Col span={6}>
           <h3>Quick Links</h3>
           <ul>
             <li>
@@ -71,12 +71,12 @@ const Footer = ({ className = "footer", ...props }) => {
             </li>
           </ul>
         </Col>
-        <Col span={3}>
+        {/* <Col span={3}>
           <div className="footer-logo">
             <img src={config.siteLogo} alt={config.siteLogo} />
             <h3>MOH</h3>
           </div>
-        </Col>
+        </Col> */}
       </Row>
       <Row className="end" align="top" justify="space-between" {...props}>
         <Col>Copyright 2021</Col>
