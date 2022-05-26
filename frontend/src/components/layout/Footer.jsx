@@ -35,11 +35,8 @@ const Footer = ({ className = "footer", ...props }) => {
             <li>Phone : +254 123436789</li>
             <li>Email : info@nashrtmis.co.ke</li>
           </ul>
-          {/* <Button className="dev" size="small">
-            Contact Us
-          </Button> */}
         </Col>
-        <Col span={6}>
+        <Col span={4}>
           <h3>Quick Links</h3>
           <ul>
             <li>
@@ -71,25 +68,9 @@ const Footer = ({ className = "footer", ...props }) => {
             </li>
           </ul>
         </Col>
-        {/* <Col span={3}>
-          <div className="footer-logo">
-            <img src={config.siteLogo} alt={config.siteLogo} />
-            <h3>MOH</h3>
-          </div>
-        </Col> */}
       </Row>
       <Row className="end" align="top" justify="space-between" {...props}>
         <Col>Copyright 2021</Col>
-        {/* <Col>
-          <Space>
-            <Link to="terms" className="dev">
-              Terms of Service
-            </Link>
-            <Link to="privacy-policy" className="dev">
-              Privacy Policy
-            </Link>
-          </Space>
-        </Col> */}
       </Row>
     </div>
   );
