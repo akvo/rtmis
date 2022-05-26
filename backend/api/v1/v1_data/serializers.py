@@ -889,10 +889,11 @@ class SubmitPendingFormSerializer(serializers.Serializer):
     def validate(self, attrs):
         form: Forms = self.context.get('form')
         user: SystemUser = self.context.get('user')
-        if form.type == FormTypes.county and \
-                user.user_access.role == UserRoleTypes.admin:
-            raise ValidationError(
-                {'data': 'You do not permission to submit the data'})
+        # county admin with county form type directly saved to form-data
+        # if form.type == FormTypes.county and \
+        #         user.user_access.role == UserRoleTypes.admin:
+        #     raise ValidationError(
+        #         {'data': 'You do not permission to submit the data'})
         if form.type == FormTypes.national and \
                 user.user_access.role == UserRoleTypes.user:
             raise ValidationError(
@@ -906,7 +907,29 @@ class SubmitPendingFormSerializer(serializers.Serializer):
         data = validated_data.get('data')
         data['form'] = self.context.get('form')
         data['created_by'] = self.context.get('user')
-        obj_data = self.fields.get('data').create(data)
+
+        # check user role and form type
+        user: SystemUser = self.context.get('user')
+        form: Forms = self.context.get('form')
+        is_super_admin = user.user_access.role == UserRoleTypes.super_admin
+        is_county_admin = user.user_access.role == UserRoleTypes.admin
+        is_county_form = form.type == FormTypes.county
+
+        direct_to_data = is_super_admin or (is_county_admin and is_county_form)
+
+        # save to pending data
+        if not direct_to_data:
+            obj_data = self.fields.get('data').create(data)
+
+        # save to form data
+        if direct_to_data:
+            obj_data = FormData.objects.create(
+                name=data.get('name'),
+                form=data.get('form'),
+                administration=data.get('administration'),
+                geo=data.get('geo'),
+                created_by=data.get('created_by')
+            )
 
         for answer in validated_data.get('answer'):
             name = None
@@ -926,13 +949,26 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                 # for administration,number question type
                 value = answer.get('value')
 
-            PendingAnswers.objects.create(
-                pending_data=obj_data,
-                question=answer.get('question'),
-                name=name,
-                value=value,
-                options=option,
-                created_by=self.context.get('user'),
-            )
+            # save to pending answer
+            if not direct_to_data:
+                PendingAnswers.objects.create(
+                    pending_data=obj_data,
+                    question=answer.get('question'),
+                    name=name,
+                    value=value,
+                    options=option,
+                    created_by=self.context.get('user'),
+                )
+
+            # save to form data
+            if direct_to_data:
+                Answers.objects.create(
+                    data=obj_data,
+                    question=answer.get('question'),
+                    name=name,
+                    value=value,
+                    options=option,
+                    created_by=self.context.get('user'),
+                )
 
         return obj_data
