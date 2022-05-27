@@ -1112,7 +1112,7 @@ class PendingFormDataView(APIView):
             pending_form_answer = PendingAnswers.objects.get(
                 pending_data=pending_data, question=answer.get('question'))
             PendingAnswerHistory.objects.create(
-                pending_data=pending_form_answer.data,
+                pending_data=pending_form_answer.pending_data,
                 question=pending_form_answer.question,
                 name=pending_form_answer.name,
                 value=pending_form_answer.value,
@@ -1139,7 +1139,7 @@ class PendingFormDataView(APIView):
                 # for administration,number question type
                 value = answer.get('value')
             # Update answer
-            pending_form_answer.data = pending_data
+            pending_form_answer.pending_data = pending_data
             pending_form_answer.question = question
             pending_form_answer.name = name
             pending_form_answer.value = value

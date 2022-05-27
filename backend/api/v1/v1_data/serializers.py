@@ -484,7 +484,7 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
     created_by = serializers.SerializerMethodField()
     created = serializers.SerializerMethodField()
     administration = serializers.ReadOnlyField(source='administration.name')
-    pending_answer_history = CustomBooleanField(default=False)
+    pending_answer_history = serializers.SerializerMethodField()
 
     def get_created_by(self, instance: PendingFormData):
         return instance.created_by.get_full_name()
@@ -494,7 +494,7 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
 
     def get_pending_answer_history(self, instance: PendingFormData):
         history = PendingAnswerHistory.objects.filter(
-            pending_data_id=instance.pk).count()
+            pending_data=instance).count()
         return True if history > 0 else False
 
     class Meta:
