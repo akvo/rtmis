@@ -123,8 +123,13 @@ class PendingFormData(models.Model):
     created_by = models.ForeignKey(to=SystemUser,
                                    on_delete=models.CASCADE,
                                    related_name='pending_form_data_created')
-
+    updated_by = models.ForeignKey(to=SystemUser,
+                                   on_delete=models.CASCADE,
+                                   related_name='pending_form_data_updated',
+                                   default=None,
+                                   null=True)
     created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(default=None, null=True)
 
     def __str__(self):
         return self.name
@@ -174,6 +179,32 @@ class PendingAnswers(models.Model):
 
     class Meta:
         db_table = 'pending_answer'
+
+
+class PendingAnswerHistory(models.Model):
+    pending_data = models.ForeignKey(
+        to=PendingFormData,
+        on_delete=models.CASCADE,
+        related_name='pending_data_answer_history')
+    question = models.ForeignKey(
+        to=Questions,
+        on_delete=models.CASCADE,
+        related_name='question_pending_answer_history')
+    name = models.TextField(null=True, default=None)
+    value = models.BigIntegerField(null=True, default=None)
+    options = models.JSONField(default=None, null=True)
+    created_by = models.ForeignKey(
+        to=SystemUser,
+        on_delete=models.CASCADE,
+        related_name='pending_answer_history_created')
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(default=None, null=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'pending_answer_history'
 
 
 class Answers(models.Model):
