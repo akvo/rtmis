@@ -21,7 +21,7 @@ from rest_framework.views import APIView
 
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
     PendingDataBatch, ViewPendingDataApproval, PendingAnswers, \
-    AnswerHistory, ViewDataOptions
+    AnswerHistory, ViewDataOptions, PendingAnswerHistory
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
@@ -1077,3 +1077,78 @@ class PendingFormDataView(APIView):
                 many=True).data,
         }
         return Response(data, status=status.HTTP_200_OK)
+
+    @extend_schema(request=SubmitFormDataAnswerSerializer(many=True),
+                   responses={
+                       (200, 'application/json'):
+                           inline_serializer("PendingFormSubmit", fields={
+                               "message": serializers.CharField()
+                           })},
+                   tags=['Pending Data'],
+                   parameters=[
+                       OpenApiParameter(name='pending_data_id',
+                                        required=True,
+                                        type=OpenApiTypes.NUMBER,
+                                        location=OpenApiParameter.QUERY)],
+                   summary='Edit pending form data')
+    def put(self, request, form_id, version):
+        get_object_or_404(Forms, pk=form_id)
+        pending_data_id = request.GET['pending_data_id']
+        user = request.user
+        pending_data = get_object_or_404(PendingFormData, pk=pending_data_id)
+        serializer = SubmitFormDataAnswerSerializer(
+            data=request.data, many=True)
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(
+                    serializer.errors),
+                    'details': serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        pending_answers = request.data
+        # move current pending_answer to pending_answer_history
+        for answer in pending_answers:
+            pending_form_answer = PendingAnswers.objects.get(
+                pending_data=pending_data, question=answer.get('question'))
+            PendingAnswerHistory.objects.create(
+                pending_data=pending_form_answer.data,
+                question=pending_form_answer.question,
+                name=pending_form_answer.name,
+                value=pending_form_answer.value,
+                options=pending_form_answer.options,
+                created_by=user
+            )
+            # prepare updated answer
+            question_id = answer.get('question')
+            question = Questions.objects.get(
+                id=question_id)
+            name = None
+            value = None
+            option = None
+            if question.type in [
+                QuestionTypes.geo, QuestionTypes.option,
+                QuestionTypes.multiple_option
+            ]:
+                option = answer.get('value')
+            elif question.type in [
+                QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+            ]:
+                name = answer.get('value')
+            else:
+                # for administration,number question type
+                value = answer.get('value')
+            # Update answer
+            pending_form_answer.data = pending_data
+            pending_form_answer.question = question
+            pending_form_answer.name = name
+            pending_form_answer.value = value
+            pending_form_answer.options = option
+            pending_form_answer.updated = timezone.now()
+            pending_form_answer.save()
+        # update datapoint
+        pending_data.updated = timezone.now()
+        pending_data.updated_by = user
+        pending_data.save()
+        return Response({'message': 'update success'},
+                        status=status.HTTP_200_OK)
