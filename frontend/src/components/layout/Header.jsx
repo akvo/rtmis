@@ -4,18 +4,7 @@ import { Row, Col, Space, Button, Menu, Dropdown } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { config, store } from "../../lib";
-
-function eraseCookieFromAllPaths(name) {
-  var pathBits = location.pathname.split("/");
-  var pathCurrent = " path=";
-  document.cookie = name + "=; expires=Thu, 01-Jan-1970 00:00:01 GMT;";
-
-  for (var i = 0; i < pathBits.length; i++) {
-    pathCurrent += (pathCurrent.substr(-1) !== "/" ? "/" : "") + pathBits[i];
-    document.cookie =
-      name + "=; expires=Thu, 01-Jan-1970 00:00:01 GMT;" + pathCurrent + ";";
-  }
-}
+import { eraseCookieFromAllPaths } from "../../util/date";
 
 const Header = ({ className = "header", ...props }) => {
   const { isLoggedIn, user } = store.useState();
