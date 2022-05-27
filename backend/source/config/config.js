@@ -881,7 +881,7 @@ var visualisation = [
           {
             name: "Participation",
             score: -2,
-            color: "#F1AC2A",
+            color: "#368541",
             options: [
               {
                 question: 538000047,
