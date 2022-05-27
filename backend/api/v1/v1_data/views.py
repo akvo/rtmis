@@ -41,7 +41,7 @@ from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
 from rtmis.settings import REST_FRAMEWORK
-from utils.custom_permissions import IsAdmin, IsApprover, IsSuperAdmin
+from utils.custom_permissions import IsAdmin, IsApprover
 from utils.custom_serializer_fields import validate_serializers_message
 from utils.export_form import generate_excel
 
@@ -1006,7 +1006,7 @@ def export_form_data(request, version, form_id):
 
 
 class PendingFormDataView(APIView):
-    permission_classes = [IsAuthenticated, ~IsSuperAdmin]
+    permission_classes = [IsAuthenticated]
 
     @extend_schema(request=SubmitPendingFormSerializer,
                    responses={
