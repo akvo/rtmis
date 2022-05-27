@@ -123,8 +123,13 @@ class PendingFormData(models.Model):
     created_by = models.ForeignKey(to=SystemUser,
                                    on_delete=models.CASCADE,
                                    related_name='pending_form_data_created')
-
+    updated_by = models.ForeignKey(to=SystemUser,
+                                   on_delete=models.CASCADE,
+                                   related_name='pending_form_data_updated',
+                                   default=None,
+                                   null=True)
     created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(default=None, null=True)
 
     def __str__(self):
         return self.name
