@@ -21,6 +21,8 @@ import {
   HowWeWork,
   Terms,
   Privacy,
+  Reports,
+  Report,
 } from "./pages";
 import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
@@ -101,6 +103,14 @@ const RouteList = () => {
       <Route
         path="/profile"
         element={<Private element={Profile} alias="profile" />}
+      />
+      <Route
+        path="/reports"
+        element={<Private element={Reports} alias="reports" />}
+      />
+      <Route
+        path="/report/:templateId"
+        element={<Private element={Report} alias="reports" />}
       />
       <Route path="/news-events" element={<NewsEvents />} />
       <Route path="/how-we-work" element={<HowWeWork />} />
