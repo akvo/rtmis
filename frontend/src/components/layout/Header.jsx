@@ -79,44 +79,48 @@ const Header = ({ className = "header", ...props }) => {
           </Link>
         </div>
       </Col>
-      <Col>
-        <div className="navigation">
-          <Space>
-            <Link to="/data/visualisation">Dashboards</Link>
-            <a className="dev">Reports</a>
-            {/* <a className="dev">Monitoring</a> */}
-            {/* <Link className="dev" to="/how-we-work">
-            How We Work
-          </Link> */}
-            <Link className="dev" to="/news-events">
-              News {"&"} Events
-            </Link>
-          </Space>
-        </div>
-        <div className="account">
-          {isLoggedIn ? (
-            <Dropdown overlay={userMenu}>
-              <a
-                className="ant-dropdown-link"
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
-              >
-                {user?.name || ""}
-                <span className="icon">
-                  <UserOutlined />
-                </span>
-              </a>
-            </Dropdown>
-          ) : (
-            <Link to={"/login"}>
-              <Button type="primary" size="small">
-                Log in
-              </Button>
-            </Link>
-          )}
-        </div>
-      </Col>
+      {!location.pathname.includes("/report/") && (
+        <Col>
+          <div className="navigation">
+            <Space>
+              <Link to="/data/visualisation">Dashboards</Link>
+              <Link className="dev" to="/reports">
+                Reports
+              </Link>
+              {/* <a className="dev">Monitoring</a> */}
+              {/* <Link className="dev" to="/how-we-work">
+              How We Work
+            </Link> */}
+              <Link className="dev" to="/news-events">
+                News {"&"} Events
+              </Link>
+            </Space>
+          </div>
+          <div className="account">
+            {isLoggedIn ? (
+              <Dropdown overlay={userMenu}>
+                <a
+                  className="ant-dropdown-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                  }}
+                >
+                  {user?.name || ""}
+                  <span className="icon">
+                    <UserOutlined />
+                  </span>
+                </a>
+              </Dropdown>
+            ) : (
+              <Link to={"/login"}>
+                <Button type="primary" size="small">
+                  Log in
+                </Button>
+              </Link>
+            )}
+          </div>
+        </Col>
+      )}
     </Row>
   );
 };

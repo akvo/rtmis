@@ -18,3 +18,5 @@ export { default as NewsEvents } from "./news-events/NewsEvents";
 export { default as HowWeWork } from "./static/HowWeWork";
 export { default as Terms } from "./static/Terms";
 export { default as Privacy } from "./static/Privacy";
+export { default as Reports } from "./reports/Reports";
+export { default as Report } from "./reports/Report";
