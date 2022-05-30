@@ -221,7 +221,7 @@ class PendingDataTestCase(TestCase):
             self.assertGreaterEqual(len(response.json().get('batch')), 1)
             status = response.json().get('batch')[0].get('approver').get(
                 'status')
-            self.assertEqual(DataApprovalStatus.rejected, status)
+            self.assertEqual(DataApprovalStatus.pending, status)
 
     def test_batch_summary(self):
         call_command("administration_seeder", "--test")

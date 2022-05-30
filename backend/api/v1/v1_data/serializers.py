@@ -558,6 +558,9 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
                     context=inform_data,
                     type=EmailTypes.inform_batch_rejection_approver)
             # TODO:: change approval status to pending
+            for la in lower_approvals:
+                la.status = DataApprovalStatus.pending
+                la.save()
         if validated_data.get('comment'):
             PendingDataBatchComments.objects.create(
                 user=user,
