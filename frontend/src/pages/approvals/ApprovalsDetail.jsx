@@ -106,6 +106,10 @@ const ApprovalDetail = ({
   const [questionGroups, setQuestionGroups] = useState([]);
   const { notify } = useNotification();
 
+  // useEffect(() => {
+  //   console.log(rawValues, record);
+  // }, [rawValues, record]);
+
   const handleSave = () => {
     const data = [];
     rawValues.map((rI) => {
@@ -117,9 +121,11 @@ const ApprovalDetail = ({
         });
       });
     });
-    // Placeholder:
     api
-      .put("form-pending-data", data)
+      .put(
+        `form-pending-data/${record.form?.id}?pending-data-id=${record.id}`,
+        data
+      )
       .then(() => {
         notify({
           type: "success",
@@ -391,6 +397,16 @@ const ApprovalDetail = ({
                                 },
                               ]}
                             />
+                            <Button
+                              onClick={() => handleSave()}
+                              disabled={
+                                !approve ||
+                                selectedTab !== "raw-data" ||
+                                !isEdited
+                              }
+                            >
+                              Save Edits
+                            </Button>
                           </div>
                         ))
                       )}
@@ -463,12 +479,12 @@ const ApprovalDetail = ({
         </Col>
         <Col>
           <Space>
-            <Button
+            {/* <Button
               onClick={() => handleSave()}
               disabled={!approve || selectedTab !== "raw-data" || !isEdited}
             >
               Save Edits
-            </Button>
+            </Button> */}
             <Button
               type="danger"
               onClick={() => handleApprove(record.id, 3)}
