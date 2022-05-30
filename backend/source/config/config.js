@@ -648,22 +648,20 @@ var visualisation = [
             score: 10,
             color: "#753780",
             options: [
-              // {
-              //   question: 466680043,
-              //   option: [
-              //     "Fixed facility observed (sink/tap) In dwelling",
-              //     "Fixed facility observed (sink/tap)  In yard/plot",
-              //     "Mobile object observed (bucket/jug/kettle)"
-              //   ]
-              // },
-              // {
-              //   question: 466680045,
-              //   option: ["Water is available"]
-              // },
-              // {
-              //   question: 466760036,
-              //   option: ["Soap or detergent available ."]
-              // }
+              {
+                question: 551660011,
+                option: [
+                  "Piped water supply",
+                  "Protected well/spring",
+                  "Rainwater",
+                  "Unprotected well/spring",
+                  "Packaged bottled water"
+                ]
+              },
+              {
+                question: 551660013,
+                option: ["Yes"]
+              },
             ]
           },
           {
@@ -671,22 +669,20 @@ var visualisation = [
             score: -1,
             color: "#FDF177",
             options: [
-              // {
-              //   question: 466680043,
-              //   option: [
-              //     "Fixed facility observed (sink/tap) In dwelling",
-              //     "Fixed facility observed (sink/tap)  In yard/plot",
-              //     "Mobile object observed (bucket/jug/kettle)"
-              //   ]
-              // },
-              // {
-              //   question: 466680045,
-              //   option: ["Water is available"]
-              // },
-              // {
-              //   question: 466760036,
-              //   option: ["Soap or detergent available ."]
-              // }
+              {
+                question: 551660011,
+                option: [
+                  "Piped water supply",
+                  "Protected well/spring",
+                  "Rainwater",
+                  "Unprotected well/spring",
+                  "Packaged bottled water"
+                ]
+              },
+              {
+                question: 551660013,
+                option: ["No"]
+              },
             ]
           },
           {
@@ -694,13 +690,14 @@ var visualisation = [
             score: -2,
             color: "#F1AC2A",
             options: [
-              // {
-              //   question: 466680043,
-              //   option: [
-              //     "No handwashing place in dwelling/yard/plot",
-              //     "No permission to see",
-              //   ]
-              // }
+              {
+                question: 551660011,
+                option: [
+                  "Tanker-truck or cart",
+                  "Surface water (lake, river, stream)",
+                  "No water source",
+                ]
+              },
             ]
           },
         ],
