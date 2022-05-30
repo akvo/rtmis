@@ -30,6 +30,7 @@ import { Layout, PageLoader } from "./components";
 import { useNotification } from "./util/hooks";
 import { timeDiffHours } from "./util/date";
 import { reloadData } from "./util/form";
+import { eraseCookieFromAllPaths } from "./util/date";
 
 const Private = ({ element: Element, alias }) => {
   const { user: authUser } = store.useState((state) => state);
@@ -133,7 +134,7 @@ const App = () => {
     if (isLoggedIn && authUser?.last_login) {
       const expired = timeDiffHours(authUser.last_login);
       if (expired >= 2) {
-        removeCookie("AUTH_TOKEN");
+        eraseCookieFromAllPaths("AUTH_TOKEN");
         store.update((s) => {
           s.isLoggedIn = false;
           s.user = null;

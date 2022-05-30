@@ -8,7 +8,7 @@ from rest_framework.exceptions import ValidationError
 from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
     PendingAnswers, PendingDataApproval, PendingDataBatch, \
-    PendingDataBatchComments, AnswerHistory
+    PendingDataBatchComments, AnswerHistory, PendingAnswerHistory
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Questions, QuestionOptions, Forms, \
     FormApprovalAssignment
@@ -360,7 +360,13 @@ class ListPendingDataAnswerSerializer(serializers.ModelSerializer):
     value = serializers.SerializerMethodField()
 
     def get_history(self, instance):
-        return False
+        pending_answer_history = PendingAnswerHistory.objects.filter(
+            pending_data=instance.pending_data,
+            question=instance.question).all()
+        history = []
+        for h in pending_answer_history:
+            history.append(get_answer_history(h))
+        return history if history else False
 
     def get_value(self, instance: Answers):
         return get_answer_value(instance)
@@ -478,6 +484,7 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
     created_by = serializers.SerializerMethodField()
     created = serializers.SerializerMethodField()
     administration = serializers.ReadOnlyField(source='administration.name')
+    pending_answer_history = serializers.SerializerMethodField()
 
     def get_created_by(self, instance: PendingFormData):
         return instance.created_by.get_full_name()
@@ -485,11 +492,16 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
     def get_created(self, instance: PendingFormData):
         return update_date_time_format(instance.created)
 
+    def get_pending_answer_history(self, instance: PendingFormData):
+        history = PendingAnswerHistory.objects.filter(
+            pending_data=instance).count()
+        return True if history > 0 else False
+
     class Meta:
         model = PendingFormData
         fields = [
             'id', 'data_id', 'name', 'form', 'administration', 'geo',
-            'created_by', 'created'
+            'created_by', 'created', 'pending_answer_history'
         ]
 
 

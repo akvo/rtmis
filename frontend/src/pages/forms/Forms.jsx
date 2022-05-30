@@ -104,6 +104,11 @@ const Forms = () => {
         notification.error({
           message: "Something went wrong",
         });
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setSubmit(false);
+        }, 2000);
       });
   };
 
@@ -135,7 +140,7 @@ const Forms = () => {
                 forms={forms}
                 onFinish={onFinish}
                 onChange={onChange}
-                submitButtonSetting={{ disabled: submit }}
+                submitButtonSetting={{ loading: submit }}
               />
               <Progress className="progress-bar" percent={percentage} />
             </>

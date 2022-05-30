@@ -54,6 +54,14 @@
         }
       }
     }
+    .ant-row-end {
+      .ant-form-item {
+        margin-bottom: 0;
+        .ant-checkbox-wrapper {
+          margin-right: 12px;
+        }
+      }
+    }
   }
 }
 
