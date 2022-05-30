@@ -8,7 +8,9 @@ const IFrame = ({ children }) => {
   const [ref, setRef] = useState(null);
   const head = ref?.contentDocument?.head;
   const body = ref?.contentDocument?.body;
-  const handleBrowsers = ["firefox"];
+  const handleBrowsers = useMemo(() => {
+    return ["firefox"];
+  }, []);
 
   // create a style
   let css = "@page {";
@@ -27,7 +29,7 @@ const IFrame = ({ children }) => {
   }
 
   const browser = useMemo(() => {
-    let userAgent = navigator.userAgent;
+    const userAgent = navigator.userAgent;
     let browserName;
     if (userAgent.match(/chrome|chromium|crios/i)) {
       browserName = "chrome";
@@ -55,7 +57,7 @@ const IFrame = ({ children }) => {
     if ((head && !handleBrowsers.includes(browser)) || isBraveBrowser) {
       head.appendChild(style);
     }
-  }, [head, browser, isBraveBrowser]);
+  }, [head, browser, isBraveBrowser, handleBrowsers, style]);
 
   const handleLoad = (event) => {
     const iframe = event.target;

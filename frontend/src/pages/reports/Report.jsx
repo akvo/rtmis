@@ -29,7 +29,7 @@ const Reports = () => {
         print.focus();
         print.contentWindow.print();
       }
-      setIsPrint(true);
+      setIsPrint(false);
       document.title = originalDocTitle;
     }, 2500);
   };
