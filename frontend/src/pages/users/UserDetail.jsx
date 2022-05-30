@@ -1,14 +1,5 @@
 import React, { useState } from "react";
-import {
-  Row,
-  Col,
-  Table,
-  Button,
-  Checkbox,
-  Space,
-  Divider,
-  Tooltip,
-} from "antd";
+import { Row, Col, Table, Button, Space, Divider, Tooltip } from "antd";
 import { Link } from "react-router-dom";
 import { api, config, store } from "../../lib";
 
@@ -126,33 +117,28 @@ const UserDetail = ({ record, setDeleteUser, deleting }) => {
         </Col>
         <Divider />
       </Row>
-      <Row justify="center" key="bottom">
-        <Col span={10}>
-          <Checkbox onChange={() => {}}>Inform User of Changes</Checkbox>
-        </Col>
-        <Col span={10} align="right">
-          <Space>
-            <Link to={`/user/${record.id}`}>
-              <Button type="primary">Edit</Button>
-            </Link>
-            {user && user.email === record.email ? (
-              <Tooltip title="Could not do self deletion">
-                <Button danger disabled>
-                  Delete
-                </Button>
-              </Tooltip>
-            ) : (
-              <Button
-                danger
-                loading={deleting || isFetchDeleteDetail}
-                onClick={handleOnClickDelete}
-              >
+      <div>
+        <Space>
+          <Link to={`/user/${record.id}`}>
+            <Button type="primary">Edit</Button>
+          </Link>
+          {user && user.email === record.email ? (
+            <Tooltip title="Could not do self deletion">
+              <Button danger disabled>
                 Delete
               </Button>
-            )}
-          </Space>
-        </Col>
-      </Row>
+            </Tooltip>
+          ) : (
+            <Button
+              danger
+              loading={deleting || isFetchDeleteDetail}
+              onClick={handleOnClickDelete}
+            >
+              Delete
+            </Button>
+          )}
+        </Space>
+      </div>
     </>
   );
 };

@@ -69,6 +69,7 @@ const AddUser = () => {
       designation: values.designation,
       role: values.role,
       forms: values.forms,
+      inform_user: values.inform_user,
     })
       .then(() => {
         notify({
@@ -216,6 +217,7 @@ const AddUser = () => {
           role: null,
           county: null,
           forms: [],
+          inform_user: true,
         }}
         onValuesChange={onChange}
         onFinish={onFinish}
@@ -426,13 +428,16 @@ const AddUser = () => {
             </div>
           )}
         </Card>
-        <Row justify="space-between">
+        <Row justify="end" align="middle">
           <Col>
-            <Row>
-              <Checkbox id="informUser" className="dev" onChange={() => {}}>
-                Inform User of Changes
-              </Checkbox>
-            </Row>
+            <Form.Item
+              id="informUser"
+              valuePropName="checked"
+              name="inform_user"
+              rules={[{ required: false }]}
+            >
+              <Checkbox>Inform User of Changes</Checkbox>
+            </Form.Item>
           </Col>
           <Col>
             <Button type="primary" htmlType="submit" loading={submitting}>
