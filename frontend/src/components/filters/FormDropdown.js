@@ -9,6 +9,7 @@ import { useNotification } from "../../util/hooks";
 const FormDropdown = ({
   loading: parentLoading = false,
   title = false,
+  hidden = false,
   ...props
 }) => {
   const { forms, selectedForm, loadingForm } = store.useState((state) => state);
@@ -52,7 +53,7 @@ const FormDropdown = ({
       handleChange(filterForms[0].id);
     }
   }, [filterForms, selectedForm, handleChange]);
-  if (filterForms) {
+  if (filterForms && !hidden) {
     return (
       <Select
         placeholder={`Select Form`}
@@ -81,6 +82,7 @@ const FormDropdown = ({
 FormDropdown.propTypes = {
   loading: PropTypes.bool,
   title: PropTypes.bool,
+  hidden: PropTypes.bool,
 };
 
 export default React.memo(FormDropdown);
