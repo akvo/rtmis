@@ -1,10 +1,12 @@
 from django.test import TestCase
 from django.core.management import call_command
+from django.db.models import ProtectedError
 
 from api.v1.v1_data.tests.tests_add_new_data import create_user
 from api.v1.v1_data.models import Forms, FormData, PendingFormData, \
     PendingAnswers, PendingAnswerHistory
 from api.v1.v1_forms.constants import FormTypes
+from api.v1.v1_users.models import SystemUser
 
 
 class UpdatePendingDataTestCase(TestCase):
@@ -139,3 +141,10 @@ class UpdatePendingDataTestCase(TestCase):
                 self.assertEqual(d['history'][0]['value'], ["Male"])
             if d['question'] not in [101, 102]:
                 self.assertEqual(d['history'], False)
+
+        # test pending data updated by on delete protect
+        user = SystemUser.objects.filter(pk=user_id).first()
+        try:
+            user.delete()
+        except ProtectedError:
+            self.assertEqual(500, 500)

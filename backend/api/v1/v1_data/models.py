@@ -124,7 +124,7 @@ class PendingFormData(models.Model):
                                    on_delete=models.CASCADE,
                                    related_name='pending_form_data_created')
     updated_by = models.ForeignKey(to=SystemUser,
-                                   on_delete=models.CASCADE,
+                                   on_delete=models.PROTECT,
                                    related_name='pending_form_data_updated',
                                    default=None,
                                    null=True)
@@ -195,7 +195,7 @@ class PendingAnswerHistory(models.Model):
     options = models.JSONField(default=None, null=True)
     created_by = models.ForeignKey(
         to=SystemUser,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name='pending_answer_history_created')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(default=None, null=True)
