@@ -522,23 +522,45 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         batch: PendingDataBatch = validated_data.get('batch')
+        user = self.context.get('user')
+        user_level = user.user_access.administration.level_id
         approval = PendingDataApproval.objects.get(
-            user=self.context.get('user'), batch=batch)
+            user=user, batch=batch)
         approval.status = validated_data.get('status')
         approval.save()
         first_data = PendingFormData.objects.filter(batch=batch).first()
         data = {
             'send_to': [first_data.created_by.email],
             'batch': batch,
-            'user': self.context.get('user'),
+            'user': user,
         }
         if approval.status == DataApprovalStatus.approved:
             send_email(context=data, type=EmailTypes.batch_approval)
         else:
+            # rejection request change to user
             send_email(context=data, type=EmailTypes.batch_rejection)
+            # send email to lower approval
+            lower_approvals = PendingDataApproval.objects.filter(
+                batch=batch, level__lte=user_level).all()
+            # filter --> send email only to lower approval
+            lower_approval_user_ids = [u.user_id for u in lower_approvals]
+            lower_approval_users = SystemUser.objects.filter(
+                id__in=lower_approval_user_ids, deleted_at=None).all()
+            lower_approval_emails = [
+                u.email for u in lower_approval_users if u.email != user.email]
+            if lower_approval_emails:
+                inform_data = {
+                    'send_to': lower_approval_emails,
+                    'batch': batch,
+                    'user': user,
+                }
+                send_email(
+                    context=inform_data,
+                    type=EmailTypes.inform_batch_rejection_approver)
+            # TODO:: change approval status to pending
         if validated_data.get('comment'):
             PendingDataBatchComments.objects.create(
-                user=self.context.get('user'),
+                user=user,
                 batch=batch,
                 comment=validated_data.get('comment'))
         if not PendingDataApproval.objects.filter(
