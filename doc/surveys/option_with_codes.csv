@@ -1,77 +1,77 @@
-keyId,text,code,order,questionId,translationMap,form_id
-13780046,Own toilet only shared by members of the household,HS-1,1,444670051,,519630048
-19780053,Own toilet shared with 10-15 people (or less) including other households,HS-2,2,444670051,,519630048
-23560057,Own toilet shared with more than 15 people including other households,HS-3,3,444670051,,519630048
-44640064,Fixed facility observed (sink/tap)  In yard/plot,HH-2,2,466680043,,519630048
-44640066,No permission to see,HH-5,5,466680043,,519630048
-96540063,No handwashing place in dwelling/yard/plot,HH-4,4,466680043,,519630048
-11910040,Mobile object observed (bucket/jug/kettle),HH-3,3,466680043,,519630048
-11910044,Fixed facility observed (sink/tap) In dwelling,HH-1,1,466680043,,519630048
-44640059,Water is not available,HH-2,2,466680045,,519630048
-44640063,Water is available,HH-1,1,466680045,,519630048
-21610055,Soap or detergent available .,HH-1,1,466760036,,519630048
-23530055,Soap or detergent not available,HH-2,2,466760036,,519630048
-92490055,No facility / Bush / Field,HS-9,9,492490054,,519630048
-05580053,Flush / pour flush,HS-1,1,492490054,,519630048
-12040041,Twin pit without slab,HS-5,5,492490054,,519630048
-15730049,Pit latrine without slab / Open pit,HS-3,3,492490054,,519630048
-15750051,Bucket,HS-6,6,492490054,,519630048
-15750052,Hanging toilet / hanging latrine,HS-8,8,492490054,,519630048
-21580051,Twin pit with slab,HS-4,4,492490054,,519630048
-24910054,Container based sanitation,HS-7,7,492490054,,519630048
-24920055,Pit latrine with slab,HS-2,2,492490054,,519630048
-15650057,No,HS-2,2,496550059,,519630048
-17610048,Yes,HS-1,1,496550059,,519630048
-96640052,Yes,HS-1,1,512010045,,519630048
-19770048,No,HS2,2,512010045,,519630048
-15660056,Yes,HS-1,1,513690059,,519630048
-17610052,No,HS-2,2,513690059,,519630048
-09780057,Removed by service provider to a treatment plant,HS-1,1,513690060,,519630048
-09780066,Don't know,HS-6,6,513690060,,519630048
-15660057,Emptied by household buried in a covered pit,HS-4,4,513690060,,519630048
-17610050,Removed by service provider to don't know where,HS-3,3,513690060,,519630048
-23410055,Removed by service provider to buried pit,HS-2,2,513690060,,519630048
-23410062,"Emptied by household to uncovered pit, open ground, water body or elsewhere",HS-5,5,513690060,,519630048
-09780061,Buried,HS-5,5,513690061,,519630048
-09780062,Used as manure,HS-7,7,513690061,,519630048
-17610043,Put/rinsed into toilet or latrine,HS-2,2,513690061,,519630048
-17610045,Don't know,HS-9,9,513690061,,519630048
-17610046,Put/rinsed into drain or ditch,HS-3,3,513690061,,519630048
-23410054,Thrown into garbage (solid waste),HS-4,4,513690061,,519630048
-23410056,Child used toilet/latrine,HS-1,1,513690061,,519630048
-23410059,Left in the open,HS-6,6,513690061,,519630048
-23410061,No kids present,HS-8,8,513690061,,519630048
-09780060,No,HS-2,2,513690062,,519630048
-15660053,Yes,HS-1,1,513690062,,519630048
-09780065,Yes,HS-1,1,513690063,,519630048
-15650058,No,HS-2,2,513690063,,519630048
-09780058,In own dwelling,HS-1,1,513690065,,519630048
-15660052,Elsewhere,HS-3,3,513690065,,519630048
-15660054,In own yard/plot,HS-2,2,513690065,,519630048
-09780063,"No, never",HS-1,1,513690066,,519630048
-09780064,Don’t know,HS-4,4,513690066,,519630048
-15650064,"Yes, frequently",HS-3,3,513690066,,519630048
-17610051,"Yes, sometimes",HS-2,2,513690066,,519630048
-15650061,Toilet is not always safe for all household members to use,HS-4,4,513690067,,519630048
-15650063,Limited mobility prevents members from using the toilet,HS-1,1,513690067,,519630048
-23410057,Distance/barriers prevent members from reaching the toilet,HS-2,2,513690067,,519630048
-23410063,Toilet is not always available to all household members,HS-3,3,513690067,,519630048
-15650059,"Toilet not functional (Collapsed, full, abandoned)",HS-3,3,513690068,,519630048
-15650065,No toilet observed,HS-1,1,513690068,,519630048
-15660051,Functional toilet with privacy,HS-4,4,513690068,,519630048
-17610047,Toilet with inadequate privacy,HS-2,2,513690068,,519630048
-513700035,Paid work,HMHM-2,2,524810053,,519630048
-513700036,Cooking food,HMHM-5,5,524810053,,519630048
-515660063,Eating with others,HMHM-6,6,524810053,,519630048
-515660064,Cooking food?,HMHM-4,4,524810053,,519630048
-515660066,Participating in social activities,HMHM-3,3,524810053,,519630048
-519650072,Attending school,HMHM-1,1,524810053,,519630048
-519650073,Bathing in regular place,HMHM-7,7,524810053,,519630048
-513700034,Yes,HMHM-1,1,524810054,,519630048
-519650077,No,HMHM-2,2,524810054,,519630048
-513700033,Toilet paper,HMHM-5,5,524810057,,519630048
-513700039,Cloth/reusable sanitary pads,HMHM-1,1,524810057,,519630048
-515660065,Tampons,HMHM-3,3,524810057,,519630048
-515660068,Disposable sanitary pads,HMHM-2,2,524810057,,519630048
-519650074,Underwear alone,HMHM-6,6,524810057,,519630048
-519650076,Menstrual cup,HMHM-4,4,524810057,,519630048
+text,code,order,questionId,form_id
+Own toilet only shared by members of the household,HS-1,1,444670051,519630048
+Own toilet shared with 10-15 people (or less) including other households,HS-2,2,444670051,519630048
+Own toilet shared with more than 15 people including other households,HS-3,3,444670051,519630048
+Fixed facility observed (sink/tap)  In yard/plot,HH-2,2,466680043,519630048
+No permission to see,HH-5,5,466680043,519630048
+No handwashing place in dwelling/yard/plot,HH-4,4,466680043,519630048
+Mobile object observed (bucket/jug/kettle),HH-3,3,466680043,519630048
+Fixed facility observed (sink/tap) In dwelling,HH-1,1,466680043,519630048
+Water is not available,HH-2,2,466680045,519630048
+Water is available,HH-1,1,466680045,519630048
+Soap or detergent available .,HH-1,1,466760036,519630048
+Soap or detergent not available,HH-2,2,466760036,519630048
+No facility / Bush / Field,HS-9,9,492490054,519630048
+Flush / pour flush,HS-1,1,492490054,519630048
+Twin pit without slab,HS-5,5,492490054,519630048
+Pit latrine without slab / Open pit,HS-3,3,492490054,519630048
+Bucket,HS-6,6,492490054,519630048
+Hanging toilet / hanging latrine,HS-8,8,492490054,519630048
+Twin pit with slab,HS-4,4,492490054,519630048
+Container based sanitation,HS-7,7,492490054,519630048
+Pit latrine with slab,HS-2,2,492490054,519630048
+No,HS-2,2,496550059,519630048
+Yes,HS-1,1,496550059,519630048
+Yes,HS-1,1,512010045,519630048
+No,HS2,2,512010045,519630048
+Yes,HS-1,1,513690059,519630048
+No,HS-2,2,513690059,519630048
+Removed by service provider to a treatment plant,HS-1,1,513690060,519630048
+Don't know,HS-6,6,513690060,519630048
+Emptied by household buried in a covered pit,HS-4,4,513690060,519630048
+Removed by service provider to don't know where,HS-3,3,513690060,519630048
+Removed by service provider to buried pit,HS-2,2,513690060,519630048
+"Emptied by household to uncovered pit, open ground, water body or elsewhere",HS-5,5,513690060,519630048
+Buried,HS-5,5,513690061,519630048
+Used as manure,HS-7,7,513690061,519630048
+Put/rinsed into toilet or latrine,HS-2,2,513690061,519630048
+Don't know,HS-9,9,513690061,519630048
+Put/rinsed into drain or ditch,HS-3,3,513690061,519630048
+Thrown into garbage (solid waste),HS-4,4,513690061,519630048
+Child used toilet/latrine,HS-1,1,513690061,519630048
+Left in the open,HS-6,6,513690061,519630048
+No kids present,HS-8,8,513690061,519630048
+No,HS-2,2,513690062,519630048
+Yes,HS-1,1,513690062,519630048
+Yes,HS-1,1,513690063,519630048
+No,HS-2,2,513690063,519630048
+In own dwelling,HS-1,1,513690065,519630048
+Elsewhere,HS-3,3,513690065,519630048
+In own yard/plot,HS-2,2,513690065,519630048
+"No, never",HS-1,1,513690066,519630048
+Don’t know,HS-4,4,513690066,519630048
+"Yes, frequently",HS-3,3,513690066,519630048
+"Yes, sometimes",HS-2,2,513690066,519630048
+Toilet is not always safe for all household members to use,HS-4,4,513690067,519630048
+Limited mobility prevents members from using the toilet,HS-1,1,513690067,519630048
+Distance/barriers prevent members from reaching the toilet,HS-2,2,513690067,519630048
+Toilet is not always available to all household members,HS-3,3,513690067,519630048
+"Toilet not functional (Collapsed, full, abandoned)",HS-3,3,513690068,519630048
+No toilet observed,HS-1,1,513690068,519630048
+Functional toilet with privacy,HS-4,4,513690068,519630048
+Toilet with inadequate privacy,HS-2,2,513690068,519630048
+Paid work,HMHM-2,2,524810053,519630048
+Cooking food,HMHM-5,5,524810053,519630048
+Eating with others,HMHM-6,6,524810053,519630048
+Cooking food?,HMHM-4,4,524810053,519630048
+Participating in social activities,HMHM-3,3,524810053,519630048
+Attending school,HMHM-1,1,524810053,519630048
+Bathing in regular place,HMHM-7,7,524810053,519630048
+Yes,HMHM-1,1,524810054,519630048
+No,HMHM-2,2,524810054,519630048
+Toilet paper,HMHM-5,5,524810057,519630048
+Cloth/reusable sanitary pads,HMHM-1,1,524810057,519630048
+Tampons,HMHM-3,3,524810057,519630048
+Disposable sanitary pads,HMHM-2,2,524810057,519630048
+Underwear alone,HMHM-6,6,524810057,519630048
+Menstrual cup,HMHM-4,4,524810057,519630048
