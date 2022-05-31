@@ -4,6 +4,7 @@ from django.test import TestCase
 
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_users.models import SystemUser
+from utils.email_helper import EmailTypes
 
 
 class UserInvitationTestCase(TestCase):
@@ -251,66 +252,63 @@ class UserInvitationTestCase(TestCase):
 
     def test_get_email_template(self):
         # test get user_register template
-        response = self.client.get('/api/v1/email_template?type=user_register',
-                                   content_type='application/json')
+        response = self.client.get('/api/v1/email_template?type={0}'
+                                   .format(EmailTypes.user_register))
         self.assertEqual(response.status_code, 200)
         # test get user_approval template
-        response = self.client.get('/api/v1/email_template?type=user_approval',
-                                   content_type='application/json')
+        response = self.client.get('/api/v1/email_template?type={0}'
+                                   .format(EmailTypes.user_approval))
         self.assertEqual(response.status_code, 200)
         # test get user_forgot_password template
-        response = self.client.get(
-            '/api/v1/email_template?type=user_forgot_password',
-            content_type='application/json')
+        response = self.client.get('/api/v1/email_template?type={0}'
+                                   .format(EmailTypes.user_forgot_password))
         self.assertEqual(response.status_code, 200)
         # test get user_invite template
-        response = self.client.get('/api/v1/email_template?type=user_invite',
-                                   content_type='application/json')
+        response = self.client.get('/api/v1/email_template?type={0}'
+                                   .format(EmailTypes.user_invite))
         self.assertEqual(response.status_code, 200)
         # test get data_approval template
-        response = self.client.get('/api/v1/email_template?type=data_approval',
-                                   content_type='application/json')
+        response = self.client.get('/api/v1/email_template?type={0}'
+                                   .format(EmailTypes.data_approval))
         self.assertEqual(response.status_code, 200)
         # test get data_rejection template
-        response = self.client.get(
-            '/api/v1/email_template?type=data_rejection',
-            content_type='application/json')
+        response = self.client.get('/api/v1/email_template?type={0}'
+                                   .format(EmailTypes.data_rejection))
         self.assertEqual(response.status_code, 200)
         # test get batch_approval template
-        response = self.client.get(
-            '/api/v1/email_template?type=batch_approval',
-            content_type='application/json')
+        response = self.client.get('/api/v1/email_template?type={0}'
+                                   .format(EmailTypes.batch_approval))
         self.assertEqual(response.status_code, 200)
         # test get batch_rejection template
+        response = self.client.get('/api/v1/email_template?type={0}'
+                                   .format(EmailTypes.batch_rejection))
+        self.assertEqual(response.status_code, 200)
+        # test get inform_batch_rejection_to_approval template
         response = self.client.get(
-            '/api/v1/email_template?type=batch_rejection',
-            content_type='application/json')
+            '/api/v1/email_template?type={0}'
+            .format(EmailTypes.inform_batch_rejection_approver))
         self.assertEqual(response.status_code, 200)
         # test get pending_approval template
-        response = self.client.get(
-            '/api/v1/email_template?type=pending_approval',
-            content_type='application/json')
+        response = self.client.get('/api/v1/email_template?type={0}'
+                                   .format(EmailTypes.pending_approval))
         self.assertEqual(response.status_code, 200)
         # test get upload_error template
-        response = self.client.get('/api/v1/email_template?type=upload_error',
-                                   content_type='application/json')
+        response = self.client.get('/api/v1/email_template?type={0}'
+                                   .format(EmailTypes.upload_error))
         self.assertEqual(response.status_code, 200)
         # test get new_request template
-        response = self.client.get('/api/v1/email_template?type=new_request',
-                                   content_type='application/json')
+        response = self.client.get('/api/v1/email_template?type={0}'
+                                   .format(EmailTypes.new_request))
         self.assertEqual(response.status_code, 200)
         # test get unchanged_data template
-        response = self.client.get(
-            '/api/v1/email_template?type=unchanged_data',
-            content_type='application/json')
+        response = self.client.get('/api/v1/email_template?type={0}'
+                                   .format(EmailTypes.unchanged_data))
         self.assertEqual(response.status_code, 200)
         # not send type
-        response = self.client.get('/api/v1/email_template',
-                                   content_type='application/json')
+        response = self.client.get('/api/v1/email_template')
         self.assertEqual(response.status_code, 400)
         # test invalid type
-        response = self.client.get('/api/v1/email_template?type=registration',
-                                   content_type='application/json')
+        response = self.client.get('/api/v1/email_template?type=registration')
         self.assertEqual(response.status_code, 400)
 
     def test_delete_user(self):
