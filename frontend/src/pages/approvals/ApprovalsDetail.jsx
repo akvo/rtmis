@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Row,
   Col,
@@ -17,11 +17,13 @@ import {
   PlusSquareOutlined,
   CloseSquareOutlined,
   LoadingOutlined,
+  HistoryOutlined,
 } from "@ant-design/icons";
 import { api } from "../../lib";
 import { EditableCell } from "../../components";
-import { isEqual, some } from "lodash";
+import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
+import { HistoryTable } from "../../components";
 const { TextArea } = Input;
 const { TabPane } = Tabs;
 
@@ -99,6 +101,8 @@ const ApprovalDetail = ({
   const [rawValues, setRawValues] = useState([]);
   const [columns, setColumns] = useState(summaryColumns);
   const [loading, setLoading] = useState(true);
+  const [dataLoading, setDataLoading] = useState(null);
+  const [saving, setSaving] = useState(null);
   const [selectedTab, setSelectedTab] = useState("data-summary");
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
   const [comments, setComments] = useState([]);
@@ -106,27 +110,23 @@ const ApprovalDetail = ({
   const [questionGroups, setQuestionGroups] = useState([]);
   const { notify } = useNotification();
 
-  // useEffect(() => {
-  //   console.log(rawValues, record);
-  // }, [rawValues, record]);
-
-  const handleSave = () => {
-    const data = [];
-    rawValues.map((rI) => {
-      rI.data.map((rd) => {
-        rd.question.map((rq) => {
-          if (rq.newValue) {
-            data.push({ id: rI.id, question: rq.id, value: rq.newValue });
-          }
-        });
+  const handleSave = (data) => {
+    setSaving(data.id);
+    const formData = [];
+    data.data.map((rd) => {
+      rd.question.map((rq) => {
+        if (rq.newValue && rq.newValue !== rq.value) {
+          formData.push({ question: rq.id, value: rq.newValue });
+        }
       });
     });
     api
       .put(
-        `form-pending-data/${record.form?.id}?pending-data-id=${record.id}`,
-        data
+        `form-pending-data/${record.form?.id}?pending_data_id=${data.id}`,
+        formData
       )
       .then(() => {
+        fetchData(data.id, questionGroups);
         notify({
           type: "success",
           message: "Data updated",
@@ -134,6 +134,9 @@ const ApprovalDetail = ({
       })
       .catch((e) => {
         console.error(e);
+      })
+      .finally(() => {
+        setSaving(null);
       });
   };
   const handleApprove = (id, status) => {
@@ -300,6 +303,7 @@ const ApprovalDetail = ({
   };
 
   const fetchData = (recordId, questionGroups) => {
+    setDataLoading(recordId);
     api
       .get(`pending-data/${recordId}`)
       .then((res) => {
@@ -308,6 +312,8 @@ const ApprovalDetail = ({
           question: qg.question.map((q) => ({
             ...q,
             value: res.data.find((d) => d.question === q.id)?.value || null,
+            history:
+              res.data.find((d) => d.question === q.id)?.history || false,
           })),
         }));
         setRawValues((rv) =>
@@ -321,12 +327,19 @@ const ApprovalDetail = ({
         setRawValues((rv) =>
           rv.map((rI) => (rI.id === recordId ? { ...rI, loading: false } : rI))
         );
+      })
+      .finally(() => {
+        setDataLoading(null);
       });
   };
 
-  const isEdited = useMemo(() => {
-    return some(rawValues, { edited: true });
-  }, [rawValues]);
+  const isEdited = (id) => {
+    return (
+      !!flatten(
+        rawValues.find((d) => d.id === id)?.data?.map((g) => g.question)
+      )?.filter((d) => d.newValue && d.newValue !== d.value)?.length || false
+    );
+  };
 
   return (
     <div>
@@ -366,49 +379,73 @@ const ApprovalDetail = ({
                           <span>Loading..</span>
                         </Space>
                       ) : (
-                        record.data?.map((r, rI) => (
-                          <div className="pending-data-wrapper" key={rI}>
-                            <h3>{r.name}</h3>
-                            <Table
-                              pagination={false}
-                              dataSource={r.question}
-                              rowClassName={(record) =>
-                                record.newValue &&
-                                !isEqual(record.newValue, record.value)
-                                  ? "row-edited"
-                                  : "row-normal"
-                              }
-                              rowKey="id"
-                              columns={[
-                                {
-                                  title: "Question",
-                                  dataIndex: "name",
-                                },
-                                {
-                                  title: "Response",
-                                  render: (row) => (
-                                    <EditableCell
-                                      record={row}
-                                      parentId={record.id}
-                                      updateCell={updateCell}
-                                      resetCell={resetCell}
-                                    />
+                        <>
+                          {record.data?.map((r, rI) => (
+                            <div className="pending-data-wrapper" key={rI}>
+                              <h3>{r.name}</h3>
+                              <Table
+                                pagination={false}
+                                dataSource={r.question}
+                                rowClassName={(record) =>
+                                  record.newValue &&
+                                  !isEqual(record.newValue, record.value)
+                                    ? "row-edited"
+                                    : "row-normal"
+                                }
+                                rowKey="id"
+                                columns={[
+                                  {
+                                    title: "Question",
+                                    dataIndex: "name",
+                                  },
+                                  {
+                                    title: "Response",
+                                    render: (row) => (
+                                      <EditableCell
+                                        record={row}
+                                        parentId={record.id}
+                                        updateCell={updateCell}
+                                        resetCell={resetCell}
+                                        disabled={!!dataLoading}
+                                      />
+                                    ),
+                                  },
+                                  Table.EXPAND_COLUMN,
+                                ]}
+                                expandable={{
+                                  expandIcon: ({ onExpand, record }) => {
+                                    if (!record?.history) {
+                                      return "";
+                                    }
+                                    return (
+                                      <HistoryOutlined
+                                        className="expand-icon"
+                                        onClick={(e) => onExpand(record, e)}
+                                      />
+                                    );
+                                  },
+                                  expandedRowRender: (record) => (
+                                    <HistoryTable record={record} />
                                   ),
-                                },
-                              ]}
-                            />
-                            <Button
-                              onClick={() => handleSave()}
-                              disabled={
-                                !approve ||
-                                selectedTab !== "raw-data" ||
-                                !isEdited
-                              }
-                            >
-                              Save Edits
-                            </Button>
-                          </div>
-                        ))
+                                  rowExpandable: (record) => record?.history,
+                                }}
+                              />
+                            </div>
+                          ))}
+                          <Button
+                            onClick={() => handleSave(record)}
+                            type="primary"
+                            loading={record.id === saving}
+                            disabled={
+                              !approve ||
+                              selectedTab !== "raw-data" ||
+                              record.id === dataLoading ||
+                              isEdited(record.id) === false
+                            }
+                          >
+                            Save Edits
+                          </Button>
+                        </>
                       )}
                     </div>
                   );
