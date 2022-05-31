@@ -5,7 +5,10 @@ import { useLocation } from "react-router-dom";
 
 const Footer = ({ className = "footer", ...props }) => {
   const location = useLocation();
-  if (location.pathname.includes("/login")) {
+  if (
+    location.pathname.includes("/login") ||
+    location.pathname.includes("/report/")
+  ) {
     return "";
   }
   return (
