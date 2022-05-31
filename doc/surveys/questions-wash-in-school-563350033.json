@@ -126,7 +126,7 @@
       "minVal": null,
       "maxVal": null,
       "allowExternalSources": false,
-      "localeNameFlag": false,
+      "localeNameFlag": true,
       "localeLocationFlag": false,
       "personalData": false,
       "allowPoints": false,
@@ -164,7 +164,7 @@
       "variableName": null,
       "order": 4,
       "mandatoryFlag": true,
-      "path": "4. EritreaSchools - DRAFT/New form/Demographics\t",
+      "path": "WASH in Schools - DRAFT/Schools/Demographics\t",
       "allowDecimal": false,
       "allowSign": false,
       "minVal": null,
@@ -221,11 +221,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        547810040,
-        547810044,
-        547810045
-      ],
+      "questionOptions": [547810040, 547810044, 547810045],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -260,7 +256,7 @@
       "allowDecimal": false,
       "allowSign": false,
       "minVal": null,
-      "maxVal": 5000,
+      "maxVal": 5000.0,
       "allowExternalSources": false,
       "localeNameFlag": false,
       "localeLocationFlag": false,
@@ -304,7 +300,7 @@
       "allowDecimal": false,
       "allowSign": false,
       "minVal": null,
-      "maxVal": 5000,
+      "maxVal": 5000.0,
       "allowExternalSources": false,
       "localeNameFlag": false,
       "localeLocationFlag": false,
@@ -446,14 +442,8 @@
       "allowPolygon": false,
       "optionList": null,
       "questionOptions": [
-        533680003,
-        533680005,
-        547800059,
-        547800060,
-        547800063,
-        563370010,
-        563370011,
-        566850036
+        533680003, 533680005, 547800059, 547800060, 547800063, 563370010,
+        563370011, 566850036
       ],
       "questionDependency": null,
       "sourceId": null,
@@ -499,16 +489,8 @@
       "allowPolygon": false,
       "optionList": null,
       "questionOptions": [
-        529290006,
-        533680004,
-        533680007,
-        533680010,
-        563370004,
-        563370007,
-        566850032,
-        566850037,
-        566850038,
-        566850041
+        529290006, 533680004, 533680007, 533680010, 563370004, 563370007,
+        566850032, 566850037, 566850038, 566850041
       ],
       "questionDependency": null,
       "sourceId": null,
@@ -553,10 +535,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        533680011,
-        563370012
-      ],
+      "questionOptions": [533680011, 563370012],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -600,11 +579,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        529290007,
-        547800064,
-        566850033
-      ],
+      "questionOptions": [529290007, 547800064, 566850033],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -648,11 +623,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        533680012,
-        563370008,
-        566850039
-      ],
+      "questionOptions": [533680012, 563370008, 566850039],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -696,10 +667,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        547800055,
-        566850035
-      ],
+      "questionOptions": [547800055, 566850035],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -743,10 +711,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        533680006,
-        547800062
-      ],
+      "questionOptions": [533680006, 547800062],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -834,10 +799,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        547800057,
-        563370005
-      ],
+      "questionOptions": [547800057, 563370005],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -882,11 +844,7 @@
       "allowPolygon": false,
       "optionList": null,
       "questionOptions": [
-        529290008,
-        533680008,
-        547800058,
-        547800061,
-        563370009
+        529290008, 533680008, 547800058, 547800061, 563370009
       ],
       "questionDependency": null,
       "sourceId": null,
@@ -932,12 +890,7 @@
       "allowPolygon": false,
       "optionList": null,
       "questionOptions": [
-        533680009,
-        547800056,
-        563370006,
-        563370013,
-        566850034,
-        566850040
+        533680009, 547800056, 563370006, 563370013, 566850034, 566850040
       ],
       "questionDependency": null,
       "sourceId": null,
@@ -983,12 +936,7 @@
       "allowPolygon": false,
       "optionList": null,
       "questionOptions": [
-        531360044,
-        531360050,
-        547810058,
-        559780028,
-        559780031,
-        559780032,
+        531360044, 531360050, 547810058, 559780028, 559780031, 559780032,
         565030040
       ],
       "questionDependency": null,
@@ -1034,10 +982,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        574060002,
-        577950002
-      ],
+      "questionOptions": [574060002, 577950002],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -1346,11 +1291,7 @@
       "allowPolygon": false,
       "optionList": null,
       "questionOptions": [
-        539720042,
-        547810053,
-        555450008,
-        555450012,
-        559780026
+        539720042, 547810053, 555450008, 555450012, 559780026
       ],
       "questionDependency": null,
       "sourceId": null,
@@ -1395,11 +1336,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        531360045,
-        531360051,
-        539720036
-      ],
+      "questionOptions": [531360045, 531360051, 539720036],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -1443,10 +1380,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        538000042,
-        559780030
-      ],
+      "questionOptions": [538000042, 559780030],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -1491,12 +1425,7 @@
       "allowPolygon": false,
       "optionList": null,
       "questionOptions": [
-        538000041,
-        547810054,
-        547810055,
-        555450014,
-        565030036,
-        565030041
+        538000041, 547810054, 547810055, 555450014, 565030036, 565030041
       ],
       "questionDependency": null,
       "sourceId": null,
@@ -1542,11 +1471,7 @@
       "allowPolygon": false,
       "optionList": null,
       "questionOptions": [
-        539720035,
-        539720038,
-        547810050,
-        547810052,
-        555450009
+        539720035, 539720038, 547810050, 547810052, 555450009
       ],
       "questionDependency": null,
       "sourceId": null,
@@ -1591,10 +1516,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        559780025,
-        559780027
-      ],
+      "questionOptions": [559780025, 559780027],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -1638,12 +1560,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        531360052,
-        539720039,
-        559780024,
-        565030034
-      ],
+      "questionOptions": [531360052, 539720039, 559780024, 565030034],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -1687,12 +1604,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        539720037,
-        539720041,
-        555450005,
-        555450007
-      ],
+      "questionOptions": [539720037, 539720041, 555450005, 555450007],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -1736,11 +1648,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        531360047,
-        531360048,
-        555450011
-      ],
+      "questionOptions": [531360047, 531360048, 555450011],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -1784,12 +1692,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        531360046,
-        555450006,
-        559780033,
-        565030039
-      ],
+      "questionOptions": [531360046, 555450006, 559780033, 565030039],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -1833,12 +1736,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        539720043,
-        547810051,
-        547810056,
-        565030038
-      ],
+      "questionOptions": [539720043, 547810051, 547810056, 565030038],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -1882,11 +1780,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        538000040,
-        559780029,
-        565030042
-      ],
+      "questionOptions": [538000040, 559780029, 565030042],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -1930,10 +1824,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        555450010,
-        555450013
-      ],
+      "questionOptions": [555450010, 555450013],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -1977,10 +1868,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        565030033,
-        565030037
-      ],
+      "questionOptions": [565030033, 565030037],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -2024,10 +1912,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        547810057,
-        565030035
-      ],
+      "questionOptions": [547810057, 565030035],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -2071,10 +1956,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        531360049,
-        531360053
-      ],
+      "questionOptions": [531360049, 531360053],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -2118,11 +2000,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        539720040,
-        539720044,
-        547810059
-      ],
+      "questionOptions": [539720040, 539720044, 547810059],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -2166,10 +2044,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        547810060,
-        547810069
-      ],
+      "questionOptions": [547810060, 547810069],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -2213,12 +2088,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        547810064,
-        563370015,
-        563370017,
-        563370022
-      ],
+      "questionOptions": [547810064, 563370015, 563370017, 563370022],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -2262,12 +2132,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        547810061,
-        547810063,
-        547810068,
-        563370019
-      ],
+      "questionOptions": [547810061, 547810063, 547810068, 563370019],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -2355,10 +2220,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        542020031,
-        563370021
-      ],
+      "questionOptions": [542020031, 563370021],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -2402,11 +2264,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        547810062,
-        563370016,
-        563370018
-      ],
+      "questionOptions": [547810062, 563370016, 563370018],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -2451,12 +2309,7 @@
       "allowPolygon": false,
       "optionList": null,
       "questionOptions": [
-        542020029,
-        542020030,
-        542020032,
-        547810065,
-        547810066,
-        563370020
+        542020029, 542020030, 542020032, 547810065, 547810066, 563370020
       ],
       "questionDependency": null,
       "sourceId": null,
@@ -2501,10 +2354,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        542020033,
-        563370023
-      ],
+      "questionOptions": [542020033, 563370023],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -2548,10 +2398,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        547810067,
-        563370024
-      ],
+      "questionOptions": [547810067, 563370024],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -2595,12 +2442,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        531360057,
-        537990032,
-        559760034,
-        559760036
-      ],
+      "questionOptions": [531360057, 537990032, 559760034, 559760036],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -2645,12 +2487,7 @@
       "allowPolygon": false,
       "optionList": null,
       "questionOptions": [
-        531360061,
-        537990030,
-        537990038,
-        537990039,
-        559760039,
-        559760040
+        531360061, 537990030, 537990038, 537990039, 559760039, 559760040
       ],
       "questionDependency": null,
       "sourceId": null,
@@ -2695,11 +2532,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        531360060,
-        537990034,
-        559760035
-      ],
+      "questionOptions": [531360060, 537990034, 559760035],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -2744,12 +2577,7 @@
       "allowPolygon": false,
       "optionList": null,
       "questionOptions": [
-        531360056,
-        531360058,
-        537990031,
-        537990033,
-        537990035,
-        559760032
+        531360056, 531360058, 537990031, 537990033, 537990035, 559760032
       ],
       "questionDependency": null,
       "sourceId": null,
@@ -2794,11 +2622,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        531360062,
-        537990036,
-        537990037
-      ],
+      "questionOptions": [531360062, 537990036, 537990037],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -2842,10 +2666,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        559760033,
-        559760038
-      ],
+      "questionOptions": [559760033, 559760038],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -2889,11 +2710,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        531360059,
-        559760037,
-        559760041
-      ],
+      "questionOptions": [531360059, 559760037, 559760041],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -2937,11 +2754,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        539730007,
-        542020035,
-        542020041
-      ],
+      "questionOptions": [539730007, 542020035, 542020041],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -2985,11 +2798,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        539730012,
-        542020037,
-        547800071
-      ],
+      "questionOptions": [539730012, 542020037, 547800071],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -3034,12 +2843,7 @@
       "allowPolygon": false,
       "optionList": null,
       "questionOptions": [
-        539730011,
-        539730013,
-        542020039,
-        542020044,
-        547800076,
-        547800077
+        539730011, 539730013, 542020039, 542020044, 547800076, 547800077
       ],
       "questionDependency": null,
       "sourceId": null,
@@ -3084,11 +2888,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        539730014,
-        542020042,
-        547800079
-      ],
+      "questionOptions": [539730014, 542020042, 547800079],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -3133,11 +2933,7 @@
       "allowPolygon": false,
       "optionList": null,
       "questionOptions": [
-        539730008,
-        542020038,
-        542020040,
-        547800073,
-        547810071
+        539730008, 542020038, 542020040, 547800073, 547810071
       ],
       "questionDependency": null,
       "sourceId": null,
@@ -3183,12 +2979,7 @@
       "allowPolygon": false,
       "optionList": null,
       "questionOptions": [
-        539730010,
-        539730015,
-        542020036,
-        542020043,
-        547800072,
-        547800078
+        539730010, 539730015, 542020036, 542020043, 547800072, 547800078
       ],
       "questionDependency": null,
       "sourceId": null,
@@ -3234,12 +3025,7 @@
       "allowPolygon": false,
       "optionList": null,
       "questionOptions": [
-        539730009,
-        539730016,
-        547800074,
-        547800075,
-        547800080,
-        547810072
+        539730009, 539730016, 547800074, 547800075, 547800080, 547810072
       ],
       "questionDependency": null,
       "sourceId": null,
@@ -3284,10 +3070,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        544000065,
-        584860069
-      ],
+      "questionOptions": [544000065, 584860069],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
@@ -3331,12 +3114,7 @@
       "allowLine": false,
       "allowPolygon": false,
       "optionList": null,
-      "questionOptions": [
-        545530058,
-        570620003,
-        572480008,
-        586850059
-      ],
+      "questionOptions": [545530058, 570620003, 572480008, 586850059],
       "questionDependency": null,
       "sourceId": null,
       "levelNames": null,
