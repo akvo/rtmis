@@ -7,7 +7,7 @@ from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import PendingFormData, PendingDataApproval, \
     PendingDataBatch
 from api.v1.v1_forms.constants import FormTypes, QuestionTypes
-from api.v1.v1_forms.models import Forms
+from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_users.models import SystemUser
 
@@ -212,6 +212,38 @@ class PendingDataTestCase(TestCase):
             self.assertEqual(200, response.status_code)
 
             # check rejected in list. subordinate = true, approved = false
+            header = {'HTTP_AUTHORIZATION': f'Bearer {t_parent.access_token}'}
+            response = self.client.get(
+                '/api/v1/form-pending-batch?page=1&subordinate=true',
+                content_type='application/json',
+                **header)
+            self.assertEqual(200, response.status_code)
+            self.assertGreaterEqual(len(response.json().get('batch')), 1)
+            status = response.json().get('batch')[0].get('approver').get(
+                'status')
+            self.assertEqual(DataApprovalStatus.rejected, status)
+
+            # update rejected data
+            batch_id = response.json().get('batch')[0]['id']
+            pending_data = PendingFormData.objects.filter(
+                batch=batch_id).first()
+            question = Questions.objects.filter(
+                form=pending_data.form.id, type=QuestionTypes.text).first()
+            payload = [{
+                "question": question.id,
+                "value": "Update after rejection"
+            }]
+            data = self.client.put(
+                '/api/v1/form-pending-data/{0}?pending_data_id={1}'
+                .format(pending_data.form.id, pending_data.id),
+                payload,
+                content_type='application/json',
+                **header)
+            self.assertEqual(data.status_code, 200)
+            data = data.json()
+            self.assertEqual(data, {"message": "update success"})
+
+            # check pending in list. subordinate = true, approved = false
             header = {'HTTP_AUTHORIZATION': f'Bearer {t_parent.access_token}'}
             response = self.client.get(
                 '/api/v1/form-pending-batch?page=1&subordinate=true',
