@@ -220,10 +220,26 @@
           ]
         },
         {
+          "id": 530250002,
+          "meta": false,
+          "question": "Are the toilets at the health facility useable (available, functional and private)?",
+          "order": 3,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
           "id": 555370007,
           "meta": false,
           "question": "Number of usable (available, functional, private) toilets for health care facility:",
-          "order": 3,
+          "order": 4,
           "required": true,
           "type": "number",
           "options": null
@@ -232,7 +248,7 @@
           "id": 555370009,
           "meta": false,
           "question": "Are there toilets that are dedicated for staff?",
-          "order": 4,
+          "order": 5,
           "required": true,
           "type": "option",
           "options": [
@@ -248,7 +264,7 @@
           "id": 555370003,
           "meta": false,
           "question": "Are there toilets that are in gender-separated  rooms?",
-          "order": 5,
+          "order": 6,
           "required": true,
           "type": "option",
           "options": [
@@ -264,7 +280,7 @@
           "id": 555370005,
           "meta": false,
           "question": "Are there toilets that have menstrual hygiene facilities?",
-          "order": 6,
+          "order": 7,
           "required": true,
           "type": "option",
           "options": [
@@ -280,7 +296,7 @@
           "id": 555370006,
           "meta": false,
           "question": "Are there toilets that are accessible for people with limited mobility?",
-          "order": 7,
+          "order": 8,
           "required": true,
           "type": "option",
           "options": [
@@ -359,7 +375,7 @@
         },
         {
           "id": 551560005,
-          "meta": false,
+          "meta": true,
           "question": "Have all staff responsible for cleaning received training?",
           "order": 4,
           "required": true,

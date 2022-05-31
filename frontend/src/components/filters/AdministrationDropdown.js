@@ -11,6 +11,7 @@ const AdministrationDropdown = ({
   withLabel = false,
   width = 160,
   persist = false,
+  hidden = false,
   ...props
 }) => {
   const { user, administration, isLoggedIn, loadingAdministration } =
@@ -100,7 +101,7 @@ const AdministrationDropdown = ({
     });
   };
 
-  if (administration) {
+  if (administration && !hidden) {
     return (
       <Space {...props}>
         {administration
@@ -149,6 +150,7 @@ const AdministrationDropdown = ({
 AdministrationDropdown.propTypes = {
   loading: PropTypes.bool,
   persist: PropTypes.bool,
+  hidden: PropTypes.bool,
 };
 
 export default React.memo(AdministrationDropdown);
