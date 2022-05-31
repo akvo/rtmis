@@ -221,15 +221,7 @@ var visualisation = [
             score: 10,
             color: "#79BE7D",
             options: [
-              // {
-              //   question: 524810053,
-              //   option: [
-              //     "Attending school",
-              //     "Paid work",
-              //     "Participating in social activities",
-              //     "Cooking food?"
-              //   ]
-              // },
+              //MHM_products_use not found in the excell
             ]
           },
           {
@@ -648,22 +640,20 @@ var visualisation = [
             score: 10,
             color: "#753780",
             options: [
-              // {
-              //   question: 466680043,
-              //   option: [
-              //     "Fixed facility observed (sink/tap) In dwelling",
-              //     "Fixed facility observed (sink/tap)  In yard/plot",
-              //     "Mobile object observed (bucket/jug/kettle)"
-              //   ]
-              // },
-              // {
-              //   question: 466680045,
-              //   option: ["Water is available"]
-              // },
-              // {
-              //   question: 466760036,
-              //   option: ["Soap or detergent available ."]
-              // }
+              {
+                question: 551660011,
+                option: [
+                  "Piped water supply",
+                  "Protected well/spring",
+                  "Rainwater",
+                  "Unprotected well/spring",
+                  "Packaged bottled water"
+                ]
+              },
+              {
+                question: 551660013,
+                option: ["Yes"]
+              },
             ]
           },
           {
@@ -671,22 +661,20 @@ var visualisation = [
             score: -1,
             color: "#FDF177",
             options: [
-              // {
-              //   question: 466680043,
-              //   option: [
-              //     "Fixed facility observed (sink/tap) In dwelling",
-              //     "Fixed facility observed (sink/tap)  In yard/plot",
-              //     "Mobile object observed (bucket/jug/kettle)"
-              //   ]
-              // },
-              // {
-              //   question: 466680045,
-              //   option: ["Water is available"]
-              // },
-              // {
-              //   question: 466760036,
-              //   option: ["Soap or detergent available ."]
-              // }
+              {
+                question: 551660011,
+                option: [
+                  "Piped water supply",
+                  "Protected well/spring",
+                  "Rainwater",
+                  "Unprotected well/spring",
+                  "Packaged bottled water"
+                ]
+              },
+              {
+                question: 551660013,
+                option: ["No"]
+              },
             ]
           },
           {
@@ -694,13 +682,14 @@ var visualisation = [
             score: -2,
             color: "#F1AC2A",
             options: [
-              // {
-              //   question: 466680043,
-              //   option: [
-              //     "No handwashing place in dwelling/yard/plot",
-              //     "No permission to see",
-              //   ]
-              // }
+              {
+                question: 551660011,
+                option: [
+                  "Tanker-truck or cart",
+                  "Surface water (lake, river, stream)",
+                  "No water source",
+                ]
+              },
             ]
           },
         ],
@@ -714,22 +703,22 @@ var visualisation = [
             score: 10,
             color: "#753780",
             options: [
-              // {
-              //   question: 466680043,
-              //   option: [
-              //     "Fixed facility observed (sink/tap) In dwelling",
-              //     "Fixed facility observed (sink/tap)  In yard/plot",
-              //     "Mobile object observed (bucket/jug/kettle)"
-              //   ]
-              // },
-              // {
-              //   question: 466680045,
-              //   option: ["Water is available"]
-              // },
-              // {
-              //   question: 466760036,
-              //   option: ["Soap or detergent available ."]
-              // }
+              {
+                question: 551660029,
+                option: [
+                  "Flush / Pour-flush toilets",
+                  "Pit latrines with slab",
+                  "Composting toilets",
+                ]
+              },
+              {
+                question: 579840064,
+                option: ["Yes"]
+              },
+              {
+                question: 555460003,
+                option: ["Yes"]
+              }
             ]
           },
           {
@@ -737,22 +726,22 @@ var visualisation = [
             score: -1,
             color: "#FDF177",
             options: [
-              // {
-              //   question: 466680043,
-              //   option: [
-              //     "Fixed facility observed (sink/tap) In dwelling",
-              //     "Fixed facility observed (sink/tap)  In yard/plot",
-              //     "Mobile object observed (bucket/jug/kettle)"
-              //   ]
-              // },
-              // {
-              //   question: 466680045,
-              //   option: ["Water is available"]
-              // },
-              // {
-              //   question: 466760036,
-              //   option: ["Soap or detergent available ."]
-              // }
+              {
+                question: 551660029,
+                option: [
+                  "Flush / Pour-flush toilets",
+                  "Pit latrines with slab",
+                  "Composting toilets",
+                ]
+              },
+              {
+                question: 579840064,
+                option: ["Yes"]
+              },
+              {
+                question: 555460003,
+                option: ["Yes"]
+              }
             ]
           },
           {
@@ -760,13 +749,15 @@ var visualisation = [
             score: -2,
             color: "#F1AC2A",
             options: [
-              // {
-              //   question: 466680043,
-              //   option: [
-              //     "No handwashing place in dwelling/yard/plot",
-              //     "No permission to see",
-              //   ]
-              // }
+              {
+                question: 551660029,
+                option: [
+                  "Pit latrines without slab",
+                  "Hanging latrines",
+                  "Bucket latrines",
+                  "No toilets or latrines"
+                ]
+              },
             ]
           },
         ],
@@ -832,35 +823,13 @@ var visualisation = [
             name: "Awareness",
             score: 10,
             color: "#753780",
-            options: [
-              // {
-              //   question: 539710052,
-              //   option: [
-              //     "Yes",
-              //   ]
-              // },
-              // {
-              //   question: 539710048,
-              //   option: ["Yes, water and soap"]
-              // },
-            ]
+            options: []
           },
           {
             name: "Use menstrual materials",
             score: -1,
             color: "#FDF177",
-            options: [
-              // {
-              //   question: 539710052,
-              //   option: [
-              //     "Yes"
-              //   ]
-              // },
-              // {
-              //   question: 539710048,
-              //   option: ["Water only"]
-              // },
-            ]
+            options: []
           },
           {
             name: "Access",
