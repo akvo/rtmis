@@ -16,6 +16,7 @@ const config = {
         "approvals",
         "approvers",
         "form",
+        "reports",
       ],
       administration_level: [1],
       description:
@@ -35,6 +36,7 @@ const config = {
         "approvals",
         "approvers",
         "form",
+        "reports",
       ],
       administration_level: [2],
       description:
@@ -51,6 +53,7 @@ const config = {
         "visualisation",
         "approvals",
         "questionnaires",
+        "reports",
       ],
       administration_level: [3, 4],
       description:
@@ -66,6 +69,7 @@ const config = {
         "data",
         "visualisation",
         "control-center",
+        "reports",
       ],
       administration_level: [4],
       description:
@@ -75,7 +79,7 @@ const config = {
       id: 5,
       name: "Institutional User",
       filter_form: false,
-      page_access: ["profile", "visualisation"],
+      page_access: ["profile", "visualisation", "reports"],
       administration_level: [1, 2, 3, 4],
       description: "Can view and download data from all counties",
     },
@@ -127,6 +131,294 @@ const config = {
     {
       id: 11,
       name: "System Admin",
+    },
+  ],
+  templates: [
+    {
+      id: 1,
+      formId: 519630048,
+      name: "Template 1",
+      title: "Sanitation Service Levels",
+      charts: [
+        {
+          type: "PIE",
+          id: 513690068,
+          title: "Functional Toilet Available",
+        },
+        {
+          type: "BAR",
+          id: 492490054,
+          title: "Kind of Toilet Facility",
+        },
+        {
+          type: "CRITERIA",
+          title: "Sanitation Service Level",
+          options: [
+            {
+              name: "Safely Managed",
+              color: "#368541",
+              score: 15,
+              options: [
+                {
+                  question: 492490054,
+                  option: [
+                    "Flush / pour flush",
+                    "Pit latrine with slab",
+                    "Twin pit with slab",
+                  ],
+                },
+                {
+                  question: 513690062,
+                  option: ["No"],
+                },
+                {
+                  question: 513690060,
+                  option: [
+                    "Removed by service provider to a treatment plant",
+                    "Removed by service provider to buried pit",
+                    "Emptied by household buried in a covered pit",
+                  ],
+                },
+              ],
+            },
+            {
+              name: "Basic",
+              score: 10,
+              color: "#79BE7D",
+              options: [
+                {
+                  question: 492490054,
+                  option: [
+                    "Flush / pour flush",
+                    "Pit latrine with slab",
+                    "Twin pit with slab",
+                  ],
+                },
+                {
+                  question: 513690062,
+                  option: ["No"],
+                },
+              ],
+            },
+            {
+              name: "Limited",
+              score: -1,
+              color: "#FDF177",
+              options: [
+                {
+                  question: 492490054,
+                  option: [
+                    "Flush / pour flush",
+                    "Pit latrine with slab",
+                    "Twin pit with slab",
+                  ],
+                },
+                {
+                  question: 513690062,
+                  option: ["Yes"],
+                },
+              ],
+            },
+            {
+              name: "Unimproved",
+              score: -2,
+              color: "#FBD256",
+              options: [
+                {
+                  question: 492490054,
+                  option: [
+                    "Pit latrine without slab / Open pit",
+                    "Twin pit without slab",
+                    "Bucket",
+                    "Hanging toilet / hanging latrine",
+                  ],
+                },
+              ],
+            },
+            {
+              name: "Open Defecation",
+              score: -3,
+              // title: "OD",
+              color: "#F1AC2A",
+              options: [
+                {
+                  question: 492490054,
+                  option: ["No facility / Bush / Field"],
+                },
+              ],
+            },
+          ],
+          // stack: {
+          //   options: [
+          //     {
+          //       name: "805",
+          //       title: "805, Baringo", // Eg. Override administration name
+          //     },
+          //   ],
+          // },
+        },
+      ],
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      footer: {
+        title: "Footer title 1",
+        description:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      },
+    },
+    {
+      id: 2,
+      formId: 519630048,
+      name: "Template 2",
+      title: "Hygiene Service Levels",
+      charts: [
+        {
+          type: "CRITERIA",
+          title: "Hygiene Service Level",
+          options: [
+            {
+              name: "Basic",
+              score: 10,
+              color: "#753780",
+              options: [
+                {
+                  question: 466680043,
+                  option: [
+                    "Fixed facility observed (sink/tap) In dwelling",
+                    "Fixed facility observed (sink/tap)  In yard/plot",
+                    "Mobile object observed (bucket/jug/kettle)",
+                  ],
+                },
+                {
+                  question: 466680045,
+                  option: ["Water is available"],
+                },
+                {
+                  question: 466760036,
+                  option: ["Soap or detergent available ."],
+                },
+              ],
+            },
+            {
+              name: "Limited",
+              score: -1,
+              color: "#FDF177",
+              options: [
+                {
+                  question: 466680043,
+                  option: [
+                    "Fixed facility observed (sink/tap) In dwelling",
+                    "Fixed facility observed (sink/tap)  In yard/plot",
+                    "Mobile object observed (bucket/jug/kettle)",
+                  ],
+                },
+                {
+                  question: 466680045,
+                  option: ["Water is available"],
+                },
+                {
+                  question: 466760036,
+                  option: ["Soap or detergent available ."],
+                },
+              ],
+            },
+            {
+              name: "No Facility",
+              score: -2,
+              color: "#F1AC2A",
+              options: [
+                {
+                  question: 466680043,
+                  option: [
+                    "No handwashing place in dwelling/yard/plot",
+                    "No permission to see",
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      description:
+        "Consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      footer: {
+        title: "Footer title 2",
+        description:
+          "Consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      },
+    },
+    {
+      id: 3,
+      formId: 519630048,
+      name: "Template 3",
+      title: "Menstrual Hygiene Service Levels",
+      charts: [
+        {
+          type: "CRITERIA",
+          title: "Menstrual Hygiene",
+          options: [
+            {
+              name: "Awareness",
+              color: "#368541",
+              score: 15,
+              options: [],
+            },
+            {
+              name: "Use of mensrual materials",
+              score: 10,
+              color: "#79BE7D",
+              options: [
+                // {
+                //   question: 524810053,
+                //   option: [
+                //     "Attending school",
+                //     "Paid work",
+                //     "Participating in social activities",
+                //     "Cooking food?"
+                //   ]
+                // },
+              ],
+            },
+            {
+              name: "Access",
+              score: -1,
+              color: "#FDF177",
+              options: [
+                {
+                  question: 524810054,
+                  option: ["Yes"],
+                },
+              ],
+            },
+            {
+              name: "Participation",
+              score: -2,
+              color: "#FBD256",
+              options: [
+                {
+                  question: 524810053,
+                  option: [
+                    "Attending school",
+                    "Paid work",
+                    "Participating in social activities",
+                    "Cooking food?",
+                    "Cooking food",
+                    "Eating with others",
+                    "Bathing in regular place",
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      description:
+        "Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      footer: {
+        title: "Footer title 3",
+        description:
+          "Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      },
     },
   ],
 };

@@ -395,27 +395,48 @@
           ]
         },
         {
-          "id": 551660020,
+          "id": 579840064,
           "meta": false,
-          "question": "How many girls only toilets available?",
+          "question": "Are there gender separated toilets?",
           "order": 2,
           "required": true,
-          "type": "number",
-          "options": null,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ],
           "dependency": [
             {
               "id": 551660029,
               "options": [
-                "No toilets or latrines"
+                "Flush / Pour-flush toilets",
+                "Pit latrines with slab",
+                "Composting toilets",
+                "Pit latrines without slab",
+                "Hanging latrines",
+                "Bucket latrines"
               ]
             }
           ]
         },
         {
-          "id": 539710041,
+          "id": 551660020,
           "meta": false,
           "question": "How many girls only toilets available?",
           "order": 3,
+          "required": true,
+          "type": "number",
+          "options": null
+        },
+        {
+          "id": 539710041,
+          "meta": false,
+          "question": "How many girls only toilets available?",
+          "order": 4,
           "required": true,
           "type": "number",
           "options": null,
@@ -432,7 +453,7 @@
           "id": 539710043,
           "meta": false,
           "question": "How many boys only toilets available?",
-          "order": 4,
+          "order": 5,
           "required": true,
           "type": "number",
           "options": null,
@@ -449,7 +470,7 @@
           "id": 539710037,
           "meta": false,
           "question": "How many boys only toilets are in use?",
-          "order": 5,
+          "order": 6,
           "required": true,
           "type": "number",
           "options": null,
@@ -466,7 +487,7 @@
           "id": 551660025,
           "meta": false,
           "question": "How many common use toilets available?",
-          "order": 6,
+          "order": 7,
           "required": true,
           "type": "number",
           "options": null,
@@ -483,7 +504,7 @@
           "id": 539710044,
           "meta": false,
           "question": "How many common use toilets IN USE?",
-          "order": 7,
+          "order": 8,
           "required": true,
           "type": "number",
           "options": null,
@@ -500,7 +521,7 @@
           "id": 555460002,
           "meta": false,
           "question": "Do boys and girls have problems using the common latrine, and why?",
-          "order": 8,
+          "order": 9,
           "required": true,
           "type": "option",
           "options": [
@@ -533,7 +554,7 @@
           "id": 551660023,
           "meta": false,
           "question": "When are students permitted to use the school latrines?",
-          "order": 9,
+          "order": 10,
           "required": true,
           "type": "option",
           "options": [
@@ -560,7 +581,7 @@
           "id": 555460003,
           "meta": false,
           "question": "Are the latrines being used?",
-          "order": 10,
+          "order": 11,
           "required": true,
           "type": "option",
           "options": [
@@ -576,7 +597,7 @@
           "id": 551660026,
           "meta": false,
           "question": "If the latrines/toilets are not used, what is/are the reason/s?",
-          "order": 11,
+          "order": 12,
           "required": true,
           "type": "multiple_option",
           "options": [
@@ -612,7 +633,7 @@
           "id": 551660022,
           "meta": false,
           "question": "What do you think are the advantage of having latrines in the school?",
-          "order": 12,
+          "order": 13,
           "required": true,
           "type": "option",
           "options": [
@@ -645,7 +666,7 @@
           "id": 539710045,
           "meta": false,
           "question": "Have you ever seen in the school any student/s facing a challenge due to lack of latrine?",
-          "order": 13,
+          "order": 14,
           "required": true,
           "type": "option",
           "options": [
@@ -661,7 +682,7 @@
           "id": 539710042,
           "meta": false,
           "question": "What is the challenge they face?",
-          "order": 14,
+          "order": 15,
           "required": true,
           "type": "option",
           "options": [
@@ -691,7 +712,7 @@
           "id": 539710040,
           "meta": false,
           "question": "Are there dust bins in the school latrines?",
-          "order": 15,
+          "order": 16,
           "required": true,
           "type": "option",
           "options": [
@@ -713,7 +734,7 @@
           "id": 551660027,
           "meta": false,
           "question": "Can boys and girls use common latrines?",
-          "order": 16,
+          "order": 17,
           "required": true,
           "type": "option",
           "options": [
@@ -732,7 +753,7 @@
           "id": 551660028,
           "meta": false,
           "question": "Why can't boys and girls use the common latrine?",
-          "order": 17,
+          "order": 18,
           "required": true,
           "type": "option",
           "options": [
@@ -762,7 +783,7 @@
           "id": 539710036,
           "meta": false,
           "question": "How many times per week are the student toilets cleaned?",
-          "order": 18,
+          "order": 19,
           "required": true,
           "type": "option",
           "options": [
@@ -784,7 +805,7 @@
           "id": 555460005,
           "meta": false,
           "question": "In general, how clean are the student toilets?",
-          "order": 19,
+          "order": 20,
           "required": true,
           "type": "option",
           "options": [
@@ -803,7 +824,7 @@
           "id": 551660021,
           "meta": false,
           "question": "Is there at least one usable toilet/latrine that is accessible to the smallest children at the school?",
-          "order": 20,
+          "order": 21,
           "required": true,
           "type": "option",
           "options": [
@@ -819,7 +840,7 @@
           "id": 539710039,
           "meta": false,
           "question": "Is there at least one usable toilet/latrine that is accessible to those with limited mobility or vision?",
-          "order": 21,
+          "order": 22,
           "required": true,
           "type": "option",
           "options": [
@@ -835,7 +856,7 @@
           "id": 555460004,
           "meta": false,
           "question": "Are culturally appropriate anal cleansing materials currently available to all students?",
-          "order": 22,
+          "order": 23,
           "required": true,
           "type": "option",
           "options": [
@@ -851,7 +872,7 @@
           "id": 551660024,
           "meta": false,
           "question": "Is there currently functional lighting in the student toilets?",
-          "order": 23,
+          "order": 24,
           "required": true,
           "type": "option",
           "options": [
@@ -867,7 +888,7 @@
           "id": 539710038,
           "meta": false,
           "question": "Are latrines or septic tanks emptied (or latrines safely covered) when they fill up?",
-          "order": 24,
+          "order": 25,
           "required": true,
           "type": "option",
           "options": [
@@ -1415,6 +1436,44 @@
             },
             {
               "name": "Provide sanitation and hygiene education to students"
+            }
+          ]
+        },
+        {
+          "id": 545530057,
+          "meta": false,
+          "question": "Are cleaning protocols available?",
+          "order": 8,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 575740004,
+          "meta": false,
+          "question": "Have all staff responsible for cleaning received training?",
+          "order": 9,
+          "required": true,
+          "type": "option",
+          "options": [
+            {
+              "name": "Yes, all have been trained"
+            },
+            {
+              "name": "No, some but not all have been trained"
+            },
+            {
+              "name": "No, none have been trained"
+            },
+            {
+              "name": "No, there are no staff responsible for cleaning"
             }
           ]
         }

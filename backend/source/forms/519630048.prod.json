@@ -301,9 +301,6 @@
             },
             {
               "name": "No facility / Bush / Field"
-            },
-            {
-              "name": "Other (specify)"
             }
           ]
         },
@@ -360,24 +357,21 @@
           ]
         },
         {
-          "id": 513690066,
+          "id": 513690065,
           "meta": false,
-          "question": "Does your sanitation facility leak or overflow wastes at any time of year?",
+          "question": "Where is this toilet facility located?",
           "order": 6,
           "required": true,
           "type": "option",
           "options": [
             {
-              "name": "No, never"
+              "name": "In own dwelling"
             },
             {
-              "name": "Yes, sometimes"
+              "name": "In own yard/plot"
             },
             {
-              "name": "Yes, frequently"
-            },
-            {
-              "name": "Don’t know"
+              "name": "Elsewhere"
             }
           ],
           "dependency": [
@@ -392,21 +386,24 @@
           ]
         },
         {
-          "id": 513690065,
+          "id": 513690066,
           "meta": false,
-          "question": "Where is this toilet facility located?",
+          "question": "Does your sanitation facility leak or overflow wastes at any time of year?",
           "order": 7,
           "required": true,
           "type": "option",
           "options": [
             {
-              "name": "In own dwelling"
+              "name": "No, never"
             },
             {
-              "name": "In own yard/plot"
+              "name": "Yes, sometimes"
             },
             {
-              "name": "Elsewhere"
+              "name": "Yes, frequently"
+            },
+            {
+              "name": "Don’t know"
             }
           ],
           "dependency": [
