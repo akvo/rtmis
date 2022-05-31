@@ -217,11 +217,19 @@ var visualisation = [
             options: []
           },
           {
-            name: "Use of mensrual materials",
+            name: "Use of menstrual materials",
             score: 10,
             color: "#79BE7D",
             options: [
-              //MHM_products_use not found in the excell
+              {
+                question: 524810057,
+                option: [
+                  "Cloth/reusable sanitary pads",
+                  "Disposable sanitary pads",
+                  "Tampons",
+                  "Menstrual cup"
+                ]
+              }
             ]
           },
           {
