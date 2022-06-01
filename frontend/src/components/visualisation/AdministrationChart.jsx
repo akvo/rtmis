@@ -188,6 +188,7 @@ const AdministrationChart = ({ config, formId }) => {
       <Row justify="space-between" align="middle">
         <h3>{title}</h3>
         <Checkbox
+          className="no-print"
           onChange={() => {
             setShowEmpty(!showEmpty);
           }}
