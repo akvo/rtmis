@@ -17,6 +17,7 @@ class EmailTypes:
     data_rejection = 'data_rejection'
     batch_approval = 'batch_approval'
     batch_rejection = 'batch_rejection'
+    inform_batch_rejection_approver = 'inform_batch_rejection_approver'
     pending_approval = 'pending_approval'
     upload_error = 'upload_error'
     new_request = 'new_request'
@@ -31,6 +32,7 @@ class EmailTypes:
         data_rejection: 'data_rejection',
         batch_approval: 'batch_approval',
         batch_rejection: 'batch_rejection',
+        inform_batch_rejection_approver: 'inform_batch_rejection_approver',
         pending_approval: 'pending_approval',
         upload_error: 'upload_error',
         new_request: 'new_request',
@@ -155,6 +157,25 @@ def email_context(context: dict, type: str):
             "explore_button": True
         })
     if type == EmailTypes.batch_rejection:
+        batch = context.get("batch")
+        user = context.get("user")
+        body = "{0} of {1} data has been rejected by {2}"
+        failed_text = "{0} Rejected"
+        if batch and user:
+            body = body.format(batch.name, batch.form.name,
+                               user.get_full_name())
+            failed_text = failed_text.format(batch.name)
+        else:
+            body = body.format("Batch name", "Form name", "User email")
+            failed_text = failed_text.format("Batch name")
+        context.update({
+            "subject": "Batch Rejected",
+            "body": body,
+            "image": f"{webdomain}/email-icons/close-circle.png",
+            "failed_text": failed_text,
+            "explore_button": True
+        })
+    if type == EmailTypes.inform_batch_rejection_approver:
         batch = context.get("batch")
         user = context.get("user")
         body = "{0} of {1} data has been rejected by {2}"
