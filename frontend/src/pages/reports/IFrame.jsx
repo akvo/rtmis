@@ -27,6 +27,10 @@ const IFrame = ({ children }) => {
   } else {
     style.appendChild(document.createTextNode(css));
   }
+  var link = document.createElement("link");
+  link.type = "text/css";
+  link.rel = "stylesheet";
+  link.href = "/css/print.css";
 
   const browser = useMemo(() => {
     const userAgent = navigator.userAgent;
@@ -56,8 +60,9 @@ const IFrame = ({ children }) => {
     // apply page css into print content
     if ((head && !handleBrowsers.includes(browser)) || isBraveBrowser) {
       head.appendChild(style);
+      head.appendChild(link);
     }
-  }, [head, browser, isBraveBrowser, handleBrowsers, style]);
+  }, [head, browser, isBraveBrowser, handleBrowsers, style, link]);
 
   const handleLoad = (event) => {
     const iframe = event.target;
@@ -65,6 +70,7 @@ const IFrame = ({ children }) => {
       const head = iframe.contentDocument.head;
       if (head) {
         head.appendChild(style);
+        head.appendChild(link);
       }
       setIframeBody(iframe.contentDocument.body);
     }
@@ -73,10 +79,10 @@ const IFrame = ({ children }) => {
   if (handleBrowsers.includes(browser) && !isBraveBrowser) {
     return (
       <iframe
-        id="arf-print-iframe"
+        id="print-iframe"
         title={Math.random()}
-        width="100%"
         height="900px"
+        width="100%"
         frameBorder={0}
         onLoad={handleLoad}
       >
@@ -87,11 +93,11 @@ const IFrame = ({ children }) => {
 
   return (
     <iframe
-      id="arf-print-iframe"
+      id="print-iframe"
       ref={setRef}
       title={Math.random()}
-      width="100%"
       height="900px"
+      width="100%"
       frameBorder={0}
     >
       {body && ReactDOM.createPortal(children, body)}
