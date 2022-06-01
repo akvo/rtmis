@@ -1,8 +1,7 @@
 @import "../../variables";
 
 #root {
-  #reports,
-  #print-frame {
+  #reports {
     min-height: 600px;
 
     h2 {
@@ -17,28 +16,6 @@
         margin-top: 12px;
       }
     }
-  }
-
-  #arf-print-iframe {
-    min-height: 600px;
-
-    h2 {
-      margin: 28px 0 16px;
-    }
-
-    .ant-card {
-      text-align: left;
-      padding: 6px;
-
-      .ant-btn {
-        margin-top: 12px;
-      }
-    }
-  }
-
-  #print-frame {
-    width: 100%;
-    height: auto;
   }
 
   #report {
@@ -64,45 +41,6 @@
 
       .mx {
         margin-right: 12px;
-      }
-    }
-
-    @media print {
-      .toolbar {
-        visibility: hidden;
-      }
-    }
-  }
-
-  #arf-print-iframe {
-    min-height: 600px;
-
-    .report-header {
-      h3 {
-        font-size: 13px;
-        margin-bottom: 32px;
-      }
-    }
-
-    .ant-checkbox-wrapper {
-      display: none;
-    }
-
-    .report-footer {
-      margin-top: 32px;
-    }
-
-    .toolbar {
-      margin-bottom: 24px;
-
-      .mx {
-        margin-right: 12px;
-      }
-    }
-
-    @media print {
-      .toolbar {
-        visibility: hidden;
       }
     }
   }

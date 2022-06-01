@@ -79,10 +79,10 @@ const IFrame = ({ children }) => {
   if (handleBrowsers.includes(browser) && !isBraveBrowser) {
     return (
       <iframe
-        id="arf-print-iframe"
+        id="print-iframe"
         title={Math.random()}
-        width="100%"
         height="900px"
+        width="100%"
         frameBorder={0}
         onLoad={handleLoad}
       >
@@ -93,11 +93,11 @@ const IFrame = ({ children }) => {
 
   return (
     <iframe
-      id="arf-print-iframe"
+      id="print-iframe"
       ref={setRef}
       title={Math.random()}
-      width="100%"
       height="900px"
+      width="100%"
       frameBorder={0}
     >
       {body && ReactDOM.createPortal(children, body)}

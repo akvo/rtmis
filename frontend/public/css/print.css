@@ -1,26 +1,125 @@
-h2 {
+html,
+body {
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+  background-color: #253239;
+}
+body {
+  margin: 0px;
+  color: rgba(0, 0, 0, 0.85);
+}
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+#report {
+  margin: 40px auto;
+  max-width: 1000px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 5px 5px #000;
+}
+
+h2,
+h3,
+h4 {
   margin-top: 0;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 600;
+}
+h4 {
   margin-bottom: 0.5em;
-  color: rgba(0, 0, 0, .85);
   font-weight: 500;
 }
 
-h3 {
+.report-header h2 {
+  font-size: 32px;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  border-bottom: 2px solid #262626;
+  padding-bottom: 20px;
+}
+.report-header h3 {
   font-size: 13px;
   margin-bottom: 32px;
   margin-top: 0;
-  color: rgba(0, 0, 0, .85);
-  font-weight: 500;
 }
 
-h4 {
-  margin-top: 0;
-  margin-bottom: 0.5em;
-  color: rgba(0, 0, 0, .85);
-  font-weight: 500;
+.ant-card-body {
+  padding: 15px;
+  max-width: 100%;
+  margin-bottom: 15px;
+  background: #f8f8f8;
+  border: 1px solid #edecec;
 }
-
+.ant-card-body h3 {
+  font-size: 1.17em;
+  font-weight: 600;
+  margin: 20px 4px;
+}
 .charts-wrap {
   max-width: 100%;
-  width: 100%;
+}
+
+.charts-wrap .chart-inner {
+  padding: 0;
+  margin-top: 8px;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ant-checkbox-wrapper {
+  display: none;
+}
+
+.report-footer {
+  margin-top: 32px;
+}
+
+.toolbar {
+  margin-bottom: 24px;
+
+  .mx {
+    margin-right: 12px;
+  }
+}
+@media print {
+  html,
+  body {
+    background-color: #fff;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .ant-card-body {
+    page-break-inside: avoid;
+  }
+  .toolbar {
+    visibility: hidden;
+  }
+  #report {
+    max-width: 100%;
+    margin: 0px;
+    padding: 0px;
+    box-shadow: none;
+  }
 }
