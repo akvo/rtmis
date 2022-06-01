@@ -1,0 +1,26 @@
+h2 {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  color: rgba(0, 0, 0, .85);
+  font-weight: 500;
+}
+
+h3 {
+  font-size: 13px;
+  margin-bottom: 32px;
+  margin-top: 0;
+  color: rgba(0, 0, 0, .85);
+  font-weight: 500;
+}
+
+h4 {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  color: rgba(0, 0, 0, .85);
+  font-weight: 500;
+}
+
+.charts-wrap {
+  max-width: 100%;
+  width: 100%;
+}
