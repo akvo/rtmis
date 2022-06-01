@@ -19,9 +19,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
     PendingDataBatch, ViewPendingDataApproval, PendingAnswers, \
-    AnswerHistory, ViewDataOptions, PendingAnswerHistory
+    AnswerHistory, ViewDataOptions, PendingAnswerHistory, PendingDataApproval
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
@@ -1150,5 +1151,15 @@ class PendingFormDataView(APIView):
         pending_data.updated = timezone.now()
         pending_data.updated_by = user
         pending_data.save()
+
+        # if pending_data updated already has batch,
+        # update reject status into pending
+        if pending_data.batch:
+            approvals = PendingDataApproval.objects.filter(
+                batch=pending_data.batch).all()
+            # change approval status to pending
+            for approval in approvals:
+                approval.status = DataApprovalStatus.pending
+                approval.save()
         return Response({'message': 'update success'},
                         status=status.HTTP_200_OK)
