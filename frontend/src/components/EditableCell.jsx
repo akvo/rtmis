@@ -14,6 +14,7 @@ const EditableCell = ({
   resetCell,
   pendingData,
   disabled = false,
+  readonly = false,
 }) => {
   const [editing, setEditing] = useState(false);
   const [locationName, setLocationName] = useState(null);
@@ -31,7 +32,8 @@ const EditableCell = ({
     }
   }, [record]);
 
-  const notEditable = record.type === "cascade" || record.type === "geo";
+  const notEditable =
+    record.type === "cascade" || record.type === "geo" || readonly;
   const edited =
     record && record.newValue && !isEqual(record.value, record.newValue);
 
@@ -194,5 +196,6 @@ EditableCell.propTypes = {
   resetCell: PropTypes.func.isRequired,
   pendingData: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.bool,
+  readonly: PropTypes.bool,
 };
 export default React.memo(EditableCell);
