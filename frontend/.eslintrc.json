@@ -39,6 +39,7 @@
     "no-undefined": "warn",
     "no-unreachable": "warn",
     "no-extra-semi": "warn",
+    "no-duplicate-case": "warn",
     "no-useless-escape": "warn",
     "no-multi-spaces": [
       "warn",
