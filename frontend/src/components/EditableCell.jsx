@@ -13,6 +13,7 @@ const EditableCell = ({
   updateCell,
   resetCell,
   pendingData,
+  disabled = false,
 }) => {
   const [editing, setEditing] = useState(false);
   const [locationName, setLocationName] = useState(null);
@@ -71,6 +72,7 @@ const EditableCell = ({
         onChange={(e) => {
           setValue([e]);
         }}
+        disabled={disabled}
       >
         {record.option.map((o) => (
           <Option key={o.id} value={o.name} title={o.name}>
@@ -86,6 +88,7 @@ const EditableCell = ({
         onChange={(e) => {
           setValue(e);
         }}
+        disabled={disabled}
       >
         {record.option.map((o) => (
           <Option key={o.id} value={o.name} title={o.name}>
@@ -104,6 +107,7 @@ const EditableCell = ({
             setValue(ds);
           }
         }}
+        disabled={disabled}
       />
     ) : (
       <Input
@@ -117,6 +121,7 @@ const EditableCell = ({
           updateCell(record.id, parentId, value);
           setEditing(false);
         }}
+        disabled={disabled}
       />
     );
   };
@@ -188,5 +193,6 @@ EditableCell.propTypes = {
   updateCell: PropTypes.func.isRequired,
   resetCell: PropTypes.func.isRequired,
   pendingData: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  disabled: PropTypes.bool,
 };
 export default React.memo(EditableCell);
