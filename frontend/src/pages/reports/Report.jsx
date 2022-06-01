@@ -22,16 +22,14 @@ const Reports = () => {
       const print = document.getElementById("arf-print-iframe");
       if (print) {
         const title = "RTMIS";
-        // change iframe title
         print.contentDocument.title = title;
-        // change document title
         document.title = title;
         print.focus();
         print.contentWindow.print();
       }
       setIsPrint(false);
       document.title = originalDocTitle;
-    }, 2500);
+    }, 2000);
   };
 
   if (!template) {
@@ -87,7 +85,7 @@ const Reports = () => {
       )}
       {isPrint && (
         <IFrame className="print-frame">
-          <div id="arf-print-iframe">
+          <div id="report" style={{ fontFamily: "Poppins,sans-serif" }}>
             <div className="report-header" style={{ fontSize: 15 }}>
               <Row justify="space-between" align="middle">
                 <h2>{template?.title}</h2>
