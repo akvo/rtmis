@@ -87,7 +87,7 @@ const columnsBatch = [
     align: "center",
     render: (approvers) => {
       if (approvers?.length) {
-        const status_text = approvers[0].status_text;
+        const status_text = approvers[approvers.length - 1].status_text;
         return (
           <span>
             <Tag

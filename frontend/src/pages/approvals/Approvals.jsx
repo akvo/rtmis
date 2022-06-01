@@ -109,6 +109,9 @@ const Approvals = () => {
                   setReload={setReload}
                   expandedParentKeys={expandedKeys}
                   setExpandedParentKeys={setExpandedKeys}
+                  readonly={
+                    record.approver?.status_text === "Rejected" || false
+                  }
                 />
               );
             },
