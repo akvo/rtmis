@@ -1,7 +1,7 @@
 @import "../../variables";
 
 #root {
-  #approvals {
+  #uploads {
     .ant-card-body {
       .ant-tabs {
       }
@@ -102,7 +102,7 @@
           }
 
           .ant-tabs {
-            margin-bottom: 20px;
+            margin: 20px 0 10px;
 
             .ant-tabs-nav {
               margin-bottom: 8px;

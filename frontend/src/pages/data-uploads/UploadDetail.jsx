@@ -1,30 +1,17 @@
 import React, { useState, useEffect } from "react";
-import {
-  Row,
-  Col,
-  Table,
-  Tabs,
-  Input,
-  Checkbox,
-  Button,
-  Space,
-  Tag,
-  List,
-  Avatar,
-  Spin,
-} from "antd";
+import { Table, Tabs, Button, Space, Tag, List, Avatar, Spin } from "antd";
 import {
   PlusSquareOutlined,
   CloseSquareOutlined,
   LoadingOutlined,
   HistoryOutlined,
 } from "@ant-design/icons";
-import { api } from "../../lib";
+import { api, store } from "../../lib";
 import { EditableCell } from "../../components";
-import { isEqual, flatten } from "lodash";
+import { isEqual, flatten, last } from "lodash";
 import { useNotification } from "../../util/hooks";
 import { HistoryTable } from "../../components";
-const { TextArea } = Input;
+import { columnsApprover } from "./";
 const { TabPane } = Tabs;
 
 const columnsRawData = [
@@ -90,13 +77,7 @@ const summaryColumns = [
   },
 ];
 
-const ApprovalDetail = ({
-  record,
-  approve,
-  setReload,
-  expandedParentKeys,
-  setExpandedParentKeys,
-}) => {
+const UploadDetail = ({ record }) => {
   const [values, setValues] = useState([]);
   const [rawValues, setRawValues] = useState([]);
   const [columns, setColumns] = useState(summaryColumns);
@@ -106,16 +87,16 @@ const ApprovalDetail = ({
   const [selectedTab, setSelectedTab] = useState("data-summary");
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
   const [comments, setComments] = useState([]);
-  const [comment, setComment] = useState("");
   const [questionGroups, setQuestionGroups] = useState([]);
   const { notify } = useNotification();
+  const { user } = store.useState((state) => state);
 
   const handleSave = (data) => {
     setSaving(data.id);
     const formData = [];
     data.data.map((rd) => {
       rd.question.map((rq) => {
-        if (rq.newValue && rq.newValue !== rq.value) {
+        if (rq.newValue && !isEqual(rq.value, rq.newValue)) {
           formData.push({ question: rq.id, value: rq.newValue });
         }
       });
@@ -138,24 +119,6 @@ const ApprovalDetail = ({
       .finally(() => {
         setSaving(null);
       });
-  };
-  const handleApprove = (id, status) => {
-    let payload = {
-      batch: id,
-      status: status,
-    };
-    if (comment.length) {
-      payload = { ...payload, comment: comment };
-    }
-    api
-      .post("pending-data/approve", payload)
-      .then(() => {
-        setExpandedParentKeys(
-          expandedParentKeys.filter((e) => e !== record.id)
-        );
-        setReload(id);
-      })
-      .catch((e) => console.error(e));
   };
 
   useEffect(() => {
@@ -333,16 +296,33 @@ const ApprovalDetail = ({
       });
   };
 
+  const ApproverDetail = () => (
+    <Table
+      columns={columnsApprover}
+      dataSource={record.approvers?.map((r, ri) => ({
+        key: ri,
+        ...r,
+      }))}
+      pagination={false}
+    />
+  );
+
   const isEdited = (id) => {
     return (
       !!flatten(
         rawValues.find((d) => d.id === id)?.data?.map((g) => g.question)
-      )?.filter((d) => d.newValue && d.newValue !== d.value)?.length || false
+      )?.filter((d) => d.newValue && !isEqual(d.value, d.newValue))?.length ||
+      false
     );
   };
 
+  const isEditable =
+    last(record.approvers || [])?.status_text === "Rejected" &&
+    user?.role?.id === 4;
+
   return (
     <div>
+      <ApproverDetail />
       <Tabs centered activeKey={selectedTab} onTabClick={handleTabSelect}>
         <TabPane tab="Data Summary" key="data-summary" />
         <TabPane tab="Raw Data" key="raw-data" />
@@ -353,17 +333,21 @@ const ApprovalDetail = ({
         columns={columns}
         scroll={{ y: 500 }}
         pagination={false}
-        rowClassName={(record) => (record.edited ? "row-edited" : "row-normal")}
+        rowClassName={(record) =>
+          record.newValue && !isEqual(record.value, record.newValue)
+            ? "row-edited"
+            : "row-normal"
+        }
         style={{ borderBottom: "solid 1px #ddd" }}
         rowKey="id"
         expandable={
           selectedTab === "raw-data"
             ? {
                 expandedRowKeys,
-                expandedRowRender: (record) => {
+                expandedRowRender: (expanded) => {
                   return (
                     <div>
-                      {record.loading ? (
+                      {expanded.loading ? (
                         <Space
                           style={{ paddingTop: 18, color: "#9e9e9e" }}
                           size="middle"
@@ -380,15 +364,15 @@ const ApprovalDetail = ({
                         </Space>
                       ) : (
                         <>
-                          {record.data?.map((r, rI) => (
+                          {expanded.data?.map((r, rI) => (
                             <div className="pending-data-wrapper" key={rI}>
                               <h3>{r.name}</h3>
                               <Table
                                 pagination={false}
                                 dataSource={r.question}
-                                rowClassName={(record) =>
-                                  record.newValue &&
-                                  !isEqual(record.newValue, record.value)
+                                rowClassName={(row) =>
+                                  row.newValue &&
+                                  !isEqual(row.newValue, row.value)
                                     ? "row-edited"
                                     : "row-normal"
                                 }
@@ -403,10 +387,11 @@ const ApprovalDetail = ({
                                     render: (row) => (
                                       <EditableCell
                                         record={row}
-                                        parentId={record.id}
+                                        parentId={expanded.id}
                                         updateCell={updateCell}
                                         resetCell={resetCell}
                                         disabled={!!dataLoading}
+                                        readonly={!isEditable}
                                       />
                                     ),
                                   },
@@ -432,19 +417,19 @@ const ApprovalDetail = ({
                               />
                             </div>
                           ))}
-                          <Button
-                            onClick={() => handleSave(record)}
-                            type="primary"
-                            loading={record.id === saving}
-                            disabled={
-                              !approve ||
-                              selectedTab !== "raw-data" ||
-                              record.id === dataLoading ||
-                              isEdited(record.id) === false
-                            }
-                          >
-                            Save Edits
-                          </Button>
+                          {isEditable && (
+                            <Button
+                              onClick={() => handleSave(record)}
+                              type="primary"
+                              loading={record.id === saving}
+                              disabled={
+                                record.id === dataLoading ||
+                                isEdited(expanded.id) === false
+                              }
+                            >
+                              Save Edits
+                            </Button>
+                          )}
                         </>
                       )}
                     </div>
@@ -501,46 +486,8 @@ const ApprovalDetail = ({
           />
         </div>
       )}
-      <TextArea
-        rows={4}
-        onChange={(e) => setComment(e.target.value)}
-        disabled={!approve}
-      />
-      <Row justify="space-between">
-        <Col>
-          <Row>
-            <Checkbox className="dev" id="informUser" onChange={() => {}}>
-              Inform User of Changes
-            </Checkbox>
-          </Row>
-        </Col>
-        <Col>
-          <Space>
-            {/* <Button
-              onClick={() => handleSave()}
-              disabled={!approve || selectedTab !== "raw-data" || !isEdited}
-            >
-              Save Edits
-            </Button> */}
-            <Button
-              type="danger"
-              onClick={() => handleApprove(record.id, 3)}
-              disabled={!approve}
-            >
-              Decline
-            </Button>
-            <Button
-              type="primary"
-              onClick={() => handleApprove(record.id, 2)}
-              disabled={!approve}
-            >
-              Approve
-            </Button>
-          </Space>
-        </Col>
-      </Row>
     </div>
   );
 };
 
-export default React.memo(ApprovalDetail);
+export default React.memo(UploadDetail);
