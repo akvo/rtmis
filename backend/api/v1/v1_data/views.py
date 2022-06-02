@@ -42,7 +42,7 @@ from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
 from rtmis.settings import REST_FRAMEWORK
-from utils.custom_permissions import IsAdmin, IsApprover
+from utils.custom_permissions import IsAdmin, IsApprover, IsSubmitter
 from utils.custom_serializer_fields import validate_serializers_message
 from utils.export_form import generate_excel
 
@@ -822,7 +822,7 @@ def list_pending_batch(request, version):
                tags=['Pending Data'],
                summary='To get list of pending data by batch')
 @api_view(['GET'])
-@permission_classes([IsAuthenticated, IsAdmin | IsApprover])
+@permission_classes([IsAuthenticated, IsAdmin | IsApprover | IsSubmitter])
 def list_pending_data_batch(request, version, batch_id):
     batch = get_object_or_404(PendingDataBatch, pk=batch_id)
     return Response(ListPendingFormDataSerializer(

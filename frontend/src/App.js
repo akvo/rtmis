@@ -23,6 +23,7 @@ import {
   Privacy,
   Reports,
   Report,
+  DataUploads,
 } from "./pages";
 import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
@@ -96,6 +97,10 @@ const RouteList = () => {
       <Route
         path="/approvals"
         element={<Private element={Approvals} alias="approvals" />}
+      />
+      <Route
+        path="/data/uploads"
+        element={<Private element={DataUploads} alias="data" />}
       />
       <Route
         path="/approvers/tree"

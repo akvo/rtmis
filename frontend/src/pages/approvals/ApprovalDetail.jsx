@@ -116,7 +116,7 @@ const ApprovalDetail = ({
     const formData = [];
     data.data.map((rd) => {
       rd.question.map((rq) => {
-        if (rq.newValue && rq.newValue !== rq.value) {
+        if (rq.newValue && !isEqual(rq.value, rq.newValue)) {
           formData.push({ question: rq.id, value: rq.newValue });
         }
       });
@@ -338,7 +338,8 @@ const ApprovalDetail = ({
     return (
       !!flatten(
         rawValues.find((d) => d.id === id)?.data?.map((g) => g.question)
-      )?.filter((d) => d.newValue && d.newValue !== d.value)?.length || false
+      )?.filter((d) => d.newValue && !isEqual(d.value, d.newValue))?.length ||
+      false
     );
   };
 
@@ -518,12 +519,6 @@ const ApprovalDetail = ({
         </Col>
         <Col>
           <Space>
-            {/* <Button
-              onClick={() => handleSave()}
-              disabled={!approve || selectedTab !== "raw-data" || !isEdited}
-            >
-              Save Edits
-            </Button> */}
             <Button
               type="danger"
               onClick={() => handleApprove(record.id, 3)}
