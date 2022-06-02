@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import { columnsApproval } from "./";
-import ApprovalDetails from "./ApprovalsDetail";
+import ApprovalDetails from "./ApprovalDetail";
 
 const columns = [...columnsApproval, Table.EXPAND_COLUMN];
 
