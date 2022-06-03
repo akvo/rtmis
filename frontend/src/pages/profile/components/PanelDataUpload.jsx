@@ -24,6 +24,7 @@ import {
 } from "@ant-design/icons";
 import { DataFilters } from "../../../components";
 import { api, store } from "../../../lib";
+import { Link } from "react-router-dom";
 
 const { TabPane } = Tabs;
 const { TextArea } = Input;
@@ -393,12 +394,7 @@ const PanelDataUpload = () => {
 
   return (
     <>
-      <Card
-        style={{
-          padding: 0,
-          minHeight: "40vh",
-        }}
-      >
+      <Card id="panel-uploads">
         <h1 className="data-uploads">Data Uploads</h1>
         <DataFilters />
         <Tabs
@@ -417,6 +413,11 @@ const PanelDataUpload = () => {
             <DataTable pane="approved-batch" />
           </TabPane>
         </Tabs>
+        <Link to="/data/uploads">
+          <Button className="view-all" type="primary">
+            View All
+          </Button>
+        </Link>
       </Card>
       <Modal
         visible={modalVisible}
