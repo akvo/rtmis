@@ -4,6 +4,7 @@ import { api, store, config } from "../../../lib";
 import { Link } from "react-router-dom";
 import { columnsApproval } from "../../approvals";
 import "./style.scss";
+import { DescriptionPanel } from "../../../components";
 
 const { TabPane } = Tabs;
 
@@ -41,6 +42,18 @@ const PanelApprovals = () => {
           <img src="/assets/approval.png" width={100} height={100} />
         </div>
       </div>
+      <DescriptionPanel
+        description={
+          <div>
+            This is where you :
+            <ul>
+              <li>View pending data approvals awaiting your approval </li>
+              <li>View pending approvals by your subordinate approvers</li>
+              <li>Assign subordinate approvers</li>
+            </ul>
+          </div>
+        }
+      />
       <Tabs defaultActiveKey={approvalTab} onChange={setApprovalTab}>
         <TabPane tab="My Pending Approvals" key="my-pending"></TabPane>
         <TabPane tab="Subordinates Approvals" key="subordinate"></TabPane>

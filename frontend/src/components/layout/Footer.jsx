@@ -17,17 +17,16 @@ const Footer = ({ className = "footer", ...props }) => {
         <Col span={6}>
           <h3>About Data</h3>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a
-            gravida arcu. Donec et tristique augue. Nullam neque magna,
-            imperdiet in fermentum sit amet, sollicitudin quis sapien. Morbi
-            ullamcorper tincidunt ligula, et malesuada purus.
+            The data contained in the RUSH platform is aggregated from both
+            primary and secondary data sources. The data is updated on monthly
+            basis.
           </p>
         </Col>
         <Col span={6}>
           <h3>Contact</h3>
           <ul>
-            <li>Phone : +254 123436789</li>
-            <li>Email : info@nashrtmis.co.ke</li>
+            <li>Phone : xxxxxxxxxx</li>
+            <li>Email : xxx@gmail.com</li>
           </ul>
         </Col>
         <Col span={4}>
