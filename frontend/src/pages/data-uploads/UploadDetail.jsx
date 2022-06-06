@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import { EditableCell } from "../../components";
-import { isEqual, flatten, last } from "lodash";
+import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
 import { HistoryTable } from "../../components";
 import { columnsApprover } from "./";
@@ -77,7 +77,7 @@ const summaryColumns = [
   },
 ];
 
-const UploadDetail = ({ record }) => {
+const UploadDetail = ({ record, setReload }) => {
   const [values, setValues] = useState([]);
   const [rawValues, setRawValues] = useState([]);
   const [columns, setColumns] = useState(summaryColumns);
@@ -108,6 +108,7 @@ const UploadDetail = ({ record }) => {
       )
       .then(() => {
         fetchData(data.id, questionGroups);
+        setReload(data.id);
         notify({
           type: "success",
           message: "Data updated",
@@ -317,8 +318,8 @@ const UploadDetail = ({ record }) => {
   };
 
   const isEditable =
-    last(record.approvers || [])?.status_text === "Rejected" &&
-    user?.role?.id === 4;
+    (record.approvers || []).filter((a) => a.status_text === "Rejected")
+      .length > 0 && user?.role?.id === 4;
 
   return (
     <div>
@@ -419,11 +420,11 @@ const UploadDetail = ({ record }) => {
                           ))}
                           {isEditable && (
                             <Button
-                              onClick={() => handleSave(record)}
+                              onClick={() => handleSave(expanded)}
                               type="primary"
-                              loading={record.id === saving}
+                              loading={expanded.id === saving}
                               disabled={
-                                record.id === dataLoading ||
+                                expanded.id === dataLoading ||
                                 isEdited(expanded.id) === false
                               }
                             >
