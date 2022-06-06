@@ -16,7 +16,7 @@ const ControlCenter = () => {
       access: "data",
       description: (
         <div>
-          This section helps you to:
+          This is where you :
           <ul>
             <li>Add new data using webforms</li>
             <li>Bulk upload data using spreadsheets</li>
@@ -31,7 +31,14 @@ const ControlCenter = () => {
       title: "Exports",
       buttonLabel: "Data Exports",
       access: "data",
-      description: "This section helps you to access exported data",
+      description: (
+        <div>
+          This is where you :
+          <ul>
+            <li>Access exported data</li>
+          </ul>
+        </div>
+      ),
       link: "/data/export",
       image: "/assets/import.png",
     },
@@ -41,7 +48,7 @@ const ControlCenter = () => {
       access: authUser?.role.id === 4 ? "" : "form",
       description: (
         <div>
-          This section helps you to:
+          This is where you :
           <ul>
             <li>Download upload template</li>
             <li>Bulk upload new data</li>
@@ -58,7 +65,8 @@ const ControlCenter = () => {
       access: "user",
       description: (
         <div>
-          This section helps you to:
+          This where you manage users based on their roles , regions and
+          questionnaire access . You can :
           <ul>
             <li>Add new user</li>
             <li>Modify existing user</li>
