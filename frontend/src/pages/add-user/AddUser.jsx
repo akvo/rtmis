@@ -15,7 +15,7 @@ import { AdministrationDropdownUserPage } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { api, store, config } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
-import { takeRight } from "lodash";
+import { takeRight, dropRight } from "lodash";
 import { useNotification } from "../../util/hooks";
 
 const { Option } = Select;
@@ -56,7 +56,6 @@ const AddUser = () => {
       title: id ? "Edit User" : "Add User",
     },
   ];
-
   const onFinish = (values) => {
     setSubmitting(true);
     const admin = takeRight(administration, 1)?.[0];
@@ -101,7 +100,7 @@ const AddUser = () => {
       (a) => a.id === role
     )?.administration_level;
     form.setFieldsValue({
-      administration: allowed_level?.includes(administration.length + 1)
+      administration: allowed_level?.includes(administration.length)
         ? admin?.id
         : null,
     });
@@ -194,6 +193,14 @@ const AddUser = () => {
   const roleDescription = (e) => {
     const role = config.roles.filter((data) => data.id === e);
     setDescription(role[0].description);
+    if (e === 2) {
+      if (administration.length >= 3) {
+        store.update((s) => {
+          s.administrationLevel = null;
+          s.administration = dropRight(administration, 1);
+        });
+      }
+    }
   };
   return (
     <div id="add-user">
