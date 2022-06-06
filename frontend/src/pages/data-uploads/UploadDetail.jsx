@@ -317,8 +317,8 @@ const UploadDetail = ({ record }) => {
   };
 
   const isEditable =
-    last(record.approvers || [])?.status_text === "Rejected" &&
-    user?.role?.id === 4;
+    (record.approvers || []).filter((a) => a.status_text === "Rejected")
+      .length > 0 && user?.role?.id === 4;
 
   return (
     <div>
