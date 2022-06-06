@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button, Checkbox, notification } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { api, store, config } from "../../../lib";
@@ -20,6 +20,13 @@ const LoginForm = () => {
       })
       .then((res) => {
         api.setToken(res.data.token);
+        if (res.data.forms.length === 0) {
+          notification.open({
+            message: "Please contact the administrator",
+            description:
+              "You don't have any form assignment, please contact the administrator",
+          });
+        }
         const role_details = config.roles.find(
           (r) => r.id === res.data.role.id
         );
