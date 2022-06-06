@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import { EditableCell } from "../../components";
-import { isEqual, flatten, last } from "lodash";
+import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
 import { HistoryTable } from "../../components";
 import { columnsApprover } from "./";
