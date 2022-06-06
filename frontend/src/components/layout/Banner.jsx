@@ -45,13 +45,13 @@ const HomeBanner = () => {
   return (
     <>
       <h1>
-        Welcome to the National
+        Welcome to the Rural Urban
         <br />
-        Sanitation and Hygiene
+        Sanitation and Hygiene (RUSH)
         <br />
-        Real-Time Monitoring System
+        monitoring platform
         <br />
-        <small>Updated estimates for WASH in households accross Kenya</small>
+        <small>Updated sanitation and hygiene estimates across Kenya</small>
       </h1>
       <div className="launching">
         <h4>Launching in:</h4>
