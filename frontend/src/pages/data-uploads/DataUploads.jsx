@@ -184,15 +184,7 @@ const DataUploads = () => {
           expandedRowKeys={expandedKeys}
           expandable={{
             expandedRowRender: (record) => {
-              return (
-                <UploadDetail
-                  record={record}
-                  approve={dataTab === "pending-submission"}
-                  setReload={setReload}
-                  expandedParentKeys={expandedKeys}
-                  setExpandedParentKeys={setExpandedKeys}
-                />
-              );
+              return <UploadDetail record={record} setReload={setReload} />;
             },
             expandIcon: ({ expanded, onExpand, record }) => {
               return dataTab === "pending-submission" ? (
