@@ -187,10 +187,7 @@ const DataUploads = () => {
               return (
                 <UploadDetail
                   record={record}
-                  approve={dataTab === "pending-submission"}
                   setReload={setReload}
-                  expandedParentKeys={expandedKeys}
-                  setExpandedParentKeys={setExpandedKeys}
                 />
               );
             },
