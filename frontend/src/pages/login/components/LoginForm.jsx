@@ -20,18 +20,22 @@ const LoginForm = () => {
       })
       .then((res) => {
         api.setToken(res.data.token);
-        if (res.data.forms.length === 0) {
+        const role_details = config.roles.find(
+          (r) => r.id === res.data.role.id
+        );
+        if (
+          res.data.forms.length === 0 &&
+          role_details.name !== "Super Admin"
+        ) {
           notification.open({
             message: "Please contact the administrator",
             description:
               "You don't have any form assignment, please contact the administrator",
           });
         }
-        const role_details = config.roles.find(
-          (r) => r.id === res.data.role.id
-        );
         store.update((s) => {
           s.isLoggedIn = true;
+          s.selectedForm = null;
           s.user = { ...res.data, role_detail: role_details };
         });
         reloadData(res.data);

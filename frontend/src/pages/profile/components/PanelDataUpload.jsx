@@ -250,12 +250,12 @@ const PanelDataUpload = () => {
       url = `batch/?page=${currentPage}&approved=true`;
       setModalButton(false);
     }
-    setLoading(true);
     if (
       selectedTab === "pending-batch" ||
       selectedTab === "approved-batch" ||
       selectedForm
     ) {
+      setLoading(true);
       api
         .get(url)
         .then((res) => {
