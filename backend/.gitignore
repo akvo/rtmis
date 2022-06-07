@@ -1,5 +1,8 @@
 /.pip
 /.mypy_cache
 __pycache__
+/tmp
 .coverage
+.coverage.*
 db.dbml
+**.min.js

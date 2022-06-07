@@ -15,7 +15,7 @@ class QuestionTypes:
         text: 'Text',
         number: 'Number',
         option: 'Option',
-        multiple_option: 'Multiple Option',
+        multiple_option: 'Multiple_Option',
         cascade: 'Cascade',
         photo: 'Photo',
         date: 'Date',

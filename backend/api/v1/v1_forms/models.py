@@ -49,7 +49,7 @@ class FormApprovalAssignment(models.Model):
     administration = models.ForeignKey(
         to=Administration,
         on_delete=models.CASCADE,
-        related_name='administration_data_approval')  # noqa
+        related_name='administration_data_approval')
     user = models.ForeignKey(to=SystemUser,
                              on_delete=models.CASCADE,
                              related_name='user_data_approval')
@@ -94,6 +94,25 @@ class Questions(models.Model):
     def __str__(self):
         return self.text
 
+    def to_definition(self):
+        options = [options.name
+                   for options in
+                   self.question_question_options.all()] \
+            if self.question_question_options.count() else False
+        return {
+            "id": self.id,
+            "name": self.name,
+            "type": QuestionTypes.FieldStr.get(self.type),
+            "required": self.required,
+            "rule": self.rule,
+            "dependency": self.dependency,
+            "options": options,
+        }
+
+    @property
+    def to_excel_header(self):
+        return f"{self.id}|{self.name}"
+
     class Meta:
         db_table = 'question'
 
@@ -112,3 +131,18 @@ class QuestionOptions(models.Model):
 
     class Meta:
         db_table = 'option'
+
+
+class UserForms(models.Model):
+    user = models.ForeignKey(to=SystemUser,
+                             on_delete=models.CASCADE,
+                             related_name='user_form')
+    form = models.ForeignKey(to=Forms,
+                             on_delete=models.CASCADE,
+                             related_name='form_user')
+
+    def __str__(self):
+        return self.user.email
+
+    class Meta:
+        db_table = 'user_form'

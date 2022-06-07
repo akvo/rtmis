@@ -1,0 +1,23 @@
+@import "../../variables";
+
+#root {
+  .ant-breadcrumb {
+    .ant-breadcrumb-separator {
+      margin: 0 16px;
+
+      h2 {
+        font-weight: 300;
+        color: $color-arrows;
+      }
+    }
+
+    h2 {
+      font-size: 28px;
+    }
+
+    span:last-child span h2,
+    span:last-child span h3 {
+      color: $blue;
+    }
+  }
+}

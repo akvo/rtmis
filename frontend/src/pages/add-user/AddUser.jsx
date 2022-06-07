@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import "./style.scss";
 import {
   Row,
@@ -6,151 +6,208 @@ import {
   Card,
   Form,
   Button,
-  Breadcrumb,
   Divider,
   Input,
   Select,
   Checkbox,
-  Typography,
-  message,
 } from "antd";
-import { useCookies } from "react-cookie";
-import { Link, useNavigate } from "react-router-dom";
-import { api } from "../../lib";
+import { AdministrationDropdownUserPage } from "../../components";
+import { useNavigate, useParams } from "react-router-dom";
+import { api, store, config } from "../../lib";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
+import { takeRight, dropRight } from "lodash";
+import { useNotification } from "../../util/hooks";
 
 const { Option } = Select;
-const { Title } = Typography;
+
+const descriptionData =
+  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
 
 const AddUser = () => {
-  const [cookies] = useCookies(["AUTH_TOKEN"]);
-  // const [organizations, setOrganizations] = useState([]);
-  const [counties, setCounties] = useState([]);
-  const [subCounties, setSubCounties] = useState([]);
-  const [wards, setWards] = useState([]);
-  const [communities, setCommunities] = useState([]);
-
-  const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-
+  const [showAdministration, setShowAdministration] = useState(false);
+  const [showForms, setShowForms] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [allowedForms, setAllowedForms] = useState([]);
+  const [description, setDescription] = useState("");
   const [form] = Form.useForm();
+  const {
+    user: authUser,
+    administration,
+    levels,
+    loadingAdministration,
+    forms,
+    loadingForm,
+  } = store.useState((s) => s);
   const navigate = useNavigate();
+  const { notify } = useNotification();
+  const { id } = useParams();
 
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: "/control-center",
+    },
+    {
+      title: "Manage Users",
+      link: "/users",
+    },
+    {
+      title: id ? "Edit User" : "Add User",
+    },
+  ];
   const onFinish = (values) => {
     setSubmitting(true);
-    api
-      .post("add/user/", {
-        first_name: values.first_name,
-        last_name: values.last_name,
-        email: values.email,
-        administration: values.community
-          ? values.community
-          : values.ward
-          ? values.ward
-          : values.subcounty
-          ? values.subcounty
-          : values.county,
-        role: values.role,
-      })
+    const admin = takeRight(administration, 1)?.[0];
+    api[id ? "put" : "post"](id ? `user/${id}` : "user", {
+      first_name: values.first_name,
+      last_name: values.last_name,
+      email: values.email,
+      administration: admin.id,
+      phone_number: values.phone_number,
+      designation: values.designation,
+      role: values.role,
+      forms: values.forms,
+      inform_user: values.inform_user,
+    })
       .then(() => {
-        message.success("User added");
+        notify({
+          type: "success",
+          message: `User ${id ? "updated" : "added"}`,
+        });
         setSubmitting(false);
         navigate("/users");
       })
       .catch((err) => {
-        message.error(err.response?.data?.message || "User could not be added");
+        notify({
+          type: "error",
+          message:
+            err?.response?.data?.message ||
+            `User could not be ${id ? "updated" : "added"}`,
+        });
         setSubmitting(false);
       });
   };
 
-  const getAdministration = (id) => {
-    setLoading(true);
-    api
-      .get(`administration/${id}`, {
-        headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-      })
-      .then((res) => {
-        switch (res.data.level) {
-          case 0:
-            setCounties(res.data.children);
-            setLoading(false);
-            break;
-          case 1:
-            setSubCounties(res.data.children);
-            setLoading(false);
-            break;
-          case 2:
-            setWards(res.data.children);
-            setLoading(false);
-            break;
-          case 3:
-            setCommunities(res.data.children);
-            setLoading(false);
-            break;
-          default:
-            setLoading(false);
-            break;
-        }
-      })
-      .catch((err) => {
-        message.error("Could not load data");
-        setLoading(false);
-        console.error(err);
-      });
+  const allowedRole = useMemo(() => {
+    const lookUp = authUser.role?.id === 2 ? 3 : authUser.role?.id || 4;
+    return config.roles.filter((r) => r.id >= lookUp);
+  }, [authUser]);
+  const checkRole = useCallback(() => {
+    const admin = takeRight(administration, 1)?.[0];
+    const role = form.getFieldValue("role");
+    const allowed_level = allowedRole.find(
+      (a) => a.id === role
+    )?.administration_level;
+    form.setFieldsValue({
+      administration: allowed_level?.includes(administration.length)
+        ? admin?.id
+        : null,
+    });
+  }, [administration, allowedRole, form]);
+
+  const onChange = (a) => {
+    if (a?.role === 1) {
+      setShowAdministration(false);
+      setShowForms(false);
+      checkRole(administration);
+    }
+    if (a?.role > 1) {
+      setShowAdministration(true);
+      form.setFieldsValue({ forms: [] });
+      setShowForms(true);
+      checkRole(administration);
+    }
+    if (a?.role < 3) {
+      setAllowedForms(forms);
+    } else {
+      setAllowedForms(forms.filter((f) => f.type === 1));
+    }
+    if (a?.role === 5) {
+      setShowForms(false);
+    }
   };
 
   useEffect(() => {
-    const init = () => {
-      setLoading(true);
-      api
-        .get("administration/1", {
-          headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-        })
-        .then((res) => {
-          setCounties(res.data.children);
-          setLoading(false);
-        })
-        .catch((err) => {
-          message.error("Could not load data");
-          setLoading(false);
-          console.error(err);
-        });
-    };
-    if (cookies.AUTH_TOKEN) {
-      init();
-    }
-  }, [cookies.AUTH_TOKEN]);
+    checkRole(administration);
+  }, [administration, checkRole]);
 
+  useEffect(() => {
+    const fetchData = (adminId, acc) => {
+      api.get(`administration/${adminId}`).then((res) => {
+        acc.unshift({
+          id: res.data.id,
+          name: res.data.name,
+          levelName: res.data.level_name,
+          children: res.data.children,
+          childLevelName: res.data.children_level_name,
+        });
+        if (res.data.level > 0) {
+          fetchData(res.data.parent, acc);
+        } else {
+          store.update((s) => {
+            s.administration = acc;
+          });
+          store.update((s) => {
+            s.loadingAdministration = false;
+          });
+        }
+      });
+    };
+    if (id) {
+      try {
+        store.update((s) => {
+          s.loadingAdministration = true;
+        });
+        setShowAdministration(true);
+        setLoading(true);
+        api.get(`user/${id}`).then((res) => {
+          form.setFieldsValue({
+            administration: res.data?.administration,
+            designation: parseInt(res.data?.designation) || null,
+            email: res.data?.email,
+            first_name: res.data?.first_name,
+            last_name: res.data?.last_name,
+            phone_number: res.data?.phone_number,
+            role: res.data?.role,
+            forms: res.data?.forms.map((f) => parseInt(f.id)),
+          });
+          if (res.data?.role > 1) {
+            setShowForms(true);
+            if (res.data?.role < 3) {
+              setAllowedForms(forms);
+            } else {
+              setAllowedForms(forms.filter((f) => f.type === 1));
+            }
+          }
+          setLoading(false);
+          fetchData(res.data.administration, []);
+        });
+      } catch (error) {
+        notify({ type: "error", message: "Failed to load user data" });
+        setLoading(false);
+      }
+    }
+  }, [id, form, forms, notify]);
+
+  const roleDescription = (e) => {
+    const role = config.roles.filter((data) => data.id === e);
+    setDescription(role[0].description);
+    if (e === 2) {
+      if (administration.length >= 3) {
+        store.update((s) => {
+          s.administrationLevel = null;
+          s.administration = dropRight(administration, 1);
+        });
+      }
+    }
+  };
   return (
-    <div id="addUser">
+    <div id="add-user">
       <Row justify="space-between">
         <Col>
-          <Breadcrumb
-            separator={
-              <h2 className="ant-typography" style={{ display: "inline" }}>
-                {">"}
-              </h2>
-            }
-          >
-            <Breadcrumb.Item>
-              <Link to="/control-center">
-                <Title style={{ display: "inline" }} level={2}>
-                  Control Center
-                </Title>
-              </Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Link to="/users">
-                <Title style={{ display: "inline" }} level={2}>
-                  Manage Users
-                </Title>
-              </Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Title style={{ display: "inline" }} level={2}>
-                Add User
-              </Title>
-            </Breadcrumb.Item>
-          </Breadcrumb>
+          <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel description={descriptionData} />
         </Col>
       </Row>
       <Divider />
@@ -161,10 +218,15 @@ const AddUser = () => {
         initialValues={{
           first_name: "",
           last_name: "",
+          phone_number: "",
+          designation: null,
           email: "",
           role: null,
           county: null,
+          forms: [],
+          inform_user: true,
         }}
+        onValuesChange={onChange}
         onFinish={onFinish}
       >
         <Card bodyStyle={{ padding: 0 }}>
@@ -215,20 +277,52 @@ const AddUser = () => {
           </div>
           <div className="form-row">
             <Form.Item
+              label="Phone Number"
+              name="phone_number"
+              rules={[
+                {
+                  required: true,
+                  message: "Phone number is required",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </div>
+          <div className="form-row">
+            <Form.Item
               name="organization"
               label="Organization"
               rules={[{ required: false }]}
             >
               <Select
+                getPopupContainer={(trigger) => trigger.parentNode}
                 disabled
                 placeholder="Select one.."
-                onChange={(e) => {
-                  form.setFieldsValue({ organization: e });
-                }}
                 allowClear
               >
                 <Option value="1">MOH</Option>
                 <Option value="2">UNICEF</Option>
+              </Select>
+            </Form.Item>
+          </div>
+          <div className="form-row">
+            <Form.Item
+              name="designation"
+              label="Designation"
+              rules={[
+                { required: true, message: "Please select a Designation" },
+              ]}
+            >
+              <Select
+                placeholder="Select one.."
+                getPopupContainer={(trigger) => trigger.parentNode}
+              >
+                {config?.designations?.map((d, di) => (
+                  <Option key={di} value={d.id}>
+                    {d.name}
+                  </Option>
+                ))}
               </Select>
             </Form.Item>
           </div>
@@ -239,136 +333,122 @@ const AddUser = () => {
               rules={[{ required: true, message: "Please select a Role" }]}
             >
               <Select
+                getPopupContainer={(trigger) => trigger.parentNode}
                 placeholder="Select one.."
-                onChange={(e) => {
-                  form.setFieldsValue({ role: e });
-                }}
+                onChange={roleDescription}
               >
-                <Option value="1">Super Admin</Option>
-                <Option value="2">Admin</Option>
-                <Option value="3">Approver</Option>
-                <Option value="4">User</Option>
-              </Select>
-            </Form.Item>
-          </div>
-          <div className="form-row">
-            <Form.Item
-              name="county"
-              label="County"
-              rules={[{ required: true, message: "Please select a county" }]}
-            >
-              <Select
-                disabled={loading}
-                placeholder="Select one.."
-                allowClear
-                onChange={(e) => {
-                  form.setFieldsValue({
-                    county: e,
-                    subcounty: null,
-                    ward: null,
-                    community: null,
-                  });
-                  setSubCounties([]);
-                  setWards([]);
-                  setCommunities([]);
-                  getAdministration(e);
-                }}
-              >
-                {counties.map((county, countyIdx) => (
-                  <Option key={countyIdx} value={county.id}>
-                    {county.name}
+                {allowedRole.map((r, ri) => (
+                  <Option key={ri} value={r.id}>
+                    {r.name}
+                    <span className="opt-desc">{r.description}</span>
                   </Option>
                 ))}
               </Select>
             </Form.Item>
+            <span className="role-description">
+              {description ? description : ""}
+            </span>
           </div>
-          <div className="form-row">
-            <Form.Item
-              name="subcounty"
-              label="Sub-County"
-              rules={[{ required: false }]}
-            >
-              <Select
-                disabled={loading}
-                placeholder="Select one.."
-                allowClear
-                onChange={(e) => {
-                  form.setFieldsValue({
-                    subcounty: e,
-                    ward: null,
-                    community: null,
-                  });
-                  setWards([]);
-                  setCommunities([]);
-                  getAdministration(e);
-                }}
-              >
-                {subCounties.map((subcounty, subcountyIdx) => (
-                  <Option key={subcountyIdx} value={subcounty.id}>
-                    {subcounty.name}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </div>
-          <div className="form-row">
-            <Form.Item name="ward" label="Ward" rules={[{ required: false }]}>
-              <Select
-                disabled={loading}
-                placeholder="Select one.."
-                allowClear
-                onChange={(e) => {
-                  form.setFieldsValue({ ward: e, community: null });
-                  setCommunities([]);
-                  getAdministration(e);
-                }}
-              >
-                {wards.map((ward, wardIdx) => (
-                  <Option key={wardIdx} value={ward.id}>
-                    {ward.name}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </div>
-          <div className="form-row">
-            <Form.Item
-              name="community"
-              label="Community"
-              rules={[{ required: false }]}
-            >
-              <Select
-                disabled={loading}
-                placeholder="Select one.."
-                allowClear
-                onChange={(e) => {
-                  form.setFieldsValue({ community: e });
-                }}
-              >
-                {communities.map((community, communityIdx) => (
-                  <Option key={communityIdx} value={community.id}>
-                    {community.name}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </div>
+          <Form.Item noStyle shouldUpdate>
+            {(f) => {
+              return f.getFieldValue("role") > 1 ? (
+                <Form.Item
+                  name="administration"
+                  label="Administration"
+                  rules={[
+                    { required: true, message: "" },
+                    {
+                      validator() {
+                        const role = allowedRole.find(
+                          (a) => a.id === form.getFieldValue("role")
+                        );
+                        const allowed_levels = role?.administration_level;
+                        const adm_length =
+                          authUser.role.value === "County Admin"
+                            ? administration.length + 1
+                            : administration.length;
+                        if (allowed_levels?.includes(adm_length)) {
+                          return Promise.resolve();
+                        }
+                        const level_names = levels
+                          .filter((l) => allowed_levels.includes(l.id))
+                          .map((l) => l.name)
+                          .join("/");
+                        return Promise.reject(
+                          `${role.name} Level is allowed with ${level_names} administration`
+                        );
+                      },
+                    },
+                  ]}
+                  className="form-row hidden-field"
+                >
+                  <Input hidden />
+                </Form.Item>
+              ) : null;
+            }}
+          </Form.Item>
+          {showAdministration && (
+            <div className="form-row-adm">
+              {loadingAdministration ? (
+                <p style={{ paddingLeft: 12, color: "#6b6b6f" }}>Loading..</p>
+              ) : (
+                <AdministrationDropdownUserPage
+                  direction="vertical"
+                  withLabel={true}
+                  persist={true}
+                  size="large"
+                  width="100%"
+                  role={form.getFieldValue("role")}
+                />
+              )}
+            </div>
+          )}
+          {showForms && (
+            <div className="form-row" style={{ marginTop: 24 }}>
+              {loadingForm || loading ? (
+                <>
+                  <div className="ant-form-item-label">
+                    <label title="Questionnaires">Questionnaires</label>
+                  </div>
+                  <p style={{ paddingLeft: 12, color: "#6b6b6f" }}>Loading..</p>
+                </>
+              ) : (
+                <Form.Item
+                  name="forms"
+                  label="Questionnaires"
+                  rules={[{ required: false }]}
+                >
+                  <Select
+                    mode="multiple"
+                    getPopupContainer={(trigger) => trigger.parentNode}
+                    placeholder="Select.."
+                    allowClear
+                  >
+                    {allowedForms.map((f) => (
+                      <Option key={f.id} value={f.id}>
+                        {f.name}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              )}
+            </div>
+          )}
         </Card>
-        <Row justify="space-between">
+        <Row justify="end" align="middle">
           <Col>
-            <Row>
-              <Checkbox id="informUser" onChange={() => {}}></Checkbox>
-              <label htmlFor="informUser">Inform User of Changes</label>
-            </Row>
+            <Form.Item
+              id="informUser"
+              valuePropName="checked"
+              name="inform_user"
+              rules={[{ required: false }]}
+            >
+              <Checkbox>Inform User of Changes</Checkbox>
+            </Form.Item>
           </Col>
           <Col>
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={submitting}
-              disabled={loading}
-            >
-              Add User
+            <Button type="primary" htmlType="submit" loading={submitting}>
+              {id ? "Update User" : "Add User"}
             </Button>
           </Col>
         </Row>

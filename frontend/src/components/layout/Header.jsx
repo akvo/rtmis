@@ -3,20 +3,17 @@ import PropTypes from "prop-types";
 import { Row, Col, Space, Button, Menu, Dropdown } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import { config, store } from "../../lib";
+import { eraseCookieFromAllPaths } from "../../util/date";
 
 const Header = ({ className = "header", ...props }) => {
   const { isLoggedIn, user } = store.useState();
-  const [cookies, removeCookie] = useCookies(["user"]);
   const navigate = useNavigate();
   const location = useLocation();
 
   const signOut = async () => {
+    eraseCookieFromAllPaths("AUTH_TOKEN");
     store.update((s) => {
-      if (cookies["user"]) {
-        removeCookie("user");
-      }
       s.isLoggedIn = false;
       s.user = null;
     });
@@ -25,8 +22,13 @@ const Header = ({ className = "header", ...props }) => {
 
   const userMenu = (
     <Menu>
-      <Menu.Item key="controlCenter">
-        <Link to="/control-center">Control Center</Link>
+      {config.checkAccess(user?.role_detail, "control-center") && (
+        <Menu.Item key="controlCenter">
+          <Link to="/control-center">Control Center</Link>
+        </Menu.Item>
+      )}
+      <Menu.Item key="profile">
+        <Link to="/profile">My Profile</Link>
       </Menu.Item>
       <Menu.Item key="signOut" danger>
         <a
@@ -40,7 +42,10 @@ const Header = ({ className = "header", ...props }) => {
     </Menu>
   );
 
-  if (location.pathname.includes("/login")) {
+  if (
+    location.pathname.includes("/login") ||
+    location.pathname.includes("/forgot-password")
+  ) {
     return "";
   }
 
@@ -51,43 +56,60 @@ const Header = ({ className = "header", ...props }) => {
       justify="space-between"
       {...props}
     >
-      <Col className="logo">
-        <Link to="/">
-          <img src={config.siteLogo} alt={config.siteLogo} />
-          <h1>{config.siteTitle}</h1>
-        </Link>
-      </Col>
-      <Col className="navigation">
-        <Space>
-          <Link to="/">Data</Link>
-          <Link to="/">Reports</Link>
-          <Link to="/">Monitoring</Link>
-          <Link to="/">How We Work</Link>
-        </Space>
-      </Col>
-      <Col className="account">
-        {isLoggedIn ? (
-          <Dropdown overlay={userMenu}>
-            <a
-              className="ant-dropdown-link"
-              onClick={(e) => {
-                e.preventDefault();
-              }}
-            >
-              {user?.name || ""}
-              <span className="icon">
-                <UserOutlined />
-              </span>
-            </a>
-          </Dropdown>
-        ) : (
-          <Link to={"/login"}>
-            <Button type="primary" size="small">
-              Log in
-            </Button>
+      <Col>
+        <div className="logo">
+          <Link to="/">
+            <img
+              className="small-logo"
+              src={config.siteLogo}
+              alt={config.siteLogo}
+            />
+            <h1>{config.siteTitle}</h1>
           </Link>
-        )}
+        </div>
       </Col>
+      {!location.pathname.includes("/report/") && (
+        <Col>
+          <div className="navigation">
+            <Space>
+              <Link to="/data/visualisation">Dashboards</Link>
+              <Link className="dev" to="/reports">
+                Reports
+              </Link>
+              {/* <a className="dev">Monitoring</a> */}
+              {/* <Link className="dev" to="/how-we-work">
+              How We Work
+            </Link> */}
+              <Link className="dev" to="/news-events">
+                News {"&"} Events
+              </Link>
+            </Space>
+          </div>
+          <div className="account">
+            {isLoggedIn ? (
+              <Dropdown overlay={userMenu}>
+                <a
+                  className="ant-dropdown-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                  }}
+                >
+                  {user?.name || ""}
+                  <span className="icon">
+                    <UserOutlined />
+                  </span>
+                </a>
+              </Dropdown>
+            ) : (
+              <Link to={"/login"}>
+                <Button type="primary" size="small">
+                  Log in
+                </Button>
+              </Link>
+            )}
+          </div>
+        </Col>
+      )}
     </Row>
   );
 };

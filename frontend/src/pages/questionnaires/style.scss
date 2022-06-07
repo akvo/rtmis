@@ -9,7 +9,7 @@
       }
       th {
         font-weight: 900;
-        font-size: 0.92rem;
+        font-size: 15px;
         color: #323132;
       }
       tr td:nth-child(2) span {
@@ -17,13 +17,27 @@
       }
     }
   }
-
-  .ant-checkbox-checked .ant-checkbox-inner {
-    background-color: #ffffff;
-    border-color: #d9d9d9;
-  }
-
-  .ant-checkbox-checked .ant-checkbox-inner::after {
-    border-color: #0058ff;
+  #approvers {
+    .ant-table {
+      .ant-table-cell > .ant-select {
+        width: 100%;
+        .ant-select-selector {
+          border: 0 none;
+          .ant-select-selection-item:before {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            vertical-align: middle;
+            margin-right: 10px;
+            content: "";
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 5px 4px 0 4px;
+            border-color: #4d4d4d transparent transparent transparent;
+          }
+        }
+      }
+    }
   }
 }

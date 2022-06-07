@@ -2,9 +2,8 @@ import json
 import os
 
 from django.core.management import BaseCommand
-from django.db.transaction import atomic
 
-from api.v1.v1_forms.constants import QuestionTypes, FormTypes
+from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Forms, QuestionGroup
 from api.v1.v1_forms.models import Questions, QuestionOptions
 
@@ -18,7 +17,6 @@ class Command(BaseCommand):
                             default=False,
                             type=int)
 
-    @atomic
     def handle(self, *args, **options):
         test = options.get("test")
         source_folder = './source/forms/'
@@ -27,27 +25,29 @@ class Command(BaseCommand):
             for json_file in os.listdir(source_folder)
         ]
         source_files = list(
-            filter(lambda x: "example" in x
-                   if test else "example" not in x, source_files))
+            filter(lambda x: "example" in x if test else "example" not in x,
+                   source_files))
         Forms.objects.all().delete()
         for source in source_files:
             json_form = open(source, 'r')
             json_form = json.load(json_form)
-            form = Forms(id=json_form["id"],
-                         name=json_form["form"],
-                         version=1,
-                         type=FormTypes.national)
+            form = Forms(
+                id=json_form["id"],
+                name=json_form["form"],
+                version=1,
+                type=json_form["type"]
+            )
             form.save()
             for qg in json_form["question_groups"]:
                 question_group = QuestionGroup(name=qg["question_group"],
                                                form=form)
                 question_group.save()
-                for q in qg["questions"]:
+                for qi, q in enumerate(qg["questions"]):
                     question = Questions.objects.create(
                         id=q.get("id"),
                         name=q["question"],
                         text=q["question"],
-                        order=q.get("order"),
+                        order=qi,
                         meta=q.get("meta"),
                         form=form,
                         question_group=question_group,

@@ -31,12 +31,12 @@ describe("Login and Registration", () => {
     let registrationPage;
     await act(async () => {
       registrationPage = render(<TestApp entryPoint={"/login/abcd"} />);
-      expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+      expect(screen.getByText(/Initializing/i)).toBeInTheDocument();
     });
 
     const welcome = screen.getByTestId("welcome-title");
     expect(welcome.textContent).toBe(
-      `Welcome to RTMIS, ${fakeUser.name}Set your own password including the following criteria`
+      `Welcome to RTMIS, ${fakeUser.name}Please set your password login. Your password must include:`
     );
 
     expect(screen.getByText(/Confirm Password/i)).toBeInTheDocument();

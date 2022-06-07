@@ -1,6 +1,7 @@
 {
-  "form": "CLTS",
   "id": 974754029,
+  "form": "CLTS",
+  "type": 1,
   "question_groups": [
     {
       "question_group": "Location",

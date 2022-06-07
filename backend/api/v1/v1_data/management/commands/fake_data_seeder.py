@@ -2,7 +2,6 @@ from datetime import timedelta
 
 import pandas as pd
 from django.core.management import BaseCommand
-from django.db.transaction import atomic
 from django.utils import timezone
 from faker import Faker
 
@@ -42,11 +41,7 @@ def set_answer_data(data, question):
     elif question.type == QuestionTypes.date:
         name = fake.date_between_dates(
             date_start=timezone.datetime.now().date() - timedelta(days=90),
-            date_end=timezone.datetime.now().date())
-    elif question.type == QuestionTypes.date:
-        name = fake.date_between_dates(
-            date_start=timezone.datetime.now().date() - timedelta(days=90),
-            date_end=timezone.datetime.now().date())
+            date_end=timezone.datetime.now().date()).strftime("%m/%d/%Y")
     else:
         pass
     return name, value, option
@@ -101,6 +96,11 @@ def seed_data(form, fake_geo, level_names, repeat, test):
                 level_id = administration.id
                 data.administration = administration
                 data.save()
+        else:
+            level = Levels.objects.order_by('-id').first()
+            data.administration = Administration.objects.filter(
+                level=level).order_by('?').first()
+            data.save()
         add_fake_answers(data)
 
 
@@ -119,13 +119,14 @@ class Command(BaseCommand):
                             default=False,
                             type=bool)
 
-    @atomic
     def handle(self, *args, **options):
+        test = options.get("test")
         FormData.objects.all().delete()
         fake_geo = pd.read_csv("./source/kenya_random_points.csv")
         level_names = list(
             filter(lambda x: True if "NAME_" in x else False, list(fake_geo)))
         for form in Forms.objects.all():
-            print(f"Seeding - {form.name}")
+            if not test:
+                print(f"\nSeeding - {form.name}")
             seed_data(form, fake_geo, level_names, options.get("repeat"),
                       options.get("test"))

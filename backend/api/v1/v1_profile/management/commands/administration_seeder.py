@@ -3,23 +3,25 @@ import json
 import numpy as np
 import pandas as pd
 from django.core.management import BaseCommand
-from faker import Faker
-
 from api.v1.v1_profile.models import Levels, Administration
 
 geo_config = [{
+    "id": 1,
     "level": 0,
     "name": "NAME_0",
     "alias": "National"
 }, {
+    "id": 2,
     "level": 1,
     "name": "NAME_1",
     "alias": "County"
 }, {
+    "id": 3,
     "level": 2,
     "name": "NAME_2",
     "alias": "Sub-County"
 }, {
+    "id": 4,
     "level": 3,
     "name": "NAME_3",
     "alias": "Ward"
@@ -37,39 +39,32 @@ def get_parent_id(df, x):
     return pid["id"]
 
 
+def seed_levels():
+    for geo in geo_config:
+        level = Levels(id=geo["id"], name=geo["alias"], level=geo["level"])
+        level.save()
+
+
 def seed_administration_test():
-    fake = Faker()
-    level = Levels(name="country", level=1)
-    level.save()
-    level_2 = Levels(name=fake.company(), level=2)
-    level_2.save()
-    level_3 = Levels(name=fake.company(), level=3)
-    level_3.save()
+    seed_levels()
+    level = Levels.objects.filter(level=0).first()
     administration = Administration(id=1,
                                     name="Indonesia",
                                     parent=None,
                                     level=level)
     administration.save()
-    administration = Administration(id=2,
-                                    name="Jakarta",
-                                    parent=administration,
-                                    level=level,
-                                    path='{0}.'.format(administration.id))
-    administration.save()
-    administration = Administration(id=3,
-                                    name=fake.company(),
-                                    parent=administration,
-                                    level=level_2,
-                                    path='{0}{1}.'.format(administration.path,
-                                                          administration.id))
-    administration.save()
-    administration = Administration(id=4,
-                                    name=fake.company(),
-                                    parent=administration,
-                                    level=level_3,
-                                    path='{0}{1}.'.format(administration.path,
-                                                          administration.id))
-    administration.save()
+    for index, name in enumerate(["Jakarta", "East Jakarta", "Kramat Jati"]):
+        id = index + 2
+        level = Levels.objects.filter(level=index + 1).first()
+        path = '{0}.'.format(administration.id)
+        if index:
+            path = '{0}{1}.'.format(administration.path, administration.id)
+        administration = Administration(id=id,
+                                        name=name,
+                                        parent=administration,
+                                        level=level,
+                                        path=path)
+        administration.save()
 
 
 def get_path(df, parent, current=[]):
@@ -85,6 +80,7 @@ def get_path(df, parent, current=[]):
 
 
 def seed_administration_prod():
+    seed_levels()
     geo = open(source_file, 'r')
     geo = json.load(geo)
     ob = geo["objects"]
@@ -93,10 +89,6 @@ def seed_administration_prod():
     properties = [
         d for d in [p["properties"] for p in ob[ob_name]["geometries"]]
     ]
-    level_list = [
-        Levels(name=g.get("alias"), level=g.get("level")) for g in geo_config
-    ]
-    Levels.objects.bulk_create(level_list)
     df = pd.DataFrame(properties)
     rec = df[levels].to_dict("records")
     res = []
@@ -158,8 +150,5 @@ class Command(BaseCommand):
         if test:
             seed_administration_test()
         if not test:
-            # if Administration.objects.count():
-            #    self.stdout.write("You have performed administration seeder")
-            #    exit()
             seed_administration_prod()
             self.stdout.write('-- FINISH')

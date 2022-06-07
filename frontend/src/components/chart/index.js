@@ -3,18 +3,25 @@ import { Col, Card } from "antd";
 import ReactECharts from "echarts-for-react";
 import { Bar, Line, BarStack, Pie } from "./options";
 
-export const generateOptions = ({ type, data, chartTitle }, extra) => {
+export const generateOptions = (
+  { type, data, chartTitle },
+  extra,
+  series,
+  legend,
+  horizontal,
+  highlighted
+) => {
   switch (type) {
     case "LINE":
       return Line(data, chartTitle, extra);
     case "BARSTACK":
-      return BarStack(data, chartTitle, extra);
+      return BarStack(data, chartTitle, extra, horizontal, highlighted);
     case "PIE":
-      return Pie(data, chartTitle, extra);
+      return Pie(data, chartTitle, extra, false, series, legend);
     case "DOUGHNUT":
       return Pie(data, chartTitle, extra, true);
     default:
-      return Bar(data, chartTitle, extra);
+      return Bar(data, chartTitle, extra, horizontal);
   }
 };
 
@@ -28,8 +35,15 @@ const Chart = ({
   extra = {},
   wrapper = true,
   axis = null,
+  horizontal = false,
   styles = {},
   transform = true,
+  series,
+  legend,
+  callbacks = null,
+  highlighted,
+  loading = false,
+  loadingOption = {},
 }) => {
   if (transform) {
     data = data.map((x) => ({
@@ -42,8 +56,19 @@ const Chart = ({
   const option = generateOptions(
     { type: type, data: data, chartTitle: chartTitle },
     extra,
+    series,
+    legend,
+    horizontal,
+    highlighted,
     axis
   );
+  const onEvents = {
+    click: (e) => {
+      if (callbacks?.onClick) {
+        callbacks.onClick(e.data?.cbParam);
+      }
+    },
+  };
   if (wrapper) {
     return (
       <Col
@@ -55,7 +80,11 @@ const Chart = ({
         <Card title={title}>
           <ReactECharts
             option={option}
+            notMerge={true}
             style={{ height: height - 50, width: "100%" }}
+            onEvents={onEvents}
+            showLoading={loading}
+            loadingOption={loadingOption}
           />
         </Card>
       </Col>
@@ -64,7 +93,11 @@ const Chart = ({
   return (
     <ReactECharts
       option={option}
+      notMerge={true}
       style={{ height: height - 50, width: "100%" }}
+      onEvents={onEvents}
+      showLoading={loading}
+      loadingOption={loadingOption}
     />
   );
 };

@@ -6,6 +6,7 @@ services:
     working_dir: /app/backend
     volumes:
       - ./:/app:delegated
+      - ${SERVICE_ACCOUNT}:/credentials/:ro
     environment:
       - DB_SCHEMA=rtmis
       - DB_USER=akvo
@@ -19,6 +20,10 @@ services:
       - SEMAPHORE_WORKFLOW_ID=${SEMAPHORE_WORKFLOW_ID:-}
       - SEMAPHORE_GIT_PR_NUMBER=${SEMAPHORE_GIT_PR_NUMBER:-}
       - DEBUG=True
+      - GOOGLE_APPLICATION_CREDENTIALS=/credentials/rtmis-service-account.json
+      - MAILJET_APIKEY=$MAILJET_APIKEY
+      - MAILJET_SECRET=$MAILJET_SECRET
+      - WEBDOMAIN=notset
     depends_on:
       - db
     command: tail -f /dev/null

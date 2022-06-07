@@ -3,9 +3,8 @@
 
 set -eu
 
-# python manage.py migrate
-# python manage.py administration_seeder
-# gunicorn rtmis.wsgi:application
+python manage.py migrate
+python manage.py generate_config
 
 function log {
    echo "$(date +"%T") - START INFO - $*"

@@ -1,26 +1,47 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import "./style.scss";
 import {
   Row,
   Col,
   Card,
-  Breadcrumb,
+  Button,
   Divider,
-  Typography,
   Table,
-  message,
   ConfigProvider,
-  Empty,
   Checkbox,
+  Empty,
+  Space,
 } from "antd";
-import { Link } from "react-router-dom";
-import { api } from "../../lib";
+import { api, store } from "../../lib";
+import { Breadcrumbs } from "../../components";
+import { reloadData } from "../../util/form";
+import { useNotification } from "../../util/hooks";
 
-const { Title } = Typography;
+const pagePath = [
+  {
+    title: "Control Center",
+    link: "/control-center",
+  },
+  {
+    title: "Approvals",
+    link: "/approvals",
+  },
+  {
+    title: "Manage Questionnaires Approvals",
+  },
+];
 
 const Questionnaires = () => {
-  const [loading, setLoading] = useState(false);
+  const { forms, user } = store.useState((s) => s);
   const [dataset, setDataset] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { notify } = useNotification();
+
+  useEffect(() => {
+    if (forms.length) {
+      setDataset([...forms]);
+    }
+  }, [forms]);
 
   const columns = [
     {
@@ -34,65 +55,98 @@ const Questionnaires = () => {
       render: (cell) => cell || <span>-</span>,
     },
     {
-      title: "County",
-      dataIndex: "county",
-      render: () => <Checkbox />,
+      title: "National",
+      render: (row) => (
+        <Checkbox
+          checked={row.type === 2}
+          onChange={() => {
+            handleChecked(row.id, 2);
+          }}
+        />
+      ),
     },
     {
-      title: "National",
-      dataIndex: "national",
-      render: () => <Checkbox />,
+      title: "County",
+      render: (row) => (
+        <Checkbox
+          checked={row.type === 1}
+          onChange={() => {
+            handleChecked(row.id, 1);
+          }}
+        />
+      ),
     },
   ];
+
+  const handleChecked = (id, val) => {
+    const pos = dataset.findIndex((d) => d.id === id);
+    if (pos !== -1) {
+      const cloned = JSON.parse(JSON.stringify(dataset));
+      cloned[pos].type = val;
+      setDataset(cloned);
+    }
+  };
+
+  const handleSubmit = () => {
+    const data = dataset.map((d) => ({
+      form_id: d.id,
+      type: d.type,
+    }));
+    setLoading(true);
+    api
+      .post("form/type", data)
+      .then(() => {
+        setLoading(false);
+        notify({
+          type: "success",
+          message: "Questionnaires updated",
+        });
+        reloadData(user, dataset);
+      })
+      .catch(() => {
+        notify({
+          type: "error",
+          message: "Could not update Questionnaires",
+        });
+        setLoading(false);
+      });
+  };
 
   const handleChange = () => {
     // setCurrentPage(e.current);
   };
 
-  useEffect(() => {
-    setLoading(true);
-    api
-      .get(`forms`)
-      .then((res) => {
-        setDataset(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        message.error("Could not load questionnaires");
-        setLoading(false);
-        console.error(err);
-      });
-  }, []);
+  const isPristine = useMemo(() => {
+    return JSON.stringify(dataset) === JSON.stringify(forms);
+  }, [dataset, forms]);
 
   return (
     <div id="questionnaires">
       <Row justify="space-between">
         <Col>
-          <Breadcrumb
-            separator={
-              <h2 className="ant-typography" style={{ display: "inline" }}>
-                {">"}
-              </h2>
-            }
-          >
-            <Breadcrumb.Item>
-              <Link to="/control-center">
-                <Title style={{ display: "inline" }} level={2}>
-                  Control Center
-                </Title>
-              </Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Title style={{ display: "inline" }} level={2}>
-                Approvals
-              </Title>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Title style={{ display: "inline" }} level={2}>
-                Manage Questionnaires Approvals
-              </Title>
-            </Breadcrumb.Item>
-          </Breadcrumb>
+          <Breadcrumbs pagePath={pagePath} />
+        </Col>
+        <Col>
+          <Space size={6}>
+            <Button
+              className="light"
+              disabled={isPristine}
+              onClick={() => {
+                const cloned = JSON.parse(JSON.stringify(forms));
+                setDataset(cloned);
+              }}
+            >
+              Reset
+            </Button>
+            <Button
+              type="primary"
+              disabled={isPristine}
+              onClick={handleSubmit}
+              loading={loading}
+            >
+              Save
+            </Button>
+          </Space>
         </Col>
       </Row>
       <Divider />
@@ -104,12 +158,13 @@ const Questionnaires = () => {
           <Table
             columns={columns}
             dataSource={dataset}
-            loading={loading}
+            loading={!dataset.length}
             onChange={handleChange}
             // pagination={{
             //   total: totalCount,
             //   pageSize: 10,
             // }}
+            pagination={false}
             rowKey="id"
           />
         </ConfigProvider>

@@ -4,37 +4,61 @@ import {
   Row,
   Col,
   Card,
-  Breadcrumb,
   Divider,
-  Typography,
   Table,
-  message,
   ConfigProvider,
   Empty,
+  Modal,
+  Button,
+  Space,
+  Tag,
 } from "antd";
-import { Link } from "react-router-dom";
 import {
   PlusSquareOutlined,
   CloseSquareOutlined,
   ExclamationCircleOutlined,
+  DeleteOutlined,
 } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import DataDetail from "./DataDetail";
-import { DataFilters } from "../../components";
+import { DataFilters, Breadcrumbs, DescriptionPanel } from "../../components";
+import { useNotification } from "../../util/hooks";
 
-const { Title } = Typography;
-
+const pagePath = [
+  {
+    title: "Control Center",
+    link: "/control-center",
+  },
+  {
+    title: "Manage Data",
+  },
+];
+const descriptionData = (
+  <div>
+    This section helps you to:
+    <ul>
+      <li>Add new data using webforms</li>
+      <li>Bulk upload data using spreadsheets</li>
+      <li>Export data</li>
+    </ul>
+  </div>
+);
 const ManageData = () => {
+  const { notify } = useNotification();
   const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
   const [query, setQuery] = useState("");
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [updateRecord, setUpdateRecord] = useState(false);
+  const [deleteData, setDeleteData] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   const { administration, selectedForm, questionGroups } = store.useState(
     (state) => state
   );
 
+  const isAdministrationLoaded = administration.length;
   const selectedAdministration =
     administration.length > 0
       ? administration[administration.length - 1]
@@ -69,6 +93,16 @@ const ManageData = () => {
       title: "Region",
       dataIndex: "administration",
     },
+    {
+      title: "Status",
+      dataIndex: "pending_data",
+      render: (cell) =>
+        cell?.id ? (
+          <Tag color="orange">Pending</Tag>
+        ) : (
+          <Tag color="green">Approved</Tag>
+        ),
+    },
     Table.EXPAND_COLUMN,
   ];
 
@@ -76,10 +110,40 @@ const ManageData = () => {
     setCurrentPage(e.current);
   };
 
+  const handleDeleteData = () => {
+    if (deleteData?.id) {
+      setDeleting(true);
+      api
+        .delete(`data/${deleteData.id}`)
+        .then(() => {
+          notify({
+            type: "success",
+            message: `${deleteData.name} deleted`,
+          });
+          setDataset(dataset.filter((d) => d.id !== deleteData.id));
+          setDeleteData(null);
+        })
+        .catch((err) => {
+          notify({
+            type: "error",
+            message: "Could not delete datapoint",
+          });
+          console.error(err.response);
+        })
+        .finally(() => {
+          setDeleting(false);
+        });
+    }
+  };
+
   useEffect(() => {
-    if (selectedForm) {
+    setCurrentPage(1);
+  }, [selectedAdministration]);
+
+  useEffect(() => {
+    if (selectedForm && isAdministrationLoaded && !updateRecord) {
       setLoading(true);
-      let url = `list/form-data/${selectedForm}/?page=${currentPage}`;
+      let url = `/form-data/${selectedForm}/?page=${currentPage}`;
       if (selectedAdministration?.id) {
         url += `&administration=${selectedAdministration.id}`;
       }
@@ -88,39 +152,29 @@ const ManageData = () => {
         .then((res) => {
           setDataset(res.data.data);
           setTotalCount(res.data.total);
+          setUpdateRecord(null);
           setLoading(false);
         })
         .catch(() => {
-          message.error("Could not load data");
+          setDataset([]);
+          setTotalCount(0);
           setLoading(false);
         });
     }
-  }, [selectedForm, selectedAdministration, currentPage]);
+  }, [
+    selectedForm,
+    selectedAdministration,
+    currentPage,
+    isAdministrationLoaded,
+    updateRecord,
+  ]);
 
   return (
     <div id="manageData">
       <Row justify="space-between">
         <Col>
-          <Breadcrumb
-            separator={
-              <h2 className="ant-typography" style={{ display: "inline" }}>
-                {">"}
-              </h2>
-            }
-          >
-            <Breadcrumb.Item>
-              <Link to="/control-center">
-                <Title style={{ display: "inline" }} level={2}>
-                  Control Center
-                </Title>
-              </Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Title style={{ display: "inline" }} level={2}>
-                Manage Data
-              </Title>
-            </Breadcrumb.Item>
-          </Breadcrumb>
+          <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel description={descriptionData} />
         </Col>
       </Row>
       <Divider />
@@ -143,14 +197,23 @@ const ManageData = () => {
             loading={loading}
             onChange={handleChange}
             pagination={{
+              current: currentPage,
               total: totalCount,
               pageSize: 10,
               showSizeChanger: false,
+              showTotal: (total, range) =>
+                `Results: ${range[0]} - ${range[1]} of ${total} data`,
             }}
             rowKey="id"
             expandable={{
               expandedRowRender: (record) => (
-                <DataDetail questionGroups={questionGroups} record={record} />
+                <DataDetail
+                  questionGroups={questionGroups}
+                  record={record}
+                  updateRecord={updateRecord}
+                  updater={setUpdateRecord}
+                  setDeleteData={setDeleteData}
+                />
               ),
               expandIcon: ({ expanded, onExpand, record }) =>
                 expanded ? (
@@ -168,6 +231,46 @@ const ManageData = () => {
           />
         </ConfigProvider>
       </Card>
+      <Modal
+        visible={deleteData}
+        onCancel={() => setDeleteData(null)}
+        centered
+        width="575px"
+        footer={
+          <Row justify="center" align="middle">
+            <Col span={14}>&nbsp;</Col>
+            <Col span={10}>
+              <Button
+                className="light"
+                disabled={deleting}
+                onClick={() => {
+                  setDeleteData(null);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="primary"
+                danger
+                loading={deleting}
+                onClick={handleDeleteData}
+              >
+                Delete
+              </Button>
+            </Col>
+          </Row>
+        }
+        bodyStyle={{ textAlign: "center" }}
+      >
+        <Space direction="vertical">
+          <DeleteOutlined style={{ fontSize: "50px" }} />
+          <p>
+            You are about to delete <i>{`${deleteData?.name}`}</i> data.{" "}
+            <b>Delete a datapoint also will delete the history</b>. Are you sure
+            want to delete this datapoint?
+          </p>
+        </Space>
+      </Modal>
     </div>
   );
 };
