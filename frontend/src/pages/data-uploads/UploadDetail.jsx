@@ -332,8 +332,6 @@ const UploadDetail = ({ record, setReload }) => {
         loading={loading}
         dataSource={selectedTab === "raw-data" ? rawValues : values}
         columns={columns}
-        scroll={{ y: 500 }}
-        pagination={false}
         rowClassName={(record) =>
           record.newValue && !isEqual(record.value, record.newValue)
             ? "row-edited"
@@ -347,7 +345,7 @@ const UploadDetail = ({ record, setReload }) => {
                 expandedRowKeys,
                 expandedRowRender: (expanded) => {
                   return (
-                    <div>
+                    <>
                       {expanded.loading ? (
                         <Space
                           style={{ paddingTop: 18, color: "#9e9e9e" }}
@@ -364,7 +362,7 @@ const UploadDetail = ({ record, setReload }) => {
                           <span>Loading..</span>
                         </Space>
                       ) : (
-                        <>
+                        <div className={`pending-data-outer`}>
                           {expanded.data?.map((r, rI) => (
                             <div className="pending-data-wrapper" key={rI}>
                               <h3>{r.name}</h3>
@@ -418,22 +416,24 @@ const UploadDetail = ({ record, setReload }) => {
                               />
                             </div>
                           ))}
-                          {isEditable && (
-                            <Button
-                              onClick={() => handleSave(expanded)}
-                              type="primary"
-                              loading={expanded.id === saving}
-                              disabled={
-                                expanded.id === dataLoading ||
-                                isEdited(expanded.id) === false
-                              }
-                            >
-                              Save Edits
-                            </Button>
-                          )}
-                        </>
+                        </div>
                       )}
-                    </div>
+                      {isEditable && !expanded.loading && (
+                        <div className="pending-data-actions">
+                          <Button
+                            onClick={() => handleSave(expanded)}
+                            type="primary"
+                            loading={expanded.id === saving}
+                            disabled={
+                              expanded.id === dataLoading ||
+                              isEdited(expanded.id) === false
+                            }
+                          >
+                            Save Edits
+                          </Button>
+                        </div>
+                      )}
+                    </>
                   );
                 },
                 expandIcon: ({ expanded, onExpand, record }) =>

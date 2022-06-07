@@ -55,8 +55,11 @@ def email_context(context: dict, type: str):
     if type == EmailTypes.user_register:
         context.update({
             "subject": "Registration",
-            "body": '''Welcome to the lore Epsom door sit amen
-                some Descriptive welcome copy goes here''',
+            "body": '''Welcome!,
+                You are receiving this email because you Signed up to
+                the the National Sanitation and Hygiene Real-Time
+                Monitoring System.
+                .''',
             "image": f"{webdomain}/email-icons/check-circle.png",
             "success_text": "Successfully Registered",
             "message_list": ["JMP/SDG Status",
@@ -87,10 +90,11 @@ def email_context(context: dict, type: str):
             button_url = context.get("button_url")
         context.update({
             "subject": "Reset Password",
-            "body": '''You have submitted a password change request. If it wasn't you
-                please disregard this email and make sure you can still login
-                to your account. If it was you, then click the following
-                button:''',
+            "body": '''You recently requested a password reset.
+                Please disregard this email if it wasn't you and make sure
+                you can still login to your account.
+                If it was you, then click the following button:
+                ''',
             "explore_button": False,
             "button": True,
             "button_url": button_url,
@@ -102,9 +106,10 @@ def email_context(context: dict, type: str):
             button_url = context.get("button_url")
         context.update({
             "subject": "Invitation",
-            "body": '''You have invited to the National Sanitation and Hygiene
-                    Real-Time Monitoring System. Please click on the button
-                    below to set your password and finalise your account.''',
+            "body": '''You have been invited to the National Sanitation
+                    and Hygiene Real-Time Monitoring System. Please click
+                    on the button below to set your password
+                    and finalise your account setup.''',
             "explore_button": False,
             "button": True,
             "button_url": button_url,
@@ -113,8 +118,7 @@ def email_context(context: dict, type: str):
     if type == EmailTypes.data_approval:
         context.update({
             "subject": "Data Upload Approved",
-            "body": '''Your Data Upload has been approved by
-                    Your admin - Ouma Odhiambo''',
+            "body": '''Your Data Upload has been approved by Administrator''',
             "image": f"{webdomain}/email-icons/check-circle.png",
             "success_text": "Filename Approved",
             "explore_button": True
@@ -123,7 +127,7 @@ def email_context(context: dict, type: str):
         context.update({
             "subject": "Data Upload Rejected",
             "body": '''Your Data Upload has been rejected by
-                    Your admin - Ouma Odhiambo''',
+                    Your admin''',
             "image": f"{webdomain}/email-icons/close-circle.png",
             "failed_text": "Filename Rejected",
             "feedback": [
