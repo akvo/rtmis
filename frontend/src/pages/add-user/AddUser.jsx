@@ -127,7 +127,6 @@ const AddUser = () => {
       setShowForms(false);
     }
   };
-
   useEffect(() => {
     checkRole(administration);
   }, [administration, checkRole]);
@@ -194,10 +193,15 @@ const AddUser = () => {
     const role = config.roles.filter((data) => data.id === e);
     setDescription(role[0].description);
     if (e === 2) {
-      if (administration.length >= 3) {
+      if (administration.length === 3) {
         store.update((s) => {
           s.administrationLevel = null;
           s.administration = dropRight(administration, 1);
+        });
+      } else if (administration.length === 4) {
+        store.update((s) => {
+          s.administrationLevel = null;
+          s.administration = dropRight(administration, 2);
         });
       }
     }
