@@ -4,8 +4,10 @@ import os
 from django.core.management import BaseCommand
 
 from api.v1.v1_forms.constants import QuestionTypes
-from api.v1.v1_forms.models import Forms, QuestionGroup
+from api.v1.v1_profile.constants import UserRoleTypes
+from api.v1.v1_forms.models import Forms, UserForms, QuestionGroup
 from api.v1.v1_forms.models import Questions, QuestionOptions
+from api.v1.v1_profile.models import Access
 
 
 class Command(BaseCommand):
@@ -25,19 +27,26 @@ class Command(BaseCommand):
             for json_file in os.listdir(source_folder)
         ]
         source_files = list(
-            filter(lambda x: "example" in x if test else "example" not in x,
-                   source_files))
+            filter(lambda x: "example" in x
+                   if test else "example" not in x, source_files))
         Forms.objects.all().delete()
         for source in source_files:
             json_form = open(source, 'r')
             json_form = json.load(json_form)
-            form = Forms(
+            form, created = Forms.objects.update_or_create(
                 id=json_form["id"],
-                name=json_form["form"],
-                version=1,
-                type=json_form["type"]
-            )
-            form.save()
+                defaults={
+                    "name": json_form["form"],
+                    "version": 1,
+                    "type": json_form["type"]
+                })
+            users = Access.objects.exclude(
+                role=UserRoleTypes.super_admin).all()
+            if created:
+                form.save()
+            for user in users:
+                user_form = UserForms(form=form, user_id=user.user_id)
+                user_form.save()
             for qg in json_form["question_groups"]:
                 question_group = QuestionGroup(name=qg["question_group"],
                                                form=form)
