@@ -32,6 +32,7 @@ const LoginForm = () => {
         );
         store.update((s) => {
           s.isLoggedIn = true;
+          s.selectedForm = null;
           s.user = { ...res.data, role_detail: role_details };
         });
         reloadData(res.data);
