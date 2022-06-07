@@ -47,7 +47,6 @@ const FormDropdown = ({
     },
     [notify]
   );
-
   useEffect(() => {
     if (!!filterForms?.length && !selectedForm) {
       handleChange(filterForms[0].id);
