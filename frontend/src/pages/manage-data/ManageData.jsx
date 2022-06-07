@@ -11,7 +11,6 @@ import {
   Modal,
   Button,
   Space,
-  Tag,
 } from "antd";
 import {
   PlusSquareOutlined,
@@ -92,16 +91,6 @@ const ManageData = () => {
     {
       title: "Region",
       dataIndex: "administration",
-    },
-    {
-      title: "Status",
-      dataIndex: "pending_data",
-      render: (cell) =>
-        cell?.id ? (
-          <Tag color="orange">Pending</Tag>
-        ) : (
-          <Tag color="green">Approved</Tag>
-        ),
     },
     Table.EXPAND_COLUMN,
   ];
