@@ -97,7 +97,10 @@ const UploadDetail = ({ record, setReload }) => {
     data.data.map((rd) => {
       rd.question.map((rq) => {
         if (rq.newValue && !isEqual(rq.value, rq.newValue)) {
-          formData.push({ question: rq.id, value: rq.newValue });
+          formData.push({
+            question: rq.id,
+            value: rq.type === "number" ? +rq.newValue : rq.newValue,
+          });
         }
       });
     });
