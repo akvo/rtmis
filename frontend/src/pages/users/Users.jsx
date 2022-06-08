@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "./style.scss";
-import { Row, Col, Card, Button, Divider, Table, Modal } from "antd";
+import { Row, Col, Card, Button, Divider, Table, Modal, Tag } from "antd";
 import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store } from "../../lib";
@@ -53,7 +53,15 @@ const Users = () => {
       title: "Name",
       dataIndex: "first_name",
       key: "first_name",
-      render: (firstName, row) => firstName + " " + row.last_name,
+      render: (firstName, row) => (
+        <span>
+          {firstName + " " + row.last_name}
+          {(row.email?.endsWith("@test.com") ||
+            row.email?.endsWith("@user.com")) && (
+            <Tag color="geekblue">Test User</Tag>
+          )}
+        </span>
+      ),
     },
     {
       title: "Organization",
