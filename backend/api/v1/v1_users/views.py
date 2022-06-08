@@ -61,13 +61,15 @@ def get_config_file(request, version):
     return response
 
 
-@extend_schema(description='Use to show email templates', tags=['Dev'],
+@extend_schema(description='Use to show email templates',
+               tags=['Dev'],
                parameters=[
                    OpenApiParameter(name='type',
                                     required=False,
                                     enum=EmailTypes.FieldStr.keys(),
                                     type=OpenApiTypes.STR,
-                                    location=OpenApiParameter.QUERY)],
+                                    location=OpenApiParameter.QUERY)
+               ],
                summary='To show email template by type')
 @api_view(['GET'])
 def email_template(request, version):
@@ -135,8 +137,8 @@ def login(request, version):
 @permission_classes([IsAuthenticated])
 def get_profile(request, version):
     # check user activity
-    user = SystemUser.objects.filter(
-        email=request.user, deleted_at=None).first()
+    user = SystemUser.objects.filter(email=request.user,
+                                     deleted_at=None).first()
     if not user:
         return Response({'message': 'User has been deleted'},
                         status=status.HTTP_401_UNAUTHORIZED)
@@ -158,9 +160,8 @@ def get_profile(request, version):
 @extend_schema(request=VerifyInviteSerializer,
                responses={
                    (200, 'application/json'):
-                       inline_serializer(
-                           "Response",
-                           fields={"message": serializers.CharField()})
+                   inline_serializer(
+                       "Response", fields={"message": serializers.CharField()})
                },
                tags=['User'],
                summary='To verify invitation code')
@@ -208,7 +209,8 @@ def set_user_password(request, version):
                    OpenApiParameter(name='filter',
                                     required=False,
                                     type=OpenApiTypes.NUMBER,
-                                    location=OpenApiParameter.QUERY)],
+                                    location=OpenApiParameter.QUERY)
+               ],
                summary='Get list of administration')
 @api_view(['GET'])
 def list_administration(request, version, administration_id):
@@ -234,17 +236,22 @@ def list_levels(request, version):
 @extend_schema(request=AddEditUserSerializer,
                responses={
                    (200, 'application/json'):
-                       inline_serializer(
-                           "Response",
-                           fields={"message": serializers.CharField()})
+                   inline_serializer(
+                       "Response", fields={"message": serializers.CharField()})
                },
                tags=['User'],
                description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
-                           'User:4,ReadOnly:5',
+               'User:4,ReadOnly:5',
                summary='To add user')
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
 def add_user(request, version):
+    if request.data.get("role") == UserRoleTypes.super_admin:
+        request.data.update({
+            "forms": [],
+            "administration":
+            Administration.objects.filter(level__level=0).first().id
+        })
     serializer = AddEditUserSerializer(data=request.data,
                                        context={'user': request.user})
     if not serializer.is_valid():
@@ -261,42 +268,43 @@ def add_user(request, version):
 
 @extend_schema(responses={
     (200, 'application/json'):
-        inline_serializer("UserList",
-                          fields={
-                              "current": serializers.IntegerField(),
-                              "total": serializers.IntegerField(),
-                              "total_page": serializers.IntegerField(),
-                              "data": ListUserSerializer(many=True),
-                          })
+    inline_serializer("UserList",
+                      fields={
+                          "current": serializers.IntegerField(),
+                          "total": serializers.IntegerField(),
+                          "total_page": serializers.IntegerField(),
+                          "data": ListUserSerializer(many=True),
+                      })
 },
-    tags=['User'],
-    summary='Get list of users',
-    parameters=[
-        OpenApiParameter(name='page',
-                         required=True,
-                         type=OpenApiTypes.NUMBER,
-                         location=OpenApiParameter.QUERY),
-        OpenApiParameter(name='role',
-                         required=False,
-                         type=OpenApiTypes.NUMBER,
-                         location=OpenApiParameter.QUERY),
-        OpenApiParameter(name='administration',
-                         required=False,
-                         type=OpenApiTypes.NUMBER,
-                         location=OpenApiParameter.QUERY),
-        OpenApiParameter(name='pending',
-                         required=False,
-                         type=OpenApiTypes.BOOL,
-                         location=OpenApiParameter.QUERY),
-        OpenApiParameter(name='descendants',
-                         required=False,
-                         default=True,
-                         type=OpenApiTypes.BOOL,
-                         location=OpenApiParameter.QUERY),
-        OpenApiParameter(name='search',
-                         required=False,
-                         type=OpenApiTypes.STR,
-                         location=OpenApiParameter.QUERY)])
+               tags=['User'],
+               summary='Get list of users',
+               parameters=[
+                   OpenApiParameter(name='page',
+                                    required=True,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='role',
+                                    required=False,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='administration',
+                                    required=False,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='pending',
+                                    required=False,
+                                    type=OpenApiTypes.BOOL,
+                                    location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='descendants',
+                                    required=False,
+                                    default=True,
+                                    type=OpenApiTypes.BOOL,
+                                    location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='search',
+                                    required=False,
+                                    type=OpenApiTypes.STR,
+                                    location=OpenApiParameter.QUERY)
+               ])
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
 def list_users(request, version):
@@ -316,19 +324,15 @@ def list_users(request, version):
         Administration.objects.filter(
             path__startswith=allowed_path).values_list('id', flat=True))
     allowed_descendants.append(user_allowed.id)
-    filter_data = {
-        'user_access__administration_id__in': allowed_descendants
-    }
+    filter_data = {'user_access__administration_id__in': allowed_descendants}
     exclude_data = {'password__exact': ''}
 
     if serializer.validated_data.get('administration'):
-        filter_administration = serializer.validated_data.get(
-            'administration')
+        filter_administration = serializer.validated_data.get('administration')
         if not serializer.validated_data.get('descendants'):
             filter_descendants = list(
                 Administration.objects.filter(
-                    parent=filter_administration).values_list('id',
-                                                              flat=True))
+                    parent=filter_administration).values_list('id', flat=True))
         else:
             if filter_administration.path:
                 filter_path = '{0}{1}.'.format(filter_administration.path,
@@ -337,8 +341,7 @@ def list_users(request, version):
                 filter_path = f"{filter_administration.id}."
             filter_descendants = list(
                 Administration.objects.filter(
-                    path__startswith=filter_path).values_list('id',
-                                                              flat=True))
+                    path__startswith=filter_path).values_list('id', flat=True))
             filter_descendants.append(filter_administration.id)
 
         set1 = set(filter_descendants)
@@ -354,9 +357,7 @@ def list_users(request, version):
     page_size = REST_FRAMEWORK.get('PAGE_SIZE')
     the_past = timezone.now() - datetime.timedelta(days=10 * 365)
     # also filter soft deletes
-    queryset = SystemUser.objects.filter(
-        deleted_at=None, **filter_data
-    )
+    queryset = SystemUser.objects.filter(deleted_at=None, **filter_data)
     # filter by email or fullname
     if serializer.validated_data.get('search'):
         search = serializer.validated_data.get('search')
@@ -364,11 +365,9 @@ def list_users(request, version):
             fullname=Concat('first_name', Value(' '), 'last_name'))
         queryset = queryset.filter(
             Q(email__icontains=search) | Q(fullname__icontains=search))
-    queryset = queryset.exclude(
-        **exclude_data
-    ).annotate(
-        last_updated=Coalesce('updated', Value(the_past))
-    ).order_by('-last_updated', '-date_joined')
+    queryset = queryset.exclude(**exclude_data).annotate(
+        last_updated=Coalesce('updated', Value(the_past))).order_by(
+            '-last_updated', '-date_joined')
     paginator = PageNumberPagination()
     instance = paginator.paginate_queryset(queryset, request)
     data = {
@@ -383,9 +382,9 @@ def list_users(request, version):
 @extend_schema(responses=inline_serializer('user_role',
                                            fields={
                                                'id':
-                                                   serializers.IntegerField(),
+                                               serializers.IntegerField(),
                                                'value':
-                                                   serializers.CharField(),
+                                               serializers.CharField(),
                                            },
                                            many=True),
                tags=['User'],
@@ -414,10 +413,10 @@ class UserEditDeleteView(APIView):
 
     @extend_schema(responses={
         204:
-            OpenApiResponse(description='Deletion with no response')
+        OpenApiResponse(description='Deletion with no response')
     },
-        tags=['User'],
-        summary='To delete user')
+                   tags=['User'],
+                   summary='To delete user')
     def delete(self, request, user_id, version):
         login_user = SystemUser.objects.get(email=request.user)
         instance = get_object_or_404(SystemUser, pk=user_id)
@@ -433,14 +432,20 @@ class UserEditDeleteView(APIView):
         request=AddEditUserSerializer,
         responses={
             (200, 'application/json'):
-                inline_serializer("Response",
-                                  fields={"message": serializers.CharField()})
+            inline_serializer("Response",
+                              fields={"message": serializers.CharField()})
         },
         tags=['User'],
         description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
-                    'User:4,ReadOnly:5',
+        'User:4,ReadOnly:5',
         summary='To update user')
     def put(self, request, user_id, version):
+        if request.data.get("role") == UserRoleTypes.super_admin:
+            request.data.update({
+                "forms": [],
+                "administration":
+                Administration.objects.filter(level__level=0).first().id
+            })
         instance = get_object_or_404(SystemUser, pk=user_id, deleted_at=None)
         serializer = AddEditUserSerializer(data=request.data,
                                            context={'user': request.user},
@@ -457,9 +462,8 @@ class UserEditDeleteView(APIView):
 @extend_schema(request=ForgotPasswordSerializer,
                responses={
                    (200, 'application/json'):
-                       inline_serializer(
-                           "Response",
-                           fields={"message": serializers.CharField()})
+                   inline_serializer(
+                       "Response", fields={"message": serializers.CharField()})
                },
                tags=['User'],
                summary='To send reset password instructions')
