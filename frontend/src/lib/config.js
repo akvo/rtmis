@@ -420,6 +420,353 @@ const config = {
           "Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
       },
     },
+
+    {
+      id: 4,
+      formId: 533560002,
+      name: "Template 1",
+      title: "Sanitation",
+      charts: [
+        {
+          type: "CRITERIA",
+          title: "Sanitation",
+          options: [
+            {
+              name: "Basic",
+              color: "#368541",
+              score: 15,
+              options: [
+                {
+                  question: 555370004,
+                  option: [
+                    "Flush / Pour-flush toilet to sewer connection",
+                    "Flush / Pour-flush toilet to tank or pit",
+                    "Pit latrine with slab",
+                    "Composting toilet",
+                  ],
+                },
+                {
+                  question: 530250002,
+                  option: ["Yes"],
+                },
+                {
+                  question: 555370009,
+                  option: ["Yes"],
+                },
+                {
+                  question: 555370003,
+                  option: ["Yes"],
+                },
+                {
+                  question: 555370005,
+                  option: ["Yes"],
+                },
+                {
+                  question: 555370006,
+                  option: ["Yes"],
+                },
+              ],
+            },
+            {
+              name: "Limited",
+              score: 10,
+              color: "#79BE7D",
+              options: [
+                {
+                  question: 555370004,
+                  option: [
+                    "Flush / Pour-flush toilet to sewer connection",
+                    "Flush / Pour-flush toilet to tank or pit",
+                    "Pit latrine with slab",
+                    "Composting toilet",
+                  ],
+                },
+                {
+                  question: 530250002,
+                  option: ["No"],
+                },
+                {
+                  question: 555370009,
+                  option: ["No"],
+                },
+                {
+                  question: 555370003,
+                  option: ["No"],
+                },
+                {
+                  question: 555370005,
+                  option: ["No"],
+                },
+                {
+                  question: 555370006,
+                  option: ["No"],
+                },
+              ],
+            },
+            {
+              name: "No service",
+              score: -1,
+              color: "#FDF177",
+              options: [
+                {
+                  question: 555370004,
+                  option: [
+                    "Flush / Pour-flush toilet to open drain",
+                    "Pit latrine without slab/open pit",
+                    "Bucket",
+                    "Hanging toilet/latrine",
+                    "No toilet/latrine",
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      footer: {
+        title: "Footer title 1",
+        description:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      },
+    },
+    {
+      id: 5,
+      formId: 533560002,
+      name: "Template 2",
+      title: "Hygiene (Hand washing)",
+      charts: [
+        {
+          type: "CRITERIA",
+          title: "Hygiene (Hand washing)",
+          options: [
+            {
+              name: "Basic",
+              color: "#368541",
+              score: 15,
+              options: [
+                {
+                  question: 551560007,
+                  option: ["Yes"],
+                },
+                {
+                  question: 551560004,
+                  option: ["Yes"],
+                },
+              ],
+            },
+            {
+              name: "Limited",
+              score: 10,
+              color: "#79BE7D",
+              options: [
+                {
+                  question: 551560007,
+                  option: [
+                    "No, there are hand hygiene facilities at points of care but not functional, or lacking soap and water or alcohol-based hand rub.",
+                  ],
+                },
+                {
+                  question: 551560004,
+                  option: ["Yes"],
+                },
+              ],
+            },
+            {
+              name: "No service",
+              score: -1,
+              color: "#FDF177",
+              options: [
+                {
+                  question: 551560007,
+                  option: [
+                    "No, there are hand hygiene facilities at points of care but not functional, or lacking soap and water or alcohol-based hand rub.",
+                    "No, no hand hygiene facilities at points of care",
+                  ],
+                },
+                {
+                  question: 551560004,
+                  option: [
+                    "No, there are handwashing facilities near the toilets but lacking soap and/or water",
+                    "No, no handwashing facilities near toilets (within 5 meters)",
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      footer: {
+        title: "Footer title 1",
+        description:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      },
+    },
+
+    {
+      id: 6,
+      formId: 563350033,
+      name: "Template 1",
+      title: "Drinking water",
+      charts: [
+        {
+          type: "CRITERIA",
+          title: "Drinking water",
+          options: [
+            {
+              name: "Basic",
+              score: 10,
+              color: "#753780",
+              options: [
+                {
+                  question: 551660011,
+                  option: [
+                    "Piped water supply",
+                    "Protected well/spring",
+                    "Rainwater",
+                    "Unprotected well/spring",
+                    "Packaged bottled water",
+                  ],
+                },
+                {
+                  question: 551660013,
+                  option: ["Yes"],
+                },
+              ],
+            },
+            {
+              name: "Limited",
+              score: -1,
+              color: "#FDF177",
+              options: [
+                {
+                  question: 551660011,
+                  option: [
+                    "Piped water supply",
+                    "Protected well/spring",
+                    "Rainwater",
+                    "Unprotected well/spring",
+                    "Packaged bottled water",
+                  ],
+                },
+                {
+                  question: 551660013,
+                  option: ["No"],
+                },
+              ],
+            },
+            {
+              name: "No Service",
+              score: -2,
+              color: "#F1AC2A",
+              options: [
+                {
+                  question: 551660011,
+                  option: [
+                    "Tanker-truck or cart",
+                    "Surface water (lake, river, stream)",
+                    "No water source",
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      footer: {
+        title: "Footer title 1",
+        description:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      },
+    },
+    {
+      id: 7,
+      formId: 563350033,
+      name: "Template 2",
+      title: "Sanitation",
+      charts: [
+        {
+          type: "CRITERIA",
+          title: "Sanitation",
+          options: [
+            {
+              name: "Basic",
+              score: 10,
+              color: "#753780",
+              options: [
+                {
+                  question: 551660029,
+                  option: [
+                    "Flush / Pour-flush toilets",
+                    "Pit latrines with slab",
+                    "Composting toilets",
+                  ],
+                },
+                {
+                  question: 579840064,
+                  option: ["Yes"],
+                },
+                {
+                  question: 555460003,
+                  option: ["Yes"],
+                },
+              ],
+            },
+            {
+              name: "Limited",
+              score: -1,
+              color: "#FDF177",
+              options: [
+                {
+                  question: 551660029,
+                  option: [
+                    "Flush / Pour-flush toilets",
+                    "Pit latrines with slab",
+                    "Composting toilets",
+                  ],
+                },
+                {
+                  question: 579840064,
+                  option: ["Yes"],
+                },
+                {
+                  question: 555460003,
+                  option: ["Yes"],
+                },
+              ],
+            },
+            {
+              name: "No Service",
+              score: -2,
+              color: "#F1AC2A",
+              options: [
+                {
+                  question: 551660029,
+                  option: [
+                    "Pit latrines without slab",
+                    "Hanging latrines",
+                    "Bucket latrines",
+                    "No toilets or latrines",
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      footer: {
+        title: "Footer title 1",
+        description:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      },
+    },
   ],
 };
 
