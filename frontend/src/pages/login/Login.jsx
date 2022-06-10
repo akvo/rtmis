@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import "./style.scss";
 import { Row, Col, Spin } from "antd";
 import { LoginForm, RegistrationForm, ResetForm } from "./components";
 import { Link, useParams } from "react-router-dom";
-import { api, config } from "../../lib";
+import { api, config, store, uiText } from "../../lib";
 
 const styles = {
   side: {
@@ -18,6 +18,12 @@ const Login = () => {
   const { invitationId } = useParams();
   const [invitedUser, setInvitedUser] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   useEffect(() => {
     if (!location.pathname.includes("forgot-password") && invitationId) {
@@ -49,13 +55,7 @@ const Login = () => {
       <Row className="wrapper" align="middle">
         <Col span={12} className="left-side">
           <div className="title">
-            <h1>
-              Welcome to the National
-              <br />
-              Sanitation and Hygiene
-              <br />
-              Real-Time Monitoring System
-            </h1>
+            <h1>{text.welcome}</h1>
           </div>
         </Col>
         <Col span={12} className="right-side">
