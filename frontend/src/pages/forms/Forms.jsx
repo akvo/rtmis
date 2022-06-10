@@ -7,6 +7,7 @@ import { Row, Col, Space, Progress, notification } from "antd";
 import { api, store } from "../../lib";
 import { takeRight, pick } from "lodash";
 import { PageLoader, Breadcrumbs, DescriptionPanel } from "../../components";
+import { useNotification } from "../../util/hooks";
 const descriptionData =
   " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
 const Forms = () => {
@@ -17,6 +18,7 @@ const Forms = () => {
   const [forms, setForms] = useState([]);
   const [percentage, setPercentage] = useState(0);
   const [submit, setSubmit] = useState(false);
+  const { notify } = useNotification();
 
   const pagePath = [
     {
@@ -112,6 +114,15 @@ const Forms = () => {
       });
   };
 
+  const onFinishFailed = ({ errorFields }) => {
+    if (errorFields.length) {
+      notify({
+        type: "error",
+        message: "Please answer all the mandatory questions",
+      });
+    }
+  };
+
   const onChange = ({ progress }) => {
     setPercentage(progress.toFixed(0));
   };
@@ -139,6 +150,7 @@ const Forms = () => {
               <Webform
                 forms={forms}
                 onFinish={onFinish}
+                onCompleteFailed={onFinishFailed}
                 onChange={onChange}
                 submitButtonSetting={{ loading: submit }}
               />
