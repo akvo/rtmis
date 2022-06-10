@@ -36,7 +36,7 @@ describe("Login and Registration", () => {
 
     const welcome = screen.getByTestId("welcome-title");
     expect(welcome.textContent).toBe(
-      `Welcome to RTMIS, ${fakeUser.name}Please set your password login. Your password must include:`
+      `Welcome to RTMIS, ${fakeUser.name}Please set your password for the platform.Your password must include:`
     );
 
     expect(screen.getByText(/Confirm Password/i)).toBeInTheDocument();
