@@ -35,7 +35,7 @@ const Tour = ({ steps }) => {
           setIsVisible(true);
         }}
         icon={
-          <QuestionCircleOutlined style={{ fontSize: 24, color: "##1990ff" }} />
+          <QuestionCircleOutlined style={{ fontSize: 24, color: "#1990ff" }} />
         }
       />
       <Modal
