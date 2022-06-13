@@ -20,3 +20,4 @@ export { default as AdministrationChart } from "./visualisation/AdministrationCh
 export { default as HomeDataChart } from "./visualisation/HomeDataChart.jsx";
 export { default as HomeAdministrationChart } from "./visualisation/HomeAdministrationChart.jsx";
 export { default as DescriptionPanel } from "./ui/DescriptionPanel";
+export { default as Tour } from "./tour/Tour.js";

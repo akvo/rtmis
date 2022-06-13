@@ -1,10 +1,32 @@
 import React from "react";
 import "./style.scss";
-import { Space, Card, Divider } from "antd";
+import { Space, Card, Divider, Row } from "antd";
 import { store, config } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { PanelApprovals, PanelDataUpload } from "./components";
-
+import { Tour } from "../../components";
+const steps = [
+  {
+    image: "/assets/tour/profile/1.png",
+    title: "Control Center",
+    description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
+  },
+  {
+    image: "/assets/tour/profile/2.png",
+    title: "Data Uploads",
+    description: "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
+  },
+  {
+    image: "/assets/tour/profile/3.png",
+    title: "Manage Approvals",
+    description: "Placeat impedit iure quaerat neque sit quasi",
+  },
+  {
+    image: "/assets/tour/profile/4.png",
+    title: "Manage Approvers",
+    description: "Magni provident aliquam harum cupiditate iste",
+  },
+];
 const descriptionData =
   " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
 const Profile = () => {
@@ -22,9 +44,10 @@ const Profile = () => {
 
   return (
     <div id="profile">
-      <Space>
+      <Row justify="space-between">
         <Breadcrumbs pagePath={pagePath} />
-      </Space>
+        <Tour steps={steps} />
+      </Row>
       <DescriptionPanel description={descriptionData} />
       <Divider />
       <Card style={{ padding: 0, marginBottom: 12 }}>
