@@ -28,7 +28,7 @@ prepare_deployment () {
     gcloud container clusters get-credentials "${cluster}"
 
     sed -e "s/\${CI_COMMIT}/${CI_COMMIT}/g;" \
-        ci/k8s/deployment.yml.template > ci/k8s/deployment.yml
+        ci/k8s/deployment.template.yml > ci/k8s/deployment.yml
 }
 
 apply_deployment () {
