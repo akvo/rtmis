@@ -3,7 +3,7 @@ import { Button, Modal, Carousel, Row, Col, Space } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import "./style.scss";
 
-const Tour = ({ steps }) => {
+const Tour = ({ steps, title = "Help" }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [current, setCurrent] = useState(0);
   const cRef = useRef(null);
@@ -39,7 +39,7 @@ const Tour = ({ steps }) => {
         }
       />
       <Modal
-        title="Help"
+        title={title}
         visible={isVisible}
         onCancel={handleCancel}
         destroyOnClose={true}
