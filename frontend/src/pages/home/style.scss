@@ -1,6 +1,10 @@
 @import "../../variables";
 
 #root {
+  .layout .body.body-home {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
   #home {
     h1 {
       text-align: center;

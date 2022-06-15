@@ -104,12 +104,7 @@ const ControlCenter = () => {
                   <h2>{panel.title}</h2>
                   <span>{panel.description}</span>
                   <Link to={panel.link} className="explore">
-                    <Button
-                      type={panel.dev ? "default" : "primary"}
-                      className={panel?.dev ? "dev" : ""}
-                    >
-                      {panel.buttonLabel}
-                    </Button>
+                    <Button type="primary">{panel.buttonLabel}</Button>
                   </Link>
                 </div>
                 <div>

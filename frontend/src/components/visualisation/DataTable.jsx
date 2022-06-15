@@ -50,7 +50,7 @@ const DataTable = () => {
         scroll={{ y: 433 }}
         style={{ height: 535 }}
         size="middle"
-        className="dev"
+        // className="dev"
       />
     </div>
   );
