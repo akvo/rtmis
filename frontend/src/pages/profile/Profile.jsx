@@ -1,10 +1,9 @@
 import React from "react";
 import "./style.scss";
-import { Space, Card, Divider } from "antd";
+import { Space, Card, Divider, Row } from "antd";
 import { store, config } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
-import { PanelApprovals, PanelDataUpload } from "./components";
-
+import { PanelApprovals, PanelDataUpload, ProfileTour } from "./components";
 const descriptionData =
   " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
 const Profile = () => {
@@ -22,9 +21,10 @@ const Profile = () => {
 
   return (
     <div id="profile">
-      <Space>
+      <Row justify="space-between">
         <Breadcrumbs pagePath={pagePath} />
-      </Space>
+        <ProfileTour />
+      </Row>
       <DescriptionPanel description={descriptionData} />
       <Divider />
       <Card style={{ padding: 0, marginBottom: 12 }}>
