@@ -50,11 +50,11 @@ const Login = () => {
         <Col span={12} className="left-side">
           <div className="title">
             <h1>
-              Welcome to the National
+              Welcome to the Rural Urban
               <br />
-              Sanitation and Hygiene
+              Sanitation and Hygiene (RUSH)
               <br />
-              Real-Time Monitoring System
+              monitoring platform
             </h1>
           </div>
         </Col>
