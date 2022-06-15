@@ -5,6 +5,7 @@ import { store, config } from "../../lib";
 import { Link } from "react-router-dom";
 import { PanelApprovals, PanelDataUpload } from "../profile/components";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
+import { ControlCenterTour } from "./components";
 
 const ControlCenter = () => {
   const { user: authUser } = store.useState((s) => s);
@@ -85,14 +86,17 @@ const ControlCenter = () => {
 
   return (
     <div id="control-center">
-      <Breadcrumbs
-        pagePath={[
-          {
-            title: "Control Center",
-            link: "/control-center",
-          },
-        ]}
-      />
+      <Row justify="space-between">
+        <Breadcrumbs
+          pagePath={[
+            {
+              title: "Control Center",
+              link: "/control-center",
+            },
+          ]}
+        />
+        <ControlCenterTour />
+      </Row>
       <DescriptionPanel description="Instant access to the all the administration pages and overview panels for data approvals." />
       <Divider />
       <Row gutter={[16, 16]}>
