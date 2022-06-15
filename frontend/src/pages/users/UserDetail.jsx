@@ -73,16 +73,14 @@ const UserDetail = ({ record, setDeleteUser, deleting }) => {
               {
                 key: "organisation",
                 field: "Organisation",
-                value: <span className="dev">-</span>,
+                value: "-",
               },
               {
                 key: "invite",
                 field: "Invitation Code",
                 value: (
                   <Link to={`/login/${record?.invite}`}>
-                    <Button className="dev" size="small">
-                      Change Password [Dev Only]
-                    </Button>
+                    <Button size="small">Change Password</Button>
                   </Link>
                 ),
               },

@@ -7,6 +7,9 @@ const Body = ({ children, className = "body", ...props }) => {
   if (["/not-found", "/coming-soon"].includes(pathname)) {
     return "";
   }
+  if (pathname === "/") {
+    className += " body-home";
+  }
   return (
     <div className={className} {...props}>
       {children}
