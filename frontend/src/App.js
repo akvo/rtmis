@@ -225,7 +225,7 @@ const App = () => {
       <Layout.Header />
       <Layout.Banner />
       <Layout.Body>
-        {loading ? (
+        {loading && location.pathname !== "/" ? (
           <PageLoader message="Initializing. Please wait.." />
         ) : (
           <RouteList />
