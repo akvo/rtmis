@@ -1,5 +1,6 @@
 import os
 
+from io import BytesIO
 import pandas as pd
 from django.utils import timezone
 from django_q.tasks import async_task
@@ -183,13 +184,17 @@ def validate_excel(job_id):
         error_list = pd.DataFrame(data)
         error_list = error_list[list(
             filter(lambda x: x != "error", list(error_list)))]
-        error_file = f"./tmp/error-{job_id}.csv"
-        error_list.to_csv(error_file, index=False)
+        error_file = f"./tmp/error-{job_id}.xlsx"
+        output = BytesIO()
+        writer = pd.ExcelWriter(output)
+        error_list.to_excel(writer, index=False)
+        writer.save()
         data = {'send_to': [job.user.email]}
         send_email(context=data,
                    type=EmailTypes.upload_error,
-                   path=error_file,
-                   content_type='text/csv')
+                   filename=error_file,
+                   io=output.getvalue(),
+                   content_type='application/ms-excel')
         return False
     return True
 

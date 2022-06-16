@@ -249,7 +249,7 @@ def email_context(context: dict, type: str):
 
 
 def send_email(context: dict, type=str, path=None,
-               content_type=None, send=True):
+               content_type=None, send=True, io=None, filename=None):
     context = email_context(context=context, type=type)
     try:
 
@@ -264,6 +264,8 @@ def send_email(context: dict, type=str, path=None,
         if path:
             msg.attach(Path(path).name, open(path).read(),
                        content_type)
+        if io and filename:
+            msg.attach(filename, io, content_type)
         if send:
             msg.send()
         if not send:
