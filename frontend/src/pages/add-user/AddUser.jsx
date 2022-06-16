@@ -17,6 +17,7 @@ import { api, store, config } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { takeRight, dropRight } from "lodash";
 import { useNotification } from "../../util/hooks";
+import { AddUserTour } from "./components";
 
 const { Option } = Select;
 
@@ -213,6 +214,7 @@ const AddUser = () => {
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel description={descriptionData} />
         </Col>
+        <AddUserTour />
       </Row>
       <Divider />
       <Form
