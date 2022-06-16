@@ -1,15 +1,20 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Space, Button, Menu, Dropdown } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { config, store } from "../../lib";
+import { config, store, uiText } from "../../lib";
 import { eraseCookieFromAllPaths } from "../../util/date";
 
 const Header = ({ className = "header", ...props }) => {
   const { isLoggedIn, user } = store.useState();
   const navigate = useNavigate();
   const location = useLocation();
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   const signOut = async () => {
     eraseCookieFromAllPaths("AUTH_TOKEN");
@@ -24,11 +29,11 @@ const Header = ({ className = "header", ...props }) => {
     <Menu>
       {config.checkAccess(user?.role_detail, "control-center") && (
         <Menu.Item key="controlCenter">
-          <Link to="/control-center">Control Center</Link>
+          <Link to="/control-center">{text?.controlCenter}</Link>
         </Menu.Item>
       )}
       <Menu.Item key="profile">
-        <Link to="/profile">My Profile</Link>
+        <Link to="/profile">{text?.myProfile}</Link>
       </Menu.Item>
       <Menu.Item key="signOut" danger>
         <a
@@ -36,7 +41,7 @@ const Header = ({ className = "header", ...props }) => {
             signOut();
           }}
         >
-          Sign out
+          {text?.signOut}
         </a>
       </Menu.Item>
     </Menu>
@@ -72,16 +77,16 @@ const Header = ({ className = "header", ...props }) => {
         <Col>
           <div className="navigation">
             <Space>
-              <Link to="/data/visualisation">Dashboards</Link>
+              <Link to="/data/visualisation">{text?.dashboards}</Link>
               <Link className="dev" to="/reports">
-                Reports
+                {text?.reports}
               </Link>
               {/* <a className="dev">Monitoring</a> */}
               {/* <Link className="dev" to="/how-we-work">
               How We Work
             </Link> */}
               <Link className="dev" to="/news-events">
-                News {"&"} Events
+                {text?.newsEvents}
               </Link>
             </Space>
           </div>
@@ -103,7 +108,7 @@ const Header = ({ className = "header", ...props }) => {
             ) : (
               <Link to={"/login"}>
                 <Button type="primary" size="small">
-                  Log in
+                  {text?.login}
                 </Button>
               </Link>
             )}

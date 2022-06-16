@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import "./style.scss";
 import { Row, Col, Card, Button, Divider, Table, Modal, Tag } from "antd";
 import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
-import { api, store } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import UserDetail from "./UserDetail";
 import { UserFilters, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
@@ -17,16 +17,6 @@ const pagePath = [
     title: "Manage Users",
   },
 ];
-const descriptionData = (
-  <div>
-    This section helps you to:
-    <ul>
-      <li>Add new user</li>
-      <li>Modify existing user</li>
-      <li>Delete existing user</li>
-    </ul>
-  </div>
-);
 const Users = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
@@ -36,6 +26,13 @@ const Users = () => {
   const [deleting, setDeleting] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
+
+  const descriptionData = <div>{text.ccPane4Text}</div>;
 
   const { administration, filters, isLoggedIn } = store.useState(
     (state) => state
@@ -117,12 +114,12 @@ const Users = () => {
         if (status === 409) {
           notify({
             type: "error",
-            message: data?.message || "Could not delete user",
+            message: data?.message || text.userDeleteFail,
           });
         } else {
           notify({
             type: "error",
-            message: "Could not delete user",
+            message: text.userDeleteFail,
           });
         }
         setDeleting(false);
@@ -156,14 +153,22 @@ const Users = () => {
           .catch((err) => {
             notify({
               type: "error",
-              message: "Could not load users",
+              message: text.usersLoadFail,
             });
             setLoading(false);
             console.error(err);
           });
       }
     },
-    [role, pending, currentPage, selectedAdministration, isLoggedIn, notify]
+    [
+      role,
+      pending,
+      currentPage,
+      selectedAdministration,
+      isLoggedIn,
+      notify,
+      text.usersLoadFail,
+    ]
   );
 
   useEffect(() => {
@@ -250,7 +255,7 @@ const Users = () => {
         footer={
           <Row justify="center" align="middle">
             <Col span={14}>
-              <i>Deleting this user will not delete the assosiations</i>
+              <i>{text.deleteUserHint}</i>
             </Col>
             <Col span={10}>
               <Button
@@ -277,16 +282,13 @@ const Users = () => {
         }
         bodyStyle={{ textAlign: "center" }}
       >
-        <p>You are about to delete the user</p>
+        <p>{text.deleteUserTitle}</p>
         <br />
         <img src="/assets/user.svg" height="80" />
         <h2>
           {deleteUser?.first_name} {deleteUser?.last_name}
         </h2>
-        <p>
-          The User will no longer be able to access the RTMIS platform as an
-          Enumrator/Admin etc
-        </p>
+        <p>{text.deleteUserDesc}</p>
         <Table
           columns={[
             {
@@ -306,7 +308,7 @@ const Users = () => {
         />
         {/* Assosiation detail */}
         <Table
-          title={() => "This user has following assosiations"}
+          title={() => text.userAssociations}
           columns={[
             {
               title: "Assosiation",
