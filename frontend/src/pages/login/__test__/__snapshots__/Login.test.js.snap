@@ -44,7 +44,7 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
                 <br />
                 Sanitation and Hygiene (RUSH)
                 <br />
-                monitoring platform
+                Monitoring Platform
               </h1>
             </div>
           </div>
@@ -337,7 +337,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
                 <br />
                 Sanitation and Hygiene (RUSH)
                 <br />
-                monitoring platform
+                Monitoring Platform
               </h1>
             </div>
           </div>
@@ -463,14 +463,14 @@ exports[`Login and Registration test if the registration form exists: Registrati
                     <input
                       class="ant-checkbox-input"
                       type="checkbox"
-                      value="Minimum 8 Character"
+                      value="Minimum 8 Characters"
                     />
                     <span
                       class="ant-checkbox-inner"
                     />
                   </span>
                   <span>
-                    Minimum 8 Character
+                    Minimum 8 Characters
                   </span>
                 </label>
               </div>

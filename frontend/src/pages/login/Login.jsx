@@ -62,12 +62,9 @@ const Login = () => {
           {location.pathname.includes("forgot-password") ? (
             <>
               <h1>
-                Reset your password
+                {text.forgotTitle}
                 <br />
-                <small>
-                  Enter the email associated with your account and we&apos;ll
-                  Send an email with instructions to reset your password
-                </small>
+                <small>{text.forgotDesc}</small>
               </h1>
               <ResetForm />
             </>
@@ -90,39 +87,25 @@ const Login = () => {
                         // TODO
                         <>
                           <h1 data-testid="welcome-title">
-                            Welcome to RTMIS, {invitedUser.name}
+                            {text.welcomeShort}, {invitedUser.name}
                             <br />
-                            <small>
-                              Please set your password for the platform.
-                              <br />
-                              Your password must include:
-                            </small>
+                            <small>{text.resetHint}</small>
                           </h1>
                           <RegistrationForm invite={invitedUser.invite} />
                         </>
                       ) : (
                         <div>
                           <h1>
-                            Invalid Invite Code
+                            {text.invalidInviteTitle}
                             <br />
-                            <small>
-                              Lorem, ipsum dolor sit amet consectetur
-                              adipisicing elit. Autem provident voluptatum cum
-                              numquam, quidem vitae, qui quam beatae
-                              exercitationem ullam perferendis! Nobis in aut
-                              fuga voluptate harum, tempore distinctio optio.
-                            </small>
+                            <small>{text.invalidInviteDesc}</small>
                           </h1>
                         </div>
                       )}
                     </div>
                   ) : (
                     <>
-                      <h1>
-                        Welcome back
-                        <br />
-                        <small>Please enter your account details</small>
-                      </h1>
+                      <h1>{text.loginTitle}</h1>
                       <LoginForm />
                     </>
                   )}

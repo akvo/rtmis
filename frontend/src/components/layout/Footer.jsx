@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { Row, Col } from "antd";
 import { useLocation } from "react-router-dom";
+import { uiText, store } from "../../lib";
 
 const Footer = ({ className = "footer", ...props }) => {
   const location = useLocation();
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
   if (
     location.pathname.includes("/login") ||
     location.pathname.includes("/report/")
@@ -15,55 +21,43 @@ const Footer = ({ className = "footer", ...props }) => {
     <div className={className}>
       <Row align="top" justify="space-between" {...props}>
         <Col span={6}>
-          <h3>About Data</h3>
-          <p>
-            The data contained in the RUSH platform is aggregated from both
-            primary and secondary data sources. The data is updated on monthly
-            basis.
-          </p>
+          <h3>{text?.footer1Title}</h3>
+          <p>{text?.footer1Text}</p>
         </Col>
         <Col span={6}>
-          <h3>Contact</h3>
+          <h3>{text?.footer2Title}</h3>
           <ul>
-            <li>Phone : xxxxxxxxxx</li>
-            <li>Email : xxx@gmail.com</li>
+            <li>
+              {text?.footer2Text1} : {text?.footer2Val1}
+            </li>
+            <li>
+              {text?.footer2Text2} : {text?.footer2Val2}
+            </li>
           </ul>
         </Col>
         <Col span={4}>
-          <h3>Quick Links</h3>
+          <h3>{text?.footer3Title}</h3>
           <ul>
             <li>
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href="https://washdata.org/how-we-work/about-jmp#:~:text=Background,hygiene%20(WASH)%20since%201990"
-              >
-                JMP
+              <a target="_blank" rel="noreferrer" href={text?.footer3Link1}>
+                {text?.footer3Text1}
               </a>
             </li>
             <li>
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href="https://www.communityledtotalsanitation.org/country/kenya"
-              >
-                CLTS
+              <a target="_blank" rel="noreferrer" href={text?.footer3Link2}>
+                {text?.footer3Text2}
               </a>
             </li>
             <li>
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href="https://www.who.int/teams/environment-climate-change-and-health/water-sanitation-and-health/monitoring-and-evidence/wash-systems-monitoring/un-water-global-analysis-and-assessment-of-sanitation-and-drinking-water"
-              >
-                GLASS
+              <a target="_blank" rel="noreferrer" href={text?.footer3Link3}>
+                {text?.footer3Text3}
               </a>
             </li>
           </ul>
         </Col>
       </Row>
       <Row className="end" align="top" justify="space-between" {...props}>
-        <Col>Copyright 2021</Col>
+        <Col>{text?.copyright}</Col>
       </Row>
     </div>
   );

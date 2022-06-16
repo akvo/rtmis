@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Form, Input, Button, Checkbox, notification } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
-import { api, store, config } from "../../../lib";
+import { api, store, config, uiText } from "../../../lib";
 import { useNotification } from "../../../util/hooks";
 import { reloadData } from "../../../util/form";
 
@@ -10,6 +10,11 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { notify } = useNotification();
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   const onFinish = (values) => {
     setLoading(true);
@@ -28,9 +33,8 @@ const LoginForm = () => {
           role_details.name !== "Super Admin"
         ) {
           notification.open({
-            message: "Please contact the administrator",
-            description:
-              "You don't have any form assignment, please contact the administrator",
+            message: text.contactAdmin,
+            description: text.formAssignmentError,
           });
         }
         store.update((s) => {
@@ -68,7 +72,7 @@ const LoginForm = () => {
         rules={[
           {
             required: true,
-            message: "Please input your Username!",
+            message: text.usernameRequired,
           },
         ]}
       >
@@ -84,7 +88,7 @@ const LoginForm = () => {
         rules={[
           {
             required: true,
-            message: "Please input your Password!",
+            message: text.passwordRequired,
           },
         ]}
       >
@@ -107,12 +111,7 @@ const LoginForm = () => {
           Log in
         </Button>
       </Form.Item>
-      <p className="disclaimer">
-        The user is accountable for his/her account and in case there are any
-        changes (Transfers, retirement, any kind of leave, resignation etc) this
-        should be communicated to the County Administrator or National Super
-        Admin who might be able to assign the roles to the new officer.
-      </p>
+      <p className="disclaimer">{text.accountDisclaimer}</p>
     </Form>
   );
 };

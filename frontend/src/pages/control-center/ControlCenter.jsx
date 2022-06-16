@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useMemo } from "react";
 import "./style.scss";
 import { Row, Col, Card, Button, Divider } from "antd";
-import { store, config } from "../../lib";
+import { store, config, uiText } from "../../lib";
 import { Link } from "react-router-dom";
 import { PanelApprovals, PanelDataUpload } from "../profile/components";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
@@ -9,72 +9,42 @@ import { ControlCenterTour } from "./components";
 
 const ControlCenter = () => {
   const { user: authUser } = store.useState((s) => s);
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   const panels = [
     {
-      title: "Manage Data",
-      buttonLabel: "Manage Data",
+      title: text.ccPane1Title,
+      buttonLabel: text.ccPane1Button,
       access: "data",
-      description: (
-        <div>
-          This is where you :
-          <ul>
-            <li>Add new data using webforms</li>
-            <li>Bulk upload data using spreadsheets</li>
-            <li>Export data</li>
-          </ul>
-        </div>
-      ),
+      description: <div>{text.ccPane1Text}</div>,
       link: "/data/manage",
       image: "/assets/big-data.png",
     },
     {
-      title: "Exports",
-      buttonLabel: "Data Exports",
+      title: text.ccPane2Title,
+      buttonLabel: text.ccPane2Button,
       access: "data",
-      description: (
-        <div>
-          This is where you :
-          <ul>
-            <li>Access exported data</li>
-          </ul>
-        </div>
-      ),
+      description: <div>{text.ccPane2Text}</div>,
       link: "/data/export",
       image: "/assets/import.png",
     },
     {
-      title: "Data Uploads",
-      buttonLabel: "Data Uploads",
+      title: text.ccPane3Title,
+      buttonLabel: text.ccPane3Button,
       access: authUser?.role.id === 4 ? "" : "form",
-      description: (
-        <div>
-          This is where you :
-          <ul>
-            <li>Download upload template</li>
-            <li>Bulk upload new data</li>
-            <li>Bulk upload existing data</li>
-          </ul>
-        </div>
-      ),
+      description: <div>{text.ccPane3Text}</div>,
       link: "/data/upload",
       image: "/assets/upload.png",
     },
     {
-      title: "User Management",
-      buttonLabel: "Manage Users",
+      title: text.ccPane4Title,
+      buttonLabel: text.ccPane4Button,
       access: "user",
-      description: (
-        <div>
-          This where you manage users based on their roles , regions and
-          questionnaire access . You can :
-          <ul>
-            <li>Add new user</li>
-            <li>Modify existing user</li>
-            <li>Delete existing user</li>
-          </ul>
-        </div>
-      ),
+      description: <div>{text.ccPane4Text}</div>,
       link: "/users",
       image: "/assets/personal-information.png",
     },
@@ -97,7 +67,7 @@ const ControlCenter = () => {
         />
         <ControlCenterTour />
       </Row>
-      <DescriptionPanel description="Instant access to the all the administration pages and overview panels for data approvals." />
+      <DescriptionPanel description={text.ccDescriptionPanel} />
       <Divider />
       <Row gutter={[16, 16]}>
         {selectedPanels.map((panel, index) => (
