@@ -55,7 +55,7 @@ const HomeBanner = () => {
       </h1>
       <div className="launching">
         <h4>Launching in:</h4>
-        <Countdown date="2022-07-01" renderer={renderer} />
+        <Countdown date="2022-07-15T09:00:00" renderer={renderer} />
       </div>
       <Button size="large" ghost>
         <Link to="/data/visualisation">Explore the Data</Link>

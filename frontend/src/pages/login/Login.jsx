@@ -55,7 +55,17 @@ const Login = () => {
       <Row className="wrapper" align="middle">
         <Col span={12} className="left-side">
           <div className="title">
+<<<<<<< HEAD
             <h1>{text.welcome}</h1>
+=======
+            <h1>
+              Welcome to the Rural Urban
+              <br />
+              Sanitation and Hygiene (RUSH)
+              <br />
+              monitoring platform
+            </h1>
+>>>>>>> develop
           </div>
         </Col>
         <Col span={12} className="right-side">
