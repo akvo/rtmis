@@ -22,6 +22,7 @@ import { api, store } from "../../lib";
 import DataDetail from "./DataDetail";
 import { DataFilters, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
+import { ManageDataTour } from "./components";
 
 const pagePath = [
   {
@@ -162,7 +163,10 @@ const ManageData = () => {
     <div id="manageData">
       <Row justify="space-between">
         <Col>
-          <Breadcrumbs pagePath={pagePath} />
+          <Row justify="space-between">
+            <Breadcrumbs pagePath={pagePath} />
+            <ManageDataTour />
+          </Row>
           <DescriptionPanel description={descriptionData} />
         </Col>
       </Row>
