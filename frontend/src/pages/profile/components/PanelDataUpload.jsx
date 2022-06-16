@@ -23,7 +23,7 @@ import {
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { DataFilters } from "../../../components";
-import { api, store } from "../../../lib";
+import { api, store, uiText } from "../../../lib";
 import { Link } from "react-router-dom";
 
 const { TabPane } = Tabs;
@@ -233,6 +233,11 @@ const PanelDataUpload = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [comment, setComment] = useState("");
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   const { selectedForm } = store.useState((state) => state);
 
@@ -325,12 +330,12 @@ const PanelDataUpload = () => {
             setModalVisible(true);
           }}
         >
-          Batch Selected Datasets
+          {text.batchSelectedDatasets}
         </Button>
       );
     }
     return "";
-  }, [selectedRows, modalButton]);
+  }, [selectedRows, modalButton, text.batchSelectedDatasets]);
 
   const DataTable = ({ pane }) => {
     return (
@@ -342,7 +347,7 @@ const PanelDataUpload = () => {
             ? [
                 ...columnsPending,
                 {
-                  title: "Batch Datasets",
+                  title: text.batchDatasets,
                   render: (row) => (
                     <Checkbox
                       checked={
@@ -403,13 +408,13 @@ const PanelDataUpload = () => {
           onChange={setSelectedTab}
           tabBarExtraContent={btnBatchSelected}
         >
-          <TabPane tab="Pending Submission" key={"pending-data"}>
+          <TabPane tab={text.uploadsTab1} key={"pending-data"}>
             <DataTable pane="pending-data" />
           </TabPane>
-          <TabPane tab="Pending Approval" key={"pending-batch"}>
+          <TabPane tab={text.uploadsTab2} key={"pending-batch"}>
             <DataTable pane="pending-batch" />
           </TabPane>
-          <TabPane tab="Approved" key={"approved-batch"}>
+          <TabPane tab={text.uploadsTab3} key={"approved-batch"}>
             <DataTable pane="approved-batch" />
           </TabPane>
         </Tabs>
@@ -428,17 +433,17 @@ const PanelDataUpload = () => {
           <Row align="middle">
             <Col xs={24} align="left">
               <div className="batch-name-field">
-                <label>Batch Name</label>
+                <label>{text.batchName}</label>
                 <Input
                   onChange={(e) => setBatchName(e.target.value)}
                   allowClear
                 />
               </div>
-              <label>Submission comment (Optional)</label>
+              <label>{text.submissionComment}</label>
               <TextArea rows={4} onChange={(e) => setComment(e.target.value)} />
             </Col>
             <Col xs={12} align="left">
-              <Checkbox className="dev">Send a new approval request</Checkbox>
+              <Checkbox className="dev">{text.sendNewRequest}</Checkbox>
             </Col>
             <Col xs={12}>
               <Button
@@ -454,20 +459,17 @@ const PanelDataUpload = () => {
                 onClick={sendBatch}
                 disabled={!batchName.length}
               >
-                Create a new batch
+                {text.createNewBatch}
               </Button>
             </Col>
           </Row>
         }
       >
-        <p>You are about to create a Batch CSV File</p>
+        <p>{text.batchHintText}</p>
         <p>
           <FileTextFilled style={{ color: "#666666", fontSize: 64 }} />
         </p>
-        <p>
-          The operation of merging datasets cannot be undone, and will Create a
-          new batch that will require approval from you admin
-        </p>
+        <p>{text.batchHintDesc}</p>
         <Table
           bordered
           size="small"

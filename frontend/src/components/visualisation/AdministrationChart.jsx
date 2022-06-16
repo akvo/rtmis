@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import "./style.scss";
 import { Card, Row, Checkbox } from "antd";
-import { api, store } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { takeRight, sumBy, isNil, orderBy } from "lodash";
 import { Chart } from "../../components";
@@ -18,6 +18,11 @@ const AdministrationChart = ({ config, formId }) => {
   const { administration, loadingAdministration } = store.useState(
     (state) => state
   );
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
   const getOptionColor = (name, index) => {
     return (
       Color.option.find((c) => {
@@ -133,7 +138,7 @@ const AdministrationChart = ({ config, formId }) => {
           .catch(() => {
             notify({
               type: "error",
-              message: "Could not load data",
+              message: text.errorDataLoad,
             });
           })
           .finally(() => {
@@ -141,7 +146,7 @@ const AdministrationChart = ({ config, formId }) => {
           });
       }
     },
-    [formId, id, stack?.options, options, type, notify]
+    [formId, id, stack?.options, options, type, notify, text.errorDataLoad]
   );
   useEffect(() => {
     if (administration.length && !loadingAdministration) {
@@ -194,7 +199,7 @@ const AdministrationChart = ({ config, formId }) => {
           }}
           checked={showEmpty}
         >
-          Show empty values
+          {text.showEmpty}
         </Checkbox>
       </Row>
       <div className="chart-inner">

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { Card, Spin } from "antd";
 import { LoadingOutlined, SwapOutlined } from "@ant-design/icons";
-import { api } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { Chart } from "../../components";
 import PropTypes from "prop-types";
@@ -13,6 +13,11 @@ const DataChart = ({ config, formId }) => {
   const [chartColors, setChartColors] = useState([]);
   const [loading, setLoading] = useState(false);
   const { notify } = useNotification();
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
   const { id, title, type, stack, options, horizontal = true } = config;
   const getOptionColor = (name, index) => {
     return (
@@ -78,12 +83,12 @@ const DataChart = ({ config, formId }) => {
         .catch(() => {
           notify({
             type: "error",
-            message: "Could not load data",
+            message: text.errorDataLoad,
           });
           setLoading(false);
         });
     }
-  }, [formId, id, notify, type, stack, options]);
+  }, [formId, id, notify, type, stack, options, text.errorDataLoad]);
   const chartTitle =
     type === "BARSTACK" ? (
       <h3>

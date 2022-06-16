@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import {
   Row,
@@ -18,7 +18,7 @@ import {
   ExclamationCircleOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import { api, store } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import DataDetail from "./DataDetail";
 import { DataFilters, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
@@ -32,16 +32,6 @@ const pagePath = [
     title: "Manage Data",
   },
 ];
-const descriptionData = (
-  <div>
-    This section helps you to:
-    <ul>
-      <li>Add new data using webforms</li>
-      <li>Bulk upload data using spreadsheets</li>
-      <li>Export data</li>
-    </ul>
-  </div>
-);
 const ManageData = () => {
   const { notify } = useNotification();
   const [loading, setLoading] = useState(false);
@@ -52,11 +42,17 @@ const ManageData = () => {
   const [updateRecord, setUpdateRecord] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const [deleting, setDeleting] = useState(false);
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   const { administration, selectedForm, questionGroups } = store.useState(
     (state) => state
   );
 
+  const descriptionData = <div>{text.ccPane1Text}</div>;
   const isAdministrationLoaded = administration.length;
   const selectedAdministration =
     administration.length > 0
