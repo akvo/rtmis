@@ -19,6 +19,7 @@ import { api, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { snakeCase, takeRight } from "lodash";
 import moment from "moment";
+import { UploadDataTour } from "./components";
 
 const allowedFiles = [
   "application/vnd.ms-excel",
@@ -182,6 +183,7 @@ const UploadData = () => {
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel description={descriptionData} />
         </Col>
+        <UploadDataTour />
       </Row>
       <Divider />
       <Row align="middle">

@@ -163,12 +163,10 @@ const ManageData = () => {
     <div id="manageData">
       <Row justify="space-between">
         <Col>
-          <Row justify="space-between">
-            <Breadcrumbs pagePath={pagePath} />
-            <ManageDataTour />
-          </Row>
+          <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel description={descriptionData} />
         </Col>
+        <ManageDataTour />
       </Row>
       <Divider />
       <DataFilters query={query} setQuery={setQuery} loading={loading} />
