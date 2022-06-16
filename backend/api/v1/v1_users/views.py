@@ -149,9 +149,9 @@ def get_profile(request, version):
     if last_active:
         time_diff = now - last_active
         time_diff_hours = time_diff.total_seconds() / 3600
-    if time_diff_hours and time_diff_hours >= 2:
-        # revoke/logout after 2 hours inactivity
-        return Response({'message': 'Expired of 2 hours inactivity'},
+    if time_diff_hours and time_diff_hours >= 4:
+        # revoke/logout after 4 hours inactivity
+        return Response({'message': 'Expired of 4 hours inactivity'},
                         status=status.HTTP_401_UNAUTHORIZED)
     return Response(UserSerializer(instance=request.user).data,
                     status=status.HTTP_200_OK)
