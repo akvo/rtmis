@@ -229,16 +229,22 @@ def email_context(context: dict, type: str):
             The spreadsheet that you uploaded has been successfully
             validated and submitted.
             """,
+            "extend_body": "The appovers for this data will be notified",
             "explore_button": True
         })
     if type == EmailTypes.upload_error:
         context.update({
             "subject": "Upload Error",
-            "body": '''Invalid data in the uploaded file,
-                    please correct it and try again.''',
+            "info_text": '''Your data upload the the RUSH platform failed
+            validation checks.''',
             "image": f"{webdomain}/email-icons/close-circle.png",
             "failed_text": "Upload Error",
-            "info_text": "Please find attached file for reference",
+            "extend_body": """The validation errors are attachedin this email.
+            It list all the validation errors that were
+            found along with the cell number.
+            Do note all data upload will need to conform to the questionnaire.
+            Please fix the validation errors and upload again.""",
+            "align": "left",
             "explore_button": True
         })
     if type == EmailTypes.unchanged_data:
@@ -263,7 +269,7 @@ def send_email(context: dict, type=str, path=None,
 
         email_html_message = render_to_string("email/main.html", context)
         msg = EmailMultiAlternatives(
-            "RTMIS - {0}".format(context.get('subject')),
+            "RUSH - {0}".format(context.get('subject')),
             'Email plain text',
             EMAIL_FROM,
             context.get('send_to'),

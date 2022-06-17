@@ -172,7 +172,6 @@ def seed_data_job_result(task):
             'subject': 'New Request @{0}'.format(job.user.get_full_name()),
             'title': "New Data Submission",
             'send_to': [job.user.email],
-            'extend_body': "The appovers for this data will be notified",
             'listing': [{
                 'name': "Upload Date",
                 'value': job.created.strftime("%m-%d-%Y, %H:%M:%S"),
@@ -197,12 +196,28 @@ def validate_excel(job_id):
                     f"./tmp/{job.info.get('file')}")
 
     if len(data):
+        form_id = job.info.get("form")
+        form = Forms.objects.filter(pk=int(form_id)).first()
+        file = job.info.get("file")
+        df = pd.read_excel(f"./tmp/{file}", sheet_name='data')
         error_list = pd.DataFrame(data)
         error_list = error_list[list(
             filter(lambda x: x != "error", list(error_list)))]
         error_file = f"./tmp/error-{job_id}.csv"
         error_list.to_csv(error_file, index=False)
-        data = {'send_to': [job.user.email]}
+        data = {
+             'send_to': [job.user.email],
+             'listing': [{
+                'name': "Upload Date",
+                'value': job.created.strftime("%m-%d-%Y, %H:%M:%S"),
+                }, {
+                'name': "Questionnaire",
+                'value': form.name
+                }, {
+                'name': "Number of Records",
+                'value': df.shape[0]
+             }],
+        }
         send_email(context=data,
                    type=EmailTypes.upload_error,
                    path=error_file,
