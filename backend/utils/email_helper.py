@@ -251,7 +251,13 @@ def email_context(context: dict, type: str):
         context.update({
             "subject": "No Data Updates found",
             "image": f"{webdomain}/email-icons/info-circle.png",
-            "info_text": "No updated data found in the last uploaded file",
+            "info_text": """No changes were detected in the data
+            that you uploaded""",
+            "extend_body": """
+            Please make sure that the file you are uploading contains
+            updates to exisiting records or new records.
+            The approvers for this data HAVE NOT been notified.
+            """,
             "explore_button": True
         })
     # prevent multiline if inside html template
