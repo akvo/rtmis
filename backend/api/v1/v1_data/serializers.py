@@ -523,21 +523,60 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
     def create(self, validated_data):
         batch: PendingDataBatch = validated_data.get('batch')
         user = self.context.get('user')
+        comment = validated_data.get("comment")
         user_level = user.user_access.administration.level_id
         approval = PendingDataApproval.objects.get(
             user=user, batch=batch)
         approval.status = validated_data.get('status')
         approval.save()
         first_data = PendingFormData.objects.filter(batch=batch).first()
+        data_count = PendingFormData.objects.filter(batch=batch).count()
         data = {
             'send_to': [first_data.created_by.email],
             'batch': batch,
             'user': user,
         }
+        listing = [{
+            "name": "Batch Name",
+            "value": batch.name,
+            }, {
+            "name": "Number of Records",
+            "value": data_count,
+            }, {
+            "name": "Questionnaire",
+            "value": batch.form.name,
+        }]
         if approval.status == DataApprovalStatus.approved:
+            listing.append({
+                "name": "Approver",
+                "value": f"{user.name} ({user.designation})",
+            })
+            if comment:
+                listing.append({"name": "Comment", "value": comment})
+            data.update({
+                "listing": listing,
+                "extend_body": """
+                Further approvals may be required before data is finalised.
+                You can also track your data approval in the RUSH platform
+                [My Profile > Data uploads > Pending Approval/Approved]
+                """
+            })
             send_email(context=data, type=EmailTypes.batch_approval)
         else:
+            listing.append({
+                "name": "Rejector",
+                "value": f"{user.name} ({user.designation})",
+            })
+            if comment:
+                listing.append({"name": "Comment", "value": comment})
             # rejection request change to user
+            data.update({
+                "listing": listing,
+                "extend_body": """
+                You can also access the rejected data in the RUSH platform
+                [My Profile > Data uploads > Rejected]
+                """
+            })
             send_email(context=data, type=EmailTypes.batch_rejection)
             # send email to lower approval
             lower_approvals = PendingDataApproval.objects.filter(

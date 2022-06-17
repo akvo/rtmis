@@ -13,7 +13,7 @@ import {
 } from "antd";
 import { AdministrationDropdownUserPage } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
-import { api, store, config } from "../../lib";
+import { api, store, config, uiText } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { takeRight, dropRight } from "lodash";
 import { useNotification } from "../../util/hooks";
@@ -31,6 +31,11 @@ const AddUser = () => {
   const [allowedForms, setAllowedForms] = useState([]);
   const [description, setDescription] = useState("");
   const [form] = Form.useForm();
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
   const {
     user: authUser,
     administration,
@@ -45,15 +50,15 @@ const AddUser = () => {
 
   const pagePath = [
     {
-      title: "Control Center",
+      title: text.controlCenter,
       link: "/control-center",
     },
     {
-      title: "Manage Users",
+      title: text.manageUsers,
       link: "/users",
     },
     {
-      title: id ? "Edit User" : "Add User",
+      title: id ? text.editUser : text.addUser,
     },
   ];
   const onFinish = (values) => {
@@ -183,11 +188,11 @@ const AddUser = () => {
           fetchData(res.data.administration, []);
         });
       } catch (error) {
-        notify({ type: "error", message: "Failed to load user data" });
+        notify({ type: "error", message: text.errorUserLoad });
         setLoading(false);
       }
     }
-  }, [id, form, forms, notify]);
+  }, [id, form, forms, notify, text.errorUserLoad]);
 
   const roleDescription = (e) => {
     const role = config.roles.filter((data) => data.id === e);
@@ -242,7 +247,7 @@ const AddUser = () => {
                 rules={[
                   {
                     required: true,
-                    message: "First name is required",
+                    message: text.valFirstName,
                   },
                 ]}
               >
@@ -256,7 +261,7 @@ const AddUser = () => {
                 rules={[
                   {
                     required: true,
-                    message: "Last name is required",
+                    message: text.valLastName,
                   },
                 ]}
               >
@@ -271,7 +276,7 @@ const AddUser = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please enter a valid Email Address",
+                  message: text.valEmail,
                   type: "email",
                 },
               ]}
@@ -286,7 +291,7 @@ const AddUser = () => {
               rules={[
                 {
                   required: true,
-                  message: "Phone number is required",
+                  message: text.valPhone,
                 },
               ]}
             >
@@ -314,9 +319,7 @@ const AddUser = () => {
             <Form.Item
               name="designation"
               label="Designation"
-              rules={[
-                { required: true, message: "Please select a Designation" },
-              ]}
+              rules={[{ required: true, message: text.valDesignation }]}
             >
               <Select
                 placeholder="Select one.."
@@ -334,7 +337,7 @@ const AddUser = () => {
             <Form.Item
               name="role"
               label="Role"
-              rules={[{ required: true, message: "Please select a Role" }]}
+              rules={[{ required: true, message: text.valRole }]}
             >
               <Select
                 getPopupContainer={(trigger) => trigger.parentNode}
@@ -447,12 +450,12 @@ const AddUser = () => {
               name="inform_user"
               rules={[{ required: false }]}
             >
-              <Checkbox>Inform User of Changes</Checkbox>
+              <Checkbox>{text.informUser}</Checkbox>
             </Form.Item>
           </Col>
           <Col>
             <Button type="primary" htmlType="submit" loading={submitting}>
-              {id ? "Update User" : "Add User"}
+              {id ? text.updateUser : text.addUser}
             </Button>
           </Col>
         </Row>

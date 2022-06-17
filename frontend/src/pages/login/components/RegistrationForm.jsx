@@ -1,29 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { api, store, config } from "../../../lib";
+import { api, store, config, uiText } from "../../../lib";
 import { useNavigate } from "react-router-dom";
 import { useNotification } from "../../../util/hooks";
 import { reloadData } from "../../../util/form";
 
-const checkBoxOptions = [
-  { name: "Lowercase Character", re: /[a-z]/ },
-  { name: "Numbers", re: /\d/ },
-  {
-    name: "Special Character ( -._!`'#%&,:;<>=@{}~$()*+/?[]^|] )",
-    re: /[-._!`'#%&,:;<>=@{}~$()*+/?[\]^|]/,
-  },
-  { name: "Uppercase Character", re: /[A-Z]/ },
-  { name: "No White Space", re: /^\S*$/ },
-  { name: "Minimum 8 Character", re: /(?=.{8,})/ },
-];
 const RegistrationForm = (props) => {
   const { invite } = props;
   const [checkedList, setCheckedList] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { notify } = useNotification();
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
+  const checkBoxOptions = [
+    { name: text.passwordRule1, re: /[a-z]/ },
+    { name: text.passwordRule2, re: /\d/ },
+    {
+      name: text.passwordRule3,
+      re: /[-._!`'#%&,:;<>=@{}~$()*+/?[\]^|]/,
+    },
+    { name: text.passwordRule4, re: /[A-Z]/ },
+    { name: text.passwordRule5, re: /^\S*$/ },
+    { name: text.passwordRule6, re: /(?=.{8,})/ },
+  ];
   const onFinish = (values) => {
     const postData = {
       invite,
@@ -46,7 +51,7 @@ const RegistrationForm = (props) => {
         setLoading(false);
         notify({
           type: "success",
-          message: "Password updated successfully",
+          message: text.passwordUpdateSuccess,
         });
         setTimeout(() => {
           navigate("/profile");
@@ -92,14 +97,14 @@ const RegistrationForm = (props) => {
           rules={[
             {
               required: true,
-              message: "Please input your Password!",
+              message: text.passwordRequired,
             },
             () => ({
               validator() {
                 if (checkedList.length === 6) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error("False Password Criteria"));
+                return Promise.reject(new Error(text.passwordCriteriaError));
               },
             }),
           ]}
@@ -125,9 +130,7 @@ const RegistrationForm = (props) => {
                 if (!value || getFieldValue("password") === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject(
-                  new Error("The two passwords that you entered do not match!")
-                );
+                return Promise.reject(new Error(text.passwordMatchError));
               },
             }),
           ]}
@@ -142,12 +145,7 @@ const RegistrationForm = (props) => {
             Set New Password
           </Button>
         </Form.Item>
-        <p className="disclaimer">
-          The user is accountable for his/her account and in case there are any
-          changes (Transfers, retirement, any kind of leave, resignation etc)
-          this should be communicated to the County Administrator or National
-          Super Admin who might be able to assign the roles to the new officer.
-        </p>
+        <p className="disclaimer">{text.accountDisclaimer}</p>
       </Form>
     </>
   );
