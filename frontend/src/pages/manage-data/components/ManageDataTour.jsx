@@ -16,38 +16,33 @@ const ManageDataTour = () => {
           {
             image: "/assets/tour/manage-data/2.png",
             title: "Searching data",
-            description:
-              "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
-          },
-          {
-            image: "/assets/tour/manage-data/3.png",
-            title: "Exports",
-            description:
-              "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
-          },
-          {
-            image: "/assets/tour/manage-data/4.png",
-            title: "Uploads",
-            description:
-              "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
-          },
-          {
-            image: "/assets/tour/manage-data/5.png",
-            title: "View data on the table",
-            description:
-              "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
+            description: "Search data with select dropdowns.",
           },
           {
             image: "/assets/tour/manage-data/6.png",
             title: "Add",
-            description:
-              "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
+            description: "This is an add-data button.",
+          },
+          {
+            image: "/assets/tour/manage-data/3.png",
+            title: "Exports",
+            description: "This is an export-data button.",
+          },
+          {
+            image: "/assets/tour/manage-data/4.png",
+            title: "Uploads",
+            description: "This is an upload-data button.",
+          },
+          {
+            image: "/assets/tour/manage-data/5.png",
+            title: "View data on the table",
+            description: "This is a table where you can see the data",
           },
         ]
       : []),
   ];
 
-  return <Tour steps={steps} />;
+  return <Tour steps={steps} title="Manage data" />;
 };
 
 export default React.memo(ManageDataTour);

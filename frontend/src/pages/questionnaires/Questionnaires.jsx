@@ -128,6 +128,9 @@ const Questionnaires = () => {
           <Breadcrumbs pagePath={pagePath} />
         </Col>
         <QuestionnaireTour />
+      </Row>
+      <Divider />
+      <Row justify="end">
         <Col>
           <Space size={6}>
             <Button

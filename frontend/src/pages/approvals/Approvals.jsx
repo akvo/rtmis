@@ -69,6 +69,10 @@ const Approvals = () => {
         <Col>
           <Breadcrumbs pagePath={pagePath} />
         </Col>
+        <ApprovalTour />
+      </Row>
+      <Divider />
+      <Row justify="end">
         <Col>
           {(role === 1 || role === 2) && (
             <Link to={role === 1 ? "/questionnaires" : "/questionnaires/admin"}>
@@ -76,7 +80,6 @@ const Approvals = () => {
             </Link>
           )}
         </Col>
-        <ApprovalTour />
       </Row>
       <Divider />
       <Card

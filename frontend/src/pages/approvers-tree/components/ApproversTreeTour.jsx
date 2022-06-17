@@ -10,27 +10,26 @@ const ApproversTreeTour = () => {
       ? [
           {
             image: "/assets/tour/manage-approver/1.png",
-            title: "Filter approvers",
+            title: "Select an approver",
             description:
-              "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
+              "You can search for a specific approvers with this select dropdown.",
           },
           {
             image: "/assets/tour/manage-approver/2.png",
             title: "Save or reset",
             description:
-              "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
+              "The selected approver can be saved by clicking save button. You also can reset the filter dropdown",
           },
           {
             image: "/assets/tour/manage-approver/3.png",
-            title: "List of approvers",
-            description:
-              "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
+            title: "Approvers",
+            description: "You can see the approvers trees here.",
           },
         ]
       : []),
   ];
 
-  return <Tour steps={steps} />;
+  return <Tour steps={steps} title="Manage approvers" />;
 };
 
 export default React.memo(ApproversTreeTour);

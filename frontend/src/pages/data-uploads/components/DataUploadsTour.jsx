@@ -12,13 +12,13 @@ const DataUploadsTour = () => {
             image: "/assets/tour/view-data-uploads/1.png",
             title: "All uploads",
             description:
-              "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
+              "This shows you tabs with table where you can see pending submission, pending approval and approved data",
           },
         ]
       : []),
   ];
 
-  return <Tour steps={steps} />;
+  return <Tour steps={steps} title="View data uploads" />;
 };
 
 export default React.memo(DataUploadsTour);

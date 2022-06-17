@@ -18,7 +18,7 @@ const QuestionnaireTour = () => {
       : []),
   ];
 
-  return <Tour steps={steps} />;
+  return <Tour steps={steps} title="Questionnaires" />;
 };
 
 export default React.memo(QuestionnaireTour);

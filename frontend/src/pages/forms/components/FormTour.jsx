@@ -18,7 +18,7 @@ const FormTour = () => {
       : []),
   ];
 
-  return <Tour steps={steps} />;
+  return <Tour steps={steps} title="Add new data" />;
 };
 
 export default React.memo(FormTour);

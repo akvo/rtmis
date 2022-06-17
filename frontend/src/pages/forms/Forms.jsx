@@ -140,7 +140,7 @@ const Forms = () => {
     <div id="form">
       <Row justify="center">
         <Col span={24} className="webform">
-          <Row>
+          <Row justify="space-between">
             <Space>
               <Breadcrumbs pagePath={pagePath} description={descriptionData} />
             </Space>

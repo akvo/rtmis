@@ -12,19 +12,19 @@ const QuestionnaireTour = () => {
             image: "/assets/tour/view-approver/2.png",
             title: "Manage questionnaire button",
             description:
-              "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
+              "This button brings you to a page where you can manage questionnaires approvals.",
           },
           {
             image: "/assets/tour/view-approver/1.png",
             title: "Approvals",
             description:
-              "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
+              "This shows tabs with a table to see pending, subordinates and approved",
           },
         ]
       : []),
   ];
 
-  return <Tour steps={steps} />;
+  return <Tour steps={steps} title="View approvers" />;
 };
 
 export default React.memo(QuestionnaireTour);

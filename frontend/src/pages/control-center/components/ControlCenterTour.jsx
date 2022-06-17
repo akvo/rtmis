@@ -68,7 +68,7 @@ const ControlCenterTour = () => {
       : []),
   ];
 
-  return <Tour steps={steps} />;
+  return <Tour steps={steps} title="Control Center Tour" />;
 };
 
 export default React.memo(ControlCenterTour);

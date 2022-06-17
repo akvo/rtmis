@@ -12,19 +12,18 @@ const ExportDataTour = () => {
             image: "/assets/tour/export-data/1.png",
             title: "Data to generate",
             description:
-              "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
+              "This is an item that has either in failed or successful exports",
           },
           {
             image: "/assets/tour/export-data/2.png",
             title: "Learn more",
-            description:
-              "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
+            description: "See more exported data",
           },
         ]
       : []),
   ];
 
-  return <Tour steps={steps} />;
+  return <Tour steps={steps} title="Export data" />;
 };
 
 export default React.memo(ExportDataTour);

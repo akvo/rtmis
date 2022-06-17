@@ -10,7 +10,7 @@ const VisualisationTour = () => {
       ? [
           {
             image: "/assets/tour/visualisation/1.png",
-            title: "Action buttons",
+            title: "Select dropdown and Action buttons",
             description:
               "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
           },
@@ -27,7 +27,7 @@ const VisualisationTour = () => {
               "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
           },
           {
-            image: "/assets/tour/visualisation/2.png",
+            image: "/assets/tour/visualisation/4.png",
             title: "Type of data",
             description:
               "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
@@ -36,7 +36,7 @@ const VisualisationTour = () => {
       : []),
   ];
 
-  return <Tour steps={steps} />;
+  return <Tour steps={steps} title="Visualization" />;
 };
 
 export default React.memo(VisualisationTour);

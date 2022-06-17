@@ -11,20 +11,18 @@ const UploadDataTour = () => {
           {
             image: "/assets/tour/upload-data/1.png",
             title: "Download",
-            description:
-              "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
+            description: "An item you can download.",
           },
           {
             image: "/assets/tour/upload-data/2.png",
-            title: "Upload / Browsing to your computer",
-            description:
-              "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
+            title: "Upload",
+            description: "Upload / Browsing to your computer.",
           },
         ]
       : []),
   ];
 
-  return <Tour steps={steps} />;
+  return <Tour steps={steps} title="Upload data" />;
 };
 
 export default React.memo(UploadDataTour);
