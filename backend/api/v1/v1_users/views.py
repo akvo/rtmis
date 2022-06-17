@@ -33,6 +33,7 @@ from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
     ListUserRequestSerializer, ListLevelSerializer, UserDetailSerializer, \
     ForgotPasswordSerializer
+from api.v1.v1_forms.models import Forms
 # from api.v1.v1_data.models import PendingDataBatch, \
 #     PendingDataApproval, FormData
 from rtmis.settings import REST_FRAMEWORK
@@ -259,8 +260,17 @@ def add_user(request, version):
             {'message': validate_serializers_message(serializer.errors)},
             status=status.HTTP_400_BAD_REQUEST)
     user = serializer.save()
+    user = Access.objects.filter(user=user.pk).first()
+    admin = Access.objects.filter(user=request.user.pk).first()
+    user_forms = Forms.objects.filter(pk__in=request.data.get("forms")).all()
     url = f"{webdomain}/login/{signing.dumps(user.pk)}"
-    data = {'button_url': url, 'send_to': [user.email]}
+    data = {
+        'button_url': url,
+        'send_to': [user.user.email],
+        'user': user,
+        'forms': [f.name for f in user_forms],
+        'admin': admin
+    }
     send_email(type=EmailTypes.user_invite, context=data)
     return Response({'message': 'User added successfully'},
                     status=status.HTTP_200_OK)
@@ -274,8 +284,7 @@ def add_user(request, version):
                           "total": serializers.IntegerField(),
                           "total_page": serializers.IntegerField(),
                           "data": ListUserSerializer(many=True),
-                      })
-},
+                      })},
                tags=['User'],
                summary='Get list of users',
                parameters=[

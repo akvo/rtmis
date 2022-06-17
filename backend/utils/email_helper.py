@@ -93,7 +93,8 @@ def email_context(context: dict, type: str):
             "body": '''You recently requested a password reset.
                 Please disregard this email if it wasn't you and make sure
                 you can still login to your account.
-                If it was you, then click the following button:
+                If it was you, please click the following button to
+                reset your password
                 ''',
             "explore_button": False,
             "button": True,
@@ -102,14 +103,35 @@ def email_context(context: dict, type: str):
         })
     if type == EmailTypes.user_invite:
         button_url = "#"
+        admin = context.get("admin")
+        user = context.get("user")
+        forms = ""
+        listing = []
+        if user:
+            listing = [{
+                "name": "Role",
+                "value": user.role_name
+                }, {
+                "name": "Region",
+                "value": user.administration.full_name
+            }]
+        if admin:
+            admin = f"""{admin.user.name} ({admin.user.designation}),
+                {admin.administration.full_name}."""
+        if context.get("forms"):
+            forms = ", ".join(context.get("forms"))
+            listing.append({"name": "Questionnaire", "value": forms})
         if context.get("button_url"):
             button_url = context.get("button_url")
         context.update({
             "subject": "Invitation",
-            "body": '''You have been invited to the National Sanitation
-                    and Hygiene Real-Time Monitoring System. Please click
-                    on the button below to set your password
-                    and finalise your account setup.''',
+            "body": f'''
+            You have been invited to the Rural Urban Sanitation
+            and Hygiene (RUSH) monitoring platform by {admin}.''',
+            "listing": listing,
+            "extend_body": '''Please click on the button below
+            to set your password and finalise your account setup.''',
+            "align": "left",
             "explore_button": False,
             "button": True,
             "button_url": button_url,

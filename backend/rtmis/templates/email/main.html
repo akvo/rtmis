@@ -385,7 +385,6 @@
               <table
                 role="presentation"
                 cellspacing="0"
-                cellpadding="0"
                 border="0"
                 width="100%"
                 style="
@@ -478,7 +477,7 @@
                       <div
                         class="heading-section"
                         style="
-                          text-align: center;
+                          text-align: {% if align %} {{align}} {% else %} center {% endif %};
                           padding: 0.75em 4.5em;
                           -ms-text-size-adjust: 100%;
                           -webkit-text-size-adjust: 100%;
@@ -508,6 +507,23 @@
                         >
                           {{ body }}
                         </p>
+                        {% if listing %}
+                        <ul style="text-align: left; color: #333">
+                          {% for item in listing %}
+                          <li>{{item.name}} : {{item.value}}</li>
+                          {% endfor %}
+                        </ul>
+                        {% endif %} {% if extend_body %}
+                        <p
+                          style="
+                            -ms-text-size-adjust: 100%;
+                            -webkit-text-size-adjust: 100%;
+                            color: #000000;
+                          "
+                        >
+                          {{ extend_body }}
+                        </p>
+                        {% endif %}
                       </div>
                       {% if image or message or show_content %}
                       <table style="width: 90%; margin: auto; padding: 20px">
