@@ -1,6 +1,10 @@
 @import "../../variables";
 
 .ant-modal-content {
+  .ant-modal-body {
+    height: 434px;
+  }
+
   .ant-carousel {
     h3 {
       margin-top: 24px;
