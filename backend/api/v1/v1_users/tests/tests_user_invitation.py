@@ -51,7 +51,7 @@ class UserInvitationTestCase(TestCase):
         self.assertGreater(len(response.json().get('data')), 0)
         self.assertEqual(response.status_code, 200)
         # search by fullname
-        response = self.client.get("/api/v1/users?search=admin rtmis",
+        response = self.client.get("/api/v1/users?search=admin rush",
                                    follow=True,
                                    **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
         users = response.json()
