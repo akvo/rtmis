@@ -211,10 +211,12 @@ const AddUser = () => {
     <div id="add-user">
       <Row justify="space-between">
         <Col>
-          <Breadcrumbs pagePath={pagePath} />
+          <Row justify="space-between">
+            <Breadcrumbs pagePath={pagePath} />
+            <AddUserTour />
+          </Row>
           <DescriptionPanel description={descriptionData} />
         </Col>
-        <AddUserTour />
       </Row>
       <Divider />
       <Form

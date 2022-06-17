@@ -7,6 +7,7 @@ import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store } from "../../lib";
 import { columnsApproval } from "./";
 import ApprovalDetails from "./ApprovalDetail";
+import { ApprovalTour } from "./components";
 
 const columns = [...columnsApproval, Table.EXPAND_COLUMN];
 
@@ -75,6 +76,7 @@ const Approvals = () => {
             </Link>
           )}
         </Col>
+        <ApprovalTour />
       </Row>
       <Divider />
       <Card
