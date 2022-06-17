@@ -12,7 +12,7 @@ from api.v1.v1_forms.constants import QuestionTypes
 class DataVisualisationTestCase(TestCase):
     def test_maps_data(self):
         call_command("administration_seeder", "--test")
-        user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
         user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
@@ -49,7 +49,7 @@ class DataVisualisationTestCase(TestCase):
 
     def test_chart_data(self):
         call_command("administration_seeder", "--test")
-        user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
         user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')

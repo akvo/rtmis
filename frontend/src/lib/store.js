@@ -6,6 +6,10 @@ const defaultUIState = {
   filters: {
     role: null,
   },
+  language: {
+    active: "en",
+    langs: { en: "English", de: "German" },
+  },
   administration: [],
   selectedAdministration: null,
   loadingAdministration: false,

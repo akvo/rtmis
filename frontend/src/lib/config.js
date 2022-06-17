@@ -20,7 +20,7 @@ const config = {
       ],
       administration_level: [1],
       description:
-        "Overall national administrator of the RTMIS. Assigns roles to all county admins",
+        "Overall national administrator of the RUSH. Assigns roles to all county admins",
     },
     {
       id: 2,
@@ -40,7 +40,7 @@ const config = {
       ],
       administration_level: [2],
       description:
-        "Overall County administrator of the RTMIS. Assigns roles to all sub county RTMIS admins (approvers) in the county under jusridistion.",
+        "Overall County administrator of the RUSH. Assigns roles to all sub county RUSH admins (approvers) in the county under jusridistion.",
     },
     {
       id: 3,

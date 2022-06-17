@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { Row, Col, Card, Divider, Select } from "antd";
 import { Breadcrumbs } from "../../components";
-import { api, store } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import ApproverFilters from "../../components/filters/ApproverFilters";
 import { SteppedLineTo } from "react-lineto";
 import { take, takeRight } from "lodash";
@@ -27,6 +27,11 @@ const ApproversTree = () => {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const { notify } = useNotification();
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   useEffect(() => {
     setNodes([
@@ -242,7 +247,7 @@ const ApproversTree = () => {
                     <Select
                       key={`user-dropdown-${childItem.id}`}
                       allowClear
-                      placeholder="Not assigned"
+                      placeholder={text.notAssigned}
                       value={
                         dataset[k]?.children?.find(
                           (c) => c.administration.id === childItem.id
@@ -290,7 +295,14 @@ const ApproversTree = () => {
             )
         )
       : "";
-  }, [administration, dataset, selectedForm, loading, notify]);
+  }, [
+    administration,
+    dataset,
+    selectedForm,
+    loading,
+    notify,
+    text.notAssigned,
+  ]);
 
   const renderFormLine = useMemo(() => {
     return (

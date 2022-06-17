@@ -1,12 +1,18 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useMemo } from "react";
 import { Button, Modal, Carousel, Row, Col, Space } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
+import { store, uiText } from "../../lib";
 import "./style.scss";
 
 const Tour = ({ steps, title }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [current, setCurrent] = useState(0);
   const cRef = useRef(null);
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
   const handleNext = () => {
     if (current < steps.length - 1) {
       cRef.current.next();
@@ -51,10 +57,10 @@ const Tour = ({ steps, title }) => {
             <Col>
               <Space direction="horizontal">
                 <Button onClick={handlePrev} disabled={current < 1}>
-                  Prev
+                  {text?.prev}
                 </Button>
                 <Button type="primary" onClick={handleNext}>
-                  {current < steps.length - 1 ? "Next" : "Finish"}
+                  {current < steps.length - 1 ? text?.next : text?.finish}
                 </Button>
               </Space>
             </Col>

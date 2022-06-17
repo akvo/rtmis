@@ -18,7 +18,7 @@ import {
   CloseSquareOutlined,
   FileTextFilled,
 } from "@ant-design/icons";
-import { api, store } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import { columnsPending, columnsBatch, columnsSelected } from "./";
 import UploadDetail from "./UploadDetail";
 import FormDropdown from "../../components/filters/FormDropdown";
@@ -50,6 +50,11 @@ const DataUploads = () => {
   const { selectedForm } = store.useState((state) => state);
   const [batchName, setBatchName] = useState("");
   const [comment, setComment] = useState("");
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
   useEffect(() => {
     if (selectedForm) {
       setLoading(true);
@@ -106,12 +111,12 @@ const DataUploads = () => {
             setModalVisible(true);
           }}
         >
-          Batch Selected Datasets
+          {text.batchSelectedDatasets}
         </Button>
       );
     }
     return "";
-  }, [selectedRows, modalButton]);
+  }, [selectedRows, modalButton, text.batchSelectedDatasets]);
 
   const sendBatch = () => {
     setLoading(true);
@@ -149,9 +154,9 @@ const DataUploads = () => {
           onChange={setDataTab}
           tabBarExtraContent={btnBatchSelected}
         >
-          <TabPane tab="Pending Submission" key="pending-submission"></TabPane>
-          <TabPane tab="Pending Approval" key="pending-approval"></TabPane>
-          <TabPane tab="Approved" key="approved"></TabPane>
+          <TabPane tab={text.uploadsTab1} key="pending-submission"></TabPane>
+          <TabPane tab={text.uploadsTab2} key="pending-approval"></TabPane>
+          <TabPane tab={text.uploadsTab3} key="approved"></TabPane>
         </Tabs>
         <Table
           dataSource={dataset}
@@ -161,7 +166,7 @@ const DataUploads = () => {
               ? [
                   ...columnsPending,
                   {
-                    title: "Batch Datasets",
+                    title: text.batchDatasets,
                     render: (row) => (
                       <Checkbox
                         checked={
@@ -226,17 +231,17 @@ const DataUploads = () => {
           <Row align="middle">
             <Col xs={24} align="left">
               <div className="batch-name-field">
-                <label>Batch Name</label>
+                <label>{text.batchName}</label>
                 <Input
                   onChange={(e) => setBatchName(e.target.value)}
                   allowClear
                 />
               </div>
-              <label>Submission comment (Optional)</label>
+              <label>{text.submissionComment}</label>
               <TextArea rows={4} onChange={(e) => setComment(e.target.value)} />
             </Col>
             <Col xs={12} align="left">
-              <Checkbox className="dev">Send a new approval request</Checkbox>
+              <Checkbox className="dev">{text.sendNewRequest}</Checkbox>
             </Col>
             <Col xs={12}>
               <Button
@@ -252,20 +257,17 @@ const DataUploads = () => {
                 onClick={sendBatch}
                 disabled={!batchName.length}
               >
-                Create a new batch
+                {text.createNewBatch}
               </Button>
             </Col>
           </Row>
         }
       >
-        <p>You are about to create a Batch CSV File</p>
+        <p>{text.batchHintText}</p>
         <p>
           <FileTextFilled style={{ color: "#666666", fontSize: 64 }} />
         </p>
-        <p>
-          The operation of merging datasets cannot be undone, and will Create a
-          new batch that will require approval from you admin
-        </p>
+        <p>{text.batchHintDesc}</p>
         <Table
           bordered
           size="small"

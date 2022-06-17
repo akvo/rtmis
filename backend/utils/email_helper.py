@@ -93,7 +93,8 @@ def email_context(context: dict, type: str):
             "body": '''You recently requested a password reset.
                 Please disregard this email if it wasn't you and make sure
                 you can still login to your account.
-                If it was you, then click the following button:
+                If it was you, please click the following button to
+                reset your password
                 ''',
             "explore_button": False,
             "button": True,
@@ -102,14 +103,18 @@ def email_context(context: dict, type: str):
         })
     if type == EmailTypes.user_invite:
         button_url = "#"
+        admin = ""
         if context.get("button_url"):
             button_url = context.get("button_url")
+        if context.get("admin"):
+            admin = context.get("admin")
         context.update({
             "subject": "Invitation",
-            "body": '''You have been invited to the National Sanitation
-                    and Hygiene Real-Time Monitoring System. Please click
-                    on the button below to set your password
-                    and finalise your account setup.''',
+            "body": f'''You have been invited to the Rural Urban Sanitation
+            and Hygiene (RUSH) monitoring platform by {admin}''',
+            "extend_body": '''Please click on the button below
+            to set your password and finalise your account setup.''',
+            "align": "left",
             "explore_button": False,
             "button": True,
             "button_url": button_url,
@@ -142,42 +147,20 @@ def email_context(context: dict, type: str):
             "explore_button": True
         })
     if type == EmailTypes.batch_approval:
-        batch = context.get("batch")
-        user = context.get("user")
-        body = "{0} of {1} data has been approved by {2}"
-        success_text = "{0} Approved"
-        if batch and user:
-            body = body.format(batch.name, batch.form.name,
-                               user.get_full_name())
-            success_text = success_text.format(batch.name)
-        else:
-            body = body.format("Batch name", "Form name", "User email")
-            success_text = success_text.format("Batch name")
         context.update({
             "subject": "Batch Approved",
-            "body": body,
             "image": f"{webdomain}/email-icons/check-circle.png",
-            "success_text": success_text,
-            "explore_button": True
+            "success_text": "Your submission has been approved",
+            "explore_button": True,
+            "align": "left"
         })
     if type == EmailTypes.batch_rejection:
-        batch = context.get("batch")
-        user = context.get("user")
-        body = "{0} of {1} data has been rejected by {2}"
-        failed_text = "{0} Rejected"
-        if batch and user:
-            body = body.format(batch.name, batch.form.name,
-                               user.get_full_name())
-            failed_text = failed_text.format(batch.name)
-        else:
-            body = body.format("Batch name", "Form name", "User email")
-            failed_text = failed_text.format("Batch name")
         context.update({
             "subject": "Batch Rejected",
-            "body": body,
             "image": f"{webdomain}/email-icons/close-circle.png",
-            "failed_text": failed_text,
-            "explore_button": True
+            "failed_text": "Your submission batch has been rejected",
+            "explore_button": True,
+            "align": "left"
         })
     if type == EmailTypes.inform_batch_rejection_approver:
         batch = context.get("batch")
@@ -220,24 +203,39 @@ def email_context(context: dict, type: str):
     if type == EmailTypes.new_request:
         context.update({
             "image": f"{webdomain}/email-icons/info-circle.png",
-            "info_text": "Data has been successfully validated and submitted",
+            "info_text": """
+            The spreadsheet that you uploaded has been successfully
+            validated and submitted.
+            """,
+            "extend_body": "The appovers for this data will be notified",
             "explore_button": True
         })
     if type == EmailTypes.upload_error:
         context.update({
             "subject": "Upload Error",
-            "body": '''Invalid data in the uploaded file,
-                    please correct it and try again.''',
+            "info_text": '''Your data upload the the RUSH platform failed
+            validation checks.''',
             "image": f"{webdomain}/email-icons/close-circle.png",
             "failed_text": "Upload Error",
-            "info_text": "Please find attached file for reference",
+            "extend_body": """The validation errors are attachedin this email.
+            It list all the validation errors that were
+            found along with the cell number.
+            Do note all data upload will need to conform to the questionnaire.
+            Please fix the validation errors and upload again.""",
+            "align": "left",
             "explore_button": True
         })
     if type == EmailTypes.unchanged_data:
         context.update({
             "subject": "No Data Updates found",
             "image": f"{webdomain}/email-icons/info-circle.png",
-            "info_text": "No updated data found in the last uploaded file",
+            "info_text": """No changes were detected in the data
+            that you uploaded""",
+            "extend_body": """
+            Please make sure that the file you are uploading contains
+            updates to exisiting records or new records.
+            The approvers for this data HAVE NOT been notified.
+            """,
             "explore_button": True
         })
     # prevent multiline if inside html template
@@ -255,7 +253,7 @@ def send_email(context: dict, type=str, path=None,
 
         email_html_message = render_to_string("email/main.html", context)
         msg = EmailMultiAlternatives(
-            "RTMIS - {0}".format(context.get('subject')),
+            "RUSH - {0}".format(context.get('subject')),
             'Email plain text',
             EMAIL_FROM,
             context.get('send_to'),

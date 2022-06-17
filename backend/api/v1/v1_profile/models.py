@@ -71,5 +71,9 @@ class Access(models.Model):
     def __str__(self):
         return UserRoleTypes.FieldStr.get(self.role)
 
+    @property
+    def role_name(self):
+        return UserRoleTypes.FieldStr.get(self.role)
+
     class Meta:
         db_table = 'access'

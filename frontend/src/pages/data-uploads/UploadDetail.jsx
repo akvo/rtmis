@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Table, Tabs, Button, Space, Tag, List, Avatar, Spin } from "antd";
 import {
   PlusSquareOutlined,
@@ -6,7 +6,7 @@ import {
   LoadingOutlined,
   HistoryOutlined,
 } from "@ant-design/icons";
-import { api, store } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import { EditableCell } from "../../components";
 import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
@@ -90,6 +90,11 @@ const UploadDetail = ({ record, setReload }) => {
   const [questionGroups, setQuestionGroups] = useState([]);
   const { notify } = useNotification();
   const { user } = store.useState((state) => state);
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   const handleSave = (data) => {
     setSaving(data.id);
@@ -328,8 +333,8 @@ const UploadDetail = ({ record, setReload }) => {
     <div>
       <ApproverDetail />
       <Tabs centered activeKey={selectedTab} onTabClick={handleTabSelect}>
-        <TabPane tab="Data Summary" key="data-summary" />
-        <TabPane tab="Raw Data" key="raw-data" />
+        <TabPane tab={text.uploadTab1} key="data-summary" />
+        <TabPane tab={text.uploadTab2} key="raw-data" />
       </Tabs>
       <Table
         loading={loading}
@@ -464,7 +469,7 @@ const UploadDetail = ({ record, setReload }) => {
             : false
         }
       />
-      <h3>Notes {"&"} Feedback</h3>
+      <h3>{text.notesFeedback}</h3>
       {!!comments.length && (
         <div className="comments">
           <List

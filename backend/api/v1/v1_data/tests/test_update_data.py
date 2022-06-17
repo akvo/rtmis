@@ -28,7 +28,7 @@ class FormDataUpdateTestCase(TestCase):
     def test_update_datapoint_by_admin_role(self):
         self.maxDiff = None
         seed_administration_test()
-        user = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user = {"email": "admin@rush.com", "password": "Test105*"}
         user = self.client.post('/api/v1/login',
                                 user,
                                 content_type='application/json')
@@ -141,14 +141,14 @@ class FormDataUpdateTestCase(TestCase):
                 self.assertEqual(list(history[0]), [
                     'value', 'created', 'created_by'])
                 self.assertEqual(history[0]['value'], 'Jane')
-                self.assertEqual(history[0]['created_by'], 'Admin RTMIS')
+                self.assertEqual(history[0]['created_by'], 'Admin RUSH')
             if question == 102:
                 self.assertEqual(question, 102)
                 self.assertEqual(value, ['Female'])
                 self.assertEqual(list(history[0]), [
                     'value', 'created', 'created_by'])
                 self.assertEqual(history[0]['value'], ['Male'])
-                self.assertEqual(history[0]['created_by'], 'Admin RTMIS')
+                self.assertEqual(history[0]['created_by'], 'Admin RUSH')
 
     def test_update_datapoint_by_data_entry_role(self):
         self.maxDiff = None
@@ -160,7 +160,7 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(form.name, "Test Form")
         self.assertEqual(form.type, FormTypes.county)
 
-        user = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user = {"email": "admin@rush.com", "password": "Test105*"}
         user = self.client.post('/api/v1/login',
                                 user,
                                 content_type='application/json')
@@ -351,7 +351,7 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(form.name, "Test Form 2")
         self.assertEqual(form.type, FormTypes.national)
 
-        user = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user = {"email": "admin@rush.com", "password": "Test105*"}
         user = self.client.post('/api/v1/login',
                                 user,
                                 content_type='application/json')
@@ -544,7 +544,7 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(form.name, "Test Form")
         self.assertEqual(form.type, FormTypes.county)
 
-        user = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user = {"email": "admin@rush.com", "password": "Test105*"}
         user = self.client.post('/api/v1/login',
                                 user,
                                 content_type='application/json')

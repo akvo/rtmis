@@ -101,6 +101,8 @@ class Questions(models.Model):
             if self.question_question_options.count() else False
         return {
             "id": self.id,
+            "qg_id": self.question_group.id,
+            "order": self.order + 1,
             "name": self.name,
             "type": QuestionTypes.FieldStr.get(self.type),
             "required": self.required,
