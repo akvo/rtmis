@@ -503,27 +503,11 @@
                             -ms-text-size-adjust: 100%;
                             -webkit-text-size-adjust: 100%;
                             color: #000000;
+                            margin-bottom: 0;
                           "
                         >
                           {{ body }}
                         </p>
-                        {% if listing %}
-                        <ul style="text-align: left; color: #333">
-                          {% for item in listing %}
-                          <li>{{item.name}} : {{item.value}}</li>
-                          {% endfor %}
-                        </ul>
-                        {% endif %} {% if extend_body %}
-                        <p
-                          style="
-                            -ms-text-size-adjust: 100%;
-                            -webkit-text-size-adjust: 100%;
-                            color: #000000;
-                          "
-                        >
-                          {{ extend_body }}
-                        </p>
-                        {% endif %}
                       </div>
                       {% if image or message or show_content %}
                       <table style="width: 90%; margin: auto; padding: 20px">
@@ -622,7 +606,55 @@
                       {% endif %}
                     </td>
                   </tr>
-                  {% if button and button_url and button_text %}
+                  {% if listing or extend_body %}
+                  <tr
+                    style="
+                      -ms-text-size-adjust: 100%;
+                      -webkit-text-size-adjust: 100%;
+                    "
+                  >
+                    <td
+                      style="
+                        -ms-text-size-adjust: 100%;
+                        -webkit-text-size-adjust: 100%;
+                        background: #ffffff;
+                        padding: 0 1em 2em 1em;
+                        mso-table-lspace: 0pt !important;
+                        mso-table-rspace: 0pt !important;
+                        text-align: center;
+                      "
+                    >
+                      <div
+                        class="heading-section"
+                        style="
+                          text-align: {% if align %} {{align}} {% else %} center {% endif %};
+                          padding: 0 4.5em 0.75em;
+                          -ms-text-size-adjust: 100%;
+                          -webkit-text-size-adjust: 100%;
+                        "
+                      >
+                        {% if listing %}
+                        <ul style="text-align: left; color: #333">
+                          {% for item in listing %}
+                          <li>{{item.name}} : {{item.value}}</li>
+                          {% endfor %}
+                        </ul>
+                        {% endif %} {% if extend_body %}
+                        <p
+                          style="
+                            -ms-text-size-adjust: 100%;
+                            -webkit-text-size-adjust: 100%;
+                            color: #000000;
+                            margin-top: 0;
+                          "
+                        >
+                          {{ extend_body }}
+                        </p>
+                        {% endif %}
+                      </div>
+                    </td>
+                  </tr>
+                  {% endif %} {% if button and button_url and button_text %}
                   <tr
                     style="
                       -ms-text-size-adjust: 100%;

@@ -263,13 +263,23 @@ def add_user(request, version):
     user = Access.objects.filter(user=user.pk).first()
     admin = Access.objects.filter(user=request.user.pk).first()
     user_forms = Forms.objects.filter(pk__in=request.data.get("forms")).all()
+    listing = [{
+        "name": "Role",
+        "value": user.role_name
+        }, {
+        "name": "Region",
+        "value": user.administration.full_name
+    }]
+    if user_forms:
+        user_forms = ", ".join([form.name for form in user_forms])
+        listing.append({"name": "Questionnaire", "value": user_forms})
     url = f"{webdomain}/login/{signing.dumps(user.pk)}"
     data = {
         'button_url': url,
         'send_to': [user.user.email],
-        'user': user,
-        'forms': [f.name for f in user_forms],
-        'admin': admin
+        'listing': listing,
+        'admin': f"""{admin.user.name} ({admin.user.designation}),
+        {admin.administration.full_name}."""
     }
     send_email(type=EmailTypes.user_invite, context=data)
     return Response({'message': 'User added successfully'},

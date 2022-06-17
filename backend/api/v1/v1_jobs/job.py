@@ -163,9 +163,26 @@ def seed_data_job_result(task):
     if task.result:
         job.status = JobStatus.done
         job.available = timezone.now()
+        form_id = job.info.get("form")
+        form = Forms.objects.filter(pk=int(form_id)).first()
+        file = job.info.get("file")
+        storage.download(f"upload/{file}")
+        df = pd.read_excel(f"./tmp/{file}", sheet_name='data')
         data = {
             'subject': 'New Request @{0}'.format(job.user.get_full_name()),
+            'title': "New Data Submission",
             'send_to': [job.user.email],
+            'extend_body': "The appovers for this data will be notified",
+            'listing': [{
+                'name': "Upload Date",
+                'value': job.created.strftime("%m-%d-%Y, %H:%M:%S"),
+                }, {
+                'name': "Questionnaire",
+                'value': form.name
+                }, {
+                'name': "Number of Records",
+                'value': df.shape[0]
+             }],
         }
         send_email(context=data, type=EmailTypes.new_request)
     else:

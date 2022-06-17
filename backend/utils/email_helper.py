@@ -103,32 +103,15 @@ def email_context(context: dict, type: str):
         })
     if type == EmailTypes.user_invite:
         button_url = "#"
-        admin = context.get("admin")
-        user = context.get("user")
-        forms = ""
-        listing = []
-        if user:
-            listing = [{
-                "name": "Role",
-                "value": user.role_name
-                }, {
-                "name": "Region",
-                "value": user.administration.full_name
-            }]
-        if admin:
-            admin = f"""{admin.user.name} ({admin.user.designation}),
-                {admin.administration.full_name}."""
-        if context.get("forms"):
-            forms = ", ".join(context.get("forms"))
-            listing.append({"name": "Questionnaire", "value": forms})
+        admin = ""
         if context.get("button_url"):
             button_url = context.get("button_url")
+        if context.get("admin"):
+            admin = context.get("admin")
         context.update({
             "subject": "Invitation",
-            "body": f'''
-            You have been invited to the Rural Urban Sanitation
-            and Hygiene (RUSH) monitoring platform by {admin}.''',
-            "listing": listing,
+            "body": f'''You have been invited to the Rural Urban Sanitation
+            and Hygiene (RUSH) monitoring platform by {admin}''',
             "extend_body": '''Please click on the button below
             to set your password and finalise your account setup.''',
             "align": "left",
@@ -242,7 +225,10 @@ def email_context(context: dict, type: str):
     if type == EmailTypes.new_request:
         context.update({
             "image": f"{webdomain}/email-icons/info-circle.png",
-            "info_text": "Data has been successfully validated and submitted",
+            "info_text": """
+            The spreadsheet that you uploaded has been successfully
+            validated and submitted.
+            """,
             "explore_button": True
         })
     if type == EmailTypes.upload_error:
