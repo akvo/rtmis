@@ -99,10 +99,10 @@ def login(request, version):
     # Add temp user for development purpose
     if not SystemUser.objects.all().count():
         super_admin = SystemUser.objects.create_superuser(
-            email='admin@rtmis.com',
+            email='admin@rush.com',
             password='Test105*',
             first_name='Admin',
-            last_name='RTMIS')
+            last_name='RUSH')
         Access.objects.create(user=super_admin,
                               role=UserRoleTypes.super_admin,
                               administration=Administration.objects.filter(

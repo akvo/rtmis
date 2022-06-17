@@ -26,7 +26,7 @@ class FormSubmissionTestCase(TestCase):
         self.maxDiff = None
         seed_administration_test()
         call_command("form_seeder", "--test")
-        user = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user = {"email": "admin@rush.com", "password": "Test105*"}
         user = self.client.post('/api/v1/login',
                                 user,
                                 content_type='application/json')
@@ -46,7 +46,7 @@ class FormSubmissionTestCase(TestCase):
     def test_create_new_submission(self):
         self.maxDiff = None
         seed_administration_test()
-        user = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user = {"email": "admin@rush.com", "password": "Test105*"}
         user = self.client.post('/api/v1/login',
                                 user,
                                 content_type='application/json')
@@ -114,7 +114,7 @@ class FormSubmissionTestCase(TestCase):
     def test_edit_form_type(self):
         call_command("administration_seeder", "--test")
         call_command("form_seeder", "--test")
-        user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
         user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
@@ -143,7 +143,7 @@ class FormSubmissionTestCase(TestCase):
     def test_edit_form_approval(self):
         call_command("administration_seeder", "--test")
         call_command("form_seeder", "--test")
-        user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
         user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
@@ -173,7 +173,7 @@ class FormSubmissionTestCase(TestCase):
     def test_approval_form_user(self):
         call_command("administration_seeder", "--test")
         call_command("form_seeder", "--test")
-        user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
         user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')

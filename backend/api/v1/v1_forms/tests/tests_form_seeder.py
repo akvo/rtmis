@@ -55,7 +55,7 @@ class FormSeederTestCase(TestCase):
             self.assertIn(f"Form Created | {json_form}", output)
             self.assertIn(json_form, form_names)
 
-        user = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user = {"email": "admin@rush.com", "password": "Test105*"}
         user = self.client.post('/api/v1/login',
                                 user,
                                 content_type='application/json')

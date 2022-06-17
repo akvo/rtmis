@@ -29,12 +29,12 @@ class SystemUserTestCase(TestCase):
     def test_create_super_user(self):
         call_command("createsuperuser",
                      interactive=False,
-                     email="admin@rtmis.com",
+                     email="admin@rush.com",
                      first_name="Admin",
-                     last_name="RTMIS")
+                     last_name="RUSH")
         call_command("administration_seeder", "--test")
         user = SystemUser.objects.first()
-        self.assertEqual('admin@rtmis.com', user.email)
+        self.assertEqual('admin@rush.com', user.email)
         self.assertTrue(user.is_superuser)
         self.assertEqual('Admin', user.first_name)
         call_command("assign_access", user.email, "--test")
@@ -60,7 +60,7 @@ class SystemUserEndpointsTestCase(TestCase):
                                         level=level)
         administration.save()
         self.assertEqual(0, SystemUser.objects.count())
-        user = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user = {"email": "admin@rush.com", "password": "Test105*"}
         user = self.client.post('/api/v1/login',
                                 user,
                                 content_type='application/json')
@@ -72,20 +72,20 @@ class SystemUserEndpointsTestCase(TestCase):
              'designation', 'forms', "last_login", "token", "invite"],
             list(user))
 
-        user = {"email": "admin@rtmis.com", "password": "Test105"}
+        user = {"email": "admin@rush.com", "password": "Test105"}
         user = self.client.post('/api/v1/login',
                                 user,
                                 content_type='application/json')
         self.assertEqual(user.status_code, 401)
 
-        user = {"email": "admin@rtmis.com"}
+        user = {"email": "admin@rush.com"}
         user = self.client.post('/api/v1/login',
                                 user,
                                 content_type='application/json')
         self.assertEqual(user.status_code, 400)
 
         # test forgor password to valid email
-        user = {"email": "admin@rtmis.com"}
+        user = {"email": "admin@rush.com"}
         user = self.client.post('/api/v1/user/forgot-password',
                                 user,
                                 content_type='application/json')

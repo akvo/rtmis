@@ -348,7 +348,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
               <h1
                 data-testid="welcome-title"
               >
-                Welcome to RTMIS, John Doe
+                Welcome to RUSH, John Doe
                 <br />
                 <small>
                   Please set your password for the platform.

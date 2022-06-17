@@ -25,7 +25,7 @@ const uiText = {
     errorAuth: "You are not authorised to access this page",
     errorUnknown: "An unknown error occurred",
     errorURL:
-      "Please check the URL again or let us take you back to the RTMIS homepage",
+      "Please check the URL again or let us take you back to the RUSH homepage",
     errorVerifyCreds:
       "Please verify your credentials for the requested resource",
     backHome: "Back to Homepage",
@@ -168,7 +168,7 @@ const uiText = {
     instructionsMailed: "Instructions mailed successfully",
     sendInstructions: "Send Instructions",
     // Reset Password
-    welcomeShort: "Welcome to RTMIS",
+    welcomeShort: "Welcome to RUSH",
     resetHint: (
       <Fragment>
         Please set your password for the platform.
@@ -233,7 +233,7 @@ const uiText = {
     deleteUserHint: "Deleting this user will not delete the assosiations",
     deleteUserTitle: "You are about to delete the user",
     deleteUserDesc:
-      "The User will no longer be able to access the RTMIS platform as an Enumrator/Admin etc",
+      "The User will no longer be able to access the RUSH platform as an Enumrator/Admin etc",
     userAssociations: "This user has following assosiations",
     // Tour
     prev: "Prev",

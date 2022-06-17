@@ -46,7 +46,7 @@ def create_user(role_level):
 class AddNewDataTestCase(TestCase):
     def test_add_new_data_by_super_admin(self):
         call_command("administration_seeder", "--test")
-        user = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user = {"email": "admin@rush.com", "password": "Test105*"}
         user = self.client.post('/api/v1/login',
                                 user,
                                 content_type='application/json')
