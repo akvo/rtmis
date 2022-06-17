@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Row,
   Col,
@@ -19,7 +19,7 @@ import {
   LoadingOutlined,
   HistoryOutlined,
 } from "@ant-design/icons";
-import { api } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import { EditableCell } from "../../components";
 import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
@@ -110,6 +110,11 @@ const ApprovalDetail = ({
   const [comment, setComment] = useState("");
   const [questionGroups, setQuestionGroups] = useState([]);
   const { notify } = useNotification();
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   const handleSave = (data) => {
     setSaving(data.id);
@@ -513,7 +518,7 @@ const ApprovalDetail = ({
         <Col>
           <Row>
             <Checkbox className="dev" id="informUser" onChange={() => {}}>
-              Inform User of Changes
+              {text.informUser}
             </Checkbox>
           </Row>
         </Col>

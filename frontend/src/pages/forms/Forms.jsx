@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Webform } from "akvo-react-form";
 import "akvo-react-form/dist/index.css";
 import "./style.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import { Row, Col, Space, Progress, notification } from "antd";
-import { api, store } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import { takeRight, pick } from "lodash";
 import { PageLoader, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
@@ -19,6 +19,11 @@ const Forms = () => {
   const [percentage, setPercentage] = useState(0);
   const [submit, setSubmit] = useState(false);
   const { notify } = useNotification();
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   const pagePath = [
     {
@@ -104,7 +109,7 @@ const Forms = () => {
       })
       .catch(() => {
         notification.error({
-          message: "Something went wrong",
+          message: text.errorSomething,
         });
       })
       .finally(() => {
@@ -118,7 +123,7 @@ const Forms = () => {
     if (errorFields.length) {
       notify({
         type: "error",
-        message: "Please answer all the mandatory questions",
+        message: text.errorMandatoryFields,
       });
     }
   };
@@ -144,7 +149,7 @@ const Forms = () => {
           </Space>
           <DescriptionPanel description={descriptionData} />
           {loading || !formId ? (
-            <PageLoader message="Fetching form.." />
+            <PageLoader message={text.fetchingForm} />
           ) : (
             <>
               <Webform

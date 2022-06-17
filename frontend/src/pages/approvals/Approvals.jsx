@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import "./style.scss";
 import { Row, Col, Card, Divider, Table, Tabs, Button } from "antd";
 import { Breadcrumbs } from "../../components";
 import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
-import { api, store } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import { columnsApproval } from "./";
 import ApprovalDetails from "./ApprovalDetail";
 
@@ -31,6 +31,11 @@ const Approvals = () => {
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(0);
   const { user } = store.useState((state) => state);
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   useEffect(() => {
     setRole(user?.role?.id);
@@ -71,7 +76,7 @@ const Approvals = () => {
         <Col>
           {(role === 1 || role === 2) && (
             <Link to={role === 1 ? "/questionnaires" : "/questionnaires/admin"}>
-              <Button type="primary">Manage Questionnaire Approval</Button>
+              <Button type="primary">{text.manageQnApproval}</Button>
             </Link>
           )}
         </Col>
@@ -82,9 +87,9 @@ const Approvals = () => {
         bodyStyle={{ padding: 30 }}
       >
         <Tabs defaultActiveKey={approvalTab} onChange={setApprovalTab}>
-          <TabPane tab="My Pending Approvals" key="my-pending"></TabPane>
-          <TabPane tab="Subordinates Approvals" key="subordinate"></TabPane>
-          <TabPane tab="Approved" key="approved"></TabPane>
+          <TabPane tab={text.approvalsTab1} key="my-pending"></TabPane>
+          <TabPane tab={text.approvalsTab2} key="subordinate"></TabPane>
+          <TabPane tab={text.approvalsTab3} key="approved"></TabPane>
         </Tabs>
         <Table
           dataSource={batches}

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import "./style.scss";
 import { Row, Col, Spin } from "antd";
 import { LoginForm, RegistrationForm, ResetForm } from "./components";
 import { Link, useParams } from "react-router-dom";
-import { api, config } from "../../lib";
+import { api, config, store, uiText } from "../../lib";
 
 const styles = {
   side: {
@@ -18,6 +18,12 @@ const Login = () => {
   const { invitationId } = useParams();
   const [invitedUser, setInvitedUser] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   useEffect(() => {
     if (!location.pathname.includes("forgot-password") && invitationId) {
@@ -49,25 +55,16 @@ const Login = () => {
       <Row className="wrapper" align="middle">
         <Col span={12} className="left-side">
           <div className="title">
-            <h1>
-              Welcome to the Rural Urban
-              <br />
-              Sanitation and Hygiene (RUSH)
-              <br />
-              monitoring platform
-            </h1>
+            <h1>{text.welcome}</h1>
           </div>
         </Col>
         <Col span={12} className="right-side">
           {location.pathname.includes("forgot-password") ? (
             <>
               <h1>
-                Reset your password
+                {text.forgotTitle}
                 <br />
-                <small>
-                  Enter the email associated with your account and we&apos;ll
-                  Send an email with instructions to reset your password
-                </small>
+                <small>{text.forgotDesc}</small>
               </h1>
               <ResetForm />
             </>
@@ -90,39 +87,25 @@ const Login = () => {
                         // TODO
                         <>
                           <h1 data-testid="welcome-title">
-                            Welcome to RTMIS, {invitedUser.name}
+                            {text.welcomeShort}, {invitedUser.name}
                             <br />
-                            <small>
-                              Please set your password for the platform.
-                              <br />
-                              Your password must include:
-                            </small>
+                            <small>{text.resetHint}</small>
                           </h1>
                           <RegistrationForm invite={invitedUser.invite} />
                         </>
                       ) : (
                         <div>
                           <h1>
-                            Invalid Invite Code
+                            {text.invalidInviteTitle}
                             <br />
-                            <small>
-                              Lorem, ipsum dolor sit amet consectetur
-                              adipisicing elit. Autem provident voluptatum cum
-                              numquam, quidem vitae, qui quam beatae
-                              exercitationem ullam perferendis! Nobis in aut
-                              fuga voluptate harum, tempore distinctio optio.
-                            </small>
+                            <small>{text.invalidInviteDesc}</small>
                           </h1>
                         </div>
                       )}
                     </div>
                   ) : (
                     <>
-                      <h1>
-                        Welcome back
-                        <br />
-                        <small>Please enter your account details</small>
-                      </h1>
+                      <h1>{text.loginTitle}</h1>
                       <LoginForm />
                     </>
                   )}

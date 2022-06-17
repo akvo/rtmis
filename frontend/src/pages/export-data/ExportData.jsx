@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import {
   Row,
@@ -18,7 +18,7 @@ import {
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
-import { api, store } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
 
 const pagePath = [
@@ -39,6 +39,11 @@ const ExportData = () => {
   const [downloading, setDownloading] = useState(false);
   const { notify } = useNotification();
   const { forms } = store.useState((state) => state);
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   const columns = [
     {
@@ -88,10 +93,10 @@ const ExportData = () => {
             }}
           >
             {row.status === "on_progress"
-              ? "Generating"
+              ? text.generating
               : row.status === "failed"
-              ? "Failed"
-              : "Download"}
+              ? text.failed
+              : text.download}
           </Button>
           <Button ghost className="dev">
             Delete
@@ -114,11 +119,11 @@ const ExportData = () => {
         setShowLoadMore(false);
         notify({
           type: "error",
-          message: "Could not fetch File list",
+          message: text.errorFileList,
         });
         console.error(e);
       });
-  }, [notify]);
+  }, [notify, text.errorFileList]);
 
   const pending = dataset.filter((d) => d.status === "on_progress");
 

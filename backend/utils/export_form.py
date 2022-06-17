@@ -31,6 +31,8 @@ def get_definition(form: Forms):
         if q["options"]:
             for o in q["options"]:
                 framed.append({
+                    "qg_id": q["qg_id"],
+                    "order": q["order"],
                     "id": q["id"],
                     "question": q["name"],
                     "type": q["type"],
@@ -41,6 +43,8 @@ def get_definition(form: Forms):
                 })
         else:
             framed.append({
+                "qg_id": q["qg_id"],
+                "order": q["order"],
                 "id": q["id"],
                 "question": q["name"],
                 "type": q["type"],
@@ -55,15 +59,22 @@ def get_definition(form: Forms):
 def generate_definition_sheet(form: Forms):
     definitions = get_definition(form=form)
     df = pd.DataFrame(definitions)
-    return df.groupby(["id", "question", "type", "option", "required",
-                       "rule", "dependency"]).first()
+    df = df.sort_values(by=["qg_id", "order"])
+    df["indexer"] = df.apply(lambda x: str(x["qg_id"]) + str(x["order"]),
+                             axis=1)
+    selected_columns = [
+        "indexer", "id", "question", "type", "required", "dependency",
+        "option", "rule"
+    ]
+    df = df[selected_columns]
+    df = df.groupby(selected_columns).first()
+    return df.droplevel('indexer')
 
 
 def generate_excel(form: Forms, user: SystemUser):
     questions = form.form_questions.all()
     data = pd.DataFrame(
-        columns=['{0}|{1}'.format(q.id, q.name) for q in questions],
-        index=[0])
+        columns=['{0}|{1}'.format(q.id, q.name) for q in questions], index=[0])
     form_name = form.name
     filename = f"{form.id}-{form_name}"
     directory = 'tmp'
@@ -88,9 +99,7 @@ def generate_excel(form: Forms, user: SystemUser):
     for col_num, value in enumerate(data.columns.values):
         worksheet.write(0, col_num, value, header_format)
     definitions = generate_definition_sheet(form=form)
-    definitions.to_excel(writer,
-                         sheet_name='definitions',
-                         startrow=-1)
+    definitions.to_excel(writer, sheet_name='definitions', startrow=-1)
 
     administration = user.user_access.administration
     if administration.path:
@@ -100,13 +109,13 @@ def generate_excel(form: Forms, user: SystemUser):
     allowed_descendants = Administration.objects.filter(
         path__startswith=allowed_path,
         level=Levels.objects.order_by('-level').first()).order_by(
-        'level__level')
+            'level__level')
     admins = []
     for descendant in allowed_descendants:
-        parents = list(Administration.objects.filter(
-            id__in=descendant.path.split('.')[:-1]).values_list(
-            'name',
-            flat=True).order_by('level__level'))
+        parents = list(
+            Administration.objects.filter(
+                id__in=descendant.path.split('.')[:-1]).values_list(
+                    'name', flat=True).order_by('level__level'))
         parents.append(descendant.name)
         admins.append('|'.join(parents))
 

@@ -33,6 +33,7 @@ from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
     ListUserRequestSerializer, ListLevelSerializer, UserDetailSerializer, \
     ForgotPasswordSerializer
+from api.v1.v1_forms.models import Forms
 # from api.v1.v1_data.models import PendingDataBatch, \
 #     PendingDataApproval, FormData
 from rtmis.settings import REST_FRAMEWORK
@@ -149,9 +150,9 @@ def get_profile(request, version):
     if last_active:
         time_diff = now - last_active
         time_diff_hours = time_diff.total_seconds() / 3600
-    if time_diff_hours and time_diff_hours >= 2:
-        # revoke/logout after 2 hours inactivity
-        return Response({'message': 'Expired of 2 hours inactivity'},
+    if time_diff_hours and time_diff_hours >= 4:
+        # revoke/logout after 4 hours inactivity
+        return Response({'message': 'Expired of 4 hours inactivity'},
                         status=status.HTTP_401_UNAUTHORIZED)
     return Response(UserSerializer(instance=request.user).data,
                     status=status.HTTP_200_OK)
@@ -259,8 +260,27 @@ def add_user(request, version):
             {'message': validate_serializers_message(serializer.errors)},
             status=status.HTTP_400_BAD_REQUEST)
     user = serializer.save()
+    user = Access.objects.filter(user=user.pk).first()
+    admin = Access.objects.filter(user=request.user.pk).first()
+    user_forms = Forms.objects.filter(pk__in=request.data.get("forms")).all()
+    listing = [{
+        "name": "Role",
+        "value": user.role_name
+        }, {
+        "name": "Region",
+        "value": user.administration.full_name
+    }]
+    if user_forms:
+        user_forms = ", ".join([form.name for form in user_forms])
+        listing.append({"name": "Questionnaire", "value": user_forms})
     url = f"{webdomain}/login/{signing.dumps(user.pk)}"
-    data = {'button_url': url, 'send_to': [user.email]}
+    data = {
+        'button_url': url,
+        'send_to': [user.user.email],
+        'listing': listing,
+        'admin': f"""{admin.user.name} ({admin.user.designation}),
+        {admin.administration.full_name}."""
+    }
     send_email(type=EmailTypes.user_invite, context=data)
     return Response({'message': 'User added successfully'},
                     status=status.HTTP_200_OK)
@@ -274,8 +294,7 @@ def add_user(request, version):
                           "total": serializers.IntegerField(),
                           "total_page": serializers.IntegerField(),
                           "data": ListUserSerializer(many=True),
-                      })
-},
+                      })},
                tags=['User'],
                summary='Get list of users',
                parameters=[

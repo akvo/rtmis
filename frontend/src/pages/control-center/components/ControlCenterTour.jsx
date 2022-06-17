@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Tour } from "../../../components";
-import { store, config } from "../../../lib";
+import { store, config, uiText } from "../../../lib";
 
 const ControlCenterTour = () => {
   const { user: authUser } = store.useState((s) => s);
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   const steps = [
     ...(config.checkAccess(authUser?.role_detail, "data")
@@ -11,14 +16,12 @@ const ControlCenterTour = () => {
           {
             image: "/assets/tour/control-center/1.png",
             title: "Manage Data",
-            description:
-              "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
+            description: text.tourManageData,
           },
           {
             image: "/assets/tour/control-center/2.png",
             title: "Exports",
-            description:
-              "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
+            description: text.tourExports,
           },
         ]
       : []),
@@ -28,7 +31,7 @@ const ControlCenterTour = () => {
           {
             image: "/assets/tour/control-center/3.png",
             title: "Data Uploads",
-            description: "Placeat impedit iure quaerat neque sit quasi",
+            description: text.tourDataUploads,
           },
         ]
       : []),
@@ -37,7 +40,7 @@ const ControlCenterTour = () => {
           {
             image: "/assets/tour/control-center/4.png",
             title: "User Management",
-            description: "Magni provident aliquam harum cupiditate iste",
+            description: text.tourUserManagement,
           },
         ]
       : []),
@@ -47,8 +50,7 @@ const ControlCenterTour = () => {
           {
             image: "/assets/tour/control-center/5.png",
             title: "Data Uploads Panel",
-            description:
-              "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
+            description: text.tourDataUploadsPanel,
           },
         ]
       : []),
@@ -57,12 +59,12 @@ const ControlCenterTour = () => {
           {
             image: "/assets/tour/control-center/6.png",
             title: "Manage Approvals",
-            description: "Placeat impedit iure quaerat neque sit quasi",
+            description: text.tourApprovals,
           },
           {
             image: "/assets/tour/control-center/7.png",
             title: "Manage Approvers",
-            description: "Magni provident aliquam harum cupiditate iste",
+            description: text.tourApprovers,
           },
         ]
       : []),

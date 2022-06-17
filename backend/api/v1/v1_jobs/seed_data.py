@@ -6,6 +6,7 @@ import numpy as np
 
 from api.v1.v1_data.models import PendingAnswers, PendingDataBatch, \
     PendingFormData, PendingDataApproval, Answers
+from api.v1.v1_forms.models import Forms
 from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Questions, FormApprovalAssignment
 from api.v1.v1_jobs.functions import HText
@@ -153,10 +154,22 @@ def seed_excel_data(job: Jobs):
         else:
             data.delete()
     if len(records) == 0:
+        form_id = job.info.get("form")
+        form = Forms.objects.filter(pk=int(form_id)).first()
         context = {
             'send_to': [batch.user.email],
             'form': batch.form,
             'user': job.user,
+            'listing': [{
+                'name': "Upload Date",
+                'value': job.created.strftime("%m-%d-%Y, %H:%M:%S"),
+                }, {
+                'name': "Questionnaire",
+                'value': form.name
+                }, {
+                'name': "Number of Records",
+                'value': df.shape[0]
+             }],
         }
         send_email(context=context, type=EmailTypes.unchanged_data)
         batch.delete()

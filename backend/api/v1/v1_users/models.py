@@ -24,6 +24,10 @@ class SystemUser(AbstractBaseUser, PermissionsMixin):
     def get_full_name(self):
         return '{0} {1}'.format(self.first_name, self.last_name)
 
+    @property
+    def name(self):
+        return '{0} {1}'.format(self.first_name, self.last_name)
+
     def get_sign_pk(self):
         return signing.dumps(self.pk)
 

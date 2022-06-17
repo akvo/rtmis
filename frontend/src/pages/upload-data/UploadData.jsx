@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import {
   Row,
@@ -15,7 +15,7 @@ import { FileTextFilled } from "@ant-design/icons";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { AdministrationDropdown } from "../../components";
 import { useNavigate } from "react-router-dom";
-import { api, store } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { snakeCase, takeRight } from "lodash";
 import moment from "moment";
@@ -36,16 +36,6 @@ const pagePath = [
     title: "Data Upload",
   },
 ];
-const descriptionData = (
-  <div>
-    This section helps you to:
-    <ul>
-      <li>Download upload template</li>
-      <li>Bulk upload new data</li>
-      <li>Bulk upload existing data</li>
-    </ul>
-  </div>
-);
 const UploadData = () => {
   const { forms, user, administration } = store.useState((state) => state);
   const [formId, setFormId] = useState(null);
@@ -55,6 +45,12 @@ const UploadData = () => {
   const [updateExisting, setUpdateExisting] = useState(false);
   const { notify } = useNotification();
   const navigate = useNavigate();
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
+  const descriptionData = <div>{text.ccPane3Text}</div>;
   const exportGenerate = () => {
     const adm_id = takeRight(administration, 1)[0]?.id;
     api
@@ -62,7 +58,7 @@ const UploadData = () => {
       .then(() => {
         notify({
           type: "success",
-          message: `Data exported successfully`,
+          message: text.dataExportSuccess,
         });
         setLoading(false);
         navigate("/data/export");
@@ -70,7 +66,7 @@ const UploadData = () => {
       .catch(() => {
         notify({
           type: "error",
-          message: "Data export failed",
+          message: text.dataExportFail,
         });
         setLoading(false);
       });
@@ -91,14 +87,14 @@ const UploadData = () => {
     if (info.file?.status === "done") {
       notify({
         type: "success",
-        message: "File uploaded successfully",
+        message: text.fileUploadSuccess,
       });
       setUploading(false);
       navigate("/profile");
     } else if (info.file?.status === "error") {
       notify({
         type: "error",
-        message: `Could not upload file`,
+        message: text.fileUploadFail,
       });
       setUploading(false);
     }
@@ -116,7 +112,7 @@ const UploadData = () => {
       .catch(() => {
         notify({
           type: "error",
-          message: "Could not upload file",
+          message: text.fileUploadFail,
         });
         setUploading(false);
       });
@@ -159,7 +155,7 @@ const UploadData = () => {
           } else {
             notify({
               type: "error",
-              message: "Could not fetch template",
+              message: text.templateFetchFail,
             });
             setLoading(false);
           }
@@ -168,7 +164,7 @@ const UploadData = () => {
           console.error(e);
           notify({
             type: "error",
-            message: "Could not fetch template",
+            message: text.templateFetchFail,
           });
           setLoading(false);
         });
@@ -192,7 +188,7 @@ const UploadData = () => {
             setUpdateExisting(!updateExisting);
           }}
         >
-          Update Existing Data
+          {text.updateExisting}
         </Checkbox>
       </Row>
       <Card
@@ -201,7 +197,7 @@ const UploadData = () => {
       >
         <Space align="center" size={32}>
           <img src="/assets/data-download.svg" />
-          <p>If you do not already have a template please download it</p>
+          <p>{text.templateDownloadHint}</p>
           <Select placeholder="Select Form..." onChange={handleChange}>
             {forms.map((f, fI) => (
               <Option key={fI} value={f.id}>
@@ -237,12 +233,12 @@ const UploadData = () => {
             <p className="ant-upload-text">
               {formId
                 ? uploading
-                  ? "Uploading.."
-                  : "Drop your file here"
-                : "Please select a form"}
+                  ? text.uploading
+                  : text.dropFile
+                : text.selectForm}
             </p>
             <Button disabled={!formId} loading={uploading}>
-              Browse your computer
+              {text.browseComputer}
             </Button>
           </Dragger>
         </div>

@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Form, Input, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { api } from "../../../lib";
+import { api, store, uiText } from "../../../lib";
 import { useNotification } from "../../../util/hooks";
 
 const ResetForm = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { notify } = useNotification();
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   const onFinish = (values) => {
     setLoading(true);
@@ -19,7 +24,7 @@ const ResetForm = () => {
       .then(() => {
         notify({
           type: "success",
-          message: "Instructions mailed successfully",
+          message: text.instructionsMailed,
         });
         navigate("/login");
       })
@@ -52,7 +57,7 @@ const ResetForm = () => {
           {
             type: "email",
             required: true,
-            message: "Please enter a valid Email Address!",
+            message: text.valEmail,
           },
         ]}
       >
@@ -63,7 +68,7 @@ const ResetForm = () => {
       </Form.Item>
       <Form.Item style={{ marginTop: 8 }}>
         <Button type="primary" htmlType="submit" loading={loading}>
-          Send Instructions
+          {text.sendInstructions}
         </Button>
       </Form.Item>
     </Form>
