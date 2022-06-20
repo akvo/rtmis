@@ -42,12 +42,9 @@ def save_data(user: SystemUser, batch: PendingDataBatch, dp: dict, qs: dict):
                     parent = adm_list[ix - 1]
                     adm_list.append(
                         Administration.objects.get(name=adm,
-                                                   parent_id=parent.id)
-                    )
+                                                   parent_id=parent.id))
                 else:
-                    adm_list.append(
-                        Administration.objects.get(name=adm)
-                    )
+                    adm_list.append(Administration.objects.get(name=adm))
 
             administration = adm_list[-1].id
             answer.value = administration
@@ -92,27 +89,23 @@ def save_data(user: SystemUser, batch: PendingDataBatch, dp: dict, qs: dict):
             if data_id:
                 try:
                     form_answer = Answers.objects.get(
-                        data_id=data_id,
-                        question_id=answer.question_id
-                    )
-                    if not (form_answer.name == answer.name and
-                            form_answer.options == answer.options and
-                            form_answer.value == answer.value):
+                        data_id=data_id, question_id=answer.question_id)
+                    if not (form_answer.name == answer.name
+                            and form_answer.options == answer.options
+                            and form_answer.value == answer.value):
                         answerlist.append(answer)
                 except Answers.DoesNotExist:
                     answerlist.append(answer)
             else:
                 answerlist.append(answer)
     name = " - ".join([str(n) for n in names])
-    data = PendingFormData.objects.create(
-        name=name,
-        form_id=batch.form_id,
-        administration_id=administration,
-        geo=geo,
-        data_id=data_id,
-        batch=batch,
-        created_by=batch.user
-    )
+    data = PendingFormData.objects.create(name=name,
+                                          form_id=batch.form_id,
+                                          administration_id=administration,
+                                          geo=geo,
+                                          data_id=data_id,
+                                          batch=batch,
+                                          created_by=batch.user)
     for val in answerlist:
         val.pending_data = data
     PendingAnswers.objects.bulk_create(answerlist)
@@ -141,8 +134,7 @@ def seed_excel_data(job: Jobs):
         form_id=job.info.get('form'),
         administration_id=job.info.get('administration'),
         user=job.user,
-        name=job.info.get('file')
-    )
+        name=job.info.get('file'))
     records = []
     for datapoint in datapoints:
         data: PendingFormData = save_data(user=job.user,
@@ -163,35 +155,43 @@ def seed_excel_data(job: Jobs):
             'listing': [{
                 'name': "Upload Date",
                 'value': job.created.strftime("%m-%d-%Y, %H:%M:%S"),
-                }, {
+            }, {
                 'name': "Questionnaire",
                 'value': form.name
-                }, {
+            }, {
                 'name': "Number of Records",
                 'value': df.shape[0]
-             }],
+            }],
         }
         send_email(context=context, type=EmailTypes.unchanged_data)
         batch.delete()
         os.remove(file)
         return None
-    path = '{0}{1}'.format(batch.administration.path,
-                           batch.administration_id)
+    path = '{0}{1}'.format(batch.administration.path, batch.administration_id)
     for administration in Administration.objects.filter(
             id__in=path.split('.')):
         assignment = FormApprovalAssignment.objects.filter(
             form_id=batch.form_id, administration=administration).first()
         if assignment:
             level = assignment.user.user_access.administration.level_id
-            PendingDataApproval.objects.create(
-                batch=batch,
-                user=assignment.user,
-                level_id=level
-            )
+            PendingDataApproval.objects.create(batch=batch,
+                                               user=assignment.user,
+                                               level_id=level)
             context = {
                 'send_to': [assignment.user.email],
-                'form': batch.form,
-                'user': job.user,
+                'listing': [{
+                    'name': "Batch Name",
+                    'value': batch.name
+                }, {
+                    'name': "Questionnaire",
+                    'value': batch.form.name
+                }, {
+                    'name': "Number of Records",
+                    'value': df.shape[0]
+                }, {
+                    'name': "Submitter",
+                    'value': f"{job.user.name}, {job.user.designation_name}"
+                }]
             }
             send_email(context=context, type=EmailTypes.pending_approval)
 

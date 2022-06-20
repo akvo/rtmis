@@ -872,10 +872,24 @@ class CreateBatchSerializer(serializers.Serializer):
                 PendingDataApproval.objects.create(batch=obj,
                                                    user=assignment.user,
                                                    level_id=level)
+                number_of_records = PendingFormData.objects.filter(
+                        batch=obj).count()
                 data = {
                     'send_to': [assignment.user.email],
-                    'form': obj.form,
-                    'user': obj.user,
+                    'listing': [{
+                        'name': "Batch Name",
+                        'value': obj.name
+                        }, {
+                        'name': "Questionnaire",
+                        'value': obj.form.name
+                        }, {
+                        'name': "Number of Records",
+                        'value': number_of_records
+                        }, {
+                        'name': "Submitter",
+                        'value': f"""{obj.user.name}
+                        ({obj.user.designation_name})"""
+                    }]
                 }
                 send_email(context=data, type=EmailTypes.pending_approval)
         for data in validated_data.get('data'):

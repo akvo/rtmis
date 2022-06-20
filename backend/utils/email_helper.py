@@ -182,22 +182,15 @@ def email_context(context: dict, type: str):
             "explore_button": True
         })
     if type == EmailTypes.pending_approval:
-        form = context.get("form")
-        user = context.get("user")
-        body = "You have pending approval for {0} data from {1}, {2}"
-        info_text = "{0} Pending Approval"
-        if form and user:
-            body = body.format(form.name, user.get_full_name(),
-                               user.user_access.administration.full_name)
-            info_text = info_text.format(form.name)
-        else:
-            body = body.format("Form name", "User email", "Administration")
-            info_text = info_text.format("Form name")
         context.update({
             "subject": "Pending Approval",
-            "body": body,
             "image": f"{webdomain}/email-icons/info-circle.png",
-            "info_text": info_text,
+            "info_text": "There is data that is pending your approval!",
+            "extend_body": """
+            To approve/reject this data submission please visit
+            the RUSH platform [My Profile > Approvals Section > View All]
+            """,
+            "align": "left",
             "explore_button": True
         })
     if type == EmailTypes.new_request:
