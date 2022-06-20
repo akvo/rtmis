@@ -7,6 +7,7 @@ import ApproverFilters from "../../components/filters/ApproverFilters";
 import { SteppedLineTo } from "react-lineto";
 import { take, takeRight } from "lodash";
 import { useNotification } from "../../util/hooks";
+import { ApproversTreeTour } from "./components";
 const { Option } = Select;
 const pagePath = [
   {
@@ -386,6 +387,7 @@ const ApproversTree = () => {
         <Col>
           <Breadcrumbs pagePath={pagePath} />
         </Col>
+        <ApproversTreeTour />
       </Row>
       <Divider />
       <ApproverFilters
