@@ -155,16 +155,16 @@ const Forms = () => {
           {loading || !formId ? (
             <PageLoader message={text.fetchingForm} />
           ) : (
-            <>
-              <Webform
-                forms={forms}
-                onFinish={onFinish}
-                onCompleteFailed={onFinishFailed}
-                onChange={onChange}
-                submitButtonSetting={{ loading: submit }}
-              />
-              <Progress className="progress-bar" percent={percentage} />
-            </>
+            <Webform
+              forms={forms}
+              onFinish={onFinish}
+              onCompleteFailed={onFinishFailed}
+              onChange={onChange}
+              submitButtonSetting={{ loading: submit }}
+            />
+          )}
+          {(!loading || formId) && (
+            <Progress className="progress-bar" percent={percentage} />
           )}
         </Col>
       </Row>
