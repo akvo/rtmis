@@ -5,7 +5,7 @@ import uuid
 from django.core.management import BaseCommand
 from faker import Faker
 
-from api.v1.v1_profile.constants import UserRoleTypes
+from api.v1.v1_profile.constants import UserRoleTypes, UserDesignationTypes
 from api.v1.v1_profile.models import Levels, Access, Administration
 from api.v1.v1_users.models import SystemUser
 
@@ -40,7 +40,7 @@ class Command(BaseCommand):
                 first_name=name[0],
                 last_name=name[1],
                 phone_number=fake.msisdn(),
-                designation=profile.get('job')[:49])
+                designation=UserDesignationTypes.sa)
             if password:
                 user.set_password(password)
                 user.save()

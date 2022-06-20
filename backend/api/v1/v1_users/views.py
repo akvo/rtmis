@@ -278,7 +278,7 @@ def add_user(request, version):
         'button_url': url,
         'send_to': [user.user.email],
         'listing': listing,
-        'admin': f"""{admin.user.name} ({admin.user.designation}),
+        'admin': f"""{admin.user.name}, {admin.user.designation_name},
         {admin.administration.full_name}."""
     }
     send_email(type=EmailTypes.user_invite, context=data)
