@@ -41,53 +41,48 @@ const Banner = () => {
     const month = duration.months();
     const day = duration.days();
     return (
-      <Row align="bottom" gutter={[6, 6]}>
-        <Col>
-          <div>
+      <Row className="countdown" align="bottom" gutter={[6, 6]}>
+        <Col className="countdown-col">
+          <div className="countdown-timer">{year}</div>
+          <div className="countdown-text">
             {text?.year}
             {year !== 1 && "s"}
           </div>
-          <div>{year}</div>
         </Col>
-        <Col>:</Col>
-        <Col>
-          <div>
+        <Col className="countdown-col">
+          <div className="countdown-timer">{month}</div>
+          <div className="countdown-text">
             {text?.month}
             {month !== 1 && "s"}
           </div>
-          <div>{month}</div>
         </Col>
-        <Col>:</Col>
-        <Col>
-          <div>
+        <Col className="countdown-col">
+          <div className="countdown-timer">{day}</div>
+          <div className="countdown-text">
             {text?.day}
             {day !== 1 && "s"}
           </div>
-          <div>{day}</div>
         </Col>
-        <Col>:</Col>
-        <Col>
-          <div>
+        <Col className="countdown-col">
+          <div className="countdown-timer">{hours}</div>
+          <div className="countdown-text">
             {text?.hour}
             {hours !== 1 && "s"}
           </div>
-          <div>{hours}</div>
         </Col>
-        <Col>:</Col>
-        <Col>
-          <div>
+        <Col className="countdown-col">
+          <div className="countdown-timer">{minutes}</div>
+          <div className="countdown-text">
             {text?.minute}
             {minutes !== 1 && "s"}
           </div>
-          <div>{minutes}</div>
         </Col>
-        <Col>:</Col>
-        <Col>
-          <div>
+        <Col className="countdown-col">
+          <div className="countdown-timer">{seconds}</div>
+          <div className="countdown-text">
             {text?.second}
             {seconds !== 1 && "s"}
           </div>
-          <div>{seconds}</div>
         </Col>
       </Row>
     );
