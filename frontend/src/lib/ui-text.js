@@ -13,11 +13,13 @@ const uiText = {
       </Fragment>
     ),
     welcomeDesc: "Updated sanitation and hygiene estimates across Kenya",
-    countdownTitle: "Launching in:",
-    days: "Days",
-    hours: "Hours",
-    minutes: "Minutes",
-    seconds: "Seconds",
+    countdownTitle: "Time remaining to achieve national RUSH targets:",
+    year: "Year",
+    month: "Month",
+    day: "Day",
+    hour: "Hour",
+    minute: "Minute",
+    second: "Second",
     welcomeCta: "Explore the Data",
     // Error messages
     error: "Error",
