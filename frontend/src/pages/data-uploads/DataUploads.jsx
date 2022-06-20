@@ -22,6 +22,7 @@ import { api, store, uiText } from "../../lib";
 import { columnsPending, columnsBatch, columnsSelected } from "./";
 import UploadDetail from "./UploadDetail";
 import FormDropdown from "../../components/filters/FormDropdown";
+import { DataUploadsTour } from "./components";
 const { TextArea } = Input;
 
 const pagePath = [
@@ -138,7 +139,10 @@ const DataUploads = () => {
   };
   return (
     <div id="uploads">
-      <Breadcrumbs pagePath={pagePath} />
+      <Row justify="space-between">
+        <Breadcrumbs pagePath={pagePath} />
+        <DataUploadsTour />
+      </Row>
       <Divider />
       <FormDropdown hidden={true} />
       <Card

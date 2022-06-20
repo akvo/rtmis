@@ -8,6 +8,7 @@ import { api, store, uiText } from "../../lib";
 import { takeRight, pick } from "lodash";
 import { PageLoader, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
+import { FormTour } from "./components";
 
 const descriptionData = (
   <p>
@@ -152,9 +153,12 @@ const Forms = () => {
     <div id="form">
       <Row justify="center">
         <Col span={24} className="webform">
-          <Space>
-            <Breadcrumbs pagePath={pagePath} description={descriptionData} />
-          </Space>
+          <Row justify="space-between">
+            <Space>
+              <Breadcrumbs pagePath={pagePath} description={descriptionData} />
+            </Space>
+            <FormTour />
+          </Row>
           <DescriptionPanel description={descriptionData} />
           {loading || !formId ? (
             <PageLoader message={text.fetchingForm} />

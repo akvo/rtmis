@@ -22,6 +22,7 @@ import { api, store, uiText } from "../../lib";
 import DataDetail from "./DataDetail";
 import { DataFilters, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
+import { ManageDataTour } from "./components";
 
 const pagePath = [
   {
@@ -161,6 +162,7 @@ const ManageData = () => {
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel description={descriptionData} />
         </Col>
+        <ManageDataTour />
       </Row>
       <Divider />
       <DataFilters query={query} setQuery={setQuery} loading={loading} />

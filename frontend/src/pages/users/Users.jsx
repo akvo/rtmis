@@ -7,6 +7,7 @@ import { api, store, uiText } from "../../lib";
 import UserDetail from "./UserDetail";
 import { UserFilters, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
+import { UserTour } from "./components";
 
 const pagePath = [
   {
@@ -184,11 +185,14 @@ const Users = () => {
 
   return (
     <div id="users">
-      <Row justify="space-between" align="bottom">
+      <Row justify="space-between" align="start">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel description={descriptionData} />
         </Col>
+        <UserTour />
+      </Row>
+      <Row justify="end">
         <Col>
           <Link to="/user/add">
             <Button type="primary">Add new user</Button>
