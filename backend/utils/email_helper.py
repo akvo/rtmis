@@ -151,34 +151,24 @@ def email_context(context: dict, type: str):
             "subject": "Batch Approved",
             "image": f"{webdomain}/email-icons/check-circle.png",
             "success_text": "Your submission has been approved",
-            "explore_button": True,
-            "align": "left"
+            "align": "left",
+            "explore_button": True
         })
     if type == EmailTypes.batch_rejection:
         context.update({
             "subject": "Batch Rejected",
             "image": f"{webdomain}/email-icons/close-circle.png",
             "failed_text": "Your submission batch has been rejected",
-            "explore_button": True,
-            "align": "left"
+            "align": "left",
+            "explore_button": True
         })
     if type == EmailTypes.inform_batch_rejection_approver:
-        batch = context.get("batch")
-        user = context.get("user")
-        body = "{0} of {1} data has been rejected by {2}"
-        failed_text = "{0} Rejected"
-        if batch and user:
-            body = body.format(batch.name, batch.form.name,
-                               user.get_full_name())
-            failed_text = failed_text.format(batch.name)
-        else:
-            body = body.format("Batch name", "Form name", "User email")
-            failed_text = failed_text.format("Batch name")
         context.update({
             "subject": "Batch Rejected",
-            "body": body,
             "image": f"{webdomain}/email-icons/close-circle.png",
-            "failed_text": failed_text,
+            "failed_text": """
+            A submission batch that you had approved has been rejected""",
+            "align": "left",
             "explore_button": True
         })
     if type == EmailTypes.pending_approval:

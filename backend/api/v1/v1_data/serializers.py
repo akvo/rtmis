@@ -524,7 +524,7 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
         batch: PendingDataBatch = validated_data.get('batch')
         user = self.context.get('user')
         comment = validated_data.get("comment")
-        user_level = user.user_access.administration.level_id
+        user_level = user.user_access.administration.level
         approval = PendingDataApproval.objects.get(
             user=user, batch=batch)
         approval.status = validated_data.get('status')
@@ -549,7 +549,7 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
         if approval.status == DataApprovalStatus.approved:
             listing.append({
                 "name": "Approver",
-                "value": f"{user.name} ({user.designation})",
+                "value": f"{user.name}, {user.designation_name}",
             })
             if comment:
                 listing.append({"name": "Comment", "value": comment})
@@ -565,7 +565,7 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
         else:
             listing.append({
                 "name": "Rejector",
-                "value": f"{user.name} ({user.designation})",
+                "value": f"{user.name}, {user.designation_name}",
             })
             if comment:
                 listing.append({"name": "Comment", "value": comment})
@@ -580,7 +580,7 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
             send_email(context=data, type=EmailTypes.batch_rejection)
             # send email to lower approval
             lower_approvals = PendingDataApproval.objects.filter(
-                batch=batch, level__lte=user_level).all()
+                batch=batch, level__level__gt=user_level.level).all()
             # filter --> send email only to lower approval
             lower_approval_user_ids = [u.user_id for u in lower_approvals]
             lower_approval_users = SystemUser.objects.filter(
@@ -589,9 +589,11 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
                 u.email for u in lower_approval_users if u.email != user.email]
             if lower_approval_emails:
                 inform_data = {
-                    'send_to': lower_approval_emails,
-                    'batch': batch,
-                    'user': user,
+                    "send_to": lower_approval_emails,
+                    "listing": listing,
+                    "extend_body": """
+                    The data submitter has also been notified.
+                    They can modify the data and submit again for approval"""
                 }
                 send_email(
                     context=inform_data,
@@ -887,8 +889,8 @@ class CreateBatchSerializer(serializers.Serializer):
                         'value': number_of_records
                         }, {
                         'name': "Submitter",
-                        'value': f"""{obj.user.name}
-                        ({obj.user.designation_name})"""
+                        'value': f"""{obj.user.name},
+                        {obj.user.designation_name}"""
                     }]
                 }
                 send_email(context=data, type=EmailTypes.pending_approval)
