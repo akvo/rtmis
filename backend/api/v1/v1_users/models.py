@@ -31,7 +31,9 @@ class SystemUser(AbstractBaseUser, PermissionsMixin):
 
     @property
     def designation_name(self):
-        return UserDesignationTypes.FieldStr.get(int(self.designation))
+        if self.designation:
+            return UserDesignationTypes.FieldStr.get(int(self.designation))
+        return None
 
     def get_sign_pk(self):
         return signing.dumps(self.pk)
