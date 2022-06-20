@@ -28,10 +28,13 @@ const Footer = ({ className = "footer", ...props }) => {
           <h3>{text?.footer2Title}</h3>
           <ul>
             <li>
-              {text?.footer2Text1} : {text?.footer2Val1}
-            </li>
-            <li>
-              {text?.footer2Text2} : {text?.footer2Val2}
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSf5rjD66CCcMWYgFwkNp8Xb1lRJoec1CwhhPnjOd-mU84ktPA/viewform"
+              >
+                <b>Feedback Form</b>
+              </a>
             </li>
           </ul>
         </Col>

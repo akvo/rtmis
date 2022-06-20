@@ -9,8 +9,16 @@ import { takeRight, pick } from "lodash";
 import { PageLoader, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
 import { FormTour } from "./components";
-const descriptionData =
-  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
+
+const descriptionData = (
+  <p>
+    Please fill up the webform below with relevant responses. You will need to
+    answer all mandatory questions before you can submit.
+    <br />
+    Once you have sumitted a webform, please do not forget to add it as part of
+    a batch and send it for approval.
+  </p>
+);
 const Forms = () => {
   const navigate = useNavigate();
   const { user: authUser } = store.useState((s) => s);

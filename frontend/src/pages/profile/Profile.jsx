@@ -5,7 +5,7 @@ import { store, config } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { PanelApprovals, PanelDataUpload, ProfileTour } from "./components";
 const descriptionData =
-  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
+  "This page shows your current user setup. It also shows the most important activities for your current user setup";
 const Profile = () => {
   const { forms, user: authUser } = store.useState((s) => s);
 
@@ -33,13 +33,11 @@ const Profile = () => {
           <li>
             <Space size="large" align="center">
               <span>{authUser?.name}</span>
-              <span>·</span>
-              <span>{authUser?.administration?.name}</span>
             </Space>
           </li>
           <li>
-            <h3>Organization</h3>
-            <p>Ministry of Health - Kisumu Subcounty</p>
+            <h3>Administration</h3>
+            <p>{authUser?.administration?.name}</p>
           </li>
           <li>
             <h3>Questionnaires</h3>

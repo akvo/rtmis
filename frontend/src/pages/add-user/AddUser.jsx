@@ -21,8 +21,15 @@ import { AddUserTour } from "./components";
 
 const { Option } = Select;
 
-const descriptionData =
-  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
+const descriptionData = (
+  <p>
+    This page allows you to add users to the RUSH platform.You will only be able
+    to add users for regions under your jurisdisction.
+    <br />
+    Once you have added the user, the user will be notified by email to set
+    their password and access the platform
+  </p>
+);
 
 const AddUser = () => {
   const [submitting, setSubmitting] = useState(false);
