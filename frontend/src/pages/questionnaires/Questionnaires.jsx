@@ -16,6 +16,7 @@ import { api, store } from "../../lib";
 import { Breadcrumbs } from "../../components";
 import { reloadData } from "../../util/form";
 import { useNotification } from "../../util/hooks";
+import { QuestionnaireTour } from "./components";
 
 const pagePath = [
   {
@@ -126,6 +127,10 @@ const Questionnaires = () => {
         <Col>
           <Breadcrumbs pagePath={pagePath} />
         </Col>
+        <QuestionnaireTour />
+      </Row>
+      <Divider />
+      <Row justify="end">
         <Col>
           <Space size={6}>
             <Button

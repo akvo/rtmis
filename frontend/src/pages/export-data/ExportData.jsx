@@ -20,6 +20,7 @@ import {
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { api, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
+import { ExportDataTour } from "./components";
 
 const pagePath = [
   {
@@ -196,6 +197,7 @@ const ExportData = () => {
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel description={descriptionData} />
         </Col>
+        <ExportDataTour />
       </Row>
       <Divider />
       <Card
