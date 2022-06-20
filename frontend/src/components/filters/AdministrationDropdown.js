@@ -12,6 +12,8 @@ const AdministrationDropdown = ({
   width = 160,
   persist = false,
   hidden = false,
+  maxLevel = null,
+  onChange,
   ...props
 }) => {
   const { user, administration, isLoggedIn, loadingAdministration } =
@@ -82,6 +84,9 @@ const AdministrationDropdown = ({
         store.update((s) => {
           s.loadingAdministration = false;
         });
+        if (onChange) {
+          onChange();
+        }
       })
       .catch((err) => {
         notify({
@@ -106,41 +111,45 @@ const AdministrationDropdown = ({
       <Space {...props}>
         {administration
           .filter((x) => x.children.length)
-          .map((region, regionIdx) => (
-            <div key={regionIdx}>
-              {withLabel ? (
-                <label className="ant-form-item-label">
-                  {region?.childLevelName}
-                </label>
-              ) : (
-                ""
-              )}
-              <Select
-                placeholder={`Select ${region?.childLevelName}`}
-                style={{ width: width }}
-                onChange={(e) => {
-                  handleChange(e, regionIdx);
-                }}
-                onClear={() => {
-                  handleClear(regionIdx);
-                }}
-                getPopupContainer={(trigger) => trigger.parentNode}
-                dropdownMatchSelectWidth={false}
-                value={administration[regionIdx + 1]?.id || null}
-                disabled={loadingAdministration || loading}
-                allowClear
-                showSearch
-                filterOption={true}
-                optionFilterProp="children"
-              >
-                {region.children.map((optionValue, optionIdx) => (
-                  <Select.Option key={optionIdx} value={optionValue.id}>
-                    {optionValue.name}
-                  </Select.Option>
-                ))}
-              </Select>
-            </div>
-          ))}
+          .map((region, regionIdx) => {
+            if (maxLevel === null || regionIdx + 1 < maxLevel) {
+              return (
+                <div key={regionIdx}>
+                  {withLabel ? (
+                    <label className="ant-form-item-label">
+                      {region?.childLevelName}
+                    </label>
+                  ) : (
+                    ""
+                  )}
+                  <Select
+                    placeholder={`Select ${region?.childLevelName}`}
+                    style={{ width: width }}
+                    onChange={(e) => {
+                      handleChange(e, regionIdx);
+                    }}
+                    onClear={() => {
+                      handleClear(regionIdx);
+                    }}
+                    getPopupContainer={(trigger) => trigger.parentNode}
+                    dropdownMatchSelectWidth={false}
+                    value={administration[regionIdx + 1]?.id || null}
+                    disabled={loadingAdministration || loading}
+                    allowClear
+                    showSearch
+                    filterOption={true}
+                    optionFilterProp="children"
+                  >
+                    {region.children.map((optionValue, optionIdx) => (
+                      <Select.Option key={optionIdx} value={optionValue.id}>
+                        {optionValue.name}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </div>
+              );
+            }
+          })}
       </Space>
     );
   }
@@ -151,6 +160,8 @@ AdministrationDropdown.propTypes = {
   loading: PropTypes.bool,
   persist: PropTypes.bool,
   hidden: PropTypes.bool,
+  maxLevel: PropTypes.number,
+  onChange: PropTypes.func,
 };
 
 export default React.memo(AdministrationDropdown);
