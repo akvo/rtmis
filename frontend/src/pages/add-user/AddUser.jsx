@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import {
   Row,
@@ -11,11 +11,11 @@ import {
   Select,
   Checkbox,
 } from "antd";
-import { AdministrationDropdownUserPage } from "../../components";
+import { AdministrationDropdown } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { api, store, config, uiText } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
-import { takeRight, dropRight } from "lodash";
+import { takeRight, take, max } from "lodash";
 import { useNotification } from "../../util/hooks";
 
 const { Option } = Select;
@@ -25,11 +25,11 @@ const descriptionData =
 
 const AddUser = () => {
   const [submitting, setSubmitting] = useState(false);
-  const [showAdministration, setShowAdministration] = useState(false);
-  const [showForms, setShowForms] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [allowedForms, setAllowedForms] = useState([]);
-  const [description, setDescription] = useState("");
+  const [role, setRole] = useState(null);
+  const [level, setLevel] = useState(null);
+  const [adminError, setAdminError] = useState(null);
+  const [levelError, setLevelError] = useState(false);
   const [form] = Form.useForm();
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
@@ -39,7 +39,6 @@ const AddUser = () => {
   const {
     user: authUser,
     administration,
-    levels,
     loadingAdministration,
     forms,
     loadingForm,
@@ -61,7 +60,36 @@ const AddUser = () => {
       title: id ? text.editUser : text.addUser,
     },
   ];
+
+  const allowedRoles = useMemo(() => {
+    const lookUp = authUser.role?.id === 2 ? 3 : authUser.role?.id || 4;
+    return config.roles.filter((r) => r.id >= lookUp);
+  }, [authUser]);
   const onFinish = (values) => {
+    if ([3, 5].includes(values.role)) {
+      if (level === null) {
+        setLevelError(true);
+        return;
+      }
+      if (administration.length !== level) {
+        setAdminError(
+          `Please select a ${window.levels.find((l) => l.id === level)?.name}`
+        );
+        return;
+      }
+    } else if ([2, 4].includes(values.role)) {
+      if (
+        !allowedLevels.map((a) => a.level + 1).includes(administration.length)
+      ) {
+        const levelNames = allowedLevels.map((l) => l.name).join("/");
+        setAdminError(
+          `${
+            allowedRoles.find((a) => role === a.id)?.name
+          } is allowed with ${levelNames} administration`
+        );
+        return;
+      }
+    }
     setSubmitting(true);
     const admin = takeRight(administration, 1)?.[0];
     api[id ? "put" : "post"](id ? `user/${id}` : "user", {
@@ -94,50 +122,39 @@ const AddUser = () => {
       });
   };
 
-  const allowedRole = useMemo(() => {
-    const lookUp = authUser.role?.id === 2 ? 3 : authUser.role?.id || 4;
-    return config.roles.filter((r) => r.id >= lookUp);
-  }, [authUser]);
-  const checkRole = useCallback(() => {
-    const admin = takeRight(administration, 1)?.[0];
-    const role = form.getFieldValue("role");
-    const allowed_level = allowedRole.find(
-      (a) => a.id === role
-    )?.administration_level;
+  const onRoleChange = (r) => {
+    setRole(r);
+    setLevel(null);
+    setLevelError(false);
+    setAdminError(null);
     form.setFieldsValue({
-      administration: allowed_level?.includes(administration.length)
-        ? admin?.id
-        : null,
+      forms: [],
     });
-  }, [administration, allowedRole, form]);
-
-  const onChange = (a) => {
-    if (a?.role === 1) {
-      setShowAdministration(false);
-      setShowForms(false);
-      checkRole(administration);
-    }
-    if (a?.role > 1) {
-      setShowAdministration(true);
-      form.setFieldsValue({ forms: [] });
-      setShowForms(true);
-      checkRole(administration);
-    }
-    if (a?.role < 3) {
-      setAllowedForms(forms);
-    } else {
-      setAllowedForms(forms.filter((f) => f.type === 1));
-    }
-    if (a?.role === 5) {
-      setShowForms(false);
+    if (r > 1) {
+      store.update((s) => {
+        s.administration = take(s.administration, 1);
+      });
     }
   };
-  useEffect(() => {
-    checkRole(administration);
-  }, [administration, checkRole]);
+
+  const onLevelChange = (l) => {
+    setLevel(l);
+    setLevelError(false);
+    setAdminError(null);
+    if (administration.length >= l) {
+      store.update((s) => {
+        s.administration.length = l;
+      });
+    }
+  };
+
+  const onAdminChange = () => {
+    setLevelError(false);
+    setAdminError(null);
+  };
 
   useEffect(() => {
-    const fetchData = (adminId, acc) => {
+    const fetchData = (adminId, acc, roleRes) => {
       api.get(`administration/${adminId}`).then((res) => {
         acc.unshift({
           id: res.data.id,
@@ -147,7 +164,7 @@ const AddUser = () => {
           childLevelName: res.data.children_level_name,
         });
         if (res.data.level > 0) {
-          fetchData(res.data.parent, acc);
+          fetchData(res.data.parent, acc, roleRes);
         } else {
           store.update((s) => {
             s.administration = acc;
@@ -155,6 +172,13 @@ const AddUser = () => {
           store.update((s) => {
             s.loadingAdministration = false;
           });
+          if ([3, 5].includes(roleRes)) {
+            setLevel(
+              window.levels.find(
+                (l) => l.name === takeRight(acc, 1)[0].levelName
+              ).level + 1
+            );
+          }
         }
       });
     };
@@ -163,7 +187,6 @@ const AddUser = () => {
         store.update((s) => {
           s.loadingAdministration = true;
         });
-        setShowAdministration(true);
         setLoading(true);
         api.get(`user/${id}`).then((res) => {
           form.setFieldsValue({
@@ -176,16 +199,9 @@ const AddUser = () => {
             role: res.data?.role,
             forms: res.data?.forms.map((f) => parseInt(f.id)),
           });
-          if (res.data?.role > 1) {
-            setShowForms(true);
-            if (res.data?.role < 3) {
-              setAllowedForms(forms);
-            } else {
-              setAllowedForms(forms.filter((f) => f.type === 1));
-            }
-          }
+          setRole(res.data?.role);
           setLoading(false);
-          fetchData(res.data.administration, []);
+          fetchData(res.data.administration, [], res.data?.role);
         });
       } catch (error) {
         notify({ type: "error", message: text.errorUserLoad });
@@ -194,23 +210,16 @@ const AddUser = () => {
     }
   }, [id, form, forms, notify, text.errorUserLoad]);
 
-  const roleDescription = (e) => {
-    const role = config.roles.filter((data) => data.id === e);
-    setDescription(role[0].description);
-    if (e === 2) {
-      if (administration.length === 3) {
-        store.update((s) => {
-          s.administrationLevel = null;
-          s.administration = dropRight(administration, 1);
-        });
-      } else if (administration.length === 4) {
-        store.update((s) => {
-          s.administrationLevel = null;
-          s.administration = dropRight(administration, 2);
-        });
-      }
-    }
-  };
+  const allowedLevels = useMemo(() => {
+    const admLevels =
+      allowedRoles.find((r) => r.id === role)?.administration_level || [];
+    return window.levels?.filter((l) => admLevels.includes(l.level + 1)) || [];
+  }, [role, allowedRoles]);
+
+  const allowedForms = useMemo(() => {
+    return role < 3 ? forms : forms.filter((f) => f.type === 1);
+  }, [role, forms]);
+
   return (
     <div id="add-user">
       <Row justify="space-between">
@@ -235,7 +244,6 @@ const AddUser = () => {
           forms: [],
           inform_user: true,
         }}
-        onValuesChange={onChange}
         onFinish={onFinish}
       >
         <Card bodyStyle={{ padding: 0 }}>
@@ -342,9 +350,9 @@ const AddUser = () => {
               <Select
                 getPopupContainer={(trigger) => trigger.parentNode}
                 placeholder="Select one.."
-                onChange={roleDescription}
+                onChange={onRoleChange}
               >
-                {allowedRole.map((r, ri) => (
+                {allowedRoles.map((r, ri) => (
                   <Option key={ri} value={r.id}>
                     {r.name}
                     <span className="opt-desc">{r.description}</span>
@@ -352,65 +360,62 @@ const AddUser = () => {
                 ))}
               </Select>
             </Form.Item>
-            <span className="role-description">
-              {description ? description : ""}
-            </span>
+            {role && (
+              <span className="role-description">
+                {config.roles.find((r) => r.id === role)?.description}
+              </span>
+            )}
           </div>
-          <Form.Item noStyle shouldUpdate>
-            {(f) => {
-              return f.getFieldValue("role") > 1 ? (
-                <Form.Item
-                  name="administration"
-                  label="Administration"
-                  rules={[
-                    { required: true, message: "" },
-                    {
-                      validator() {
-                        const role = allowedRole.find(
-                          (a) => a.id === form.getFieldValue("role")
-                        );
-                        const allowed_levels = role?.administration_level;
-                        const adm_length =
-                          authUser.role.value === "County Admin"
-                            ? administration.length + 1
-                            : administration.length;
-                        if (allowed_levels?.includes(adm_length)) {
-                          return Promise.resolve();
-                        }
-                        const level_names = levels
-                          .filter((l) => allowed_levels.includes(l.id))
-                          .map((l) => l.name)
-                          .join("/");
-                        return Promise.reject(
-                          `${role.name} Level is allowed with ${level_names} administration`
-                        );
-                      },
-                    },
-                  ]}
-                  className="form-row hidden-field"
+          {(role === 3 || role === 5) && (
+            <div className="form-row">
+              <Form.Item label="Administration Level">
+                <Select
+                  value={level}
+                  getPopupContainer={(trigger) => trigger.parentNode}
+                  placeholder="Select one.."
+                  onChange={onLevelChange}
                 >
-                  <Input hidden />
-                </Form.Item>
-              ) : null;
-            }}
-          </Form.Item>
-          {showAdministration && (
+                  {allowedLevels.map((l, li) => (
+                    <Option key={li} value={l.level + 1}>
+                      {l.name}
+                    </Option>
+                  ))}
+                </Select>
+                {levelError && (
+                  <div className="text-error">
+                    Please select an administration level
+                  </div>
+                )}
+              </Form.Item>
+            </div>
+          )}
+          {([2, 4].includes(role) || ([3, 5].includes(role) && level > 1)) && (
             <div className="form-row-adm">
+              <h3>Administration</h3>
+              {!!adminError && <div className="text-error">{adminError}</div>}
               {loadingAdministration ? (
                 <p style={{ paddingLeft: 12, color: "#6b6b6f" }}>Loading..</p>
               ) : (
-                <AdministrationDropdownUserPage
+                <AdministrationDropdown
                   direction="vertical"
                   withLabel={true}
                   persist={true}
                   size="large"
                   width="100%"
-                  role={form.getFieldValue("role")}
+                  onChange={onAdminChange}
+                  maxLevel={
+                    [3, 5].includes(role)
+                      ? level
+                      : max(
+                          allowedRoles?.find((r) => r.id === role)
+                            ?.administration_level
+                        ) || null
+                  }
                 />
               )}
             </div>
           )}
-          {showForms && (
+          {[2, 3, 4].includes(role) && (
             <div className="form-row" style={{ marginTop: 24 }}>
               {loadingForm || loading ? (
                 <>
@@ -454,7 +459,12 @@ const AddUser = () => {
             </Form.Item>
           </Col>
           <Col>
-            <Button type="primary" htmlType="submit" loading={submitting}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={submitting}
+              disabled={loadingAdministration}
+            >
               {id ? text.updateUser : text.addUser}
             </Button>
           </Col>

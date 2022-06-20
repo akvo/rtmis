@@ -112,8 +112,8 @@ class AddEditUserSerializer(serializers.ModelSerializer):
     administration = CustomPrimaryKeyRelatedField(
         queryset=Administration.objects.none())
     role = CustomChoiceField(choices=list(UserRoleTypes.FieldStr.keys()))
-    forms = CustomPrimaryKeyRelatedField(
-        queryset=Forms.objects.all(), many=True)
+    forms = CustomPrimaryKeyRelatedField(queryset=Forms.objects.all(),
+                                         many=True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -155,8 +155,9 @@ class AddEditUserSerializer(serializers.ModelSerializer):
                     [UserRoleTypes.approver, UserRoleTypes.user]:
                 raise ValidationError(
                     'You do not have permission to edit this user')
-        if attrs.get('role') != UserRoleTypes.super_admin and attrs.get(
-                'administration').level.level == 0:
+        if attrs.get('role') not in [
+                UserRoleTypes.super_admin, UserRoleTypes.read_only
+        ] and attrs.get('administration').level.level == 0:
             raise ValidationError({
                 'administration':
                 'administration level is not valid with selected role'
