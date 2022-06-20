@@ -1,3 +1,4 @@
+from api.v1.v1_profile.constants import UserDesignationTypes
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.core import signing
@@ -27,6 +28,12 @@ class SystemUser(AbstractBaseUser, PermissionsMixin):
     @property
     def name(self):
         return '{0} {1}'.format(self.first_name, self.last_name)
+
+    @property
+    def designation_name(self):
+        if self.designation:
+            return UserDesignationTypes.FieldStr.get(int(self.designation))
+        return None
 
     def get_sign_pk(self):
         return signing.dumps(self.pk)

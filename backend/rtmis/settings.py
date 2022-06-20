@@ -110,7 +110,7 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'RTMIS',
+    'TITLE': 'RUSH',
     'DESCRIPTION': '',
     'VERSION': '1.0.0',
     'SORT_OPERATIONS': False,

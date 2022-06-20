@@ -16,7 +16,7 @@ const Reports = () => {
 
   const handlePrint = () => {
     const print = document.getElementById("print-iframe");
-    const title = "RTMIS";
+    const title = "RUSH";
     print.contentDocument.title = title;
     print.focus();
     print.contentWindow.print();

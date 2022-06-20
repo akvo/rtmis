@@ -18,7 +18,7 @@ class PendingDataTestCase(TestCase):
         call_command("administration_seeder", "--test")
         call_command("form_seeder", "--test")
 
-        super_admin = {"email": "admin@rtmis.com", "password": "Test105*"}
+        super_admin = {"email": "admin@rush.com", "password": "Test105*"}
         self.client.post('/api/v1/login',
                          super_admin,
                          content_type='application/json')
@@ -114,7 +114,7 @@ class PendingDataTestCase(TestCase):
         call_command("administration_seeder", "--test")
         call_command("form_seeder", "--test")
 
-        super_admin = {"email": "admin@rtmis.com", "password": "Test105*"}
+        super_admin = {"email": "admin@rush.com", "password": "Test105*"}
         self.client.post('/api/v1/login',
                          super_admin,
                          content_type='application/json')
@@ -257,7 +257,7 @@ class PendingDataTestCase(TestCase):
 
     def test_batch_summary(self):
         call_command("administration_seeder", "--test")
-        user_payload = {"email": "admin@rtmis.com", "password": "Test105*"}
+        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
         user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
