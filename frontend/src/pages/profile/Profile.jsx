@@ -4,7 +4,8 @@ import { Space, Card, Divider, Row } from "antd";
 import { store, config } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { PanelApprovals, PanelDataUpload, ProfileTour } from "./components";
-const descriptionData = "User profile page and data upload / approval overview";
+const descriptionData =
+  "This page shows your current user setup. It also shows the most important activities for your current user setup";
 const Profile = () => {
   const { forms, user: authUser } = store.useState((s) => s);
 
