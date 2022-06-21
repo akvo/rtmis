@@ -43,7 +43,7 @@ class FormSeederTestCase(TestCase):
             "Health Facilities",
             "Household",
             "CLTS",
-            "WASH in School",
+            "WASH in Schools",
             "Water System",
         ]
         output = list(filter(lambda x: len(x), output.split("\n")))
