@@ -26,7 +26,7 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
               src="/logo.png"
             />
             <h1>
-              Ministry of Health
+              RUSH
             </h1>
           </a>
         </div>
@@ -319,7 +319,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
               src="/logo.png"
             />
             <h1>
-              Ministry of Health
+              RUSH
             </h1>
           </a>
         </div>
