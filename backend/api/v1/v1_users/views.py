@@ -267,6 +267,7 @@ def add_user(request, version):
             {'message': validate_serializers_message(serializer.errors)},
             status=status.HTTP_400_BAD_REQUEST)
     user = serializer.save()
+    url = f"{webdomain}/login/{signing.dumps(user.pk)}"
     user = Access.objects.filter(user=user.pk).first()
     admin = Access.objects.filter(user=request.user.pk).first()
     user_forms = Forms.objects.filter(pk__in=request.data.get("forms")).all()
@@ -280,7 +281,6 @@ def add_user(request, version):
     if user_forms:
         user_forms = ", ".join([form.name for form in user_forms])
         listing.append({"name": "Questionnaire", "value": user_forms})
-    url = f"{webdomain}/login/{signing.dumps(user.pk)}"
     data = {
         'button_url': url,
         'send_to': [user.user.email],

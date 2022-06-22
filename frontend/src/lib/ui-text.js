@@ -13,11 +13,13 @@ const uiText = {
       </Fragment>
     ),
     welcomeDesc: "Updated sanitation and hygiene estimates across Kenya",
-    countdownTitle: "Launching in:",
-    days: "Days",
-    hours: "Hours",
-    minutes: "Minutes",
-    seconds: "Seconds",
+    countdownTitle: "Time remaining to achieve national RUSH targets:",
+    year: "Year",
+    month: "Month",
+    day: "Day",
+    hour: "Hour",
+    minute: "Minute",
+    second: "Second",
     welcomeCta: "Explore the Data",
     // Error messages
     error: "Error",
@@ -230,11 +232,12 @@ const uiText = {
     browseComputer: "Browse your computer",
     usersLoadFail: "Could not load users",
     userDeleteFail: "Could not delete user",
-    deleteUserHint: "Deleting this user will not delete the assosiations",
+    deleteUserHint:
+      "Deleting this user will not delete the data association(s)",
     deleteUserTitle: "You are about to delete the user",
     deleteUserDesc:
       "The User will no longer be able to access the RUSH platform as an Enumrator/Admin etc",
-    userAssociations: "This user has following assosiations",
+    userAssociations: "This user has following data association(s)",
     // Tour
     prev: "Prev",
     next: "Next",
