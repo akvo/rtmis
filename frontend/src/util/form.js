@@ -1,5 +1,17 @@
 import { store, config } from "../lib";
 
+export const sortArray = (x, y) => {
+  const nameOne = x.name.toLowerCase();
+  const nameTwo = y.name.toLowerCase();
+  if (nameOne < nameTwo) {
+    return -1;
+  }
+  if (nameOne > nameTwo) {
+    return 1;
+  }
+  return 0;
+};
+
 const filterFormByAssigment = (profile = {}) => {
   if (!Object.keys(profile).length) {
     return window.forms;
