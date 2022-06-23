@@ -32,14 +32,15 @@ class SystemUserTestCase(TestCase):
                      first_name="Admin",
                      last_name="RUSH")
         call_command("administration_seeder", "--test")
-        call_command("fake_organisation_seeder", "--repeat", 1)
+        call_command("fake_organisation_seeder", "--repeat", 3)
         user = SystemUser.objects.first()
-        user.organisation = Organisation.objects.filter(pk=1).first()
+        organisation = Organisation.objects.first()
+        user.organisation = organisation
         user.save()
         self.assertEqual('admin@rush.com', user.email)
         self.assertTrue(user.is_superuser)
         self.assertEqual('Admin', user.first_name)
-        self.assertEqual(1, user.organisation.id)
+        self.assertEqual(organisation.id, user.organisation.id)
         call_command("assign_access", user.email, "--test")
         access = Access.objects.first()
         self.assertEqual(access.user, user)
