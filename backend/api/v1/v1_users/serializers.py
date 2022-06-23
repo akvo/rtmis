@@ -9,9 +9,10 @@ from rest_framework.exceptions import ValidationError
 from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_forms.models import FormApprovalAssignment, UserForms, Forms
 from api.v1.v1_forms.constants import FormTypes
-from api.v1.v1_profile.constants import UserRoleTypes
+from api.v1.v1_profile.constants import UserRoleTypes, OrganisationTypes
 from api.v1.v1_profile.models import Administration, Access, Levels
-from api.v1.v1_users.models import SystemUser, Organisation
+from api.v1.v1_users.models import SystemUser, \
+        Organisation, OrganisationAttribute
 from utils.custom_serializer_fields import CustomEmailField, CustomCharField, \
     CustomPrimaryKeyRelatedField, CustomChoiceField, CustomBooleanField
 
@@ -20,6 +21,32 @@ class OrganisationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organisation
         fields = ['id', 'name']
+
+
+class OrganisationAttributeSerializer(serializers.ModelSerializer):
+    type_id = serializers.ReadOnlyField(source='type')
+    name = serializers.SerializerMethodField()
+
+    def get_name(self, instance: OrganisationAttribute):
+        return OrganisationTypes.FieldStr.get(instance.type)
+
+    class Meta:
+        model = OrganisationAttribute
+        fields = ['type_id', 'name']
+
+
+class ListOrganisationSerializer(serializers.ModelSerializer):
+    attributes = serializers.SerializerMethodField()
+
+    @extend_schema_field(OrganisationAttributeSerializer(many=True))
+    def get_attributes(self, instance: Organisation):
+        attr = OrganisationAttribute.objects.filter(
+            organisation_id=instance.id).all()
+        return OrganisationAttributeSerializer(instance=attr, many=True).data
+
+    class Meta:
+        model = Organisation
+        fields = ['id', 'name', 'attributes']
 
 
 class LoginSerializer(serializers.Serializer):

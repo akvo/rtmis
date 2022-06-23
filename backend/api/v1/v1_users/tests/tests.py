@@ -34,7 +34,7 @@ class SystemUserTestCase(TestCase):
         call_command("administration_seeder", "--test")
         call_command("fake_organisation_seeder", "--repeat", 1)
         user = SystemUser.objects.first()
-        user.organisation = Organisation.objects.first()
+        user.organisation = Organisation.objects.filter(pk=1).first()
         user.save()
         self.assertEqual('admin@rush.com', user.email)
         self.assertTrue(user.is_superuser)

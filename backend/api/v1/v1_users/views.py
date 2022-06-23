@@ -27,12 +27,12 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Access, Administration, Levels
-from api.v1.v1_users.models import SystemUser
+from api.v1.v1_users.models import SystemUser, Organisation
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     VerifyInviteSerializer, SetUserPasswordSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
     ListUserRequestSerializer, ListLevelSerializer, UserDetailSerializer, \
-    ForgotPasswordSerializer
+    ForgotPasswordSerializer, ListOrganisationSerializer
 from api.v1.v1_forms.models import Forms
 # from api.v1.v1_data.models import PendingDataBatch, \
 #     PendingDataApproval, FormData
@@ -274,7 +274,7 @@ def add_user(request, version):
     listing = [{
         "name": "Role",
         "value": user.role_name
-        }, {
+    }, {
         "name": "Region",
         "value": user.administration.full_name
     }]
@@ -282,10 +282,13 @@ def add_user(request, version):
         user_forms = ", ".join([form.name for form in user_forms])
         listing.append({"name": "Questionnaire", "value": user_forms})
     data = {
-        'button_url': url,
+        'button_url':
+        url,
         'send_to': [user.user.email],
-        'listing': listing,
-        'admin': f"""{admin.user.name}, {admin.user.designation_name},
+        'listing':
+        listing,
+        'admin':
+        f"""{admin.user.name}, {admin.user.designation_name},
         {admin.administration.full_name}."""
     }
     send_email(type=EmailTypes.user_invite, context=data)
@@ -301,7 +304,8 @@ def add_user(request, version):
                           "total": serializers.IntegerField(),
                           "total_page": serializers.IntegerField(),
                           "data": ListUserSerializer(many=True),
-                      })},
+                      })
+},
                tags=['User'],
                summary='Get list of users',
                parameters=[
@@ -507,3 +511,24 @@ def forgot_password(request, version):
     return Response(
         {'message': 'Reset password instructions sent to your email'},
         status=status.HTTP_200_OK)
+
+
+@extend_schema(responses={200: ListOrganisationSerializer(many=True)},
+               parameters=[
+                   OpenApiParameter(name='filter',
+                                    required=False,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY)
+               ],
+               tags=['Organisation'],
+               summary='Get list of organisation')
+@api_view(['GET'])
+def list_organisations(request, version):
+    filter = request.data.get('filter')
+    instance = Organisation.objects.all()
+    return Response(ListOrganisationSerializer(instance=instance,
+                                               context={
+                                                   'filter': filter
+                                               },
+                                               many=True).data,
+                    status=status.HTTP_200_OK)
