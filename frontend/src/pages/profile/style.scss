@@ -10,6 +10,7 @@
       text-align: left;
       font: normal normal 600 $font-size-large $font-family;
       letter-spacing: 0.49px;
+
       //color: #595a65;
       opacity: 1;
     }
@@ -27,8 +28,12 @@
           padding-left: 0;
 
           li {
-            border-top: solid #dfe1ef 1px;
+            border-bottom: solid #dfe1ef 1px;
             padding: 12px 0;
+
+            &:last-child {
+              border-bottom: none;
+            }
 
             h3 {
               color: #71737b;
