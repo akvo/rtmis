@@ -159,9 +159,16 @@ const App = () => {
             const role_details = config.roles.find(
               (r) => r.id === res.data.role.id
             );
+            const designation = config?.designations.find(
+              (d) => d.id === res.data.role.id
+            );
             store.update((s) => {
               s.isLoggedIn = true;
-              s.user = { ...res.data, role_detail: role_details };
+              s.user = {
+                ...res.data,
+                designation: designation,
+                role_detail: role_details,
+              };
             });
             reloadData(res.data);
             api.setToken(cookies.AUTH_TOKEN);

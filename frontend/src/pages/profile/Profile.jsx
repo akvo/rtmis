@@ -36,6 +36,18 @@ const Profile = () => {
             </Space>
           </li>
           <li>
+            <h3>Role</h3>
+            <Space size="large" align="center">
+              <span>{authUser?.role?.value}</span>
+            </Space>
+          </li>
+          <li>
+            <h3>Designation</h3>
+            <Space size="large" align="center">
+              <span>{authUser?.designation}</span>
+            </Space>
+          </li>
+          <li>
             <h3>Administration</h3>
             <p>{authUser?.administration?.name}</p>
           </li>
