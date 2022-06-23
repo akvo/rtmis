@@ -31,8 +31,21 @@ const Profile = () => {
         <h1>My Profile</h1>
         <ul className="profile-detail">
           <li>
+            <h3>Name</h3>
             <Space size="large" align="center">
               <span>{authUser?.name}</span>
+            </Space>
+          </li>
+          <li>
+            <h3>Role</h3>
+            <Space size="large" align="center">
+              <span>{authUser?.role?.value}</span>
+            </Space>
+          </li>
+          <li>
+            <h3>Designation</h3>
+            <Space size="large" align="center">
+              <span>{authUser?.designation?.name}</span>
             </Space>
           </li>
           <li>
