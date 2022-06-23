@@ -52,16 +52,15 @@ class OrganisationListSerializer(serializers.ModelSerializer):
 
 class AddEditOrganisationSerializer(serializers.ModelSerializer):
     attributes = CustomMultipleChoiceField(
-        choices=list(OrganisationTypes.FieldStr.keys()))
+        choices=list(OrganisationTypes.FieldStr.keys()), required=True)
 
     def create(self, validated_data):
         attributes = validated_data.pop('attributes')
         instance = super(AddEditOrganisationSerializer,
                          self).create(validated_data)
-        if attributes:
-            for attr in attributes:
-                OrganisationAttribute.objects.create(organisation=instance,
-                                                     type=attr)
+        for attr in attributes:
+            OrganisationAttribute.objects.create(organisation=instance,
+                                                 type=attr)
         return instance
 
     def update(self, instance, validated_data):
@@ -71,16 +70,13 @@ class AddEditOrganisationSerializer(serializers.ModelSerializer):
         instance.save()
         current_attributes = OrganisationAttribute.objects.filter(
             organisation=instance).all()
-        if not attributes:
-            current_attributes.delete()
-        if attributes:
-            for attr in current_attributes:
-                if attr.type not in attributes:
-                    attr.delete()
-            for attr in attributes:
-                attr, created = OrganisationAttribute.objects.get_or_create(
-                    organisation=instance, type=attr)
-                attr.save()
+        for attr in current_attributes:
+            if attr.type not in attributes:
+                attr.delete()
+        for attr in attributes:
+            attr, created = OrganisationAttribute.objects.get_or_create(
+                organisation=instance, type=attr)
+            attr.save()
         return instance
 
     class Meta:

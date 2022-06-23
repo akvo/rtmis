@@ -2,7 +2,7 @@ from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import override_settings
 
-from api.v1.v1_users.models import Organisation
+from api.v1.v1_users.models import Organisation, OrganisationAttribute
 
 
 @override_settings(USE_TZ=False)
@@ -19,6 +19,7 @@ class OrganisationTestCase(TestCase):
                          list(organisations[0]["attributes"][0]))
 
     def test_add_edit_delete_organisation(self):
+        call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rush.com", "password": "Test105*"}
         user_response = self.client.post('/api/v1/login',
                                          user_payload,
@@ -32,7 +33,10 @@ class OrganisationTestCase(TestCase):
                                content_type='application/json',
                                **header)
         self.assertEqual(req.status_code, 200)
-        call_command("fake_organisation_seeder", "--repeat", 5)
+        organisation = Organisation.objects.filter(name="Test").first()
+        attributes = OrganisationAttribute.objects.filter(
+            organisation=organisation).count()
+        self.assertEqual(attributes, 1)
 
         payload.update({"attributes": [1, 2]})
         req = self.client.put('/api/v1/organisation/1',
@@ -46,3 +50,7 @@ class OrganisationTestCase(TestCase):
                               content_type='application/json',
                               **header)
         self.assertEqual(req.status_code, 200)
+        attributes = OrganisationAttribute.objects.filter(
+            organisation=organisation)
+        self.assertEqual(attributes.count(), 1)
+        self.assertEqual(attributes.first().type, 2)

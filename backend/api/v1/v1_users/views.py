@@ -550,7 +550,7 @@ def list_organisations(request, version):
                },
                tags=['Organisation'],
                description='Attributes are member:1,partnership:2',
-               summary='To add user')
+               summary='To add new organisation')
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
 def add_organisation(request, version):
