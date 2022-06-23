@@ -14,7 +14,8 @@ from api.v1.v1_profile.models import Administration, Access, Levels
 from api.v1.v1_users.models import SystemUser, \
         Organisation, OrganisationAttribute
 from utils.custom_serializer_fields import CustomEmailField, CustomCharField, \
-    CustomPrimaryKeyRelatedField, CustomChoiceField, CustomBooleanField
+    CustomPrimaryKeyRelatedField, CustomChoiceField, CustomBooleanField, \
+    CustomMultipleChoiceField
 
 
 class OrganisationSerializer(serializers.ModelSerializer):
@@ -35,7 +36,7 @@ class OrganisationAttributeSerializer(serializers.ModelSerializer):
         fields = ['type_id', 'name']
 
 
-class ListOrganisationSerializer(serializers.ModelSerializer):
+class OrganisationListSerializer(serializers.ModelSerializer):
     attributes = serializers.SerializerMethodField()
 
     @extend_schema_field(OrganisationAttributeSerializer(many=True))
@@ -47,6 +48,44 @@ class ListOrganisationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organisation
         fields = ['id', 'name', 'attributes']
+
+
+class AddEditOrganisationSerializer(serializers.ModelSerializer):
+    attributes = CustomMultipleChoiceField(
+        choices=list(OrganisationTypes.FieldStr.keys()))
+
+    def create(self, validated_data):
+        attributes = validated_data.pop('attributes')
+        instance = super(AddEditOrganisationSerializer,
+                         self).create(validated_data)
+        if attributes:
+            for attr in attributes:
+                OrganisationAttribute.objects.create(organisation=instance,
+                                                     type=attr)
+        return instance
+
+    def update(self, instance, validated_data):
+        attributes = validated_data.pop('attributes')
+        instance: Organisation = super(AddEditOrganisationSerializer,
+                                       self).update(instance, validated_data)
+        instance.save()
+        current_attributes = OrganisationAttribute.objects.filter(
+            organisation=instance).all()
+        if not attributes:
+            current_attributes.delete()
+        if attributes:
+            for attr in current_attributes:
+                if attr.type not in attributes:
+                    attr.delete()
+            for attr in attributes:
+                attr, created = OrganisationAttribute.objects.get_or_create(
+                    organisation=instance, type=attr)
+                attr.save()
+        return instance
+
+    class Meta:
+        model = Organisation
+        fields = ['name', 'attributes']
 
 
 class LoginSerializer(serializers.Serializer):

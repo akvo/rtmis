@@ -32,7 +32,8 @@ from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     VerifyInviteSerializer, SetUserPasswordSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
     ListUserRequestSerializer, ListLevelSerializer, UserDetailSerializer, \
-    ForgotPasswordSerializer, ListOrganisationSerializer
+    ForgotPasswordSerializer, \
+    OrganisationListSerializer, AddEditOrganisationSerializer
 from api.v1.v1_forms.models import Forms
 # from api.v1.v1_data.models import PendingDataBatch, \
 #     PendingDataApproval, FormData
@@ -520,7 +521,7 @@ def forgot_password(request, version):
         status=status.HTTP_200_OK)
 
 
-@extend_schema(responses={200: ListOrganisationSerializer(many=True)},
+@extend_schema(responses={200: OrganisationListSerializer(many=True)},
                parameters=[
                    OpenApiParameter(name='filter',
                                     required=False,
@@ -533,9 +534,80 @@ def forgot_password(request, version):
 def list_organisations(request, version):
     filter = request.data.get('filter')
     instance = Organisation.objects.all()
-    return Response(ListOrganisationSerializer(instance=instance,
+    return Response(OrganisationListSerializer(instance=instance,
                                                context={
                                                    'filter': filter
                                                },
                                                many=True).data,
                     status=status.HTTP_200_OK)
+
+
+@extend_schema(request=AddEditOrganisationSerializer,
+               responses={
+                   (200, 'application/json'):
+                   inline_serializer(
+                       "Response", fields={"message": serializers.CharField()})
+               },
+               tags=['Organisation'],
+               description='Attributes are member:1,partnership:2',
+               summary='To add user')
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
+def add_organisation(request, version):
+    serializer = AddEditOrganisationSerializer(
+        data=request.data,
+        context={'attributes': request.data.get("attributes")})
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST)
+    serializer.save()
+    return Response({'message': 'Organisation added successfully'},
+                    status=status.HTTP_200_OK)
+
+
+class OrganisationEditDeleteView(APIView):
+    permission_classes = [IsAuthenticated, IsSuperAdmin | IsAdmin]
+
+    @extend_schema(responses={200: OrganisationListSerializer},
+                   tags=['Organisation'],
+                   summary='To get organisation details')
+    def get(self, request, organisation_id, version):
+        instance = get_object_or_404(Organisation, pk=organisation_id)
+        return Response(OrganisationListSerializer(instance=instance).data,
+                        status=status.HTTP_200_OK)
+
+    @extend_schema(responses={
+        204:
+        OpenApiResponse(description='Deletion with no response')
+    },
+                   tags=['Organisation'],
+                   summary='To delete organisation')
+    def delete(self, request, organisation_id, version):
+        instance = get_object_or_404(Organisation, pk=organisation_id)
+        instance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @extend_schema(request=AddEditOrganisationSerializer,
+                   responses={
+                       (200, 'application/json'):
+                       inline_serializer(
+                           "Response",
+                           fields={"message": serializers.CharField()})
+                   },
+                   tags=['Organisation'],
+                   description='Attributes are member:1,partnership:2',
+                   summary='To update organisation')
+    def put(self, request, organisation_id, version):
+        instance = get_object_or_404(Organisation, pk=organisation_id)
+        serializer = AddEditOrganisationSerializer(
+            data=request.data,
+            context={'attributes': request.data.get("attributes")},
+            instance=instance)
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(serializer.errors)},
+                status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        return Response({'message': 'Organisation updated successfully'},
+                        status=status.HTTP_200_OK)
