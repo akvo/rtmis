@@ -17,3 +17,32 @@ class OrganisationTestCase(TestCase):
         self.assertEqual(["id", "name", "attributes"], list(organisations[0]))
         self.assertEqual(["type_id", "name"],
                          list(organisations[0]["attributes"][0]))
+
+    def test_add_edit_delete_organisation(self):
+        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
+        user_response = self.client.post('/api/v1/login',
+                                         user_payload,
+                                         content_type='application/json')
+        user = user_response.json()
+        token = user.get('token')
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        payload = {"name": "Test", "attributes": [1]}
+        req = self.client.post('/api/v1/organisation',
+                               payload,
+                               content_type='application/json',
+                               **header)
+        self.assertEqual(req.status_code, 200)
+        call_command("fake_organisation_seeder", "--repeat", 5)
+
+        payload.update({"attributes": [1, 2]})
+        req = self.client.put('/api/v1/organisation/1',
+                              payload,
+                              content_type='application/json',
+                              **header)
+
+        payload.update({"attributes": [2]})
+        req = self.client.put('/api/v1/organisation/1',
+                              payload,
+                              content_type='application/json',
+                              **header)
+        self.assertEqual(req.status_code, 200)
