@@ -2,11 +2,13 @@ from django.core import signing
 from django.core.management import call_command
 from django.test import TestCase
 
+from django.test.utils import override_settings
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_users.models import SystemUser
 from utils.email_helper import EmailTypes
 
 
+@override_settings(USE_TZ=False)
 class UserInvitationTestCase(TestCase):
     def test_user_list(self):
         call_command("administration_seeder", "--test")
