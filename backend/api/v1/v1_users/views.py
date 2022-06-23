@@ -52,7 +52,7 @@ def health_check(request, version):
     return Response({'message': 'OK'}, status=status.HTTP_200_OK)
 
 
-@extend_schema(description='Use to check System health', tags=['Dev'])
+@extend_schema(description='Get required configuration', tags=['Dev'])
 @api_view(['GET'])
 def get_config_file(request, version):
     if not Path("source/config/config.min.js").exists():
