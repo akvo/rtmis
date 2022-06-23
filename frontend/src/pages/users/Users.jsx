@@ -37,7 +37,7 @@ const Users = () => {
   const { administration, filters, isLoggedIn } = store.useState(
     (state) => state
   );
-  const { role } = filters;
+  const { role, organisation } = filters;
   const { notify } = useNotification();
 
   const selectedAdministration =
@@ -130,7 +130,7 @@ const Users = () => {
   const fetchData = useCallback(
     (query = null) => {
       if (isLoggedIn) {
-        let url = `users/?page=${currentPage}&pending=${
+        let url = `users?page=${currentPage}&pending=${
           pending ? "true" : "false"
         }`;
         if (selectedAdministration?.id) {
@@ -138,6 +138,9 @@ const Users = () => {
         }
         if (role) {
           url += `&role=${role}`;
+        }
+        if (organisation) {
+          url += `&organisation=${organisation}`;
         }
         if (query) {
           url += `&search=${query}`;
@@ -162,6 +165,7 @@ const Users = () => {
     },
     [
       role,
+      organisation,
       pending,
       currentPage,
       selectedAdministration,
@@ -175,6 +179,7 @@ const Users = () => {
     fetchData();
   }, [
     role,
+    organisation,
     pending,
     currentPage,
     selectedAdministration,

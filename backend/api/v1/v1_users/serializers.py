@@ -312,6 +312,8 @@ class ListUserSerializer(serializers.ModelSerializer):
 class ListUserRequestSerializer(serializers.Serializer):
     role = CustomChoiceField(choices=list(UserRoleTypes.FieldStr.keys()),
                              required=False)
+    organisation = CustomPrimaryKeyRelatedField(
+        queryset=Organisation.objects.none(), required=False)
     administration = CustomPrimaryKeyRelatedField(
         queryset=Administration.objects.none(), required=False)
     pending = CustomBooleanField(default=False)
@@ -322,6 +324,8 @@ class ListUserRequestSerializer(serializers.Serializer):
         super().__init__(**kwargs)
         self.fields.get(
             'administration').queryset = Administration.objects.all()
+        self.fields.get(
+            'organisation').queryset = Organisation.objects.all()
 
 
 class UserSerializer(serializers.ModelSerializer):

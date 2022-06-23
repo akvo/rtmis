@@ -317,6 +317,10 @@ def add_user(request, version):
                                     required=False,
                                     type=OpenApiTypes.NUMBER,
                                     location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='organisation',
+                                    required=False,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY),
                    OpenApiParameter(name='administration',
                                     required=False,
                                     type=OpenApiTypes.NUMBER,
@@ -380,6 +384,9 @@ def list_users(request, version):
     if serializer.validated_data.get('role'):
         filter_data['user_access__role'] = serializer.validated_data.get(
             'role')
+    if serializer.validated_data.get('organisation'):
+        filter_data['organisation_id'] = serializer.validated_data.get(
+            'organisation')
     if serializer.validated_data.get('pending'):
         filter_data['password__exact'] = ''
         exclude_data.pop('password__exact')
