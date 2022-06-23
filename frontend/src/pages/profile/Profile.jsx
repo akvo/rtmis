@@ -31,6 +31,7 @@ const Profile = () => {
         <h1>My Profile</h1>
         <ul className="profile-detail">
           <li>
+            <h3>Name</h3>
             <Space size="large" align="center">
               <span>{authUser?.name}</span>
             </Space>
@@ -44,7 +45,7 @@ const Profile = () => {
           <li>
             <h3>Designation</h3>
             <Space size="large" align="center">
-              <span>{authUser?.designation}</span>
+              <span>{authUser?.designation?.name}</span>
             </Space>
           </li>
           <li>
