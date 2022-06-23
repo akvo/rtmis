@@ -11,9 +11,15 @@ from api.v1.v1_forms.models import FormApprovalAssignment, UserForms, Forms
 from api.v1.v1_forms.constants import FormTypes
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Access, Levels
-from api.v1.v1_users.models import SystemUser
+from api.v1.v1_users.models import SystemUser, Organisation
 from utils.custom_serializer_fields import CustomEmailField, CustomCharField, \
     CustomPrimaryKeyRelatedField, CustomChoiceField, CustomBooleanField
+
+
+class OrganisationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Organisation
+        fields = ['id', 'name']
 
 
 class LoginSerializer(serializers.Serializer):
@@ -233,6 +239,7 @@ class UserFormSerializer(serializers.ModelSerializer):
 
 class ListUserSerializer(serializers.ModelSerializer):
     administration = serializers.SerializerMethodField()
+    organisation = serializers.SerializerMethodField()
     role = serializers.SerializerMethodField()
     invite = serializers.SerializerMethodField()
     forms = serializers.SerializerMethodField()
@@ -241,6 +248,10 @@ class ListUserSerializer(serializers.ModelSerializer):
     def get_administration(self, instance: SystemUser):
         return UserAdministrationSerializer(
             instance=instance.user_access.administration).data
+
+    @extend_schema_field(OrganisationSerializer)
+    def get_organisation(self, instance: SystemUser):
+        return OrganisationSerializer(instance=instance.organisation).data
 
     @extend_schema_field(
         inline_serializer('role',
@@ -265,8 +276,9 @@ class ListUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = SystemUser
         fields = [
-            'id', 'first_name', 'last_name', 'email', 'administration', 'role',
-            'phone_number', 'designation', 'invite', 'forms'
+            'id', 'first_name', 'last_name', 'email', 'administration',
+            'organisation', 'role', 'phone_number', 'designation', 'invite',
+            'forms'
         ]
 
 
@@ -288,6 +300,7 @@ class ListUserRequestSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
     administration = serializers.SerializerMethodField()
+    organisation = serializers.SerializerMethodField()
     role = serializers.SerializerMethodField()
     forms = serializers.SerializerMethodField()
     last_login = serializers.SerializerMethodField()
@@ -296,6 +309,10 @@ class UserSerializer(serializers.ModelSerializer):
     def get_administration(self, instance: SystemUser):
         return UserAdministrationSerializer(
             instance=instance.user_access.administration).data
+
+    @extend_schema_field(OrganisationSerializer)
+    def get_organisation(self, instance: SystemUser):
+        return OrganisationSerializer(instance=instance.organisation).data
 
     @extend_schema_field(
         inline_serializer('role',
@@ -328,7 +345,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = SystemUser
         fields = [
             'email', 'name', 'administration', 'role', 'phone_number',
-            'designation', 'forms', 'last_login'
+            'designation', 'forms', 'organisation', 'last_login'
         ]
 
 
