@@ -62,8 +62,8 @@ const Users = () => {
     },
     {
       title: "Organization",
-      dataIndex: "administration",
-      render: () => "-",
+      dataIndex: "organisation",
+      render: (organisation) => organisation?.name || "-",
     },
     {
       title: "Email",
