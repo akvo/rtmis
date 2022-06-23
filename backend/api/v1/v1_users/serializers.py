@@ -51,8 +51,9 @@ class OrganisationListSerializer(serializers.ModelSerializer):
 
 
 class AddEditOrganisationSerializer(serializers.ModelSerializer):
-    attributes = CustomMultipleChoiceField(
-        choices=list(OrganisationTypes.FieldStr.keys()), required=True)
+    attributes = CustomMultipleChoiceField(choices=list(
+        OrganisationTypes.FieldStr.keys()),
+                                           required=True)
 
     def create(self, validated_data):
         attributes = validated_data.pop('attributes')
@@ -179,6 +180,8 @@ class ListAdministrationSerializer(serializers.ModelSerializer):
 class AddEditUserSerializer(serializers.ModelSerializer):
     administration = CustomPrimaryKeyRelatedField(
         queryset=Administration.objects.none())
+    organisation = CustomPrimaryKeyRelatedField(
+        queryset=Organisation.objects.none(), required=False)
     role = CustomChoiceField(choices=list(UserRoleTypes.FieldStr.keys()))
     forms = CustomPrimaryKeyRelatedField(queryset=Forms.objects.all(),
                                          many=True)
@@ -187,6 +190,8 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         super().__init__(**kwargs)
         self.fields.get(
             'administration').queryset = Administration.objects.all()
+        self.fields.get(
+            'organisation').queryset = Organisation.objects.all()
 
     def validate_role(self, role):
         if self.context.get(
@@ -277,8 +282,8 @@ class AddEditUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = SystemUser
         fields = [
-            'first_name', 'last_name', 'email', 'administration', 'role',
-            'phone_number', 'designation', 'forms'
+            'first_name', 'last_name', 'email', 'administration',
+            'organisation', 'role', 'phone_number', 'designation', 'forms'
         ]
 
 
@@ -359,8 +364,7 @@ class ListUserRequestSerializer(serializers.Serializer):
         super().__init__(**kwargs)
         self.fields.get(
             'administration').queryset = Administration.objects.all()
-        self.fields.get(
-            'organisation').queryset = Organisation.objects.all()
+        self.fields.get('organisation').queryset = Organisation.objects.all()
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -433,12 +437,17 @@ class UserApprovalAssignmentSerializer(serializers.ModelSerializer):
 class UserDetailSerializer(serializers.ModelSerializer):
     administration = serializers.ReadOnlyField(
         source='user_access.administration.id')
+    organisation = serializers.SerializerMethodField()
     role = serializers.ReadOnlyField(source='user_access.role')
     approval_assignment = serializers.SerializerMethodField()
     forms = serializers.SerializerMethodField()
     pending_approval = serializers.SerializerMethodField()
     data = serializers.SerializerMethodField()
     pending_batch = serializers.SerializerMethodField()
+
+    @extend_schema_field(OrganisationSerializer)
+    def get_organisation(self, instance: SystemUser):
+        return OrganisationSerializer(instance=instance.organisation).data
 
     @extend_schema_field(UserApprovalAssignmentSerializer(many=True))
     def get_approval_assignment(self, instance: SystemUser):
@@ -467,7 +476,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = SystemUser
         fields = [
-            'first_name', 'last_name', 'email', 'administration', 'role',
-            'phone_number', 'designation', 'forms', 'approval_assignment',
-            'pending_approval', 'data', 'pending_batch'
+            'first_name', 'last_name', 'email', 'administration',
+            'organisation', 'role', 'phone_number', 'designation', 'forms',
+            'approval_assignment', 'pending_approval', 'data', 'pending_batch'
         ]

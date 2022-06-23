@@ -4,7 +4,7 @@ from django.test import TestCase
 
 from django.test.utils import override_settings
 from api.v1.v1_profile.constants import UserRoleTypes
-from api.v1.v1_users.models import SystemUser
+from api.v1.v1_users.models import SystemUser, Organisation
 from utils.email_helper import EmailTypes
 
 
@@ -84,10 +84,12 @@ class UserInvitationTestCase(TestCase):
     def test_add_edit_user(self):
         call_command("administration_seeder", "--test")
         call_command("form_seeder", "--test")
+        call_command("fake_organisation_seeder", "--repeat", 3)
         user_payload = {"email": "admin@rush.com", "password": "Test105*"}
         user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
+        org = Organisation.objects.order_by('?').first()
         user = user_response.json()
         token = user.get('token')
         payload = {
@@ -95,6 +97,7 @@ class UserInvitationTestCase(TestCase):
             "last_name": "Doe",
             "email": "john@example.com",
             "administration": 2,
+            "organisation": org.id,
             "forms": [1],
         }
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
@@ -113,11 +116,13 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(add_response.json(),
                          {'message': 'User added successfully'})
 
+        org = Organisation.objects.order_by('?').first()
         edit_payload = {
             "first_name": "Joe",
             "last_name": "Doe",
             "email": "john@example.com",
             "administration": 2,
+            "organisation": org.id,
             "role": 6,
             "forms": [1, 2],
         }
@@ -164,9 +169,9 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(get_response.status_code, 200)
         responses = get_response.json()
         self.assertEqual([
-            'first_name', 'last_name', 'email', 'administration', 'role',
-            'phone_number', 'designation', 'forms', 'approval_assignment',
-            'pending_approval', 'data', 'pending_batch'
+            'first_name', 'last_name', 'email', 'administration',
+            'organisation', 'role', 'phone_number', 'designation', 'forms',
+            'approval_assignment', 'pending_approval', 'data', 'pending_batch'
         ], list(responses))
         self.assertEqual(responses["forms"], [{'id': 1, 'name': 'Test Form'}])
 
@@ -184,8 +189,9 @@ class UserInvitationTestCase(TestCase):
                                    **header)
         self.assertEqual(response.status_code, 200)
         self.assertEqual([
-            'email', 'name', 'administration', 'role', 'phone_number',
-            'designation', 'forms', 'organisation', 'last_login'
+            'email', 'name', 'administration',
+            'role', 'phone_number', 'designation', 'forms',
+            'organisation', 'last_login'
         ], list(response.json().keys()))
 
     def test_get_user_roles(self):
