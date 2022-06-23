@@ -159,8 +159,8 @@ const App = () => {
             const role_details = config.roles.find(
               (r) => r.id === res.data.role.id
             );
-            const designation = config?.designations.find(
-              (d) => d.id === res.data.role.id
+            const designation = config.designations.find(
+              (d) => d.id === parseInt(res.data?.designation)
             );
             store.update((s) => {
               s.isLoggedIn = true;
