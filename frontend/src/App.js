@@ -26,6 +26,7 @@ import {
   DataUploads,
   Settings,
   Organisations,
+  AddOrganisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
@@ -69,6 +70,14 @@ const RouteList = () => {
       <Route
         path="/user/:id"
         element={<Private element={AddUser} alias="user" />}
+      />
+      <Route
+        path="/organisation/add"
+        element={<Private element={AddOrganisation} alias="organisation" />}
+      />
+      <Route
+        path="/organisation/:id"
+        element={<Private element={AddOrganisation} alias="organisation" />}
       />
       <Route
         path="/control-center"

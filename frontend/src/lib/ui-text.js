@@ -75,6 +75,11 @@ const uiText = {
     addUser: "Add User",
     editUser: "Edit User",
     updateUser: "Update User",
+    // Organisation Management
+    manageOrganisations: "Manage Organizations",
+    addOrganisation: "Add Organization",
+    editOrganisation: "Edit Organization",
+    updateOrganisation: "Update User",
     // Validations
     valFirstName: "First name is required",
     valLastName: "Last name is required",
@@ -83,6 +88,8 @@ const uiText = {
     valDesignation: "Please select a Designation",
     valRole: "Please select a Role",
     valOrganization: "Please select an Organization",
+    valOrgName: "Organization name is required",
+    valOrgAttributes: "Please select an Attributes",
     // Control Center
     ccPane1Title: "Manage Data",
     ccPane1Button: "Manage Data",
