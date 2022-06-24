@@ -24,6 +24,7 @@ import {
   Reports,
   Report,
   DataUploads,
+  Settings,
 } from "./pages";
 import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
@@ -67,6 +68,10 @@ const RouteList = () => {
       <Route
         path="/control-center"
         element={<Private element={ControlCenter} alias="control-center" />}
+      />
+      <Route
+        path="/settings"
+        element={<Private element={Settings} alias="settings" />}
       />
       <Route
         path="/data/manage"

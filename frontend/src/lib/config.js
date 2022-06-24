@@ -17,6 +17,8 @@ const config = {
         "approvers",
         "form",
         "reports",
+        "settings",
+        "organisation",
       ],
       administration_level: [1],
       description:

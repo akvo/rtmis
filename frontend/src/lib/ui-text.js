@@ -58,6 +58,7 @@ const uiText = {
     // Header Links
     controlCenter: "Control Center",
     myProfile: "My Profile",
+    settings: "Settings",
     signOut: "Sign Out",
     dashboards: "Dashboards",
     reports: "Reports",
@@ -132,6 +133,20 @@ const uiText = {
     ),
     ccDescriptionPanel:
       "Instant access to the all the administration pages and overview panels for data approvals.",
+    // Settings
+    orgPanelTitle: "Manage Organization",
+    orgPanelButton: "Manage Organization",
+    orgPanelText: (
+      <Fragment>
+        This is where you :
+        <ul>
+          <li>Add new organization</li>
+          <li>Modify existing organization</li>
+          <li>Delete existing organization</li>
+        </ul>
+      </Fragment>
+    ),
+    settingsDescriptionPanel: "This is description about settings.",
     // Approvals
     approvalsTab1: "My Pending Approvals",
     approvalsTab2: "Subordinates Approvals",
