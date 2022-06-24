@@ -70,6 +70,37 @@ const Organisations = () => {
     },
   ];
 
+  const handleDelete = () => {
+    setDeleting(deleteOrganisation.id);
+    api
+      .delete(`organisation/${deleteOrganisation.id}`)
+      .then(() => {
+        setDataset(dataset.filter((d) => d.id !== deleteOrganisation.id));
+        setDeleteOrganisation(false);
+        setDeleting(false);
+        notify({
+          type: "success",
+          message: "Organization deleted",
+        });
+      })
+      .catch((err) => {
+        const { status, data } = err.response;
+        if (status === 409) {
+          notify({
+            type: "error",
+            message: data?.message || text.organisationDeleteFail,
+          });
+        } else {
+          notify({
+            type: "error",
+            message: text.organisationDeleteFail,
+          });
+        }
+        setDeleting(false);
+        console.error(err.response);
+      });
+  };
+
   const fetchData = useCallback(() => {
     if (isLoggedIn) {
       const url = "organisations";
@@ -153,9 +184,9 @@ const Organisations = () => {
                 type="primary"
                 danger
                 loading={deleting}
-                // onClick={() => {
-                //   handleDelete();
-                // }}
+                onClick={() => {
+                  handleDelete();
+                }}
               >
                 Delete
               </Button>
