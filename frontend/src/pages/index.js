@@ -22,3 +22,4 @@ export { default as Reports } from "./reports/Reports";
 export { default as Report } from "./reports/Report";
 export { default as DataUploads } from "./data-uploads/DataUploads";
 export { default as Settings } from "./settings/Settings";
+export { default as Organisations } from "./organisations/Organisations";

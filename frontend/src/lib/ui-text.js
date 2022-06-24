@@ -254,6 +254,13 @@ const uiText = {
     deleteUserDesc:
       "The User will no longer be able to access the RUSH platform as an Enumrator/Admin etc",
     userAssociations: "This user has following data association(s)",
+    organisationsLoadFail: "Could not load organizations",
+    organisationDeleteFail: "Could not delete organization",
+    deleteOrganisationHint:
+      "Deleting this organization will not delete the user(s)",
+    deleteOrganisationTitle: "You are about to delete the organization",
+    deleteOrganisationDesc:
+      "The Organisation will no longer be able to access the RUSH platform",
     // Tour
     prev: "Prev",
     next: "Next",

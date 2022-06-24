@@ -25,6 +25,7 @@ import {
   Report,
   DataUploads,
   Settings,
+  Organisations,
 } from "./pages";
 import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
@@ -57,6 +58,10 @@ const RouteList = () => {
       <Route exact path="/data" element={<Home />} />
       <Route exact path="/form/:formId" element={<Forms />} />
       <Route path="/users" element={<Private element={Users} alias="user" />} />
+      <Route
+        path="/organisations"
+        element={<Private element={Organisations} alias="organisation" />}
+      />
       <Route
         path="/user/add"
         element={<Private element={AddUser} alias="user" />}
