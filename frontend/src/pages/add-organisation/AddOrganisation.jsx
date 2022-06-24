@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import "./style.scss";
 import { Row, Col, Card, Form, Button, Divider, Input, Select } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
@@ -22,6 +22,7 @@ const AddOrganisation = () => {
   const { active: activeLang } = language;
 
   const [submitting, setSubmitting] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -70,6 +71,19 @@ const AddOrganisation = () => {
       });
   };
 
+  useEffect(() => {
+    if (id) {
+      setLoading(true);
+      api.get(`organisation/${id}`).then((res) => {
+        form.setFieldsValue({
+          name: res.data.name,
+          attributes: res.data.attributes.map((a) => a.type_id),
+        });
+        setLoading(false);
+      });
+    }
+  }, [id, form]);
+
   return (
     <div id="add-organisation">
       <Row justify="space-between">
@@ -117,6 +131,7 @@ const AddOrganisation = () => {
                 placeholder="Select attributes.."
                 mode="multiple"
                 allowClear
+                loading={!organisationAttributes.length || loading}
               >
                 {organisationAttributes?.map((o, oi) => (
                   <Option key={`org-attr-${oi}`} value={o.id}>

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { api, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
+import orderBy from "lodash/orderBy";
 
 const pagePath = [
   {
@@ -51,7 +52,7 @@ const Organisations = () => {
       key: "action",
       render: (record) => (
         <Space>
-          <Link to={`/organisation/edit/${record.id}`}>
+          <Link to={`/organisation/${record.id}`}>
             <Button type="secondary" size="small">
               Edit
             </Button>
@@ -108,7 +109,7 @@ const Organisations = () => {
       api
         .get(url)
         .then((res) => {
-          setDataset(res.data);
+          setDataset(orderBy(res.data, ["id"], ["desc"]));
           setLoading(false);
         })
         .catch((err) => {

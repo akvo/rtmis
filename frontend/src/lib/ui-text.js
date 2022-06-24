@@ -79,7 +79,7 @@ const uiText = {
     manageOrganisations: "Manage Organizations",
     addOrganisation: "Add Organization",
     editOrganisation: "Edit Organization",
-    updateOrganisation: "Update User",
+    updateOrganisation: "Update Organization",
     // Validations
     valFirstName: "First name is required",
     valLastName: "Last name is required",
