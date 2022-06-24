@@ -1,11 +1,25 @@
 import React, { useMemo, useState, useEffect, useCallback } from "react";
 import "./style.scss";
-import { Row, Col, Card, Button, Divider, Table, Modal, Space } from "antd";
+import {
+  Row,
+  Col,
+  Card,
+  Button,
+  Divider,
+  Table,
+  Modal,
+  Space,
+  Select,
+  Input,
+} from "antd";
 import { Link } from "react-router-dom";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
-import { api, store, uiText } from "../../lib";
+import { api, store, uiText, config } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import orderBy from "lodash/orderBy";
+
+const { Search } = Input;
+const { Option } = Select;
 
 const pagePath = [
   {
@@ -25,6 +39,7 @@ const Organisations = () => {
   const [deleteOrganisation, setDeleteOrganisation] = useState(null);
   const [deleting, setDeleting] = useState(false);
 
+  const { organisationAttributes } = config;
   const { language, isLoggedIn } = store.useState((s) => s);
   const { active: activeLang } = language;
 
@@ -141,6 +156,42 @@ const Organisations = () => {
         </Col>
       </Row>
       <Divider />
+
+      {/* Filter */}
+      <Row>
+        <Col span={20}>
+          <Space>
+            <Search
+              placeholder="Search..."
+              // value={query}
+              // onChange={(e) => {
+              //   setQuery(e.target.value);
+              // }}
+              // onSearch={(e) => {
+              //   fetchData(e);
+              // }}
+              style={{ width: 225 }}
+              // loading={loading && !!query}
+              allowClear
+            />
+            <Select
+              placeholder="Attributes"
+              getPopupContainer={(trigger) => trigger.parentNode}
+              style={{ width: 225 }}
+              // onChange={}
+              allowClear
+            >
+              {organisationAttributes?.map((o, oi) => (
+                <Option key={`org-${oi}`} value={o.id}>
+                  {o.name}
+                </Option>
+              ))}
+            </Select>
+          </Space>
+        </Col>
+      </Row>
+      <Divider />
+
       {/* Table start here */}
       <Card
         style={{ padding: 0, minHeight: "40vh" }}
