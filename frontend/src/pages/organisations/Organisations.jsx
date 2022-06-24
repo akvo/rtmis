@@ -51,6 +51,11 @@ const Organisations = () => {
 
   const columns = [
     {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
       title: "Organization",
       dataIndex: "name",
       key: "name",
