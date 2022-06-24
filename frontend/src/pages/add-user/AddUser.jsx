@@ -333,7 +333,7 @@ const AddUser = () => {
             <Form.Item
               name="organisation"
               label="Organization"
-              rules={[{ required: false }]}
+              rules={[{ required: true, message: text.valOrganization }]}
             >
               <Select
                 getPopupContainer={(trigger) => trigger.parentNode}

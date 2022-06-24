@@ -81,6 +81,7 @@ const uiText = {
     valPhone: "Phone number is required",
     valDesignation: "Please select a Designation",
     valRole: "Please select a Role",
+    valOrganization: "Please select an Organization",
     // Control Center
     ccPane1Title: "Manage Data",
     ccPane1Button: "Manage Data",
