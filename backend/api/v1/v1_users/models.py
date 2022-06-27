@@ -40,6 +40,7 @@ class SystemUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=15, default=None, null=True)
     designation = models.CharField(max_length=50, default=None, null=True)
+    trained = models.BooleanField(default=False)
     updated = models.DateTimeField(default=None, null=True)
     deleted_at = models.DateTimeField(default=None, null=True)
     organisation = models.ForeignKey(to=Organisation,
