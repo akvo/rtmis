@@ -1,6 +1,7 @@
 from django.core.management import call_command
 from django.test import TestCase
 from django.core import signing
+from django.test.utils import override_settings
 
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_forms.constants import FormTypes
@@ -24,6 +25,7 @@ def seed_administration_test():
     administration.save()
 
 
+@override_settings(USE_TZ=False)
 class FormDataUpdateTestCase(TestCase):
     def test_update_datapoint_by_admin_role(self):
         self.maxDiff = None

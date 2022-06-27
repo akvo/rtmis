@@ -1,10 +1,12 @@
 from django.test import TestCase
+from django.test.utils import override_settings
 
 from api.v1.v1_profile.management.commands import administration_seeder
 from api.v1.v1_profile.models import Levels, Administration
 from api.v1.v1_users.serializers import ListAdministrationChildrenSerializer
 
 
+@override_settings(USE_TZ=False)
 class AdministrationSeederTestCase(TestCase):
     def test_administration_seeder_production(self):
         administration_seeder.seed_administration_prod()
