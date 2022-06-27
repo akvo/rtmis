@@ -27,7 +27,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Access, Administration, Levels
-from api.v1.v1_users.models import SystemUser, Organisation
+from api.v1.v1_users.models import SystemUser, Organisation, OrganisationAttribute
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     VerifyInviteSerializer, SetUserPasswordSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
@@ -523,21 +523,30 @@ def forgot_password(request, version):
 
 @extend_schema(responses={200: OrganisationListSerializer(many=True)},
                parameters=[
-                   OpenApiParameter(name='filter',
+                   OpenApiParameter(name='attributes',
                                     required=False,
                                     type=OpenApiTypes.NUMBER,
-                                    location=OpenApiParameter.QUERY)
+                                    location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='search',
+                                    required=False,
+                                    type=OpenApiTypes.STR,
+                                    location=OpenApiParameter.QUERY),
                ],
                tags=['Organisation'],
                summary='Get list of organisation')
 @api_view(['GET'])
 def list_organisations(request, version):
-    filter = request.data.get('filter')
+    attributes = request.GET.get('attributes')
+    search = request.GET.get('search')
     instance = Organisation.objects.all()
+    if attributes:
+        ids = OrganisationAttribute.objects.filter(
+            type=attributes).distinct("organisation_id")
+        instance = Organisation.objects.filter(
+            pk__in=[o.organisation_id for o in ids]).all()
+    if search:
+        instance = instance.filter(name__icontains=search)
     return Response(OrganisationListSerializer(instance=instance,
-                                               context={
-                                                   'filter': filter
-                                               },
                                                many=True).data,
                     status=status.HTTP_200_OK)
 

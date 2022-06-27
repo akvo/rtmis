@@ -35,6 +35,8 @@ const Organisations = () => {
   const { notify } = useNotification();
 
   const [loading, setLoading] = useState(true);
+  const [attributes, setAttributes] = useState(null);
+  const [search, setSearch] = useState(null);
   const [dataset, setDataset] = useState([]);
   const [deleteOrganisation, setDeleteOrganisation] = useState(null);
   const [deleting, setDeleting] = useState(false);
@@ -124,8 +126,17 @@ const Organisations = () => {
 
   const fetchData = useCallback(() => {
     if (isLoggedIn) {
-      const url = "organisations";
+      let url = "organisations";
       setLoading(true);
+      if (attributes) {
+        url += `?attributes=${attributes}`;
+      }
+      if (attributes && search) {
+        url += `&search=${search}`;
+      }
+      if (!attributes && search) {
+        url += `?search=${search}`;
+      }
       api
         .get(url)
         .then((res) => {
@@ -141,7 +152,7 @@ const Organisations = () => {
           console.error(err);
         });
     }
-  }, [isLoggedIn, notify, text.organisationsLoadFail]);
+  }, [isLoggedIn, notify, text.organisationsLoadFail, attributes, search]);
 
   useEffect(() => {
     fetchData();
@@ -168,22 +179,17 @@ const Organisations = () => {
           <Space>
             <Search
               placeholder="Search..."
-              // value={query}
-              // onChange={(e) => {
-              //   setQuery(e.target.value);
-              // }}
-              // onSearch={(e) => {
-              //   fetchData(e);
-              // }}
+              onChange={(e) => {
+                setSearch(e.target.value?.length >= 2 ? e.target.value : null);
+              }}
               style={{ width: 225 }}
-              // loading={loading && !!query}
               allowClear
             />
             <Select
               placeholder="Attributes"
               getPopupContainer={(trigger) => trigger.parentNode}
               style={{ width: 225 }}
-              // onChange={}
+              onChange={setAttributes}
               allowClear
             >
               {organisationAttributes?.map((o, oi) => (
