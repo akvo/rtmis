@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Row, Col, Space, Input, Select, Checkbox } from "antd";
 const { Search } = Input;
 
-import { store, config } from "../../lib";
+import { store, config, api } from "../../lib";
 import AdministrationDropdown from "./AdministrationDropdown";
 import RemoveFiltersButton from "./RemoveFiltersButton";
 
@@ -21,6 +21,17 @@ const UserFilters = ({
   const { role } = filters;
 
   const allowedRole = config.roles.filter((r) => r.id >= authUser.role.id);
+
+  const [organisations, setOrganisations] = useState([]);
+
+  useEffect(() => {
+    if (!organisations.length) {
+      // filter by 1 for member attribute
+      api.get("organisations").then((res) => {
+        setOrganisations(res.data);
+      });
+    }
+  }, [organisations]);
 
   return (
     <Row>
@@ -40,13 +51,21 @@ const UserFilters = ({
             allowClear
           />
           <Select
-            disabled
             placeholder="Organization"
             getPopupContainer={(trigger) => trigger.parentNode}
             style={{ width: 160 }}
-            onChange={() => {}}
+            onChange={(e) => {
+              store.update((s) => {
+                s.filters.organisation = e;
+              });
+            }}
+            allowClear
           >
-            <Option value="Organization 1">Organization 1</Option>
+            {organisations?.map((o, oi) => (
+              <Option key={`org-${oi}`} value={o.id}>
+                {o.name}
+              </Option>
+            ))}
           </Select>
           <Select
             placeholder="Role"

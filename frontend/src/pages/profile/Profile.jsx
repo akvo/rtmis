@@ -43,6 +43,12 @@ const Profile = () => {
             </Space>
           </li>
           <li>
+            <h3>Organization</h3>
+            <Space size="large" align="center">
+              <span>{authUser?.organisation?.name}</span>
+            </Space>
+          </li>
+          <li>
             <h3>Designation</h3>
             <Space size="large" align="center">
               <span>{authUser?.designation?.name}</span>

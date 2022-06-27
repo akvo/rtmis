@@ -6,8 +6,9 @@ from django.core.management import BaseCommand
 from faker import Faker
 
 from api.v1.v1_profile.constants import UserRoleTypes, UserDesignationTypes
+from api.v1.v1_profile.constants import OrganisationTypes
 from api.v1.v1_profile.models import Levels, Access, Administration
-from api.v1.v1_users.models import SystemUser
+from api.v1.v1_users.models import SystemUser, Organisation
 
 fake = Faker()
 
@@ -35,18 +36,22 @@ class Command(BaseCommand):
                 UserRoleTypes.approver, UserRoleTypes.user
             ]
             password = random.choice(["test", None])
+            organisation = Organisation.objects.filter(
+                organisation_organisation_attribute=OrganisationTypes.member
+            ).order_by('?').first()
             user = SystemUser.objects.create(
                 email=email,
                 first_name=name[0],
                 last_name=name[1],
                 phone_number=fake.msisdn(),
                 designation=UserDesignationTypes.sa)
+            if organisation:
+                user.organisation = organisation
             if password:
                 user.set_password(password)
                 user.save()
             level = Levels.objects.filter(level=role_level).first()
-            Access.objects.create(
-                user=user,
-                role=roles[role_level],
-                administration=Administration.objects.filter(
-                    level=level).order_by('?').first())
+            Access.objects.create(user=user,
+                                  role=roles[role_level],
+                                  administration=Administration.objects.filter(
+                                      level=level).order_by('?').first())

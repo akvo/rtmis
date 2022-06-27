@@ -1,5 +1,6 @@
 from django.core.management import call_command
 from django.test import TestCase
+from django.test.utils import override_settings
 
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Administration, Levels
@@ -21,6 +22,7 @@ def seed_administration_test():
     administration.save()
 
 
+@override_settings(USE_TZ=False)
 class FormSubmissionTestCase(TestCase):
     def test_webform_endpoint(self):
         self.maxDiff = None

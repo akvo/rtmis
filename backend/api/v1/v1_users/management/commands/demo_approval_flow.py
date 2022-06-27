@@ -2,7 +2,7 @@ import re
 from django.core.management import BaseCommand
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Access, Levels
-from api.v1.v1_users.models import SystemUser
+from api.v1.v1_users.models import SystemUser, Organisation
 from api.v1.v1_forms.models import Forms, UserForms
 from api.v1.v1_forms.models import FormApprovalRule, FormApprovalAssignment
 from api.v1.v1_forms.constants import FormTypes
@@ -15,6 +15,7 @@ class Command(BaseCommand):
             type=FormTypes.county).order_by('?').first()
         print(f"\nForm Name: {form.name}\n\n")
         last_level = Levels.objects.order_by('-level').first()
+        organisation = Organisation.objects.first()
         administration = Administration.objects.filter(
             level=last_level).order_by('?').first()
         ancestors = administration.ancestors
@@ -43,7 +44,10 @@ class Command(BaseCommand):
                     last_name = "Admin"
                 # check if someone has access to ancestor adminisration
                 approver, created = SystemUser.objects.get_or_create(
-                    email=email, first_name=ancestor.name, last_name=last_name)
+                    organisation=organisation,
+                    email=email,
+                    first_name=ancestor.name,
+                    last_name=last_name)
                 if created:
                     approver.set_password("test")
                     approver.save()
@@ -63,7 +67,10 @@ class Command(BaseCommand):
             re.sub('[^A-Za-z0-9]+', '', administration.name.lower()),
             administration.id)
         submitter, created = SystemUser.objects.get_or_create(
-            email=email, first_name=administration.name, last_name="User")
+            organisation=organisation,
+            email=email,
+            first_name=administration.name,
+            last_name="User")
         if created:
             submitter.set_password("test")
             submitter.save()
