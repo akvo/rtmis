@@ -6,6 +6,7 @@ const defaultUIState = {
   user: null,
   filters: {
     role: null,
+    organisation: null,
   },
   language: {
     active: "en",

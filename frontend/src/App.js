@@ -24,6 +24,9 @@ import {
   Reports,
   Report,
   DataUploads,
+  Settings,
+  Organisations,
+  AddOrganisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
@@ -57,6 +60,10 @@ const RouteList = () => {
       <Route exact path="/form/:formId" element={<Forms />} />
       <Route path="/users" element={<Private element={Users} alias="user" />} />
       <Route
+        path="/organisations"
+        element={<Private element={Organisations} alias="organisation" />}
+      />
+      <Route
         path="/user/add"
         element={<Private element={AddUser} alias="user" />}
       />
@@ -65,8 +72,20 @@ const RouteList = () => {
         element={<Private element={AddUser} alias="user" />}
       />
       <Route
+        path="/organisation/add"
+        element={<Private element={AddOrganisation} alias="organisation" />}
+      />
+      <Route
+        path="/organisation/:id"
+        element={<Private element={AddOrganisation} alias="organisation" />}
+      />
+      <Route
         path="/control-center"
         element={<Private element={ControlCenter} alias="control-center" />}
+      />
+      <Route
+        path="/settings"
+        element={<Private element={Settings} alias="settings" />}
       />
       <Route
         path="/data/manage"

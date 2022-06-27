@@ -2,7 +2,8 @@ import os
 import uuid
 import requests
 from utils import storage
-from django.test import TestCase, override_settings
+from django.test.utils import override_settings
+from django.test import TestCase
 from django.conf import settings
 
 
@@ -22,6 +23,7 @@ if webdomain == "notset":
     bucket_folder = "test"
 
 
+@override_settings(USE_TZ=False)
 class StorageTestCase(TestCase):
     def test_upload(self):
         self.assertFalse(settings.FAKE_STORAGE)

@@ -14,7 +14,7 @@ from api.v1.v1_forms.models import FormApprovalRule, FormApprovalAssignment
 from api.v1.v1_forms.models import Forms, UserForms
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Access, Levels
-from api.v1.v1_users.models import SystemUser
+from api.v1.v1_users.models import SystemUser, Organisation
 
 fake = Faker()
 
@@ -94,6 +94,7 @@ def seed_data(form, fake_geo, repeat, created_by):
 
 
 def create_or_get_submitter(role):
+    organisation = Organisation.objects.first()
     level = Levels.objects.order_by('-level').first()
     last_name = "User"
     email = "user"
@@ -107,7 +108,10 @@ def create_or_get_submitter(role):
         re.sub('[^A-Za-z0-9]+', '', administration.name.lower()),
         administration.id, email)
     submitter, created = SystemUser.objects.get_or_create(
-        email=email, first_name=administration.name, last_name=last_name)
+        organisation=organisation,
+        email=email,
+        first_name=administration.name,
+        last_name=last_name)
     if created:
         submitter.set_password("test")
         submitter.save()
@@ -118,6 +122,7 @@ def create_or_get_submitter(role):
 
 
 def assign_batch_for_approval(batch, user, test):
+    organisation = Organisation.objects.first()
     administration = user.user_access.administration
     complete_path = '{0}{1}'.format(administration.path, administration.id)
     complete_path = complete_path.split('.')[1:]
@@ -154,6 +159,7 @@ def assign_batch_for_approval(batch, user, test):
                 last_name = "Admin"
             # check if someone has access to ancestor adminisration
             approver, created = SystemUser.objects.get_or_create(
+                organisation=organisation,
                 email=email,
                 first_name=administration.name,
                 last_name=last_name)

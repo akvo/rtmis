@@ -2,6 +2,7 @@ import uuid
 import re
 from django.core.management import call_command
 from django.test import TestCase
+from django.test.utils import override_settings
 from faker import Faker
 
 from api.v1.v1_forms.models import Forms
@@ -43,6 +44,7 @@ def create_user(role_level):
     return user
 
 
+@override_settings(USE_TZ=False)
 class AddNewDataTestCase(TestCase):
     def test_add_new_data_by_super_admin(self):
         call_command("administration_seeder", "--test")
