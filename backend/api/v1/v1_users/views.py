@@ -27,12 +27,13 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Access, Administration, Levels
-from api.v1.v1_users.models import SystemUser
+from api.v1.v1_users.models import SystemUser, Organisation
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     VerifyInviteSerializer, SetUserPasswordSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
     ListUserRequestSerializer, ListLevelSerializer, UserDetailSerializer, \
-    ForgotPasswordSerializer
+    ForgotPasswordSerializer, \
+    OrganisationListSerializer, AddEditOrganisationSerializer
 from api.v1.v1_forms.models import Forms
 # from api.v1.v1_data.models import PendingDataBatch, \
 #     PendingDataApproval, FormData
@@ -51,7 +52,7 @@ def health_check(request, version):
     return Response({'message': 'OK'}, status=status.HTTP_200_OK)
 
 
-@extend_schema(description='Use to check System health', tags=['Dev'])
+@extend_schema(description='Get required configuration', tags=['Dev'])
 @api_view(['GET'])
 def get_config_file(request, version):
     if not Path("source/config/config.min.js").exists():
@@ -274,7 +275,7 @@ def add_user(request, version):
     listing = [{
         "name": "Role",
         "value": user.role_name
-        }, {
+    }, {
         "name": "Region",
         "value": user.administration.full_name
     }]
@@ -282,10 +283,13 @@ def add_user(request, version):
         user_forms = ", ".join([form.name for form in user_forms])
         listing.append({"name": "Questionnaire", "value": user_forms})
     data = {
-        'button_url': url,
+        'button_url':
+        url,
         'send_to': [user.user.email],
-        'listing': listing,
-        'admin': f"""{admin.user.name}, {admin.user.designation_name},
+        'listing':
+        listing,
+        'admin':
+        f"""{admin.user.name}, {admin.user.designation_name},
         {admin.administration.full_name}."""
     }
     send_email(type=EmailTypes.user_invite, context=data)
@@ -301,7 +305,8 @@ def add_user(request, version):
                           "total": serializers.IntegerField(),
                           "total_page": serializers.IntegerField(),
                           "data": ListUserSerializer(many=True),
-                      })},
+                      })
+},
                tags=['User'],
                summary='Get list of users',
                parameters=[
@@ -310,6 +315,10 @@ def add_user(request, version):
                                     type=OpenApiTypes.NUMBER,
                                     location=OpenApiParameter.QUERY),
                    OpenApiParameter(name='role',
+                                    required=False,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='organisation',
                                     required=False,
                                     type=OpenApiTypes.NUMBER,
                                     location=OpenApiParameter.QUERY),
@@ -376,6 +385,9 @@ def list_users(request, version):
     if serializer.validated_data.get('role'):
         filter_data['user_access__role'] = serializer.validated_data.get(
             'role')
+    if serializer.validated_data.get('organisation'):
+        filter_data['organisation_id'] = serializer.validated_data.get(
+            'organisation')
     if serializer.validated_data.get('pending'):
         filter_data['password__exact'] = ''
         exclude_data.pop('password__exact')
@@ -507,3 +519,95 @@ def forgot_password(request, version):
     return Response(
         {'message': 'Reset password instructions sent to your email'},
         status=status.HTTP_200_OK)
+
+
+@extend_schema(responses={200: OrganisationListSerializer(many=True)},
+               parameters=[
+                   OpenApiParameter(name='filter',
+                                    required=False,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY)
+               ],
+               tags=['Organisation'],
+               summary='Get list of organisation')
+@api_view(['GET'])
+def list_organisations(request, version):
+    filter = request.data.get('filter')
+    instance = Organisation.objects.all()
+    return Response(OrganisationListSerializer(instance=instance,
+                                               context={
+                                                   'filter': filter
+                                               },
+                                               many=True).data,
+                    status=status.HTTP_200_OK)
+
+
+@extend_schema(request=AddEditOrganisationSerializer,
+               responses={
+                   (200, 'application/json'):
+                   inline_serializer(
+                       "Response", fields={"message": serializers.CharField()})
+               },
+               tags=['Organisation'],
+               description='Attributes are member:1,partnership:2',
+               summary='To add new organisation')
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
+def add_organisation(request, version):
+    serializer = AddEditOrganisationSerializer(
+        data=request.data,
+        context={'attributes': request.data.get("attributes")})
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST)
+    serializer.save()
+    return Response({'message': 'Organisation added successfully'},
+                    status=status.HTTP_200_OK)
+
+
+class OrganisationEditDeleteView(APIView):
+    permission_classes = [IsAuthenticated, IsSuperAdmin | IsAdmin]
+
+    @extend_schema(responses={200: OrganisationListSerializer},
+                   tags=['Organisation'],
+                   summary='To get organisation details')
+    def get(self, request, organisation_id, version):
+        instance = get_object_or_404(Organisation, pk=organisation_id)
+        return Response(OrganisationListSerializer(instance=instance).data,
+                        status=status.HTTP_200_OK)
+
+    @extend_schema(responses={
+        204:
+        OpenApiResponse(description='Deletion with no response')
+    },
+                   tags=['Organisation'],
+                   summary='To delete organisation')
+    def delete(self, request, organisation_id, version):
+        instance = get_object_or_404(Organisation, pk=organisation_id)
+        instance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @extend_schema(request=AddEditOrganisationSerializer,
+                   responses={
+                       (200, 'application/json'):
+                       inline_serializer(
+                           "Response",
+                           fields={"message": serializers.CharField()})
+                   },
+                   tags=['Organisation'],
+                   description='Attributes are member:1,partnership:2',
+                   summary='To update organisation')
+    def put(self, request, organisation_id, version):
+        instance = get_object_or_404(Organisation, pk=organisation_id)
+        serializer = AddEditOrganisationSerializer(
+            data=request.data,
+            context={'attributes': request.data.get("attributes")},
+            instance=instance)
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(serializer.errors)},
+                status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        return Response({'message': 'Organisation updated successfully'},
+                        status=status.HTTP_200_OK)

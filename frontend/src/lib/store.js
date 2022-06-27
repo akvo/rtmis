@@ -1,10 +1,12 @@
 import { Store } from "pullstate";
+import { sortArray } from "../util/form";
 
 const defaultUIState = {
   isLoggedIn: false,
   user: null,
   filters: {
     role: null,
+    organisation: null,
   },
   language: {
     active: "en",
@@ -14,7 +16,7 @@ const defaultUIState = {
   selectedAdministration: null,
   loadingAdministration: false,
   loadingMap: false,
-  forms: window.forms,
+  forms: window.forms.sort(sortArray),
   levels: window.levels,
   selectedForm: null,
   loadingForm: false,
