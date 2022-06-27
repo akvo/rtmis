@@ -40,3 +40,13 @@ class UserDesignationTypes:
         it: "IT",
         sa: "System Admin",
     }
+
+
+class OrganisationTypes:
+    member = 1
+    partnership = 2
+
+    FieldStr = {
+        member: 'member',
+        partnership: 'partnership',
+    }

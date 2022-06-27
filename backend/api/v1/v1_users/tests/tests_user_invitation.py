@@ -2,14 +2,17 @@ from django.core import signing
 from django.core.management import call_command
 from django.test import TestCase
 
+from django.test.utils import override_settings
 from api.v1.v1_profile.constants import UserRoleTypes
-from api.v1.v1_users.models import SystemUser
+from api.v1.v1_users.models import SystemUser, Organisation
 from utils.email_helper import EmailTypes
 
 
+@override_settings(USE_TZ=False)
 class UserInvitationTestCase(TestCase):
     def test_user_list(self):
         call_command("administration_seeder", "--test")
+        call_command("fake_organisation_seeder")
         user_payload = {"email": "admin@rush.com", "password": "Test105*"}
         user_response = self.client.post('/api/v1/login',
                                          user_payload,
@@ -41,8 +44,17 @@ class UserInvitationTestCase(TestCase):
         users = response.json()
         self.assertEqual(len(users['data']), 10)
         self.assertEqual([
-            'id', 'first_name', 'last_name', 'email', 'administration', 'role',
-            'phone_number', 'designation', 'invite', 'forms'
+            'id',
+            'first_name',
+            'last_name',
+            'email',
+            'administration',
+            'organisation',
+            'role',
+            'phone_number',
+            'designation',
+            'invite',
+            'forms'
         ], list(users['data'][0]))
         response = self.client.get("/api/v1/users?pending=true",
                                    follow=True,
@@ -72,10 +84,12 @@ class UserInvitationTestCase(TestCase):
     def test_add_edit_user(self):
         call_command("administration_seeder", "--test")
         call_command("form_seeder", "--test")
+        call_command("fake_organisation_seeder", "--repeat", 3)
         user_payload = {"email": "admin@rush.com", "password": "Test105*"}
         user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
+        org = Organisation.objects.order_by('?').first()
         user = user_response.json()
         token = user.get('token')
         payload = {
@@ -83,6 +97,7 @@ class UserInvitationTestCase(TestCase):
             "last_name": "Doe",
             "email": "john@example.com",
             "administration": 2,
+            "organisation": org.id,
             "forms": [1],
         }
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
@@ -101,11 +116,13 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(add_response.json(),
                          {'message': 'User added successfully'})
 
+        org = Organisation.objects.order_by('?').first()
         edit_payload = {
             "first_name": "Joe",
             "last_name": "Doe",
             "email": "john@example.com",
             "administration": 2,
+            "organisation": org.id,
             "role": 6,
             "forms": [1, 2],
         }
@@ -152,9 +169,9 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(get_response.status_code, 200)
         responses = get_response.json()
         self.assertEqual([
-            'first_name', 'last_name', 'email', 'administration', 'role',
-            'phone_number', 'designation', 'forms', 'approval_assignment',
-            'pending_approval', 'data', 'pending_batch'
+            'first_name', 'last_name', 'email', 'administration',
+            'organisation', 'role', 'phone_number', 'designation', 'forms',
+            'approval_assignment', 'pending_approval', 'data', 'pending_batch'
         ], list(responses))
         self.assertEqual(responses["forms"], [{'id': 1, 'name': 'Test Form'}])
 
@@ -172,8 +189,9 @@ class UserInvitationTestCase(TestCase):
                                    **header)
         self.assertEqual(response.status_code, 200)
         self.assertEqual([
-            'email', 'name', 'administration', 'role', 'phone_number',
-            'designation', 'forms', 'last_login'
+            'email', 'name', 'administration',
+            'role', 'phone_number', 'designation', 'forms',
+            'organisation', 'last_login'
         ], list(response.json().keys()))
 
     def test_get_user_roles(self):
@@ -252,57 +270,56 @@ class UserInvitationTestCase(TestCase):
 
     def test_get_email_template(self):
         # test get user_register template
-        response = self.client.get('/api/v1/email_template?type={0}'
-                                   .format(EmailTypes.user_register))
+        response = self.client.get('/api/v1/email_template?type={0}'.format(
+            EmailTypes.user_register))
         self.assertEqual(response.status_code, 200)
         # test get user_approval template
-        response = self.client.get('/api/v1/email_template?type={0}'
-                                   .format(EmailTypes.user_approval))
+        response = self.client.get('/api/v1/email_template?type={0}'.format(
+            EmailTypes.user_approval))
         self.assertEqual(response.status_code, 200)
         # test get user_forgot_password template
-        response = self.client.get('/api/v1/email_template?type={0}'
-                                   .format(EmailTypes.user_forgot_password))
+        response = self.client.get('/api/v1/email_template?type={0}'.format(
+            EmailTypes.user_forgot_password))
         self.assertEqual(response.status_code, 200)
         # test get user_invite template
-        response = self.client.get('/api/v1/email_template?type={0}'
-                                   .format(EmailTypes.user_invite))
+        response = self.client.get('/api/v1/email_template?type={0}'.format(
+            EmailTypes.user_invite))
         self.assertEqual(response.status_code, 200)
         # test get data_approval template
-        response = self.client.get('/api/v1/email_template?type={0}'
-                                   .format(EmailTypes.data_approval))
+        response = self.client.get('/api/v1/email_template?type={0}'.format(
+            EmailTypes.data_approval))
         self.assertEqual(response.status_code, 200)
         # test get data_rejection template
-        response = self.client.get('/api/v1/email_template?type={0}'
-                                   .format(EmailTypes.data_rejection))
+        response = self.client.get('/api/v1/email_template?type={0}'.format(
+            EmailTypes.data_rejection))
         self.assertEqual(response.status_code, 200)
         # test get batch_approval template
-        response = self.client.get('/api/v1/email_template?type={0}'
-                                   .format(EmailTypes.batch_approval))
+        response = self.client.get('/api/v1/email_template?type={0}'.format(
+            EmailTypes.batch_approval))
         self.assertEqual(response.status_code, 200)
         # test get batch_rejection template
-        response = self.client.get('/api/v1/email_template?type={0}'
-                                   .format(EmailTypes.batch_rejection))
+        response = self.client.get('/api/v1/email_template?type={0}'.format(
+            EmailTypes.batch_rejection))
         self.assertEqual(response.status_code, 200)
         # test get inform_batch_rejection_to_approval template
-        response = self.client.get(
-            '/api/v1/email_template?type={0}'
-            .format(EmailTypes.inform_batch_rejection_approver))
+        response = self.client.get('/api/v1/email_template?type={0}'.format(
+            EmailTypes.inform_batch_rejection_approver))
         self.assertEqual(response.status_code, 200)
         # test get pending_approval template
-        response = self.client.get('/api/v1/email_template?type={0}'
-                                   .format(EmailTypes.pending_approval))
+        response = self.client.get('/api/v1/email_template?type={0}'.format(
+            EmailTypes.pending_approval))
         self.assertEqual(response.status_code, 200)
         # test get upload_error template
-        response = self.client.get('/api/v1/email_template?type={0}'
-                                   .format(EmailTypes.upload_error))
+        response = self.client.get('/api/v1/email_template?type={0}'.format(
+            EmailTypes.upload_error))
         self.assertEqual(response.status_code, 200)
         # test get new_request template
-        response = self.client.get('/api/v1/email_template?type={0}'
-                                   .format(EmailTypes.new_request))
+        response = self.client.get('/api/v1/email_template?type={0}'.format(
+            EmailTypes.new_request))
         self.assertEqual(response.status_code, 200)
         # test get unchanged_data template
-        response = self.client.get('/api/v1/email_template?type={0}'
-                                   .format(EmailTypes.unchanged_data))
+        response = self.client.get('/api/v1/email_template?type={0}'.format(
+            EmailTypes.unchanged_data))
         self.assertEqual(response.status_code, 200)
         # not send type
         response = self.client.get('/api/v1/email_template')
