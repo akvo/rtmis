@@ -182,6 +182,7 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         queryset=Administration.objects.none())
     organisation = CustomPrimaryKeyRelatedField(
         queryset=Organisation.objects.none(), required=False)
+    trained = CustomBooleanField(default=False)
     role = CustomChoiceField(choices=list(UserRoleTypes.FieldStr.keys()))
     forms = CustomPrimaryKeyRelatedField(queryset=Forms.objects.all(),
                                          many=True)
@@ -283,7 +284,8 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         model = SystemUser
         fields = [
             'first_name', 'last_name', 'email', 'administration',
-            'organisation', 'role', 'phone_number', 'designation', 'forms'
+            'organisation', 'trained', 'role', 'phone_number',
+            'designation', 'forms'
         ]
 
 
@@ -438,6 +440,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
     administration = serializers.ReadOnlyField(
         source='user_access.administration.id')
     organisation = serializers.SerializerMethodField()
+    trained = CustomBooleanField(default=False)
     role = serializers.ReadOnlyField(source='user_access.role')
     approval_assignment = serializers.SerializerMethodField()
     forms = serializers.SerializerMethodField()
@@ -477,6 +480,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
         model = SystemUser
         fields = [
             'first_name', 'last_name', 'email', 'administration',
-            'organisation', 'role', 'phone_number', 'designation', 'forms',
-            'approval_assignment', 'pending_approval', 'data', 'pending_batch'
+            'organisation', 'trained', 'role', 'phone_number', 'designation',
+            'forms', 'approval_assignment', 'pending_approval', 'data',
+            'pending_batch'
         ]

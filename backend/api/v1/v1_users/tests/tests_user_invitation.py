@@ -99,6 +99,7 @@ class UserInvitationTestCase(TestCase):
             "administration": 2,
             "organisation": org.id,
             "forms": [1],
+            "trained": True,
         }
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         add_response = self.client.post("/api/v1/user",
@@ -123,6 +124,7 @@ class UserInvitationTestCase(TestCase):
             "email": "john@example.com",
             "administration": 2,
             "organisation": org.id,
+            "trained": False,
             "role": 6,
             "forms": [1, 2],
         }
@@ -170,8 +172,9 @@ class UserInvitationTestCase(TestCase):
         responses = get_response.json()
         self.assertEqual([
             'first_name', 'last_name', 'email', 'administration',
-            'organisation', 'role', 'phone_number', 'designation', 'forms',
-            'approval_assignment', 'pending_approval', 'data', 'pending_batch'
+            'organisation', 'trained', 'role', 'phone_number', 'designation',
+            'forms', 'approval_assignment', 'pending_approval', 'data',
+            'pending_batch'
         ], list(responses))
         self.assertEqual(responses["forms"], [{'id': 1, 'name': 'Test Form'}])
 
