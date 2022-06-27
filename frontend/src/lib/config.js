@@ -4,11 +4,11 @@ const config = {
   organisationAttributes: [
     {
       id: 1,
-      name: "Member",
+      name: "Member Organisation",
     },
     {
       id: 2,
-      name: "Partnership",
+      name: "Partnership Organisation",
     },
   ],
   roles: [

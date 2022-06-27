@@ -58,7 +58,7 @@ const uiText = {
     // Header Links
     controlCenter: "Control Center",
     myProfile: "My Profile",
-    settings: "Settings",
+    settings: "System Settings",
     signOut: "Sign Out",
     dashboards: "Dashboards",
     reports: "Reports",
@@ -153,7 +153,8 @@ const uiText = {
         </ul>
       </Fragment>
     ),
-    settingsDescriptionPanel: "This is description about settings.",
+    settingsDescriptionPanel:
+      "This page allow Super Admin to maintain system critical master lists.",
     // Approvals
     approvalsTab1: "My Pending Approvals",
     approvalsTab2: "Subordinates Approvals",

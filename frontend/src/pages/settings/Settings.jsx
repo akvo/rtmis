@@ -34,7 +34,7 @@ const Settings = () => {
         <Breadcrumbs
           pagePath={[
             {
-              title: "Settings",
+              title: "System Settings",
               link: "/settings",
             },
           ]}
