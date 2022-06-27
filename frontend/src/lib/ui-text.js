@@ -186,6 +186,18 @@ const uiText = {
     failed: "Failed",
     download: "Download",
     // Webform
+    formDescription: (
+      <p>
+        Please fill up the webform below with relevant responses. You will need
+        to answer all mandatory questions before you can submit.
+        <br />
+        Once you have sumitted a webform, please do not forget to add it as part
+        of a batch and send it for approval.
+      </p>
+    ),
+    formSuccessTitle: "Thank you for the submission",
+    formSuccessSubTitle:
+      "Do note that this data has NOT been sent for approval. If you are ready to send the submissions for approval, please create a batch and send to the approver",
     fetchingForm: "Fetching form..",
     // Forgot Password
     forgotTitle: "Reset your password",
