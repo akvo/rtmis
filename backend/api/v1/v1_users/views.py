@@ -27,7 +27,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Access, Administration, Levels
-from api.v1.v1_users.models import SystemUser, Organisation, OrganisationAttribute
+from api.v1.v1_users.models import SystemUser, Organisation, \
+        OrganisationAttribute
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     VerifyInviteSerializer, SetUserPasswordSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
