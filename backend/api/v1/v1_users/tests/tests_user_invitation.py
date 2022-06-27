@@ -192,7 +192,7 @@ class UserInvitationTestCase(TestCase):
                                    **header)
         self.assertEqual(response.status_code, 200)
         self.assertEqual([
-            'email', 'name', 'administration',
+            'email', 'name', 'administration', 'trained',
             'role', 'phone_number', 'designation', 'forms',
             'organisation', 'last_login'
         ], list(response.json().keys()))

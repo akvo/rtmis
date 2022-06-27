@@ -373,6 +373,7 @@ class UserSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
     administration = serializers.SerializerMethodField()
     organisation = serializers.SerializerMethodField()
+    trained = CustomBooleanField(default=False)
     role = serializers.SerializerMethodField()
     forms = serializers.SerializerMethodField()
     last_login = serializers.SerializerMethodField()
@@ -416,8 +417,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = SystemUser
         fields = [
-            'email', 'name', 'administration', 'role', 'phone_number',
-            'designation', 'forms', 'organisation', 'last_login'
+            'email', 'name', 'administration', 'trained', 'role',
+            'phone_number', 'designation', 'forms', 'organisation',
+            'last_login'
         ]
 
 
