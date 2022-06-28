@@ -122,6 +122,7 @@ const AddUser = () => {
       forms: values.forms,
       inform_user: values.inform_user,
       organisation: values.organisation,
+      trained: values.trained,
     };
     api[id ? "put" : "post"](id ? `user/${id}` : "user", payload)
       .then(() => {
@@ -220,6 +221,7 @@ const AddUser = () => {
             role: res.data?.role,
             forms: res.data?.forms.map((f) => parseInt(f.id)),
             organisation: res.data?.organisation?.id || [],
+            trained: res?.data?.trained,
           });
           setRole(res.data?.role);
           setLoading(false);
@@ -364,6 +366,11 @@ const AddUser = () => {
                   </Option>
                 ))}
               </Select>
+            </Form.Item>
+          </div>
+          <div className="form-row">
+            <Form.Item name="trained" valuePropName="checked">
+              <Checkbox>Trained</Checkbox>
             </Form.Item>
           </div>
           <div className="form-row">

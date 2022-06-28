@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { api, store, uiText, config } from "../../lib";
 import { useNotification } from "../../util/hooks";
-import orderBy from "lodash/orderBy";
+import { orderBy, startCase } from "lodash";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -56,6 +56,8 @@ const Organisations = () => {
       title: "ID",
       dataIndex: "id",
       key: "id",
+      width: 20,
+      align: "center",
     },
     {
       title: "Organization",
@@ -67,7 +69,11 @@ const Organisations = () => {
       dataIndex: "attributes",
       key: "attributes",
       render: (attributes) =>
-        attributes.length ? attributes.map((a) => a.name).join(", ") : "-",
+        attributes.length
+          ? attributes
+              .map((a) => `${startCase(a.name)} Organisation`)
+              .join(", ")
+          : "-",
     },
     {
       title: "Action",
@@ -90,6 +96,8 @@ const Organisations = () => {
           </Button>
         </Space>
       ),
+      width: 120,
+      align: "center",
     },
   ];
 

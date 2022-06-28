@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Form, Input, Button, Checkbox, notification } from "antd";
+import { Form, Input, Button, notification } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { api, store, config, uiText } from "../../../lib";
@@ -106,9 +106,6 @@ const LoginForm = () => {
         />
       </Form.Item>
       <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
         <Link className="login-form-forgot" to="/forgot-password">
           Forgot password
         </Link>
