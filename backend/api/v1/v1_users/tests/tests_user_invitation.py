@@ -351,8 +351,9 @@ class UserInvitationTestCase(TestCase):
         call_command("fake_user_seeder")
         call_command("fake_approver_seeder")
         u = SystemUser.objects.filter(
-            user_access__role__in=[UserRoleTypes.approver, UserRoleTypes.user
-                                   ]).first()
+            user_access__role__in=[
+                UserRoleTypes.approver, UserRoleTypes.user],
+            password__isnull=False).first()
         response = self.client.delete('/api/v1/user/{0}'.format(u.id),
                                       content_type='application/json',
                                       **header)
@@ -360,11 +361,9 @@ class UserInvitationTestCase(TestCase):
         user = SystemUser.objects.get(pk=u.id)
         self.assertEqual(user.deleted_at is not None, True)
         # test login with deleted user
-        u = SystemUser.objects.filter(
-            deleted_at__isnull=False).first()
-        user_payload = {"email": u.email, "password": "test"}
+        deleted_user = {"email": user.email, "password": "test"}
         response = self.client.post('/api/v1/login',
-                                    user_payload,
+                                    deleted_user,
                                     content_type='application/json')
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json(), {
