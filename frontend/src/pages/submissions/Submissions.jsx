@@ -19,23 +19,15 @@ import {
   FileTextFilled,
 } from "@ant-design/icons";
 import { api, store, uiText } from "../../lib";
+import { useNotification } from "../../util/hooks";
 import { columnsPending, columnsBatch, columnsSelected } from "./";
 import UploadDetail from "./UploadDetail";
 import FormDropdown from "../../components/filters/FormDropdown";
 const { TextArea } = Input;
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Data Uploads",
-  },
-];
 const { TabPane } = Tabs;
 
-const DataUploads = () => {
+const Submissions = () => {
   const [dataset, setDataset] = useState([]);
   const [dataTab, setDataTab] = useState("pending-submission");
   const [totalCount, setTotalCount] = useState(0);
@@ -51,6 +43,22 @@ const DataUploads = () => {
   const [comment, setComment] = useState("");
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
+  const { notify } = useNotification();
+
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: "/control-center",
+    },
+    {
+      title: "Submissions",
+      link: "/control-center",
+    },
+    {
+      title: window.forms?.find((x) => x.id === selectedForm)?.name,
+    },
+  ];
+
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
@@ -102,20 +110,20 @@ const DataUploads = () => {
   };
 
   const btnBatchSelected = useMemo(() => {
-    if (!!selectedRows.length && modalButton) {
-      return (
+    return (
+      dataTab === "pending-submission" && (
         <Button
           type="primary"
           onClick={() => {
             setModalVisible(true);
           }}
+          disabled={!selectedRows.length && modalButton}
         >
           {text.batchSelectedDatasets}
         </Button>
-      );
-    }
-    return "";
-  }, [selectedRows, modalButton, text.batchSelectedDatasets]);
+      )
+    );
+  }, [selectedRows, modalButton, text.batchSelectedDatasets, dataTab]);
 
   const sendBatch = () => {
     setLoading(true);
@@ -127,26 +135,30 @@ const DataUploads = () => {
       )
       .then(() => {
         setSelectedRows([]);
-        setModalVisible(false);
-        setLoading(false);
+        setBatchName("");
+        setComment("");
         setDataTab("pending-approval");
       })
       .catch(() => {
+        notify({
+          type: "error",
+          message: "An error occured",
+        });
+      })
+      .finally(() => {
         setLoading(false);
         setModalVisible(false);
       });
   };
   return (
-    <div id="uploads">
+    <div id="submissions">
       <Breadcrumbs pagePath={pagePath} />
       <Divider />
       <FormDropdown hidden={true} />
-      <Card
-        style={{ padding: 0, minHeight: "40vh" }}
-        bodyStyle={{ padding: 30 }}
-      >
+      <Card style={{ padding: 0 }} bodyStyle={{ padding: 30 }}>
         <Tabs
-          defaultActiveKey={dataTab}
+          className="main-tab"
+          activeKey={dataTab}
           onChange={setDataTab}
           tabBarExtraContent={btnBatchSelected}
         >
@@ -155,6 +167,7 @@ const DataUploads = () => {
           <TabPane tab={text.uploadsTab3} key="approved"></TabPane>
         </Tabs>
         <Table
+          className="main-table"
           dataSource={dataset}
           onChange={handleChange}
           columns={
@@ -173,6 +186,8 @@ const DataUploads = () => {
                         }}
                       />
                     ),
+                    width: 180,
+                    align: "center",
                   },
                 ]
               : [...columnsBatch, Table.EXPAND_COLUMN]
@@ -187,34 +202,40 @@ const DataUploads = () => {
               `Results: ${range[0]} - ${range[1]} of ${total} users`,
           }}
           expandedRowKeys={expandedKeys}
-          expandable={{
-            expandedRowRender: (record) => {
-              return <UploadDetail record={record} setReload={setReload} />;
-            },
-            expandIcon: ({ expanded, onExpand, record }) => {
-              return dataTab === "pending-submission" ? (
-                ""
-              ) : expanded ? (
-                <CloseSquareOutlined
-                  onClick={(e) => {
-                    setExpandedKeys(
-                      expandedKeys.filter((k) => k !== record.id)
+          expandable={
+            dataTab !== "pending-submission"
+              ? {
+                  expandedRowRender: (record) => {
+                    return (
+                      <UploadDetail record={record} setReload={setReload} />
                     );
-                    onExpand(record, e);
-                  }}
-                  style={{ color: "#e94b4c" }}
-                />
-              ) : (
-                <PlusSquareOutlined
-                  onClick={(e) => {
-                    setExpandedKeys([record.id]);
-                    onExpand(record, e);
-                  }}
-                  style={{ color: "#7d7d7d" }}
-                />
-              );
-            },
-          }}
+                  },
+                  expandIcon: ({ expanded, onExpand, record }) => {
+                    return dataTab === "pending-submission" ? (
+                      ""
+                    ) : expanded ? (
+                      <CloseSquareOutlined
+                        onClick={(e) => {
+                          setExpandedKeys(
+                            expandedKeys.filter((k) => k !== record.id)
+                          );
+                          onExpand(record, e);
+                        }}
+                        style={{ color: "#e94b4c" }}
+                      />
+                    ) : (
+                      <PlusSquareOutlined
+                        onClick={(e) => {
+                          setExpandedKeys([record.id]);
+                          onExpand(record, e);
+                        }}
+                        style={{ color: "#7d7d7d" }}
+                      />
+                    );
+                  },
+                }
+              : false
+          }
           rowKey="id"
         />
       </Card>
@@ -278,4 +299,4 @@ const DataUploads = () => {
   );
 };
 
-export default React.memo(DataUploads);
+export default React.memo(Submissions);

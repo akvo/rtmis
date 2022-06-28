@@ -23,7 +23,7 @@ import {
   Privacy,
   Reports,
   Report,
-  DataUploads,
+  Submissions,
   Settings,
   Organisations,
   AddOrganisation,
@@ -118,8 +118,8 @@ const RouteList = () => {
         element={<Private element={Approvals} alias="approvals" />}
       />
       <Route
-        path="/data/uploads"
-        element={<Private element={DataUploads} alias="data" />}
+        path="/data/submissions"
+        element={<Private element={Submissions} alias="data" />}
       />
       <Route
         path="/approvers/tree"

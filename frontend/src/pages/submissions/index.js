@@ -119,7 +119,7 @@ export const columnsPending = [
     title: "",
     dataIndex: "id",
     key: "id",
-    render: () => <InfoCircleOutlined />,
+    render: () => "",
     width: 50,
   },
   {
@@ -139,7 +139,7 @@ export const columnsPending = [
     ),
   },
   {
-    title: "administration",
+    title: "Administration",
     dataIndex: "administration",
     key: "administration",
   },

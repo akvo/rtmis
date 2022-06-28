@@ -1,3 +1,4 @@
+/* eslint-disable */
 var visualisation = [
   {
     id: 519630048,
