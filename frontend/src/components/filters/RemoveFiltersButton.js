@@ -2,8 +2,16 @@ import React from "react";
 import "./style.scss";
 import { Button } from "antd";
 import { store } from "../../lib";
+import { useLocation } from "react-router-dom";
+
+const hideInPages = ["/control-center", "/data/submissions", "/profile"];
 
 const RemoveFiltersButton = ({ extra = () => {} }) => {
+  const { pathname } = useLocation();
+  const hideButton = hideInPages.includes(pathname);
+  if (hideButton) {
+    return "";
+  }
   return (
     <Button
       onClick={() => {

@@ -74,7 +74,7 @@ const DataFilters = ({ loading }) => {
                   Add New
                 </Button>
               </Link>
-              {pathname !== "/profile" && (
+              {pathname === "/data/manage" && (
                 <Button
                   type="primary"
                   onClick={exportGenerate}

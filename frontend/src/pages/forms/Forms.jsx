@@ -176,18 +176,25 @@ const Forms = () => {
               }
               extra={[
                 <Button
-                  key="back-button"
                   type="primary"
+                  key="back-button"
                   onClick={() => setShowSuccess(false)}
                 >
                   Add New Submission
                 </Button>,
-                !authUser?.role?.id === 1 && (
+                authUser?.role?.id !== 1 ? (
                   <Button
-                    key="profile-button"
-                    onClick={() => navigate("/data/uploads")}
+                    key="batch-button"
+                    onClick={() => navigate("/data/submissions")}
                   >
                     Finish and Go to Batch
+                  </Button>
+                ) : (
+                  <Button
+                    key="manage-button"
+                    onClick={() => navigate("/data/manage")}
+                  >
+                    Finish and Go to Manage Data
                   </Button>
                 ),
               ]}

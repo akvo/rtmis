@@ -76,15 +76,18 @@
         }
       }
     }
+
     .ant-row {
       &.approval-links {
         margin-top: 20px;
       }
     }
   }
-  #panel-uploads {
+
+  #panel-submission {
     padding: 0;
     min-height: 40vh;
+
     .view-all {
       margin-top: 20px;
     }
