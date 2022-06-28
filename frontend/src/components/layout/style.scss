@@ -92,7 +92,7 @@
         display: inline-block;
 
         .small-logo {
-          height: 85px;
+          height: 65px;
         }
 
         img {
@@ -106,8 +106,15 @@
           font-weight: $font-weight-semi-bold;
           font-size: $font-size-large;
           margin-bottom: 0px;
-          padding-left: $margin-small;
+          padding-left: $margin-default;
           vertical-align: middle;
+          letter-spacing: 12px;
+
+          small {
+            display: block;
+            font-size: 14px;
+            letter-spacing: normal;
+          }
         }
       }
 
@@ -174,10 +181,15 @@
       color: $color-light;
       font-weight: $font-weight-normal;
 
+      h2,
       h3 {
         color: $color-light;
         font-weight: $font-weight-semi-bold;
         margin-bottom: $padding-default;
+      }
+
+      h3 {
+        margin-bottom: $padding-small;
       }
 
       ul {
@@ -201,6 +213,14 @@
 
       a {
         color: $white;
+
+        &.link-inline {
+          padding-right: $padding-small;
+        }
+
+        &.ant-btn {
+          margin-top: 30px;
+        }
       }
     }
   }
