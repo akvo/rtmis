@@ -12,7 +12,9 @@ config_path = "source/config/config.min.js"
 class ConfigJS(TestCase):
     def test_config_generation(self):
         administration_seeder.seed_administration_prod()
-        os.remove(config_path)
+        if Path(config_path).exists():
+            os.remove(config_path)
         self.assertFalse(Path(config_path).exists())
         self.client.get("/api/v1/config.js", follow=True)
         self.assertTrue(Path(config_path).exists())
+        os.remove(config_path)
