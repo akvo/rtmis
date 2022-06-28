@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { api, store, uiText, config } from "../../lib";
 import { useNotification } from "../../util/hooks";
-import { orderBy, startCase } from "lodash";
+import { orderBy } from "lodash";
 
 const { Search } = Input;
 const { Option } = Select;
