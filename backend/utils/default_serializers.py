@@ -15,3 +15,13 @@ class DefaultErrorResponseSerializer(APIException):
                                     required=False,
                                     trim_whitespace=True)
     default_detail = 'Service temporarily unavailable, try again later.'
+
+
+class CommonDataSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+
+
+class GeoFormatSerializer(serializers.Serializer):
+    lat = serializers.FloatField()
+    lng = serializers.FloatField()

@@ -28,6 +28,7 @@ class OrganisationAttributeSerializer(serializers.ModelSerializer):
     type_id = serializers.ReadOnlyField(source='type')
     name = serializers.SerializerMethodField()
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_name(self, instance: OrganisationAttribute):
         return OrganisationTypes.FieldStr.get(instance.type)
 
@@ -168,6 +169,7 @@ class ListAdministrationSerializer(serializers.ModelSerializer):
         return ListAdministrationChildrenSerializer(
             instance=instance.parent_administration.all(), many=True).data
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_children_level_name(self, instance: Administration):
         child: Administration = instance.parent_administration.first()
         if child:
@@ -336,6 +338,7 @@ class ListUserSerializer(serializers.ModelSerializer):
             'value': UserRoleTypes.FieldStr.get(instance.user_access.role)
         }
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_invite(self, instance: SystemUser):
         return signing.dumps(instance.id)
 
