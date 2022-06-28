@@ -21,39 +21,81 @@ const Footer = ({ className = "footer", ...props }) => {
     <div className={className}>
       <Row align="top" justify="space-between" {...props}>
         <Col span={6}>
-          <h3>{text?.footer1Title}</h3>
-          <p>{text?.footer1Text}</p>
+          <h2>{text?.footerAboutTitle}</h2>
+          <p>{text?.footerAboutDescription}</p>
+          <h3>{text?.footerQuickLinkTitle}</h3>
+          {text?.footerQuickLinkItems?.map((x, xi) => (
+            <a
+              key={`quick-link-${xi}`}
+              className="link-inline"
+              target="_blank"
+              rel="noreferrer"
+              href={x.url}
+            >
+              {x.text}
+            </a>
+          ))}
         </Col>
-        <Col span={6}>
-          <h3>{text?.footer2Title}</h3>
+        <Col span={4}>
+          <h2>{text?.footerExternalLinkTitle}</h2>
+          {!!text?.footerExternalLinkItems && (
+            <ul>
+              {text.footerExternalLinkItems.map((x, xi) => (
+                <li key={`ext-link-${xi}`}>
+                  <a target="_blank" rel="noreferrer" href={x.url}>
+                    {x.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Col>
+        <Col span={4}>
+          <h2>{text?.footerAgenciesTitle}</h2>
+          {!!text?.footerAgenciesItems && (
+            <ul>
+              {text.footerAgenciesItems.map((x, xi) => (
+                <li key={`agencies-${xi}`}>
+                  <a target="_blank" rel="noreferrer" href={x.url}>
+                    {x.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Col>
+        <Col span={4}>
+          <h2>{text?.footerContactTitle}</h2>
+          <p>{text?.footerContactAddress}</p>
           <ul>
             <li>
+              Phone:
               <a
                 target="_blank"
                 rel="noreferrer"
-                href="https://docs.google.com/forms/d/e/1FAIpQLSf5rjD66CCcMWYgFwkNp8Xb1lRJoec1CwhhPnjOd-mU84ktPA/viewform"
+                href={`tel:${text?.footerContactPhone}`}
               >
-                <b>Feedback Form</b>
-              </a>
-            </li>
-          </ul>
-        </Col>
-        <Col span={4}>
-          <h3>{text?.footer3Title}</h3>
-          <ul>
-            <li>
-              <a target="_blank" rel="noreferrer" href={text?.footer3Link1}>
-                {text?.footer3Text1}
+                {text?.footerContactPhone}
               </a>
             </li>
             <li>
-              <a target="_blank" rel="noreferrer" href={text?.footer3Link2}>
-                {text?.footer3Text2}
+              Email:
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href={`mailto:${text?.footerContactEmail}`}
+              >
+                {text?.footerContactEmail}
               </a>
             </li>
             <li>
-              <a target="_blank" rel="noreferrer" href={text?.footer3Link3}>
-                {text?.footer3Text3}
+              <a
+                className="ant-btn ant-btn-sm ant-btn-ghost"
+                target="_blank"
+                rel="noreferrer"
+                href={text?.footerContactFeedback?.url}
+              >
+                <b>{text?.footerContactFeedback?.text}</b>
               </a>
             </li>
           </ul>
@@ -61,6 +103,11 @@ const Footer = ({ className = "footer", ...props }) => {
       </Row>
       <Row className="end" align="top" justify="space-between" {...props}>
         <Col>{text?.copyright}</Col>
+        <Col>
+          <a href="https://www.akvo.org" target="_blank" rel="noreferrer">
+            Akvo
+          </a>
+        </Col>
       </Row>
     </div>
   );
