@@ -312,11 +312,14 @@ const uiText = {
     userAssociations: "This user has following data association(s)",
     organisationsLoadFail: "Could not load organizations",
     organisationDeleteFail: "Could not delete organization",
-    deleteOrganisationHint:
-      "Deleting this organization will not delete the user(s)",
+    deleteOrganisationDesc: ({ count = 0 }) => (
+      <span>
+        There are <b>{count} Users</b> associated with this organisation. Please
+        reassign or delete these user(s) before deleting the organisation to
+        prevent unexpected results
+      </span>
+    ),
     deleteOrganisationTitle: "You are about to delete the organization",
-    deleteOrganisationDesc:
-      "The Organisation will no longer be able to access the RUSH platform",
     // Tour
     prev: "Prev",
     next: "Next",

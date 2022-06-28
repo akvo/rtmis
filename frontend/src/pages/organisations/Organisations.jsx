@@ -79,9 +79,17 @@ const Organisations = () => {
           : "-",
     },
     {
+      title: "Users",
+      dataIndex: "users",
+      key: "users",
+      render: (users) => users || " - ",
+      width: 90,
+      align: "center",
+    },
+    {
       title: "Action",
       key: "action",
-      render: (record) => (
+      render: (record, rowValue) => (
         <Space>
           <Link to={`/organisation/${record.id}`}>
             <Button type="secondary" size="small">
@@ -93,7 +101,9 @@ const Organisations = () => {
             size="small"
             ghost
             loading={deleting === record.id}
-            onClick={() => setDeleteOrganisation(record)}
+            onClick={() =>
+              setDeleteOrganisation({ ...record, count: rowValue.users })
+            }
           >
             Delete
           </Button>
@@ -238,13 +248,11 @@ const Organisations = () => {
         visible={deleteOrganisation}
         onCancel={() => setDeleteOrganisation(null)}
         centered
+        className="organisation-modal"
         width="575px"
         footer={
-          <Row justify="center" align="middle">
-            <Col span={14}>
-              <i>{text.deleteOrganisationHint}</i>
-            </Col>
-            <Col span={10}>
+          <Row align="middle">
+            <Col span={24} align="right">
               <Button
                 className="light"
                 disabled={deleting}
@@ -269,11 +277,11 @@ const Organisations = () => {
         }
         bodyStyle={{ textAlign: "center" }}
       >
-        <p>{text.deleteOrganisationTitle}</p>
+        <h3>{text.deleteOrganisationTitle}</h3>
         <br />
         <img src="/assets/personal-information.png" height="80" />
         <h2>{deleteOrganisation?.name}</h2>
-        <p>{text.deleteOrganisationDesc}</p>
+        <p>{text.deleteOrganisationDesc(deleteOrganisation || { count: 0 })}</p>
       </Modal>
     </div>
   );

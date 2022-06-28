@@ -39,6 +39,7 @@ class OrganisationAttributeSerializer(serializers.ModelSerializer):
 
 class OrganisationListSerializer(serializers.ModelSerializer):
     attributes = serializers.SerializerMethodField()
+    users = serializers.SerializerMethodField()
 
     @extend_schema_field(OrganisationAttributeSerializer(many=True))
     def get_attributes(self, instance: Organisation):
@@ -46,9 +47,14 @@ class OrganisationListSerializer(serializers.ModelSerializer):
             organisation_id=instance.id).all()
         return OrganisationAttributeSerializer(instance=attr, many=True).data
 
+    @extend_schema_field(OpenApiTypes.INT)
+    def get_users(self, instance: Organisation):
+        return SystemUser.objects.filter(
+            organisation_id=instance.id).count()
+
     class Meta:
         model = Organisation
-        fields = ['id', 'name', 'attributes']
+        fields = ['id', 'name', 'attributes', 'users']
 
 
 class UserRoleSerializer(serializers.Serializer):
