@@ -39,7 +39,7 @@ const uiText = {
     // Footer
     footerAboutTitle: "About Data",
     footerAboutDescription:
-      "The data contained in the RUSH platform is aggregated from both primary and secondary data sources. The data is updated on monthly basis.",
+      "All the data contained in the RUSH platform is aggregated from both primary and secondary data sources from the 47 counties in Kenya. The data is updated on a monthly basis.",
     footerContactTitle: "Contacts",
     footerContactAddress:
       "Afya House, Cathedral Road, P.O. Box:30016–00100, Nairobi, Kenya",
