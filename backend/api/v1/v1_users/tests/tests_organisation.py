@@ -14,7 +14,9 @@ class OrganisationTestCase(TestCase):
         organisations = self.client.get('/api/v1/organisations',
                                         content_type='application/json')
         organisations = organisations.json()
-        self.assertEqual(["id", "name", "attributes"], list(organisations[0]))
+        self.assertEqual(
+                ["id", "name", "attributes", "users"],
+                list(organisations[0]))
         self.assertEqual(["type_id", "name"],
                          list(organisations[0]["attributes"][0]))
 

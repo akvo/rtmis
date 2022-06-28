@@ -90,7 +90,7 @@ class UpdatePendingDataTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         for d in data:
-            self.assertEqual(d['history'], False)
+            self.assertEqual(d['history'], None)
 
         # update pending data
         payload = [{
@@ -140,7 +140,7 @@ class UpdatePendingDataTestCase(TestCase):
                 self.assertEqual(d['value'], ["Female"])
                 self.assertEqual(d['history'][0]['value'], ["Male"])
             if d['question'] not in [101, 102]:
-                self.assertEqual(d['history'], False)
+                self.assertEqual(d['history'], None)
 
         # test pending data updated by on delete protect
         user = SystemUser.objects.filter(pk=user_id).first()

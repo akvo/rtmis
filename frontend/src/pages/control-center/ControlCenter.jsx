@@ -3,7 +3,7 @@ import "./style.scss";
 import { Row, Col, Card, Button, Divider } from "antd";
 import { store, config, uiText } from "../../lib";
 import { Link } from "react-router-dom";
-import { PanelApprovals, PanelDataUpload } from "../profile/components";
+import { PanelApprovals, PanelSubmissions } from "../profile/components";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { ControlCenterTour } from "./components";
 
@@ -95,7 +95,7 @@ const ControlCenter = () => {
         )}
         {authUser.role_detail.page_access.includes("form") && (
           <Col span={24}>
-            <PanelDataUpload />
+            <PanelSubmissions />
           </Col>
         )}
       </Row>
