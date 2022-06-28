@@ -220,7 +220,9 @@ class AddEditUserSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         if self.instance:
-            if self.instance == self.context.get('user'):
+            if self.context.get(
+                    'user').user_access.role != UserRoleTypes.super_admin \
+                    and self.instance == self.context.get('user'):
                 raise ValidationError(
                     'You do not have permission to edit this user')
             if self.context.get(
