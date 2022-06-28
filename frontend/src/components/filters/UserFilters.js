@@ -18,8 +18,9 @@ const UserFilters = ({
   loading,
 }) => {
   const { user: authUser, filters } = store.useState((state) => state);
-  const { role } = filters;
+  const { trained, role, organisation } = filters;
 
+  const { trainedStatus } = config;
   const allowedRole = config.roles.filter((r) => r.id >= authUser.role.id);
 
   const [organisations, setOrganisations] = useState([]);
@@ -54,6 +55,7 @@ const UserFilters = ({
             placeholder="Organization"
             getPopupContainer={(trigger) => trigger.parentNode}
             style={{ width: 160 }}
+            value={organisation}
             onChange={(e) => {
               store.update((s) => {
                 s.filters.organisation = e;
@@ -64,6 +66,24 @@ const UserFilters = ({
             {organisations?.map((o, oi) => (
               <Option key={`org-${oi}`} value={o.id}>
                 {o.name}
+              </Option>
+            ))}
+          </Select>
+          <Select
+            placeholder="Trained Status"
+            getPopupContainer={(trigger) => trigger.parentNode}
+            style={{ width: 160 }}
+            value={trained}
+            onChange={(e) => {
+              store.update((s) => {
+                s.filters.trained = e;
+              });
+            }}
+            allowClear
+          >
+            {trainedStatus.map((t, ti) => (
+              <Option key={ti} value={t.value}>
+                {t.label}
               </Option>
             ))}
           </Select>
@@ -88,7 +108,7 @@ const UserFilters = ({
           <AdministrationDropdown loading={loading} />
           <RemoveFiltersButton
             extra={(s) => {
-              s.filters = { role: null };
+              s.filters = { trained: null, role: null, organisation: null };
             }}
           />
         </Space>
