@@ -8,6 +8,7 @@ import { api, store, uiText } from "../../lib";
 import { takeRight, pick } from "lodash";
 import { PageLoader, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
+import { FormTour } from "./components";
 
 const Forms = () => {
   const navigate = useNavigate();
