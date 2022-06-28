@@ -33,8 +33,8 @@ const Home = () => {
           <Tabs defaultActiveKey="1" centered>
             {highlights?.map((highlight, index) => (
               <TabPane tab={highlight.name} key={index + 1}>
-                <h4 className="highlight-title">{highlight.description}</h4>
-                <div style={{ borderColor: "red", borderWidth: 1 }}>
+                <p className="highlight-title">{highlight.description}</p>
+                <div>
                   {highlight.charts?.map((hc, hcI) =>
                     hc.type === "ADMINISTRATION" || hc.type === "CRITERIA" ? (
                       <HomeAdministrationChart
