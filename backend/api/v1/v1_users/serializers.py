@@ -2,7 +2,7 @@ from django.core import signing
 from django.core.signing import BadSignature
 from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema_field, inline_serializer
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
@@ -28,6 +28,7 @@ class OrganisationAttributeSerializer(serializers.ModelSerializer):
     type_id = serializers.ReadOnlyField(source='type')
     name = serializers.SerializerMethodField()
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_name(self, instance: OrganisationAttribute):
         return OrganisationTypes.FieldStr.get(instance.type)
 
@@ -48,6 +49,11 @@ class OrganisationListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organisation
         fields = ['id', 'name', 'attributes']
+
+
+class UserRoleSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    value = serializers.CharField()
 
 
 class AddEditOrganisationSerializer(serializers.ModelSerializer):
@@ -163,6 +169,7 @@ class ListAdministrationSerializer(serializers.ModelSerializer):
         return ListAdministrationChildrenSerializer(
             instance=instance.parent_administration.all(), many=True).data
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_children_level_name(self, instance: Administration):
         child: Administration = instance.parent_administration.first()
         if child:
@@ -191,8 +198,7 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         super().__init__(**kwargs)
         self.fields.get(
             'administration').queryset = Administration.objects.all()
-        self.fields.get(
-            'organisation').queryset = Organisation.objects.all()
+        self.fields.get('organisation').queryset = Organisation.objects.all()
 
     def validate_role(self, role):
         if self.context.get(
@@ -286,8 +292,8 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         model = SystemUser
         fields = [
             'first_name', 'last_name', 'email', 'administration',
-            'organisation', 'trained', 'role', 'phone_number',
-            'designation', 'forms'
+            'organisation', 'trained', 'role', 'phone_number', 'designation',
+            'forms'
         ]
 
 
@@ -325,18 +331,14 @@ class ListUserSerializer(serializers.ModelSerializer):
     def get_organisation(self, instance: SystemUser):
         return OrganisationSerializer(instance=instance.organisation).data
 
-    @extend_schema_field(
-        inline_serializer('role',
-                          fields={
-                              'id': serializers.IntegerField(),
-                              'value': serializers.CharField(),
-                          }))
+    @extend_schema_field(UserRoleSerializer)
     def get_role(self, instance: SystemUser):
         return {
             'id': instance.user_access.role,
             'value': UserRoleTypes.FieldStr.get(instance.user_access.role)
         }
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_invite(self, instance: SystemUser):
         return signing.dumps(instance.id)
 
@@ -391,12 +393,7 @@ class UserSerializer(serializers.ModelSerializer):
     def get_organisation(self, instance: SystemUser):
         return OrganisationSerializer(instance=instance.organisation).data
 
-    @extend_schema_field(
-        inline_serializer('role',
-                          fields={
-                              'id': serializers.IntegerField(),
-                              'value': serializers.CharField(),
-                          }))
+    @extend_schema_field(UserRoleSerializer)
     def get_role(self, instance: SystemUser):
         return {
             'id': instance.user_access.role,

@@ -365,6 +365,8 @@ class UserInvitationTestCase(TestCase):
                                     user_payload,
                                     content_type='application/json')
         self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.json(), {
+            "message": "User has been deleted"})
         # get deleted user
         response = self.client.get('/api/v1/user/{0}'.format(u.id),
                                    content_type='application/json',
