@@ -315,6 +315,11 @@ def add_user(request, version):
                                     required=True,
                                     type=OpenApiTypes.NUMBER,
                                     location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='trained',
+                                    required=False,
+                                    default=None,
+                                    type=OpenApiTypes.BOOL,
+                                    location=OpenApiParameter.QUERY),
                    OpenApiParameter(name='role',
                                     required=False,
                                     type=OpenApiTypes.NUMBER,
@@ -383,6 +388,11 @@ def list_users(request, version):
         set1 = set(filter_descendants)
         final_set = set1.intersection(allowed_descendants)
         filter_data['user_access__administration_id__in'] = list(final_set)
+    if serializer.validated_data.get('trained') is not None:
+        trained = True if \
+            serializer.validated_data.get('trained').lower() == "true" \
+            else False
+        filter_data['trained'] = trained
     if serializer.validated_data.get('role'):
         filter_data['user_access__role'] = serializer.validated_data.get(
             'role')
