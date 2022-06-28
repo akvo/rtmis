@@ -1,15 +1,15 @@
 import React from "react";
 import "./style.scss";
-import { Tabs } from "antd";
-import { HomeDataChart, HomeAdministrationChart } from "../../components";
-const { TabPane } = Tabs;
+// import { Tabs } from "antd";
+// import { HomeDataChart, HomeAdministrationChart } from "../../components";
+// const { TabPane } = Tabs;
 
 const Home = () => {
-  const { highlights } = window;
+  // const { highlights } = window;
 
   return (
     <div id="home">
-      <div className="highlights">
+      {/* <div className="highlights">
         <h1>Highlights</h1>
         <div className="body">
           <Tabs defaultActiveKey="1" centered>
@@ -37,7 +37,7 @@ const Home = () => {
             ))}
           </Tabs>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
