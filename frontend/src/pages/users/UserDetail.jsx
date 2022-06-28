@@ -73,7 +73,7 @@ const UserDetail = ({ record, setDeleteUser, deleting }) => {
               {
                 key: "organisation",
                 field: "Organisation",
-                value: "-",
+                value: record?.organisation?.name || "-",
               },
               {
                 key: "invite",

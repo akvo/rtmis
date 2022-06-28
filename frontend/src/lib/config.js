@@ -1,6 +1,26 @@
 const config = {
   siteTitle: "Ministry of Health",
   siteLogo: "/logo.png",
+  trainedStatus: [
+    {
+      label: "Trained",
+      value: true,
+    },
+    {
+      label: "Not Trained",
+      value: false,
+    },
+  ],
+  organisationAttributes: [
+    {
+      id: 1,
+      name: "Member Organisation",
+    },
+    {
+      id: 2,
+      name: "Partnership Organisation",
+    },
+  ],
   roles: [
     {
       id: 1,
@@ -17,6 +37,8 @@ const config = {
         "approvers",
         "form",
         "reports",
+        "settings",
+        "organisation",
       ],
       administration_level: [1],
       description:

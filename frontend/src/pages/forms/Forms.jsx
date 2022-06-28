@@ -3,22 +3,13 @@ import { Webform } from "akvo-react-form";
 import "akvo-react-form/dist/index.css";
 import "./style.scss";
 import { useParams, useNavigate } from "react-router-dom";
-import { Row, Col, Space, Progress, notification } from "antd";
+import { Row, Col, Space, Progress, Result, Button, notification } from "antd";
 import { api, store, uiText } from "../../lib";
 import { takeRight, pick } from "lodash";
 import { PageLoader, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
 import { FormTour } from "./components";
 
-const descriptionData = (
-  <p>
-    Please fill up the webform below with relevant responses. You will need to
-    answer all mandatory questions before you can submit.
-    <br />
-    Once you have sumitted a webform, please do not forget to add it as part of
-    a batch and send it for approval.
-  </p>
-);
 const Forms = () => {
   const navigate = useNavigate();
   const { user: authUser } = store.useState((s) => s);
@@ -27,6 +18,7 @@ const Forms = () => {
   const [forms, setForms] = useState([]);
   const [percentage, setPercentage] = useState(0);
   const [submit, setSubmit] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const { notify } = useNotification();
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
@@ -109,11 +101,8 @@ const Forms = () => {
     api
       .post(`form-pending-data/${formId}`, data)
       .then(() => {
-        notification.success({
-          message: "Submitted",
-        });
         setTimeout(() => {
-          navigate("/profile");
+          setShowSuccess(true);
         }, 3000);
       })
       .catch(() => {
@@ -149,30 +138,61 @@ const Forms = () => {
       });
     }
   }, [formId, loading]);
+
   return (
     <div id="form">
-      <Row justify="center">
+      <Row justify="center" gutter={[16, 16]}>
         <Col span={24} className="webform">
-          <Row justify="space-between">
-            <Space>
-              <Breadcrumbs pagePath={pagePath} description={descriptionData} />
-            </Space>
-            <FormTour />
-          </Row>
-          <DescriptionPanel description={descriptionData} />
+          <Space>
+            <Breadcrumbs
+              pagePath={pagePath}
+              description={text.formDescription}
+            />
+          </Space>
+          <DescriptionPanel description={text.formDescription} />
           {loading || !formId ? (
             <PageLoader message={text.fetchingForm} />
           ) : (
-            <Webform
-              forms={forms}
-              onFinish={onFinish}
-              onCompleteFailed={onFinishFailed}
-              onChange={onChange}
-              submitButtonSetting={{ loading: submit }}
-            />
+            !showSuccess && (
+              <Webform
+                forms={forms}
+                onFinish={onFinish}
+                onCompleteFailed={onFinishFailed}
+                onChange={onChange}
+                submitButtonSetting={{ loading: submit }}
+              />
+            )
           )}
-          {(!loading || formId) && (
+          {(!loading || formId) && !showSuccess && (
             <Progress className="progress-bar" percent={percentage} />
+          )}
+          {!loading && showSuccess && (
+            <Result
+              status="success"
+              title={text?.formSuccessTitle}
+              subTitle={
+                authUser?.role?.id === 1
+                  ? text?.formSuccessSubTitleForAdmin
+                  : text?.formSuccessSubTitle
+              }
+              extra={[
+                <Button
+                  key="back-button"
+                  type="primary"
+                  onClick={() => setShowSuccess(false)}
+                >
+                  Add New Submission
+                </Button>,
+                !authUser?.role?.id === 1 && (
+                  <Button
+                    key="profile-button"
+                    onClick={() => navigate("/data/uploads")}
+                  >
+                    Finish and Go to Batch
+                  </Button>
+                ),
+              ]}
+            />
           )}
         </Col>
       </Row>

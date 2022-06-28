@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Form, Input, Button, Checkbox, notification } from "antd";
+import { Form, Input, Button, notification } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { api, store, config, uiText } from "../../../lib";
@@ -28,6 +28,9 @@ const LoginForm = () => {
         const role_details = config.roles.find(
           (r) => r.id === res.data.role.id
         );
+        const designation = config.designations.find(
+          (d) => d.id === parseInt(res.data?.designation)
+        );
         if (
           res.data.forms.length === 0 &&
           role_details.name !== "Super Admin"
@@ -40,7 +43,11 @@ const LoginForm = () => {
         store.update((s) => {
           s.isLoggedIn = true;
           s.selectedForm = null;
-          s.user = { ...res.data, role_detail: role_details };
+          s.user = {
+            ...res.data,
+            role_detail: role_details,
+            designation: designation,
+          };
         });
         reloadData(res.data);
         setLoading(false);
@@ -99,9 +106,6 @@ const LoginForm = () => {
         />
       </Form.Item>
       <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
         <Link className="login-form-forgot" to="/forgot-password">
           Forgot password
         </Link>

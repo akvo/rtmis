@@ -58,6 +58,7 @@ const uiText = {
     // Header Links
     controlCenter: "Control Center",
     myProfile: "My Profile",
+    settings: "System Settings",
     signOut: "Sign Out",
     dashboards: "Dashboards",
     reports: "Reports",
@@ -74,6 +75,11 @@ const uiText = {
     addUser: "Add User",
     editUser: "Edit User",
     updateUser: "Update User",
+    // Organisation Management
+    manageOrganisations: "Manage Organizations",
+    addOrganisation: "Add Organization",
+    editOrganisation: "Edit Organization",
+    updateOrganisation: "Update Organization",
     // Validations
     valFirstName: "First name is required",
     valLastName: "Last name is required",
@@ -81,6 +87,9 @@ const uiText = {
     valPhone: "Phone number is required",
     valDesignation: "Please select a Designation",
     valRole: "Please select a Role",
+    valOrganization: "Please select an Organization",
+    valOrgName: "Organization name is required",
+    valOrgAttributes: "Please select an Attributes",
     // Control Center
     ccPane1Title: "Manage Data",
     ccPane1Button: "Manage Data",
@@ -131,6 +140,21 @@ const uiText = {
     ),
     ccDescriptionPanel:
       "Instant access to the all the administration pages and overview panels for data approvals.",
+    // Settings
+    orgPanelTitle: "Manage Organization",
+    orgPanelButton: "Manage Organization",
+    orgPanelText: (
+      <Fragment>
+        This is where you :
+        <ul>
+          <li>Add new organization</li>
+          <li>Modify existing organization</li>
+          <li>Delete existing organization</li>
+        </ul>
+      </Fragment>
+    ),
+    settingsDescriptionPanel:
+      "This page allow Super Admin to maintain system critical master lists.",
     // Approvals
     approvalsTab1: "My Pending Approvals",
     approvalsTab2: "Subordinates Approvals",
@@ -162,6 +186,20 @@ const uiText = {
     failed: "Failed",
     download: "Download",
     // Webform
+    formDescription: (
+      <p>
+        Please fill up the webform below with relevant responses. You will need
+        to answer all mandatory questions before you can submit.
+        <br />
+        Once you have sumitted a webform, please do not forget to add it as part
+        of a batch and send it for approval.
+      </p>
+    ),
+    formSuccessTitle: "Thank you for the submission",
+    formSuccessSubTitle:
+      "Do note that this data has NOT been sent for approval. If you are ready to send the submissions for approval, please create a batch and send to the approver",
+    formSuccessSubTitleForAdmin:
+      "Do note that the data submitted by SUPER ADMIN role will not go through the approval flow and recorded as approved data",
     fetchingForm: "Fetching form..",
     // Forgot Password
     forgotTitle: "Reset your password",
@@ -238,6 +276,13 @@ const uiText = {
     deleteUserDesc:
       "The User will no longer be able to access the RUSH platform as an Enumrator/Admin etc",
     userAssociations: "This user has following data association(s)",
+    organisationsLoadFail: "Could not load organizations",
+    organisationDeleteFail: "Could not delete organization",
+    deleteOrganisationHint:
+      "Deleting this organization will not delete the user(s)",
+    deleteOrganisationTitle: "You are about to delete the organization",
+    deleteOrganisationDesc:
+      "The Organisation will no longer be able to access the RUSH platform",
     // Tour
     prev: "Prev",
     next: "Next",
