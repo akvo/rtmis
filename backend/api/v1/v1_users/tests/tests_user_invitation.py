@@ -360,6 +360,8 @@ class UserInvitationTestCase(TestCase):
         user = SystemUser.objects.get(pk=u.id)
         self.assertEqual(user.deleted_at is not None, True)
         # test login with deleted user
+        u = SystemUser.objects.filter(
+            deleted_at__isnull=False).first()
         user_payload = {"email": u.email, "password": "test"}
         response = self.client.post('/api/v1/login',
                                     user_payload,
