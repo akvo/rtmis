@@ -15,7 +15,7 @@ const config = {
   organisationAttributes: [
     {
       id: 1,
-      name: "Member Organisation",
+      name: "User Organisation",
     },
     {
       id: 2,

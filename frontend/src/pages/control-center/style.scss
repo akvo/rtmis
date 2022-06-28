@@ -3,13 +3,20 @@
 #root {
   #control-center {
     .ant-card {
-      margin-top: 20px;
+      margin-bottom: 20px;
     }
 
-    .data-uploads {
-      font-size: 27px;
-      font-weight: 600;
-      color: #595b65;
+    #panel-submission {
+      &.ant-card {
+        padding-bottom: 0px;
+        margin: 0;
+      }
+
+      .submission {
+        font-size: 27px;
+        font-weight: 600;
+        color: #595b65;
+      }
     }
 
     .ant-card {

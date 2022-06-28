@@ -98,11 +98,11 @@ class FormDataUpdateTestCase(TestCase):
             if question == 101:
                 self.assertEqual(question, 101)
                 self.assertEqual(value, 'Jane')
-                self.assertEqual(history, False)
+                self.assertEqual(history, None)
             if question == 102:
                 self.assertEqual(question, 102)
                 self.assertEqual(value, ['Male'])
-                self.assertEqual(history, False)
+                self.assertEqual(history, None)
         # Update data for question 101 and 102
         payload = [{
             "question": 101,
@@ -281,11 +281,11 @@ class FormDataUpdateTestCase(TestCase):
             if question == 101:
                 self.assertEqual(question, 101)
                 self.assertEqual(value, 'Wayan')
-                self.assertEqual(history, False)
+                self.assertEqual(history, None)
             if question == 102:
                 self.assertEqual(question, 102)
                 self.assertEqual(value, ['Female'])
-                self.assertEqual(history, False)
+                self.assertEqual(history, None)
         # Update data for question 101 and 102
         payload = [{
             "question": 101,
@@ -323,11 +323,11 @@ class FormDataUpdateTestCase(TestCase):
         data = data.json()
         self.assertEqual(len(data) > 0, True)
         results = [{
-            'history': False,
+            'history': None,
             'question': 101,
             'value': 'User Wayan'
         }, {
-            'history': False,
+            'history': None,
             'question': 102,
             'value': ['Male']
         }]
@@ -472,11 +472,11 @@ class FormDataUpdateTestCase(TestCase):
             if question == 101:
                 self.assertEqual(question, 201)
                 self.assertEqual(value, 'Made')
-                self.assertEqual(history, False)
+                self.assertEqual(history, None)
             if question == 102:
                 self.assertEqual(question, 202)
                 self.assertEqual(value, ['Other'])
-                self.assertEqual(history, False)
+                self.assertEqual(history, None)
         # Update data for question 101 and 102
         payload = [{
             "question": 201,
@@ -515,11 +515,11 @@ class FormDataUpdateTestCase(TestCase):
         data = data.json()
         self.assertEqual(len(data) > 0, True)
         results = [{
-            'history': False,
+            'history': None,
             'question': 201,
             'value': 'Made County Admin'
         }, {
-            'history': False,
+            'history': None,
             'question': 202,
             'value': ['Male']
         }]
@@ -665,11 +665,11 @@ class FormDataUpdateTestCase(TestCase):
             if question == 101:
                 self.assertEqual(question, 101)
                 self.assertEqual(value, 'Jane')
-                self.assertEqual(history, False)
+                self.assertEqual(history, None)
             if question == 102:
                 self.assertEqual(question, 102)
                 self.assertEqual(value, ['Other'])
-                self.assertEqual(history, False)
+                self.assertEqual(history, None)
         # Update data for question 101 and 102
         payload = [{
             "question": 101,

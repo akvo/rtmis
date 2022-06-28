@@ -18,6 +18,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.fields import ChoiceField
 
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_jobs.constants import JobStatus, JobTypes
@@ -37,14 +38,14 @@ from utils.storage import download
     OpenApiParameter(name='form_id',
                      required=True,
                      type=OpenApiTypes.NUMBER,
-                     location=OpenApiParameter.QUERY),
+                     location=OpenApiParameter.QUERY)
 ],
                responses={
                    (200, 'application/json'):
                    inline_serializer("GenerateDownload",
                                      fields={
                                          "task_id": serializers.CharField(),
-                                         "file_url": serializers.CharField(),
+                                         "file_url": serializers.CharField()
                                      })
                },
                tags=['Job'],
@@ -74,9 +75,14 @@ def download_generate(request, version):
                tags=['Job'],
                responses={
                    (200, 'application/json'):
-                   inline_serializer(
-                       "DownloadStatus",
-                       fields={"status": serializers.CharField()})
+                   inline_serializer("DownloadStatus",
+                                     fields={
+                                         "status":
+                                         ChoiceField(choices=[
+                                             JobStatus.FieldStr[d]
+                                             for d in JobStatus.FieldStr
+                                         ])
+                                     })
                })
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -108,6 +114,7 @@ def download_file(request, version, file_name):
 
 @extend_schema(tags=['Job'],
                summary='Download list',
+               responses=DownloadListSerializer(many=True),
                parameters=[
                    OpenApiParameter(name='page',
                                     required=True,
@@ -157,15 +164,17 @@ def upload_excel(request, form_id, version):
     filename = "-".join(str(uuid4()).split("-")[0:3])
     filename = f"{form_id}-{filename}.xlsx"
     storage.upload(file=file_path, filename=filename, folder='upload')
-    job = Jobs.objects.create(
-            type=JobTypes.validate_data,
-            status=JobStatus.on_progress,
-            user=request.user,
-            info={
-                'file': filename,
-                'form': form_id,
-                'administration': request.user.user_access.administration_id
-            })
+    job = Jobs.objects.create(type=JobTypes.validate_data,
+                              status=JobStatus.on_progress,
+                              user=request.user,
+                              info={
+                                  'file':
+                                  filename,
+                                  'form':
+                                  form_id,
+                                  'administration':
+                                  request.user.user_access.administration_id
+                              })
     task_id = async_task('api.v1.v1_jobs.job.validate_excel',
                          job.id,
                          hook='api.v1.v1_jobs.job.validate_excel_result')

@@ -4,3 +4,25 @@
   #organisations {
   }
 }
+
+.organisation-modal {
+  .ant-modal-content {
+    .ant-modal-footer {
+      padding-bottom: 16px;
+
+      .ant-row {
+        .ant-col {
+          &:first-child {
+            text-align: right;
+          }
+        }
+      }
+    }
+
+    .ant-modal-body {
+      p {
+        margin: 0;
+      }
+    }
+  }
+}
