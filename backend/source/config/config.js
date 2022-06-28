@@ -941,17 +941,17 @@ var visualisation = [
         title: "Water System installed by",
       },
       {
-        type: "BAR",
+        type: "PIE",
         id: 569070152,
         title: "Abstraction/Pump Equipment",
       },
       {
-        type: "BAR",
+        type: "PIE",
         id: 571060083,
         title: "Source of Energy",
       },
       {
-        type: "BAR",
+        type: "PIE",
         id: 571050096,
         title: "Water Source Type",
       },
