@@ -37,24 +37,58 @@ const uiText = {
     errorSomething: "Something went wrong",
     errorMandatoryFields: "Please answer all the mandatory questions",
     // Footer
-    footer1Title: "About Data",
-    footer1Text:
+    footerAboutTitle: "About Data",
+    footerAboutDescription:
       "The data contained in the RUSH platform is aggregated from both primary and secondary data sources. The data is updated on monthly basis.",
-    footer2Title: "Contact",
-    footer3Title: "Quick Links",
-    footer2Text1: "Phone",
-    footer2Val1: "xxxxxxxxxx",
-    footer2Text2: "Email",
-    footer2Val2: "xxx@gmail.com",
-    footer3Text1: "JMP",
-    footer3Link1:
-      "https://washdata.org/how-we-work/about-jmp#:~:text=Background,hygiene%20(WASH)%20since%201990",
-    footer3Text2: "CLTS",
-    footer3Link2: "https://www.communityledtotalsanitation.org/country/kenya",
-    footer3Text3: "GLASS",
-    footer3Link3:
-      "https://www.who.int/teams/environment-climate-change-and-health/water-sanitation-and-health/monitoring-and-evidence/wash-systems-monitoring/un-water-global-analysis-and-assessment-of-sanitation-and-drinking-water",
-    copyright: "Copyright 2021",
+    footerContactTitle: "Contacts",
+    footerContactAddress:
+      "Afya House, Cathedral Road, P.O. Box:30016–00100, Nairobi, Kenya",
+    footerContactPhone: "+254-20-2717077",
+    footerContactEmail: "ps@health.go.ke",
+    footerContactFeedback: {
+      text: "Feedback Form",
+      url: "https://docs.google.com/forms/d/e/1FAIpQLSf5rjD66CCcMWYgFwkNp8Xb1lRJoec1CwhhPnjOd-mU84ktPA/viewform",
+    },
+    footerExternalLinkTitle: "External Links",
+    footerExternalLinkItems: [
+      {
+        text: "Data Capture Tool (DCT)",
+        url: "https://khro-dct.health.go.ke/",
+      },
+      { text: "mygov Website", url: "http://mygov.go.ke/" },
+      { text: "Presidency", url: "http://presidency.go.ke/" },
+      { text: "eCitizen Kenya", url: "http://ecitizen.go.ke/" },
+      { text: "Huduma Center Kenya", url: "http://hudumakenya.go.ke/" },
+    ],
+    footerAgenciesTitle: "Agencies",
+    footerAgenciesItems: [
+      {
+        text: "Inauguration of the National Advisory Committee",
+        url: "https://www.health.go.ke/inauguration-of-the-national-advisory-committee/",
+      },
+      {
+        text: "Press Releases",
+        url: "https://www.health.go.ke/press-releases/",
+      },
+      { text: "KEMRI", url: "https://kemri.org/" },
+      { text: "KEMSA", url: "https://kemsa.co.ke/" },
+    ],
+    footerQuickLinkTitle: "Quick Links",
+    footerQuickLinkItems: [
+      {
+        text: "JMP",
+        url: "https://washdata.org/how-we-work/about-jmp#:~:text=Background,hygiene%20(WASH)%20since%201990",
+      },
+      {
+        text: "CLTS",
+        url: "https://www.communityledtotalsanitation.org/country/kenya",
+      },
+      {
+        text: "GLASS",
+        url: "https://www.who.int/teams/environment-climate-change-and-health/water-sanitation-and-health/monitoring-and-evidence/wash-systems-monitoring/un-water-global-analysis-and-assessment-of-sanitation-and-drinking-water",
+      },
+    ],
+    copyright: "Privacy Policy / Terms of Use / © 2022 — Ministry of Health",
     // Header Links
     controlCenter: "Control Center",
     myProfile: "My Profile",
