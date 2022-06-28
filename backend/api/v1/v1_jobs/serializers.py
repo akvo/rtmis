@@ -1,12 +1,13 @@
 from django.core.validators import FileExtensionValidator
 from rest_framework import serializers
 
+from drf_spectacular.utils import extend_schema_field
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_jobs.constants import JobTypes, JobStatus
 from api.v1.v1_jobs.models import Jobs
 from api.v1.v1_profile.models import Administration
 from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
-    CustomFileField
+    CustomFileField, CustomChoiceField
 
 
 class GenerateDownloadRequestSerializer(serializers.Serializer):
@@ -26,9 +27,13 @@ class DownloadListSerializer(serializers.ModelSerializer):
     status = serializers.SerializerMethodField()
     created_by = serializers.ReadOnlyField(source='user.id')
 
+    @extend_schema_field(CustomChoiceField(
+        choices=[JobTypes.FieldStr[d] for d in JobTypes.FieldStr]))
     def get_type(self, instance):
         return JobTypes.FieldStr.get(instance.type)
 
+    @extend_schema_field(CustomChoiceField(
+        choices=[JobStatus.FieldStr[d] for d in JobStatus.FieldStr]))
     def get_status(self, instance):
         return JobStatus.FieldStr.get(instance.status)
 

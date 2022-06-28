@@ -1,8 +1,7 @@
 # Create your views here.
 from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema, OpenApiParameter, \
-    inline_serializer
-from rest_framework import status, serializers
+from drf_spectacular.utils import extend_schema, OpenApiParameter
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
@@ -18,6 +17,7 @@ from api.v1.v1_forms.serializers import ListFormSerializer, \
 from api.v1.v1_profile.models import Administration
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
+from utils.default_serializers import DefaultResponseSerializer
 
 
 @extend_schema(responses={200: ListFormSerializer(many=True)},
@@ -71,12 +71,7 @@ def form_data(request, version, form_id):
 
 
 @extend_schema(request=EditFormTypeSerializer(many=True),
-               responses={
-                   (200, 'application/json'):
-                       inline_serializer(
-                           "EditForm",
-                           fields={"message": serializers.CharField()})
-               },
+               responses={200: DefaultResponseSerializer},
                tags=['Form'],
                summary='To update the form type')
 @api_view(['POST'])
@@ -93,12 +88,7 @@ def edit_form_type(request, version):
 
 
 @extend_schema(request=EditFormApprovalSerializer(many=True),
-               responses={
-                   (200, 'application/json'):
-                       inline_serializer(
-                           "EditApproval",
-                           fields={"message": serializers.CharField()})
-               },
+               responses={200: DefaultResponseSerializer},
                tags=['Form'],
                summary='To update form approval rule levels')
 @api_view(['PUT'])
@@ -117,12 +107,7 @@ def edit_form_approval(request, version):
 
 
 @extend_schema(request=ApprovalFormUserSerializer(many=True),
-               responses={
-                   (200, 'application/json'):
-                       inline_serializer(
-                           "EditApproval",
-                           fields={"message": serializers.CharField()})
-               },
+               responses={200: DefaultResponseSerializer},
                tags=['Form'],
                summary='To assign approver to form')
 @api_view(['POST'])
@@ -168,19 +153,21 @@ def form_approval_level_administration(request, version, administration_id):
                     status=status.HTTP_200_OK)
 
 
-@extend_schema(parameters=[
-    OpenApiParameter(name='administration_id',
-                     required=True,
-                     type=OpenApiTypes.NUMBER,
-                     location=OpenApiParameter.QUERY),
-    OpenApiParameter(name='form_id',
-                     required=True,
-                     type=OpenApiTypes.NUMBER,
-                     location=OpenApiParameter.QUERY),
-],
-    responses={200: FormApproverResponseSerializer(many=True)},
-    tags=['Form'],
-    summary='To get approver user list')
+@extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name='administration_id',
+                required=True,
+                type=OpenApiTypes.NUMBER,
+                location=OpenApiParameter.QUERY),
+            OpenApiParameter(
+                name='form_id',
+                required=True,
+                type=OpenApiTypes.NUMBER,
+                location=OpenApiParameter.QUERY)],
+        responses={200: FormApproverResponseSerializer(many=True)},
+        tags=['Form'],
+        summary='To get approver user list')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
 def form_approver(request, version):

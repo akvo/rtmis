@@ -30,7 +30,7 @@ from api.v1.v1_profile.models import Access, Administration, Levels
 from api.v1.v1_users.models import SystemUser, Organisation, \
         OrganisationAttribute
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
-    VerifyInviteSerializer, SetUserPasswordSerializer, \
+    UserRoleSerializer, VerifyInviteSerializer, SetUserPasswordSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
     ListUserRequestSerializer, ListLevelSerializer, UserDetailSerializer, \
     ForgotPasswordSerializer, \
@@ -41,6 +41,7 @@ from api.v1.v1_forms.models import Forms
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
+from utils.default_serializers import DefaultResponseSerializer
 from utils.email_helper import send_email
 from utils.email_helper import ListEmailTypeRequestSerializer, EmailTypes
 
@@ -89,7 +90,10 @@ def email_template(request, version):
 
 # TODO: Remove temp user entry and invite key from the response.
 @extend_schema(request=LoginSerializer,
-               responses={200: UserSerializer},
+               responses={
+                   200: UserSerializer,
+                   401: DefaultResponseSerializer
+               },
                tags=['Auth'])
 @api_view(['POST'])
 def login(request, version):
@@ -162,9 +166,8 @@ def get_profile(request, version):
 
 @extend_schema(request=VerifyInviteSerializer,
                responses={
-                   (200, 'application/json'):
-                   inline_serializer(
-                       "Response", fields={"message": serializers.CharField()})
+                   200: DefaultResponseSerializer,
+                   400: DefaultResponseSerializer
                },
                tags=['User'],
                summary='To verify invitation code')
@@ -237,11 +240,7 @@ def list_levels(request, version):
 
 
 @extend_schema(request=AddEditUserSerializer,
-               responses={
-                   (200, 'application/json'):
-                   inline_serializer(
-                       "Response", fields={"message": serializers.CharField()})
-               },
+               responses={200: DefaultResponseSerializer},
                tags=['User'],
                description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
                'User:4,ReadOnly:5',
@@ -428,14 +427,7 @@ def list_users(request, version):
     return Response(data, status=status.HTTP_200_OK)
 
 
-@extend_schema(responses=inline_serializer('user_role',
-                                           fields={
-                                               'id':
-                                               serializers.IntegerField(),
-                                               'value':
-                                               serializers.CharField(),
-                                           },
-                                           many=True),
+@extend_schema(responses={200: UserRoleSerializer(many=True)},
                tags=['User'],
                summary='Get list of roles')
 @api_view(['GET'])
@@ -452,7 +444,10 @@ def get_user_roles(request, version):
 class UserEditDeleteView(APIView):
     permission_classes = [IsAuthenticated, IsSuperAdmin | IsAdmin]
 
-    @extend_schema(responses={200: UserDetailSerializer},
+    @extend_schema(responses={
+        200: UserDetailSerializer,
+        204: DefaultResponseSerializer
+    },
                    tags=['User'],
                    summary='To get user details')
     def get(self, request, user_id, version):
@@ -479,11 +474,7 @@ class UserEditDeleteView(APIView):
 
     @extend_schema(
         request=AddEditUserSerializer,
-        responses={
-            (200, 'application/json'):
-            inline_serializer("Response",
-                              fields={"message": serializers.CharField()})
-        },
+        responses={200: DefaultResponseSerializer},
         tags=['User'],
         description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
         'User:4,ReadOnly:5',
@@ -509,11 +500,7 @@ class UserEditDeleteView(APIView):
 
 
 @extend_schema(request=ForgotPasswordSerializer,
-               responses={
-                   (200, 'application/json'):
-                   inline_serializer(
-                       "Response", fields={"message": serializers.CharField()})
-               },
+               responses={200: DefaultResponseSerializer},
                tags=['User'],
                summary='To send reset password instructions')
 @api_view(['POST'])
@@ -563,11 +550,7 @@ def list_organisations(request, version):
 
 
 @extend_schema(request=AddEditOrganisationSerializer,
-               responses={
-                   (200, 'application/json'):
-                   inline_serializer(
-                       "Response", fields={"message": serializers.CharField()})
-               },
+               responses={200: DefaultResponseSerializer},
                tags=['Organisation'],
                description='Attributes are member:1,partnership:2',
                summary='To add new organisation')
@@ -610,10 +593,8 @@ class OrganisationEditDeleteView(APIView):
 
     @extend_schema(request=AddEditOrganisationSerializer,
                    responses={
-                       (200, 'application/json'):
-                       inline_serializer(
-                           "Response",
-                           fields={"message": serializers.CharField()})
+                       200: DefaultResponseSerializer,
+                       400: DefaultResponseSerializer
                    },
                    tags=['Organisation'],
                    description='Attributes are member:1,partnership:2',
