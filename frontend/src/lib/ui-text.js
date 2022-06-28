@@ -147,8 +147,8 @@ const uiText = {
         </ul>
       </Fragment>
     ),
-    ccPane3Title: "Data Uploads",
-    ccPane3Button: "Data Uploads",
+    ccPane3Title: "Data Upload",
+    ccPane3Button: "Data Upload",
     ccPane3Text: (
       <Fragment>
         This is where you :
