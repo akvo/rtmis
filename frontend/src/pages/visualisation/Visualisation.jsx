@@ -53,7 +53,7 @@ const Visualisation = () => {
             qg.question.filter((qi) => qi.type === "option")[0]?.id + "" ||
             null,
           data: [],
-          chart: "BAR",
+          chart: "PIE",
           question: qg.question || [],
         };
       });
@@ -82,7 +82,7 @@ const Visualisation = () => {
           return ds.id === questionGroupId
             ? {
                 ...ds,
-                chart: res.data?.type || "BAR",
+                chart: res.data?.type || "PIE",
                 data: res.data?.data || [],
                 selected: questionId + "",
               }
@@ -211,19 +211,19 @@ const Visualisation = () => {
               <Col flex="none">
                 <Space>
                   <Button
-                    title="Bar Chart"
-                    className={d.chart === "BAR" ? "light active" : "light"}
-                    icon={<BarChartOutlined />}
-                    onClick={() => {
-                      setChartType(d.id, "BAR");
-                    }}
-                  />
-                  <Button
                     title="Pie Chart"
                     className={d.chart === "PIE" ? "light active" : "light"}
                     icon={<PieChartOutlined />}
                     onClick={() => {
                       setChartType(d.id, "PIE");
+                    }}
+                  />
+                  <Button
+                    title="Bar Chart"
+                    className={d.chart === "BAR" ? "light active" : "light"}
+                    icon={<BarChartOutlined />}
+                    onClick={() => {
+                      setChartType(d.id, "BAR");
                     }}
                   />
                 </Space>
