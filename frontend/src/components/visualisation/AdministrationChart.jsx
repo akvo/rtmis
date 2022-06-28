@@ -188,10 +188,36 @@ const AdministrationChart = ({ config, formId }) => {
       : null;
   }, [selectedAdministration]);
 
+  const chartTitleSuffix = useMemo(() => {
+    const { name, levelName } = selectedAdministration;
+    const level = levelName.toLowerCase();
+    let plural = "";
+    if (level === "national") {
+      plural = "counties";
+    }
+    if (level === "county") {
+      plural = "subcounties";
+    }
+    if (level === "sub-county") {
+      plural = "wards";
+    }
+    if (level === "ward") {
+      plural = "ward";
+    }
+    return (
+      <>
+        : {name} {plural}
+      </>
+    );
+  }, [selectedAdministration]);
+
   return (
     <Card className="chart-wrap">
       <Row justify="space-between" align="middle">
-        <h3>{title}</h3>
+        <h3>
+          {title}
+          {chartTitleSuffix}
+        </h3>
         <Checkbox
           className="no-print"
           onChange={() => {

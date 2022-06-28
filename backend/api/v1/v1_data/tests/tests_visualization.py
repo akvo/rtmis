@@ -73,7 +73,7 @@ class DataVisualisationTestCase(TestCase):
                                **header)
         self.assertEqual(data.status_code, 200)
         self.assertEqual(list(data.json().get('data')[0]), ['name', 'value'])
-        self.assertEqual(data.json().get('type'), 'BAR')
+        self.assertEqual(data.json().get('type'), 'PIE')
         data = self.client.get(
             "/api/v1/chart/data/{0}?question={1}&stack={1}".format(
                 form.id, question.id),
