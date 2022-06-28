@@ -182,6 +182,7 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         queryset=Administration.objects.none())
     organisation = CustomPrimaryKeyRelatedField(
         queryset=Organisation.objects.none(), required=False)
+    trained = CustomBooleanField(default=False)
     role = CustomChoiceField(choices=list(UserRoleTypes.FieldStr.keys()))
     forms = CustomPrimaryKeyRelatedField(queryset=Forms.objects.all(),
                                          many=True)
@@ -219,7 +220,9 @@ class AddEditUserSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         if self.instance:
-            if self.instance == self.context.get('user'):
+            if self.context.get(
+                    'user').user_access.role != UserRoleTypes.super_admin \
+                    and self.instance == self.context.get('user'):
                 raise ValidationError(
                     'You do not have permission to edit this user')
             if self.context.get(
@@ -283,7 +286,8 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         model = SystemUser
         fields = [
             'first_name', 'last_name', 'email', 'administration',
-            'organisation', 'role', 'phone_number', 'designation', 'forms'
+            'organisation', 'trained', 'role', 'phone_number',
+            'designation', 'forms'
         ]
 
 
@@ -307,6 +311,7 @@ class UserFormSerializer(serializers.ModelSerializer):
 class ListUserSerializer(serializers.ModelSerializer):
     administration = serializers.SerializerMethodField()
     organisation = serializers.SerializerMethodField()
+    trained = CustomBooleanField()
     role = serializers.SerializerMethodField()
     invite = serializers.SerializerMethodField()
     forms = serializers.SerializerMethodField()
@@ -344,12 +349,13 @@ class ListUserSerializer(serializers.ModelSerializer):
         model = SystemUser
         fields = [
             'id', 'first_name', 'last_name', 'email', 'administration',
-            'organisation', 'role', 'phone_number', 'designation', 'invite',
-            'forms'
+            'organisation', 'trained', 'role', 'phone_number', 'designation',
+            'invite', 'forms'
         ]
 
 
 class ListUserRequestSerializer(serializers.Serializer):
+    trained = CustomCharField(required=False, default=None)
     role = CustomChoiceField(choices=list(UserRoleTypes.FieldStr.keys()),
                              required=False)
     organisation = CustomPrimaryKeyRelatedField(
@@ -371,6 +377,7 @@ class UserSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
     administration = serializers.SerializerMethodField()
     organisation = serializers.SerializerMethodField()
+    trained = CustomBooleanField(default=False)
     role = serializers.SerializerMethodField()
     forms = serializers.SerializerMethodField()
     last_login = serializers.SerializerMethodField()
@@ -414,8 +421,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = SystemUser
         fields = [
-            'email', 'name', 'administration', 'role', 'phone_number',
-            'designation', 'forms', 'organisation', 'last_login'
+            'email', 'name', 'administration', 'trained', 'role',
+            'phone_number', 'designation', 'forms', 'organisation',
+            'last_login'
         ]
 
 
@@ -438,6 +446,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
     administration = serializers.ReadOnlyField(
         source='user_access.administration.id')
     organisation = serializers.SerializerMethodField()
+    trained = CustomBooleanField(default=False)
     role = serializers.ReadOnlyField(source='user_access.role')
     approval_assignment = serializers.SerializerMethodField()
     forms = serializers.SerializerMethodField()
@@ -477,6 +486,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
         model = SystemUser
         fields = [
             'first_name', 'last_name', 'email', 'administration',
-            'organisation', 'role', 'phone_number', 'designation', 'forms',
-            'approval_assignment', 'pending_approval', 'data', 'pending_batch'
+            'organisation', 'trained', 'role', 'phone_number', 'designation',
+            'forms', 'approval_assignment', 'pending_approval', 'data',
+            'pending_batch'
         ]

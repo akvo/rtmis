@@ -50,6 +50,7 @@ class UserInvitationTestCase(TestCase):
             'email',
             'administration',
             'organisation',
+            'trained',
             'role',
             'phone_number',
             'designation',
@@ -62,6 +63,13 @@ class UserInvitationTestCase(TestCase):
 
         self.assertGreater(len(response.json().get('data')), 0)
         self.assertEqual(response.status_code, 200)
+        # test trained filter
+        response = self.client.get("/api/v1/users?trained=true",
+                                   follow=True,
+                                   **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json().get('data')), 0)
         # search by fullname
         response = self.client.get("/api/v1/users?search=admin rush",
                                    follow=True,
@@ -99,6 +107,7 @@ class UserInvitationTestCase(TestCase):
             "administration": 2,
             "organisation": org.id,
             "forms": [1],
+            "trained": True,
         }
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         add_response = self.client.post("/api/v1/user",
@@ -123,6 +132,7 @@ class UserInvitationTestCase(TestCase):
             "email": "john@example.com",
             "administration": 2,
             "organisation": org.id,
+            "trained": False,
             "role": 6,
             "forms": [1, 2],
         }
@@ -170,8 +180,9 @@ class UserInvitationTestCase(TestCase):
         responses = get_response.json()
         self.assertEqual([
             'first_name', 'last_name', 'email', 'administration',
-            'organisation', 'role', 'phone_number', 'designation', 'forms',
-            'approval_assignment', 'pending_approval', 'data', 'pending_batch'
+            'organisation', 'trained', 'role', 'phone_number', 'designation',
+            'forms', 'approval_assignment', 'pending_approval', 'data',
+            'pending_batch'
         ], list(responses))
         self.assertEqual(responses["forms"], [{'id': 1, 'name': 'Test Form'}])
 
@@ -189,7 +200,7 @@ class UserInvitationTestCase(TestCase):
                                    **header)
         self.assertEqual(response.status_code, 200)
         self.assertEqual([
-            'email', 'name', 'administration',
+            'email', 'name', 'administration', 'trained',
             'role', 'phone_number', 'designation', 'forms',
             'organisation', 'last_login'
         ], list(response.json().keys()))
