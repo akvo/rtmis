@@ -58,7 +58,7 @@ const uiText = {
     // Header Links
     controlCenter: "Control Center",
     myProfile: "My Profile",
-    settings: "Settings",
+    settings: "System Settings",
     signOut: "Sign Out",
     dashboards: "Dashboards",
     reports: "Reports",
@@ -153,7 +153,8 @@ const uiText = {
         </ul>
       </Fragment>
     ),
-    settingsDescriptionPanel: "This is description about settings.",
+    settingsDescriptionPanel:
+      "This page allow Super Admin to maintain system critical master lists.",
     // Approvals
     approvalsTab1: "My Pending Approvals",
     approvalsTab2: "Subordinates Approvals",
@@ -185,6 +186,20 @@ const uiText = {
     failed: "Failed",
     download: "Download",
     // Webform
+    formDescription: (
+      <p>
+        Please fill up the webform below with relevant responses. You will need
+        to answer all mandatory questions before you can submit.
+        <br />
+        Once you have sumitted a webform, please do not forget to add it as part
+        of a batch and send it for approval.
+      </p>
+    ),
+    formSuccessTitle: "Thank you for the submission",
+    formSuccessSubTitle:
+      "Do note that this data has NOT been sent for approval. If you are ready to send the submissions for approval, please create a batch and send to the approver",
+    formSuccessSubTitleForAdmin:
+      "Do note that the data submitted by SUPER ADMIN role will not go through the approval flow and recorded as the main data",
     fetchingForm: "Fetching form..",
     // Forgot Password
     forgotTitle: "Reset your password",
