@@ -137,6 +137,7 @@ const Forms = () => {
       });
     }
   }, [formId, loading]);
+
   return (
     <div id="form">
       <Row justify="center" gutter={[16, 16]}>
@@ -164,11 +165,15 @@ const Forms = () => {
           {(!loading || formId) && !showSuccess && (
             <Progress className="progress-bar" percent={percentage} />
           )}
-          {showSuccess && (
+          {!loading && showSuccess && (
             <Result
               status="success"
               title={text?.formSuccessTitle}
-              subTitle={text?.formSuccessSubTitle}
+              subTitle={
+                authUser?.role?.id === 1
+                  ? text?.formSuccessSubTitleForAdmin
+                  : text?.formSuccessSubTitle
+              }
               extra={[
                 <Button
                   key="back-button"
@@ -177,12 +182,14 @@ const Forms = () => {
                 >
                   Add New Submission
                 </Button>,
-                <Button
-                  key="profile-button"
-                  onClick={() => navigate("/data/uploads")}
-                >
-                  Finish and Go to Batch
-                </Button>,
+                !authUser?.role?.id === 1 && (
+                  <Button
+                    key="profile-button"
+                    onClick={() => navigate("/data/uploads")}
+                  >
+                    Finish and Go to Batch
+                  </Button>
+                ),
               ]}
             />
           )}
