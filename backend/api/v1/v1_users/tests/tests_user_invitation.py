@@ -50,6 +50,7 @@ class UserInvitationTestCase(TestCase):
             'email',
             'administration',
             'organisation',
+            'trained',
             'role',
             'phone_number',
             'designation',

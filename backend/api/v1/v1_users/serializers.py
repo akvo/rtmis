@@ -309,6 +309,7 @@ class UserFormSerializer(serializers.ModelSerializer):
 class ListUserSerializer(serializers.ModelSerializer):
     administration = serializers.SerializerMethodField()
     organisation = serializers.SerializerMethodField()
+    trained = CustomBooleanField()
     role = serializers.SerializerMethodField()
     invite = serializers.SerializerMethodField()
     forms = serializers.SerializerMethodField()
@@ -346,8 +347,8 @@ class ListUserSerializer(serializers.ModelSerializer):
         model = SystemUser
         fields = [
             'id', 'first_name', 'last_name', 'email', 'administration',
-            'organisation', 'role', 'phone_number', 'designation', 'invite',
-            'forms'
+            'organisation', 'trained', 'role', 'phone_number', 'designation',
+            'invite', 'forms'
         ]
 
 

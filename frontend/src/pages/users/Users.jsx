@@ -58,6 +58,7 @@ const Users = () => {
             row.email?.endsWith("@user.com")) && (
             <Tag color="geekblue">Test User</Tag>
           )}
+          {row.trained && <Tag color="warning">Trained</Tag>}
         </span>
       ),
     },
