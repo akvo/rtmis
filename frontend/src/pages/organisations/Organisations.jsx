@@ -23,7 +23,7 @@ const { Option } = Select;
 
 const pagePath = [
   {
-    title: "Settings",
+    title: "System Settings",
     link: "/settings",
   },
   {
@@ -71,7 +71,10 @@ const Organisations = () => {
       render: (attributes) =>
         attributes.length
           ? attributes
-              .map((a) => `${startCase(a.name)} Organisation`)
+              .map(
+                (a) =>
+                  organisationAttributes.find((o) => o.id === a.type_id)?.name
+              )
               .join(", ")
           : "-",
     },
