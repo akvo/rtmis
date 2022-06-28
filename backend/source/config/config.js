@@ -154,18 +154,18 @@ var visualisation = [
                 option: [
                   "Fixed facility observed (sink/tap) In dwelling",
                   "Fixed facility observed (sink/tap)  In yard/plot",
-                  "Mobile object observed (bucket/jug/kettle)"
-                ]
+                  "Mobile object observed (bucket/jug/kettle)",
+                ],
               },
               {
                 question: 466680045,
-                option: ["Water is available"]
+                option: ["Water is available"],
               },
               {
                 question: 466760036,
-                option: ["Soap or detergent available ."]
-              }
-            ]
+                option: ["Soap or detergent available ."],
+              },
+            ],
           },
           {
             name: "Limited",
@@ -177,18 +177,18 @@ var visualisation = [
                 option: [
                   "Fixed facility observed (sink/tap) In dwelling",
                   "Fixed facility observed (sink/tap)  In yard/plot",
-                  "Mobile object observed (bucket/jug/kettle)"
-                ]
+                  "Mobile object observed (bucket/jug/kettle)",
+                ],
               },
               {
                 question: 466680045,
-                option: ["Water is available"]
+                option: ["Water is available"],
               },
               {
                 question: 466760036,
-                option: ["Soap or detergent available ."]
-              }
-            ]
+                option: ["Soap or detergent available ."],
+              },
+            ],
           },
           {
             name: "No Facility",
@@ -200,9 +200,9 @@ var visualisation = [
                 option: [
                   "No handwashing place in dwelling/yard/plot",
                   "No permission to see",
-                ]
-              }
-            ]
+                ],
+              },
+            ],
           },
         ],
       },
@@ -214,7 +214,7 @@ var visualisation = [
             name: "Awareness",
             color: "#368541",
             score: 15,
-            options: []
+            options: [],
           },
           {
             name: "Use of menstrual materials",
@@ -227,10 +227,10 @@ var visualisation = [
                   "Cloth/reusable sanitary pads",
                   "Disposable sanitary pads",
                   "Tampons",
-                  "Menstrual cup"
-                ]
-              }
-            ]
+                  "Menstrual cup",
+                ],
+              },
+            ],
           },
           {
             name: "Access",
@@ -239,11 +239,9 @@ var visualisation = [
             options: [
               {
                 question: 524810054,
-                option: [
-                  "Yes"
-                ]
+                option: ["Yes"],
               },
-            ]
+            ],
           },
           {
             name: "Participation",
@@ -259,10 +257,10 @@ var visualisation = [
                   "Cooking food?",
                   "Cooking food",
                   "Eating with others",
-                  "Bathing in regular place"
-                ]
-              }
-            ]
+                  "Bathing in regular place",
+                ],
+              },
+            ],
           },
         ],
       },
@@ -309,29 +307,29 @@ var visualisation = [
                   "Flush / Pour-flush toilet to tank or pit",
                   "Pit latrine with slab",
                   "Composting toilet",
-                ]
+                ],
               },
               {
                 question: 530250002,
-                option: ["Yes"]
+                option: ["Yes"],
               },
               {
                 question: 555370009,
-                option: ["Yes"]
+                option: ["Yes"],
               },
               {
                 question: 555370003,
-                option: ["Yes"]
+                option: ["Yes"],
               },
               {
                 question: 555370005,
-                option: ["Yes"]
+                option: ["Yes"],
               },
               {
                 question: 555370006,
-                option: ["Yes"]
-              }
-            ]
+                option: ["Yes"],
+              },
+            ],
           },
           {
             name: "Limited",
@@ -345,29 +343,29 @@ var visualisation = [
                   "Flush / Pour-flush toilet to tank or pit",
                   "Pit latrine with slab",
                   "Composting toilet",
-                ]
+                ],
               },
               {
                 question: 530250002,
-                option: ["No"]
+                option: ["No"],
               },
               {
                 question: 555370009,
-                option: ["No"]
+                option: ["No"],
               },
               {
                 question: 555370003,
-                option: ["No"]
+                option: ["No"],
               },
               {
                 question: 555370005,
-                option: ["No"]
+                option: ["No"],
               },
               {
                 question: 555370006,
-                option: ["No"]
-              }
-            ]
+                option: ["No"],
+              },
+            ],
           },
           {
             name: "No service",
@@ -381,10 +379,10 @@ var visualisation = [
                   "Pit latrine without slab/open pit",
                   "Bucket",
                   "Hanging toilet/latrine",
-                  "No toilet/latrine"
-                ]
+                  "No toilet/latrine",
+                ],
               },
-            ]
+            ],
           },
         ],
       },
@@ -400,15 +398,13 @@ var visualisation = [
             options: [
               {
                 question: 551560007,
-                option: [
-                  "Yes",
-                ]
+                option: ["Yes"],
               },
               {
                 question: 551560004,
-                option: ["Yes"]
+                option: ["Yes"],
               },
-            ]
+            ],
           },
           {
             name: "Limited",
@@ -419,13 +415,13 @@ var visualisation = [
                 question: 551560007,
                 option: [
                   "No, there are hand hygiene facilities at points of care but not functional, or lacking soap and water or alcohol-based hand rub.",
-                ]
+                ],
               },
               {
                 question: 551560004,
-                option: ["Yes"]
+                option: ["Yes"],
               },
-            ]
+            ],
           },
           {
             name: "No service",
@@ -437,14 +433,16 @@ var visualisation = [
                 option: [
                   "No, there are hand hygiene facilities at points of care but not functional, or lacking soap and water or alcohol-based hand rub.",
                   "No, no hand hygiene facilities at points of care",
-                ]
+                ],
               },
               {
                 question: 551560004,
-                option: ["No, there are handwashing facilities near the toilets but lacking soap and/or water",
-                  "No, no handwashing facilities near toilets (within 5 meters)"]
+                option: [
+                  "No, there are handwashing facilities near the toilets but lacking soap and/or water",
+                  "No, no handwashing facilities near toilets (within 5 meters)",
+                ],
               },
-            ]
+            ],
           },
         ],
       },
@@ -459,29 +457,31 @@ var visualisation = [
             options: [
               {
                 question: 541950008,
-                option: [
-                  "Yes, waste is segregated into three labelled bins",
-                ]
+                option: ["Yes, waste is segregated into three labelled bins"],
               },
               {
                 question: 541950011,
-                option: ["Autoclaved",
+                option: [
+                  "Autoclaved",
                   "Incinerated (two chamber, 850-1000 °C incinerator)",
                   "Incinerated (other)",
                   "Burning in a protected pit",
                   "Not treated, but buried in lined, protected pit",
-                  "Not treated, but collected for medical waste disposal off-site"]
+                  "Not treated, but collected for medical waste disposal off-site",
+                ],
               },
               {
                 question: 541950005,
-                option: ["Autoclaved",
+                option: [
+                  "Autoclaved",
                   "Incinerated (two chamber, 850-1000 °C incinerator)",
                   "Incinerated (other)",
                   "Burning in a protected pit",
                   "Not treated, but buried in lined, protected pit",
-                  "Not treated, but collected for medical waste disposal off-site"]
+                  "Not treated, but collected for medical waste disposal off-site",
+                ],
               },
-            ]
+            ],
           },
           {
             name: "Limited",
@@ -492,27 +492,31 @@ var visualisation = [
                 question: 541950008,
                 option: [
                   "No, bins are present but do not meet all requirements or waste is not correctly segregated",
-                ]
+                ],
               },
               {
                 question: 541950011,
-                option: ["Autoclaved",
+                option: [
+                  "Autoclaved",
                   "Incinerated (two chamber, 850-1000 °C incinerator)",
                   "Incinerated (other)",
                   "Burning in a protected pit",
                   "Not treated, but buried in lined, protected pit",
-                  "Not treated, but collected for medical waste disposal off-site"]
+                  "Not treated, but collected for medical waste disposal off-site",
+                ],
               },
               {
                 question: 541950005,
-                option: ["Autoclaved",
+                option: [
+                  "Autoclaved",
                   "Incinerated (two chamber, 850-1000 °C incinerator)",
                   "Incinerated (other)",
                   "Burning in a protected pit",
                   "Not treated, but buried in lined, protected pit",
-                  "Not treated, but collected for medical waste disposal off-site"]
+                  "Not treated, but collected for medical waste disposal off-site",
+                ],
               },
-            ]
+            ],
           },
           {
             name: "No service",
@@ -521,11 +525,9 @@ var visualisation = [
             options: [
               {
                 question: 541950008,
-                option: [
-                  "No, bins are not present"
-                ]
+                option: ["No, bins are not present"],
               },
-            ]
+            ],
           },
         ],
       },
@@ -540,15 +542,13 @@ var visualisation = [
             options: [
               {
                 question: 551560009,
-                option: [
-                  "Yes",
-                ]
+                option: ["Yes"],
               },
               {
                 question: 551560005,
-                option: ["Yes, all have been trained"]
+                option: ["Yes, all have been trained"],
               },
-            ]
+            ],
           },
           {
             name: "Limited",
@@ -557,15 +557,13 @@ var visualisation = [
             options: [
               {
                 question: 551560009,
-                option: [
-                  "Yes",
-                ]
+                option: ["Yes"],
               },
               {
                 question: 551560005,
-                option: ["No, some but not all have been trained"]
+                option: ["No, some but not all have been trained"],
               },
-            ]
+            ],
           },
           {
             name: "No service",
@@ -574,17 +572,16 @@ var visualisation = [
             options: [
               {
                 question: 551560009,
-                option: [
-                  "Yes but limited",
-                ]
+                option: ["Yes but limited"],
               },
               {
                 question: 551560005,
-                option: ["No, none have been trained",
-                  "No, there are no staff responsible for cleaning"
-                ]
+                option: [
+                  "No, none have been trained",
+                  "No, there are no staff responsible for cleaning",
+                ],
               },
-            ]
+            ],
           },
         ],
       },
@@ -655,14 +652,14 @@ var visualisation = [
                   "Protected well/spring",
                   "Rainwater",
                   "Unprotected well/spring",
-                  "Packaged bottled water"
-                ]
+                  "Packaged bottled water",
+                ],
               },
               {
                 question: 551660013,
-                option: ["Yes"]
+                option: ["Yes"],
               },
-            ]
+            ],
           },
           {
             name: "Limited",
@@ -676,14 +673,14 @@ var visualisation = [
                   "Protected well/spring",
                   "Rainwater",
                   "Unprotected well/spring",
-                  "Packaged bottled water"
-                ]
+                  "Packaged bottled water",
+                ],
               },
               {
                 question: 551660013,
-                option: ["No"]
+                option: ["No"],
               },
-            ]
+            ],
           },
           {
             name: "No Service",
@@ -696,9 +693,9 @@ var visualisation = [
                   "Tanker-truck or cart",
                   "Surface water (lake, river, stream)",
                   "No water source",
-                ]
+                ],
               },
-            ]
+            ],
           },
         ],
       },
@@ -717,17 +714,17 @@ var visualisation = [
                   "Flush / Pour-flush toilets",
                   "Pit latrines with slab",
                   "Composting toilets",
-                ]
+                ],
               },
               {
                 question: 579840064,
-                option: ["Yes"]
+                option: ["Yes"],
               },
               {
                 question: 555460003,
-                option: ["Yes"]
-              }
-            ]
+                option: ["Yes"],
+              },
+            ],
           },
           {
             name: "Limited",
@@ -740,17 +737,17 @@ var visualisation = [
                   "Flush / Pour-flush toilets",
                   "Pit latrines with slab",
                   "Composting toilets",
-                ]
+                ],
               },
               {
                 question: 579840064,
-                option: ["Yes"]
+                option: ["Yes"],
               },
               {
                 question: 555460003,
-                option: ["Yes"]
-              }
-            ]
+                option: ["Yes"],
+              },
+            ],
           },
           {
             name: "No Service",
@@ -763,10 +760,10 @@ var visualisation = [
                   "Pit latrines without slab",
                   "Hanging latrines",
                   "Bucket latrines",
-                  "No toilets or latrines"
-                ]
+                  "No toilets or latrines",
+                ],
               },
-            ]
+            ],
           },
         ],
       },
@@ -781,15 +778,13 @@ var visualisation = [
             options: [
               {
                 question: 539710052,
-                option: [
-                  "Yes",
-                ]
+                option: ["Yes"],
               },
               {
                 question: 539710048,
-                option: ["Yes, water and soap"]
+                option: ["Yes, water and soap"],
               },
-            ]
+            ],
           },
           {
             name: "Limited",
@@ -798,15 +793,13 @@ var visualisation = [
             options: [
               {
                 question: 539710052,
-                option: [
-                  "Yes"
-                ]
+                option: ["Yes"],
               },
               {
                 question: 539710048,
-                option: ["Water only"]
+                option: ["Water only"],
               },
-            ]
+            ],
           },
           {
             name: "No Service",
@@ -815,11 +808,9 @@ var visualisation = [
             options: [
               {
                 question: 539710052,
-                option: [
-                  "No",
-                ]
-              }
-            ]
+                option: ["No"],
+              },
+            ],
           },
         ],
       },
@@ -831,13 +822,13 @@ var visualisation = [
             name: "Awareness",
             score: 10,
             color: "#753780",
-            options: []
+            options: [],
           },
           {
             name: "Use menstrual materials",
             score: -1,
             color: "#FDF177",
-            options: []
+            options: [],
           },
           {
             name: "Access",
@@ -850,10 +841,10 @@ var visualisation = [
                   "Private place / latrine",
                   "Water",
                   "Sanitary pads/cloth",
-                  "Soap"
-                ]
-              }
-            ]
+                  "Soap",
+                ],
+              },
+            ],
           },
           {
             name: "Participation",
@@ -866,10 +857,10 @@ var visualisation = [
                   "Private place / latrine",
                   "Water",
                   "Sanitary pads/cloth",
-                  "Soap"
-                ]
-              }
-            ]
+                  "Soap",
+                ],
+              },
+            ],
           },
         ],
       },
@@ -884,15 +875,13 @@ var visualisation = [
             options: [
               {
                 question: 545530057,
-                option: [
-                  "Yes",
-                ]
+                option: ["Yes"],
               },
               {
                 question: 575740004,
-                option: ["Yes, all have been trained"]
+                option: ["Yes, all have been trained"],
               },
-            ]
+            ],
           },
           {
             name: "Limited",
@@ -901,15 +890,13 @@ var visualisation = [
             options: [
               {
                 question: 545530057,
-                option: [
-                  "Yes",
-                ]
+                option: ["Yes"],
               },
               {
                 question: 575740004,
-                option: ["No, some but not all have been trained"]
+                option: ["No, some but not all have been trained"],
               },
-            ]
+            ],
           },
           {
             name: "No service",
@@ -918,16 +905,16 @@ var visualisation = [
             options: [
               {
                 question: 545530057,
-                option: [
-                  "No",
-                ]
+                option: ["No"],
               },
               {
                 question: 575740004,
-                option: ["No, none have been trained",
-                  "No, there are no staff responsible for cleaning"]
+                option: [
+                  "No, none have been trained",
+                  "No, there are no staff responsible for cleaning",
+                ],
               },
-            ]
+            ],
           },
         ],
       },
@@ -974,31 +961,30 @@ var visualisation = [
 
 var highlights = [
   {
-    name: "Sanitation",
-    description:
-      "proportion of population with access to hand washing facilities with water and soap",
+    name: "Household",
+    description: "Description text here",
     charts: [
-      {
-        // api chart/overview
-        form_id: 519630048,
-        type: "PIE",
-        id: 513690066,
-        title:
-          "Does your sanitation facility leak or overflow wastes at any time of year?",
-      },
-      {
-        // api chart/overview
-        form_id: 563350033,
-        type: "BARSTACK",
-        id: 553480031, // support option / multiple_option / number
-        title:
-          "In your opinion, what should the school do to promote good hygiene and sanitation of students?",
-        stack: {
-          id: 553480033, // support option / multiple_option
-          title:
-            "Are there garbage or waste materials that are currently affecting the sanitation of the school?",
-        },
-      },
+      // {
+      //   // api chart/overview
+      //   form_id: 519630048,
+      //   type: "PIE",
+      //   id: 513690066,
+      //   title:
+      //     "Does your sanitation facility leak or overflow wastes at any time of year?",
+      // },
+      // {
+      //   // api chart/overview
+      //   form_id: 563350033,
+      //   type: "BARSTACK",
+      //   id: 553480031, // support option / multiple_option / number
+      //   title:
+      //     "In your opinion, what should the school do to promote good hygiene and sanitation of students?",
+      //   stack: {
+      //     id: 553480033, // support option / multiple_option
+      //     title:
+      //       "Are there garbage or waste materials that are currently affecting the sanitation of the school?",
+      //   },
+      // },
       {
         // api chart/overview/criteria
         form_id: 519630048,
@@ -1099,30 +1085,136 @@ var highlights = [
           },
         ],
       },
+      {
+        form_id: 519630048,
+        type: "CRITERIA",
+        title: "Hygiene Service Level",
+        options: [
+          {
+            name: "Basic",
+            score: 10,
+            color: "#753780",
+            options: [
+              {
+                question: 466680043,
+                option: [
+                  "Fixed facility observed (sink/tap) In dwelling",
+                  "Fixed facility observed (sink/tap)  In yard/plot",
+                  "Mobile object observed (bucket/jug/kettle)",
+                ],
+              },
+              {
+                question: 466680045,
+                option: ["Water is available"],
+              },
+              {
+                question: 466760036,
+                option: ["Soap or detergent available ."],
+              },
+            ],
+          },
+          {
+            name: "Limited",
+            score: -1,
+            color: "#FDF177",
+            options: [
+              {
+                question: 466680043,
+                option: [
+                  "Fixed facility observed (sink/tap) In dwelling",
+                  "Fixed facility observed (sink/tap)  In yard/plot",
+                  "Mobile object observed (bucket/jug/kettle)",
+                ],
+              },
+              {
+                question: 466680045,
+                option: ["Water is available"],
+              },
+              {
+                question: 466760036,
+                option: ["Soap or detergent available ."],
+              },
+            ],
+          },
+          {
+            name: "No Facility",
+            score: -2,
+            color: "#F1AC2A",
+            options: [
+              {
+                question: 466680043,
+                option: [
+                  "No handwashing place in dwelling/yard/plot",
+                  "No permission to see",
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        form_id: 519630048,
+        type: "CRITERIA",
+        title: "Menstrual Hygiene",
+        options: [
+          {
+            name: "Awareness",
+            color: "#368541",
+            score: 15,
+            options: [],
+          },
+          {
+            name: "Use of menstrual materials",
+            score: 10,
+            color: "#79BE7D",
+            options: [
+              {
+                question: 524810057,
+                option: [
+                  "Cloth/reusable sanitary pads",
+                  "Disposable sanitary pads",
+                  "Tampons",
+                  "Menstrual cup",
+                ],
+              },
+            ],
+          },
+          {
+            name: "Access",
+            score: -1,
+            color: "#FDF177",
+            options: [
+              {
+                question: 524810054,
+                option: ["Yes"],
+              },
+            ],
+          },
+          {
+            name: "Participation",
+            score: -2,
+            color: "#FBD256",
+            options: [
+              {
+                question: 524810053,
+                option: [
+                  "Attending school",
+                  "Paid work",
+                  "Participating in social activities",
+                  "Cooking food?",
+                  "Cooking food",
+                  "Eating with others",
+                  "Bathing in regular place",
+                ],
+              },
+            ],
+          },
+        ],
+      },
     ],
   },
   {
     name: "Hygiene",
     description: "Hygiene Text Description",
-  },
-  {
-    name: "Waste Water",
-    description: "Waste Water Text Description",
-  },
-  {
-    name: "Water Quality",
-    description: "Water Quality Text Description",
-  },
-  {
-    name: "Efficiency",
-    description: "Efficiency Text Description",
-  },
-  {
-    name: "Water Stress",
-    description: "Water Stress Text Description",
-  },
-  {
-    name: "Ecosystems",
-    description: "Ecosystems Text Description",
   },
 ];
