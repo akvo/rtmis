@@ -38,7 +38,7 @@ const Users = () => {
   const { administration, filters, isLoggedIn } = store.useState(
     (state) => state
   );
-  const { role, organisation } = filters;
+  const { trained, role, organisation } = filters;
   const { notify } = useNotification();
 
   const selectedAdministration =
@@ -137,6 +137,9 @@ const Users = () => {
         if (selectedAdministration?.id) {
           url += `&administration=${selectedAdministration.id}`;
         }
+        if (trained !== null && typeof trained !== "undefined") {
+          url += `&trained=${trained ? "true" : "false"}`;
+        }
         if (role) {
           url += `&role=${role}`;
         }
@@ -165,6 +168,7 @@ const Users = () => {
       }
     },
     [
+      trained,
       role,
       organisation,
       pending,
@@ -179,6 +183,7 @@ const Users = () => {
   useEffect(() => {
     fetchData();
   }, [
+    trained,
     role,
     organisation,
     pending,

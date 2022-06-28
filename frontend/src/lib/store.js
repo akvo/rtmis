@@ -5,6 +5,7 @@ const defaultUIState = {
   isLoggedIn: false,
   user: null,
   filters: {
+    trained: null,
     role: null,
     organisation: null,
   },
