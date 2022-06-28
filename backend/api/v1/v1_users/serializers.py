@@ -352,6 +352,7 @@ class ListUserSerializer(serializers.ModelSerializer):
 
 
 class ListUserRequestSerializer(serializers.Serializer):
+    trained = CustomCharField(required=False, default=None)
     role = CustomChoiceField(choices=list(UserRoleTypes.FieldStr.keys()),
                              required=False)
     organisation = CustomPrimaryKeyRelatedField(
