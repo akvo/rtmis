@@ -36,7 +36,7 @@ var visualisation = [
     charts: [
       {
         type: "CRITERIA",
-        title: "Sanitation Service Level",
+        title: "Sanitation service level",
         options: [
           {
             name: "Safely Managed",
@@ -143,7 +143,7 @@ var visualisation = [
       },
       {
         type: "CRITERIA",
-        title: "Hygiene Service Level",
+        title: "Hygiene service level",
         options: [
           {
             name: "Basic",
@@ -209,7 +209,7 @@ var visualisation = [
       },
       {
         type: "CRITERIA",
-        title: "Menstrual Hygiene",
+        title: "Menstrual hygiene service level",
         options: [
           {
             name: "Awareness",
@@ -294,7 +294,7 @@ var visualisation = [
     charts: [
       {
         type: "CRITERIA",
-        title: "Sanitation",
+        title: "Sanitation service level",
         options: [
           {
             name: "Basic",
@@ -390,7 +390,7 @@ var visualisation = [
 
       {
         type: "CRITERIA",
-        title: "Hygiene (Hand washing)",
+        title: "Hygiene (Hand washing) service level",
         options: [
           {
             name: "Basic",
@@ -449,7 +449,7 @@ var visualisation = [
       },
       {
         type: "CRITERIA",
-        title: "Health care waste management",
+        title: "Health care waste management service level",
         options: [
           {
             name: "Basic",
@@ -534,7 +534,7 @@ var visualisation = [
       },
       {
         type: "CRITERIA",
-        title: "Environmental cleaning",
+        title: "Environmental cleaning service level",
         options: [
           {
             name: "Basic",
@@ -639,7 +639,7 @@ var visualisation = [
     charts: [
       {
         type: "CRITERIA",
-        title: "Drinking water",
+        title: "Drinking water service level",
         options: [
           {
             name: "Basic",
@@ -702,7 +702,7 @@ var visualisation = [
       },
       {
         type: "CRITERIA",
-        title: "Sanitation",
+        title: "Sanitation service level",
         options: [
           {
             name: "Basic",
@@ -770,7 +770,7 @@ var visualisation = [
       },
       {
         type: "CRITERIA",
-        title: "Hygiene (handwashing)",
+        title: "Hygiene (handwashing) service level",
         options: [
           {
             name: "Basic",
@@ -817,7 +817,7 @@ var visualisation = [
       },
       {
         type: "CRITERIA",
-        title: "Hygiene (MHM)",
+        title: "Hygiene (MHM) service level",
         options: [
           {
             name: "Awareness",
@@ -867,7 +867,7 @@ var visualisation = [
       },
       {
         type: "CRITERIA",
-        title: "Enviromental cleaning",
+        title: "Enviromental cleaning service level",
         options: [
           {
             name: "Basic",
@@ -942,17 +942,17 @@ var visualisation = [
         title: "Water System installed by",
       },
       {
-        type: "BAR",
+        type: "PIE",
         id: 569070152,
         title: "Abstraction/Pump Equipment",
       },
       {
-        type: "BAR",
+        type: "PIE",
         id: 571060083,
         title: "Source of Energy",
       },
       {
-        type: "BAR",
+        type: "PIE",
         id: 571050096,
         title: "Water Source Type",
       },
