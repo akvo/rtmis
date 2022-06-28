@@ -209,8 +209,7 @@ class ListFormDataSerializer(serializers.ModelSerializer):
 
     def get_pending_data(self, instance: FormData):
         batch = None
-        pending_data = PendingFormData.objects.filter(
-            data=instance.pk).first()
+        pending_data = PendingFormData.objects.filter(data=instance.pk).first()
         if pending_data:
             batch = PendingDataBatch.objects.filter(
                 pk=pending_data.batch_id).first()
@@ -297,6 +296,11 @@ class ListChartQuestionDataPointSerializer(serializers.ModelSerializer):
         fields = ['name', 'value']
 
 
+class ChartDataSerializer(serializers.Serializer):
+    type = serializers.CharField(),
+    data = ListChartQuestionDataPointSerializer(many=True)
+
+
 class ListChartOverviewRequestSerializer(serializers.Serializer):
     stack = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none(),
                                          required=False)
@@ -305,19 +309,18 @@ class ListChartOverviewRequestSerializer(serializers.Serializer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         queryset = self.context.get('form').form_questions
-        self.fields.get('question').queryset = queryset.filter(Q(
-            type=QuestionTypes.option) | Q(
-                type=QuestionTypes.number) | Q(
-                    type=QuestionTypes.multiple_option))
-        self.fields.get('stack').queryset = queryset.filter(Q(
-            type=QuestionTypes.option) | Q(
-                type=QuestionTypes.multiple_option))
+        self.fields.get('question').queryset = queryset.filter(
+            Q(type=QuestionTypes.option) | Q(type=QuestionTypes.number)
+            | Q(type=QuestionTypes.multiple_option))
+        self.fields.get('stack').queryset = queryset.filter(
+            Q(type=QuestionTypes.option)
+            | Q(type=QuestionTypes.multiple_option))
 
 
 class ListChartAdministrationRequestSerializer(serializers.Serializer):
     question = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none())
     administration = CustomPrimaryKeyRelatedField(
-            queryset=Administration.objects.none())
+        queryset=Administration.objects.none())
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -525,8 +528,7 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
         user = self.context.get('user')
         comment = validated_data.get("comment")
         user_level = user.user_access.administration.level
-        approval = PendingDataApproval.objects.get(
-            user=user, batch=batch)
+        approval = PendingDataApproval.objects.get(user=user, batch=batch)
         approval.status = validated_data.get('status')
         approval.save()
         first_data = PendingFormData.objects.filter(batch=batch).first()
@@ -539,10 +541,10 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
         listing = [{
             "name": "Batch Name",
             "value": batch.name,
-            }, {
+        }, {
             "name": "Number of Records",
             "value": data_count,
-            }, {
+        }, {
             "name": "Questionnaire",
             "value": batch.form.name,
         }]
@@ -586,27 +588,26 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
             lower_approval_users = SystemUser.objects.filter(
                 id__in=lower_approval_user_ids, deleted_at=None).all()
             lower_approval_emails = [
-                u.email for u in lower_approval_users if u.email != user.email]
+                u.email for u in lower_approval_users if u.email != user.email
+            ]
             if lower_approval_emails:
                 inform_data = {
                     "send_to": lower_approval_emails,
                     "listing": listing,
                     "extend_body": """
                     The data submitter has also been notified.
-                    They can modify the data and submit again for approval"""
+                    They can modify the data and submit again for approval
+                    """
                 }
-                send_email(
-                    context=inform_data,
-                    type=EmailTypes.inform_batch_rejection_approver)
+                send_email(context=inform_data,
+                           type=EmailTypes.inform_batch_rejection_approver)
             # change approval status to pending
             # for la in lower_approvals:
             #     la.status = DataApprovalStatus.pending
             #     la.save()
         if validated_data.get('comment'):
             PendingDataBatchComments.objects.create(
-                user=user,
-                batch=batch,
-                comment=validated_data.get('comment'))
+                user=user, batch=batch, comment=validated_data.get('comment'))
         if not PendingDataApproval.objects.filter(
                 batch=batch,
                 status__in=[
@@ -875,19 +876,19 @@ class CreateBatchSerializer(serializers.Serializer):
                                                    user=assignment.user,
                                                    level_id=level)
                 number_of_records = PendingFormData.objects.filter(
-                        batch=obj).count()
+                    batch=obj).count()
                 data = {
                     'send_to': [assignment.user.email],
                     'listing': [{
                         'name': "Batch Name",
                         'value': obj.name
-                        }, {
+                    }, {
                         'name': "Questionnaire",
                         'value': obj.form.name
-                        }, {
+                    }, {
                         'name': "Number of Records",
                         'value': number_of_records
-                        }, {
+                    }, {
                         'name': "Submitter",
                         'value': f"""{obj.user.name},
                         {obj.user.designation_name}"""
@@ -1020,8 +1021,7 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                 form=data.get('form'),
                 administration=data.get('administration'),
                 geo=data.get('geo'),
-                created_by=data.get('created_by')
-            )
+                created_by=data.get('created_by'))
 
         for answer in validated_data.get('answer'):
             name = None

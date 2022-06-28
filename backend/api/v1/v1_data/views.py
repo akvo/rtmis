@@ -35,7 +35,8 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListPendingFormDataSerializer, PendingBatchDataFilterSerializer, \
     SubmitPendingFormSerializer, ListBatchSummarySerializer, \
     ListBatchCommentSerializer, BatchListRequestSerializer, \
-    SubmitFormDataAnswerSerializer, ListChartCriteriaRequestSerializer
+    SubmitFormDataAnswerSerializer, \
+    ChartDataSerializer, ListChartCriteriaRequestSerializer
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.models import Administration, Levels
@@ -44,6 +45,7 @@ from api.v1.v1_profile.constants import UserRoleTypes
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import IsAdmin, IsApprover, IsSubmitter
 from utils.custom_serializer_fields import validate_serializers_message
+from utils.default_serializers import DefaultResponseSerializer
 from utils.export_form import generate_excel
 
 
@@ -121,12 +123,7 @@ class FormDataAddListView(APIView):
         return Response(data, status=status.HTTP_200_OK)
 
     @extend_schema(request=SubmitFormSerializer,
-                   responses={
-                       (200, 'application/json'):
-                           inline_serializer("FormSubmit", fields={
-                               "message": serializers.CharField()
-                           })
-                   },
+                   responses={200: DefaultResponseSerializer},
                    tags=['Data'],
                    summary='Submit form data')
     def post(self, request, form_id, version):
@@ -146,11 +143,7 @@ class FormDataAddListView(APIView):
         return Response({'message': 'ok'}, status=status.HTTP_200_OK)
 
     @extend_schema(request=SubmitFormDataAnswerSerializer(many=True),
-                   responses={
-                       (200, 'application/json'):
-                           inline_serializer("FormSubmit", fields={
-                               "message": serializers.CharField()
-                           })},
+                   responses={200: DefaultResponseSerializer},
                    tags=['Data'],
                    parameters=[
                        OpenApiParameter(name='data_id',
@@ -288,8 +281,7 @@ class DataAnswerDetailDeleteView(APIView):
 
     @extend_schema(
         responses={
-            204: OpenApiResponse(description='Deletion with no response')
-        },
+            204: OpenApiResponse(description='Deletion with no response')},
         tags=['Data'],
         summary='Delete datapoint include answer & history')
     def delete(self, request, data_id, version):
@@ -339,24 +331,21 @@ def get_map_data_point(request, version, form_id):
         status=status.HTTP_200_OK)
 
 
-@extend_schema(responses={200: inline_serializer(
-    'chart_data',
-    fields={
-        'type': serializers.CharField(),
-        'data': ListChartQuestionDataPointSerializer(many=True)
-    })},
-    parameters=[
-        OpenApiParameter(name='question',
-                         required=True,
-                         type=OpenApiTypes.NUMBER,
-                         location=OpenApiParameter.QUERY),
-        OpenApiParameter(name='stack',
-                         required=False,
-                         type=OpenApiTypes.NUMBER,
-                         location=OpenApiParameter.QUERY),
-    ],
-    tags=['Visualisation'],
-    summary='To get Chart data points')
+@extend_schema(
+        responses={200: ChartDataSerializer},
+        parameters=[
+            OpenApiParameter(
+                name='question',
+                required=True,
+                type=OpenApiTypes.NUMBER,
+                location=OpenApiParameter.QUERY),
+            OpenApiParameter(
+                name='stack',
+                required=False,
+                type=OpenApiTypes.NUMBER,
+                location=OpenApiParameter.QUERY)],
+        tags=['Visualisation'],
+        summary='To get Chart data points')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_chart_data_point(request, version, form_id):
@@ -408,23 +397,21 @@ def get_chart_data_point(request, version, form_id):
                     status=status.HTTP_200_OK)
 
 
-@extend_schema(responses={200: inline_serializer(
-    'chart_overview',
-    fields={
-        'type': serializers.CharField(),
-        'data': ListChartQuestionDataPointSerializer(many=True)
-    })},
-    parameters=[
-        OpenApiParameter(name='question',
-                         required=True,
-                         type=OpenApiTypes.NUMBER,
-                         location=OpenApiParameter.QUERY),
-        OpenApiParameter(name='stack',
-                         required=False,
-                         type=OpenApiTypes.NUMBER,
-                         location=OpenApiParameter.QUERY)],
-    tags=['Visualisation'],
-    summary='To get overview chart at National level')
+@extend_schema(
+        responses={200: ChartDataSerializer},
+        parameters=[
+            OpenApiParameter(
+                name='question',
+                required=True,
+                type=OpenApiTypes.NUMBER,
+                location=OpenApiParameter.QUERY),
+            OpenApiParameter(
+                name='stack',
+                required=False,
+                type=OpenApiTypes.NUMBER,
+                location=OpenApiParameter.QUERY)],
+        tags=['Visualisation'],
+        summary='To get overview chart at National level')
 @api_view(['GET'])
 def get_chart_overview(request, version, form_id):
     instance = get_object_or_404(Forms, pk=form_id)
@@ -433,8 +420,7 @@ def get_chart_overview(request, version, form_id):
     if not serializer.is_valid():
         return Response(
             {'message': validate_serializers_message(serializer.errors)},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+            status=status.HTTP_400_BAD_REQUEST)
 
     question = serializer.validated_data.get('question')
     stack = serializer.validated_data.get('stack')
@@ -488,68 +474,32 @@ def get_chart_overview(request, version, form_id):
                         })
             data.append(values)
 
-        # query_set = Answers.objects.filter(question=stack).values(
-        #     'options').annotate(
-        #         c=Count('options'),
-        #         ids=StringAgg(Cast('data_id', TextField()),
-        #                       delimiter=',',
-        #                       output_field=TextField()))
-        # data = []
-        # for val in query_set:
-        #     values = {
-        #         'group': val.get('options')[0],
-        #         'child': []
-        #     }
-        #     child_query_set = Answers.objects.filter(
-        #         data_id__in=val.get('ids').split(','),
-        #         question=question)
-        #     # Option type
-        #     if question.type == QuestionTypes.option:
-        #         child_query_set = child_query_set.values(
-        #             'options').annotate(c=Count('options'))
-        #         for child in child_query_set:
-        #             values.get('child').append({
-        #                 'name': child.get('options')[0],
-        #                 'value': child.get('c')
-        #             })
-        #     # Number type
-        #     if question.type == QuestionTypes.number:
-        #         child_query_set = child_query_set.values('value')
-        #         for child in child_query_set:
-        #             values.get('child').append({
-        #                 'name': 'value',
-        #                 'value': child.get('value')
-        #             })
-        #     data.append(values)
-
         return Response({'type': 'BARSTACK', 'data': data},
                         status=status.HTTP_200_OK)
 
-    return Response({'type': 'BAR',
-                     'data': ListChartQuestionDataPointSerializer(
-                         instance=question.question_question_options.all(),
-                         many=True).data},
-                    status=status.HTTP_200_OK)
+    return Response({
+        'type': 'BAR',
+        'data': ListChartQuestionDataPointSerializer(
+            instance=question.question_question_options.all(),
+            many=True).data},
+        status=status.HTTP_200_OK)
 
 
-@extend_schema(responses={200: inline_serializer(
-    'chart_administration',
-    fields={
-        'type': serializers.CharField(),
-        'data': ListChartQuestionDataPointSerializer(many=True)
-    })},
-    parameters=[
-        OpenApiParameter(name='question',
-                         required=True,
-                         type=OpenApiTypes.NUMBER,
-                         location=OpenApiParameter.QUERY),
-        OpenApiParameter(name='administration',
-                         required=True,
-                         type=OpenApiTypes.NUMBER,
-                         location=OpenApiParameter.QUERY),
-    ],
-    tags=['Visualisation'],
-    summary='To get Chart administration')
+@extend_schema(
+        responses={200: ChartDataSerializer},
+        parameters=[
+            OpenApiParameter(
+                name='question',
+                required=True,
+                type=OpenApiTypes.NUMBER,
+                location=OpenApiParameter.QUERY),
+            OpenApiParameter(
+                name='administration',
+                required=True,
+                type=OpenApiTypes.NUMBER,
+                location=OpenApiParameter.QUERY)],
+        tags=['Visualisation'],
+        summary='To get Chart administration')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_chart_administration(request, version, form_id):
@@ -604,17 +554,12 @@ def get_chart_administration(request, version, form_id):
 
 @extend_schema(
     request=ListChartCriteriaRequestSerializer(many=True),
-    responses={200: inline_serializer(
-        'chart_criteria',
-        fields={
-            'type': serializers.CharField(),
-            'data': ListChartQuestionDataPointSerializer(many=True)
-        })},
-    parameters=[
-        OpenApiParameter(name='administration',
-                         required=True,
-                         type=OpenApiTypes.NUMBER,
-                         location=OpenApiParameter.QUERY)],
+    responses={200: ChartDataSerializer},
+    parameters=[OpenApiParameter(
+        name='administration',
+        required=True,
+        type=OpenApiTypes.NUMBER,
+        location=OpenApiParameter.QUERY)],
     tags=['Visualisation'],
     summary='To get Chart by a criteria')
 @api_view(['POST'])
@@ -684,12 +629,7 @@ def get_chart_criteria(request, version, form_id):
 
 @extend_schema(
     request=ListChartCriteriaRequestSerializer(many=True),
-    responses={200: inline_serializer(
-        'chart_overview_criteria',
-        fields={
-            'type': serializers.CharField(),
-            'data': ListChartQuestionDataPointSerializer(many=True)
-        })},
+    responses={200: ChartDataSerializer},
     tags=['Visualisation'],
     summary='To get overview with criteria chart at National level')
 @api_view(['POST'])
@@ -746,7 +686,7 @@ def get_chart_overview_criteria(request, version, form_id):
 
 @extend_schema(responses={
     (200, 'application/json'):
-        inline_serializer("PendingDataBatch", fields={
+        inline_serializer("PendingDataBatchResponse", fields={
             "current": serializers.IntegerField(),
             "total": serializers.IntegerField(),
             "total_page": serializers.IntegerField(),
@@ -846,8 +786,7 @@ class PendingDataDetailDeleteView(APIView):
 
     @extend_schema(
         responses={
-            204: OpenApiResponse(description='Deletion with no response')
-        },
+            204: OpenApiResponse(description='Deletion with no response')},
         tags=['Pending Data'],
         summary='To delete pending data')
     def delete(self, request, pending_data_id, version):
@@ -862,11 +801,7 @@ class PendingDataDetailDeleteView(APIView):
 
 
 @extend_schema(request=ApprovePendingDataRequestSerializer(),
-               responses={
-                   (200, 'application/json'):
-                       inline_serializer("ApproveData", fields={
-                           "message": serializers.CharField()
-                       })},
+               responses={200: DefaultResponseSerializer},
                tags=['Pending Data'],
                summary='Approve pending data')
 @api_view(['POST'])
@@ -891,7 +826,7 @@ class BatchView(APIView):
 
     @extend_schema(responses={
         (200, 'application/json'):
-            inline_serializer("ListDataBatch", fields={
+            inline_serializer("ListDataBatchResponse", fields={
                 "current": serializers.IntegerField(),
                 "total": serializers.IntegerField(),
                 "total_page": serializers.IntegerField(),
@@ -1010,12 +945,7 @@ class PendingFormDataView(APIView):
     permission_classes = [IsAuthenticated]
 
     @extend_schema(request=SubmitPendingFormSerializer,
-                   responses={
-                       (200, 'application/json'):
-                           inline_serializer("PendingFormSubmit", fields={
-                               "message": serializers.CharField()
-                           })
-                   },
+                   responses={200: DefaultResponseSerializer},
                    tags=['Pending Data'],
                    summary='Submit pending form data')
     def post(self, request, form_id, version):
@@ -1037,7 +967,7 @@ class PendingFormDataView(APIView):
 
     @extend_schema(responses={
         (200, 'application/json'):
-            inline_serializer("PendingDataList", fields={
+            inline_serializer("PendingDataListResponse", fields={
                 "current": serializers.IntegerField(),
                 "total": serializers.IntegerField(),
                 "total_page": serializers.IntegerField(),
@@ -1079,19 +1009,17 @@ class PendingFormDataView(APIView):
         }
         return Response(data, status=status.HTTP_200_OK)
 
-    @extend_schema(request=SubmitFormDataAnswerSerializer(many=True),
-                   responses={
-                       (200, 'application/json'):
-                           inline_serializer("PendingFormSubmit", fields={
-                               "message": serializers.CharField()
-                           })},
-                   tags=['Pending Data'],
-                   parameters=[
-                       OpenApiParameter(name='pending_data_id',
-                                        required=True,
-                                        type=OpenApiTypes.NUMBER,
-                                        location=OpenApiParameter.QUERY)],
-                   summary='Edit pending form data')
+    @extend_schema(
+            request=SubmitFormDataAnswerSerializer(many=True),
+            responses={200: DefaultResponseSerializer},
+            tags=['Pending Data'],
+            parameters=[
+                OpenApiParameter(
+                    name='pending_data_id',
+                    required=True,
+                    type=OpenApiTypes.NUMBER,
+                    location=OpenApiParameter.QUERY)],
+            summary='Edit pending form data')
     def put(self, request, form_id, version):
         get_object_or_404(Forms, pk=form_id)
         pending_data_id = request.GET['pending_data_id']
