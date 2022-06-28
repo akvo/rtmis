@@ -199,7 +199,7 @@ const uiText = {
     formSuccessSubTitle:
       "Do note that this data has NOT been sent for approval. If you are ready to send the submissions for approval, please create a batch and send to the approver",
     formSuccessSubTitleForAdmin:
-      "Do note that the data submitted by SUPER ADMIN role will not go through the approval flow and recorded as the main data",
+      "Do note that the data submitted by SUPER ADMIN role will not go through the approval flow and recorded as approved data",
     fetchingForm: "Fetching form..",
     // Forgot Password
     forgotTitle: "Reset your password",
