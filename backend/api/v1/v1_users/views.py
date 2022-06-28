@@ -27,7 +27,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Access, Administration, Levels
-from api.v1.v1_users.models import SystemUser, Organisation
+from api.v1.v1_users.models import SystemUser, Organisation, \
+        OrganisationAttribute
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     VerifyInviteSerializer, SetUserPasswordSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
@@ -314,6 +315,11 @@ def add_user(request, version):
                                     required=True,
                                     type=OpenApiTypes.NUMBER,
                                     location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='trained',
+                                    required=False,
+                                    default=None,
+                                    type=OpenApiTypes.BOOL,
+                                    location=OpenApiParameter.QUERY),
                    OpenApiParameter(name='role',
                                     required=False,
                                     type=OpenApiTypes.NUMBER,
@@ -382,6 +388,11 @@ def list_users(request, version):
         set1 = set(filter_descendants)
         final_set = set1.intersection(allowed_descendants)
         filter_data['user_access__administration_id__in'] = list(final_set)
+    if serializer.validated_data.get('trained') is not None:
+        trained = True if \
+            serializer.validated_data.get('trained').lower() == "true" \
+            else False
+        filter_data['trained'] = trained
     if serializer.validated_data.get('role'):
         filter_data['user_access__role'] = serializer.validated_data.get(
             'role')
@@ -523,21 +534,30 @@ def forgot_password(request, version):
 
 @extend_schema(responses={200: OrganisationListSerializer(many=True)},
                parameters=[
-                   OpenApiParameter(name='filter',
+                   OpenApiParameter(name='attributes',
                                     required=False,
                                     type=OpenApiTypes.NUMBER,
-                                    location=OpenApiParameter.QUERY)
+                                    location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='search',
+                                    required=False,
+                                    type=OpenApiTypes.STR,
+                                    location=OpenApiParameter.QUERY),
                ],
                tags=['Organisation'],
                summary='Get list of organisation')
 @api_view(['GET'])
 def list_organisations(request, version):
-    filter = request.data.get('filter')
+    attributes = request.GET.get('attributes')
+    search = request.GET.get('search')
     instance = Organisation.objects.all()
+    if attributes:
+        ids = OrganisationAttribute.objects.filter(
+            type=attributes).distinct("organisation_id")
+        instance = Organisation.objects.filter(
+            pk__in=[o.organisation_id for o in ids]).all()
+    if search:
+        instance = instance.filter(name__icontains=search)
     return Response(OrganisationListSerializer(instance=instance,
-                                               context={
-                                                   'filter': filter
-                                               },
                                                many=True).data,
                     status=status.HTTP_200_OK)
 

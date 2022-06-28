@@ -224,27 +224,6 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
                     <div
                       class="ant-form-item-control-input-content"
                     >
-                      <label
-                        class="ant-checkbox-wrapper ant-checkbox-wrapper-checked"
-                      >
-                        <span
-                          class="ant-checkbox ant-checkbox-checked"
-                        >
-                          <input
-                            checked=""
-                            class="ant-checkbox-input"
-                            id="login-form_remember"
-                            type="checkbox"
-                            value=""
-                          />
-                          <span
-                            class="ant-checkbox-inner"
-                          />
-                        </span>
-                        <span>
-                          Remember me
-                        </span>
-                      </label>
                       <a
                         class="login-form-forgot"
                         href="/forgot-password"

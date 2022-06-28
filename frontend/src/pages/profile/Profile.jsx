@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useMemo } from "react";
 import "./style.scss";
-import { Space, Card, Divider, Row } from "antd";
+import { Space, Card, Divider, Row, Tag } from "antd";
 import { store, config } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { PanelApprovals, PanelDataUpload, ProfileTour } from "./components";
+import moment from "moment";
+
 const descriptionData =
   "This page shows your current user setup. It also shows the most important activities for your current user setup";
+
 const Profile = () => {
   const { forms, user: authUser } = store.useState((s) => s);
+  const { trained } = authUser;
+
+  const trainedBadge = useMemo(() => {
+    if (!trained) {
+      return (
+        <Tag color="warning" style={{ marginBottom: 11 }}>
+          Trained
+        </Tag>
+      );
+    }
+  }, [trained]);
 
   const pagePath = [
     {
@@ -15,7 +29,13 @@ const Profile = () => {
       link: "/control-center",
     },
     {
-      title: authUser?.name || "Profile",
+      title:
+        (
+          <Space align="center" size={15}>
+            {authUser?.name}
+            {trainedBadge}
+          </Space>
+        ) || "Profile",
     },
   ];
 
@@ -64,6 +84,18 @@ const Profile = () => {
               {forms.map((qi, qiI) => (
                 <span key={qiI}>{qi.name}</span>
               ))}
+            </Space>
+          </li>
+          <li>
+            <h3>Last login</h3>
+            <Space size="large" align="center">
+              <span>
+                {authUser?.last_login
+                  ? moment
+                      .unix(authUser.last_login)
+                      .format("MMMM Do YYYY, h:mm:ss a")
+                  : "-"}
+              </span>
             </Space>
           </li>
         </ul>

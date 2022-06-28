@@ -2,14 +2,24 @@ const config = {
   siteTitle: "RUSH",
   siteSubTitle: "Rural Urban Sanitation and Hygiene",
   siteLogo: "/logo.png",
+  trainedStatus: [
+    {
+      label: "Trained",
+      value: true,
+    },
+    {
+      label: "Not Trained",
+      value: false,
+    },
+  ],
   organisationAttributes: [
     {
       id: 1,
-      name: "Member",
+      name: "Member Organisation",
     },
     {
       id: 2,
-      name: "Partnership",
+      name: "Partnership Organisation",
     },
   ],
   roles: [
