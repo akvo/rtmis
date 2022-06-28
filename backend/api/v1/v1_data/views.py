@@ -400,7 +400,7 @@ def get_chart_data_point(request, version, form_id):
         return Response({'type': 'BARSTACK', 'data': data},
                         status=status.HTTP_200_OK)
 
-    return Response({'type': 'BAR',
+    return Response({'type': 'PIE',
                      'data': ListChartQuestionDataPointSerializer(
                          instance=serializer.validated_data.get(
                              'question').question_question_options.all(),
