@@ -57,7 +57,7 @@ const Pie = (
         name: "main",
         type: "pie",
         left: "center",
-        radius: !Doughnut ? ["0%", "100%"] : ["50%", "100%"],
+        radius: !Doughnut ? ["0%", "85%"] : ["42%", "85%"],
         top: "30px",
         label: {
           formatter: function (params) {
@@ -90,11 +90,10 @@ const Pie = (
       icon: "circle",
       align: "left",
       orient: "horizontal",
-      itemGap: 10,
+      itemGap: 12,
       textStyle: {
         fontWeight: "normal",
         fontSize: 12,
-        marginLeft: 20,
       },
       ...legend,
     },

@@ -76,7 +76,10 @@ const Header = ({ className = "header", ...props }) => {
               src={config.siteLogo}
               alt={config.siteLogo}
             />
-            <h1>{config.siteTitle}</h1>
+            <h1>
+              {config.siteTitle}
+              <small>{config.siteSubTitle}</small>
+            </h1>
           </Link>
         </div>
       </Col>
