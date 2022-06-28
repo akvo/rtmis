@@ -1,5 +1,6 @@
 const config = {
-  siteTitle: "Ministry of Health",
+  siteTitle: "RUSH",
+  siteSubTitle: "Rural Urban Sanitation and Hygiene",
   siteLogo: "/logo.png",
   trainedStatus: [
     {
