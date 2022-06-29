@@ -46,6 +46,15 @@ class DataVisualisationTestCase(TestCase):
             self.assertIsNotNone(d.get("marker"))
             self.assertIsNotNone(d.get("loc"))
             self.assertIsNotNone(d.get("shape"))
+        # Test Map Overview
+        data = self.client.get("/api/v1/maps/overview/{0}".format(form.id),
+                               follow=True,
+                               **header)
+        self.assertEqual(data.status_code, 400)
+        data = self.client.get("/api/v1/maps/overview/{0}?shape={1}".format(
+            form.id, shape), follow=True, **header)
+        self.assertEqual(data.status_code, 200)
+        self.assertEqual(list(data.json()[0]), ['loc', 'shape'])
 
     def test_chart_data(self):
         call_command("administration_seeder", "--test")

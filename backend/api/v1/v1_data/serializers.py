@@ -277,6 +277,28 @@ class ListMapDataPointSerializer(serializers.ModelSerializer):
         fields = ['id', 'loc', 'name', 'geo', 'marker', 'shape']
 
 
+class ListMapOverviewDataPointRequestSerializer(serializers.Serializer):
+    shape = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none())
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        queryset = self.context.get('form').form_questions.all()
+        self.fields.get('shape').queryset = queryset
+
+
+class ListMapOverviewDataPointSerializer(serializers.ModelSerializer):
+    shape = serializers.SerializerMethodField()
+
+    @extend_schema_field(OpenApiTypes.INT)
+    def get_shape(self, instance: FormData):
+        return get_answer_value(
+            instance.data_answer.get(question=self.context.get('shape')))
+
+    class Meta:
+        model = FormData
+        fields = ['id', 'administration_id', 'shape']
+
+
 class ListChartDataPointRequestSerializer(serializers.Serializer):
     stack = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none(),
                                          required=False)
