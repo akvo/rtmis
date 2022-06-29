@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Input, Select, Row, Col, Spin } from "antd";
-import { api } from "../lib";
+import { config } from "../lib";
 import { isEqual } from "lodash";
 const { Option } = Select;
 import { UndoOutlined, SaveOutlined, LoadingOutlined } from "@ant-design/icons";
@@ -38,25 +38,14 @@ const EditableCell = ({
     record && record.newValue && !isEqual(record.value, record.newValue);
 
   useEffect(() => {
-    const getLocationName = () => {
-      const fetchData = (id, acc) => {
-        api.get(`administration/${id}`).then((res) => {
-          acc.unshift(res.data.name);
-          if (res.data.level > 0) {
-            fetchData(res.data.parent, acc);
-          } else {
-            setLocationName(acc.join(" | "));
-            setLocationLoading(false);
-          }
-        });
-      };
-      setLocationLoading(true);
-      fetchData(record.value, []);
-    };
+    setLocationLoading(true);
     if (record && record.type === "cascade" && !locationName) {
-      getLocationName();
+      const locName = config.fn.administration(record.value, false);
+      setLocationName(locName?.full_name);
+      setLocationLoading(false);
     }
-  }, [record, locationName]);
+  }, [record]);
+
   const getAnswerValue = () => {
     return record.type === "multiple_option"
       ? value?.join(", ")

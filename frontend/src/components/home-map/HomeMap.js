@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import "./style.scss";
 import {
   Circle,
@@ -7,15 +7,8 @@ import {
   GeoJSON,
   Tooltip,
 } from "react-leaflet";
-import { api, geo, store } from "../../lib";
-import {
-  takeRight,
-  intersection,
-  chain,
-  groupBy,
-  sumBy,
-  flatten,
-} from "lodash";
+import { api, geo } from "../../lib";
+import { takeRight, intersection, chain, groupBy, sumBy } from "lodash";
 import { Button, Space, Spin, Row, Col } from "antd";
 import { scaleQuantize } from "d3-scale";
 import {
@@ -25,7 +18,7 @@ import {
 } from "@ant-design/icons";
 import "leaflet/dist/leaflet.css";
 
-const { geojson, tile, defaultPos, getBounds } = geo;
+const { geojson, tile, defaultPos } = geo;
 const defPos = defaultPos();
 const mapMaxZoom = 13;
 const markerColorRange = [
@@ -44,17 +37,12 @@ const markerColorRange = [
 ];
 const colorRange = ["#bbedda", "#a7e1cb", "#92d5bd", "#7dcaaf", "#67bea1"];
 const higlightColor = "#84b4cc";
+const isMarker = false;
+const isHover = false;
 
-const Map = ({ current, style }) => {
-  const {
-    administration,
-    selectedForm,
-    loadingForm,
-    selectedAdministration,
-    loadingMap,
-    questionGroups,
-  } = store.useState((s) => s);
-  const [maps, setMaps] = useState(null);
+const HomeMap = ({ current, style }) => {
+  const [loadingMap, setLoadingMap] = useState(false);
+  const [map, setMap] = useState(null);
   const [results, setResults] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(null);
   // shape legend click filter
@@ -65,61 +53,54 @@ const Map = ({ current, style }) => {
   const [markerLegendSelected, setMarkerLegendSelected] = useState(null);
 
   useEffect(() => {
-    if (maps && administration?.length && selectedForm && current) {
-      const pos = getBounds(administration);
-      maps.fitBounds(pos.bbox);
-      maps.setView(pos.coordinates, maps.getZoom());
-      setZoomLevel(maps.getZoom());
-      maps.invalidateSize();
+    if (current && current.maps.form_id) {
+      const { form_id, shape } = current.maps;
+      setLoadingMap(true);
+      api
+        .get(`maps/overview/${form_id}?shape=${shape?.id}`)
+        .then((res) => {
+          setResults(res.data);
+        })
+        .catch((e) => {
+          console.error("e", e);
+        })
+        .finally(() => {
+          setLoadingMap(false);
+        });
     }
-  }, [maps, administration, selectedForm, current]);
-
-  const adminName = useMemo(() => {
-    return administration.length ? takeRight(administration, 1)[0]?.name : null;
-  }, [administration]);
+  }, [current]);
 
   useEffect(() => {
-    if (selectedAdministration && administration.length && loadingMap) {
-      const selectedAdmin = takeRight(
-        Object.values(selectedAdministration),
-        1
-      )[0];
-      const fetchData = (adminId, acc) => {
-        api.get(`administration/${adminId}`).then((res) => {
-          acc.unshift({
-            id: res.data.id,
-            name: res.data.name,
-            levelName: res.data.level_name,
-            parent: res.data.parent,
-            children: res.data.children,
-            childLevelName: res.data.children_level_name,
-          });
-          if (res.data.level > 0) {
-            fetchData(res.data.parent, acc);
-          } else {
-            store.update((s) => {
-              s.administration = acc;
-              s.loadingAdministration = false;
-              s.loadingMap = false;
-            });
-          }
-        });
-      };
-      store.update((s) => {
-        s.loadingAdministration = true;
-      });
-      fetchData(selectedAdmin, []);
+    if (hoveredShape && results.length) {
+      const geoName = takeRight(Object.values(hoveredShape), 2)[0];
+      if (geoName) {
+        const geoRes = results.filter((r) => r.loc === geoName);
+        if (geoRes.length) {
+          const tooltipElement = (
+            <div className="shape-tooltip-container">
+              <h3>{geoName}</h3>
+              <Space align="top" direction="horizontal">
+                <span className="shape-tooltip-name">
+                  {current.maps.shape?.title}
+                </span>
+                <h3 className="shape-tooltip-value">
+                  {geoRes.length ? sumBy(geoRes, "shape") : 0}
+                </h3>
+              </Space>
+            </div>
+          );
+          setShapeTooltip(tooltipElement);
+          return;
+        }
+        setShapeTooltip(<span className="text-muted">No data</span>);
+        return;
+      }
+      setShapeTooltip(null);
     }
-  }, [selectedAdministration, administration, loadingMap]);
+  }, [hoveredShape, results, current]);
 
   const onEachFeature = (feature, layer) => {
     layer.on({
-      click: () => {
-        store.update((s) => {
-          s.loadingMap = true;
-          s.selectedAdministration = feature?.properties;
-        });
-      },
       mouseover: () => {
         setHoveredShape(feature?.properties);
       },
@@ -127,19 +108,12 @@ const Map = ({ current, style }) => {
   };
 
   const geoStyle = (g) => {
-    if (administration.length > 0 && results.length && maps) {
-      const selectedAdmin = selectedAdministration
-        ? takeRight(Object.values(selectedAdministration), 2)[0]
-        : null;
-      const sc = shapeColors.find(
-        (sC) => sC.name === takeRight(Object.values(g.properties), 2)[0]
-      );
-      const fillColor =
-        selectedAdmin === sc?.name
-          ? higlightColor
-          : sc
-          ? getFillColor(sc.values || 0)
-          : "#e6e8f4";
+    if (results.length && map) {
+      const sc = shapeColors.find((sC) => {
+        // return county level name
+        return sC.name === takeRight(Object.values(g.properties), 4)[0];
+      });
+      const fillColor = sc ? getFillColor(sc.values || 0) : "#e6e8f4";
       const opacity = sc ? 0.8 : 0.3;
       return {
         fillColor,
@@ -156,73 +130,12 @@ const Map = ({ current, style }) => {
     };
   };
 
-  useEffect(() => {
-    if (current && selectedForm && current.id === selectedForm) {
-      store.update((s) => {
-        s.loadingMap = true;
-      });
-      api
-        .get(
-          `maps/${selectedForm}?marker=${current?.maps?.marker?.id}&shape=${current?.maps?.shape?.id}`
-        )
-        .then((res) => {
-          setResults(res.data);
-        })
-        .catch((e) => {
-          console.error("e", e);
-        })
-        .finally(() => {
-          store.update((s) => {
-            s.loadingMap = false;
-          });
-        });
-    }
-  }, [selectedForm, current]);
-
-  useEffect(() => {
-    if (hoveredShape && results.length && administration.length) {
-      const geoName = takeRight(Object.values(hoveredShape), 2)[0];
-      if (geoName) {
-        const geoRes = results.filter((r) => r.loc === geoName);
-        if (geoRes.length) {
-          const tooltipElement = (
-            <div className="shape-tooltip-container">
-              <h3>{geoName}</h3>
-              <Space align="top" direction="horizontal">
-                <span className="shape-tooltip-name">
-                  {current?.maps?.shape?.title}
-                </span>
-                <h3 className="shape-tooltip-value">
-                  {geoRes.length ? sumBy(geoRes, "shape") : 0}
-                </h3>
-              </Space>
-            </div>
-          );
-          setShapeTooltip(tooltipElement);
-          return;
-        }
-        setShapeTooltip(<span className="text-muted">No data</span>);
-        return;
-      }
-      setShapeTooltip(null);
-    }
-  }, [hoveredShape, results, current, administration, adminName]);
-
   const markerLegendOptions = useMemo(() => {
-    if (current && current?.maps?.marker) {
-      return (
-        flatten(questionGroups.map((qg) => qg.question))
-          .find((q) => q.id === current.maps.marker.id)
-          ?.option?.map((o) => {
-            const moRes = current.maps.marker.options?.find(
-              (mo) => mo.id === o.id
-            )?.name;
-            return moRes ? { ...o, title: moRes } : o;
-          }) || []
-      );
+    if (current && current.maps.marker) {
+      return current.maps.marker?.options;
     }
     return [];
-  }, [current, questionGroups]);
+  }, [current]);
 
   const Markers = ({ data }) => {
     if (data.length) {
@@ -253,7 +166,7 @@ const Map = ({ current, style }) => {
               <div className="marker-tooltip-container">
                 <h3>{takeRight(name.split(" - "), 1)[0]}</h3>
                 <div className="marker-tooltip-name">
-                  {current?.maps?.marker?.title}
+                  {current.maps.marker?.title}
                 </div>
                 <div className="marker-tooltip-value">{marker[0]}</div>
               </div>
@@ -275,11 +188,12 @@ const Map = ({ current, style }) => {
     },
     [markerLegendSelected]
   );
+
   const MarkerLegend = useMemo(() => {
     if (markerLegendOptions) {
       return (
         <div className="marker-legend">
-          <h4>{current?.maps?.marker?.title}</h4>
+          <h4>{current.maps.marker?.title}</h4>
           <Space
             direction="horizontal"
             align="center"
@@ -366,7 +280,7 @@ const Map = ({ current, style }) => {
 
     return current && !loadingMap && thresholds.length ? (
       <div className="shape-legend">
-        <h4>{current?.maps?.shape?.title}</h4>
+        <h4>{current.maps.shape?.title}</h4>
         <Row className="legend-wrap">
           {thresholds.map((t, tI) => (
             <Col
@@ -398,7 +312,7 @@ const Map = ({ current, style }) => {
           <Spin />
         </div>
       ) : (
-        MarkerLegend
+        isMarker && MarkerLegend
       )}
       <div className="map-buttons">
         <Space size="small" direction="vertical">
@@ -406,16 +320,16 @@ const Map = ({ current, style }) => {
             type="secondary"
             icon={<FullscreenOutlined />}
             onClick={() => {
-              maps.fitBounds(defPos.bbox);
-              setZoomLevel(maps.getZoom());
+              map.fitBounds(defPos.bbox);
+              setZoomLevel(map.getZoom());
             }}
           />
           <Button
             type="secondary"
             icon={<ZoomOutOutlined />}
             onClick={() => {
-              const currentZoom = maps.getZoom() - 1;
-              maps.setZoom(currentZoom);
+              const currentZoom = map.getZoom() - 1;
+              map.setZoom(currentZoom);
               setZoomLevel(currentZoom);
             }}
           />
@@ -424,8 +338,8 @@ const Map = ({ current, style }) => {
             type="secondary"
             icon={<ZoomInOutlined />}
             onClick={() => {
-              const currentZoom = maps.getZoom() + 1;
-              maps.setZoom(currentZoom);
+              const currentZoom = map.getZoom() + 1;
+              map.setZoom(currentZoom);
               setZoomLevel(currentZoom);
             }}
           />
@@ -436,7 +350,7 @@ const Map = ({ current, style }) => {
         zoomControl={false}
         scrollWheelZoom={false}
         style={style}
-        whenCreated={setMaps}
+        whenCreated={setMap}
       >
         <TileLayer {...tile} />
         {geojson.features.length > 0 && (
@@ -447,20 +361,20 @@ const Map = ({ current, style }) => {
             onEachFeature={onEachFeature}
             weight={1}
           >
-            {hoveredShape && shapeTooltip && (
+            {isHover && hoveredShape && shapeTooltip && (
               <Tooltip className="shape-tooltip-wrapper">
                 {shapeTooltip}
               </Tooltip>
             )}
           </GeoJSON>
         )}
-        {!loadingMap && !!results.length && <Markers data={results} />}
+        {isMarker && !loadingMap && !!results.length && (
+          <Markers data={results} />
+        )}
       </MapContainer>
-      {!loadingMap && !loadingForm && (
-        <ShapeLegend thresholds={colorScale.thresholds()} />
-      )}
+      {!loadingMap && <ShapeLegend thresholds={colorScale.thresholds()} />}
     </div>
   );
 };
 
-export default Map;
+export default HomeMap;
