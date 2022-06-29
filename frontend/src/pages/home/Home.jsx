@@ -12,14 +12,16 @@ const Visuals = ({ current, nextCall, setNextCall }) => {
   return (
     <div>
       <div className="map-wrapper">
-        <HomeMap
-          markerData={{ features: [] }}
-          style={{ height: 600 }}
-          current={current}
-        />
+        {current?.maps && (
+          <HomeMap
+            markerData={{ features: [] }}
+            style={{ height: 600 }}
+            current={current}
+          />
+        )}
       </div>
       <div className="chart-wrapper">
-        {current.charts.map((hc, hcI) =>
+        {current?.charts?.map((hc, hcI) =>
           hc.type === "ADMINISTRATION" || hc.type === "CRITERIA" ? (
             <HomeAdministrationChart
               key={`chart-${hc.id}-${hcI}`}
@@ -45,7 +47,7 @@ const Visuals = ({ current, nextCall, setNextCall }) => {
 
 const Home = () => {
   const { highlights } = window;
-  const [currentHighlight, setCurrentHighlight] = useState(highlights[0]);
+  const [currentHighlight, setCurrentHighlight] = useState(highlights?.[0]);
   const [nextCall, setNextCall] = useState(0);
 
   const onTabClick = (active) => {
@@ -68,11 +70,11 @@ const Home = () => {
       <div className="home-even highlights">
         <div className="body">
           <Tabs
-            defaultActiveKey={highlights[0].name}
+            defaultActiveKey={highlights?.[0]?.name}
             onTabClick={onTabClick}
             centered
           >
-            {highlights.map((highlight) => (
+            {highlights?.map((highlight) => (
               <TabPane tab={highlight.name} key={highlight.name}>
                 <p className="highlight-title">{highlight.description}</p>
               </TabPane>
