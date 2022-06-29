@@ -9,7 +9,9 @@ export const generateOptions = (
   series,
   legend,
   horizontal,
-  highlighted
+  highlighted,
+  axis,
+  grid
 ) => {
   switch (type) {
     case "LINE":
@@ -21,7 +23,7 @@ export const generateOptions = (
     case "DOUGHNUT":
       return Pie(data, chartTitle, extra, true);
     default:
-      return Bar(data, chartTitle, extra, horizontal);
+      return Bar(data, chartTitle, extra, horizontal, grid);
   }
 };
 
@@ -44,6 +46,7 @@ const Chart = ({
   highlighted,
   loading = false,
   loadingOption = {},
+  grid = {},
 }) => {
   if (transform) {
     data = data.map((x) => ({
@@ -60,7 +63,8 @@ const Chart = ({
     legend,
     horizontal,
     highlighted,
-    axis
+    axis,
+    grid
   );
   const onEvents = {
     click: (e) => {

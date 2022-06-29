@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
-import { Card, Row, Checkbox, Switch } from "antd";
+import { Card, Row, Checkbox, Switch, Space } from "antd";
 import { api } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { sumBy, isNil, orderBy } from "lodash";
@@ -128,13 +128,10 @@ const HomeAdministrationChart = ({ config, formId }) => {
             Show empty values
           </Checkbox>
         )}
-        <Switch
-          size="small"
-          checkedChildren="County"
-          unCheckedChildren="National"
-          checked={isStack}
-          onChange={setIsStack}
-        />
+        <Space align="center">
+          <span>Show {isStack ? "National" : "County"} Data</span>
+          <Switch checked={isStack} onChange={setIsStack} />
+        </Space>
       </Row>
       <div className="chart-inner">
         {isStack ? (
@@ -179,6 +176,10 @@ const HomeAdministrationChart = ({ config, formId }) => {
                 fontWeight: "normal",
                 fontSize: 12,
               },
+            }}
+            grid={{
+              top: 90,
+              left: 120,
             }}
           />
         )}
