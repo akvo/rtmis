@@ -37,6 +37,8 @@ const markerColorRange = [
 ];
 const colorRange = ["#bbedda", "#a7e1cb", "#92d5bd", "#7dcaaf", "#67bea1"];
 const higlightColor = "#84b4cc";
+const isMarker = false;
+const isHover = false;
 
 const HomeMap = ({ current, style }) => {
   const [loadingMap, setLoadingMap] = useState(false);
@@ -52,10 +54,10 @@ const HomeMap = ({ current, style }) => {
 
   useEffect(() => {
     if (current && current?.map?.form_id) {
-      const { form_id, marker, shape } = current.map;
+      const { form_id, shape } = current.map;
       setLoadingMap(true);
       api
-        .get(`maps/${form_id}?marker=${marker?.id}&shape=${shape?.id}`)
+        .get(`maps/overview/${form_id}?shape=${shape?.id}`)
         .then((res) => {
           setResults(res.data);
         })
@@ -107,16 +109,11 @@ const HomeMap = ({ current, style }) => {
 
   const geoStyle = (g) => {
     if (results.length && map) {
-      const selectedAdmin = null;
-      const sc = shapeColors.find(
-        (sC) => sC.name === takeRight(Object.values(g.properties), 2)[0]
-      );
-      const fillColor =
-        selectedAdmin === sc?.name
-          ? higlightColor
-          : sc
-          ? getFillColor(sc.values || 0)
-          : "#e6e8f4";
+      const sc = shapeColors.find((sC) => {
+        // return county level name
+        return sC.name === takeRight(Object.values(g.properties), 4)[0];
+      });
+      const fillColor = sc ? getFillColor(sc.values || 0) : "#e6e8f4";
       const opacity = sc ? 0.8 : 0.3;
       return {
         fillColor,
@@ -191,6 +188,7 @@ const HomeMap = ({ current, style }) => {
     },
     [markerLegendSelected]
   );
+
   const MarkerLegend = useMemo(() => {
     if (markerLegendOptions) {
       return (
@@ -314,7 +312,7 @@ const HomeMap = ({ current, style }) => {
           <Spin />
         </div>
       ) : (
-        MarkerLegend
+        isMarker && MarkerLegend
       )}
       <div className="map-buttons">
         <Space size="small" direction="vertical">
@@ -363,14 +361,16 @@ const HomeMap = ({ current, style }) => {
             onEachFeature={onEachFeature}
             weight={1}
           >
-            {hoveredShape && shapeTooltip && (
+            {isHover && hoveredShape && shapeTooltip && (
               <Tooltip className="shape-tooltip-wrapper">
                 {shapeTooltip}
               </Tooltip>
             )}
           </GeoJSON>
         )}
-        {!loadingMap && !!results.length && <Markers data={results} />}
+        {isMarker && !loadingMap && !!results.length && (
+          <Markers data={results} />
+        )}
       </MapContainer>
       {!loadingMap && <ShapeLegend thresholds={colorScale.thresholds()} />}
     </div>

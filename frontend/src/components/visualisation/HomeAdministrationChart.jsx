@@ -158,7 +158,7 @@ const HomeAdministrationChart = ({ config, formId }) => {
             type="BAR"
             data={transformDataset}
             wrapper={false}
-            horizontal={false}
+            horizontal={horizontal}
             loading={loading}
             loadingOption={{
               text: "",
