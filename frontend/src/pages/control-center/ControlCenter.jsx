@@ -3,7 +3,7 @@ import "./style.scss";
 import { Row, Col, Card, Button, Divider } from "antd";
 import { store, config, uiText } from "../../lib";
 import { Link } from "react-router-dom";
-import { PanelApprovals, PanelSubmissions } from "../profile/components";
+import { PanelApprovals, PanelSubmissions } from "../control-center/components";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { ControlCenterTour } from "./components";
 
