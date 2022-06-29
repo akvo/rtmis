@@ -22,7 +22,8 @@ class Command(BaseCommand):
                 "parent": a.parent_id,
                 "name": a.name,
                 "path": a.path,
-                "full_name": a.administration_column
+                "full_name": a.administration_column,
+                "level": a.level.level
             })
         # add administration id to topojson
         topojson = open("source/kenya.topojson").read()
