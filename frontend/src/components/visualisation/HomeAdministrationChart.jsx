@@ -4,6 +4,7 @@ import { Card, Row, Checkbox, Switch } from "antd";
 import { api } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { sumBy, isNil, orderBy } from "lodash";
+import _ from "lodash";
 import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
@@ -96,8 +97,18 @@ const HomeAdministrationChart = ({ config, formId }) => {
         : dataset.filter((d) => sumBy(d.stack, "value") > 0);
     }
     // transform stack value
-    let data = dataset?.[0]?.stack || [];
-    data = data.length ? orderBy(data, ["value"], ["asc"]) : data;
+    let data = dataset.length ? dataset.flatMap((d) => d.stack) : [];
+    data = _.chain(data)
+      .groupBy("name")
+      .map((g, gi) => ({
+        name: gi,
+        title: g[0]?.title,
+        color: g[0]?.color,
+        value: sumBy(g, "value"),
+        total: sumBy(g, "total"),
+      }))
+      .value();
+    data = orderBy(data, ["value"], ["asc"]);
     const colors = data.map((d) => d.color);
     setChartColors(colors);
     return data;
@@ -147,7 +158,13 @@ const HomeAdministrationChart = ({ config, formId }) => {
             type="BAR"
             data={transformDataset}
             wrapper={false}
-            horizontal={horizontal}
+            horizontal={false}
+            loading={loading}
+            loadingOption={{
+              text: "",
+              color: "#1b91ff",
+              lineWidth: 1,
+            }}
             extra={{ color: chartColors }}
             series={{
               left: "10%",
