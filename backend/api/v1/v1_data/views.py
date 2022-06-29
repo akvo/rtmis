@@ -36,7 +36,9 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     SubmitPendingFormSerializer, ListBatchSummarySerializer, \
     ListBatchCommentSerializer, BatchListRequestSerializer, \
     SubmitFormDataAnswerSerializer, \
-    ChartDataSerializer, ListChartCriteriaRequestSerializer
+    ChartDataSerializer, ListChartCriteriaRequestSerializer, \
+    ListMapOverviewDataPointSerializer, \
+    ListMapOverviewDataPointRequestSerializer
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.models import Administration, Levels
@@ -309,7 +311,7 @@ class DataAnswerDetailDeleteView(APIView):
                tags=['Visualisation'],
                summary='To get Map data points')
 @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def get_map_data_point(request, version, form_id):
     instance = get_object_or_404(Forms, pk=form_id)
     serializer = ListMapDataPointRequestSerializer(data=request.GET,
@@ -329,6 +331,47 @@ def get_map_data_point(request, version, form_id):
             },
             many=True).data,
         status=status.HTTP_200_OK)
+
+
+@extend_schema(responses={200: ListMapOverviewDataPointSerializer(many=True)},
+               parameters=[
+                   OpenApiParameter(name='shape',
+                                    required=True,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY)
+                ],
+               tags=['Visualisation'],
+               summary='To get overview Map data points')
+@api_view(['GET'])
+def get_map_overview_data_point(request, version, form_id):
+    instance = get_object_or_404(Forms, pk=form_id)
+    serializer = ListMapOverviewDataPointRequestSerializer(
+        data=request.GET, context={'form': instance})
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    administrations = Administration.objects.filter(level_id=2).all()
+    counties = []
+    data = ListMapOverviewDataPointSerializer(
+        instance=instance.form_form_data.all(),
+        context={
+            'shape': serializer.validated_data.get('shape'),
+            'marker': serializer.validated_data.get('marker')
+        },
+        many=True).data
+    for adm in administrations:
+        level3 = Administration.objects.filter(parent_id=adm.id).all()
+        level3_ids = [lv.id for lv in level3]
+        level4 = Administration.objects.filter(parent_id__in=level3_ids).all()
+        childs = [lv.id for lv in level4]
+        filtered = filter(lambda d: d.get('administration_id') in childs, data)
+        counties.append({
+            'loc': adm.name,
+            'shape': sum(fl.get('shape') for fl in list(filtered))
+        })
+    return Response(counties, status=status.HTTP_200_OK)
 
 
 @extend_schema(
