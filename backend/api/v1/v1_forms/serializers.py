@@ -15,6 +15,8 @@ from api.v1.v1_users.models import SystemUser
 from rtmis.settings import FORM_GEO_VALUE
 from utils.custom_serializer_fields import CustomChoiceField, \
     CustomPrimaryKeyRelatedField, CustomListField
+from utils.default_serializers import CommonDataSerializer, \
+    GeoFormatSerializer
 
 
 class ListOptionSerializer(serializers.ModelSerializer):
@@ -51,7 +53,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
         return QuestionTypes.FieldStr.get(instance.type).lower()
 
     @extend_schema_field(
-        inline_serializer('api',
+        inline_serializer('CascadeApiFormat',
                           fields={
                               'endpoint': serializers.CharField(),
                               'list': serializers.CharField(),
@@ -63,14 +65,11 @@ class ListQuestionSerializer(serializers.ModelSerializer):
             administration = user.user_access.administration
             if user.user_access.role == UserRoleTypes.user:
                 return {
-                    "endpoint":
-                    "/api/v1/administration",
-                    "list":
-                    "children",
-                    "initial":
-                    "{0}?filter={1}".format(administration.parent_id,
-                                            administration.id)
-                }
+                    "endpoint": "/api/v1/administration",
+                    "list": "children",
+                    "initial": "{0}?filter={1}".format(
+                        administration.parent_id,
+                        administration.id)}
             return {
                 "endpoint": "/api/v1/administration",
                 "list": "children",
@@ -78,12 +77,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
             }
         return None
 
-    @extend_schema_field(
-        inline_serializer('center',
-                          fields={
-                              'lat': serializers.FloatField(),
-                              'lng': serializers.FloatField(),
-                          }))
+    @extend_schema_field(GeoFormatSerializer)
     def get_center(self, instance: Questions):
         if instance.type == QuestionTypes.geo:
             return FORM_GEO_VALUE
@@ -167,6 +161,8 @@ class ListFormRequestSerializer(serializers.Serializer):
 class ListFormSerializer(serializers.ModelSerializer):
     type_text = serializers.SerializerMethodField()
 
+    @extend_schema_field(CustomChoiceField(
+        choices=[FormTypes.FieldStr[d] for d in FormTypes.FieldStr]))
     def get_type_text(self, instance):
         return FormTypes.FieldStr.get(instance.type)
 
@@ -190,18 +186,16 @@ class FormDataListQuestionSerializer(serializers.ModelSerializer):
                 many=True).data
         return None
 
-    @extend_schema_field(OpenApiTypes.STR)
+    @extend_schema_field(CustomChoiceField(
+        choices=[
+            QuestionTypes.FieldStr[d].lower() for d in QuestionTypes.FieldStr]
+        ))
     def get_type(self, instance: Questions):
         if instance.type == QuestionTypes.administration:
             return QuestionTypes.FieldStr.get(QuestionTypes.cascade).lower()
         return QuestionTypes.FieldStr.get(instance.type).lower()
 
-    @extend_schema_field(
-        inline_serializer('center',
-                          fields={
-                              'lat': serializers.FloatField(),
-                              'lng': serializers.FloatField(),
-                          }))
+    @extend_schema_field(GeoFormatSerializer)
     def to_representation(self, instance):
         result = super(FormDataListQuestionSerializer,
                        self).to_representation(instance)
@@ -370,6 +364,7 @@ class FormApproverUserSerializer(serializers.ModelSerializer):
 class FormApproverUserListSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_name(self, instance: SystemUser):
         return instance.get_full_name()
 
@@ -391,21 +386,17 @@ class FormApproverResponseSerializer(serializers.ModelSerializer):
             return FormApproverUserSerializer(instance=assignment.user).data
         return None
 
-    @extend_schema_field(
-        inline_serializer('form_approver_field',
-                          fields={
-                              'id': serializers.IntegerField(),
-                              'name': serializers.CharField(),
-                          }))
+    @extend_schema_field(CommonDataSerializer)
     def get_administration(self, instance: Administration):
         return {'id': instance.id, 'name': instance.name}
 
     @extend_schema_field(FormApproverUserListSerializer(many=True))
     def get_user_list(self, instance: Administration):
-        users = SystemUser.objects.filter(user_access__role__in=[
-            UserRoleTypes.approver, UserRoleTypes.admin
-        ],
-                                          user_access__administration=instance)
+        users = SystemUser.objects.filter(
+                user_access__role__in=[
+                    UserRoleTypes.approver,
+                    UserRoleTypes.admin],
+                user_access__administration=instance)
         return FormApproverUserListSerializer(instance=users, many=True).data
 
     class Meta:

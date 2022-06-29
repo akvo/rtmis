@@ -18,6 +18,7 @@ from api.v1.v1_users.models import SystemUser
 from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
     UnvalidatedField, CustomListField, CustomCharField, CustomChoiceField, \
     CustomBooleanField
+from utils.default_serializers import CommonDataSerializer
 from utils.email_helper import send_email, EmailTypes
 from utils.functions import update_date_time_format, get_answer_value
 from utils.functions import get_answer_history
@@ -149,18 +150,26 @@ class SubmitFormSerializer(serializers.Serializer):
         return object
 
 
+class AnswerHistorySerializer(serializers.Serializer):
+    value = serializers.IntegerField()
+    created = CustomCharField()
+    created_by = CustomCharField()
+
+
 class ListDataAnswerSerializer(serializers.ModelSerializer):
     history = serializers.SerializerMethodField()
     value = serializers.SerializerMethodField()
 
+    @extend_schema_field(AnswerHistorySerializer(many=True))
     def get_history(self, instance):
         answer_history = AnswerHistory.objects.filter(
             data=instance.data, question=instance.question).all()
         history = []
         for h in answer_history:
             history.append(get_answer_history(h))
-        return history if history else False
+        return history if history else None
 
+    @extend_schema_field(OpenApiTypes.ANY)
     def get_value(self, instance: Answers):
         return get_answer_value(instance)
 
@@ -191,26 +200,31 @@ class ListFormDataSerializer(serializers.ModelSerializer):
     administration = serializers.ReadOnlyField(source='administration.name')
     pending_data = serializers.SerializerMethodField()
 
-    # answer = serializers.SerializerMethodField()
-
+    @extend_schema_field(OpenApiTypes.STR)
     def get_created_by(self, instance: FormData):
         return instance.created_by.get_full_name()
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_updated_by(self, instance: FormData):
         if instance.updated_by:
             return instance.updated_by.get_full_name()
         return None
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_created(self, instance: FormData):
         return update_date_time_format(instance.created)
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_updated(self, instance: FormData):
         return update_date_time_format(instance.updated)
 
+    @extend_schema_field(
+        inline_serializer('HasPendingData', fields={
+            'id': serializers.IntegerField(),
+            'created_by': serializers.CharField()}))
     def get_pending_data(self, instance: FormData):
         batch = None
-        pending_data = PendingFormData.objects.filter(
-            data=instance.pk).first()
+        pending_data = PendingFormData.objects.filter(data=instance.pk).first()
         if pending_data:
             batch = PendingDataBatch.objects.filter(
                 pk=pending_data.batch_id).first()
@@ -221,17 +235,6 @@ class ListFormDataSerializer(serializers.ModelSerializer):
                 "created_by": pending_data.created_by.get_full_name()
             }
         return None
-
-    #
-    # @extend_schema_field(ListDataAnswerSerializer(many=True))
-    # def get_answer(self, instance: FormData):
-    #     filter_data = {}
-    #     if self.context.get('questions') and len(
-    #             self.context.get('questions')):
-    #         filter_data['question__in'] = self.context.get('questions')
-    #     return ListDataAnswerSerializer(
-    #         instance=instance.data_answer.filter(**filter_data),
-    #         many=True).data
 
     class Meta:
         model = FormData
@@ -257,12 +260,14 @@ class ListMapDataPointSerializer(serializers.ModelSerializer):
     marker = serializers.SerializerMethodField()
     shape = serializers.SerializerMethodField()
 
+    @extend_schema_field(CustomListField)
     def get_marker(self, instance):
         if self.context.get('marker'):
             return get_answer_value(
                 instance.data_answer.get(question=self.context.get('marker')))
         return None
 
+    @extend_schema_field(OpenApiTypes.INT)
     def get_shape(self, instance: FormData):
         return get_answer_value(
             instance.data_answer.get(question=self.context.get('shape')))
@@ -288,6 +293,7 @@ class ListChartDataPointRequestSerializer(serializers.Serializer):
 class ListChartQuestionDataPointSerializer(serializers.ModelSerializer):
     value = serializers.SerializerMethodField()
 
+    @extend_schema_field(OpenApiTypes.INT)
     def get_value(self, instance: QuestionOptions):
         return instance.question.question_answer.filter(
             options__contains=instance.name).count()
@@ -295,6 +301,11 @@ class ListChartQuestionDataPointSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestionOptions
         fields = ['name', 'value']
+
+
+class ChartDataSerializer(serializers.Serializer):
+    type = serializers.CharField(),
+    data = ListChartQuestionDataPointSerializer(many=True)
 
 
 class ListChartOverviewRequestSerializer(serializers.Serializer):
@@ -305,19 +316,18 @@ class ListChartOverviewRequestSerializer(serializers.Serializer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         queryset = self.context.get('form').form_questions
-        self.fields.get('question').queryset = queryset.filter(Q(
-            type=QuestionTypes.option) | Q(
-                type=QuestionTypes.number) | Q(
-                    type=QuestionTypes.multiple_option))
-        self.fields.get('stack').queryset = queryset.filter(Q(
-            type=QuestionTypes.option) | Q(
-                type=QuestionTypes.multiple_option))
+        self.fields.get('question').queryset = queryset.filter(
+            Q(type=QuestionTypes.option) | Q(type=QuestionTypes.number)
+            | Q(type=QuestionTypes.multiple_option))
+        self.fields.get('stack').queryset = queryset.filter(
+            Q(type=QuestionTypes.option)
+            | Q(type=QuestionTypes.multiple_option))
 
 
 class ListChartAdministrationRequestSerializer(serializers.Serializer):
     question = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none())
     administration = CustomPrimaryKeyRelatedField(
-            queryset=Administration.objects.none())
+        queryset=Administration.objects.none())
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -359,6 +369,7 @@ class ListPendingDataAnswerSerializer(serializers.ModelSerializer):
     history = serializers.SerializerMethodField()
     value = serializers.SerializerMethodField()
 
+    @extend_schema_field(AnswerHistorySerializer(many=True))
     def get_history(self, instance):
         pending_answer_history = PendingAnswerHistory.objects.filter(
             pending_data=instance.pending_data,
@@ -366,8 +377,9 @@ class ListPendingDataAnswerSerializer(serializers.ModelSerializer):
         history = []
         for h in pending_answer_history:
             history.append(get_answer_history(h))
-        return history if history else False
+        return history if history else None
 
+    @extend_schema_field(OpenApiTypes.ANY)
     def get_value(self, instance: Answers):
         return get_answer_value(instance)
 
@@ -389,6 +401,7 @@ class ListPendingDataBatchSerializer(serializers.ModelSerializer):
     administration = serializers.SerializerMethodField()
     total_data = serializers.SerializerMethodField()
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_created_by(self, instance: PendingDataBatch):
         return instance.user.get_full_name()
 
@@ -396,35 +409,26 @@ class ListPendingDataBatchSerializer(serializers.ModelSerializer):
     def get_total_data(self, instance: PendingDataBatch):
         return instance.batch_pending_data_batch.count()
 
-    @extend_schema_field(
-        inline_serializer('batch_pending_form',
-                          fields={
-                              'id': serializers.IntegerField(),
-                              'name': serializers.CharField(),
-                          }))
+    @extend_schema_field(CommonDataSerializer)
     def get_form(self, instance: PendingDataBatch):
         return {
             'id': instance.form.id,
             'name': instance.form.name,
         }
 
-    @extend_schema_field(
-        inline_serializer('batch_pending_administration',
-                          fields={
-                              'id': serializers.IntegerField(),
-                              'name': serializers.CharField(),
-                          }))
+    @extend_schema_field(CommonDataSerializer)
     def get_administration(self, instance: PendingDataBatch):
         return {
             'id': instance.administration_id,
             'name': instance.administration.name,
         }
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_created(self, instance: PendingDataBatch):
         return update_date_time_format(instance.created)
 
     @extend_schema_field(
-        inline_serializer('batch_pending_approver',
+        inline_serializer('PendingBatchApprover',
                           fields={
                               'id': serializers.IntegerField(),
                               'name': serializers.CharField(),
@@ -486,12 +490,15 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
     administration = serializers.ReadOnlyField(source='administration.name')
     pending_answer_history = serializers.SerializerMethodField()
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_created_by(self, instance: PendingFormData):
         return instance.created_by.get_full_name()
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_created(self, instance: PendingFormData):
         return update_date_time_format(instance.created)
 
+    @extend_schema_field(OpenApiTypes.BOOL)
     def get_pending_answer_history(self, instance: PendingFormData):
         history = PendingAnswerHistory.objects.filter(
             pending_data=instance).count()
@@ -525,8 +532,7 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
         user = self.context.get('user')
         comment = validated_data.get("comment")
         user_level = user.user_access.administration.level
-        approval = PendingDataApproval.objects.get(
-            user=user, batch=batch)
+        approval = PendingDataApproval.objects.get(user=user, batch=batch)
         approval.status = validated_data.get('status')
         approval.save()
         first_data = PendingFormData.objects.filter(batch=batch).first()
@@ -539,10 +545,10 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
         listing = [{
             "name": "Batch Name",
             "value": batch.name,
-            }, {
+        }, {
             "name": "Number of Records",
             "value": data_count,
-            }, {
+        }, {
             "name": "Questionnaire",
             "value": batch.form.name,
         }]
@@ -586,27 +592,26 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
             lower_approval_users = SystemUser.objects.filter(
                 id__in=lower_approval_user_ids, deleted_at=None).all()
             lower_approval_emails = [
-                u.email for u in lower_approval_users if u.email != user.email]
+                u.email for u in lower_approval_users if u.email != user.email
+            ]
             if lower_approval_emails:
                 inform_data = {
                     "send_to": lower_approval_emails,
                     "listing": listing,
                     "extend_body": """
                     The data submitter has also been notified.
-                    They can modify the data and submit again for approval"""
+                    They can modify the data and submit again for approval
+                    """
                 }
-                send_email(
-                    context=inform_data,
-                    type=EmailTypes.inform_batch_rejection_approver)
+                send_email(context=inform_data,
+                           type=EmailTypes.inform_batch_rejection_approver)
             # change approval status to pending
             # for la in lower_approvals:
             #     la.status = DataApprovalStatus.pending
             #     la.save()
         if validated_data.get('comment'):
             PendingDataBatchComments.objects.create(
-                user=user,
-                batch=batch,
-                comment=validated_data.get('comment'))
+                user=user, batch=batch, comment=validated_data.get('comment'))
         if not PendingDataApproval.objects.filter(
                 batch=batch,
                 status__in=[
@@ -679,24 +684,14 @@ class ListBatchSerializer(serializers.ModelSerializer):
     created = serializers.SerializerMethodField()
     updated = serializers.SerializerMethodField()
 
-    @extend_schema_field(
-        inline_serializer('batch_form',
-                          fields={
-                              'id': serializers.IntegerField(),
-                              'name': serializers.CharField(),
-                          }))
+    @extend_schema_field(CommonDataSerializer)
     def get_form(self, instance: PendingDataBatch):
         return {
             'id': instance.form.id,
             'name': instance.form.name,
         }
 
-    @extend_schema_field(
-        inline_serializer('batch_administration',
-                          fields={
-                              'id': serializers.IntegerField(),
-                              'name': serializers.CharField(),
-                          }))
+    @extend_schema_field(CommonDataSerializer)
     def get_administration(self, instance: PendingDataBatch):
         return {
             'id': instance.administration_id,
@@ -704,7 +699,7 @@ class ListBatchSerializer(serializers.ModelSerializer):
         }
 
     @extend_schema_field(
-        inline_serializer('batch_file',
+        inline_serializer('BatchFile',
                           fields={
                               'name': serializers.CharField(),
                               'file': serializers.URLField(),
@@ -725,7 +720,7 @@ class ListBatchSerializer(serializers.ModelSerializer):
         return instance.batch_pending_data_batch.all().count()
 
     @extend_schema_field(
-        inline_serializer('batch_approver',
+        inline_serializer('BatchApprover',
                           fields={
                               'name': serializers.CharField(),
                               'administration': serializers.CharField(),
@@ -738,14 +733,10 @@ class ListBatchSerializer(serializers.ModelSerializer):
         for approver in instance.batch_approval.all():
             approver_administration = approver.user.user_access.administration
             data.append({
-                'name':
-                approver.user.get_full_name(),
-                'administration':
-                approver_administration.name,
-                'status':
-                approver.status,
-                'status_text':
-                DataApprovalStatus.FieldStr.get(approver.status)
+                'name': approver.user.get_full_name(),
+                'administration': approver_administration.name,
+                'status': approver.status,
+                'status_text': DataApprovalStatus.FieldStr.get(approver.status)
             })
         return data
 
@@ -771,9 +762,12 @@ class ListBatchSummarySerializer(serializers.ModelSerializer):
     type = serializers.SerializerMethodField()
     value = serializers.SerializerMethodField()
 
+    @extend_schema_field(CustomChoiceField(
+        choices=[QuestionTypes.FieldStr[d] for d in QuestionTypes.FieldStr]))
     def get_type(self, instance):
         return QuestionTypes.FieldStr.get(instance.question.type)
 
+    @extend_schema_field(OpenApiTypes.ANY)
     def get_value(self, instance: PendingAnswers):
         batch: PendingDataBatch = self.context.get('batch')
         if instance.question.type == QuestionTypes.number:
@@ -805,7 +799,7 @@ class ListBatchCommentSerializer(serializers.ModelSerializer):
     created = serializers.SerializerMethodField()
 
     @extend_schema_field(
-        inline_serializer('batch_comment_user',
+        inline_serializer('BatchUserComment',
                           fields={
                               'name': serializers.CharField(),
                               'email': serializers.CharField(),
@@ -875,19 +869,19 @@ class CreateBatchSerializer(serializers.Serializer):
                                                    user=assignment.user,
                                                    level_id=level)
                 number_of_records = PendingFormData.objects.filter(
-                        batch=obj).count()
+                    batch=obj).count()
                 data = {
                     'send_to': [assignment.user.email],
                     'listing': [{
                         'name': "Batch Name",
                         'value': obj.name
-                        }, {
+                    }, {
                         'name': "Questionnaire",
                         'value': obj.form.name
-                        }, {
+                    }, {
                         'name': "Number of Records",
                         'value': number_of_records
-                        }, {
+                    }, {
                         'name': "Submitter",
                         'value': f"""{obj.user.name},
                         {obj.user.designation_name}"""
@@ -1020,8 +1014,7 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                 form=data.get('form'),
                 administration=data.get('administration'),
                 geo=data.get('geo'),
-                created_by=data.get('created_by')
-            )
+                created_by=data.get('created_by'))
 
         for answer in validated_data.get('answer'):
             name = None
