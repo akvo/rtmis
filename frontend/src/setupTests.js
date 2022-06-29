@@ -15,3 +15,7 @@ window.forms = [
   { id: 1, name: "Example 1", type: 1, version: 1, type_text: "County" },
   { id: 2, name: "Example 2", type: 2, version: 1, type_text: "National" },
 ];
+
+window.visualisation = [];
+
+window.highlights = [];
