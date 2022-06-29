@@ -13,7 +13,7 @@ const Home = () => {
 
   return (
     <div id="home">
-      <div className="home-even about">
+      <div className="home-odd about">
         <h1>About RUSH</h1>
         <p>
           The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform is a
@@ -23,16 +23,8 @@ const Home = () => {
           generation and visualizations.
         </p>
       </div>
-      <div className="home-odd about">
-        <h1>About the data</h1>
-        <p>
-          All the data contained in the RUSH platform is aggregated from both
-          primary and secondary data sources from the 47 counties in Kenya. The
-          data is updated on a monthly basis.
-        </p>
-      </div>
       <div className="home-even highlights">
-        <h1>Highlights</h1>
+        <h1>Data</h1>
         <div className="body">
           <Tabs defaultActiveKey="1" centered>
             {highlights?.map((highlight, index) => (
