@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Button, DatePicker, Input, Select, Row, Col, Spin } from "antd";
+import { Button, DatePicker, Input, Select, Row, Col } from "antd";
 import { config } from "../lib";
 import { isEqual } from "lodash";
 const { Option } = Select;
-import { UndoOutlined, SaveOutlined, LoadingOutlined } from "@ant-design/icons";
+import { UndoOutlined, SaveOutlined } from "@ant-design/icons";
 import moment from "moment";
 import PropTypes from "prop-types";
 
@@ -18,7 +18,6 @@ const EditableCell = ({
 }) => {
   const [editing, setEditing] = useState(false);
   const [locationName, setLocationName] = useState(null);
-  const [locationLoading, setLocationLoading] = useState(false);
   const [value, setValue] = useState(null);
 
   useEffect(() => {
@@ -38,11 +37,9 @@ const EditableCell = ({
     record && record.newValue && !isEqual(record.value, record.newValue);
 
   useEffect(() => {
-    setLocationLoading(true);
     if (record && record.type === "cascade" && !locationName) {
       const locName = config.fn.administration(record.value, false);
       setLocationName(locName?.full_name);
-      setLocationLoading(false);
     }
   }, [record, locationName]);
 
@@ -144,19 +141,7 @@ const EditableCell = ({
           }
         }}
       >
-        {record.type === "cascade" ? (
-          locationLoading ? (
-            <Spin
-              indicator={<LoadingOutlined style={{ color: "#1b91ff" }} spin />}
-            />
-          ) : locationName ? (
-            locationName
-          ) : (
-            "-"
-          )
-        ) : (
-          getAnswerValue()
-        )}
+        {record.type === "cascade" ? locationName : getAnswerValue()}
       </Col>
       {edited && (
         <Button
