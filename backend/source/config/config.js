@@ -964,6 +964,35 @@ var highlights = [
   {
     name: "Household",
     description: "Description text here",
+    map: {
+      form_id: 519630048,
+      marker: {
+        id: 513690068,
+        title: "Functional household toilet available",
+        options: [
+          {
+            id: 697,
+            name: "No toilet observed",
+          },
+          {
+            id: 698,
+            name: "Toilet with inadequate privacy",
+          },
+          {
+            id: 699,
+            name: "Toilet not functional",
+          },
+          {
+            id: 700,
+            name: "Functional toilet with privacy",
+          },
+        ],
+      },
+      shape: {
+        id: 519660055,
+        title: "Age of the household head",
+      },
+    },
     charts: [
       {
         // api chart/overview/criteria
@@ -1196,6 +1225,27 @@ var highlights = [
   {
     name: "Health Facilities",
     description: "Description text here",
+    map: {
+      form_id: 533560002,
+      marker: {
+        id: 547720005,
+        title: "Health Center Facility Level",
+        options: [
+          {
+            id: 1158,
+            name: "L1",
+          },
+          {
+            id: 1159,
+            name: "L2",
+          },
+        ],
+      },
+      shape: {
+        id: 555370007,
+        title: "Number of usable toilets",
+      },
+    },
     charts: [
       {
         form_id: 533560002,
@@ -1500,6 +1550,35 @@ var highlights = [
   {
     name: "CLTS",
     description: "Description text here",
+    map: {
+      form_id: 974754029,
+      marker: {
+        id: 557700349,
+        title: "Open Defecation Status",
+        options: [
+          {
+            id: 890,
+            name: "Open Defecation",
+          },
+          {
+            id: 891,
+            name: "Triggered",
+          },
+          {
+            id: 892,
+            name: "Declared ODF",
+          },
+          {
+            id: 893,
+            name: "Verified ODF",
+          },
+        ],
+      },
+      shape: {
+        id: 567440335,
+        title: "Number of households in the Village",
+      },
+    },
     charts: [
       {
         // api chart/overview
@@ -1525,6 +1604,51 @@ var highlights = [
   {
     name: "WASH in School",
     description: "Description text here",
+    map: {
+      form_id: 563350033,
+      marker: {
+        id: 551660011,
+        title: "Main source of drinking water",
+        options: [
+          {
+            id: 511,
+            name: "Piped water supply",
+          },
+          {
+            id: 512,
+            name: "Protected well/spring",
+          },
+          {
+            id: 513,
+            name: "Rainwater",
+          },
+          {
+            id: 514,
+            name: "Unprotected well/spring",
+          },
+          {
+            id: 515,
+            name: "Packaged bottled water",
+          },
+          {
+            id: 516,
+            name: "Tanker-truck or cart",
+          },
+          {
+            id: 517,
+            name: "Surface water (lake, river, stream)",
+          },
+          {
+            id: 518,
+            name: "No water source",
+          },
+        ],
+      },
+      shape: {
+        id: 551660016,
+        title: "No. of drinking water points",
+      },
+    },
     charts: [
       {
         form_id: 563350033,
@@ -1818,6 +1942,47 @@ var highlights = [
   {
     name: "Water System",
     description: "Description text here",
+    map: {
+      form_id: 571070071,
+      marker: {
+        id: 571050096,
+        title: "Water Source Type",
+        options: [
+          {
+            id: 346,
+            name: "Deep well with distribution",
+          },
+          {
+            id: 347,
+            name: "Hand dug well",
+          },
+          {
+            id: 348,
+            name: "Shallow well",
+          },
+          {
+            id: 349,
+            name: "Protected spring",
+          },
+          {
+            id: 350,
+            name: "Unprotected spring",
+          },
+          {
+            id: 351,
+            name: "Rainwater collection",
+          },
+          {
+            id: 352,
+            name: "Surface water",
+          },
+        ],
+      },
+      shape: {
+        id: 555960249,
+        title: "Number of functional taps",
+      },
+    },
     charts: [
       {
         // api chart/overview

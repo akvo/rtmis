@@ -309,7 +309,7 @@ class DataAnswerDetailDeleteView(APIView):
                tags=['Visualisation'],
                summary='To get Map data points')
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def get_map_data_point(request, version, form_id):
     instance = get_object_or_404(Forms, pk=form_id)
     serializer = ListMapDataPointRequestSerializer(data=request.GET,
