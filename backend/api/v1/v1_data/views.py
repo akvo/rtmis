@@ -630,11 +630,21 @@ def get_chart_criteria(request, version, form_id):
 @extend_schema(
     request=ListChartCriteriaRequestSerializer(many=True),
     responses={200: ChartDataSerializer},
+    parameters=[OpenApiParameter(
+        name='administration',
+        default=1,
+        required=False,
+        type=OpenApiTypes.NUMBER,
+        location=OpenApiParameter.QUERY)],
     tags=['Visualisation'],
     summary='To get overview with criteria chart at National level')
 @api_view(['POST'])
 def get_chart_overview_criteria(request, version, form_id):
+    administration_id = 1
+    if request.GET.get('administration'):
+        administration_id = request.GET.get('administration')
     instance = get_object_or_404(Forms, pk=form_id)
+    administration = get_object_or_404(Administration, pk=administration_id)
     serializer = ListChartCriteriaRequestSerializer(
         data=request.data, context={'form': instance}, many=True)
     if not serializer.is_valid():
@@ -643,15 +653,32 @@ def get_chart_overview_criteria(request, version, form_id):
             status=status.HTTP_400_BAD_REQUEST
         )
     params = serializer.validated_data
-    childs = Administration.objects.filter(level_id=1).all()
+    max_level = Levels.objects.order_by('-level').first()
+    # show only national level
+    # childs = Administration.objects.filter(level_id=1).all()
+    ###
+    childs = Administration.objects.filter(parent=administration).all()
+    if administration.level.level == max_level.level:
+        childs = [administration]
     data = []
     for child in childs:
         values = {
             'group': child.name,
             'child': []
         }
+        # show only national level
+        # data_ids = list(ViewDataOptions.objects.filter(
+        #     form_id=form_id).values_list('data_id', flat=True))
+        ###
+        filter_path = child.path
+        if child.level.level < max_level.level:
+            filter_path = "{0}{1}.".format(child.path, child.id)
+        administration_ids = list(Administration.objects.filter(
+            path__startswith=filter_path).values_list('id', flat=True))
         data_ids = list(ViewDataOptions.objects.filter(
-            form_id=form_id).values_list('data_id', flat=True))
+            form_id=form_id,
+            administration_id__in=administration_ids
+        ).values_list('data_id', flat=True))
         # loop for post params
         for param in params:
             filter_criteria = []
