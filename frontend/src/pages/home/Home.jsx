@@ -24,7 +24,6 @@ const Home = () => {
         </p>
       </div>
       <div className="home-even highlights">
-        <h1>Data</h1>
         <div className="body">
           <Tabs defaultActiveKey="1" centered>
             {highlights?.map((highlight, index) => (
