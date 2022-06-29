@@ -54,7 +54,7 @@ const Map = ({ current, style }) => {
     loadingMap,
     questionGroups,
   } = store.useState((s) => s);
-  const [map, setMap] = useState(null);
+  const [maps, setMaps] = useState(null);
   const [results, setResults] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(null);
   // shape legend click filter
@@ -65,14 +65,14 @@ const Map = ({ current, style }) => {
   const [markerLegendSelected, setMarkerLegendSelected] = useState(null);
 
   useEffect(() => {
-    if (map && administration?.length && selectedForm && current) {
+    if (maps && administration?.length && selectedForm && current) {
       const pos = getBounds(administration);
-      map.fitBounds(pos.bbox);
-      map.setView(pos.coordinates, map.getZoom());
-      setZoomLevel(map.getZoom());
-      map.invalidateSize();
+      maps.fitBounds(pos.bbox);
+      maps.setView(pos.coordinates, maps.getZoom());
+      setZoomLevel(maps.getZoom());
+      maps.invalidateSize();
     }
-  }, [map, administration, selectedForm, current]);
+  }, [maps, administration, selectedForm, current]);
 
   const adminName = useMemo(() => {
     return administration.length ? takeRight(administration, 1)[0]?.name : null;
@@ -127,7 +127,7 @@ const Map = ({ current, style }) => {
   };
 
   const geoStyle = (g) => {
-    if (administration.length > 0 && results.length && map) {
+    if (administration.length > 0 && results.length && maps) {
       const selectedAdmin = selectedAdministration
         ? takeRight(Object.values(selectedAdministration), 2)[0]
         : null;
@@ -163,7 +163,7 @@ const Map = ({ current, style }) => {
       });
       api
         .get(
-          `maps/${selectedForm}?marker=${current?.map?.marker?.id}&shape=${current?.map?.shape?.id}`
+          `maps/${selectedForm}?marker=${current?.maps?.marker?.id}&shape=${current?.maps?.shape?.id}`
         )
         .then((res) => {
           setResults(res.data);
@@ -190,7 +190,7 @@ const Map = ({ current, style }) => {
               <h3>{geoName}</h3>
               <Space align="top" direction="horizontal">
                 <span className="shape-tooltip-name">
-                  {current?.map?.shape?.title}
+                  {current?.maps?.shape?.title}
                 </span>
                 <h3 className="shape-tooltip-value">
                   {geoRes.length ? sumBy(geoRes, "shape") : 0}
@@ -209,12 +209,12 @@ const Map = ({ current, style }) => {
   }, [hoveredShape, results, current, administration, adminName]);
 
   const markerLegendOptions = useMemo(() => {
-    if (current && current?.map?.marker) {
+    if (current && current?.maps?.marker) {
       return (
         flatten(questionGroups.map((qg) => qg.question))
-          .find((q) => q.id === current.map.marker.id)
+          .find((q) => q.id === current.maps.marker.id)
           ?.option?.map((o) => {
-            const moRes = current.map.marker.options?.find(
+            const moRes = current.maps.marker.options?.find(
               (mo) => mo.id === o.id
             )?.name;
             return moRes ? { ...o, title: moRes } : o;
@@ -253,7 +253,7 @@ const Map = ({ current, style }) => {
               <div className="marker-tooltip-container">
                 <h3>{takeRight(name.split(" - "), 1)[0]}</h3>
                 <div className="marker-tooltip-name">
-                  {current?.map?.marker?.title}
+                  {current?.maps?.marker?.title}
                 </div>
                 <div className="marker-tooltip-value">{marker[0]}</div>
               </div>
@@ -279,7 +279,7 @@ const Map = ({ current, style }) => {
     if (markerLegendOptions) {
       return (
         <div className="marker-legend">
-          <h4>{current?.map?.marker?.title}</h4>
+          <h4>{current?.maps?.marker?.title}</h4>
           <Space
             direction="horizontal"
             align="center"
@@ -366,7 +366,7 @@ const Map = ({ current, style }) => {
 
     return current && !loadingMap && thresholds.length ? (
       <div className="shape-legend">
-        <h4>{current?.map?.shape?.title}</h4>
+        <h4>{current?.maps?.shape?.title}</h4>
         <Row className="legend-wrap">
           {thresholds.map((t, tI) => (
             <Col
@@ -406,16 +406,16 @@ const Map = ({ current, style }) => {
             type="secondary"
             icon={<FullscreenOutlined />}
             onClick={() => {
-              map.fitBounds(defPos.bbox);
-              setZoomLevel(map.getZoom());
+              maps.fitBounds(defPos.bbox);
+              setZoomLevel(maps.getZoom());
             }}
           />
           <Button
             type="secondary"
             icon={<ZoomOutOutlined />}
             onClick={() => {
-              const currentZoom = map.getZoom() - 1;
-              map.setZoom(currentZoom);
+              const currentZoom = maps.getZoom() - 1;
+              maps.setZoom(currentZoom);
               setZoomLevel(currentZoom);
             }}
           />
@@ -424,8 +424,8 @@ const Map = ({ current, style }) => {
             type="secondary"
             icon={<ZoomInOutlined />}
             onClick={() => {
-              const currentZoom = map.getZoom() + 1;
-              map.setZoom(currentZoom);
+              const currentZoom = maps.getZoom() + 1;
+              maps.setZoom(currentZoom);
               setZoomLevel(currentZoom);
             }}
           />
@@ -436,7 +436,7 @@ const Map = ({ current, style }) => {
         zoomControl={false}
         scrollWheelZoom={false}
         style={style}
-        whenCreated={setMap}
+        whenCreated={setMaps}
       >
         <TileLayer {...tile} />
         {geojson.features.length > 0 && (

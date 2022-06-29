@@ -53,8 +53,8 @@ const HomeMap = ({ current, style }) => {
   const [markerLegendSelected, setMarkerLegendSelected] = useState(null);
 
   useEffect(() => {
-    if (current && current?.map?.form_id) {
-      const { form_id, shape } = current.map;
+    if (current && current.maps.form_id) {
+      const { form_id, shape } = current.maps;
       setLoadingMap(true);
       api
         .get(`maps/overview/${form_id}?shape=${shape?.id}`)
@@ -81,7 +81,7 @@ const HomeMap = ({ current, style }) => {
               <h3>{geoName}</h3>
               <Space align="top" direction="horizontal">
                 <span className="shape-tooltip-name">
-                  {current?.map?.shape?.title}
+                  {current.maps.shape?.title}
                 </span>
                 <h3 className="shape-tooltip-value">
                   {geoRes.length ? sumBy(geoRes, "shape") : 0}
@@ -131,8 +131,8 @@ const HomeMap = ({ current, style }) => {
   };
 
   const markerLegendOptions = useMemo(() => {
-    if (current && current?.map?.marker) {
-      return current?.map?.marker?.options;
+    if (current && current.maps.marker) {
+      return current.maps.marker?.options;
     }
     return [];
   }, [current]);
@@ -166,7 +166,7 @@ const HomeMap = ({ current, style }) => {
               <div className="marker-tooltip-container">
                 <h3>{takeRight(name.split(" - "), 1)[0]}</h3>
                 <div className="marker-tooltip-name">
-                  {current?.map?.marker?.title}
+                  {current.maps.marker?.title}
                 </div>
                 <div className="marker-tooltip-value">{marker[0]}</div>
               </div>
@@ -193,7 +193,7 @@ const HomeMap = ({ current, style }) => {
     if (markerLegendOptions) {
       return (
         <div className="marker-legend">
-          <h4>{current?.map?.marker?.title}</h4>
+          <h4>{current.maps.marker?.title}</h4>
           <Space
             direction="horizontal"
             align="center"
@@ -280,7 +280,7 @@ const HomeMap = ({ current, style }) => {
 
     return current && !loadingMap && thresholds.length ? (
       <div className="shape-legend">
-        <h4>{current?.map?.shape?.title}</h4>
+        <h4>{current.maps.shape?.title}</h4>
         <Row className="legend-wrap">
           {thresholds.map((t, tI) => (
             <Col

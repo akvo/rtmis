@@ -9,7 +9,7 @@ import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
 
-const HomeAdministrationChart = ({ config, formId }) => {
+const HomeAdministrationChart = ({ config, formId, runNow, nextCall }) => {
   const [dataset, setDataset] = useState([]);
   const [showEmpty, setShowEmpty] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -31,7 +31,7 @@ const HomeAdministrationChart = ({ config, formId }) => {
   };
 
   useEffect(() => {
-    if (formId && (type === "CRITERIA" || id)) {
+    if (formId && (type === "CRITERIA" || id) && runNow) {
       setLoading(true);
       const url =
         (type === "CRITERIA"
@@ -85,10 +85,11 @@ const HomeAdministrationChart = ({ config, formId }) => {
           });
         })
         .finally(() => {
+          nextCall();
           setLoading(false);
         });
     }
-  }, [formId, id, notify, options, stack?.options, type]);
+  }, [formId, id, notify, options, stack?.options, type, runNow, nextCall]);
 
   const transformDataset = useMemo(() => {
     if (isStack) {
