@@ -44,7 +44,7 @@ const EditableCell = ({
       setLocationName(locName?.full_name);
       setLocationLoading(false);
     }
-  }, [record]);
+  }, [record, locationName]);
 
   const getAnswerValue = () => {
     return record.type === "multiple_option"
