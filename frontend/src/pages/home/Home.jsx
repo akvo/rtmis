@@ -1,7 +1,11 @@
 import React from "react";
 import "./style.scss";
 import { Tabs } from "antd";
-import { HomeDataChart, HomeAdministrationChart } from "../../components";
+import {
+  HomeDataChart,
+  HomeAdministrationChart,
+  HomeMap,
+} from "../../components";
 const { TabPane } = Tabs;
 
 const Home = () => {
@@ -34,7 +38,16 @@ const Home = () => {
             {highlights?.map((highlight, index) => (
               <TabPane tab={highlight.name} key={index + 1}>
                 <p className="highlight-title">{highlight.description}</p>
-                <div>
+                {highlight?.map && (
+                  <div className="map-wrapper">
+                    <HomeMap
+                      markerData={{ features: [] }}
+                      style={{ height: 600 }}
+                      current={highlight}
+                    />
+                  </div>
+                )}
+                <div className="chart-wrapper">
                   {highlight.charts?.map((hc, hcI) =>
                     hc.type === "ADMINISTRATION" || hc.type === "CRITERIA" ? (
                       <HomeAdministrationChart
