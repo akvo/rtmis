@@ -117,7 +117,9 @@ const HomeAdministrationChart = ({ config, formId }) => {
   return (
     <Card className="chart-wrap">
       <Row justify="space-between" align="middle">
-        <h3>{title}</h3>
+        <h3>
+          {isStack ? "County" : "National"} {title}
+        </h3>
         {isStack && (
           <Checkbox
             onChange={() => {
@@ -129,7 +131,7 @@ const HomeAdministrationChart = ({ config, formId }) => {
           </Checkbox>
         )}
         <Space align="center">
-          <span>Show {isStack ? "National" : "County"} Data</span>
+          <span>Show By County</span>
           <Switch checked={isStack} onChange={setIsStack} />
         </Space>
       </Row>
