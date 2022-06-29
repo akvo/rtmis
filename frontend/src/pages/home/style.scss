@@ -38,12 +38,29 @@
       }
     }
 
-    .highlights {
+    .map-wrapper {
+      padding-bottom: $padding-default;
+    }
+
+    .home-even,
+    .home-odd {
+      padding-top: 55px;
+      padding-bottom: 55px;
+    }
+    .home-even {
       margin-left: -$layout-padding;
       margin-right: -$layout-padding;
       background-color: $white;
-      padding-top: $padding-default;
-      margin-bottom: -$padding-default;
+    }
+    .about {
+      p {
+        width: 75%;
+        margin: auto;
+        font-size: 16px;
+        text-align: center;
+      }
+    }
+    .highlights {
       .highlight-title {
         margin: 12px 0 24px;
         text-align: center;

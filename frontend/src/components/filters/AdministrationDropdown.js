@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import "./style.scss";
 import { Select, Space } from "antd";
 import PropTypes from "prop-types";
-
-import { api, store } from "../../lib";
+import { store, config } from "../../lib";
 import { useNotification } from "../../util/hooks";
 
 const AdministrationDropdown = ({
@@ -25,35 +24,12 @@ const AdministrationDropdown = ({
       store.update((s) => {
         s.loadingAdministration = true;
       });
-      api
-        .get(`administration/${user.administration.id}`)
-        .then((adminRes) => {
-          store.update((s) => {
-            s.administration = [
-              {
-                id: adminRes.data.id,
-                name: adminRes.data.name,
-                levelName: adminRes.data.level_name,
-                parent: adminRes.data.parent,
-                children: adminRes.data.children,
-                childLevelName: adminRes.data.children_level_name,
-              },
-            ];
-          });
-          store.update((s) => {
-            s.loadingAdministration = false;
-          });
-        })
-        .catch((err) => {
-          notify({
-            type: "error",
-            message: "Could not load filters",
-          });
-          store.update((s) => {
-            s.loadingAdministration = false;
-          });
-          console.error(err);
-        });
+      store.update((s) => {
+        s.administration = [config.fn.administration(user.administration.id)];
+      });
+      store.update((s) => {
+        s.loadingAdministration = false;
+      });
     }
   }, [user, isLoggedIn, notify, persist]);
 
@@ -64,40 +40,16 @@ const AdministrationDropdown = ({
     store.update((s) => {
       s.loadingAdministration = true;
     });
-    api
-      .get(`administration/${e}`)
-      .then((res) => {
-        store.update((s) => {
-          s.administration.length = index + 1;
-          s.administration = [
-            ...s.administration,
-            {
-              id: res.data.id,
-              name: res.data.name,
-              levelName: res.data.level_name,
-              parent: res.data.parent,
-              children: res.data.children,
-              childLevelName: res.data.children_level_name,
-            },
-          ];
-        });
-        store.update((s) => {
-          s.loadingAdministration = false;
-        });
-        if (onChange) {
-          onChange();
-        }
-      })
-      .catch((err) => {
-        notify({
-          type: "error",
-          message: "Could not load filters",
-        });
-        store.update((s) => {
-          s.loadingAdministration = false;
-        });
-        console.error(err);
-      });
+    store.update((s) => {
+      s.administration.length = index + 1;
+      s.administration = [...s.administration, config.fn.administration(e)];
+    });
+    store.update((s) => {
+      s.loadingAdministration = false;
+    });
+    if (onChange) {
+      onChange();
+    }
   };
 
   const handleClear = (index) => {
