@@ -133,17 +133,17 @@ const uiText = {
         <ul>
           <li>Add new data using webforms</li>
           <li>Bulk upload data using spreadsheets</li>
-          <li>Export data</li>
+          <li>Download data</li>
         </ul>
       </Fragment>
     ),
-    ccPane2Title: "Exports",
-    ccPane2Button: "Data Exports",
+    ccPane2Title: "Data Download",
+    ccPane2Button: "Download Data",
     ccPane2Text: (
       <Fragment>
         This is where you :
         <ul>
-          <li>Access exported data</li>
+          <li>Access downloaded data</li>
         </ul>
       </Fragment>
     ),
@@ -290,8 +290,8 @@ const uiText = {
       </Fragment>
     ),
     // Upload Data
-    dataExportSuccess: "Data exported successfully",
-    dataExportFail: "Data export failed",
+    dataExportSuccess: "Data downloaded successfully",
+    dataExportFail: "Data download failed",
     fileUploadSuccess: "File uploaded successfully",
     fileUploadFail: "Could not upload file",
     templateFetchFail: "Could not fetch template",
