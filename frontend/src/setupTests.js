@@ -19,3 +19,5 @@ window.forms = [
 window.visualisation = [];
 
 window.highlights = [];
+
+window.dbadm = [];
