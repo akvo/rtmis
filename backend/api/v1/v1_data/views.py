@@ -333,15 +333,19 @@ def get_map_data_point(request, version, form_id):
         status=status.HTTP_200_OK)
 
 
-@extend_schema(responses={200: ListMapOverviewDataPointSerializer(many=True)},
-               parameters=[
-                   OpenApiParameter(name='shape',
-                                    required=True,
-                                    type=OpenApiTypes.NUMBER,
-                                    location=OpenApiParameter.QUERY)
-                ],
-               tags=['Visualisation'],
-               summary='To get overview Map data points')
+@extend_schema(
+    responses={(200, 'application/json'): inline_serializer(
+        'ListMapOverviewData', fields={
+            'loc': serializers.CharField(),
+            'shape': serializers.IntegerField(),
+        }, many=True)},
+    parameters=[OpenApiParameter(
+        name='shape',
+        required=True,
+        type=OpenApiTypes.NUMBER,
+        location=OpenApiParameter.QUERY)],
+    tags=['Visualisation'],
+    summary='To get overview Map data points')
 @api_view(['GET'])
 def get_map_overview_data_point(request, version, form_id):
     instance = get_object_or_404(Forms, pk=form_id)
