@@ -13,11 +13,17 @@ const PanelApprovals = () => {
   const [approvalTab, setApprovalTab] = useState("my-pending");
   const [loading, setLoading] = useState(true);
   const { user: authUser } = store.useState((s) => s);
+
+  const { checkAccess, approvalsLiteral } = config;
+
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
+
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const approvalsText = approvalsLiteral(authUser);
 
   useEffect(() => {
     setLoading(true);
@@ -41,7 +47,7 @@ const PanelApprovals = () => {
     <Card bordered={false} id="panel-approvals">
       <div className="row">
         <div className="flex-1">
-          <h2>Approvals</h2>
+          <h2>{approvalsText}</h2>
         </div>
         <div>
           <img src="/assets/approval.png" width={100} height={100} />
@@ -49,7 +55,10 @@ const PanelApprovals = () => {
       </div>
       <DescriptionPanel description={<div>{text.panelApprovalsDesc}</div>} />
       <Tabs defaultActiveKey={approvalTab} onChange={setApprovalTab}>
-        <TabPane tab={text.approvalsTab1} key="my-pending"></TabPane>
+        <TabPane
+          tab={`${text.approvalsTab1} ${approvalsText}`}
+          key="my-pending"
+        ></TabPane>
         <TabPane tab={text.approvalsTab2} key="subordinate"></TabPane>
       </Tabs>
       <Table
@@ -63,9 +72,9 @@ const PanelApprovals = () => {
         <Link to="/approvals">
           <Button type="primary">View All</Button>
         </Link>
-        {config.checkAccess(authUser?.role_detail, "approvers") && (
+        {checkAccess(authUser?.role_detail, "approvers") && (
           <Link to="/approvers/tree">
-            <Button type="primary">Manage Approvers</Button>
+            <Button type="primary">Manage Data Validation Setup</Button>
           </Link>
         )}
       </Row>

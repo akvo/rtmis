@@ -50,7 +50,6 @@ const UploadData = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
-  const descriptionData = <div>{text.ccPane3Text}</div>;
   const exportGenerate = () => {
     const adm_id = takeRight(administration, 1)[0]?.id;
     api
@@ -176,7 +175,7 @@ const UploadData = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={descriptionData} />
+          <DescriptionPanel description={text.dataUploadText} />
         </Col>
       </Row>
       <Divider />
