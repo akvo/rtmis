@@ -125,31 +125,31 @@ const uiText = {
     valOrgName: "Organization name is required",
     valOrgAttributes: "Please select an Attributes",
     // Control Center
-    ccPane1Title: "Manage Data",
-    ccPane1Button: "Manage Data",
-    ccPane1Text: (
+    manageDataTitle: "Manage Data",
+    manageDataButton: "Manage Data",
+    manageDataText: (
       <Fragment>
         This is where you :
         <ul>
           <li>Add new data using webforms</li>
           <li>Bulk upload data using spreadsheets</li>
-          <li>Export data</li>
+          <li>Download data</li>
         </ul>
       </Fragment>
     ),
-    ccPane2Title: "Exports",
-    ccPane2Button: "Data Exports",
-    ccPane2Text: (
+    dataDownloadTitle: "Data Download",
+    dataDownloadButton: "Download Data",
+    dataDownloadText: (
       <Fragment>
         This is where you :
         <ul>
-          <li>Access exported data</li>
+          <li>Access downloaded data</li>
         </ul>
       </Fragment>
     ),
-    ccPane3Title: "Data Upload",
-    ccPane3Button: "Data Upload",
-    ccPane3Text: (
+    dataUploadTitle: "Data Upload",
+    dataUploadButton: "Data Upload",
+    dataUploadText: (
       <Fragment>
         This is where you :
         <ul>
@@ -159,9 +159,9 @@ const uiText = {
         </ul>
       </Fragment>
     ),
-    ccPane4Title: "User Management",
-    ccPane4Button: "Manage Users",
-    ccPane4Text: (
+    manageUserTitle: "User Management",
+    manageUserButton: "Manage Users",
+    manageUserText: (
       <Fragment>
         This where you manage users based on their roles , regions and
         questionnaire access . You can :
@@ -190,7 +190,7 @@ const uiText = {
     settingsDescriptionPanel:
       "This page allow Super Admin to maintain system critical master lists.",
     // Approvals
-    approvalsTab1: "My Pending Approvals",
+    approvalsTab1: "My Pending",
     approvalsTab2: "Subordinates Approvals",
     approvalsTab3: "Approved",
     manageQnApproval: "Manage Questionnaire Approval",
@@ -290,8 +290,8 @@ const uiText = {
       </Fragment>
     ),
     // Upload Data
-    dataExportSuccess: "Data exported successfully",
-    dataExportFail: "Data export failed",
+    dataExportSuccess: "Data downloaded successfully",
+    dataExportFail: "Data download failed",
     fileUploadSuccess: "File uploaded successfully",
     fileUploadFail: "Could not upload file",
     templateFetchFail: "Could not fetch template",
