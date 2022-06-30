@@ -29,6 +29,7 @@ export const Visuals = ({ current, nextCall, setNextCall }) => {
               config={hc}
               runNow={nextCall === hcI}
               nextCall={() => setNextCall(hcI + 1)}
+              identifier={current?.name}
             />
           ) : (
             <HomeDataChart
