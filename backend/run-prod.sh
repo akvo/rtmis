@@ -10,15 +10,5 @@ function log {
    echo "$(date +"%T") - START INFO - $*"
 }
 
-_term() {
-  echo "Caught SIGTERM signal!"
-  kill -TERM "$child" 2>/dev/null
-}
-
-trap _term SIGTERM
-
-log Starting gunicorn in background
-gunicorn rtmis.wsgi --bind 0.0.0.0:8000 &
-
-child=$!
-wait "$child"
+log Starting gunicorn
+gunicorn rtmis.wsgi --bind 0.0.0.0:8000
