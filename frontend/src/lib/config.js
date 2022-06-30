@@ -119,6 +119,20 @@ const config = {
   checkAccess: (roles, page) => {
     return roles?.page_access?.includes(page);
   },
+  approvalsLiteral: ({ role, administration }) => {
+    if (role.id !== 3) {
+      return "Approvals";
+    }
+    if (administration.level === 0 || administration.level === 1) {
+      return "Certification";
+    }
+    if (administration.level === 2) {
+      return "Approvals";
+    }
+    if (administration.level === 3) {
+      return "Verification";
+    }
+  },
   designations: [
     {
       id: 1,
