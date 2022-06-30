@@ -23,8 +23,8 @@ const { Option } = Select;
 
 const pagePath = [
   {
-    title: "System Settings",
-    link: "/settings",
+    title: "Control Center",
+    link: "/control-center",
   },
   {
     title: "Manage Organizations",
