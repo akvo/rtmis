@@ -13,8 +13,12 @@ const PanelApprovals = () => {
   const [approvalTab, setApprovalTab] = useState("my-pending");
   const [loading, setLoading] = useState(true);
   const { user: authUser } = store.useState((s) => s);
+
+  const { checkAccess, approvalsLiteral } = config;
+
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
+
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
@@ -41,7 +45,7 @@ const PanelApprovals = () => {
     <Card bordered={false} id="panel-approvals">
       <div className="row">
         <div className="flex-1">
-          <h2>Approvals</h2>
+          <h2>{approvalsLiteral(authUser)}</h2>
         </div>
         <div>
           <img src="/assets/approval.png" width={100} height={100} />
@@ -63,7 +67,7 @@ const PanelApprovals = () => {
         <Link to="/approvals">
           <Button type="primary">View All</Button>
         </Link>
-        {config.checkAccess(authUser?.role_detail, "approvers") && (
+        {checkAccess(authUser?.role_detail, "approvers") && (
           <Link to="/approvers/tree">
             <Button type="primary">Manage Approvers</Button>
           </Link>
