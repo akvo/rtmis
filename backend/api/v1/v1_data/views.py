@@ -355,7 +355,9 @@ def get_map_overview_data_point(request, version, form_id):
     cache_name = f"ovw_maps-{cache_name}"
     cache = get_cache(cache_name)
     if cache:
-        return HttpResponse(json.dumps(cache))
+        return HttpResponse(
+                json.dumps(cache),
+                content_type="application/json;")
     instance = get_object_or_404(Forms, pk=form_id)
     serializer = ListMapOverviewDataPointRequestSerializer(
         data=request.GET, context={'form': instance})
@@ -698,6 +700,13 @@ def get_chart_criteria(request, version, form_id):
     summary='To get overview with criteria chart at National level')
 @api_view(['POST'])
 def get_chart_overview_criteria(request, version, form_id):
+    instance = get_object_or_404(Forms, pk=form_id)
+    serializer = ListChartCriteriaRequestSerializer(
+        data=request.data.get("data"), context={'form': instance}, many=True)
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST)
     administration_id = 1
     if request.GET.get('administration'):
         administration_id = request.GET.get('administration')
@@ -705,26 +714,16 @@ def get_chart_overview_criteria(request, version, form_id):
     if not cache_name:
         return Response(
             {'message': 'cache params not found'},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+            status=status.HTTP_400_BAD_REQUEST)
     cache_name = f"ovw_chart_criteria-{cache_name}-{administration_id}"
     cache = get_cache(cache_name)
     if cache:
-        return HttpResponse(json.dumps(cache))
-    instance = get_object_or_404(Forms, pk=form_id)
+        return HttpResponse(
+                json.dumps(cache),
+                content_type="application/json;")
     administration = get_object_or_404(Administration, pk=administration_id)
-    serializer = ListChartCriteriaRequestSerializer(
-        data=request.data.get("data"), context={'form': instance}, many=True)
-    if not serializer.is_valid():
-        return Response(
-            {'message': validate_serializers_message(serializer.errors)},
-            status=status.HTTP_400_BAD_REQUEST
-        )
     params = serializer.validated_data
     max_level = Levels.objects.order_by('-level').first()
-    # show only national level
-    # childs = Administration.objects.filter(level_id=1).all()
-    #
     childs = Administration.objects.filter(parent=administration).all()
     if administration.level.level == max_level.level:
         childs = [administration]
@@ -735,10 +734,6 @@ def get_chart_overview_criteria(request, version, form_id):
             'group': child.name,
             'child': []
         }
-        # show only national level
-        # data_ids = list(ViewDataOptions.objects.filter(
-        #     form_id=form_id).values_list('data_id', flat=True))
-        #
         filter_path = child.path
         if child.level.level < max_level.level:
             filter_path = "{0}{1}.".format(child.path, child.id)
