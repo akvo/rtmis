@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { Row, Col, Card, Divider, Select } from "antd";
-import { Breadcrumbs, DescriptionPanel } from "../../components";
+import { Breadcrumbs, DescriptionPanel, UserTab } from "../../components";
 import { api, store, uiText } from "../../lib";
 import ApproverFilters from "../../components/filters/ApproverFilters";
 import { SteppedLineTo } from "react-lineto";
 import { take, takeRight } from "lodash";
 import { useNotification } from "../../util/hooks";
-import { UserTab } from "../users/components";
 
 const { Option } = Select;
 const pagePath = [

@@ -5,8 +5,12 @@ import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store, uiText } from "../../lib";
 import UserDetail from "./UserDetail";
-import { UserTab } from "./components";
-import { UserFilters, Breadcrumbs, DescriptionPanel } from "../../components";
+import {
+  UserFilters,
+  Breadcrumbs,
+  DescriptionPanel,
+  UserTab,
+} from "../../components";
 import { useNotification } from "../../util/hooks";
 
 const pagePath = [

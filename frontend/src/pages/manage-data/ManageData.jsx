@@ -20,7 +20,12 @@ import {
 } from "@ant-design/icons";
 import { api, store, uiText } from "../../lib";
 import DataDetail from "./DataDetail";
-import { DataFilters, Breadcrumbs, DescriptionPanel } from "../../components";
+import {
+  DataFilters,
+  Breadcrumbs,
+  DescriptionPanel,
+  DataTab,
+} from "../../components";
 import { useNotification } from "../../util/hooks";
 
 const pagePath = [
@@ -161,7 +166,7 @@ const ManageData = () => {
           <DescriptionPanel description={text.manageDataText} />
         </Col>
       </Row>
-      <Divider />
+      <DataTab />
       <DataFilters query={query} setQuery={setQuery} loading={loading} />
       <Divider />
       <Card
