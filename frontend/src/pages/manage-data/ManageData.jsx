@@ -52,7 +52,6 @@ const ManageData = () => {
     (state) => state
   );
 
-  const descriptionData = <div>{text.ccPane1Text}</div>;
   const isAdministrationLoaded = administration.length;
   const selectedAdministration =
     administration.length > 0
@@ -159,7 +158,7 @@ const ManageData = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={descriptionData} />
+          <DescriptionPanel description={text.manageDataText} />
         </Col>
       </Row>
       <Divider />

@@ -125,9 +125,9 @@ const uiText = {
     valOrgName: "Organization name is required",
     valOrgAttributes: "Please select an Attributes",
     // Control Center
-    ccPane1Title: "Manage Data",
-    ccPane1Button: "Manage Data",
-    ccPane1Text: (
+    manageDataTitle: "Manage Data",
+    manageDataButton: "Manage Data",
+    manageDataText: (
       <Fragment>
         This is where you :
         <ul>
@@ -137,9 +137,9 @@ const uiText = {
         </ul>
       </Fragment>
     ),
-    ccPane2Title: "Data Download",
-    ccPane2Button: "Download Data",
-    ccPane2Text: (
+    dataDownloadTitle: "Data Download",
+    dataDownloadButton: "Download Data",
+    dataDownloadText: (
       <Fragment>
         This is where you :
         <ul>
@@ -147,9 +147,9 @@ const uiText = {
         </ul>
       </Fragment>
     ),
-    ccPane3Title: "Data Upload",
-    ccPane3Button: "Data Upload",
-    ccPane3Text: (
+    dataUploadTitle: "Data Upload",
+    dataUploadButton: "Data Upload",
+    dataUploadText: (
       <Fragment>
         This is where you :
         <ul>
@@ -159,9 +159,9 @@ const uiText = {
         </ul>
       </Fragment>
     ),
-    ccPane4Title: "User Management",
-    ccPane4Button: "Manage Users",
-    ccPane4Text: (
+    manageUserTitle: "User Management",
+    manageUserButton: "Manage Users",
+    manageUserText: (
       <Fragment>
         This where you manage users based on their roles , regions and
         questionnaire access . You can :
