@@ -8,6 +8,9 @@ import { api, store, uiText } from "../../lib";
 import { takeRight, pick } from "lodash";
 import { PageLoader, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
+import { FormTour } from "./components";
+const descriptionData =
+  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
 
 const Forms = () => {
   const navigate = useNavigate();
@@ -142,12 +145,15 @@ const Forms = () => {
     <div id="form">
       <Row justify="center" gutter={[16, 16]}>
         <Col span={24} className="webform">
-          <Space>
-            <Breadcrumbs
-              pagePath={pagePath}
-              description={text.formDescription}
-            />
-          </Space>
+          <Row justify="space-between">
+            <Space>
+              <Breadcrumbs
+                pagePath={pagePath}
+                description={text.formDescription}
+              />
+            </Space>
+            <FormTour />
+          </Row>
           <DescriptionPanel description={text.formDescription} />
           {loading || !formId ? (
             <PageLoader message={text.fetchingForm} />

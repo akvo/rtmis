@@ -4,7 +4,7 @@ import { QuestionCircleOutlined } from "@ant-design/icons";
 import { store, uiText } from "../../lib";
 import "./style.scss";
 
-const Tour = ({ steps, title = "Help" }) => {
+const Tour = ({ steps, title }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [current, setCurrent] = useState(0);
   const cRef = useRef(null);
