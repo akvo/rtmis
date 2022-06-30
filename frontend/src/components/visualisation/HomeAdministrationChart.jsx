@@ -9,7 +9,13 @@ import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
 
-const HomeAdministrationChart = ({ config, formId, runNow, nextCall }) => {
+const HomeAdministrationChart = ({
+  config,
+  formId,
+  runNow,
+  nextCall,
+  identifier,
+}) => {
   const [dataset, setDataset] = useState([]);
   const [showEmpty, setShowEmpty] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -42,7 +48,10 @@ const HomeAdministrationChart = ({ config, formId, runNow, nextCall }) => {
       api[type === "CRITERIA" ? "post" : "get"](
         url,
         type === "CRITERIA"
-          ? options.map((o) => ({ name: o.name, options: o.options }))
+          ? {
+              data: options.map((o) => ({ name: o.name, options: o.options })),
+              cache: `${identifier}-${title}`,
+            }
           : {}
       )
         .then((res) => {
