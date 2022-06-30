@@ -14,7 +14,7 @@ const HomeAdministrationChart = ({
   formId,
   runNow,
   nextCall,
-  identifier,
+  identifier = "",
 }) => {
   const [dataset, setDataset] = useState([]);
   const [showEmpty, setShowEmpty] = useState(false);
@@ -98,7 +98,18 @@ const HomeAdministrationChart = ({
           setLoading(false);
         });
     }
-  }, [formId, id, notify, options, stack?.options, type, runNow, nextCall]);
+  }, [
+    formId,
+    id,
+    title,
+    identifier,
+    notify,
+    options,
+    stack?.options,
+    type,
+    runNow,
+    nextCall,
+  ]);
 
   const transformDataset = useMemo(() => {
     if (isStack) {
