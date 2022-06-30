@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
 import "./style.scss";
 import { Space, Card, Divider, Row, Tag } from "antd";
-import { store, config } from "../../lib";
+import { store } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
-import { PanelApprovals, PanelSubmissions, ProfileTour } from "./components";
+import { ProfileTour } from "./components";
 import moment from "moment";
 
 const descriptionData =
@@ -100,12 +100,6 @@ const Profile = () => {
           </li>
         </ul>
       </Card>
-      {config.checkAccess(authUser?.role_detail, "form") && (
-        <PanelSubmissions />
-      )}
-      {config.checkAccess(authUser?.role_detail, "approvals") && (
-        <PanelApprovals />
-      )}
     </div>
   );
 };

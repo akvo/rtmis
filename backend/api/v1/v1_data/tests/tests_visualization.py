@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import override_settings
@@ -65,7 +66,7 @@ class DataVisualisationTestCase(TestCase):
         token = user_response.json().get('token')
 
         call_command("form_seeder", "--test")
-        call_command("fake_data_seeder", "-r", 2, '-t', True)
+        call_command("fake_data_seeder", "-r", 100, '-t', True)
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
 
         form = Forms.objects.first()
@@ -182,16 +183,20 @@ class DataVisualisationTestCase(TestCase):
                 self.assertEqual(list(d.get('child')[0]), ['name', 'value'])
 
         # CHART OVERVIEW CRITERIA API
-        payload = [{
-            "name": "Test",
-            "option": [{
-                "question": 102,
-                "options": ["Male"],
-            }, {
-                "question": 106,
-                "options": ["Parent"],
-            }],
-        }]
+        # INCORRECT PARAMETER
+        payload = {
+            "cache": "Testing-chart",
+            "data": [{
+                "name": "Test",
+                "option": [{
+                    "question": 102,
+                    "options": ["Male"],
+                }, {
+                    "question": 106,
+                    "options": ["Parent"],
+                }]
+            }]
+        }
         data = self.client.post(
             "/api/v1/chart/overview/criteria/{0}".
             format(form.id),
@@ -199,16 +204,43 @@ class DataVisualisationTestCase(TestCase):
             content_type='application/json',
             **header)
         self.assertEqual(data.status_code, 400)
-        payload = [{
-            "name": "Test",
-            "options": [{
-                "question": 102,
-                "option": ["Male"],
-            }, {
-                "question": 106,
-                "option": ["Parent"],
-            }],
-        }]
+
+        # INCORRECT PARAMETER
+        payload = {
+            "data": [{
+                "name": "Test",
+                "options": [{
+                    "question": 102,
+                    "option": ["Male"],
+                }, {
+                    "question": 106,
+                    "option": ["Parent"],
+                }]
+            }]
+        }
+        data = self.client.post(
+            "/api/v1/chart/overview/criteria/{0}".
+            format(form.id),
+            payload,
+            content_type='application/json',
+            **header)
+        self.assertEqual(data.status_code, 400)
+
+        # CORRECT PARAMETER, RUN FOR THE FIRST TIME
+        run_without_cache = datetime.now().timestamp()
+        payload = {
+            "cache": "Testing-chart",
+            "data": [{
+                "name": "Test",
+                "options": [{
+                    "question": 102,
+                    "option": ["Male"],
+                }, {
+                    "question": 106,
+                    "option": ["Parent"],
+                }]
+            }]
+        }
         data = self.client.post(
             "/api/v1/chart/overview/criteria/{0}".
             format(form.id),
@@ -220,3 +252,33 @@ class DataVisualisationTestCase(TestCase):
         self.assertEqual(list(data.json().get('data')[0]), ['group', 'child'])
         self.assertEqual(list(data.json().get('data')[0]['child'][0]),
                          ['name', 'value'])
+        run_without_cache = datetime.now().timestamp() - run_without_cache
+
+        # RUN FOR THE SECOND TIME
+        run_with_cache = datetime.now().timestamp()
+        payload = {
+            "cache": "Testing-chart",
+            "data": [{
+                "name": "Test",
+                "options": [{
+                    "question": 102,
+                    "option": ["Male"],
+                }, {
+                    "question": 106,
+                    "option": ["Parent"],
+                }]
+            }]
+        }
+        data = self.client.post(
+            "/api/v1/chart/overview/criteria/{0}".
+            format(form.id),
+            payload,
+            content_type='application/json',
+            **header)
+        self.assertEqual(data.status_code, 200)
+        self.assertEqual(data.json().get('type'), 'BARSTACK')
+        self.assertEqual(list(data.json().get('data')[0]), ['group', 'child'])
+        self.assertEqual(list(data.json().get('data')[0]['child'][0]),
+                         ['name', 'value'])
+        run_with_cache = datetime.now().timestamp() - run_with_cache
+        self.assertEqual(True, run_without_cache > run_with_cache)
