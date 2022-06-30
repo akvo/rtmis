@@ -227,12 +227,14 @@ const App = () => {
     }
   }, [authUser, isLoggedIn, notify]);
 
+  const isHome = location.pathname === "/";
+
   return (
     <Layout>
       <Layout.Header />
       <Layout.Banner />
       <Layout.Body>
-        {loading ? (
+        {loading && !isHome ? (
           <PageLoader message="Initializing. Please wait.." />
         ) : (
           <RouteList />
