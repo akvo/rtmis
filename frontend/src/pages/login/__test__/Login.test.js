@@ -30,7 +30,7 @@ describe("Login and Registration", () => {
     let registrationPage;
     await act(async () => {
       registrationPage = render(<TestApp entryPoint={"/login/abcd"} />);
-      expect(screen.getByText(/Initializing/i)).toBeInTheDocument();
+      expect(screen.getByText(/Welcome/i)).toBeInTheDocument();
     });
 
     const welcome = screen.getByTestId("welcome-title");

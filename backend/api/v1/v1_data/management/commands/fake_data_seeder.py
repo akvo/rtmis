@@ -10,6 +10,7 @@ from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
+from api.v1.v1_data.functions import refresh_materialized_data
 
 fake = Faker()
 
@@ -130,3 +131,4 @@ class Command(BaseCommand):
                 print(f"\nSeeding - {form.name}")
             seed_data(form, fake_geo, level_names, options.get("repeat"),
                       options.get("test"))
+        refresh_materialized_data()

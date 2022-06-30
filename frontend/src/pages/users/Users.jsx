@@ -5,7 +5,12 @@ import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store, uiText } from "../../lib";
 import UserDetail from "./UserDetail";
-import { UserFilters, Breadcrumbs, DescriptionPanel } from "../../components";
+import {
+  UserFilters,
+  Breadcrumbs,
+  DescriptionPanel,
+  UserTab,
+} from "../../components";
 import { useNotification } from "../../util/hooks";
 
 const pagePath = [
@@ -32,8 +37,6 @@ const Users = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
-
-  const descriptionData = <div>{text.ccPane4Text}</div>;
 
   const { administration, filters, isLoggedIn } = store.useState(
     (state) => state
@@ -199,15 +202,16 @@ const Users = () => {
       <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={descriptionData} />
+          <DescriptionPanel description={text.manageUserText} />
         </Col>
-        <Col>
+      </Row>
+      <UserTab
+        tabBarExtraContent={
           <Link to="/user/add">
             <Button type="primary">Add new user</Button>
           </Link>
-        </Col>
-      </Row>
-      <Divider />
+        }
+      />
       <UserFilters
         query={query}
         setQuery={setQuery}

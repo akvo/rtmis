@@ -20,7 +20,12 @@ import {
 } from "@ant-design/icons";
 import { api, store, uiText } from "../../lib";
 import DataDetail from "./DataDetail";
-import { DataFilters, Breadcrumbs, DescriptionPanel } from "../../components";
+import {
+  DataFilters,
+  Breadcrumbs,
+  DescriptionPanel,
+  DataTab,
+} from "../../components";
 import { useNotification } from "../../util/hooks";
 
 const pagePath = [
@@ -52,7 +57,6 @@ const ManageData = () => {
     (state) => state
   );
 
-  const descriptionData = <div>{text.ccPane1Text}</div>;
   const isAdministrationLoaded = administration.length;
   const selectedAdministration =
     administration.length > 0
@@ -159,10 +163,10 @@ const ManageData = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={descriptionData} />
+          <DescriptionPanel description={text.manageDataText} />
         </Col>
       </Row>
-      <Divider />
+      <DataTab />
       <DataFilters query={query} setQuery={setQuery} loading={loading} />
       <Divider />
       <Card

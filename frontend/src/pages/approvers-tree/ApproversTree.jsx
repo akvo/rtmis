@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { Row, Col, Card, Divider, Select } from "antd";
-import { Breadcrumbs } from "../../components";
+import { Breadcrumbs, DescriptionPanel, UserTab } from "../../components";
 import { api, store, uiText } from "../../lib";
 import ApproverFilters from "../../components/filters/ApproverFilters";
 import { SteppedLineTo } from "react-lineto";
 import { take, takeRight } from "lodash";
 import { useNotification } from "../../util/hooks";
+
 const { Option } = Select;
 const pagePath = [
   {
@@ -14,9 +15,10 @@ const pagePath = [
     link: "/control-center",
   },
   {
-    title: "Manage Approvers",
+    title: "Manage Data Validation Setup",
   },
 ];
+
 const ApproversTree = () => {
   const { administration, forms, selectedForm } = store.useState((s) => s);
   const [nodes, setNodes] = useState([]);
@@ -385,9 +387,22 @@ const ApproversTree = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel
+            description={
+              <>
+                This where you manage data validation for each Questionnaires.
+                You can:
+                <ul>
+                  <li>Add data validator</li>
+                  <li>Modify data validator</li>
+                  <li>Delete data validator</li>
+                </ul>
+              </>
+            }
+          />
         </Col>
       </Row>
-      <Divider />
+      <UserTab />
       <ApproverFilters
         loading={saving}
         disabled={isPristine || loading}
