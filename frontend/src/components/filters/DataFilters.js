@@ -64,6 +64,18 @@ const DataFilters = ({ loading }) => {
         ) && (
           <Col>
             <Space>
+              {pathname === "/data/manage" && (
+                <Button
+                  type="primary"
+                  onClick={exportGenerate}
+                  loading={exporting}
+                >
+                  Download Data
+                </Button>
+              )}
+              <Link to="/data/upload">
+                <Button type="primary">Bulk Upload</Button>
+              </Link>
               <Link to={`/form/${selectedForm}`}>
                 <Button
                   type="primary"
@@ -73,18 +85,6 @@ const DataFilters = ({ loading }) => {
                 >
                   Add New
                 </Button>
-              </Link>
-              {pathname === "/data/manage" && (
-                <Button
-                  type="primary"
-                  onClick={exportGenerate}
-                  loading={exporting}
-                >
-                  Export Data
-                </Button>
-              )}
-              <Link to="/data/upload">
-                <Button type="primary">Bulk Upload</Button>
               </Link>
             </Space>
           </Col>
