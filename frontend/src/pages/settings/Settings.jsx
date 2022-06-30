@@ -4,6 +4,7 @@ import { Row, Col, Card, Button, Divider } from "antd";
 import { store, config, uiText } from "../../lib";
 import { Link } from "react-router-dom";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
+import { SettingTour } from "./components";
 
 const Settings = () => {
   const { user: authUser } = store.useState((s) => s);
@@ -39,6 +40,7 @@ const Settings = () => {
             },
           ]}
         />
+        <SettingTour />
       </Row>
       <DescriptionPanel description={text.settingsDescriptionPanel} />
       <Divider />
