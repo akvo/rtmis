@@ -190,7 +190,7 @@ const uiText = {
     settingsDescriptionPanel:
       "This page allow Super Admin to maintain system critical master lists.",
     // Approvals
-    approvalsTab1: "My Pending Approvals",
+    approvalsTab1: "My Pending",
     approvalsTab2: "Subordinates Approvals",
     approvalsTab3: "Approved",
     manageQnApproval: "Manage Questionnaire Approval",

@@ -15,7 +15,7 @@ const pagePath = [
     link: "/control-center",
   },
   {
-    title: "Manage Approvers",
+    title: "Manage Data Validation Setup",
   },
 ];
 

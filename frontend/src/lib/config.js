@@ -122,18 +122,22 @@ const config = {
     return roles?.page_access?.includes(page);
   },
   approvalsLiteral: ({ role, administration }) => {
-    if (role.id !== 3) {
-      return "Approvals";
-    }
-    if (administration.level === 0 || administration.level === 1) {
+    if (role.id === 1 || role.id === 2) {
       return "Certification";
     }
-    if (administration.level === 2) {
+    if (
+      role.id === 3 &&
+      (administration.level === 0 || administration.level === 1)
+    ) {
+      return "Certification";
+    }
+    if (role.id === 3 && administration.level === 2) {
       return "Approvals";
     }
-    if (administration.level === 3) {
+    if (role.id === 3 && administration.level === 3) {
       return "Verification";
     }
+    return "Approvals";
   },
   designations: [
     {
