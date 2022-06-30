@@ -23,7 +23,10 @@ import {
   Privacy,
   Reports,
   Report,
-  DataUploads,
+  Submissions,
+  Settings,
+  Organisations,
+  AddOrganisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
@@ -57,6 +60,10 @@ const RouteList = () => {
       <Route exact path="/form/:formId" element={<Forms />} />
       <Route path="/users" element={<Private element={Users} alias="user" />} />
       <Route
+        path="/organisations"
+        element={<Private element={Organisations} alias="organisation" />}
+      />
+      <Route
         path="/user/add"
         element={<Private element={AddUser} alias="user" />}
       />
@@ -65,8 +72,20 @@ const RouteList = () => {
         element={<Private element={AddUser} alias="user" />}
       />
       <Route
+        path="/organisation/add"
+        element={<Private element={AddOrganisation} alias="organisation" />}
+      />
+      <Route
+        path="/organisation/:id"
+        element={<Private element={AddOrganisation} alias="organisation" />}
+      />
+      <Route
         path="/control-center"
         element={<Private element={ControlCenter} alias="control-center" />}
+      />
+      <Route
+        path="/settings"
+        element={<Private element={Settings} alias="settings" />}
       />
       <Route
         path="/data/manage"
@@ -99,8 +118,8 @@ const RouteList = () => {
         element={<Private element={Approvals} alias="approvals" />}
       />
       <Route
-        path="/data/uploads"
-        element={<Private element={DataUploads} alias="data" />}
+        path="/data/submissions"
+        element={<Private element={Submissions} alias="data" />}
       />
       <Route
         path="/approvers/tree"
@@ -159,9 +178,16 @@ const App = () => {
             const role_details = config.roles.find(
               (r) => r.id === res.data.role.id
             );
+            const designation = config.designations.find(
+              (d) => d.id === parseInt(res.data?.designation)
+            );
             store.update((s) => {
               s.isLoggedIn = true;
-              s.user = { ...res.data, role_detail: role_details };
+              s.user = {
+                ...res.data,
+                designation: designation,
+                role_detail: role_details,
+              };
             });
             reloadData(res.data);
             api.setToken(cookies.AUTH_TOKEN);
@@ -192,31 +218,12 @@ const App = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      api
-        .get(`administration/${authUser.administration.id}`)
-        .then((adminRes) => {
-          store.update((s) => {
-            s.administration = [
-              {
-                id: adminRes.data.id,
-                name: adminRes.data.name,
-                levelName: adminRes.data.level_name,
-                children: adminRes.data.children,
-                childLevelName: adminRes.data.children_level_name,
-              },
-            ];
-          });
-        })
-        .catch((err) => {
-          notify({
-            type: "error",
-            message: "Could not load filters",
-          });
-          store.update((s) => {
-            s.loadingAdministration = false;
-          });
-          console.error(err);
-        });
+      store.update((s) => {
+        s.administration = [
+          config.fn.administration(authUser.administration.id),
+        ];
+        s.loadingAdministration = false;
+      });
     }
   }, [authUser, isLoggedIn, notify]);
 

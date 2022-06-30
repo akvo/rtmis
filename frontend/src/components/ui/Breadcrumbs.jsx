@@ -10,13 +10,7 @@ const Breadcrumbs = ({ pagePath }) => {
     return "";
   }
   return (
-    <Breadcrumb
-      separator={
-        <h2 className="ant-typography" style={{ display: "inline" }}>
-          {">"}
-        </h2>
-      }
-    >
+    <Breadcrumb separator=">">
       {pagePath.map((path, pathIndex) => (
         <Breadcrumb.Item key={pathIndex}>
           {path.link ? (
@@ -31,7 +25,7 @@ const Breadcrumbs = ({ pagePath }) => {
             </Title>
           )}
         </Breadcrumb.Item>
-      ))}{" "}
+      ))}
     </Breadcrumb>
   );
 };

@@ -27,18 +27,21 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Access, Administration, Levels
-from api.v1.v1_users.models import SystemUser
+from api.v1.v1_users.models import SystemUser, Organisation, \
+        OrganisationAttribute
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
-    VerifyInviteSerializer, SetUserPasswordSerializer, \
+    UserRoleSerializer, VerifyInviteSerializer, SetUserPasswordSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
     ListUserRequestSerializer, ListLevelSerializer, UserDetailSerializer, \
-    ForgotPasswordSerializer
+    ForgotPasswordSerializer, \
+    OrganisationListSerializer, AddEditOrganisationSerializer
 from api.v1.v1_forms.models import Forms
 # from api.v1.v1_data.models import PendingDataBatch, \
 #     PendingDataApproval, FormData
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
+from utils.default_serializers import DefaultResponseSerializer
 from utils.email_helper import send_email
 from utils.email_helper import ListEmailTypeRequestSerializer, EmailTypes
 
@@ -51,7 +54,7 @@ def health_check(request, version):
     return Response({'message': 'OK'}, status=status.HTTP_200_OK)
 
 
-@extend_schema(description='Use to check System health', tags=['Dev'])
+@extend_schema(description='Get required configuration', tags=['Dev'])
 @api_view(['GET'])
 def get_config_file(request, version):
     if not Path("source/config/config.min.js").exists():
@@ -87,7 +90,10 @@ def email_template(request, version):
 
 # TODO: Remove temp user entry and invite key from the response.
 @extend_schema(request=LoginSerializer,
-               responses={200: UserSerializer},
+               responses={
+                   200: UserSerializer,
+                   401: DefaultResponseSerializer
+               },
                tags=['Auth'])
 @api_view(['POST'])
 def login(request, version):
@@ -160,9 +166,8 @@ def get_profile(request, version):
 
 @extend_schema(request=VerifyInviteSerializer,
                responses={
-                   (200, 'application/json'):
-                   inline_serializer(
-                       "Response", fields={"message": serializers.CharField()})
+                   200: DefaultResponseSerializer,
+                   400: DefaultResponseSerializer
                },
                tags=['User'],
                summary='To verify invitation code')
@@ -235,11 +240,7 @@ def list_levels(request, version):
 
 
 @extend_schema(request=AddEditUserSerializer,
-               responses={
-                   (200, 'application/json'):
-                   inline_serializer(
-                       "Response", fields={"message": serializers.CharField()})
-               },
+               responses={200: DefaultResponseSerializer},
                tags=['User'],
                description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
                'User:4,ReadOnly:5',
@@ -267,25 +268,28 @@ def add_user(request, version):
             {'message': validate_serializers_message(serializer.errors)},
             status=status.HTTP_400_BAD_REQUEST)
     user = serializer.save()
+    url = f"{webdomain}/login/{signing.dumps(user.pk)}"
     user = Access.objects.filter(user=user.pk).first()
     admin = Access.objects.filter(user=request.user.pk).first()
     user_forms = Forms.objects.filter(pk__in=request.data.get("forms")).all()
     listing = [{
         "name": "Role",
         "value": user.role_name
-        }, {
+    }, {
         "name": "Region",
         "value": user.administration.full_name
     }]
     if user_forms:
         user_forms = ", ".join([form.name for form in user_forms])
         listing.append({"name": "Questionnaire", "value": user_forms})
-    url = f"{webdomain}/login/{signing.dumps(user.pk)}"
     data = {
-        'button_url': url,
+        'button_url':
+        url,
         'send_to': [user.user.email],
-        'listing': listing,
-        'admin': f"""{admin.user.name}, {admin.user.designation_name},
+        'listing':
+        listing,
+        'admin':
+        f"""{admin.user.name}, {admin.user.designation_name},
         {admin.administration.full_name}."""
     }
     send_email(type=EmailTypes.user_invite, context=data)
@@ -301,7 +305,8 @@ def add_user(request, version):
                           "total": serializers.IntegerField(),
                           "total_page": serializers.IntegerField(),
                           "data": ListUserSerializer(many=True),
-                      })},
+                      })
+},
                tags=['User'],
                summary='Get list of users',
                parameters=[
@@ -309,7 +314,16 @@ def add_user(request, version):
                                     required=True,
                                     type=OpenApiTypes.NUMBER,
                                     location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='trained',
+                                    required=False,
+                                    default=None,
+                                    type=OpenApiTypes.BOOL,
+                                    location=OpenApiParameter.QUERY),
                    OpenApiParameter(name='role',
+                                    required=False,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='organisation',
                                     required=False,
                                     type=OpenApiTypes.NUMBER,
                                     location=OpenApiParameter.QUERY),
@@ -373,9 +387,17 @@ def list_users(request, version):
         set1 = set(filter_descendants)
         final_set = set1.intersection(allowed_descendants)
         filter_data['user_access__administration_id__in'] = list(final_set)
+    if serializer.validated_data.get('trained') is not None:
+        trained = True if \
+            serializer.validated_data.get('trained').lower() == "true" \
+            else False
+        filter_data['trained'] = trained
     if serializer.validated_data.get('role'):
         filter_data['user_access__role'] = serializer.validated_data.get(
             'role')
+    if serializer.validated_data.get('organisation'):
+        filter_data['organisation_id'] = serializer.validated_data.get(
+            'organisation')
     if serializer.validated_data.get('pending'):
         filter_data['password__exact'] = ''
         exclude_data.pop('password__exact')
@@ -405,14 +427,7 @@ def list_users(request, version):
     return Response(data, status=status.HTTP_200_OK)
 
 
-@extend_schema(responses=inline_serializer('user_role',
-                                           fields={
-                                               'id':
-                                               serializers.IntegerField(),
-                                               'value':
-                                               serializers.CharField(),
-                                           },
-                                           many=True),
+@extend_schema(responses={200: UserRoleSerializer(many=True)},
                tags=['User'],
                summary='Get list of roles')
 @api_view(['GET'])
@@ -429,7 +444,10 @@ def get_user_roles(request, version):
 class UserEditDeleteView(APIView):
     permission_classes = [IsAuthenticated, IsSuperAdmin | IsAdmin]
 
-    @extend_schema(responses={200: UserDetailSerializer},
+    @extend_schema(responses={
+        200: UserDetailSerializer,
+        204: DefaultResponseSerializer
+    },
                    tags=['User'],
                    summary='To get user details')
     def get(self, request, user_id, version):
@@ -456,11 +474,7 @@ class UserEditDeleteView(APIView):
 
     @extend_schema(
         request=AddEditUserSerializer,
-        responses={
-            (200, 'application/json'):
-            inline_serializer("Response",
-                              fields={"message": serializers.CharField()})
-        },
+        responses={200: DefaultResponseSerializer},
         tags=['User'],
         description='Role Choice are SuperAdmin:1,Admin:2,Approver:3,'
         'User:4,ReadOnly:5',
@@ -486,11 +500,7 @@ class UserEditDeleteView(APIView):
 
 
 @extend_schema(request=ForgotPasswordSerializer,
-               responses={
-                   (200, 'application/json'):
-                   inline_serializer(
-                       "Response", fields={"message": serializers.CharField()})
-               },
+               responses={200: DefaultResponseSerializer},
                tags=['User'],
                summary='To send reset password instructions')
 @api_view(['POST'])
@@ -507,3 +517,98 @@ def forgot_password(request, version):
     return Response(
         {'message': 'Reset password instructions sent to your email'},
         status=status.HTTP_200_OK)
+
+
+@extend_schema(responses={200: OrganisationListSerializer(many=True)},
+               parameters=[
+                   OpenApiParameter(name='attributes',
+                                    required=False,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='search',
+                                    required=False,
+                                    type=OpenApiTypes.STR,
+                                    location=OpenApiParameter.QUERY),
+               ],
+               tags=['Organisation'],
+               summary='Get list of organisation')
+@api_view(['GET'])
+def list_organisations(request, version):
+    attributes = request.GET.get('attributes')
+    search = request.GET.get('search')
+    instance = Organisation.objects.all()
+    if attributes:
+        ids = OrganisationAttribute.objects.filter(
+            type=attributes).distinct("organisation_id")
+        instance = Organisation.objects.filter(
+            pk__in=[o.organisation_id for o in ids]).all()
+    if search:
+        instance = instance.filter(name__icontains=search)
+    return Response(OrganisationListSerializer(instance=instance,
+                                               many=True).data,
+                    status=status.HTTP_200_OK)
+
+
+@extend_schema(request=AddEditOrganisationSerializer,
+               responses={200: DefaultResponseSerializer},
+               tags=['Organisation'],
+               description='Attributes are member:1,partnership:2',
+               summary='To add new organisation')
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
+def add_organisation(request, version):
+    serializer = AddEditOrganisationSerializer(
+        data=request.data,
+        context={'attributes': request.data.get("attributes")})
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST)
+    serializer.save()
+    return Response({'message': 'Organisation added successfully'},
+                    status=status.HTTP_200_OK)
+
+
+class OrganisationEditDeleteView(APIView):
+    permission_classes = [IsAuthenticated, IsSuperAdmin | IsAdmin]
+
+    @extend_schema(responses={200: OrganisationListSerializer},
+                   tags=['Organisation'],
+                   summary='To get organisation details')
+    def get(self, request, organisation_id, version):
+        instance = get_object_or_404(Organisation, pk=organisation_id)
+        return Response(OrganisationListSerializer(instance=instance).data,
+                        status=status.HTTP_200_OK)
+
+    @extend_schema(responses={
+        204:
+        OpenApiResponse(description='Deletion with no response')
+    },
+                   tags=['Organisation'],
+                   summary='To delete organisation')
+    def delete(self, request, organisation_id, version):
+        instance = get_object_or_404(Organisation, pk=organisation_id)
+        instance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @extend_schema(request=AddEditOrganisationSerializer,
+                   responses={
+                       200: DefaultResponseSerializer,
+                       400: DefaultResponseSerializer
+                   },
+                   tags=['Organisation'],
+                   description='Attributes are member:1,partnership:2',
+                   summary='To update organisation')
+    def put(self, request, organisation_id, version):
+        instance = get_object_or_404(Organisation, pk=organisation_id)
+        serializer = AddEditOrganisationSerializer(
+            data=request.data,
+            context={'attributes': request.data.get("attributes")},
+            instance=instance)
+        if not serializer.is_valid():
+            return Response(
+                {'message': validate_serializers_message(serializer.errors)},
+                status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        return Response({'message': 'Organisation updated successfully'},
+                        status=status.HTTP_200_OK)

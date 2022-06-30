@@ -1,5 +1,6 @@
 from io import StringIO
 
+from django.test.utils import override_settings
 from django.core.management import call_command
 from api.v1.v1_profile.models import Administration, Levels
 from django.test import TestCase
@@ -22,6 +23,7 @@ def seed_administration_test():
     administration.save()
 
 
+@override_settings(USE_TZ=False)
 class FormSeederTestCase(TestCase):
     def call_command(self, *args, **kwargs):
         out = StringIO()
@@ -43,7 +45,7 @@ class FormSeederTestCase(TestCase):
             "Health Facilities",
             "Household",
             "CLTS",
-            "WASH in School",
+            "WASH in Schools",
             "Water System",
         ]
         output = list(filter(lambda x: len(x), output.split("\n")))
@@ -75,8 +77,7 @@ class FormSeederTestCase(TestCase):
                                    **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
         self.assertEqual(200, response.status_code)
         response = response.json()
-        self.assertEqual("Introduction",
-                         response["question_group"][0]["name"])
+        self.assertEqual("Introduction", response["question_group"][0]["name"])
         self.assertEqual(364240038,
                          response["question_group"][0]["question"][0]['id'])
         self.assertEqual('Name of the data collector (Enumerator)',

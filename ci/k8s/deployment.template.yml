@@ -195,6 +195,11 @@ spec:
                 secretKeyRef:
                   name: rtmis
                   key: mailjet-secret
+            - name: EMAIL_FROM
+              valueFrom:
+                secretKeyRef:
+                  name: rtmis
+                  key: email-from
             - name: WEBDOMAIN
               valueFrom:
                 secretKeyRef:

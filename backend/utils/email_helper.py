@@ -109,7 +109,7 @@ def email_context(context: dict, type: str):
         if context.get("admin"):
             admin = context.get("admin")
         context.update({
-            "subject": "Invitation",
+            "subject": "New Invitation",
             "body": f'''You have been invited to the Rural Urban Sanitation
             and Hygiene (RUSH) monitoring platform by {admin}''',
             "extend_body": '''Please click on the button below

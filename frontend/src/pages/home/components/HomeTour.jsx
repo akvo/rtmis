@@ -11,8 +11,6 @@ const HomeTour = () => {
           {
             image: "/assets/tour/container/1.png",
             title: "Logo",
-            description:
-              "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
           },
           {
             image: "/assets/tour/container/2.png",
@@ -28,9 +26,12 @@ const HomeTour = () => {
           },
           {
             image: "/assets/tour/container/7.png",
-            title: "Contacts",
-            description:
-              "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
+          },
+          {
+            image: "/assets/tour/container/10.png",
+          },
+          {
+            image: "/assets/tour/container/9.png",
           },
           {
             image: "/assets/tour/container/8.png",

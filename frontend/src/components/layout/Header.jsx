@@ -18,6 +18,8 @@ const Header = ({ className = "header", ...props }) => {
     return uiText[activeLang];
   }, [activeLang]);
 
+  const isSuperAdmin = user?.role?.id === 1;
+
   const signOut = async () => {
     eraseCookieFromAllPaths("AUTH_TOKEN");
     store.update((s) => {
@@ -32,6 +34,11 @@ const Header = ({ className = "header", ...props }) => {
       {config.checkAccess(user?.role_detail, "control-center") && (
         <Menu.Item key="controlCenter">
           <Link to="/control-center">{text?.controlCenter}</Link>
+        </Menu.Item>
+      )}
+      {isSuperAdmin && (
+        <Menu.Item key="settings">
+          <Link to="/settings">{text?.settings}</Link>
         </Menu.Item>
       )}
       <Menu.Item key="profile">
@@ -71,7 +78,10 @@ const Header = ({ className = "header", ...props }) => {
               src={config.siteLogo}
               alt={config.siteLogo}
             />
-            <h1>{config.siteTitle}</h1>
+            <h1>
+              {config.siteTitle}
+              <small>{config.siteSubTitle}</small>
+            </h1>
           </Link>
         </div>
       </Col>

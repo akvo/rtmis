@@ -221,7 +221,7 @@ const ApproverDetail = (record) => {
   );
 };
 
-const PanelDataUpload = () => {
+const PanelSubmissions = () => {
   const [dataset, setDataset] = useState([]);
   const [expandedKeys, setExpandedKeys] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -399,8 +399,8 @@ const PanelDataUpload = () => {
 
   return (
     <>
-      <Card id="panel-uploads">
-        <h1 className="data-uploads">Data Uploads</h1>
+      <Card id="panel-submission">
+        <h1 className="submission">Submissions</h1>
         <DataFilters />
         <Tabs
           activeKey={selectedTab}
@@ -418,7 +418,7 @@ const PanelDataUpload = () => {
             <DataTable pane="approved-batch" />
           </TabPane>
         </Tabs>
-        <Link to="/data/uploads">
+        <Link to="/data/submissions">
           <Button className="view-all" type="primary">
             View All
           </Button>
@@ -484,4 +484,4 @@ const PanelDataUpload = () => {
   );
 };
 
-export default PanelDataUpload;
+export default PanelSubmissions;

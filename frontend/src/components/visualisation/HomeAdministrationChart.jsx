@@ -1,19 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
-import { Card, Row, Checkbox } from "antd";
+import { Card, Row, Checkbox, Switch, Space } from "antd";
 import { api } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { sumBy, isNil, orderBy } from "lodash";
+import _ from "lodash";
 import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
 
-const HomeAdministrationChart = ({ config, formId }) => {
+const HomeAdministrationChart = ({ config, formId, runNow, nextCall }) => {
   const [dataset, setDataset] = useState([]);
   const [showEmpty, setShowEmpty] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isStack, setIsStack] = useState(false);
+  const [chartColors, setChartColors] = useState([]);
+
   const { notify } = useNotification();
   const { id, title, stack, options, type, horizontal = true } = config;
+
   const getOptionColor = (name, index) => {
     return (
       Color.option.find((c) => {
@@ -24,8 +29,9 @@ const HomeAdministrationChart = ({ config, formId }) => {
       })?.color || Color.color[index]
     );
   };
+
   useEffect(() => {
-    if (formId && (type === "CRITERIA" || id)) {
+    if (formId && (type === "CRITERIA" || id) && runNow) {
       setLoading(true);
       const url =
         (type === "CRITERIA"
@@ -79,42 +85,107 @@ const HomeAdministrationChart = ({ config, formId }) => {
           });
         })
         .finally(() => {
+          nextCall();
           setLoading(false);
         });
     }
-  }, [formId, id, notify, options, stack?.options, type]);
-  const filtered = showEmpty
-    ? dataset
-    : dataset.filter((d) => sumBy(d.stack, "value") > 0);
+  }, [formId, id, notify, options, stack?.options, type, runNow, nextCall]);
+
+  const transformDataset = useMemo(() => {
+    if (isStack) {
+      return showEmpty
+        ? dataset
+        : dataset.filter((d) => sumBy(d.stack, "value") > 0);
+    }
+    // transform stack value
+    let data = dataset.length ? dataset.flatMap((d) => d.stack) : [];
+    data = _.chain(data)
+      .groupBy("name")
+      .map((g, gi) => ({
+        name: gi,
+        title: g[0]?.title,
+        color: g[0]?.color,
+        value: sumBy(g, "value"),
+        total: sumBy(g, "total"),
+      }))
+      .value();
+    data = orderBy(data, ["value"], ["asc"]);
+    const colors = data.map((d) => d.color);
+    setChartColors(colors);
+    return data;
+  }, [isStack, dataset, showEmpty]);
 
   return (
     <Card className="chart-wrap">
       <Row justify="space-between" align="middle">
-        <h3>{title}</h3>
-        <Checkbox
-          onChange={() => {
-            setShowEmpty(!showEmpty);
-          }}
-          checked={showEmpty}
-        >
-          Show empty values
-        </Checkbox>
+        <h3>
+          {isStack ? "County" : "National"} {title}
+        </h3>
+        {isStack && (
+          <Checkbox
+            onChange={() => {
+              setShowEmpty(!showEmpty);
+            }}
+            checked={showEmpty}
+          >
+            Show empty values
+          </Checkbox>
+        )}
+        <Space align="center">
+          <span>Show By County</span>
+          <Switch checked={isStack} onChange={setIsStack} />
+        </Space>
       </Row>
       <div className="chart-inner">
-        <Chart
-          height={50 * filtered.length + 188}
-          type="BARSTACK"
-          data={filtered}
-          wrapper={false}
-          horizontal={horizontal}
-          series={{ left: "10%" }}
-          loading={loading}
-          loadingOption={{
-            text: "",
-            color: "#1b91ff",
-            lineWidth: 1,
-          }}
-        />
+        {isStack ? (
+          <Chart
+            height={50 * transformDataset.length + 188}
+            type="BARSTACK"
+            data={transformDataset}
+            wrapper={false}
+            horizontal={horizontal}
+            series={{ left: "10%" }}
+            loading={loading}
+            loadingOption={{
+              text: "",
+              color: "#1b91ff",
+              lineWidth: 1,
+            }}
+          />
+        ) : (
+          <Chart
+            height={50 * transformDataset.length + 188}
+            type="BAR"
+            data={transformDataset}
+            wrapper={false}
+            horizontal={horizontal}
+            loading={loading}
+            loadingOption={{
+              text: "",
+              color: "#1b91ff",
+              lineWidth: 1,
+            }}
+            extra={{ color: chartColors }}
+            series={{
+              left: "10%",
+            }}
+            legend={{
+              top: "middle",
+              left: "65%",
+              right: "right",
+              orient: "vertical",
+              itemGap: 12,
+              textStyle: {
+                fontWeight: "normal",
+                fontSize: 12,
+              },
+            }}
+            grid={{
+              top: 90,
+              left: 120,
+            }}
+          />
+        )}
       </div>
     </Card>
   );

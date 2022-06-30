@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useMemo } from "react";
 import "./style.scss";
-import { Space, Card, Divider, Row } from "antd";
+import { Space, Card, Divider, Row, Tag } from "antd";
 import { store, config } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
-import { PanelApprovals, PanelDataUpload, ProfileTour } from "./components";
+import { PanelApprovals, PanelSubmissions, ProfileTour } from "./components";
+import moment from "moment";
+
 const descriptionData =
-  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
+  "This page shows your current user setup. It also shows the most important activities for your current user setup";
+
 const Profile = () => {
   const { forms, user: authUser } = store.useState((s) => s);
+  const { trained } = authUser;
+
+  const trainedBadge = useMemo(() => {
+    if (!trained) {
+      return (
+        <Tag color="warning" style={{ marginBottom: 11 }}>
+          Trained
+        </Tag>
+      );
+    }
+  }, [trained]);
 
   const pagePath = [
     {
@@ -15,7 +29,13 @@ const Profile = () => {
       link: "/control-center",
     },
     {
-      title: authUser?.name || "Profile",
+      title:
+        (
+          <Space align="center" size={15}>
+            {authUser?.name}
+            {trainedBadge}
+          </Space>
+        ) || "Profile",
     },
   ];
 
@@ -31,15 +51,32 @@ const Profile = () => {
         <h1>My Profile</h1>
         <ul className="profile-detail">
           <li>
+            <h3>Name</h3>
             <Space size="large" align="center">
               <span>{authUser?.name}</span>
-              <span>·</span>
-              <span>{authUser?.administration?.name}</span>
+            </Space>
+          </li>
+          <li>
+            <h3>Role</h3>
+            <Space size="large" align="center">
+              <span>{authUser?.role?.value}</span>
             </Space>
           </li>
           <li>
             <h3>Organization</h3>
-            <p>Ministry of Health - Kisumu Subcounty</p>
+            <Space size="large" align="center">
+              <span>{authUser?.organisation?.name}</span>
+            </Space>
+          </li>
+          <li>
+            <h3>Designation</h3>
+            <Space size="large" align="center">
+              <span>{authUser?.designation?.name}</span>
+            </Space>
+          </li>
+          <li>
+            <h3>Administration</h3>
+            <p>{authUser?.administration?.name}</p>
           </li>
           <li>
             <h3>Questionnaires</h3>
@@ -49,9 +86,23 @@ const Profile = () => {
               ))}
             </Space>
           </li>
+          <li>
+            <h3>Last login</h3>
+            <Space size="large" align="center">
+              <span>
+                {authUser?.last_login
+                  ? moment
+                      .unix(authUser.last_login)
+                      .format("MMMM Do YYYY, h:mm:ss a")
+                  : "-"}
+              </span>
+            </Space>
+          </li>
         </ul>
       </Card>
-      {config.checkAccess(authUser?.role_detail, "form") && <PanelDataUpload />}
+      {config.checkAccess(authUser?.role_detail, "form") && (
+        <PanelSubmissions />
+      )}
       {config.checkAccess(authUser?.role_detail, "approvals") && (
         <PanelApprovals />
       )}

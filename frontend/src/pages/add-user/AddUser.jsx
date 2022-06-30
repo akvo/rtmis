@@ -21,8 +21,15 @@ import { AddUserTour } from "./components";
 
 const { Option } = Select;
 
-const descriptionData =
-  " Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit amet omnis dolores. Ad eveniet ex beatae dolorum placeat impedit iure quaerat neque sit, quasi magni provident aliquam harum cupiditate iste?";
+const descriptionData = (
+  <p>
+    This page allows you to add users to the RUSH platform.You will only be able
+    to add users for regions under your jurisdisction.
+    <br />
+    Once you have added the user, the user will be notified by email to set
+    their password and access the platform
+  </p>
+);
 
 const AddUser = () => {
   const [submitting, setSubmitting] = useState(false);
@@ -48,6 +55,17 @@ const AddUser = () => {
   const { notify } = useNotification();
   const { id } = useParams();
 
+  const [organisations, setOrganisations] = useState([]);
+
+  useEffect(() => {
+    if (!organisations.length) {
+      // filter by 1 for member attribute
+      api.get("organisations?filter=1").then((res) => {
+        setOrganisations(res.data);
+      });
+    }
+  }, [organisations]);
+
   const pagePath = [
     {
       title: text.controlCenter,
@@ -66,6 +84,7 @@ const AddUser = () => {
     const lookUp = authUser.role?.id === 2 ? 3 : authUser.role?.id || 4;
     return config.roles.filter((r) => r.id >= lookUp);
   }, [authUser]);
+
   const onFinish = (values) => {
     if ([3, 5].includes(values.role)) {
       if (level === null) {
@@ -93,7 +112,7 @@ const AddUser = () => {
     }
     setSubmitting(true);
     const admin = takeRight(administration, 1)?.[0];
-    api[id ? "put" : "post"](id ? `user/${id}` : "user", {
+    const payload = {
       first_name: values.first_name,
       last_name: values.last_name,
       email: values.email,
@@ -103,7 +122,10 @@ const AddUser = () => {
       role: values.role,
       forms: values.forms,
       inform_user: values.inform_user,
-    })
+      organisation: values.organisation,
+      trained: values.trained,
+    };
+    api[id ? "put" : "post"](id ? `user/${id}` : "user", payload)
       .then(() => {
         notify({
           type: "success",
@@ -199,6 +221,8 @@ const AddUser = () => {
             phone_number: res.data?.phone_number,
             role: res.data?.role,
             forms: res.data?.forms.map((f) => parseInt(f.id)),
+            organisation: res.data?.organisation?.id || [],
+            trained: res?.data?.trained,
           });
           setRole(res.data?.role);
           setLoading(false);
@@ -247,6 +271,7 @@ const AddUser = () => {
           county: null,
           forms: [],
           inform_user: true,
+          organisation: [],
         }}
         onFinish={onFinish}
       >
@@ -312,18 +337,20 @@ const AddUser = () => {
           </div>
           <div className="form-row">
             <Form.Item
-              name="organization"
+              name="organisation"
               label="Organization"
-              rules={[{ required: false }]}
+              rules={[{ required: true, message: text.valOrganization }]}
             >
               <Select
                 getPopupContainer={(trigger) => trigger.parentNode}
-                disabled
                 placeholder="Select one.."
                 allowClear
               >
-                <Option value="1">MOH</Option>
-                <Option value="2">UNICEF</Option>
+                {organisations?.map((o, oi) => (
+                  <Option key={`org-${oi}`} value={o.id}>
+                    {o.name}
+                  </Option>
+                ))}
               </Select>
             </Form.Item>
           </div>
@@ -343,6 +370,11 @@ const AddUser = () => {
                   </Option>
                 ))}
               </Select>
+            </Form.Item>
+          </div>
+          <div className="form-row">
+            <Form.Item name="trained" valuePropName="checked">
+              <Checkbox>Trained</Checkbox>
             </Form.Item>
           </div>
           <div className="form-row">

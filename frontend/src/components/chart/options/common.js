@@ -16,11 +16,11 @@ export const backgroundColor = {
 
 export const Easing = {
   animation: true,
-  animationThreshold: 2000,
-  animationDuration: 1000,
+  animationThreshold: 500,
+  animationDuration: 500,
   animationEasing: "cubicOut",
   animationDelay: 0,
-  animationDurationUpdate: 300,
+  animationDurationUpdate: 100,
   animationEasingUpdate: "cubicOut",
   animationDelayUpdate: 0,
 };

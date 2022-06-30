@@ -1,6 +1,29 @@
+import { orderBy } from "lodash";
+
 const config = {
-  siteTitle: "Ministry of Health",
+  siteTitle: "RUSH",
+  siteSubTitle: "Rural Urban Sanitation and Hygiene",
   siteLogo: "/logo.png",
+  trainedStatus: [
+    {
+      label: "Trained",
+      value: true,
+    },
+    {
+      label: "Not Trained",
+      value: false,
+    },
+  ],
+  organisationAttributes: [
+    {
+      id: 1,
+      name: "User Organisation",
+    },
+    {
+      id: 2,
+      name: "Partnership Organisation",
+    },
+  ],
   roles: [
     {
       id: 1,
@@ -17,6 +40,8 @@ const config = {
         "approvers",
         "form",
         "reports",
+        "settings",
+        "organisation",
       ],
       administration_level: [1],
       description:
@@ -768,6 +793,23 @@ const config = {
       },
     },
   ],
+  fn: {
+    administration: (id, withchildren = true) => {
+      const useradm = window.dbadm.find((i) => i.id === id);
+      if (!withchildren) {
+        return useradm;
+      }
+      const children = window.dbadm.filter((i) => i.parent === useradm.id);
+      return {
+        ...useradm,
+        levelName: window.levels.find((l) => l.level === useradm.level)?.name,
+        childLevelName:
+          window.levels.find((l) => l.level === useradm.level + 1)?.name ||
+          null,
+        children: orderBy(children, "name"),
+      };
+    },
+  },
 };
 
 export default config;

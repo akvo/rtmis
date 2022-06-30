@@ -4,7 +4,7 @@ from django.test.utils import override_settings
 
 from api.v1.v1_profile.models import Access
 from api.v1.v1_profile.models import Administration, Levels
-from api.v1.v1_users.models import SystemUser
+from api.v1.v1_users.models import SystemUser, Organisation
 
 
 @override_settings(USE_TZ=False)
@@ -15,7 +15,6 @@ class SystemUserTestCase(TestCase):
     The tests are useless and only used during the initial setup to make sure
     the test runner is working. Please remove this and create a useful tests.
     """
-
     def test_initial_state(self):
         self.assertEqual(0, SystemUser.objects.count())
 
@@ -33,10 +32,15 @@ class SystemUserTestCase(TestCase):
                      first_name="Admin",
                      last_name="RUSH")
         call_command("administration_seeder", "--test")
+        call_command("fake_organisation_seeder", "--repeat", 3)
         user = SystemUser.objects.first()
+        organisation = Organisation.objects.first()
+        user.organisation = organisation
+        user.save()
         self.assertEqual('admin@rush.com', user.email)
         self.assertTrue(user.is_superuser)
         self.assertEqual('Admin', user.first_name)
+        self.assertEqual(organisation.id, user.organisation.id)
         call_command("assign_access", user.email, "--test")
         access = Access.objects.first()
         self.assertEqual(access.user, user)
@@ -67,10 +71,11 @@ class SystemUserEndpointsTestCase(TestCase):
         self.assertEqual(1, SystemUser.objects.count())
         user = user.json()
 
-        self.assertEqual(
-            ["email", "name", "administration", "role", 'phone_number',
-             'designation', 'forms', "last_login", "token", "invite"],
-            list(user))
+        self.assertEqual([
+            "email", "name", "administration", "trained", "role",
+            'phone_number', 'designation', 'forms', "organisation",
+            "last_login", "token", "invite"
+        ], list(user))
 
         user = {"email": "admin@rush.com", "password": "Test105"}
         user = self.client.post('/api/v1/login',

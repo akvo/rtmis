@@ -27,6 +27,7 @@ const Users = () => {
   const [deleting, setDeleting] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
@@ -38,7 +39,7 @@ const Users = () => {
   const { administration, filters, isLoggedIn } = store.useState(
     (state) => state
   );
-  const { role } = filters;
+  const { trained, role, organisation } = filters;
   const { notify } = useNotification();
 
   const selectedAdministration =
@@ -58,13 +59,14 @@ const Users = () => {
             row.email?.endsWith("@user.com")) && (
             <Tag color="geekblue">Test User</Tag>
           )}
+          {row.trained && <Tag color="warning">Trained</Tag>}
         </span>
       ),
     },
     {
       title: "Organization",
-      dataIndex: "administration",
-      render: () => "-",
+      dataIndex: "organisation",
+      render: (organisation) => organisation?.name || "-",
     },
     {
       title: "Email",
@@ -131,14 +133,20 @@ const Users = () => {
   const fetchData = useCallback(
     (query = null) => {
       if (isLoggedIn) {
-        let url = `users/?page=${currentPage}&pending=${
+        let url = `users?page=${currentPage}&pending=${
           pending ? "true" : "false"
         }`;
         if (selectedAdministration?.id) {
           url += `&administration=${selectedAdministration.id}`;
         }
+        if (trained !== null && typeof trained !== "undefined") {
+          url += `&trained=${trained ? "true" : "false"}`;
+        }
         if (role) {
           url += `&role=${role}`;
+        }
+        if (organisation) {
+          url += `&organisation=${organisation}`;
         }
         if (query) {
           url += `&search=${query}`;
@@ -162,7 +170,9 @@ const Users = () => {
       }
     },
     [
+      trained,
       role,
+      organisation,
       pending,
       currentPage,
       selectedAdministration,
@@ -175,7 +185,9 @@ const Users = () => {
   useEffect(() => {
     fetchData();
   }, [
+    trained,
     role,
+    organisation,
     pending,
     currentPage,
     selectedAdministration,

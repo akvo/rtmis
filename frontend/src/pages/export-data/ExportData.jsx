@@ -31,7 +31,14 @@ const pagePath = [
     title: "Export Data",
   },
 ];
-const descriptionData = "This section helps you to access exported data";
+const descriptionData = (
+  <p>
+    This page shows your list of data export requests.
+    <br />
+    For exports which are already generated, please click. on the Download
+    button to download the data.
+  </p>
+);
 const ExportData = () => {
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(true);
