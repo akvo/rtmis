@@ -41,7 +41,7 @@ const ProfileTour = () => {
       : []),
   ];
 
-  return <Tour steps={steps} />;
+  return <Tour steps={steps} title="Profile" />;
 };
 
 export default React.memo(ProfileTour);
