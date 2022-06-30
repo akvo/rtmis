@@ -5,6 +5,8 @@ import { UserOutlined } from "@ant-design/icons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { config, store, uiText } from "../../lib";
 import { eraseCookieFromAllPaths } from "../../util/date";
+import HomeAdministrationChart from "../visualisation/HomeAdministrationChart";
+import HomeTour from "../../pages/home/components/HomeTour";
 
 const Header = ({ className = "header", ...props }) => {
   const { isLoggedIn, user } = store.useState();
@@ -76,6 +78,7 @@ const Header = ({ className = "header", ...props }) => {
       {!location.pathname.includes("/report/") && (
         <Col>
           <div className="navigation">
+            <HomeTour style={{ verticalAlign: "-7px" }} />
             <Space>
               <Link to="/data/visualisation">{text?.dashboards}</Link>
               <Link className="dev" to="/reports">
