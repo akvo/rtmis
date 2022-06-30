@@ -5,7 +5,6 @@ import { UserOutlined } from "@ant-design/icons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { config, store, uiText } from "../../lib";
 import { eraseCookieFromAllPaths } from "../../util/date";
-import HomeAdministrationChart from "../visualisation/HomeAdministrationChart";
 import HomeTour from "../../pages/home/components/HomeTour";
 
 const Header = ({ className = "header", ...props }) => {
