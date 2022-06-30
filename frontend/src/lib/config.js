@@ -44,6 +44,11 @@ const config = {
       administration_level: [1],
       description:
         "Overall national administrator of the RUSH. Assigns roles to all county admins",
+      control_center_order: [
+        "manage-user",
+        "manage-data",
+        "manage-organisation",
+      ],
     },
     {
       id: 2,
@@ -64,6 +69,7 @@ const config = {
       administration_level: [2],
       description:
         "Overall County administrator of the RUSH. Assigns roles to all sub county RUSH admins (approvers) in the county under jusridistion.",
+      control_center_order: ["manage-user", "manage-data", "approvals"],
     },
     {
       id: 3,
@@ -81,6 +87,7 @@ const config = {
       administration_level: [3, 4],
       description:
         "Gives final approval to data submitted from the area under jurisdiction. Can edit or return data for correction.",
+      control_center_order: ["approvals", "manage-data"],
     },
     {
       id: 4,
@@ -97,6 +104,7 @@ const config = {
       administration_level: [4],
       description:
         "Overall role to collect data from community/village assigned to them",
+      control_center_order: ["submission", "manage-data"],
     },
     {
       id: 5,
@@ -105,6 +113,7 @@ const config = {
       page_access: ["profile", "visualisation", "reports"],
       administration_level: [1, 2, 3, 4],
       description: "Can view and download data from all counties",
+      control_center_order: [],
     },
   ],
   checkAccess: (roles, page) => {
