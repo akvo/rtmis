@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./style.scss";
 import { Tabs } from "antd";
 import {
@@ -47,7 +47,6 @@ export const Visuals = ({ current, nextCall, setNextCall }) => {
 
 const Home = () => {
   const { highlights } = window;
-  /*
   const [currentHighlight, setCurrentHighlight] = useState(highlights?.[0]);
   const [nextCall, setNextCall] = useState(0);
 
@@ -55,7 +54,6 @@ const Home = () => {
     setCurrentHighlight(highlights.find((x) => x.name === active));
     setNextCall(0);
   };
-  */
 
   return (
     <div id="home">
@@ -73,7 +71,7 @@ const Home = () => {
         <div className="body">
           <Tabs
             defaultActiveKey={highlights?.[0]?.name}
-            // onTabClick={onTabClick}
+            onTabClick={onTabClick}
             centered
           >
             {highlights?.map((highlight) => (
@@ -82,12 +80,11 @@ const Home = () => {
               </TabPane>
             ))}
           </Tabs>
-          {/*
           <Visuals
             current={currentHighlight}
             nextCall={nextCall}
-            setNextCall={setNextCall} />
-            */}
+            setNextCall={setNextCall}
+          />
         </div>
       </div>
     </div>
