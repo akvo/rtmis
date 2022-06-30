@@ -1,3 +1,5 @@
+import { orderBy } from "lodash";
+
 const config = {
   siteTitle: "RUSH",
   siteSubTitle: "Rural Urban Sanitation and Hygiene",
@@ -814,6 +816,23 @@ const config = {
       },
     },
   ],
+  fn: {
+    administration: (id, withchildren = true) => {
+      const useradm = window.dbadm.find((i) => i.id === id);
+      if (!withchildren) {
+        return useradm;
+      }
+      const children = window.dbadm.filter((i) => i.parent === useradm.id);
+      return {
+        ...useradm,
+        levelName: window.levels.find((l) => l.level === useradm.level)?.name,
+        childLevelName:
+          window.levels.find((l) => l.level === useradm.level + 1)?.name ||
+          null,
+        children: orderBy(children, "name"),
+      };
+    },
+  },
 };
 
 export default config;

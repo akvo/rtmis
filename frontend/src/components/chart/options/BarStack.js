@@ -14,6 +14,64 @@ import {
 } from "./common";
 import { uniq, flatten, uniqBy, isEmpty, upperFirst, sumBy } from "lodash";
 
+const optionToContent = ({ xAxis, yAxis, series }, horizontal) => {
+  let axisVal = horizontal ? [...yAxis] : [...xAxis];
+  axisVal = axisVal.map((x) => x.data)[0];
+  let table = `<table border="1" style="width:100%;text-align:left;border-collapse:collapse;font-size:12px;margin-top:0px;">`;
+  table += "<thead><tr><th></th>";
+  series.map((s) => {
+    table +=
+      `<th style="padding: 0 5px;height: 42px;font-weight:600;">` +
+      upperFirst(s.name) +
+      "</th>";
+  });
+  table += "</tr></thead><tbody>";
+  axisVal.map((a) => {
+    table += `<tr><th style="padding: 0 5px;height: 50px;font-weight:600;">${a}</th>`;
+    series.map((s) => {
+      const seriesRes = s.data.find((sd) => sd.cbParam === a);
+      if (seriesRes) {
+        table +=
+          `<td style="color: ${
+            seriesRes.value > 0 ? "#121212" : "#8b8b8e"
+          };padding: 0 5px;height: 50px;">` +
+          seriesRes.value +
+          "% (" +
+          (seriesRes.original || seriesRes.value) +
+          ")</td>";
+      }
+    });
+    table += `</tr>`;
+  });
+  table += "</tbody></table>";
+  return "<div>" + table + "</div>";
+};
+
+const tableFormatter = (e) => {
+  let table = `<table border="0" style="width:100%;border-spacing: 60px;font-size:13px;"><thead>`;
+  table += `<tr><th style="font-size: 15px;color:#000;padding-bottom:8px;" colspan=${
+    e?.length || 1
+  }>${e[0]?.axisValueLabel || "-"}</th></tr></thead><tbody>`;
+  e.map((eI) => {
+    table += "<tr>";
+    table += '<td style="width: 18px;">' + eI.marker + "</td>";
+    table += '<td><span style="font-weight:600;">';
+    table += upperFirst(eI.seriesName);
+    table += "</span></td>";
+    table += '<td style="width: 80px; text-align: right; font-weight: 500;">';
+    table += eI.value + "%";
+    table += eI.data?.original ? ` (${eI.data.original})` : "";
+    table += "</td>";
+    table += "</tr>";
+  });
+  table += "</tbody></table>";
+  return (
+    '<div style="display:flex;align-items:center;justify-content:center">' +
+    table +
+    "</div>"
+  );
+};
+
 const BarStack = (
   data,
   chartTitle,
@@ -34,16 +92,16 @@ const BarStack = (
     const temp = data.map((d) => {
       const vals = d.stack?.filter((c) => c.title === s.title);
       const stackSum = sumBy(d.stack, "value");
-
+      const resValue =
+        vals?.length && stackSum !== 0
+          ? +((sumBy(vals, "value") / stackSum) * 100 || 0)
+              ?.toFixed(2)
+              .toString()
+              ?.match(/^-?\d+(?:\.\d{0,1})?/)[0] || 0
+          : 0;
       return {
         name: s.title || s.name,
-        value:
-          vals?.length && stackSum !== 0
-            ? +((sumBy(vals, "value") / stackSum) * 100 || 0)
-                ?.toFixed(2)
-                .toString()
-                ?.match(/^-?\d+(?:\.\d{0,1})?/)[0] || 0
-            : 0,
+        value: resValue,
         itemStyle: {
           color: vals[0]?.color || s.color,
           opacity: highlighted ? (d.name === highlighted ? 1 : 0.4) : 1,
@@ -100,7 +158,7 @@ const BarStack = (
       left: "center",
     },
     grid: {
-      top: 90,
+      top: 80,
       bottom: 28,
       left: 10,
       right: 20,
@@ -118,34 +176,7 @@ const BarStack = (
       },
       show: true,
       backgroundColor: "#ffffff",
-      formatter: function (e) {
-        let table =
-          '<table border="0" style="width:100%;border-spacing: 60px;font-size:13px;"><thead>';
-        table += `<tr><th style="font-size: 15px;color:#000;padding-bottom:8px;" colspan=${
-          e?.length || 1
-        }>${e[0]?.axisValueLabel || "-"}</th></tr></thead><tbody>`;
-        e.map((eI) => {
-          table += "<tr>";
-          table += '<td style="width: 18px;">' + eI.marker + "</td>";
-          table +=
-            '<td><span style="font-weight:600;">' +
-            upperFirst(eI.seriesName) +
-            "</span></td>";
-          table +=
-            '<td style="width: 80px; text-align: right; font-weight: 500;">' +
-            eI.value +
-            "%" +
-            (eI.data?.original ? ` (${eI.data.original})` : "") +
-            "</td>";
-          table += "</tr>";
-        });
-        table += "</tbody></table>";
-        return (
-          '<div style="display:flex;align-items:center;justify-content:center">' +
-          table +
-          "</div>"
-        );
-      },
+      formatter: tableFormatter,
       ...TextStyle,
     },
     toolbox: {
@@ -161,39 +192,7 @@ const BarStack = (
         },
         dataView: {
           ...DataView,
-          optionToContent: function ({ xAxis, yAxis, series }) {
-            let axisVal = horizontal ? [...yAxis] : [...xAxis];
-            axisVal = axisVal.map((x) => x.data)[0];
-            let table =
-              '<table border="1" style="width:100%;text-align:left;border-collapse:collapse;font-size:12px;margin-top:0px;">';
-            table += "<thead><tr><th></th>";
-            series.map((s) => {
-              table +=
-                '<th style="padding: 0 5px;height: 42px;font-weight:600;">' +
-                upperFirst(s.name) +
-                "</th>";
-            });
-            table += "</tr></thead><tbody>";
-            axisVal.map((a) => {
-              table += `<tr><th style="padding: 0 5px;height: 50px;font-weight:600;">${a}</th>`;
-              series.map((s) => {
-                const seriesRes = s.data.find((sd) => sd.cbParam === a);
-                if (seriesRes) {
-                  table +=
-                    `<td style="color: ${
-                      seriesRes.value > 0 ? "#121212" : "#8b8b8e"
-                    };padding: 0 5px;height: 50px;">` +
-                    seriesRes.value +
-                    "% (" +
-                    (seriesRes.original || seriesRes.value) +
-                    ")</td>";
-                }
-              });
-              table += `</tr>`;
-            });
-            table += "</tbody></table>";
-            return "<div>" + table + "</div>";
-          },
+          optionToContent: (e) => optionToContent(e, horizontal),
         },
       },
     },

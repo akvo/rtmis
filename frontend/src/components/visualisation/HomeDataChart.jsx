@@ -8,12 +8,13 @@ import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
 
-const HomeDataChart = ({ config, formId }) => {
+const HomeDataChart = ({ config, formId, runNow, nextCall }) => {
   const [dataset, setDataset] = useState([]);
   const [chartColors, setChartColors] = useState([]);
   const [loading, setLoading] = useState(false);
   const { notify } = useNotification();
   const { id, title, type, stack, options, horizontal = true } = config;
+
   const getOptionColor = (name, index) => {
     return (
       Color.option.find((c) => {
@@ -25,7 +26,7 @@ const HomeDataChart = ({ config, formId }) => {
     );
   };
   useEffect(() => {
-    if (formId && id) {
+    if (formId && id && runNow) {
       setLoading(true);
       const url =
         type === "BARSTACK" && stack?.id
@@ -81,9 +82,13 @@ const HomeDataChart = ({ config, formId }) => {
             message: "Could not load data",
           });
           setLoading(false);
+        })
+        .finally(() => {
+          nextCall();
         });
     }
-  }, [formId, id, notify, type, stack, options]);
+  }, [formId, id, notify, type, stack, options, runNow, nextCall]);
+
   const chartTitle =
     type === "BARSTACK" ? (
       <h3>

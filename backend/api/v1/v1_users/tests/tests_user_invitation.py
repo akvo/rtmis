@@ -274,11 +274,6 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(len(response.json()), 4)
         self.assertEqual(list(levels[0]), ['id', 'name', 'level'])
 
-    def test_config_js(self):
-        response = self.client.get('/api/v1/config.js',
-                                   content_type='application/json')
-        self.assertEqual(response.status_code, 200)
-
     def test_get_email_template(self):
         # test get user_register template
         response = self.client.get('/api/v1/email_template?type={0}'.format(

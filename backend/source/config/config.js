@@ -4,7 +4,7 @@ var visualisation = [
     id: 519630048,
     title: "Household",
     type: 1,
-    map: {
+    maps: {
       marker: {
         id: 513690068,
         title: "Functional household toilet available",
@@ -271,7 +271,7 @@ var visualisation = [
     id: 533560002,
     title: "Health Facilities",
     type: 1,
-    map: {
+    maps: {
       marker: {
         id: 547720005,
         title: "Health Center Facility Level",
@@ -589,44 +589,10 @@ var visualisation = [
     ],
   },
   {
-    id: 974754029,
-    title: "CLTS",
-    type: 1,
-    map: {
-      marker: {
-        id: 557700349,
-        title: "Open Defecation Status",
-        options: [
-          {
-            id: 890,
-            name: "Open Defecation",
-          },
-          {
-            id: 891,
-            name: "Triggered",
-          },
-          {
-            id: 892,
-            name: "Declared ODF",
-          },
-          {
-            id: 893,
-            name: "Verified ODF",
-          },
-        ],
-      },
-      shape: {
-        id: 567440335,
-        title: "Number of households in the Village",
-      },
-    },
-    charts: [],
-  },
-  {
     id: 563350033,
     title: "WASH in School",
     type: 2,
-    map: {
+    maps: {
       marker: {
         id: 551660011,
         title: "Main source of drinking water",
@@ -921,50 +887,13 @@ var visualisation = [
       },
     ],
   },
-  {
-    id: 571070071,
-    title: "Water System",
-    type: 2,
-    map: {
-      marker: {
-        id: 571050096,
-        title: "Water Source Type",
-      },
-      shape: {
-        id: 555960249,
-        title: "Number of functional taps",
-      },
-    },
-    charts: [
-      {
-        type: "PIE",
-        id: 557710145,
-        title: "Water System installed by",
-      },
-      {
-        type: "PIE",
-        id: 569070152,
-        title: "Abstraction/Pump Equipment",
-      },
-      {
-        type: "PIE",
-        id: 571060083,
-        title: "Source of Energy",
-      },
-      {
-        type: "PIE",
-        id: 571050096,
-        title: "Water Source Type",
-      },
-    ],
-  },
 ];
 
 var highlights = [
   {
     name: "Household",
     description: "Description text here",
-    map: {
+    maps: {
       form_id: 519630048,
       marker: {
         id: 513690068,
@@ -1225,7 +1154,7 @@ var highlights = [
   {
     name: "Health Facilities",
     description: "Description text here",
-    map: {
+    maps: {
       form_id: 533560002,
       marker: {
         id: 547720005,
@@ -1548,63 +1477,9 @@ var highlights = [
     ],
   },
   {
-    name: "CLTS",
-    description: "Description text here",
-    map: {
-      form_id: 974754029,
-      marker: {
-        id: 557700349,
-        title: "Open Defecation Status",
-        options: [
-          {
-            id: 890,
-            name: "Open Defecation",
-          },
-          {
-            id: 891,
-            name: "Triggered",
-          },
-          {
-            id: 892,
-            name: "Declared ODF",
-          },
-          {
-            id: 893,
-            name: "Verified ODF",
-          },
-        ],
-      },
-      shape: {
-        id: 567440335,
-        title: "Number of households in the Village",
-      },
-    },
-    charts: [
-      {
-        // api chart/overview
-        form_id: 974754029,
-        type: "PIE",
-        id: 494780324,
-        title: "Implementing partner",
-      },
-      {
-        form_id: 974754029,
-        type: "PIE",
-        id: 569090299,
-        title: "Presence of Handwashing Facility with Water and Soap",
-      },
-      {
-        form_id: 974754029,
-        type: "PIE",
-        id: 557710260,
-        title: "School Children had Access to Toilets in the Schools",
-      },
-    ],
-  },
-  {
     name: "WASH in School",
     description: "Description text here",
-    map: {
+    maps: {
       form_id: 563350033,
       marker: {
         id: 551660011,
@@ -1936,78 +1811,6 @@ var highlights = [
             ],
           },
         ],
-      },
-    ],
-  },
-  {
-    name: "Water System",
-    description: "Description text here",
-    map: {
-      form_id: 571070071,
-      marker: {
-        id: 571050096,
-        title: "Water Source Type",
-        options: [
-          {
-            id: 346,
-            name: "Deep well with distribution",
-          },
-          {
-            id: 347,
-            name: "Hand dug well",
-          },
-          {
-            id: 348,
-            name: "Shallow well",
-          },
-          {
-            id: 349,
-            name: "Protected spring",
-          },
-          {
-            id: 350,
-            name: "Unprotected spring",
-          },
-          {
-            id: 351,
-            name: "Rainwater collection",
-          },
-          {
-            id: 352,
-            name: "Surface water",
-          },
-        ],
-      },
-      shape: {
-        id: 555960249,
-        title: "Number of functional taps",
-      },
-    },
-    charts: [
-      {
-        // api chart/overview
-        form_id: 571070071,
-        type: "PIE",
-        id: 557710145,
-        title: "Water System installed by",
-      },
-      {
-        form_id: 571070071,
-        type: "PIE",
-        id: 569070152,
-        title: "Abstraction/Pump Equipment",
-      },
-      {
-        form_id: 571070071,
-        type: "PIE",
-        id: 571060083,
-        title: "Source of Energy",
-      },
-      {
-        form_id: 571070071,
-        type: "PIE",
-        id: 571050096,
-        title: "Water Source Type",
       },
     ],
   },

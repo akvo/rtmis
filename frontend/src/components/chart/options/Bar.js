@@ -34,10 +34,10 @@ const Bar = (data, chartTitle, extra, horizontal = false, grid = {}) => {
       subtext: chartTitle?.subTitle,
     },
     grid: {
-      top: grid?.top ? grid.top : horizontal ? 0 : 100,
-      bottom: grid?.bottom ? grid.bottom : horizontal ? 0 : 100,
-      left: grid?.left ? grid.left : horizontal ? 100 : 0,
-      right: grid?.right ? grid.right : horizontal ? 60 : 0,
+      top: grid?.top ? grid.top : horizontal ? 80 : 0,
+      bottom: grid?.bottom ? grid.bottom : horizontal ? 28 : 100,
+      left: grid?.left ? grid.left : horizontal ? 10 : 0,
+      right: grid?.right ? grid.right : horizontal ? 20 : 0,
       show: true,
       label: {
         ...TextStyle,
@@ -103,7 +103,7 @@ const Bar = (data, chartTitle, extra, horizontal = false, grid = {}) => {
         barMaxWidth: 50,
         label: {
           colorBy: "data",
-          position: horizontal ? "right" : "top",
+          position: horizontal ? "insideLeft" : "top",
           show: true,
           padding: 5,
           backgroundColor: "rgba(0,0,0,.3)",

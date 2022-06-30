@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./style.scss";
 import { Tabs } from "antd";
 import {
@@ -8,8 +8,52 @@ import {
 } from "../../components";
 const { TabPane } = Tabs;
 
+const Visuals = ({ current, nextCall, setNextCall }) => {
+  return (
+    <div>
+      <div className="map-wrapper">
+        {current?.maps && (
+          <HomeMap
+            markerData={{ features: [] }}
+            style={{ height: 600 }}
+            current={current}
+          />
+        )}
+      </div>
+      <div className="chart-wrapper">
+        {current?.charts?.map((hc, hcI) =>
+          hc.type === "ADMINISTRATION" || hc.type === "CRITERIA" ? (
+            <HomeAdministrationChart
+              key={`chart-${hc.id}-${hcI}`}
+              formId={hc.form_id}
+              config={hc}
+              runNow={nextCall === hcI}
+              nextCall={() => setNextCall(hcI + 1)}
+            />
+          ) : (
+            <HomeDataChart
+              key={`chart-${hc.form_id}-${hcI}`}
+              formId={hc.form_id}
+              config={hc}
+              runNow={nextCall === hcI}
+              nextCall={() => setNextCall(hcI + 1)}
+            />
+          )
+        )}
+      </div>
+    </div>
+  );
+};
+
 const Home = () => {
   const { highlights } = window;
+  const [currentHighlight, setCurrentHighlight] = useState(highlights?.[0]);
+  const [nextCall, setNextCall] = useState(0);
+
+  const onTabClick = (active) => {
+    setCurrentHighlight(highlights.find((x) => x.name === active));
+    setNextCall(0);
+  };
 
   return (
     <div id="home">
@@ -24,41 +68,23 @@ const Home = () => {
         </p>
       </div>
       <div className="home-even highlights">
-        <h1>Data</h1>
         <div className="body">
-          <Tabs defaultActiveKey="1" centered>
-            {highlights?.map((highlight, index) => (
-              <TabPane tab={highlight.name} key={index + 1}>
+          <Tabs
+            defaultActiveKey={highlights?.[0]?.name}
+            onTabClick={onTabClick}
+            centered
+          >
+            {highlights?.map((highlight) => (
+              <TabPane tab={highlight.name} key={highlight.name}>
                 <p className="highlight-title">{highlight.description}</p>
-                {highlight?.map && (
-                  <div className="map-wrapper">
-                    <HomeMap
-                      markerData={{ features: [] }}
-                      style={{ height: 600 }}
-                      current={highlight}
-                    />
-                  </div>
-                )}
-                <div className="chart-wrapper">
-                  {highlight.charts?.map((hc, hcI) =>
-                    hc.type === "ADMINISTRATION" || hc.type === "CRITERIA" ? (
-                      <HomeAdministrationChart
-                        key={`chart-${hc.id}-${hcI}`}
-                        formId={hc.form_id}
-                        config={hc}
-                      />
-                    ) : (
-                      <HomeDataChart
-                        key={`chart-${hc.form_id}-${hcI}`}
-                        formId={hc.form_id}
-                        config={hc}
-                      />
-                    )
-                  )}
-                </div>
               </TabPane>
             ))}
           </Tabs>
+          <Visuals
+            current={currentHighlight}
+            nextCall={nextCall}
+            setNextCall={setNextCall}
+          />
         </div>
       </div>
     </div>

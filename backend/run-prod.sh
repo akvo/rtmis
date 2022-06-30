@@ -18,7 +18,7 @@ _term() {
 trap _term SIGTERM
 
 log Starting gunicorn in background
-gunicorn rtmis.wsgi --max-requests 200 --workers 4 --timeout 1000 --bind 0.0.0.0:8000 &
+gunicorn rtmis.wsgi --bind 0.0.0.0:8000 &
 
 child=$!
 wait "$child"
