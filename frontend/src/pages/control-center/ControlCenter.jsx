@@ -52,6 +52,14 @@ const ControlCenter = () => {
       link: "/users",
       image: "/assets/personal-information.png",
     },
+    {
+      title: text.orgPanelTitle,
+      buttonLabel: text.orgPanelButton,
+      access: "organisation",
+      description: <div>{text.orgPanelText}</div>,
+      link: "/organisations",
+      image: "/assets/personal-information.png",
+    },
   ];
 
   const selectedPanels = panels.filter((p) =>
