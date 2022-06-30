@@ -18,7 +18,7 @@ const UserTab = ({ tabBarExtraContent }) => {
       <TabPane tab="Manage Users" key="/users">
         &nbsp;
       </TabPane>
-      <TabPane tab="Manage Data Validation" key="/approvers/tree">
+      <TabPane tab="Manage Data Validation Setup" key="/approvers/tree">
         &nbsp;
       </TabPane>
     </Tabs>
