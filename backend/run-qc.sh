@@ -16,9 +16,10 @@ echo "Coverage"
 coverage combine --rcfile=./.coveragerc
 coverage report -m --rcfile=./.coveragerc
 
-if [[ -n "${COVERALLS_REPO_TOKEN:-}" ]] ; then
-  coveralls
-fi
+# REMEMBER TO TURN BACK ON
+# if [[ -n "${COVERALLS_REPO_TOKEN:-}" ]] ; then
+#   coveralls
+# fi
 
 echo "Generate Django DBML"
 python manage.py dbml > db.dbml
