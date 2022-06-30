@@ -473,9 +473,6 @@ def get_chart_overview(request, version, form_id):
 
     question = serializer.validated_data.get('question')
     stack = serializer.validated_data.get('stack')
-    return Response(
-        {'message': "test-speed"},
-        status=status.HTTP_400_BAD_REQUEST)
     if stack:
         stack_options = stack.question_question_options.all()
         data = []

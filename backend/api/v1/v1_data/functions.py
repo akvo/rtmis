@@ -5,4 +5,4 @@ from django.db import transaction, connection
 def refresh_materialized_data():
     with connection.cursor() as cursor:
         cursor.execute("""
-            REFRESH MATERIALIZED VIEW CONCURRENTLY view_data_options;""")
+            REFRESH MATERIALIZED VIEW view_data_options;""")
