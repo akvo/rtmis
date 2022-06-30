@@ -8,7 +8,7 @@ import {
 } from "../../components";
 const { TabPane } = Tabs;
 
-const Visuals = ({ current, nextCall, setNextCall }) => {
+export const Visuals = ({ current, nextCall, setNextCall }) => {
   return (
     <div>
       <div className="map-wrapper">

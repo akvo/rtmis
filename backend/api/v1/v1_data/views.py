@@ -39,6 +39,7 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ChartDataSerializer, ListChartCriteriaRequestSerializer, \
     ListMapOverviewDataPointSerializer, \
     ListMapOverviewDataPointRequestSerializer
+from api.v1.v1_data.functions import refresh_materialized_data
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.models import Administration, Levels
@@ -222,6 +223,7 @@ class FormDataAddListView(APIView):
             data.updated = timezone.now()
             data.updated_by = user
             data.save()
+            refresh_materialized_data()
             return Response({'message': 'direct update success'},
                             status=status.HTTP_200_OK)
         # Store edit data to pending form data
@@ -628,6 +630,7 @@ def get_chart_criteria(request, version, form_id):
     if administration.level.level == max_level.level:
         childs = [administration]
     data = []
+    data_views = ViewDataOptions.objects.filter(form_id=form_id).all()
     for child in childs:
         values = {
             'group': child.name,
@@ -638,10 +641,9 @@ def get_chart_criteria(request, version, form_id):
             filter_path = "{0}{1}.".format(child.path, child.id)
         administration_ids = list(Administration.objects.filter(
             path__startswith=filter_path).values_list('id', flat=True))
-        data_ids = list(ViewDataOptions.objects.filter(
-            form_id=form_id,
-            administration_id__in=administration_ids
-        ).values_list('data_id', flat=True))
+        data_ids = list(data_views.filter(
+            administration_id__in=administration_ids).values_list(
+                'data_id', flat=True))
         # loop for post params
         for param in params:
             filter_criteria = []
@@ -652,10 +654,10 @@ def get_chart_criteria(request, version, form_id):
                     option_contains = []
                     option_contains.append(f"{question}||{opt.lower()}")
                     filter_data = list(
-                        ViewDataOptions.objects.filter(
-                            data_id__in=ids,
-                            options__contains=option_contains
-                        ).values_list('data_id', flat=True))
+                            data_views.filter(
+                                data_id__in=ids,
+                                options__contains=option_contains)
+                            .values_list('data_id', flat=True))
                     if filter_criteria and index > 0:
                         # reset filter_criteria for next question
                         # start from second question criteria
@@ -703,11 +705,12 @@ def get_chart_overview_criteria(request, version, form_id):
     max_level = Levels.objects.order_by('-level').first()
     # show only national level
     # childs = Administration.objects.filter(level_id=1).all()
-    ###
+    #
     childs = Administration.objects.filter(parent=administration).all()
     if administration.level.level == max_level.level:
         childs = [administration]
     data = []
+    data_views = ViewDataOptions.objects.filter(form_id=form_id).all()
     for child in childs:
         values = {
             'group': child.name,
@@ -716,16 +719,15 @@ def get_chart_overview_criteria(request, version, form_id):
         # show only national level
         # data_ids = list(ViewDataOptions.objects.filter(
         #     form_id=form_id).values_list('data_id', flat=True))
-        ###
+        #
         filter_path = child.path
         if child.level.level < max_level.level:
             filter_path = "{0}{1}.".format(child.path, child.id)
         administration_ids = list(Administration.objects.filter(
             path__startswith=filter_path).values_list('id', flat=True))
-        data_ids = list(ViewDataOptions.objects.filter(
-            form_id=form_id,
-            administration_id__in=administration_ids
-        ).values_list('data_id', flat=True))
+        data_ids = list(data_views.filter(
+            administration_id__in=administration_ids).values_list(
+                'data_id', flat=True))
         # loop for post params
         for param in params:
             filter_criteria = []
@@ -736,10 +738,10 @@ def get_chart_overview_criteria(request, version, form_id):
                     option_contains = []
                     option_contains.append(f"{question}||{opt.lower()}")
                     filter_data = list(
-                        ViewDataOptions.objects.filter(
-                            data_id__in=ids,
-                            options__contains=option_contains
-                        ).values_list('data_id', flat=True))
+                            data_views.filter(
+                                data_id__in=ids,
+                                options__contains=option_contains)
+                            .values_list('data_id', flat=True))
                     if filter_criteria and index > 0:
                         # reset filter_criteria for next question
                         # start from second question criteria
