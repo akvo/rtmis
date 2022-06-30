@@ -39,6 +39,7 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ChartDataSerializer, ListChartCriteriaRequestSerializer, \
     ListMapOverviewDataPointSerializer, \
     ListMapOverviewDataPointRequestSerializer
+from api.v1.v1_data.functions import refresh_materialized_data
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.models import Administration, Levels
@@ -222,6 +223,7 @@ class FormDataAddListView(APIView):
             data.updated = timezone.now()
             data.updated_by = user
             data.save()
+            refresh_materialized_data()
             return Response({'message': 'direct update success'},
                             status=status.HTTP_200_OK)
         # Store edit data to pending form data
@@ -471,6 +473,9 @@ def get_chart_overview(request, version, form_id):
 
     question = serializer.validated_data.get('question')
     stack = serializer.validated_data.get('stack')
+    return Response(
+        {'message': "test-speed"},
+        status=status.HTTP_400_BAD_REQUEST)
     if stack:
         stack_options = stack.question_question_options.all()
         data = []

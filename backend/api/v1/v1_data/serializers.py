@@ -20,6 +20,7 @@ from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
     CustomBooleanField
 from utils.default_serializers import CommonDataSerializer
 from utils.email_helper import send_email, EmailTypes
+from api.v1.v1_data.functions import refresh_materialized_data
 from utils.functions import update_date_time_format, get_answer_value
 from utils.functions import get_answer_history
 
@@ -676,6 +677,7 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
                     data.data = form_data
                     data.approved = True
                     data.save()
+                    refresh_materialized_data()
 
                 answer: PendingAnswers
                 for answer in data.pending_data_answer.all():
@@ -1037,6 +1039,7 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                 administration=data.get('administration'),
                 geo=data.get('geo'),
                 created_by=data.get('created_by'))
+            refresh_materialized_data()
 
         for answer in validated_data.get('answer'):
             name = None
