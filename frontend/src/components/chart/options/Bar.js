@@ -34,8 +34,8 @@ const Bar = (data, chartTitle, extra, horizontal = false, grid = {}) => {
       subtext: chartTitle?.subTitle,
     },
     grid: {
-      top: grid?.top ? grid.top : horizontal ? 80 : 0,
-      bottom: grid?.bottom ? grid.bottom : horizontal ? 28 : 100,
+      top: grid?.top ? grid.top : horizontal ? 80 : 20,
+      bottom: grid?.bottom ? grid.bottom : horizontal ? 28 : 20,
       left: grid?.left ? grid.left : horizontal ? 10 : 0,
       right: grid?.right ? grid.right : horizontal ? 20 : 0,
       show: true,

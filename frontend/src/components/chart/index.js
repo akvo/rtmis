@@ -10,7 +10,6 @@ export const generateOptions = (
   legend,
   horizontal,
   highlighted,
-  axis,
   grid
 ) => {
   switch (type) {
