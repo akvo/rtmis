@@ -187,6 +187,75 @@ class UserInvitationTestCase(TestCase):
         ], list(responses))
         self.assertEqual(responses["forms"], [{'id': 1, 'name': 'Test Form'}])
 
+    def test_add_admin_user(self):
+        call_command("administration_seeder", "--test")
+        call_command("form_seeder", "--test")
+        call_command("fake_organisation_seeder", "--repeat", 3)
+        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
+        user_response = self.client.post('/api/v1/login',
+                                         user_payload,
+                                         content_type='application/json')
+        org = Organisation.objects.order_by('?').first()
+        user = user_response.json()
+        token = user.get('token')
+        payload = {
+            "first_name": "County",
+            "last_name": "Admin",
+            "email": "county_admin@example.com",
+            "administration": 2,
+            "organisation": org.id,
+            "role": 2,
+            "forms": [1],
+            "trained": False,
+        }
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        add_response = self.client.post("/api/v1/user",
+                                        payload,
+                                        content_type='application/json',
+                                        **header)
+        self.assertEqual(add_response.status_code, 200)
+        self.assertEqual(add_response.json(),
+                         {'message': 'User added successfully'})
+        user = SystemUser.objects.filter(
+            email="county_admin@example.com").first()
+        form_approval_assignment = FormApprovalAssignment.objects.filter(
+            form=1, administration=2, user=user).first()
+        self.assertEqual(form_approval_assignment.user, user)
+        # Add user for same form and administration
+        payload = {
+            "first_name": "Second County",
+            "last_name": "Admin",
+            "email": "county_admin2@example.com",
+            "administration": 2,
+            "organisation": org.id,
+            "role": 2,
+            "forms": [1],
+            "trained": False,
+        }
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        add_response = self.client.post("/api/v1/user",
+                                        payload,
+                                        content_type='application/json',
+                                        **header)
+        self.assertEqual(add_response.status_code, 404)
+        # Add user for different administration
+        payload = {
+            "first_name": "Third County",
+            "last_name": "Admin",
+            "email": "county_admin3@example.com",
+            "administration": 3,
+            "organisation": org.id,
+            "role": 2,
+            "forms": [1],
+            "trained": False,
+        }
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        add_response = self.client.post("/api/v1/user",
+                                        payload,
+                                        content_type='application/json',
+                                        **header)
+        self.assertEqual(add_response.status_code, 200)
+
     def test_add_aprroval_user(self):
         call_command("administration_seeder", "--test")
         call_command("form_seeder", "--test")
@@ -255,7 +324,7 @@ class UserInvitationTestCase(TestCase):
                                         content_type='application/json',
                                         **header)
         self.assertEqual(add_response.status_code, 200)
-        # Add another role
+        # Add another role with same form and administration
         payload = {
             "first_name": "Data",
             "last_name": "Entry",
@@ -277,6 +346,23 @@ class UserInvitationTestCase(TestCase):
         form_approval_assignment = FormApprovalAssignment.objects.filter(
             form=1, administration=3, user=user).first()
         self.assertEqual(form_approval_assignment, None)
+        # Add another role with same form and administration
+        payload = {
+            "first_name": "Second Data",
+            "last_name": "Entry",
+            "email": "data_entry2@example.com",
+            "administration": 3,
+            "organisation": org.id,
+            "role": 4,
+            "forms": [1],
+            "trained": True,
+        }
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        add_response = self.client.post("/api/v1/user",
+                                        payload,
+                                        content_type='application/json',
+                                        **header)
+        self.assertEqual(add_response.status_code, 200)
 
     def test_get_user_profile(self):
         call_command("administration_seeder", "--test")
