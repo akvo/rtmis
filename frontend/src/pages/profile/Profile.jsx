@@ -39,6 +39,11 @@ const Profile = () => {
     },
   ];
 
+  const fullAdministrationName = window.dbadm
+    .find((x) => x.id === 322)
+    ?.full_name?.split("|")
+    .join(" - ");
+
   return (
     <div id="profile">
       <Row justify="space-between">
@@ -76,7 +81,7 @@ const Profile = () => {
           </li>
           <li>
             <h3>Administration</h3>
-            <p>{authUser?.administration?.name}</p>
+            <p>{fullAdministrationName || authUser?.administration?.name}</p>
           </li>
           <li>
             <h3>Questionnaires</h3>
