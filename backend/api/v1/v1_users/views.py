@@ -28,14 +28,14 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Access, Administration, Levels
 from api.v1.v1_users.models import SystemUser, Organisation, \
-        OrganisationAttribute
+    OrganisationAttribute
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     UserRoleSerializer, VerifyInviteSerializer, SetUserPasswordSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
     ListUserRequestSerializer, ListLevelSerializer, UserDetailSerializer, \
     ForgotPasswordSerializer, \
     OrganisationListSerializer, AddEditOrganisationSerializer
-from api.v1.v1_forms.models import Forms
+from api.v1.v1_forms.models import Forms, FormApprovalAssignment
 # from api.v1.v1_data.models import PendingDataBatch, \
 #     PendingDataApproval, FormData
 from rtmis.settings import REST_FRAMEWORK
@@ -267,7 +267,39 @@ def add_user(request, version):
         return Response(
             {'message': validate_serializers_message(serializer.errors)},
             status=status.HTTP_400_BAD_REQUEST)
+
+    # when add new user as approver or county admin
+    unique_user = serializer.validated_data.get('role') in [
+        UserRoleTypes.admin, UserRoleTypes.approver]
+    if unique_user:
+        # Check if form id x in y administration has approver assignment
+        # send a message to FE 404
+        form_approval_assignment = FormApprovalAssignment.objects.filter(
+            form__in=serializer.validated_data.get('forms'),
+            administration=serializer.validated_data.get('administration')
+        ).distinct('form', 'administration').all()
+        if form_approval_assignment:
+            message_detail = ["{0} - {1}".format(
+                fa.form.name, fa.administration.name
+            ) for fa in form_approval_assignment]
+            message_detail = '''There are existing approvers for {0}. Please update
+                the setup in manage validation tree or remove these forms for
+                the current user'''.format(", ".join(message_detail))
+            return Response(
+                {'message': message_detail},
+                status=status.HTTP_404_NOT_FOUND)
+
     user = serializer.save()
+    # when add new user as approver or county admin
+    if unique_user:
+        # Add user value to approval assignment table
+        form_approval_obj = [FormApprovalAssignment(
+            form=fr,
+            administration=serializer.validated_data.get('administration'),
+            user=user
+        ) for fr in serializer.validated_data.get('forms')]
+        FormApprovalAssignment.objects.bulk_create(form_approval_obj)
+
     url = f"{webdomain}/login/{signing.dumps(user.pk)}"
     user = Access.objects.filter(user=user.pk).first()
     admin = Access.objects.filter(user=request.user.pk).first()
