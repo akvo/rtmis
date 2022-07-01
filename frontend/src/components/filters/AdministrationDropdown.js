@@ -26,8 +26,6 @@ const AdministrationDropdown = ({
       });
       store.update((s) => {
         s.administration = [config.fn.administration(user.administration.id)];
-      });
-      store.update((s) => {
         s.loadingAdministration = false;
       });
     }
@@ -43,8 +41,6 @@ const AdministrationDropdown = ({
     store.update((s) => {
       s.administration.length = index + 1;
       s.administration = [...s.administration, config.fn.administration(e)];
-    });
-    store.update((s) => {
       s.loadingAdministration = false;
     });
     if (onChange) {

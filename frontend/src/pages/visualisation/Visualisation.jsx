@@ -24,9 +24,9 @@ const Visualisation = () => {
   const [loading, setLoading] = useState(false);
   const [activeKey, setActiveKey] = useState(null);
   const [current, setCurrent] = useState(null);
-  const { selectedForm, loadingForm, questionGroups } = store.useState(
-    (state) => state
-  );
+  const [nextCall, setNextCall] = useState(0);
+  const { selectedForm, administration, loadingForm, questionGroups } =
+    store.useState((state) => state);
   const { notify } = useNotification();
 
   useEffect(() => {
@@ -59,6 +59,10 @@ const Visualisation = () => {
       });
     setDataset(rawData);
   }, [questionGroups]);
+
+  useEffect(() => {
+    setNextCall(0);
+  }, [administration]);
 
   const setChartType = (questionGroupId, type) => {
     const temp = dataset.map((ds) => {
@@ -121,6 +125,7 @@ const Visualisation = () => {
   useEffect(() => {
     if (selectedForm) {
       setActiveKey(null);
+      setNextCall(0);
     }
   }, [selectedForm]);
 
@@ -150,13 +155,17 @@ const Visualisation = () => {
                   <AdministrationChart
                     key={`chart-${current.id}-${ccI}`}
                     formId={current.id}
-                    config={cc}
+                    current={cc}
+                    runNow={nextCall === ccI}
+                    nextCall={() => setNextCall(ccI + 1)}
                   />
                 ) : (
                   <DataChart
                     key={`chart-${current.id}-${ccI}`}
                     formId={current.id}
-                    config={cc}
+                    current={cc}
+                    runNow={nextCall === ccI}
+                    nextCall={() => setNextCall(ccI + 1)}
                   />
                 )
               )}

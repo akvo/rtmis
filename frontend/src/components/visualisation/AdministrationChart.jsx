@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import "./style.scss";
 import { Card, Row, Checkbox } from "antd";
-import { api, store, uiText } from "../../lib";
+import { api, store, uiText, config } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { takeRight, sumBy, isNil, orderBy } from "lodash";
 import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
 
-const AdministrationChart = ({ config, formId }) => {
+const AdministrationChart = ({ current, formId, runNow, nextCall }) => {
   const [dataset, setDataset] = useState([]);
   const [showEmpty, setShowEmpty] = useState(false);
   const [loading, setLoading] = useState(false);
   const [parent, setParent] = useState(null);
   const { notify } = useNotification();
-  const { id, title, stack, options, type, horizontal = true } = config;
+  const { id, title, stack, options, type, horizontal = true } = current;
   const { administration, loadingAdministration } = store.useState(
     (state) => state
   );
@@ -34,46 +34,7 @@ const AdministrationChart = ({ config, formId }) => {
     );
   };
   const selectedAdministration = takeRight(administration, 1)[0] || null;
-  const fetchAdministration = (adminId) => {
-    store.update((s) => {
-      s.loadingAdministration = true;
-    });
-    api
-      .get(`administration/${adminId}`)
-      .then((res) => {
-        store.update((s) => {
-          if (
-            selectedAdministration?.levelName ===
-            takeRight(window.levels, 1)[0]?.name
-          ) {
-            s.administration.length = s.administration.length - 1;
-          }
-          s.administration = [
-            ...s.administration,
-            {
-              id: res.data.id,
-              name: res.data.name,
-              levelName: res.data.level_name,
-              parent: res.data.parent,
-              children: res.data.children,
-              childLevelName: res.data.children_level_name,
-            },
-          ];
-        });
-      })
-      .catch((err) => {
-        notify({
-          type: "error",
-          message: "Could not load region",
-        });
-        console.error(err);
-      })
-      .finally(() => {
-        store.update((s) => {
-          s.loadingAdministration = false;
-        });
-      });
-  };
+
   const onAdminClick = (e) => {
     if (loadingAdministration || !e) {
       return;
@@ -84,9 +45,25 @@ const AdministrationChart = ({ config, formId }) => {
         : takeRight(administration, 1)[0]
     ).children?.find((c) => c.name.toLowerCase() === e.toLowerCase());
     if (adminRes?.id) {
-      fetchAdministration(adminRes.id);
+      store.update((s) => {
+        s.loadingAdministration = true;
+      });
+      store.update((s) => {
+        if (
+          selectedAdministration?.levelName ===
+          takeRight(window.levels, 1)[0]?.name
+        ) {
+          s.administration.length = s.administration.length - 1;
+        }
+        s.administration = [
+          ...s.administration,
+          config.fn.administration(adminRes.id),
+        ];
+        s.loadingAdministration = false;
+      });
     }
   };
+
   const fetchData = useCallback(
     (adminId) => {
       if (formId && adminId && (type === "CRITERIA" || id)) {
@@ -142,14 +119,16 @@ const AdministrationChart = ({ config, formId }) => {
             });
           })
           .finally(() => {
+            nextCall();
             setLoading(false);
           });
       }
     },
     [formId, id, stack?.options, options, type, notify, text.errorDataLoad]
   );
+
   useEffect(() => {
-    if (administration.length && !loadingAdministration) {
+    if (administration.length && !loadingAdministration && runNow) {
       if (
         administration.length === 1 ||
         (takeRight(administration, 1)[0]?.levelName !==
@@ -177,7 +156,8 @@ const AdministrationChart = ({ config, formId }) => {
         }
       }
     }
-  }, [administration, loadingAdministration, fetchData, parent]);
+  }, [administration, loadingAdministration, fetchData, runNow, parent]);
+
   const filtered = showEmpty
     ? dataset
     : dataset.filter((d) => sumBy(d.stack, "value") > 0);
@@ -252,7 +232,7 @@ const AdministrationChart = ({ config, formId }) => {
 
 AdministrationChart.propTypes = {
   formId: PropTypes.number.isRequired,
-  config: PropTypes.shape({
+  current: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
     stack: PropTypes.any,

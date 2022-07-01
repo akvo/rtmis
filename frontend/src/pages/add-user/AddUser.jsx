@@ -177,32 +177,25 @@ const AddUser = () => {
 
   useEffect(() => {
     const fetchData = (adminId, acc, roleRes) => {
-      api.get(`administration/${adminId}`).then((res) => {
-        acc.unshift({
-          id: res.data.id,
-          name: res.data.name,
-          levelName: res.data.level_name,
-          children: res.data.children,
-          childLevelName: res.data.children_level_name,
-        });
-        if (res.data.level > 0) {
-          fetchData(res.data.parent, acc, roleRes);
-        } else {
-          store.update((s) => {
-            s.administration = acc;
-          });
-          store.update((s) => {
-            s.loadingAdministration = false;
-          });
-          if ([3, 5].includes(roleRes)) {
-            setLevel(
-              window.levels.find(
-                (l) => l.name === takeRight(acc, 1)[0].levelName
-              ).level + 1
-            );
-          }
-        }
+      store.update((s) => {
+        s.loadingAdministration = true;
       });
+      const adm = config.fn.administration(adminId);
+      acc.unshift(adm);
+      if (res.data.level > 0) {
+        fetchData(adm.parent, acc, roleRes);
+      } else {
+        store.update((s) => {
+          s.administration = acc;
+          s.loadingAdministration = false;
+        });
+        if ([3, 5].includes(roleRes)) {
+          setLevel(
+            window.levels.find((l) => l.name === takeRight(acc, 1)[0].levelName)
+              .level + 1
+          );
+        }
+      }
     };
     if (id) {
       try {

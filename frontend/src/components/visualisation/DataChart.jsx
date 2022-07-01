@@ -8,7 +8,7 @@ import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
 
-const DataChart = ({ config, formId }) => {
+const DataChart = ({ current, formId, runNow, nextCall }) => {
   const [dataset, setDataset] = useState([]);
   const [chartColors, setChartColors] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -18,7 +18,7 @@ const DataChart = ({ config, formId }) => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
-  const { id, title, type, stack, options, horizontal = true } = config;
+  const { id, title, type, stack, options, horizontal = true } = current;
   const getOptionColor = (name, index) => {
     return (
       Color.option.find((c) => {
@@ -29,8 +29,9 @@ const DataChart = ({ config, formId }) => {
       })?.color || Color.color[index]
     );
   };
+
   useEffect(() => {
-    if (formId && id) {
+    if (formId && id && runNow) {
       setLoading(true);
       const url =
         type === "BARSTACK" && stack?.id
@@ -78,17 +79,20 @@ const DataChart = ({ config, formId }) => {
           });
           setChartColors(colors);
           setDataset(temp);
-          setLoading(false);
         })
         .catch(() => {
           notify({
             type: "error",
             message: text.errorDataLoad,
           });
+        })
+        .finally(() => {
           setLoading(false);
+          nextCall();
         });
     }
-  }, [formId, id, notify, type, stack, options, text.errorDataLoad]);
+  }, [formId, id, notify, type, stack, options, runNow, text.errorDataLoad]);
+
   const chartTitle =
     type === "BARSTACK" ? (
       <h3>
@@ -148,7 +152,7 @@ const DataChart = ({ config, formId }) => {
 
 DataChart.propTypes = {
   formId: PropTypes.number.isRequired,
-  config: PropTypes.shape({
+  current: PropTypes.shape({
     id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     title: PropTypes.string,

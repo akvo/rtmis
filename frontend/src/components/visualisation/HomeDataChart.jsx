@@ -25,6 +25,7 @@ const HomeDataChart = ({ config, formId, runNow, nextCall }) => {
       })?.color || Color.color[index]
     );
   };
+
   useEffect(() => {
     if (formId && id && runNow) {
       setLoading(true);
