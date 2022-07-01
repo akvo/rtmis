@@ -121,23 +121,23 @@ const config = {
   checkAccess: (roles, page) => {
     return roles?.page_access?.includes(page);
   },
-  approvalsLiteral: ({ role, administration }) => {
+  approvalsLiteral: ({ role, administration, isButton = false }) => {
     if (role.id === 1 || role.id === 2) {
-      return "Certification";
+      return isButton ? "Certify" : "Certification";
     }
     if (
       role.id === 3 &&
       (administration.level === 0 || administration.level === 1)
     ) {
-      return "Certification";
+      return isButton ? "Certify" : "Certification";
     }
     if (role.id === 3 && administration.level === 2) {
-      return "Approvals";
+      return isButton ? "Approve" : "Approvals";
     }
     if (role.id === 3 && administration.level === 3) {
-      return "Verification";
+      return isButton ? "Verify" : "Verification";
     }
-    return "Approvals";
+    return isButton ? "Approve" : "Approvals";
   },
   designations: [
     {
