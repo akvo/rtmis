@@ -182,7 +182,7 @@ const AddUser = () => {
       });
       const adm = config.fn.administration(adminId);
       acc.unshift(adm);
-      if (res.data.level > 0) {
+      if (adm.level > 0) {
         fetchData(adm.parent, acc, roleRes);
       } else {
         store.update((s) => {

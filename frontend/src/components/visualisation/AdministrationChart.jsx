@@ -119,12 +119,21 @@ const AdministrationChart = ({ current, formId, runNow, nextCall }) => {
             });
           })
           .finally(() => {
-            nextCall();
             setLoading(false);
+            nextCall();
           });
       }
     },
-    [formId, id, stack?.options, options, type, notify, text.errorDataLoad]
+    [
+      formId,
+      id,
+      stack?.options,
+      options,
+      type,
+      notify,
+      text.errorDataLoad,
+      nextCall,
+    ]
   );
 
   useEffect(() => {

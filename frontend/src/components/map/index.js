@@ -7,7 +7,7 @@ import {
   GeoJSON,
   Tooltip,
 } from "react-leaflet";
-import { api, geo, store } from "../../lib";
+import { api, config, geo, store } from "../../lib";
 import {
   takeRight,
   intersection,
@@ -85,25 +85,20 @@ const Map = ({ current, style }) => {
         1
       )[0];
       const fetchData = (adminId, acc) => {
-        api.get(`administration/${adminId}`).then((res) => {
-          acc.unshift({
-            id: res.data.id,
-            name: res.data.name,
-            levelName: res.data.level_name,
-            parent: res.data.parent,
-            children: res.data.children,
-            childLevelName: res.data.children_level_name,
-          });
-          if (res.data.level > 0) {
-            fetchData(res.data.parent, acc);
-          } else {
-            store.update((s) => {
-              s.administration = acc;
-              s.loadingAdministration = false;
-              s.loadingMap = false;
-            });
-          }
+        store.update((s) => {
+          s.loadingAdministration = true;
         });
+        const adm = config.fn.administration(adminId);
+        acc.unshift(adm);
+        if (adm.level > 0) {
+          fetchData(adm.parent, acc);
+        } else {
+          store.update((s) => {
+            s.administration = acc;
+            s.loadingAdministration = false;
+            s.loadingMap = false;
+          });
+        }
       };
       store.update((s) => {
         s.loadingAdministration = true;

@@ -91,7 +91,17 @@ const DataChart = ({ current, formId, runNow, nextCall }) => {
           nextCall();
         });
     }
-  }, [formId, id, notify, type, stack, options, runNow, text.errorDataLoad]);
+  }, [
+    formId,
+    id,
+    notify,
+    type,
+    stack,
+    options,
+    runNow,
+    text.errorDataLoad,
+    nextCall,
+  ]);
 
   const chartTitle =
     type === "BARSTACK" ? (
