@@ -19,7 +19,7 @@ import {
   LoadingOutlined,
   HistoryOutlined,
 } from "@ant-design/icons";
-import { api, store, uiText } from "../../lib";
+import { api, store, uiText, config } from "../../lib";
 import { EditableCell } from "../../components";
 import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
@@ -110,8 +110,11 @@ const ApprovalDetail = ({
   const [comment, setComment] = useState("");
   const [questionGroups, setQuestionGroups] = useState([]);
   const { notify } = useNotification();
-  const { language } = store.useState((s) => s);
+
+  const { user: authUser, language } = store.useState((s) => s);
+  const { approvalsLiteral } = config;
   const { active: activeLang } = language;
+
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
@@ -536,7 +539,7 @@ const ApprovalDetail = ({
               onClick={() => handleApprove(record.id, 2)}
               disabled={!approve}
             >
-              Approve
+              {approvalsLiteral({ ...authUser, isButton: true })}
             </Button>
           </Space>
         </Col>
