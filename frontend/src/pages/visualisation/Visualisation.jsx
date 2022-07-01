@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Row, Col, Divider } from "antd";
-import { store } from "../../lib";
+import { store, queue } from "../../lib";
 import {
   VisualisationFilters,
   Map,
@@ -12,22 +12,16 @@ import { QuestionChart } from "./components";
 
 const Visualisation = () => {
   const [current, setCurrent] = useState(null);
-  const [nextCall, setNextCall] = useState(0);
-  const { selectedForm, administration } = store.useState((state) => state);
+  const { selectedForm: formId, administration } = store.useState((s) => s);
 
   useEffect(() => {
-    if (selectedForm && window.visualisation) {
-      const configRes = window.visualisation.find((f) => f.id === selectedForm);
-      if (configRes) {
-        setCurrent(configRes);
-        setNextCall(0);
-      }
+    if (formId && administration.length) {
+      setCurrent(window.visualisation.find((f) => f.id === formId));
+      queue.update((s) => {
+        s.next = 1;
+      });
     }
-  }, [selectedForm]);
-
-  useEffect(() => {
-    setNextCall(0);
-  }, [administration]);
+  }, [formId, administration]);
 
   return (
     <div id="visualisation">
@@ -54,18 +48,14 @@ const Visualisation = () => {
                 cc.type === "ADMINISTRATION" || cc.type === "CRITERIA" ? (
                   <AdministrationChart
                     key={`chart-${current.id}-${ccI}`}
-                    formId={current.id}
                     current={cc}
-                    runNow={nextCall === ccI}
-                    nextCall={() => setNextCall(ccI + 1)}
+                    index={ccI + 1}
                   />
                 ) : (
                   <DataChart
                     key={`chart-${current.id}-${ccI}`}
-                    formId={current.id}
                     current={cc}
-                    runNow={nextCall === ccI}
-                    nextCall={() => setNextCall(ccI + 1)}
+                    index={ccI + 1}
                   />
                 )
               )}

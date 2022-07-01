@@ -85,9 +85,6 @@ const Map = ({ current, style }) => {
         1
       )[0];
       const fetchData = (adminId, acc) => {
-        store.update((s) => {
-          s.loadingAdministration = true;
-        });
         const adm = config.fn.administration(adminId);
         acc.unshift(adm);
         if (adm.level > 0) {
@@ -95,14 +92,10 @@ const Map = ({ current, style }) => {
         } else {
           store.update((s) => {
             s.administration = acc;
-            s.loadingAdministration = false;
             s.loadingMap = false;
           });
         }
       };
-      store.update((s) => {
-        s.loadingAdministration = true;
-      });
       fetchData(selectedAdmin, []);
     }
   }, [selectedAdministration, administration, loadingMap]);

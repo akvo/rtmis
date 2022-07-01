@@ -36,10 +36,11 @@ const Bar = (data, chartTitle, extra, horizontal = false, grid = {}) => {
     grid: {
       top: grid?.top ? grid.top : horizontal ? 80 : 20,
       bottom: grid?.bottom ? grid.bottom : horizontal ? 28 : 20,
-      left: grid?.left ? grid.left : horizontal ? 10 : 0,
+      left: grid?.left ? grid.left : horizontal ? 100 : 0,
       right: grid?.right ? grid.right : horizontal ? 20 : 0,
       show: true,
       label: {
+        color: "#222",
         ...TextStyle,
       },
     },
@@ -70,6 +71,10 @@ const Bar = (data, chartTitle, extra, horizontal = false, grid = {}) => {
       nameTextStyle: { ...TextStyle },
       nameLocation: "middle",
       nameGap: 50,
+      axisLabel: {
+        ...TextStyle,
+        color: "#9292ab",
+      },
     },
     [horizontal ? "yAxis" : "xAxis"]: {
       type: "category",
@@ -83,6 +88,7 @@ const Bar = (data, chartTitle, extra, horizontal = false, grid = {}) => {
         overflow: horizontal ? "break" : "none",
         interval: 0,
         ...TextStyle,
+        color: "#4b4b4e",
         formatter: horizontal
           ? AxisShortLabelFormatter?.formatter
           : AxisLabelFormatter?.formatter,

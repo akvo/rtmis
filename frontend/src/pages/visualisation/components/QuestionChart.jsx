@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Collapse, Space, Button, Select } from "antd";
 import {
   PlusSquareOutlined,
@@ -196,4 +196,4 @@ const QuestionChart = () => {
   );
 };
 
-export default QuestionChart;
+export default React.memo(QuestionChart);

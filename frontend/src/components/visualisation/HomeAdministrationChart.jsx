@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { Card, Row, Checkbox, Switch, Space } from "antd";
-import { api } from "../../lib";
+import { api, queue } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { sumBy, isNil, orderBy } from "lodash";
 import _ from "lodash";
@@ -12,18 +12,20 @@ import { Color } from "../../components/chart/options/common";
 const HomeAdministrationChart = ({
   config,
   formId,
-  runNow,
-  nextCall,
+  index,
   identifier = "",
 }) => {
   const [dataset, setDataset] = useState([]);
   const [showEmpty, setShowEmpty] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [isStack, setIsStack] = useState(false);
   const [chartColors, setChartColors] = useState([]);
 
   const { notify } = useNotification();
   const { id, title, stack, options, type, horizontal = true } = config;
+
+  const { next } = queue.useState((q) => q);
+  const runCall = index === next;
+  const loading = next <= index;
 
   const getOptionColor = (name, index) => {
     return (
@@ -37,8 +39,7 @@ const HomeAdministrationChart = ({
   };
 
   useEffect(() => {
-    if (formId && (type === "CRITERIA" || id) && runNow) {
-      setLoading(true);
+    if (formId && (type === "CRITERIA" || id) && runCall) {
       const url =
         (type === "CRITERIA"
           ? "chart/overview/criteria/"
@@ -94,21 +95,22 @@ const HomeAdministrationChart = ({
           });
         })
         .finally(() => {
-          nextCall();
-          setLoading(false);
+          queue.update((q) => {
+            q.next = index + 1;
+          });
         });
     }
   }, [
     formId,
     id,
+    index,
     title,
     identifier,
     notify,
     options,
     stack?.options,
     type,
-    runNow,
-    nextCall,
+    runCall,
   ]);
 
   const transformDataset = useMemo(() => {
@@ -185,7 +187,7 @@ const HomeAdministrationChart = ({
               color: "#1b91ff",
               lineWidth: 1,
             }}
-            extra={{ color: chartColors }}
+            extra={{ color: chartColors, animation: false }}
             series={{
               left: "10%",
             }}

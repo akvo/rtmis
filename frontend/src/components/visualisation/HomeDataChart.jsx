@@ -2,18 +2,21 @@ import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Card, Spin } from "antd";
 import { LoadingOutlined, SwapOutlined } from "@ant-design/icons";
-import { api } from "../../lib";
+import { api, queue } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
 
-const HomeDataChart = ({ config, formId, runNow, nextCall }) => {
+const HomeDataChart = ({ config, formId, index }) => {
   const [dataset, setDataset] = useState([]);
   const [chartColors, setChartColors] = useState([]);
-  const [loading, setLoading] = useState(false);
   const { notify } = useNotification();
   const { id, title, type, stack, options, horizontal = true } = config;
+
+  const { next } = queue.useState((q) => q);
+  const runCall = index === next;
+  const loading = index <= next;
 
   const getOptionColor = (name, index) => {
     return (
@@ -27,8 +30,7 @@ const HomeDataChart = ({ config, formId, runNow, nextCall }) => {
   };
 
   useEffect(() => {
-    if (formId && id && runNow) {
-      setLoading(true);
+    if (formId && id && runCall) {
       const url =
         type === "BARSTACK" && stack?.id
           ? `chart/overview/${formId}?question=${id}&stack=${stack.id}`
@@ -75,20 +77,20 @@ const HomeDataChart = ({ config, formId, runNow, nextCall }) => {
           });
           setChartColors(colors);
           setDataset(temp);
-          setLoading(false);
         })
         .catch(() => {
           notify({
             type: "error",
             message: "Could not load data",
           });
-          setLoading(false);
         })
         .finally(() => {
-          nextCall();
+          queue.update((q) => {
+            q.next = index + 1;
+          });
         });
     }
-  }, [formId, id, notify, type, stack, options, runNow, nextCall]);
+  }, [formId, id, index, notify, type, stack, options, runCall]);
 
   const chartTitle =
     type === "BARSTACK" ? (
@@ -116,7 +118,7 @@ const HomeDataChart = ({ config, formId, runNow, nextCall }) => {
             data={dataset}
             wrapper={false}
             horizontal={horizontal}
-            extra={{ color: chartColors }}
+            extra={{ color: chartColors, animation: false }}
             series={
               type === "PIE"
                 ? {

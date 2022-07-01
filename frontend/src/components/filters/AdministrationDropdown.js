@@ -15,18 +15,13 @@ const AdministrationDropdown = ({
   onChange,
   ...props
 }) => {
-  const { user, administration, isLoggedIn, loadingAdministration } =
-    store.useState((state) => state);
+  const { user, administration, isLoggedIn } = store.useState((state) => state);
   const { notify } = useNotification();
 
   useEffect(() => {
     if (isLoggedIn && !persist) {
       store.update((s) => {
-        s.loadingAdministration = true;
-      });
-      store.update((s) => {
         s.administration = [config.fn.administration(user.administration.id)];
-        s.loadingAdministration = false;
       });
     }
   }, [user, isLoggedIn, notify, persist]);
@@ -36,12 +31,8 @@ const AdministrationDropdown = ({
       return;
     }
     store.update((s) => {
-      s.loadingAdministration = true;
-    });
-    store.update((s) => {
       s.administration.length = index + 1;
       s.administration = [...s.administration, config.fn.administration(e)];
-      s.loadingAdministration = false;
     });
     if (onChange) {
       onChange();
@@ -82,7 +73,7 @@ const AdministrationDropdown = ({
                     getPopupContainer={(trigger) => trigger.parentNode}
                     dropdownMatchSelectWidth={false}
                     value={administration[regionIdx + 1]?.id || null}
-                    disabled={loadingAdministration || loading}
+                    disabled={loading}
                     allowClear
                     showSearch
                     filterOption={true}

@@ -46,7 +46,6 @@ const AddUser = () => {
   const {
     user: authUser,
     administration,
-    loadingAdministration,
     forms,
     loadingForm,
   } = store.useState((s) => s);
@@ -177,9 +176,6 @@ const AddUser = () => {
 
   useEffect(() => {
     const fetchData = (adminId, acc, roleRes) => {
-      store.update((s) => {
-        s.loadingAdministration = true;
-      });
       const adm = config.fn.administration(adminId);
       acc.unshift(adm);
       if (adm.level > 0) {
@@ -187,7 +183,6 @@ const AddUser = () => {
       } else {
         store.update((s) => {
           s.administration = acc;
-          s.loadingAdministration = false;
         });
         if ([3, 5].includes(roleRes)) {
           setLevel(
@@ -199,9 +194,6 @@ const AddUser = () => {
     };
     if (id) {
       try {
-        store.update((s) => {
-          s.loadingAdministration = true;
-        });
         setLoading(true);
         api.get(`user/${id}`).then((res) => {
           form.setFieldsValue({
@@ -418,26 +410,22 @@ const AddUser = () => {
             <div className="form-row-adm">
               <h3>Administration</h3>
               {!!adminError && <div className="text-error">{adminError}</div>}
-              {loadingAdministration ? (
-                <p style={{ paddingLeft: 12, color: "#6b6b6f" }}>Loading..</p>
-              ) : (
-                <AdministrationDropdown
-                  direction="vertical"
-                  withLabel={true}
-                  persist={true}
-                  size="large"
-                  width="100%"
-                  onChange={onAdminChange}
-                  maxLevel={
-                    [3, 5].includes(role)
-                      ? level
-                      : max(
-                          allowedRoles?.find((r) => r.id === role)
-                            ?.administration_level
-                        ) || null
-                  }
-                />
-              )}
+              <AdministrationDropdown
+                direction="vertical"
+                withLabel={true}
+                persist={true}
+                size="large"
+                width="100%"
+                onChange={onAdminChange}
+                maxLevel={
+                  [3, 5].includes(role)
+                    ? level
+                    : max(
+                        allowedRoles?.find((r) => r.id === role)
+                          ?.administration_level
+                      ) || null
+                }
+              />
             </div>
           )}
           {[2, 3, 4].includes(role) && (
@@ -484,12 +472,7 @@ const AddUser = () => {
             </Form.Item>
           </Col>
           <Col>
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={submitting}
-              disabled={loadingAdministration}
-            >
+            <Button type="primary" htmlType="submit" loading={submitting}>
               {id ? text.updateUser : text.addUser}
             </Button>
           </Col>
