@@ -101,9 +101,7 @@ const Users = () => {
       dataIndex: "last_login",
       align: "center",
       render: (last_login) =>
-        last_login
-          ? moment.unix(last_login).format("MMMM Do YYYY, h:mm:ss a")
-          : "-",
+        last_login ? moment.unix(last_login).format("MMMM Do YYYY") : "-",
     },
     Table.EXPAND_COLUMN,
   ];
