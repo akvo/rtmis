@@ -12,6 +12,7 @@ import {
   UserTab,
 } from "../../components";
 import { useNotification } from "../../util/hooks";
+import moment from "moment";
 
 const pagePath = [
   {
@@ -94,6 +95,13 @@ const Users = () => {
       dataIndex: "forms",
       align: "center",
       render: (forms) => forms.length || "None",
+    },
+    {
+      title: "Last Login",
+      dataIndex: "last_login",
+      align: "center",
+      render: (last_login) =>
+        last_login ? moment.unix(last_login).format("MMMM Do YYYY") : "-",
     },
     Table.EXPAND_COLUMN,
   ];

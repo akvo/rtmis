@@ -63,7 +63,7 @@ const ControlCenter = () => {
         access: "organisation",
         description: <div>{text.orgPanelText}</div>,
         link: "/organisations",
-        image: "/assets/personal-information.png",
+        image: "/assets/organisation.svg",
       },
       {
         key: "approvals",

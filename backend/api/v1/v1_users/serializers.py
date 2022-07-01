@@ -327,6 +327,7 @@ class ListUserSerializer(serializers.ModelSerializer):
     role = serializers.SerializerMethodField()
     invite = serializers.SerializerMethodField()
     forms = serializers.SerializerMethodField()
+    last_login = serializers.SerializerMethodField()
 
     @extend_schema_field(UserAdministrationSerializer)
     def get_administration(self, instance: SystemUser):
@@ -353,12 +354,18 @@ class ListUserSerializer(serializers.ModelSerializer):
         return UserFormSerializer(instance=instance.user_form.all(),
                                   many=True).data
 
+    @extend_schema_field(OpenApiTypes.INT)
+    def get_last_login(self, instance):
+        if instance.last_login:
+            return instance.last_login.timestamp()
+        return None
+
     class Meta:
         model = SystemUser
         fields = [
             'id', 'first_name', 'last_name', 'email', 'administration',
             'organisation', 'trained', 'role', 'phone_number', 'designation',
-            'invite', 'forms'
+            'invite', 'forms', 'last_login'
         ]
 
 

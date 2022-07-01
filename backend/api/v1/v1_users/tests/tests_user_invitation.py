@@ -56,7 +56,8 @@ class UserInvitationTestCase(TestCase):
             'phone_number',
             'designation',
             'invite',
-            'forms'
+            'forms',
+            'last_login'
         ], list(users['data'][0]))
         response = self.client.get("/api/v1/users?pending=true",
                                    follow=True,
