@@ -175,7 +175,7 @@ STATIC_URL = 'static-files/'
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': f'{BASE_DIR}/tmp/cache',
+        'LOCATION': '/tmp/cache',
     }
 }
 
