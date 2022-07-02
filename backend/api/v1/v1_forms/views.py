@@ -1,4 +1,6 @@
 # Create your views here.
+import json
+from django.http import HttpResponse
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import status
@@ -15,6 +17,7 @@ from api.v1.v1_forms.serializers import ListFormSerializer, \
     ApprovalFormUserSerializer, FormApprovalLevelListSerializer, \
     FormApproverRequestSerializer, FormApproverResponseSerializer
 from api.v1.v1_profile.models import Administration
+from api.v1.v1_data.functions import get_cache, create_cache
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
 from utils.default_serializers import DefaultResponseSerializer
@@ -65,9 +68,16 @@ def web_form_details(request, version, form_id):
                summary='To get form data')
 @api_view(['GET'])
 def form_data(request, version, form_id):
+    cache_name = f"form-${form_id}"
+    cache = get_cache(cache_name)
+    if cache:
+        return HttpResponse(
+                json.dumps(cache),
+                content_type="application/json;")
     instance = get_object_or_404(Forms, pk=form_id)
-    return Response(FormDataSerializer(instance=instance).data,
-                    status=status.HTTP_200_OK)
+    instance = FormDataSerializer(instance=instance).data
+    create_cache(cache_name, instance)
+    return Response(instance, status=status.HTTP_200_OK)
 
 
 @extend_schema(request=EditFormTypeSerializer(many=True),
