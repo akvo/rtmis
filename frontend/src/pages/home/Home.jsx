@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Tabs } from "antd";
 import {
@@ -6,9 +6,10 @@ import {
   HomeAdministrationChart,
   HomeMap,
 } from "../../components";
+import { queue } from "../../lib";
 const { TabPane } = Tabs;
 
-export const Visuals = ({ current, nextCall, setNextCall }) => {
+export const Visuals = ({ current }) => {
   return (
     <div>
       <div className="map-wrapper">
@@ -27,8 +28,7 @@ export const Visuals = ({ current, nextCall, setNextCall }) => {
               key={`chart-${hc.id}-${hcI}`}
               formId={hc.form_id}
               config={hc}
-              runNow={nextCall === hcI}
-              nextCall={() => setNextCall(hcI + 1)}
+              index={hcI + 1}
               identifier={current?.name}
             />
           ) : (
@@ -36,8 +36,7 @@ export const Visuals = ({ current, nextCall, setNextCall }) => {
               key={`chart-${hc.form_id}-${hcI}`}
               formId={hc.form_id}
               config={hc}
-              runNow={nextCall === hcI}
-              nextCall={() => setNextCall(hcI + 1)}
+              index={hcI + 1}
             />
           )
         )}
@@ -49,12 +48,21 @@ export const Visuals = ({ current, nextCall, setNextCall }) => {
 const Home = () => {
   const { highlights } = window;
   const [currentHighlight, setCurrentHighlight] = useState(highlights?.[0]);
-  const [nextCall, setNextCall] = useState(0);
 
   const onTabClick = (active) => {
     setCurrentHighlight(highlights.find((x) => x.name === active));
-    setNextCall(0);
+    queue.update((q) => {
+      q.next = 1;
+      q.wait = "maps";
+    });
   };
+
+  useEffect(() => {
+    queue.update((q) => {
+      q.next = 1;
+      q.wait = "maps";
+    });
+  }, []);
 
   return (
     <div id="home">
@@ -81,11 +89,7 @@ const Home = () => {
               </TabPane>
             ))}
           </Tabs>
-          <Visuals
-            current={currentHighlight}
-            nextCall={nextCall}
-            setNextCall={setNextCall}
-          />
+          <Visuals current={currentHighlight} />
         </div>
       </div>
     </div>

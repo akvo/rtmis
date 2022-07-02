@@ -7,7 +7,7 @@ import {
   GeoJSON,
   Tooltip,
 } from "react-leaflet";
-import { api, geo } from "../../lib";
+import { api, geo, queue } from "../../lib";
 import { takeRight, intersection, chain, groupBy, sumBy } from "lodash";
 import { Button, Space, Spin, Row, Col } from "antd";
 import { scaleQuantize } from "d3-scale";
@@ -66,6 +66,9 @@ const HomeMap = ({ current, style }) => {
         })
         .finally(() => {
           setLoadingMap(false);
+          queue.update((q) => {
+            q.wait = null;
+          });
         });
     }
   }, [current]);
