@@ -1,5 +1,4 @@
 # Create your views here.
-import json
 from math import ceil
 from datetime import datetime, timedelta
 from wsgiref.util import FileWrapper
@@ -353,11 +352,7 @@ def get_map_data_point(request, version, form_id):
 def get_map_overview_data_point(request, version, form_id):
     cache_name = request.GET.get("shape")
     cache_name = f"ovw_maps-{cache_name}"
-    cache = get_cache(cache_name)
-    if cache:
-        return HttpResponse(
-                json.dumps(cache),
-                content_type="application/json;")
+    get_cache(cache_name)
     instance = get_object_or_404(Forms, pk=form_id)
     serializer = ListMapOverviewDataPointRequestSerializer(
         data=request.GET, context={'form': instance})
@@ -716,11 +711,7 @@ def get_chart_overview_criteria(request, version, form_id):
             {'message': 'cache params not found'},
             status=status.HTTP_400_BAD_REQUEST)
     cache_name = f"ovw_chart_criteria-{cache_name}-{administration_id}"
-    cache = get_cache(cache_name)
-    if cache:
-        return HttpResponse(
-                json.dumps(cache),
-                content_type="application/json;")
+    get_cache(cache_name)
     administration = get_object_or_404(Administration, pk=administration_id)
     params = serializer.validated_data
     max_level = Levels.objects.order_by('-level').first()

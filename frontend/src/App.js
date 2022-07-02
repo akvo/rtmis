@@ -222,7 +222,6 @@ const App = () => {
         s.administration = [
           config.fn.administration(authUser.administration.id),
         ];
-        s.loadingAdministration = false;
       });
     }
   }, [authUser, isLoggedIn, notify]);
