@@ -15,7 +15,6 @@ const defaultUIState = {
   },
   administration: [],
   selectedAdministration: null,
-  loadingAdministration: false,
   loadingMap: false,
   forms: window.forms.sort(sortArray),
   levels: window.levels,

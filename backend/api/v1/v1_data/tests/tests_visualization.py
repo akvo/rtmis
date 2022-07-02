@@ -66,7 +66,7 @@ class DataVisualisationTestCase(TestCase):
         token = user_response.json().get('token')
 
         call_command("form_seeder", "--test")
-        call_command("fake_data_seeder", "-r", 100, '-t', True)
+        call_command("fake_data_seeder", "-r", 1000, '-t', True)
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
 
         form = Forms.objects.first()
