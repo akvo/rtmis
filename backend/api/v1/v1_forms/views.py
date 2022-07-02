@@ -1,6 +1,4 @@
 # Create your views here.
-import json
-from django.http import HttpResponse
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import status
@@ -55,12 +53,15 @@ def list_form(request, version):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def web_form_details(request, version, form_id):
+    administration = request.user.user_access.administration
+    cache_name = f"webform-{form_id}-{administration.id}"
+    get_cache(cache_name)
     instance = get_object_or_404(Forms, pk=form_id)
-    return Response(WebFormDetailSerializer(instance=instance,
-                                            context={
-                                                'user': request.user
-                                            }).data,
-                    status=status.HTTP_200_OK)
+    instance = WebFormDetailSerializer(
+            instance=instance,
+            context={'user': request.user}).data
+    create_cache(cache_name, instance)
+    return Response(instance, status=status.HTTP_200_OK)
 
 
 @extend_schema(responses={200: FormDataSerializer},
@@ -68,12 +69,8 @@ def web_form_details(request, version, form_id):
                summary='To get form data')
 @api_view(['GET'])
 def form_data(request, version, form_id):
-    cache_name = f"form-${form_id}"
-    cache = get_cache(cache_name)
-    if cache:
-        return HttpResponse(
-                json.dumps(cache),
-                content_type="application/json;")
+    cache_name = f"form-{form_id}"
+    get_cache(cache_name)
     instance = get_object_or_404(Forms, pk=form_id)
     instance = FormDataSerializer(instance=instance).data
     create_cache(cache_name, instance)

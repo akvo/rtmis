@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 from datetime import datetime
 from django.db import transaction, connection
+from django.http import HttpResponse
 from rtmis.settings import CACHE_FOLDER
 
 
@@ -13,13 +14,16 @@ def refresh_materialized_data():
             REFRESH MATERIALIZED VIEW view_data_options;""")
 
 
-def get_cache(name):
+def get_cache(name, as_middleware=True):
     name = re.sub(r'[\W_]+', '_', name)
     today = datetime.now().strftime("%Y%m%d")
     cache_name = f"{CACHE_FOLDER}{today}-{name}.json"
     if Path(cache_name).exists():
         with open(cache_name, 'r') as cache_file:
-            return json.load(cache_file)
+            if as_middleware:
+                return HttpResponse(cache_file,
+                                    content_type="application/json;")
+            return json.dumps(cache_file)
     return None
 
 
