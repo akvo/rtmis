@@ -7,7 +7,7 @@ import {
   GeoJSON,
   Tooltip,
 } from "react-leaflet";
-import { api, config, geo, store } from "../../lib";
+import { api, config, geo, store, queue } from "../../lib";
 import {
   takeRight,
   intersection,
@@ -162,6 +162,9 @@ const Map = ({ current, style }) => {
         .finally(() => {
           store.update((s) => {
             s.loadingMap = false;
+          });
+          queue.update((q) => {
+            q.wait = null;
           });
         });
     }

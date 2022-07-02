@@ -19,6 +19,7 @@ const Visualisation = () => {
       setCurrent(window.visualisation.find((f) => f.id === formId));
       queue.update((s) => {
         s.next = 1;
+        s.wait = "maps";
       });
     }
   }, [formId, administration]);

@@ -64,8 +64,8 @@ const DataChart = ({ current, index }) => {
   const { notify } = useNotification();
   const { selectedForm: formId, language } = store.useState((s) => s);
 
-  const { next } = queue.useState((q) => q);
-  const runCall = index === next;
+  const { next, wait } = queue.useState((q) => q);
+  const runCall = index === next && !wait;
   const loading = next <= index;
 
   const { id, title, type, stack, options, horizontal = true } = current;

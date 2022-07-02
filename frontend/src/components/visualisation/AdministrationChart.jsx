@@ -62,8 +62,8 @@ const AdministrationChart = ({ current, index }) => {
     language,
   } = store.useState((s) => s);
 
-  const { next } = queue.useState((q) => q);
-  const runCall = index === next;
+  const { next, wait } = queue.useState((q) => q);
+  const runCall = index === next && !wait;
   const loading = next <= index && administration.length < window.levels.length;
 
   const { id, title, stack, options, type, horizontal = true } = current;

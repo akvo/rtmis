@@ -23,8 +23,8 @@ const HomeAdministrationChart = ({
   const { notify } = useNotification();
   const { id, title, stack, options, type, horizontal = true } = config;
 
-  const { next } = queue.useState((q) => q);
-  const runCall = index === next;
+  const { next, wait } = queue.useState((q) => q);
+  const runCall = index === next && !wait;
   const loading = next <= index;
 
   const getOptionColor = (name, index) => {

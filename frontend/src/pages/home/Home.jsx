@@ -53,12 +53,14 @@ const Home = () => {
     setCurrentHighlight(highlights.find((x) => x.name === active));
     queue.update((q) => {
       q.next = 1;
+      q.wait = "maps";
     });
   };
 
   useEffect(() => {
     queue.update((q) => {
       q.next = 1;
+      q.wait = "maps";
     });
   }, []);
 

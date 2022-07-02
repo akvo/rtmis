@@ -14,8 +14,8 @@ const HomeDataChart = ({ config, formId, index }) => {
   const { notify } = useNotification();
   const { id, title, type, stack, options, horizontal = true } = config;
 
-  const { next } = queue.useState((q) => q);
-  const runCall = index === next;
+  const { next, wait } = queue.useState((q) => q);
+  const runCall = index === next && !wait;
   const loading = index <= next;
 
   const getOptionColor = (name, index) => {
