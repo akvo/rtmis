@@ -172,7 +172,12 @@ USE_TZ = True
 STATIC_URL = 'static-files/'
 
 # For Caching API call
-CACHE_FOLDER = './tmp/cache/'
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': f'{BASE_DIR}/tmp/cache',
+    }
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
