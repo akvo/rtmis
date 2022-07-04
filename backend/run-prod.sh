@@ -4,7 +4,7 @@
 set -eu
 
 python manage.py migrate
-python manage.py createcachetable
+# python manage.py createcachetable
 python manage.py generate_config
 
 function log {

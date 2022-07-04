@@ -2,7 +2,7 @@
 
 starttime=`date +%s`
 
-while [ $(( $(date +%s) - 600 )) -lt ${starttime} ]; do
+while [ $(( $(date +%s) - 300 )) -lt ${starttime} ]; do
 
     consumer_status=`kubectl get pods -l "rtmis-version=$CI_COMMIT,run=rtmis" -o jsonpath='{range .items[*].status.containerStatuses[*]}{@.name}{" ready="}{@.ready}{"\n"}{end}'`
 
