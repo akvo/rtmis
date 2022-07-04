@@ -178,6 +178,7 @@ CACHES = {
         'LOCATION': '/var/tmp/cache',
     }
 }
+CACHE_FOLDER = f"{BASE_DIR}/tmp/cache/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
