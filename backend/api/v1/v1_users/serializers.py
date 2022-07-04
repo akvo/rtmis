@@ -199,6 +199,7 @@ class AddEditUserSerializer(serializers.ModelSerializer):
     role = CustomChoiceField(choices=list(UserRoleTypes.FieldStr.keys()))
     forms = CustomPrimaryKeyRelatedField(queryset=Forms.objects.all(),
                                          many=True)
+    inform_user = CustomBooleanField(default=True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -260,6 +261,8 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
+        # delete inform_user payload
+        validated_data.pop('inform_user')
         administration = validated_data.pop('administration')
         role = validated_data.pop('role')
         forms = validated_data.pop('forms')
@@ -274,6 +277,8 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         return user
 
     def update(self, instance, validated_data):
+        # delete inform_user payload
+        validated_data.pop('inform_user')
         administration = validated_data.pop('administration')
         role = validated_data.pop('role')
         forms = validated_data.pop('forms')
@@ -299,7 +304,7 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         fields = [
             'first_name', 'last_name', 'email', 'administration',
             'organisation', 'trained', 'role', 'phone_number', 'designation',
-            'forms'
+            'forms', 'inform_user'
         ]
 
 
