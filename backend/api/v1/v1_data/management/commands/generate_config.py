@@ -12,6 +12,7 @@ from api.v1.v1_profile.models import Levels, Administration
 class Command(BaseCommand):
     def handle(self, *args, **options):
         # fetch all administrations
+        print("GENERATING CONFIG JS")
         all_administrations = {}
         adm = []
         administrations = Administration.objects.all()
