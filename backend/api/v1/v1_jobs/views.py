@@ -1,4 +1,6 @@
 # Create your views here.
+import re
+
 from wsgiref.util import FileWrapper
 
 from uuid import uuid4
@@ -151,7 +153,7 @@ def download_list(request, version):
 @parser_classes([MultiPartParser])
 @permission_classes([IsAuthenticated])
 def upload_excel(request, form_id, version):
-    get_object_or_404(Forms, pk=form_id)
+    form = get_object_or_404(Forms, pk=form_id)
     serializer = UploadExcelSerializer(data=request.data)
     if not serializer.is_valid():
         return Response(
@@ -161,8 +163,12 @@ def upload_excel(request, form_id, version):
     file = fs.save(f"./tmp/{serializer.validated_data.get('file').name}",
                    serializer.validated_data.get('file'))
     file_path = fs.path(file)
-    filename = "-".join(str(uuid4()).split("-")[0:3])
-    filename = f"{form_id}-{filename}.xlsx"
+    # filename format: form_name--user_name-<4_digit_autogerated>
+    uuid = "_".join(str(uuid4()).split("-")[:-1])
+    user_name = "{0}_{1}".format(
+        request.user.first_name, request.user.last_name)
+    form_name = re.sub(r'[\W_]+', '_', form.name)
+    filename = f"{form_name}-{user_name}-{uuid}.xlsx"
     storage.upload(file=file_path, filename=filename, folder='upload')
     job = Jobs.objects.create(type=JobTypes.validate_data,
                               status=JobStatus.on_progress,
