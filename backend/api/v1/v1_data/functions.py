@@ -23,8 +23,8 @@ def get_cache(name):
     return None
 
 
-def create_cache(name, resp):
+def create_cache(name, resp, timeout=None):
     name = re.sub(r'[\W_]+', '_', name)
     today = datetime.now().strftime("%Y%m%d")
     cache_name = f"{today}-{name}"
-    cache.add(cache_name, resp)
+    cache.add(cache_name, resp, timeout=timeout)
