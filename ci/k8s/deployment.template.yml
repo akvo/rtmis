@@ -139,12 +139,12 @@ spec:
             httpGet:
               path: /api/v1/health/check
               port: 8000
-            initialDelaySeconds: 300
+            initialDelaySeconds: 30
           livenessProbe:
             httpGet:
               path: /api/v1/health/check
               port: 8000
-            initialDelaySeconds: 300
+            initialDelaySeconds: 30
           volumeMounts:
             - name: rtmis-secrets
               mountPath: /secrets/credentials.json
