@@ -63,6 +63,12 @@
             color: $white;
             font-weight: $font-weight-semi-bold;
             font-size: $font-size-super-large;
+
+            small {
+              font-weight: $font-weight-normal;
+              font-size: $font-size-large;
+              letter-spacing: 0.2px;
+            }
           }
         }
       }
@@ -112,6 +118,7 @@
               }
             }
           }
+
           .disclaimer {
             color: #eb5254b3;
             font-size: 12px;
