@@ -13,6 +13,7 @@ class EmailTypes:
     user_approval = 'user_approval'
     user_forgot_password = 'user_forgot_password'
     user_invite = 'user_invite'
+    user_update = 'user_update'
     data_approval = 'data_approval'
     data_rejection = 'data_rejection'
     batch_approval = 'batch_approval'
@@ -28,6 +29,7 @@ class EmailTypes:
         user_approval: 'user_approval',
         user_forgot_password: 'user_forgot_password',
         user_invite: 'user_invite',
+        user_update: 'user_update',
         data_approval: 'data_approval',
         data_rejection: 'data_rejection',
         batch_approval: 'batch_approval',
@@ -119,6 +121,17 @@ def email_context(context: dict, type: str):
             "button": True,
             "button_url": button_url,
             "button_text": "Set Password"
+        })
+    if type == EmailTypes.user_update:
+        admin = ""
+        if context.get("admin"):
+            admin = context.get("admin")
+        context.update({
+            "subject": "Profile Updated",
+            "body": f'''Your profile on the Rural Urban Sanitation and Hygiene
+            (RUSH) monitoring platform has been updated by {admin}''',
+            "align": "left",
+            "explore_button": True,
         })
     if type == EmailTypes.data_approval:
         context.update({
