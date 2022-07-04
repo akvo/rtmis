@@ -238,7 +238,7 @@ class UserInvitationTestCase(TestCase):
                                         payload,
                                         content_type='application/json',
                                         **header)
-        self.assertEqual(add_response.status_code, 404)
+        self.assertEqual(add_response.status_code, 403)
         # Add user for different administration
         payload = {
             "first_name": "Third County",
@@ -307,7 +307,7 @@ class UserInvitationTestCase(TestCase):
                                         payload,
                                         content_type='application/json',
                                         **header)
-        self.assertEqual(add_response.status_code, 404)
+        self.assertEqual(add_response.status_code, 403)
         # Add user for different administration
         payload = {
             "first_name": "Test Third",
