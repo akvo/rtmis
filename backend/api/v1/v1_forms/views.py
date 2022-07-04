@@ -55,7 +55,9 @@ def list_form(request, version):
 def web_form_details(request, version, form_id):
     administration = request.user.user_access.administration
     cache_name = f"webform-{form_id}-{administration.id}"
-    get_cache(cache_name)
+    cache_data = get_cache(cache_name)
+    if cache_data:
+        return Response(cache_data, content_type="application/json;")
     instance = get_object_or_404(Forms, pk=form_id)
     instance = WebFormDetailSerializer(
             instance=instance,
@@ -70,7 +72,9 @@ def web_form_details(request, version, form_id):
 @api_view(['GET'])
 def form_data(request, version, form_id):
     cache_name = f"form-{form_id}"
-    get_cache(cache_name)
+    cache_data = get_cache(cache_name)
+    if cache_data:
+        return Response(cache_data, content_type="application/json;")
     instance = get_object_or_404(Forms, pk=form_id)
     instance = FormDataSerializer(instance=instance).data
     create_cache(cache_name, instance)

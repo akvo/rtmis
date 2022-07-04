@@ -22,7 +22,8 @@ from rest_framework.views import APIView
 from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
     PendingDataBatch, ViewPendingDataApproval, PendingAnswers, \
-    AnswerHistory, ViewDataOptions, PendingAnswerHistory, PendingDataApproval
+    AnswerHistory, ViewOptions, \
+    PendingAnswerHistory, PendingDataApproval
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
@@ -352,7 +353,9 @@ def get_map_data_point(request, version, form_id):
 def get_map_overview_data_point(request, version, form_id):
     cache_name = request.GET.get("shape")
     cache_name = f"ovw_maps-{cache_name}"
-    get_cache(cache_name)
+    cache_data = get_cache(cache_name)
+    if cache_data:
+        return Response(cache_data, status=status.HTTP_200_OK)
     instance = get_object_or_404(Forms, pk=form_id)
     serializer = ListMapOverviewDataPointRequestSerializer(
         data=request.GET, context={'form': instance})
@@ -634,7 +637,12 @@ def get_chart_criteria(request, version, form_id):
     if administration.level.level == max_level.level:
         childs = [administration]
     data = []
-    data_views = ViewDataOptions.objects.filter(form_id=form_id).all()
+    question_ids = [
+        o.get('question').id for p in params
+        for o in p.get("options")]
+    options = [
+        b for p in params for o in p.get("options")
+        for b in o.get('option')]
     for child in childs:
         values = {
             'group': child.name,
@@ -645,6 +653,11 @@ def get_chart_criteria(request, version, form_id):
             filter_path = "{0}{1}.".format(child.path, child.id)
         administration_ids = list(Administration.objects.filter(
             path__startswith=filter_path).values_list('id', flat=True))
+        data_views = ViewOptions.objects.filter(
+                question_id__in=question_ids,
+                options__in=options,
+                administration_id__in=administration_ids).only(
+                        'data_id', 'questions', 'options')
         data_ids = list(data_views.filter(
             administration_id__in=administration_ids).values_list(
                 'data_id', flat=True))
@@ -654,27 +667,24 @@ def get_chart_criteria(request, version, form_id):
             for index, option in enumerate(param.get('options')):
                 question = option.get('question').id
                 ids = filter_criteria if filter_criteria else data_ids
-                for opt in option.get('option'):
-                    option_contains = []
-                    option_contains.append(f"{question}||{opt.lower()}")
-                    filter_data = list(
-                            data_views.filter(
-                                data_id__in=ids,
-                                options__contains=option_contains)
-                            .values_list('data_id', flat=True))
-                    if filter_criteria and index > 0:
-                        # reset filter_criteria for next question
-                        # start from second question criteria
-                        # support and filter
-                        filter_criteria = []
-                    for id in filter_data:
-                        if id not in filter_criteria:
-                            # append filter_criteria to support or filter
-                            filter_criteria.append(id)
+                filter_data = list(
+                        data_views.filter(
+                            data_id__in=ids,
+                            question=question,
+                            options__in=[o for o in option.get('option')])
+                        .values_list('data_id', flat=True))
+                if filter_criteria and index > 0:
+                    # reset filter_criteria for next question
+                    # start from second question criteria
+                    # support and filter
+                    filter_criteria = []
+                for id in filter_data:
+                    if id not in filter_criteria:
+                        # append filter_criteria to support or filter
+                        filter_criteria.append(id)
             values.get('child').append({
-                'name': param.get('name'),
-                'value': len(filter_criteria)
-            })
+                "name": param.get('name'),
+                "value": len(filter_criteria)})
         data.append(values)
     return Response({'type': 'BARSTACK', 'data': data},
                     status=status.HTTP_200_OK)
@@ -711,7 +721,9 @@ def get_chart_overview_criteria(request, version, form_id):
             {'message': 'cache params not found'},
             status=status.HTTP_400_BAD_REQUEST)
     cache_name = f"ovw_chart_criteria-{cache_name}-{administration_id}"
-    get_cache(cache_name)
+    cache_data = get_cache(cache_name)
+    if cache_data:
+        return Response(cache_data, status=status.HTTP_200_OK)
     administration = get_object_or_404(Administration, pk=administration_id)
     params = serializer.validated_data
     max_level = Levels.objects.order_by('-level').first()
@@ -719,7 +731,12 @@ def get_chart_overview_criteria(request, version, form_id):
     if administration.level.level == max_level.level:
         childs = [administration]
     data = []
-    data_views = ViewDataOptions.objects.filter(form_id=form_id).all()
+    question_ids = [
+        o.get('question').id for p in params
+        for o in p.get("options")]
+    options = [
+        b for p in params for o in p.get("options")
+        for b in o.get('option')]
     for child in childs:
         values = {
             'group': child.name,
@@ -730,36 +747,37 @@ def get_chart_overview_criteria(request, version, form_id):
             filter_path = "{0}{1}.".format(child.path, child.id)
         administration_ids = list(Administration.objects.filter(
             path__startswith=filter_path).values_list('id', flat=True))
-        data_ids = list(data_views.filter(
-            administration_id__in=administration_ids).values_list(
-                'data_id', flat=True))
+        data_views = ViewOptions.objects.filter(
+                question_id__in=question_ids,
+                options__in=options,
+                administration_id__in=administration_ids).only(
+                        'data_id', 'questions', 'options')
+        data_ids = list(data_views.only('data_id').values_list(
+            'data_id', flat=True))
         # loop for post params
         for param in params:
             filter_criteria = []
             for index, option in enumerate(param.get('options')):
                 question = option.get('question').id
                 ids = filter_criteria if filter_criteria else data_ids
-                for opt in option.get('option'):
-                    option_contains = []
-                    option_contains.append(f"{question}||{opt.lower()}")
-                    filter_data = list(
-                            data_views.filter(
-                                data_id__in=ids,
-                                options__contains=option_contains)
-                            .values_list('data_id', flat=True))
-                    if filter_criteria and index > 0:
-                        # reset filter_criteria for next question
-                        # start from second question criteria
-                        # support and filter
-                        filter_criteria = []
-                    for id in filter_data:
-                        if id not in filter_criteria:
-                            # append filter_criteria to support or filter
-                            filter_criteria.append(id)
+                filter_data = list(
+                        data_views.filter(
+                            data_id__in=ids,
+                            question=question,
+                            options__in=[o for o in option.get('option')])
+                        .values_list('data_id', flat=True))
+                if filter_criteria and index > 0:
+                    # reset filter_criteria for next question
+                    # start from second question criteria
+                    # support and filter
+                    filter_criteria = []
+                for id in filter_data:
+                    if id not in filter_criteria:
+                        # append filter_criteria to support or filter
+                        filter_criteria.append(id)
             values.get('child').append({
-                'name': param.get('name'),
-                'value': len(filter_criteria)
-            })
+                "name": param.get('name'),
+                "value": len(filter_criteria)})
         data.append(values)
     data = {"type": "BARSTACK", "data": data}
     create_cache(cache_name, data)
