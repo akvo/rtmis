@@ -94,6 +94,10 @@ const Map = ({ current, style }) => {
             s.administration = acc;
             s.loadingMap = false;
           });
+          queue.update((q) => {
+            q.next = 1;
+            q.wait = null;
+          });
         }
       };
       fetchData(selectedAdmin, []);

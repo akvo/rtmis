@@ -22,7 +22,7 @@ from rest_framework.views import APIView
 from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
     PendingDataBatch, ViewPendingDataApproval, PendingAnswers, \
-    AnswerHistory, ViewDataOptions, ViewOptions, \
+    AnswerHistory, ViewOptions, \
     PendingAnswerHistory, PendingDataApproval
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
@@ -637,7 +637,12 @@ def get_chart_criteria(request, version, form_id):
     if administration.level.level == max_level.level:
         childs = [administration]
     data = []
-    data_views = ViewDataOptions.objects.filter(form_id=form_id).all()
+    question_ids = [
+        o.get('question').id for p in params
+        for o in p.get("options")]
+    options = [
+        b for p in params for o in p.get("options")
+        for b in o.get('option')]
     for child in childs:
         values = {
             'group': child.name,
@@ -648,6 +653,11 @@ def get_chart_criteria(request, version, form_id):
             filter_path = "{0}{1}.".format(child.path, child.id)
         administration_ids = list(Administration.objects.filter(
             path__startswith=filter_path).values_list('id', flat=True))
+        data_views = ViewOptions.objects.filter(
+                question_id__in=question_ids,
+                options__in=options,
+                administration_id__in=administration_ids).only(
+                        'data_id', 'questions', 'options')
         data_ids = list(data_views.filter(
             administration_id__in=administration_ids).values_list(
                 'data_id', flat=True))
@@ -657,27 +667,24 @@ def get_chart_criteria(request, version, form_id):
             for index, option in enumerate(param.get('options')):
                 question = option.get('question').id
                 ids = filter_criteria if filter_criteria else data_ids
-                for opt in option.get('option'):
-                    option_contains = []
-                    option_contains.append(f"{question}||{opt.lower()}")
-                    filter_data = list(
-                            data_views.filter(
-                                data_id__in=ids,
-                                options__contains=option_contains)
-                            .values_list('data_id', flat=True))
-                    if filter_criteria and index > 0:
-                        # reset filter_criteria for next question
-                        # start from second question criteria
-                        # support and filter
-                        filter_criteria = []
-                    for id in filter_data:
-                        if id not in filter_criteria:
-                            # append filter_criteria to support or filter
-                            filter_criteria.append(id)
+                filter_data = list(
+                        data_views.filter(
+                            data_id__in=ids,
+                            question=question,
+                            options__in=[o for o in option.get('option')])
+                        .values_list('data_id', flat=True))
+                if filter_criteria and index > 0:
+                    # reset filter_criteria for next question
+                    # start from second question criteria
+                    # support and filter
+                    filter_criteria = []
+                for id in filter_data:
+                    if id not in filter_criteria:
+                        # append filter_criteria to support or filter
+                        filter_criteria.append(id)
             values.get('child').append({
-                'name': param.get('name'),
-                'value': len(filter_criteria)
-            })
+                "name": param.get('name'),
+                "value": len(filter_criteria)})
         data.append(values)
     return Response({'type': 'BARSTACK', 'data': data},
                     status=status.HTTP_200_OK)
