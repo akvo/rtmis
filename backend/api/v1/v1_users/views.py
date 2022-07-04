@@ -298,31 +298,33 @@ def add_user(request, version):
         ) for fr in serializer.validated_data.get('forms')]
         FormApprovalAssignment.objects.bulk_create(form_approval_obj)
 
-    url = f"{webdomain}/login/{signing.dumps(user.pk)}"
-    user = Access.objects.filter(user=user.pk).first()
-    admin = Access.objects.filter(user=request.user.pk).first()
-    user_forms = Forms.objects.filter(pk__in=request.data.get("forms")).all()
-    listing = [{
-        "name": "Role",
-        "value": user.role_name
-    }, {
-        "name": "Region",
-        "value": user.administration.full_name
-    }]
-    if user_forms:
-        user_forms = ", ".join([form.name for form in user_forms])
-        listing.append({"name": "Questionnaire", "value": user_forms})
-    data = {
-        'button_url':
-        url,
-        'send_to': [user.user.email],
-        'listing':
-        listing,
-        'admin':
-        f"""{admin.user.name}, {admin.user.designation_name},
-        {admin.administration.full_name}."""
-    }
-    send_email(type=EmailTypes.user_invite, context=data)
+    if serializer.validated_data.get('inform_user'):
+        url = f"{webdomain}/login/{signing.dumps(user.pk)}"
+        user = Access.objects.filter(user=user.pk).first()
+        admin = Access.objects.filter(user=request.user.pk).first()
+        user_forms = Forms.objects.filter(
+            pk__in=request.data.get("forms")).all()
+        listing = [{
+            "name": "Role",
+            "value": user.role_name
+        }, {
+            "name": "Region",
+            "value": user.administration.full_name
+        }]
+        if user_forms:
+            user_forms = ", ".join([form.name for form in user_forms])
+            listing.append({"name": "Questionnaire", "value": user_forms})
+        data = {
+            'button_url':
+            url,
+            'send_to': [user.user.email],
+            'listing':
+            listing,
+            'admin':
+            f"""{admin.user.name}, {admin.user.designation_name},
+            {admin.administration.full_name}."""
+        }
+        send_email(type=EmailTypes.user_invite, context=data)
     return Response({'message': 'User added successfully'},
                     status=status.HTTP_200_OK)
 
@@ -524,7 +526,32 @@ class UserEditDeleteView(APIView):
             return Response(
                 {'message': validate_serializers_message(serializer.errors)},
                 status=status.HTTP_400_BAD_REQUEST)
-        serializer.save()
+        user = serializer.save()
+        # inform user by inform_user payload
+        if serializer.validated_data.get('inform_user'):
+            user = Access.objects.filter(user=user.pk).first()
+            admin = Access.objects.filter(user=request.user.pk).first()
+            user_forms = Forms.objects.filter(
+                pk__in=request.data.get("forms")).all()
+            listing = [{
+                "name": "Role",
+                "value": user.role_name
+            }, {
+                "name": "Region",
+                "value": user.administration.full_name
+            }]
+            if user_forms:
+                user_forms = ", ".join([form.name for form in user_forms])
+                listing.append({"name": "Questionnaire", "value": user_forms})
+            data = {
+                'send_to': [user.user.email],
+                'listing':
+                listing,
+                'admin':
+                f"""{admin.user.name}, {admin.user.designation_name},
+                {admin.administration.full_name}."""
+            }
+            send_email(type=EmailTypes.user_update, context=data)
         return Response({'message': 'User updated successfully'},
                         status=status.HTTP_200_OK)
 
