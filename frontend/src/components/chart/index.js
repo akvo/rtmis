@@ -26,6 +26,21 @@ export const generateOptions = (
   }
 };
 
+const loadingStyle = {
+  text: "Loading",
+  color: "#1890ff",
+  textColor: "rgba(0,0,0,.85)",
+  maskColor: "rgba(255, 255, 255, 1)",
+  zlevel: 0,
+  fontSize: "1.17em",
+  showSpinner: true,
+  spinnerRadius: 10,
+  lineWidth: 5,
+  fontWeight: "500",
+  fontStyle: "normal",
+  fontFamily: "Poppins",
+};
+
 const Chart = ({
   type,
   title = "",
@@ -44,7 +59,7 @@ const Chart = ({
   callbacks = null,
   highlighted,
   loading = false,
-  loadingOption = {},
+  loadingOption = loadingStyle,
   grid = {},
 }) => {
   if (transform) {

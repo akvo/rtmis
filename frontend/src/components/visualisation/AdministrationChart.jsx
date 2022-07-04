@@ -237,12 +237,7 @@ const AdministrationChart = ({ current, index }) => {
           series={{ left: "10%" }}
           highlighted={highlighted}
           loading={loading}
-          extra={{ animation: false }}
-          loadingOption={{
-            text: "",
-            color: "#1b91ff",
-            lineWidth: 1,
-          }}
+          extra={{ animation: next === index + 1 }}
         />
       </div>
     </Card>
