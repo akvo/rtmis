@@ -5,14 +5,12 @@ const uiText = {
     // Home page
     welcome: (
       <Fragment>
-        Welcome to the Rural Urban
+        Rural Urban Sanitation
         <br />
-        Sanitation and Hygiene (RUSH)
-        <br />
-        Monitoring Platform
+        and Hygiene (RUSH)
       </Fragment>
     ),
-    welcomeDesc: "Updated sanitation and hygiene estimates across Kenya",
+    welcomeDesc: "Real Time Management Information System (RTMIS)",
     countdownTitle: "Time remaining to achieve national RUSH targets:",
     year: "Year",
     month: "Month",
