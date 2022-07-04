@@ -4,7 +4,6 @@
 set -eu
 
 python manage.py migrate
-# python manage.py createcachetable
 python manage.py generate_config
 
 function log {
@@ -19,7 +18,7 @@ _term() {
 trap _term SIGTERM
 
 log Starting gunicorn in background
-gunicorn rtmis.wsgi --workers 6 --bind 0.0.0.0:8000 &
+gunicorn rtmis.wsgi --max-requests 200 --workers 6 --timeout 300 --bind 0.0.0.0:8000 &
 
 child=$!
 wait "$child"
