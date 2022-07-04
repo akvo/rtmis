@@ -334,6 +334,10 @@ const uiText = {
     tourUserManagement: "Magni provident aliquam harum cupiditate iste",
     tourDataUploadsPanel:
       "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
+    // Add user modal notification
+    existingApproverTitle: "There are existing approvers for:",
+    existingApproverDescription:
+      "Please update the setup in manage validation tree or remove these forms for the current user",
   },
 
   de: {},
