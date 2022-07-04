@@ -110,6 +110,7 @@ class UserInvitationTestCase(TestCase):
             "organisation": org.id,
             "forms": [1],
             "trained": True,
+            "inform_user": True,
         }
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         add_response = self.client.post("/api/v1/user",
@@ -137,6 +138,7 @@ class UserInvitationTestCase(TestCase):
             "trained": False,
             "role": 6,
             "forms": [1, 2],
+            "inform_user": True,
         }
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
 

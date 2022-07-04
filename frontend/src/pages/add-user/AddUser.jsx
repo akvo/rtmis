@@ -222,6 +222,11 @@ const AddUser = () => {
             forms: res.data?.forms.map((f) => parseInt(f.id)),
             organisation: res.data?.organisation?.id || [],
             trained: res?.data?.trained,
+            inform_user: !id
+              ? true
+              : authUser?.email === res.data?.email
+              ? false
+              : true,
           });
           setRole(res.data?.role);
           setLoading(false);
@@ -232,7 +237,7 @@ const AddUser = () => {
         setLoading(false);
       }
     }
-  }, [id, form, forms, notify, text.errorUserLoad]);
+  }, [id, form, forms, notify, text.errorUserLoad, authUser?.email]);
 
   const allowedLevels = useMemo(() => {
     const admLevels =
@@ -483,7 +488,17 @@ const AddUser = () => {
               name="inform_user"
               rules={[{ required: false }]}
             >
-              <Checkbox>{text.informUser}</Checkbox>
+              <Checkbox
+                disabled={
+                  !id
+                    ? true
+                    : authUser?.email === form.getFieldValue("email")
+                    ? true
+                    : false
+                }
+              >
+                {text.informUser}
+              </Checkbox>
             </Form.Item>
           </Col>
           <Col>
