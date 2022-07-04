@@ -279,15 +279,13 @@ def add_user(request, version):
             administration=serializer.validated_data.get('administration')
         ).distinct('form', 'administration').all()
         if form_approval_assignment:
-            message_detail = ["{0} - {1}".format(
-                fa.form.name, fa.administration.name
-            ) for fa in form_approval_assignment]
-            message_detail = '''There are existing approvers for {0}. Please update
-                the setup in manage validation tree or remove these forms for
-                the current user'''.format(", ".join(message_detail))
+            message_detail = [{
+                'form': fa.form.name,
+                'administration': fa.administration.name
+            } for fa in form_approval_assignment]
             return Response(
                 {'message': message_detail},
-                status=status.HTTP_404_NOT_FOUND)
+                status=status.HTTP_403_FORBIDDEN)
 
     user = serializer.save()
     # when add new user as approver or county admin

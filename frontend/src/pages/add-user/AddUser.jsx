@@ -10,6 +10,8 @@ import {
   Input,
   Select,
   Checkbox,
+  Modal,
+  Table,
 } from "antd";
 import { AdministrationDropdown } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
@@ -31,6 +33,15 @@ const descriptionData = (
 );
 
 const AddUser = () => {
+  const {
+    user: authUser,
+    administration,
+    forms,
+    loadingForm,
+    language,
+  } = store.useState((s) => s);
+  const { active: activeLang } = language;
+
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
   const [role, setRole] = useState(null);
@@ -38,22 +49,16 @@ const AddUser = () => {
   const [adminError, setAdminError] = useState(null);
   const [levelError, setLevelError] = useState(false);
   const [form] = Form.useForm();
-  const { language } = store.useState((s) => s);
-  const { active: activeLang } = language;
-  const text = useMemo(() => {
-    return uiText[activeLang];
-  }, [activeLang]);
-  const {
-    user: authUser,
-    administration,
-    forms,
-    loadingForm,
-  } = store.useState((s) => s);
   const navigate = useNavigate();
   const { notify } = useNotification();
   const { id } = useParams();
-
   const [organisations, setOrganisations] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalContent, setModalContent] = useState([]);
+
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   useEffect(() => {
     if (!organisations.length) {
@@ -77,6 +82,11 @@ const AddUser = () => {
       title: id ? text.editUser : text.addUser,
     },
   ];
+
+  const onCloseModal = () => {
+    setIsModalVisible(false);
+    setModalContent([]);
+  };
 
   const allowedRoles = useMemo(() => {
     const lookUp = authUser.role?.id === 2 ? 3 : authUser.role?.id || 4;
@@ -133,12 +143,17 @@ const AddUser = () => {
         navigate("/users");
       })
       .catch((err) => {
-        notify({
-          type: "error",
-          message:
-            err?.response?.data?.message ||
-            `User could not be ${id ? "updated" : "added"}`,
-        });
+        if (err?.response?.status === 403) {
+          setIsModalVisible(true);
+          setModalContent(err?.response?.data?.message);
+        } else {
+          notify({
+            type: "error",
+            message:
+              err?.response?.data?.message ||
+              `User could not be ${id ? "updated" : "added"}`,
+          });
+        }
         setSubmitting(false);
       });
   };
@@ -478,6 +493,46 @@ const AddUser = () => {
           </Col>
         </Row>
       </Form>
+
+      {/* Notification modal */}
+      <Modal
+        visible={isModalVisible}
+        onCancel={onCloseModal}
+        centered
+        width="575px"
+        footer={
+          <Row justify="center" align="middle">
+            <Col>
+              <Button className="light" onClick={onCloseModal}>
+                Cancel
+              </Button>
+            </Col>
+          </Row>
+        }
+        bodyStyle={{ textAlign: "center" }}
+      >
+        <img src="/assets/user.svg" height="80" />
+        <br />
+        <br />
+        <p>{text.existingApproverTitle}</p>
+        <Table
+          columns={[
+            {
+              title: "Form",
+              dataIndex: "form",
+            },
+            {
+              title: "Administration",
+              dataIndex: "administration",
+            },
+          ]}
+          dataSource={modalContent}
+          rowKey="id"
+          pagination={false}
+        />
+        <br />
+        <p>{text.existingApproverDescription}</p>
+      </Modal>
     </div>
   );
 };
