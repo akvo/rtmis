@@ -711,7 +711,7 @@ def get_chart_overview_criteria(request, version, form_id):
             {'message': 'cache params not found'},
             status=status.HTTP_400_BAD_REQUEST)
     cache_name = f"ovw_chart_criteria-{cache_name}-{administration_id}"
-    get_cache(cache_name)
+    # get_cache(cache_name)
     administration = get_object_or_404(Administration, pk=administration_id)
     params = serializer.validated_data
     max_level = Levels.objects.order_by('-level').first()
@@ -719,7 +719,6 @@ def get_chart_overview_criteria(request, version, form_id):
     if administration.level.level == max_level.level:
         childs = [administration]
     data = []
-    data_views = ViewDataOptions.objects.filter(form_id=form_id).all()
     for child in childs:
         values = {
             'group': child.name,
@@ -730,9 +729,11 @@ def get_chart_overview_criteria(request, version, form_id):
             filter_path = "{0}{1}.".format(child.path, child.id)
         administration_ids = list(Administration.objects.filter(
             path__startswith=filter_path).values_list('id', flat=True))
-        data_ids = list(data_views.filter(
-            administration_id__in=administration_ids).values_list(
-                'data_id', flat=True))
+        data_views = ViewDataOptions.objects.filter(
+                form_id=form_id,
+                administration_id__in=administration_ids)
+        data_ids = list(data_views.only('data_id').values_list(
+            'data_id', flat=True))
         # loop for post params
         for param in params:
             filter_criteria = []

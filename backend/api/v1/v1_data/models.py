@@ -309,3 +309,32 @@ class ViewDataOptions(models.Model):
     class Meta:
         managed = False
         db_table = 'view_data_options'
+
+
+class ViewOptions(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    data = models.ForeignKey(
+        to=FormData,
+        on_delete=models.DO_NOTHING,
+        related_name='data_view_options')
+    administration = models.ForeignKey(
+        to=Administration,
+        on_delete=models.DO_NOTHING,
+        related_name='administration_view_options')
+    question = models.ForeignKey(
+        to=Questions,
+        on_delete=models.DO_NOTHING,
+        related_name='question_view_options')
+    answer = models.ForeignKey(
+        to=Answers,
+        on_delete=models.DO_NOTHING,
+        related_name='answer_view_options')
+    form = models.ForeignKey(
+        to=Forms,
+        on_delete=models.DO_NOTHING,
+        related_name='form_view_options')
+    options = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'view_options'

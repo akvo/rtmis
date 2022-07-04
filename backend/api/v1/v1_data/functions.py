@@ -12,7 +12,9 @@ from rtmis.settings import CACHE_FOLDER
 def refresh_materialized_data():
     with connection.cursor() as cursor:
         cursor.execute("""
-            REFRESH MATERIALIZED VIEW view_data_options;""")
+            REFRESH MATERIALIZED VIEW view_data_options;
+            REFRESH MATERIALIZED VIEW view_options;
+            """)
 
 
 def get_cache(name):
