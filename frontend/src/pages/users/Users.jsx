@@ -12,6 +12,7 @@ import {
   UserTab,
 } from "../../components";
 import { useNotification } from "../../util/hooks";
+import { reverse } from "lodash";
 import moment from "moment";
 
 const pagePath = [
@@ -83,7 +84,15 @@ const Users = () => {
     {
       title: "Region",
       dataIndex: "administration",
-      render: (administration) => administration?.name || "",
+      render: (administration) => {
+        const adm = administration?.id
+          ? window.dbadm.find((d) => d.id === administration.id)?.full_name
+          : false;
+        if (adm) {
+          return reverse(adm.split("|")).join(", ");
+        }
+        return adm;
+      },
     },
     {
       title: "Phone",
