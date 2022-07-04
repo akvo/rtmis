@@ -4,7 +4,7 @@
 set -eu
 
 python manage.py migrate
-python manage.py generate_config &
+python manage.py generate_config > /dev/null &
 
 function log {
    echo "$(date +"%T") - START INFO - $*"

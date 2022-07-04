@@ -1,8 +1,10 @@
 import re
-from django.core.cache import cache
+from pathlib import Path
+import msgpack
 from datetime import datetime
 from django.db import transaction, connection
 from django.http import HttpResponse
+from rtmis.settings import CACHE_FOLDER
 
 
 @transaction.atomic
@@ -16,9 +18,11 @@ def get_cache(name):
     name = re.sub(r'[\W_]+', '_', name)
     today = datetime.now().strftime("%Y%m%d")
     cache_name = f"{today}-{name}"
-    data = cache.get(cache_name)
-    if data:
-        return HttpResponse(cache, content_type="application/json;")
+    if Path(cache_name).exists():
+        with open(f"{CACHE_FOLDER}{cache_name}.msgpack", "rb") as data_file:
+            byte_data = data_file.read()
+            data_loaded = msgpack.unpackb(byte_data)
+            return HttpResponse(data_loaded, content_type="application/json;")
     return None
 
 
@@ -26,4 +30,6 @@ def create_cache(name, resp):
     name = re.sub(r'[\W_]+', '_', name)
     today = datetime.now().strftime("%Y%m%d")
     cache_name = f"{today}-{name}"
-    cache.add(cache_name, resp)
+    with open(f"{CACHE_FOLDER}{cache_name}.msgpack", "wb") as outfile:
+        packed = msgpack.packb(resp)
+        outfile.write(packed)
