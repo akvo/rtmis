@@ -1,5 +1,6 @@
 # Create your views here.
 from math import ceil
+import pandas as pd
 from datetime import datetime, timedelta
 from wsgiref.util import FileWrapper
 from django.utils import timezone
@@ -364,23 +365,25 @@ def get_map_overview_data_point(request, version, form_id):
             {'message': validate_serializers_message(serializer.errors)},
             status=status.HTTP_400_BAD_REQUEST
         )
-    administrations = Administration.objects.filter(level_id=2).all()
+    administrations = Administration.objects.filter(
+            level_id=2).values('id', 'name')
     counties = []
     data = ListMapOverviewDataPointSerializer(
         instance=instance.form_form_data.all(),
         context={
             'shape': serializer.validated_data.get('shape'),
-            'marker': serializer.validated_data.get('marker')
-        },
+            'marker': serializer.validated_data.get('marker')},
         many=True).data
     for adm in administrations:
-        level3 = Administration.objects.filter(parent_id=adm.id).all()
-        level3_ids = [lv.id for lv in level3]
-        level4 = Administration.objects.filter(parent_id__in=level3_ids).all()
-        childs = [lv.id for lv in level4]
-        filtered = filter(lambda d: d.get('administration_id') in childs, data)
+        level3 = Administration.objects.filter(
+                parent_id=adm.get('id')).values_list('id', flat=True)
+        childs = Administration.objects.filter(
+                parent_id__in=list(level3)).values_list('id', flat=True)
+        filtered = filter(
+                lambda d: d.get('administration_id') in list(childs),
+                data)
         counties.append({
-            'loc': adm.name,
+            'loc': adm.get('name'),
             'shape': sum(fl.get('shape') for fl in list(filtered))
         })
     create_cache(cache_name, counties)
@@ -413,8 +416,7 @@ def get_chart_data_point(request, version, form_id):
     if not serializer.is_valid():
         return Response(
             {'message': validate_serializers_message(serializer.errors)},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+            status=status.HTTP_400_BAD_REQUEST)
 
     if serializer.validated_data.get('stack'):
         query_set = Answers.objects.filter(
@@ -425,10 +427,7 @@ def get_chart_data_point(request, version, form_id):
                                               output_field=TextField()))
         data = []
         for val in query_set:
-            values = {
-                'group': val.get('options')[0],
-                'child': []
-            }
+            values = {'group': val.get('options')[0], 'child': []}
 
             child_query_set = Answers.objects.filter(
                 data_id__in=val.get('ids').split(','),
@@ -492,10 +491,7 @@ def get_chart_overview(request, version, form_id):
                             delimiter=',',
                             output_field=TextField()))
             # temp values
-            values = {
-                'group': so.name,
-                'child': []
-            }
+            values = {'group': so.name, 'child': []}
             # get child
             for val in query_set:
                 child_query_set = Answers.objects.filter(
@@ -529,6 +525,7 @@ def get_chart_overview(request, version, form_id):
                             'value': count
                         })
             data.append(values)
+            del values
 
         return Response({'type': 'BARSTACK', 'data': data},
                         status=status.HTTP_200_OK)
@@ -603,6 +600,7 @@ def get_chart_administration(request, version, form_id):
                 'value': val.get('c')
             })
         data.append(values)
+        del values
 
     return Response({'type': 'BARSTACK', 'data': data},
                     status=status.HTTP_200_OK)
@@ -656,38 +654,43 @@ def get_chart_criteria(request, version, form_id):
         data_views = ViewOptions.objects.filter(
                 question_id__in=question_ids,
                 options__in=options,
-                administration_id__in=administration_ids).only(
-                        'data_id', 'questions', 'options')
-        data_ids = list(data_views.filter(
-            administration_id__in=administration_ids).values_list(
-                'data_id', flat=True))
-        # loop for post params
+                administration_id__in=administration_ids).values_list(
+                        'data_id', 'question_id', 'options')
+        df = pd.DataFrame(
+                list(data_views),
+                columns=['data_id', 'question_id', 'options'])
         for param in params:
             filter_criteria = []
             for index, option in enumerate(param.get('options')):
                 question = option.get('question').id
-                ids = filter_criteria if filter_criteria else data_ids
-                filter_data = list(
-                        data_views.filter(
-                            data_id__in=ids,
-                            question=question,
-                            options__in=[o for o in option.get('option')])
-                        .values_list('data_id', flat=True))
-                if filter_criteria and index > 0:
-                    # reset filter_criteria for next question
-                    # start from second question criteria
-                    # support and filter
-                    filter_criteria = []
-                for id in filter_data:
-                    if id not in filter_criteria:
-                        # append filter_criteria to support or filter
-                        filter_criteria.append(id)
+                opts = [o for o in option.get('option')]
+                if df.shape[0]:
+                    filter_df = df[
+                            (df['question_id'] == question) &
+                            (df['options'].isin(opts))]
+                    if filter_criteria:
+                        filter_df = filter_df[
+                                (filter_df['data_id'].isin(filter_criteria))]
+                    if filter_criteria and index > 0:
+                        # reset filter_criteria for next question
+                        # start from second question criteria
+                        # support and filter
+                        filter_criteria = []
+                    if filter_df.shape[0]:
+                        filter_df = filter_df[~filter_df['data_id'].isin(
+                            filter_criteria)]
+                        filter_criteria += list(
+                                filter_df['data_id'].unique())
             values.get('child').append({
                 "name": param.get('name'),
                 "value": len(filter_criteria)})
         data.append(values)
-    return Response({'type': 'BARSTACK', 'data': data},
-                    status=status.HTTP_200_OK)
+        del df
+    del question_ids
+    del options
+    resp = {"type": "BARSTACK", "data": data}
+    del data
+    return Response(resp, status=status.HTTP_200_OK)
 
 
 @extend_schema(
@@ -727,9 +730,9 @@ def get_chart_overview_criteria(request, version, form_id):
     administration = get_object_or_404(Administration, pk=administration_id)
     params = serializer.validated_data
     max_level = Levels.objects.order_by('-level').first()
-    childs = Administration.objects.filter(parent=administration).all()
-    if administration.level.level == max_level.level:
-        childs = [administration]
+    childs = [administration]
+    if not administration.level.level == max_level.level:
+        childs = Administration.objects.filter(parent=administration).all()
     data = []
     question_ids = [
         o.get('question').id for p in params
@@ -750,38 +753,44 @@ def get_chart_overview_criteria(request, version, form_id):
         data_views = ViewOptions.objects.filter(
                 question_id__in=question_ids,
                 options__in=options,
-                administration_id__in=administration_ids).only(
-                        'data_id', 'questions', 'options')
-        data_ids = list(data_views.only('data_id').values_list(
-            'data_id', flat=True))
-        # loop for post params
+                administration_id__in=administration_ids).values_list(
+                        'data_id', 'question_id', 'options')
+        df = pd.DataFrame(
+                list(data_views),
+                columns=['data_id', 'question_id', 'options'])
         for param in params:
             filter_criteria = []
             for index, option in enumerate(param.get('options')):
                 question = option.get('question').id
-                ids = filter_criteria if filter_criteria else data_ids
-                filter_data = list(
-                        data_views.filter(
-                            data_id__in=ids,
-                            question=question,
-                            options__in=[o for o in option.get('option')])
-                        .values_list('data_id', flat=True))
-                if filter_criteria and index > 0:
-                    # reset filter_criteria for next question
-                    # start from second question criteria
-                    # support and filter
-                    filter_criteria = []
-                for id in filter_data:
-                    if id not in filter_criteria:
-                        # append filter_criteria to support or filter
-                        filter_criteria.append(id)
+                opts = [o for o in option.get('option')]
+                if df.shape[0]:
+                    filter_df = df[
+                            (df['question_id'] == question) &
+                            (df['options'].isin(opts))]
+                    if filter_criteria:
+                        filter_df = filter_df[
+                                (filter_df['data_id'].isin(filter_criteria))]
+                    if filter_criteria and index > 0:
+                        # reset filter_criteria for next question
+                        # start from second question criteria
+                        # support and filter
+                        filter_criteria = []
+                    if filter_df.shape[0]:
+                        filter_df = filter_df[~filter_df['data_id'].isin(
+                            filter_criteria)]
+                        filter_criteria += list(
+                                filter_df['data_id'].unique())
             values.get('child').append({
                 "name": param.get('name'),
                 "value": len(filter_criteria)})
         data.append(values)
-    data = {"type": "BARSTACK", "data": data}
-    create_cache(cache_name, data)
-    return Response(data, status=status.HTTP_200_OK)
+        del df
+    del question_ids
+    del options
+    resp = {"type": "BARSTACK", "data": data}
+    create_cache(cache_name, resp)
+    del data
+    return Response(resp, status=status.HTTP_200_OK)
 
 
 @extend_schema(responses={
