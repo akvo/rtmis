@@ -18,7 +18,7 @@ import {
 } from "@ant-design/icons";
 import "leaflet/dist/leaflet.css";
 
-const { geojson, tile, defaultPos } = geo;
+const { countiesjson, tile, defaultPos } = geo;
 const defPos = defaultPos();
 const mapMaxZoom = 13;
 const markerColorRange = [
@@ -355,11 +355,11 @@ const HomeMap = ({ current, style }) => {
         whenCreated={setMap}
       >
         <TileLayer {...tile} />
-        {geojson.features.length > 0 && (
+        {countiesjson.features.length > 0 && (
           <GeoJSON
             key="geodata"
             style={geoStyle}
-            data={geojson}
+            data={countiesjson}
             onEachFeature={onEachFeature}
             weight={1}
           >
