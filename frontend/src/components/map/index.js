@@ -358,6 +358,7 @@ const Map = ({ current, style }) => {
       }
       setShapeFilterColor(colorRange[index]);
     };
+    thresholds = [...thresholds, thresholds[thresholds.length - 1]];
 
     return current && !loadingMap && thresholds.length ? (
       <div className="shape-legend">

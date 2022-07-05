@@ -8,7 +8,15 @@ import {
   Tooltip,
 } from "react-leaflet";
 import { api, geo, queue } from "../../lib";
-import { takeRight, intersection, chain, groupBy, sumBy } from "lodash";
+import {
+  take,
+  takeRight,
+  intersection,
+  chain,
+  groupBy,
+  sumBy,
+  maxBy,
+} from "lodash";
 import { Button, Space, Spin, Row, Col } from "antd";
 import { scaleQuantize } from "d3-scale";
 import {
@@ -35,10 +43,9 @@ const markerColorRange = [
   "#52B0AE",
   "#F2AEAD",
 ];
-const colorRange = ["#bbedda", "#a7e1cb", "#92d5bd", "#7dcaaf", "#67bea1"];
+const colorRange = ["#EB5353", "#F9D923", "#9ACD32", "#36AE7C"];
 const higlightColor = "#84b4cc";
 const isMarker = false;
-const isHover = false;
 
 const HomeMap = ({ current, style }) => {
   const [loadingMap, setLoadingMap] = useState(false);
@@ -75,21 +82,16 @@ const HomeMap = ({ current, style }) => {
 
   useEffect(() => {
     if (hoveredShape && results.length) {
-      const geoName = takeRight(Object.values(hoveredShape), 2)[0];
-      if (geoName) {
-        const geoRes = results.filter((r) => r.loc === geoName);
-        if (geoRes.length) {
+      const data = results.find((x) => x.loc === hoveredShape?.NAME_1);
+      if (data) {
+        if (data) {
           const tooltipElement = (
             <div className="shape-tooltip-container">
-              <h3>{geoName}</h3>
-              <Space align="top" direction="horizontal">
-                <span className="shape-tooltip-name">
-                  {current.maps.shape?.title}
-                </span>
-                <h3 className="shape-tooltip-value">
-                  {geoRes.length ? sumBy(geoRes, "shape") : 0}
-                </h3>
-              </Space>
+              <h3>{data.loc}</h3>
+              <span className="shape-tooltip-name">
+                {current.maps.shape?.title}
+              </span>
+              <h3 className="shape-tooltip-value">{data.shape}</h3>
             </div>
           );
           setShapeTooltip(tooltipElement);
@@ -119,10 +121,10 @@ const HomeMap = ({ current, style }) => {
       const fillColor = sc ? getFillColor(sc.values || 0) : "#e6e8f4";
       const opacity = sc ? 0.8 : 0.3;
       return {
-        fillColor,
+        fillColor: fillColor,
         fillOpacity: 1,
-        opacity,
-        color: "#000",
+        opacity: opacity,
+        color: fillColor !== "#FFF" ? "#FEFEFE" : "#DDD",
       };
     }
     return {
@@ -249,8 +251,8 @@ const HomeMap = ({ current, style }) => {
     .reduce(
       (acc, curr) => {
         const v = curr.values;
-        const [min, max] = acc;
-        return [min, v > max ? v : max];
+        const [minVal, maxVal] = acc;
+        return [minVal, v > maxVal ? v : maxVal];
       },
       [0, 0]
     )
@@ -280,29 +282,34 @@ const HomeMap = ({ current, style }) => {
       }
       setShapeFilterColor(colorRange[index]);
     };
+    thresholds = [...thresholds, thresholds[thresholds.length - 1]];
 
     return current && !loadingMap && thresholds.length ? (
       <div className="shape-legend">
         <h4>{current.maps.shape?.title}</h4>
         <Row className="legend-wrap">
-          {thresholds.map((t, tI) => (
-            <Col
-              key={tI}
-              flex={1}
-              className={`legend-item ${
-                shapeFilterColor === colorRange[tI] ? "legend-selected" : ""
-              }`}
-              onClick={() => handleShapeLegendClick(tI)}
-              style={{ backgroundColor: colorRange[tI] }}
-            >
-              {tI === 0 && "0 - "}
-              {tI >= thresholds.length - 1 && "> "}
-              {tI > 0 &&
-                tI < thresholds.length - 1 &&
-                `${thresholds[tI - 1] + 1} - `}
-              {t}
-            </Col>
-          ))}
+          {thresholds.map((t, tI) => {
+            return (
+              <Col
+                key={tI}
+                flex={1}
+                className={`legend-item ${
+                  shapeFilterColor === colorRange[tI] ? "legend-selected" : ""
+                }`}
+                onClick={() => handleShapeLegendClick(tI)}
+                style={{
+                  backgroundColor: colorRange[tI],
+                }}
+              >
+                {tI === 0 && "0 - "}
+                {tI === thresholds.length - 1 && "> "}
+                {tI > 0 &&
+                  tI < thresholds.length - 1 &&
+                  `${thresholds[tI - 1] + 1} - `}
+                {t}
+              </Col>
+            );
+          })}
         </Row>
       </div>
     ) : null;
@@ -364,7 +371,7 @@ const HomeMap = ({ current, style }) => {
             onEachFeature={onEachFeature}
             weight={1}
           >
-            {isHover && hoveredShape && shapeTooltip && (
+            {hoveredShape && shapeTooltip && (
               <Tooltip className="shape-tooltip-wrapper">
                 {shapeTooltip}
               </Tooltip>
