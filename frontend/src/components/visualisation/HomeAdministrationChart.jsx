@@ -108,7 +108,7 @@ const HomeAdministrationChart = ({
     identifier,
     notify,
     options,
-    stack?.options,
+    stack,
     type,
     runCall,
   ]);

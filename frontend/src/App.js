@@ -1,6 +1,6 @@
 import "./App.scss";
 import React, { useEffect, useState } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import {
   Home,
   Login,
@@ -151,18 +151,20 @@ const RouteList = () => {
 const App = () => {
   const { user: authUser, isLoggedIn } = store.useState((state) => state);
   const [cookies, removeCookie] = useCookies(["AUTH_TOKEN"]);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const { notify } = useNotification();
 
   document.addEventListener("click", () => {
     if (isLoggedIn && authUser?.last_login) {
       const expired = timeDiffHours(authUser.last_login);
-      if (expired >= 2) {
+      if (expired >= 4) {
         eraseCookieFromAllPaths("AUTH_TOKEN");
         store.update((s) => {
           s.isLoggedIn = false;
           s.user = null;
         });
+        navigate("login");
       }
     }
   });

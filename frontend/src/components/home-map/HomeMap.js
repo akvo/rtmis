@@ -8,15 +8,7 @@ import {
   Tooltip,
 } from "react-leaflet";
 import { api, geo, queue } from "../../lib";
-import {
-  take,
-  takeRight,
-  intersection,
-  chain,
-  groupBy,
-  sumBy,
-  maxBy,
-} from "lodash";
+import { takeRight, intersection, chain, groupBy, sumBy } from "lodash";
 import { Button, Space, Spin, Row, Col } from "antd";
 import { scaleQuantize } from "d3-scale";
 import {
