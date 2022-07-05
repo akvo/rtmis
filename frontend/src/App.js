@@ -149,7 +149,7 @@ const RouteList = () => {
 
 const App = () => {
   const { user: authUser, isLoggedIn } = store.useState((state) => state);
-  const [cookies, _] = useCookies(["AUTH_TOKEN"]);
+  const [cookies] = useCookies(["AUTH_TOKEN"]);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const { notify } = useNotification();
