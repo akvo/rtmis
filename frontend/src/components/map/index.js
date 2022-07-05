@@ -46,47 +46,6 @@ const markerColorRange = [
 const colorRange = ["#bbedda", "#a7e1cb", "#92d5bd", "#7dcaaf", "#67bea1"];
 const higlightColor = "#84b4cc";
 
-const Markers = ({ current, data }) => {
-  if (data.length) {
-    const r = 5;
-    data = data.filter((d) => d.geo?.length === 2);
-    return data.map(({ id, geo, marker, name }) => {
-      const markerRes = markerLegendOptions
-        .map((x) => x.name)
-        .findIndex((sO) => sO === marker[0]);
-      const highlight =
-        markerLegendSelected?.name &&
-        intersection([markerLegendSelected.name], marker).length;
-      const markerColor =
-        markerRes === -1 ? "#111" : markerColorRange[markerRes];
-      return (
-        <Circle
-          key={id}
-          center={{ lat: geo[1], lng: geo[0] }}
-          pathOptions={{
-            fillColor: highlight ? "#FFF" : markerColor,
-            color: markerColor,
-            opacity: 1,
-            fillOpacity: 1,
-          }}
-          radius={r * 100 * (highlight ? 5 : 1)}
-        >
-          <Tooltip direction="top">
-            <div className="marker-tooltip-container">
-              <h3>{takeRight(name.split(" - "), 1)[0]}</h3>
-              <div className="marker-tooltip-name">
-                {current?.maps?.marker?.title}
-              </div>
-              <div className="marker-tooltip-value">{marker[0]}</div>
-            </div>
-          </Tooltip>
-        </Circle>
-      );
-    });
-  }
-  return null;
-};
-
 const Map = ({ current, style }) => {
   const {
     administration,
@@ -353,6 +312,47 @@ const Map = ({ current, style }) => {
     return color;
   };
 
+  const Markers = ({ data }) => {
+    if (data.length) {
+      const r = 5;
+      data = data.filter((d) => d.geo?.length === 2);
+      return data.map(({ id, geo, marker, name }) => {
+        const markerRes = markerLegendOptions
+          .map((x) => x.name)
+          .findIndex((sO) => sO === marker[0]);
+        const highlight =
+          markerLegendSelected?.name &&
+          intersection([markerLegendSelected.name], marker).length;
+        const markerColor =
+          markerRes === -1 ? "#111" : markerColorRange[markerRes];
+        return (
+          <Circle
+            key={id}
+            center={{ lat: geo[1], lng: geo[0] }}
+            pathOptions={{
+              fillColor: highlight ? "#FFF" : markerColor,
+              color: markerColor,
+              opacity: 1,
+              fillOpacity: 1,
+            }}
+            radius={r * 100 * (highlight ? 5 : 1)}
+          >
+            <Tooltip direction="top">
+              <div className="marker-tooltip-container">
+                <h3>{takeRight(name.split(" - "), 1)[0]}</h3>
+                <div className="marker-tooltip-name">
+                  {current?.maps?.marker?.title}
+                </div>
+                <div className="marker-tooltip-value">{marker[0]}</div>
+              </div>
+            </Tooltip>
+          </Circle>
+        );
+      });
+    }
+    return null;
+  };
+
   const ShapeLegend = ({ thresholds }) => {
     const handleShapeLegendClick = (index) => {
       if (shapeFilterColor === colorRange[index]) {
@@ -454,7 +454,7 @@ const Map = ({ current, style }) => {
           </GeoJSON>
         )}
         {!loadingMap && !!results.length && !disableMarker && (
-          <Markers current={current} data={results} />
+          <Markers data={results} />
         )}
       </MapContainer>
       {!loadingMap && !loadingForm && (
