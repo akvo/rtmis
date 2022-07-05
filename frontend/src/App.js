@@ -32,9 +32,8 @@ import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
 import { Layout, PageLoader } from "./components";
 import { useNotification } from "./util/hooks";
-import { timeDiffHours } from "./util/date";
+import { timeDiffHours, eraseCookieFromAllPaths } from "./util/date";
 import { reloadData } from "./util/form";
-import { eraseCookieFromAllPaths } from "./util/date";
 
 const Private = ({ element: Element, alias }) => {
   const { user: authUser } = store.useState((state) => state);
@@ -150,7 +149,7 @@ const RouteList = () => {
 
 const App = () => {
   const { user: authUser, isLoggedIn } = store.useState((state) => state);
-  const [cookies, removeCookie] = useCookies(["AUTH_TOKEN"]);
+  const [cookies, _] = useCookies(["AUTH_TOKEN"]);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const { notify } = useNotification();
@@ -201,22 +200,21 @@ const App = () => {
                 type: "error",
                 message: "Your session has expired",
               });
-              removeCookie("AUTH_TOKEN");
               store.update((s) => {
                 s.isLoggedIn = false;
                 s.user = null;
               });
+              eraseCookieFromAllPaths("AUTH_TOKEN");
             }
             setLoading(false);
             console.error(err);
           });
       } else if (!cookies.AUTH_TOKEN) {
         setLoading(false);
+        eraseCookieFromAllPaths("AUTH_TOKEN");
       }
-    } else {
-      setLoading(false);
     }
-  }, [authUser, isLoggedIn, removeCookie, cookies, notify]);
+  }, [authUser, isLoggedIn, cookies, notify]);
 
   useEffect(() => {
     if (isLoggedIn) {
