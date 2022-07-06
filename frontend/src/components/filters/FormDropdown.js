@@ -3,7 +3,7 @@ import "./style.scss";
 import { Select } from "antd";
 import PropTypes from "prop-types";
 
-import { api, store } from "../../lib";
+import { store } from "../../lib";
 import { useNotification } from "../../util/hooks";
 
 const FormDropdown = ({
@@ -24,26 +24,13 @@ const FormDropdown = ({
       store.update((s) => {
         s.loadingForm = true;
       });
-      api
-        .get(`/form/${e}`)
-        .then((res) => {
-          store.update((s) => {
-            s.questionGroups = res.data.question_group;
-            s.selectedForm = e;
-          });
-          store.update((s) => {
-            s.loadingForm = false;
-          });
-        })
-        .catch(() => {
-          notify({
-            type: "error",
-            message: "Could not load form data",
-          });
-          store.update((s) => {
-            s.loadingForm = false;
-          });
-        });
+      store.update((s) => {
+        s.questionGroups = window.forms.find(
+          (f) => f.id === e
+        ).content.question_group;
+        s.selectedForm = e;
+        s.loadingForm = false;
+      });
     },
     [notify]
   );
