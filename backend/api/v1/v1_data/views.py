@@ -391,6 +391,89 @@ def get_map_overview_data_point(request, version, form_id):
 
 
 @extend_schema(
+    request=inline_serializer(
+        "MapOverviewCriteriaChart",
+        fields={
+            "shape": ListChartCriteriaRequestSerializer(many=True)}),
+    responses={
+        (200, 'application/json'): inline_serializer(
+            'ListMapOverviewCriteriaData', fields={
+                'loc': serializers.CharField(),
+                'shape': serializers.IntegerField(),
+            }, many=True)},
+    tags=['Visualisation'],
+    summary='To get overview Map data points by criteria')
+@api_view(['POST'])
+def get_map_overview_criteria_data_point(request, version, form_id):
+    cache_name = request.data.get("shape")[0]['name']
+    cache_name = f"ovw_maps_criteria-{cache_name}"
+    cache_data = get_cache(cache_name)
+    if cache_data:
+        return Response(cache_data, status=status.HTTP_200_OK)
+    instance = get_object_or_404(Forms, pk=form_id)
+    serializer = ListChartCriteriaRequestSerializer(
+        data=request.data.get('shape'), context={'form': instance}, many=True)
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    counties = []
+    params = serializer.validated_data
+    question_ids = [
+        o.get('question').id for p in params
+        for o in p.get("options")]
+    options = [
+        b for p in params for o in p.get("options")
+        for b in o.get('option')]
+    administrations = Administration.objects.filter(
+        level_id=2).values('id', 'name')
+    for adm in administrations:
+        level3 = Administration.objects.filter(
+            parent_id=adm.get('id')).values_list('id', flat=True)
+        childs = Administration.objects.filter(
+            parent_id__in=list(level3)).values_list('id', flat=True)
+        data_views = ViewOptions.objects.filter(
+            question_id__in=question_ids,
+            options__in=options,
+            administration_id__in=childs).values_list(
+                'data_id', 'question_id', 'options')
+        df = pd.DataFrame(
+            list(data_views),
+            columns=['data_id', 'question_id', 'options'])
+        shape = []
+        for param in params:
+            filter_criteria = []
+            for index, option in enumerate(param.get('options')):
+                question = option.get('question').id
+                opts = [o for o in option.get('option')]
+                if df.shape[0]:
+                    filter_df = df[
+                        (df['question_id'] == question) &
+                        (df['options'].isin(opts))]
+                    if filter_criteria:
+                        filter_df = filter_df[
+                            (filter_df['data_id'].isin(filter_criteria))]
+                    if filter_criteria and index > 0:
+                        # reset filter_criteria for next question
+                        # start from second question criteria
+                        # support and filter
+                        filter_criteria = []
+                    if filter_df.shape[0]:
+                        filter_df = filter_df[~filter_df['data_id'].isin(
+                            filter_criteria)]
+                        filter_criteria += list(
+                            filter_df['data_id'].unique())
+            shape.append(len(filter_criteria))
+        counties.append({
+            'loc': adm.get('name'),
+            'shape': sum(shape)
+        })
+    create_cache(cache_name, counties)
+    return Response(counties, status=status.HTTP_200_OK)
+
+
+@extend_schema(
         responses={200: ChartDataSerializer},
         parameters=[
             OpenApiParameter(
