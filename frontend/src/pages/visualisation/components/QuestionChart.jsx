@@ -46,8 +46,8 @@ const QuestionChart = () => {
   }, [questionGroups]);
 
   useEffect(() => {
-    if (filteredQuestionGroups.length) {
-      const rawData = filteredQuestionGroups.map((qg) => {
+    setDataset(
+      filteredQuestionGroups.map((qg) => {
         return {
           id: qg.id,
           title: qg.name,
@@ -56,9 +56,8 @@ const QuestionChart = () => {
           chart: "PIE",
           question: qg.question || [],
         };
-      });
-      setDataset(rawData);
-    }
+      })
+    );
   }, [filteredQuestionGroups]);
 
   const fetchData = (questionGroupId, questionId) => {
