@@ -101,7 +101,7 @@
           "type": "option",
           "attributes": [
             "table",
-            "aggregation",
+            "aggregate",
             "chart"
           ],
           "options": [
