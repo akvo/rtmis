@@ -4,7 +4,7 @@ from django.db import models
 
 # Create your models here.
 from api.v1.v1_forms.constants import QuestionTypes, \
-    FormTypes
+    FormTypes, AttributeTypes
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 
@@ -148,3 +148,19 @@ class UserForms(models.Model):
 
     class Meta:
         db_table = 'user_form'
+
+
+class QuestionAttribute(models.Model):
+    name = models.TextField()
+    question = models.ForeignKey(to=Questions,
+                                 on_delete=models.CASCADE,
+                                 related_name='question_question_attribute')
+    attribute = models.IntegerField(choices=AttributeTypes.FieldStr.items())
+    options = models.JSONField(default=None, null=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        unique_together = ('question', 'attribute', 'options')
+        db_table = 'question_attribute'

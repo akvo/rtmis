@@ -4,12 +4,10 @@ import os
 from django.core.management import BaseCommand
 
 from api.v1.v1_forms.constants import QuestionTypes
-from api.v1.v1_profile.constants import UserRoleTypes
-from api.v1.v1_forms.models import Forms, UserForms
+from api.v1.v1_forms.models import Forms
 from api.v1.v1_forms.models import QuestionGroup as QG
 from api.v1.v1_forms.models import Questions
 from api.v1.v1_forms.models import QuestionOptions as QO
-from api.v1.v1_profile.models import Access
 
 
 class Command(BaseCommand):
@@ -35,22 +33,17 @@ class Command(BaseCommand):
         for source in source_files:
             json_form = open(source, 'r')
             json_form = json.load(json_form)
-            form, created = Forms.objects.update_or_create(
-                id=json_form["id"],
-                defaults={
-                    "name": json_form["form"],
-                    "version": 1,
-                    "type": json_form["type"]
-                })
-            users = Access.objects.exclude(
-                role=UserRoleTypes.super_admin).all()
-            if created:
+            form = Forms.objects.filter(id=json_form["id"]).first()
+            if not form:
+                form = Forms.objects.create(id=json_form["id"],
+                                            name=json_form["form"],
+                                            version=1,
+                                            type=json_form["type"])
+            else:
+                form.name = json_form["form"]
+                form.version = 2
+                form.type = json_form["type"]
                 form.save()
-            if created and not test:
-                self.stdout.write(f"Form Created | {form.name}")
-            for user in users:
-                user_form = UserForms(form=form, user_id=user.user_id)
-                user_form.save()
             for qg in json_form["question_groups"]:
                 question_group, created = QG.objects.update_or_create(
                     name=qg["question_group"],
@@ -62,27 +55,30 @@ class Command(BaseCommand):
                 if created:
                     question_group.save()
                 for qi, q in enumerate(qg["questions"]):
-                    question, created = Questions.objects.update_or_create(
-                        id=q.get("id"),
-                        name=q["question"],
-                        text=q["question"],
-                        order=qi,
-                        meta=q.get("meta"),
-                        form=form,
-                        question_group=question_group,
-                        rule=q.get("rule"),
-                        required=q.get("required"),
-                        dependency=q.get("dependency"),
-                        type=getattr(QuestionTypes, q["type"]),
-                        defaults={
-                            "name": q["question"],
-                            "text": q["question"],
-                            "order": qi,
-                            "meta": q.get("meta"),
-                            "form": form,
-                            "question_group": question_group
-                        })
-                    if created:
+                    question = Questions.objects.filter(id=q.get("id")).first()
+                    if not question:
+                        question = Questions.objects.create(
+                            id=q.get("id"),
+                            name=q["question"],
+                            text=q["question"],
+                            form=form,
+                            order=qi,
+                            meta=q.get("meta"),
+                            question_group=question_group,
+                            rule=q.get("rule"),
+                            required=q.get("required"),
+                            dependency=q.get("dependency"),
+                            type=getattr(QuestionTypes, q["type"]),
+                        )
+                    else:
+                        question.name = q["question"]
+                        question.text = q["question"]
+                        question.order = qi
+                        question.meta = q.get("meta")
+                        question.rule = q.get("rule")
+                        question.required = q.get("required")
+                        question.dependency = q.get("dependency")
+                        question.type = getattr(QuestionTypes, q["type"])
                         question.save()
                     if q.get("options"):
                         for o in q.get("options"):
