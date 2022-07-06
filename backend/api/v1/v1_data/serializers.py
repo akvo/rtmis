@@ -64,24 +64,23 @@ class SubmitFormDataAnswerSerializer(serializers.ModelSerializer):
         if not isinstance(attrs.get('value'),
                           list) and attrs.get('question').type in [
                               QuestionTypes.geo, QuestionTypes.option,
-                              QuestionTypes.multiple_option
-                          ]:
+                              QuestionTypes.multiple_option]:
             raise ValidationError(
                 'Valid list value is required for Question:{0}'.format(
                     attrs.get('question').id))
         elif not isinstance(
                 attrs.get('value'), str) and attrs.get('question').type in [
-                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
-                ]:
+                    QuestionTypes.text, QuestionTypes.photo,
+                    QuestionTypes.date]:
             raise ValidationError(
                 'Valid string value is required for Question:{0}'.format(
                     attrs.get('question').id))
-
-        elif not isinstance(
-                attrs.get('value'), int) and attrs.get('question').type in [
-                    QuestionTypes.number, QuestionTypes.administration
-                ]:
-
+        elif not (isinstance(
+                attrs.get('value'), int) or isinstance(
+                attrs.get('value'), float)) and attrs.get('question').type in [
+                    QuestionTypes.number, QuestionTypes.administration]:
+            if attrs.get('question').type == QuestionTypes.administration:
+                attrs['value'] = int(float(attrs.get('value')))
             raise ValidationError(
                 'Valid number value is required for Question:{0}'.format(
                     attrs.get('question').id))
@@ -152,7 +151,7 @@ class SubmitFormSerializer(serializers.Serializer):
 
 
 class AnswerHistorySerializer(serializers.Serializer):
-    value = serializers.IntegerField()
+    value = serializers.FloatField()
     created = CustomCharField()
     created_by = CustomCharField()
 
@@ -851,8 +850,7 @@ class CreateBatchSerializer(serializers.Serializer):
     name = CustomCharField()
     comment = CustomCharField(required=False)
     data = CustomListField(child=CustomPrimaryKeyRelatedField(
-        queryset=PendingFormData.objects.none()),
-                           required=False)
+        queryset=PendingFormData.objects.none()), required=False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -960,24 +958,23 @@ class SubmitPendingFormDataAnswerSerializer(serializers.ModelSerializer):
         if not isinstance(attrs.get('value'),
                           list) and attrs.get('question').type in [
                               QuestionTypes.geo, QuestionTypes.option,
-                              QuestionTypes.multiple_option
-                          ]:
+                              QuestionTypes.multiple_option]:
             raise ValidationError(
                 'Valid list value is required for Question:{0}'.format(
                     attrs.get('question').id))
         elif not isinstance(
                 attrs.get('value'), str) and attrs.get('question').type in [
-                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
-                ]:
+                    QuestionTypes.text, QuestionTypes.photo,
+                    QuestionTypes.date]:
             raise ValidationError(
                 'Valid string value is required for Question:{0}'.format(
                     attrs.get('question').id))
-
-        elif not isinstance(
-                attrs.get('value'), int) and attrs.get('question').type in [
-                    QuestionTypes.number, QuestionTypes.administration
-                ]:
-
+        elif not (isinstance(
+                attrs.get('value'), int) or isinstance(
+                attrs.get('value'), float)) and attrs.get('question').type in [
+                    QuestionTypes.number, QuestionTypes.administration]:
+            if attrs.get('question').type == QuestionTypes.administration:
+                attrs['value'] = int(float(attrs.get('value')))
             raise ValidationError(
                 'Valid number value is required for Question:{0}'.format(
                     attrs.get('question').id))
