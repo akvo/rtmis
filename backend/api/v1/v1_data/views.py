@@ -405,6 +405,11 @@ def get_map_overview_data_point(request, version, form_id):
     summary='To get overview Map data points by criteria')
 @api_view(['POST'])
 def get_map_overview_criteria_data_point(request, version, form_id):
+    if not request.data.get("shape"):
+        return Response(
+            {'message': 'Wrong request body'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
     cache_name = request.data.get("shape")[0]['name']
     cache_name = f"ovw_maps_criteria-{cache_name}"
     cache_data = get_cache(cache_name)
