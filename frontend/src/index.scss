@@ -106,6 +106,20 @@ body {
       }
     }
 
+    .leaflet-container {
+      background-color: #fff;
+
+      .leaflet-control-attribution {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .leaflet-pane {
+        .leaflet-tile-pane {
+          opacity: 0.8;
+        }
+      }
+    }
+
     /* End Development Mode */
   }
 }

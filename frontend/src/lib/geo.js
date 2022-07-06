@@ -1,5 +1,7 @@
 import { feature, merge } from "topojson-client";
 import { geoCentroid, geoBounds } from "d3-geo";
+import { groupBy, chain } from "lodash";
+import union from "@turf/union";
 
 const topojson = window.topojson;
 const topojson_object = topojson.objects[Object.keys(topojson.objects)[0]];
@@ -54,8 +56,24 @@ const defaultPos = () => {
 
 const geojson = feature(topojson, topojson_object);
 
+const countiesjson = chain(groupBy(geojson.features, "properties.NAME_1"))
+  .map((d, v) => {
+    const polygon = d.reduce((g, c, i) => {
+      if (!i) {
+        return c;
+      }
+      return union(g, c);
+    });
+    return { polygon: polygon, name: v };
+  })
+  .value()
+  .map((x) => {
+    return { ...x.polygon, properties: { NAME_01: x.name } };
+  });
+
 const geo = {
   geojson: geojson,
+  countiesjson: { type: "FeatureCollection", features: countiesjson },
   shapeLevels: shapeLevels,
   tile: tile,
   getBounds: getBounds,

@@ -16,7 +16,7 @@ export const Visuals = ({ current }) => {
         {current?.maps && (
           <HomeMap
             markerData={{ features: [] }}
-            style={{ height: 600 }}
+            style={{ height: 532 }}
             current={current}
           />
         )}

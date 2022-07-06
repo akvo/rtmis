@@ -31,7 +31,7 @@ const Visualisation = () => {
           {!!current && (
             <Map
               markerData={{ features: [] }}
-              style={{ height: 600 }}
+              style={{ height: 532 }}
               current={current}
             />
           )}

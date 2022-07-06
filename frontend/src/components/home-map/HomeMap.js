@@ -18,7 +18,7 @@ import {
 } from "@ant-design/icons";
 import "leaflet/dist/leaflet.css";
 
-const { geojson, tile, defaultPos } = geo;
+const { countiesjson, tile, defaultPos } = geo;
 const defPos = defaultPos();
 const mapMaxZoom = 13;
 const markerColorRange = [
@@ -41,7 +41,7 @@ const isMarker = false;
 
 const HomeMap = ({ current, style }) => {
   const [loadingMap, setLoadingMap] = useState(false);
-  const [map, setMap] = useState(null);
+  const [maps, setMaps] = useState(null);
   const [results, setResults] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(null);
   // shape legend click filter
@@ -105,7 +105,7 @@ const HomeMap = ({ current, style }) => {
   };
 
   const geoStyle = (g) => {
-    if (results.length && map) {
+    if (results.length && maps) {
       const sc = shapeColors.find((sC) => {
         // return county level name
         return sC.name === takeRight(Object.values(g.properties), 4)[0];
@@ -116,7 +116,7 @@ const HomeMap = ({ current, style }) => {
         fillColor: fillColor,
         fillOpacity: 1,
         opacity: opacity,
-        color: fillColor !== "#FFF" ? "#FEFEFE" : "#DDD",
+        color: fillColor !== "#e6e8f4" ? "#FFF" : "#949fe3",
       };
     }
     return {
@@ -259,7 +259,7 @@ const HomeMap = ({ current, style }) => {
   const colorScale = scaleQuantize().domain(domain).range(colorRange);
 
   const getFillColor = (v) => {
-    const color = v === 0 ? "#FFF" : colorScale(v);
+    const color = v === 0 ? "#e6e8f4" : colorScale(v);
     if (shapeFilterColor === color) {
       return higlightColor;
     }
@@ -322,16 +322,16 @@ const HomeMap = ({ current, style }) => {
             type="secondary"
             icon={<FullscreenOutlined />}
             onClick={() => {
-              map.fitBounds(defPos.bbox);
-              setZoomLevel(map.getZoom());
+              maps.fitBounds(defPos.bbox);
+              setZoomLevel(maps.getZoom());
             }}
           />
           <Button
             type="secondary"
             icon={<ZoomOutOutlined />}
             onClick={() => {
-              const currentZoom = map.getZoom() - 1;
-              map.setZoom(currentZoom);
+              const currentZoom = maps.getZoom() - 1;
+              maps.setZoom(currentZoom);
               setZoomLevel(currentZoom);
             }}
           />
@@ -340,8 +340,8 @@ const HomeMap = ({ current, style }) => {
             type="secondary"
             icon={<ZoomInOutlined />}
             onClick={() => {
-              const currentZoom = map.getZoom() + 1;
-              map.setZoom(currentZoom);
+              const currentZoom = maps.getZoom() + 1;
+              maps.setZoom(currentZoom);
               setZoomLevel(currentZoom);
             }}
           />
@@ -352,14 +352,14 @@ const HomeMap = ({ current, style }) => {
         zoomControl={false}
         scrollWheelZoom={false}
         style={style}
-        whenCreated={setMap}
+        whenCreated={setMaps}
       >
         <TileLayer {...tile} />
-        {geojson.features.length > 0 && (
+        {countiesjson.features.length > 0 && (
           <GeoJSON
             key="geodata"
             style={geoStyle}
-            data={geojson}
+            data={countiesjson}
             onEachFeature={onEachFeature}
             weight={1}
           >
