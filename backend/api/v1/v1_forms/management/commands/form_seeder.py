@@ -30,8 +30,9 @@ class Command(BaseCommand):
             f"{source_folder}{json_file}"
             for json_file in os.listdir(source_folder)
         ]
-        if TEST:
-            source_files = list(filter(lambda x: "example" in x, source_files))
+        source_files = list(
+            filter(lambda x: "example" in x
+                   if TEST else "example" not in x, source_files))
         if PROD:
             source_files = list(filter(lambda x: "prod" in x, source_files))
         for source in source_files:
