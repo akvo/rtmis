@@ -83,6 +83,13 @@
           "meta": false,
           "type": "date",
           "required": true
+        },
+        {
+          "id": 109,
+          "question": "Allow decimal and 0",
+          "meta": false,
+          "type": "number",
+          "required": false
         }
       ]
     }

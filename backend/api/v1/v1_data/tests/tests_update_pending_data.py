@@ -54,6 +54,9 @@ class UpdatePendingDataTestCase(TestCase):
             }, {
                 "question": 106,
                 "value": ["Parent", "Children"]
+            }, {
+                "question": 109,
+                "value": 0
             }]
         }
         data = self.client.post('/api/v1/form-pending-data/{0}'
@@ -102,6 +105,9 @@ class UpdatePendingDataTestCase(TestCase):
         }, {
             "question": 104,
             "value": 4
+        }, {
+            "question": 109,
+            "value": 5.5
         }]
         data = self.client.put(
             '/api/v1/form-pending-data/{0}?pending_data_id={1}'
@@ -150,7 +156,14 @@ class UpdatePendingDataTestCase(TestCase):
                 self.assertEqual(
                     isinstance(d['history'][0]['value'], int), True)
                 self.assertEqual(d['history'][0]['value'], 2)
-            if d['question'] not in [101, 102, 104]:
+            if d['question'] == 109:
+                self.assertEqual(
+                    isinstance(d['value'], float), True)
+                self.assertEqual(d['value'], 5.5)
+                self.assertEqual(
+                    isinstance(d['history'][0]['value'], float), True)
+                self.assertEqual(d['history'][0]['value'], 0.0)
+            if d['question'] not in [101, 102, 104, 109]:
                 self.assertEqual(d['history'], None)
 
         # test pending data updated by on delete protect

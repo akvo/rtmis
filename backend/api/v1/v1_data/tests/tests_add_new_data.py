@@ -86,6 +86,9 @@ class AddNewDataTestCase(TestCase):
             }, {
                 "question": 106,
                 "value": ["Parent", "Children"]
+            }, {
+                "question": 109,
+                "value": 0
             }]
         }
         data = self.client.post('/api/v1/form-pending-data/{0}'
@@ -113,6 +116,8 @@ class AddNewDataTestCase(TestCase):
         for d in data:
             if d.get('question') == 104:
                 self.assertEqual(isinstance(d.get('value'), int), True)
+            if d.get('question') == 109:
+                self.assertEqual(d.get('value'), 0)
 
     def test_add_new_data_by_county_admin(self):
         call_command("administration_seeder", "--test")
@@ -157,6 +162,9 @@ class AddNewDataTestCase(TestCase):
             }, {
                 "question": 106,
                 "value": ["Parent", "Children"]
+            }, {
+                "question": 109,
+                "value": 2.5
             }]
         }
         data = self.client.post('/api/v1/form-pending-data/{0}'
@@ -174,6 +182,19 @@ class AddNewDataTestCase(TestCase):
         self.assertEqual(form_data.name, "Testing Data County")
         answers = Answers.objects.filter(data_id=form_data.id).count()
         self.assertGreater(answers, 0)
+        # check administration answer value as integer
+        data = self.client.get('/api/v1/data/{0}'
+                               .format(form_data.id),
+                               content_type='application/json',
+                               **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+        self.assertEqual(data.status_code, 200)
+        data = data.json()
+        for d in data:
+            if d.get('question') == 104:
+                self.assertEqual(isinstance(d.get('value'), int), True)
+            if d.get('question') == 109:
+                self.assertEqual(isinstance(d.get('value'), float), True)
+                self.assertEqual(d.get('value'), 2.5)
 
         # national form
         form = Forms.objects.filter(
