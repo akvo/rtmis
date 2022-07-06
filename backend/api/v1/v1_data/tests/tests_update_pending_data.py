@@ -99,6 +99,9 @@ class UpdatePendingDataTestCase(TestCase):
         }, {
             "question": 102,
             "value": ["Female"]
+        }, {
+            "question": 104,
+            "value": 4
         }]
         data = self.client.put(
             '/api/v1/form-pending-data/{0}?pending_data_id={1}'
@@ -132,6 +135,7 @@ class UpdatePendingDataTestCase(TestCase):
             **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
         self.assertEqual(data.status_code, 200)
         data = data.json()
+        # check history and check administration answer value return int
         for d in data:
             if d['question'] == 101:
                 self.assertEqual(d['value'], "Jane Doe")
@@ -139,7 +143,14 @@ class UpdatePendingDataTestCase(TestCase):
             if d['question'] == 102:
                 self.assertEqual(d['value'], ["Female"])
                 self.assertEqual(d['history'][0]['value'], ["Male"])
-            if d['question'] not in [101, 102]:
+            if d['question'] == 104:
+                self.assertEqual(
+                    isinstance(d['value'], int), True)
+                self.assertEqual(d['value'], 4)
+                self.assertEqual(
+                    isinstance(d['history'][0]['value'], int), True)
+                self.assertEqual(d['history'][0]['value'], 2)
+            if d['question'] not in [101, 102, 104]:
                 self.assertEqual(d['history'], None)
 
         # test pending data updated by on delete protect

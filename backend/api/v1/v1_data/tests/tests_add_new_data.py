@@ -79,7 +79,7 @@ class AddNewDataTestCase(TestCase):
                 "value": 31208200175
             }, {
                 "question": 104,
-                "value": 2
+                "value": 2.0
             }, {
                 "question": 105,
                 "value": [6.2088, 106.8456]
@@ -103,6 +103,16 @@ class AddNewDataTestCase(TestCase):
         self.assertEqual(form_data.name, "Testing Data")
         answers = Answers.objects.filter(data_id=form_data.id).count()
         self.assertGreater(answers, 0)
+        # check administration answer value as integer
+        data = self.client.get('/api/v1/data/{0}'
+                               .format(form_data.id),
+                               content_type='application/json',
+                               **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+        self.assertEqual(data.status_code, 200)
+        data = data.json()
+        for d in data:
+            if d.get('question') == 104:
+                self.assertEqual(isinstance(d.get('value'), int), True)
 
     def test_add_new_data_by_county_admin(self):
         call_command("administration_seeder", "--test")

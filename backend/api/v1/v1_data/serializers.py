@@ -79,11 +79,12 @@ class SubmitFormDataAnswerSerializer(serializers.ModelSerializer):
                 attrs.get('value'), int) or isinstance(
                 attrs.get('value'), float)) and attrs.get('question').type in [
                     QuestionTypes.number, QuestionTypes.administration]:
-            if attrs.get('question').type == QuestionTypes.administration:
-                attrs['value'] = int(float(attrs.get('value')))
             raise ValidationError(
                 'Valid number value is required for Question:{0}'.format(
                     attrs.get('question').id))
+
+        if attrs.get('question').type == QuestionTypes.administration:
+            attrs['value'] = int(float(attrs.get('value')))
 
         return attrs
 
@@ -973,11 +974,12 @@ class SubmitPendingFormDataAnswerSerializer(serializers.ModelSerializer):
                 attrs.get('value'), int) or isinstance(
                 attrs.get('value'), float)) and attrs.get('question').type in [
                     QuestionTypes.number, QuestionTypes.administration]:
-            if attrs.get('question').type == QuestionTypes.administration:
-                attrs['value'] = int(float(attrs.get('value')))
             raise ValidationError(
                 'Valid number value is required for Question:{0}'.format(
                     attrs.get('question').id))
+
+        if attrs.get('question').type == QuestionTypes.administration:
+            attrs['value'] = int(float(attrs.get('value')))
 
         return attrs
 
