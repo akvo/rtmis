@@ -147,6 +147,7 @@ class UserForms(models.Model):
         return self.user.email
 
     class Meta:
+        unique_together = ('user', 'form')
         db_table = 'user_form'
 
 

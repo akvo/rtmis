@@ -2,9 +2,11 @@ import json
 import os
 
 from django.core.management import BaseCommand
+from django.core.cache import cache
 
 from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Forms
+from api.v1.v1_data.functions import refresh_materialized_data
 from api.v1.v1_forms.models import QuestionGroup as QG
 from api.v1.v1_forms.models import Questions
 from api.v1.v1_forms.models import QuestionOptions as QO
@@ -29,10 +31,13 @@ class Command(BaseCommand):
         source_files = list(
             filter(lambda x: "example" in x
                    if test else "example" not in x, source_files))
-        # Forms.objects.all().delete()
         for source in source_files:
             json_form = open(source, 'r')
             json_form = json.load(json_form)
+            if ("prod") not in source:
+                form = Forms.objects.filter(id=json_form["id"]).first()
+                if form:
+                    form.delete()
             form = Forms.objects.filter(id=json_form["id"]).first()
             if not form:
                 form = Forms.objects.create(id=json_form["id"],
@@ -61,14 +66,14 @@ class Command(BaseCommand):
                 if created:
                     question_group.save()
                 for qi, q in enumerate(qg["questions"]):
-                    question = Questions.objects.filter(id=q.get("id")).first()
+                    question = Questions.objects.filter(pk=q["id"]).first()
                     if not question:
                         question = Questions.objects.create(
                             id=q.get("id"),
                             name=q["question"],
                             text=q["question"],
                             form=form,
-                            order=qi,
+                            order=qi + 1,
                             meta=q.get("meta"),
                             question_group=question_group,
                             rule=q.get("rule"),
@@ -79,7 +84,7 @@ class Command(BaseCommand):
                     else:
                         question.name = q["question"]
                         question.text = q["question"]
-                        question.order = qi
+                        question.order = qi + 1
                         question.meta = q.get("meta")
                         question.rule = q.get("rule")
                         question.required = q.get("required")
@@ -87,13 +92,14 @@ class Command(BaseCommand):
                         question.type = getattr(QuestionTypes, q["type"])
                         question.save()
                     if q.get("options"):
-                        for o in q.get("options"):
-                            option, created = QO.objects.update_or_create(
-                                name=o["name"],
+                        QO.objects.filter(question=question).all().delete()
+                        QO.objects.bulk_create([
+                            QO(
+                                name=o["name"].strip(),
                                 question=question,
-                                defaults={
-                                    "name": o["name"],
-                                    "question": question
-                                })
-                            if created:
-                                option.save()
+                                order=io + 1,
+                            ) for io, o in enumerate(q.get("options"))
+                        ])
+        # DELETE CACHES AND REFRESH MATERIALIZED DATA
+        cache.clear()
+        refresh_materialized_data()

@@ -65,8 +65,13 @@ class FormSeederTestCase(TestCase):
         forms = Forms.objects.all()
         form_ids = [form.id for form in forms]
         for form in forms:
-            self.assertIn(f"Form Updated | {form.name} V{form.version}",
-                          output)
+            if form.version == 2:
+                self.assertIn(f"Form Updated | {form.name} V{form.version}",
+                              output)
+            # FOR NON PRODUCTION FORM
+            if form.version == 1:
+                self.assertIn(f"Form Created | {form.name} V{form.version}",
+                              output)
             self.assertIn(form.name, json_forms)
 
         user = {"email": "admin@rush.com", "password": "Test105*"}
@@ -101,7 +106,7 @@ class FormSeederTestCase(TestCase):
         self.assertEqual('Are you willing to participate in the survey?',
                          response["question_group"][0]["question"][2]['name'])
         self.assertEqual(
-            ['id', 'name'],
+            ['id', 'name', 'order'],
             list(response["question_group"][0]["question"][2]['option'][0]))
         self.assertEqual(False,
                          response["question_group"][0]["question"][2]['meta'])
