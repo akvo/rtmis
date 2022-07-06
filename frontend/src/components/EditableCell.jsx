@@ -21,8 +21,17 @@ const EditableCell = ({
   const [value, setValue] = useState(null);
 
   useEffect(() => {
-    if (record && (record.newValue || record.value)) {
-      const newValue = record.newValue ? record.newValue : record.value;
+    if (
+      record &&
+      (record.newValue ||
+        record.newValue === 0 ||
+        record.value ||
+        record.value === 0)
+    ) {
+      const newValue =
+        record.newValue || record.newValue === 0
+          ? record.newValue
+          : record.value;
       setValue(
         record.type === "date"
           ? moment(newValue).format("YYYY-MM-DD")
@@ -34,7 +43,9 @@ const EditableCell = ({
   const notEditable =
     record.type === "cascade" || record.type === "geo" || readonly;
   const edited =
-    record && record.newValue && !isEqual(record.value, record.newValue);
+    record &&
+    (record.newValue || record.newValue === 0) &&
+    !isEqual(record.value, record.newValue);
 
   useEffect(() => {
     if (record && record.type === "cascade" && !locationName) {
