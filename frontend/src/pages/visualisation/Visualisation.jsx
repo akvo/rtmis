@@ -19,7 +19,6 @@ const Visualisation = () => {
       setCurrent(window.visualisation.find((f) => f.id === formId));
       queue.update((s) => {
         s.next = 1;
-        s.wait = "maps";
       });
     }
   }, [formId, administration]);
@@ -32,7 +31,7 @@ const Visualisation = () => {
           {!!current && (
             <Map
               markerData={{ features: [] }}
-              style={{ height: 600 }}
+              style={{ height: 532 }}
               current={current}
             />
           )}

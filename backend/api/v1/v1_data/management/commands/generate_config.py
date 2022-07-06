@@ -12,6 +12,7 @@ from api.v1.v1_profile.models import Levels, Administration
 class Command(BaseCommand):
     def handle(self, *args, **options):
         # fetch all administrations
+        print("GENERATING CONFIG JS")
         all_administrations = {}
         adm = []
         administrations = Administration.objects.all()
@@ -45,6 +46,9 @@ class Command(BaseCommand):
         administration_json = "source/administration.json"
         with open(administration_json, "w") as outfile:
             json.dump(adm, outfile)
+        # write visualisation_json
+        visualisation_json = "source/config/visualisation.json"
+        highlights_json = "source/config/highlights.json"
 
         # write config
         config_file = jsmin(open("source/config/config.js").read())
@@ -65,6 +69,10 @@ class Command(BaseCommand):
                 'type_text': FormTypes.FieldStr.get(form.type),
             })
         min_config = jsmin("".join([
+            "var highlights=",
+            open(highlights_json).read(), ";",
+            "var visualisation=",
+            open(visualisation_json).read(), ";",
             "var dbadm=",
             open(administration_json).read(), ";",
             "var topojson=",

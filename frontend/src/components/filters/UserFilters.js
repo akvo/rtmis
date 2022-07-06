@@ -27,12 +27,11 @@ const UserFilters = ({
 
   useEffect(() => {
     if (!organisations.length) {
-      // filter by 1 for member attribute
       api.get("organisations").then((res) => {
         setOrganisations(res.data);
       });
     }
-  }, [organisations]);
+  }, [organisations, setOrganisations]);
 
   return (
     <Row>

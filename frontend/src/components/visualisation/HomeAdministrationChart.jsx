@@ -108,7 +108,7 @@ const HomeAdministrationChart = ({
     identifier,
     notify,
     options,
-    stack?.options,
+    stack,
     type,
     runCall,
   ]);
@@ -168,11 +168,6 @@ const HomeAdministrationChart = ({
             horizontal={horizontal}
             series={{ left: "10%" }}
             loading={loading}
-            loadingOption={{
-              text: "",
-              color: "#1b91ff",
-              lineWidth: 1,
-            }}
           />
         ) : (
           <Chart
@@ -182,12 +177,7 @@ const HomeAdministrationChart = ({
             wrapper={false}
             horizontal={horizontal}
             loading={loading}
-            loadingOption={{
-              text: "",
-              color: "#1b91ff",
-              lineWidth: 1,
-            }}
-            extra={{ color: chartColors, animation: false }}
+            extra={{ color: chartColors, animation: next === index + 1 }}
             series={{
               left: "10%",
             }}

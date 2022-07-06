@@ -40,7 +40,7 @@ class FormSeederTestCase(TestCase):
 
         self.maxDiff = None
         seed_administration_test()
-        output = self.call_command()
+        forms = Forms.objects.all().delete()
         json_forms = [
             "Health Facilities",
             "Household",
@@ -48,14 +48,31 @@ class FormSeederTestCase(TestCase):
             "WASH in Schools",
             "Water System",
         ]
+
+        # RUN SEED NEW FORM
+        output = self.call_command()
         output = list(filter(lambda x: len(x), output.split("\n")))
         forms = Forms.objects.all()
-        form_names = [form.name for form in forms]
-        form_ids = [form.id for form in forms]
         self.assertEqual(forms.count(), 5)
-        for json_form in json_forms:
-            self.assertIn(f"Form Created | {json_form}", output)
-            self.assertIn(json_form, form_names)
+        for form in forms:
+            self.assertIn(f"Form Created | {form.name} V{form.version}",
+                          output)
+            self.assertIn(form.name, json_forms)
+
+        # RUN UPDATE EXISTING FORM
+        output = self.call_command()
+        output = list(filter(lambda x: len(x), output.split("\n")))
+        forms = Forms.objects.all()
+        form_ids = [form.id for form in forms]
+        for form in forms:
+            if form.version == 2:
+                self.assertIn(f"Form Updated | {form.name} V{form.version}",
+                              output)
+            # FOR NON PRODUCTION FORM
+            if form.version == 1:
+                self.assertIn(f"Form Created | {form.name} V{form.version}",
+                              output)
+            self.assertIn(form.name, json_forms)
 
         user = {"email": "admin@rush.com", "password": "Test105*"}
         user = self.client.post('/api/v1/login',
@@ -89,7 +106,7 @@ class FormSeederTestCase(TestCase):
         self.assertEqual('Are you willing to participate in the survey?',
                          response["question_group"][0]["question"][2]['name'])
         self.assertEqual(
-            ['id', 'name'],
+            ['id', 'name', 'order'],
             list(response["question_group"][0]["question"][2]['option'][0]))
         self.assertEqual(False,
                          response["question_group"][0]["question"][2]['meta'])

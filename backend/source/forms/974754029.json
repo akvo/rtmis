@@ -7,6 +7,7 @@
       "question_group": "Location",
       "questions": [
         {
+          "id": 9747540291,
           "question": "location",
           "order": 1,
           "required": true,
@@ -38,7 +39,7 @@
         },
         {
           "id": 571070201,
-          "question": "GPS Location of Village",
+          "question": "Take GPS Location of Village",
           "order": 3,
           "meta": true,
           "type": "geo",

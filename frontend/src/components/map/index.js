@@ -24,6 +24,7 @@ import {
   FullscreenOutlined,
 } from "@ant-design/icons";
 import "leaflet/dist/leaflet.css";
+const disableMarker = true;
 
 const { geojson, tile, defaultPos, getBounds } = geo;
 const defPos = defaultPos();
@@ -94,6 +95,10 @@ const Map = ({ current, style }) => {
             s.administration = acc;
             s.loadingMap = false;
           });
+          queue.update((q) => {
+            q.next = 1;
+            q.wait = null;
+          });
         }
       };
       fetchData(selectedAdmin, []);
@@ -130,9 +135,9 @@ const Map = ({ current, style }) => {
           : "#e6e8f4";
       const opacity = sc ? 0.8 : 0.3;
       return {
-        fillColor,
+        fillColor: fillColor,
         fillOpacity: 1,
-        opacity,
+        opacity: opacity,
         color: "#000",
       };
     }
@@ -149,10 +154,11 @@ const Map = ({ current, style }) => {
       store.update((s) => {
         s.loadingMap = true;
       });
+
+      let url = `maps/${selectedForm}?shape=${current?.maps?.shape?.id}`;
+      url += !disableMarker ? `&marker=${current?.maps?.marker?.id}` : "";
       api
-        .get(
-          `maps/${selectedForm}?marker=${current?.maps?.marker?.id}&shape=${current?.maps?.shape?.id}`
-        )
+        .get(url)
         .then((res) => {
           setResults(res.data);
         })
@@ -200,7 +206,7 @@ const Map = ({ current, style }) => {
   }, [hoveredShape, results, current, administration, adminName]);
 
   const markerLegendOptions = useMemo(() => {
-    if (current && current?.maps?.marker) {
+    if (current && current?.maps?.marker && !disableMarker) {
       return (
         flatten(questionGroups.map((qg) => qg.question))
           .find((q) => q.id === current.maps.marker.id)
@@ -215,47 +221,6 @@ const Map = ({ current, style }) => {
     return [];
   }, [current, questionGroups]);
 
-  const Markers = ({ data }) => {
-    if (data.length) {
-      const r = 5;
-      data = data.filter((d) => d.geo?.length === 2);
-      return data.map(({ id, geo, marker, name }) => {
-        const markerRes = markerLegendOptions
-          .map((x) => x.name)
-          .findIndex((sO) => sO === marker[0]);
-        const highlight =
-          markerLegendSelected?.name &&
-          intersection([markerLegendSelected.name], marker).length;
-        const markerColor =
-          markerRes === -1 ? "#111" : markerColorRange[markerRes];
-        return (
-          <Circle
-            key={id}
-            center={{ lat: geo[1], lng: geo[0] }}
-            pathOptions={{
-              fillColor: highlight ? "#FFF" : markerColor,
-              color: markerColor,
-              opacity: 1,
-              fillOpacity: 1,
-            }}
-            radius={r * 100 * (highlight ? 5 : 1)}
-          >
-            <Tooltip direction="top">
-              <div className="marker-tooltip-container">
-                <h3>{takeRight(name.split(" - "), 1)[0]}</h3>
-                <div className="marker-tooltip-name">
-                  {current?.maps?.marker?.title}
-                </div>
-                <div className="marker-tooltip-value">{marker[0]}</div>
-              </div>
-            </Tooltip>
-          </Circle>
-        );
-      });
-    }
-    return null;
-  };
-
   const handleMarkerLegendClick = useCallback(
     (value) => {
       if (markerLegendSelected?.id === value.id) {
@@ -266,8 +231,9 @@ const Map = ({ current, style }) => {
     },
     [markerLegendSelected]
   );
+
   const MarkerLegend = useMemo(() => {
-    if (markerLegendOptions) {
+    if (markerLegendOptions && !disableMarker) {
       return (
         <div className="marker-legend">
           <h4>{current?.maps?.marker?.title}</h4>
@@ -346,6 +312,47 @@ const Map = ({ current, style }) => {
     return color;
   };
 
+  const Markers = ({ data }) => {
+    if (data.length) {
+      const r = 5;
+      data = data.filter((d) => d.geo?.length === 2);
+      return data.map(({ id, geo, marker, name }) => {
+        const markerRes = markerLegendOptions
+          .map((x) => x.name)
+          .findIndex((sO) => sO === marker[0]);
+        const highlight =
+          markerLegendSelected?.name &&
+          intersection([markerLegendSelected.name], marker).length;
+        const markerColor =
+          markerRes === -1 ? "#111" : markerColorRange[markerRes];
+        return (
+          <Circle
+            key={id}
+            center={{ lat: geo[1], lng: geo[0] }}
+            pathOptions={{
+              fillColor: highlight ? "#FFF" : markerColor,
+              color: markerColor,
+              opacity: 1,
+              fillOpacity: 1,
+            }}
+            radius={r * 100 * (highlight ? 5 : 1)}
+          >
+            <Tooltip direction="top">
+              <div className="marker-tooltip-container">
+                <h3>{takeRight(name.split(" - "), 1)[0]}</h3>
+                <div className="marker-tooltip-name">
+                  {current?.maps?.marker?.title}
+                </div>
+                <div className="marker-tooltip-value">{marker[0]}</div>
+              </div>
+            </Tooltip>
+          </Circle>
+        );
+      });
+    }
+    return null;
+  };
+
   const ShapeLegend = ({ thresholds }) => {
     const handleShapeLegendClick = (index) => {
       if (shapeFilterColor === colorRange[index]) {
@@ -354,6 +361,7 @@ const Map = ({ current, style }) => {
       }
       setShapeFilterColor(colorRange[index]);
     };
+    thresholds = [...thresholds, thresholds[thresholds.length - 1]];
 
     return current && !loadingMap && thresholds.length ? (
       <div className="shape-legend">
@@ -445,7 +453,9 @@ const Map = ({ current, style }) => {
             )}
           </GeoJSON>
         )}
-        {!loadingMap && !!results.length && <Markers data={results} />}
+        {!loadingMap && !!results.length && !disableMarker && (
+          <Markers data={results} />
+        )}
       </MapContainer>
       {!loadingMap && !loadingForm && (
         <ShapeLegend thresholds={colorScale.thresholds()} />

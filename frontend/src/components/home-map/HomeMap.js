@@ -18,7 +18,7 @@ import {
 } from "@ant-design/icons";
 import "leaflet/dist/leaflet.css";
 
-const { geojson, tile, defaultPos } = geo;
+const { countiesjson, tile, defaultPos } = geo;
 const defPos = defaultPos();
 const mapMaxZoom = 13;
 const markerColorRange = [
@@ -35,14 +35,13 @@ const markerColorRange = [
   "#52B0AE",
   "#F2AEAD",
 ];
-const colorRange = ["#bbedda", "#a7e1cb", "#92d5bd", "#7dcaaf", "#67bea1"];
+const colorRange = ["#EB5353", "#F9D923", "#9ACD32", "#36AE7C"];
 const higlightColor = "#84b4cc";
 const isMarker = false;
-const isHover = false;
 
 const HomeMap = ({ current, style }) => {
   const [loadingMap, setLoadingMap] = useState(false);
-  const [map, setMap] = useState(null);
+  const [maps, setMaps] = useState(null);
   const [results, setResults] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(null);
   // shape legend click filter
@@ -75,21 +74,16 @@ const HomeMap = ({ current, style }) => {
 
   useEffect(() => {
     if (hoveredShape && results.length) {
-      const geoName = takeRight(Object.values(hoveredShape), 2)[0];
-      if (geoName) {
-        const geoRes = results.filter((r) => r.loc === geoName);
-        if (geoRes.length) {
+      const data = results.find((x) => x.loc === hoveredShape?.NAME_1);
+      if (data) {
+        if (data) {
           const tooltipElement = (
             <div className="shape-tooltip-container">
-              <h3>{geoName}</h3>
-              <Space align="top" direction="horizontal">
-                <span className="shape-tooltip-name">
-                  {current.maps.shape?.title}
-                </span>
-                <h3 className="shape-tooltip-value">
-                  {geoRes.length ? sumBy(geoRes, "shape") : 0}
-                </h3>
-              </Space>
+              <h3>{data.loc}</h3>
+              <span className="shape-tooltip-name">
+                {current.maps.shape?.title}
+              </span>
+              <h3 className="shape-tooltip-value">{data.shape}</h3>
             </div>
           );
           setShapeTooltip(tooltipElement);
@@ -111,7 +105,7 @@ const HomeMap = ({ current, style }) => {
   };
 
   const geoStyle = (g) => {
-    if (results.length && map) {
+    if (results.length && maps) {
       const sc = shapeColors.find((sC) => {
         // return county level name
         return sC.name === takeRight(Object.values(g.properties), 4)[0];
@@ -119,10 +113,10 @@ const HomeMap = ({ current, style }) => {
       const fillColor = sc ? getFillColor(sc.values || 0) : "#e6e8f4";
       const opacity = sc ? 0.8 : 0.3;
       return {
-        fillColor,
+        fillColor: fillColor,
         fillOpacity: 1,
-        opacity,
-        color: "#000",
+        opacity: opacity,
+        color: fillColor !== "#e6e8f4" ? "#FFF" : "#949fe3",
       };
     }
     return {
@@ -249,8 +243,8 @@ const HomeMap = ({ current, style }) => {
     .reduce(
       (acc, curr) => {
         const v = curr.values;
-        const [min, max] = acc;
-        return [min, v > max ? v : max];
+        const [minVal, maxVal] = acc;
+        return [minVal, v > maxVal ? v : maxVal];
       },
       [0, 0]
     )
@@ -265,7 +259,7 @@ const HomeMap = ({ current, style }) => {
   const colorScale = scaleQuantize().domain(domain).range(colorRange);
 
   const getFillColor = (v) => {
-    const color = v === 0 ? "#FFF" : colorScale(v);
+    const color = v === 0 ? "#e6e8f4" : colorScale(v);
     if (shapeFilterColor === color) {
       return higlightColor;
     }
@@ -280,29 +274,34 @@ const HomeMap = ({ current, style }) => {
       }
       setShapeFilterColor(colorRange[index]);
     };
+    thresholds = [...thresholds, thresholds[thresholds.length - 1]];
 
     return current && !loadingMap && thresholds.length ? (
       <div className="shape-legend">
         <h4>{current.maps.shape?.title}</h4>
         <Row className="legend-wrap">
-          {thresholds.map((t, tI) => (
-            <Col
-              key={tI}
-              flex={1}
-              className={`legend-item ${
-                shapeFilterColor === colorRange[tI] ? "legend-selected" : ""
-              }`}
-              onClick={() => handleShapeLegendClick(tI)}
-              style={{ backgroundColor: colorRange[tI] }}
-            >
-              {tI === 0 && "0 - "}
-              {tI >= thresholds.length - 1 && "> "}
-              {tI > 0 &&
-                tI < thresholds.length - 1 &&
-                `${thresholds[tI - 1] + 1} - `}
-              {t}
-            </Col>
-          ))}
+          {thresholds.map((t, tI) => {
+            return (
+              <Col
+                key={tI}
+                flex={1}
+                className={`legend-item ${
+                  shapeFilterColor === colorRange[tI] ? "legend-selected" : ""
+                }`}
+                onClick={() => handleShapeLegendClick(tI)}
+                style={{
+                  backgroundColor: colorRange[tI],
+                }}
+              >
+                {tI === 0 && "0 - "}
+                {tI === thresholds.length - 1 && "> "}
+                {tI > 0 &&
+                  tI < thresholds.length - 1 &&
+                  `${thresholds[tI - 1] + 1} - `}
+                {t}
+              </Col>
+            );
+          })}
         </Row>
       </div>
     ) : null;
@@ -323,16 +322,16 @@ const HomeMap = ({ current, style }) => {
             type="secondary"
             icon={<FullscreenOutlined />}
             onClick={() => {
-              map.fitBounds(defPos.bbox);
-              setZoomLevel(map.getZoom());
+              maps.fitBounds(defPos.bbox);
+              setZoomLevel(maps.getZoom());
             }}
           />
           <Button
             type="secondary"
             icon={<ZoomOutOutlined />}
             onClick={() => {
-              const currentZoom = map.getZoom() - 1;
-              map.setZoom(currentZoom);
+              const currentZoom = maps.getZoom() - 1;
+              maps.setZoom(currentZoom);
               setZoomLevel(currentZoom);
             }}
           />
@@ -341,8 +340,8 @@ const HomeMap = ({ current, style }) => {
             type="secondary"
             icon={<ZoomInOutlined />}
             onClick={() => {
-              const currentZoom = map.getZoom() + 1;
-              map.setZoom(currentZoom);
+              const currentZoom = maps.getZoom() + 1;
+              maps.setZoom(currentZoom);
               setZoomLevel(currentZoom);
             }}
           />
@@ -353,18 +352,18 @@ const HomeMap = ({ current, style }) => {
         zoomControl={false}
         scrollWheelZoom={false}
         style={style}
-        whenCreated={setMap}
+        whenCreated={setMaps}
       >
         <TileLayer {...tile} />
-        {geojson.features.length > 0 && (
+        {countiesjson.features.length > 0 && (
           <GeoJSON
             key="geodata"
             style={geoStyle}
-            data={geojson}
+            data={countiesjson}
             onEachFeature={onEachFeature}
             weight={1}
           >
-            {isHover && hoveredShape && shapeTooltip && (
+            {hoveredShape && shapeTooltip && (
               <Tooltip className="shape-tooltip-wrapper">
                 {shapeTooltip}
               </Tooltip>

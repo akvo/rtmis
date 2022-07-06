@@ -9,6 +9,5 @@ pip -q install --cache-dir=.pip -r requirements.txt
 pip check
 
 python manage.py migrate
-python manage.py createcachetable
 python manage.py generate_config
 python manage.py runserver 0.0.0.0:8000
