@@ -15,6 +15,7 @@ const { Option } = Select;
 const QuestionChart = () => {
   const [dataset, setDataset] = useState([]);
   const [activeKey, setActiveKey] = useState(null);
+  const [filteredQuestionGroups, setFilteredQuestionGroup] = useState([]);
   const [loading, setLoading] = useState(false);
   const { notify } = useNotification();
   const {
@@ -22,6 +23,43 @@ const QuestionChart = () => {
     loadingForm,
     questionGroups,
   } = store.useState((state) => state);
+
+  useEffect(() => {
+    if (questionGroups) {
+      setLoading(true);
+      const filtered = questionGroups
+        ?.filter((qg) => {
+          return qg.question.filter((q) => q?.attributes?.includes("chart"))
+            ?.length;
+        })
+        .map((qg) => {
+          return {
+            ...qg,
+            question: qg.question.filter((q) =>
+              q?.attributes?.includes("chart")
+            ),
+          };
+        });
+      setFilteredQuestionGroup(filtered);
+      setLoading(false);
+    }
+  }, [questionGroups]);
+
+  useEffect(() => {
+    if (filteredQuestionGroups.length) {
+      const rawData = filteredQuestionGroups.map((qg) => {
+        return {
+          id: qg.id,
+          title: qg.name,
+          selected: qg.question[0]?.id,
+          data: [],
+          chart: "PIE",
+          question: qg.question || [],
+        };
+      });
+      setDataset(rawData);
+    }
+  }, [filteredQuestionGroups]);
 
   const fetchData = (questionGroupId, questionId) => {
     if (formId) {
@@ -58,7 +96,7 @@ const QuestionChart = () => {
       return;
     }
     if (panel) {
-      const questionGroupRes = questionGroups.find(
+      const questionGroupRes = filteredQuestionGroups.find(
         (qgS) => qgS.id === dataset[parseInt(panel)]?.id
       );
       const questionIdRes = questionGroupRes?.question.filter(
@@ -89,31 +127,10 @@ const QuestionChart = () => {
     }
   }, [formId]);
 
-  useEffect(() => {
-    const rawData = questionGroups
-      .filter((q) => {
-        return (
-          !!q.question?.filter((qn) => qn.type === "option").length || false
-        );
-      })
-      .map((qg) => {
-        return {
-          id: qg.id,
-          title: qg.name,
-          selected:
-            qg.question.filter((qi) => qi.type === "option")[0]?.id + "" ||
-            null,
-          data: [],
-          chart: "PIE",
-          question: qg.question || [],
-        };
-      });
-    setDataset(rawData);
-  }, [questionGroups]);
-
   return (
     <Collapse
       accordion
+      destroyInactivePanel={true}
       activeKey={activeKey}
       onChange={handleChange}
       expandIcon={({ isActive }) =>
@@ -186,7 +203,7 @@ const QuestionChart = () => {
                 type={d.chart}
                 data={d.data}
                 wrapper={false}
-                styles={{ minHeight: "400px" }}
+                styles={{ minHeight: "400px", height: "400px", width: "100%" }}
               />
             )}
           </div>

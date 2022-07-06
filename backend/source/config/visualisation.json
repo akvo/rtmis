@@ -299,6 +299,7 @@
         "title": "Number of usable toilets"
       }
     },
+    "chartListTitle": "JMP",
     "charts": [
       {
         "type": "CRITERIA",
@@ -649,6 +650,7 @@
         "title": "No. of drinking water points"
       }
     },
+    "chartListTitle": "JMP",
     "charts": [
       {
         "type": "CRITERIA",
