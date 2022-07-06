@@ -13,6 +13,9 @@
           "order": 1,
           "required": true,
           "type": "text",
+          "attributes": [
+            "table"
+          ],
           "options": null
         },
         {
@@ -22,6 +25,9 @@
           "order": 2,
           "required": true,
           "type": "text",
+          "attributes": [
+            "table"
+          ],
           "options": null
         },
         {
@@ -31,6 +37,9 @@
           "order": 3,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -52,6 +61,9 @@
           "order": 1,
           "required": true,
           "type": "geo",
+          "attributes": [
+            "table"
+          ],
           "options": null
         },
         {
@@ -61,6 +73,11 @@
           "order": 2,
           "required": true,
           "type": "administration",
+          "attributes": [
+            "table",
+            "aggregation",
+            "chart"
+          ],
           "options": null
         },
         {
@@ -70,6 +87,9 @@
           "order": 3,
           "required": true,
           "type": "text",
+          "attributes": [
+            "table"
+          ],
           "options": null
         },
         {
@@ -79,6 +99,11 @@
           "order": 4,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "aggregation",
+            "chart"
+          ],
           "options": [
             {
               "name": "Male"
@@ -95,6 +120,10 @@
           "order": 5,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
@@ -123,6 +152,10 @@
           "order": 7,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Male"
@@ -139,6 +172,10 @@
           "order": 8,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
@@ -148,6 +185,10 @@
           "order": 9,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
@@ -157,6 +198,10 @@
           "order": 10,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
@@ -166,6 +211,10 @@
           "order": 11,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
@@ -175,6 +224,10 @@
           "order": 12,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
@@ -184,6 +237,10 @@
           "order": 13,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
@@ -193,6 +250,10 @@
           "order": 14,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Permanent"
@@ -217,6 +278,10 @@
           "order": 1,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "No toilet observed"
@@ -247,6 +312,10 @@
           "order": 2,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -274,6 +343,10 @@
           "order": 3,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Flush / pour flush"
@@ -311,6 +384,10 @@
           "order": 4,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -336,6 +413,10 @@
           "order": 5,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Own toilet only shared by members of the household"
@@ -363,6 +444,10 @@
           "order": 6,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "In own dwelling"
@@ -392,6 +477,10 @@
           "order": 7,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "No, never"
@@ -424,6 +513,10 @@
           "order": 8,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -450,6 +543,10 @@
           "order": 9,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Removed by service provider to a treatment plant"
@@ -486,6 +583,10 @@
           "order": 10,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -512,6 +613,10 @@
           "order": 11,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Limited mobility prevents members from using the toilet"
@@ -542,6 +647,10 @@
           "order": 12,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Child used toilet/latrine"
@@ -579,6 +688,10 @@
           "order": 13,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -610,6 +723,10 @@
           "order": 1,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Before, during, and after preparing food"
@@ -638,6 +755,10 @@
           "order": 2,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Fixed facility observed (sink/tap) In dwelling"
@@ -663,6 +784,10 @@
           "order": 3,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Water is available"
@@ -689,6 +814,10 @@
           "order": 4,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Soap or detergent available ."
@@ -715,6 +844,10 @@
           "order": 5,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Every morning"
@@ -737,6 +870,7 @@
           "order": 6,
           "required": true,
           "type": "option",
+          "attributes": [],
           "options": [
             {
               "name": "Yes"
@@ -763,6 +897,7 @@
           "order": 7,
           "required": true,
           "type": "geo",
+          "attributes": [],
           "options": null,
           "dependency": [
             {
@@ -785,6 +920,10 @@
           "order": 1,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Collected by formal service provider"
@@ -816,6 +955,10 @@
           "order": 2,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Sink/drain connected to sewer"
@@ -855,6 +998,10 @@
           "order": 1,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -871,6 +1018,10 @@
           "order": 2,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Private room"
@@ -893,6 +1044,10 @@
           "order": 3,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Cloth/reusable sanitary pads"
@@ -921,6 +1076,10 @@
           "order": 4,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -949,6 +1108,10 @@
           "order": 5,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Make it myself"
@@ -977,6 +1140,10 @@
           "order": 6,
           "required": true,
           "type": "multiple_option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Attending school"
@@ -1008,6 +1175,10 @@
           "order": 7,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Every time"
@@ -1027,6 +1198,10 @@
           "order": 8,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Throw it in latrine"
@@ -1054,6 +1229,7 @@
           "order": 1,
           "required": true,
           "type": "text",
+          "attributes": [],
           "options": null
         }
       ]

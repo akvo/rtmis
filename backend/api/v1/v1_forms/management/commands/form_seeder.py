@@ -39,11 +39,17 @@ class Command(BaseCommand):
                                             name=json_form["form"],
                                             version=1,
                                             type=json_form["type"])
+                if not test:
+                    self.stdout.write(
+                        f"Form Created | {form.name} V{form.version}")
             else:
                 form.name = json_form["form"]
-                form.version = 2
+                form.version += 1
                 form.type = json_form["type"]
                 form.save()
+                if not test:
+                    self.stdout.write(
+                        f"Form Updated | {form.name} V{form.version}")
             for qg in json_form["question_groups"]:
                 question_group, created = QG.objects.update_or_create(
                     name=qg["question_group"],
