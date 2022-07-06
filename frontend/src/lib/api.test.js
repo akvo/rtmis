@@ -1,51 +1,29 @@
 import "@testing-library/jest-dom";
-import axios from "axios";
+import api from "./api";
 
-const BASE_URL = "https://jsonplaceholder.typicode.com";
+jest.mock("axios");
 
-export const config = {
-  baseURL: BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
+const fetchUsers = async () => {
+  try {
+    const users = await api.get();
+    return users;
+  } catch (err) {
+    return [];
+  }
 };
-
-const API = () => {
-  const getConfig = () => {
-    return config;
-  };
-  return {
-    get: (url, config = {}) => axios({ url, ...getConfig(), ...config }),
-    post: (url, data, config = {}) =>
-      axios({ url, method: "POST", data, ...getConfig(), ...config }),
-    put: (url, data, config) =>
-      axios({ url, method: "PUT", data, ...getConfig(), ...config }),
-    patch: (url, data, config) =>
-      axios({ url, method: "PATCH", data, ...getConfig(), ...config }),
-    delete: (url) => axios({ url, method: "DELETE", ...getConfig() }),
-  };
-};
-
-// const api = API();
-
-// const fetchUsers = async () => {
-//   return await api.get("users");
-// };
 
 const users = [
   { id: 1, name: "John" },
   { id: 2, name: "Andrew" },
 ];
 
-jest.mock("axios");
-
-describe("fetchUsers", () => {
-  describe("when API call is successful", () => {
+describe("test API calls", () => {
+  describe("GET", () => {
     it("should return users list", async () => {
-      axios.get.mockResolvedValueOnce(users);
-      // then
-      // expect(axios.get).toHaveBeenCalledWith(`${BASE_URL}/users`);
-      //expect(result).toEqual(users);
+      api.get = jest.fn().mockResolvedValue(users);
+      const result = await fetchUsers();
+      expect(result).toEqual(users);
+      expect(api.get).toHaveBeenCalledWith();
     });
   });
 });
