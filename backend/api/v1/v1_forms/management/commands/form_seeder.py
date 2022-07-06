@@ -1,6 +1,7 @@
 import json
 import os
 
+from rtmis.settings import PROD
 from django.core.management import BaseCommand
 from django.core.cache import cache
 
@@ -23,29 +24,26 @@ class Command(BaseCommand):
                             type=int)
 
     def handle(self, *args, **options):
-        test = options.get("test")
+        TEST = options.get("test")
         source_folder = './source/forms/'
         source_files = [
             f"{source_folder}{json_file}"
             for json_file in os.listdir(source_folder)
         ]
-        source_files = list(
-            filter(lambda x: "example" in x
-                   if test else "example" not in x, source_files))
+        if TEST:
+            source_files = list(filter(lambda x: "example" in x, source_files))
+        if PROD:
+            source_files = list(filter(lambda x: "prod" in x, source_files))
         for source in source_files:
             json_form = open(source, 'r')
             json_form = json.load(json_form)
-            if ("prod") not in source:
-                form = Forms.objects.filter(id=json_form["id"]).first()
-                if form:
-                    form.delete()
             form = Forms.objects.filter(id=json_form["id"]).first()
             if not form:
                 form = Forms.objects.create(id=json_form["id"],
                                             name=json_form["form"],
                                             version=1,
                                             type=json_form["type"])
-                if not test:
+                if not TEST:
                     self.stdout.write(
                         f"Form Created | {form.name} V{form.version}")
             else:
@@ -53,7 +51,7 @@ class Command(BaseCommand):
                 form.version += 1
                 form.type = json_form["type"]
                 form.save()
-                if not test:
+                if not TEST:
                     self.stdout.write(
                         f"Form Updated | {form.name} V{form.version}")
             for qg in json_form["question_groups"]:
