@@ -4,31 +4,37 @@
     "description": "Description text here",
     "maps": {
       "form_id": 519630048,
-      "marker": {
-        "id": 513690068,
-        "title": "Functional household toilet available",
-        "options": [
+      "shape": {
+        "title": "Sanitation service level - Safely Managed",
+        "type": "CRITERIA",
+        "calculation": "percent",
+        "criteria": [
           {
-            "id": 697,
-            "name": "No toilet observed"
-          },
-          {
-            "id": 698,
-            "name": "Toilet with inadequate privacy"
-          },
-          {
-            "id": 699,
-            "name": "Toilet not functional"
-          },
-          {
-            "id": 700,
-            "name": "Functional toilet with privacy"
+            "name": "Safely Managed",
+            "options": [
+              {
+                "question": 492490054,
+                "option": [
+                  "Flush / pour flush",
+                  "Pit latrine with slab",
+                  "Twin pit with slab"
+                ]
+              },
+              {
+                "question": 513690062,
+                "option": ["No"]
+              },
+              {
+                "question": 513690060,
+                "option": [
+                  "Removed by service provider to a treatment plant",
+                  "Removed by service provider to buried pit",
+                  "Emptied by household buried in a covered pit"
+                ]
+              }
+            ]
           }
         ]
-      },
-      "shape": {
-        "id": 519660047,
-        "title": "Number of Household Member"
       }
     },
     "charts": [
@@ -52,9 +58,7 @@
               },
               {
                 "question": 513690062,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 513690060,
@@ -81,9 +85,7 @@
               },
               {
                 "question": 513690062,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               }
             ]
           },
@@ -102,9 +104,7 @@
               },
               {
                 "question": 513690062,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -131,9 +131,7 @@
             "options": [
               {
                 "question": 492490054,
-                "option": [
-                  "No facility / Bush / Field"
-                ]
+                "option": ["No facility / Bush / Field"]
               }
             ]
           }
@@ -159,15 +157,11 @@
               },
               {
                 "question": 466680045,
-                "option": [
-                  "Water is available"
-                ]
+                "option": ["Water is available"]
               },
               {
                 "question": 466760036,
-                "option": [
-                  "Soap or detergent available ."
-                ]
+                "option": ["Soap or detergent available ."]
               }
             ]
           },
@@ -186,15 +180,11 @@
               },
               {
                 "question": 466680045,
-                "option": [
-                  "Water is available"
-                ]
+                "option": ["Water is available"]
               },
               {
                 "question": 466760036,
-                "option": [
-                  "Soap or detergent available ."
-                ]
+                "option": ["Soap or detergent available ."]
               }
             ]
           },
@@ -248,9 +238,7 @@
             "options": [
               {
                 "question": 524810054,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -282,23 +270,46 @@
     "description": "Description text here",
     "maps": {
       "form_id": 533560002,
-      "marker": {
-        "id": 547720005,
-        "title": "Health Center Facility Level",
-        "options": [
+      "shape": {
+        "title": "Sanitation service level - Basic",
+        "type": "CRITERIA",
+        "calculation": "percent",
+        "criteria": [
           {
-            "id": 1158,
-            "name": "L1"
-          },
-          {
-            "id": 1159,
-            "name": "L2"
+            "name": "Basic",
+            "options": [
+              {
+                "question": 555370004,
+                "option": [
+                  "Flush / Pour-flush toilet to sewer connection",
+                  "Flush / Pour-flush toilet to tank or pit",
+                  "Pit latrine with slab",
+                  "Composting toilet"
+                ]
+              },
+              {
+                "question": 530250002,
+                "option": ["Yes"]
+              },
+              {
+                "question": 555370009,
+                "option": ["Yes"]
+              },
+              {
+                "question": 555370003,
+                "option": ["Yes"]
+              },
+              {
+                "question": 555370005,
+                "option": ["Yes"]
+              },
+              {
+                "question": 555370006,
+                "option": ["Yes"]
+              }
+            ]
           }
         ]
-      },
-      "shape": {
-        "id": 555370007,
-        "title": "Number of usable toilets"
       }
     },
     "charts": [
@@ -323,33 +334,23 @@
               },
               {
                 "question": 530250002,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555370009,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555370003,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555370005,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555370006,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -369,33 +370,23 @@
               },
               {
                 "question": 530250002,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 555370009,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 555370003,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 555370005,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 555370006,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               }
             ]
           },
@@ -430,15 +421,11 @@
             "options": [
               {
                 "question": 551560007,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 551560004,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -455,9 +442,7 @@
               },
               {
                 "question": 551560004,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -496,9 +481,7 @@
             "options": [
               {
                 "question": 541950008,
-                "option": [
-                  "Yes, waste is segregated into three labelled bins"
-                ]
+                "option": ["Yes, waste is segregated into three labelled bins"]
               },
               {
                 "question": 541950011,
@@ -566,9 +549,7 @@
             "options": [
               {
                 "question": 541950008,
-                "option": [
-                  "No, bins are not present"
-                ]
+                "option": ["No, bins are not present"]
               }
             ]
           }
@@ -586,15 +567,11 @@
             "options": [
               {
                 "question": 551560009,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 551560005,
-                "option": [
-                  "Yes, all have been trained"
-                ]
+                "option": ["Yes, all have been trained"]
               }
             ]
           },
@@ -605,15 +582,11 @@
             "options": [
               {
                 "question": 551560009,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 551560005,
-                "option": [
-                  "No, some but not all have been trained"
-                ]
+                "option": ["No, some but not all have been trained"]
               }
             ]
           },
@@ -624,9 +597,7 @@
             "options": [
               {
                 "question": 551560009,
-                "option": [
-                  "Yes but limited"
-                ]
+                "option": ["Yes but limited"]
               },
               {
                 "question": 551560005,
@@ -646,47 +617,33 @@
     "description": "Description text here",
     "maps": {
       "form_id": 563350033,
-      "marker": {
-        "id": 551660011,
-        "title": "Main source of drinking water",
-        "options": [
+      "shape": {
+        "title": "Sanitation service level - Basic",
+        "type": "CRITERIA",
+        "calculation": "percent",
+        "criteria": [
           {
-            "id": 511,
-            "name": "Piped water supply"
-          },
-          {
-            "id": 512,
-            "name": "Protected well/spring"
-          },
-          {
-            "id": 513,
-            "name": "Rainwater"
-          },
-          {
-            "id": 514,
-            "name": "Unprotected well/spring"
-          },
-          {
-            "id": 515,
-            "name": "Packaged bottled water"
-          },
-          {
-            "id": 516,
-            "name": "Tanker-truck or cart"
-          },
-          {
-            "id": 517,
-            "name": "Surface water (lake, river, stream)"
-          },
-          {
-            "id": 518,
-            "name": "No water source"
+            "name": "Basic",
+            "options": [
+              {
+                "question": 551660029,
+                "option": [
+                  "Flush / Pour-flush toilets",
+                  "Pit latrines with slab",
+                  "Composting toilets"
+                ]
+              },
+              {
+                "question": 579840064,
+                "option": ["Yes"]
+              },
+              {
+                "question": 555460003,
+                "option": ["Yes"]
+              }
+            ]
           }
         ]
-      },
-      "shape": {
-        "id": 551660016,
-        "title": "No. of drinking water points"
       }
     },
     "charts": [
@@ -712,9 +669,7 @@
               },
               {
                 "question": 551660013,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -735,9 +690,7 @@
               },
               {
                 "question": 551660013,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               }
             ]
           },
@@ -778,15 +731,11 @@
               },
               {
                 "question": 579840064,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555460003,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -805,15 +754,11 @@
               },
               {
                 "question": 579840064,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555460003,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -847,15 +792,11 @@
             "options": [
               {
                 "question": 539710052,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 539710048,
-                "option": [
-                  "Yes, water and soap"
-                ]
+                "option": ["Yes, water and soap"]
               }
             ]
           },
@@ -866,15 +807,11 @@
             "options": [
               {
                 "question": 539710052,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 539710048,
-                "option": [
-                  "Water only"
-                ]
+                "option": ["Water only"]
               }
             ]
           },
@@ -885,9 +822,7 @@
             "options": [
               {
                 "question": 539710052,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               }
             ]
           }
@@ -956,15 +891,11 @@
             "options": [
               {
                 "question": 545530057,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 575740004,
-                "option": [
-                  "Yes, all have been trained"
-                ]
+                "option": ["Yes, all have been trained"]
               }
             ]
           },
@@ -975,15 +906,11 @@
             "options": [
               {
                 "question": 545530057,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 575740004,
-                "option": [
-                  "No, some but not all have been trained"
-                ]
+                "option": ["No, some but not all have been trained"]
               }
             ]
           },
@@ -994,9 +921,7 @@
             "options": [
               {
                 "question": 545530057,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 575740004,
