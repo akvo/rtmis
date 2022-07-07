@@ -40,6 +40,17 @@ const higlightColor = "#84b4cc";
 const isMarker = false;
 
 const HomeMap = ({ current, style }) => {
+  // config
+  const currentMaps = current?.maps;
+  const { form_id, shape: currentShape } = currentMaps;
+  const {
+    id: shapeId,
+    title: shapeTitle,
+    type: shapeType,
+    calculation: shapeCalculation,
+    criteria: shapeCriteria,
+  } = currentShape;
+  // state
   const [loadingMap, setLoadingMap] = useState(false);
   const [maps, setMaps] = useState(null);
   const [results, setResults] = useState([]);
@@ -52,13 +63,28 @@ const HomeMap = ({ current, style }) => {
   const [markerLegendSelected, setMarkerLegendSelected] = useState(null);
 
   useEffect(() => {
-    if (current && current.maps.form_id) {
-      const { form_id, shape } = current.maps;
+    if (current && currentMaps?.form_id) {
       setLoadingMap(true);
-      api
-        .get(`maps/overview/${form_id}?shape=${shape?.id}`)
+      const isCriteria = shapeType && shapeType === "CRITERIA";
+      const url = isCriteria
+        ? `maps/overview/criteria/${form_id}`
+        : `maps/overview/${form_id}?shape=${shapeId}`;
+      api[isCriteria ? "post" : "get"](
+        url,
+        isCriteria ? { shape: shapeCriteria } : {}
+      )
         .then((res) => {
-          setResults(res.data);
+          let data = res.data;
+          if (isCriteria && shapeCalculation.toLowerCase() === "percent") {
+            // get percentage: shape_county / sum_of_shape_national_level
+            const totalShape = sumBy(data, "shape");
+            data = data.map((d) => {
+              let percent = (d.shape / totalShape) * 100;
+              percent = Math.round((percent + Number.EPSILON) * 100) / 100;
+              return { ...d, shape: percent };
+            });
+          }
+          setResults(data);
         })
         .catch((e) => {
           console.error("e", e);
@@ -70,20 +96,31 @@ const HomeMap = ({ current, style }) => {
           });
         });
     }
-  }, [current]);
+  }, [
+    current,
+    currentMaps,
+    form_id,
+    shapeType,
+    shapeId,
+    shapeCalculation,
+    shapeCriteria,
+  ]);
 
   useEffect(() => {
     if (hoveredShape && results.length) {
-      const data = results.find((x) => x.loc === hoveredShape?.NAME_1);
+      const data = results.find(
+        (x) => x.loc.toLowerCase() === hoveredShape?.NAME_01?.toLowerCase()
+      );
       if (data) {
-        if (data) {
+        if (data?.shape) {
           const tooltipElement = (
             <div className="shape-tooltip-container">
               <h3>{data.loc}</h3>
-              <span className="shape-tooltip-name">
-                {current.maps.shape?.title}
-              </span>
-              <h3 className="shape-tooltip-value">{data.shape}</h3>
+              <span className="shape-tooltip-name">{shapeTitle}</span>
+              <h3 className="shape-tooltip-value">
+                {data.shape}
+                {shapeCalculation.toLowerCase() === "percent" ? "%" : ""}
+              </h3>
             </div>
           );
           setShapeTooltip(tooltipElement);
@@ -94,7 +131,7 @@ const HomeMap = ({ current, style }) => {
       }
       setShapeTooltip(null);
     }
-  }, [hoveredShape, results, current]);
+  }, [hoveredShape, results, shapeTitle, shapeCalculation]);
 
   const onEachFeature = (feature, layer) => {
     layer.on({
@@ -128,11 +165,11 @@ const HomeMap = ({ current, style }) => {
   };
 
   const markerLegendOptions = useMemo(() => {
-    if (current && current.maps.marker) {
-      return current.maps.marker?.options;
+    if (currentMaps?.marker) {
+      return currentMaps.marker?.options;
     }
     return [];
-  }, [current]);
+  }, [currentMaps]);
 
   const Markers = ({ data }) => {
     if (data.length) {
@@ -163,7 +200,7 @@ const HomeMap = ({ current, style }) => {
               <div className="marker-tooltip-container">
                 <h3>{takeRight(name.split(" - "), 1)[0]}</h3>
                 <div className="marker-tooltip-name">
-                  {current.maps.marker?.title}
+                  {currentMaps.marker?.title || ""}
                 </div>
                 <div className="marker-tooltip-value">{marker[0]}</div>
               </div>
@@ -190,7 +227,7 @@ const HomeMap = ({ current, style }) => {
     if (markerLegendOptions) {
       return (
         <div className="marker-legend">
-          <h4>{current.maps.marker?.title}</h4>
+          <h4>{currentMaps.marker?.title}</h4>
           <Space
             direction="horizontal"
             align="center"
@@ -226,7 +263,7 @@ const HomeMap = ({ current, style }) => {
     }
     return <div />;
   }, [
-    current,
+    currentMaps,
     markerLegendOptions,
     markerLegendSelected,
     handleMarkerLegendClick,
@@ -244,7 +281,9 @@ const HomeMap = ({ current, style }) => {
       (acc, curr) => {
         const v = curr.values;
         const [minVal, maxVal] = acc;
-        return [minVal, v > maxVal ? v : maxVal];
+        const maxTmp =
+          shapeCalculation.toLowerCase() === "percent" ? 100 : maxVal;
+        return [minVal, v > maxTmp ? v : maxTmp];
       },
       [0, 0]
     )
@@ -278,7 +317,7 @@ const HomeMap = ({ current, style }) => {
 
     return current && !loadingMap && thresholds.length ? (
       <div className="shape-legend">
-        <h4>{current.maps.shape?.title}</h4>
+        <h4>{shapeTitle || ""}</h4>
         <Row className="legend-wrap">
           {thresholds.map((t, tI) => {
             return (
