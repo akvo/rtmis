@@ -3,9 +3,10 @@ import "./style.scss";
 import { Card, Select, Checkbox, Row, Col, Tag, Popover } from "antd";
 import { store } from "../../lib";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { first, flatten } from "lodash";
+import { first, flatten, intersection } from "lodash";
 
 const { Option, OptGroup } = Select;
+const attributes = ["chart", "table"];
 
 const AdvancedFilters = () => {
   const [optionGroups, setOptionGroups] = useState([]);
@@ -23,9 +24,13 @@ const AdvancedFilters = () => {
         questionGroups
           ?.map((d) => ({
             name: d.name,
-            questions: d.question.filter((q) => q.type === "option"),
+            questions: d.question.filter(
+              (q) =>
+                intersection(q?.attributes || [], attributes).length ===
+                attributes.length
+            ),
           }))
-          ?.filter((qg) => qg.questions.length > 0) || []
+          ?.filter((qg) => qg.questions.length > 0)
       );
     }
   }, [selectedForm, questionGroups]);
@@ -134,6 +139,7 @@ const AdvancedFilters = () => {
     }
     return null;
   }, [advancedFilters]);
+
   return (
     <div className="advanced-filters">
       <Card bodyStyle={{ padding: 12 }} style={{ padding: 0 }}>
