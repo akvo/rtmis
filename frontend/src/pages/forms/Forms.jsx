@@ -54,7 +54,7 @@ const Forms = () => {
       .map((v) => {
         const question = questions.find((q) => q.id === parseInt(v));
         let val = values[v];
-        if (val) {
+        if (val || val === 0) {
           val =
             question.type === "option"
               ? [val]

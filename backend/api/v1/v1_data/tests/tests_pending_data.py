@@ -281,4 +281,4 @@ class PendingDataTestCase(TestCase):
                 self.assertEqual(['type', 'total'],
                                  list(summary.get('value')[0]))
             else:
-                self.assertEqual(int, type(summary.get('value')))
+                self.assertIn(type(summary.get('value')), [float, int])

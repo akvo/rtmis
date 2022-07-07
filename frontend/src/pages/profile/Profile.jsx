@@ -14,7 +14,7 @@ const Profile = () => {
   const { trained } = authUser;
 
   const trainedBadge = useMemo(() => {
-    if (!trained) {
+    if (trained) {
       return (
         <Tag color="warning" style={{ marginBottom: 11 }}>
           Trained
