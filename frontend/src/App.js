@@ -213,6 +213,8 @@ const App = () => {
         setLoading(false);
         eraseCookieFromAllPaths("AUTH_TOKEN");
       }
+    } else {
+      setLoading(false);
     }
   }, [authUser, isLoggedIn, cookies, notify]);
 
