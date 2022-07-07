@@ -24,6 +24,7 @@ import {
   FullscreenOutlined,
 } from "@ant-design/icons";
 import "leaflet/dist/leaflet.css";
+
 const disableMarker = true;
 
 const { geojson, tile, defaultPos, getBounds } = geo;
@@ -212,9 +213,9 @@ const Map = ({ current, style }) => {
           .find((q) => q.id === current.maps.marker.id)
           ?.option?.map((o) => {
             const moRes = current.maps.marker.options?.find(
-              (mo) => mo.id === o.id
-            )?.name;
-            return moRes ? { ...o, title: moRes } : o;
+              (mo) => mo.name.toLowerCase() === o.name.toLowerCase()
+            );
+            return moRes ? { ...o, title: moRes?.rename || moRes?.name } : o;
           }) || []
       );
     }
