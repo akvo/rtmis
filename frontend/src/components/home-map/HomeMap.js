@@ -75,7 +75,7 @@ const HomeMap = ({ current, style }) => {
       )
         .then((res) => {
           let data = res.data;
-          if (isCriteria && shapeCalculation.toLowerCase() === "percent") {
+          if (isCriteria && shapeCalculation?.toLowerCase() === "percent") {
             // get percentage: shape_county / sum_of_shape_national_level
             const totalShape = sumBy(data, "shape");
             data = data.map((d) => {
@@ -119,7 +119,7 @@ const HomeMap = ({ current, style }) => {
               <span className="shape-tooltip-name">{shapeTitle}</span>
               <h3 className="shape-tooltip-value">
                 {data.shape}
-                {shapeCalculation.toLowerCase() === "percent" ? "%" : ""}
+                {shapeCalculation?.toLowerCase() === "percent" ? "%" : ""}
               </h3>
             </div>
           );
@@ -282,7 +282,7 @@ const HomeMap = ({ current, style }) => {
         const v = curr.values;
         const [minVal, maxVal] = acc;
         const maxTmp =
-          shapeCalculation.toLowerCase() === "percent" ? 100 : maxVal;
+          shapeCalculation?.toLowerCase() === "percent" ? 100 : maxVal;
         return [minVal, v > maxTmp ? v : maxTmp];
       },
       [0, 0]
