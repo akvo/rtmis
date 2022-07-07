@@ -836,6 +836,17 @@ const config = {
         children: orderBy(children, "name"),
       };
     },
+    ls: {
+      set: (name, data) => {
+        localStorage.setItem(name, JSON.stringify(data));
+      },
+      get: (name) => {
+        if (localStorage.getItem(name)) {
+          return JSON.parse(localStorage.getItem(name));
+        }
+        return false;
+      },
+    },
   },
 };
 

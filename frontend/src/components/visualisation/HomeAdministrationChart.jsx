@@ -9,19 +9,14 @@ import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
 
-const HomeAdministrationChart = ({
-  config,
-  formId,
-  index,
-  identifier = "",
-}) => {
+const HomeAdministrationChart = ({ setup, formId, index, identifier = "" }) => {
   const [dataset, setDataset] = useState([]);
   const [showEmpty, setShowEmpty] = useState(false);
   const [isStack, setIsStack] = useState(false);
   const [chartColors, setChartColors] = useState([]);
 
   const { notify } = useNotification();
-  const { id, title, stack, options, type, horizontal = true } = config;
+  const { id, title, stack, options, type, horizontal = true } = setup;
 
   const { next, wait } = queue.useState((q) => q);
   const runCall = index === next && !wait;
@@ -40,6 +35,7 @@ const HomeAdministrationChart = ({
 
   useEffect(() => {
     if (formId && (type === "CRITERIA" || id) && runCall) {
+      const cacheName = `${identifier}-${title}`;
       const url =
         (type === "CRITERIA"
           ? "chart/overview/criteria/"
@@ -50,8 +46,11 @@ const HomeAdministrationChart = ({
         url,
         type === "CRITERIA"
           ? {
-              data: options.map((o) => ({ name: o.name, options: o.options })),
-              cache: `${identifier}-${title}`,
+              data: options.map((o) => ({
+                name: o.name,
+                options: o.options,
+              })),
+              cache: cacheName,
             }
           : {}
       )
@@ -205,7 +204,7 @@ const HomeAdministrationChart = ({
 
 HomeAdministrationChart.propTypes = {
   formId: PropTypes.number.isRequired,
-  config: PropTypes.shape({
+  setup: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
     stack: PropTypes.any,

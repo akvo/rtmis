@@ -152,7 +152,7 @@ class UserForms(models.Model):
 
 
 class QuestionAttribute(models.Model):
-    name = models.TextField()
+    name = models.TextField(null=True, default=None)
     question = models.ForeignKey(to=Questions,
                                  on_delete=models.CASCADE,
                                  related_name='question_question_attribute')

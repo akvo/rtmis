@@ -133,6 +133,8 @@ spec:
                 secretKeyRef:
                   name: rtmis
                   key: webdomain
+            - name: PROD
+              value: "TRUE"
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /secrets/credentials.json
           readinessProbe:

@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./style.scss";
 import { Divider, Button, Row } from "antd";
-import { config } from "../../lib";
+import { config, store, queue } from "../../lib";
 import {
   VisualisationFilters,
   DataChart,
@@ -11,6 +11,8 @@ import { useParams, Link } from "react-router-dom";
 import IFrame from "./IFrame";
 
 const Reports = () => {
+  const { selectedForm: formId } = store.useState((s) => s);
+
   const { templateId } = useParams();
   const template = config?.templates?.find((t) => t.id === +templateId);
 
@@ -21,6 +23,14 @@ const Reports = () => {
     print.focus();
     print.contentWindow.print();
   };
+
+  useEffect(() => {
+    if (formId) {
+      queue.update((s) => {
+        s.next = 1;
+      });
+    }
+  }, [formId]);
 
   if (!template) {
     return <h3 className="text-muted">Template not found</h3>;
@@ -61,14 +71,14 @@ const Reports = () => {
                   cc.type === "ADMINISTRATION" || cc.type === "CRITERIA" ? (
                     <AdministrationChart
                       key={`chart-${template.id}-${ccI}`}
-                      formId={template.formId}
-                      config={cc}
+                      index={ccI + 1}
+                      current={cc}
                     />
                   ) : (
                     <DataChart
                       key={`chart-${template.id}-${ccI}`}
-                      formId={template.formId}
-                      config={cc}
+                      index={ccI + 1}
+                      current={cc}
                     />
                   )
                 )}

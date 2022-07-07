@@ -56,6 +56,30 @@ class DataVisualisationTestCase(TestCase):
             form.id, shape), follow=True, **header)
         self.assertEqual(data.status_code, 200)
         self.assertEqual(list(data.json()[0]), ['loc', 'shape'])
+        # Test Map Overview Criteria
+        data = self.client.post(
+            "/api/v1/maps/overview/criteria/{0}".format(form.id),
+            follow=True, **header)
+        self.assertEqual(data.status_code, 400)
+        payload = {
+            "shape": [{
+                "name": "Test",
+                "options": [{
+                    "question": 102,
+                    "option": ["Male"],
+                }, {
+                    "question": 106,
+                    "option": ["Parent"],
+                }],
+            }]
+        }
+        data = self.client.post(
+            "/api/v1/maps/overview/criteria/{0}".format(form.id),
+            payload,
+            content_type='application/json',
+            **header)
+        self.assertEqual(data.status_code, 200)
+        self.assertEqual(list(data.json()[0]), ['loc', 'shape'])
 
     def test_chart_data(self):
         call_command("administration_seeder", "--test")

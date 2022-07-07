@@ -1,15 +1,17 @@
 import json
 import os
 
+from rtmis.settings import PROD
 from django.core.management import BaseCommand
 from django.core.cache import cache
 
-from api.v1.v1_forms.constants import QuestionTypes
+from api.v1.v1_forms.constants import QuestionTypes, AttributeTypes
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_data.functions import refresh_materialized_data
 from api.v1.v1_forms.models import QuestionGroup as QG
 from api.v1.v1_forms.models import Questions
 from api.v1.v1_forms.models import QuestionOptions as QO
+from api.v1.v1_forms.models import QuestionAttribute as QA
 
 
 class Command(BaseCommand):
@@ -22,7 +24,7 @@ class Command(BaseCommand):
                             type=int)
 
     def handle(self, *args, **options):
-        test = options.get("test")
+        TEST = options.get("test")
         source_folder = './source/forms/'
         source_files = [
             f"{source_folder}{json_file}"
@@ -30,21 +32,19 @@ class Command(BaseCommand):
         ]
         source_files = list(
             filter(lambda x: "example" in x
-                   if test else "example" not in x, source_files))
+                   if TEST else "example" not in x, source_files))
+        if PROD:
+            source_files = list(filter(lambda x: "prod" in x, source_files))
         for source in source_files:
             json_form = open(source, 'r')
             json_form = json.load(json_form)
-            if ("prod") not in source:
-                form = Forms.objects.filter(id=json_form["id"]).first()
-                if form:
-                    form.delete()
             form = Forms.objects.filter(id=json_form["id"]).first()
             if not form:
                 form = Forms.objects.create(id=json_form["id"],
                                             name=json_form["form"],
                                             version=1,
                                             type=json_form["type"])
-                if not test:
+                if not TEST:
                     self.stdout.write(
                         f"Form Created | {form.name} V{form.version}")
             else:
@@ -52,7 +52,7 @@ class Command(BaseCommand):
                 form.version += 1
                 form.type = json_form["type"]
                 form.save()
-                if not test:
+                if not TEST:
                     self.stdout.write(
                         f"Form Updated | {form.name} V{form.version}")
             for qg in json_form["question_groups"]:
@@ -70,7 +70,7 @@ class Command(BaseCommand):
                     if not question:
                         question = Questions.objects.create(
                             id=q.get("id"),
-                            name=q["question"],
+                            name=q.get("name") or q.get("question"),
                             text=q["question"],
                             form=form,
                             order=qi + 1,
@@ -82,7 +82,7 @@ class Command(BaseCommand):
                             type=getattr(QuestionTypes, q["type"]),
                         )
                     else:
-                        question.name = q["question"]
+                        question.name = q.get("name") or q.get("question")
                         question.text = q["question"]
                         question.order = qi + 1
                         question.meta = q.get("meta")
@@ -99,6 +99,14 @@ class Command(BaseCommand):
                                 question=question,
                                 order=io + 1,
                             ) for io, o in enumerate(q.get("options"))
+                        ])
+                    if q.get("attributes"):
+                        QA.objects.filter(question=question).all().delete()
+                        QA.objects.bulk_create([
+                            QA(
+                                attribute=getattr(AttributeTypes, a),
+                                question=question,
+                            ) for a in q.get("attributes")
                         ])
         # DELETE CACHES AND REFRESH MATERIALIZED DATA
         cache.clear()
