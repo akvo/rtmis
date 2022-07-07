@@ -7,6 +7,7 @@ from jsmin import jsmin
 from api.v1.v1_forms.constants import FormTypes
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Levels, Administration
+from api.v1.v1_forms.serializers import FormDataSerializer
 
 
 class Command(BaseCommand):
@@ -67,6 +68,7 @@ class Command(BaseCommand):
                 'type': form.type,
                 'version': form.version,
                 'type_text': FormTypes.FieldStr.get(form.type),
+                'content': FormDataSerializer(instance=form).data
             })
         min_config = jsmin("".join([
             "var highlights=",
@@ -82,3 +84,8 @@ class Command(BaseCommand):
         ]))
         open("source/config/config.min.js", 'w').write(min_config)
         os.remove(administration_json)
+        del levels
+        del forms
+        del min_config
+        del all_administrations
+        del adm

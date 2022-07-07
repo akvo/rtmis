@@ -3,27 +3,68 @@
 #root {
   #visualisation {
     min-height: 600px;
+
+    .map-container {
+      height: 655px;
+    }
+
     .main-wrap {
       margin: 20px 0 24px;
+
       .ant-col:last-child {
-        .charts-wrap {
-          height: 600px;
-          overflow-y: scroll;
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-          border-bottom: 1px solid #e3e5e9;
-          padding: 0 8px;
-          .ant-divider {
-            margin-bottom: 12px;
-            .ant-divider-inner-text {
-              color: #7a7e82;
-              font-weight: 600;
-              font-size: 20px;
-            }
+        .ant-divider {
+          margin-bottom: 12px;
+
+          .ant-divider-inner-text {
+            color: #7a7e82;
+            font-weight: 600;
+            font-size: 20px;
           }
         }
-        .charts-wrap::-webkit-scrollbar {
-          display: none;
+
+        .charts-wrap {
+          height: 600px;
+          padding-bottom: 20px;
+          overflow-y: scroll;
+          -ms-overflow-style: none;
+          cursor: ns-resize;
+
+          .chart-inner {
+            cursor: ns-resize;
+
+            .echarts-for-react {
+              cursor: ns-resize;
+            }
+          }
+
+          /* scrollbar-width: none; */
+
+          border-bottom: 1px solid #e3e5e9;
+          padding: 0 8px;
+        }
+
+        .charts-wrap {
+          /* width */
+          &::-webkit-scrollbar {
+            /* display: none; */
+            width: 7.5px;
+          }
+
+          /* Track */
+          &::-webkit-scrollbar-track {
+            background: #f1f1f1;
+          }
+
+          /* Handle */
+          &::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 50px;
+          }
+
+          /* Handle on hover */
+          &::-webkit-scrollbar-thumb:hover {
+            background: #838fa3;
+          }
         }
       }
     }

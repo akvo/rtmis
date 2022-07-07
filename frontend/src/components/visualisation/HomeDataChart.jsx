@@ -8,11 +8,11 @@ import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
 
-const HomeDataChart = ({ config, formId, index }) => {
+const HomeDataChart = ({ setup, formId, index }) => {
   const [dataset, setDataset] = useState([]);
   const [chartColors, setChartColors] = useState([]);
   const { notify } = useNotification();
-  const { id, title, type, stack, options, horizontal = true } = config;
+  const { id, title, type, stack, options, horizontal = true } = setup;
 
   const { next, wait } = queue.useState((q) => q);
   const runCall = index === next && !wait;
@@ -151,7 +151,7 @@ const HomeDataChart = ({ config, formId, index }) => {
 
 HomeDataChart.propTypes = {
   formId: PropTypes.number.isRequired,
-  config: PropTypes.shape({
+  setup: PropTypes.shape({
     id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     title: PropTypes.string,

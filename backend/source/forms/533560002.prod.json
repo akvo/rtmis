@@ -10,9 +10,13 @@
           "id": 547720002,
           "meta": true,
           "question": "Take the GPS location",
+          "name": "Geolocation",
           "order": 1,
           "required": true,
           "type": "geo",
+          "attributes": [
+            "table"
+          ],
           "options": null
         },
         {
@@ -22,24 +26,37 @@
           "order": 2,
           "required": true,
           "type": "administration",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
           "id": 547740002,
           "meta": true,
           "question": "What is the name of the health care facility?",
+          "name": "Health facility Name",
           "order": 3,
           "required": true,
           "type": "text",
+          "attributes": [
+            "table"
+          ],
           "options": null
         },
         {
           "id": 547720005,
           "meta": true,
           "question": "Level of the health care facility",
+          "name": "Health facility level",
           "order": 4,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Level 1"
@@ -73,9 +90,14 @@
           "id": 563310061,
           "meta": false,
           "question": "What is the main water supply for the facility? (Tick one)",
+          "name": "Main water supply",
           "order": 1,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Piped supply inside the building"
@@ -116,9 +138,15 @@
           "id": 563310062,
           "meta": false,
           "question": "Where is the main water supply for the facility located?",
+          "name": "Water supply location",
           "order": 3,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "On premises"
@@ -149,9 +177,15 @@
           "id": 563310064,
           "meta": true,
           "question": "Is water available from the main water supply at the time of the survey?",
+          "name": "Water supply availability (during the survey)",
           "order": 4,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -165,9 +199,15 @@
           "id": 563310060,
           "meta": false,
           "question": "Is the water always available at the water source",
+          "name": "Water is always availabe",
           "order": 5,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -186,9 +226,14 @@
           "id": 555370004,
           "meta": false,
           "question": "What type of toilets/latrines are at the facility for patients?",
+          "name": "Type of toilets / laterines",
           "order": 1,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Flush / Pour-flush toilet to sewer connection"
@@ -223,9 +268,15 @@
           "id": 530250002,
           "meta": false,
           "question": "Are the toilets at the health facility useable (available, functional and private)?",
+          "name": "Usablility of the toilets",
           "order": 3,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -239,18 +290,29 @@
           "id": 555370007,
           "meta": false,
           "question": "Number of usable (available, functional, private) toilets for health care facility:",
+          "name": "Number of usable toilets",
           "order": 4,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
           "id": 555370009,
           "meta": false,
           "question": "Are there toilets that are dedicated for staff?",
+          "name": "Dedicated for staff toilets",
           "order": 5,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -264,9 +326,15 @@
           "id": 555370003,
           "meta": false,
           "question": "Are there toilets that are in gender-separated  rooms?",
+          "name": "Gender-separated toilets",
           "order": 6,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -280,9 +348,15 @@
           "id": 555370005,
           "meta": false,
           "question": "Are there toilets that have menstrual hygiene facilities?",
+          "name": "The toilets having menstrual hygiene facilities",
           "order": 7,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -296,9 +370,15 @@
           "id": 555370006,
           "meta": false,
           "question": "Are there toilets that are accessible for people with limited mobility?",
+          "name": "The toilets accessible for people with limited mobility",
           "order": 8,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -317,9 +397,14 @@
           "id": 551560007,
           "meta": false,
           "question": "Is there a functional hand hygiene facility at points of care on the day of the survey?",
+          "name": "Functional hand hygiene availabilty",
           "order": 1,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -339,9 +424,14 @@
           "id": 551560004,
           "meta": false,
           "question": "Is there a functional handwashing facility at one or more toilets on the day of the survey?",
+          "name": "Functional handwashing facility availabilty at toilets",
           "order": 2,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -358,9 +448,15 @@
           "id": 551560009,
           "meta": false,
           "question": "Are cleaning protocols available?",
+          "name": "Cleaning protocols is available",
           "order": 3,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -377,9 +473,14 @@
           "id": 551560005,
           "meta": true,
           "question": "Have all staff responsible for cleaning received training?",
+          "name": "Cleaning staff is trained",
           "order": 4,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes, all have been trained"
@@ -399,9 +500,15 @@
           "id": 551560006,
           "meta": false,
           "question": "If staff cleanning responsibility equipped with all the necessary PPEs",
+          "name": "Staff cleaning responsible to equipped PPEs",
           "order": 5,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -415,9 +522,15 @@
           "id": 551560008,
           "meta": false,
           "question": "Does the facility have sanitary  products available for patients in case of emergency?",
+          "name": "Sanitary products available for patiens in case of emergency",
           "order": 6,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -436,9 +549,14 @@
           "id": 541950008,
           "meta": false,
           "question": "Is waste correctly segregated into at least three labelled bins in the consultation area?",
+          "name": "Waste correctly segregated into at least thee labelled bins",
           "order": 1,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes, waste is segregated into three labelled bins"
@@ -455,9 +573,14 @@
           "id": 541950003,
           "meta": false,
           "question": "Is there a functional  incinerator  present at the facility?",
+          "name": "Functional incinerator is present",
           "order": 2,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Present but non functional"
@@ -474,9 +597,14 @@
           "id": 541950009,
           "meta": false,
           "question": "Are there functional placenta pits  present at the facility?",
+          "name": "Functional placenta pits is present",
           "order": 3,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Present but non functional"
@@ -493,9 +621,14 @@
           "id": 541950011,
           "meta": false,
           "question": "How does this facility usually treat/ dispose of infectious waste?",
+          "name": "Dispose of infectious waste",
           "order": 4,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Autoclaved"
@@ -530,9 +663,14 @@
           "id": 541950005,
           "meta": false,
           "question": "How does this facility usually treat/ dispose of sharps waste?",
+          "name": "Dispose of sharps waste",
           "order": 5,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Autoclaved"
@@ -567,9 +705,14 @@
           "id": 541950010,
           "meta": false,
           "question": "Are there trained staff on HCWM",
+          "name": "Trained staff on HCWM",
           "order": 6,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -583,9 +726,14 @@
           "id": 541950006,
           "meta": false,
           "question": "Are staff members vaccinated against hepatitis B",
+          "name": "Staff members are vaccinated against hepatitis B",
           "order": 7,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -599,9 +747,14 @@
           "id": 541950007,
           "meta": false,
           "question": "Does the health facility have adequate waste collection bins",
+          "name": "Having edequate waste collection bins",
           "order": 8,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -615,9 +768,14 @@
           "id": 541950004,
           "meta": false,
           "question": "Does the health facility have waste transportation trolys",
+          "name": "Having transportation trolys",
           "order": 9,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -631,9 +789,14 @@
           "id": 541950012,
           "meta": false,
           "question": "Does the health facilty have waste transportation vehicles",
+          "name": "Having transportation vehicles",
           "order": 10,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -652,9 +815,13 @@
           "id": 531310004,
           "meta": false,
           "question": "Any general comments / concerns during the data collection?",
+          "name": "General comments",
           "order": 1,
           "required": true,
           "type": "text",
+          "attributes": [
+            "table"
+          ],
           "options": null
         }
       ]

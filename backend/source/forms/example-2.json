@@ -19,6 +19,10 @@
           "meta": false,
           "type": "option",
           "required": true,
+          "attributes": [
+            "chart",
+            "table"
+          ],
           "options": [
             {
               "name": "Male"
@@ -36,6 +40,9 @@
           "question": "Phone Number",
           "meta": true,
           "type": "number",
+          "attributes": [
+            "chart"
+          ],
           "required": true
         },
         {
@@ -58,6 +65,10 @@
           "meta": true,
           "type": "multiple_option",
           "required": true,
+          "attributes": [
+            "chart",
+            "table"
+          ],
           "options": [
             {
               "name": "Wife / Husband / Partner"

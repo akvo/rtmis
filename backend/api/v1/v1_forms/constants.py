@@ -30,3 +30,17 @@ class FormTypes:
         county: 'County',
         national: 'National',
     }
+
+
+class AttributeTypes:
+    chart = 1
+    aggregate = 2
+    table = 3
+    jmp = 4
+
+    FieldStr = {
+        chart: 'chart',
+        aggregate: 'aggregate',
+        table: 'table',
+        jmp: 'jmp',
+    }

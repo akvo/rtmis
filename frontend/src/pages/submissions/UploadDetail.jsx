@@ -274,20 +274,10 @@ const UploadDetail = ({ record, setReload }) => {
       rv.map((rI) => (rI.id === recordId ? { ...rI, loading: true } : rI))
     );
     if (questionGroups.length < 1) {
-      api
-        .get(`form/${record.form?.id}`)
-        .then((res) => {
-          setQuestionGroups(res.data.question_group);
-          fetchData(recordId, res.data.question_group);
-        })
-        .catch((e) => {
-          console.error(e);
-          setRawValues((rv) =>
-            rv.map((rI) =>
-              rI.id === recordId ? { ...rI, loading: false } : rI
-            )
-          );
-        });
+      const qg = window.forms.find((f) => f.id === record.form?.id).content
+        .question_group;
+      setQuestionGroups(qg);
+      fetchData(recordId, qg);
     } else {
       fetchData(recordId, questionGroups);
     }

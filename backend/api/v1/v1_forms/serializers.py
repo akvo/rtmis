@@ -6,15 +6,18 @@ from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field, inline_serializer
 from rest_framework import serializers
 
-from api.v1.v1_forms.constants import QuestionTypes, FormTypes
+from api.v1.v1_forms.constants import QuestionTypes, \
+        AttributeTypes, FormTypes
 from api.v1.v1_forms.models import Forms, QuestionGroup, Questions, \
-    QuestionOptions, FormApprovalRule, FormApprovalAssignment
+    QuestionOptions, QuestionAttribute, \
+    FormApprovalRule, FormApprovalAssignment
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from rtmis.settings import FORM_GEO_VALUE
 from utils.custom_serializer_fields import CustomChoiceField, \
-    CustomPrimaryKeyRelatedField, CustomListField
+    CustomPrimaryKeyRelatedField, CustomListField, \
+    CustomMultipleChoiceField
 from utils.default_serializers import CommonDataSerializer, \
     GeoFormatSerializer
 
@@ -35,6 +38,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
     type = serializers.SerializerMethodField()
     center = serializers.SerializerMethodField()
     api = serializers.SerializerMethodField()
+    name = serializers.SerializerMethodField()
 
     @extend_schema_field(ListOptionSerializer(many=True))
     def get_option(self, instance: Questions):
@@ -82,6 +86,10 @@ class ListQuestionSerializer(serializers.ModelSerializer):
         if instance.type == QuestionTypes.geo:
             return FORM_GEO_VALUE
         return None
+
+    @extend_schema_field(GeoFormatSerializer)
+    def get_name(self, instance: Questions):
+        return instance.text
 
     def to_representation(self, instance):
         result = super(ListQuestionSerializer,
@@ -174,6 +182,7 @@ class ListFormSerializer(serializers.ModelSerializer):
 class FormDataListQuestionSerializer(serializers.ModelSerializer):
     option = serializers.SerializerMethodField()
     type = serializers.SerializerMethodField()
+    attributes = serializers.SerializerMethodField()
 
     @extend_schema_field(ListOptionSerializer(many=True))
     def get_option(self, instance: Questions):
@@ -195,6 +204,15 @@ class FormDataListQuestionSerializer(serializers.ModelSerializer):
             return QuestionTypes.FieldStr.get(QuestionTypes.cascade).lower()
         return QuestionTypes.FieldStr.get(instance.type).lower()
 
+    @extend_schema_field(CustomMultipleChoiceField(choices=[
+        AttributeTypes.FieldStr[a] for a in AttributeTypes.FieldStr]))
+    def get_attributes(self, instance: Questions):
+        attribute_ids = QuestionAttribute.objects.filter(
+                question=instance).values_list('attribute', flat=True)
+        if attribute_ids:
+            return [AttributeTypes.FieldStr.get(a) for a in attribute_ids]
+        return []
+
     @extend_schema_field(GeoFormatSerializer)
     def to_representation(self, instance):
         result = super(FormDataListQuestionSerializer,
@@ -205,8 +223,8 @@ class FormDataListQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Questions
         fields = [
-            'id', 'form', 'question_group', 'name', 'order', 'meta', 'type',
-            'required', 'rule', 'option', 'dependency'
+            'id', 'form', 'question_group', 'name', 'text', 'order', 'meta',
+            'type', 'required', 'rule', 'option', 'dependency', 'attributes'
         ]
 
 

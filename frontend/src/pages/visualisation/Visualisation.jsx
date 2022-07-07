@@ -31,19 +31,19 @@ const Visualisation = () => {
           {!!current && (
             <Map
               markerData={{ features: [] }}
-              style={{ height: 532 }}
+              style={{ height: 588 }}
               current={current}
             />
           )}
         </Col>
         {!!current?.charts?.length && (
           <Col span={12}>
+            {!!current?.chartListTitle && (
+              <Divider orientation="left" orientationMargin="0">
+                {current?.chartListTitle}
+              </Divider>
+            )}
             <div className="charts-wrap">
-              {!!current?.chartListTitle && (
-                <Divider orientation="left" orientationMargin="0">
-                  {current?.chartListTitle}
-                </Divider>
-              )}
               {current?.charts?.map((cc, ccI) =>
                 cc.type === "ADMINISTRATION" || cc.type === "CRITERIA" ? (
                   <AdministrationChart

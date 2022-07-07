@@ -10,9 +10,13 @@
           "id": 364240038,
           "meta": false,
           "question": "Name of the data collector (Enumerator)",
+          "name": "Enumerator",
           "order": 1,
           "required": true,
           "type": "text",
+          "attributes": [
+            "table"
+          ],
           "options": null
         },
         {
@@ -22,6 +26,9 @@
           "order": 2,
           "required": true,
           "type": "text",
+          "attributes": [
+            "table"
+          ],
           "options": null
         },
         {
@@ -49,9 +56,13 @@
           "id": 517600060,
           "meta": true,
           "question": "Take the GPS location",
+          "name": "Geolocation",
           "order": 1,
           "required": true,
           "type": "geo",
+          "attributes": [
+            "table"
+          ],
           "options": null
         },
         {
@@ -61,24 +72,38 @@
           "order": 2,
           "required": true,
           "type": "administration",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
           "id": 517600061,
           "meta": true,
           "question": "Name of the respondent",
+          "name": "Respondent Name",
           "order": 3,
           "required": true,
           "type": "text",
+          "attributes": [
+            "table"
+          ],
           "options": null
         },
         {
           "id": 519660049,
           "meta": false,
           "question": "Sex of the respondent",
+          "name": "Respondent Gender",
           "order": 4,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Male"
@@ -92,15 +117,21 @@
           "id": 517600053,
           "meta": false,
           "question": "Age of the respondent",
+          "name": "Respondent Age",
           "order": 5,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
           "id": 517600056,
           "meta": false,
           "question": "Respondent relationship to the household head",
+          "name": "Relationship to HH Head",
           "order": 6,
           "required": true,
           "type": "option",
@@ -120,9 +151,14 @@
           "id": 517600057,
           "meta": false,
           "question": "Sex of the head of the household",
+          "name": "HH Head Gender",
           "order": 7,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Male"
@@ -136,63 +172,98 @@
           "id": 519660055,
           "meta": false,
           "question": "Age of the household head",
+          "name": "HH Age",
           "order": 8,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
           "id": 519660047,
           "meta": false,
           "question": "How many members are there in this household? (Household members living under the same roof, share the same dish and has lived at least for the past six months)",
+          "name": "HH Members",
           "order": 9,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
           "id": 519660048,
           "meta": false,
           "question": "Number of children 0-5 years",
+          "name": "0-5 Years",
           "order": 10,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
           "id": 517600058,
           "meta": false,
           "question": "Number of member 6-17 years",
+          "name": "6-17 Years",
           "order": 11,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
           "id": 519660050,
           "meta": false,
           "question": "Number of members 18-65 years",
+          "name": "18-65 Years",
           "order": 12,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
           "id": 519660054,
           "meta": false,
           "question": "Number of members 65+",
+          "name": "65 Years +",
           "order": 13,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
           "id": 519660052,
           "meta": false,
           "question": "Residential status of this household in the community",
+          "name": "Residential Status",
           "order": 14,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Permanent"
@@ -214,9 +285,14 @@
           "id": 513690068,
           "meta": false,
           "question": "Is a functional household toilet available? ask permission to observe the facility.",
+          "name": "Functional Toilet Availability",
           "order": 1,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "No toilet observed"
@@ -244,9 +320,14 @@
           "id": 512010045,
           "meta": false,
           "question": "Is there presence of feaces in the vicinity?",
+          "name": "Presence of Faces in Vicinity",
           "order": 2,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -271,9 +352,14 @@
           "id": 492490054,
           "meta": false,
           "question": "What kind of toilet facility do members of your household usually use?",
+          "name": "Toilet Type",
           "order": 3,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Flush / pour flush"
@@ -308,9 +394,14 @@
           "id": 513690062,
           "meta": false,
           "question": "Do you share this facility with others who are not members of your household?",
+          "name": "Toilet is shared to other HH members",
           "order": 4,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -333,9 +424,14 @@
           "id": 444670051,
           "meta": false,
           "question": "Approximately how many people use the toilet facility?",
+          "name": "Approx People using the Toilet Facility",
           "order": 5,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Own toilet only shared by members of the household"
@@ -360,9 +456,14 @@
           "id": 513690065,
           "meta": false,
           "question": "Where is this toilet facility located?",
+          "name": "Location of The Toilet Facilty",
           "order": 6,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "In own dwelling"
@@ -392,6 +493,10 @@
           "order": 7,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "No, never"
@@ -421,9 +526,14 @@
           "id": 513690059,
           "meta": false,
           "question": "Has your pit latrine or septic tank ever been emptied?",
+          "name": "Pit laterine of septic tank has been emptied",
           "order": 8,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -447,9 +557,14 @@
           "id": 513690060,
           "meta": false,
           "question": "The last time it was emptied, where were the contents emptied to?  Was it removed by a service provider?",
+          "name": "Contents of pit laterine",
           "order": 9,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Removed by service provider to a treatment plant"
@@ -483,9 +598,14 @@
           "id": 496550059,
           "meta": false,
           "question": "Is everyone in the household able to access and use the toilet at all times of the day and night?",
+          "name": "Everyone has access to the toilet all the times",
           "order": 10,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -509,9 +629,14 @@
           "id": 513690067,
           "meta": false,
           "question": "What was the (main) reason that household members were unable to use the toilet at all times of the day or night?",
+          "name": "Reason",
           "order": 11,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Limited mobility prevents members from using the toilet"
@@ -539,9 +664,14 @@
           "id": 513690061,
           "meta": false,
           "question": "The last time the child/chidren (0-5years) passed stools, what was done to dispose of the stools",
+          "name": "Dispose of the stools",
           "order": 12,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Child used toilet/latrine"
@@ -579,6 +709,7 @@
           "order": 13,
           "required": true,
           "type": "option",
+          "attributes": [],
           "options": [
             {
               "name": "Yes"
@@ -607,9 +738,14 @@
           "id": 466680040,
           "meta": false,
           "question": "When do your household member wash their hands?",
+          "name": "Washing hands",
           "order": 1,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Before, during, and after preparing food"
@@ -635,9 +771,14 @@
           "id": 466680043,
           "meta": false,
           "question": "Can you please show me where members of your household most often wash their hands?",
+          "name": "Handwashing Facilty",
           "order": 2,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Fixed facility observed (sink/tap) In dwelling"
@@ -660,9 +801,14 @@
           "id": 466680045,
           "meta": false,
           "question": "Observe availability of water at the place for handwashing",
+          "name": "Water in handwashing facilty",
           "order": 3,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Water is available"
@@ -686,9 +832,14 @@
           "id": 466760036,
           "meta": false,
           "question": "Observe availability of soap or detergent at the place for handwashing",
+          "name": "Soap / detergent",
           "order": 4,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Soap or detergent available ."
@@ -712,9 +863,14 @@
           "id": 466680044,
           "meta": false,
           "question": "When do you wash your children's faces?",
+          "name": "Wash children's feces",
           "order": 5,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Every morning"
@@ -737,6 +893,7 @@
           "order": 6,
           "required": true,
           "type": "option",
+          "attributes": [],
           "options": [
             {
               "name": "Yes"
@@ -760,9 +917,13 @@
           "id": 466680042,
           "meta": false,
           "question": "Make a photo of the handwashing station",
+          "name": "Handwashing photo",
           "order": 7,
           "required": true,
           "type": "geo",
+          "attributes": [
+            "table"
+          ],
           "options": null,
           "dependency": [
             {
@@ -782,9 +943,14 @@
           "id": 466690044,
           "meta": false,
           "question": "How does your household usually dispose of garbage?",
+          "name": "Garbage dispose",
           "order": 1,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Collected by formal service provider"
@@ -813,9 +979,14 @@
           "id": 466690043,
           "meta": false,
           "question": "How do you dispose of household water used for cooking, laundry and bathing?",
+          "name": "Water Dispose",
           "order": 2,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Sink/drain connected to sewer"
@@ -852,9 +1023,14 @@
           "id": 524810054,
           "meta": false,
           "question": "During your last menstrual period were you able to wash and change in privacy (alone) while at home?",
+          "name": "Able to wash and charge during menstrual period in privacy",
           "order": 1,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -868,9 +1044,14 @@
           "id": 524810056,
           "meta": false,
           "question": "Where do you wash and change during your menstrual period?",
+          "name": "The Location to wash and charge",
           "order": 2,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Private room"
@@ -890,9 +1071,14 @@
           "id": 524810057,
           "meta": false,
           "question": "During your last menstrual period, what hygiene materials did you mainly use?",
+          "name": "Menstrual hygiene material",
           "order": 3,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Cloth/reusable sanitary pads"
@@ -918,9 +1104,14 @@
           "id": 524810052,
           "meta": false,
           "question": "Was the mensrual hygiene material affordable?",
+          "name": "Menstrual hygiene material is affordable",
           "order": 4,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -946,9 +1137,14 @@
           "id": 524810055,
           "meta": false,
           "question": "Where do you get your mentrual hygiene materials?",
+          "name": "Source of Menstrual hygiene material",
           "order": 5,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Make it myself"
@@ -974,9 +1170,14 @@
           "id": 524810053,
           "meta": false,
           "question": "During your last menstrual period, did you miss any of the following activities due to your period? [select multiple]",
+          "name": "Missing activities during menstrual period",
           "order": 6,
           "required": true,
           "type": "multiple_option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Attending school"
@@ -1005,9 +1206,14 @@
           "id": 524810050,
           "meta": false,
           "question": "During your menstrual period do you use soap or detergent?",
+          "name": "Use of seap / detergent during menstrual period",
           "order": 7,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Every time"
@@ -1024,9 +1230,14 @@
           "id": 524810051,
           "meta": false,
           "question": "What do you usually do with your used menstrual material?",
+          "name": "Menstrual hygiene waste",
           "order": 8,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Throw it in latrine"
@@ -1051,9 +1262,13 @@
           "id": 507140056,
           "meta": false,
           "question": "Any general comments / concerns during the data collection?",
+          "name": "General Comments",
           "order": 1,
           "required": true,
           "type": "text",
+          "attributes": [
+            "table"
+          ],
           "options": null
         }
       ]
