@@ -39,10 +39,15 @@ const colorRange = ["#EB5353", "#F9D923", "#9ACD32", "#36AE7C"];
 const higlightColor = "#84b4cc";
 const isMarker = false;
 
-const HomeMap = ({ current, style }) => {
+const HomeMap = ({ current, style, mapValues }) => {
   // config
   const currentMaps = current?.maps;
-  const { form_id, shape: currentShape } = currentMaps;
+  const {
+    form_id,
+    option: mapShapeOption,
+    fetch_api: fetchFromApi,
+    shape: currentShape,
+  } = currentMaps;
   const {
     id: shapeId,
     title: shapeTitle,
@@ -63,7 +68,7 @@ const HomeMap = ({ current, style }) => {
   const [markerLegendSelected, setMarkerLegendSelected] = useState(null);
 
   useEffect(() => {
-    if (current && currentMaps?.form_id) {
+    if (fetchFromApi && current && currentMaps?.form_id) {
       setLoadingMap(true);
       const isCriteria = shapeType && shapeType === "CRITERIA";
       const url = isCriteria
@@ -104,7 +109,37 @@ const HomeMap = ({ current, style }) => {
     shapeId,
     shapeCalculation,
     shapeCriteria,
+    fetchFromApi,
   ]);
+
+  useEffect(() => {
+    if (!fetchFromApi && current && mapShapeOption) {
+      const results = mapValues.map((d) => {
+        const stackSum = sumBy(d.stack, "value");
+        const stacks = d.stack.map((st) => {
+          const percent =
+            st.value && stackSum !== 0
+              ? +((st.value / stackSum) * 100 || 0)
+                  ?.toFixed(2)
+                  .toString()
+                  ?.match(/^-?\d+(?:\.\d{0,1})?/)[0] || 0
+              : 0;
+          return {
+            ...st,
+            percent: percent,
+          };
+        });
+        return {
+          loc: d.name,
+          shape:
+            stacks.find(
+              (s) => s?.name?.toLowerCase() === mapShapeOption?.toLowerCase()
+            )?.percent || 0,
+        };
+      });
+      setResults(results);
+    }
+  }, [mapValues, fetchFromApi, current, mapShapeOption]);
 
   useEffect(() => {
     if (hoveredShape && results.length) {
