@@ -110,3 +110,16 @@ class FormSeederTestCase(TestCase):
             list(response["question_group"][0]["question"][2]['option'][0]))
         self.assertEqual(False,
                          response["question_group"][0]["question"][2]['meta'])
+
+        response = self.client.get("/api/v1/form/519630048",
+                                   follow=True,
+                                   content_type='application/json')
+        self.assertEqual(200, response.status_code)
+        response = response.json()
+        self.assertEqual(
+            ["table", "aggregate", "chart"],
+            response["question_group"][1]["question"][3]["attributes"])
+        self.assertEqual('Enumerator',
+                         response["question_group"][0]["question"][0]['name'])
+        self.assertEqual('Name of the data collector (Enumerator)',
+                         response["question_group"][0]["question"][0]['text'])

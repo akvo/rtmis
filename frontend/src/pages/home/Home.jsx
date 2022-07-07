@@ -27,7 +27,7 @@ export const Visuals = ({ current }) => {
             <HomeAdministrationChart
               key={`chart-${hc.id}-${hcI}`}
               formId={hc.form_id}
-              config={hc}
+              setup={hc}
               index={hcI + 1}
               identifier={current?.name}
             />
@@ -35,7 +35,7 @@ export const Visuals = ({ current }) => {
             <HomeDataChart
               key={`chart-${hc.form_id}-${hcI}`}
               formId={hc.form_id}
-              config={hc}
+              setup={hc}
               index={hcI + 1}
             />
           )
