@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
-import store from "./store";
-import { sortArray } from "../util/form";
+import store from "../store";
+import { sortArray } from "../../util/form";
 
 describe("Store", () => {
   test("check the initial state", () => {

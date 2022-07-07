@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import queue from "./queue";
+import queue from "../queue";
 
 describe("Store", () => {
   test("check the initial state", () => {

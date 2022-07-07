@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import geo from "./geo";
+import geo from "../geo";
 
 const administration = [
   {
