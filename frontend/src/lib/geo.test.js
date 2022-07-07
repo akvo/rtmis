@@ -1,5 +1,4 @@
 import "@testing-library/jest-dom";
-import { getBounds, defaultPos } from "./geo";
 import geo from "./geo";
 
 const administration = [
@@ -34,14 +33,15 @@ describe("geo", () => {
       ],
       coordinates: [NaN, NaN],
     };
-    expect(getBounds([])).toEqual(expectedResult);
+    expect(geo.getBounds([])).toEqual(expectedResult);
   });
   test("test if getBounds with an administration", () => {
-    expect(getBounds(administration)).toHaveProperty("bbox");
-    expect(getBounds(administration)).toHaveProperty("coordinates");
+    const bounds = geo.getBounds(administration);
+    expect(typeof bounds).toBe("object");
+    expect(bounds).toHaveProperty("coordinates");
   });
   test("defaultPos", () => {
-    expect(defaultPos()).toHaveProperty("coordinates");
+    expect(geo.defaultPos()).toHaveProperty("coordinates");
   });
   test("check geo Object", () => {
     expect(geo).toHaveProperty("geojson");

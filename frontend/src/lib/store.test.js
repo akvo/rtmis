@@ -28,6 +28,9 @@ describe("Store", () => {
       advancedFilters: [],
       administrationLevel: null,
     };
+    expect(typeof state).toBe("object");
     expect(store).toHaveProperty("initialState", state);
+    // Example of property in the store
+    expect(store.initialState.user).toBeNull();
   });
 });
