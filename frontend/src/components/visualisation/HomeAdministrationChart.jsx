@@ -9,7 +9,13 @@ import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
 
-const HomeAdministrationChart = ({ setup, formId, index, identifier = "" }) => {
+const HomeAdministrationChart = ({
+  setup,
+  formId,
+  index,
+  setMapValues,
+  identifier = "",
+}) => {
   const [dataset, setDataset] = useState([]);
   const [showEmpty, setShowEmpty] = useState(false);
   const [isStack, setIsStack] = useState(false);
@@ -19,6 +25,8 @@ const HomeAdministrationChart = ({ setup, formId, index, identifier = "" }) => {
   const { id, title, stack, options, type, horizontal = true } = setup;
 
   const { next, wait } = queue.useState((q) => q);
+
+  const showAsMap = setup?.show_as_map;
   const runCall = index === next && !wait;
   const loading = next <= index;
 
@@ -85,6 +93,9 @@ const HomeAdministrationChart = ({ setup, formId, index, identifier = "" }) => {
               },
             ]);
           }
+          if (showAsMap) {
+            setMapValues(temp);
+          }
           setDataset(temp);
         })
         .catch(() => {
@@ -110,6 +121,8 @@ const HomeAdministrationChart = ({ setup, formId, index, identifier = "" }) => {
     stack,
     type,
     runCall,
+    showAsMap,
+    setMapValues,
   ]);
 
   const transformDataset = useMemo(() => {
