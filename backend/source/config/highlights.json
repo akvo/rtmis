@@ -4,6 +4,8 @@
     "description": "Description text here",
     "maps": {
       "form_id": 519630048,
+      "option": "Safely Managed",
+      "fetch_api": false,
       "shape": {
         "title": "Sanitation service level - Safely Managed",
         "type": "CRITERIA",
@@ -42,6 +44,7 @@
         "form_id": 519630048,
         "type": "CRITERIA",
         "title": "Sanitation service level",
+        "show_as_map": true,
         "options": [
           {
             "name": "Safely Managed",
@@ -270,6 +273,8 @@
     "description": "Description text here",
     "maps": {
       "form_id": 533560002,
+      "option": "Basic",
+      "fetch_api": false,
       "shape": {
         "title": "Sanitation service level - Basic",
         "type": "CRITERIA",
@@ -317,6 +322,7 @@
         "form_id": 533560002,
         "type": "CRITERIA",
         "title": "Sanitation service level",
+        "show_as_map": true,
         "options": [
           {
             "name": "Basic",
@@ -617,6 +623,8 @@
     "description": "Description text here",
     "maps": {
       "form_id": 563350033,
+      "option": "Basic",
+      "fetch_api": false,
       "shape": {
         "title": "Sanitation service level - Basic",
         "type": "CRITERIA",
@@ -715,6 +723,7 @@
         "form_id": 563350033,
         "type": "CRITERIA",
         "title": "Sanitation service level",
+        "show_as_map": true,
         "options": [
           {
             "name": "Basic",
