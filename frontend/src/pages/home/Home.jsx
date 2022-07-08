@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Tabs } from "antd";
-import {
-  HomeDataChart,
-  HomeAdministrationChart,
-  HomeMap,
-} from "../../components";
+import { HomeDataChart, HomeAdministrationChart } from "../../components";
+
+import { HomeMap } from "./components";
 import { queue } from "../../lib";
 const { TabPane } = Tabs;
 
-export const Visuals = ({ current }) => {
+export const Visuals = ({ current, mapValues, setMapValues }) => {
   return (
     <div>
       <div className="map-wrapper">
@@ -18,6 +16,7 @@ export const Visuals = ({ current }) => {
             markerData={{ features: [] }}
             style={{ height: 532 }}
             current={current}
+            mapValues={mapValues}
           />
         )}
       </div>
@@ -29,6 +28,7 @@ export const Visuals = ({ current }) => {
               formId={hc.form_id}
               setup={hc}
               index={hcI + 1}
+              setMapValues={setMapValues}
               identifier={current?.name}
             />
           ) : (
@@ -48,19 +48,20 @@ export const Visuals = ({ current }) => {
 const Home = () => {
   const { highlights } = window;
   const [currentHighlight, setCurrentHighlight] = useState(highlights?.[0]);
+  const [mapValues, setMapValues] = useState([]);
 
   const onTabClick = (active) => {
     setCurrentHighlight(highlights.find((x) => x.name === active));
     queue.update((q) => {
       q.next = 1;
-      q.wait = "maps";
+      q.wait = null;
     });
   };
 
   useEffect(() => {
     queue.update((q) => {
       q.next = 1;
-      q.wait = "maps";
+      q.wait = null;
     });
   }, []);
 
@@ -89,7 +90,11 @@ const Home = () => {
               </TabPane>
             ))}
           </Tabs>
-          <Visuals current={currentHighlight} />
+          <Visuals
+            current={currentHighlight}
+            mapValues={mapValues}
+            setMapValues={setMapValues}
+          />
         </div>
       </div>
     </div>

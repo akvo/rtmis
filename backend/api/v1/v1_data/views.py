@@ -336,6 +336,7 @@ def get_map_data_point(request, version, form_id):
         status=status.HTTP_200_OK)
 
 
+# TODO: MERGE WITH GET MAP DATA POINT
 @extend_schema(
     responses={(200, 'application/json'): inline_serializer(
         'ListMapOverviewData', fields={
@@ -350,7 +351,7 @@ def get_map_data_point(request, version, form_id):
     tags=['Visualisation'],
     summary='To get overview Map data points')
 @api_view(['GET'])
-def get_map_overview_data_point(request, version, form_id):
+def get_map_county_data_point(request, version, form_id):
     cache_name = request.GET.get("shape")
     cache_name = f"ovw_maps-{cache_name}"
     cache_data = get_cache(cache_name)
@@ -384,63 +385,6 @@ def get_map_overview_data_point(request, version, form_id):
         counties.append({
             'loc': adm.get('name'),
             'shape': sum(fl.get('shape') for fl in list(filtered))
-        })
-    create_cache(cache_name, counties)
-    return Response(counties, status=status.HTTP_200_OK)
-
-
-@extend_schema(
-    request=inline_serializer(
-        "MapOverviewCriteriaChart",
-        fields={
-            "shape": ListChartCriteriaRequestSerializer(many=True)}),
-    responses={
-        (200, 'application/json'): inline_serializer(
-            'ListMapOverviewCriteriaData', fields={
-                'loc': serializers.CharField(),
-                'shape': serializers.IntegerField(),
-            }, many=True)},
-    tags=['Visualisation'],
-    summary='To get overview Map data points by criteria')
-@api_view(['POST'])
-def get_map_overview_criteria_data_point(request, version, form_id):
-    if not request.data.get("shape"):
-        return Response(
-            {'message': 'Wrong request body'},
-            status=status.HTTP_400_BAD_REQUEST
-        )
-    cache_name = request.data.get("shape")[0]['name']
-    cache_name = f"ovw_maps_criteria-{cache_name}"
-    cache_data = get_cache(cache_name)
-    if cache_data:
-        return Response(cache_data, status=status.HTTP_200_OK)
-    instance = get_object_or_404(Forms, pk=form_id)
-    serializer = ListChartCriteriaRequestSerializer(
-        data=request.data.get('shape'), context={'form': instance}, many=True)
-    if not serializer.is_valid():
-        return Response(
-            {'message': validate_serializers_message(serializer.errors)},
-            status=status.HTTP_400_BAD_REQUEST
-        )
-    counties = []
-    question_ids, options = get_questions_options_from_params(
-        params=serializer.validated_data)
-    administrations = Administration.objects.filter(
-        level_id=2).values('id', 'name')
-    for adm in administrations:
-        level3 = Administration.objects.filter(
-            parent_id=adm.get('id')).values_list('id', flat=True)
-        childs = Administration.objects.filter(
-            parent_id__in=list(level3)).values_list('id', flat=True)
-        shape = filter_by_criteria(
-            params=serializer.validated_data,
-            question_ids=question_ids,
-            options=options,
-            administration_ids=childs,
-            is_map=True)
-        counties.append({
-            'loc': adm.get('name'),
-            'shape': sum(shape)
         })
     create_cache(cache_name, counties)
     return Response(counties, status=status.HTTP_200_OK)

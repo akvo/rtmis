@@ -54,13 +54,15 @@ def validate_header_names(header, col, header_names):
 
 def validate_number(answer, question):
     try:
-        answer = int(answer)
+        answer = float(answer)
     except ValueError:
         return {"error_message": ValidationText.numeric_validation.value}
     if question.rule:
         rule = question.rule
         qname = question.name
         for r in rule:
+            if r == "allow_decimal" and not rule[r]:
+                answer = int(float(answer))
             if r == "max" and float(rule[r]) < answer:
                 return {
                     "error_message":
@@ -127,15 +129,7 @@ def validate_administration(answer, adm):
 
 def validate_date(answer):
     try:
-        answer = int(answer)
-        return {
-            "error_message":
-                f"Invalid date format: {answer}. It should be YYYY-MM-DD"
-        }
-    except ValueError:
-        pass
-    try:
-        answer = datetime.datetime.strptime(answer, "%Y-%m-%d")
+        answer = datetime.datetime.strptime(str(answer), "%Y-%m-%d")
     except ValueError:
         return {
             "error_message":

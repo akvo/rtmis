@@ -13,9 +13,10 @@ def get_answer_value(answer: Answers):
     if answer.question.type in [QuestionTypes.geo, QuestionTypes.option,
                                 QuestionTypes.multiple_option]:
         return answer.options
-    elif answer.question.type in [QuestionTypes.administration,
-                                  QuestionTypes.number]:
+    elif answer.question.type == QuestionTypes.number:
         return answer.value
+    elif answer.question.type == QuestionTypes.administration:
+        return int(float(answer.value))
     else:
         return answer.name
 
@@ -28,9 +29,10 @@ def get_answer_history(answer_history: AnswerHistory):
                                         QuestionTypes.option,
                                         QuestionTypes.multiple_option]:
         value = answer_history.options
-    elif answer_history.question.type in [QuestionTypes.administration,
-                                          QuestionTypes.number]:
+    elif answer_history.question.type == QuestionTypes.number:
         value = answer_history.value
+    elif answer_history.question.type == QuestionTypes.administration:
+        value = int(float(answer_history.value))
     else:
         value = answer_history.name
     return {"value": value, "created": created, "created_by": created_by}
