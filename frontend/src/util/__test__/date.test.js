@@ -1,4 +1,4 @@
-import { getDateRange } from "../date";
+import { getDateRange, timeDiffHours } from "../date";
 
 describe("App", () => {
   test("test if getDateRange is return correct value", () => {
@@ -7,6 +7,9 @@ describe("App", () => {
       endDate: "20230104",
     });
     expect(dateTest).toStrictEqual(["November 01, 2022", "December 01, 2022"]);
-    expect(dateTest).toMatchSnapshot();
+  });
+
+  test("test timeDiffHours", () => {
+    expect(timeDiffHours(1657280905.183572)).toBeDefined();
   });
 });

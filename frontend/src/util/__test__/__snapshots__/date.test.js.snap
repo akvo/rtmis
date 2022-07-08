@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`App test if getDateRange is return correct value 1`] = `
-Array [
-  "November 01, 2022",
-  "December 01, 2022",
-]
-`;
