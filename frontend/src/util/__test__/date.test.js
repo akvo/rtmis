@@ -7,5 +7,6 @@ describe("App", () => {
       endDate: "20230104",
     });
     expect(dateTest).toStrictEqual(["November 01, 2022", "December 01, 2022"]);
+    expect(dateTest).toMatchSnapshot();
   });
 });
