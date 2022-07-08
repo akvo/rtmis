@@ -131,7 +131,7 @@ class Command(BaseCommand):
                     if not criteria.get('options'):
                         continue
                     for op in criteria.get('options'):
-                        temp.update({
+                        jmp_attrs.append({
                             "name": "{}|{}".format(
                                 attr.get('title').lower(),
                                 criteria.get('name').lower()
@@ -139,7 +139,6 @@ class Command(BaseCommand):
                             "question": op.get('question'),
                             "option": op.get('option')
                         })
-                    jmp_attrs.append(temp)
             if not jmp_attrs:
                 continue
             QA.objects.bulk_create([
