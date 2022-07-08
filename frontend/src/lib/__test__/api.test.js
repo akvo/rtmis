@@ -56,7 +56,6 @@ describe("lib/api", () => {
       expect(api.get).toHaveBeenCalledWith();
     });
   });
-
   describe("POST", () => {
     it("test a POST request", async () => {
       mock.onPost("/login").reply((config) => {

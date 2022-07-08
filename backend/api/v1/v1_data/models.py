@@ -166,7 +166,7 @@ class PendingAnswers(models.Model):
                                  on_delete=models.CASCADE,
                                  related_name='question_pending_answer')
     name = models.TextField(null=True, default=None)
-    value = models.BigIntegerField(null=True, default=None)
+    value = models.FloatField(null=True, default=None)
     options = models.JSONField(default=None, null=True)
     created_by = models.ForeignKey(to=SystemUser,
                                    on_delete=models.CASCADE,
@@ -191,7 +191,7 @@ class PendingAnswerHistory(models.Model):
         on_delete=models.CASCADE,
         related_name='question_pending_answer_history')
     name = models.TextField(null=True, default=None)
-    value = models.BigIntegerField(null=True, default=None)
+    value = models.FloatField(null=True, default=None)
     options = models.JSONField(default=None, null=True)
     created_by = models.ForeignKey(
         to=SystemUser,
@@ -215,7 +215,7 @@ class Answers(models.Model):
                                  on_delete=models.CASCADE,
                                  related_name='question_answer')
     name = models.TextField(null=True, default=None)
-    value = models.BigIntegerField(null=True, default=None)
+    value = models.FloatField(null=True, default=None)
     options = models.JSONField(default=None, null=True)
     created_by = models.ForeignKey(to=SystemUser,
                                    on_delete=models.CASCADE,
@@ -258,7 +258,7 @@ class AnswerHistory(models.Model):
                                  on_delete=models.CASCADE,
                                  related_name='question_answer_history')
     name = models.TextField(null=True, default=None)
-    value = models.BigIntegerField(null=True, default=None)
+    value = models.FloatField(null=True, default=None)
     options = models.JSONField(default=None, null=True)
     created_by = models.ForeignKey(to=SystemUser,
                                    on_delete=models.CASCADE,

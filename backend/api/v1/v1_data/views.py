@@ -336,6 +336,7 @@ def get_map_data_point(request, version, form_id):
         status=status.HTTP_200_OK)
 
 
+# TODO: MERGE WITH GET MAP DATA POINT
 @extend_schema(
     responses={(200, 'application/json'): inline_serializer(
         'ListMapOverviewData', fields={
@@ -350,7 +351,7 @@ def get_map_data_point(request, version, form_id):
     tags=['Visualisation'],
     summary='To get overview Map data points')
 @api_view(['GET'])
-def get_map_overview_data_point(request, version, form_id):
+def get_map_county_data_point(request, version, form_id):
     cache_name = request.GET.get("shape")
     cache_name = f"ovw_maps-{cache_name}"
     cache_data = get_cache(cache_name)
@@ -384,63 +385,6 @@ def get_map_overview_data_point(request, version, form_id):
         counties.append({
             'loc': adm.get('name'),
             'shape': sum(fl.get('shape') for fl in list(filtered))
-        })
-    create_cache(cache_name, counties)
-    return Response(counties, status=status.HTTP_200_OK)
-
-
-@extend_schema(
-    request=inline_serializer(
-        "MapOverviewCriteriaChart",
-        fields={
-            "shape": ListChartCriteriaRequestSerializer(many=True)}),
-    responses={
-        (200, 'application/json'): inline_serializer(
-            'ListMapOverviewCriteriaData', fields={
-                'loc': serializers.CharField(),
-                'shape': serializers.IntegerField(),
-            }, many=True)},
-    tags=['Visualisation'],
-    summary='To get overview Map data points by criteria')
-@api_view(['POST'])
-def get_map_overview_criteria_data_point(request, version, form_id):
-    if not request.data.get("shape"):
-        return Response(
-            {'message': 'Wrong request body'},
-            status=status.HTTP_400_BAD_REQUEST
-        )
-    cache_name = request.data.get("shape")[0]['name']
-    cache_name = f"ovw_maps_criteria-{cache_name}"
-    cache_data = get_cache(cache_name)
-    if cache_data:
-        return Response(cache_data, status=status.HTTP_200_OK)
-    instance = get_object_or_404(Forms, pk=form_id)
-    serializer = ListChartCriteriaRequestSerializer(
-        data=request.data.get('shape'), context={'form': instance}, many=True)
-    if not serializer.is_valid():
-        return Response(
-            {'message': validate_serializers_message(serializer.errors)},
-            status=status.HTTP_400_BAD_REQUEST
-        )
-    counties = []
-    question_ids, options = get_questions_options_from_params(
-        params=serializer.validated_data)
-    administrations = Administration.objects.filter(
-        level_id=2).values('id', 'name')
-    for adm in administrations:
-        level3 = Administration.objects.filter(
-            parent_id=adm.get('id')).values_list('id', flat=True)
-        childs = Administration.objects.filter(
-            parent_id__in=list(level3)).values_list('id', flat=True)
-        shape = filter_by_criteria(
-            params=serializer.validated_data,
-            question_ids=question_ids,
-            options=options,
-            administration_ids=childs,
-            is_map=True)
-        counties.append({
-            'loc': adm.get('name'),
-            'shape': sum(shape)
         })
     create_cache(cache_name, counties)
     return Response(counties, status=status.HTTP_200_OK)
@@ -665,17 +609,32 @@ def get_chart_administration(request, version, form_id):
 @extend_schema(
     request=ListChartCriteriaRequestSerializer(many=True),
     responses={200: ChartDataSerializer},
-    parameters=[OpenApiParameter(
-        name='administration',
-        required=True,
-        type=OpenApiTypes.NUMBER,
-        location=OpenApiParameter.QUERY)],
+    parameters=[
+        OpenApiParameter(
+            name='cache',
+            default="test",
+            required=False,
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='administration',
+            default=1,
+            required=False,
+            type=OpenApiTypes.NUMBER,
+            location=OpenApiParameter.QUERY)],
     tags=['Visualisation'],
-    summary='To get Chart by a criteria')
+    summary='To get Chart by a criteria (e.g JMP)')
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def get_chart_criteria(request, version, form_id):
+    cache_name = request.GET.get("cache")
+    if cache_name:
+        cache_name = f"chart_criteria-{cache_name}"
+        cache_data = get_cache(cache_name)
+        if cache_data:
+            return Response(cache_data, status=status.HTTP_200_OK)
     administration_id = request.GET.get('administration')
+    if not administration_id:
+        administration_id = 1
     instance = get_object_or_404(Forms, pk=form_id)
     administration = get_object_or_404(Administration, pk=administration_id)
     serializer = ListChartCriteriaRequestSerializer(
@@ -708,69 +667,8 @@ def get_chart_criteria(request, version, form_id):
         }
         data.append(values)
     resp = {"type": "BARSTACK", "data": data}
-    del data
-    return Response(resp, status=status.HTTP_200_OK)
-
-
-@extend_schema(
-    request=inline_serializer("OverviewCriteriaChart", fields={
-            "cache": serializers.CharField(),
-            "data": ListChartCriteriaRequestSerializer(many=True)}),
-    responses={200: ChartDataSerializer},
-    parameters=[OpenApiParameter(
-        name='administration',
-        default=1,
-        required=False,
-        type=OpenApiTypes.NUMBER,
-        location=OpenApiParameter.QUERY)],
-    tags=['Visualisation'],
-    summary='To get overview with criteria chart at National level')
-@api_view(['POST'])
-def get_chart_overview_criteria(request, version, form_id):
-    instance = get_object_or_404(Forms, pk=form_id)
-    serializer = ListChartCriteriaRequestSerializer(
-        data=request.data.get("data"), context={'form': instance}, many=True)
-    if not serializer.is_valid():
-        return Response(
-            {'message': validate_serializers_message(serializer.errors)},
-            status=status.HTTP_400_BAD_REQUEST)
-    administration_id = 1
-    if request.GET.get('administration'):
-        administration_id = request.GET.get('administration')
-    cache_name = request.data.get("cache")
-    if not cache_name:
-        return Response(
-            {'message': 'cache params not found'},
-            status=status.HTTP_400_BAD_REQUEST)
-    cache_name = f"ovw_chart_criteria-{cache_name}-{administration_id}"
-    cache_data = get_cache(cache_name)
-    if cache_data:
-        return Response(cache_data, status=status.HTTP_200_OK)
-    administration = get_object_or_404(Administration, pk=administration_id)
-    max_level = Levels.objects.order_by('-level').first()
-    childs = [administration]
-    if not administration.level.level == max_level.level:
-        childs = Administration.objects.filter(parent=administration).all()
-    data = []
-    question_ids, options = get_questions_options_from_params(
-        params=serializer.validated_data)
-    for child in childs:
-        filter_path = child.path
-        if child.level.level < max_level.level:
-            filter_path = "{0}{1}.".format(child.path, child.id)
-        administration_ids = list(Administration.objects.filter(
-            path__startswith=filter_path).values_list('id', flat=True))
-        values = {
-            'group': child.name,
-            'child': filter_by_criteria(
-                params=serializer.validated_data,
-                question_ids=question_ids,
-                options=options,
-                administration_ids=administration_ids)
-        }
-        data.append(values)
-    resp = {"type": "BARSTACK", "data": data}
-    create_cache(cache_name, resp)
+    if cache_name:
+        create_cache(cache_name, resp)
     del data
     return Response(resp, status=status.HTTP_200_OK)
 
