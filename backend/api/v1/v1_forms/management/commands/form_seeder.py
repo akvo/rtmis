@@ -25,6 +25,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         TEST = options.get("test")
+        # for JMP attribute seeder
+        jmp_criteria_config_source = './source/config/visualisation.json'
+        jmp_criteria_json = open(jmp_criteria_config_source, 'r')
+        jmp_criteria_json = json.load(jmp_criteria_json)
+        # Form source
         source_folder = './source/forms/'
         source_files = [
             f"{source_folder}{json_file}"
@@ -55,6 +60,7 @@ class Command(BaseCommand):
                 if not TEST:
                     self.stdout.write(
                         f"Form Updated | {form.name} V{form.version}")
+            # question group loop
             for qg in json_form["question_groups"]:
                 question_group, created = QG.objects.update_or_create(
                     name=qg["question_group"],
@@ -108,6 +114,42 @@ class Command(BaseCommand):
                                 question=question,
                             ) for a in q.get("attributes")
                         ])
+
+            # find JMP criteria config for by form id
+            jmp_criteria_form = [cf for cf in jmp_criteria_json
+                                 if cf.get('id') == json_form["id"]]
+            if not jmp_criteria_form:
+                continue
+            # Seed JMP attributes
+            jmp_criteria_attrs = jmp_criteria_form[0].get('charts')
+            jmp_attrs = []
+            for attr in jmp_criteria_attrs:
+                if not attr.get('options'):
+                    continue
+                for criteria in attr.get('options'):
+                    temp = {}
+                    if not criteria.get('options'):
+                        continue
+                    for op in criteria.get('options'):
+                        temp.update({
+                            "name": "{}|{}".format(
+                                attr.get('title').lower(),
+                                criteria.get('name').lower()
+                            ),
+                            "question": op.get('question'),
+                            "option": op.get('option')
+                        })
+                    jmp_attrs.append(temp)
+            if not jmp_attrs:
+                continue
+            QA.objects.bulk_create([
+                QA(
+                    attribute=AttributeTypes.jmp,
+                    name=a.get('name'),
+                    question_id=a.get('question'),
+                    options=a.get('option')
+                ) for a in jmp_attrs
+            ])
         # DELETE CACHES AND REFRESH MATERIALIZED DATA
         cache.clear()
         refresh_materialized_data()
