@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`util/hooks test useNotification 1`] = `
+<DocumentFragment>
+  <div>
+    Message: Not Found
+  </div>
+</DocumentFragment>
+`;
