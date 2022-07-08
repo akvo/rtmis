@@ -32,5 +32,8 @@ describe("Store", () => {
     expect(store).toHaveProperty("initialState", state);
     // Example of property in the store
     expect(store.initialState.user).toBeNull();
+
+    // Snapshot
+    expect(store.currentState).toMatchSnapshot();
   });
 });

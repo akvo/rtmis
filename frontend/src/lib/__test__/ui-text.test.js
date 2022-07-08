@@ -5,5 +5,6 @@ describe("UI Text", () => {
   test("check text languages", () => {
     expect(uiText).toHaveProperty("de");
     expect(uiText).toHaveProperty("en");
+    expect(uiText).toMatchSnapshot();
   });
 });

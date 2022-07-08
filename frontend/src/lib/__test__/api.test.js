@@ -1,7 +1,11 @@
 import "@testing-library/jest-dom";
 import api from "../api";
+import MockAdapter from "axios-mock-adapter";
+import axios from "axios";
 
 jest.mock("axios");
+
+const fakeToken = "eyJhbGciOiJIUzI1NiIsInR56IkpXVCxxxxxxxxxxx";
 
 const fetchUsers = async () => {
   try {
@@ -12,9 +16,35 @@ const fetchUsers = async () => {
   }
 };
 
-// Test some Request methods
-describe("test API calls", () => {
-  describe("GET", () => {
+describe("lib/api", () => {
+  let mock;
+
+  beforeAll(() => {
+    mock = new MockAdapter(axios);
+  });
+
+  afterEach(() => {
+    mock.reset();
+  });
+
+  test("test if token is being stored in the api sending the correct headers", async () => {
+    api.setToken(fakeToken);
+    expect(api.token).toStrictEqual(fakeToken);
+
+    mock.onGet("something").reply((config) => {
+      expect(config.baseURL).toEqual("/api/v1/");
+      expect(config.headers).toEqual({
+        Accept: "application/json, text/plain, */*",
+        Authorization: `Bearer ${fakeToken}`,
+        "Content-Type": "application/json",
+      });
+      return [200, {}];
+    });
+    const result = await api.get("something");
+    expect(result).toBeUndefined();
+  });
+
+  describe("mock a GET request", () => {
     it("should return users list", async () => {
       const users = [
         { id: 1, name: "John" },
@@ -26,29 +56,26 @@ describe("test API calls", () => {
       expect(api.get).toHaveBeenCalledWith();
     });
   });
+
   describe("POST", () => {
-    it("should add a new user to the list", async () => {
-      const newUsers = [
-        { id: 1, name: "John" },
-        { id: 2, name: "Andrew" },
-        { id: 3, name: "Fa" },
-      ];
-      api.post = jest.fn().mockResolvedValue(newUsers);
-      const result = await api.post();
-      expect(result).toEqual(newUsers);
-      expect(api.post).toHaveBeenCalledWith();
+    it("test a POST request", async () => {
+      mock.onPost("/login").reply((config) => {
+        expect(config.baseURL).toEqual("/api/v1/");
+        expect(config.headers).toEqual({
+          Accept: "application/json, text/plain, */*",
+          Authorization: `Bearer ${fakeToken}`,
+          "Content-Type": "application/json",
+        });
+        return [200, {}];
+      });
+      await api.post("/login", {
+        email: "toky@gmail.com",
+        password: "FaTo!2&",
+      });
     });
   });
-  describe("DELETE", () => {
-    it("should delete a user from the list", async () => {
-      const newUsers = [
-        { id: 1, name: "John" },
-        { id: 3, name: "Fa" },
-      ];
-      api.delete = jest.fn().mockResolvedValue(newUsers);
-      const result = await api.delete();
-      expect(result).toEqual(newUsers);
-      expect(api.delete).toHaveBeenCalledWith();
-    });
+
+  test("snapshot api calls", () => {
+    expect(api).toMatchSnapshot();
   });
 });

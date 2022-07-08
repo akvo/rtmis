@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`geo check geo Object 1`] = `
+Object {
+  "countiesjson": Object {
+    "features": Array [],
+    "type": "FeatureCollection",
+  },
+  "defaultPos": [Function],
+  "geojson": Object {
+    "geometry": null,
+    "properties": Object {},
+    "type": "Feature",
+  },
+  "getBounds": [Function],
+  "shapeLevels": Array [],
+  "tile": Object {
+    "attribution": "Tiles &copy; Esri &mdash; DeLorme, NAVTEQ, Esri",
+    "url": "https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}",
+  },
+}
+`;
