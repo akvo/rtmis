@@ -7,7 +7,7 @@
           {
             "type": "numbers",
             "column": 4,
-            "api": "/overview/count/519630048"
+            "api": "/overview/count/519630048?jmp_level=basic"
           },
           {
             "type": "jmp",
