@@ -111,7 +111,7 @@ const HomeMap = ({ current, style, mapValues = [] }) => {
       });
       setResults(results);
     }
-  }, [mapValues, form_id]);
+  }, [mapValues, form_id, option]);
 
   useEffect(() => {
     if (hoveredShape && results.length) {
@@ -143,7 +143,7 @@ const HomeMap = ({ current, style, mapValues = [] }) => {
         setShapeTooltip(tooltipElement);
       }
     }
-  }, [hoveredShape, results, mapValues, option]);
+  }, [hoveredShape, results, mapValues, option, shapeTitle]);
 
   const shapeColors = chain(groupBy(results, "loc"))
     .map((l, lI) => {
