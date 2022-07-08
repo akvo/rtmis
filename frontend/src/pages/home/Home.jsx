@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Tabs } from "antd";
-import {
-  HomeDataChart,
-  HomeAdministrationChart,
-  HomeMap,
-} from "../../components";
+import { HomeDataChart, HomeAdministrationChart } from "../../components";
+
+import { HomeMap } from "./components";
 import { queue } from "../../lib";
 const { TabPane } = Tabs;
 
