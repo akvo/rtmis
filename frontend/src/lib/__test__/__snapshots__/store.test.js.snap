@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Store check the initial state 1`] = `
+Object {
+  "administration": Array [],
+  "administrationLevel": null,
+  "advancedFilters": Array [],
+  "filters": Object {
+    "organisation": null,
+    "role": null,
+    "trained": null,
+  },
+  "forms": Array [
+    Object {
+      "id": 1,
+      "name": "Example 1",
+      "type": 1,
+      "type_text": "County",
+      "version": 1,
+    },
+    Object {
+      "id": 2,
+      "name": "Example 2",
+      "type": 2,
+      "type_text": "National",
+      "version": 1,
+    },
+  ],
+  "isLoggedIn": false,
+  "language": Object {
+    "active": "en",
+    "langs": Object {
+      "de": "German",
+      "en": "English",
+    },
+  },
+  "levels": Array [
+    Object {
+      "id": 1,
+      "level": 0,
+      "name": "National",
+    },
+    Object {
+      "id": 2,
+      "level": 1,
+      "name": "County",
+    },
+    Object {
+      "id": 3,
+      "level": 2,
+      "name": "Sub-County",
+    },
+    Object {
+      "id": 4,
+      "level": 3,
+      "name": "Ward",
+    },
+  ],
+  "loadingForm": false,
+  "loadingMap": false,
+  "questionGroups": Array [],
+  "selectedAdministration": null,
+  "selectedForm": null,
+  "showAdvancedFilters": false,
+  "user": null,
+}
+`;
