@@ -43,23 +43,21 @@ const HomeAdministrationChart = ({
 
   useEffect(() => {
     if (formId && (type === "CRITERIA" || id) && runCall) {
-      const cacheName = `${identifier}-${title}`;
+      const cacheName = `home-page-${identifier}-${title}`
+        .replace(/ /g, "-")
+        .toLowerCase();
       const url =
-        (type === "CRITERIA"
-          ? "chart/overview/criteria/"
-          : "chart/administration/") +
+        (type === "CRITERIA" ? "chart/criteria/" : "chart/administration/") +
         `${formId}?` +
-        (type === "ADMINISTRATION" ? `question=${id}&` : "");
+        (type === "ADMINISTRATION" ? `question=${id}&` : "") +
+        (type === "CRITERIA" ? `cache=${cacheName}` : "");
       api[type === "CRITERIA" ? "post" : "get"](
         url,
         type === "CRITERIA"
-          ? {
-              data: options.map((o) => ({
-                name: o.name,
-                options: o.options,
-              })),
-              cache: cacheName,
-            }
+          ? options.map((o) => ({
+              name: o.name,
+              options: o.options,
+            }))
           : {}
       )
         .then((res) => {

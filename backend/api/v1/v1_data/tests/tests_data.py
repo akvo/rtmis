@@ -124,6 +124,7 @@ class DataTestCase(TestCase):
         self.assertEqual(res.status_code, 200)
         res = res.json()
         self.assertEqual(res, {"message": "direct update success"})
+
         # Get answer from data with history
         res = self.client.get(f'/api/v1/data/{data_id}',
                               content_type='application/json',
