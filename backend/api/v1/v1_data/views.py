@@ -41,7 +41,7 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListMapOverviewDataPointRequestSerializer
 from api.v1.v1_data.functions import refresh_materialized_data, \
     get_cache, create_cache, filter_by_criteria, \
-    get_questions_options_from_params
+    get_questions_options_from_params, get_advance_filter_data_ids
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.models import Administration, Levels
@@ -310,7 +310,11 @@ class DataAnswerDetailDeleteView(APIView):
                                     required=False,
                                     type=OpenApiTypes.NUMBER,
                                     location=OpenApiParameter.QUERY),
-               ],
+                   OpenApiParameter(name='options',
+                                    required=False,
+                                    type={'type': 'array',
+                                          'items': {'type': 'string'}},
+                                    location=OpenApiParameter.QUERY)],
                tags=['Visualisation'],
                summary='To get Map data points')
 @api_view(['GET'])
@@ -325,9 +329,17 @@ def get_map_data_point(request, version, form_id):
             {'message': validate_serializers_message(serializer.errors)},
             status=status.HTTP_400_BAD_REQUEST
         )
+
+    form_data = instance.form_form_data
+    if request.GET.getlist('options'):
+        data_ids = get_advance_filter_data_ids(
+            form_id=form_id, administration_id=None,
+            options=request.GET.getlist('options'))
+        form_data = form_data.filter(pk__in=data_ids)
+
     return Response(
         ListMapDataPointSerializer(
-            instance=instance.form_form_data.all(),
+            instance=form_data.all(),
             context={
                 'shape': serializer.validated_data.get('shape'),
                 'marker': serializer.validated_data.get('marker')

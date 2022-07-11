@@ -55,6 +55,7 @@ const Map = ({ current, style }) => {
     selectedAdministration,
     loadingMap,
     questionGroups,
+    advancedFilters,
   } = store.useState((s) => s);
   const [maps, setMaps] = useState(null);
   const [results, setResults] = useState([]);
@@ -158,6 +159,15 @@ const Map = ({ current, style }) => {
 
       let url = `maps/${selectedForm}?shape=${current?.maps?.shape?.id}`;
       url += !disableMarker ? `&marker=${current?.maps?.marker?.id}` : "";
+      if (advancedFilters && advancedFilters.length) {
+        const options = advancedFilters
+          .map(({ id, label }) => {
+            const query = encodeURIComponent(`${id}||${label.toLowerCase()}`);
+            return `options=${query}`;
+          })
+          .join("&");
+        url += `&${options}`;
+      }
       api
         .get(url)
         .then((res) => {
@@ -175,7 +185,7 @@ const Map = ({ current, style }) => {
           });
         });
     }
-  }, [selectedForm, current]);
+  }, [selectedForm, current, advancedFilters]);
 
   useEffect(() => {
     if (hoveredShape && results.length && administration.length) {
