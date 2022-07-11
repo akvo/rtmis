@@ -5,10 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('v1_data',
-         '0021_alter_answerhistory_value_alter_answers_value_and_more'),
-    ]
+    dependencies = [('v1_forms', '0013_materialized_viewjmpcriteria')]
 
     operations = [
         migrations.CreateModel(
