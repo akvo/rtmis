@@ -176,6 +176,7 @@ class ViewJMPCriteria(models.Model):
     name = models.TextField()
     criteria = models.JSONField(default=None, null=True)
     level = models.TextField()
+    score = models.IntegerField()
 
     class Meta:
         managed = False

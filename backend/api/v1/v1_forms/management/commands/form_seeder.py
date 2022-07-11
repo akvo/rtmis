@@ -44,6 +44,7 @@ class Command(BaseCommand):
             json_form = open(source, 'r')
             json_form = json.load(json_form)
             form = Forms.objects.filter(id=json_form["id"]).first()
+            QA.objects.filter(question__form=form).all().delete()
             if not form:
                 form = Forms.objects.create(id=json_form["id"],
                                             name=json_form["form"],
@@ -107,7 +108,6 @@ class Command(BaseCommand):
                             ) for io, o in enumerate(q.get("options"))
                         ])
                     if q.get("attributes"):
-                        QA.objects.filter(question=question).all().delete()
                         QA.objects.bulk_create([
                             QA(
                                 attribute=getattr(AttributeTypes, a),
@@ -131,9 +131,10 @@ class Command(BaseCommand):
                         continue
                     for op in criteria.get('options'):
                         jmp_attrs.append({
-                            "name": "{}|{}".format(
+                            "name": "{}|{}|{}".format(
                                 attr.get('title').lower(),
-                                criteria.get('name').lower()
+                                criteria.get('name').lower(),
+                                criteria.get('score')
                             ),
                             "question": op.get('question'),
                             "option": op.get('option')

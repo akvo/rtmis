@@ -354,6 +354,7 @@ class ViewJMPData(models.Model):
     name = models.TextField()
     level = models.TextField()
     matches = models.IntegerField()
+    score = models.IntegerField()
 
     class Meta:
         managed = False
