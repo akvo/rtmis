@@ -46,13 +46,16 @@ def get_questions_options_from_params(params):
 
 
 def filter_by_criteria(params, question_ids, options,
-                       administration_ids, is_map=False):
+                       administration_ids, is_map=False, data_ids=[]):
     result = []
     data_views = ViewOptions.objects.filter(
         question_id__in=question_ids,
         options__in=options,
-        administration_id__in=administration_ids).values_list(
-            'data_id', 'question_id', 'options')
+        administration_id__in=administration_ids)
+    if data_ids:
+        data_views = data_views.filter(data_id__in=data_ids)
+    data_views = data_views.values_list(
+        'data_id', 'question_id', 'options')
 
     df = pd.DataFrame(
         list(data_views),

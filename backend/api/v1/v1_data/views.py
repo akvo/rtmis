@@ -603,6 +603,12 @@ def get_chart_administration(request, version, form_id):
             default=1,
             required=False,
             type=OpenApiTypes.NUMBER,
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='options',
+            required=False,
+            type={'type': 'array',
+                  'items': {'type': 'string'}},
             location=OpenApiParameter.QUERY)],
     tags=['Visualisation'],
     summary='To get Chart by a criteria (e.g JMP)')
@@ -631,6 +637,13 @@ def get_chart_criteria(request, version, form_id):
     if administration.level.level == max_level.level:
         childs = [administration]
     data = []
+    # Advance filter
+    data_ids = None
+    if request.GET.getlist('options'):
+        data_ids = get_advance_filter_data_ids(
+            form_id=form_id,
+            administration_id=request.GET.get('administration'),
+            options=request.GET.getlist('options'))
     question_ids, options = get_questions_options_from_params(
         params=serializer.validated_data)
     for child in childs:
@@ -645,7 +658,8 @@ def get_chart_criteria(request, version, form_id):
                 params=serializer.validated_data,
                 question_ids=question_ids,
                 options=options,
-                administration_ids=administration_ids)
+                administration_ids=administration_ids,
+                data_ids=data_ids)
         }
         data.append(values)
     resp = {"type": "BARSTACK", "data": data}
