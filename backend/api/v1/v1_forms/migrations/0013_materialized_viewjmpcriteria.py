@@ -13,8 +13,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ViewJmpCriteria',
             fields=[
-                ('id', models.BigIntegerField(
-                    primary_key=True, serialize=False)),
+                ('id', models.BigIntegerField(primary_key=True,
+                                              serialize=False)),
             ],
             options={
                 'db_table': 'view_jmp_criteria',
@@ -24,24 +24,24 @@ class Migration(migrations.Migration):
         migrations.RunSQL(
             """
             CREATE MATERIALIZED VIEW view_jmp_criteria as
-                SELECT ROW_NUMBER() OVER (PARTITION BY TRUE) AS id,
+                SELECT row_number() OVER (PARTITION BY true::boolean) AS id,
                     qa.form_id,
-                    Split_part(qa.name, '|', 1) AS name,
-                    Split_part(qa.name, '|', 2) AS level,
-                    Jsonb_agg(qa.option)        AS criteria
-                FROM   (SELECT q.name,
-                            qs.form_id,
-                            Concat(q.question_id, '||', Lower(
-                            Jsonb_array_elements_text(q.options)))
-                                    AS
-                            option
-                        FROM   question_attribute q
-                            left join question qs
-                                    ON q.question_id = qs.id
-                        WHERE  q.attribute = 4) qa
-                GROUP  BY qa.form_id,
-                        qa.name
-                ORDER  BY qa.name;
+                    split_part(qa.name, '|'::text, 1) AS name,
+                    split_part(qa.name, '|'::text, 2) AS level,
+                    jsonb_agg(qa.option) AS criteria
+                 FROM (
+                     SELECT
+                         q.name,
+                         qs.form_id,
+                         q.question_id,
+                         concat(q.question_id, '||', lower(
+                         jsonb_array_elements_text(q.options))) AS
+                         option
+                      FROM question_attribute q
+                      LEFT JOIN question qs ON q.question_id = qs.id
+                      WHERE q.attribute = 4) qa
+                GROUP BY qa.form_id, qa.name, qa.question_id
+                ORDER BY qa.name;
             """,
             """
             DROP MATERIALIZED VIEW view_jmp_criteria;
