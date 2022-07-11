@@ -150,7 +150,7 @@ const uiText = {
     manageUserButton: "Manage Users",
     manageUserText: (
       <Fragment>
-        This where you manage users based on their roles , regions and
+        This is where you manage users based on their roles , regions and
         questionnaire access . You can :
         <ul>
           <li>Add new user</li>
