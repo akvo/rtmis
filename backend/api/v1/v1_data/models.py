@@ -356,6 +356,14 @@ class ViewJMPData(models.Model):
     matches = models.IntegerField()
     score = models.IntegerField()
 
+    @property
+    def serialize(self):
+        return {
+            'data_id': self.data_id,
+            'name': self.name,
+            'level': self.level
+        }
+
     class Meta:
         managed = False
         db_table = 'view_jmp_data'

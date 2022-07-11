@@ -1,5 +1,6 @@
 # Create your views here.
 from math import ceil
+from collections import defaultdict
 from datetime import datetime, timedelta
 from wsgiref.util import FileWrapper
 from django.utils import timezone
@@ -22,7 +23,8 @@ from rest_framework.views import APIView
 from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
     PendingDataBatch, ViewPendingDataApproval, PendingAnswers, \
-    AnswerHistory, PendingAnswerHistory, PendingDataApproval
+    AnswerHistory, PendingAnswerHistory, PendingDataApproval, \
+    ViewJMPData
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
@@ -43,7 +45,8 @@ from api.v1.v1_data.functions import refresh_materialized_data, \
     get_cache, create_cache, filter_by_criteria, \
     get_questions_options_from_params
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
-from api.v1.v1_forms.models import Forms, Questions
+from api.v1.v1_forms.models import Forms, Questions, \
+        ViewJMPCriteria
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -632,11 +635,11 @@ def get_chart_criteria(request, version, form_id):
         cache_data = get_cache(cache_name)
         if cache_data:
             return Response(cache_data, status=status.HTTP_200_OK)
-    administration_id = request.GET.get('administration')
-    if not administration_id:
-        administration_id = 1
+    administration = request.GET.get("administration")
+    if not administration:
+        administration = 1
     instance = get_object_or_404(Forms, pk=form_id)
-    administration = get_object_or_404(Administration, pk=administration_id)
+    administration = get_object_or_404(Administration, pk=administration)
     serializer = ListChartCriteriaRequestSerializer(
         data=request.data, context={'form': instance}, many=True)
     if not serializer.is_valid():
@@ -1096,3 +1099,49 @@ def get_last_update_data_point(request, version, form_id):
         form=form).annotate(last_update=Coalesce('updated', 'created')).first()
     return Response({'last_update': data.last_update},
                     status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    responses={(200, 'application/json'): inline_serializer(
+        'ListJMPData', fields={
+            'loc': serializers.CharField(),
+            'data': serializers.IntegerField(),
+            'total': serializers.IntegerField(),
+        }, many=True)},
+    parameters=[
+        OpenApiParameter(name='administration',
+                         required=False,
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY)],
+    tags=['JMP'],
+    summary='To get JMP data by location')
+@api_view(['GET'])
+def get_jmp_data(request, version, form_id):
+    form = get_object_or_404(Forms, pk=form_id)
+    administration = request.GET.get("administration")
+    if not administration:
+        administration = 1
+    administration = Administration.objects.filter(
+            parent_id=administration).all()
+    jmp_data = []
+    for adm in administration:
+        temp = defaultdict(dict)
+        adm_path = '{0}{1}.'.format(
+                adm.path, adm.id)
+        criteria = ViewJMPCriteria.objects.filter(
+                form=form).distinct('name', 'level').all()
+        for crt in criteria:
+            data = ViewJMPData.objects.filter(
+                    path__startswith=adm_path,
+                    name=crt.name,
+                    level=crt.level,
+                    form=form).count()
+            temp[crt.name][crt.level] = data
+        total = FormData.objects.filter(
+                administration__path__startswith=adm_path,
+                form=form).count()
+        jmp_data.append({
+            "loc": adm.name,
+            "data": temp,
+            "total": total})
+    return Response(jmp_data, status=status.HTTP_200_OK)
