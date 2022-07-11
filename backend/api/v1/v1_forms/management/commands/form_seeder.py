@@ -126,7 +126,6 @@ class Command(BaseCommand):
             for attr in jmp_criteria_attrs:
                 if not attr.get('options'):
                     continue
-                temp = {}
                 for criteria in attr.get('options'):
                     if not criteria.get('options'):
                         continue
