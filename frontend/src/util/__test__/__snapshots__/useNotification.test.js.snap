@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`util/hooks test Notification that shows error type with default style 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "content": "Not Found",
+        "style": Object {
+          "marginRight": 20,
+          "textAlign": "right",
+        },
+        "type": "error",
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
