@@ -116,6 +116,7 @@ const DataChart = ({ current, index }) => {
     options,
     runCall,
     text.errorDataLoad,
+    advancedFilters,
   ]);
 
   const chartTitle =
