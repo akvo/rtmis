@@ -156,31 +156,6 @@ class DataVisualisationTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         self.assertEqual(data.json().get('type'), 'BARSTACK')
         self.assertEqual(list(data.json().get('data')[0]), ['group', 'child'])
-        self.assertEqual(list(data.json().get('data')[0]['child'][0]),
-                         ['name', 'value'])
-
-        # CHART OVERVIEW API
-        data = self.client.get("/api/v1/chart/overview/{0}".format(form.id),
-                               follow=True)
-        self.assertEqual(data.status_code, 400)
-
-        data = self.client.get(
-            "/api/v1/chart/overview/{0}?question={1}".format(
-                form.id, question.id),
-            follow=True,
-            **header)
-        self.assertEqual(data.status_code, 200)
-        self.assertEqual(list(data.json().get('data')[0]), ['name', 'value'])
-        self.assertEqual(data.json().get('type'), 'BAR')
-
-        data = self.client.get(
-            "/api/v1/chart/overview/{0}?question={1}&stack={2}".format(
-                form.id, 106, 102),
-            follow=True,
-            **header)
-        self.assertEqual(data.status_code, 200)
-        self.assertEqual(data.json().get('type'), 'BARSTACK')
-        self.assertEqual(list(data.json().get('data')[0]), ['group', 'child'])
         for d in data.json().get('data'):
             if d.get('child'):
                 self.assertEqual(list(d.get('child')[0]), ['name', 'value'])

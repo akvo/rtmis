@@ -334,23 +334,6 @@ class ChartDataSerializer(serializers.Serializer):
     data = ListChartQuestionDataPointSerializer(many=True)
 
 
-# todelete
-class ListChartOverviewRequestSerializer(serializers.Serializer):
-    stack = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none(),
-                                         required=False)
-    question = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none())
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        queryset = self.context.get('form').form_questions
-        self.fields.get('question').queryset = queryset.filter(
-            Q(type=QuestionTypes.option) | Q(type=QuestionTypes.number)
-            | Q(type=QuestionTypes.multiple_option))
-        self.fields.get('stack').queryset = queryset.filter(
-            Q(type=QuestionTypes.option)
-            | Q(type=QuestionTypes.multiple_option))
-
-
 class ListChartAdministrationRequestSerializer(serializers.Serializer):
     question = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none())
     administration = CustomPrimaryKeyRelatedField(
