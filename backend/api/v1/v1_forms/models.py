@@ -163,5 +163,5 @@ class QuestionAttribute(models.Model):
         return self.name
 
     class Meta:
-        unique_together = ('question', 'attribute', 'options')
+        unique_together = ('name', 'question', 'attribute', 'options')
         db_table = 'question_attribute'

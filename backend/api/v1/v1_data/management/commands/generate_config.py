@@ -8,6 +8,7 @@ from api.v1.v1_forms.constants import FormTypes
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Levels, Administration
 from api.v1.v1_forms.serializers import FormDataSerializer
+from api.v1.v1_data.functions import refresh_materialized_data
 
 
 class Command(BaseCommand):
@@ -89,3 +90,4 @@ class Command(BaseCommand):
         del min_config
         del all_administrations
         del adm
+        refresh_materialized_data()

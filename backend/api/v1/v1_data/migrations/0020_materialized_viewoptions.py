@@ -44,5 +44,5 @@ class Migration(migrations.Migration):
             """
             DROP MATERIALIZED VIEW view_options;
             """
-            )
+        )
     ]
