@@ -5,9 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('v1_forms', '0013_materialized_viewjmpcriteria'),
-    ]
+    dependencies = [('v1_forms', '0013_materialized_viewjmpcriteria')]
 
     operations = [
         migrations.CreateModel(
@@ -17,7 +15,7 @@ class Migration(migrations.Migration):
                                               serialize=False)),
             ],
             options={
-                'db_table': 'view_jmp_criteria',
+                'db_table': 'view_jmp_data',
                 'managed': False,
             },
         ),
@@ -27,15 +25,13 @@ class Migration(migrations.Migration):
             SELECT row_number() OVER (PARTITION BY true::boolean) AS id,
                     d.data_id,
                     a.path,
-                    f.name as form_name,
+                    d.form_id,
                     c.name,
                     c.level,
                     COUNT(*) as matches
             FROM view_data_options D
             LEFT JOIN view_jmp_criteria C
                 ON c.form_id = d.form_id
-            LEFT JOIN form F
-                ON f.id = c.form_id
             LEFT join data dt
                 ON dt.id = d.data_id
             LEFT JOIN administrator A
@@ -44,9 +40,9 @@ class Migration(migrations.Migration):
                 TRANSLATE(c.criteria::jsonb::text,'[]','{}')::text[]
             GROUP BY
                 d.data_id, a.path, d.form_id,
-                f.name, c.name, c.level
+                c.name, c.level
             ORDER BY d.data_id,
-                d.form_id, f.name, c.name, c.level;
+                d.form_id, c.name, c.level;
         """, """
             DROP MATERIALIZED VIEW view_jmp_data;
         """)
