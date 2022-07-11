@@ -117,9 +117,11 @@ class FormSeederTestCase(TestCase):
         self.assertEqual(200, response.status_code)
         response = response.json()
         self.assertEqual(
-            ["table", "aggregate", "chart"],
+            ["chart", "aggregate", "table"],
             response["question_group"][1]["question"][3]["attributes"])
         self.assertEqual('Enumerator',
                          response["question_group"][0]["question"][0]['name'])
         self.assertEqual('Name of the data collector (Enumerator)',
                          response["question_group"][0]["question"][0]['text'])
+        self.assertIn(
+            "jmp", response["question_group"][2]["question"][2]["attributes"])
