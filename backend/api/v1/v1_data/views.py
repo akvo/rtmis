@@ -6,12 +6,12 @@ from wsgiref.util import FileWrapper
 from django.utils import timezone
 
 from django.contrib.postgres.aggregates import StringAgg
-from django.db.models import Count, TextField, Value, F
+from django.db.models import Count, TextField, Value, F, Sum
 from django.db.models.functions import Cast, Coalesce
 from django.http import HttpResponse
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, inline_serializer, \
-    OpenApiParameter, OpenApiResponse
+    OpenApiParameter, OpenApiResponse, OpenApiExample
 from rest_framework import serializers, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import get_object_or_404
@@ -24,7 +24,7 @@ from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
     PendingDataBatch, ViewPendingDataApproval, PendingAnswers, \
     AnswerHistory, PendingAnswerHistory, PendingDataApproval, \
-    ViewJMPData
+    ViewJMPCount
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
@@ -1105,9 +1105,20 @@ def get_last_update_data_point(request, version, form_id):
     responses={(200, 'application/json'): inline_serializer(
         'ListJMPData', fields={
             'loc': serializers.CharField(),
-            'data': serializers.IntegerField(),
+            'data': OpenApiTypes.ANY,
             'total': serializers.IntegerField(),
         }, many=True)},
+    examples=[
+         OpenApiExample(
+            'ListJMPDataExample',
+            value=[{
+                'loc': "Baringo",
+                'data': {
+                    "drinking water service level": {
+                        "basic": 10, "limited": 20}},
+                'total': 30
+            }])
+    ],
     parameters=[
         OpenApiParameter(name='administration',
                          required=False,
@@ -1131,12 +1142,12 @@ def get_jmp_data(request, version, form_id):
         criteria = ViewJMPCriteria.objects.filter(
                 form=form).distinct('name', 'level').all()
         for crt in criteria:
-            data = ViewJMPData.objects.filter(
+            data = ViewJMPCount.objects.filter(
                     path__startswith=adm_path,
                     name=crt.name,
                     level=crt.level,
-                    form=form).count()
-            temp[crt.name][crt.level] = data
+                    form=form).aggregate(Sum('total'))
+            temp[crt.name][crt.level] = data.get("total__sum") or 0
         total = FormData.objects.filter(
                 administration__path__startswith=adm_path,
                 form=form).count()

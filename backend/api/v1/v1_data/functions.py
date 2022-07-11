@@ -14,6 +14,7 @@ def refresh_materialized_data():
             REFRESH MATERIALIZED VIEW view_options;
             REFRESH MATERIALIZED VIEW view_jmp_criteria;
             REFRESH MATERIALIZED VIEW view_jmp_data;
+            REFRESH MATERIALIZED VIEW view_jmp_count;
             """)
 
 
