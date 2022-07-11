@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Collapse, Space, Button, Select } from "antd";
 import {
   PlusSquareOutlined,
@@ -67,55 +67,53 @@ const QuestionChart = () => {
     );
   }, [filteredQuestionGroups]);
 
-  const fetchData = useCallback(
-    (questionGroupId, questionId) => {
-      if (formId) {
-        if (
-          selectedChartOptions.qgid !== questionGroupId &&
-          selectedChartOptions.qid !== questionId
-        ) {
-          setSelectedChartOptions({ qgid: questionGroupId, qid: questionId });
-        }
-        setLoading(true);
-        let url = `chart/data/${formId}?question=${questionId}`;
-        if (advancedFilters && advancedFilters.length) {
-          url += generateAdvanceFilterURL(advancedFilters);
-        }
-        api
-          .get(url)
-          .then((res) => {
-            let temp = [...dataset];
-            temp = temp.map((ds) => {
-              return ds.id === questionGroupId
-                ? {
-                    ...ds,
-                    chart: res.data?.type || "PIE",
-                    data: res.data?.data || [],
-                    selected: questionId + "",
-                  }
-                : ds;
-            });
-            setDataset(temp);
-            setLoading(false);
-          })
-          .catch(() => {
-            notify({
-              type: "error",
-              message: "Could not load data",
-            });
-            setLoading(false);
-          });
+  const fetchData = (questionGroupId, questionId) => {
+    if (formId) {
+      if (
+        selectedChartOptions.qgid !== questionGroupId &&
+        selectedChartOptions.qid !== questionId
+      ) {
+        setSelectedChartOptions({ qgid: questionGroupId, qid: questionId });
       }
-    },
-    [advancedFilters, dataset, formId, notify, selectedChartOptions]
-  );
+      setLoading(true);
+      let url = `chart/data/${formId}?question=${questionId}`;
+      if (advancedFilters && advancedFilters.length) {
+        url = generateAdvanceFilterURL(advancedFilters, url);
+      }
+      api
+        .get(url)
+        .then((res) => {
+          let temp = [...dataset];
+          temp = temp.map((ds) => {
+            return ds.id === questionGroupId
+              ? {
+                  ...ds,
+                  chart: res.data?.type || "PIE",
+                  data: res.data?.data || [],
+                  selected: questionId + "",
+                }
+              : ds;
+          });
+          setDataset(temp);
+          setLoading(false);
+        })
+        .catch(() => {
+          notify({
+            type: "error",
+            message: "Could not load data",
+          });
+          setLoading(false);
+        });
+    }
+  };
 
   useEffect(() => {
     const { qgid, qid } = selectedChartOptions;
     if (advancedFilters && advancedFilters.length && qgid && qid) {
       fetchData(qgid, qid);
     }
-  }, [selectedChartOptions, advancedFilters, fetchData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedChartOptions, advancedFilters]);
 
   const handleChange = (panel) => {
     if (loading || loadingForm) {

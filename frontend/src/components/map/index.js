@@ -161,7 +161,7 @@ const Map = ({ current, style }) => {
       let url = `maps/${selectedForm}?shape=${current?.maps?.shape?.id}`;
       url += !disableMarker ? `&marker=${current?.maps?.marker?.id}` : "";
       if (advancedFilters && advancedFilters.length) {
-        url += generateAdvanceFilterURL(advancedFilters);
+        url = generateAdvanceFilterURL(advancedFilters, url);
       }
       api
         .get(url)

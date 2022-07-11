@@ -87,7 +87,7 @@ const DataChart = ({ current, index }) => {
           ? `chart/data/${formId}?question=${id}&stack=${stack.id}`
           : `chart/data/${formId}?question=${id}`;
       if (advancedFilters && advancedFilters.length) {
-        url += generateAdvanceFilterURL(advancedFilters);
+        url = generateAdvanceFilterURL(advancedFilters, url);
       }
       api
         .get(url)
