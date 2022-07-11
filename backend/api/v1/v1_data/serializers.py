@@ -321,8 +321,11 @@ class ListChartQuestionDataPointSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.INT)
     def get_value(self, instance: QuestionOptions):
-        return instance.question.question_answer.filter(
-            options__contains=instance.name).count()
+        value = instance.question.question_answer.filter(
+            options__contains=instance.name)
+        if self.context.get('data_ids'):
+            value = value.filter(data_id__in=self.context.get('data_ids'))
+        return value.count()
 
     class Meta:
         model = QuestionOptions

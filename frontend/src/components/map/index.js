@@ -24,6 +24,7 @@ import {
   FullscreenOutlined,
 } from "@ant-design/icons";
 import "leaflet/dist/leaflet.css";
+import { generateAdvanceFilterURL } from "../../util/filter";
 
 const disableMarker = true;
 
@@ -160,13 +161,7 @@ const Map = ({ current, style }) => {
       let url = `maps/${selectedForm}?shape=${current?.maps?.shape?.id}`;
       url += !disableMarker ? `&marker=${current?.maps?.marker?.id}` : "";
       if (advancedFilters && advancedFilters.length) {
-        const options = advancedFilters
-          .map(({ id, label }) => {
-            const query = encodeURIComponent(`${id}||${label.toLowerCase()}`);
-            return `options=${query}`;
-          })
-          .join("&");
-        url += `&${options}`;
+        url += generateAdvanceFilterURL(advancedFilters);
       }
       api
         .get(url)

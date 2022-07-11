@@ -414,6 +414,12 @@ def get_map_county_data_point(request, version, form_id):
                 name='stack',
                 required=False,
                 type=OpenApiTypes.NUMBER,
+                location=OpenApiParameter.QUERY),
+            OpenApiParameter(
+                name='options',
+                required=False,
+                type={'type': 'array',
+                      'items': {'type': 'string'}},
                 location=OpenApiParameter.QUERY)],
         tags=['Visualisation'],
         summary='To get Chart data points')
@@ -430,22 +436,31 @@ def get_chart_data_point(request, version, form_id):
 
     question = serializer.validated_data.get('question')
     stack = serializer.validated_data.get('stack')
+    # Advance filter
+    data_ids = None
+    if request.GET.getlist('options'):
+        data_ids = get_advance_filter_data_ids(
+            form_id=form_id, administration_id=None,
+            options=request.GET.getlist('options'))
+    # with stack
     if stack:
-        stack_options = stack.question_question_options.all()
         data = []
+        stack_options = stack.question_question_options.all()
+        answers = Answers.objects
+        if data_ids:
+            answers = answers.filter(data_id__in=data_ids)
         for so in stack_options:
-            query_set = Answers.objects.filter(
+            query_set = answers.filter(
                 question=stack, options__contains=so.name).values(
-                    'options').annotate(
-                        ids=StringAgg(
-                            Cast('data_id', TextField()),
-                            delimiter=',',
-                            output_field=TextField()))
+                    'options').annotate(ids=StringAgg(
+                        Cast('data_id', TextField()),
+                        delimiter=',',
+                        output_field=TextField()))
             # temp values
             values = {'group': so.name, 'child': []}
             # get child
             for val in query_set:
-                child_query_set = Answers.objects.filter(
+                child_query_set = answers.filter(
                     data_id__in=val.get('ids').split(','),
                     question=question)
                 # Option type
@@ -485,6 +500,7 @@ def get_chart_data_point(request, version, form_id):
         'type': 'PIE',
         'data': ListChartQuestionDataPointSerializer(
             instance=question.question_question_options.all(),
+            context={'data_ids': data_ids},
             many=True).data},
         status=status.HTTP_200_OK)
 

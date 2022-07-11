@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Row, Col, Collapse, Space, Button, Select } from "antd";
 import {
   PlusSquareOutlined,
@@ -9,6 +9,8 @@ import {
 import { Chart } from "../../../components";
 import { api, store } from "../../../lib";
 import { useNotification } from "../../../util/hooks";
+import { generateAdvanceFilterURL } from "../../../util/filter";
+
 const { Panel } = Collapse;
 const { Option } = Select;
 
@@ -22,7 +24,12 @@ const QuestionChart = () => {
     selectedForm: formId,
     loadingForm,
     questionGroups,
+    advancedFilters,
   } = store.useState((state) => state);
+  const [selectedChartOptions, setSelectedChartOptions] = useState({
+    qgid: null,
+    qid: null,
+  });
 
   useEffect(() => {
     if (questionGroups) {
@@ -60,35 +67,55 @@ const QuestionChart = () => {
     );
   }, [filteredQuestionGroups]);
 
-  const fetchData = (questionGroupId, questionId) => {
-    if (formId) {
-      setLoading(true);
-      api
-        .get(`chart/data/${formId}?question=${questionId}`)
-        .then((res) => {
-          let temp = [...dataset];
-          temp = temp.map((ds) => {
-            return ds.id === questionGroupId
-              ? {
-                  ...ds,
-                  chart: res.data?.type || "PIE",
-                  data: res.data?.data || [],
-                  selected: questionId + "",
-                }
-              : ds;
+  const fetchData = useCallback(
+    (questionGroupId, questionId) => {
+      if (formId) {
+        if (
+          selectedChartOptions.qgid !== questionGroupId &&
+          selectedChartOptions.qid !== questionId
+        ) {
+          setSelectedChartOptions({ qgid: questionGroupId, qid: questionId });
+        }
+        setLoading(true);
+        let url = `chart/data/${formId}?question=${questionId}`;
+        if (advancedFilters && advancedFilters.length) {
+          url += generateAdvanceFilterURL(advancedFilters);
+        }
+        api
+          .get(url)
+          .then((res) => {
+            let temp = [...dataset];
+            temp = temp.map((ds) => {
+              return ds.id === questionGroupId
+                ? {
+                    ...ds,
+                    chart: res.data?.type || "PIE",
+                    data: res.data?.data || [],
+                    selected: questionId + "",
+                  }
+                : ds;
+            });
+            setDataset(temp);
+            setLoading(false);
+          })
+          .catch(() => {
+            notify({
+              type: "error",
+              message: "Could not load data",
+            });
+            setLoading(false);
           });
-          setDataset(temp);
-          setLoading(false);
-        })
-        .catch(() => {
-          notify({
-            type: "error",
-            message: "Could not load data",
-          });
-          setLoading(false);
-        });
+      }
+    },
+    [advancedFilters, dataset, formId, notify, selectedChartOptions]
+  );
+
+  useEffect(() => {
+    const { qgid, qid } = selectedChartOptions;
+    if (advancedFilters && advancedFilters.length && qgid && qid) {
+      fetchData(qgid, qid);
     }
-  };
+  }, [selectedChartOptions, advancedFilters, fetchData]);
 
   const handleChange = (panel) => {
     if (loading || loadingForm) {
