@@ -409,49 +409,75 @@ def get_map_county_data_point(request, version, form_id):
 @permission_classes([IsAuthenticated])
 def get_chart_data_point(request, version, form_id):
     instance = get_object_or_404(Forms, pk=form_id)
-    serializer = ListChartDataPointRequestSerializer(data=request.GET,
-                                                     context={
-                                                         'form': instance
-                                                     })
+    serializer = ListChartDataPointRequestSerializer(
+        data=request.GET, context={'form': instance})
     if not serializer.is_valid():
         return Response(
             {'message': validate_serializers_message(serializer.errors)},
             status=status.HTTP_400_BAD_REQUEST)
 
-    if serializer.validated_data.get('stack'):
-        query_set = Answers.objects.filter(
-            question=serializer.validated_data.get('stack')).values(
-            'options').annotate(c=Count('options'),
-                                ids=StringAgg(Cast('data_id', TextField()),
-                                              delimiter=',',
-                                              output_field=TextField()))
+    question = serializer.validated_data.get('question')
+    stack = serializer.validated_data.get('stack')
+    if stack:
+        stack_options = stack.question_question_options.all()
         data = []
-        for val in query_set:
-            values = {'group': val.get('options')[0], 'child': []}
-
-            child_query_set = Answers.objects.filter(
-                data_id__in=val.get('ids').split(','),
-                question=serializer.validated_data.get('question')).values(
-                'options').annotate(c=Count('options'))
-
-            for child in child_query_set:
-                values.get('child').append({
-                    'name': child.get('options')[0],
-                    'value': child.get('c')
-                })
+        for so in stack_options:
+            query_set = Answers.objects.filter(
+                question=stack, options__contains=so.name).values(
+                    'options').annotate(
+                        ids=StringAgg(
+                            Cast('data_id', TextField()),
+                            delimiter=',',
+                            output_field=TextField()))
+            # temp values
+            values = {'group': so.name, 'child': []}
+            # get child
+            for val in query_set:
+                child_query_set = Answers.objects.filter(
+                    data_id__in=val.get('ids').split(','),
+                    question=question)
+                # Option type
+                if question.type == QuestionTypes.option:
+                    child_query_set = child_query_set.values(
+                        'options').annotate(c=Count('options'))
+                    for child in child_query_set:
+                        values.get('child').append({
+                            'name': child.get('options')[0],
+                            'value': child.get('c')
+                        })
+                # Number type
+                if question.type == QuestionTypes.number:
+                    child_query_set = child_query_set.values('value')
+                    for child in child_query_set:
+                        values.get('child').append({
+                            'name': 'value',
+                            'value': child.get('value')
+                        })
+                # Multiple option type
+                if question.type == QuestionTypes.multiple_option:
+                    multiple_options = question.question_question_options.all()
+                    for mo in multiple_options:
+                        count = child_query_set.filter(
+                            options__contains=mo.name).count()
+                        values.get('child').append({
+                            'name': mo.name,
+                            'value': count
+                        })
             data.append(values)
+            del values
 
         return Response({'type': 'BARSTACK', 'data': data},
                         status=status.HTTP_200_OK)
 
-    return Response({'type': 'PIE',
-                     'data': ListChartQuestionDataPointSerializer(
-                         instance=serializer.validated_data.get(
-                             'question').question_question_options.all(),
-                         many=True).data},
-                    status=status.HTTP_200_OK)
+    return Response({
+        'type': 'PIE',
+        'data': ListChartQuestionDataPointSerializer(
+            instance=question.question_question_options.all(),
+            many=True).data},
+        status=status.HTTP_200_OK)
 
 
+# todelete
 @extend_schema(
         responses={200: ChartDataSerializer},
         parameters=[
