@@ -7,6 +7,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('v1_data', '0022_refresh_models'),
+        ('v1_forms', '0014_materialized_viewjmpdata'),
     ]
 
     operations = [
