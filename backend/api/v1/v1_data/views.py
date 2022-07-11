@@ -517,6 +517,12 @@ def get_chart_data_point(request, version, form_id):
                 name='administration',
                 required=True,
                 type=OpenApiTypes.NUMBER,
+                location=OpenApiParameter.QUERY),
+            OpenApiParameter(
+                name='options',
+                required=False,
+                type={'type': 'array',
+                      'items': {'type': 'string'}},
                 location=OpenApiParameter.QUERY)],
         tags=['Visualisation'],
         summary='To get Chart administration')
@@ -538,6 +544,15 @@ def get_chart_administration(request, version, form_id):
     if administration.level.level == max_level.level:
         childs = [administration]
     data = []
+    form_data = FormData.objects
+    # Advance filter
+    data_ids = None
+    if request.GET.getlist('options'):
+        data_ids = get_advance_filter_data_ids(
+            form_id=form_id,
+            administration_id=request.GET.get('administration'),
+            options=request.GET.getlist('options'))
+        form_data = form_data.filter(id__in=data_ids)
     for child in childs:
         values = {
             'group': child.name,
@@ -550,7 +565,7 @@ def get_chart_administration(request, version, form_id):
                 Administration.objects.filter(
                     path__startswith=filter_path).values_list('id',
                                                               flat=True))
-        data_ids = list(FormData.objects.filter(
+        data_ids = list(form_data.filter(
                 form_id=form_id,
                 administration_id__in=administration_ids).values_list(
                     'id', flat=True))
