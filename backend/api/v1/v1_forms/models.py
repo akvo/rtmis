@@ -165,3 +165,18 @@ class QuestionAttribute(models.Model):
     class Meta:
         unique_together = ('name', 'question', 'attribute', 'options')
         db_table = 'question_attribute'
+
+
+class ViewJMPCriteria(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    form = models.ForeignKey(
+        to=Forms,
+        on_delete=models.DO_NOTHING,
+        related_name='form_view_jmp_criteria')
+    name = models.TextField()
+    criteria = models.JSONField(default=None, null=True)
+    level = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'view_jmp_criteria'

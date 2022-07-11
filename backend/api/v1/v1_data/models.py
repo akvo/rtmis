@@ -338,3 +338,23 @@ class ViewOptions(models.Model):
     class Meta:
         managed = False
         db_table = 'view_options'
+
+
+class ViewJMPData(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    data = models.ForeignKey(
+        to=FormData,
+        on_delete=models.DO_NOTHING,
+        related_name='data_view_jmp_data')
+    path = models.TextField(null=True, default=None)
+    form = models.ForeignKey(
+        to=Forms,
+        on_delete=models.DO_NOTHING,
+        related_name='form_view_jmp_data')
+    name = models.TextField()
+    level = models.TextField()
+    matches = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'view_jmp_data'
