@@ -2,8 +2,8 @@ import React, { useMemo } from "react";
 import { Col, Card } from "antd";
 import { get, sum } from "lodash";
 
-const CardVisual = ({ config }) => {
-  const { title, type, path, calc, span, data, index } = config;
+const CardVisual = ({ cardConfig }) => {
+  const { title, type, path, calc, span, data, index } = cardConfig;
 
   const renderData = useMemo(() => {
     if (!path || !data.length) {
