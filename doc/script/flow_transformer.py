@@ -1,5 +1,6 @@
 import requests as r
 import json
+from pathlib import Path
 
 FLOW_ENDPOINT = "http://webform.akvo.org/api/form/"
 FORMS = [{
@@ -25,7 +26,7 @@ question_types = {
 }
 
 
-def tranform_form(flow_form):
+def tranform_form(flow_form, existing_questions):
     question_groups = []
     for qg in flow_form.get("questionGroup"):
         question_group = {"question_group": qg.get("heading")}
@@ -43,13 +44,23 @@ def tranform_form(flow_form):
                 options = [{
                     "name": o.get("text")
                 } for o in options.get("option")]
+            qid = int(q.get("id").replace("Q", ""))
+            existing = list(
+                filter(lambda x: x['id'] == qid, existing_questions))
+            attributes = []
+            name = None
+            if existing:
+                name = existing[0].get("name")
+                attributes = existing[0].get("attributes") or []
             question = {
-                "id": int(q.get("id").replace("Q", "")),
+                "id": qid,
                 "meta": q.get("localeNameFlag"),
                 "question": q.get("text"),
+                "name": name,
                 "order": q.get("order"),
                 "required": q.get("mandatory"),
                 "type": qtype,
+                "attributes": attributes,
                 "options": options
             }
             dependency = q.get("dependency")
@@ -78,10 +89,18 @@ for FORM in FORMS:
     form_type = FORM.get("type")
     form = r.get(f"{FLOW_ENDPOINT}{form_url}")
     form = form.json()
+    form_id = form.get("surveyId")
+    json_output = f"../../backend/source/forms/{form_id}.prod.json"
+    existing_json = Path(json_output)
+    existing_questions = []
+    with open(json_output, "r") as existing_file:
+        existing_json = json.load(existing_file)
+        existing_questions = [
+            q for qg in existing_json['question_groups']
+            for q in qg['questions']
+        ]
     form.update({"type": form_types[form_type]})
-    form = tranform_form(form)
+    form = tranform_form(form, existing_questions)
     json_object = json.dumps(form, indent=2)
-    form_id = form.get("id")
-    with open(f"../../backend/source/forms/{form_id}.prod.json",
-              "w") as outfile:
+    with open(json_output, "w") as outfile:
         outfile.write(json_object)
