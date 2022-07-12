@@ -7,6 +7,7 @@ import { takeRight, sumBy, isNil, orderBy } from "lodash";
 import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
+import { generateAdvanceFilterURL } from "../../util/filter";
 
 const getOptionColor = (name, index) => {
   return (
@@ -60,6 +61,7 @@ const AdministrationChart = ({ current, index }) => {
     selectedForm: formId,
     administration,
     language,
+    advancedFilters,
   } = store.useState((s) => s);
 
   const { next, wait } = queue.useState((q) => q);
@@ -139,6 +141,9 @@ const AdministrationChart = ({ current, index }) => {
       let url = `chart/${base}/${formId}?`;
       url += `administration=${adminId}`;
       url += type === "ADMINISTRATION" ? `&question=${id}` : "";
+      if (advancedFilters && advancedFilters.length) {
+        url = generateAdvanceFilterURL(advancedFilters, url);
+      }
 
       api[method](url, payload)
         .then((res) => {
@@ -171,7 +176,15 @@ const AdministrationChart = ({ current, index }) => {
     administration,
     parent,
     runCall,
+    advancedFilters,
   ]);
+
+  useEffect(() => {
+    queue.update((q) => {
+      q.next = 1;
+      q.wait = null;
+    });
+  }, [advancedFilters]);
 
   const filtered = useMemo(() => {
     return showEmpty

@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.test.utils import override_settings
 
 from api.v1.v1_data.models import FormData
-from api.v1.v1_forms.models import Forms, Questions
+from api.v1.v1_forms.models import Forms, Questions, QuestionOptions
 from api.v1.v1_profile.models import Administration
 from api.v1.v1_forms.constants import QuestionTypes
 
@@ -28,35 +28,40 @@ class DataVisualisationTestCase(TestCase):
         marker = questions.filter(type=QuestionTypes.option).first().id
 
         data = self.client.get("/api/v1/maps/{0}".format(form.id),
-                               follow=True,
-                               **header)
+                               follow=True, **header)
         self.assertEqual(data.status_code, 400)
+
         data = self.client.get("/api/v1/maps/{0}?shape={1}&marker={2}".format(
-            form.id, shape, marker),
-                               follow=True,
-                               **header)
+            form.id, shape, marker), follow=True, **header)
         self.assertEqual(data.status_code, 200)
         self.assertEqual(list(data.json()[0]),
                          ['id', 'loc', 'name', 'geo', 'marker', 'shape'])
-        data = data.json()
-        for d in data:
+        for d in data.json():
             form_data = FormData.objects.get(id=d.get('id'))
             self.assertEqual(d.get("name"), form_data.name)
             self.assertEqual(len(d.get("geo")), 2)
             self.assertIsNotNone(d.get("marker"))
             self.assertIsNotNone(d.get("loc"))
             self.assertIsNotNone(d.get("shape"))
+        option = QuestionOptions.objects.filter(question_id=marker).first()
+        advance_search = "{0}||{1}".format(option.id, option.name.lower())
+        data = self.client.get(
+            "/api/v1/maps/{0}?shape={1}&marker={2}&options={3}".format(
+                form.id, shape, marker, advance_search), follow=True, **header)
+        self.assertEqual(data.status_code, 200)
+
         # Test Map Overview
         data = self.client.get("/api/v1/maps/county/{0}".format(form.id),
-                               follow=True,
-                               **header)
+                               follow=True, **header)
         self.assertEqual(data.status_code, 400)
         data = self.client.get("/api/v1/maps/county/{0}?shape={1}".format(
-            form.id, shape),
-                               follow=True,
-                               **header)
+            form.id, shape), follow=True, **header)
         self.assertEqual(data.status_code, 200)
         self.assertEqual(list(data.json()[0]), ['loc', 'shape'])
+        data = self.client.get(
+            "/api/v1/maps/{0}?shape={1}&options={2}".format(
+                form.id, shape, advance_search), follow=True, **header)
+        self.assertEqual(data.status_code, 200)
 
     def test_chart_data(self):
         call_command("administration_seeder", "--test")
@@ -71,17 +76,18 @@ class DataVisualisationTestCase(TestCase):
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
 
         form = Forms.objects.first()
-        question = Questions.objects.filter(form=form,
-                                            type=QuestionTypes.option).first()
+        question = Questions.objects.filter(
+            form=form, type=QuestionTypes.option).first()
+        option = QuestionOptions.objects.filter(
+            question_id=question.id).first()
+        advance_filter = "{0}||{1}".format(option.id, option.name)
 
         data = self.client.get("/api/v1/chart/data/{0}".format(form.id),
                                follow=True,
                                **header)
         self.assertEqual(data.status_code, 400)
         data = self.client.get("/api/v1/chart/data/{0}?question={1}".format(
-            form.id, question.id),
-                               follow=True,
-                               **header)
+            form.id, question.id), follow=True, **header)
         self.assertEqual(data.status_code, 200)
         self.assertEqual(list(data.json().get('data')[0]), ['name', 'value'])
         self.assertEqual(data.json().get('type'), 'PIE')
@@ -93,8 +99,13 @@ class DataVisualisationTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         self.assertEqual(data.json().get('type'), 'BARSTACK')
         self.assertEqual(list(data.json().get('data')[0]), ['group', 'child'])
-        self.assertEqual(list(data.json().get('data')[0]['child'][0]),
-                         ['name', 'value'])
+        for d in data.json().get('data'):
+            if d.get('child'):
+                self.assertEqual(list(d.get('child')[0]), ['name', 'value'])
+        data = self.client.get(
+            "/api/v1/chart/data/{0}?question={1}&stack={1}&options={2}".format(
+                form.id, question.id, advance_filter), follow=True, **header)
+        self.assertEqual(data.status_code, 200)
 
         data = self.client.get(
             "/api/v1/chart/administration/{0}?question={1}".format(
@@ -113,6 +124,17 @@ class DataVisualisationTestCase(TestCase):
         self.assertEqual(list(data.json().get('data')[0]), ['group', 'child'])
         self.assertEqual(list(data.json().get('data')[0]['child'][0]),
                          ['name', 'value'])
+        url = "/api/v1/chart/administration/"
+        data = self.client.get(
+            "{0}{1}?question={2}&administration={3}&options={4}".
+            format(url,
+                   form.id,
+                   question.id,
+                   administration.id,
+                   advance_filter),
+            follow=True,
+            **header)
+        self.assertEqual(data.status_code, 200)
 
         # CHART CRITERIA API
         # INCORRECT PARAMETER
@@ -156,34 +178,15 @@ class DataVisualisationTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         self.assertEqual(data.json().get('type'), 'BARSTACK')
         self.assertEqual(list(data.json().get('data')[0]), ['group', 'child'])
-        self.assertEqual(list(data.json().get('data')[0]['child'][0]),
-                         ['name', 'value'])
-
-        # CHART OVERVIEW API
-        data = self.client.get("/api/v1/chart/overview/{0}".format(form.id),
-                               follow=True)
-        self.assertEqual(data.status_code, 400)
-
-        data = self.client.get(
-            "/api/v1/chart/overview/{0}?question={1}".format(
-                form.id, question.id),
-            follow=True,
-            **header)
-        self.assertEqual(data.status_code, 200)
-        self.assertEqual(list(data.json().get('data')[0]), ['name', 'value'])
-        self.assertEqual(data.json().get('type'), 'BAR')
-
-        data = self.client.get(
-            "/api/v1/chart/overview/{0}?question={1}&stack={2}".format(
-                form.id, 106, 102),
-            follow=True,
-            **header)
-        self.assertEqual(data.status_code, 200)
-        self.assertEqual(data.json().get('type'), 'BARSTACK')
-        self.assertEqual(list(data.json().get('data')[0]), ['group', 'child'])
         for d in data.json().get('data'):
             if d.get('child'):
                 self.assertEqual(list(d.get('child')[0]), ['name', 'value'])
+        data = self.client.post(
+            "/api/v1/chart/criteria/{0}?administration={1}&options={2}".format(
+                form.id, administration.id, advance_filter),
+            payload,
+            content_type='application/json')
+        self.assertEqual(data.status_code, 200)
 
         # CHART OVERVIEW CRITERIA API
         # INCORRECT PARAMETER

@@ -29,7 +29,7 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
     ListMapDataPointRequestSerializer, ListChartDataPointRequestSerializer, \
-    ListChartQuestionDataPointSerializer, ListChartOverviewRequestSerializer, \
+    ListChartQuestionDataPointSerializer, \
     ListChartAdministrationRequestSerializer, \
     ListPendingDataAnswerSerializer, \
     ApprovePendingDataRequestSerializer, ListBatchSerializer, \
@@ -43,7 +43,7 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListMapOverviewDataPointRequestSerializer
 from api.v1.v1_data.functions import refresh_materialized_data, \
     get_cache, create_cache, filter_by_criteria, \
-    get_questions_options_from_params
+    get_questions_options_from_params, get_advance_filter_data_ids
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, Questions, \
         ViewJMPCriteria
@@ -313,7 +313,11 @@ class DataAnswerDetailDeleteView(APIView):
                                     required=False,
                                     type=OpenApiTypes.NUMBER,
                                     location=OpenApiParameter.QUERY),
-               ],
+                   OpenApiParameter(name='options',
+                                    required=False,
+                                    type={'type': 'array',
+                                          'items': {'type': 'string'}},
+                                    location=OpenApiParameter.QUERY)],
                tags=['Visualisation'],
                summary='To get Map data points')
 @api_view(['GET'])
@@ -328,9 +332,17 @@ def get_map_data_point(request, version, form_id):
             {'message': validate_serializers_message(serializer.errors)},
             status=status.HTTP_400_BAD_REQUEST
         )
+
+    form_data = instance.form_form_data
+    if request.GET.getlist('options'):
+        data_ids = get_advance_filter_data_ids(
+            form_id=form_id, administration_id=None,
+            options=request.GET.getlist('options'))
+        form_data = form_data.filter(pk__in=data_ids)
+
     return Response(
         ListMapDataPointSerializer(
-            instance=instance.form_form_data.all(),
+            instance=form_data.all(),
             context={
                 'shape': serializer.validated_data.get('shape'),
                 'marker': serializer.validated_data.get('marker')
@@ -346,19 +358,27 @@ def get_map_data_point(request, version, form_id):
             'loc': serializers.CharField(),
             'shape': serializers.IntegerField(),
         }, many=True)},
-    parameters=[OpenApiParameter(
-        name='shape',
-        required=True,
-        type=OpenApiTypes.NUMBER,
-        location=OpenApiParameter.QUERY)],
+    parameters=[
+        OpenApiParameter(
+            name='shape',
+            required=True,
+            type=OpenApiTypes.NUMBER,
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='options',
+            required=False,
+            type={'type': 'array',
+                  'items': {'type': 'string'}},
+            location=OpenApiParameter.QUERY)],
     tags=['Visualisation'],
     summary='To get overview Map data points')
 @api_view(['GET'])
 def get_map_county_data_point(request, version, form_id):
+    options_query = request.GET.getlist('options')
     cache_name = request.GET.get("shape")
     cache_name = f"ovw_maps-{cache_name}"
     cache_data = get_cache(cache_name)
-    if cache_data:
+    if cache_data and not options_query:
         return Response(cache_data, status=status.HTTP_200_OK)
     instance = get_object_or_404(Forms, pk=form_id)
     serializer = ListMapOverviewDataPointRequestSerializer(
@@ -371,8 +391,14 @@ def get_map_county_data_point(request, version, form_id):
     administrations = Administration.objects.filter(
             level_id=2).values('id', 'name')
     counties = []
+    form_data = instance.form_form_data
+    if options_query:
+        data_ids = get_advance_filter_data_ids(
+            form_id=form_id, administration_id=None,
+            options=options_query)
+        form_data = form_data.filter(pk__in=data_ids)
     data = ListMapOverviewDataPointSerializer(
-        instance=instance.form_form_data.all(),
+        instance=form_data.all(),
         context={
             'shape': serializer.validated_data.get('shape'),
             'marker': serializer.validated_data.get('marker')},
@@ -405,6 +431,12 @@ def get_map_county_data_point(request, version, form_id):
                 name='stack',
                 required=False,
                 type=OpenApiTypes.NUMBER,
+                location=OpenApiParameter.QUERY),
+            OpenApiParameter(
+                name='options',
+                required=False,
+                type={'type': 'array',
+                      'items': {'type': 'string'}},
                 location=OpenApiParameter.QUERY)],
         tags=['Visualisation'],
         summary='To get Chart data points')
@@ -412,68 +444,7 @@ def get_map_county_data_point(request, version, form_id):
 @permission_classes([IsAuthenticated])
 def get_chart_data_point(request, version, form_id):
     instance = get_object_or_404(Forms, pk=form_id)
-    serializer = ListChartDataPointRequestSerializer(data=request.GET,
-                                                     context={
-                                                         'form': instance
-                                                     })
-    if not serializer.is_valid():
-        return Response(
-            {'message': validate_serializers_message(serializer.errors)},
-            status=status.HTTP_400_BAD_REQUEST)
-
-    if serializer.validated_data.get('stack'):
-        query_set = Answers.objects.filter(
-            question=serializer.validated_data.get('stack')).values(
-            'options').annotate(c=Count('options'),
-                                ids=StringAgg(Cast('data_id', TextField()),
-                                              delimiter=',',
-                                              output_field=TextField()))
-        data = []
-        for val in query_set:
-            values = {'group': val.get('options')[0], 'child': []}
-
-            child_query_set = Answers.objects.filter(
-                data_id__in=val.get('ids').split(','),
-                question=serializer.validated_data.get('question')).values(
-                'options').annotate(c=Count('options'))
-
-            for child in child_query_set:
-                values.get('child').append({
-                    'name': child.get('options')[0],
-                    'value': child.get('c')
-                })
-            data.append(values)
-
-        return Response({'type': 'BARSTACK', 'data': data},
-                        status=status.HTTP_200_OK)
-
-    return Response({'type': 'PIE',
-                     'data': ListChartQuestionDataPointSerializer(
-                         instance=serializer.validated_data.get(
-                             'question').question_question_options.all(),
-                         many=True).data},
-                    status=status.HTTP_200_OK)
-
-
-@extend_schema(
-        responses={200: ChartDataSerializer},
-        parameters=[
-            OpenApiParameter(
-                name='question',
-                required=True,
-                type=OpenApiTypes.NUMBER,
-                location=OpenApiParameter.QUERY),
-            OpenApiParameter(
-                name='stack',
-                required=False,
-                type=OpenApiTypes.NUMBER,
-                location=OpenApiParameter.QUERY)],
-        tags=['Visualisation'],
-        summary='To get overview chart at National level')
-@api_view(['GET'])
-def get_chart_overview(request, version, form_id):
-    instance = get_object_or_404(Forms, pk=form_id)
-    serializer = ListChartOverviewRequestSerializer(
+    serializer = ListChartDataPointRequestSerializer(
         data=request.GET, context={'form': instance})
     if not serializer.is_valid():
         return Response(
@@ -482,22 +453,31 @@ def get_chart_overview(request, version, form_id):
 
     question = serializer.validated_data.get('question')
     stack = serializer.validated_data.get('stack')
+    # Advance filter
+    data_ids = None
+    if request.GET.getlist('options'):
+        data_ids = get_advance_filter_data_ids(
+            form_id=form_id, administration_id=None,
+            options=request.GET.getlist('options'))
+    # with stack
     if stack:
-        stack_options = stack.question_question_options.all()
         data = []
+        stack_options = stack.question_question_options.all()
+        answers = Answers.objects
+        if data_ids:
+            answers = answers.filter(data_id__in=data_ids)
         for so in stack_options:
-            query_set = Answers.objects.filter(
+            query_set = answers.filter(
                 question=stack, options__contains=so.name).values(
-                    'options').annotate(
-                        ids=StringAgg(
-                            Cast('data_id', TextField()),
-                            delimiter=',',
-                            output_field=TextField()))
+                    'options').annotate(ids=StringAgg(
+                        Cast('data_id', TextField()),
+                        delimiter=',',
+                        output_field=TextField()))
             # temp values
             values = {'group': so.name, 'child': []}
             # get child
             for val in query_set:
-                child_query_set = Answers.objects.filter(
+                child_query_set = answers.filter(
                     data_id__in=val.get('ids').split(','),
                     question=question)
                 # Option type
@@ -534,9 +514,10 @@ def get_chart_overview(request, version, form_id):
                         status=status.HTTP_200_OK)
 
     return Response({
-        'type': 'BAR',
+        'type': 'PIE',
         'data': ListChartQuestionDataPointSerializer(
             instance=question.question_question_options.all(),
+            context={'data_ids': data_ids},
             many=True).data},
         status=status.HTTP_200_OK)
 
@@ -553,6 +534,12 @@ def get_chart_overview(request, version, form_id):
                 name='administration',
                 required=True,
                 type=OpenApiTypes.NUMBER,
+                location=OpenApiParameter.QUERY),
+            OpenApiParameter(
+                name='options',
+                required=False,
+                type={'type': 'array',
+                      'items': {'type': 'string'}},
                 location=OpenApiParameter.QUERY)],
         tags=['Visualisation'],
         summary='To get Chart administration')
@@ -574,6 +561,15 @@ def get_chart_administration(request, version, form_id):
     if administration.level.level == max_level.level:
         childs = [administration]
     data = []
+    form_data = FormData.objects
+    # Advance filter
+    data_ids = None
+    if request.GET.getlist('options'):
+        data_ids = get_advance_filter_data_ids(
+            form_id=form_id,
+            administration_id=request.GET.get('administration'),
+            options=request.GET.getlist('options'))
+        form_data = form_data.filter(id__in=data_ids)
     for child in childs:
         values = {
             'group': child.name,
@@ -586,7 +582,7 @@ def get_chart_administration(request, version, form_id):
                 Administration.objects.filter(
                     path__startswith=filter_path).values_list('id',
                                                               flat=True))
-        data_ids = list(FormData.objects.filter(
+        data_ids = list(form_data.filter(
                 form_id=form_id,
                 administration_id__in=administration_ids).values_list(
                     'id', flat=True))
@@ -624,6 +620,12 @@ def get_chart_administration(request, version, form_id):
             default=1,
             required=False,
             type=OpenApiTypes.NUMBER,
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='options',
+            required=False,
+            type={'type': 'array',
+                  'items': {'type': 'string'}},
             location=OpenApiParameter.QUERY)],
     tags=['Visualisation'],
     summary='To get Chart by a criteria (e.g JMP)')
@@ -652,6 +654,13 @@ def get_chart_criteria(request, version, form_id):
     if administration.level.level == max_level.level:
         childs = [administration]
     data = []
+    # Advance filter
+    data_ids = None
+    if request.GET.getlist('options'):
+        data_ids = get_advance_filter_data_ids(
+            form_id=form_id,
+            administration_id=request.GET.get('administration'),
+            options=request.GET.getlist('options'))
     question_ids, options = get_questions_options_from_params(
         params=serializer.validated_data)
     for child in childs:
@@ -666,7 +675,8 @@ def get_chart_criteria(request, version, form_id):
                 params=serializer.validated_data,
                 question_ids=question_ids,
                 options=options,
-                administration_ids=administration_ids)
+                administration_ids=administration_ids,
+                data_ids=data_ids)
         }
         data.append(values)
     resp = {"type": "BARSTACK", "data": data}

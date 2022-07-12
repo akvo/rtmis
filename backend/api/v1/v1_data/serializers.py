@@ -307,10 +307,13 @@ class ListChartDataPointRequestSerializer(serializers.Serializer):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        queryset = self.context.get('form').form_questions.filter(
-            type=QuestionTypes.option)
-        self.fields.get('question').queryset = queryset
-        self.fields.get('stack').queryset = queryset
+        queryset = self.context.get('form').form_questions
+        self.fields.get('question').queryset = queryset.filter(
+            Q(type=QuestionTypes.option) | Q(type=QuestionTypes.number)
+            | Q(type=QuestionTypes.multiple_option))
+        self.fields.get('stack').queryset = queryset.filter(
+            Q(type=QuestionTypes.option)
+            | Q(type=QuestionTypes.multiple_option))
 
 
 class ListChartQuestionDataPointSerializer(serializers.ModelSerializer):
@@ -318,8 +321,11 @@ class ListChartQuestionDataPointSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.INT)
     def get_value(self, instance: QuestionOptions):
-        return instance.question.question_answer.filter(
-            options__contains=instance.name).count()
+        value = instance.question.question_answer.filter(
+            options__contains=instance.name)
+        if self.context.get('data_ids'):
+            value = value.filter(data_id__in=self.context.get('data_ids'))
+        return value.count()
 
     class Meta:
         model = QuestionOptions
@@ -329,22 +335,6 @@ class ListChartQuestionDataPointSerializer(serializers.ModelSerializer):
 class ChartDataSerializer(serializers.Serializer):
     type = serializers.CharField(),
     data = ListChartQuestionDataPointSerializer(many=True)
-
-
-class ListChartOverviewRequestSerializer(serializers.Serializer):
-    stack = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none(),
-                                         required=False)
-    question = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none())
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        queryset = self.context.get('form').form_questions
-        self.fields.get('question').queryset = queryset.filter(
-            Q(type=QuestionTypes.option) | Q(type=QuestionTypes.number)
-            | Q(type=QuestionTypes.multiple_option))
-        self.fields.get('stack').queryset = queryset.filter(
-            Q(type=QuestionTypes.option)
-            | Q(type=QuestionTypes.multiple_option))
 
 
 class ListChartAdministrationRequestSerializer(serializers.Serializer):
