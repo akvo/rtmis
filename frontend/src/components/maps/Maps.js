@@ -12,78 +12,29 @@ import {
   FullscreenOutlined,
 } from "@ant-design/icons";
 
-const { countiesjson, tile, defaultPos, getColorScale, getBounds } = geo;
+const { tile, defaultPos, getColorScale, getBounds, getGeometry } = geo;
 const defPos = defaultPos();
 const colorRange = ["#EB5353", "#F9D923", "#9ACD32", "#36AE7C"];
 const mapMaxZoom = 13;
 const higlightColor = "#84b4cc";
 
-const example = {
-  data: [
-    {
-      loc: "Baringo",
-      data: {
-        "hygiene service level": {
-          basic: 0,
-          limited: 2,
-          "no facility": 0,
-        },
-        "menstrual hygiene service level": {
-          access: 2,
-          awareness: 2,
-          participation: 3,
-          "use of menstrual materials": 1,
-        },
-        "sanitation service level": {
-          basic: 1,
-          limited: 0,
-          "open defecation": 0,
-          "safely managed": 1,
-          unimproved: 1,
-        },
-      },
-      total: 3,
-    },
-    {
-      loc: "Bungoma",
-      data: {
-        "hygiene service level": {
-          basic: 0,
-          limited: 2,
-          "no facility": 0,
-        },
-        "menstrual hygiene service level": {
-          access: 2,
-          awareness: 2,
-          participation: 3,
-          "use of menstrual materials": 1,
-        },
-        "sanitation service level": {
-          basic: 1,
-          limited: 0,
-          "open defecation": 0,
-          "safely managed": 1,
-          unimproved: 1,
-        },
-      },
-      total: 3,
-    },
-  ],
-  path: "data.hygiene service level.limited",
-  title: "Total",
-  calc: "default",
-};
-
-const Maps = ({ mapConfig = example, style = {} }) => {
+const Maps = ({ mapConfig, style = {} }) => {
   // config
   const { data, title, calc, path, span, type, index } = mapConfig;
   const { administration } = store.useState((s) => s);
   const [maps, setMaps] = useState(null);
+  const [currentPolygon, setCurrentPolygon] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(null);
   const [results, setResults] = useState([]);
   const [shapeTooltip, setShapeTooltip] = useState("");
   const [hovered, setHovered] = useState(null);
   const [shapeFilterColor, setShapeFilterColor] = useState(null);
+
+  const currentAdministration =
+    administration.length < 4
+      ? takeRight(administration)?.[0]
+      : takeRight(administration, 2)[0];
+  const { level } = currentAdministration;
 
   useEffect(() => {
     if (maps && administration?.length) {
@@ -92,8 +43,9 @@ const Maps = ({ mapConfig = example, style = {} }) => {
       maps.setView(pos.coordinates, maps.getZoom());
       setZoomLevel(maps.getZoom());
       maps.invalidateSize();
+      setCurrentPolygon(getGeometry(currentAdministration));
     }
-  }, [maps, administration]);
+  }, [maps, administration, currentAdministration]);
 
   useEffect(() => {
     if (data.length) {
@@ -140,7 +92,10 @@ const Maps = ({ mapConfig = example, style = {} }) => {
         opacity: opacity,
         color: "#A0D4C1",
         zIndex:
-          hovered?.NAME_01?.toLowerCase() === sc?.name?.toLowerCase() ? 2 : 1,
+          hovered?.[`NAME_${level + 1}`]?.toLowerCase() ===
+          sc?.name?.toLowerCase()
+            ? 2
+            : 1,
         weight: 1,
       };
     }
@@ -156,7 +111,8 @@ const Maps = ({ mapConfig = example, style = {} }) => {
   useEffect(() => {
     if (hovered && results.length) {
       const detail = results.find(
-        (x) => x.name.toLowerCase() === hovered.NAME_01.toLowerCase()
+        (x) =>
+          x.name.toLowerCase() === hovered?.[`NAME_${level + 1}`]?.toLowerCase()
       );
       if (detail?.value) {
         const tooltipElement = (
@@ -175,13 +131,28 @@ const Maps = ({ mapConfig = example, style = {} }) => {
         setShapeTooltip("");
       }
     }
-  }, [hovered, results, total, calc, title]);
+  }, [hovered, results, total, calc, title, level]);
 
   const onEachFeature = (feature, layer) => {
     layer.on({
       mouseover: () => setHovered(feature?.properties),
       mouseout: () => setHovered(null),
     });
+  };
+
+  const Polygons = () => {
+    return (
+      currentPolygon?.features?.length > 0 && (
+        <GeoJSON
+          key="geodata"
+          style={geoStyle}
+          data={currentPolygon}
+          onEachFeature={onEachFeature}
+        >
+          {hovered && shapeTooltip && <Tooltip>{shapeTooltip}</Tooltip>}
+        </GeoJSON>
+      )
+    );
   };
 
   return (
@@ -230,16 +201,7 @@ const Maps = ({ mapConfig = example, style = {} }) => {
         whenCreated={setMaps}
       >
         <TileLayer {...tile} />
-        {countiesjson.features.length > 0 && (
-          <GeoJSON
-            key="geodata"
-            style={geoStyle}
-            data={countiesjson}
-            onEachFeature={onEachFeature}
-          >
-            {hovered && shapeTooltip && <Tooltip>{shapeTooltip}</Tooltip>}
-          </GeoJSON>
-        )}
+        <Polygons />
       </MapContainer>
       {!!results.length && (
         <ShapeLegend

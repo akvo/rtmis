@@ -18,6 +18,35 @@
 
       .row-wrapper {
         padding: 12px 0;
+
+        .ant-col {
+          &.overview-card {
+            .ant-card {
+              padding: 20px;
+              min-height: 170px;
+
+              .ant-card-body {
+                padding: 0px;
+                padding-bottom: 50px;
+                text-align: left;
+
+                h3 {
+                  font-size: $font-size-regular;
+                  color: $color-dark;
+                }
+
+                h1 {
+                  position: absolute;
+                  bottom: 0px;
+                  width: calc(100% - 20px);
+                  left: 10px;
+                  padding: 5px 10px 0px;
+                  border-bottom: 1px solid #ddd;
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

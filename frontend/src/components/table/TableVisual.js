@@ -1,6 +1,8 @@
 import React, { useMemo } from "react";
 import { Col, Table } from "antd";
-import { get, capitalize } from "lodash";
+import { get, capitalize, sumBy } from "lodash";
+
+const fontSize = 14;
 
 const TableVisual = ({ tableConfig }) => {
   const { title, type, columns, span, data, index } = tableConfig;
@@ -12,6 +14,8 @@ const TableVisual = ({ tableConfig }) => {
           title: capitalize(key),
           dataIndex: key,
           key: key,
+          width: key.length * fontSize,
+          align: "center",
         }));
         return {
           title: c.title,
@@ -23,6 +27,8 @@ const TableVisual = ({ tableConfig }) => {
         dataIndex: c.path,
         key: c.path,
       };
+      tmp = c.path === "loc" ? { ...tmp, width: "200px" } : tmp;
+      tmp = c.path === "total" ? { ...tmp, width: "100px" } : tmp;
       if (c?.fixed) {
         tmp = {
           ...tmp,
@@ -57,6 +63,18 @@ const TableVisual = ({ tableConfig }) => {
     return transform;
   }, [data, columns]);
 
+  const xScroll = useMemo(
+    () =>
+      sumBy(
+        tableColumns
+          .filter((t) => t?.children)
+          .map((t) => t.children)
+          .flatMap((t) => t)
+          .map((t) => t.title.length * fontSize)
+      ),
+    [tableColumns]
+  );
+
   return (
     <Col
       key={`col-${type}-${index}`}
@@ -68,6 +86,10 @@ const TableVisual = ({ tableConfig }) => {
         title={() => title || "Table"}
         columns={tableColumns}
         dataSource={tableDataSource}
+        scroll={{ x: xScroll, y: 500 }}
+        pagination={false}
+        size="small"
+        bordered
       />
     </Col>
   );

@@ -5,7 +5,7 @@ import { Row, Col, Tabs } from "antd";
 import { VisualisationFilters } from "../../components";
 import { useNotification } from "../../util/hooks";
 import { api, uiText, store } from "../../lib";
-import { capitalize } from "lodash";
+import { capitalize, takeRight } from "lodash";
 import { CardVisual, Maps, TableVisual } from "../../components";
 
 const { TabPane } = Tabs;
@@ -16,7 +16,7 @@ const Dashboard = () => {
   const current = window?.dashboard?.find((x) => String(x.form_id) === formId);
   const { notify } = useNotification();
 
-  const { language } = store.useState((s) => s);
+  const { language, administration } = store.useState((s) => s);
   const { active: activeLang } = language;
   const [dataset, setDataset] = useState([]);
   const [activeTab, setActiveTab] = useState("overview");
@@ -26,8 +26,9 @@ const Dashboard = () => {
   }, [activeLang]);
 
   useEffect(() => {
+    const currentAdministration = takeRight(administration)?.[0]?.id;
     if (formId) {
-      const url = `jmp/${formId}?administration=1`;
+      const url = `jmp/${formId}?administration=${currentAdministration}`;
       api
         .get(url)
         .then((res) => {
@@ -40,7 +41,7 @@ const Dashboard = () => {
           });
         });
     }
-  }, [formId, notify, text]);
+  }, [formId, administration, notify, text]);
 
   const renderColumn = (cfg, index) => {
     switch (cfg.type) {

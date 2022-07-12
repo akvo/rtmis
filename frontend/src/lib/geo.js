@@ -72,6 +72,27 @@ const countiesjson = chain(groupBy(geojson.features, "properties.NAME_1"))
     return { ...x.polygon, properties: { NAME_01: x.name } };
   });
 
+const getGeometry = ({ level, name }) => {
+  const filtered = geojson.features.filter((x) => {
+    return x.properties[`NAME_${level}`] === name;
+  });
+  const features = chain(groupBy(filtered, `properties.NAME_${level + 1}`))
+    .map((d, v) => {
+      const polygon = d.reduce((g, c, i) => {
+        if (!i) {
+          return c;
+        }
+        return union(g, c);
+      });
+      return { polygon: polygon, name: v };
+    })
+    .value()
+    .map((x) => {
+      return { ...x.polygon, properties: { [`NAME_${level + 1}`]: x.name } };
+    });
+  return { type: "FeatureCollection", features: features };
+};
+
 const getColorScale = ({ method, colors, colorRange }) => {
   if (method === "percent") {
     return scaleQuantize().domain([0, 100]).range(colorRange);
@@ -98,6 +119,7 @@ const getColorScale = ({ method, colors, colorRange }) => {
 const geo = {
   geojson: geojson,
   countiesjson: { type: "FeatureCollection", features: countiesjson },
+  getGeometry: getGeometry,
   shapeLevels: shapeLevels,
   tile: tile,
   getBounds: getBounds,

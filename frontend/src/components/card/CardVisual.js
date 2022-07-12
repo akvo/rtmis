@@ -39,6 +39,7 @@ const CardVisual = ({ cardConfig }) => {
   return (
     <Col
       key={`col-${type}-${index}`}
+      className="overview-card"
       align="center"
       justify="space-between"
       span={span}
