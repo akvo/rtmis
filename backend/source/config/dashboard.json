@@ -50,7 +50,7 @@
           ],
           [
             {
-              "type": "map",
+              "type": "maps",
               "title": "Counts of datapoint",
               "calc": "default",
               "path": "total",
@@ -111,7 +111,7 @@
           ],
           [
             {
-              "type": "map",
+              "type": "maps",
               "title": "Counts of datapoint",
               "calc": "percent",
               "path": "data.sanitation service level.safely managed",
@@ -139,8 +139,8 @@
               "type": "table",
               "title": "Table sanitation service level",
               "columns": [
-                { "title": "Administration", "path": "loc" },
-                { "title": "Count of HHs", "path": "total" },
+                { "title": "Administration", "path": "loc", "fixed": "left" },
+                { "title": "Count of HHs", "path": "total", "fixed": "left" },
                 {
                   "title": "Count by service level",
                   "children": true,
@@ -153,8 +153,8 @@
               "type": "table",
               "title": "Table hygiene service level",
               "columns": [
-                { "title": "Administration", "path": "loc" },
-                { "title": "Count of HHs", "path": "total" },
+                { "title": "Administration", "path": "loc", "fixed": "left" },
+                { "title": "Count of HHs", "path": "total", "fixed": "left" },
                 {
                   "title": "Count by service level",
                   "children": true,
