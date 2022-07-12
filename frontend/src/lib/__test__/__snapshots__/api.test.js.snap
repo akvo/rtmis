@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`lib/api snapshot api calls 1`] = `
+exports[`lib/api API Object snapshot api calls 1`] = `
 Object {
   "delete": [Function],
   "get": [MockFunction],

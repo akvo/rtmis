@@ -16,6 +16,12 @@ const fetchUsers = async () => {
   }
 };
 
+const headers = {
+  Accept: "application/json, text/plain, */*",
+  Authorization: `Bearer ${fakeToken}`,
+  "Content-Type": "application/json",
+};
+
 describe("lib/api", () => {
   let mock;
 
@@ -33,11 +39,7 @@ describe("lib/api", () => {
 
     mock.onGet("something").reply((config) => {
       expect(config.baseURL).toEqual("/api/v1/");
-      expect(config.headers).toEqual({
-        Accept: "application/json, text/plain, */*",
-        Authorization: `Bearer ${fakeToken}`,
-        "Content-Type": "application/json",
-      });
+      expect(config.headers).toEqual(headers);
       return [200, {}];
     });
     const result = await api.get("something");
@@ -60,11 +62,7 @@ describe("lib/api", () => {
     it("test a POST request", async () => {
       mock.onPost("/login").reply((config) => {
         expect(config.baseURL).toEqual("/api/v1/");
-        expect(config.headers).toEqual({
-          Accept: "application/json, text/plain, */*",
-          Authorization: `Bearer ${fakeToken}`,
-          "Content-Type": "application/json",
-        });
+        expect(config.headers).toEqual(headers);
         return [200, {}];
       });
       await api.post("/login", {
@@ -74,7 +72,21 @@ describe("lib/api", () => {
     });
   });
 
-  test("snapshot api calls", () => {
-    expect(api).toMatchSnapshot();
+  describe("PUT request", () => {
+    test("test a PUT request", async () => {
+      mock
+        .onPut("/something", { id: 2, name: "PUT requests" })
+        .reply((config) => {
+          expect(config.headers).toEqual(headers);
+          return [200];
+        });
+      await api.put("/something", { id: 2, name: "PUT requests" });
+    });
+  });
+
+  describe("API Object", () => {
+    test("snapshot api calls", () => {
+      expect(api).toMatchSnapshot();
+    });
   });
 });
