@@ -23,3 +23,4 @@ export { default as Tour } from "./tour/Tour.js";
 export { default as UserTab } from "./tabs/UserTab";
 export { default as DataTab } from "./tabs/DataTab";
 export { default as CardVisual } from "./card/CardVisual";
+export { default as TableVisual } from "./table/TableVisual";
