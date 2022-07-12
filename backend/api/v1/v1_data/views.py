@@ -676,6 +676,7 @@ def get_chart_criteria(request, version, form_id):
                 question_ids=question_ids,
                 options=options,
                 administration_ids=administration_ids,
+                filter=request.GET.getlist('options'),
                 data_ids=data_ids)
         }
         data.append(values)
