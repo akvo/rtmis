@@ -208,7 +208,7 @@ class FormDataListQuestionSerializer(serializers.ModelSerializer):
         AttributeTypes.FieldStr[a] for a in AttributeTypes.FieldStr]))
     def get_attributes(self, instance: Questions):
         attribute_ids = QuestionAttribute.objects.filter(
-                question=instance).values_list('attribute', flat=True)
+            question=instance).values_list('attribute', flat=True).distinct()
         if attribute_ids:
             return [AttributeTypes.FieldStr.get(a) for a in attribute_ids]
         return []

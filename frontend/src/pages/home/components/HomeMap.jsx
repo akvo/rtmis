@@ -11,6 +11,11 @@ const defPos = defaultPos();
 const colorRange = ["#EB5353", "#F9D923", "#9ACD32", "#36AE7C"];
 const higlightColor = "#84b4cc";
 const thresholds = [25, 50, 75, 100];
+const borderColor = {
+  white: "#FFF",
+  selected: "#000000",
+  normal: "#949fe3",
+};
 
 const getColorScale = ({ colors, method }) => {
   if (method === "percent") {
@@ -165,6 +170,16 @@ const HomeMap = ({ current, style, mapValues = [] }) => {
     return color;
   };
 
+  const getBorderStyle = (fillColor, sc) => {
+    if (hoveredShape?.NAME_01?.toLowerCase() === sc?.name?.toLowerCase()) {
+      return { color: borderColor.selected, weight: 2 };
+    }
+    return {
+      color: fillColor !== "#e6e8f4" ? borderColor.white : borderColor.normal,
+      weight: 1,
+    };
+  };
+
   const geoStyle = (g) => {
     if (results.length && maps) {
       const sc = shapeColors.find((sC) => {
@@ -177,7 +192,12 @@ const HomeMap = ({ current, style, mapValues = [] }) => {
         fillColor: fillColor,
         fillOpacity: 1,
         opacity: opacity,
-        color: fillColor !== "#e6e8f4" ? "#FFF" : "#949fe3",
+        color: getBorderStyle(fillColor, sc)?.color,
+        zIndex:
+          hoveredShape?.NAME_01?.toLowerCase() === sc?.name?.toLowerCase()
+            ? 2
+            : 1,
+        weight: getBorderStyle(fillColor, sc)?.weight,
       };
     }
     return {
@@ -185,6 +205,7 @@ const HomeMap = ({ current, style, mapValues = [] }) => {
       fillOpacity: 1,
       opacity: 0.3,
       color: "#A0D4C1",
+      weight: 1,
     };
   };
 
@@ -211,9 +232,9 @@ const HomeMap = ({ current, style, mapValues = [] }) => {
             onEachFeature={(feature, layer) => {
               layer.on({
                 mouseover: () => setHoveredShape(feature?.properties),
+                mouseout: () => setHoveredShape(null),
               });
             }}
-            weight={1}
           >
             {hoveredShape && shapeTooltip && (
               <Tooltip className="shape-tooltip-wrapper">

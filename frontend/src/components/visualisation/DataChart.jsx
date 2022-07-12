@@ -7,6 +7,7 @@ import { useNotification } from "../../util/hooks";
 import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
+import { generateAdvanceFilterURL } from "../../util/filter";
 
 const getOptionColor = (name, index) => {
   return (
@@ -62,7 +63,11 @@ const transformDefaultData = (source, type, stack, options) => {
 const DataChart = ({ current, index }) => {
   const [dataset, setDataset] = useState(null);
   const { notify } = useNotification();
-  const { selectedForm: formId, language } = store.useState((s) => s);
+  const {
+    selectedForm: formId,
+    language,
+    advancedFilters,
+  } = store.useState((s) => s);
 
   const { next, wait } = queue.useState((q) => q);
   const runCall = index === next && !wait;
@@ -77,10 +82,13 @@ const DataChart = ({ current, index }) => {
 
   useEffect(() => {
     if (formId && id && runCall) {
-      const url =
+      let url =
         type === "BARSTACK" && stack?.id
           ? `chart/data/${formId}?question=${id}&stack=${stack.id}`
           : `chart/data/${formId}?question=${id}`;
+      if (advancedFilters && advancedFilters.length) {
+        url = generateAdvanceFilterURL(advancedFilters, url);
+      }
       api
         .get(url)
         .then((res) => {
@@ -108,6 +116,7 @@ const DataChart = ({ current, index }) => {
     options,
     runCall,
     text.errorDataLoad,
+    advancedFilters,
   ]);
 
   const chartTitle =
