@@ -46,20 +46,31 @@ const Dashboard = () => {
   const renderColumn = (cfg, index) => {
     switch (cfg.type) {
       case "maps":
-        return <Maps mapConfig={{ ...cfg, data: dataset, index: index }} />;
+        return (
+          <Maps
+            key={index}
+            mapConfig={{ ...cfg, data: dataset, index: index }}
+          />
+        );
       case "chart":
         return (
-          <Col span={cfg.span}>
+          <Col key={index} span={cfg.span}>
             <h1>Chart here..</h1>
           </Col>
         );
       case "table":
         return (
-          <TableVisual tableConfig={{ ...cfg, data: dataset, index: index }} />
+          <TableVisual
+            key={index}
+            tableConfig={{ ...cfg, data: dataset, index: index }}
+          />
         );
       default:
         return (
-          <CardVisual cardConfig={{ ...cfg, data: dataset, index: index }} />
+          <CardVisual
+            key={index}
+            cardConfig={{ ...cfg, data: dataset, index: index }}
+          />
         );
     }
   };

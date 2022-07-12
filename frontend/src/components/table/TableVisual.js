@@ -90,6 +90,7 @@ const TableVisual = ({ tableConfig }) => {
         pagination={false}
         size="small"
         bordered
+        rowKey={tableColumns?.[0]?.key || "id"}
       />
     </Col>
   );
