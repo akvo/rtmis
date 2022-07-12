@@ -9,6 +9,8 @@ import {
 import { Chart } from "../../../components";
 import { api, store } from "../../../lib";
 import { useNotification } from "../../../util/hooks";
+import { generateAdvanceFilterURL } from "../../../util/filter";
+
 const { Panel } = Collapse;
 const { Option } = Select;
 
@@ -22,7 +24,12 @@ const QuestionChart = () => {
     selectedForm: formId,
     loadingForm,
     questionGroups,
+    advancedFilters,
   } = store.useState((state) => state);
+  const [selectedChartOptions, setSelectedChartOptions] = useState({
+    qgid: null,
+    qid: null,
+  });
 
   useEffect(() => {
     if (questionGroups) {
@@ -62,9 +69,19 @@ const QuestionChart = () => {
 
   const fetchData = (questionGroupId, questionId) => {
     if (formId) {
+      if (
+        selectedChartOptions.qgid !== questionGroupId &&
+        selectedChartOptions.qid !== questionId
+      ) {
+        setSelectedChartOptions({ qgid: questionGroupId, qid: questionId });
+      }
       setLoading(true);
+      let url = `chart/data/${formId}?question=${questionId}`;
+      if (advancedFilters && advancedFilters.length) {
+        url = generateAdvanceFilterURL(advancedFilters, url);
+      }
       api
-        .get(`chart/data/${formId}?question=${questionId}`)
+        .get(url)
         .then((res) => {
           let temp = [...dataset];
           temp = temp.map((ds) => {
@@ -89,6 +106,14 @@ const QuestionChart = () => {
         });
     }
   };
+
+  useEffect(() => {
+    const { qgid, qid } = selectedChartOptions;
+    if (advancedFilters && advancedFilters.length && qgid && qid) {
+      fetchData(qgid, qid);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedChartOptions, advancedFilters]);
 
   const handleChange = (panel) => {
     if (loading || loadingForm) {
