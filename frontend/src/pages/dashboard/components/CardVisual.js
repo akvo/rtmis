@@ -31,7 +31,7 @@ const CardVisual = ({ config }) => {
       const percent = (sumLevel / totalData) * 100;
       return {
         title: title,
-        value: `${percent}%`,
+        value: `${percent.toFixed(2)}%`,
       };
     }
   }, [data, calc, path, title]);

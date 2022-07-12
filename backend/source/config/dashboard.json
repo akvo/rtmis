@@ -181,35 +181,28 @@
               "title": "Health care facilities reporting",
               "calc": "sum",
               "path": "total",
-              "span": 4
+              "span": 6
             },
             {
               "type": "card",
               "title": "Counties reporting",
               "calc": "count",
               "path": "length",
-              "span": 4
-            },
-            {
-              "type": "card",
-              "title": "Health care facilities with basic water facilities",
-              "calc": "percent",
-              "path": null,
-              "span": 4
+              "span": 6
             },
             {
               "type": "card",
               "title": "Health care facilities with basic sanitation facilities",
               "calc": "percent",
-              "path": "data.hygiene service level.basic",
-              "span": 4
+              "path": "data.sanitation service level.basic",
+              "span": 6
             },
             {
               "type": "card",
               "title": "Health care facilities with basic hand hygiene facilities",
               "calc": "percent",
               "path": "data.hygiene (hand washing) service level.basic",
-              "span": 4
+              "span": 6
             }
           ]
         ]
