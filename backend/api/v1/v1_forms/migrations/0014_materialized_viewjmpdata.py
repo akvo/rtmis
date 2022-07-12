@@ -5,7 +5,9 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [('v1_forms', '0013_materialized_viewjmpcriteria')]
+    dependencies = [
+            ('v1_forms', '0013_materialized_viewjmpcriteria'),
+            ('v1_data', '0019_materialized_viewdataoptions')]
 
     operations = [
         migrations.CreateModel(

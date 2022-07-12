@@ -356,6 +356,29 @@ class ViewJMPData(models.Model):
     matches = models.IntegerField()
     score = models.IntegerField()
 
+    @property
+    def serialize(self):
+        return {
+            'data_id': self.data_id,
+            'name': self.name,
+            'level': self.level
+        }
+
     class Meta:
         managed = False
         db_table = 'view_jmp_data'
+
+
+class ViewJMPCount(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    path = models.TextField(null=True, default=None)
+    form = models.ForeignKey(to=Forms,
+                             on_delete=models.DO_NOTHING,
+                             related_name='form_view_jmp_count')
+    name = models.TextField()
+    level = models.TextField()
+    total = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'view_jmp_count'
