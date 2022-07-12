@@ -8,7 +8,7 @@
       "questions": [
         {
           "id": 364240038,
-          "meta": false,
+          "meta": true,
           "question": "Name of the data collector (Enumerator)",
           "name": "Enumerator",
           "order": 1,
@@ -23,6 +23,7 @@
           "id": 517690051,
           "meta": true,
           "question": "Household code",
+          "name": null,
           "order": 2,
           "required": true,
           "type": "text",
@@ -35,9 +36,11 @@
           "id": 444670046,
           "meta": false,
           "question": "Are you willing to participate in the survey?",
+          "name": null,
           "order": 3,
           "required": true,
           "type": "option",
+          "attributes": [],
           "options": [
             {
               "name": "Yes"
@@ -54,8 +57,8 @@
       "questions": [
         {
           "id": 517600060,
-          "meta": true,
-          "question": "Take the GPS location",
+          "meta": false,
+          "question": "Take the GPS location of the Household",
           "name": "Geolocation",
           "order": 1,
           "required": true,
@@ -68,7 +71,8 @@
         {
           "id": 517600059,
           "meta": true,
-          "question": "Location",
+          "question": "Location of the household",
+          "name": null,
           "order": 2,
           "required": true,
           "type": "administration",
@@ -79,11 +83,43 @@
           "options": null
         },
         {
+          "id": 608880002,
+          "meta": false,
+          "question": "What is the name of this village (kijiji)?",
+          "name": null,
+          "order": 3,
+          "required": true,
+          "type": "text",
+          "attributes": [],
+          "options": null
+        },
+        {
+          "id": 603100002,
+          "meta": false,
+          "question": "Is the household in an urban, peri-urban or rural setup?",
+          "name": null,
+          "order": 4,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Rural"
+            },
+            {
+              "name": "Peri-urban"
+            },
+            {
+              "name": "Urban"
+            }
+          ]
+        },
+        {
           "id": 517600061,
           "meta": true,
           "question": "Name of the respondent",
           "name": "Respondent Name",
-          "order": 3,
+          "order": 5,
           "required": true,
           "type": "text",
           "attributes": [
@@ -94,9 +130,9 @@
         {
           "id": 519660049,
           "meta": false,
-          "question": "Sex of the respondent",
+          "question": "Gender of the respondent",
           "name": "Respondent Gender",
-          "order": 4,
+          "order": 6,
           "required": true,
           "type": "option",
           "attributes": [
@@ -115,27 +151,14 @@
           ]
         },
         {
-          "id": 517600053,
-          "meta": false,
-          "question": "Age of the respondent",
-          "name": "Respondent Age",
-          "order": 5,
-          "required": true,
-          "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
-          "options": null
-        },
-        {
           "id": 517600056,
           "meta": false,
           "question": "Respondent relationship to the household head",
           "name": "Relationship to HH Head",
-          "order": 6,
+          "order": 7,
           "required": true,
           "type": "option",
+          "attributes": [],
           "options": [
             {
               "name": "Head"
@@ -151,9 +174,9 @@
         {
           "id": 517600057,
           "meta": false,
-          "question": "Sex of the head of the household",
+          "question": "Gender of the head of the household",
           "name": "HH Head Gender",
-          "order": 7,
+          "order": 8,
           "required": true,
           "type": "option",
           "attributes": [
@@ -168,6 +191,15 @@
             {
               "name": "Female"
             }
+          ],
+          "dependency": [
+            {
+              "id": 517600056,
+              "options": [
+                "Spouse",
+                "Offspring"
+              ]
+            }
           ]
         },
         {
@@ -175,7 +207,7 @@
           "meta": false,
           "question": "Age of the household head",
           "name": "HH Age",
-          "order": 8,
+          "order": 9,
           "required": true,
           "type": "number",
           "attributes": [
@@ -187,9 +219,9 @@
         {
           "id": 519660047,
           "meta": false,
-          "question": "How many members are there in this household? (Household members living under the same roof, share the same dish and has lived at least for the past six months)",
+          "question": "How many members are there in this household? (Household members living under the same roof, share the same dish and have lived at least for the past six months)",
           "name": "HH Members",
-          "order": 9,
+          "order": 10,
           "required": true,
           "type": "number",
           "attributes": [
@@ -199,11 +231,29 @@
           "options": null
         },
         {
+          "id": 608890003,
+          "meta": false,
+          "question": "Do you have children under 5 years?",
+          "name": null,
+          "order": 11,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
           "id": 519660048,
           "meta": false,
           "question": "Number of children 0-5 years",
           "name": "0-5 Years",
-          "order": 10,
+          "order": 12,
           "required": true,
           "type": "number",
           "attributes": [
@@ -215,9 +265,9 @@
         {
           "id": 517600058,
           "meta": false,
-          "question": "Number of member 6-17 years",
+          "question": "Number of members of the household between 6-17 years",
           "name": "6-17 Years",
-          "order": 11,
+          "order": 13,
           "required": true,
           "type": "number",
           "attributes": [
@@ -231,7 +281,7 @@
           "meta": false,
           "question": "Number of members 18-65 years",
           "name": "18-65 Years",
-          "order": 12,
+          "order": 14,
           "required": true,
           "type": "number",
           "attributes": [
@@ -245,7 +295,7 @@
           "meta": false,
           "question": "Number of members 65+",
           "name": "65 Years +",
-          "order": 13,
+          "order": 15,
           "required": true,
           "type": "number",
           "attributes": [
@@ -259,7 +309,7 @@
           "meta": false,
           "question": "Residential status of this household in the community",
           "name": "Residential Status",
-          "order": 14,
+          "order": 16,
           "required": true,
           "type": "option",
           "attributes": [
@@ -323,7 +373,7 @@
         {
           "id": 512010045,
           "meta": false,
-          "question": "Is there presence of feaces in the vicinity?",
+          "question": "Is there presence of feaces, urine or soiled cleaning material in or around the toilet?",
           "name": "Presence of Faces in Vicinity",
           "order": 2,
           "required": true,
@@ -359,7 +409,7 @@
           "question": "What kind of toilet facility do members of your household usually use?",
           "name": "Toilet Type",
           "order": 3,
-          "required": true,
+          "required": false,
           "type": "option",
           "attributes": [
             "advanced_filter",
@@ -397,11 +447,162 @@
           ]
         },
         {
+          "id": 594410062,
+          "meta": false,
+          "question": "If ‘Flush’ or ‘Pour flush’, also ask: Where does it flush to?",
+          "name": null,
+          "order": 4,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "sewer system"
+            },
+            {
+              "name": "septic tank"
+            },
+            {
+              "name": "pit latrine"
+            },
+            {
+              "name": "open drain"
+            },
+            {
+              "name": "I don't know"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 492490054,
+              "options": [
+                "Flush / pour flush"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 608880007,
+          "meta": false,
+          "question": "Does the superstructure of the latrine meet the criteria for privacy and can prevent animals from entering?",
+          "name": null,
+          "order": 5,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 492490054,
+              "options": [
+                "Flush / pour flush",
+                "Pit latrine with slab",
+                "Pit latrine without slab / Open pit",
+                "Twin pit with slab",
+                "Twin pit without slab",
+                "Container based sanitation"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 566380005,
+          "meta": false,
+          "question": "Is the latrine fly-proof (prevent flies from reaching excreta in the pit)?",
+          "name": null,
+          "order": 6,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 492490054,
+              "options": [
+                "Pit latrine with slab",
+                "Pit latrine without slab / Open pit",
+                "Twin pit with slab",
+                "Twin pit without slab"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 566360070,
+          "meta": false,
+          "question": "Is the latrine made from durable materials, or approved resilient local materials",
+          "name": null,
+          "order": 7,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 492490054,
+              "options": [
+                "Pit latrine with slab",
+                "Twin pit with slab"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 591770068,
+          "meta": false,
+          "question": "Is the toilet pit made from durable or resilient local materials (unstable soils), or unlined (stable soils)",
+          "name": null,
+          "order": 8,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 492490054,
+              "options": [
+                "Pit latrine with slab",
+                "Pit latrine without slab / Open pit",
+                "Twin pit with slab",
+                "Twin pit without slab"
+              ]
+            }
+          ]
+        },
+        {
           "id": 513690062,
           "meta": false,
           "question": "Do you share this facility with others who are not members of your household?",
           "name": "Toilet is shared to other HH members",
-          "order": 4,
+          "order": 9,
           "required": true,
           "type": "option",
           "attributes": [
@@ -432,7 +633,7 @@
           "meta": false,
           "question": "Approximately how many people use the toilet facility?",
           "name": "Approx People using the Toilet Facility",
-          "order": 5,
+          "order": 10,
           "required": true,
           "type": "option",
           "attributes": [
@@ -442,13 +643,10 @@
           ],
           "options": [
             {
-              "name": "Own toilet only shared by members of the household"
+              "name": "Shared with 10-15 people (or less) including other households"
             },
             {
-              "name": "Own toilet shared with 10-15 people (or less) including other households"
-            },
-            {
-              "name": "Own toilet shared with more than 15 people including other households"
+              "name": "Shared with more than 15 people including other households"
             }
           ],
           "dependency": [
@@ -465,7 +663,7 @@
           "meta": false,
           "question": "Where is this toilet facility located?",
           "name": "Location of The Toilet Facilty",
-          "order": 6,
+          "order": 11,
           "required": true,
           "type": "option",
           "attributes": [
@@ -475,10 +673,10 @@
           ],
           "options": [
             {
-              "name": "In own dwelling"
+              "name": "Inside the house"
             },
             {
-              "name": "In own yard/plot"
+              "name": "In my compound/homestead"
             },
             {
               "name": "Elsewhere"
@@ -499,7 +697,8 @@
           "id": 513690066,
           "meta": false,
           "question": "Does your sanitation facility leak or overflow wastes at any time of year?",
-          "order": 7,
+          "name": null,
+          "order": 12,
           "required": true,
           "type": "option",
           "attributes": [
@@ -537,7 +736,7 @@
           "meta": false,
           "question": "Has your pit latrine or septic tank ever been emptied?",
           "name": "Pit laterine of septic tank has been emptied",
-          "order": 8,
+          "order": 13,
           "required": true,
           "type": "option",
           "attributes": [
@@ -565,11 +764,43 @@
           ]
         },
         {
+          "id": 605290067,
+          "meta": false,
+          "question": "The last time it was emptied, who emptied it?",
+          "name": null,
+          "order": 14,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "A County/municipal service provider"
+            },
+            {
+              "name": "Local emptier"
+            },
+            {
+              "name": "Private emptier/Tracks"
+            },
+            {
+              "name": "I don't know"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 513690059,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
+        },
+        {
           "id": 513690060,
           "meta": false,
-          "question": "The last time it was emptied, where were the contents emptied to?  Was it removed by a service provider?",
+          "question": "The last time it was emptied, where were the contents emptied to?",
           "name": "Contents of pit laterine",
-          "order": 9,
+          "order": 15,
           "required": true,
           "type": "option",
           "attributes": [
@@ -579,22 +810,19 @@
           ],
           "options": [
             {
-              "name": "Removed by service provider to a treatment plant"
+              "name": "To a treatment plant"
             },
             {
-              "name": "Removed by service provider to buried pit"
+              "name": "Buried in an uncovered pit"
             },
             {
-              "name": "Removed by service provider to don't know where"
+              "name": "Buried in a covered pit"
             },
             {
-              "name": "Emptied by household buried in a covered pit"
+              "name": "Open ground, water body or elsewhere"
             },
             {
-              "name": "Emptied by household to uncovered pit, open ground, water body or elsewhere"
-            },
-            {
-              "name": "Don't know"
+              "name": "I dont know where the emptier took the sludge"
             }
           ],
           "dependency": [
@@ -611,7 +839,7 @@
           "meta": false,
           "question": "Is everyone in the household able to access and use the toilet at all times of the day and night?",
           "name": "Everyone has access to the toilet all the times",
-          "order": 10,
+          "order": 16,
           "required": true,
           "type": "option",
           "attributes": [
@@ -643,7 +871,7 @@
           "meta": false,
           "question": "What was the (main) reason that household members were unable to use the toilet at all times of the day or night?",
           "name": "Reason",
-          "order": 11,
+          "order": 17,
           "required": true,
           "type": "option",
           "attributes": [
@@ -675,11 +903,35 @@
           ]
         },
         {
+          "id": 601270072,
+          "meta": false,
+          "question": "The last time the child/chidren (0-5years) passed stools, where did they defecate?",
+          "name": null,
+          "order": 18,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "In the toilet"
+            },
+            {
+              "name": "On the diaper"
+            },
+            {
+              "name": "In the compound"
+            },
+            {
+              "name": "I don't have a child"
+            }
+          ]
+        },
+        {
           "id": 513690061,
           "meta": false,
-          "question": "The last time the child/chidren (0-5years) passed stools, what was done to dispose of the stools",
+          "question": "The last time the child/chidren (0-5years) passed stools, where did you dispose of the feaces?",
           "name": "Dispose of the stools",
-          "order": 12,
+          "order": 19,
           "required": true,
           "type": "option",
           "attributes": [
@@ -715,13 +967,49 @@
             {
               "name": "Don't know"
             }
+          ],
+          "dependency": [
+            {
+              "id": 601270072,
+              "options": [
+                "On the diaper",
+                "In the compound"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 550560064,
+          "meta": false,
+          "question": "Are washable cloths cleaned in a safe place and disposable diapers safely disposed?",
+          "name": null,
+          "order": 20,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "yes"
+            },
+            {
+              "name": "No"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 608890003,
+              "options": [
+                "Yes"
+              ]
+            }
           ]
         },
         {
           "id": 513690063,
           "meta": false,
           "question": "May I take a photo of your toilet facility?",
-          "order": 13,
+          "name": null,
+          "order": 21,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -779,7 +1067,31 @@
               "name": "Before and after caring for someone at home who is sick with vomiting or diarrhea."
             },
             {
-              "name": "New option"
+              "name": "After handling animals (before and after milking, after contacts with animals, animal products or animal wastes)"
+            },
+            {
+              "name": "After handling child faeces"
+            },
+            {
+              "name": "After washing and disposal of a used diaper"
+            }
+          ]
+        },
+        {
+          "id": 599400071,
+          "meta": false,
+          "question": "Is there availability of a hand washing facility?",
+          "name": null,
+          "order": 2,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
             }
           ]
         },
@@ -788,7 +1100,7 @@
           "meta": false,
           "question": "Can you please show me where members of your household most often wash their hands?",
           "name": "Handwashing Facilty",
-          "order": 2,
+          "order": 3,
           "required": true,
           "type": "option",
           "attributes": [
@@ -807,10 +1119,68 @@
               "name": "Mobile object observed (bucket/jug/kettle)"
             },
             {
-              "name": "No handwashing place in dwelling/yard/plot"
+              "name": "No handwashing place in dwelling/homestead/plot"
             },
             {
               "name": "No permission to see"
+            }
+          ]
+        },
+        {
+          "id": 587740004,
+          "meta": false,
+          "question": "Where is/are the hand washing facilities located?",
+          "name": null,
+          "order": 4,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "At the toilet"
+            },
+            {
+              "name": "In the house"
+            },
+            {
+              "name": "in the kitchen"
+            },
+            {
+              "name": "Else where within the homestead"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 599400071,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 608880010,
+          "meta": false,
+          "question": "Is there a durable handwashing facility with piped water or water storage, in a fixed and appropriate location",
+          "name": null,
+          "order": 5,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 599400071,
+              "options": [
+                "Yes"
+              ]
             }
           ]
         },
@@ -819,7 +1189,7 @@
           "meta": false,
           "question": "Observe availability of water at the place for handwashing",
           "name": "Water in handwashing facilty",
-          "order": 3,
+          "order": 6,
           "required": true,
           "type": "option",
           "attributes": [
@@ -847,11 +1217,63 @@
           ]
         },
         {
+          "id": 599420008,
+          "meta": false,
+          "question": "Does the water have minimal handling or hands-free operation of the handwashing facility",
+          "name": null,
+          "order": 7,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 466680045,
+              "options": [
+                "Water is available"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 589750004,
+          "meta": false,
+          "question": "Is the water collected and drained from the hand washing facility into a safe disposal point?",
+          "name": null,
+          "order": 8,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 466680045,
+              "options": [
+                "Water is available"
+              ]
+            }
+          ]
+        },
+        {
           "id": 466760036,
           "meta": false,
           "question": "Observe availability of soap or detergent at the place for handwashing",
           "name": "Soap / detergent",
-          "order": 4,
+          "order": 9,
           "required": true,
           "type": "option",
           "attributes": [
@@ -883,7 +1305,7 @@
           "meta": false,
           "question": "When do you wash your children's faces?",
           "name": "Wash children's feces",
-          "order": 5,
+          "order": 10,
           "required": true,
           "type": "option",
           "attributes": [
@@ -910,7 +1332,8 @@
           "id": 466680039,
           "meta": false,
           "question": "May I take a photo of the handwashing station?",
-          "order": 6,
+          "name": null,
+          "order": 11,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -938,7 +1361,7 @@
           "meta": false,
           "question": "Make a photo of the handwashing station",
           "name": "Handwashing photo",
-          "order": 7,
+          "order": 12,
           "required": true,
           "type": "geo",
           "attributes": [
@@ -997,11 +1420,29 @@
           ]
         },
         {
+          "id": 596100077,
+          "meta": false,
+          "question": "Is there visible solid waste in and around the household compound?",
+          "name": null,
+          "order": 2,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
           "id": 466690043,
           "meta": false,
           "question": "How do you dispose of household water used for cooking, laundry and bathing?",
           "name": "Water Dispose",
-          "order": 2,
+          "order": 3,
           "required": true,
           "type": "option",
           "attributes": [
@@ -1033,6 +1474,24 @@
             },
             {
               "name": "Don't know"
+            }
+          ]
+        },
+        {
+          "id": 599430008,
+          "meta": false,
+          "question": "Are there adequate soak pits and drainage, with no visible erosion or liquid wastes in the household compound?",
+          "name": null,
+          "order": 4,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
             }
           ]
         }
@@ -1280,6 +1739,320 @@
             },
             {
               "name": "Put it in trush buckets"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question_group": "Good nutrition",
+      "questions": [
+        {
+          "id": 587720010,
+          "meta": false,
+          "question": "Is drinking water collected in clean containers; adequate quality; safely stored, and safely used?",
+          "name": null,
+          "order": 1,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 596150064,
+          "meta": false,
+          "question": "Where is the drinking water source located?",
+          "name": null,
+          "order": 2,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Within the homestead"
+            },
+            {
+              "name": "In a communal area"
+            },
+            {
+              "name": "I don't know"
+            }
+          ]
+        },
+        {
+          "id": 591770069,
+          "meta": false,
+          "question": "Are the water sources clean, protected and well-drained",
+          "name": null,
+          "order": 3,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 583880004,
+          "meta": false,
+          "question": "How is food stored?",
+          "name": null,
+          "order": 4,
+          "required": true,
+          "type": "multiple_option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Off the ground"
+            },
+            {
+              "name": "In covered storage"
+            },
+            {
+              "name": "While it's washed (raw foods)"
+            },
+            {
+              "name": "Inside the house"
+            },
+            {
+              "name": "In cleaned utensils"
+            },
+            {
+              "name": "I do't know"
+            }
+          ]
+        },
+        {
+          "id": 566360065,
+          "meta": false,
+          "question": "Are the children under 5 years fully immunised (ask to observe the vaccination records)",
+          "name": null,
+          "order": 5,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 608890003,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 597180060,
+          "meta": false,
+          "question": "Have all the under-5 children received a Vitamin A supplement in the last 6 months.",
+          "name": null,
+          "order": 6,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 608890003,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 567520071,
+          "meta": false,
+          "question": "Are all infants exclusively breastfed until they are 6 months old?",
+          "name": null,
+          "order": 7,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 608890003,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 608880005,
+          "meta": false,
+          "question": "Do all under-2 children receive foods from 5 or more food groups?",
+          "name": null,
+          "order": 8,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 608890003,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question_group": "Endemic outcomes",
+      "questions": [
+        {
+          "id": 587730003,
+          "meta": false,
+          "question": "Does the household use insecticide-treated bed nets on all beds, or insect screens on all doors, windows and other openings into the house? (Observe)",
+          "name": null,
+          "order": 1,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 605310003,
+          "meta": false,
+          "question": "Do all children and all at-risk adults received deworming treatment in the last 12 months",
+          "name": null,
+          "order": 2,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 587710066,
+          "meta": false,
+          "question": "Is there absence of standing water or untreated larval breeding sites are visible in the household compound",
+          "name": null,
+          "order": 3,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question_group": "Safe management of animal and animal waste",
+      "questions": [
+        {
+          "id": 607120066,
+          "meta": false,
+          "question": "Is the animal wastes visible inside the house, or around the house in the household compound (other than in sites where manure is stored)",
+          "name": null,
+          "order": 1,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 596140066,
+          "meta": false,
+          "question": "Is animal wastes collected, stored and managed in an appropriate facility, located away from the house",
+          "name": null,
+          "order": 2,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 607140007,
+          "meta": false,
+          "question": "Is there penning and confinement of animals in the household compound",
+          "name": null,
+          "order": 3,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
             }
           ]
         }
