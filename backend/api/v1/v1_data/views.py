@@ -355,19 +355,27 @@ def get_map_data_point(request, version, form_id):
             'loc': serializers.CharField(),
             'shape': serializers.IntegerField(),
         }, many=True)},
-    parameters=[OpenApiParameter(
-        name='shape',
-        required=True,
-        type=OpenApiTypes.NUMBER,
-        location=OpenApiParameter.QUERY)],
+    parameters=[
+        OpenApiParameter(
+            name='shape',
+            required=True,
+            type=OpenApiTypes.NUMBER,
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='options',
+            required=False,
+            type={'type': 'array',
+                  'items': {'type': 'string'}},
+            location=OpenApiParameter.QUERY)],
     tags=['Visualisation'],
     summary='To get overview Map data points')
 @api_view(['GET'])
 def get_map_county_data_point(request, version, form_id):
+    options_query = request.GET.getlist('options')
     cache_name = request.GET.get("shape")
     cache_name = f"ovw_maps-{cache_name}"
     cache_data = get_cache(cache_name)
-    if cache_data:
+    if cache_data and not options_query:
         return Response(cache_data, status=status.HTTP_200_OK)
     instance = get_object_or_404(Forms, pk=form_id)
     serializer = ListMapOverviewDataPointRequestSerializer(
@@ -380,8 +388,14 @@ def get_map_county_data_point(request, version, form_id):
     administrations = Administration.objects.filter(
             level_id=2).values('id', 'name')
     counties = []
+    form_data = instance.form_form_data
+    if options_query:
+        data_ids = get_advance_filter_data_ids(
+            form_id=form_id, administration_id=None,
+            options=options_query)
+        form_data = form_data.filter(pk__in=data_ids)
     data = ListMapOverviewDataPointSerializer(
-        instance=instance.form_form_data.all(),
+        instance=form_data.all(),
         context={
             'shape': serializer.validated_data.get('shape'),
             'marker': serializer.validated_data.get('marker')},
