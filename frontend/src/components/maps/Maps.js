@@ -85,8 +85,6 @@ const Maps = ({ mapConfig = example, style = {} }) => {
   const [hovered, setHovered] = useState(null);
   const [shapeFilterColor, setShapeFilterColor] = useState(null);
 
-  const thresholds = calc === "percent" ? [25, 50, 75, 100] : [1, 3, 5];
-
   useEffect(() => {
     if (maps && administration?.length) {
       const pos = getBounds(administration);
@@ -116,6 +114,9 @@ const Maps = ({ mapConfig = example, style = {} }) => {
     method: calc,
     colorRange: colorRange,
   });
+
+  const thresholds =
+    calc === "percent" ? [25, 50, 75, 100] : colorScale.thresholds();
 
   const getFillColor = (v) => {
     const color = v === 0 ? "#e6e8f4" : colorScale(v);
