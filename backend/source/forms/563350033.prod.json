@@ -1,6 +1,6 @@
 {
   "id": 563350033,
-  "form": "Schools",
+  "form": "WASH in Schools",
   "type": 1,
   "question_groups": [
     {
@@ -8,7 +8,7 @@
       "questions": [
         {
           "id": 543080040,
-          "meta": false,
+          "meta": true,
           "question": "Take the GPS location",
           "name": null,
           "order": 1,

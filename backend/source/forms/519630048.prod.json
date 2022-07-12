@@ -57,7 +57,7 @@
       "questions": [
         {
           "id": 517600060,
-          "meta": false,
+          "meta": true,
           "question": "Take the GPS location of the Household",
           "name": "Geolocation",
           "order": 1,
@@ -101,7 +101,12 @@
           "order": 4,
           "required": true,
           "type": "option",
-          "attributes": [],
+          "attributes": [
+            "advanced_filter",
+            "aggregate",
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Rural"
