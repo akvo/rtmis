@@ -27,6 +27,7 @@ import {
   Settings,
   Organisations,
   AddOrganisation,
+  Dashboard,
 } from "./pages";
 import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
@@ -57,6 +58,7 @@ const RouteList = () => {
       <Route exact path="/forgot-password" element={<Login />} />
       <Route exact path="/data" element={<Home />} />
       <Route exact path="/form/:formId" element={<Forms />} />
+      <Route exact path="/dashboard/:formId" element={<Dashboard />} />
       <Route path="/users" element={<Private element={Users} alias="user" />} />
       <Route
         path="/organisations"

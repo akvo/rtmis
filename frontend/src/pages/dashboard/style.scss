@@ -1,0 +1,15 @@
+@import "../../variables";
+
+#root {
+  #dashboard {
+    min-height: 10vh;
+
+    .page-title-wrapper {
+      padding: 14px 0;
+    }
+
+    .main-wrapper {
+      min-height: 550px;
+    }
+  }
+}
