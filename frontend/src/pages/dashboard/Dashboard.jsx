@@ -6,8 +6,7 @@ import { VisualisationFilters } from "../../components";
 import { useNotification } from "../../util/hooks";
 import { api, uiText, store } from "../../lib";
 import { capitalize } from "lodash";
-import { CardVisual, MapVisual } from "./components";
-import { Maps } from "../../components";
+import { CardVisual, Maps } from "../../components";
 
 const { TabPane } = Tabs;
 
@@ -50,7 +49,7 @@ const Dashboard = () => {
       case "chart":
         return <p>Chart</p>;
       case "table":
-        return <p>Table</p>;
+        return <p> Table</p>;
       default:
         return (
           <CardVisual config={{ ...config, data: dataset, index: index }} />
