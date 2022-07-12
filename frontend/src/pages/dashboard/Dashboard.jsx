@@ -6,7 +6,8 @@ import { VisualisationFilters } from "../../components";
 import { useNotification } from "../../util/hooks";
 import { api, uiText, store } from "../../lib";
 import { capitalize } from "lodash";
-import { CardVisual } from ".";
+import { CardVisual, MapVisual } from "./components";
+import { Maps } from "../../components";
 
 const { TabPane } = Tabs;
 
@@ -42,16 +43,18 @@ const Dashboard = () => {
     }
   }, [formId, notify, text]);
 
-  const renderColumn = (config) => {
+  const renderColumn = (config, index) => {
     switch (config.type) {
       case "map":
-        return <h1>Map</h1>;
+        return <Maps mapConfig={{ ...config, data: dataset, index: index }} />;
       case "chart":
-        return <h1>Chart</h1>;
+        return <p>Chart</p>;
       case "table":
-        return <h1>Table</h1>;
+        return <p>Table</p>;
       default:
-        return <CardVisual config={config} dataset={dataset} />;
+        return (
+          <CardVisual config={{ ...config, data: dataset, index: index }} />
+        );
     }
   };
 
@@ -84,7 +87,7 @@ const Dashboard = () => {
                             className="row-wrapper"
                             gutter={[10, 10]}
                           >
-                            {row.map((r) => renderColumn(r))}
+                            {row.map((r, ri) => renderColumn(r, ri))}
                           </Row>
                         );
                       })

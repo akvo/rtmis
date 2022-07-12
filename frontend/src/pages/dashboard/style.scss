@@ -5,14 +5,19 @@
     min-height: 10vh;
 
     .page-title-wrapper {
-      padding: 14px 0;
+      padding: 12px 0;
     }
 
     .main-wrapper {
       min-height: 550px;
-      padding-top: 18px;
+      padding-top: 24px;
+
       h4 {
         margin-top: 50px;
+      }
+
+      .row-wrapper {
+        padding: 12px 0;
       }
     }
   }

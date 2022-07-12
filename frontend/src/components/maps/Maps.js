@@ -4,7 +4,7 @@ import ShapeLegend from "./ShapeLegend";
 import { MapContainer, TileLayer, GeoJSON, Tooltip } from "react-leaflet";
 import { store, geo } from "../../lib";
 import { get, takeRight, sumBy } from "lodash";
-import { Spin, Space, Button } from "antd";
+import { Spin, Space, Button, Col } from "antd";
 import "leaflet/dist/leaflet.css";
 import {
   ZoomInOutlined,
@@ -76,7 +76,7 @@ const example = {
 
 const Maps = ({ mapConfig = example, style = {} }) => {
   // config
-  const { data, title, calc, path } = mapConfig;
+  const { data, title, calc, path, span, type, index } = mapConfig;
   const { administration } = store.useState((s) => s);
   const [maps, setMaps] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(null);
@@ -184,7 +184,7 @@ const Maps = ({ mapConfig = example, style = {} }) => {
   };
 
   return (
-    <div className="map-container">
+    <Col className="map-container" span={span} key={`col-${type}-${index}`}>
       {!results.length && (
         <div className="map-loading">
           <Spin />
@@ -250,7 +250,7 @@ const Maps = ({ mapConfig = example, style = {} }) => {
           symbol={calc === "percent" ? "%" : ""}
         />
       )}
-    </div>
+    </Col>
   );
 };
 
