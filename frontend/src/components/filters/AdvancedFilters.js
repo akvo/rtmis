@@ -6,7 +6,7 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { first, flatten, intersection } from "lodash";
 
 const { Option, OptGroup } = Select;
-const attributes = ["chart", "table"];
+const attributes = ["advanced_filter"];
 
 const AdvancedFilters = () => {
   const [optionGroups, setOptionGroups] = useState([]);

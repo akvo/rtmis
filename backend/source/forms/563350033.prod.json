@@ -63,6 +63,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart",
             "aggregate"
@@ -149,6 +150,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart",
             "aggregate"
@@ -189,6 +191,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],
@@ -244,6 +247,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart",
             "aggregate"
@@ -266,6 +270,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart",
             "aggregate"
@@ -291,6 +296,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],
@@ -323,6 +329,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart",
             "aggregate"
@@ -345,6 +352,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart",
             "aggregate"
@@ -381,6 +389,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart",
             "aggregate"
@@ -403,6 +412,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart",
             "aggregate"
@@ -434,6 +444,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart",
             "aggregate"
@@ -473,6 +484,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart",
             "aggregate"
@@ -510,6 +522,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart",
             "aggregate"
@@ -668,6 +681,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],
@@ -706,6 +720,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],
@@ -738,6 +753,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart",
             "aggregate"
@@ -798,6 +814,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -837,6 +854,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -859,6 +877,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table"
           ],
@@ -894,6 +913,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table"
           ],
@@ -921,6 +941,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table"
           ],
@@ -945,6 +966,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table"
           ],
@@ -980,6 +1002,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1008,6 +1031,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1033,6 +1057,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1055,6 +1080,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1077,6 +1103,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1099,6 +1126,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1121,6 +1149,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1151,6 +1180,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1173,6 +1203,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1209,6 +1240,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1267,6 +1299,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1288,6 +1321,12 @@
           "order": 6,
           "required": true,
           "type": "option",
+          "attributes": [
+            "advanced_filter",
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "With water only"
@@ -1298,11 +1337,6 @@
             {
               "name": "I don’t wash"
             }
-          ],
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
           ],
           "dependency": [
             {
@@ -1321,6 +1355,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart"
           ],
           "options": [
@@ -1353,6 +1388,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1375,6 +1411,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1402,6 +1439,7 @@
           "required": true,
           "type": "multiple_option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1427,6 +1465,7 @@
           "question": "Do school girls face challenges during their menstruation time in school?",
           "name": "Challenges during their menstruation time",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1464,6 +1503,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table"
           ],
@@ -1488,6 +1528,7 @@
           "required": true,
           "type": "multiple_option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1530,6 +1571,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1555,6 +1597,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1577,6 +1620,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1607,6 +1651,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1632,6 +1677,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1657,6 +1703,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1691,6 +1738,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1716,6 +1764,7 @@
           "required": true,
           "type": "multiple_option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1747,6 +1796,7 @@
           "required": true,
           "type": "multiple_option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1781,6 +1831,7 @@
           "required": true,
           "type": "multiple_option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table"
           ],
@@ -1814,6 +1865,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table",
             "aggregate"
@@ -1836,6 +1888,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "chart",
             "table"
           ],

@@ -37,10 +37,12 @@ class AttributeTypes:
     aggregate = 2
     table = 3
     jmp = 4
+    advanced_filter = 5
 
     FieldStr = {
         chart: 'chart',
         aggregate: 'aggregate',
         table: 'table',
         jmp: 'jmp',
+        advanced_filter: 'advanced_filter',
     }
