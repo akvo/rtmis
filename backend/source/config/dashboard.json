@@ -8,42 +8,42 @@
             {
               "type": "card",
               "title": "HHs reporting",
-              "calculation": "sum",
+              "calc": "sum",
               "path": "total",
               "span": 4
             },
             {
               "type": "card",
               "title": "Counties reporting",
-              "calculation": "count",
+              "calc": "count",
               "path": "length",
               "span": 4
             },
             {
               "type": "card",
               "title": "HHs with safely managed sanitation facilities",
-              "calculation": "percent",
+              "calc": "percent",
               "path": "data.sanitation service level.safely managed",
               "span": 4
             },
             {
               "type": "card",
               "title": "HHs with Basic hand hygiene facilities",
-              "calculation": "percent",
+              "calc": "percent",
               "path": "data.hygiene service level.basic",
               "span": 4
             },
             {
               "type": "card",
               "title": "HHs with sanitation facilities at grade 3",
-              "calculation": "percent",
+              "calc": "percent",
               "path": null,
               "span": 4
             },
             {
               "type": "card",
               "title": "HHs with hand hygiene facilities at grade 3",
-              "calculation": "percent",
+              "calc": "percent",
               "path": null,
               "span": 4
             }
@@ -51,10 +51,9 @@
           [
             {
               "type": "map",
-              "loc_path": "loc",
-              "shape": true,
-              "shape_calculation": "sum",
-              "shape_path": "total",
+              "title": "Counts of datapoint",
+              "calc": "default",
+              "path": "total",
               "span": 24
             }
           ],
@@ -62,7 +61,7 @@
             {
               "type": "chart",
               "title": "Trend charts",
-              "calculation": "sum",
+              "calc": "sum",
               "path": null,
               "span": 12
             },
@@ -84,28 +83,28 @@
             {
               "type": "card",
               "title": "Safely managed",
-              "calculation": "percent",
+              "calc": "percent",
               "path": "data.sanitation service level.safely managed",
               "span": 6
             },
             {
               "type": "card",
               "title": "Open defecation",
-              "calculation": "percent",
+              "calc": "percent",
               "path": "data.sanitation service level.open defecation",
               "span": 6
             },
             {
               "type": "card",
               "title": "Hygiene basic",
-              "calculation": "percent",
+              "calc": "percent",
               "path": "data.hygiene service level.basic",
               "span": 6
             },
             {
               "type": "card",
               "title": "Hygiene no facility",
-              "calculation": "percent",
+              "calc": "percent",
               "path": "data.hygiene service level.no facility",
               "span": 6
             }
@@ -113,10 +112,9 @@
           [
             {
               "type": "map",
-              "loc_path": "loc",
-              "shape": true,
-              "shape_calculation": "percent",
-              "shape_path": "data.sanitation service level.safely managed",
+              "title": "Counts of datapoint",
+              "calc": "percent",
+              "path": "data.sanitation service level.safely managed",
               "span": 24
             }
           ],
@@ -124,14 +122,14 @@
             {
               "type": "chart",
               "title": "Sanitation service level",
-              "calculation": "jmp",
+              "calc": "jmp",
               "path": "data.sanitation service level",
               "span": 12
             },
             {
               "type": "chart",
               "title": "Hygiene service level",
-              "calculation": "jmp",
+              "calc": "jmp",
               "path": "data.hygiene service level",
               "span": 12
             }
@@ -181,35 +179,35 @@
             {
               "type": "card",
               "title": "Health care facilities reporting",
-              "calculation": "sum",
+              "calc": "sum",
               "path": "total",
               "span": 4
             },
             {
               "type": "card",
               "title": "Counties reporting",
-              "calculation": "count",
+              "calc": "count",
               "path": "length",
               "span": 4
             },
             {
               "type": "card",
               "title": "Health care facilities with basic water facilities",
-              "calculation": "percent",
+              "calc": "percent",
               "path": null,
               "span": 4
             },
             {
               "type": "card",
               "title": "Health care facilities with basic sanitation facilities",
-              "calculation": "percent",
+              "calc": "percent",
               "path": "data.hygiene service level.basic",
               "span": 4
             },
             {
               "type": "card",
               "title": "Health care facilities with basic hand hygiene facilities",
-              "calculation": "percent",
+              "calc": "percent",
               "path": "data.hygiene (hand washing) service level.basic",
               "span": 4
             }
@@ -230,35 +228,35 @@
             {
               "type": "card",
               "title": "Schools reporting",
-              "calculation": "sum",
+              "calc": "sum",
               "path": "total",
               "span": 4
             },
             {
               "type": "card",
               "title": "Counties reporting",
-              "calculation": "count",
+              "calc": "count",
               "path": "length",
               "span": 4
             },
             {
               "type": "card",
               "title": "Schools with basic water source",
-              "calculation": "percent",
+              "calc": "percent",
               "path": null,
               "span": 4
             },
             {
               "type": "card",
               "title": "Schools with basic sanitation facilities",
-              "calculation": "percent",
+              "calc": "percent",
               "path": "data.sanitation service level.basic",
               "span": 4
             },
             {
               "type": "card",
               "title": "Schools with basic hand hygiene facilities",
-              "calculation": "percent",
+              "calc": "percent",
               "path": "data.hygiene (handwashing) service level.basic",
               "span": 4
             }
