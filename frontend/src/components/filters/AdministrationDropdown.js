@@ -1,11 +1,10 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import "./style.scss";
 import { Select, Space } from "antd";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { store, config } from "../../lib";
 import { useNotification } from "../../util/hooks";
-import { intersection } from "lodash";
 
 const allowedGlobal = ["/dashboard/"];
 
