@@ -1,6 +1,7 @@
 import { feature, merge } from "topojson-client";
 import { geoCentroid, geoBounds } from "d3-geo";
 import { groupBy, chain } from "lodash";
+import { scaleQuantize } from "d3-scale";
 import union from "@turf/union";
 
 const topojson = window.topojson;
@@ -71,12 +72,36 @@ const countiesjson = chain(groupBy(geojson.features, "properties.NAME_1"))
     return { ...x.polygon, properties: { NAME_01: x.name } };
   });
 
+const getColorScale = ({ method, colors, colorRange }) => {
+  if (method === "percent") {
+    return scaleQuantize().domain([0, 100]).range(colorRange);
+  }
+  const domain = colors
+    .reduce(
+      (acc, curr) => {
+        const v = curr.value;
+        const [minVal, maxVal] = acc;
+        return [minVal, v > maxVal ? v : maxVal];
+      },
+      [0, 0]
+    )
+    .map((acc, index) => {
+      if (index && acc) {
+        acc = acc < 10 ? 10 : acc;
+        acc = 100 * Math.floor((acc + 50) / 100);
+      }
+      return acc;
+    });
+  return scaleQuantize().domain(domain).range(colorRange);
+};
+
 const geo = {
   geojson: geojson,
   countiesjson: { type: "FeatureCollection", features: countiesjson },
   shapeLevels: shapeLevels,
   tile: tile,
   getBounds: getBounds,
+  getColorScale: getColorScale,
   defaultPos: defaultPos,
 };
 
