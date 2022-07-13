@@ -27,6 +27,7 @@ import {
   Settings,
   Organisations,
   AddOrganisation,
+  Dashboard,
 } from "./pages";
 import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
@@ -57,6 +58,7 @@ const RouteList = () => {
       <Route exact path="/forgot-password" element={<Login />} />
       <Route exact path="/data" element={<Home />} />
       <Route exact path="/form/:formId" element={<Forms />} />
+      <Route exact path="/dashboard/:formId" element={<Dashboard />} />
       <Route path="/users" element={<Private element={Users} alias="user" />} />
       <Route
         path="/organisations"
@@ -154,6 +156,10 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const { notify } = useNotification();
 
+  const public_state = config.allowedGlobal
+    .map((x) => location.pathname.includes(x))
+    .filter((x) => x)?.length;
+
   document.addEventListener("click", () => {
     if (isLoggedIn && authUser?.last_login) {
       const expired = timeDiffHours(authUser.last_login);
@@ -219,23 +225,27 @@ const App = () => {
   }, [authUser, isLoggedIn, cookies, notify]);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && !public_state) {
       store.update((s) => {
         s.administration = [
           config.fn.administration(authUser.administration.id),
         ];
       });
     }
-  }, [authUser, isLoggedIn, notify]);
+  }, [authUser, isLoggedIn, public_state]);
 
   const isHome = location.pathname === "/";
+
+  const isPublic = config.allowedGlobal
+    .map((x) => location.pathname.includes(x))
+    .filter((x) => x)?.length;
 
   return (
     <Layout>
       <Layout.Header />
       <Layout.Banner />
       <Layout.Body>
-        {loading && !isHome ? (
+        {loading && !isHome && !isPublic ? (
           <PageLoader message="Initializing. Please wait.." />
         ) : (
           <RouteList />

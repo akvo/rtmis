@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import "./style.scss";
 import { Select, Space } from "antd";
+import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { store, config } from "../../lib";
-import { useNotification } from "../../util/hooks";
 
 const AdministrationDropdown = ({
   loading = false,
@@ -15,16 +15,20 @@ const AdministrationDropdown = ({
   onChange,
   ...props
 }) => {
+  const { pathname } = useLocation();
   const { user, administration, isLoggedIn } = store.useState((state) => state);
-  const { notify } = useNotification();
+
+  const public_state = config.allowedGlobal
+    .map((x) => pathname.includes(x))
+    .filter((x) => x)?.length;
 
   useEffect(() => {
-    if (isLoggedIn && !persist) {
+    if (isLoggedIn && !persist && !public_state) {
       store.update((s) => {
         s.administration = [config.fn.administration(user.administration.id)];
       });
     }
-  }, [user, isLoggedIn, notify, persist]);
+  }, [user, isLoggedIn, persist, public_state]);
 
   const handleChange = (e, index) => {
     if (!e) {

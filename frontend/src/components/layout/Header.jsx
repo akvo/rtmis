@@ -15,6 +15,7 @@ const Header = ({ className = "header", ...props }) => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+  const forms = window?.forms;
 
   const signOut = async () => {
     eraseCookieFromAllPaths("AUTH_TOKEN");
@@ -44,6 +45,16 @@ const Header = ({ className = "header", ...props }) => {
           {text?.signOut}
         </a>
       </Menu.Item>
+    </Menu>
+  );
+
+  const DashboardMenu = (
+    <Menu>
+      {forms?.map((f, fi) => (
+        <Menu.Item key={`${fi}-${f.id}`}>
+          <Link to={`/dashboard/${f.id}`}>{f.name}</Link>
+        </Menu.Item>
+      ))}
     </Menu>
   );
 
@@ -80,10 +91,21 @@ const Header = ({ className = "header", ...props }) => {
         <Col>
           <div className="navigation">
             <Space>
-              <Link to="/data/visualisation">{text?.dashboards}</Link>
+              {/* old dashboard */}
+              {/* <Link to="/data/visualisation">{text?.dashboards}</Link> */}
               <Link className="dev" to="/reports">
                 {text?.reports}
               </Link>
+              <Dropdown overlay={DashboardMenu}>
+                <a
+                  className="ant-dropdown-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                  }}
+                >
+                  {text?.dashboards}
+                </a>
+              </Dropdown>
               {/* <a className="dev">Monitoring</a> */}
               {/* <Link className="dev" to="/how-we-work">
               How We Work

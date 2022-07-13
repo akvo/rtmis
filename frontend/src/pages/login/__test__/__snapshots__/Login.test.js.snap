@@ -13,7 +13,7 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
       >
         <div
           class="background"
-          style="background-image: url(/assets/banner.png); background-size: cover; background-position: center; background-repeat: no-repeat;"
+          style="background-image: url(/assets/banner.jpg); background-size: cover; background-position: center; background-repeat: no-repeat;"
         />
         <div
           class="logo"
@@ -27,6 +27,9 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
             />
             <h1>
               RUSH
+              <small>
+                Rural Urban Sanitation and Hygiene
+              </small>
             </h1>
           </a>
         </div>
@@ -43,13 +46,12 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
                 Rural Urban Sanitation
                 <br />
                 and Hygiene (RUSH)
-                <br />
-                <small>
-                  Real Time Management Information System (RTMIS)
-                  <br />
-                  Updated sanitation and hygiene estimates across Kenya
-                </small>
               </h1>
+              <h2>
+                Real Time Management Information System (RTMIS)
+                <br />
+                Updated sanitation and hygiene estimates across Kenya
+              </h2>
             </div>
           </div>
           <div
@@ -289,7 +291,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
       >
         <div
           class="background"
-          style="background-image: url(/assets/banner.png); background-size: cover; background-position: center; background-repeat: no-repeat;"
+          style="background-image: url(/assets/banner.jpg); background-size: cover; background-position: center; background-repeat: no-repeat;"
         />
         <div
           class="logo"
@@ -303,6 +305,9 @@ exports[`Login and Registration test if the registration form exists: Registrati
             />
             <h1>
               RUSH
+              <small>
+                Rural Urban Sanitation and Hygiene
+              </small>
             </h1>
           </a>
         </div>
@@ -319,13 +324,12 @@ exports[`Login and Registration test if the registration form exists: Registrati
                 Rural Urban Sanitation
                 <br />
                 and Hygiene (RUSH)
-                <br />
-                <small>
-                  Real Time Management Information System (RTMIS)
-                  <br />
-                  Updated sanitation and hygiene estimates across Kenya
-                </small>
               </h1>
+              <h2>
+                Real Time Management Information System (RTMIS)
+                <br />
+                Updated sanitation and hygiene estimates across Kenya
+              </h2>
             </div>
           </div>
           <div
