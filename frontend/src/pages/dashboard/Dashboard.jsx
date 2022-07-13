@@ -50,6 +50,7 @@ const Dashboard = () => {
   useEffect(() => {
     const currentAdministration = takeRight(administration)?.[0]?.id;
     if (formId) {
+      setDataset([]);
       setLoading(true);
       let url = `jmp/${formId}?administration=${currentAdministration}`;
       if (advancedFilters && advancedFilters.length) {
