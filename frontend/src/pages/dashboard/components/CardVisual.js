@@ -3,7 +3,7 @@ import { Col, Card, Image } from "antd";
 import { store } from "../../../lib";
 import { get, sum, takeRight } from "lodash";
 
-const CardVisual = ({ cardConfig }) => {
+const CardVisual = ({ cardConfig, loading }) => {
   const { administration } = store.useState((s) => s);
   const currentAdministration = takeRight(administration)?.[0];
   const {
@@ -82,8 +82,10 @@ const CardVisual = ({ cardConfig }) => {
         <h3 className={icon ? "with-icon" : ""}>
           {renderData?.title?.replace("##administration_level##", admLevelName)}
         </h3>
-        <h1 className={icon ? "with-icon" : ""}>{renderData?.value}</h1>
-        <h4>Last Update : {lastUpdate}</h4>
+        <h1 className={icon ? "with-icon" : ""}>
+          {!loading && renderData?.value}
+        </h1>
+        <h4>Last Update : {loading ? "Loading..." : lastUpdate}</h4>
       </Card>
     </Col>
   );
