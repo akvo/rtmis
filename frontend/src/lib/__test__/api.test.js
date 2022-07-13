@@ -60,15 +60,16 @@ describe("lib/api", () => {
   });
   describe("POST", () => {
     it("test a POST request", async () => {
-      mock.onPost("/login").reply((config) => {
+      const payload = {
+        email: "toky@gmail.com",
+        password: "FaTo!2&",
+      };
+      mock.onPost("/login", payload).reply((config) => {
         expect(config.baseURL).toEqual("/api/v1/");
         expect(config.headers).toEqual(headers);
         return [200, {}];
       });
-      await api.post("/login", {
-        email: "toky@gmail.com",
-        password: "FaTo!2&",
-      });
+      await api.post("/login", payload);
     });
   });
 

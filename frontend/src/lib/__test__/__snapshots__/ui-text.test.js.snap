@@ -17,7 +17,7 @@ Object {
     "batchName": "Batch Name",
     "batchSelectedDatasets": "Batch Selected Datasets",
     "browseComputer": "Browse your computer",
-    "ccDescriptionPanel": "Instant access to the all the administration pages and overview panels for data approvals.",
+    "ccDescriptionPanel": "Instant access to all the administration pages and overview panels for data approvals.",
     "contactAdmin": "Please contact the administrator",
     "controlCenter": "Control Center",
     "copyright": "© 2022 — Ministry of Health",
@@ -47,7 +47,7 @@ Object {
           Bulk upload new data
         </li>
         <li>
-          Bulk upload existing data
+          Bulk update existing data
         </li>
       </ul>
     </React.Fragment>,
@@ -67,7 +67,7 @@ Object {
     "errorDataLoad": "Could not load data",
     "errorFileList": "Could not fetch File list",
     "errorMandatoryFields": "Please answer all the mandatory questions",
-    "errorPageNA": "Oops this page is not available",
+    "errorPageNA": "Oops, this page is not available",
     "errorSomething": "Something went wrong",
     "errorURL": "Please check the URL again or let us take you back to the RUSH homepage",
     "errorUnknown": "An unknown error occurred",
@@ -125,7 +125,7 @@ Object {
     "formSuccessTitle": "Thank you for the submission",
     "generating": "Generating",
     "hour": "Hour",
-    "informUser": "Inform User of Changes",
+    "informUser": "Inform User for Changes",
     "instructionsMailed": "Instructions mailed successfully",
     "invalidInviteDesc": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem provident voluptatum cum numquam, quidem vitae, qui quam beatae exercitationem ullam perferendis! Nobis in aut fuga voluptate harum, tempore distinctio optio.",
     "invalidInviteTitle": "Invalid Invite Code",
@@ -159,7 +159,7 @@ Object {
     "manageQnApproval": "Manage Questionnaire Approval",
     "manageUserButton": "Manage Users",
     "manageUserText": <React.Fragment>
-      This where you manage users based on their roles , regions and questionnaire access . You can :
+      This is where you manage users based on their roles , regions and questionnaire access . You can :
       <ul>
         <li>
           Add new user
@@ -235,11 +235,11 @@ Object {
     "sendInstructions": "Send Instructions",
     "sendNewRequest": "Send a new approval request",
     "settings": "System Settings",
-    "settingsDescriptionPanel": "This page allow Super Admin to maintain system critical master lists.",
+    "settingsDescriptionPanel": "This page allows Super Admin to maintain system critical master lists.",
     "showEmpty": "Show empty values",
     "signOut": "Sign Out",
     "submissionComment": "Submission comment (Optional)",
-    "templateDownloadHint": "If you do not already have a template please download it",
+    "templateDownloadHint": "If you do not already have a template, please download it",
     "templateFetchFail": "Could not fetch template",
     "tourApprovals": "Placeat impedit iure quaerat neque sit quasi",
     "tourApprovers": "Magni provident aliquam harum cupiditate iste",

@@ -13,6 +13,8 @@ Object {
     "type": "Feature",
   },
   "getBounds": [Function],
+  "getColorScale": [Function],
+  "getGeometry": [Function],
   "shapeLevels": Array [],
   "tile": Object {
     "attribution": "Tiles &copy; Esri &mdash; DeLorme, NAVTEQ, Esri",
