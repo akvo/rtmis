@@ -17,9 +17,11 @@ const AdvancedFilters = () => {
 
   useEffect(() => {
     if (first(flatten(questionGroups.map((qg) => qg.question)))?.form) {
-      store.update((s) => {
-        s.advancedFilters = [];
-      });
+      if (advancedFilters.length) {
+        store.update((s) => {
+          s.advancedFilters = [];
+        });
+      }
       setSelectedQuestion(null);
       setOptionGroups(
         questionGroups
