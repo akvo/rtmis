@@ -95,11 +95,8 @@ const Banner = () => {
     };
     return (
       <>
-        <h1>
-          {text?.welcome}
-          <br />
-          <small>{text?.welcomeDesc}</small>
-        </h1>
+        <h1>{text?.welcome}</h1>
+        <h2>{text?.welcomeDesc}</h2>
         <div className="launching">
           <h4>{text?.countdownTitle}</h4>
           <Countdown date="2025-12-31T09:00:00" renderer={renderer} />
