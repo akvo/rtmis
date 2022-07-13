@@ -1177,28 +1177,6 @@ def get_jmp_data(request, version, form_id):
                 adm.path, adm.id)
         criteria = ViewJMPCriteria.objects.filter(
                 form=form).distinct('name', 'level').all()
-        for crt in criteria:
-            data = 0
-            if data_ids:
-                matches = ViewJMPCriteria.objects.filter(
-                        form=form,
-                        name=crt.name,
-                        level=crt.level).count()
-                data = ViewJMPData.objects.filter(
-                        data_id__in=data_ids,
-                        path__startswith=adm_path,
-                        name=crt.name,
-                        level=crt.level,
-                        matches=matches,
-                        form=form).count()
-            else:
-                data = ViewJMPCount.objects.filter(
-                        path__startswith=adm_path,
-                        name=crt.name,
-                        level=crt.level,
-                        form=form).aggregate(Sum('total'))
-                data = data.get("total__sum")
-            temp[crt.name][crt.level] = data or 0
         filter_total = {
             'administration__path__startswith': adm_path,
             'form': form}
@@ -1206,6 +1184,28 @@ def get_jmp_data(request, version, form_id):
             filter_total.update({'pk__in': data_ids})
         total = FormData.objects.filter(**filter_total).count()
         if total:
+            for crt in criteria:
+                data = 0
+                if data_ids:
+                    matches = ViewJMPCriteria.objects.filter(
+                            form=form,
+                            name=crt.name,
+                            level=crt.level).count()
+                    data = ViewJMPData.objects.filter(
+                            data_id__in=data_ids,
+                            path__startswith=adm_path,
+                            name=crt.name,
+                            level=crt.level,
+                            matches=matches,
+                            form=form).count()
+                else:
+                    data = ViewJMPCount.objects.filter(
+                            path__startswith=adm_path,
+                            name=crt.name,
+                            level=crt.level,
+                            form=form).aggregate(Sum('total'))
+                    data = data.get("total__sum")
+                temp[crt.name][crt.level] = data or 0
             jmp_data.append({
                 "loc": adm.name,
                 "data": temp,
