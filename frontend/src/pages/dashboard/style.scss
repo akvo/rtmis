@@ -23,25 +23,32 @@
           &.overview-card {
             .ant-card {
               padding: 20px;
-              min-height: 170px;
+              min-height: 11vw;
 
               .ant-card-body {
                 padding: 0px;
-                padding-bottom: 50px;
+                padding-bottom: 10px;
                 text-align: left;
 
                 h3 {
                   font-size: $font-size-regular;
                   color: $color-dark;
+                  width: 8vw;
                 }
 
                 h1 {
                   position: absolute;
-                  bottom: 0px;
+                  bottom: 5px;
                   width: calc(100% - 20px);
                   left: 10px;
                   padding: 5px 10px 0px;
-                  border-bottom: 1px solid #ddd;
+                  border-bottom: 1px solid $color-dark;
+                }
+
+                .ant-image {
+                  position: absolute;
+                  top: 10px;
+                  right: 20px;
                 }
               }
             }

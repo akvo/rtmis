@@ -1,9 +1,10 @@
 import React, { useMemo } from "react";
-import { Col, Card } from "antd";
+import { Col, Card, Image } from "antd";
 import { get, sum } from "lodash";
 
 const CardVisual = ({ cardConfig }) => {
-  const { title, type, path, calc, span, data, index } = cardConfig;
+  const { title, type, path, calc, span, data, index, color, icon } =
+    cardConfig;
 
   const renderData = useMemo(() => {
     if (!path || !data.length) {
@@ -44,7 +45,15 @@ const CardVisual = ({ cardConfig }) => {
       justify="space-between"
       span={span}
     >
-      <Card>
+      <Card style={{ backgroundColor: color || "#fff" }}>
+        {icon && (
+          <Image
+            src={`/assets/dashboard/${icon}`}
+            width={48}
+            preview={false}
+            alt={icon}
+          />
+        )}
         <h3>{renderData?.title}</h3>
         <h1>{renderData?.value}</h1>
       </Card>

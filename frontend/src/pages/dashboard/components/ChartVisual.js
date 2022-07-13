@@ -8,17 +8,21 @@ const ChartVisual = ({ chartConfig }) => {
   const { title, type, span, data, index, path } = chartConfig;
 
   const chartData = useMemo(() => {
-    if (!path) {
+    if (!path && !data.length) {
       return [];
     }
     const transform = data
       .map((d) => {
         const obj = get(d, path);
+        if (!obj) {
+          return false;
+        }
         return Object.keys(obj).map((key) => ({
           name: capitalize(key),
           value: obj[key],
         }));
       })
+      .filter((x) => x)
       .flatMap((x) => x);
     return chain(groupBy(transform, "name"))
       .map((g, gi) => ({
