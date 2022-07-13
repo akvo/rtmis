@@ -33,7 +33,7 @@ const Maps = ({ mapConfig, style = {} }) => {
   const currentAdministration =
     administration.length < 4
       ? takeRight(administration)?.[0]
-      : takeRight(administration, 2)[0];
+      : takeRight(administration, 2)?.[0];
   const { level } = currentAdministration;
 
   useEffect(() => {

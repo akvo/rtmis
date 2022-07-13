@@ -6,7 +6,8 @@ import { VisualisationFilters } from "../../components";
 import { useNotification } from "../../util/hooks";
 import { api, uiText, store } from "../../lib";
 import { capitalize, takeRight } from "lodash";
-import { CardVisual, Maps, TableVisual } from "../../components";
+import { Maps } from "../../components";
+import { CardVisual, TableVisual } from "./components";
 
 const { TabPane } = Tabs;
 
