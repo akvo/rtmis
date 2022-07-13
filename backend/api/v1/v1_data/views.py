@@ -1199,11 +1199,15 @@ def get_jmp_data(request, version, form_id):
                         form=form).aggregate(Sum('total'))
                 data = data.get("total__sum")
             temp[crt.name][crt.level] = data or 0
-        total = FormData.objects.filter(
-                administration__path__startswith=adm_path,
-                form=form).count()
-        jmp_data.append({
-            "loc": adm.name,
-            "data": temp,
-            "total": total})
+        filter_total = {
+            'administration__path__startswith': adm_path,
+            'form': form}
+        if data_ids:
+            filter_total.update({'pk__in': data_ids})
+        total = FormData.objects.filter(**filter_total).count()
+        if total:
+            jmp_data.append({
+                "loc": adm.name,
+                "data": temp,
+                "total": total})
     return Response(jmp_data, status=status.HTTP_200_OK)
