@@ -17,17 +17,10 @@ const AdvancedFilters = () => {
 
   useEffect(() => {
     if (first(flatten(questionGroups.map((qg) => qg.question)))?.form) {
-      if (advancedFilters.length) {
-        store.update((s) => {
-          s.advancedFilters = [];
-        });
-      }
-    }
-  }, [questionGroups, advancedFilters]);
-
-  useEffect(() => {
-    if (first(flatten(questionGroups.map((qg) => qg.question)))?.form) {
       setSelectedQuestion(null);
+      store.update((s) => {
+        s.advancedFilters = [];
+      });
       setOptionGroups(
         questionGroups
           ?.map((d) => ({
@@ -115,6 +108,7 @@ const AdvancedFilters = () => {
     }
     return null;
   }, [selectedQuestion, questionGroups, advancedFilters]);
+
   const activeFilters = useMemo(() => {
     const handleCloseTag = (id, value) => {
       store.update((s) => {

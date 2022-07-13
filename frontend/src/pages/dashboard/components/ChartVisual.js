@@ -13,7 +13,7 @@ const exampleTrendChartData = [
   { name: "July", value: 1320 },
 ];
 
-const ChartVisual = ({ chartConfig }) => {
+const ChartVisual = ({ chartConfig, loading }) => {
   const { title, type, span, data, index, path, api } = chartConfig;
   const [chartDataApi, setChartDatApi] = useState([]);
 
@@ -88,7 +88,7 @@ const ChartVisual = ({ chartConfig }) => {
             data={chartData}
             wrapper={false}
             horizontal={true}
-            loading={!chartData.length}
+            loading={loading}
             series={{
               left: "10%",
             }}
