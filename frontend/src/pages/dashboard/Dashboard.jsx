@@ -8,6 +8,7 @@ import { api, uiText, store, config } from "../../lib";
 import { capitalize, takeRight } from "lodash";
 import { Maps } from "../../components";
 import { CardVisual, TableVisual, ChartVisual } from "./components";
+import { generateAdvanceFilterURL } from "../../util/filter";
 
 const { TabPane } = Tabs;
 
@@ -17,7 +18,9 @@ const Dashboard = () => {
   const current = window?.dashboard?.find((x) => String(x.form_id) === formId);
   const { notify } = useNotification();
 
-  const { language, administration } = store.useState((s) => s);
+  const { language, administration, advancedFilters } = store.useState(
+    (s) => s
+  );
   const { active: activeLang } = language;
   const [dataset, setDataset] = useState([]);
   const [activeTab, setActiveTab] = useState("overview");
@@ -43,7 +46,10 @@ const Dashboard = () => {
   useEffect(() => {
     const currentAdministration = takeRight(administration)?.[0]?.id;
     if (formId) {
-      const url = `jmp/${formId}?administration=${currentAdministration}`;
+      let url = `jmp/${formId}?administration=${currentAdministration}`;
+      if (advancedFilters && advancedFilters.length) {
+        url = generateAdvanceFilterURL(advancedFilters, url);
+      }
       api
         .get(url)
         .then((res) => {
@@ -56,7 +62,7 @@ const Dashboard = () => {
           });
         });
     }
-  }, [formId, administration, notify, text]);
+  }, [formId, administration, notify, text, advancedFilters]);
 
   const renderColumn = (cfg, index) => {
     switch (cfg.type) {
