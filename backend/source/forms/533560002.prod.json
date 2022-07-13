@@ -351,7 +351,7 @@
         {
           "id": 555370007,
           "meta": false,
-          "question": "In your facility, are there \u2265 4 toilets or improved latrines available for outpatient settings or \u2265 1 per 20 users for inpatient settings?",
+          "question": "In your facility, are there ≥ 4 toilets or improved latrines available for outpatient settings or ≥ 1 per 20 users for inpatient settings?",
           "name": "Number of usable toilets",
           "order": 4,
           "required": true,
@@ -1010,7 +1010,7 @@
               "name": "Autoclaved"
             },
             {
-              "name": "Incinerated (two chamber, 850-1000 \u00b0C incinerator)"
+              "name": "Incinerated (two chamber, 850-1000 °C incinerator)"
             },
             {
               "name": "Incinerated (other)"
@@ -1053,7 +1053,7 @@
               "name": "Autoclaved"
             },
             {
-              "name": "Incinerated (two chamber, 850-1000 \u00b0C incinerator)"
+              "name": "Incinerated (two chamber, 850-1000 °C incinerator)"
             },
             {
               "name": "Incinerated (other)"
