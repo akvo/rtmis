@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { useParams } from "react-router-dom";
-import { Row, Col, Tabs } from "antd";
+import { Row, Col, Tabs, Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import { VisualisationFilters } from "../../components";
 import { useNotification } from "../../util/hooks";
 import { api, uiText, store, config } from "../../lib";
@@ -24,6 +25,7 @@ const Dashboard = () => {
   const { active: activeLang } = language;
   const [dataset, setDataset] = useState([]);
   const [activeTab, setActiveTab] = useState("overview");
+  const [loading, setLoading] = useState(false);
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -46,6 +48,7 @@ const Dashboard = () => {
   useEffect(() => {
     const currentAdministration = takeRight(administration)?.[0]?.id;
     if (formId) {
+      setLoading(true);
       let url = `jmp/${formId}?administration=${currentAdministration}`;
       if (advancedFilters && advancedFilters.length) {
         url = generateAdvanceFilterURL(advancedFilters, url);
@@ -60,6 +63,9 @@ const Dashboard = () => {
             type: "error",
             message: text.errorDataLoad,
           });
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   }, [formId, administration, notify, text, advancedFilters]);
@@ -103,9 +109,15 @@ const Dashboard = () => {
         <h1>{`${selectedForm.name} Data`}</h1>
       </div>
       <VisualisationFilters showFormOptions={false} />
-      <Row className="main-wrapper" align="top">
+      <Row className="main-wrapper" align="center">
         <Col span={24} align="center">
-          {current?.tabs ? (
+          {loading && (
+            <Spin
+              className="loading"
+              indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+            />
+          )}
+          {!loading && current?.tabs && (
             <Tabs
               activeKey={activeTab}
               onChange={(tabKey) => setActiveTab(tabKey)}
@@ -137,9 +149,8 @@ const Dashboard = () => {
                 );
               })}
             </Tabs>
-          ) : (
-            <h4>No data</h4>
           )}
+          {!loading && !current?.tabs && <h4>No data</h4>}
         </Col>
       </Row>
     </div>
