@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Row, Col, Tabs } from "antd";
 import { VisualisationFilters } from "../../components";
 import { useNotification } from "../../util/hooks";
-import { api, uiText, store } from "../../lib";
+import { api, uiText, store, config } from "../../lib";
 import { capitalize, takeRight } from "lodash";
 import { Maps } from "../../components";
 import { CardVisual, TableVisual, ChartVisual } from "./components";
@@ -25,6 +25,20 @@ const Dashboard = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  useEffect(() => {
+    store.update((s) => {
+      s.administration = [config.fn.administration(1)];
+    });
+  }, []);
+
+  useEffect(() => {
+    if (selectedForm?.id) {
+      store.update((s) => {
+        s.questionGroups = selectedForm.content.question_group;
+      });
+    }
+  }, [selectedForm]);
 
   useEffect(() => {
     const currentAdministration = takeRight(administration)?.[0]?.id;

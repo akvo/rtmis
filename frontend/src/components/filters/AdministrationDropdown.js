@@ -4,7 +4,6 @@ import { Select, Space } from "antd";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { store, config } from "../../lib";
-import { useNotification } from "../../util/hooks";
 
 const allowedGlobal = ["/dashboard/"];
 
@@ -20,7 +19,6 @@ const AdministrationDropdown = ({
 }) => {
   const { pathname } = useLocation();
   const { user, administration, isLoggedIn } = store.useState((state) => state);
-  const { notify } = useNotification();
 
   const public_state = allowedGlobal
     .map((x) => pathname.includes(x))
@@ -32,12 +30,7 @@ const AdministrationDropdown = ({
         s.administration = [config.fn.administration(user.administration.id)];
       });
     }
-    if (public_state) {
-      store.update((s) => {
-        s.administration = [config.fn.administration(1)];
-      });
-    }
-  }, [user, isLoggedIn, notify, persist, public_state]);
+  }, [user, isLoggedIn, persist, public_state]);
 
   const handleChange = (e, index) => {
     if (!e) {

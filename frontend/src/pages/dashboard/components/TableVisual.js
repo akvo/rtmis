@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Col, Table } from "antd";
 import { get, capitalize, sumBy } from "lodash";
 
-const fontSize = 14;
+const fontSize = 12;
 
 const TableVisual = ({ tableConfig }) => {
   const { title, type, columns, span, data, index } = tableConfig;

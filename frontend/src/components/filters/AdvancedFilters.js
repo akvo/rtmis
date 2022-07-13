@@ -11,8 +11,9 @@ const attributes = ["advanced_filter"];
 const AdvancedFilters = () => {
   const [optionGroups, setOptionGroups] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
-  const { selectedForm, loadingForm, questionGroups, advancedFilters } =
-    store.useState((s) => s);
+  const { loadingForm, questionGroups, advancedFilters } = store.useState(
+    (s) => s
+  );
 
   useEffect(() => {
     if (first(flatten(questionGroups.map((qg) => qg.question)))?.form) {
@@ -33,7 +34,7 @@ const AdvancedFilters = () => {
           ?.filter((qg) => qg.questions.length > 0)
       );
     }
-  }, [selectedForm, questionGroups]);
+  }, [questionGroups]);
 
   const handleChange = (e) => {
     const questionRes = flatten(

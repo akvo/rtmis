@@ -228,7 +228,7 @@ const App = () => {
         ];
       });
     }
-  }, [authUser, isLoggedIn, notify]);
+  }, [authUser, isLoggedIn]);
 
   const isHome = location.pathname === "/";
 
