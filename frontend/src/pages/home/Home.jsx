@@ -72,7 +72,7 @@ const Home = () => {
         </p>
       </div>
       <div className="home-even highlights">
-        <div className="body">
+        <div className="body" id="home-visualisation">
           <Tabs
             defaultActiveKey={highlights?.[0]?.name}
             onTabClick={onTabClick}

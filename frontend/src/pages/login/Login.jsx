@@ -7,7 +7,7 @@ import { api, config, store, uiText } from "../../lib";
 
 const styles = {
   side: {
-    backgroundImage: `url("/assets/banner.png")`,
+    backgroundImage: `url("/assets/banner.jpg")`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
@@ -49,17 +49,17 @@ const Login = () => {
       <div className="logo">
         <Link to="/">
           <img src={config.siteLogo} alt={config.siteLogo} />
-          <h1>{config.siteTitle}</h1>
+          <h1>
+            {config.siteTitle}
+            <small>{config.siteSubTitle}</small>
+          </h1>
         </Link>
       </div>
       <Row className="wrapper" align="middle">
         <Col span={12} className="left-side">
           <div className="title">
-            <h1>
-              {text.welcome}
-              <br />
-              <small>{text?.welcomeDesc}</small>
-            </h1>
+            <h1>{text.welcome}</h1>
+            <h2>{text?.welcomeDesc}</h2>
           </div>
         </Col>
         <Col span={12} className="right-side">
