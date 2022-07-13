@@ -27,6 +27,7 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
   const [loading, setLoading] = useState(false);
   const [activeItem, setActiveItem] = useState(null);
+  const [lastUpdate, setLastUpdate] = useState(null);
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -46,6 +47,14 @@ const Dashboard = () => {
       setActiveItem(current?.tabs?.["overview"]);
     }
   }, [selectedForm, current]);
+
+  useEffect(() => {
+    if (formId && !lastUpdate) {
+      api
+        .get(`last_update/${formId}`)
+        .then((res) => setLastUpdate(res.data.last_update));
+    }
+  }, [formId, lastUpdate]);
 
   useEffect(() => {
     const currentAdministration = takeRight(administration)?.[0]?.id;
@@ -105,7 +114,12 @@ const Dashboard = () => {
         return (
           <CardVisual
             key={index}
-            cardConfig={{ ...cfg, data: dataset, index: index }}
+            cardConfig={{
+              ...cfg,
+              data: dataset,
+              index: index,
+              lastUpdate: lastUpdate,
+            }}
           />
         );
     }

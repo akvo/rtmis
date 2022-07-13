@@ -1121,7 +1121,8 @@ def get_last_update_data_point(request, version, form_id):
     form = get_object_or_404(Forms, pk=form_id)
     data = FormData.objects.filter(
         form=form).annotate(last_update=Coalesce('updated', 'created')).first()
-    return Response({'last_update': data.last_update},
+    last_update = datetime.strftime(data.last_update, "%d/%m/%Y")
+    return Response({'last_update': last_update},
                     status=status.HTTP_200_OK)
 
 

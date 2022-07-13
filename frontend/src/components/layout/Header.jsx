@@ -91,7 +91,8 @@ const Header = ({ className = "header", ...props }) => {
         <Col>
           <div className="navigation">
             <Space>
-              <Link to="/data/visualisation">{text?.dashboards}</Link>
+              {/* old dashboard */}
+              {/* <Link to="/data/visualisation">{text?.dashboards}</Link> */}
               <Link className="dev" to="/reports">
                 {text?.reports}
               </Link>
@@ -102,7 +103,7 @@ const Header = ({ className = "header", ...props }) => {
                     e.preventDefault();
                   }}
                 >
-                  New Dashboard
+                  {text?.dashboards}
                 </a>
               </Dropdown>
               {/* <a className="dev">Monitoring</a> */}
