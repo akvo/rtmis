@@ -7,12 +7,23 @@
       "question_group": "Demographics",
       "questions": [
         {
-          "id": 547720002,
-          "meta": true,
-          "question": "Take the GPS location",
-          "name": "Geolocation",
+          "id": 603580004,
+          "meta": false,
+          "question": "Name of the data collector (Enumerator)",
+          "name": "Enumerator",
           "order": 1,
           "required": true,
+          "type": "text",
+          "attributes": [],
+          "options": null
+        },
+        {
+          "id": 547720002,
+          "meta": false,
+          "question": "Take the GPS location",
+          "name": "Geolocation",
+          "order": 2,
+          "required": false,
           "type": "geo",
           "attributes": [
             "table"
@@ -24,7 +35,7 @@
           "meta": true,
           "question": "Location",
           "name": null,
-          "order": 2,
+          "order": 3,
           "required": true,
           "type": "administration",
           "attributes": [
@@ -38,7 +49,7 @@
           "meta": false,
           "question": "What is the name of the health care facility?",
           "name": "Health facility Name",
-          "order": 3,
+          "order": 4,
           "required": true,
           "type": "text",
           "attributes": [
@@ -47,11 +58,22 @@
           "options": null
         },
         {
+          "id": 609030002,
+          "meta": true,
+          "question": "What is the health facility code?",
+          "name": null,
+          "order": 5,
+          "required": true,
+          "type": "text",
+          "attributes": [],
+          "options": null
+        },
+        {
           "id": 547720005,
           "meta": true,
           "question": "Level of the health care facility",
           "name": "Health facility level",
-          "order": 4,
+          "order": 6,
           "required": true,
           "type": "option",
           "attributes": [
@@ -82,6 +104,17 @@
               "name": "I dont know"
             }
           ]
+        },
+        {
+          "id": 610980068,
+          "meta": false,
+          "question": "Date of assessment?",
+          "name": "Assessment date",
+          "order": 7,
+          "required": true,
+          "type": "date",
+          "attributes": [],
+          "options": null
         }
       ]
     },
@@ -180,7 +213,7 @@
         {
           "id": 563310064,
           "meta": true,
-          "question": "Is water available from the main water supply at the time of the survey?",
+          "question": "Is water available at all times and of sufficient quantity for all uses?",
           "name": "Water supply availability (during the survey)",
           "order": 4,
           "required": true,
@@ -193,10 +226,13 @@
           ],
           "options": [
             {
-              "name": "Yes"
+              "name": "No, available on average <5 days per week"
             },
             {
-              "name": "No"
+              "name": "No, Available on average more than 5 days per week or every day but not of quantity"
+            },
+            {
+              "name": "Yes, everyday and of sufficient quantity"
             }
           ]
         },
@@ -222,6 +258,24 @@
               "name": "No"
             }
           ]
+        },
+        {
+          "id": 610930004,
+          "meta": false,
+          "question": "Is safe, clean water available from a tap or container",
+          "name": null,
+          "order": 6,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
         }
       ]
     },
@@ -232,7 +286,7 @@
           "id": 555370004,
           "meta": false,
           "question": "What type of toilets/latrines are at the facility for patients?",
-          "name": "Type of toilets / laterines",
+          "name": "Type of toilets / latrines",
           "order": 1,
           "required": true,
           "type": "option",
@@ -297,16 +351,34 @@
         {
           "id": 555370007,
           "meta": false,
-          "question": "Number of usable (available, functional, private) toilets for health care facility:",
+          "question": "In your facility, are there \u2265 4 toilets or improved latrines available for outpatient settings or \u2265 1 per 20 users for inpatient settings?",
           "name": "Number of usable toilets",
           "order": 4,
           "required": true,
-          "type": "number",
+          "type": "option",
           "attributes": [
             "table",
             "chart"
           ],
-          "options": null
+          "options": [
+            {
+              "name": "No, not present"
+            },
+            {
+              "name": "present, but supplies are not reliably available"
+            },
+            {
+              "name": "Yes, with reliably available supplies"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 530250002,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
         },
         {
           "id": 555370009,
@@ -399,6 +471,42 @@
               "name": "No"
             }
           ]
+        },
+        {
+          "id": 603540061,
+          "meta": false,
+          "question": "Is there at least one toilet or improved latrine that provides the means to manage menstrual hygiene needs?",
+          "name": null,
+          "order": 9,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 585890004,
+          "meta": false,
+          "question": "Is there a cleaning roster displayed?",
+          "name": null,
+          "order": 10,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
         }
       ]
     },
@@ -408,8 +516,8 @@
         {
           "id": 551560007,
           "meta": false,
-          "question": "Is there a functional hand hygiene facility at points of care on the day of the survey?",
-          "name": "Functional hand hygiene availabilty",
+          "question": "Are functioning hand hygiene stations (that is, alcohol-based hand rub solution or soap and water and clean single-use towels) available at all points of care?",
+          "name": "Functional hand hygiene facility availabilty",
           "order": 1,
           "required": true,
           "type": "option",
@@ -434,11 +542,32 @@
           ]
         },
         {
+          "id": 544570062,
+          "meta": false,
+          "question": "Are there Functioning hand hygiene stations within 5 m of latrines?",
+          "name": null,
+          "order": 2,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Not present"
+            },
+            {
+              "name": "Present, Not functioning or no water or soap"
+            },
+            {
+              "name": "Yes"
+            }
+          ]
+        },
+        {
           "id": 551560004,
           "meta": false,
           "question": "Is there a functional handwashing facility at one or more toilets on the day of the survey?",
           "name": "Functional handwashing facility availabilty at toilets",
-          "order": 2,
+          "order": 3,
           "required": true,
           "type": "option",
           "attributes": [
@@ -459,11 +588,32 @@
           ]
         },
         {
+          "id": 561830111,
+          "meta": false,
+          "question": "Are Functioning hand hygiene stations available in waste disposal area?",
+          "name": null,
+          "order": 4,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Not present"
+            },
+            {
+              "name": "Stations present, but no water and/or soap or alcohol hand-rub solution."
+            },
+            {
+              "name": "Yes, available with water and/or soap or alcohol hand-rub solution."
+            }
+          ]
+        },
+        {
           "id": 551560009,
           "meta": false,
-          "question": "Are cleaning protocols available?",
+          "question": "Does the facility have a hygiene protocol?",
           "name": "Cleaning protocols is available",
-          "order": 3,
+          "order": 5,
           "required": true,
           "type": "option",
           "attributes": [
@@ -477,7 +627,22 @@
               "name": "Yes"
             },
             {
-              "name": "Yes but limited"
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 585900065,
+          "meta": false,
+          "question": "Does the hygiene protocol have a dedicated staff roster?",
+          "name": null,
+          "order": 6,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
             },
             {
               "name": "No"
@@ -489,7 +654,7 @@
           "meta": true,
           "question": "Have all staff responsible for cleaning received training?",
           "name": "Cleaning staff is trained",
-          "order": 4,
+          "order": 7,
           "required": true,
           "type": "option",
           "attributes": [
@@ -517,7 +682,7 @@
           "meta": false,
           "question": "If staff cleanning responsibility equipped with all the necessary PPEs",
           "name": "Staff cleaning responsible to equipped PPEs",
-          "order": 5,
+          "order": 8,
           "required": true,
           "type": "option",
           "attributes": [
@@ -536,11 +701,53 @@
           ]
         },
         {
+          "id": 583960109,
+          "meta": false,
+          "question": "Do you have single patient rooms or rooms for cohorting patients with similar pathogens if the number of isolation rooms is insufficient (for example, TB, measles, cholera, Ebola, SARS)?",
+          "name": null,
+          "order": 9,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "No"
+            },
+            {
+              "name": "No single rooms but rather rooms suitable for patient cohorting available."
+            },
+            {
+              "name": "Yes, single rooms are available."
+            }
+          ]
+        },
+        {
+          "id": 605420144,
+          "meta": false,
+          "question": "Is PPE available at all times and in sufficient quantity for all uses for all health care workers?",
+          "name": null,
+          "order": 10,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "No"
+            },
+            {
+              "name": "Yes, but not continuously available in sufficient quantities"
+            },
+            {
+              "name": "Yes, continuously available in sufficient quantities"
+            }
+          ]
+        },
+        {
           "id": 551560008,
           "meta": false,
           "question": "Does the facility have sanitary  products available for patients in case of emergency?",
           "name": "Sanitary products available for patiens in case of emergency",
-          "order": 6,
+          "order": 11,
           "required": true,
           "type": "option",
           "attributes": [
@@ -557,6 +764,69 @@
               "name": "No"
             }
           ]
+        },
+        {
+          "id": 599600003,
+          "meta": false,
+          "question": "Does the facility have Hand hygiene promotion materials clearly visible and understandable at key places?",
+          "name": null,
+          "order": 12,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "None"
+            },
+            {
+              "name": "Some places but not all"
+            },
+            {
+              "name": "Yes"
+            }
+          ]
+        },
+        {
+          "id": 587820065,
+          "meta": false,
+          "question": "For floors and horizontal work surfaces, is there an accessible record of cleaning, signed by the cleaners and counter signed by supervisors each day? (Complete means-signed by both cleaner and supervisor)",
+          "name": null,
+          "order": 13,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "No record of floors and surfaces being cleaned"
+            },
+            {
+              "name": "Record exists, but is not completed and signed by the cleaner only."
+            },
+            {
+              "name": "Yes, record completed and signed daily"
+            }
+          ]
+        },
+        {
+          "id": 550620146,
+          "meta": false,
+          "question": "Are there appropriate and well-maintained materials for cleaning (for example, detergent, mops, buckets, etc.) available?",
+          "name": null,
+          "order": 14,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "No materials available"
+            },
+            {
+              "name": "Available but not well maintained"
+            },
+            {
+              "name": "Yes, available and well-maintained"
+            }
+          ]
         }
       ]
     },
@@ -564,11 +834,74 @@
       "question_group": "Waste management",
       "questions": [
         {
+          "id": 597260126,
+          "meta": false,
+          "question": "Does your health care facility provide a dedicated decontamination area and/or sterile supply department (either present on or off site )for the decontamination and sterilization of medical devices and other items/equipment?",
+          "name": null,
+          "order": 1,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Not provided"
+            },
+            {
+              "name": "Yes, but not functioning reliably"
+            },
+            {
+              "name": "Yes and functioning reliably"
+            }
+          ]
+        },
+        {
+          "id": 609000060,
+          "meta": false,
+          "question": "Do you reliably have sterile and disinfected equipment ready for use?",
+          "name": null,
+          "order": 2,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Not available"
+            },
+            {
+              "name": "Yes, available but not of sufficient quantities"
+            },
+            {
+              "name": "Yes, available every day and of sufficient quantity."
+            }
+          ]
+        },
+        {
+          "id": 603490120,
+          "meta": false,
+          "question": "Do you have a reliable sterilization and disinfection equipment?",
+          "name": null,
+          "order": 3,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Not available"
+            },
+            {
+              "name": "Available but not functional"
+            },
+            {
+              "name": "Yes, available and functional"
+            }
+          ]
+        },
+        {
           "id": 541950008,
           "meta": false,
           "question": "Is waste correctly segregated into at least three labelled bins in the consultation area?",
           "name": "Waste correctly segregated into at least thee labelled bins",
-          "order": 1,
+          "order": 4,
           "required": true,
           "type": "option",
           "attributes": [
@@ -589,11 +922,32 @@
           ]
         },
         {
+          "id": 566440065,
+          "meta": false,
+          "question": "Is there appropriate personal protective equipment for all staff handling health care waste (heat/heavy duty protective gloves, googles, respirators, heavy duty boots,protective foot wear, overalls and helmet)",
+          "name": null,
+          "order": 5,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "No PPE s present"
+            },
+            {
+              "name": "Yes, but not all the required PPEs"
+            },
+            {
+              "name": "Yes, all PPEs present"
+            }
+          ]
+        },
+        {
           "id": 541950003,
           "meta": false,
           "question": "Is there a functional  incinerator  present at the facility?",
           "name": "Functional incinerator is present",
-          "order": 2,
+          "order": 6,
           "required": true,
           "type": "option",
           "attributes": [
@@ -618,7 +972,7 @@
           "meta": false,
           "question": "Are there functional placenta pits  present at the facility?",
           "name": "Functional placenta pits is present",
-          "order": 3,
+          "order": 7,
           "required": true,
           "type": "option",
           "attributes": [
@@ -643,7 +997,7 @@
           "meta": false,
           "question": "How does this facility usually treat/ dispose of infectious waste?",
           "name": "Dispose of infectious waste",
-          "order": 4,
+          "order": 8,
           "required": true,
           "type": "option",
           "attributes": [
@@ -656,7 +1010,7 @@
               "name": "Autoclaved"
             },
             {
-              "name": "Incinerated (two chamber, 850-1000 °C incinerator)"
+              "name": "Incinerated (two chamber, 850-1000 \u00b0C incinerator)"
             },
             {
               "name": "Incinerated (other)"
@@ -686,7 +1040,7 @@
           "meta": false,
           "question": "How does this facility usually treat/ dispose of sharps waste?",
           "name": "Dispose of sharps waste",
-          "order": 5,
+          "order": 9,
           "required": true,
           "type": "option",
           "attributes": [
@@ -699,7 +1053,7 @@
               "name": "Autoclaved"
             },
             {
-              "name": "Incinerated (two chamber, 850-1000 °C incinerator)"
+              "name": "Incinerated (two chamber, 850-1000 \u00b0C incinerator)"
             },
             {
               "name": "Incinerated (other)"
@@ -729,7 +1083,7 @@
           "meta": false,
           "question": "Are there trained staff on HCWM",
           "name": "Trained staff on HCWM",
-          "order": 6,
+          "order": 10,
           "required": true,
           "type": "option",
           "attributes": [
@@ -751,7 +1105,7 @@
           "meta": false,
           "question": "Are staff members vaccinated against hepatitis B",
           "name": "Staff members are vaccinated against hepatitis B",
-          "order": 7,
+          "order": 11,
           "required": true,
           "type": "option",
           "attributes": [
@@ -773,7 +1127,7 @@
           "meta": false,
           "question": "Does the health facility have adequate waste collection bins",
           "name": "Having edequate waste collection bins",
-          "order": 8,
+          "order": 12,
           "required": true,
           "type": "option",
           "attributes": [
@@ -795,7 +1149,7 @@
           "meta": false,
           "question": "Does the health facility have waste transportation trolys",
           "name": "Having transportation trolys",
-          "order": 9,
+          "order": 13,
           "required": true,
           "type": "option",
           "attributes": [
@@ -817,7 +1171,7 @@
           "meta": false,
           "question": "Does the health facilty have waste transportation vehicles",
           "name": "Having transportation vehicles",
-          "order": 10,
+          "order": 14,
           "required": true,
           "type": "option",
           "attributes": [
@@ -831,6 +1185,69 @@
             },
             {
               "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 596270130,
+          "meta": false,
+          "question": "Is a functional burial pit/fenced waste dump or municipal pick-up available for disposal of non-infectious (non-hazardous/ general waste)?",
+          "name": null,
+          "order": 15,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "No pit or other disposal method available"
+            },
+            {
+              "name": "Yes, Pit in facility but insufficient dimensions; pits/dumps overfilled or not fenced/locked; or irregular municipal waste pick up"
+            },
+            {
+              "name": "Yes, functional pit/municipal pick up available"
+            }
+          ]
+        },
+        {
+          "id": 610900063,
+          "meta": false,
+          "question": "Is a wastewater treatment system (for example, septic tank followed by drainage pit) present (either on or off site) and functioning reliably?",
+          "name": null,
+          "order": 16,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "No, not present"
+            },
+            {
+              "name": "Yes, but not functioning reliably"
+            },
+            {
+              "name": "Yes and functioning reliably"
+            }
+          ]
+        },
+        {
+          "id": 607260066,
+          "meta": false,
+          "question": "Are staff handling waste vaccinated against, Hepatitis B,COVID-19 and Tetanus?",
+          "name": null,
+          "order": 17,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "No, Not vaccinated"
+            },
+            {
+              "name": "Yes, Partially vaccinated"
+            },
+            {
+              "name": "Yes, Fully vaccinated"
             }
           ]
         }
