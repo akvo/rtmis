@@ -390,7 +390,7 @@ const ApproversTree = () => {
           <DescriptionPanel
             description={
               <>
-                This where you manage data validation for each Questionnaires.
+                This is where you manage data validation for each Questionnaire.
                 You can:
                 <ul>
                   <li>Add data validator</li>
