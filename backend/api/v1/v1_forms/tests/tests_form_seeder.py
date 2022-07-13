@@ -42,6 +42,7 @@ class FormSeederTestCase(TestCase):
         seed_administration_test()
         forms = Forms.objects.all().delete()
         json_forms = [
+            "Governance and policy",
             "Health Facilities",
             "Household",
             "CLTS",
@@ -53,7 +54,7 @@ class FormSeederTestCase(TestCase):
         output = self.call_command()
         output = list(filter(lambda x: len(x), output.split("\n")))
         forms = Forms.objects.all()
-        self.assertEqual(forms.count(), 5)
+        self.assertEqual(forms.count(), 6)
         for form in forms:
             self.assertIn(f"Form Created | {form.name} V{form.version}",
                           output)
