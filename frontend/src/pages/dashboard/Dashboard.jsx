@@ -26,6 +26,7 @@ const Dashboard = () => {
   const [dataset, setDataset] = useState([]);
   const [activeTab, setActiveTab] = useState("overview");
   const [loading, setLoading] = useState(false);
+  const [activeItem, setActiveItem] = useState(null);
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -42,8 +43,9 @@ const Dashboard = () => {
       store.update((s) => {
         s.questionGroups = selectedForm.content.question_group;
       });
+      setActiveItem(current?.tabs?.["overview"]);
     }
-  }, [selectedForm]);
+  }, [selectedForm, current]);
 
   useEffect(() => {
     const currentAdministration = takeRight(administration)?.[0]?.id;
@@ -69,6 +71,11 @@ const Dashboard = () => {
         });
     }
   }, [formId, administration, notify, text, advancedFilters]);
+
+  const changeTab = (tabKey) => {
+    setActiveTab(tabKey);
+    setActiveItem(current.tabs[tabKey]);
+  };
 
   const renderColumn = (cfg, index) => {
     switch (cfg.type) {
@@ -118,37 +125,32 @@ const Dashboard = () => {
             />
           )}
           {!loading && current?.tabs && (
-            <Tabs
-              activeKey={activeTab}
-              onChange={(tabKey) => setActiveTab(tabKey)}
-            >
-              {Object.keys(current.tabs).map((key) => {
-                const item = current.tabs[key];
-                const tabName = key
-                  .split("_")
-                  .map((x) => capitalize(x))
-                  .join(" ");
-                return (
-                  <TabPane tab={tabName} key={key}>
-                    {item?.rows ? (
-                      item.rows.map((row, index) => {
-                        return (
-                          <Row
-                            key={`row-${index}`}
-                            className="row-wrapper"
-                            gutter={[10, 10]}
-                          >
-                            {row.map((r, ri) => renderColumn(r, ri))}
-                          </Row>
-                        );
-                      })
-                    ) : (
-                      <h4>No data</h4>
-                    )}
-                  </TabPane>
-                );
-              })}
-            </Tabs>
+            <>
+              <Tabs activeKey={activeTab} onChange={changeTab}>
+                {Object.keys(current.tabs).map((key) => {
+                  const tabName = key
+                    .split("_")
+                    .map((x) => capitalize(x))
+                    .join(" ");
+                  return <TabPane tab={tabName} key={key}></TabPane>;
+                })}
+              </Tabs>
+              {activeItem?.rows ? (
+                activeItem.rows.map((row, index) => {
+                  return (
+                    <Row
+                      key={`row-${index}`}
+                      className="row-wrapper"
+                      gutter={[10, 10]}
+                    >
+                      {row.map((r, ri) => renderColumn(r, ri))}
+                    </Row>
+                  );
+                })
+              ) : (
+                <h4>No data</h4>
+              )}
+            </>
           )}
           {!loading && !current?.tabs && <h4>No data</h4>}
         </Col>
