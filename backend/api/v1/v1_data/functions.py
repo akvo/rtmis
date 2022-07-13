@@ -1,9 +1,13 @@
 import re
 import pandas as pd
+from operator import or_
+from functools import reduce
 from django.core.cache import cache
 from datetime import datetime
+from django.db.models import Q
 from django.db import transaction, connection
-from api.v1.v1_data.models import ViewOptions
+from api.v1.v1_profile.functions import get_administration_ids_by_path
+from api.v1.v1_data.models import ViewOptions, ViewDataOptions
 
 
 @transaction.atomic
@@ -14,6 +18,7 @@ def refresh_materialized_data():
             REFRESH MATERIALIZED VIEW view_options;
             REFRESH MATERIALIZED VIEW view_jmp_criteria;
             REFRESH MATERIALIZED VIEW view_jmp_data;
+            REFRESH MATERIALIZED VIEW view_jmp_count;
             """)
 
 
@@ -45,13 +50,17 @@ def get_questions_options_from_params(params):
 
 
 def filter_by_criteria(params, question_ids, options,
-                       administration_ids, is_map=False):
+                       administration_ids, filter,
+                       is_map=False, data_ids=[]):
     result = []
     data_views = ViewOptions.objects.filter(
         question_id__in=question_ids,
         options__in=options,
-        administration_id__in=administration_ids).values_list(
-            'data_id', 'question_id', 'options')
+        administration_id__in=administration_ids)
+    if filter:
+        data_views = data_views.filter(data_id__in=data_ids)
+    data_views = data_views.values_list(
+        'data_id', 'question_id', 'options')
 
     df = pd.DataFrame(
         list(data_views),
@@ -88,3 +97,16 @@ def filter_by_criteria(params, question_ids, options,
     del question_ids
     del options
     return result
+
+
+def get_advance_filter_data_ids(form_id, administration_id, options):
+    data = ViewDataOptions.objects.filter(form_id=form_id)
+    if administration_id:
+        administration_ids = get_administration_ids_by_path(
+            administration_id=administration_id)
+        data = data.filter(administration_id__in=administration_ids)
+    if options:
+        data = data.filter(reduce(
+            or_, [Q(options__contains=op) for op in options]))
+    data = data.values_list('data_id', flat=True)
+    return data

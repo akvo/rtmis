@@ -23,6 +23,7 @@
           "id": 547720003,
           "meta": true,
           "question": "Location",
+          "name": null,
           "order": 2,
           "required": true,
           "type": "administration",
@@ -34,7 +35,7 @@
         },
         {
           "id": 547740002,
-          "meta": true,
+          "meta": false,
           "question": "What is the name of the health care facility?",
           "name": "Health facility Name",
           "order": 3,
@@ -54,6 +55,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],
@@ -95,6 +97,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],
@@ -143,6 +146,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "aggregate",
             "chart"
@@ -182,6 +186,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "aggregate",
             "chart"
@@ -204,6 +209,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "aggregate",
             "chart"
@@ -231,6 +237,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],
@@ -273,6 +280,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "aggregate",
             "chart"
@@ -309,6 +317,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "aggregate",
             "chart"
@@ -331,6 +340,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "aggregate",
             "chart"
@@ -353,6 +363,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "aggregate",
             "chart"
@@ -375,6 +386,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "aggregate",
             "chart"
@@ -402,6 +414,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],
@@ -429,6 +442,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],
@@ -453,6 +467,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "aggregate",
             "chart"
@@ -478,6 +493,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],
@@ -505,6 +521,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "aggregate",
             "chart"
@@ -527,6 +544,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "aggregate",
             "chart"
@@ -554,6 +572,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],
@@ -578,6 +597,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],
@@ -602,6 +622,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],
@@ -626,6 +647,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],
@@ -668,6 +690,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],
@@ -710,6 +733,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],
@@ -731,6 +755,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],
@@ -752,6 +777,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],
@@ -773,6 +799,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],
@@ -794,6 +821,7 @@
           "required": true,
           "type": "option",
           "attributes": [
+            "advanced_filter",
             "table",
             "chart"
           ],

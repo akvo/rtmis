@@ -1,6 +1,7 @@
 export { default as Chart } from "./chart";
 export { default as Layout } from "./layout";
 export { default as Map } from "./map";
+export { default as Maps } from "./maps/Maps";
 export { default as AdministrationDropdown } from "./filters/AdministrationDropdown";
 export { default as UserFilters } from "./filters/UserFilters.js";
 export { default as DataFilters } from "./filters/DataFilters.js";
@@ -16,7 +17,6 @@ export { default as JMP } from "./visualisation/JMP.jsx";
 export { default as Progress } from "./visualisation/Progress.jsx";
 export { default as DataChart } from "./visualisation/DataChart.jsx";
 export { default as AdministrationChart } from "./visualisation/AdministrationChart.jsx";
-export { default as HomeDataChart } from "./visualisation/HomeDataChart.jsx";
 export { default as HomeAdministrationChart } from "./visualisation/HomeAdministrationChart.jsx";
 export { default as DescriptionPanel } from "./ui/DescriptionPanel";
 export { default as Tour } from "./tour/Tour.js";

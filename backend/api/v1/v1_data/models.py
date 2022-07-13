@@ -34,19 +34,22 @@ class FormData(models.Model):
     @property
     def to_data_frame(self):
         data = {
-            "id": self.id,
-            "datapoint_name": self.name,
-            "administration": self.administration.administration_column,
+            "id":
+            self.id,
+            "datapoint_name":
+            self.name,
+            "administration":
+            self.administration.administration_column,
             "geolocation":
-                f"{self.geo[0]}, {self.geo[1]}" if self.geo else None,
+            f"{self.geo[0]}, {self.geo[1]}" if self.geo else None,
             "created_by":
-                self.created_by.get_full_name(),
+            self.created_by.get_full_name(),
             "updated_by":
-                self.updated_by.get_full_name() if self.updated_by else None,
+            self.updated_by.get_full_name() if self.updated_by else None,
             "created_at":
-                self.created.strftime("%B %d, %Y"),
+            self.created.strftime("%B %d, %Y"),
             "updated_at":
-                self.updated.strftime("%B %d, %Y") if self.updated else None,
+            self.updated.strftime("%B %d, %Y") if self.updated else None,
         }
         for a in self.data_answer.all():
             data.update(a.to_data_frame)
@@ -86,9 +89,11 @@ class PendingDataBatch(models.Model):
 
 
 class PendingDataBatchComments(models.Model):
-    batch = models.ForeignKey(to=PendingDataBatch, on_delete=models.CASCADE,
+    batch = models.ForeignKey(to=PendingDataBatch,
+                              on_delete=models.CASCADE,
                               related_name='batch_batch_comment')
-    user = models.ForeignKey(to=SystemUser, on_delete=models.CASCADE,
+    user = models.ForeignKey(to=SystemUser,
+                             on_delete=models.CASCADE,
                              related_name='user_batch_comment')
     comment = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
@@ -231,12 +236,12 @@ class Answers(models.Model):
         q = self.question
         qname = f"{self.question.id}|{self.question.name}"
         if q.type in [
-            QuestionTypes.geo, QuestionTypes.option,
-            QuestionTypes.multiple_option
+                QuestionTypes.geo, QuestionTypes.option,
+                QuestionTypes.multiple_option
         ]:
             answer = '|'.join(map(str, self.options))
         elif q.type in [
-            QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+                QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
         ]:
             answer = self.name
         elif q.type == QuestionTypes.administration:
@@ -277,11 +282,14 @@ class ViewPendingDataApproval(models.Model):
     id = models.BigIntegerField(primary_key=True)
     status = models.IntegerField(choices=DataApprovalStatus.FieldStr.items(),
                                  default=DataApprovalStatus.pending)
-    user = models.ForeignKey(to=SystemUser, on_delete=models.DO_NOTHING,
+    user = models.ForeignKey(to=SystemUser,
+                             on_delete=models.DO_NOTHING,
                              related_name='user_view_pending_data')
-    level = models.ForeignKey(to=Levels, on_delete=models.DO_NOTHING,
+    level = models.ForeignKey(to=Levels,
+                              on_delete=models.DO_NOTHING,
                               related_name='level_view_pending_data')
-    batch = models.ForeignKey(to=PendingDataBatch, on_delete=models.DO_NOTHING,
+    batch = models.ForeignKey(to=PendingDataBatch,
+                              on_delete=models.DO_NOTHING,
                               related_name='batch_view_pending_data')
     pending_level = models.IntegerField()
 
@@ -292,18 +300,16 @@ class ViewPendingDataApproval(models.Model):
 
 class ViewDataOptions(models.Model):
     id = models.BigIntegerField(primary_key=True)
-    data = models.ForeignKey(
-        to=FormData,
-        on_delete=models.DO_NOTHING,
-        related_name='data_view_data_options')
+    data = models.ForeignKey(to=FormData,
+                             on_delete=models.DO_NOTHING,
+                             related_name='data_view_data_options')
     administration = models.ForeignKey(
         to=Administration,
         on_delete=models.DO_NOTHING,
         related_name='administration_view_data_options')
-    form = models.ForeignKey(
-        to=Forms,
-        on_delete=models.DO_NOTHING,
-        related_name='form_view_data_options')
+    form = models.ForeignKey(to=Forms,
+                             on_delete=models.DO_NOTHING,
+                             related_name='form_view_data_options')
     options = models.JSONField(default=None, null=True)
 
     class Meta:
@@ -313,28 +319,66 @@ class ViewDataOptions(models.Model):
 
 class ViewOptions(models.Model):
     id = models.BigIntegerField(primary_key=True)
-    data = models.ForeignKey(
-        to=FormData,
-        on_delete=models.DO_NOTHING,
-        related_name='data_view_options')
+    data = models.ForeignKey(to=FormData,
+                             on_delete=models.DO_NOTHING,
+                             related_name='data_view_options')
     administration = models.ForeignKey(
         to=Administration,
         on_delete=models.DO_NOTHING,
         related_name='administration_view_options')
-    question = models.ForeignKey(
-        to=Questions,
-        on_delete=models.DO_NOTHING,
-        related_name='question_view_options')
-    answer = models.ForeignKey(
-        to=Answers,
-        on_delete=models.DO_NOTHING,
-        related_name='answer_view_options')
-    form = models.ForeignKey(
-        to=Forms,
-        on_delete=models.DO_NOTHING,
-        related_name='form_view_options')
+    question = models.ForeignKey(to=Questions,
+                                 on_delete=models.DO_NOTHING,
+                                 related_name='question_view_options')
+    answer = models.ForeignKey(to=Answers,
+                               on_delete=models.DO_NOTHING,
+                               related_name='answer_view_options')
+    form = models.ForeignKey(to=Forms,
+                             on_delete=models.DO_NOTHING,
+                             related_name='form_view_options')
     options = models.TextField()
 
     class Meta:
         managed = False
         db_table = 'view_options'
+
+
+class ViewJMPData(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    data = models.ForeignKey(to=FormData,
+                             on_delete=models.DO_NOTHING,
+                             related_name='data_view_jmp_data')
+    path = models.TextField(null=True, default=None)
+    form = models.ForeignKey(to=Forms,
+                             on_delete=models.DO_NOTHING,
+                             related_name='form_view_jmp_data')
+    name = models.TextField()
+    level = models.TextField()
+    matches = models.IntegerField()
+    score = models.IntegerField()
+
+    @property
+    def serialize(self):
+        return {
+            'data_id': self.data_id,
+            'name': self.name,
+            'level': self.level
+        }
+
+    class Meta:
+        managed = False
+        db_table = 'view_jmp_data'
+
+
+class ViewJMPCount(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    path = models.TextField(null=True, default=None)
+    form = models.ForeignKey(to=Forms,
+                             on_delete=models.DO_NOTHING,
+                             related_name='form_view_jmp_count')
+    name = models.TextField()
+    level = models.TextField()
+    total = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'view_jmp_count'

@@ -6,19 +6,27 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { first, flatten, intersection } from "lodash";
 
 const { Option, OptGroup } = Select;
-const attributes = ["chart", "table"];
+const attributes = ["advanced_filter"];
 
 const AdvancedFilters = () => {
   const [optionGroups, setOptionGroups] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
-  const { selectedForm, loadingForm, questionGroups, advancedFilters } =
-    store.useState((s) => s);
+  const { loadingForm, questionGroups, advancedFilters } = store.useState(
+    (s) => s
+  );
 
   useEffect(() => {
     if (first(flatten(questionGroups.map((qg) => qg.question)))?.form) {
-      store.update((s) => {
-        s.advancedFilters = [];
-      });
+      if (advancedFilters.length) {
+        store.update((s) => {
+          s.advancedFilters = [];
+        });
+      }
+    }
+  }, [questionGroups, advancedFilters]);
+
+  useEffect(() => {
+    if (first(flatten(questionGroups.map((qg) => qg.question)))?.form) {
       setSelectedQuestion(null);
       setOptionGroups(
         questionGroups
@@ -33,7 +41,7 @@ const AdvancedFilters = () => {
           ?.filter((qg) => qg.questions.length > 0)
       );
     }
-  }, [selectedForm, questionGroups]);
+  }, [questionGroups]);
 
   const handleChange = (e) => {
     const questionRes = flatten(

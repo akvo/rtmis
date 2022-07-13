@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Tabs } from "antd";
-import { HomeDataChart, HomeAdministrationChart } from "../../components";
+import { HomeAdministrationChart } from "../../components";
 
 import { HomeMap } from "./components";
 import { queue } from "../../lib";
@@ -21,24 +21,18 @@ export const Visuals = ({ current, mapValues, setMapValues }) => {
         )}
       </div>
       <div className="chart-wrapper">
-        {current?.charts?.map((hc, hcI) =>
-          hc.type === "ADMINISTRATION" || hc.type === "CRITERIA" ? (
-            <HomeAdministrationChart
-              key={`chart-${hc.id}-${hcI}`}
-              formId={hc.form_id}
-              setup={hc}
-              index={hcI + 1}
-              setMapValues={setMapValues}
-              identifier={current?.name}
-            />
-          ) : (
-            <HomeDataChart
-              key={`chart-${hc.form_id}-${hcI}`}
-              formId={hc.form_id}
-              setup={hc}
-              index={hcI + 1}
-            />
-          )
+        {current?.charts?.map(
+          (hc, hcI) =>
+            (hc.type === "ADMINISTRATION" || hc.type === "CRITERIA") && (
+              <HomeAdministrationChart
+                key={`chart-${hc.id}-${hcI}`}
+                formId={hc.form_id}
+                setup={hc}
+                index={hcI + 1}
+                setMapValues={setMapValues}
+                identifier={current?.name}
+              />
+            )
         )}
       </div>
     </div>
@@ -78,7 +72,7 @@ const Home = () => {
         </p>
       </div>
       <div className="home-even highlights">
-        <div className="body">
+        <div className="body" id="home-visualisation">
           <Tabs
             defaultActiveKey={highlights?.[0]?.name}
             onTabClick={onTabClick}
