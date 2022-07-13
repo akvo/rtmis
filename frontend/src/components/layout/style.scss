@@ -28,7 +28,8 @@
     }
 
     .banner {
-      min-height: calc(100vh - #{$layout-padding});
+      // min-height: calc(100vh - #{$layout-padding});
+      min-height: calc(100vh - 320px);
 
       .countdown {
         text-align: center;
