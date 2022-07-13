@@ -142,7 +142,7 @@ const uiText = {
         <ul>
           <li>Download upload template</li>
           <li>Bulk upload new data</li>
-          <li>Bulk upload existing data</li>
+          <li>Bulk update existing data</li>
         </ul>
       </Fragment>
     ),
@@ -150,7 +150,7 @@ const uiText = {
     manageUserButton: "Manage Users",
     manageUserText: (
       <Fragment>
-        This where you manage users based on their roles , regions and
+        This is where you manage users based on their roles , regions and
         questionnaire access . You can :
         <ul>
           <li>Add new user</li>
