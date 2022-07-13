@@ -10,15 +10,20 @@ const TableVisual = ({ tableConfig }) => {
   const tableColumns = useMemo(() => {
     return columns.map((c) => {
       if (c?.children) {
-        const child = Object.keys(get(data?.[0], c.children_path)).map(
-          (key) => ({
-            title: capitalize(key),
-            dataIndex: key,
-            key: key,
-            width: key.length * fontSize,
-            align: "center",
-          })
-        );
+        const obj = get(data?.[0], c.children_path);
+        if (!obj) {
+          return {
+            title: c.title,
+            children: [],
+          };
+        }
+        const child = Object.keys(obj).map((key) => ({
+          title: capitalize(key),
+          dataIndex: key,
+          key: key,
+          width: key.length * fontSize,
+          align: "center",
+        }));
         return {
           title: c.title,
           children: child,
