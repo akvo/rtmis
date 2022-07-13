@@ -15,6 +15,7 @@ import {
 const { tile, defaultPos, getColorScale, getBounds, getGeometry } = geo;
 const defPos = defaultPos();
 const colorRange = ["#EB5353", "#F9D923", "#9ACD32", "#36AE7C"];
+const borderColor = "#7d7d7d";
 const mapMaxZoom = 13;
 const higlightColor = "#84b4cc";
 
@@ -85,26 +86,25 @@ const Maps = ({ mapConfig, style = {} }) => {
         return sC.name === takeRight(Object.values(g.properties), 4)[0];
       });
       const fillColor = sc ? getFillColor(sc.value || 0) : "#e6e8f4";
-      const opacity = sc ? 0.8 : 0.3;
       return {
         fillColor: fillColor,
         fillOpacity: 1,
-        opacity: opacity,
-        color: "#A0D4C1",
+        opacity: sc ? 0.8 : 0.3,
+        color: borderColor,
         zIndex:
           hovered?.[`NAME_${level + 1}`]?.toLowerCase() ===
           sc?.name?.toLowerCase()
             ? 2
             : 1,
-        weight: 1,
+        weight: sc ? 0 : 1.5,
       };
     }
     return {
       fillColor: "#e6e8f4",
       fillOpacity: 1,
       opacity: 0.3,
-      color: "#A0D4C1",
-      weight: 1,
+      color: borderColor,
+      weight: 1.5,
     };
   };
 
