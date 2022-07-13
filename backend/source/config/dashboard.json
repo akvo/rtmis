@@ -75,7 +75,7 @@
               "title": "Trend charts",
               "calc": "sum",
               "span": 12,
-              "api": null
+              "api": "/url"
             },
             {
               "type": "table",
@@ -240,7 +240,7 @@
               "title": "Trend charts",
               "calc": "sum",
               "span": 12,
-              "api": null
+              "api": "/url"
             },
             {
               "type": "table",
@@ -460,7 +460,7 @@
               "title": "Trend charts",
               "calc": "sum",
               "span": 12,
-              "api": null
+              "api": "/url"
             },
             {
               "type": "table",
