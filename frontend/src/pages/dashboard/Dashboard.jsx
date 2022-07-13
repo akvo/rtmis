@@ -18,15 +18,15 @@ const Dashboard = () => {
   const current = window?.dashboard?.find((x) => String(x.form_id) === formId);
   const { notify } = useNotification();
 
-  const { language, administration, advancedFilters } = store.useState(
-    (s) => s
-  );
-  const { active: activeLang } = language;
   const [dataset, setDataset] = useState([]);
   const [activeTab, setActiveTab] = useState("overview");
   const [loading, setLoading] = useState(false);
   const [activeItem, setActiveItem] = useState(null);
   const [lastUpdate, setLastUpdate] = useState(null);
+
+  const { active: activeLang } = store.useState((s) => s.language);
+  const advancedFilters = store.useState((s) => s.advancedFilters);
+  const administration = store.useState((s) => s.administration);
 
   const text = useMemo(() => {
     return uiText[activeLang];
