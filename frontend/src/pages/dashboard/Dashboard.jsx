@@ -7,7 +7,7 @@ import { useNotification } from "../../util/hooks";
 import { api, uiText, store } from "../../lib";
 import { capitalize, takeRight } from "lodash";
 import { Maps } from "../../components";
-import { CardVisual, TableVisual } from "./components";
+import { CardVisual, TableVisual, ChartVisual } from "./components";
 
 const { TabPane } = Tabs;
 
@@ -55,9 +55,10 @@ const Dashboard = () => {
         );
       case "chart":
         return (
-          <Col key={index} span={cfg.span}>
-            <h1>Chart here..</h1>
-          </Col>
+          <ChartVisual
+            key={index}
+            chartConfig={{ ...cfg, data: dataset, index: index }}
+          />
         );
       case "table":
         return (

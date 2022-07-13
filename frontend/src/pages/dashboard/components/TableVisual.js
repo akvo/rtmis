@@ -85,7 +85,7 @@ const TableVisual = ({ tableConfig }) => {
       span={span}
     >
       <Table
-        title={() => title || "Table"}
+        title={() => <h3>{title || "Table"}</h3>}
         columns={tableColumns}
         dataSource={tableDataSource}
         scroll={{ x: xScroll, y: 500 }}
