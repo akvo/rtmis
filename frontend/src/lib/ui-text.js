@@ -27,7 +27,7 @@ const uiText = {
     welcomeCta: "Explore the Data",
     // Error messages
     error: "Error",
-    errorPageNA: "Oops this page is not available",
+    errorPageNA: "Oops, this page is not available",
     errorAuth: "You are not authorised to access this page",
     errorUnknown: "An unknown error occurred",
     errorURL:
@@ -160,7 +160,7 @@ const uiText = {
       </Fragment>
     ),
     ccDescriptionPanel:
-      "Instant access to the all the administration pages and overview panels for data approvals.",
+      "Instant access to all the administration pages and overview panels for data approvals.",
     // Settings
     orgPanelTitle: "Manage Organization",
     orgPanelButton: "Manage Organization",
@@ -175,7 +175,7 @@ const uiText = {
       </Fragment>
     ),
     settingsDescriptionPanel:
-      "This page allow Super Admin to maintain system critical master lists.",
+      "This page allows Super Admin to maintain system critical master lists.",
     // Approvals
     approvalsTab1: "My Pending",
     approvalsTab2: "Subordinates Approvals",
@@ -184,7 +184,7 @@ const uiText = {
     // Approvers Tree
     notAssigned: "Not assigned",
     // Misc
-    informUser: "Inform User of Changes",
+    informUser: "Inform User for Changes",
     // Data Uploads
     batchSelectedDatasets: "Batch Selected Datasets",
     batchDatasets: "Batch Datasets",
@@ -284,7 +284,7 @@ const uiText = {
     templateFetchFail: "Could not fetch template",
     updateExisting: "Update Existing Data",
     templateDownloadHint:
-      "If you do not already have a template please download it",
+      "If you do not already have a template, please download it",
     uploading: "Uploading..",
     dropFile: "Drop your file here",
     selectForm: "Please select a form",
