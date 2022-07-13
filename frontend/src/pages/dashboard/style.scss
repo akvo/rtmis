@@ -1,0 +1,73 @@
+@import "../../variables";
+
+#root {
+  #dashboard {
+    min-height: 10vh;
+
+    .page-title-wrapper {
+      padding: 12px 0;
+    }
+
+    .main-wrapper {
+      min-height: 550px;
+      padding-top: 24px;
+
+      h4 {
+        margin-top: 50px;
+      }
+
+      .loading {
+        margin-top: 95px;
+      }
+
+      .row-wrapper {
+        padding: 12px 0;
+
+        .ant-col {
+          &.overview-card {
+            .ant-card {
+              padding: 20px;
+              min-height: 13vw;
+
+              .ant-card-body {
+                padding: 0px;
+                padding-bottom: 10px;
+                text-align: left;
+
+                h3 {
+                  font-size: $font-size-regular;
+                  color: $color-dark;
+                  &.with-icon {
+                    width: 8vw;
+                  }
+                }
+
+                h1 {
+                  position: absolute;
+                  bottom: 25px;
+                  width: calc(100% - 20px);
+                  left: 10px;
+                  padding: 5px 10px 0px;
+                  border-bottom: 1px solid $color-dark;
+                }
+
+                h4 {
+                  font-size: $font-size-regular;
+                  position: absolute;
+                  bottom: 5px;
+                  right: 20px;
+                }
+
+                .ant-image {
+                  position: absolute;
+                  top: 10px;
+                  right: 20px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

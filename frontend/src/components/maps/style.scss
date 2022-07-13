@@ -1,0 +1,139 @@
+@import "../../variables";
+
+.leaflet-bottom.leaflet-right {
+  width: 100%;
+
+  .leaflet-control-attribution.leaflet-control {
+    width: 100%;
+    text-align: right;
+    padding-bottom: 5px;
+    padding-right: 22px;
+  }
+}
+
+.leaflet-container {
+  height: 510px;
+  z-index: 0;
+}
+
+.marker-tooltip-container {
+  padding: 4px 7px;
+  min-width: 150px;
+  max-width: 250px;
+  white-space: break-spaces;
+
+  h3 {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+
+  .marker-tooltip-name {
+    font-size: 12px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: initial;
+  }
+
+  .marker-tooltip-value {
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+}
+
+.map-container {
+  position: relative;
+  z-index: 0;
+  height: 600px;
+
+  .map-buttons {
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    z-index: 1;
+  }
+
+  .map-loading {
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #fff5;
+
+    .ant-spin-spinning {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: auto;
+    }
+  }
+
+  .marker-legend {
+    position: absolute;
+    z-index: 1;
+    bottom: 86px;
+    left: 0;
+    right: 0;
+    background-color: #f9f9f9d9;
+    padding: 14px 12px 10px;
+    font-size: 13px;
+    text-align: center;
+    padding-bottom: 8px;
+
+    .legend-item {
+      color: #5a5f63;
+      cursor: pointer;
+
+      .circle-legend {
+        width: 8px;
+        height: 8px;
+        margin-top: 6px;
+        border-radius: 4px;
+      }
+    }
+  }
+}
+
+.shape-legend {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  z-index: 2;
+  background-color: #fffe;
+  padding: 8px 12px;
+  text-align: center;
+  font-size: 13px;
+
+  .legend-wrap {
+    width: 100%;
+    margin-top: 5px;
+    font-weight: $font-weight-medium;
+
+    .legend-item {
+      cursor: pointer;
+      margin: 0 1px;
+      border: solid transparent 2px;
+
+      &.legend-selected {
+        border: solid #036799 2px;
+        border-right: solid 2px #036799;
+        color: #fff;
+      }
+    }
+  }
+}
+
+.shape-tooltip-container {
+  text-align: left;
+
+  h3 {
+    font-weight: bold;
+
+    &.shape-tooltip-value {
+      font-size: 14px;
+    }
+  }
+}

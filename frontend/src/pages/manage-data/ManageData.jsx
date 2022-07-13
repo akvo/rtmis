@@ -27,6 +27,7 @@ import {
   DataTab,
 } from "../../components";
 import { useNotification } from "../../util/hooks";
+import { generateAdvanceFilterURL } from "../../util/filter";
 
 const pagePath = [
   {
@@ -47,7 +48,7 @@ const ManageData = () => {
   const [updateRecord, setUpdateRecord] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const [deleting, setDeleting] = useState(false);
-  const { language } = store.useState((s) => s);
+  const { language, advancedFilters } = store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -136,6 +137,9 @@ const ManageData = () => {
       if (selectedAdministration?.id) {
         url += `&administration=${selectedAdministration.id}`;
       }
+      if (advancedFilters && advancedFilters.length) {
+        url = generateAdvanceFilterURL(advancedFilters, url);
+      }
       api
         .get(url)
         .then((res) => {
@@ -156,6 +160,7 @@ const ManageData = () => {
     currentPage,
     isAdministrationLoaded,
     updateRecord,
+    advancedFilters,
   ]);
 
   return (

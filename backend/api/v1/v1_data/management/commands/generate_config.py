@@ -51,6 +51,7 @@ class Command(BaseCommand):
         # write visualisation_json
         visualisation_json = "source/config/visualisation.json"
         highlights_json = "source/config/highlights.json"
+        dashboard_json = "source/config/dashboard.json"
 
         # write config
         config_file = jsmin(open("source/config/config.js").read())
@@ -72,6 +73,8 @@ class Command(BaseCommand):
                 'content': FormDataSerializer(instance=form).data
             })
         min_config = jsmin("".join([
+            "var dashboard=",
+            open(dashboard_json).read(), ";",
             "var highlights=",
             open(highlights_json).read(), ";",
             "var visualisation=",
