@@ -232,12 +232,16 @@ const App = () => {
 
   const isHome = location.pathname === "/";
 
+  const isPublic = config.allowedGlobal
+    .map((x) => location.pathname.includes(x))
+    .filter((x) => x)?.length;
+
   return (
     <Layout>
       <Layout.Header />
       <Layout.Banner />
       <Layout.Body>
-        {loading && !isHome ? (
+        {loading && !isHome && !isPublic ? (
           <PageLoader message="Initializing. Please wait.." />
         ) : (
           <RouteList />

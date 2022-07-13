@@ -5,8 +5,6 @@ import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { store, config } from "../../lib";
 
-const allowedGlobal = ["/dashboard/"];
-
 const AdministrationDropdown = ({
   loading = false,
   withLabel = false,
@@ -20,7 +18,7 @@ const AdministrationDropdown = ({
   const { pathname } = useLocation();
   const { user, administration, isLoggedIn } = store.useState((state) => state);
 
-  const public_state = allowedGlobal
+  const public_state = config.allowedGlobal
     .map((x) => pathname.includes(x))
     .filter((x) => x)?.length;
 
