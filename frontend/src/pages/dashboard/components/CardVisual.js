@@ -54,8 +54,8 @@ const CardVisual = ({ cardConfig }) => {
             alt={icon}
           />
         )}
-        <h3>{renderData?.title}</h3>
-        <h1>{renderData?.value}</h1>
+        <h3 className={icon ? "with-icon" : ""}>{renderData?.title}</h3>
+        <h1 className={icon ? "with-icon" : ""}>{renderData?.value}</h1>
       </Card>
     </Col>
   );

@@ -33,7 +33,9 @@
                 h3 {
                   font-size: $font-size-regular;
                   color: $color-dark;
-                  width: 8vw;
+                  &.with-icon {
+                    width: 8vw;
+                  }
                 }
 
                 h1 {
