@@ -232,7 +232,7 @@ const App = () => {
         ];
       });
     }
-  }, [authUser, isLoggedIn]);
+  }, [authUser, isLoggedIn, public_state]);
 
   const isHome = location.pathname === "/";
 
