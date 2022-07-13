@@ -8,7 +8,7 @@ import { uiText, store } from "../../lib";
 
 const styles = {
   banner: {
-    backgroundImage: `url("/assets/banner.png")`,
+    backgroundImage: `url("/assets/banner.jpg")`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
@@ -89,19 +89,20 @@ const Banner = () => {
   };
 
   const HomeBanner = () => {
+    const scrollToView = () => {
+      const section = document.querySelector("#home-visualisation");
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
     return (
       <>
-        <h1>
-          {text?.welcome}
-          <br />
-          <small>{text?.welcomeDesc}</small>
-        </h1>
+        <h1>{text?.welcome}</h1>
+        <h2>{text?.welcomeDesc}</h2>
         <div className="launching">
           <h4>{text?.countdownTitle}</h4>
           <Countdown date="2025-12-31T09:00:00" renderer={renderer} />
         </div>
-        <Button size="large" ghost>
-          <Link to="/data/visualisation">{text?.welcomeCta}</Link>
+        <Button size="large" onClick={() => scrollToView()} ghost>
+          {text?.welcomeCta}
         </Button>
       </>
     );

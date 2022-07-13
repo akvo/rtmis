@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Card } from "antd";
 import ReactECharts from "echarts-for-react";
-import { Bar, Line, BarStack, Pie } from "./options";
+import { Bar, Line, BarStack, Pie, LineArea } from "./options";
 
 export const generateOptions = (
   { type, data, chartTitle },
@@ -15,6 +15,8 @@ export const generateOptions = (
   switch (type) {
     case "LINE":
       return Line(data, chartTitle, extra);
+    case "LINEAREA":
+      return LineArea(data, chartTitle, extra);
     case "BARSTACK":
       return BarStack(data, chartTitle, extra, horizontal, highlighted);
     case "PIE":
