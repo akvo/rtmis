@@ -16,7 +16,7 @@
             },
             {
               "type": "card",
-              "title": "Counties reporting",
+              "title": "##administration_level## reporting",
               "calc": "count",
               "path": "length",
               "span": 4,
@@ -199,7 +199,7 @@
             },
             {
               "type": "card",
-              "title": "Counties reporting",
+              "title": "##administration_level## reporting",
               "calc": "count",
               "path": "length",
               "span": 6,
@@ -410,7 +410,7 @@
             },
             {
               "type": "card",
-              "title": "Counties reporting",
+              "title": "##administration_level## reporting",
               "calc": "count",
               "path": "length",
               "span": 4,
