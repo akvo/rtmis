@@ -80,31 +80,31 @@ const Maps = ({ mapConfig, style = {} }) => {
   };
 
   const geoStyle = (g) => {
+    const gName = g.properties?.[`NAME_${level + 1}`]?.toLowerCase();
+    const hoveredShape = hovered?.[`NAME_${level + 1}`]?.toLowerCase();
+    const isHovered = hoveredShape === gName;
+    const allStyle = {
+      opacity: isHovered ? 1 : 0.5,
+      color: isHovered ? "#000" : borderColor,
+      zIndex: isHovered ? 2 : 1,
+      weight: 1.5,
+    };
     if (results.length && maps) {
       const sc = results.find((sC) => {
-        // return county level name
-        return sC.name === takeRight(Object.values(g.properties), 4)[0];
+        return sC.name.toLowerCase() === gName;
       });
       const fillColor = sc ? getFillColor(sc.value || 0) : "#e6e8f4";
       return {
         fillColor: fillColor,
         fillOpacity: 1,
-        opacity: sc ? 0.8 : 0.3,
-        color: borderColor,
-        zIndex:
-          hovered?.[`NAME_${level + 1}`]?.toLowerCase() ===
-          sc?.name?.toLowerCase()
-            ? 2
-            : 1,
-        weight: sc ? 0 : 1.5,
+        color: isHovered ? "#000" : borderColor,
+        ...allStyle,
       };
     }
     return {
       fillColor: "#e6e8f4",
       fillOpacity: 1,
-      opacity: 0.3,
-      color: borderColor,
-      weight: 1.5,
+      ...allStyle,
     };
   };
 
@@ -122,7 +122,6 @@ const Maps = ({ mapConfig, style = {} }) => {
             <h3 className="shape-tooltip-value">
               {detail?.value} {calc === "percent" && "%"}
             </h3>
-            ({detail?.value} / {total})
           </div>
         );
         setShapeTooltip(tooltipElement);
