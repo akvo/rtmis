@@ -22,14 +22,14 @@ describe("Home page", () => {
 
   test("tabs", async () => {
     const { baseElement, getByText } = render(<Home />);
-    const tab = screen.getByText("Household");
-    userEvent.click(tab);
+    const handleClick = jest.fn();
+    userEvent.click(screen.getByText("Household"));
     expect(
       baseElement.getElementsByClassName("ant-tabs-tab").firstElementChild
     ).toHaveClass("ant-tabs-tab-active");
     await waitFor(() => {
       expect(getByText("Description text here")).toBeInTheDocument();
     });
-    expect(baseElement).toMatchSnapshot();
+    expect(handleClick).toHaveBeenCalledTimes(1);
   });
 });
