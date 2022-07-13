@@ -24,7 +24,7 @@ from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
     PendingDataBatch, ViewPendingDataApproval, PendingAnswers, \
     AnswerHistory, PendingAnswerHistory, PendingDataApproval, \
-    ViewJMPCount
+    ViewJMPCount, ViewJMPData
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
@@ -1131,10 +1131,16 @@ def get_last_update_data_point(request, version, form_id):
             }])
     ],
     parameters=[
-        OpenApiParameter(name='administration',
-                         required=False,
-                         type=OpenApiTypes.NUMBER,
-                         location=OpenApiParameter.QUERY)],
+        OpenApiParameter(
+            name='administration',
+            required=False,
+            type=OpenApiTypes.NUMBER,
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='options',
+            required=False,
+            type={'type': 'array', 'items': {'type': 'string'}},
+            location=OpenApiParameter.QUERY)],
     tags=['JMP'],
     summary='To get JMP data by location')
 @api_view(['GET'])
@@ -1143,6 +1149,12 @@ def get_jmp_data(request, version, form_id):
     administration = request.GET.get("administration")
     if not administration:
         administration = 1
+    # Advance filter
+    data_ids = None
+    if request.GET.getlist('options'):
+        data_ids = get_advance_filter_data_ids(
+            form_id=form_id, administration_id=administration,
+            options=request.GET.getlist('options'))
     administration = Administration.objects.filter(
             parent_id=administration).all()
     jmp_data = []
@@ -1153,12 +1165,27 @@ def get_jmp_data(request, version, form_id):
         criteria = ViewJMPCriteria.objects.filter(
                 form=form).distinct('name', 'level').all()
         for crt in criteria:
-            data = ViewJMPCount.objects.filter(
-                    path__startswith=adm_path,
-                    name=crt.name,
-                    level=crt.level,
-                    form=form).aggregate(Sum('total'))
-            temp[crt.name][crt.level] = data.get("total__sum") or 0
+            data = 0
+            if data_ids:
+                matches = ViewJMPCriteria.objects.filter(
+                        form=form,
+                        name=crt.name,
+                        level=crt.level).count()
+                data = ViewJMPData.objects.filter(
+                        data_id__in=data_ids,
+                        path__startswith=adm_path,
+                        name=crt.name,
+                        level=crt.level,
+                        matches=matches,
+                        form=form).count()
+            else:
+                data = ViewJMPCount.objects.filter(
+                        path__startswith=adm_path,
+                        name=crt.name,
+                        level=crt.level,
+                        form=form).aggregate(Sum('total'))
+                data = data.get("total__sum")
+            temp[crt.name][crt.level] = data or 0
         total = FormData.objects.filter(
                 administration__path__startswith=adm_path,
                 form=form).count()
