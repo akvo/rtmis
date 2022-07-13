@@ -1,8 +1,9 @@
 import { render, screen, waitFor } from "@testing-library/react";
+import { act } from "react-dom/test-utils";
 import userEvent from "@testing-library/user-event";
 import TestApp from "../../../TestApp";
 import "@testing-library/jest-dom";
-import Home from "../Home";
+import Home, { Visuals } from "../Home";
 
 jest.mock("axios");
 jest.mock("leaflet");
@@ -23,7 +24,8 @@ describe("Home page", () => {
   test("tabs", async () => {
     const { baseElement, getByText } = render(<Home />);
     const handleClick = jest.fn();
-    userEvent.click(screen.getByText("Household"));
+    const tab = screen.getByRole("tablist");
+    userEvent.click(tab.getElementsByClassName("ant-tabs-tab"));
     expect(
       baseElement.getElementsByClassName("ant-tabs-tab").firstElementChild
     ).toHaveClass("ant-tabs-tab-active");
@@ -31,5 +33,58 @@ describe("Home page", () => {
       expect(getByText("Description text here")).toBeInTheDocument();
     });
     expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("renders the total asset count", async () => {
+    const { highlights } = window;
+    const currentHighlight = highlights.find(
+      (x) => x.name === highlights?.[0]?.name
+    );
+
+    const mapValues = [
+      {
+        name: "Bungoma",
+        title: "Bungoma",
+        stack: [
+          {
+            name: "Safely Managed",
+            title: "Safely Managed",
+            value: 0,
+            color: "#368541",
+            total: 0,
+          },
+          {
+            name: "Basic",
+            title: "Basic",
+            value: 0,
+            color: "#79BE7D",
+            total: 0,
+          },
+          {
+            name: "Limited",
+            title: "Limited",
+            value: 0,
+            color: "#FDF177",
+            total: 0,
+          },
+          {
+            name: "Unimproved",
+            title: "Unimproved",
+            value: 0,
+            color: "#FBD256",
+            total: 0,
+          },
+        ],
+      },
+    ];
+
+    let wrapper;
+    await act(async () => {
+      wrapper = render(
+        <Visuals current={currentHighlight} mapValues={mapValues} />
+      );
+    });
+    wrapper.update();
+    expect(wrapper.html()).toEqual(expect.stringMatching("Markers Shown of 3"));
   });
 });
