@@ -156,6 +156,10 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const { notify } = useNotification();
 
+  const public_state = config.allowedGlobal
+    .map((x) => location.pathname.includes(x))
+    .filter((x) => x)?.length;
+
   document.addEventListener("click", () => {
     if (isLoggedIn && authUser?.last_login) {
       const expired = timeDiffHours(authUser.last_login);
@@ -221,7 +225,7 @@ const App = () => {
   }, [authUser, isLoggedIn, cookies, notify]);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && !public_state) {
       store.update((s) => {
         s.administration = [
           config.fn.administration(authUser.administration.id),
