@@ -10,42 +10,54 @@
               "title": "HHs reporting",
               "calc": "sum",
               "path": "total",
-              "span": 4
+              "span": 4,
+              "icon": "households.svg",
+              "color": "#CBBFFF"
             },
             {
               "type": "card",
               "title": "Counties reporting",
               "calc": "count",
               "path": "length",
-              "span": 4
+              "span": 4,
+              "icon": "administrative-unit.svg",
+              "color": "#FFDBBF"
             },
             {
               "type": "card",
               "title": "HHs with safely managed sanitation facilities",
               "calc": "percent",
               "path": "data.sanitation service level.safely managed",
-              "span": 4
+              "span": 4,
+              "icon": "sanitation.svg",
+              "color": "#FFF8BF"
             },
             {
               "type": "card",
               "title": "HHs with Basic hand hygiene facilities",
               "calc": "percent",
               "path": "data.hygiene service level.basic",
-              "span": 4
+              "span": 4,
+              "icon": "hand-hygiene.svg",
+              "color": "#BFF7FF"
             },
             {
               "type": "card",
               "title": "HHs with sanitation facilities at grade 3",
               "calc": "percent",
               "path": null,
-              "span": 4
+              "span": 4,
+              "icon": "sanitation.svg",
+              "color": "#FFF8BF"
             },
             {
               "type": "card",
               "title": "HHs with hand hygiene facilities at grade 3",
               "calc": "percent",
               "path": null,
-              "span": 4
+              "span": 4,
+              "icon": "hand-hygiene.svg",
+              "color": "#BFF7FF"
             }
           ],
           [
@@ -181,28 +193,36 @@
               "title": "Health care facilities reporting",
               "calc": "sum",
               "path": "total",
-              "span": 6
+              "span": 6,
+              "icon": "health-facilities.svg",
+              "color": "#BFD5FF"
             },
             {
               "type": "card",
               "title": "Counties reporting",
               "calc": "count",
               "path": "length",
-              "span": 6
+              "span": 6,
+              "icon": "administrative-unit.svg",
+              "color": "#FFDBBF"
             },
             {
               "type": "card",
               "title": "Health care facilities with basic sanitation facilities",
               "calc": "percent",
               "path": "data.sanitation service level.basic",
-              "span": 6
+              "span": 6,
+              "icon": "sanitation.svg",
+              "color": "#FFF8BF"
             },
             {
               "type": "card",
               "title": "Health care facilities with basic hand hygiene facilities",
               "calc": "percent",
               "path": "data.hygiene (hand washing) service level.basic",
-              "span": 6
+              "span": 6,
+              "icon": "hand-hygiene.svg",
+              "color": "#BFF7FF"
             }
           ]
         ]
@@ -223,35 +243,45 @@
               "title": "Schools reporting",
               "calc": "sum",
               "path": "total",
-              "span": 4
+              "span": 4,
+              "icon": "schools.svg",
+              "color": "#99BF9A"
             },
             {
               "type": "card",
               "title": "Counties reporting",
               "calc": "count",
               "path": "length",
-              "span": 4
+              "span": 4,
+              "icon": "administrative-unit.svg",
+              "color": "#FFDBBF"
             },
             {
               "type": "card",
               "title": "Schools with basic water source",
               "calc": "percent",
               "path": null,
-              "span": 4
+              "span": 4,
+              "icon": null,
+              "color": null
             },
             {
               "type": "card",
               "title": "Schools with basic sanitation facilities",
               "calc": "percent",
               "path": "data.sanitation service level.basic",
-              "span": 4
+              "span": 4,
+              "icon": "sanitation.svg",
+              "color": "#FFF8BF"
             },
             {
               "type": "card",
               "title": "Schools with basic hand hygiene facilities",
               "calc": "percent",
               "path": "data.hygiene (handwashing) service level.basic",
-              "span": 4
+              "span": 4,
+              "icon": "hand-hygiene.svg",
+              "color": "#BFF7FF"
             }
           ]
         ]
