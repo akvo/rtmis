@@ -27,7 +27,7 @@
           &.overview-card {
             .ant-card {
               padding: 20px;
-              min-height: 11vw;
+              min-height: 13vw;
 
               .ant-card-body {
                 padding: 0px;
@@ -44,11 +44,18 @@
 
                 h1 {
                   position: absolute;
-                  bottom: 5px;
+                  bottom: 25px;
                   width: calc(100% - 20px);
                   left: 10px;
                   padding: 5px 10px 0px;
                   border-bottom: 1px solid $color-dark;
+                }
+
+                h4 {
+                  font-size: $font-size-regular;
+                  position: absolute;
+                  bottom: 5px;
+                  right: 20px;
                 }
 
                 .ant-image {

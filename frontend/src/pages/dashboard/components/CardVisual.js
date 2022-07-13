@@ -6,8 +6,18 @@ import { get, sum, takeRight } from "lodash";
 const CardVisual = ({ cardConfig }) => {
   const { administration } = store.useState((s) => s);
   const currentAdministration = takeRight(administration)?.[0];
-  const { title, type, path, calc, span, data, index, color, icon } =
-    cardConfig;
+  const {
+    title,
+    type,
+    path,
+    calc,
+    span,
+    data,
+    index,
+    color,
+    icon,
+    lastUpdate,
+  } = cardConfig;
 
   const admLevelName = useMemo(() => {
     const { level } = currentAdministration;
@@ -73,6 +83,7 @@ const CardVisual = ({ cardConfig }) => {
           {renderData?.title?.replace("##administration_level##", admLevelName)}
         </h3>
         <h1 className={icon ? "with-icon" : ""}>{renderData?.value}</h1>
+        <h4>Last Update : {lastUpdate}</h4>
       </Card>
     </Col>
   );
