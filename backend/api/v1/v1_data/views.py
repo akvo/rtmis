@@ -82,6 +82,11 @@ class FormDataAddListView(APIView):
                              required=False,
                              type={'type': 'array',
                                    'items': {'type': 'number'}},
+                             location=OpenApiParameter.QUERY),
+            OpenApiParameter(name='options',
+                             required=False,
+                             type={'type': 'array',
+                                   'items': {'type': 'string'}},
                              location=OpenApiParameter.QUERY)],
         summary='To get list of form data')
     def get(self, request, form_id, version):
@@ -107,6 +112,14 @@ class FormDataAddListView(APIView):
             filter_descendants.append(filter_administration.id)
 
             filter_data['administration_id__in'] = filter_descendants
+        # Advance filter
+        data_ids = None
+        if request.GET.getlist('options'):
+            data_ids = get_advance_filter_data_ids(
+                form_id=form_id,
+                administration_id=request.GET.get("administration"),
+                options=request.GET.getlist('options'))
+            filter_data["pk__in"] = data_ids
 
         page_size = REST_FRAMEWORK.get('PAGE_SIZE')
 
