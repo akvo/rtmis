@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Row, Col, Card, Image } from "antd";
-import { get, sum } from "lodash";
+import { get, sum, takeRight } from "lodash";
 import millify from "millify";
 
 const cardColorPalette = [
@@ -47,6 +47,12 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
       return {
         title: title,
         value: data.length,
+      };
+    }
+    if (calc === "tail") {
+      return {
+        title: title,
+        value: data.length ? millify(takeRight(data)[0][path]) : 0,
       };
     }
     if (calc === "percent") {
