@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { Row, Col, Card, Image } from "antd";
 import { get, sum } from "lodash";
+import millify from "millify";
 
 const cardColorPalette = [
   "#CBBFFF",
@@ -12,10 +13,9 @@ const cardColorPalette = [
   "#F1DBB5",
 ];
 
-const CardVisual = ({ cardConfig, loading, isGlass = false }) => {
+const CardVisual = ({ cardConfig, loading }) => {
   const {
     title,
-    from,
     type,
     path,
     calc,
@@ -28,30 +28,29 @@ const CardVisual = ({ cardConfig, loading, isGlass = false }) => {
     admLevelName,
   } = cardConfig;
 
-  const dataSet = isGlass ? data?.[from] || [] : data;
-
   const renderData = useMemo(() => {
-    if (!path || !dataSet.length) {
+    if (!path || !data.length) {
       return {
         title: title,
         value: "-",
       };
     }
-    const transform = dataSet.map((d) => get(d, path));
+    const transform = data.map((d) => get(d, path));
     if (calc === "sum") {
+      const sums = sum(transform);
       return {
         title: title,
-        value: sum(transform),
+        value: sums > 100 ? millify(sums) : sums,
       };
     }
     if (calc === "count" && path === "length") {
       return {
         title: title,
-        value: dataSet.length,
+        value: data.length,
       };
     }
     if (calc === "percent") {
-      const totalData = sum(dataSet.map((d) => d.total));
+      const totalData = sum(data.map((d) => d.total));
       const sumLevel = sum(transform);
       const percent = (sumLevel / totalData) * 100;
       return {
@@ -59,7 +58,7 @@ const CardVisual = ({ cardConfig, loading, isGlass = false }) => {
         value: `${percent.toFixed(2)}%`,
       };
     }
-  }, [dataSet, calc, path, title]);
+  }, [data, calc, path, title]);
 
   return (
     <Col

@@ -73,18 +73,24 @@ const Dashboard = () => {
         return (
           <ChartVisual
             key={index}
-            chartConfig={{ ...cfg, data: dataset, index: index }}
+            chartConfig={{
+              ...cfg,
+              data: dataset[cfg.from] || [],
+              index: index,
+            }}
             loading={loading}
-            isGlass={true}
           />
         );
       case "table":
         return (
           <TableVisual
             key={index}
-            tableConfig={{ ...cfg, data: dataset, index: index }}
+            tableConfig={{
+              ...cfg,
+              data: dataset?.[cfg.from] || [],
+              index: index,
+            }}
             loading={loading}
-            isGlass={true}
           />
         );
       default:
@@ -93,12 +99,11 @@ const Dashboard = () => {
             key={index}
             cardConfig={{
               ...cfg,
-              data: dataset,
+              data: dataset?.[cfg.from] || [],
               index: index,
               lastUpdate: moment().format("L"),
             }}
             loading={loading}
-            isGlass={true}
           />
         );
     }

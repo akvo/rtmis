@@ -1,19 +1,17 @@
 import React, { useMemo } from "react";
 import { Col, Table } from "antd";
 import { get, capitalize, sumBy } from "lodash";
+import millify from "millify";
 
 const fontSize = 12;
 
-const TableVisual = ({ tableConfig, loading, isGlass = false }) => {
-  const { title, from, type, columns, span, data, index, admLevelName } =
-    tableConfig;
-
-  const dataSet = isGlass ? data?.[from] || [] : data;
+const TableVisual = ({ tableConfig, loading }) => {
+  const { title, type, columns, span, data, index, admLevelName } = tableConfig;
 
   const tableColumns = useMemo(() => {
     return columns.map((c) => {
       if (c?.children) {
-        const obj = get(dataSet?.[0], c.children_path);
+        const obj = get(data?.[0], c.children_path);
         if (!obj) {
           return {
             title: c.title,
@@ -47,7 +45,7 @@ const TableVisual = ({ tableConfig, loading, isGlass = false }) => {
       }
       return tmp;
     });
-  }, [columns, dataSet]);
+  }, [columns, data]);
 
   const tableDataSource = useMemo(() => {
     const paths = columns.map((x) => {
@@ -56,7 +54,7 @@ const TableVisual = ({ tableConfig, loading, isGlass = false }) => {
       }
       return x.path;
     });
-    const transform = dataSet.map((d) => {
+    const transform = data.map((d) => {
       const obj = paths.map((p) => {
         let tmp = {};
         const pathData = get(d, p);
@@ -65,13 +63,19 @@ const TableVisual = ({ tableConfig, loading, isGlass = false }) => {
             tmp = { ...tmp, [pd]: pathData[pd] };
           });
         }
-        tmp = { ...tmp, [p]: pathData };
+        tmp = {
+          ...tmp,
+          [p]:
+            typeof pathData === "number"
+              ? pathData.toLocaleString("en-US")
+              : pathData,
+        };
         return tmp;
       });
       return obj.reduce((curr, next) => ({ ...curr, ...next }));
     });
     return transform;
-  }, [dataSet, columns]);
+  }, [data, columns]);
 
   const xScroll = useMemo(
     () =>

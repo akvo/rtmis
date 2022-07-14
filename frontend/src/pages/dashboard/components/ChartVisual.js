@@ -13,17 +13,15 @@ const exampleTrendChartData = [
   { name: "July", value: 1320 },
 ];
 
-const ChartVisual = ({ chartConfig, loading, isGlass = false }) => {
+const ChartVisual = ({ chartConfig, loading }) => {
   const { title, from, type, span, data, index, path, api } = chartConfig;
   const [chartDataApi, setChartDatApi] = useState([]);
 
-  const dataSet = isGlass ? data?.[from] || [] : data;
-
   const chartData = useMemo(() => {
-    if (!path && api && !dataSet.length) {
+    if (!path && api && !data.length) {
       return [];
     }
-    const transform = dataSet
+    const transform = data
       .map((d) => {
         const obj = get(d, path);
         if (!obj) {
@@ -42,7 +40,7 @@ const ChartVisual = ({ chartConfig, loading, isGlass = false }) => {
         value: sumBy(g, "value"),
       }))
       .value();
-  }, [dataSet, path, api]);
+  }, [data, path, api]);
 
   useEffect(() => {
     if (api && !path) {
