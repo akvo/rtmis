@@ -32,6 +32,19 @@ const Dashboard = () => {
     return uiText[activeLang];
   }, [activeLang]);
 
+  const currentAdministration = takeRight(administration)?.[0];
+  const admLevelName = useMemo(() => {
+    const { level } = currentAdministration;
+    let name = { plural: "Counties", singular: "County" };
+    if (level === 1) {
+      name = { plural: "Sub-Counties", singular: "Sub-County" };
+    }
+    if (level === 2) {
+      name = { plural: "Wards", singular: "Ward" };
+    }
+    return name;
+  }, [currentAdministration]);
+
   useEffect(() => {
     store.update((s) => {
       s.administration = [config.fn.administration(1)];
@@ -109,7 +122,12 @@ const Dashboard = () => {
         return (
           <TableVisual
             key={index}
-            tableConfig={{ ...cfg, data: dataset, index: index }}
+            tableConfig={{
+              ...cfg,
+              data: dataset,
+              index: index,
+              admLevelName: admLevelName,
+            }}
             loading={loading}
           />
         );
@@ -122,6 +140,7 @@ const Dashboard = () => {
               data: dataset,
               index: index,
               lastUpdate: lastUpdate,
+              admLevelName: admLevelName,
             }}
             loading={loading}
           />
@@ -141,10 +160,15 @@ const Dashboard = () => {
             <>
               <Tabs activeKey={activeTab} onChange={changeTab}>
                 {Object.keys(current.tabs).map((key) => {
-                  const tabName = key
-                    .split("_")
-                    .map((x) => capitalize(x))
-                    .join(" ");
+                  let tabName = key;
+                  if (key.toLocaleLowerCase() !== "jmp") {
+                    tabName = key
+                      .split("_")
+                      .map((x) => capitalize(x))
+                      .join(" ");
+                  } else {
+                    tabName = key.toUpperCase();
+                  }
                   return <TabPane tab={tabName} key={key}></TabPane>;
                 })}
               </Tabs>
