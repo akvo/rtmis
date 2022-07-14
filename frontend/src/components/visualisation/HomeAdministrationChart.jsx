@@ -151,7 +151,7 @@ const HomeAdministrationChart = ({
     <Card className="chart-wrap">
       <Row justify="space-between" align="middle">
         <h3>
-          {isStack ? "County" : "National"} {title}
+          {isStack ? "County" : "National"} {title} ({identifier})
         </h3>
         {isStack && (
           <Checkbox

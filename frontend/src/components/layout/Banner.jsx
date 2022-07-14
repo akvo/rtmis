@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
-import { Row, Col, Button } from "antd";
+import { Row, Col, Button, Space, Dropdown, Menu } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 import { Link, useLocation } from "react-router-dom";
 import ComingSoon from "./custom/ComingSoon";
 import Countdown from "react-countdown";
@@ -93,6 +94,18 @@ const Banner = () => {
       const section = document.querySelector("#home-visualisation");
       section.scrollIntoView({ behavior: "smooth", block: "start" });
     };
+    const DashboardMenu = (
+      <Menu>
+        {window?.dashboard?.map((d) => (
+          <Menu.Item
+            key={`${d.name}`}
+            style={{ fontSize: 16, fontStyle: "italic", padding: 10 }}
+          >
+            <Link to={`/${d.page}/${d.form_id}`}>{d.name}</Link>
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
     return (
       <>
         <h1>{text?.welcome}</h1>
@@ -101,9 +114,16 @@ const Banner = () => {
           <h4>{text?.countdownTitle}</h4>
           <Countdown date="2025-12-31T09:00:00" renderer={renderer} />
         </div>
-        <Button size="large" onClick={() => scrollToView()} ghost>
-          {text?.welcomeCta}
-        </Button>
+        <Space size={20}>
+          <Button size="large" onClick={() => scrollToView()}>
+            {text?.welcomeCta}
+          </Button>
+          <Dropdown overlay={DashboardMenu}>
+            <Button size="large" onClick={(e) => e.preventDefault()}>
+              Comprehensive Dashboards <DownOutlined />
+            </Button>
+          </Dropdown>
+        </Space>
       </>
     );
   };
@@ -131,7 +151,7 @@ const Banner = () => {
           </small>
         </h1>
         <Link to="/">
-          <Button ghost>{text?.backHome}</Button>
+          <Button size="large">{text?.backHome}</Button>
         </Link>
       </>
     );
