@@ -1,6 +1,12 @@
 import "./App.scss";
 import React, { useEffect, useState } from "react";
-import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  Navigate,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import {
   Home,
   Login,
@@ -155,6 +161,7 @@ const App = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const { notify } = useNotification();
+  const pageLocation = useLocation();
 
   const public_state = config.allowedGlobal
     .map((x) => location.pathname.includes(x))
@@ -173,6 +180,14 @@ const App = () => {
       }
     }
   });
+
+  // detect location change to reset advanced filters
+  useEffect(() => {
+    store.update((s) => {
+      s.advancedFilters = [];
+      s.showAdvancedFilters = false;
+    });
+  }, [pageLocation]);
 
   useEffect(() => {
     if (!location.pathname.includes("/login")) {
