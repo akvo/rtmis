@@ -78,6 +78,12 @@
             line-height: 2.5px;
             color: $blue;
             font-weight: 600;
+
+            span {
+              &.anticon {
+                margin-top: -4px;
+              }
+            }
           }
         }
       }
