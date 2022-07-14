@@ -167,7 +167,7 @@ const Dashboard = () => {
               >
                 {Object.keys(current.tabs).map((key) => {
                   let tabName = key;
-                  if (key.toLocaleLowerCase() !== "jmp") {
+                  if (!["jmp", "glass"].includes(key.toLocaleLowerCase())) {
                     tabName = key
                       .split("_")
                       .map((x) => capitalize(x))
