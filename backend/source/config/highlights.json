@@ -24,7 +24,9 @@
               },
               {
                 "question": 513690062,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               },
               {
                 "question": 513690060,
@@ -61,7 +63,9 @@
               },
               {
                 "question": 513690062,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               },
               {
                 "question": 513690060,
@@ -88,7 +92,9 @@
               },
               {
                 "question": 513690062,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               }
             ]
           },
@@ -107,7 +113,9 @@
               },
               {
                 "question": 513690062,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -134,7 +142,9 @@
             "options": [
               {
                 "question": 492490054,
-                "option": ["No facility / Bush / Field"]
+                "option": [
+                  "No facility / Bush / Field"
+                ]
               }
             ]
           }
@@ -160,11 +170,15 @@
               },
               {
                 "question": 466680045,
-                "option": ["Water is available"]
+                "option": [
+                  "Water is available"
+                ]
               },
               {
                 "question": 466760036,
-                "option": ["Soap or detergent available ."]
+                "option": [
+                  "Soap or detergent available ."
+                ]
               }
             ]
           },
@@ -183,11 +197,15 @@
               },
               {
                 "question": 466680045,
-                "option": ["Water is available"]
+                "option": [
+                  "Water is available"
+                ]
               },
               {
                 "question": 466760036,
-                "option": ["Soap or detergent available ."]
+                "option": [
+                  "Soap or detergent available ."
+                ]
               }
             ]
           },
@@ -241,7 +259,9 @@
             "options": [
               {
                 "question": 524810054,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -294,23 +314,33 @@
               },
               {
                 "question": 530250002,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 555370009,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 555370003,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 555370005,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 555370006,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           }
@@ -340,23 +370,33 @@
               },
               {
                 "question": 530250002,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 555370009,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 555370003,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 555370005,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 555370006,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -376,23 +416,33 @@
               },
               {
                 "question": 530250002,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               },
               {
                 "question": 555370009,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               },
               {
                 "question": 555370003,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               },
               {
                 "question": 555370005,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               },
               {
                 "question": 555370006,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               }
             ]
           },
@@ -427,11 +477,15 @@
             "options": [
               {
                 "question": 551560007,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 551560004,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -448,7 +502,9 @@
               },
               {
                 "question": 551560004,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -487,7 +543,9 @@
             "options": [
               {
                 "question": 541950008,
-                "option": ["Yes, waste is segregated into three labelled bins"]
+                "option": [
+                  "Yes, waste is segregated into three labelled bins"
+                ]
               },
               {
                 "question": 541950011,
@@ -555,7 +613,9 @@
             "options": [
               {
                 "question": 541950008,
-                "option": ["No, bins are not present"]
+                "option": [
+                  "No, bins are not present"
+                ]
               }
             ]
           }
@@ -573,11 +633,15 @@
             "options": [
               {
                 "question": 551560009,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 551560005,
-                "option": ["Yes, all have been trained"]
+                "option": [
+                  "Yes, all have been trained"
+                ]
               }
             ]
           },
@@ -588,11 +652,15 @@
             "options": [
               {
                 "question": 551560009,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 551560005,
-                "option": ["No, some but not all have been trained"]
+                "option": [
+                  "No, some but not all have been trained"
+                ]
               }
             ]
           },
@@ -603,7 +671,9 @@
             "options": [
               {
                 "question": 551560009,
-                "option": ["Yes but limited"]
+                "option": [
+                  "Yes but limited"
+                ]
               },
               {
                 "question": 551560005,
@@ -643,11 +713,15 @@
               },
               {
                 "question": 579840064,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 555460003,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           }
@@ -677,7 +751,9 @@
               },
               {
                 "question": 551660013,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -698,7 +774,9 @@
               },
               {
                 "question": 551660013,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               }
             ]
           },
@@ -740,11 +818,15 @@
               },
               {
                 "question": 579840064,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 555460003,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -763,11 +845,15 @@
               },
               {
                 "question": 579840064,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 555460003,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -801,11 +887,15 @@
             "options": [
               {
                 "question": 539710052,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 539710048,
-                "option": ["Yes, water and soap"]
+                "option": [
+                  "Yes, water and soap"
+                ]
               }
             ]
           },
@@ -816,11 +906,15 @@
             "options": [
               {
                 "question": 539710052,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 539710048,
-                "option": ["Water only"]
+                "option": [
+                  "Water only"
+                ]
               }
             ]
           },
@@ -831,7 +925,9 @@
             "options": [
               {
                 "question": 539710052,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               }
             ]
           }
@@ -900,11 +996,15 @@
             "options": [
               {
                 "question": 545530057,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 575740004,
-                "option": ["Yes, all have been trained"]
+                "option": [
+                  "Yes, all have been trained"
+                ]
               }
             ]
           },
@@ -915,11 +1015,15 @@
             "options": [
               {
                 "question": 545530057,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 575740004,
-                "option": ["No, some but not all have been trained"]
+                "option": [
+                  "No, some but not all have been trained"
+                ]
               }
             ]
           },
@@ -930,7 +1034,9 @@
             "options": [
               {
                 "question": 545530057,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               },
               {
                 "question": 575740004,
@@ -948,7 +1054,53 @@
   {
     "name": "Governance and Policy",
     "description": "Contains data collected from all 47 Counties in Kenya as well as data entered at National level. Data is updated on annual basis.",
-    "maps": {},
-    "charts": []
+    "maps": {
+      "form_id": 519630048,
+      "option": "Basic",
+      "fetch_api": false,
+      "shape": {
+        "title": "Budget Utilisation",
+        "type": "CRITERIA",
+        "calculation": "sum"
+      }
+    },
+    "charts": [
+      {
+        "form_id": 519630048,
+        "type": "CRITERIA",
+        "show_as_map": true,
+        "hide": true,
+        "title": "Budget Utilisation",
+        "options": [
+          {
+            "name": "Basic",
+            "score": 10,
+            "color": "#753780",
+            "options": [
+              {
+                "question": 466680043,
+                "option": [
+                  "Fixed facility observed (sink/tap) In dwelling",
+                  "Fixed facility observed (sink/tap)  In yard/plot",
+                  "Mobile object observed (bucket/jug/kettle)"
+                ]
+              },
+              {
+                "question": 466680045,
+                "option": [
+                  "Water is available"
+                ]
+              },
+              {
+                "question": 466760036,
+                "option": [
+                  "Soap or detergent available ."
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

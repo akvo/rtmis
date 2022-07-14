@@ -36,6 +36,7 @@ const TableVisual = ({ tableConfig, loading }) => {
       };
       tmp = c.path === "loc" ? { ...tmp, width: "200px" } : tmp;
       tmp = c.path === "total" ? { ...tmp, width: "100px" } : tmp;
+      tmp = c.path === "year" ? { ...tmp, width: "100px" } : tmp;
       if (c?.fixed) {
         tmp = {
           ...tmp,
@@ -65,7 +66,7 @@ const TableVisual = ({ tableConfig, loading }) => {
         tmp = {
           ...tmp,
           [p]:
-            typeof pathData === "number"
+            typeof pathData === "number" && p !== "year"
               ? pathData.toLocaleString("en-US")
               : pathData,
         };

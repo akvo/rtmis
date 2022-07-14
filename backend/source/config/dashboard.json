@@ -727,8 +727,7 @@
               "from": "counties",
               "path": "length",
               "span": 4,
-              "icon": "administrative-unit.svg",
-              "color": "#99BF9A"
+              "icon": null
             },
             {
               "type": "card",
@@ -737,8 +736,7 @@
               "from": "counties",
               "path": "589570112.Yes",
               "span": 4,
-              "icon": "administrative-unit.svg",
-              "color": "#FFDBBF"
+              "icon": null
             },
             {
               "type": "card",
@@ -752,7 +750,7 @@
             {
               "type": "card",
               "title": "Allocated S&H National Budget",
-              "calc": "sum",
+              "calc": "tail",
               "from": "national",
               "path": 594410065,
               "span": 4,
@@ -760,7 +758,7 @@
             },
             {
               "type": "card",
-              "title": "Utilized S&H County Budget",
+              "title": "Utilised S&H County Budget",
               "calc": "sum",
               "from": "counties",
               "path": 595980103,
@@ -769,8 +767,8 @@
             },
             {
               "type": "card",
-              "title": "Utilized S&H National Budget",
-              "calc": "sum",
+              "title": "Utilised S&H National Budget",
+              "calc": "tail",
               "from": "national",
               "path": 595980103,
               "span": 4,
@@ -813,7 +811,7 @@
               "from": "counties",
               "path": "589570112.Yes",
               "span": 6,
-              "icon": "administrative-unit.svg"
+              "icon": null
             },
             {
               "type": "card",
@@ -835,7 +833,7 @@
             },
             {
               "type": "card",
-              "title": "Utilized S&H County Budget",
+              "title": "Utilised S&H County Budget",
               "calc": "sum",
               "from": "counties",
               "path": 595980103,
@@ -875,7 +873,7 @@
           [
             {
               "type": "table",
-              "title": "National Reporting",
+              "title": "National Budget Reporting",
               "calc": "sum",
               "from": "national",
               "columns": [
@@ -897,7 +895,7 @@
             },
             {
               "type": "table",
-              "title": "National Reporting",
+              "title": "Counties Budget Reporting",
               "calc": "sum",
               "from": "counties",
               "columns": [
@@ -907,7 +905,7 @@
                   "fixed": "left"
                 },
                 {
-                  "title": "Allocated Budget",
+                  "title": "Budget Allocated",
                   "path": 594410065
                 },
                 {

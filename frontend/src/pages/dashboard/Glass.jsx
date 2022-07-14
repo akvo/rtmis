@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Row, Col, Tabs } from "antd";
 import { uiText, store } from "../../lib";
 import example from "./example";
-import { capitalize, get } from "lodash";
+import { capitalize } from "lodash";
 import { CardVisual, TableVisual, ChartVisual } from "./components";
 import { Maps } from "../../components";
 import moment from "moment";
@@ -116,7 +116,7 @@ const Dashboard = () => {
               index: index,
               lastUpdate: moment().format("L"),
             }}
-            getTotal={(d, path) => get(d, path)}
+            customTotal={window.dbadm.filter((d) => d.level === 2).length}
             loading={loading}
           />
         );
