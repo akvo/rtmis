@@ -1,6 +1,8 @@
 [
   {
+    "name": "Household",
     "form_id": 519630048,
+    "page": "dashboard",
     "tabs": {
       "overview": {
         "rows": [
@@ -81,8 +83,14 @@
               "type": "table",
               "title": null,
               "columns": [
-                { "title": "Administration", "path": "loc" },
-                { "title": "Total Data", "path": "total" }
+                {
+                  "title": "Administration",
+                  "path": "loc"
+                },
+                {
+                  "title": "Total Data",
+                  "path": "total"
+                }
               ],
               "span": 12
             }
@@ -151,8 +159,16 @@
               "type": "table",
               "title": "Table sanitation service level",
               "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
-                { "title": "Count of HHs", "path": "total", "fixed": "left" },
+                {
+                  "title": "Administration",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of HHs",
+                  "path": "total",
+                  "fixed": "left"
+                },
                 {
                   "title": "Count by service level",
                   "children": true,
@@ -165,8 +181,16 @@
               "type": "table",
               "title": "Table hygiene service level",
               "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
-                { "title": "Count of HHs", "path": "total", "fixed": "left" },
+                {
+                  "title": "Administration",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of HHs",
+                  "path": "total",
+                  "fixed": "left"
+                },
                 {
                   "title": "Count by service level",
                   "children": true,
@@ -183,7 +207,9 @@
     }
   },
   {
+    "name": "Health Facilities",
     "form_id": 533560002,
+    "page": "dashboard",
     "tabs": {
       "overview": {
         "rows": [
@@ -246,8 +272,14 @@
               "type": "table",
               "title": null,
               "columns": [
-                { "title": "Administration", "path": "loc" },
-                { "title": "Total Data", "path": "total" }
+                {
+                  "title": "Administration",
+                  "path": "loc"
+                },
+                {
+                  "title": "Total Data",
+                  "path": "total"
+                }
               ],
               "span": 12
             }
@@ -332,8 +364,16 @@
               "type": "table",
               "title": "Table sanitation service level",
               "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
-                { "title": "Count of HHs", "path": "total", "fixed": "left" },
+                {
+                  "title": "Administration",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of HHs",
+                  "path": "total",
+                  "fixed": "left"
+                },
                 {
                   "title": "Count by service level",
                   "children": true,
@@ -346,8 +386,16 @@
               "type": "table",
               "title": "Table hygiene service level",
               "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
-                { "title": "Count of HHs", "path": "total", "fixed": "left" },
+                {
+                  "title": "Administration",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of HHs",
+                  "path": "total",
+                  "fixed": "left"
+                },
                 {
                   "title": "Count by service level",
                   "children": true,
@@ -362,8 +410,16 @@
               "type": "table",
               "title": "Table waste management service level",
               "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
-                { "title": "Count of HHs", "path": "total", "fixed": "left" },
+                {
+                  "title": "Administration",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of HHs",
+                  "path": "total",
+                  "fixed": "left"
+                },
                 {
                   "title": "Count by service level",
                   "children": true,
@@ -376,8 +432,16 @@
               "type": "table",
               "title": "Table environmental cleaning protocol service level",
               "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
-                { "title": "Count of HHs", "path": "total", "fixed": "left" },
+                {
+                  "title": "Administration",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of HHs",
+                  "path": "total",
+                  "fixed": "left"
+                },
                 {
                   "title": "Count by service level",
                   "children": true,
@@ -394,7 +458,9 @@
     }
   },
   {
+    "name": "WASH in Schools",
     "form_id": 563350033,
+    "page": "dashboard",
     "tabs": {
       "overview": {
         "rows": [
@@ -466,8 +532,14 @@
               "type": "table",
               "title": null,
               "columns": [
-                { "title": "Administration", "path": "loc" },
-                { "title": "Total Data", "path": "total" }
+                {
+                  "title": "Administration",
+                  "path": "loc"
+                },
+                {
+                  "title": "Total Data",
+                  "path": "total"
+                }
               ],
               "span": 12
             }
@@ -552,7 +624,11 @@
               "type": "table",
               "title": "Table sanitation service level",
               "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
+                {
+                  "title": "Administration",
+                  "path": "loc",
+                  "fixed": "left"
+                },
                 {
                   "title": "Count of Schools",
                   "path": "total",
@@ -570,7 +646,11 @@
               "type": "table",
               "title": "Table hygiene service level",
               "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
+                {
+                  "title": "Administration",
+                  "path": "loc",
+                  "fixed": "left"
+                },
                 {
                   "title": "Count of Schools",
                   "path": "total",
@@ -590,7 +670,11 @@
               "type": "table",
               "title": "Table drinking water service level",
               "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
+                {
+                  "title": "Administration",
+                  "path": "loc",
+                  "fixed": "left"
+                },
                 {
                   "title": "Count of Schools",
                   "path": "total",
@@ -608,7 +692,11 @@
               "type": "table",
               "title": "Table environmental cleaning service level",
               "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
+                {
+                  "title": "Administration",
+                  "path": "loc",
+                  "fixed": "left"
+                },
                 {
                   "title": "Count of Schools",
                   "path": "total",
@@ -627,6 +715,220 @@
       },
       "rush": {},
       "data_cube": {}
+    }
+  },
+  {
+    "name": "Governance and Policy",
+    "form_id": 567490004,
+    "page": "glass",
+    "tabs": {
+      "overview": {
+        "rows": [
+          [
+            {
+              "type": "card",
+              "title": "Counties Reporting",
+              "calc": "count",
+              "filter": "counties",
+              "path": "length",
+              "span": 4,
+              "icon": "administrative-unit.svg",
+              "color": "#99BF9A"
+            },
+            {
+              "type": "card",
+              "title": "Established WASH Policy",
+              "calc": "percent",
+              "filter": "counties",
+              "path": 589570112,
+              "span": 4,
+              "icon": "administrative-unit.svg",
+              "color": "#FFDBBF"
+            },
+            {
+              "type": "card",
+              "title": "Allocated SH County Budget",
+              "calc": "sum",
+              "filter": "counties",
+              "path": 594410065,
+              "span": 4,
+              "icon": null,
+              "color": "#BFF7FF"
+            },
+            {
+              "type": "card",
+              "title": "Allocated SH National Budget",
+              "calc": "sum",
+              "filter": "national",
+              "path": 594410065,
+              "span": 4,
+              "icon": null,
+              "color": "#BFF7FF"
+            },
+            {
+              "type": "card",
+              "title": "Utilized SH County Budget",
+              "calc": "sum",
+              "filter": "counties",
+              "path": 595980103,
+              "span": 4,
+              "icon": null,
+              "color": null
+            },
+            {
+              "type": "card",
+              "title": "Utilized SH National Budget",
+              "calc": "sum",
+              "filter": "national",
+              "path": 595980103,
+              "span": 4,
+              "icon": null,
+              "color": null
+            }
+          ],
+          [
+            {
+              "type": "table",
+              "title": "County Budget Allocation",
+              "calc": "sum",
+              "filter": "county",
+              "columns": [
+                {
+                  "title": "Administration",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Budget",
+                  "path": 594410065,
+                  "fixed": "left"
+                },
+                {
+                  "title": "Utilization",
+                  "path": 595980103,
+                  "fixed": "left"
+                }
+              ],
+              "span": 24
+            }
+          ]
+        ]
+      },
+      "glass": {
+        "rows": [
+          [
+            {
+              "type": "card",
+              "title": "Established WASH Policy",
+              "calc": "percent",
+              "filter": "counties",
+              "path": 589570112,
+              "span": 4,
+              "icon": "administrative-unit.svg",
+              "color": "#FFDBBF"
+            },
+            {
+              "type": "card",
+              "title": "of Counties with SH Roadmaps",
+              "calc": "percent",
+              "filter": "counties",
+              "path": 583720152,
+              "span": 4,
+              "icon": null,
+              "color": "#CBBFFF"
+            },
+            {
+              "type": "card",
+              "title": "Allocated SH County Budget",
+              "calc": "sum",
+              "filter": "counties",
+              "path": 594410065,
+              "span": 4,
+              "icon": null,
+              "color": "#BFF7FF"
+            },
+            {
+              "type": "card",
+              "title": "Utilized SH County Budget",
+              "calc": "sum",
+              "filter": "counties",
+              "path": 595980103,
+              "span": 4,
+              "icon": null,
+              "color": "#CBBFFF"
+            },
+            {
+              "type": "card",
+              "title": "SH Partners",
+              "calc": "sum",
+              "filter": null,
+              "path": 594440125,
+              "span": 4,
+              "icon": null,
+              "color": "#CBBFFF"
+            }
+          ],
+          [
+            {
+              "type": "chart",
+              "title": "Sanitation and Hygiene Roadmap",
+              "calc": "percent",
+              "path": 583720152,
+              "span": 24
+            }
+          ],
+          [
+            {
+              "type": "table",
+              "title": "National Reporting",
+              "calc": "sum",
+              "filter": "national",
+              "columns": [
+                {
+                  "title": "Year",
+                  "path": "year",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Budget",
+                  "path": 594410065,
+                  "fixed": "left"
+                },
+                {
+                  "title": "Utilization",
+                  "path": 595980103,
+                  "fixed": "left"
+                }
+              ],
+              "span": 12
+            },
+            {
+              "type": "table",
+              "title": "National Reporting",
+              "calc": "sum",
+              "filter": "county",
+              "columns": [
+                {
+                  "title": "Administration",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Budget",
+                  "path": 594410065,
+                  "fixed": "left"
+                },
+                {
+                  "title": "Utilization",
+                  "path": 595980103,
+                  "fixed": "left"
+                }
+              ],
+              "span": 12
+            }
+          ]
+        ]
+      }
     }
   }
 ]
