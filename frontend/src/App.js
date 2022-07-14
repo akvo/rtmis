@@ -1,6 +1,12 @@
 import "./App.scss";
 import React, { useEffect, useState } from "react";
-import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  Navigate,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import {
   Home,
   Login,
@@ -28,6 +34,7 @@ import {
   Organisations,
   AddOrganisation,
   Dashboard,
+  Glass,
 } from "./pages";
 import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
@@ -59,6 +66,7 @@ const RouteList = () => {
       <Route exact path="/data" element={<Home />} />
       <Route exact path="/form/:formId" element={<Forms />} />
       <Route exact path="/dashboard/:formId" element={<Dashboard />} />
+      <Route exact path="/glass/:formId" element={<Glass />} />
       <Route path="/users" element={<Private element={Users} alias="user" />} />
       <Route
         path="/organisations"
@@ -155,6 +163,7 @@ const App = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const { notify } = useNotification();
+  const pageLocation = useLocation();
 
   const public_state = config.allowedGlobal
     .map((x) => location.pathname.includes(x))
@@ -173,6 +182,14 @@ const App = () => {
       }
     }
   });
+
+  // detect location change to reset advanced filters
+  useEffect(() => {
+    store.update((s) => {
+      s.advancedFilters = [];
+      s.showAdvancedFilters = false;
+    });
+  }, [pageLocation]);
 
   useEffect(() => {
     if (!location.pathname.includes("/login")) {

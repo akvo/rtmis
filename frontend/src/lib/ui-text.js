@@ -24,7 +24,7 @@ const uiText = {
     hour: "Hour",
     minute: "Minute",
     second: "Second",
-    welcomeCta: "Explore the Data",
+    welcomeCta: "Explore Data",
     // Error messages
     error: "Error",
     errorPageNA: "Oops, this page is not available",

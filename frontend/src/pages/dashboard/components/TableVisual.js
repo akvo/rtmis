@@ -5,7 +5,7 @@ import { get, capitalize, sumBy } from "lodash";
 const fontSize = 12;
 
 const TableVisual = ({ tableConfig, loading }) => {
-  const { title, type, columns, span, data, index } = tableConfig;
+  const { title, type, columns, span, data, index, admLevelName } = tableConfig;
 
   const tableColumns = useMemo(() => {
     return columns.map((c) => {
@@ -90,7 +90,14 @@ const TableVisual = ({ tableConfig, loading }) => {
       span={span}
     >
       <Table
-        title={() => <h3>{title || "Table"}</h3>}
+        title={() => (
+          <h3>
+            {title.replace(
+              "##administration_level##",
+              admLevelName?.singular
+            ) || "Table"}
+          </h3>
+        )}
         columns={tableColumns}
         dataSource={tableDataSource}
         scroll={{ x: xScroll, y: 500 }}

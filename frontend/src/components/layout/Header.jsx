@@ -15,7 +15,7 @@ const Header = ({ className = "header", ...props }) => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
-  const forms = window?.forms;
+  const dashboards = window?.dashboard;
 
   const signOut = async () => {
     eraseCookieFromAllPaths("AUTH_TOKEN");
@@ -50,9 +50,9 @@ const Header = ({ className = "header", ...props }) => {
 
   const DashboardMenu = (
     <Menu>
-      {forms?.map((f, fi) => (
-        <Menu.Item key={`${fi}-${f.id}`}>
-          <Link to={`/dashboard/${f.id}`}>{f.name}</Link>
+      {dashboards?.map((d) => (
+        <Menu.Item key={`${d.name}`}>
+          <Link to={`/${d.page}/${d.form_id}`}>{d.name}</Link>
         </Menu.Item>
       ))}
     </Menu>
