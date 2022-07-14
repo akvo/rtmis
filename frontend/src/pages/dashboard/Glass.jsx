@@ -2,8 +2,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { useParams } from "react-router-dom";
 import { Row, Col, Tabs } from "antd";
-import { useNotification } from "../../util/hooks";
-import { api, uiText, store } from "../../lib";
+import { uiText, store } from "../../lib";
+import example from "./example";
 import { capitalize } from "lodash";
 import { CardVisual, TableVisual, ChartVisual } from "./components";
 import moment from "moment";
@@ -14,9 +14,8 @@ const Dashboard = () => {
   const { formId } = useParams();
   const selectedForm = window?.forms?.find((x) => String(x.id) === formId);
   const current = window?.dashboard?.find((x) => String(x.form_id) === formId);
-  const { notify } = useNotification();
 
-  const [dataset, setDataset] = useState([]);
+  const [dataset, setDataset] = useState({});
   const [activeTab, setActiveTab] = useState("overview");
   const [loading, setLoading] = useState(false);
   const [activeItem, setActiveItem] = useState(null);
@@ -39,8 +38,9 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (formId) {
-      setDataset([]);
+      setDataset({});
       setLoading(true);
+      /*
       const url = `glass/${formId}`;
       api
         .get(url)
@@ -56,8 +56,11 @@ const Dashboard = () => {
         .finally(() => {
           setLoading(false);
         });
+        */
+      setDataset(example);
+      setLoading(false);
     }
-  }, [formId, notify, text]);
+  }, [formId, text]);
 
   const changeTab = (tabKey) => {
     setActiveTab(tabKey);
@@ -72,6 +75,7 @@ const Dashboard = () => {
             key={index}
             chartConfig={{ ...cfg, data: dataset, index: index }}
             loading={loading}
+            isGlass={true}
           />
         );
       case "table":
@@ -80,6 +84,7 @@ const Dashboard = () => {
             key={index}
             tableConfig={{ ...cfg, data: dataset, index: index }}
             loading={loading}
+            isGlass={true}
           />
         );
       default:
@@ -93,6 +98,7 @@ const Dashboard = () => {
               lastUpdate: moment().format("L"),
             }}
             loading={loading}
+            isGlass={true}
           />
         );
     }
@@ -127,6 +133,7 @@ const Dashboard = () => {
                     <Row
                       key={`row-${index}`}
                       className="row-wrapper"
+                      justify="space-between"
                       gutter={[10, 10]}
                     >
                       {row.map((r, ri) => renderColumn(r, ri))}

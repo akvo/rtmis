@@ -12,9 +12,10 @@ const cardColorPalette = [
   "#F1DBB5",
 ];
 
-const CardVisual = ({ cardConfig, loading }) => {
+const CardVisual = ({ cardConfig, loading, isGlass = false }) => {
   const {
     title,
+    from,
     type,
     path,
     calc,
@@ -27,14 +28,16 @@ const CardVisual = ({ cardConfig, loading }) => {
     admLevelName,
   } = cardConfig;
 
+  const dataSet = isGlass ? data?.[from] || [] : data;
+
   const renderData = useMemo(() => {
-    if (!path || !data.length) {
+    if (!path || !dataSet.length) {
       return {
         title: title,
         value: "-",
       };
     }
-    const transform = data.map((d) => get(d, path));
+    const transform = dataSet.map((d) => get(d, path));
     if (calc === "sum") {
       return {
         title: title,
@@ -44,11 +47,11 @@ const CardVisual = ({ cardConfig, loading }) => {
     if (calc === "count" && path === "length") {
       return {
         title: title,
-        value: data.length,
+        value: dataSet.length,
       };
     }
     if (calc === "percent") {
-      const totalData = sum(data.map((d) => d.total));
+      const totalData = sum(dataSet.map((d) => d.total));
       const sumLevel = sum(transform);
       const percent = (sumLevel / totalData) * 100;
       return {
@@ -56,7 +59,7 @@ const CardVisual = ({ cardConfig, loading }) => {
         value: `${percent.toFixed(2)}%`,
       };
     }
-  }, [data, calc, path, title]);
+  }, [dataSet, calc, path, title]);
 
   return (
     <Col

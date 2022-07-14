@@ -4,13 +4,16 @@ import { get, capitalize, sumBy } from "lodash";
 
 const fontSize = 12;
 
-const TableVisual = ({ tableConfig, loading }) => {
-  const { title, type, columns, span, data, index, admLevelName } = tableConfig;
+const TableVisual = ({ tableConfig, loading, isGlass = false }) => {
+  const { title, from, type, columns, span, data, index, admLevelName } =
+    tableConfig;
+
+  const dataSet = isGlass ? data?.[from] || [] : data;
 
   const tableColumns = useMemo(() => {
     return columns.map((c) => {
       if (c?.children) {
-        const obj = get(data?.[0], c.children_path);
+        const obj = get(dataSet?.[0], c.children_path);
         if (!obj) {
           return {
             title: c.title,
@@ -44,7 +47,7 @@ const TableVisual = ({ tableConfig, loading }) => {
       }
       return tmp;
     });
-  }, [columns, data]);
+  }, [columns, dataSet]);
 
   const tableDataSource = useMemo(() => {
     const paths = columns.map((x) => {
@@ -53,7 +56,7 @@ const TableVisual = ({ tableConfig, loading }) => {
       }
       return x.path;
     });
-    const transform = data.map((d) => {
+    const transform = dataSet.map((d) => {
       const obj = paths.map((p) => {
         let tmp = {};
         const pathData = get(d, p);
@@ -68,7 +71,7 @@ const TableVisual = ({ tableConfig, loading }) => {
       return obj.reduce((curr, next) => ({ ...curr, ...next }));
     });
     return transform;
-  }, [data, columns]);
+  }, [dataSet, columns]);
 
   const xScroll = useMemo(
     () =>
