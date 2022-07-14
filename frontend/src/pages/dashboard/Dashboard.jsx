@@ -34,6 +34,10 @@ const Dashboard = () => {
   }, [activeLang]);
 
   const currentAdministration = takeRight(administration)?.[0];
+  const prefixText =
+    currentAdministration?.level === 0
+      ? currentAdministration?.levelName
+      : currentAdministration?.name;
   const admLevelName = useMemo(() => {
     const { level } = currentAdministration;
     let name = { plural: "Counties", singular: "County" };
@@ -152,7 +156,7 @@ const Dashboard = () => {
   return (
     <div id="dashboard">
       <div className="page-title-wrapper">
-        <h1>{`${selectedForm.name} Data`}</h1>
+        <h1>{`${prefixText} ${selectedForm.name} Data`}</h1>
       </div>
       <VisualisationFilters showFormOptions={false} />
       <Row className="main-wrapper" align="center">
@@ -167,7 +171,9 @@ const Dashboard = () => {
               >
                 {Object.keys(current.tabs).map((key) => {
                   let tabName = key;
-                  if (!["jmp", "glass"].includes(key.toLocaleLowerCase())) {
+                  if (
+                    !["jmp", "glass", "rush"].includes(key.toLocaleLowerCase())
+                  ) {
                     tabName = key
                       .split("_")
                       .map((x) => capitalize(x))

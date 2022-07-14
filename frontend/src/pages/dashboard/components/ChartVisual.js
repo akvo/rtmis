@@ -51,9 +51,7 @@ const ChartVisual = ({ chartConfig, loading }) => {
   return (
     <Col key={`col-${type}-${index}`} span={span}>
       <Card>
-        <h3>
-          {title} {api && "[on progress]"}
-        </h3>
+        <h3>{title}</h3>
         {!path && api ? (
           <Chart
             height={50 * chartDataApi.length + 188}

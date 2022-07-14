@@ -53,7 +53,7 @@ const CardVisual = ({ cardConfig, loading }) => {
       const percent = (sumLevel / totalData) * 100;
       return {
         title: title,
-        value: `${percent.toFixed(2)}%`,
+        value: `${Math.round(percent)}%`,
       };
     }
   }, [data, calc, path, title]);
@@ -84,7 +84,7 @@ const CardVisual = ({ cardConfig, loading }) => {
             <Col flex="40%" align="end">
               <Image
                 src={`/assets/dashboard/${icon}`}
-                width={50}
+                height={45}
                 preview={false}
                 alt={icon}
               />

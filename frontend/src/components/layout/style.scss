@@ -228,3 +228,10 @@
     }
   }
 }
+
+.dashboard-menu-item {
+  &:hover {
+    background-color: $blue;
+    color: $white;
+  }
+}
