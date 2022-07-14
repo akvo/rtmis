@@ -6,6 +6,7 @@ import { uiText, store } from "../../lib";
 import example from "./example";
 import { capitalize, get } from "lodash";
 import { CardVisual, TableVisual, ChartVisual } from "./components";
+import { Maps } from "../../components";
 import moment from "moment";
 
 const { TabPane } = Tabs;
@@ -76,6 +77,18 @@ const Dashboard = () => {
             chartConfig={{
               ...cfg,
               data: dataset[cfg.from] || [],
+              index: index,
+            }}
+            loading={loading}
+          />
+        );
+      case "maps":
+        return (
+          <Maps
+            key={index}
+            mapConfig={{
+              ...cfg,
+              data: dataset?.[cfg.from] || [],
               index: index,
             }}
             loading={loading}

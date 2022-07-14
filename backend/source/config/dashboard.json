@@ -742,7 +742,7 @@
             },
             {
               "type": "card",
-              "title": "Allocated WaSH County Budget",
+              "title": "Allocated S&H County Budget",
               "calc": "sum",
               "from": "counties",
               "path": 594410065,
@@ -751,7 +751,7 @@
             },
             {
               "type": "card",
-              "title": "Allocated WaSH National Budget",
+              "title": "Allocated S&H National Budget",
               "calc": "sum",
               "from": "national",
               "path": 594410065,
@@ -760,7 +760,7 @@
             },
             {
               "type": "card",
-              "title": "Utilized WaSH County Budget",
+              "title": "Utilized S&H County Budget",
               "calc": "sum",
               "from": "counties",
               "path": 595980103,
@@ -769,7 +769,7 @@
             },
             {
               "type": "card",
-              "title": "Utilized WaSH National Budget",
+              "title": "Utilized S&H National Budget",
               "calc": "sum",
               "from": "national",
               "path": 595980103,
@@ -808,7 +808,7 @@
           [
             {
               "type": "card",
-              "title": "Established WASH Policy",
+              "title": "Established S&H Policy",
               "calc": "percent",
               "from": "counties",
               "path": "589570112.Yes",
@@ -817,7 +817,7 @@
             },
             {
               "type": "card",
-              "title": "of Counties with WaSH Roadmaps",
+              "title": "% of Counties with S&H Roadmaps",
               "calc": "percent",
               "from": "counties",
               "path": "583720152.Yes",
@@ -826,7 +826,7 @@
             },
             {
               "type": "card",
-              "title": "Allocated WaSH County Budget",
+              "title": "Allocated S&H County Budget",
               "calc": "sum",
               "from": "counties",
               "path": 594410065,
@@ -835,7 +835,7 @@
             },
             {
               "type": "card",
-              "title": "Utilized WaSH County Budget",
+              "title": "Utilized S&H County Budget",
               "calc": "sum",
               "from": "counties",
               "path": 595980103,
@@ -844,12 +844,22 @@
             },
             {
               "type": "card",
-              "title": "WaSH Partners",
+              "title": "S&H Partners",
               "calc": "sum",
               "from": "counties",
               "path": 594440125,
               "span": 4,
               "icon": null
+            }
+          ],
+          [
+            {
+              "type": "maps",
+              "title": "S&H Partners",
+              "from": "counties",
+              "calc": "default",
+              "path": 594440125,
+              "span": 24
             }
           ],
           [
