@@ -1,11 +1,18 @@
 import React, { useMemo } from "react";
 import { Row, Col, Card, Image } from "antd";
-import { store } from "../../../lib";
-import { get, sum, takeRight } from "lodash";
+import { get, sum } from "lodash";
+
+const cardColorPalette = [
+  "#CBBFFF",
+  "#FFDBBF",
+  "#BFD5FF",
+  "#FFF8BF",
+  "#99BF9A",
+  "#BFF7FF",
+  "#F1DBB5",
+];
 
 const CardVisual = ({ cardConfig, loading }) => {
-  const { administration } = store.useState((s) => s);
-  const currentAdministration = takeRight(administration)?.[0];
   const {
     title,
     type,
@@ -17,19 +24,8 @@ const CardVisual = ({ cardConfig, loading }) => {
     color,
     icon,
     lastUpdate,
+    admLevelName,
   } = cardConfig;
-
-  const admLevelName = useMemo(() => {
-    const { level } = currentAdministration;
-    let name = "Counties";
-    if (level === 1) {
-      name = "Sub-Counties";
-    }
-    if (level === 2) {
-      name = "Wards";
-    }
-    return name;
-  }, [currentAdministration]);
 
   const renderData = useMemo(() => {
     if (!path || !data.length) {
@@ -70,19 +66,22 @@ const CardVisual = ({ cardConfig, loading }) => {
       justify="space-between"
       span={span}
     >
-      <Card style={{ backgroundColor: color || "#fff" }}>
+      <Card
+        style={{
+          backgroundColor: color || cardColorPalette?.[index] || "#fff",
+        }}
+      >
         <Row gutter={[10, 10]} align="top" justify="space-between">
-          <Col flex={icon ? "70%" : "100%"}>
+          <Col flex={icon ? "60%" : "100%"}>
             <h3>
               {renderData?.title?.replace(
                 "##administration_level##",
-                admLevelName
+                admLevelName?.plural
               )}
             </h3>
-            <h1>{!loading && renderData?.value}</h1>
           </Col>
           {icon && (
-            <Col flex="30%" align="end">
+            <Col flex="40%" align="end">
               <Image
                 src={`/assets/dashboard/${icon}`}
                 width={50}
@@ -92,6 +91,7 @@ const CardVisual = ({ cardConfig, loading }) => {
             </Col>
           )}
         </Row>
+        <h1>{!loading && renderData?.value}</h1>
         <h4>Last Update : {loading ? "Loading..." : lastUpdate}</h4>
       </Card>
     </Col>

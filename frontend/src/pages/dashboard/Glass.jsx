@@ -2,13 +2,11 @@ import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { useParams } from "react-router-dom";
 import { Row, Col, Tabs } from "antd";
-import { VisualisationFilters } from "../../components";
 import { useNotification } from "../../util/hooks";
-import { api, uiText, store, config } from "../../lib";
-import { capitalize, takeRight } from "lodash";
-import { Maps } from "../../components";
+import { api, uiText, store } from "../../lib";
+import { capitalize } from "lodash";
 import { CardVisual, TableVisual, ChartVisual } from "./components";
-import { generateAdvanceFilterURL } from "../../util/filter";
+import moment from "moment";
 
 const { TabPane } = Tabs;
 
@@ -22,36 +20,12 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
   const [loading, setLoading] = useState(false);
   const [activeItem, setActiveItem] = useState(null);
-  const [lastUpdate, setLastUpdate] = useState(null);
 
   const { active: activeLang } = store.useState((s) => s.language);
-  const advancedFilters = store.useState((s) => s.advancedFilters);
-  const administration = store.useState((s) => s.administration);
-  const [wait, setWait] = useState(true);
 
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
-
-  const currentAdministration = takeRight(administration)?.[0];
-  const admLevelName = useMemo(() => {
-    const { level } = currentAdministration;
-    let name = { plural: "Counties", singular: "County" };
-    if (level === 1) {
-      name = { plural: "Sub-Counties", singular: "Sub-County" };
-    }
-    if (level === 2) {
-      name = { plural: "Wards", singular: "Ward" };
-    }
-    return name;
-  }, [currentAdministration]);
-
-  useEffect(() => {
-    store.update((s) => {
-      s.administration = [config.fn.administration(1)];
-    });
-    setWait(false);
-  }, []);
 
   useEffect(() => {
     if (selectedForm?.id) {
@@ -64,21 +38,10 @@ const Dashboard = () => {
   }, [selectedForm, current]);
 
   useEffect(() => {
-    if (formId && !lastUpdate) {
-      api
-        .get(`last_update/${formId}`)
-        .then((res) => setLastUpdate(res.data.last_update));
-    }
-  }, [formId, lastUpdate]);
-
-  useEffect(() => {
-    if (formId && !wait) {
+    if (formId) {
       setDataset([]);
       setLoading(true);
-      let url = `jmp/${formId}?administration=${currentAdministration?.id}`;
-      if (advancedFilters && advancedFilters.length) {
-        url = generateAdvanceFilterURL(advancedFilters, url);
-      }
+      const url = `glass/${formId}`;
       api
         .get(url)
         .then((res) => {
@@ -94,7 +57,7 @@ const Dashboard = () => {
           setLoading(false);
         });
     }
-  }, [formId, currentAdministration, notify, text, advancedFilters, wait]);
+  }, [formId, notify, text]);
 
   const changeTab = (tabKey) => {
     setActiveTab(tabKey);
@@ -103,14 +66,6 @@ const Dashboard = () => {
 
   const renderColumn = (cfg, index) => {
     switch (cfg.type) {
-      case "maps":
-        return (
-          <Maps
-            key={index}
-            mapConfig={{ ...cfg, data: dataset, index: index }}
-            loading={loading}
-          />
-        );
       case "chart":
         return (
           <ChartVisual
@@ -123,12 +78,7 @@ const Dashboard = () => {
         return (
           <TableVisual
             key={index}
-            tableConfig={{
-              ...cfg,
-              data: dataset,
-              index: index,
-              admLevelName: admLevelName,
-            }}
+            tableConfig={{ ...cfg, data: dataset, index: index }}
             loading={loading}
           />
         );
@@ -140,8 +90,7 @@ const Dashboard = () => {
               ...cfg,
               data: dataset,
               index: index,
-              lastUpdate: lastUpdate,
-              admLevelName: admLevelName,
+              lastUpdate: moment().format("L"),
             }}
             loading={loading}
           />
@@ -152,19 +101,13 @@ const Dashboard = () => {
   return (
     <div id="dashboard">
       <div className="page-title-wrapper">
-        <h1>{`${selectedForm.name} Data`}</h1>
+        <h1>{selectedForm?.name}</h1>
       </div>
-      <VisualisationFilters showFormOptions={false} />
       <Row className="main-wrapper" align="center">
         <Col span={24} align="center">
           {current?.tabs && (
             <>
-              <Tabs
-                activeKey={activeTab}
-                onChange={changeTab}
-                type="card"
-                tabBarGutter={10}
-              >
+              <Tabs activeKey={activeTab} onChange={changeTab}>
                 {Object.keys(current.tabs).map((key) => {
                   let tabName = key;
                   if (!["jmp", "glass"].includes(key.toLocaleLowerCase())) {

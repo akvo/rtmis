@@ -107,6 +107,9 @@ const getColorScale = ({ method, colors, colorRange }) => {
       [0, 0]
     )
     .map((acc, index) => {
+      if (acc !== 0 && acc < 10) {
+        return Math.ceil(acc / 10) * 10;
+      }
       if (index && acc) {
         acc = acc < 10 ? 10 : acc;
         acc = 100 * Math.floor((acc + 50) / 100);
