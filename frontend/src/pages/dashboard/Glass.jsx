@@ -109,10 +109,15 @@ const Dashboard = () => {
             <>
               <Tabs activeKey={activeTab} onChange={changeTab}>
                 {Object.keys(current.tabs).map((key) => {
-                  const tabName = key
-                    .split("_")
-                    .map((x) => capitalize(x))
-                    .join(" ");
+                  let tabName = key;
+                  if (!["jmp", "glass"].includes(key.toLocaleLowerCase())) {
+                    tabName = key
+                      .split("_")
+                      .map((x) => capitalize(x))
+                      .join(" ");
+                  } else {
+                    tabName = key.toUpperCase();
+                  }
                   return <TabPane tab={tabName} key={key}></TabPane>;
                 })}
               </Tabs>
