@@ -92,8 +92,10 @@ const TableVisual = ({ tableConfig, loading }) => {
       <Table
         title={() => (
           <h3>
-            {title.replace("##administration_level##", admLevelName.singular) ||
-              "Table"}
+            {title.replace(
+              "##administration_level##",
+              admLevelName?.singular
+            ) || "Table"}
           </h3>
         )}
         columns={tableColumns}

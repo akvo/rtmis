@@ -76,7 +76,7 @@ const CardVisual = ({ cardConfig, loading }) => {
             <h3>
               {renderData?.title?.replace(
                 "##administration_level##",
-                admLevelName.plural
+                admLevelName?.plural
               )}
             </h3>
           </Col>
