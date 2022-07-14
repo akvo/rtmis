@@ -27,6 +27,7 @@ const Dashboard = () => {
   const { active: activeLang } = store.useState((s) => s.language);
   const advancedFilters = store.useState((s) => s.advancedFilters);
   const administration = store.useState((s) => s.administration);
+  const [wait, setWait] = useState(true);
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -49,6 +50,7 @@ const Dashboard = () => {
     store.update((s) => {
       s.administration = [config.fn.administration(1)];
     });
+    setWait(false);
   }, []);
 
   useEffect(() => {
@@ -70,11 +72,10 @@ const Dashboard = () => {
   }, [formId, lastUpdate]);
 
   useEffect(() => {
-    const currentAdministration = takeRight(administration)?.[0]?.id;
-    if (formId) {
+    if (formId && !wait) {
       setDataset([]);
       setLoading(true);
-      let url = `jmp/${formId}?administration=${currentAdministration}`;
+      let url = `jmp/${formId}?administration=${currentAdministration?.id}`;
       if (advancedFilters && advancedFilters.length) {
         url = generateAdvanceFilterURL(advancedFilters, url);
       }
@@ -93,7 +94,7 @@ const Dashboard = () => {
           setLoading(false);
         });
     }
-  }, [formId, administration, notify, text, advancedFilters]);
+  }, [formId, currentAdministration, notify, text, advancedFilters, wait]);
 
   const changeTab = (tabKey) => {
     setActiveTab(tabKey);
