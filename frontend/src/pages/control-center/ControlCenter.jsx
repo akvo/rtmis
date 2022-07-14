@@ -114,7 +114,7 @@ const ControlCenter = () => {
       </Row>
       <DescriptionPanel description={text.ccDescriptionPanel} />
       <Divider />
-      <Row gutter={[16, 16]}>
+      <Row gutter={[16, 16]} data-testid="control-center-cards">
         {selectedPanels.map((panel, index) => {
           if (panel?.render) {
             return panel.render;
