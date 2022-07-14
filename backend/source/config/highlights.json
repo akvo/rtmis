@@ -1,7 +1,7 @@
 [
   {
     "name": "Household",
-    "description": "Description text here",
+    "description": "Contains data collected from sampled households from all the villages in all the 47 counties in Kenya. Data is updated on monthly basis.",
     "maps": {
       "form_id": 519630048,
       "option": "Safely Managed",
@@ -270,7 +270,7 @@
   },
   {
     "name": "Health Facilities",
-    "description": "Description text here",
+    "description": "Contains data collected from all levels of health care facilities in all the 47 counties in Kenya. Data is updated on monthly basis.",
     "maps": {
       "form_id": 533560002,
       "option": "Basic",
@@ -620,7 +620,7 @@
   },
   {
     "name": "WASH in School",
-    "description": "Description text here",
+    "description": "Contains data collected from all the schools in all the 47 counties in Kenya. Data is updated on monthly basis.",
     "maps": {
       "form_id": 563350033,
       "option": "Basic",
@@ -944,5 +944,11 @@
         ]
       }
     ]
+  },
+  {
+    "name": "Governance and Policy",
+    "description": "Contains data collected from all 47 Counties in Kenya as well as data entered at National level. Data is updated on annual basis.",
+    "maps": {},
+    "charts": []
   }
 ]
