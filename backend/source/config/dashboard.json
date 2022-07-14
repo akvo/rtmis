@@ -727,7 +727,7 @@
               "type": "card",
               "title": "Counties Reporting",
               "calc": "count",
-              "filter": "counties",
+              "from": "counties",
               "path": "length",
               "span": 4,
               "icon": "administrative-unit.svg",
@@ -737,51 +737,47 @@
               "type": "card",
               "title": "Established WASH Policy",
               "calc": "percent",
-              "filter": "counties",
-              "path": 589570112,
+              "from": "counties",
+              "path": "589570112.Yes",
               "span": 4,
               "icon": "administrative-unit.svg",
               "color": "#FFDBBF"
             },
             {
               "type": "card",
-              "title": "Allocated SH County Budget",
+              "title": "Allocated WaSH County Budget",
               "calc": "sum",
-              "filter": "counties",
+              "from": "counties",
               "path": 594410065,
               "span": 4,
-              "icon": null,
-              "color": "#BFF7FF"
+              "icon": null
             },
             {
               "type": "card",
-              "title": "Allocated SH National Budget",
+              "title": "Allocated WaSH National Budget",
               "calc": "sum",
-              "filter": "national",
+              "from": "national",
               "path": 594410065,
               "span": 4,
-              "icon": null,
-              "color": "#BFF7FF"
+              "icon": null
             },
             {
               "type": "card",
-              "title": "Utilized SH County Budget",
+              "title": "Utilized WaSH County Budget",
               "calc": "sum",
-              "filter": "counties",
+              "from": "counties",
               "path": 595980103,
               "span": 4,
-              "icon": null,
-              "color": null
+              "icon": null
             },
             {
               "type": "card",
-              "title": "Utilized SH National Budget",
+              "title": "Utilized WaSH National Budget",
               "calc": "sum",
-              "filter": "national",
+              "from": "national",
               "path": 595980103,
               "span": 4,
-              "icon": null,
-              "color": null
+              "icon": null
             }
           ],
           [
@@ -789,7 +785,7 @@
               "type": "table",
               "title": "County Budget Allocation",
               "calc": "sum",
-              "filter": "county",
+              "from": "counties",
               "columns": [
                 {
                   "title": "Administration",
@@ -797,14 +793,12 @@
                   "fixed": "left"
                 },
                 {
-                  "title": "Budget",
-                  "path": 594410065,
-                  "fixed": "left"
+                  "title": "Budget Allocated",
+                  "path": 594410065
                 },
                 {
-                  "title": "Utilization",
-                  "path": 595980103,
-                  "fixed": "left"
+                  "title": "Budget Utilised",
+                  "path": 595980103
                 }
               ],
               "span": 24
@@ -819,57 +813,53 @@
               "type": "card",
               "title": "Established WASH Policy",
               "calc": "percent",
-              "filter": "counties",
-              "path": 589570112,
-              "span": 4,
-              "icon": "administrative-unit.svg",
-              "color": "#FFDBBF"
+              "from": "counties",
+              "path": "589570112.Yes",
+              "span": 6,
+              "icon": "administrative-unit.svg"
             },
             {
               "type": "card",
-              "title": "of Counties with SH Roadmaps",
+              "title": "of Counties with WaSH Roadmaps",
               "calc": "percent",
-              "filter": "counties",
+              "from": "counties",
               "path": 583720152,
-              "span": 4,
-              "icon": null,
-              "color": "#CBBFFF"
+              "span": 6,
+              "icon": null
             },
             {
               "type": "card",
-              "title": "Allocated SH County Budget",
+              "title": "Allocated WaSH County Budget",
               "calc": "sum",
-              "filter": "counties",
+              "from": "counties",
               "path": 594410065,
               "span": 4,
-              "icon": null,
-              "color": "#BFF7FF"
+              "icon": null
             },
             {
               "type": "card",
-              "title": "Utilized SH County Budget",
+              "title": "Utilized WaSH County Budget",
               "calc": "sum",
-              "filter": "counties",
+              "from": "counties",
               "path": 595980103,
               "span": 4,
-              "icon": null,
-              "color": "#CBBFFF"
+              "icon": null
             },
             {
               "type": "card",
-              "title": "SH Partners",
+              "title": "WaSH Partners",
               "calc": "sum",
-              "filter": null,
+              "from": "counties",
               "path": 594440125,
               "span": 4,
-              "icon": null,
-              "color": "#CBBFFF"
+              "icon": null
             }
           ],
           [
             {
               "type": "chart",
               "title": "Sanitation and Hygiene Roadmap",
+              "from": "counties",
               "calc": "percent",
               "path": 583720152,
               "span": 24
@@ -880,7 +870,7 @@
               "type": "table",
               "title": "National Reporting",
               "calc": "sum",
-              "filter": "national",
+              "from": "national",
               "columns": [
                 {
                   "title": "Year",
@@ -888,14 +878,12 @@
                   "fixed": "left"
                 },
                 {
-                  "title": "Budget",
-                  "path": 594410065,
-                  "fixed": "left"
+                  "title": "Budget Allocated",
+                  "path": 594410065
                 },
                 {
-                  "title": "Utilization",
-                  "path": 595980103,
-                  "fixed": "left"
+                  "title": "Budget Utilised",
+                  "path": 595980103
                 }
               ],
               "span": 12
@@ -904,7 +892,7 @@
               "type": "table",
               "title": "National Reporting",
               "calc": "sum",
-              "filter": "county",
+              "from": "counties",
               "columns": [
                 {
                   "title": "Administration",
@@ -912,14 +900,12 @@
                   "fixed": "left"
                 },
                 {
-                  "title": "Budget",
-                  "path": 594410065,
-                  "fixed": "left"
+                  "title": "Allocated Budget",
+                  "path": 594410065
                 },
                 {
-                  "title": "Utilization",
-                  "path": 595980103,
-                  "fixed": "left"
+                  "title": "Budget Utilised",
+                  "path": 595980103
                 }
               ],
               "span": 12
