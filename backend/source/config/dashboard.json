@@ -81,7 +81,7 @@
             },
             {
               "type": "table",
-              "title": null,
+              "title": "Submission by ##administration_level##",
               "columns": [
                 {
                   "title": "Administration",
@@ -202,7 +202,7 @@
           ]
         ]
       },
-      "rush": {},
+      "national_protocol": {},
       "data_cube": {}
     }
   },
@@ -270,7 +270,7 @@
             },
             {
               "type": "table",
-              "title": null,
+              "title": "Submission by ##administration_level##",
               "columns": [
                 {
                   "title": "Administration",
@@ -453,7 +453,6 @@
           ]
         ]
       },
-      "rush": {},
       "data_cube": {}
     }
   },
@@ -530,7 +529,7 @@
             },
             {
               "type": "table",
-              "title": null,
+              "title": "Submission by ##administration_level##",
               "columns": [
                 {
                   "title": "Administration",
@@ -713,7 +712,6 @@
           ]
         ]
       },
-      "rush": {},
       "data_cube": {}
     }
   },

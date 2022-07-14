@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import { Row, Col, Card, Image } from "antd";
-import { store } from "../../../lib";
-import { get, sum, takeRight } from "lodash";
+import { get, sum } from "lodash";
 
 const cardColorPalette = [
   "#CBBFFF",
@@ -14,8 +13,6 @@ const cardColorPalette = [
 ];
 
 const CardVisual = ({ cardConfig, loading }) => {
-  const { administration } = store.useState((s) => s);
-  const currentAdministration = takeRight(administration)?.[0];
   const {
     title,
     type,
@@ -27,19 +24,8 @@ const CardVisual = ({ cardConfig, loading }) => {
     color,
     icon,
     lastUpdate,
+    admLevelName,
   } = cardConfig;
-
-  const admLevelName = useMemo(() => {
-    const { level } = currentAdministration;
-    let name = "Counties";
-    if (level === 1) {
-      name = "Sub-Counties";
-    }
-    if (level === 2) {
-      name = "Wards";
-    }
-    return name;
-  }, [currentAdministration]);
 
   const renderData = useMemo(() => {
     if (!path || !data.length) {
@@ -90,7 +76,7 @@ const CardVisual = ({ cardConfig, loading }) => {
             <h3>
               {renderData?.title?.replace(
                 "##administration_level##",
-                admLevelName
+                admLevelName.plural
               )}
             </h3>
             <h1>{!loading && renderData?.value}</h1>
