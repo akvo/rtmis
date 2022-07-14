@@ -72,17 +72,16 @@ const CardVisual = ({ cardConfig, loading }) => {
         }}
       >
         <Row gutter={[10, 10]} align="top" justify="space-between">
-          <Col flex={icon ? "70%" : "100%"}>
+          <Col flex={icon ? "60%" : "100%"}>
             <h3>
               {renderData?.title?.replace(
                 "##administration_level##",
                 admLevelName.plural
               )}
             </h3>
-            <h1>{!loading && renderData?.value}</h1>
           </Col>
           {icon && (
-            <Col flex="30%" align="end">
+            <Col flex="40%" align="end">
               <Image
                 src={`/assets/dashboard/${icon}`}
                 width={50}
@@ -92,6 +91,7 @@ const CardVisual = ({ cardConfig, loading }) => {
             </Col>
           )}
         </Row>
+        <h1>{!loading && renderData?.value}</h1>
         <h4>Last Update : {loading ? "Loading..." : lastUpdate}</h4>
       </Card>
     </Col>
