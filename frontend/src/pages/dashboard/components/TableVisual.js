@@ -4,7 +4,7 @@ import { get, capitalize, sumBy } from "lodash";
 
 const fontSize = 12;
 
-const TableVisual = ({ tableConfig }) => {
+const TableVisual = ({ tableConfig, loading }) => {
   const { title, type, columns, span, data, index } = tableConfig;
 
   const tableColumns = useMemo(() => {
@@ -96,6 +96,7 @@ const TableVisual = ({ tableConfig }) => {
         scroll={{ x: xScroll, y: 500 }}
         pagination={false}
         size="small"
+        loading={loading}
         bordered
         rowKey={tableColumns?.[0]?.key || "id"}
       />

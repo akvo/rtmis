@@ -19,7 +19,7 @@ const borderColor = "#7d7d7d";
 const mapMaxZoom = 13;
 const higlightColor = "#84b4cc";
 
-const Maps = ({ mapConfig, style = {} }) => {
+const Maps = ({ loading, mapConfig, style = {} }) => {
   // config
   const { data, title, calc, path, span, type, index } = mapConfig;
   const { administration } = store.useState((s) => s);
@@ -156,7 +156,7 @@ const Maps = ({ mapConfig, style = {} }) => {
 
   return (
     <Col className="map-container" span={span} key={`col-${type}-${index}`}>
-      {!results.length && (
+      {loading && (
         <div className="map-loading">
           <Spin />
         </div>

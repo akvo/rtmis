@@ -6,16 +6,14 @@ import FormDropdown from "./FormDropdown.js";
 import RemoveFiltersButton from "./RemoveFiltersButton";
 import AdvancedFiltersButton from "./AdvancedFiltersButton";
 import AdvancedFilters from "./AdvancedFilters";
-import { store } from "../../lib";
-import { Button } from "antd";
-import { Link } from "react-router-dom";
+// import { Button } from "antd";
+// import { Link } from "react-router-dom";
 
 const VisualisationFilters = ({
   persist = false,
   hidden = false,
   showFormOptions = true,
 }) => {
-  const { showAdvancedFilters } = store.useState((s) => s);
   return hidden ? (
     <>
       {showFormOptions && <FormDropdown title={true} hidden={true} />}
@@ -34,15 +32,15 @@ const VisualisationFilters = ({
             <AdministrationDropdown persist={persist} />
             <RemoveFiltersButton />
             <AdvancedFiltersButton />
-            {!location.pathname.includes("/reports") && (
+            {/*!location.pathname.includes("/reports") && (
               <Link to="/reports">
                 <Button className="light">Print</Button>
               </Link>
-            )}
+            )*/}
           </Space>
         </Col>
       </Row>
-      {showAdvancedFilters && <AdvancedFilters />}
+      <AdvancedFilters />
     </>
   );
 };

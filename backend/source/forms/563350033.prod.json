@@ -7,12 +7,23 @@
       "question_group": "Demographics",
       "questions": [
         {
-          "id": 543080040,
-          "meta": true,
-          "question": "Take the GPS location",
+          "id": 603550073,
+          "meta": false,
+          "question": "Name of the data collector (Enumerator)",
           "name": null,
           "order": 1,
           "required": true,
+          "type": "text",
+          "attributes": [],
+          "options": null
+        },
+        {
+          "id": 543080040,
+          "meta": false,
+          "question": "Take the GPS location",
+          "name": null,
+          "order": 2,
+          "required": false,
           "type": "geo",
           "attributes": [
             "table"
@@ -24,7 +35,7 @@
           "meta": true,
           "question": "Location",
           "name": null,
-          "order": 2,
+          "order": 3,
           "required": true,
           "type": "administration",
           "attributes": [
@@ -38,7 +49,7 @@
           "meta": true,
           "question": "School name",
           "name": null,
-          "order": 3,
+          "order": 4,
           "required": true,
           "type": "text",
           "attributes": [
@@ -51,7 +62,7 @@
           "meta": true,
           "question": "School code",
           "name": null,
-          "order": 4,
+          "order": 5,
           "required": true,
           "type": "number",
           "attributes": [
@@ -61,10 +72,10 @@
         },
         {
           "id": 543080036,
-          "meta": false,
+          "meta": true,
           "question": "School level",
           "name": null,
-          "order": 5,
+          "order": 6,
           "required": true,
           "type": "option",
           "attributes": [
@@ -90,7 +101,7 @@
           "meta": false,
           "question": "Number of boys",
           "name": "# of boys",
-          "order": 6,
+          "order": 7,
           "required": true,
           "type": "number",
           "attributes": [
@@ -104,7 +115,7 @@
           "meta": false,
           "question": "Number of girls",
           "name": "# of girls",
-          "order": 7,
+          "order": 8,
           "required": true,
           "type": "number",
           "attributes": [
@@ -118,7 +129,7 @@
           "meta": false,
           "question": "Number of male staff",
           "name": "# of male staff",
-          "order": 8,
+          "order": 9,
           "required": true,
           "type": "number",
           "attributes": [
@@ -132,7 +143,7 @@
           "meta": false,
           "question": "Number of female staff",
           "name": "# of female staff",
-          "order": 9,
+          "order": 10,
           "required": true,
           "type": "number",
           "attributes": [
@@ -149,7 +160,7 @@
         {
           "id": 551660011,
           "meta": false,
-          "question": "What is the main source of drinking water provided by the school?",
+          "question": "What is the main source of drinking water in the school?",
           "name": "Main source of drinking water",
           "order": 1,
           "required": true,
@@ -295,8 +306,8 @@
         {
           "id": 557060036,
           "meta": false,
-          "question": "What is the main reason for drinking water not being available during the school?",
-          "name": "Reason for dringking water is not available",
+          "question": "What is the main reason for drinking water not being available at the school?",
+          "name": "Reason why drinking water is not available",
           "order": 5,
           "required": true,
           "type": "option",
@@ -307,7 +318,7 @@
           ],
           "options": [
             {
-              "name": "The water is not clean or not safe"
+              "name": "The water is not clean"
             },
             {
               "name": "The water is not easily accessible for students"
@@ -329,7 +340,7 @@
           "id": 551660014,
           "meta": false,
           "question": "Is drinking water accessible to those with limited mobility or vision?",
-          "name": "Drinking water accessible for limited mobility or vision",
+          "name": "Drinking water accessible for students with limited mobility or vision impaired",
           "order": 6,
           "required": true,
           "type": "option",
@@ -352,7 +363,7 @@
           "id": 551660019,
           "meta": false,
           "question": "Is drinking water accessible to the smallest children at the school?",
-          "name": "Drinking water accessible for smallest children at the schoold",
+          "name": "Drinking water accessible for smallest children at the school",
           "order": 7,
           "required": true,
           "type": "option",
@@ -412,7 +423,7 @@
           "id": 551660015,
           "meta": false,
           "question": "If yes, what treatment method is used?",
-          "name": "The treatment method",
+          "name": "Water treatment method",
           "order": 10,
           "required": true,
           "type": "option",
@@ -437,6 +448,14 @@
             },
             {
               "name": "Ultraviolet disinfection (with dedicated device)"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 551660012,
+              "options": [
+                "Yes"
+              ]
             }
           ]
         },
@@ -484,7 +503,7 @@
           "id": 551660029,
           "meta": false,
           "question": "What type of student toilets/ latrines are at the school? (check one - most common)",
-          "name": "Advantages of providing water in school",
+          "name": "Types of latrines for students",
           "order": 1,
           "required": true,
           "type": "option",
@@ -571,7 +590,7 @@
         {
           "id": 539710041,
           "meta": false,
-          "question": "How many girls only toilets available?",
+          "question": "How many girls only toilets are in use?",
           "name": "# of girls toilets",
           "order": 4,
           "required": true,
@@ -585,7 +604,10 @@
             {
               "id": 551660029,
               "options": [
-                "No toilets or latrines"
+                "Flush / Pour-flush toilets",
+                "Pit latrines with slab",
+                "Composting toilets",
+                "Pit latrines without slab"
               ]
             }
           ]
@@ -1438,11 +1460,29 @@
       "question_group": "MENSTRUAL HYGIENE",
       "questions": [
         {
+          "id": 605430054,
+          "meta": false,
+          "question": "Are girls aware of what to expect during their first period?",
+          "name": null,
+          "order": 1,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
           "id": 538000047,
           "meta": false,
           "question": "What facilities are available for girls to manage their menses hygienically and without being embarrassed while in school?",
           "name": "Private facility for girls during menstrual period",
-          "order": 1,
+          "order": 2,
           "required": true,
           "type": "multiple_option",
           "attributes": [
@@ -1467,11 +1507,41 @@
           ]
         },
         {
+          "id": 610930003,
+          "meta": false,
+          "question": "During your last menstrual period, what hygiene materials did you mainly use?",
+          "name": null,
+          "order": 3,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Cloth/reusable sanitary pads"
+            },
+            {
+              "name": "Disposable sanitary pads"
+            },
+            {
+              "name": "Tampons"
+            },
+            {
+              "name": "Menstrual cup"
+            },
+            {
+              "name": "Toilet paper"
+            },
+            {
+              "name": "Underwear alone"
+            }
+          ]
+        },
+        {
           "id": 538000045,
           "meta": false,
           "question": "Do school girls face challenges during their menstruation time in school?",
           "name": "Challenges during their menstruation time",
-          "order": 2,
+          "order": 4,
           "required": true,
           "type": "multiple_option",
           "attributes": [
@@ -1502,38 +1572,13 @@
           ]
         },
         {
-          "id": 538000044,
-          "meta": false,
-          "question": "Are there restrictions for girls during their menstruation period?",
-          "name": "Restrictions during menstrual period",
-          "order": 3,
-          "required": true,
-          "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "chart",
-            "table"
-          ],
-          "options": [
-            {
-              "name": "Yes"
-            },
-            {
-              "name": "No"
-            },
-            {
-              "name": "Don't know"
-            }
-          ]
-        },
-        {
           "id": 538000046,
           "meta": false,
-          "question": "Are there restrictions for girls during their menstruation period?",
+          "question": "Did girls miss any of the following activities because they were on their menstruation? (read the list)",
           "name": "The restrictions during menstrual period",
-          "order": 4,
-          "required": true,
-          "type": "multiple_option",
+          "order": 5,
+          "required": false,
+          "type": "option",
           "attributes": [
             "advanced_filter",
             "chart",
@@ -1559,14 +1604,6 @@
             {
               "name": "Preparing/cooking food"
             }
-          ],
-          "dependency": [
-            {
-              "id": 538000044,
-              "options": [
-                "Yes"
-              ]
-            }
           ]
         },
         {
@@ -1574,7 +1611,7 @@
           "meta": false,
           "question": "Are there covered bins for disposal of menstrual hygiene materials in girls’ toilets?",
           "name": "Covered bins in girls toilets",
-          "order": 5,
+          "order": 6,
           "required": true,
           "type": "option",
           "attributes": [
@@ -1600,7 +1637,7 @@
           "meta": false,
           "question": "Are there disposal mechanisms for menstrual hygiene waste at the school?",
           "name": "Disposal mechanism",
-          "order": 6,
+          "order": 7,
           "required": true,
           "type": "option",
           "attributes": [
@@ -1623,7 +1660,7 @@
           "meta": false,
           "question": "Are water and soap available in a private space for girls to manage menstrual hygiene?",
           "name": "Water and soap are available in a girls private space",
-          "order": 7,
+          "order": 8,
           "required": true,
           "type": "option",
           "attributes": [

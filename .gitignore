@@ -5,3 +5,7 @@
 backend/media/
 notify.team.sh
 .env
+.vscode/configurationCache.log
+.vscode/dryrun.log
+.vscode/settings.json
+.vscode/targets.log

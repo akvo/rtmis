@@ -4,16 +4,16 @@ import { get, capitalize, chain, groupBy, sumBy } from "lodash";
 import { Chart } from "../../../components";
 
 const exampleTrendChartData = [
-  { name: "Mon", value: 820 },
-  { name: "Tue", value: 932 },
-  { name: "Wed", value: 901 },
-  { name: "Thu", value: 934 },
-  { name: "Fri", value: 1290 },
-  { name: "Sat", value: 1330 },
-  { name: "Sun", value: 1320 },
+  { name: "Jan", value: 820 },
+  { name: "Feb", value: 932 },
+  { name: "Mar", value: 901 },
+  { name: "Apr", value: 934 },
+  { name: "May", value: 1290 },
+  { name: "June", value: 1330 },
+  { name: "July", value: 1320 },
 ];
 
-const ChartVisual = ({ chartConfig }) => {
+const ChartVisual = ({ chartConfig, loading }) => {
   const { title, type, span, data, index, path, api } = chartConfig;
   const [chartDataApi, setChartDatApi] = useState([]);
 
@@ -51,7 +51,9 @@ const ChartVisual = ({ chartConfig }) => {
   return (
     <Col key={`col-${type}-${index}`} span={span}>
       <Card>
-        <h3>{title}</h3>
+        <h3>
+          {title} {api && "[on progress]"}
+        </h3>
         {!path && api ? (
           <Chart
             height={50 * chartDataApi.length + 188}
@@ -86,7 +88,7 @@ const ChartVisual = ({ chartConfig }) => {
             data={chartData}
             wrapper={false}
             horizontal={true}
-            loading={!chartData.length}
+            loading={loading}
             series={{
               left: "10%",
             }}
