@@ -90,7 +90,9 @@
           "order": 3,
           "required": true,
           "type": "text",
-          "attributes": [],
+          "attributes": [
+            "advanced_filter"
+          ],
           "options": null
         },
         {
@@ -243,7 +245,9 @@
           "order": 11,
           "required": true,
           "type": "option",
-          "attributes": [],
+          "attributes": [
+            "advanced_filter"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -1017,7 +1021,9 @@
           "order": 21,
           "required": true,
           "type": "option",
-          "attributes": [],
+          "attributes": [
+            "advanced_filter"
+          ],
           "options": [
             {
               "name": "Yes"
