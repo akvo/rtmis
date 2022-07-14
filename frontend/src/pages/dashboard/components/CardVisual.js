@@ -3,6 +3,16 @@ import { Row, Col, Card, Image } from "antd";
 import { store } from "../../../lib";
 import { get, sum, takeRight } from "lodash";
 
+const cardColorPalette = [
+  "#CBBFFF",
+  "#FFDBBF",
+  "#BFD5FF",
+  "#FFF8BF",
+  "#99BF9A",
+  "#BFF7FF",
+  "#F1DBB5",
+];
+
 const CardVisual = ({ cardConfig, loading }) => {
   const { administration } = store.useState((s) => s);
   const currentAdministration = takeRight(administration)?.[0];
@@ -70,7 +80,11 @@ const CardVisual = ({ cardConfig, loading }) => {
       justify="space-between"
       span={span}
     >
-      <Card style={{ backgroundColor: color || "#fff" }}>
+      <Card
+        style={{
+          backgroundColor: color || cardColorPalette?.[index] || "#fff",
+        }}
+      >
         <Row gutter={[10, 10]} align="top" justify="space-between">
           <Col flex={icon ? "70%" : "100%"}>
             <h3>
