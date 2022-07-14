@@ -14,7 +14,7 @@ const exampleTrendChartData = [
 ];
 
 const ChartVisual = ({ chartConfig, loading }) => {
-  const { title, from, type, span, data, index, path, api } = chartConfig;
+  const { title, type, span, data, index, path, api } = chartConfig;
   const [chartDataApi, setChartDatApi] = useState([]);
 
   const chartData = useMemo(() => {

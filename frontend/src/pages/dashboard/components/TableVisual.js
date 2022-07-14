@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import { Col, Table } from "antd";
 import { get, capitalize, sumBy } from "lodash";
-import millify from "millify";
 
 const fontSize = 12;
 
