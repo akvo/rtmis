@@ -1,4 +1,4 @@
-@import "../../variables";
+@import "../../variables.scss";
 
 #root {
   #dashboard {
@@ -6,6 +6,23 @@
 
     .page-title-wrapper {
       padding: 12px 0;
+    }
+
+    .ant-tabs-nav-wrap {
+      border-bottom: 1px solid #b5b5b5;
+    }
+    .ant-tabs-tab {
+      font-weight: 500;
+      color: $color-dark;
+      background-color: transparent;
+      border: 0;
+    }
+    .ant-tabs-tab.ant-tabs-tab-active {
+      background-color: $blue;
+      padding: 0 12px;
+    }
+    .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+      color: $white;
     }
 
     .main-wrapper {
@@ -35,7 +52,7 @@
                 h3 {
                   font-size: $font-size-regular;
                   color: $color-dark;
-                  min-height: 5rem;
+                  min-height: 7rem;
                 }
 
                 h1 {
@@ -49,7 +66,7 @@
                   padding: 0;
                   border-top: 1px solid $color-dark;
                   padding-top: 10px;
-                  font-size: $font-size-regular;
+                  font-size: $font-size-small;
                   text-align: right;
                 }
 

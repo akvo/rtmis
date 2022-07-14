@@ -209,7 +209,7 @@ const Maps = ({ loading, mapConfig, style = {} }) => {
           colorRange={colorRange}
           shapeFilterColor={shapeFilterColor}
           setShapeFilterColor={setShapeFilterColor}
-          symbol={calc === "percent" ? "%" : ""}
+          calc={calc}
         />
       )}
     </Col>
