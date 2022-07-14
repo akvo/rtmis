@@ -13,7 +13,7 @@ const cardColorPalette = [
   "#F1DBB5",
 ];
 
-const CardVisual = ({ cardConfig, loading, getTotal = false }) => {
+const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
   const {
     title,
     type,
@@ -50,9 +50,7 @@ const CardVisual = ({ cardConfig, loading, getTotal = false }) => {
       };
     }
     if (calc === "percent") {
-      const totalData = sum(
-        data.map((d) => (getTotal ? getTotal(d, path) : d.total))
-      );
+      const totalData = customTotal || sum(data.map((d) => d.total));
       const sumLevel = sum(transform);
       const percent = (sumLevel / totalData) * 100;
       return {
@@ -60,7 +58,7 @@ const CardVisual = ({ cardConfig, loading, getTotal = false }) => {
         value: `${Math.round(percent)}%`,
       };
     }
-  }, [data, calc, path, title, getTotal]);
+  }, [data, calc, path, title, customTotal]);
 
   return (
     <Col
