@@ -158,7 +158,12 @@ const Dashboard = () => {
         <Col span={24} align="center">
           {current?.tabs && (
             <>
-              <Tabs activeKey={activeTab} onChange={changeTab}>
+              <Tabs
+                activeKey={activeTab}
+                onChange={changeTab}
+                type="card"
+                tabBarGutter={10}
+              >
                 {Object.keys(current.tabs).map((key) => {
                   let tabName = key;
                   if (key.toLocaleLowerCase() !== "jmp") {
