@@ -38,3 +38,88 @@ window.dbadm = [
     path: "1.",
   },
 ];
+
+window.mapValue = [
+  {
+    name: "Bungoma",
+    title: "Bungoma",
+    stack: [
+      {
+        name: "Safely Managed",
+        title: "Safely Managed",
+        value: 0,
+        color: "#368541",
+        total: 0,
+      },
+      {
+        name: "Basic",
+        title: "Basic",
+        value: 0,
+        color: "#79BE7D",
+        total: 0,
+      },
+      {
+        name: "Limited",
+        title: "Limited",
+        value: 0,
+        color: "#FDF177",
+        total: 0,
+      },
+      {
+        name: "Unimproved",
+        title: "Unimproved",
+        value: 0,
+        color: "#FBD256",
+        total: 0,
+      },
+      {
+        name: "Open Defecation",
+        title: "Open Defecation",
+        value: 0,
+        color: "#F1AC2A",
+        total: 0,
+      },
+    ],
+  },
+  {
+    name: "Busia",
+    title: "Busia",
+    stack: [
+      {
+        name: "Safely Managed",
+        title: "Safely Managed",
+        value: 0,
+        color: "#368541",
+        total: 0,
+      },
+      {
+        name: "Basic",
+        title: "Basic",
+        value: 0,
+        color: "#79BE7D",
+        total: 0,
+      },
+      {
+        name: "Limited",
+        title: "Limited",
+        value: 0,
+        color: "#FDF177",
+        total: 0,
+      },
+      {
+        name: "Unimproved",
+        title: "Unimproved",
+        value: 0,
+        color: "#FBD256",
+        total: 0,
+      },
+      {
+        name: "Open Defecation",
+        title: "Open Defecation",
+        value: 0,
+        color: "#F1AC2A",
+        total: 0,
+      },
+    ],
+  },
+];
