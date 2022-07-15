@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { useParams } from "react-router-dom";
 import { Row, Col, Tabs, Affix } from "antd";
-import { uiText, store } from "../../lib";
+import { uiText, store, config } from "../../lib";
 import example from "./example";
 import { capitalize } from "lodash";
 import { CardVisual, TableVisual, ChartVisual } from "./components";
@@ -20,6 +20,7 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
   const [loading, setLoading] = useState(false);
   const [activeItem, setActiveItem] = useState(null);
+  const [wait, setWait] = useState(true);
 
   const { active: activeLang } = store.useState((s) => s.language);
 
@@ -38,7 +39,14 @@ const Dashboard = () => {
   }, [selectedForm, current]);
 
   useEffect(() => {
-    if (formId) {
+    store.update((s) => {
+      s.administration = [config.fn.administration(1)];
+    });
+    setWait(false);
+  }, []);
+
+  useEffect(() => {
+    if (formId && !wait) {
       setDataset({});
       setLoading(true);
       /*
@@ -61,7 +69,7 @@ const Dashboard = () => {
       setDataset(example);
       setLoading(false);
     }
-  }, [formId, text]);
+  }, [formId, text, wait]);
 
   const changeTab = (tabKey) => {
     setActiveTab(tabKey);
