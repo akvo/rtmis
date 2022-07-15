@@ -8,6 +8,7 @@ import { api, store, uiText } from "../../lib";
 import { takeRight, pick } from "lodash";
 import { PageLoader, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
+import moment from "moment";
 
 const Forms = () => {
   const navigate = useNavigate();
@@ -84,8 +85,12 @@ const Forms = () => {
     )?.value;
     const data = {
       data: {
-        administration: administration ? takeRight(administration)[0] : null,
-        name: names,
+        administration: administration
+          ? takeRight(administration)[0]
+          : authUser.administration.id,
+        name: names.length
+          ? names
+          : `${authUser.administration.name} ${moment().format("MMM YYYY")}`,
         geo: geo || null,
       },
       answer: answers
