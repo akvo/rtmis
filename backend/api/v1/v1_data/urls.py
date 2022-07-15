@@ -6,7 +6,8 @@ from api.v1.v1_data.views import DataAnswerDetailDeleteView, \
     export_form_data, list_pending_batch, list_pending_data_batch, \
     FormDataAddListView, PendingFormDataView, BatchView, \
     PendingDataDetailDeleteView, BatchSummaryView, BatchCommentView, \
-    get_map_county_data_point, get_last_update_data_point, get_jmp_data
+    get_map_county_data_point, get_last_update_data_point, get_jmp_data, \
+    get_period_submission
 from api.v1.v1_users.views import health_check, get_config_file, email_template
 
 urlpatterns = [
@@ -43,6 +44,9 @@ urlpatterns = [
             get_chart_administration),
     re_path(r'^(?P<version>(v1))/chart/criteria/(?P<form_id>[0-9]+)',
             get_chart_criteria),
+
+    re_path(r'^(?P<version>(v1))/submission/period/(?P<form_id>[0-9]+)',
+            get_period_submission),
 
     re_path(r'^(?P<version>(v1))/last_update/(?P<form_id>[0-9]+)',
             get_last_update_data_point),

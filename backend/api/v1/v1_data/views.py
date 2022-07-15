@@ -1,7 +1,7 @@
 # Create your views here.
 from math import ceil
 from collections import defaultdict
-from datetime import datetime, timedelta
+from datetime import datetime, date, timedelta
 from wsgiref.util import FileWrapper
 from django.utils import timezone
 
@@ -55,6 +55,8 @@ from utils.custom_permissions import IsAdmin, IsApprover, IsSubmitter
 from utils.custom_serializer_fields import validate_serializers_message
 from utils.default_serializers import DefaultResponseSerializer
 from utils.export_form import generate_excel
+
+period_length = 60*15
 
 
 class FormDataAddListView(APIView):
@@ -1212,3 +1214,81 @@ def get_jmp_data(request, version, form_id):
                 "data": temp,
                 "total": total})
     return Response(jmp_data, status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    responses={(200, 'application/json'): inline_serializer(
+        'Submission Period', fields={
+            'name': serializers.CharField(),
+            'value': serializers.IntegerField(),
+        }, many=True)},
+    examples=[
+         OpenApiExample(
+            'SubmissionPeriodExample',
+            value=[{
+                'name': "2020 Jan",
+                'value': 30
+            }])
+    ],
+    parameters=[
+        OpenApiParameter(
+            name='administration',
+            required=False,
+            type=OpenApiTypes.NUMBER,
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='options',
+            required=False,
+            type={'type': 'array', 'items': {'type': 'string'}},
+            location=OpenApiParameter.QUERY)],
+    tags=['Data'],
+    summary='To get data submission period count')
+@api_view(['GET'])
+def get_period_submission(request, version, form_id):
+    form = get_object_or_404(Forms, pk=form_id)
+    administration = request.GET.get("administration")
+    if not administration:
+        administration = 1
+    adm = get_object_or_404(Administration, pk=administration)
+    # Advanced filter
+    data_ids = None
+    if request.GET.getlist('options'):
+        data_ids = get_advance_filter_data_ids(
+                form_id=form_id, administration_id=administration,
+                options=request.GET.getlist('options'))
+
+    # arbitrary starting dates
+    first_fd = FormData.objects.filter(form=form).order_by('created').first()
+    year = first_fd.created.year
+    month = first_fd.created.month
+
+    cyear = date.today().year
+    cmonth = date.today().month
+
+    adm_path = f"{adm.id}."
+    if adm.path:
+        adm_path = '{0}{1}.'.format(adm.path, adm.id)
+    fd = FormData.objects.filter(
+            form=form,
+            administration__path__startswith=adm_path)
+    if data_ids:
+        fd = FormData.objects.filter(
+                pk__in=data_ids,
+                administration__path__startswith=adm_path)
+
+    data = []
+    while year <= cyear:
+        while (year < cyear and month <= 12) or (
+                year == cyear and month <= cmonth):
+            fdp = fd.filter(
+                    created__year=year,
+                    created__month=month).aggregate(Count('id'))
+            month_name = date(1900, month, 1).strftime('%B')
+            data.append({
+                'name': f"{year} {month_name}",
+                'value': fdp['id__count'],
+            })
+            month += 1
+        month = 1
+        year += 1
+    return Response(data, status=status.HTTP_200_OK)
