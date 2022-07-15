@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
 import { Col, Card } from "antd";
-import { get, capitalize, chain, groupBy, sumBy } from "lodash";
+import { get, capitalize, chain, groupBy, sumBy, orderBy } from "lodash";
 import { Chart } from "../../../components";
+import { jmpColorScore } from "../../../lib";
 
 const exampleTrendChartData = [
   { name: "Jan", value: 820 },
@@ -14,8 +16,10 @@ const exampleTrendChartData = [
 ];
 
 const ChartVisual = ({ chartConfig, loading }) => {
+  const { formId } = useParams();
   const { title, type, span, data, index, path, api } = chartConfig;
   const [chartDataApi, setChartDatApi] = useState([]);
+  const colorPath = String(path).replace("data", formId);
 
   const chartData = useMemo(() => {
     if (!path && api && !data.length) {
@@ -28,19 +32,30 @@ const ChartVisual = ({ chartConfig, loading }) => {
           return false;
         }
         return Object.keys(obj).map((key) => ({
-          name: capitalize(key),
+          name: key,
           value: obj[key],
         }));
       })
       .filter((x) => x)
       .flatMap((x) => x);
-    return chain(groupBy(transform, "name"))
-      .map((g, gi) => ({
-        name: gi,
-        value: sumBy(g, "value"),
-      }))
+    const results = chain(groupBy(transform, "name"))
+      .map((g, gi) => {
+        const findJMPConfig = get(jmpColorScore, `${colorPath}.${gi}`);
+        const val = {
+          name: capitalize(gi),
+          value: sumBy(g, "value"),
+        };
+        if (!findJMPConfig) {
+          return val;
+        }
+        return {
+          ...val,
+          color: findJMPConfig.color,
+        };
+      })
       .value();
-  }, [data, path, api]);
+    return orderBy(results, ["value"], ["asc"]);
+  }, [data, path, api, colorPath]);
 
   useEffect(() => {
     if (api && !path) {

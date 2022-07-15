@@ -132,7 +132,7 @@ const Dashboard = () => {
         <Col span={24} align="center">
           {current?.tabs && (
             <>
-              <Tabs activeKey={activeTab} onChange={changeTab}>
+              <Tabs activeKey={activeTab} onChange={changeTab} type="card">
                 {Object.keys(current.tabs).map((key) => {
                   let tabName = key;
                   if (!["jmp", "glass"].includes(key.toLocaleLowerCase())) {
