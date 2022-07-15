@@ -1,6 +1,8 @@
 @import "../../variables.scss";
 
 #root {
+  overflow-x: visible !important;
+
   #dashboard {
     min-height: 10vh;
 
@@ -25,9 +27,12 @@
       color: $white;
     }
 
+    .tab-wrapper {
+      padding-top: 24px;
+    }
+
     .main-wrapper {
       min-height: 550px;
-      padding-top: 24px;
 
       h4 {
         margin-top: 50px;
@@ -81,4 +86,15 @@
       }
     }
   }
+}
+
+.sticky-wrapper {
+  margin-left: -$layout-padding;
+  margin-right: -$layout-padding;
+  padding-left: $layout-padding;
+  padding-right: $layout-padding;
+  position: sticky;
+  top: 0;
+  background-color: $bg-light;
+  z-index: 2;
 }

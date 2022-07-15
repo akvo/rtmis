@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { useParams } from "react-router-dom";
-import { Row, Col, Tabs } from "antd";
+import { Row, Col, Tabs, Affix } from "antd";
 import { uiText, store } from "../../lib";
 import example from "./example";
 import { capitalize } from "lodash";
@@ -125,44 +125,53 @@ const Dashboard = () => {
 
   return (
     <div id="dashboard">
-      <div className="page-title-wrapper">
-        <h1>{selectedForm?.name}</h1>
-      </div>
+      <Affix className="sticky-wrapper">
+        <div className="page-title-wrapper">
+          <h1>{`${selectedForm.name} Data`}</h1>
+        </div>
+        <div className="tab-wrapper">
+          {current?.tabs && (
+            <Tabs
+              activeKey={activeTab}
+              onChange={changeTab}
+              type="card"
+              tabBarGutter={10}
+            >
+              {Object.keys(current.tabs).map((key) => {
+                let tabName = key;
+                if (
+                  !["jmp", "glass", "rush"].includes(key.toLocaleLowerCase())
+                ) {
+                  tabName = key
+                    .split("_")
+                    .map((x) => capitalize(x))
+                    .join(" ");
+                } else {
+                  tabName = key.toUpperCase();
+                }
+                return <TabPane tab={tabName} key={key}></TabPane>;
+              })}
+            </Tabs>
+          )}
+        </div>
+      </Affix>
       <Row className="main-wrapper" align="center">
         <Col span={24} align="center">
-          {current?.tabs && (
-            <>
-              <Tabs activeKey={activeTab} onChange={changeTab} type="card">
-                {Object.keys(current.tabs).map((key) => {
-                  let tabName = key;
-                  if (!["jmp", "glass"].includes(key.toLocaleLowerCase())) {
-                    tabName = key
-                      .split("_")
-                      .map((x) => capitalize(x))
-                      .join(" ");
-                  } else {
-                    tabName = key.toUpperCase();
-                  }
-                  return <TabPane tab={tabName} key={key}></TabPane>;
-                })}
-              </Tabs>
-              {activeItem?.rows ? (
-                activeItem.rows.map((row, index) => {
-                  return (
-                    <Row
-                      key={`row-${index}`}
-                      className="row-wrapper"
-                      justify="space-between"
-                      gutter={[10, 10]}
-                    >
-                      {row.map((r, ri) => renderColumn(r, ri))}
-                    </Row>
-                  );
-                })
-              ) : (
-                <h4>No data</h4>
-              )}
-            </>
+          {current?.tabs && activeItem?.rows ? (
+            activeItem.rows.map((row, index) => {
+              return (
+                <Row
+                  key={`row-${index}`}
+                  className="row-wrapper"
+                  justify="space-between"
+                  gutter={[10, 10]}
+                >
+                  {row.map((r, ri) => renderColumn(r, ri))}
+                </Row>
+              );
+            })
+          ) : (
+            <h4>No data</h4>
           )}
         </Col>
       </Row>
