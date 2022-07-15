@@ -232,3 +232,8 @@ class DataVisualisationTestCase(TestCase):
         data = self.client.get("/api/v1/last_update/{0}".format(form.id))
         self.assertEqual(data.status_code, 200)
         self.assertEqual(list(data.json()), ['last_update'])
+
+        # LAST UPDATE
+        data = self.client.get("/api/v1/submission/period/{0}".format(form.id))
+        self.assertEqual(data.status_code, 200)
+        self.assertEqual(list(data.json()[0]), ["name", "value", "total"])

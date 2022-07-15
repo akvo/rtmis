@@ -1221,14 +1221,19 @@ def get_jmp_data(request, version, form_id):
         'Submission Period', fields={
             'name': serializers.CharField(),
             'value': serializers.IntegerField(),
+            'total': serializers.IntegerField(),
         }, many=True)},
     examples=[
          OpenApiExample(
             'SubmissionPeriodExample',
             value=[{
                 'name': "2020 Jan",
-                'value': 30
-            }])
+                'value': 50,
+                'total': 50
+                }, {
+                'name': "2020 Jan",
+                'value': 50,
+                'total': 100}])
     ],
     parameters=[
         OpenApiParameter(
@@ -1241,7 +1246,7 @@ def get_jmp_data(request, version, form_id):
             required=False,
             type={'type': 'array', 'items': {'type': 'string'}},
             location=OpenApiParameter.QUERY)],
-    tags=['Data'],
+    tags=['Visualisation'],
     summary='To get data submission period count')
 @api_view(['GET'])
 def get_period_submission(request, version, form_id):
@@ -1261,6 +1266,7 @@ def get_period_submission(request, version, form_id):
     first_fd = FormData.objects.filter(form=form).order_by('created').first()
     year = first_fd.created.year
     month = first_fd.created.month
+    total = 0
 
     cyear = date.today().year
     cmonth = date.today().month
@@ -1284,9 +1290,11 @@ def get_period_submission(request, version, form_id):
                     created__year=year,
                     created__month=month).aggregate(Count('id'))
             month_name = date(1900, month, 1).strftime('%B')
+            total += fdp['id__count']
             data.append({
                 'name': f"{year} {month_name}",
                 'value': fdp['id__count'],
+                'total': total
             })
             month += 1
         month = 1

@@ -1,14 +1,17 @@
-from datetime import timedelta
+from datetime import datetime, timedelta, time
 
 import pandas as pd
 from django.core.management import BaseCommand
 from django.utils import timezone
+from django.utils.timezone import make_aware
+
 from faker import Faker
 
 from api.v1.v1_data.models import FormData, Answers
-from api.v1.v1_forms.constants import QuestionTypes
+from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms
-from api.v1.v1_profile.models import Administration, Levels
+from api.v1.v1_profile.constants import UserRoleTypes
+from api.v1.v1_profile.models import Access, Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_data.functions import refresh_materialized_data
 
@@ -79,6 +82,10 @@ def add_fake_answers(data: FormData):
 
 def seed_data(form, fake_geo, level_names, repeat, test):
     for i in range(repeat):
+        now_date = datetime.now()
+        start_date = now_date - timedelta(days=3*365)
+        created = fake.date_between(start_date, now_date)
+        created = datetime.combine(created, time.min)
         geo = fake_geo.iloc[i].to_dict()
         data = FormData.objects.create(
             name=fake.pystr_format(),
@@ -86,6 +93,7 @@ def seed_data(form, fake_geo, level_names, repeat, test):
             form=form,
             administration=Administration.objects.first(),
             created_by=SystemUser.objects.order_by('?').first())
+        data.created = make_aware(created)
         level_id = 1
         if not test:
             for level_name in level_names:
@@ -94,6 +102,11 @@ def seed_data(form, fake_geo, level_names, repeat, test):
                     parent_id=level_id,
                     level=Levels.objects.filter(level=level[1]).first(),
                     name=geo[level_name]).first()
+                if form.type == FormTypes.national:
+                    administration = Administration.objects.filter(
+                            level__level=0).first()
+                    data.created_by = Access.objects.filter(
+                            role=UserRoleTypes.super_admin).first().user
                 level_id = administration.id
                 data.administration = administration
                 data.save()
