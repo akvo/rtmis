@@ -1009,12 +1009,10 @@ class SubmitPendingFormSerializer(serializers.Serializer):
 
         # check user role and form type
         user: SystemUser = self.context.get('user')
-        form: Forms = self.context.get('form')
         is_super_admin = user.user_access.role == UserRoleTypes.super_admin
         is_county_admin = user.user_access.role == UserRoleTypes.admin
-        is_county_form = form.type == FormTypes.county
 
-        direct_to_data = is_super_admin or (is_county_admin and is_county_form)
+        direct_to_data = is_super_admin or is_county_admin
 
         # save to pending data
         if not direct_to_data:

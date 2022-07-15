@@ -90,7 +90,7 @@ const Forms = () => {
           : authUser.administration.id,
         name: names.length
           ? names
-          : `${authUser.administration.name} ${moment().format("MMM YYYY")}`,
+          : `${authUser.administration.name} - ${moment().format("MMM YYYY")}`,
         geo: geo || null,
       },
       answer: answers
@@ -175,7 +175,7 @@ const Forms = () => {
               status="success"
               title={text?.formSuccessTitle}
               subTitle={
-                authUser?.role?.id === 1
+                [1, 2].includes(authUser?.role?.id)
                   ? text?.formSuccessSubTitleForAdmin
                   : text?.formSuccessSubTitle
               }
@@ -187,19 +187,19 @@ const Forms = () => {
                 >
                   Add New Submission
                 </Button>,
-                authUser?.role?.id !== 1 ? (
-                  <Button
-                    key="batch-button"
-                    onClick={() => navigate("/data/submissions")}
-                  >
-                    Finish and Go to Batch
-                  </Button>
-                ) : (
+                [1, 2].includes(authUser?.role?.id) ? (
                   <Button
                     key="manage-button"
                     onClick={() => navigate("/data/manage")}
                   >
                     Finish and Go to Manage Data
+                  </Button>
+                ) : (
+                  <Button
+                    key="batch-button"
+                    onClick={() => navigate("/data/submissions")}
+                  >
+                    Finish and Go to Batch
                   </Button>
                 ),
               ]}
