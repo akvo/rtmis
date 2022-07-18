@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { Col, Table, Button } from "antd";
 import { get, capitalize, sumBy } from "lodash";
+import { DownloadOutlined } from "@ant-design/icons";
 import { Excel } from "antd-table-saveas-excel";
 
 const fontSize = 12;
@@ -112,7 +113,19 @@ const TableVisual = ({ tableConfig, loading }) => {
       span={span}
     >
       <Table
-        title={() => <h3>{titlePage}</h3>}
+        title={() => (
+          <div className="table-title">
+            <h3>{titlePage}</h3>
+            <Button
+              icon={<DownloadOutlined />}
+              onClick={handleExport}
+              className="download"
+              size="small"
+            >
+              Download
+            </Button>
+          </div>
+        )}
         columns={tableColumns}
         dataSource={tableDataSource}
         scroll={{ x: xScroll, y: 500 }}
@@ -122,7 +135,6 @@ const TableVisual = ({ tableConfig, loading }) => {
         bordered
         rowKey={tableColumns?.[0]?.key || "id"}
       />
-      <Button onClick={handleExport}>Download</Button>
     </Col>
   );
 };

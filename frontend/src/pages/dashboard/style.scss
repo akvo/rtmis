@@ -13,18 +13,37 @@
     .ant-tabs-nav-wrap {
       border-bottom: 1px solid #b5b5b5;
     }
+
     .ant-tabs-tab {
       font-weight: 500;
       color: $color-dark;
       background-color: transparent;
       border: 0;
     }
+
     .ant-tabs-tab.ant-tabs-tab-active {
       background-color: $blue;
       padding: 0 12px;
     }
+
     .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
       color: $white;
+    }
+
+    .table-title {
+      position: relative;
+
+      h3 {
+        margin-bottom: 0px;
+      }
+
+      button {
+        &.download {
+          position: absolute;
+          top: 0;
+          right: 0;
+        }
+      }
     }
 
     .tab-wrapper {
