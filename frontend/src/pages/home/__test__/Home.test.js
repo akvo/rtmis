@@ -3,6 +3,20 @@ import TestApp from "../../../TestApp";
 import "@testing-library/jest-dom";
 import Home from "../Home";
 
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    };
+  };
+
 jest.mock("axios");
 jest.mock("leaflet");
 
@@ -301,5 +315,10 @@ describe("Home page", () => {
       expect(getByText("Description text here")).toBeInTheDocument();
     });
     expect(baseElement).toMatchSnapshot();
+  });
+
+  test("test if Map and Charts exist", () => {
+    const wrapper = render(<Home highlights={highlights} />);
+    expect(wrapper.container).toMatchSnapshot();
   });
 });

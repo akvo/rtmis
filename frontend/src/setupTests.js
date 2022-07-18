@@ -21,6 +21,36 @@ window.visualisation = [];
 
 window.highlights = [];
 
+window.selectedPanels = [
+  {
+    access: "user",
+    buttonLabel: "Manage Users",
+    description: null,
+    image: "/assets/personal-information.png",
+    key: "manage-user",
+    link: "/users",
+    title: "User Management",
+  },
+  {
+    access: "data",
+    buttonLabel: "Manage Data",
+    description: null,
+    image: "/assets/big-data.png",
+    key: "manage-data",
+    link: "/data/manage",
+    title: "Manage Data",
+  },
+  {
+    access: "organisation",
+    buttonLabel: "Manage Organization",
+    description: null,
+    image: "/assets/organisation.svg",
+    key: "manage-organisation",
+    link: "/organisations",
+    title: "Manage Organization",
+  },
+];
+
 window.dbadm = [
   {
     full_name: "Indonesia",

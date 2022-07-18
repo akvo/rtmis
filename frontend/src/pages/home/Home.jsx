@@ -7,6 +7,20 @@ import { HomeMap } from "./components";
 import { queue } from "../../lib";
 const { TabPane } = Tabs;
 
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      onchange: null,
+      addListener: function () {},
+      removeListener: function () {},
+      addEventListener: function () {},
+      removeEventListener: function () {},
+      dispatchEvent: function () {},
+    };
+  };
+
 export const Visuals = ({ current, mapValues, setMapValues }) => {
   return (
     <div>
