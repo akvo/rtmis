@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Tabs } from "antd";
+import { Tabs, Image, Row, Space } from "antd";
 import { HomeAdministrationChart } from "../../components";
 
 import { HomeMap } from "./components";
@@ -21,11 +21,13 @@ window.matchMedia =
     };
   };
 
+const partners = ["us-aid.png", "japan.png", "unicef.png"];
+
 export const Visuals = ({ current, mapValues, setMapValues }) => {
   return (
     <div>
       <div className="map-wrapper">
-        {current?.maps && (
+        {current?.maps?.form_id && (
           <HomeMap
             markerData={{ features: [] }}
             style={{ height: 532 }}
@@ -103,6 +105,22 @@ const Home = ({ highlights }) => {
             setMapValues={setMapValues}
           />
         </div>
+      </div>
+      <div className="home-odd partners">
+        <h1>Partners</h1>
+        <Row align="middle" justify="center" style={{ marginTop: "24px" }}>
+          <Space size={125} align="center">
+            {partners.map((p) => (
+              <Image
+                key={p}
+                alt={p}
+                src={`/assets/partners/${p}`}
+                width={200}
+                preview={false}
+              />
+            ))}
+          </Space>
+        </Row>
       </div>
     </div>
   );

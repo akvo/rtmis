@@ -112,7 +112,8 @@ const getColorScale = ({ method, colors, colorRange }) => {
       }
       if (index && acc) {
         acc = acc < 10 ? 10 : acc;
-        acc = 100 * Math.floor((acc + 50) / 100);
+        const floored = 100 * Math.floor((acc + 50) / 100);
+        acc = floored ? floored : acc;
       }
       return acc;
     });

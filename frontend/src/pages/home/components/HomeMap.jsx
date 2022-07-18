@@ -110,7 +110,7 @@ const HomeMap = ({ current, style, mapValues = [] }) => {
         return {
           loc: d.name,
           shape:
-            stacks.find((s) => s?.name?.toLowerCase() === option.toLowerCase())
+            stacks.find((s) => s?.name?.toLowerCase() === option?.toLowerCase())
               ?.percent || 0,
         };
       });

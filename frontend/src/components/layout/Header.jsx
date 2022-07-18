@@ -51,7 +51,7 @@ const Header = ({ className = "header", ...props }) => {
   const DashboardMenu = (
     <Menu>
       {dashboards?.map((d) => (
-        <Menu.Item key={`${d.name}`}>
+        <Menu.Item key={`${d.name}`} className="dashboard-menu-item">
           <Link to={`/${d.page}/${d.form_id}`}>{d.name}</Link>
         </Menu.Item>
       ))}

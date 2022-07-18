@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { Row, Col, Card, Image } from "antd";
-import { get, sum } from "lodash";
+import { get, sum, takeRight } from "lodash";
+import millify from "millify";
 
 const cardColorPalette = [
   "#CBBFFF",
@@ -12,7 +13,7 @@ const cardColorPalette = [
   "#F1DBB5",
 ];
 
-const CardVisual = ({ cardConfig, loading }) => {
+const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
   const {
     title,
     type,
@@ -36,9 +37,10 @@ const CardVisual = ({ cardConfig, loading }) => {
     }
     const transform = data.map((d) => get(d, path));
     if (calc === "sum") {
+      const sums = sum(transform);
       return {
         title: title,
-        value: sum(transform),
+        value: sums > 100 ? millify(sums) : sums,
       };
     }
     if (calc === "count" && path === "length") {
@@ -47,16 +49,22 @@ const CardVisual = ({ cardConfig, loading }) => {
         value: data.length,
       };
     }
+    if (calc === "tail") {
+      return {
+        title: title,
+        value: data.length ? millify(takeRight(data)[0][path]) : 0,
+      };
+    }
     if (calc === "percent") {
-      const totalData = sum(data.map((d) => d.total));
+      const totalData = customTotal || sum(data.map((d) => d.total));
       const sumLevel = sum(transform);
       const percent = (sumLevel / totalData) * 100;
       return {
         title: title,
-        value: `${percent.toFixed(2)}%`,
+        value: `${Math.round(percent)}%`,
       };
     }
-  }, [data, calc, path, title]);
+  }, [data, calc, path, title, customTotal]);
 
   return (
     <Col
@@ -84,7 +92,7 @@ const CardVisual = ({ cardConfig, loading }) => {
             <Col flex="40%" align="end">
               <Image
                 src={`/assets/dashboard/${icon}`}
-                width={50}
+                height={45}
                 preview={false}
                 alt={icon}
               />

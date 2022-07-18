@@ -185,7 +185,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -243,7 +243,9 @@
           "order": 11,
           "required": true,
           "type": "option",
-          "attributes": [],
+          "attributes": [
+            "advanced_filter"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -348,7 +350,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -384,7 +386,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -642,7 +644,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -672,7 +674,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -707,7 +709,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -745,7 +747,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -809,7 +811,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -880,7 +882,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -940,7 +942,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -1051,7 +1053,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -1109,7 +1111,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -1198,7 +1200,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -1282,7 +1284,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -1396,7 +1398,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -1451,7 +1453,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -1564,7 +1566,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -1598,7 +1600,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -1632,7 +1634,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -1666,7 +1668,7 @@
           "required": true,
           "type": "multiple_option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -1703,7 +1705,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],

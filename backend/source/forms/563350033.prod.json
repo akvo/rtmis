@@ -166,7 +166,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart",
             "aggregate"
@@ -263,7 +263,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart",
             "aggregate"
@@ -286,7 +286,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart",
             "aggregate"
@@ -312,7 +312,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -368,7 +368,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart",
             "aggregate"
@@ -405,7 +405,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart",
             "aggregate"
@@ -468,7 +468,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart",
             "aggregate"
@@ -508,7 +508,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart",
             "aggregate"
@@ -709,7 +709,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -748,7 +748,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart"
           ],
@@ -781,7 +781,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "table",
             "chart",
             "aggregate"
@@ -842,7 +842,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -882,7 +882,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -905,7 +905,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table"
           ],
@@ -941,7 +941,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table"
           ],
@@ -969,7 +969,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table"
           ],
@@ -994,7 +994,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table"
           ],
@@ -1030,7 +1030,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1059,7 +1059,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1085,7 +1085,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1131,7 +1131,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1154,7 +1154,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1177,7 +1177,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1268,7 +1268,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1327,7 +1327,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1350,7 +1350,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1440,7 +1440,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1545,7 +1545,7 @@
           "required": true,
           "type": "multiple_option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1580,7 +1580,7 @@
           "required": false,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1615,7 +1615,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1641,7 +1641,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1695,7 +1695,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1721,7 +1721,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1747,7 +1747,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1782,7 +1782,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1808,7 +1808,7 @@
           "required": true,
           "type": "multiple_option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1840,7 +1840,7 @@
           "required": true,
           "type": "multiple_option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table",
             "aggregate"
@@ -1875,7 +1875,7 @@
           "required": true,
           "type": "multiple_option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table"
           ],
@@ -1909,7 +1909,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            "advanced_filter", 
             "chart",
             "table",
             "aggregate"
@@ -1932,7 +1932,7 @@
           "required": true,
           "type": "option",
           "attributes": [
-            "advanced_filter",
+            
             "chart",
             "table"
           ],
