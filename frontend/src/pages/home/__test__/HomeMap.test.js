@@ -1,10 +1,6 @@
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
-import TestApp from "../../../TestApp";
+import { render } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import Home, { Visuals } from "../Home";
-
-jest.mock("axios");
-jest.mock("leaflet");
+import { HomeMap } from "../components";
 
 const highlights = [
   {
@@ -363,37 +359,17 @@ const mapValue = [
   },
 ];
 
-describe("Home page", () => {
-  const { asFragment } = render(<TestApp />);
-  test("test if About RUSH exists", () => {
-    expect(screen.getByText("About RUSH")).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        "The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform is a real-time monitoring and information system owned by the Ministry of Health. The platform aggregates quantitative and qualitative data from county and national levels and facilitates data analysis, report generation and visualizations."
-      )
-    ).toBeInTheDocument();
-    expect(asFragment).toMatchSnapshot();
-  });
-
-  test("test if clicking on a tab change the map", async () => {
-    const { baseElement, container } = render(
-      <Home highlights={highlights} />
+describe("Home map", () => {
+  test("test home map", () => {
+    const { container } = render(
+      <HomeMap
+        markerData={{ features: [] }}
+        current={highlights?.[0]}
+        style={{ height: 532 }}
+        mapValues={mapValue}
+      />
     );
-    const setMapValues = jest.fn();
-    const tab = container.querySelector(".ant-tabs-tab");
-    fireEvent.click(tab);
-    console.log("Clicked")
-    await waitFor(() => {
-      const { container, getByText } = render(
-        <Visuals
-          current={highlights?.[0]}
-          mapValues={mapValue}
-          setMapValues={setMapValues}
-        />
-      );
-      expect(tab).toHaveClass("ant-tabs-tab-active");
-      expect(getByText("Description text here")).toBeInTheDocument();
-    });
-    expect(baseElement).toMatchSnapshot();
+    expect(container.querySelector("map-container")).toBeInTheDocument();
+    expect(container).toMatchSnapshot();
   });
 });

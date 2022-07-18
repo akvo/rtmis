@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home map test home map 1`] = `
+<div>
+  <div
+    class="map-container"
+  >
+    <div
+      style="height: 532px;"
+    />
+    <div
+      class="shape-legend"
+    >
+      <h4>
+        Sanitation service level - Safely Managed
+      </h4>
+      <div
+        class="ant-row legend-wrap"
+      >
+        <div
+          class="ant-col legend-item "
+          style="flex: 1 1 auto; background-color: rgb(235, 83, 83);"
+        >
+          0%
+           - 
+          25
+          %
+        </div>
+        <div
+          class="ant-col legend-item "
+          style="flex: 1 1 auto; background-color: rgb(249, 217, 35);"
+        >
+          26%
+           - 
+          50
+          %
+        </div>
+        <div
+          class="ant-col legend-item "
+          style="flex: 1 1 auto; background-color: rgb(154, 205, 50);"
+        >
+          51%
+           - 
+          75
+          %
+        </div>
+        <div
+          class="ant-col legend-item "
+          style="flex: 1 1 auto; background-color: rgb(54, 174, 124);"
+        >
+          76%
+           - 
+          100
+          %
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

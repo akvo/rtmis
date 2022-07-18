@@ -39,8 +39,7 @@ export const Visuals = ({ current, mapValues, setMapValues }) => {
   );
 };
 
-const Home = () => {
-  const { highlights } = window;
+const Home = ({ highlights }) => {
   const [currentHighlight, setCurrentHighlight] = useState(highlights?.[0]);
   const [mapValues, setMapValues] = useState([]);
 
@@ -58,6 +57,8 @@ const Home = () => {
       q.wait = null;
     });
   }, []);
+
+  console.log(`current::::::`, currentHighlight);
 
   return (
     <div id="home">
