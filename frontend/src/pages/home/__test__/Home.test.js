@@ -1,7 +1,7 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import TestApp from "../../../TestApp";
 import "@testing-library/jest-dom";
-import Home, { Visuals } from "../Home";
+import Home from "../Home";
 
 jest.mock("axios");
 jest.mock("leaflet");
@@ -278,91 +278,6 @@ const highlights = [
   },
 ];
 
-const mapValue = [
-  {
-    name: "Bungoma",
-    title: "Bungoma",
-    stack: [
-      {
-        name: "Safely Managed",
-        title: "Safely Managed",
-        value: 0,
-        color: "#368541",
-        total: 0,
-      },
-      {
-        name: "Basic",
-        title: "Basic",
-        value: 0,
-        color: "#79BE7D",
-        total: 0,
-      },
-      {
-        name: "Limited",
-        title: "Limited",
-        value: 0,
-        color: "#FDF177",
-        total: 0,
-      },
-      {
-        name: "Unimproved",
-        title: "Unimproved",
-        value: 0,
-        color: "#FBD256",
-        total: 0,
-      },
-      {
-        name: "Open Defecation",
-        title: "Open Defecation",
-        value: 0,
-        color: "#F1AC2A",
-        total: 0,
-      },
-    ],
-  },
-  {
-    name: "Busia",
-    title: "Busia",
-    stack: [
-      {
-        name: "Safely Managed",
-        title: "Safely Managed",
-        value: 0,
-        color: "#368541",
-        total: 0,
-      },
-      {
-        name: "Basic",
-        title: "Basic",
-        value: 0,
-        color: "#79BE7D",
-        total: 0,
-      },
-      {
-        name: "Limited",
-        title: "Limited",
-        value: 0,
-        color: "#FDF177",
-        total: 0,
-      },
-      {
-        name: "Unimproved",
-        title: "Unimproved",
-        value: 0,
-        color: "#FBD256",
-        total: 0,
-      },
-      {
-        name: "Open Defecation",
-        title: "Open Defecation",
-        value: 0,
-        color: "#F1AC2A",
-        total: 0,
-      },
-    ],
-  },
-];
-
 describe("Home page", () => {
   const { asFragment } = render(<TestApp />);
   test("test if About RUSH exists", () => {
@@ -376,21 +291,12 @@ describe("Home page", () => {
   });
 
   test("test if clicking on a tab change the map", async () => {
-    const { baseElement, container } = render(
+    const { baseElement, container, getByText } = render(
       <Home highlights={highlights} />
     );
-    const setMapValues = jest.fn();
     const tab = container.querySelector(".ant-tabs-tab");
     fireEvent.click(tab);
-    console.log("Clicked")
     await waitFor(() => {
-      const { container, getByText } = render(
-        <Visuals
-          current={highlights?.[0]}
-          mapValues={mapValue}
-          setMapValues={setMapValues}
-        />
-      );
       expect(tab).toHaveClass("ant-tabs-tab-active");
       expect(getByText("Description text here")).toBeInTheDocument();
     });

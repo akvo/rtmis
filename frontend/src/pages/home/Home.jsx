@@ -58,8 +58,6 @@ const Home = ({ highlights }) => {
     });
   }, []);
 
-  console.log(`current::::::`, currentHighlight);
-
   return (
     <div id="home">
       <div className="home-odd about">
