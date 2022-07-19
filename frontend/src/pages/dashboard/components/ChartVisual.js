@@ -64,7 +64,7 @@ const ChartVisual = ({ chartConfig, loading }) => {
   }, [api, path]);
 
   return (
-    <Col key={`col-${type}-${index}`} span={span}>
+    <Col key={`col-${type}-${index}`} span={span} className="chart-card">
       <Card>
         <h3>{title}</h3>
         {!path && api ? (
@@ -90,7 +90,7 @@ const ChartVisual = ({ chartConfig, loading }) => {
               },
             }}
             grid={{
-              top: 90,
+              top: 0,
               left: 120,
             }}
           />
@@ -117,7 +117,7 @@ const ChartVisual = ({ chartConfig, loading }) => {
               },
             }}
             grid={{
-              top: 90,
+              top: 70,
               left: 120,
             }}
           />

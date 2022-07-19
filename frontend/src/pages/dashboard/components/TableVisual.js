@@ -111,6 +111,7 @@ const TableVisual = ({ tableConfig, loading }) => {
       align="center"
       justify="space-between"
       span={span}
+      className="table-card"
     >
       <Table
         title={() => (

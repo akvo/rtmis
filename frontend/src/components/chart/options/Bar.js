@@ -54,13 +54,20 @@ const Bar = (data, chartTitle, extra, horizontal = false, grid = {}) => {
     },
     toolbox: {
       show: true,
-      orient: "vertical",
-      right: 15,
-      top: "top",
+      showTitle: true,
+      orient: "horizontal",
+      right: 20,
+      top: 20,
       feature: {
         saveAsImage: {
           type: "jpg",
+          title: "Save Image",
           icon: Icons.saveAsImage,
+          backgroundColor: "#EAF5FB",
+        },
+        dataView: {
+          icon: Icons.dataView,
+          title: "Show Table",
           backgroundColor: "#EAF5FB",
         },
       },

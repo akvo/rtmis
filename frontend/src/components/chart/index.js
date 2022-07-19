@@ -10,11 +10,12 @@ export const generateOptions = (
   legend,
   horizontal,
   highlighted,
+  axis,
   grid
 ) => {
   switch (type) {
     case "LINE":
-      return Line(data, chartTitle, extra);
+      return Line(data, chartTitle, extra, axis);
     case "LINEAREA":
       return LineArea(data, chartTitle, extra);
     case "BARSTACK":

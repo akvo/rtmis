@@ -101,6 +101,33 @@
               }
             }
           }
+
+          &.chart-card {
+            .ant-card {
+              padding: 0;
+
+              .ant-card-body {
+                padding: 0px;
+                text-align: left;
+
+                h3 {
+                  font-size: 1.17em;
+                  color: #253239;
+                  padding: 8px;
+                  margin-bottom: 0px;
+                  text-align: center;
+                  border-bottom: 1px solid #f0f0f0;
+                }
+              }
+            }
+          }
+
+          &.table-card {
+            .ant-table-wrapper {
+              box-shadow: $box-shadow;
+              border-radius: 6px;
+            }
+          }
         }
       }
     }
@@ -115,5 +142,5 @@
   position: sticky;
   top: 0;
   background-color: $bg-light;
-  z-index: 2;
+  z-index: 99;
 }
