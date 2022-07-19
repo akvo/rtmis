@@ -154,3 +154,5 @@ window.mapValue = [
     ],
   },
 ];
+
+window.partners = ["us-aid.png", "japan.png", "unicef.png"];

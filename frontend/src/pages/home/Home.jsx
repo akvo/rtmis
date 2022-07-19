@@ -110,13 +110,14 @@ const Home = ({ highlights }) => {
         <h1>Partners</h1>
         <Row align="middle" justify="center" style={{ marginTop: "24px" }}>
           <Space size={125} align="center">
-            {partners.map((p) => (
+            {partners.map((p, i) => (
               <Image
                 key={p}
                 alt={p}
                 src={`/assets/partners/${p}`}
                 width={200}
                 preview={false}
+                data-testid={i}
               />
             ))}
           </Space>

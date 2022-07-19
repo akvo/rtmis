@@ -321,4 +321,14 @@ describe("Home page", () => {
     const wrapper = render(<Home highlights={highlights} />);
     expect(wrapper.container).toMatchSnapshot();
   });
+
+  test("test if partners are in the document", () => {
+    const { container, getByTestId } = render(<Home highlights={highlights} />);
+    expect(screen.getByText("Partners")).toBeInTheDocument();
+    expect(getByTestId(1)).toContainHTML("img");
+    expect(container.querySelector(".ant-image-img")).toHaveAttribute(
+      "src",
+      "/assets/partners/us-aid.png"
+    );
+  });
 });
