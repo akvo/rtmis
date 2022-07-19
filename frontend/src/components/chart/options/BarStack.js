@@ -10,42 +10,10 @@ import {
   DataView,
   Title,
   axisTitle,
+  optionToContent,
   NoData,
 } from "./common";
 import { uniq, flatten, uniqBy, isEmpty, upperFirst, sumBy } from "lodash";
-
-const optionToContent = ({ xAxis, yAxis, series }, horizontal) => {
-  let axisVal = horizontal ? [...yAxis] : [...xAxis];
-  axisVal = axisVal.map((x) => x.data)[0];
-  let table = `<table border="1" style="width:100%;text-align:left;border-collapse:collapse;font-size:12px;margin-top:0px;">`;
-  table += "<thead><tr><th></th>";
-  series.map((s) => {
-    table +=
-      `<th style="padding: 0 5px;height: 42px;font-weight:600;">` +
-      upperFirst(s.name) +
-      "</th>";
-  });
-  table += "</tr></thead><tbody>";
-  axisVal.map((a) => {
-    table += `<tr><th style="padding: 0 5px;height: 50px;font-weight:600;">${a}</th>`;
-    series.map((s) => {
-      const seriesRes = s.data.find((sd) => sd.cbParam === a);
-      if (seriesRes) {
-        table +=
-          `<td style="color: ${
-            seriesRes.value > 0 ? "#121212" : "#8b8b8e"
-          };padding: 0 5px;height: 50px;">` +
-          seriesRes.value +
-          "% (" +
-          (seriesRes.original || seriesRes.value) +
-          ")</td>";
-      }
-    });
-    table += `</tr>`;
-  });
-  table += "</tbody></table>";
-  return "<div>" + table + "</div>";
-};
 
 const tableFormatter = (e) => {
   let table = `<table border="0" style="width:100%;border-spacing: 60px;font-size:13px;"><thead>`;
@@ -192,7 +160,7 @@ const BarStack = (
         },
         dataView: {
           ...DataView,
-          optionToContent: (e) => optionToContent(e, horizontal),
+          optionToContent: (e) => optionToContent(e),
         },
       },
     },

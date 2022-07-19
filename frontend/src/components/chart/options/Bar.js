@@ -8,6 +8,8 @@ import {
   AxisShortLabelFormatter,
   Title,
   axisTitle,
+  DataView,
+  optionToContent,
   NoData,
 } from "./common";
 import sortBy from "lodash/sortBy";
@@ -66,9 +68,8 @@ const Bar = (data, chartTitle, extra, horizontal = false, grid = {}) => {
           backgroundColor: "#EAF5FB",
         },
         dataView: {
-          icon: Icons.dataView,
-          title: "Show Table",
-          backgroundColor: "#EAF5FB",
+          ...DataView,
+          optionToContent: (e) => optionToContent(e, "%"),
         },
       },
     },
