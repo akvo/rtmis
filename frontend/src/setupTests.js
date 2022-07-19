@@ -156,3 +156,44 @@ window.mapValue = [
 ];
 
 window.partners = ["us-aid.png", "japan.png", "unicef.png"];
+
+window.profile = {
+  email: "toky@gmail.com",
+  name: "Fanilo Toky",
+  administration: {
+    id: 1,
+    name: "Kenya",
+    level: 0,
+  },
+  trained: false,
+  role: { id: 1, value: "Super Admin" },
+  phone_number: null,
+  forms: [],
+  organisation: {
+    name: "",
+  },
+  last_login: 1658219467.715176,
+  role_detail: {
+    id: 1,
+    name: "Super Admin",
+    filter_form: false,
+    page_access: [
+      "profile",
+      "user",
+      "control-center",
+      "data",
+      "visualisation",
+      "questionnaires",
+      "approvals",
+      "approvers",
+      "form",
+      "reports",
+      "settings",
+      "organisation",
+    ],
+    administration_level: [1],
+    description:
+      "Overall national administrator of the RUSH. Assigns roles to all county admins",
+    control_center_order: ["manage-user", "manage-data", "manage-organisation"],
+  },
+};
