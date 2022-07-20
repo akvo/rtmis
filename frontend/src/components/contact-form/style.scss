@@ -2,12 +2,12 @@
 
 .contact-form-modal {
   .ant-modal-content .ant-modal-footer {
-    padding-bottom: 10px;
+    padding-bottom: 10px !important;
   }
 
   .ant-modal-content textarea {
-    margin: 0;
-    border: 1px solid #d9d9d9;
+    margin: 0 !important;
+    border: 1px solid #d9d9d9 !important;
   }
 
   .ant-modal-content .ant-input:focus,

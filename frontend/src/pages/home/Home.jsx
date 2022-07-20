@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Tabs, Image, Row, Space, Button } from "antd";
-import { HomeAdministrationChart } from "../../components";
+import { ContactForm, HomeAdministrationChart } from "../../components";
 
 import { HomeMap } from "./components";
 import { queue, store } from "../../lib";
@@ -127,6 +127,7 @@ const Home = () => {
           </Space>
         </Row>
       </div>
+      <ContactForm />
     </div>
   );
 };

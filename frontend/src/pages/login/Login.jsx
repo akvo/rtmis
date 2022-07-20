@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import "./style.scss";
 import { Row, Col, Spin } from "antd";
 import { LoginForm, RegistrationForm, ResetForm } from "./components";
+import { ContactForm } from "../../components";
 import { Link, useParams } from "react-router-dom";
 import { api, config, store, uiText } from "../../lib";
 
@@ -139,6 +140,7 @@ const Login = () => {
           )}
         </Col>
       </Row>
+      <ContactForm />
     </div>
   );
 };
