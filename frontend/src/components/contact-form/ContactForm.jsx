@@ -26,9 +26,11 @@ const ContactForm = () => {
         canv.width = 100;
         canv.height = 50;
         const ctx = canv.getContext("2d");
-        ctx.font = "35px Assistant, sans-serif";
-        ctx.textAlign = "center";
-        ctx.strokeText(validatorX + "+" + validatorY, 50, 35);
+        if (ctx) {
+          ctx.font = "35px Assistant, sans-serif";
+          ctx.textAlign = "center";
+          ctx.strokeText(validatorX + "+" + validatorY, 50, 35);
+        }
         setCaptchaValue(validatorX + validatorY);
         captchaNumber.appendChild(canv);
       }
