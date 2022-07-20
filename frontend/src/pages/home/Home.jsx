@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Tabs, Image, Row, Space } from "antd";
+import { Tabs, Image, Row, Space, Button } from "antd";
 import { HomeAdministrationChart } from "../../components";
 
 import { HomeMap } from "./components";
@@ -106,6 +106,15 @@ const Home = () => {
                 preview={false}
               />
             ))}
+          </Space>
+        </Row>
+      </div>
+      <div className="home-even contact">
+        <h1>Contact Us</h1>
+        <Row align="middle" justify="center">
+          <Space direction="vertical" align="center">
+            <h3>Get in touch with us for support or feedback.</h3>
+            <Button type="primary">Send Feedback</Button>
           </Space>
         </Row>
       </div>

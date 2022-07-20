@@ -38,7 +38,7 @@ import {
 } from "./pages";
 import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
-import { Layout, PageLoader } from "./components";
+import { Layout, PageLoader, ContactForm } from "./components";
 import { useNotification } from "./util/hooks";
 import { timeDiffHours, eraseCookieFromAllPaths } from "./util/date";
 import { reloadData } from "./util/form";
@@ -267,6 +267,7 @@ const App = () => {
         ) : (
           <RouteList />
         )}
+        <ContactForm />
       </Layout.Body>
       <Layout.Footer />
     </Layout>
