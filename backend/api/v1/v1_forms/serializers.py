@@ -79,6 +79,8 @@ class ListQuestionSerializer(serializers.ModelSerializer):
                 "list": "children",
                 "initial": administration.id,
             }
+        if instance.type == QuestionTypes.cascade:
+            return instance.api
         return None
 
     @extend_schema_field(GeoFormatSerializer)

@@ -86,6 +86,7 @@ class Command(BaseCommand):
                             rule=q.get("rule"),
                             required=q.get("required"),
                             dependency=q.get("dependency"),
+                            api=q.get("api"),
                             type=getattr(QuestionTypes, q["type"]),
                         )
                     else:
@@ -97,6 +98,7 @@ class Command(BaseCommand):
                         question.required = q.get("required")
                         question.dependency = q.get("dependency")
                         question.type = getattr(QuestionTypes, q["type"])
+                        question.api = q.get("api")
                         question.save()
                     if q.get("options"):
                         QO.objects.filter(question=question).all().delete()
