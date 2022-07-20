@@ -64,12 +64,13 @@ const ChartVisual = ({ chartConfig, loading }) => {
   }, [api, path]);
 
   return (
-    <Col key={`col-${type}-${index}`} span={span}>
+    <Col key={`col-${type}-${index}`} span={span} className="chart-card">
       <Card>
         <h3>{title}</h3>
         {!path && api ? (
           <Chart
             height={50 * chartDataApi.length + 188}
+            excelFile={title}
             type="LINEAREA"
             data={chartDataApi}
             wrapper={false}
@@ -90,13 +91,14 @@ const ChartVisual = ({ chartConfig, loading }) => {
               },
             }}
             grid={{
-              top: 90,
+              top: 0,
               left: 120,
             }}
           />
         ) : (
           <Chart
             height={50 * chartData.length + 188}
+            excelFile={title}
             type="BAR"
             data={chartData}
             wrapper={false}
@@ -117,7 +119,7 @@ const ChartVisual = ({ chartConfig, loading }) => {
               },
             }}
             grid={{
-              top: 90,
+              top: 70,
               left: 120,
             }}
           />

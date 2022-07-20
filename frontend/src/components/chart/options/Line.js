@@ -4,7 +4,10 @@ import {
   TextStyle,
   backgroundColor,
   Title,
+  Icons,
   AxisLabelFormatter,
+  optionToContent,
+  downloadToExcel,
   NoData,
 } from "./common";
 import { getDateRange } from "../../../util/date";
@@ -15,7 +18,7 @@ import moment from "moment";
 
 const dateFormat = "MMMM DD, YYYY";
 
-const Line = (data, chartTitle, extra) => {
+const Line = (data, chartTitle, excelFile, extra = {}) => {
   if (isEmpty(data)) {
     return NoData;
   }
@@ -99,6 +102,31 @@ const Line = (data, chartTitle, extra) => {
       },
       axisTick: {
         alignWithLabel: true,
+      },
+    },
+    toolbox: {
+      show: true,
+      orient: "horizontal",
+      right: 30,
+      top: 20,
+      feature: {
+        saveAsImage: {
+          type: "jpg",
+          icon: Icons.saveAsImage,
+          backgroundColor: "#EAF5FB",
+        },
+        dataView: {
+          ...DataView,
+          optionToContent: optionToContent,
+        },
+        myDownload: {
+          show: true,
+          title: "Download Excel",
+          icon: Icons.download,
+          onclick: (e) => {
+            downloadToExcel(e, excelFile);
+          },
+        },
       },
     },
     series: [

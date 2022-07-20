@@ -4,27 +4,35 @@ import ReactECharts from "echarts-for-react";
 import { Bar, Line, BarStack, Pie, LineArea } from "./options";
 
 export const generateOptions = (
-  { type, data, chartTitle },
+  { type, data, chartTitle, excelFile },
   extra,
   series,
   legend,
   horizontal,
   highlighted,
+  axis,
   grid
 ) => {
   switch (type) {
     case "LINE":
-      return Line(data, chartTitle, extra);
+      return Line(data, chartTitle, excelFile, extra, axis);
     case "LINEAREA":
       return LineArea(data, chartTitle, extra);
     case "BARSTACK":
-      return BarStack(data, chartTitle, extra, horizontal, highlighted);
+      return BarStack(
+        data,
+        chartTitle,
+        extra,
+        excelFile,
+        horizontal,
+        highlighted
+      );
     case "PIE":
-      return Pie(data, chartTitle, extra, false, series, legend);
+      return Pie(data, chartTitle, excelFile, extra, false, series, legend);
     case "DOUGHNUT":
-      return Pie(data, chartTitle, extra, true);
+      return Pie(data, chartTitle, excelFile, extra, true);
     default:
-      return Bar(data, chartTitle, extra, horizontal, grid);
+      return Bar(data, chartTitle, excelFile, extra, horizontal, grid);
   }
 };
 
@@ -47,6 +55,7 @@ const Chart = ({
   type,
   title = "",
   subTitle = "",
+  excelFile = "",
   height = 450,
   span = 12,
   data,
@@ -73,7 +82,7 @@ const Chart = ({
   }
   const chartTitle = wrapper ? {} : { title: title, subTitle: subTitle };
   const option = generateOptions(
-    { type: type, data: data, chartTitle: chartTitle },
+    { type: type, data: data, chartTitle: chartTitle, excelFile: excelFile },
     extra,
     series,
     legend,
