@@ -79,6 +79,8 @@ class ListQuestionSerializer(serializers.ModelSerializer):
                 "list": "children",
                 "initial": administration.id,
             }
+        if instance.type == QuestionTypes.cascade:
+            return instance.api
         return None
 
     @extend_schema_field(GeoFormatSerializer)
@@ -224,7 +226,8 @@ class FormDataListQuestionSerializer(serializers.ModelSerializer):
         model = Questions
         fields = [
             'id', 'form', 'question_group', 'name', 'text', 'order', 'meta',
-            'type', 'required', 'rule', 'option', 'dependency', 'attributes'
+            'api', 'type', 'required', 'rule', 'option', 'dependency',
+            'attributes'
         ]
 
 
