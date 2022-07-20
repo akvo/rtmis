@@ -226,7 +226,8 @@ class FormDataListQuestionSerializer(serializers.ModelSerializer):
         model = Questions
         fields = [
             'id', 'form', 'question_group', 'name', 'text', 'order', 'meta',
-            'type', 'required', 'rule', 'option', 'dependency', 'attributes'
+            'api', 'type', 'required', 'rule', 'option', 'dependency',
+            'attributes'
         ]
 
 
