@@ -12,6 +12,7 @@ import {
   axisTitle,
   optionToContent,
   NoData,
+  downloadToExcel,
 } from "./common";
 import { uniq, flatten, uniqBy, isEmpty, upperFirst, sumBy } from "lodash";
 
@@ -150,8 +151,8 @@ const BarStack = (
     toolbox: {
       show: true,
       orient: "horizontal",
-      right: 15,
-      top: 0,
+      right: 30,
+      top: 20,
       feature: {
         saveAsImage: {
           type: "jpg",
@@ -162,6 +163,14 @@ const BarStack = (
           ...DataView,
           optionToContent: (e) =>
             optionToContent({ option: e, horizontal: horizontal }),
+        },
+        myDownload: {
+          show: true,
+          title: "Download Excel",
+          icon: Icons.download,
+          onclick: (e) => {
+            downloadToExcel(e);
+          },
         },
       },
     },

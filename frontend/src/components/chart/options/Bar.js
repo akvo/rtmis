@@ -11,6 +11,7 @@ import {
   DataView,
   optionToContent,
   NoData,
+  downloadToExcel,
 } from "./common";
 import sortBy from "lodash/sortBy";
 import isEmpty from "lodash/isEmpty";
@@ -58,7 +59,7 @@ const Bar = (data, chartTitle, extra, horizontal = false, grid = {}) => {
       show: true,
       showTitle: true,
       orient: "horizontal",
-      right: 20,
+      right: 30,
       top: 20,
       feature: {
         saveAsImage: {
@@ -71,6 +72,14 @@ const Bar = (data, chartTitle, extra, horizontal = false, grid = {}) => {
           ...DataView,
           optionToContent: (e) =>
             optionToContent({ option: e, horizontal: horizontal, suffix: "%" }),
+        },
+        myDownload: {
+          show: true,
+          title: "Download Excel",
+          icon: Icons.download,
+          onclick: (e) => {
+            downloadToExcel(e);
+          },
         },
       },
     },
