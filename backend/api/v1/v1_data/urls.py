@@ -7,7 +7,7 @@ from api.v1.v1_data.views import DataAnswerDetailDeleteView, \
     FormDataAddListView, PendingFormDataView, BatchView, \
     PendingDataDetailDeleteView, BatchSummaryView, BatchCommentView, \
     get_map_county_data_point, get_last_update_data_point, get_jmp_data, \
-    get_period_submission
+    get_period_submission, get_glass_data
 from api.v1.v1_users.views import health_check, get_config_file, email_template
 
 urlpatterns = [
@@ -53,6 +53,9 @@ urlpatterns = [
 
     re_path(r'^(?P<version>(v1))/jmp/(?P<form_id>[0-9]+)',
             get_jmp_data),
+
+    re_path(r'^(?P<version>(v1))/glass/(?P<form_id>[0-9]+)',
+            get_glass_data),
 
     re_path(r'^(?P<version>(v1))/health/check', health_check),
     re_path(r'^(?P<version>(v1))/config.js', get_config_file),

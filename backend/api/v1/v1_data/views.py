@@ -46,7 +46,7 @@ from api.v1.v1_data.functions import refresh_materialized_data, \
     get_questions_options_from_params, get_advance_filter_data_ids
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, Questions, \
-        ViewJMPCriteria
+    ViewJMPCriteria, QuestionOptions
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -1300,3 +1300,120 @@ def get_period_submission(request, version, form_id):
         month = 1
         year += 1
     return Response(data, status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    responses={(200, 'application/json'): inline_serializer(
+        'ListGlassData', fields={
+            'counties': serializers.ListField(),
+            'national': serializers.ListField(),
+        })},
+    examples=[
+        OpenApiExample(
+            'ListGlassDataExample',
+            value=[{
+                'counties': [{
+                    'loc': 'Baringo',
+                    'qid': 'answer'
+                }],
+                'national': [{
+                    'year': '2022',
+                    'qid': 'answer'
+                }]
+            }])
+    ],
+    parameters=[
+        OpenApiParameter(
+            name='counties_questions',
+            required=True,
+            type={'type': 'array',
+                  'items': {'type': 'number'}},
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='national_questions',
+            required=True,
+            type={'type': 'array',
+                  'items': {'type': 'number'}},
+            location=OpenApiParameter.QUERY)],
+    tags=['Visualisation'],
+    summary='To get Glass data')
+@api_view(['GET'])
+def get_glass_data(request, version, form_id):
+    form = get_object_or_404(Forms, pk=form_id)
+    administration = Administration.objects.filter(
+        level_id=2).all()
+    questions = Questions.objects.filter(form=form)
+    form_datas = FormData.objects.filter(form=form)
+
+    # get counties data
+    counties_questions = questions.filter(
+        pk__in=request.GET.getlist('counties_questions')).all()
+    counties_data = []
+    for adm in administration:
+        temp = {'loc': adm.name}
+        form_data = form_datas.filter(
+            administration_id=adm.id).values_list('id', flat=True)
+        if not form_data:
+            continue
+        for q in counties_questions:
+            value = None
+            answers = Answers.objects.filter(
+                question_id=q.id, data_id__in=form_data)
+            if q.type == QuestionTypes.option:
+                options = QuestionOptions.objects.filter(
+                    question_id=q.id).values_list('name', flat=True)
+                value = {opt: 0 for opt in options}
+                answers = answers.values(
+                    'options').annotate(count=Count('options'))
+                for a in answers:
+                    key = a.get('options')[0]
+                    prev = value.get(key)
+                    value[key] = prev + a.get('count')
+            if q.type == QuestionTypes.number:
+                value = 0
+                answers = answers.values(
+                    'value').annotate(sum=Sum('value'))
+                for a in answers:
+                    value += a.get('sum')
+            temp.update({q.id: value})
+        counties_data.append(temp)
+
+    # get national data
+    national_questions = questions.filter(
+        pk__in=request.GET.getlist('national_questions')).all()
+    national_data = []
+    form_data = form_datas.filter(administration_id=1)
+    # arbitrary starting dates
+    first_fd = form_data.order_by('created').first()
+    year = first_fd.created.year
+    cyear = date.today().year
+    while year <= cyear:
+        fd_ids = form_data.filter(
+            created__year=year).values_list('id', flat=True)
+        temp = {'year': year}
+        for q in national_questions:
+            value = None
+            answers = Answers.objects.filter(
+                question_id=q.id, data_id__in=fd_ids)
+            if q.type == QuestionTypes.option:
+                options = QuestionOptions.objects.filter(
+                    question_id=q.id).values_list('name', flat=True)
+                value = {opt: 0 for opt in options}
+                answers = answers.values(
+                    'options').annotate(count=Count('options'))
+                for a in answers:
+                    key = a.get('options')[0]
+                    prev = value.get(key)
+                    value[key] = prev + a.get('count')
+            if q.type == QuestionTypes.number:
+                value = 0
+                answers = answers.values(
+                    'value').annotate(sum=Sum('value'))
+                for a in answers:
+                    value += a.get('sum')
+            temp.update({q.id: value})
+        national_data.append(temp)
+        year += 1
+
+    return Response({'counties': counties_data, 'national': national_data},
+                    status=status.HTTP_200_OK)
