@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import "./style.scss";
 import { Row, Col, Spin } from "antd";
 import { LoginForm, RegistrationForm, ResetForm } from "./components";
+import { ContactForm } from "../../components";
 import { Link, useParams } from "react-router-dom";
 import { api, config, store, uiText } from "../../lib";
 
@@ -13,6 +14,23 @@ const styles = {
     backgroundRepeat: "no-repeat",
   },
 };
+
+const ContactUsText = () => (
+  <p className="contact-text">
+    Having trouble accessing the platform? Please{" "}
+    <a
+      href="#"
+      onClick={() => {
+        store.update((s) => {
+          s.showContactFormModal = true;
+        });
+      }}
+    >
+      contact
+    </a>
+    .
+  </p>
+);
 
 const Login = () => {
   const { invitationId } = useParams();
@@ -70,6 +88,8 @@ const Login = () => {
                 <br />
                 <small>{text.forgotDesc}</small>
               </h1>
+              <br />
+              <ContactUsText />
               <ResetForm />
             </>
           ) : (
@@ -110,6 +130,7 @@ const Login = () => {
                   ) : (
                     <>
                       <h1>{text.loginTitle}</h1>
+                      <ContactUsText />
                       <LoginForm />
                     </>
                   )}
@@ -119,6 +140,7 @@ const Login = () => {
           )}
         </Col>
       </Row>
+      <ContactForm />
     </div>
   );
 };
