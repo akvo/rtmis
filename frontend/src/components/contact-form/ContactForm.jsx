@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import "./style.scss";
 import { Modal, Button, Form, Input, Space } from "antd";
 import { useNotification } from "../../util/hooks";
-import { store } from "../../lib";
+import { store, api } from "../../lib";
 
 const ContactForm = () => {
   const [form] = Form.useForm();
@@ -45,40 +45,32 @@ const ContactForm = () => {
       s.showContactFormModal = false;
     });
     setTimeout(() => {
+      form.resetFields();
       setReloadCaptcha(true);
     }, 500);
   };
 
   const handleOnFormFinish = (payload) => {
     setSubmitting(true);
-    console.info(payload);
-    setTimeout(() => {
-      notify({
-        type: "success",
-        message: "send",
+    api
+      .post("/feedback", payload)
+      .then(() => {
+        notify({
+          type: "success",
+          message: "Feedback was sent successfully.",
+        });
+        handleCancel();
+      })
+      .catch(() => {
+        notify({
+          type: "error",
+          message: "Oops, something went wrong.",
+        });
+      })
+      .finally(() => {
+        setReloadCaptcha(true);
+        setSubmitting(false);
       });
-      setSubmitting(false);
-      handleCancel();
-    }, 1000);
-    // api
-    //   .post("/feedback", payload)
-    //   .then(() => {
-    //     form.resetFields();
-    //     notify({
-    //       type: "success",
-    //       message: text.valFeedbackSuccess,
-    //     });
-    //   })
-    //   .catch(() => {
-    //     notify({
-    //       type: "error",
-    //       message: "Oops, something went wrong.",
-    //     });
-    //   })
-    //   .finally(() => {
-    //     setReloadCaptcha(true);
-    //     setSubmitting(false);
-    //   });
   };
 
   return (
