@@ -197,3 +197,9 @@ window.profile = {
     control_center_order: ["manage-user", "manage-data", "manage-organisation"],
   },
 };
+
+window.filters = {
+  trained: false,
+  role: 2,
+  organisation: 1
+}

@@ -21,7 +21,7 @@ const UserFilters = ({
   const { trained, role, organisation } = filters;
 
   const { trainedStatus } = config;
-  const allowedRole = config.roles.filter((r) => r.id >= authUser.role.id);
+  const allowedRole = config.roles.filter((r) => r.id >= authUser?.role?.id);
 
   const [organisations, setOrganisations] = useState([]);
 

@@ -99,11 +99,11 @@ const Home = ({ highlights }) => {
               </TabPane>
             ))}
           </Tabs>
-          <Visuals
+          {/* <Visuals
             current={currentHighlight}
             mapValues={mapValues}
             setMapValues={setMapValues}
-          />
+          /> */}
         </div>
       </div>
       <div className="home-odd partners">

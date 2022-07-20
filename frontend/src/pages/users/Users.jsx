@@ -24,6 +24,21 @@ const pagePath = [
     title: "Manage Users",
   },
 ];
+
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      onchange: null,
+      addListener: function () {},
+      removeListener: function () {},
+      addEventListener: function () {},
+      removeEventListener: function () {},
+      dispatchEvent: function () {},
+    };
+  };
+
 const Users = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
@@ -51,6 +66,7 @@ const Users = () => {
       ? administration[administration.length - 1]
       : null;
 
+  console.log(`filters::::::`, filters);
   const columns = [
     {
       title: "Name",
