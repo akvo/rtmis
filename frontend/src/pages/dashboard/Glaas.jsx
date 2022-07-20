@@ -54,7 +54,7 @@ const Dashboard = () => {
       // generate URL
       const countiesURL = counties_questions.join("&counties_questions=");
       const nationalURL = national_questions.join("&national_questions=");
-      const url = `glass/${formId}?counties_questions=${countiesURL}&national_questions=${nationalURL}`;
+      const url = `glaas/${formId}?counties_questions=${countiesURL}&national_questions=${nationalURL}`;
       api
         .get(url)
         .then((res) => {
@@ -150,7 +150,7 @@ const Dashboard = () => {
               {Object.keys(current.tabs).map((key) => {
                 let tabName = key;
                 if (
-                  !["jmp", "glass", "rush"].includes(key.toLocaleLowerCase())
+                  !["jmp", "glaas", "rush"].includes(key.toLocaleLowerCase())
                 ) {
                   tabName = key
                     .split("_")

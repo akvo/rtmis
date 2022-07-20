@@ -171,7 +171,7 @@ const Dashboard = () => {
               {Object.keys(current.tabs).map((key) => {
                 let tabName = key;
                 if (
-                  !["jmp", "glass", "rush"].includes(key.toLocaleLowerCase())
+                  !["jmp", "glaas", "rush"].includes(key.toLocaleLowerCase())
                 ) {
                   tabName = key
                     .split("_")

@@ -1304,13 +1304,13 @@ def get_period_submission(request, version, form_id):
 
 @extend_schema(
     responses={(200, 'application/json'): inline_serializer(
-        'ListGlassData', fields={
+        'ListGlaasData', fields={
             'counties': serializers.ListField(),
             'national': serializers.ListField(),
         })},
     examples=[
         OpenApiExample(
-            'ListGlassDataExample',
+            'ListGlaasDataExample',
             value=[{
                 'counties': [{
                     'loc': 'Baringo',
@@ -1336,9 +1336,9 @@ def get_period_submission(request, version, form_id):
                   'items': {'type': 'number'}},
             location=OpenApiParameter.QUERY)],
     tags=['Visualisation'],
-    summary='To get Glass data')
+    summary='To get Glaas data')
 @api_view(['GET'])
-def get_glass_data(request, version, form_id):
+def get_glaas_data(request, version, form_id):
     form = get_object_or_404(Forms, pk=form_id)
     administration = Administration.objects.filter(
         level_id=2).all()
