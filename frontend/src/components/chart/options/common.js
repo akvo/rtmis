@@ -156,13 +156,12 @@ const getDataColumns = (option, category) => {
   if (series?.[0]?.stack) {
     data = xAxis?.[0]?.data || yAxis?.[0]?.data;
     data = data?.map((x, xi) => {
-      let d = series.reduce(
+      return series.reduce(
         (prev, current) => {
           return { ...prev, [current.name]: current.data[xi].value };
         },
         { [category]: x }
       );
-      return d;
     });
     columns = series.map((d) => d.name);
     columns = [category, ...columns];
