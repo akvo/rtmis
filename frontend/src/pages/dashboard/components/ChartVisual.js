@@ -70,6 +70,7 @@ const ChartVisual = ({ chartConfig, loading }) => {
         {!path && api ? (
           <Chart
             height={50 * chartDataApi.length + 188}
+            excelFile={title}
             type="LINEAREA"
             data={chartDataApi}
             wrapper={false}
@@ -97,6 +98,7 @@ const ChartVisual = ({ chartConfig, loading }) => {
         ) : (
           <Chart
             height={50 * chartData.length + 188}
+            excelFile={title}
             type="BAR"
             data={chartData}
             wrapper={false}

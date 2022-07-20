@@ -44,7 +44,8 @@ const tableFormatter = (e) => {
 const BarStack = (
   data,
   chartTitle,
-  extra,
+  excelFile,
+  extra = {},
   horizontal = false,
   highlighted = null
 ) => {
@@ -169,7 +170,7 @@ const BarStack = (
           title: "Download Excel",
           icon: Icons.download,
           onclick: (e) => {
-            downloadToExcel(e);
+            downloadToExcel(e, excelFile);
           },
         },
       },

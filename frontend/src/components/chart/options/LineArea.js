@@ -1,6 +1,7 @@
 import {
   Easing,
   Color,
+  Icons,
   TextStyle,
   backgroundColor,
   Title,
@@ -10,7 +11,7 @@ import {
 import uniq from "lodash/uniq";
 import isEmpty from "lodash/isEmpty";
 
-const LineArea = (data, chartTitle, extra) => {
+const LineArea = (data, chartTitle, extra = {}) => {
   if (isEmpty(data)) {
     return NoData;
   }
@@ -71,6 +72,19 @@ const LineArea = (data, chartTitle, extra) => {
       },
       axisTick: {
         alignWithLabel: true,
+      },
+    },
+    toolbox: {
+      show: true,
+      orient: "horizontal",
+      right: 30,
+      top: 20,
+      feature: {
+        saveAsImage: {
+          type: "jpg",
+          icon: Icons.saveAsImage,
+          backgroundColor: "#EAF5FB",
+        },
       },
     },
     series: [
