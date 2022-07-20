@@ -160,7 +160,8 @@ const BarStack = (
         },
         dataView: {
           ...DataView,
-          optionToContent: (e) => optionToContent(e),
+          optionToContent: (e) =>
+            optionToContent({ option: e, horizontal: horizontal }),
         },
       },
     },

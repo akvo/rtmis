@@ -141,18 +141,38 @@ export const Icons = {
     "path://M19.305,9.61c-0.235-0.235-0.615-0.235-0.85,0l-1.339,1.339c0.045-0.311,0.073-0.626,0.073-0.949,c0-3.812-3.09-6.901-6.901-6.901c-2.213,0-4.177,1.045-5.44,2.664l0.897,0.719c1.053-1.356,2.693-2.232,4.543-2.232,c3.176,0,5.751,2.574,5.751,5.751c0,0.342-0.037,0.675-0.095,1l-1.746-1.39c-0.234-0.235-0.614-0.235-0.849,0,c-0.235,0.235-0.235,0.615,0,0.85l2.823,2.25c0.122,0.121,0.282,0.177,0.441,0.172c0.159,0.005,0.32-0.051,0.44-0.172l2.25-2.25,C19.539,10.225,19.539,9.845,19.305,9.61z M10.288,15.752c-3.177,0-5.751-2.575-5.751-5.752c0-0.276,0.025-0.547,0.062-0.813,l1.203,1.203c0.235,0.234,0.615,0.234,0.85,0c0.234-0.235,0.234-0.615,0-0.85l-2.25-2.25C4.281,7.169,4.121,7.114,3.961,7.118,C3.802,7.114,3.642,7.169,3.52,7.291l-2.824,2.25c-0.234,0.235-0.234,0.615,0,0.85c0.235,0.234,0.615,0.234,0.85,0l1.957-1.559,C3.435,9.212,3.386,9.6,3.386,10c0,3.812,3.09,6.901,6.902,6.901c2.083,0,3.946-0.927,5.212-2.387l-0.898-0.719,C13.547,14.992,12.008,15.752,10.288,15.752z",
 };
 
-const otc_columns = ["name", "value"];
+const defaultColumns = ["name", "value"];
 
-export const optionToContent = ({ series }, suffix = false) => {
-  const data = series?.[0]?.data;
+export const optionToContent = ({
+  option,
+  category = "category",
+  suffix = "",
+}) => {
+  const { series, xAxis, yAxis } = option;
+  let columns = defaultColumns;
+  let data = series?.[0]?.data;
   if (!data) {
     return "NO Data";
   }
-  let table = `<div class="ant-table ant-table-bordered">`;
+  if (series?.[0]?.stack) {
+    data = xAxis?.[0]?.data || yAxis?.[0]?.data;
+    data = data?.map((x, xi) => {
+      let d = series.reduce(
+        (prev, current) => {
+          return { ...prev, [current.name]: current.data[xi].value };
+        },
+        { [category]: x }
+      );
+      return d;
+    });
+    columns = series.map((d) => d.name);
+    columns = [category, ...columns];
+  }
+  let table = `<div class="ant-table ant-table-small ant-table-bordered">`;
   table += `<div class="ant-table-container">`;
   table += `<table style="table-layout: auto;">`;
   table += `<thead class="ant-table-thead"><tr>`;
-  otc_columns.map((s) => {
+  columns.map((s) => {
     table += `<th class="ant-table-cell">`;
     table += upperFirst(s);
     table += "</th>";
@@ -161,9 +181,9 @@ export const optionToContent = ({ series }, suffix = false) => {
   table += `<tbody class="ant-table-tbody">`;
   data.map((d) => {
     table += `<tr>`;
-    otc_columns.map((s) => {
+    columns.map((s) => {
       table += `<td class="ant-table-cell">`;
-      table += s === "value" && suffix ? `${d[s]}${suffix}` : d[s];
+      table += s === "value" ? `${d[s]}${suffix}` : d[s];
       table += `</td">`;
     });
     table += `</tr>`;

@@ -69,7 +69,8 @@ const Bar = (data, chartTitle, extra, horizontal = false, grid = {}) => {
         },
         dataView: {
           ...DataView,
-          optionToContent: (e) => optionToContent(e, "%"),
+          optionToContent: (e) =>
+            optionToContent({ option: e, horizontal: horizontal, suffix: "%" }),
         },
       },
     },
