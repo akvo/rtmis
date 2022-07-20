@@ -106,7 +106,7 @@ class FormSeederTestCase(TestCase):
                          response["question_group"][0]["question"][1]['id'])
         self.assertEqual('Organisation',
                          response["question_group"][0]["question"][1]['name'])
-        self.assertEqual({"endpoint": "/api/v1/organisations?attributes=1"},
+        self.assertEqual({"endpoint": "/api/v1/organisations?attributes=2"},
                          response["question_group"][0]["question"][1]['api'])
         self.assertEqual(517690051,
                          response["question_group"][0]["question"][2]['id'])
