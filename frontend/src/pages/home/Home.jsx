@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Tabs, Image, Row, Space } from "antd";
-import { HomeAdministrationChart } from "../../components";
+import { Tabs, Image, Row, Space, Button } from "antd";
+import { ContactForm, HomeAdministrationChart } from "../../components";
 
 import { HomeMap } from "./components";
-import { queue } from "../../lib";
+import { queue, store } from "../../lib";
 const { TabPane } = Tabs;
 
 const partners = ["us-aid.png", "japan.png", "unicef.png"];
@@ -109,6 +109,25 @@ const Home = () => {
           </Space>
         </Row>
       </div>
+      <div className="home-even contact">
+        <h1>Contact Us</h1>
+        <Row align="middle" justify="center">
+          <Space direction="vertical" align="center">
+            <h3>Get in touch with us for support or feedback.</h3>
+            <Button
+              type="primary"
+              onClick={() => {
+                store.update((s) => {
+                  s.showContactFormModal = true;
+                });
+              }}
+            >
+              Send Feedback
+            </Button>
+          </Space>
+        </Row>
+      </div>
+      <ContactForm />
     </div>
   );
 };
