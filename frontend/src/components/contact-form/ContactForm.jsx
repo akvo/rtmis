@@ -44,6 +44,9 @@ const ContactForm = () => {
     store.update((s) => {
       s.showContactFormModal = false;
     });
+    setTimeout(() => {
+      setReloadCaptcha(true);
+    }, 500);
   };
 
   const handleOnFormFinish = (payload) => {
@@ -88,6 +91,7 @@ const ContactForm = () => {
       destroyOnClose
       onOk={handleOk}
       onCancel={handleCancel}
+      forceRender
       footer={[
         <Button
           key="submit"

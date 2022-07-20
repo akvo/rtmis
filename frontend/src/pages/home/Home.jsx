@@ -4,7 +4,7 @@ import { Tabs, Image, Row, Space, Button } from "antd";
 import { HomeAdministrationChart } from "../../components";
 
 import { HomeMap } from "./components";
-import { queue } from "../../lib";
+import { queue, store } from "../../lib";
 const { TabPane } = Tabs;
 
 const partners = ["us-aid.png", "japan.png", "unicef.png"];
@@ -114,7 +114,16 @@ const Home = () => {
         <Row align="middle" justify="center">
           <Space direction="vertical" align="center">
             <h3>Get in touch with us for support or feedback.</h3>
-            <Button type="primary">Send Feedback</Button>
+            <Button
+              type="primary"
+              onClick={() => {
+                store.update((s) => {
+                  s.showContactFormModal = true;
+                });
+              }}
+            >
+              Send Feedback
+            </Button>
           </Space>
         </Row>
       </div>

@@ -14,6 +14,23 @@ const styles = {
   },
 };
 
+const ContactUsText = () => (
+  <p className="contact-text">
+    Having trouble accessing the platform? Please{" "}
+    <a
+      href="#"
+      onClick={() => {
+        store.update((s) => {
+          s.showContactFormModal = true;
+        });
+      }}
+    >
+      contact
+    </a>
+    .
+  </p>
+);
+
 const Login = () => {
   const { invitationId } = useParams();
   const [invitedUser, setInvitedUser] = useState(null);
@@ -70,6 +87,8 @@ const Login = () => {
                 <br />
                 <small>{text.forgotDesc}</small>
               </h1>
+              <br />
+              <ContactUsText />
               <ResetForm />
             </>
           ) : (
@@ -110,6 +129,7 @@ const Login = () => {
                   ) : (
                     <>
                       <h1>{text.loginTitle}</h1>
+                      <ContactUsText />
                       <LoginForm />
                     </>
                   )}
