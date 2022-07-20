@@ -1414,6 +1414,5 @@ def get_glass_data(request, version, form_id):
             temp.update({q.id: value})
         national_data.append(temp)
         year += 1
-
     return Response({'counties': counties_data, 'national': national_data},
                     status=status.HTTP_200_OK)
