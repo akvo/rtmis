@@ -8,7 +8,10 @@ import { jmpColorScore } from "../../../lib";
 const ChartVisual = ({ chartConfig, loading }) => {
   const { formId } = useParams();
   const { title, type, span, data, index, path, selector } = chartConfig;
-  const colorPath = String(path).replace("data", formId);
+  const colorPath =
+    selector !== "period"
+      ? String(path).replace("data", formId)
+      : String(path).replace("jmp", formId);
 
   const chartData = useMemo(() => {
     if (selector === "period") {
@@ -80,6 +83,7 @@ const ChartVisual = ({ chartConfig, loading }) => {
               top: 0,
               left: 120,
             }}
+            colorConfig={get(jmpColorScore, colorPath)}
             cumulative
           />
         ) : (
