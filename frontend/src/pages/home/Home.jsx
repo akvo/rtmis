@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Tabs, Image, Row, Space, Button, Collapse } from "antd";
+import { Row, Col, Tabs, Image, Space, Button, Collapse } from "antd";
 import { ContactForm, HomeAdministrationChart } from "../../components";
 
 import { HomeMap } from "./components";
@@ -23,7 +23,11 @@ export const Visuals = ({ current, mapValues, setMapValues }) => {
           />
         )}
       </div>
-      <Collapse bordered={false} className="chart-collapse">
+      <Collapse
+        bordered={false}
+        className="chart-collapse"
+        style={{ display: "none" }}
+      >
         <Panel
           header="Explore county-wise details"
           forceRender
@@ -73,14 +77,34 @@ const Home = () => {
   return (
     <div id="home">
       <div className="home-odd about">
-        <h1>About RUSH</h1>
-        <p>
-          The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform is a
-          real-time monitoring and information system owned by the Ministry of
-          Health. The platform aggregates quantitative and qualitative data from
-          county and national levels and facilitates data analysis, report
-          generation and visualizations.
-        </p>
+        <Row>
+          <Col span={12} style={{ borderRight: "1px solid #888" }}>
+            <h1>About RUSH</h1>
+            <p>
+              The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform is a
+              real-time monitoring and information system owned by the Ministry
+              of Health. The platform aggregates quantitative and qualitative
+              data from county and national levels and facilitates data
+              analysis, report generation and visualizations.
+            </p>
+          </Col>
+          <Col span={12}>
+            <h1>Partners</h1>
+            <Row align="middle" justify="center" style={{ marginTop: "24px" }}>
+              <Space size={50} align="center">
+                {partners.map((p) => (
+                  <Image
+                    key={p}
+                    alt={p}
+                    src={`/assets/partners/${p}`}
+                    width={160}
+                    preview={false}
+                  />
+                ))}
+              </Space>
+            </Row>
+          </Col>
+        </Row>
       </div>
       <div className="home-even highlights">
         <div className="body" id="home-visualisation">
@@ -102,23 +126,7 @@ const Home = () => {
           />
         </div>
       </div>
-      <div className="home-odd partners">
-        <h1>Partners</h1>
-        <Row align="middle" justify="center" style={{ marginTop: "24px" }}>
-          <Space size={125} align="center">
-            {partners.map((p) => (
-              <Image
-                key={p}
-                alt={p}
-                src={`/assets/partners/${p}`}
-                width={200}
-                preview={false}
-              />
-            ))}
-          </Space>
-        </Row>
-      </div>
-      <div className="home-even contact">
+      <div className="home-odd contact">
         <h1>Contact Us</h1>
         <Row align="middle" justify="center">
           <Space direction="vertical" align="center">
