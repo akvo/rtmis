@@ -2,9 +2,9 @@ import { render, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import axios from "axios";
 import Organisations from "../Organisations";
-// import AddOrganisation from "../add-organisation/AddOrganisation";
 import { MemoryRouter } from "react-router-dom";
-import { userEvent } from "@testing-library/user-event";
+import { act } from "react-dom/test-utils";
+import TestApp from "../../../TestApp";
 
 jest.mock("axios");
 
@@ -21,7 +21,6 @@ window.matchMedia =
       dispatchEvent: jest.fn(),
     };
   };
-
 
 describe("components/Organisation", () => {
   test("test Manage organisation", async () => {
@@ -45,6 +44,14 @@ describe("components/Organisation", () => {
 
     axios.mockResolvedValue({ status: 200, dataset: fakeData });
 
+    await act(async () => {
+      render(<TestApp entryPoint={"/organisations"} />);
+    });
+
+    expect(fakeData?.[0]?.id).toBeDefined();
+    expect(fakeData?.[0]?.name).toBeDefined();
+    expect(fakeData?.[0]?.users).toBeDefined();
+
     // Input search
     jest.fn(() => {});
     const searchInput = queryByPlaceholderText("Search...");
@@ -57,23 +64,6 @@ describe("components/Organisation", () => {
     );
     fireEvent.click(select, { target: { value: "1" } });
     expect(select.value).toBe("1");
-
-    // Edit
-    // const edit = screen.getByText(/EDIT/i).closest("a");
-    // expect(edit).toHaveAttribute("href", "/organisation/1")
-    // userEvent.click(edit, { button: 0});
-    // await waitFor(() => {
-    //   const { baseElements } = render(<AddOrganisation />, { wrapper: MemoryRouter});
-    //   expect(baseElements).toMatchSnapshot();
-    // });
-
-    // Delete
-    // fireEvent.click(getByTestId("delete"));
-    // await waitFor(() => {
-    //   expect(
-    //     container.querySelector(".organisation-modal")
-    //   ).toBeDefined();
-    // });
 
     expect(container).toMatchSnapshot();
   });
