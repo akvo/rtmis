@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Tabs, Image, Row, Space, Button } from "antd";
+import { Tabs, Image, Row, Space, Button, Collapse } from "antd";
 import { ContactForm, HomeAdministrationChart } from "../../components";
 
 import { HomeMap } from "./components";
@@ -8,6 +8,7 @@ import { queue, store } from "../../lib";
 const { TabPane } = Tabs;
 
 const partners = ["us-aid.png", "japan.png", "unicef.png"];
+const { Panel } = Collapse;
 
 export const Visuals = ({ current, mapValues, setMapValues }) => {
   return (
@@ -22,21 +23,29 @@ export const Visuals = ({ current, mapValues, setMapValues }) => {
           />
         )}
       </div>
-      <div className="chart-wrapper">
-        {current?.charts?.map(
-          (hc, hcI) =>
-            (hc.type === "ADMINISTRATION" || hc.type === "CRITERIA") && (
-              <HomeAdministrationChart
-                key={`chart-${hc.id}-${hcI}`}
-                formId={hc.form_id}
-                setup={hc}
-                index={hcI + 1}
-                setMapValues={setMapValues}
-                identifier={current?.name}
-              />
-            )
-        )}
-      </div>
+      <Collapse bordered={false} className="chart-collapse">
+        <Panel
+          header="Explore county-wise details"
+          forceRender
+          className="chart-panel"
+        >
+          <div className="chart-wrapper">
+            {current?.charts?.map(
+              (hc, hcI) =>
+                (hc.type === "ADMINISTRATION" || hc.type === "CRITERIA") && (
+                  <HomeAdministrationChart
+                    key={`chart-${hc.id}-${hcI}`}
+                    formId={hc.form_id}
+                    setup={hc}
+                    index={hcI + 1}
+                    setMapValues={setMapValues}
+                    identifier={current?.name}
+                  />
+                )
+            )}
+          </div>
+        </Panel>
+      </Collapse>
     </div>
   );
 };
