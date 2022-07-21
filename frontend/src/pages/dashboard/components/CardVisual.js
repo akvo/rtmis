@@ -20,7 +20,6 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
     type,
     path,
     calc,
-    span,
     data,
     index,
     color,
