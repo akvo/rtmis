@@ -42,7 +42,7 @@ const Maps = ({ loading, mapConfig, style = {}, dontZoom }) => {
       return `${prefix} ${ttl}`;
     }
     return `${prefix} ${title}`;
-  }, [indicatorPath]);
+  }, [indicatorPath, calc, title]);
 
   const currentAdministration =
     administration.length < 4
@@ -77,7 +77,7 @@ const Maps = ({ loading, mapConfig, style = {}, dontZoom }) => {
       });
       setResults(results);
     }
-  }, [data, path, indicatorPath]);
+  }, [data, calc, path, indicatorPath]);
 
   const total = useMemo(() => {
     return sumBy(results, "value");
