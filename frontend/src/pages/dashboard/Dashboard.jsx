@@ -219,7 +219,7 @@ const Dashboard = () => {
               return (
                 <Row
                   key={`row-${index}`}
-                  className="row-wrapper"
+                  className="flexible-container row-wrapper"
                   gutter={[10, 10]}
                 >
                   {row.map((r, ri) => renderColumn(r, ri))}

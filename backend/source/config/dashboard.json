@@ -22,7 +22,7 @@
               "calc": "count",
               "path": "length",
               "span": 4,
-              "icon": "administrative-unit.svg",
+              "icon": "counties.svg",
               "color": "#FFDBBF"
             },
             {
@@ -31,7 +31,7 @@
               "calc": "percent",
               "path": "data.sanitation service level.safely managed",
               "span": 4,
-              "icon": "sanitation.svg",
+              "icon": "safely-managed.svg",
               "color": "#FFF8BF"
             },
             {
@@ -50,7 +50,7 @@
               "path": null,
               "span": 4,
               "icon": "sanitation.svg",
-              "color": "#FFF8BF"
+              "color": "#99BF9A"
             },
             {
               "type": "card",
@@ -59,7 +59,7 @@
               "path": null,
               "span": 4,
               "icon": "hand-hygiene.svg",
-              "color": "#BFF7FF"
+              "color": "#F1DBB5"
             }
           ],
           [
@@ -105,6 +105,7 @@
               "title": "% of HHs with Safely managed sanitation",
               "calc": "percent",
               "path": "data.sanitation service level.safely managed",
+              "icon": "safely-managed.svg",
               "span": 6
             },
             {
@@ -244,7 +245,7 @@
               "calc": "count",
               "path": "length",
               "span": 6,
-              "icon": "administrative-unit.svg",
+              "icon": "counties.svg",
               "color": "#FFDBBF"
             },
             {
@@ -523,7 +524,7 @@
               "calc": "count",
               "path": "length",
               "span": 5,
-              "icon": "administrative-unit.svg",
+              "icon": "counties.svg",
               "color": "#FFDBBF"
             },
             {
@@ -817,7 +818,7 @@
               "from": "counties",
               "path": "length",
               "span": 4,
-              "icon": null
+              "icon": "counties.svg"
             },
             {
               "type": "card",
