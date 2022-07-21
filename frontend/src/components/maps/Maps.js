@@ -4,13 +4,15 @@ import ShapeLegend from "./ShapeLegend";
 import { MapContainer, TileLayer, GeoJSON, Tooltip } from "react-leaflet";
 import { store, geo, config } from "../../lib";
 import { get, takeRight, sumBy } from "lodash";
-import { Spin, Space, Button, Col } from "antd";
+import { Spin, Space, Button, Col, Select } from "antd";
 import "leaflet/dist/leaflet.css";
 import {
   ZoomInOutlined,
   ZoomOutOutlined,
   FullscreenOutlined,
 } from "@ant-design/icons";
+
+const { Option, OptGroup } = Select;
 
 const { tile, defaultPos, getColorScale, getBounds, getGeometry } = geo;
 const defPos = defaultPos();
@@ -23,6 +25,7 @@ const Maps = ({ loading, mapConfig, style = {}, dontZoom }) => {
   // config
   const { data, title, calc, path, span, type, index } = mapConfig;
   const { administration } = store.useState((s) => s);
+  const [indicatorPath, setIndicatorPath] = useState(null);
   const [maps, setMaps] = useState(null);
   const [currentPolygon, setCurrentPolygon] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(null);
@@ -52,19 +55,19 @@ const Maps = ({ loading, mapConfig, style = {}, dontZoom }) => {
     if (data.length) {
       const results = data.map((x) => ({
         name: x.loc,
-        value: get(x, path) || 0,
+        value: get(x, indicatorPath || path) || 0,
       }));
       setResults(results);
     }
-  }, [data, path]);
+  }, [data, path, indicatorPath]);
 
   const total = useMemo(() => {
     return sumBy(results, "value");
   }, [results]);
 
   const colorScale = getColorScale({
-    colors: results,
     method: calc,
+    colors: results,
     colorRange: colorRange,
   });
 
@@ -169,6 +172,18 @@ const Maps = ({ loading, mapConfig, style = {}, dontZoom }) => {
     );
   };
 
+  const indicators = useMemo(() => {
+    if (data?.[0]?.data) {
+      return Object.keys(data[0].data).map((i) => {
+        return {
+          name: i,
+          childrens: Object.keys(data[0].data[i]),
+        };
+      });
+    }
+    return [];
+  }, [data]);
+
   return (
     <Col className="map-container" span={span} key={`col-${type}-${index}`}>
       {loading && (
@@ -176,6 +191,31 @@ const Maps = ({ loading, mapConfig, style = {}, dontZoom }) => {
           <Spin />
         </div>
       )}
+      <div className="indicator-selector">
+        {indicators.length ? (
+          <Select
+            defaultValue={path}
+            style={{ width: 300, textAlign: "left" }}
+            onChange={setIndicatorPath}
+            className="indicator-dropdown"
+          >
+            <Option key={"total"} value={"total"}>
+              Total
+            </Option>
+            {indicators.map((i) => (
+              <OptGroup key={i.name} label={i.name}>
+                {i.childrens.map((c) => (
+                  <Option key={`${i.name}-${c}`} value={`data.${i.name}.${c}`}>
+                    {c}
+                  </Option>
+                ))}
+              </OptGroup>
+            ))}
+          </Select>
+        ) : (
+          ""
+        )}
+      </div>
       <div className="map-buttons">
         <Space size="small" direction="vertical">
           <Button
