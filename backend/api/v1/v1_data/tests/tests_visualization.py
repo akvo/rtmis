@@ -236,7 +236,9 @@ class DataVisualisationTestCase(TestCase):
         # LAST UPDATE
         data = self.client.get("/api/v1/submission/period/{0}".format(form.id))
         self.assertEqual(data.status_code, 200)
-        self.assertEqual(list(data.json()[0]), ["name", "value", "total"])
+        self.assertEqual(
+                list(data.json()[0]),
+                ["name", "value", "total", "jmp"])
 
         # GLAAS API
         url = f"/api/v1/glaas/{form.id}"
