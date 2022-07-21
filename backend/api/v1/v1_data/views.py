@@ -1367,15 +1367,17 @@ def get_glaas_data(request, version, form_id):
     form_data = form_datas.filter(administration_id=1)
     # arbitrary starting dates
     first_fd = form_data.order_by('created').first()
-    year = first_fd.created.year
-    cyear = date.today().year
-    while year <= cyear:
-        form_data_ids = form_data.filter(
-            created__year=year).values_list('id', flat=True)
-        temp = {'year': year}
-        temp = transform_glass_answer(
-            temp=temp, questions=national_questions, data_ids=form_data_ids)
-        national_data.append(temp)
-        year += 1
+    if first_fd:
+        year = first_fd.created.year
+        cyear = date.today().year
+        while year <= cyear:
+            form_data_ids = form_data.filter(
+                created__year=year).values_list('id', flat=True)
+            temp = {'year': year}
+            temp = transform_glass_answer(
+                temp=temp, questions=national_questions,
+                data_ids=form_data_ids)
+            national_data.append(temp)
+            year += 1
     return Response({'counties': counties_data, 'national': national_data},
                     status=status.HTTP_200_OK)
