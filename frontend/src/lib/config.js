@@ -820,7 +820,7 @@ const config = {
       },
     },
   ],
-  allowedGlobal: ["/dashboard/"],
+  allowedGlobal: ["/dashboard/", "/glaas/"],
   fn: {
     administration: (id, withchildren = true) => {
       const useradm = window.dbadm.find((i) => i.id === id);

@@ -30,6 +30,13 @@ const Dashboard = () => {
   }, [activeLang]);
 
   useEffect(() => {
+    store.update((s) => {
+      s.administration = [config.fn.administration(1)];
+    });
+    setWait(false);
+  }, []);
+
+  useEffect(() => {
     if (selectedForm?.id) {
       store.update((s) => {
         s.questionGroups = selectedForm.content.question_group;
@@ -38,13 +45,6 @@ const Dashboard = () => {
       setActiveItem(current?.tabs?.["overview"]);
     }
   }, [selectedForm, current]);
-
-  useEffect(() => {
-    store.update((s) => {
-      s.administration = [config.fn.administration(1)];
-    });
-    setWait(false);
-  }, []);
 
   useEffect(() => {
     if (formId && !wait) {
