@@ -169,19 +169,23 @@ const App = () => {
     .map((x) => location.pathname.includes(x))
     .filter((x) => x)?.length;
 
-  document.addEventListener("click", () => {
-    if (isLoggedIn && authUser?.last_login) {
-      const expired = timeDiffHours(authUser.last_login);
-      if (expired >= 4) {
-        eraseCookieFromAllPaths("AUTH_TOKEN");
-        store.update((s) => {
-          s.isLoggedIn = false;
-          s.user = null;
-        });
-        navigate("login");
+  document.addEventListener(
+    "click",
+    () => {
+      if (isLoggedIn && authUser?.last_login) {
+        const expired = timeDiffHours(authUser.last_login);
+        if (expired >= 4) {
+          eraseCookieFromAllPaths("AUTH_TOKEN");
+          store.update((s) => {
+            s.isLoggedIn = false;
+            s.user = null;
+          });
+          navigate("login");
+        }
       }
-    }
-  });
+    },
+    { passive: true }
+  );
 
   // detect location change to reset advanced filters
   useEffect(() => {

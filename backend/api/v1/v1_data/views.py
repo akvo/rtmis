@@ -1183,11 +1183,18 @@ def get_jmp_data(request, version, form_id):
         administration = administration_obj.filter(pk=adm_filter.pk)
     administration = administration.all()
     jmp_data = []
+
+    # JMP Criteria
+    criteria_cache = f"jmp-criteria-{form.id}"
+    criteria = get_cache(criteria_cache)
+    if not criteria:
+        criteria = ViewJMPCriteria.objects.filter(
+                form=form).distinct('name', 'level').all()
+        create_cache(criteria_cache, criteria)
+
     for adm in administration:
         temp = defaultdict(dict)
         adm_path = '{0}{1}.'.format(adm.path, adm.id)
-        criteria = ViewJMPCriteria.objects.filter(
-            form=form).distinct('name', 'level').all()
         # if adm last level
         filter_total = {'form': form}
         if adm.level_id < 4:
@@ -1201,10 +1208,16 @@ def get_jmp_data(request, version, form_id):
             for crt in criteria:
                 data = 0
                 if data_ids:
-                    matches = ViewJMPCriteria.objects.filter(
-                        form=form,
-                        name=crt.name,
-                        level=crt.level).count()
+                    # JMP Criteria
+                    matches_name = f"crt.{form.id}{crt.name}{crt.level}"
+                    matches = get_cache(matches_name)
+                    if not matches:
+                        matches = ViewJMPCriteria.objects.filter(
+                                form=form,
+                                name=crt.name,
+                                level=crt.level).count()
+                        create_cache(matches_name, matches)
+
                     data = ViewJMPData.objects.filter(
                         data_id__in=data_ids,
                         path__startswith=adm_path,
@@ -1307,8 +1320,12 @@ def get_period_submission(request, version, form_id):
                 administration__path__startswith=adm_path)
 
     # JMP Criteria
-    criteria = ViewJMPCriteria.objects.filter(
-            form=form).distinct('name', 'level').all()
+    criteria_cache = f"jmp-criteria-{form.id}"
+    criteria = get_cache(criteria_cache)
+    if not criteria:
+        criteria = ViewJMPCriteria.objects.filter(
+                form=form).distinct('name', 'level').all()
+        create_cache(criteria_cache, criteria)
 
     data = []
     while year <= cyear:
@@ -1321,10 +1338,16 @@ def get_period_submission(request, version, form_id):
             fdp = fdp.aggregate(Count('id'))
             jmp_data = defaultdict(dict)
             for crt in criteria:
-                matches = ViewJMPCriteria.objects.filter(
-                        form=form,
-                        name=crt.name,
-                        level=crt.level).count()
+                # JMP Criteria
+                matches_name = f"crt.{form.id}{crt.name}{crt.level}"
+                matches = get_cache(matches_name)
+                if not matches:
+                    matches = ViewJMPCriteria.objects.filter(
+                            form=form,
+                            name=crt.name,
+                            level=crt.level).count()
+                    create_cache(matches_name, matches)
+
                 jmp = ViewJMPData.objects.filter(
                         data_id__in=fdp_ids,
                         data__created__year=year,
@@ -1342,7 +1365,6 @@ def get_period_submission(request, version, form_id):
                 'total': total,
                 'jmp': jmp_data
             })
-            del jmp_data
             month += 1
         month = 1
         year += 1

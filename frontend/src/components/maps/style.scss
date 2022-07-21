@@ -47,6 +47,14 @@
   z-index: 0;
   height: 600px;
 
+  .indicator-selector {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    z-index: 999;
+    text-transform: capitalize;
+  }
+
   .map-buttons {
     position: absolute;
     right: 24px;
@@ -97,10 +105,10 @@
 
 .shape-legend {
   position: absolute;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  width: 100%;
+  bottom: 20px;
+  left: 5px;
+  right: 0;
+  width: calc(100% - 10px);
   z-index: 2;
   background-color: #fffe;
   padding: 8px 12px;
@@ -123,6 +131,10 @@
         color: #fff;
       }
     }
+  }
+
+  h4 {
+    margin-top: 0px !important;
   }
 }
 

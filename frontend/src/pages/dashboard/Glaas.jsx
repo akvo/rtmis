@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { useParams } from "react-router-dom";
-import { Row, Col, Tabs, Affix } from "antd";
+import { Row, Col, Tabs, Affix, Select } from "antd";
 import { uiText, store, config, api } from "../../lib";
 import { capitalize } from "lodash";
 import { CardVisual, TableVisual, ChartVisual } from "./components";
@@ -24,6 +24,9 @@ const Dashboard = () => {
   const { notify } = useNotification();
 
   const { active: activeLang } = store.useState((s) => s.language);
+  const countiesAdm = window.dbadm.filter((d) => d.parent === 1);
+  const [selectedCounty, setSelectedCounty] = useState(null);
+  const [allData, setAllData] = useState([]);
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -59,6 +62,7 @@ const Dashboard = () => {
         .get(url)
         .then((res) => {
           setDataset(res.data);
+          setAllData(res.data);
         })
         .catch(() => {
           notify({
@@ -72,6 +76,21 @@ const Dashboard = () => {
       setLoading(false);
     }
   }, [formId, text, wait, current, notify]);
+
+  useEffect(() => {
+    if (!selectedCounty && !Object.keys(dataset).length) {
+      setDataset(allData);
+    }
+    if (selectedCounty && !Object.keys(dataset).length) {
+      const countyName = window.dbadm
+        .find((d) => d.id === selectedCounty)
+        ?.name?.toLowerCase();
+      const filterCounties = allData.counties.filter(
+        (c) => c.loc.toLowerCase() === countyName
+      );
+      setDataset({ ...allData, counties: filterCounties });
+    }
+  }, [allData, selectedCounty, dataset]);
 
   const changeTab = (tabKey) => {
     setActiveTab(tabKey);
@@ -102,6 +121,7 @@ const Dashboard = () => {
               index: index,
             }}
             loading={loading}
+            dontZoom
           />
         );
       case "table":
@@ -138,6 +158,34 @@ const Dashboard = () => {
       <Affix className="sticky-wrapper">
         <div className="page-title-wrapper">
           <h1>{`${selectedForm.name} Data`}</h1>
+        </div>
+        <div className="county-filter-wrapper">
+          <Select
+            placeholder="Select County"
+            style={{ width: 200 }}
+            onChange={(e) => {
+              setDataset({});
+              setSelectedCounty(e);
+            }}
+            onClear={() => {
+              setDataset({});
+              setSelectedCounty(null);
+            }}
+            getPopupContainer={(trigger) => trigger.parentNode}
+            dropdownMatchSelectWidth={false}
+            value={selectedCounty || []}
+            disabled={!countiesAdm.length}
+            allowClear
+            showSearch
+            filterOption={true}
+            optionFilterProp="children"
+          >
+            {countiesAdm.map((optionValue, optionIdx) => (
+              <Select.Option key={optionIdx} value={optionValue.id}>
+                {optionValue.name}
+              </Select.Option>
+            ))}
+          </Select>
         </div>
         <div className="tab-wrapper">
           {current?.tabs && (

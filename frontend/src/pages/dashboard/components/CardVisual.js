@@ -20,7 +20,6 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
     type,
     path,
     calc,
-    span,
     data,
     index,
     color,
@@ -81,10 +80,9 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
   return (
     <Col
       key={`col-${type}-${index}`}
-      className="overview-card"
+      className="flexible-columns overview-card"
       align="center"
       justify="space-between"
-      span={span}
     >
       <Card
         style={{
@@ -104,7 +102,7 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
             <Col flex="40%" align="end">
               <Image
                 src={`/assets/dashboard/${icon}`}
-                height={45}
+                height={60}
                 preview={false}
                 alt={icon}
               />

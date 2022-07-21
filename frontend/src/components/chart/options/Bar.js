@@ -57,7 +57,7 @@ const Bar = (
     tooltip: {
       show: true,
       trigger: "item",
-      formatter: "{b}",
+      formatter: '<div class="no-border">{b}</div>',
       padding: 5,
       backgroundColor: "#f2f2f2",
       ...TextStyle,

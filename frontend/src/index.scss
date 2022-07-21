@@ -136,17 +136,32 @@ body {
                 &:not(.ant-table-container) {
                   margin-right: 0px !important;
                   border-radius: 4px !important;
-                  padding: 2px 10px !important;
                   text-transform: uppercase;
-                  background: #fff !important;
-                  color: #000 !important;
-                  border: 1px solid #ddd !important;
+                  color: #253239 !important;
+                  background-color: #fff !important;
+                  font-weight: 500;
                 }
               }
             }
           }
         }
       }
+    }
+  }
+
+  .ant-select-dropdown {
+    .ant-select-item {
+      &.ant-select-item-group {
+        text-transform: capitalize;
+      }
+
+      &.ant-select-item-option {
+        text-transform: capitalize;
+      }
+    }
+
+    .ant-select-item-option-content {
+      text-transform: capitalize;
     }
   }
 }
