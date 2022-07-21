@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import ShapeLegend from "./ShapeLegend";
 import { MapContainer, TileLayer, GeoJSON, Tooltip } from "react-leaflet";
-import { store, geo } from "../../lib";
+import { store, geo, config } from "../../lib";
 import { get, takeRight, sumBy } from "lodash";
 import { Spin, Space, Button, Col } from "antd";
 import "leaflet/dist/leaflet.css";
@@ -134,6 +134,19 @@ const Maps = ({ loading, mapConfig, style = {} }) => {
 
   const onEachFeature = (feature, layer) => {
     layer.on({
+      click: () => {
+        const shapeName = feature.properties?.[`NAME_${level + 1}`];
+        const shapeInfo = currentAdministration.children.find(
+          (x) => x.name === shapeName
+        );
+        store.update((s) => {
+          s.administration.length = index + 1;
+          s.administration = [
+            ...administration,
+            config.fn.administration(shapeInfo.id),
+          ];
+        });
+      },
       mouseover: () => setHovered(feature?.properties),
       mouseout: () => setHovered(null),
     });

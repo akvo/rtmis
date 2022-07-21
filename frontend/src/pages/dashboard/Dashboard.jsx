@@ -48,6 +48,9 @@ const Dashboard = () => {
     if (level === 2) {
       name = { plural: "Wards", singular: "Ward" };
     }
+    if (level === 3) {
+      name = { plural: "Ward", singular: "Ward" };
+    }
     return name;
   }, [currentAdministration]);
 
