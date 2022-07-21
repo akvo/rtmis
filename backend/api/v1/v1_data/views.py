@@ -43,10 +43,11 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListMapOverviewDataPointRequestSerializer
 from api.v1.v1_data.functions import refresh_materialized_data, \
     get_cache, create_cache, filter_by_criteria, \
-    get_questions_options_from_params, get_advance_filter_data_ids
+    get_questions_options_from_params, get_advance_filter_data_ids, \
+    transform_glass_answer
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, Questions, \
-        ViewJMPCriteria
+    ViewJMPCriteria
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -1300,3 +1301,83 @@ def get_period_submission(request, version, form_id):
         month = 1
         year += 1
     return Response(data, status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    responses={(200, 'application/json'): inline_serializer(
+        'ListGlaasData', fields={
+            'counties': serializers.ListField(),
+            'national': serializers.ListField(),
+        })},
+    examples=[
+        OpenApiExample(
+            'ListGlaasDataExample',
+            value=[{
+                'counties': [{
+                    'loc': 'Baringo',
+                    'qid': 'answer'
+                }],
+                'national': [{
+                    'year': '2022',
+                    'qid': 'answer'
+                }]
+            }])
+    ],
+    parameters=[
+        OpenApiParameter(
+            name='counties_questions',
+            required=True,
+            type={'type': 'array',
+                  'items': {'type': 'number'}},
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='national_questions',
+            required=True,
+            type={'type': 'array',
+                  'items': {'type': 'number'}},
+            location=OpenApiParameter.QUERY)],
+    tags=['Visualisation'],
+    summary='To get Glaas data')
+@api_view(['GET'])
+def get_glaas_data(request, version, form_id):
+    form = get_object_or_404(Forms, pk=form_id)
+    administration = Administration.objects.filter(
+        level_id=2).all()
+    questions = Questions.objects.filter(form=form)
+    form_datas = FormData.objects.filter(form=form)
+
+    # get counties data
+    counties_questions = questions.filter(
+        pk__in=request.GET.getlist('counties_questions')).all()
+    counties_data = []
+    for adm in administration:
+        form_data_ids = form_datas.filter(
+            administration_id=adm.id).values_list('id', flat=True)
+        if not form_data_ids:
+            continue
+        temp = {'loc': adm.name}
+        temp = transform_glass_answer(
+            temp=temp, questions=counties_questions, data_ids=form_data_ids)
+        counties_data.append(temp)
+
+    # get national data
+    national_questions = questions.filter(
+        pk__in=request.GET.getlist('national_questions')).all()
+    national_data = []
+    form_data = form_datas.filter(administration_id=1)
+    # arbitrary starting dates
+    first_fd = form_data.order_by('created').first()
+    if first_fd:
+        year = first_fd.created.year
+        cyear = date.today().year
+        while year <= cyear:
+            form_data_ids = form_data.filter(
+                created__year=year).values_list('id', flat=True)
+            temp = {'year': year}
+            temp = transform_glass_answer(
+                temp=temp, questions=national_questions,
+                data_ids=form_data_ids)
+            national_data.append(temp)
+            year += 1
+    return Response({'counties': counties_data, 'national': national_data},
+                    status=status.HTTP_200_OK)
