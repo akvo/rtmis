@@ -182,34 +182,36 @@ const Dashboard = () => {
   return (
     <div id="dashboard">
       <Affix className="sticky-wrapper">
-        <div className="page-title-wrapper">
-          <h1>{`${prefixText} ${selectedForm.name} Data`}</h1>
-        </div>
-        <VisualisationFilters showFormOptions={false} />
-        <div className="tab-wrapper">
-          {current?.tabs && (
-            <Tabs
-              activeKey={activeTab}
-              onChange={changeTab}
-              type="card"
-              tabBarGutter={10}
-            >
-              {Object.keys(current.tabs).map((key) => {
-                let tabName = key;
-                if (
-                  !["jmp", "glaas", "rush"].includes(key.toLocaleLowerCase())
-                ) {
-                  tabName = key
-                    .split("_")
-                    .map((x) => capitalize(x))
-                    .join(" ");
-                } else {
-                  tabName = key.toUpperCase();
-                }
-                return <TabPane tab={tabName} key={key}></TabPane>;
-              })}
-            </Tabs>
-          )}
+        <div>
+          <div className="page-title-wrapper">
+            <h1>{`${prefixText} ${selectedForm.name} Data`}</h1>
+          </div>
+          <VisualisationFilters showFormOptions={false} />
+          <div className="tab-wrapper">
+            {current?.tabs && (
+              <Tabs
+                activeKey={activeTab}
+                onChange={changeTab}
+                type="card"
+                tabBarGutter={10}
+              >
+                {Object.keys(current.tabs).map((key) => {
+                  let tabName = key;
+                  if (
+                    !["jmp", "glaas", "rush"].includes(key.toLocaleLowerCase())
+                  ) {
+                    tabName = key
+                      .split("_")
+                      .map((x) => capitalize(x))
+                      .join(" ");
+                  } else {
+                    tabName = key.toUpperCase();
+                  }
+                  return <TabPane tab={tabName} key={key}></TabPane>;
+                })}
+              </Tabs>
+            )}
+          </div>
         </div>
       </Affix>
       <Row className="main-wrapper" align="center">
