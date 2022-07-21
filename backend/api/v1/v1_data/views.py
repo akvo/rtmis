@@ -1181,7 +1181,6 @@ def get_jmp_data(request, version, form_id):
             parent_id=administration)
     else:
         administration = administration_obj.filter(pk=adm_filter.pk)
-    adm_count = administration.count()
     administration = administration.all()
     jmp_data = []
     for adm in administration:
@@ -1224,8 +1223,7 @@ def get_jmp_data(request, version, form_id):
             jmp_data.append({
                 "loc": adm.name,
                 "data": temp,
-                "total": total,
-                "administration_count": adm_count})
+                "total": total})
     return Response(jmp_data, status=status.HTTP_200_OK)
 
 
