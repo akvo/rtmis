@@ -43,10 +43,11 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListMapOverviewDataPointRequestSerializer
 from api.v1.v1_data.functions import refresh_materialized_data, \
     get_cache, create_cache, filter_by_criteria, \
-    get_questions_options_from_params, get_advance_filter_data_ids
+    get_questions_options_from_params, get_advance_filter_data_ids, \
+    transform_glass_answer
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, Questions, \
-    ViewJMPCriteria, QuestionOptions
+    ViewJMPCriteria
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -1350,32 +1351,13 @@ def get_glaas_data(request, version, form_id):
         pk__in=request.GET.getlist('counties_questions')).all()
     counties_data = []
     for adm in administration:
-        temp = {'loc': adm.name}
-        form_data = form_datas.filter(
+        form_data_ids = form_datas.filter(
             administration_id=adm.id).values_list('id', flat=True)
-        if not form_data:
+        if not form_data_ids:
             continue
-        for q in counties_questions:
-            value = None
-            answers = Answers.objects.filter(
-                question_id=q.id, data_id__in=form_data)
-            if q.type == QuestionTypes.option:
-                options = QuestionOptions.objects.filter(
-                    question_id=q.id).values_list('name', flat=True)
-                value = {opt: 0 for opt in options}
-                answers = answers.values(
-                    'options').annotate(count=Count('options'))
-                for a in answers:
-                    key = a.get('options')[0]
-                    prev = value.get(key)
-                    value[key] = prev + a.get('count')
-            if q.type == QuestionTypes.number:
-                value = 0
-                answers = answers.values(
-                    'value').annotate(sum=Sum('value'))
-                for a in answers:
-                    value += a.get('sum')
-            temp.update({q.id: value})
+        temp = {'loc': adm.name}
+        temp = transform_glass_answer(
+            temp=temp, questions=counties_questions, data_ids=form_data_ids)
         counties_data.append(temp)
 
     # get national data
@@ -1388,30 +1370,11 @@ def get_glaas_data(request, version, form_id):
     year = first_fd.created.year
     cyear = date.today().year
     while year <= cyear:
-        fd_ids = form_data.filter(
+        form_data_ids = form_data.filter(
             created__year=year).values_list('id', flat=True)
         temp = {'year': year}
-        for q in national_questions:
-            value = None
-            answers = Answers.objects.filter(
-                question_id=q.id, data_id__in=fd_ids)
-            if q.type == QuestionTypes.option:
-                options = QuestionOptions.objects.filter(
-                    question_id=q.id).values_list('name', flat=True)
-                value = {opt: 0 for opt in options}
-                answers = answers.values(
-                    'options').annotate(count=Count('options'))
-                for a in answers:
-                    key = a.get('options')[0]
-                    prev = value.get(key)
-                    value[key] = prev + a.get('count')
-            if q.type == QuestionTypes.number:
-                value = 0
-                answers = answers.values(
-                    'value').annotate(sum=Sum('value'))
-                for a in answers:
-                    value += a.get('sum')
-            temp.update({q.id: value})
+        temp = transform_glass_answer(
+            temp=temp, questions=national_questions, data_ids=form_data_ids)
         national_data.append(temp)
         year += 1
     return Response({'counties': counties_data, 'national': national_data},
