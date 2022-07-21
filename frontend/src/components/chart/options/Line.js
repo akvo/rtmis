@@ -12,7 +12,14 @@ import {
 } from "./common";
 import { isEmpty, get } from "lodash";
 
-const Line = (data, chartTitle, excelFile, cumulative = false, extra = {}) => {
+const Line = (
+  data,
+  chartTitle,
+  excelFile,
+  cumulative = false,
+  extra = {},
+  colorConfig = {}
+) => {
   if (isEmpty(data)) {
     return NoData;
   }
@@ -25,11 +32,21 @@ const Line = (data, chartTitle, excelFile, cumulative = false, extra = {}) => {
         []
       );
     }
-    return {
+    let res = {
       data: dataSeries,
       name: s,
       type: "line",
     };
+    const color = colorConfig?.[s]?.color;
+    if (color) {
+      res = {
+        ...res,
+        itemStyle: {
+          color: color,
+        },
+      };
+    }
+    return res;
   });
   const labels = data.map((x) => x.name);
   const option = {
