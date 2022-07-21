@@ -60,8 +60,8 @@ const uiText = {
         url: "https://washdata.org/how-we-work/about-jmp#:~:text=Background,hygiene%20(WASH)%20since%201990",
       },
       {
-        text: "CLTS",
-        url: "https://www.communityledtotalsanitation.org/country/kenya",
+        text: "CLTS RTMIS",
+        url: " http://wash.health.go.ke/clts/index.jsp",
       },
       {
         text: "GLAAS",
