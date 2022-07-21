@@ -242,6 +242,13 @@ class DataVisualisationTestCase(TestCase):
                 ["criteria 1", "criteria 2"],
                 list(data[0]["jmp"]["example criteria"]))
 
+        # JMP - Dashboard visualisation
+        url = f"/api/v1/jmp/{form.id}?administration=1"
+        data = self.client.get(url, content_type='application/json')
+        self.assertEqual(data.status_code, 200)
+        self.assertEqual(list(data.json()[0]),
+                         ['loc', 'data', 'total', 'administration_count'])
+
         # GLAAS API
         url = f"/api/v1/glaas/{form.id}"
         url = f"{url}?counties_questions=102&national_questions=109"

@@ -44,9 +44,15 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
       };
     }
     if (calc === "count" && path === "length") {
+      // counties count card
+      const administration_count = data[0].administration_count;
+      const administration_reported = data.length;
+      const adm_percent = Math.round(
+        (administration_reported / administration_count) * 100
+      );
       return {
         title: title,
-        value: data.length,
+        value: `${administration_reported} (${adm_percent}%)`,
       };
     }
     if (calc === "tail") {
@@ -58,10 +64,10 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
     if (calc === "percent") {
       const totalData = customTotal || sum(data.map((d) => d.total));
       const sumLevel = sum(transform);
-      const percent = (sumLevel / totalData) * 100;
+      const percent = Math.round((sumLevel / totalData) * 100);
       return {
         title: title,
-        value: `${Math.round(percent)}%`,
+        value: `${percent}%`,
       };
     }
   }, [data, calc, path, title, customTotal]);
