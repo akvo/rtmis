@@ -169,12 +169,29 @@ const getDataColumns = (option, category) => {
   return { columns: columns, data: data };
 };
 
-export const optionToContent = ({
-  option,
-  category = "category",
-  suffix = "",
-}) => {
-  const { columns, data } = getDataColumns(option, category);
+const getDataLineColumns = (series, data, category) => {
+  let columns = series.map((s) => s.name);
+  data = data?.map((x, xi) => {
+    return series.reduce(
+      (prev, current) => {
+        return { ...prev, [current.name]: current.data[xi] };
+      },
+      { [category]: x }
+    );
+  });
+  columns = [category, ...columns];
+  return { columns: columns, data: data };
+};
+
+export const optionToContent = (
+  { series, xAxis, option, category = "category", suffix = "" },
+  chartType = "NORMAL"
+) => {
+  const { columns, data } =
+    chartType === "LINE"
+      ? getDataLineColumns(series, xAxis?.[0]?.data || [], category)
+      : getDataColumns(option, category);
+
   let table = `<div class="ant-table ant-table-small ant-table-bordered ant-table-fixed-header ant-table-fixed-column">`;
   table += `<div class="ant-table-container">`;
   table += `<table style="table-layout: auto;">`;
@@ -201,22 +218,34 @@ export const optionToContent = ({
 
 export const downloadToExcel = (
   { option, category = "category" },
-  excelFile = ""
+  excelFile = "",
+  chartType = "NORMAL"
 ) => {
   const title = excelFile.length
     ? excelFile
     : option.title?.[0]?.text.length
     ? option.title[0].text
     : "unknown-title";
-  const { columns, data } = getDataColumns(option, category);
+
+  const { columns, data } =
+    chartType === "LINE"
+      ? getDataLineColumns(
+          option.series,
+          option.xAxis?.[0]?.data || [],
+          category
+        )
+      : getDataColumns(option, category);
+
   const tableColumns = columns.map((x) => ({
     title: x,
     key: x,
     dataIndex: x,
   }));
+
   const dataSource = data.map((x) =>
     columns.reduce((prev, current) => ({ ...prev, [current]: x[current] }), {})
   );
+
   const excel = new Excel();
   excel
     .addSheet("data")
