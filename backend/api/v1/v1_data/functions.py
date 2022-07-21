@@ -4,10 +4,11 @@ from operator import or_
 from functools import reduce
 from django.core.cache import cache
 from datetime import datetime
-from django.db.models import Q
+from django.db.models import Q, Count, Sum
 from django.db import transaction, connection
 from api.v1.v1_profile.functions import get_administration_ids_by_path
-from api.v1.v1_data.models import ViewOptions, ViewDataOptions
+from api.v1.v1_data.models import ViewOptions, ViewDataOptions, Answers
+from api.v1.v1_forms.models import QuestionOptions, QuestionTypes
 
 
 @transaction.atomic
@@ -110,3 +111,28 @@ def get_advance_filter_data_ids(form_id, administration_id, options):
             or_, [Q(options__contains=op) for op in options]))
     data = data.values_list('data_id', flat=True)
     return data
+
+
+def transform_glass_answer(temp, questions, data_ids):
+    for q in questions:
+        value = None
+        answers = Answers.objects.filter(
+            question_id=q.id, data_id__in=data_ids)
+        if q.type == QuestionTypes.option:
+            options = QuestionOptions.objects.filter(
+                question_id=q.id).values_list('name', flat=True)
+            value = {opt: 0 for opt in options}
+            answers = answers.values(
+                'options').annotate(count=Count('options'))
+            for a in answers:
+                key = a.get('options')[0]
+                prev = value.get(key)
+                value[key] = prev + a.get('count')
+        if q.type == QuestionTypes.number:
+            value = 0
+            answers = answers.values(
+                'value').annotate(sum=Sum('value'))
+            for a in answers:
+                value += a.get('sum')
+        temp.update({q.id: value})
+    return temp

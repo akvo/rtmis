@@ -19,6 +19,7 @@ const Dashboard = () => {
   const { notify } = useNotification();
 
   const [dataset, setDataset] = useState([]);
+  const [dataPeriod, setDataPeriod] = useState([]);
   const [activeTab, setActiveTab] = useState("overview");
   const [loading, setLoading] = useState(false);
   const [activeItem, setActiveItem] = useState(null);
@@ -46,6 +47,9 @@ const Dashboard = () => {
     }
     if (level === 2) {
       name = { plural: "Wards", singular: "Ward" };
+    }
+    if (level === 3) {
+      name = { plural: "Ward", singular: "Ward" };
     }
     return name;
   }, [currentAdministration]);
@@ -100,6 +104,24 @@ const Dashboard = () => {
     }
   }, [formId, currentAdministration, notify, text, advancedFilters, wait]);
 
+  useEffect(() => {
+    if (formId && dataset.length) {
+      setDataPeriod([]);
+      const url = `submission/period/${formId}?administration=${currentAdministration?.id}`;
+      api
+        .get(url)
+        .then((res) => {
+          setDataPeriod(res.data);
+        })
+        .catch(() => {
+          notify({
+            type: "error",
+            message: text.errorDataLoad,
+          });
+        });
+    }
+  }, [formId, dataset, currentAdministration, notify, text]);
+
   const changeTab = (tabKey) => {
     setActiveTab(tabKey);
     setActiveItem(current.tabs[tabKey]);
@@ -119,7 +141,11 @@ const Dashboard = () => {
         return (
           <ChartVisual
             key={index}
-            chartConfig={{ ...cfg, data: dataset, index: index }}
+            chartConfig={{
+              ...cfg,
+              data: cfg.selector === "period" ? dataPeriod : dataset,
+              index: index,
+            }}
             loading={loading}
           />
         );
@@ -171,7 +197,7 @@ const Dashboard = () => {
               {Object.keys(current.tabs).map((key) => {
                 let tabName = key;
                 if (
-                  !["jmp", "glass", "rush"].includes(key.toLocaleLowerCase())
+                  !["jmp", "glaas", "rush"].includes(key.toLocaleLowerCase())
                 ) {
                   tabName = key
                     .split("_")

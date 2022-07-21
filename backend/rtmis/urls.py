@@ -18,6 +18,7 @@ from drf_spectacular.views import SpectacularSwaggerView, SpectacularAPIView
 
 urlpatterns = [
     path('api/', include('api.v1.v1_users.urls'), name='v1_users'),
+    path('api/', include('api.v1.v1_profile.urls'), name='v1_profile'),
     path('api/', include('api.v1.v1_forms.urls'), name='v1_forms'),
     path('api/', include('api.v1.v1_data.urls'), name='v1_data'),
     path('api/', include('api.v1.v1_jobs.urls'), name='v1_jobs'),

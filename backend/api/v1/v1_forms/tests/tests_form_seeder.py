@@ -102,15 +102,21 @@ class FormSeederTestCase(TestCase):
                          response["question_group"][0]["question"][0]['name'])
         self.assertEqual(False,
                          response["question_group"][0]["question"][0]['meta'])
-        self.assertEqual(444670046,
+        self.assertEqual(5196300481,
+                         response["question_group"][0]["question"][1]['id'])
+        self.assertEqual('Organisation',
+                         response["question_group"][0]["question"][1]['name'])
+        self.assertEqual({"endpoint": "/api/v1/organisations?attributes=2"},
+                         response["question_group"][0]["question"][1]['api'])
+        self.assertEqual(517690051,
                          response["question_group"][0]["question"][2]['id'])
-        self.assertEqual('Are you willing to participate in the survey?',
+        self.assertEqual('Household code',
                          response["question_group"][0]["question"][2]['name'])
         self.assertEqual(
             ['id', 'name', 'order'],
-            list(response["question_group"][0]["question"][2]['option'][0]))
+            list(response["question_group"][0]["question"][3]['option'][0]))
         self.assertEqual(False,
-                         response["question_group"][0]["question"][2]['meta'])
+                         response["question_group"][0]["question"][3]['meta'])
 
         response = self.client.get("/api/v1/form/519630048",
                                    follow=True,

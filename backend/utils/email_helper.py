@@ -23,6 +23,7 @@ class EmailTypes:
     upload_error = 'upload_error'
     new_request = 'new_request'
     unchanged_data = 'unchanged_data'
+    feedback = 'feedback'
 
     FieldStr = {
         user_register: 'user_register',
@@ -38,7 +39,8 @@ class EmailTypes:
         pending_approval: 'pending_approval',
         upload_error: 'upload_error',
         new_request: 'new_request',
-        unchanged_data: 'unchanged_data'
+        unchanged_data: 'unchanged_data',
+        feedback: 'feedback'
     }
 
 
@@ -233,6 +235,19 @@ def email_context(context: dict, type: str):
             The approvers for this data HAVE NOT been notified.
             """,
             "explore_button": True
+        })
+    if type == EmailTypes.feedback:
+        if not context.get('subject'):
+            context.update({
+                "subject": "Feedback",
+            })
+        if not context.get('body'):
+            context.update({
+                "body": 'Example Feedback content here.',
+            })
+        context.update({
+            "image": None,
+            "explore_button": False
         })
     # prevent multiline if inside html template
     show_content = context.get('message_list') \

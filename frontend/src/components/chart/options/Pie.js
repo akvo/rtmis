@@ -4,14 +4,19 @@ import {
   Legend,
   TextStyle,
   backgroundColor,
+  Icons,
   Title,
+  DataView,
+  optionToContent,
+  downloadToExcel,
 } from "./common";
 import { isEmpty, sumBy } from "lodash";
 
 const Pie = (
   data,
   chartTitle,
-  extra,
+  excelFile,
+  extra = {},
   Doughnut = false,
   series = {},
   legend = {}
@@ -51,6 +56,33 @@ const Pie = (
     grid: {
       top: 0,
       bottom: 0,
+    },
+    toolbox: {
+      show: true,
+      showTitle: true,
+      orient: "horizontal",
+      right: 30,
+      top: 20,
+      feature: {
+        saveAsImage: {
+          type: "jpg",
+          title: "Save Image",
+          icon: Icons.saveAsImage,
+          backgroundColor: "#EAF5FB",
+        },
+        dataView: {
+          ...DataView,
+          optionToContent: optionToContent,
+        },
+        myDownload: {
+          show: true,
+          title: "Download Excel",
+          icon: Icons.download,
+          onclick: (e) => {
+            downloadToExcel(e, excelFile);
+          },
+        },
+      },
     },
     series: [
       {

@@ -8,6 +8,7 @@ import { api, store, uiText } from "../../lib";
 import { takeRight, pick } from "lodash";
 import { PageLoader, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
+import moment from "moment";
 
 const Forms = () => {
   const navigate = useNavigate();
@@ -84,8 +85,12 @@ const Forms = () => {
     )?.value;
     const data = {
       data: {
-        administration: administration ? takeRight(administration)[0] : null,
-        name: names,
+        administration: administration
+          ? takeRight(administration)[0]
+          : authUser.administration.id,
+        name: names.length
+          ? names
+          : `${authUser.administration.name} - ${moment().format("MMM YYYY")}`,
         geo: geo || null,
       },
       answer: answers
@@ -170,7 +175,7 @@ const Forms = () => {
               status="success"
               title={text?.formSuccessTitle}
               subTitle={
-                authUser?.role?.id === 1
+                [1, 2].includes(authUser?.role?.id)
                   ? text?.formSuccessSubTitleForAdmin
                   : text?.formSuccessSubTitle
               }
@@ -182,19 +187,19 @@ const Forms = () => {
                 >
                   Add New Submission
                 </Button>,
-                authUser?.role?.id !== 1 ? (
-                  <Button
-                    key="batch-button"
-                    onClick={() => navigate("/data/submissions")}
-                  >
-                    Finish and Go to Batch
-                  </Button>
-                ) : (
+                [1, 2].includes(authUser?.role?.id) ? (
                   <Button
                     key="manage-button"
                     onClick={() => navigate("/data/manage")}
                   >
                     Finish and Go to Manage Data
+                  </Button>
+                ) : (
+                  <Button
+                    key="batch-button"
+                    onClick={() => navigate("/data/submissions")}
+                  >
+                    Finish and Go to Batch
                   </Button>
                 ),
               ]}

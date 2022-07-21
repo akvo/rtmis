@@ -74,6 +74,18 @@
         box-shadow: $box-shadow;
         overflow: hidden;
       }
+
+      .chart-collapse {
+        .chart-panel {
+          padding: 10px;
+          font-weight: $font-weight-semi-bold;
+          font-size: $font-size-regular;
+          background-color: $bg-light;
+          box-shadow: $box-shadow;
+          overflow: hidden;
+          border: 0;
+        }
+      }
     }
   }
 }

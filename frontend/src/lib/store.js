@@ -25,6 +25,7 @@ const defaultUIState = {
   showAdvancedFilters: false,
   advancedFilters: [],
   administrationLevel: null,
+  showContactFormModal: false,
 };
 
 const store = new Store(defaultUIState);

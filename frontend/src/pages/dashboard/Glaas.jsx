@@ -2,11 +2,11 @@ import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { useParams } from "react-router-dom";
 import { Row, Col, Tabs, Affix } from "antd";
-import { uiText, store, config } from "../../lib";
-import example from "./example";
+import { uiText, store, config, api } from "../../lib";
 import { capitalize } from "lodash";
 import { CardVisual, TableVisual, ChartVisual } from "./components";
 import { Maps } from "../../components";
+import { useNotification } from "../../util/hooks";
 import moment from "moment";
 
 const { TabPane } = Tabs;
@@ -21,6 +21,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const [activeItem, setActiveItem] = useState(null);
   const [wait, setWait] = useState(true);
+  const { notify } = useNotification();
 
   const { active: activeLang } = store.useState((s) => s.language);
 
@@ -49,8 +50,11 @@ const Dashboard = () => {
     if (formId && !wait) {
       setDataset({});
       setLoading(true);
-      /*
-      const url = `glass/${formId}`;
+      const { counties_questions, national_questions } = current.params;
+      // generate URL
+      const countiesURL = counties_questions.join("&counties_questions=");
+      const nationalURL = national_questions.join("&national_questions=");
+      const url = `glaas/${formId}?counties_questions=${countiesURL}&national_questions=${nationalURL}`;
       api
         .get(url)
         .then((res) => {
@@ -65,11 +69,9 @@ const Dashboard = () => {
         .finally(() => {
           setLoading(false);
         });
-        */
-      setDataset(example);
       setLoading(false);
     }
-  }, [formId, text, wait]);
+  }, [formId, text, wait, current, notify]);
 
   const changeTab = (tabKey) => {
     setActiveTab(tabKey);
@@ -148,7 +150,7 @@ const Dashboard = () => {
               {Object.keys(current.tabs).map((key) => {
                 let tabName = key;
                 if (
-                  !["jmp", "glass", "rush"].includes(key.toLocaleLowerCase())
+                  !["jmp", "glaas", "rush"].includes(key.toLocaleLowerCase())
                 ) {
                   tabName = key
                     .split("_")

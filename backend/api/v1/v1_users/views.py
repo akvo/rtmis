@@ -565,6 +565,10 @@ def forgot_password(request, version):
                                     required=False,
                                     type=OpenApiTypes.NUMBER,
                                     location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='id',
+                                    required=False,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY),
                    OpenApiParameter(name='search',
                                     required=False,
                                     type=OpenApiTypes.STR,
@@ -574,15 +578,19 @@ def forgot_password(request, version):
                summary='Get list of organisation')
 @api_view(['GET'])
 def list_organisations(request, version):
+    id = request.GET.get('id')
     attributes = request.GET.get('attributes')
     search = request.GET.get('search')
     instance = Organisation.objects.all()
-    if attributes:
+    if id:
+        instance = Organisation.objects.filter(
+            pk=id).all()
+    if attributes and not id:
         ids = OrganisationAttribute.objects.filter(
             type=attributes).distinct("organisation_id")
         instance = Organisation.objects.filter(
             pk__in=[o.organisation_id for o in ids]).all()
-    if search:
+    if search and not id:
         instance = instance.filter(name__icontains=search)
     return Response(OrganisationListSerializer(instance=instance,
                                                many=True).data,
@@ -621,8 +629,7 @@ class OrganisationEditDeleteView(APIView):
                         status=status.HTTP_200_OK)
 
     @extend_schema(responses={
-        204:
-        OpenApiResponse(description='Deletion with no response')
+        204: OpenApiResponse(description='Deletion with no response')
     },
                    tags=['Organisation'],
                    summary='To delete organisation')
