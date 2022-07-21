@@ -207,6 +207,13 @@
               "selector": "period",
               "span": 24,
               "path": "jmp.sanitation service level"
+            },
+            {
+              "type": "chart",
+              "title": "Hygiene Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.hygiene service level"
             }
           ]
         ]
@@ -466,6 +473,27 @@
               "selector": "period",
               "span": 24,
               "path": "jmp.sanitation service level"
+            },
+            {
+              "type": "chart",
+              "title": "Hygiene Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.hygiene (hand washing) service level"
+            },
+            {
+              "type": "chart",
+              "title": "Waste Management Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.health care waste management service level"
+            },
+            {
+              "type": "chart",
+              "title": "Environmental Cleaning Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.environmental cleaning service level"
             }
           ]
         ]
@@ -724,6 +752,36 @@
                 }
               ],
               "span": 12
+            }
+          ],
+          [
+            {
+              "type": "chart",
+              "title": "Sanition Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.sanitation service level"
+            },
+            {
+              "type": "chart",
+              "title": "Hygiene Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.hygiene (handwashing) service level"
+            },
+            {
+              "type": "chart",
+              "title": "Drinking Water Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.drinking water service level"
+            },
+            {
+              "type": "chart",
+              "title": "Environmental Cleaning Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.enviromental cleaning service level"
             }
           ]
         ]
