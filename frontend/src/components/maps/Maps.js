@@ -19,7 +19,7 @@ const borderColor = "#7d7d7d";
 const mapMaxZoom = 13;
 const higlightColor = "#84b4cc";
 
-const Maps = ({ loading, mapConfig, style = {} }) => {
+const Maps = ({ loading, mapConfig, style = {}, dontZoom }) => {
   // config
   const { data, title, calc, path, span, type, index } = mapConfig;
   const { administration } = store.useState((s) => s);
@@ -135,17 +135,19 @@ const Maps = ({ loading, mapConfig, style = {} }) => {
   const onEachFeature = (feature, layer) => {
     layer.on({
       click: () => {
-        const shapeName = feature.properties?.[`NAME_${level + 1}`];
-        const shapeInfo = currentAdministration.children.find(
-          (x) => x.name === shapeName
-        );
-        store.update((s) => {
-          s.administration.length = index + 1;
-          s.administration = [
-            ...administration,
-            config.fn.administration(shapeInfo.id),
-          ];
-        });
+        if (!dontZoom) {
+          const shapeName = feature.properties?.[`NAME_${level + 1}`];
+          const shapeInfo = currentAdministration.children.find(
+            (x) => x.name === shapeName
+          );
+          store.update((s) => {
+            s.administration.length = index + 1;
+            s.administration = [
+              ...administration,
+              config.fn.administration(shapeInfo.id),
+            ];
+          });
+        }
       },
       mouseover: () => setHovered(feature?.properties),
       mouseout: () => setHovered(null),

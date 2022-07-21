@@ -121,6 +121,7 @@ const Dashboard = () => {
               index: index,
             }}
             loading={loading}
+            dontZoom
           />
         );
       case "table":
