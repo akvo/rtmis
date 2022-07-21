@@ -81,8 +81,9 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (formId && !wait) {
-      setDataset([]);
       setLoading(true);
+      setDataset([]);
+      setDataPeriod([]);
       let url = `jmp/${formId}?administration=${currentAdministration?.id}`;
       if (advancedFilters && advancedFilters.length) {
         url = generateAdvanceFilterURL(advancedFilters, url);
@@ -91,6 +92,18 @@ const Dashboard = () => {
         .get(url)
         .then((res) => {
           setDataset(res.data);
+          const url = `submission/period/${formId}?administration=${currentAdministration?.id}`;
+          api
+            .get(url)
+            .then((res) => {
+              setDataPeriod(res.data);
+            })
+            .catch(() => {
+              notify({
+                type: "error",
+                message: text.errorDataLoad,
+              });
+            });
         })
         .catch(() => {
           notify({
@@ -103,24 +116,6 @@ const Dashboard = () => {
         });
     }
   }, [formId, currentAdministration, notify, text, advancedFilters, wait]);
-
-  useEffect(() => {
-    if (formId && dataset.length) {
-      setDataPeriod([]);
-      const url = `submission/period/${formId}?administration=${currentAdministration?.id}`;
-      api
-        .get(url)
-        .then((res) => {
-          setDataPeriod(res.data);
-        })
-        .catch(() => {
-          notify({
-            type: "error",
-            message: text.errorDataLoad,
-          });
-        });
-    }
-  }, [formId, dataset, currentAdministration, notify, text]);
 
   const changeTab = (tabKey) => {
     setActiveTab(tabKey);
