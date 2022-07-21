@@ -148,4 +148,20 @@ body {
       }
     }
   }
+
+  .ant-select-dropdown {
+    .ant-select-item {
+      &.ant-select-item-group {
+        text-transform: capitalize;
+      }
+
+      &.ant-select-item-option {
+        text-transform: capitalize;
+      }
+    }
+
+    .ant-select-item-option-content {
+      text-transform: capitalize;
+    }
+  }
 }

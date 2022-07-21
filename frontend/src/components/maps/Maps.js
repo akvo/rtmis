@@ -3,7 +3,7 @@ import "./style.scss";
 import ShapeLegend from "./ShapeLegend";
 import { MapContainer, TileLayer, GeoJSON, Tooltip } from "react-leaflet";
 import { store, geo, config } from "../../lib";
-import { get, takeRight, sumBy } from "lodash";
+import { get, takeRight, sumBy, startCase } from "lodash";
 import { Spin, Space, Button, Col, Select } from "antd";
 import "leaflet/dist/leaflet.css";
 import {
@@ -34,6 +34,16 @@ const Maps = ({ loading, mapConfig, style = {}, dontZoom }) => {
   const [hovered, setHovered] = useState(null);
   const [shapeFilterColor, setShapeFilterColor] = useState(null);
 
+  const indicatorTitle = useMemo(() => {
+    const prefix = calc === "percent" ? "% of" : "Count of";
+    if (indicatorPath) {
+      let ttl = indicatorPath.split(".").map((i) => startCase(i));
+      ttl = takeRight(ttl, 2).join(" - ");
+      return `${prefix} ${ttl}`;
+    }
+    return `${prefix} ${title}`;
+  }, [indicatorPath]);
+
   const currentAdministration =
     administration.length < 4
       ? takeRight(administration)?.[0]
@@ -53,10 +63,18 @@ const Maps = ({ loading, mapConfig, style = {}, dontZoom }) => {
 
   useEffect(() => {
     if (data.length) {
-      const results = data.map((x) => ({
-        name: x.loc,
-        value: get(x, indicatorPath || path) || 0,
-      }));
+      const results = data.map((x) => {
+        let val = get(x, indicatorPath || path);
+        if (calc === "percent") {
+          const total = get(x, "total");
+          val = (val / total) * 100;
+          val = val.toFixed(0);
+        }
+        return {
+          name: x.loc,
+          value: val || 0,
+        };
+      });
       setResults(results);
     }
   }, [data, path, indicatorPath]);
@@ -121,7 +139,7 @@ const Maps = ({ loading, mapConfig, style = {}, dontZoom }) => {
         const tooltipElement = (
           <div className="shape-tooltip-container">
             <h3>{detail.name}</h3>
-            <span className="shape-tooltip-name">{title}</span>
+            <span className="shape-tooltip-name">{indicatorTitle}</span>
             <h3 className="shape-tooltip-value">
               {detail?.value} {calc === "percent" && "%"}
             </h3>
@@ -133,7 +151,7 @@ const Maps = ({ loading, mapConfig, style = {}, dontZoom }) => {
         setShapeTooltip("");
       }
     }
-  }, [hovered, results, total, calc, title, level]);
+  }, [hovered, results, total, calc, indicatorTitle, level]);
 
   const onEachFeature = (feature, layer) => {
     layer.on({
@@ -199,9 +217,11 @@ const Maps = ({ loading, mapConfig, style = {}, dontZoom }) => {
             onChange={setIndicatorPath}
             className="indicator-dropdown"
           >
-            <Option key={"total"} value={"total"}>
-              Total
-            </Option>
+            {calc !== "percent" && (
+              <Option key={"total"} value={"total"}>
+                Total
+              </Option>
+            )}
             {indicators.map((i) => (
               <OptGroup key={i.name} label={i.name}>
                 {i.childrens.map((c) => (
@@ -259,7 +279,7 @@ const Maps = ({ loading, mapConfig, style = {}, dontZoom }) => {
       </MapContainer>
       {!!results.length && (
         <ShapeLegend
-          title={title}
+          title={indicatorTitle}
           thresholds={thresholds}
           colorRange={colorRange}
           shapeFilterColor={shapeFilterColor}
