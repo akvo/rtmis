@@ -62,9 +62,9 @@ const Maps = ({ loading, mapConfig, style = {}, dontZoom }) => {
   }, [maps, administration, currentAdministration]);
 
   useEffect(() => {
-    if (data.length) {
+    if (data.length && indicatorPath) {
       const results = data.map((x) => {
-        let val = get(x, indicatorPath || path);
+        let val = get(x, indicatorPath);
         if (calc === "percent") {
           const total = get(x, "total");
           val = (val / total) * 100;
@@ -77,7 +77,11 @@ const Maps = ({ loading, mapConfig, style = {}, dontZoom }) => {
       });
       setResults(results);
     }
-  }, [data, calc, path, indicatorPath]);
+  }, [data, calc, indicatorPath]);
+
+  useEffect(() => {
+    setIndicatorPath(path);
+  }, [path]);
 
   const total = useMemo(() => {
     return sumBy(results, "value");
@@ -212,7 +216,7 @@ const Maps = ({ loading, mapConfig, style = {}, dontZoom }) => {
       <div className="indicator-selector">
         {indicators.length ? (
           <Select
-            defaultValue={path}
+            value={indicatorPath}
             style={{ width: 300, textAlign: "left" }}
             onChange={setIndicatorPath}
             className="indicator-dropdown"
