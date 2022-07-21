@@ -1,6 +1,8 @@
 @import "../../variables.scss";
 
 #root {
+  overflow-x: visible !important;
+
   #dashboard {
     min-height: 10vh;
 
@@ -11,23 +13,45 @@
     .ant-tabs-nav-wrap {
       border-bottom: 1px solid #b5b5b5;
     }
+
     .ant-tabs-tab {
       font-weight: 500;
       color: $color-dark;
       background-color: transparent;
       border: 0;
     }
+
     .ant-tabs-tab.ant-tabs-tab-active {
       background-color: $blue;
       padding: 0 12px;
     }
+
     .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
       color: $white;
     }
 
+    .table-title {
+      position: relative;
+
+      h3 {
+        margin-bottom: 0px;
+      }
+
+      button {
+        &.download {
+          position: absolute;
+          top: 0;
+          right: 0;
+        }
+      }
+    }
+
+    .tab-wrapper {
+      padding-top: 24px;
+    }
+
     .main-wrapper {
       min-height: 550px;
-      padding-top: 24px;
 
       h4 {
         margin-top: 50px;
@@ -77,8 +101,46 @@
               }
             }
           }
+
+          &.chart-card {
+            .ant-card {
+              padding: 0;
+
+              .ant-card-body {
+                padding: 0px;
+                text-align: left;
+
+                h3 {
+                  font-size: 1.17em;
+                  color: #253239;
+                  padding: 8px;
+                  margin-bottom: 0px;
+                  text-align: center;
+                  border-bottom: 1px solid #f0f0f0;
+                }
+              }
+            }
+          }
+
+          &.table-card {
+            .ant-table-wrapper {
+              box-shadow: $box-shadow;
+              border-radius: 6px;
+            }
+          }
         }
       }
     }
   }
+}
+
+.sticky-wrapper {
+  margin-left: -$layout-padding;
+  margin-right: -$layout-padding;
+  padding-left: $layout-padding;
+  padding-right: $layout-padding;
+  position: sticky;
+  top: 0;
+  background-color: $bg-light;
+  z-index: 99;
 }

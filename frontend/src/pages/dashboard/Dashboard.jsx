@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { useParams } from "react-router-dom";
-import { Row, Col, Tabs } from "antd";
+import { Row, Col, Tabs, Affix } from "antd";
 import { VisualisationFilters } from "../../components";
 import { useNotification } from "../../util/hooks";
 import { api, uiText, store, config } from "../../lib";
@@ -19,6 +19,7 @@ const Dashboard = () => {
   const { notify } = useNotification();
 
   const [dataset, setDataset] = useState([]);
+  const [dataPeriod, setDataPeriod] = useState([]);
   const [activeTab, setActiveTab] = useState("overview");
   const [loading, setLoading] = useState(false);
   const [activeItem, setActiveItem] = useState(null);
@@ -100,6 +101,24 @@ const Dashboard = () => {
     }
   }, [formId, currentAdministration, notify, text, advancedFilters, wait]);
 
+  useEffect(() => {
+    if (formId && dataset.length) {
+      setDataPeriod([]);
+      const url = `submission/period/${formId}?administration=${currentAdministration?.id}`;
+      api
+        .get(url)
+        .then((res) => {
+          setDataPeriod(res.data);
+        })
+        .catch(() => {
+          notify({
+            type: "error",
+            message: text.errorDataLoad,
+          });
+        });
+    }
+  }, [formId, dataset, currentAdministration, notify, text]);
+
   const changeTab = (tabKey) => {
     setActiveTab(tabKey);
     setActiveItem(current.tabs[tabKey]);
@@ -119,7 +138,11 @@ const Dashboard = () => {
         return (
           <ChartVisual
             key={index}
-            chartConfig={{ ...cfg, data: dataset, index: index }}
+            chartConfig={{
+              ...cfg,
+              data: cfg.selector === "period" ? dataPeriod : dataset,
+              index: index,
+            }}
             loading={loading}
           />
         );
@@ -155,51 +178,53 @@ const Dashboard = () => {
 
   return (
     <div id="dashboard">
-      <div className="page-title-wrapper">
-        <h1>{`${prefixText} ${selectedForm.name} Data`}</h1>
-      </div>
-      <VisualisationFilters showFormOptions={false} />
+      <Affix className="sticky-wrapper">
+        <div className="page-title-wrapper">
+          <h1>{`${prefixText} ${selectedForm.name} Data`}</h1>
+        </div>
+        <VisualisationFilters showFormOptions={false} />
+        <div className="tab-wrapper">
+          {current?.tabs && (
+            <Tabs
+              activeKey={activeTab}
+              onChange={changeTab}
+              type="card"
+              tabBarGutter={10}
+            >
+              {Object.keys(current.tabs).map((key) => {
+                let tabName = key;
+                if (
+                  !["jmp", "glaas", "rush"].includes(key.toLocaleLowerCase())
+                ) {
+                  tabName = key
+                    .split("_")
+                    .map((x) => capitalize(x))
+                    .join(" ");
+                } else {
+                  tabName = key.toUpperCase();
+                }
+                return <TabPane tab={tabName} key={key}></TabPane>;
+              })}
+            </Tabs>
+          )}
+        </div>
+      </Affix>
       <Row className="main-wrapper" align="center">
         <Col span={24} align="center">
-          {current?.tabs && (
-            <>
-              <Tabs
-                activeKey={activeTab}
-                onChange={changeTab}
-                type="card"
-                tabBarGutter={10}
-              >
-                {Object.keys(current.tabs).map((key) => {
-                  let tabName = key;
-                  if (
-                    !["jmp", "glass", "rush"].includes(key.toLocaleLowerCase())
-                  ) {
-                    tabName = key
-                      .split("_")
-                      .map((x) => capitalize(x))
-                      .join(" ");
-                  } else {
-                    tabName = key.toUpperCase();
-                  }
-                  return <TabPane tab={tabName} key={key}></TabPane>;
-                })}
-              </Tabs>
-              {activeItem?.rows ? (
-                activeItem.rows.map((row, index) => {
-                  return (
-                    <Row
-                      key={`row-${index}`}
-                      className="row-wrapper"
-                      gutter={[10, 10]}
-                    >
-                      {row.map((r, ri) => renderColumn(r, ri))}
-                    </Row>
-                  );
-                })
-              ) : (
-                <h4>No data</h4>
-              )}
-            </>
+          {current?.tabs && activeItem?.rows ? (
+            activeItem.rows.map((row, index) => {
+              return (
+                <Row
+                  key={`row-${index}`}
+                  className="row-wrapper"
+                  gutter={[10, 10]}
+                >
+                  {row.map((r, ri) => renderColumn(r, ri))}
+                </Row>
+              );
+            })
+          ) : (
+            <h4>No data</h4>
           )}
         </Col>
       </Row>

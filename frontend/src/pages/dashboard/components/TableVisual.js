@@ -1,6 +1,8 @@
 import React, { useMemo } from "react";
-import { Col, Table } from "antd";
+import { Col, Table, Button } from "antd";
 import { get, capitalize, sumBy } from "lodash";
+import { DownloadOutlined } from "@ant-design/icons";
+import { Excel } from "antd-table-saveas-excel";
 
 const fontSize = 12;
 
@@ -89,21 +91,41 @@ const TableVisual = ({ tableConfig, loading }) => {
     [tableColumns]
   );
 
+  const titlePage =
+    title.replace("##administration_level##", admLevelName?.singular) ||
+    "Table";
+
+  const handleExport = (e) => {
+    e.preventDefault();
+    const excel = new Excel();
+    excel
+      .addSheet("data")
+      .addColumns(tableColumns)
+      .addDataSource(tableDataSource)
+      .saveAs(`${titlePage}.xlsx`);
+  };
+
   return (
     <Col
       key={`col-${type}-${index}`}
       align="center"
       justify="space-between"
       span={span}
+      className="table-card"
     >
       <Table
         title={() => (
-          <h3>
-            {title.replace(
-              "##administration_level##",
-              admLevelName?.singular
-            ) || "Table"}
-          </h3>
+          <div className="table-title">
+            <h3>{titlePage}</h3>
+            <Button
+              icon={<DownloadOutlined />}
+              onClick={handleExport}
+              className="download"
+              size="small"
+            >
+              Download
+            </Button>
+          </div>
         )}
         columns={tableColumns}
         dataSource={tableDataSource}

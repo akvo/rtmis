@@ -1,3 +1,4 @@
+import requests
 from django.db.models import Sum, Q
 from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
@@ -14,7 +15,7 @@ from api.v1.v1_forms.models import Questions, QuestionOptions, Forms, \
     FormApprovalAssignment
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration
-from api.v1.v1_users.models import SystemUser
+from api.v1.v1_users.models import SystemUser, Organisation
 from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
     UnvalidatedField, CustomListField, CustomCharField, CustomChoiceField, \
     CustomBooleanField
@@ -78,7 +79,8 @@ class SubmitFormDataAnswerSerializer(serializers.ModelSerializer):
         elif not (isinstance(
                 attrs.get('value'), int) or isinstance(
                 attrs.get('value'), float)) and attrs.get('question').type in [
-                    QuestionTypes.number, QuestionTypes.administration]:
+                    QuestionTypes.number, QuestionTypes.administration,
+                    QuestionTypes.cascade]:
             raise ValidationError(
                 'Valid number value is required for Question:{0}'.format(
                     attrs.get('question').id))
@@ -128,14 +130,28 @@ class SubmitFormSerializer(serializers.Serializer):
             option = None
 
             if answer.get('question').type in [
-                    QuestionTypes.geo, QuestionTypes.option,
-                    QuestionTypes.multiple_option
+                QuestionTypes.geo, QuestionTypes.option,
+                QuestionTypes.multiple_option
             ]:
                 option = answer.get('value')
             elif answer.get('question').type in [
-                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+                QuestionTypes.text, QuestionTypes.photo,
+                QuestionTypes.date
             ]:
                 name = answer.get('value')
+            elif answer.get('question').type == QuestionTypes.cascade:
+                id = answer.get('value')
+                ep = answer.get('question').api.get('endpoint')
+                val = None
+                if "organisation" in ep:
+                    val = Organisation.objects.filter(pk=id).first()
+                    val = val.name
+                else:
+                    ep = ep.split("?")[0]
+                    ep = f"{ep}?id={id}"
+                    val = requests.get(ep).json()
+                    val = val[0].get('name')
+                name = val
             else:
                 # for administration,number question type
                 value = answer.get('value')
@@ -963,7 +979,8 @@ class SubmitPendingFormDataAnswerSerializer(serializers.ModelSerializer):
         elif not (isinstance(
                 attrs.get('value'), int) or isinstance(
                 attrs.get('value'), float)) and attrs.get('question').type in [
-                    QuestionTypes.number, QuestionTypes.administration]:
+                    QuestionTypes.number, QuestionTypes.administration,
+                    QuestionTypes.cascade]:
             raise ValidationError(
                 'Valid number value is required for Question:{0}'.format(
                     attrs.get('question').id))
@@ -1009,12 +1026,10 @@ class SubmitPendingFormSerializer(serializers.Serializer):
 
         # check user role and form type
         user: SystemUser = self.context.get('user')
-        form: Forms = self.context.get('form')
         is_super_admin = user.user_access.role == UserRoleTypes.super_admin
         is_county_admin = user.user_access.role == UserRoleTypes.admin
-        is_county_form = form.type == FormTypes.county
 
-        direct_to_data = is_super_admin or (is_county_admin and is_county_form)
+        direct_to_data = is_super_admin or is_county_admin
 
         # save to pending data
         if not direct_to_data:
@@ -1041,9 +1056,23 @@ class SubmitPendingFormSerializer(serializers.Serializer):
             ]:
                 option = answer.get('value')
             elif answer.get('question').type in [
-                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+                    QuestionTypes.text, QuestionTypes.photo,
+                    QuestionTypes.date
             ]:
                 name = answer.get('value')
+            elif answer.get('question').type == QuestionTypes.cascade:
+                id = answer.get('value')
+                ep = answer.get('question').api.get('endpoint')
+                val = None
+                if "organisation" in ep:
+                    val = Organisation.objects.filter(pk=id).first()
+                    val = val.name
+                else:
+                    ep = ep.split("?")[0]
+                    ep = f"{ep}?id={id}"
+                    val = requests.get(ep).json()
+                    val = val[0].get('name')
+                name = val
             else:
                 # for administration,number question type
                 value = answer.get('value')

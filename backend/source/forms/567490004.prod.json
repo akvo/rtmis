@@ -25,6 +25,18 @@
               "name": "County"
             }
           ]
+        },
+        {
+          "id": 5674900041,
+          "meta": false,
+          "question": "Organisation",
+          "name": null,
+          "order": 2,
+          "required": true,
+          "type": "cascade",
+          "api": {
+            "endpoint": "/api/v1/organisations?attributes=2"
+          }
         }
       ]
     },

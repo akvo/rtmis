@@ -22,3 +22,4 @@ export { default as DescriptionPanel } from "./ui/DescriptionPanel";
 export { default as Tour } from "./tour/Tour.js";
 export { default as UserTab } from "./tabs/UserTab";
 export { default as DataTab } from "./tabs/DataTab";
+export { default as ContactForm } from "./contact-form/ContactForm";
