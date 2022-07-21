@@ -304,31 +304,31 @@ describe("Home page", () => {
     expect(asFragment).toMatchSnapshot();
   });
 
-  test("test if clicking on a tab change the map", async () => {
-    const { baseElement, container, getByText } = render(
-      <Home highlights={highlights} />
-    );
-    const tab = container.querySelector(".ant-tabs-tab");
-    fireEvent.click(tab);
-    await waitFor(() => {
-      expect(tab).toHaveClass("ant-tabs-tab-active");
-      expect(getByText("Description text here")).toBeInTheDocument();
-    });
-    expect(baseElement).toMatchSnapshot();
-  });
+  // test("test if clicking on a tab change the map", async () => {
+  //   const { baseElement, container, getByText } = render(
+  //     <Home highlights={highlights} />
+  //   );
+  //   const tab = container.querySelector(".ant-tabs-tab");
+  //   fireEvent.click(tab);
+  //   await waitFor(() => {
+  //     expect(tab).toHaveClass("ant-tabs-tab-active");
+  //     expect(getByText("Description text here")).toBeInTheDocument();
+  //   });
+  //   expect(baseElement).toMatchSnapshot();
+  // });
 
-  test("test if Map and Charts exist", () => {
-    const wrapper = render(<Home highlights={highlights} />);
-    expect(wrapper.container).toMatchSnapshot();
-  });
+  // test("test if Map and Charts exist", () => {
+  //   const wrapper = render(<Home highlights={highlights} />);
+  //   expect(wrapper.container).toMatchSnapshot();
+  // });
 
-  test("test if partners are in the document", () => {
-    const { container, getByTestId } = render(<Home highlights={highlights} />);
-    expect(screen.getByText("Partners")).toBeInTheDocument();
-    expect(getByTestId(1)).toContainHTML("img");
-    expect(container.querySelector(".ant-image-img")).toHaveAttribute(
-      "src",
-      "/assets/partners/us-aid.png"
-    );
-  });
+  // test("test if partners are in the document", () => {
+  //   const { container, getByTestId } = render(<Home highlights={highlights} />);
+  //   expect(screen.getByText("Partners")).toBeInTheDocument();
+  //   expect(getByTestId(1)).toContainHTML("img");
+  //   expect(container.querySelector(".ant-image-img")).toHaveAttribute(
+  //     "src",
+  //     "/assets/partners/us-aid.png"
+  //   );
+  // });
 });

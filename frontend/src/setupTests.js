@@ -201,5 +201,93 @@ window.profile = {
 window.filters = {
   trained: false,
   role: 2,
-  organisation: 1
-}
+  organisation: 1,
+};
+
+window.dataset = [
+  {
+    id: 1,
+    name: "Onja",
+    attributes: [
+      {
+        type_id: 1,
+        name: "member",
+      },
+    ],
+    users: 22,
+  },
+];
+
+window.organisationAttributes = [
+  {
+    id: 1,
+    name: "User Organisation",
+  },
+  {
+    id: 2,
+    name: "Partnership Organisation",
+  },
+];
+
+window.users = [
+  {
+    id: 134,
+    first_name: "Mutha",
+    last_name: "User",
+    email: "mutha1338@user.com",
+    administration: {
+      id: 1338,
+      name: "Mutha",
+      level: 3,
+    },
+    organisation: {
+      id: 1,
+      name: "Onja",
+    },
+    trained: false,
+    role: {
+      id: 4,
+      value: "Data Entry Staff",
+    },
+    phone_number: null,
+    designation: null,
+    invite: "MTM0:1oE9Cs:5EWcysOOoL7HeUXV4ehrDEFwiY8btWX0INq2RDlwwlo",
+    forms: [
+      {
+        id: 974754029,
+        name: "CLTS",
+      },
+    ],
+    last_login: null,
+  },
+  {
+    id: 133,
+    first_name: "Nambale",
+    last_name: "Approver",
+    email: "nambale255@test.com",
+    administration: {
+      id: 255,
+      name: "Nambale",
+      level: 2,
+    },
+    organisation: {
+      id: 1,
+      name: "Onja",
+    },
+    trained: false,
+    role: {
+      id: 3,
+      value: "Data Approver",
+    },
+    phone_number: null,
+    designation: null,
+    invite: "MTMz:1oE9Cs:i6d4xCT3Q7o1ZwaR7ol3wZNDcRw6XpyuK65w48HMf5k",
+    forms: [
+      {
+        id: 563350033,
+        name: "WASH in Schools",
+      },
+    ],
+    last_login: null,
+  },
+];

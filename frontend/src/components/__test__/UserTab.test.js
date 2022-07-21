@@ -13,13 +13,14 @@ describe("components/UserTab", () => {
             <Button type="primary">Add new user</Button>
           </Link>
         }
-      />, {
-        wrapper: MemoryRouter
-      }
+      />,
+      { wrapper: MemoryRouter }
     );
     const addUser = container.querySelector(`[href="/user/add"]`);
     expect(screen.getByText("Manage Users")).toBeInTheDocument();
-    expect(screen.getByText("Manage Data Validation Setup")).toBeInTheDocument();
+    expect(
+      screen.getByText("Manage Data Validation Setup")
+    ).toBeInTheDocument();
     expect(addUser).toHaveAttribute("href", "/user/add");
     expect(container).toMatchSnapshot();
   });

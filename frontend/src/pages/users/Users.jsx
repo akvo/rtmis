@@ -15,16 +15,6 @@ import { useNotification } from "../../util/hooks";
 import { reverse } from "lodash";
 import moment from "moment";
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Users",
-  },
-];
-
 window.matchMedia =
   window.matchMedia ||
   function () {
@@ -38,6 +28,16 @@ window.matchMedia =
       dispatchEvent: function () {},
     };
   };
+
+const pagePath = [
+  {
+    title: "Control Center",
+    link: "/control-center",
+  },
+  {
+    title: "Manage Users",
+  },
+];
 
 const Users = () => {
   const [loading, setLoading] = useState(true);
@@ -66,7 +66,6 @@ const Users = () => {
       ? administration[administration.length - 1]
       : null;
 
-  console.log(`filters::::::`, filters);
   const columns = [
     {
       title: "Name",
