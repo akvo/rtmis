@@ -1230,11 +1230,24 @@ def get_jmp_data(request, version, form_id):
             value=[{
                 'name': "2020 Jan",
                 'value': 50,
-                'total': 50
+                'total': 50,
+                'jmp': [{
+                    "drinking water service level": {
+                        "basic": 10,
+                        "limited": 20
+                    }
+                }],
                 }, {
                 'name': "2020 Jan",
                 'value': 50,
-                'total': 100}])
+                'total': 100,
+                'jmp': [{
+                    "drinking water service level": {
+                        "basic": 10,
+                        "limited": 20
+                    }
+                }]
+            }])
     ],
     parameters=[
         OpenApiParameter(
@@ -1283,20 +1296,43 @@ def get_period_submission(request, version, form_id):
                 pk__in=data_ids,
                 administration__path__startswith=adm_path)
 
+    # JMP Criteria
+    criteria = ViewJMPCriteria.objects.filter(
+            form=form).distinct('name', 'level').all()
+
     data = []
     while year <= cyear:
         while (year < cyear and month <= 12) or (
                 year == cyear and month <= cmonth):
             fdp = fd.filter(
                     created__year=year,
-                    created__month=month).aggregate(Count('id'))
+                    created__month=month)
+            fdp_ids = fdp.values_list('id', flat=True)
+            fdp = fdp.aggregate(Count('id'))
+            jmp_data = defaultdict(dict)
+            for crt in criteria:
+                matches = ViewJMPCriteria.objects.filter(
+                        form=form,
+                        name=crt.name,
+                        level=crt.level).count()
+                jmp = ViewJMPData.objects.filter(
+                        data_id__in=fdp_ids,
+                        data__created__year=year,
+                        data__created__month=month,
+                        name=crt.name,
+                        level=crt.level,
+                        matches=matches,
+                        form=form).count()
+                jmp_data[crt.name][crt.level] = jmp or 0
             month_name = date(1900, month, 1).strftime('%B')
             total += fdp['id__count']
             data.append({
                 'name': f"{year} {month_name}",
                 'value': fdp['id__count'],
-                'total': total
+                'total': total,
+                'jmp': jmp_data
             })
+            del jmp_data
             month += 1
         month = 1
         year += 1

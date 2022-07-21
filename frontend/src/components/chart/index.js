@@ -4,7 +4,7 @@ import ReactECharts from "echarts-for-react";
 import { Bar, Line, BarStack, Pie, LineArea } from "./options";
 
 export const generateOptions = (
-  { type, data, chartTitle, excelFile },
+  { type, data, chartTitle, excelFile, cumulative, colorConfig },
   extra,
   series,
   legend,
@@ -15,9 +15,9 @@ export const generateOptions = (
 ) => {
   switch (type) {
     case "LINE":
-      return Line(data, chartTitle, excelFile, extra, axis);
+      return Line(data, chartTitle, excelFile, cumulative, extra, colorConfig);
     case "LINEAREA":
-      return LineArea(data, chartTitle, extra);
+      return LineArea(data, chartTitle, extra, axis);
     case "BARSTACK":
       return BarStack(
         data,
@@ -72,6 +72,8 @@ const Chart = ({
   loading = false,
   loadingOption = loadingStyle,
   grid = {},
+  cumulative = false,
+  colorConfig = {},
 }) => {
   if (transform) {
     data = data.map((x) => ({
@@ -82,7 +84,14 @@ const Chart = ({
   }
   const chartTitle = wrapper ? {} : { title: title, subTitle: subTitle };
   const option = generateOptions(
-    { type: type, data: data, chartTitle: chartTitle, excelFile: excelFile },
+    {
+      type: type,
+      data: data,
+      chartTitle: chartTitle,
+      excelFile: excelFile,
+      cumulative: cumulative,
+      colorConfig: colorConfig,
+    },
     extra,
     series,
     legend,

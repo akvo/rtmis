@@ -10,53 +10,45 @@ import {
   downloadToExcel,
   NoData,
 } from "./common";
-import { getDateRange } from "../../../util/date";
-import sortBy from "lodash/sortBy";
-import uniq from "lodash/uniq";
-import isEmpty from "lodash/isEmpty";
-import moment from "moment";
+import { isEmpty, get } from "lodash";
 
-const dateFormat = "MMMM DD, YYYY";
-
-const Line = (data, chartTitle, excelFile, extra = {}) => {
+const Line = (
+  data,
+  chartTitle,
+  excelFile,
+  cumulative = false,
+  extra = {},
+  colorConfig = {}
+) => {
   if (isEmpty(data)) {
     return NoData;
   }
-  let yAxisVal = [];
-  let labels = [];
-  let seriesData = [];
-  data = !data ? [] : data;
-  data = data.map((x) => ({
-    ...x,
-    moment: x?.date ? moment(x.date, dateFormat).toDate() : false,
-  }));
-  let yAxis = {
-    type: "value",
-  };
-  if (data.length > 0) {
-    yAxisVal = data?.map((x) => x.value || x.name);
-    yAxisVal = uniq(sortBy(yAxisVal).filter((x) => x));
-    data = sortBy(data, "moment").filter((d) => d?.moment);
-    const hasNaN = data.map((x) => x.value || x.name).filter((x) => isNaN(x));
-    if (hasNaN.length) {
-      yAxis = {
-        type: "category",
-        data: yAxisVal,
+  const seriesName = Object.keys(data?.[0]?.value || {});
+  const seriesData = seriesName.map((s) => {
+    let dataSeries = data.map((v) => get(v.value, s));
+    if (cumulative) {
+      dataSeries = dataSeries.reduce(
+        (a, x, i) => [...a, a.length > 0 ? x + a[i - 1] : x],
+        []
+      );
+    }
+    let res = {
+      data: dataSeries,
+      name: s,
+      type: "line",
+    };
+    const color = colorConfig?.[s]?.color;
+    if (color) {
+      res = {
+        ...res,
+        itemStyle: {
+          color: color,
+        },
       };
     }
-    seriesData = data.map((x) => {
-      const value = x.value || x.name;
-      return [x.date, value || null];
-    });
-    labels = uniq(data.map((x) => x.date));
-    const minDate = moment.min(labels.map((x) => moment(x, dateFormat)));
-    labels = getDateRange({
-      startDate: minDate.add(-1, "days"),
-      endDate: moment().add(1, "days"),
-      dateFormat: dateFormat,
-      type: "days",
-    });
-  }
+    return res;
+  });
+  const labels = data.map((x) => x.name);
   const option = {
     title: {
       ...Title,
@@ -64,19 +56,30 @@ const Line = (data, chartTitle, excelFile, extra = {}) => {
       text: chartTitle?.title,
       subtext: chartTitle?.subTitle,
     },
+    legend: {
+      show: true,
+    },
     tooltip: {
       trigger: "axis",
     },
     grid: {
       left: "20px",
       right: "20px",
-      bottom: "20px",
+      bottom: "50px",
       containLabel: true,
       label: {
         color: "#000",
         ...TextStyle,
       },
     },
+    dataZoom: [
+      {
+        type: "inside",
+      },
+      {
+        type: "slider",
+      },
+    ],
     xAxis: {
       type: "category",
       boundaryGap: false,
@@ -86,7 +89,7 @@ const Line = (data, chartTitle, excelFile, extra = {}) => {
       },
     },
     yAxis: {
-      ...yAxis,
+      type: "value",
       axisLabel: {
         ...AxisLabelFormatter,
         inside: true,
@@ -129,12 +132,7 @@ const Line = (data, chartTitle, excelFile, extra = {}) => {
         },
       },
     },
-    series: [
-      {
-        data: seriesData,
-        type: "line",
-      },
-    ],
+    series: seriesData,
     ...Color,
     ...backgroundColor,
     ...Easing,
