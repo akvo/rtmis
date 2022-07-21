@@ -40,13 +40,21 @@ const LineArea = (data, chartTitle, extra = {}) => {
     grid: {
       left: "20px",
       right: "20px",
-      bottom: "20px",
+      bottom: "50px",
       containLabel: true,
       label: {
         color: "#000",
         ...TextStyle,
       },
     },
+    dataZoom: [
+      {
+        type: "inside",
+      },
+      {
+        type: "slider",
+      },
+    ],
     xAxis: {
       type: "category",
       boundaryGap: false,

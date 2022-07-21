@@ -75,9 +75,9 @@
             {
               "type": "chart",
               "title": "Trend of HHs datapoint submission",
-              "calc": "sum",
+              "selector": "period",
               "span": 12,
-              "api": "/url"
+              "path": "total"
             },
             {
               "type": "table",
@@ -199,6 +199,15 @@
               ],
               "span": 12
             }
+          ],
+          [
+            {
+              "type": "chart",
+              "title": "Sanition Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.sanitation service level"
+            }
           ]
         ]
       },
@@ -263,9 +272,9 @@
             {
               "type": "chart",
               "title": "Trend of Health care facilities datapoint submission",
-              "calc": "sum",
+              "selector": "period",
               "span": 12,
-              "api": "/url"
+              "path": "total"
             },
             {
               "type": "table",
@@ -449,6 +458,15 @@
               ],
               "span": 12
             }
+          ],
+          [
+            {
+              "type": "chart",
+              "title": "Sanition Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.sanitation service level"
+            }
           ]
         ]
       }
@@ -521,9 +539,9 @@
             {
               "type": "chart",
               "title": "Trend of Schools datapoint submission",
-              "calc": "sum",
+              "selector": "period",
               "span": 12,
-              "api": "/url"
+              "path": "total"
             },
             {
               "type": "table",
