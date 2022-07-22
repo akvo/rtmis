@@ -156,61 +156,63 @@ const Dashboard = () => {
   return (
     <div id="dashboard">
       <Affix className="sticky-wrapper">
-        <div className="page-title-wrapper">
-          <h1>{`${selectedForm.name} Data`}</h1>
-        </div>
-        <div className="county-filter-wrapper">
-          <Select
-            placeholder="Select County"
-            style={{ width: 200 }}
-            onChange={(e) => {
-              setDataset({});
-              setSelectedCounty(e);
-            }}
-            onClear={() => {
-              setDataset({});
-              setSelectedCounty(null);
-            }}
-            getPopupContainer={(trigger) => trigger.parentNode}
-            dropdownMatchSelectWidth={false}
-            value={selectedCounty || []}
-            disabled={!countiesAdm.length}
-            allowClear
-            showSearch
-            filterOption={true}
-            optionFilterProp="children"
-          >
-            {countiesAdm.map((optionValue, optionIdx) => (
-              <Select.Option key={optionIdx} value={optionValue.id}>
-                {optionValue.name}
-              </Select.Option>
-            ))}
-          </Select>
-        </div>
-        <div className="tab-wrapper">
-          {current?.tabs && (
-            <Tabs
-              activeKey={activeTab}
-              onChange={changeTab}
-              type="card"
-              tabBarGutter={10}
+        <div>
+          <div className="page-title-wrapper">
+            <h1>{`${selectedForm.name} Data`}</h1>
+          </div>
+          <div className="county-filter-wrapper">
+            <Select
+              placeholder="Select County"
+              style={{ width: 200 }}
+              onChange={(e) => {
+                setDataset({});
+                setSelectedCounty(e);
+              }}
+              onClear={() => {
+                setDataset({});
+                setSelectedCounty(null);
+              }}
+              getPopupContainer={(trigger) => trigger.parentNode}
+              dropdownMatchSelectWidth={false}
+              value={selectedCounty || []}
+              disabled={!countiesAdm.length}
+              allowClear
+              showSearch
+              filterOption={true}
+              optionFilterProp="children"
             >
-              {Object.keys(current.tabs).map((key) => {
-                let tabName = key;
-                if (
-                  !["jmp", "glaas", "rush"].includes(key.toLocaleLowerCase())
-                ) {
-                  tabName = key
-                    .split("_")
-                    .map((x) => capitalize(x))
-                    .join(" ");
-                } else {
-                  tabName = key.toUpperCase();
-                }
-                return <TabPane tab={tabName} key={key}></TabPane>;
-              })}
-            </Tabs>
-          )}
+              {countiesAdm.map((optionValue, optionIdx) => (
+                <Select.Option key={optionIdx} value={optionValue.id}>
+                  {optionValue.name}
+                </Select.Option>
+              ))}
+            </Select>
+          </div>
+          <div className="tab-wrapper">
+            {current?.tabs && (
+              <Tabs
+                activeKey={activeTab}
+                onChange={changeTab}
+                type="card"
+                tabBarGutter={10}
+              >
+                {Object.keys(current.tabs).map((key) => {
+                  let tabName = key;
+                  if (
+                    !["jmp", "glaas", "rush"].includes(key.toLocaleLowerCase())
+                  ) {
+                    tabName = key
+                      .split("_")
+                      .map((x) => capitalize(x))
+                      .join(" ");
+                  } else {
+                    tabName = key.toUpperCase();
+                  }
+                  return <TabPane tab={tabName} key={key}></TabPane>;
+                })}
+              </Tabs>
+            )}
+          </div>
         </div>
       </Affix>
       <Row className="main-wrapper" align="center">
