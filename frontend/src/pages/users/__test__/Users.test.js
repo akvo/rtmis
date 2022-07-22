@@ -1,9 +1,10 @@
-import { render } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { MemoryRouter } from "react-router-dom";
 import { act } from "react-dom/test-utils";
 import axios from "axios";
 import Users from "../Users";
+import AddUser from "../../add-user/AddUser";
 
 jest.mock("axios");
 
@@ -94,9 +95,19 @@ describe("pages/Users", () => {
       wrapper = render(<Users />, { wrapper: MemoryRouter });
     });
 
-    const { container } = wrapper;
+    const { container, getByTestId } = wrapper;
     expect(container.querySelector(".ant-table-tbody")).toBeDefined();
 
+    const addUser = getByTestId("add-user");
+    expect(addUser).toHaveAttribute("href", "/user/add");
+
+    let addUserPage;
+    await act(async () => {
+      fireEvent.click(addUser, { button: 0 });
+      addUserPage = render(<AddUser />, { wrapper: MemoryRouter });
+    });
+
     expect(container).toMatchSnapshot();
+    expect(addUserPage.asFragment()).toMatchSnapshot("addUserPage");
   });
 });
