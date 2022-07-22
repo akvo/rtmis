@@ -22,6 +22,20 @@ import { useNotification } from "../../util/hooks";
 
 const { Option } = Select;
 
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      onchange: null,
+      addListener: function () {},
+      removeListener: function () {},
+      addEventListener: function () {},
+      removeEventListener: function () {},
+      dispatchEvent: function () {},
+    };
+  };
+
 const descriptionData = (
   <p>
     This page allows you to add users to the RUSH platform.You will only be able
@@ -289,7 +303,7 @@ const AddUser = () => {
                   },
                 ]}
               >
-                <Input />
+                <Input data-testid="name" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -303,7 +317,7 @@ const AddUser = () => {
                   },
                 ]}
               >
-                <Input />
+                <Input data-testid="last-name" />
               </Form.Item>
             </Col>
           </Row>
@@ -319,7 +333,7 @@ const AddUser = () => {
                 },
               ]}
             >
-              <Input />
+              <Input data-testid="email" />
             </Form.Item>
           </div>
           <div className="form-row">
@@ -333,7 +347,7 @@ const AddUser = () => {
                 },
               ]}
             >
-              <Input />
+              <Input data-testid="phone-number" />
             </Form.Item>
           </div>
           <div className="form-row">
@@ -502,7 +516,12 @@ const AddUser = () => {
             </Form.Item>
           </Col>
           <Col>
-            <Button type="primary" htmlType="submit" loading={submitting}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={submitting}
+              data-testid="add-user-btn"
+            >
               {id ? text.updateUser : text.addUser}
             </Button>
           </Col>

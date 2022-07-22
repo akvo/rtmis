@@ -917,6 +917,7 @@ exports[`pages/Users test Users page: addUserPage 1`] = `
                     >
                       <input
                         class="ant-input"
+                        data-testid="name"
                         id="user-form_first_name"
                         type="text"
                         value=""
@@ -954,6 +955,7 @@ exports[`pages/Users test Users page: addUserPage 1`] = `
                     >
                       <input
                         class="ant-input"
+                        data-testid="last-name"
                         id="user-form_last_name"
                         type="text"
                         value=""
@@ -992,6 +994,7 @@ exports[`pages/Users test Users page: addUserPage 1`] = `
                   >
                     <input
                       class="ant-input"
+                      data-testid="email"
                       id="user-form_email"
                       type="text"
                       value=""
@@ -1029,6 +1032,7 @@ exports[`pages/Users test Users page: addUserPage 1`] = `
                   >
                     <input
                       class="ant-input"
+                      data-testid="phone-number"
                       id="user-form_phone_number"
                       type="text"
                       value=""
@@ -1400,6 +1404,7 @@ exports[`pages/Users test Users page: addUserPage 1`] = `
         >
           <button
             class="ant-btn ant-btn-primary"
+            data-testid="add-user-btn"
             type="submit"
           >
             <span>
