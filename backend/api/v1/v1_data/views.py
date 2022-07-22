@@ -7,7 +7,7 @@ from django.utils import timezone
 
 from django.contrib.postgres.aggregates import StringAgg
 from django.db.models import Count, TextField, Value, F, Sum
-from django.db.models.functions import Cast, Coalesce
+from django.db.models.functions import Cast, Coalesce, Concat
 from django.http import HttpResponse
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, inline_serializer, \
@@ -1189,7 +1189,8 @@ def get_jmp_data(request, version, form_id):
     criteria = get_cache(criteria_cache)
     if not criteria:
         criteria = ViewJMPCriteria.objects.filter(
-                form=form).distinct('name', 'level').all()
+                form=form).values('name', 'level').annotate(
+                        matches=Count(Concat('name', 'level'), distinct=True))
         create_cache(criteria_cache, criteria)
 
     for adm in administration:
@@ -1208,31 +1209,21 @@ def get_jmp_data(request, version, form_id):
             for crt in criteria:
                 data = 0
                 if data_ids:
-                    # JMP Criteria
-                    matches_name = f"crt.{form.id}{crt.name}{crt.level}"
-                    matches = get_cache(matches_name)
-                    if not matches:
-                        matches = ViewJMPCriteria.objects.filter(
-                                form=form,
-                                name=crt.name,
-                                level=crt.level).count()
-                        create_cache(matches_name, matches)
-
                     data = ViewJMPData.objects.filter(
                         data_id__in=data_ids,
                         path__startswith=adm_path,
-                        name=crt.name,
-                        level=crt.level,
-                        matches=matches,
+                        name=crt["name"],
+                        level=crt["level"],
+                        matches=crt["matches"],
                         form=form).count()
                 else:
                     data = ViewJMPCount.objects.filter(
                         path__startswith=adm_path,
-                        name=crt.name,
-                        level=crt.level,
+                        name=crt["name"],
+                        level=crt["level"],
                         form=form).aggregate(Sum('total'))
                     data = data.get("total__sum")
-                temp[crt.name][crt.level] = data or 0
+                temp[crt["name"]][crt["level"]] = data or 0
             jmp_data.append({
                 "loc": adm.name,
                 "data": temp,
@@ -1324,7 +1315,8 @@ def get_period_submission(request, version, form_id):
     criteria = get_cache(criteria_cache)
     if not criteria:
         criteria = ViewJMPCriteria.objects.filter(
-                form=form).distinct('name', 'level').all()
+                form=form).values('name', 'level').annotate(
+                        matches=Count(Concat('name', 'level'), distinct=True))
         create_cache(criteria_cache, criteria)
 
     data = []
@@ -1338,25 +1330,15 @@ def get_period_submission(request, version, form_id):
             fdp = fdp.aggregate(Count('id'))
             jmp_data = defaultdict(dict)
             for crt in criteria:
-                # JMP Criteria
-                matches_name = f"crt.{form.id}{crt.name}{crt.level}"
-                matches = get_cache(matches_name)
-                if not matches:
-                    matches = ViewJMPCriteria.objects.filter(
-                            form=form,
-                            name=crt.name,
-                            level=crt.level).count()
-                    create_cache(matches_name, matches)
-
                 jmp = ViewJMPData.objects.filter(
                         data_id__in=fdp_ids,
                         data__created__year=year,
                         data__created__month=month,
-                        name=crt.name,
-                        level=crt.level,
-                        matches=matches,
+                        name=crt["name"],
+                        level=crt["level"],
+                        matches=crt["matches"],
                         form=form).count()
-                jmp_data[crt.name][crt.level] = jmp or 0
+                jmp_data[crt["name"]][crt["level"]] = jmp or 0
             month_name = date(1900, month, 1).strftime('%B')
             total += fdp['id__count']
             data.append({
