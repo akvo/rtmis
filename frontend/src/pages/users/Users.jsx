@@ -239,7 +239,7 @@ const Users = () => {
       </Row>
       <UserTab
         tabBarExtraContent={
-          <Link to="/user/add">
+          <Link to="/user/add" data-testid="add-user">
             <Button type="primary">Add new user</Button>
           </Link>
         }
