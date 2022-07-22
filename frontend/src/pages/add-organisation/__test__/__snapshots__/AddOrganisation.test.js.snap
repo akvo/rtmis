@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`pages/add-user test if clicking on add user button brings to AddUser page: addOrgPage 1`] = `
+exports[`pages/add-organisation test AddOrganisation page: addOrgPage 1`] = `
 <DocumentFragment>
   <div
     id="add-organisation"
@@ -244,7 +244,7 @@ exports[`pages/add-user test if clicking on add user button brings to AddUser pa
 </DocumentFragment>
 `;
 
-exports[`pages/add-user test if clicking on add user button brings to AddUser page: organisation 1`] = `
+exports[`pages/add-organisation test AddOrganisation page: organisation 1`] = `
 <DocumentFragment>
   <div
     id="organisations"

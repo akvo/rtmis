@@ -8,8 +8,8 @@ import Organisations from "../../organisations/Organisations";
 
 jest.mock("axios");
 
-describe("pages/add-user", () => {
-  test("test if clicking on add user button brings to AddUser page", async () => {
+describe("pages/add-organisation", () => {
+  test("test AddOrganisation page", async () => {
     const addOrgPage = render(<AddOrganisation />, { wrapper: MemoryRouter });
 
     jest.fn(() => {});
