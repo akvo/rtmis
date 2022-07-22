@@ -160,7 +160,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         test = options.get("test")
-        FormData.objects.all().delete()
+        # FormData.objects.all().delete()
         fake_geo = pd.read_csv("./source/kenya_random_points.csv")
         level_names = list(
             filter(lambda x: True if "NAME_" in x else False, list(fake_geo)))
