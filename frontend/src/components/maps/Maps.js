@@ -21,7 +21,7 @@ const borderColor = "#7d7d7d";
 const mapMaxZoom = 13;
 const higlightColor = "#84b4cc";
 
-const Maps = ({ loading, mapConfig, style = {}, dontZoom }) => {
+const Maps = ({ loading, mapConfig, style = {}, national }) => {
   // config
   const { data, title, calc, path, span, type, index } = mapConfig;
   const { administration } = store.useState((s) => s);
@@ -36,13 +36,13 @@ const Maps = ({ loading, mapConfig, style = {}, dontZoom }) => {
 
   const indicatorTitle = useMemo(() => {
     const prefix = calc === "percent" ? "% of" : "Count of";
-    if (indicatorPath) {
+    if (indicatorPath && !national) {
       let ttl = indicatorPath.split(".").map((i) => startCase(i));
       ttl = takeRight(ttl, 2).join(" - ");
       return `${prefix} ${ttl}`;
     }
     return `${prefix} ${title}`;
-  }, [indicatorPath, calc, title]);
+  }, [indicatorPath, calc, title, national]);
 
   const currentAdministration =
     administration.length < 4
@@ -160,7 +160,7 @@ const Maps = ({ loading, mapConfig, style = {}, dontZoom }) => {
   const onEachFeature = (feature, layer) => {
     layer.on({
       click: () => {
-        if (!dontZoom) {
+        if (!national) {
           const shapeName = feature.properties?.[`NAME_${level + 1}`];
           const shapeInfo = currentAdministration.children.find(
             (x) => x.name === shapeName
