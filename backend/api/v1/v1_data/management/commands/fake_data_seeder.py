@@ -51,7 +51,7 @@ def set_answer_data(data, question):
     return name, value, option
 
 
-def add_fake_answers(data: FormData):
+def add_fake_answers(data: FormData, form_type):
     form = data.form
     meta_name = []
     for question in form.form_questions.all().order_by('order'):
@@ -75,8 +75,9 @@ def add_fake_answers(data: FormData):
             name=name,
             value=value,
             options=option,
-            created_by=SystemUser.objects.order_by('?').first())
-    data.name = ' - '.join(meta_name) if meta_name else data.name
+            created_by=data.created_by)
+    data.name = ' - '.join(meta_name) if \
+        form_type != FormTypes.national else data.name
     data.save()
 
 
@@ -87,13 +88,7 @@ def seed_data(form, fake_geo, level_names, repeat, test):
         created = fake.date_between(start_date, now_date)
         created = datetime.combine(created, time.min)
         geo = fake_geo.iloc[i].to_dict()
-        data = FormData.objects.create(
-            name=fake.pystr_format(),
-            geo=[geo["X"], geo["Y"]],
-            form=form,
-            administration=Administration.objects.first(),
-            created_by=SystemUser.objects.order_by('?').first())
-        data.created = make_aware(created)
+        geo_value = [geo["X"], geo["Y"]]
         level_id = 1
         if not test:
             for level_name in level_names:
@@ -113,28 +108,39 @@ def seed_data(form, fake_geo, level_names, repeat, test):
                             pk=access.administration.id).first()
                         data_name = "{0} - {1}".format(
                             administration.name,
-                            now_date.strftime("%B %Y"))
-                        data = FormData.objects.create(
+                            created.strftime("%B %Y"))
+                        national_data = FormData.objects.create(
                             name=data_name,
-                            geo=[geo["X"], geo["Y"]],
+                            geo=geo_value,
                             form=form,
                             administration=administration,
                             created_by=access.user)
-                        data.created = make_aware(created)
+                        national_data.created = make_aware(created)
                         level_id = administration.id
-                        data.save()
-                        add_fake_answers(data)
+                        national_data.save()
+                        add_fake_answers(national_data, form.type)
                 else:
+                    data = FormData.objects.create(
+                        name=fake.pystr_format(),
+                        geo=geo_value,
+                        form=form,
+                        administration=administration,
+                        created_by=SystemUser.objects.order_by('?').first())
+                    data.created = make_aware(created)
                     level_id = administration.id
-                    data.administration = administration
                     data.save()
-                    add_fake_answers(data)
+                    add_fake_answers(data, form.type)
         else:
             level = Levels.objects.order_by('-id').first()
-            data.administration = Administration.objects.filter(
-                level=level).order_by('?').first()
-            data.save()
-            add_fake_answers(data)
+            test_data = FormData.objects.create(
+                name=fake.pystr_format(),
+                geo=geo_value,
+                form=form,
+                administration=Administration.objects.filter(
+                    level=level).order_by('?').first(),
+                created_by=SystemUser.objects.order_by('?').first())
+            test_data.save()
+            add_fake_answers(test_data, form.type)
 
 
 class Command(BaseCommand):

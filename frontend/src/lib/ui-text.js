@@ -68,6 +68,21 @@ const uiText = {
         url: "https://www.who.int/teams/environment-climate-change-and-health/water-sanitation-and-health/monitoring-and-evidence/wash-systems-monitoring/un-water-global-analysis-and-assessment-of-sanitation-and-drinking-water",
       },
     ],
+    footerResourcesTitle: "Resources",
+    footerResourcesItems: [
+      {
+        text: "International Resources",
+        url: "#",
+      },
+      {
+        text: "National Resources",
+        url: "#",
+      },
+      {
+        text: "County Resources",
+        url: "#",
+      },
+    ],
     footerQuickLinkTitle: "Quick Links",
     footerQuickLinkItems: [
       {
