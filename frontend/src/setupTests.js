@@ -291,3 +291,7 @@ window.users = [
     last_login: null,
   },
 ];
+
+window.forms = [];
+
+window.filterForms = [];

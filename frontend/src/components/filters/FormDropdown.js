@@ -36,6 +36,7 @@ const FormDropdown = ({
       handleChange(filterForms[0].id);
     }
   }, [filterForms, selectedForm, handleChange]);
+
   if (filterForms && !hidden) {
     return (
       <Select
@@ -51,7 +52,11 @@ const FormDropdown = ({
         {...props}
       >
         {filterForms.map((optionValue, optionIdx) => (
-          <Select.Option key={optionIdx} value={optionValue.id}>
+          <Select.Option
+            key={optionIdx}
+            value={optionValue.id}
+            data-testid={`option-${optionValue.name.toLowerCase()}`}
+          >
             {optionValue.name}
           </Select.Option>
         ))}
