@@ -35,4 +35,12 @@ class PublicGet(BasePermission):
     def has_permission(self, request, view):
         if request.method == 'GET':
             return True
+        if request.user.is_anonymous:
+            return False
+        if request.user.user_access.role in [
+                UserRoleTypes.super_admin,
+                UserRoleTypes.admin,
+                UserRoleTypes.approver,
+                UserRoleTypes.user]:
+            return True
         return False
