@@ -18,7 +18,7 @@ Object {
   "shapeLevels": Array [],
   "tile": Object {
     "attribution": "Tiles &copy; Esri &mdash; DeLorme, NAVTEQ, Esri",
-    "url": "https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}",
+    "url": "https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png",
   },
 }
 `;

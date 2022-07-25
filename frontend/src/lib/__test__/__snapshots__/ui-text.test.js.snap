@@ -96,11 +96,11 @@ Object {
         "url": "https://washdata.org/how-we-work/about-jmp#:~:text=Background,hygiene%20(WASH)%20since%201990",
       },
       Object {
-        "text": "CLTS",
-        "url": "https://www.communityledtotalsanitation.org/country/kenya",
+        "text": "CLTS RTMIS",
+        "url": " http://wash.health.go.ke/clts/index.jsp",
       },
       Object {
-        "text": "GLASS",
+        "text": "GLAAS",
         "url": "https://www.who.int/teams/environment-climate-change-and-health/water-sanitation-and-health/monitoring-and-evidence/wash-systems-monitoring/un-water-global-analysis-and-assessment-of-sanitation-and-drinking-water",
       },
     ],
@@ -112,6 +112,21 @@ Object {
       },
     ],
     "footerQuickLinkTitle": "Quick Links",
+    "footerResourcesItems": Array [
+      Object {
+        "text": "International Resources",
+        "url": "#",
+      },
+      Object {
+        "text": "National Resources",
+        "url": "#",
+      },
+      Object {
+        "text": "County Resources",
+        "url": "#",
+      },
+    ],
+    "footerResourcesTitle": "Resources",
     "forgotDesc": "Enter the email associated with your account and we&apos;ll Send an email with instructions to reset your password",
     "forgotTitle": "Reset your password",
     "formAssignmentError": "You don't have any form assignment, please contact the administrator",
@@ -276,7 +291,7 @@ Object {
       <br />
       and Hygiene (RUSH)
     </React.Fragment>,
-    "welcomeCta": "Explore the Data",
+    "welcomeCta": "Explore National Data",
     "welcomeDesc": <React.Fragment>
       Real Time Management Information System (RTMIS)
       <br />
