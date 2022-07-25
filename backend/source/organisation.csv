@@ -1,0 +1,140 @@
+id,name,abbrv,types
+1,4 Kenya,4K,partnership
+2,Action Against Hunger,ACF,partnership
+3,ADP,,partnership
+4,African Inland Child Centered And Development,AICCAD,partnership
+5,Afya Care,AC,partnership
+6,Afya Timiza,Afya-Timiza,partnership
+7,Afya Uzazi,AU,partnership
+8,Afyapwani,Afya-Pwani,partnership
+9,Aga Khan Community Health Department,Aga Khan CHD,partnership
+10,Amref Health Africa In Kenya,AMREF,"partnership, member"
+11,Aphia Plus Aids Population And Health Integrated Assistance,APHIAPLUS,partnership
+12,Aphia Plus Kamili,APHIA PLUS K,partnership
+13,Base Titanium Limited,BTL,partnership
+14,Bidii,BIDII,partnership
+15,Carekenya,CK,partnership
+16,Catholic Agency For Aid And Development,CARITAS,partnership
+17,Catholic Diocese Of Marsabit,CDOM,partnership
+18,Catholic Relief Services ,CRS,partnership
+19,Cbm,CBM,partnership
+20,Center For Behavior Change And Communication,CBCC,partnership
+21,Centres For Health And Education Programmes,CHEPs,partnership
+22,Child Fund,CHILD FUND,partnership
+23,Christian Community Services,CCS,partnership
+24,Chuodho Women Group,CWG,partnership
+25,Community Action For People With Disabilities In Africa,CAPDA,partnership
+26,Community Asset Building And Development Action,CABDA,partnership
+27,Community Health Partiners,CHP,partnership
+28,County Government of Baringo,CGBa,partnership
+29,County Government of Bomet,CGBo,partnership
+30,County Government of Bungoma,CGBu,partnership
+31,County Government of Busia,CGBus,partnership
+32,County Government of Elgeyo Marakwet,CGEM,partnership
+33,County Government of Embu,CGE,partnership
+34,County Government of Garissa,CGG,partnership
+35,County Government of Homa Bay,CGH,partnership
+36,County Government of Isiolo,CGI,partnership
+37,County Government of Kajiado,CGK,partnership
+38,County Government of Kakamega,CGKa,partnership
+39,County Government of Kericho,CGKe,partnership
+40,County Government of Kiambu,CGKi,partnership
+41,County Government of Kilifi,CGKil,partnership
+42,County Government of Kirinyaga,CGKir,partnership
+43,County Government of Kisii,CGKis,partnership
+44,County Government of Kisumu,CGKsm,partnership
+45,County Government of Kitui,CGKit,partnership
+46,County Government of Kwale,CGKw,partnership
+47,County Government of Laikipia,CGL,partnership
+48,County Government of Lamu,CGLa,partnership
+49,County Government of Machakos,CGMks,partnership
+50,County Government of Makueni,CGMak,partnership
+51,County Government of Mandera,CGM,partnership
+52,County Government of Marsabit,CGMar,partnership
+53,County Government of Meru,CGMer,partnership
+54,County Government of Migori,CGMig,partnership
+55,County Government of Mombasa,CGMbs,partnership
+56,County Government of Murang'a,CGMu,partnership
+57,County Government of Nakuru,CGN,partnership
+58,County Government of Nandi,CGNa,partnership
+59,County Government of Narok,CGNar,partnership
+60,County Government of Nyamira,CGNyan,partnership
+61,County Government of Nyandarua,CGNyandaru,partnership
+62,County Government of Nyeri,CGNy,partnership
+63,County Government of Samburu,CGS,partnership
+64,County Government of Siaya,CGSya,partnership
+65,County Government of Taita Taveta,CGTT,partnership
+66,County Government of Tana River,CGTR,partnership
+67,County Government of Tharaka Nithi,CGTN,partnership
+68,County Government of Trans Nzoia,CTGNz,partnership
+69,County Government of Turkana,CGT,partnership
+70,County Government of Uasin Gishu,CGUG,partnership
+71,County Government of Vihiga,CGV,partnership
+72,County Government of Wajir,CGW,partnership
+73,County Government of West Pokot,CGWP,partnership
+74,Dig Deep,DD,partnership
+75,Diocese Of Lodwar,DOL,partnership
+76,Dorocus Aid,DA,partnership
+77,Family Aids Care,FACES,partnership
+78,Family Health International,FHI,partnership
+79,Fathers Daughters,FD,partnership
+80,Feed The Children,FEED,partnership
+81,Food For The Hungry Kenya,FHK,partnership
+82,Fred Hollows,FREDHOLL,partnership
+83,Fred Hollows Foundation,FHFK1,partnership
+84,Glpbal Child Hope,GCH,partnership
+85,Government Of Kenya,GOK,partnership
+86,Government Of Makueni County,GMC,partnership
+87,International Rescue Committee,IRC,partnership
+88,Japan Habitat Association Smile Latrine Project,JHA,partnership
+89,K,OTHERS,partnership
+90,Kenya Integrated Waters And Sanitation Program,KIWASH,partnership
+91,Kenya Rapid,FHK/K-RAPID,partnership
+92,Kenya Red Cross,KRC,partnership
+93,Kenya Red Cross Society,,partnership
+94,Kenya Water For Health Organization,KWAHO,partnership
+95,Kenya Water Security And Climate Resilience Project,KWSCRP,partnership
+96,Kewasnet,KEWASNET,partnership
+97,Kitise Rural Development Agency,KRDA,partnership
+98,Living Water International,LWI,partnership
+99,Lwala Community Based Organization,LWALA CBO,partnership
+100,Mabanda,MABANDA,partnership
+101,Map International,MAP INT.,partnership
+102,Maternal Child Health Survival Programme,MCSP,partnership
+103,Nairobi Metropolitan Services,NMS,partnership
+104,Neighbors Initiative Alliance,NIA,partnership
+105,No Dedicated Partner,NO PARTNER,partnership
+106,North Gem Cbo,North GEM,partnership
+107,Operation Eye Sight,OEU,partnership
+108,Oxford Committee For Famine Relief,OXFAM,partnership
+109,Pastoralist Integrated Support Programme,PISP,partnership
+110,Peace Winds Japan,PWJ,"partnership, member"
+111,Plan International,PLAN INT.,partnership
+112,Practical Action,PRACTICAL ACTION,partnership
+113,Rotary Doctors Sweden,RDS,partnership
+114,Salvation Army,SA,partnership
+115,Samaritan Purse,Samaritan P,partnership
+116,Save The Children International,SCI,partnership
+117,Save The Children International SCI,Afya Halisi,partnership
+118,Shokut Naretoi Community Project,SNCP,partnership
+119,Sight Savers International,SSI,partnership
+120,Stichting Nederlandse Vrijwilligers,SNV,partnership
+121,Sustainable Agriculture Community Development Programmes,SACDEP,partnership
+122,Sustainable Aid In Africa International,SANA INT.,partnership
+123,Team And Team International,TTI,partnership
+124,United Nations Childrens Fund,UNICEF,"partnership, member"
+125,Universal Intervention And Development Organization,UNIDO,partnership
+126,U.S. Agency for International Development,USAID,"partnership, member"
+127,Usaid Acted Kenya,ACTED,partnership
+128,Usaid Tujenge Jamii,UTJ,partnership
+129,Usaidkenya And East Africa Afya Jijini Program,Afya Jijini,partnership
+130,Wajir South Development Association,WASDA,partnership
+131,WASH Allaince Kenya,WAK,"partnership, member"
+132,Water Sector Trust Fund,WSTF,partnership
+133,Water Service Providers,WSP,partnership
+134,We World,WW,partnership
+135,Welt Hunger Hilfe,WHH,partnership
+136,Wikivuvwa,WIKIVUVWA,partnership
+137,Women Fighting Aids In Kenyan,WOFAK,partnership
+138,World Bank,WB,partnership
+139,World Vision Kenya,WORLD VISION K,"partnership, member"

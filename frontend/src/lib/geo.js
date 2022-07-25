@@ -9,7 +9,7 @@ const topojson_object = topojson.objects[Object.keys(topojson.objects)[0]];
 const shapeLevels = Object.keys(topojson_object.geometries[0].properties);
 
 const tile = {
-  url: "https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}",
+  url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png",
   attribution: "Tiles &copy; Esri &mdash; DeLorme, NAVTEQ, Esri",
 };
 

@@ -45,6 +45,7 @@ class FormSeederTestCase(TestCase):
             "Governance and policy",
             "Health Facilities",
             "Household",
+            "Urban Sanitation",
             "CLTS",
             "WASH in Schools",
             "Water System",
@@ -54,7 +55,7 @@ class FormSeederTestCase(TestCase):
         output = self.call_command()
         output = list(filter(lambda x: len(x), output.split("\n")))
         forms = Forms.objects.all()
-        self.assertEqual(forms.count(), 6)
+        self.assertEqual(forms.count(), 7)
         for form in forms:
             self.assertIn(f"Form Created | {form.name} V{form.version}",
                           output)

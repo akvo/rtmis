@@ -120,14 +120,15 @@ const Line = (
         },
         dataView: {
           ...DataView,
-          optionToContent: optionToContent,
+          optionToContent: (e) =>
+            optionToContent({ ...e, category: "Year" }, "LINE"),
         },
         myDownload: {
           show: true,
           title: "Download Excel",
           icon: Icons.download,
           onclick: (e) => {
-            downloadToExcel(e, excelFile);
+            downloadToExcel({ ...e, category: "Year" }, excelFile, "LINE");
           },
         },
       },

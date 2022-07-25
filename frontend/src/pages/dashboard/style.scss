@@ -63,9 +63,16 @@
 
       .row-wrapper {
         padding: 12px 0;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
 
         .ant-col {
           &.overview-card {
+            flex: 1 1;
+            width: 0;
+
             .ant-card {
               padding: 20px;
 
@@ -96,6 +103,7 @@
 
                 .ant-image {
                   background-color: rgba(255, 255, 255, 0.35);
+                  mix-blend-mode: multiply;
                   padding: 2.5px;
                 }
               }

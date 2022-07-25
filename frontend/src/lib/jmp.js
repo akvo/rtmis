@@ -71,4 +71,12 @@ const jmpColorScore = {
   },
 };
 
+export const negativeIndicator = [
+  "no service",
+  "limited",
+  "unimproved",
+  "no facility",
+  "open defecation",
+];
+
 export default jmpColorScore;

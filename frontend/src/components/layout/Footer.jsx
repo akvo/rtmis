@@ -24,11 +24,25 @@ const Footer = ({ className = "footer", ...props }) => {
           <h2>{text?.footerAboutTitle}</h2>
           <p>{text?.footerAboutDescription}</p>
         </Col>
-        <Col span={8}>
+        <Col span={4}>
           <h2>{text?.footerExternalLinkTitle}</h2>
           {!!text?.footerExternalLinkItems && (
             <ul>
               {text.footerExternalLinkItems.map((x, xi) => (
+                <li key={`ext-link-${xi}`}>
+                  <a target="_blank" rel="noreferrer" href={x.url}>
+                    {x.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Col>
+        <Col span={4}>
+          <h2>{text?.footerResourcesTitle}</h2>
+          {!!text?.footerResourcesItems && (
+            <ul>
+              {text.footerResourcesItems.map((x, xi) => (
                 <li key={`ext-link-${xi}`}>
                   <a target="_blank" rel="noreferrer" href={x.url}>
                     {x.text}

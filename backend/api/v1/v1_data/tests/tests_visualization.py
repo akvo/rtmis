@@ -247,7 +247,7 @@ class DataVisualisationTestCase(TestCase):
         data = self.client.get(url, content_type='application/json')
         self.assertEqual(data.status_code, 200)
         self.assertEqual(list(data.json()[0]),
-                         ['loc', 'data', 'total', 'administration_count'])
+                         ['loc', 'data', 'total'])
 
         # GLAAS API
         url = f"/api/v1/glaas/{form.id}"

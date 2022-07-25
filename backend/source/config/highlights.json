@@ -24,17 +24,11 @@
               },
               {
                 "question": 513690062,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 513690060,
-                "option": [
-                  "Removed by service provider to a treatment plant",
-                  "Removed by service provider to buried pit",
-                  "Emptied by household buried in a covered pit"
-                ]
+                "option": ["To a treatment plant", "Buried in an uncovered pit"]
               }
             ]
           }
@@ -63,17 +57,11 @@
               },
               {
                 "question": 513690062,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 513690060,
-                "option": [
-                  "Removed by service provider to a treatment plant",
-                  "Removed by service provider to buried pit",
-                  "Emptied by household buried in a covered pit"
-                ]
+                "option": ["To a treatment plant", "Buried in an uncovered pit"]
               }
             ]
           },
@@ -92,9 +80,7 @@
               },
               {
                 "question": 513690062,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               }
             ]
           },
@@ -113,9 +99,7 @@
               },
               {
                 "question": 513690062,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -142,9 +126,7 @@
             "options": [
               {
                 "question": 492490054,
-                "option": [
-                  "No facility / Bush / Field"
-                ]
+                "option": ["No facility / Bush / Field"]
               }
             ]
           }
@@ -170,15 +152,11 @@
               },
               {
                 "question": 466680045,
-                "option": [
-                  "Water is available"
-                ]
+                "option": ["Water is available"]
               },
               {
                 "question": 466760036,
-                "option": [
-                  "Soap or detergent available ."
-                ]
+                "option": ["Soap or detergent available ."]
               }
             ]
           },
@@ -197,15 +175,11 @@
               },
               {
                 "question": 466680045,
-                "option": [
-                  "Water is available"
-                ]
+                "option": ["Water is available"]
               },
               {
                 "question": 466760036,
-                "option": [
-                  "Soap or detergent available ."
-                ]
+                "option": ["Soap or detergent available ."]
               }
             ]
           },
@@ -259,9 +233,7 @@
             "options": [
               {
                 "question": 524810054,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -314,33 +286,23 @@
               },
               {
                 "question": 530250002,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555370009,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555370003,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555370005,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555370006,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           }
@@ -370,33 +332,23 @@
               },
               {
                 "question": 530250002,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555370009,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555370003,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555370005,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555370006,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -416,33 +368,23 @@
               },
               {
                 "question": 530250002,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 555370009,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 555370003,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 555370005,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 555370006,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               }
             ]
           },
@@ -477,15 +419,11 @@
             "options": [
               {
                 "question": 551560007,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 551560004,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -502,9 +440,7 @@
               },
               {
                 "question": 551560004,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -543,9 +479,7 @@
             "options": [
               {
                 "question": 541950008,
-                "option": [
-                  "Yes, waste is segregated into three labelled bins"
-                ]
+                "option": ["Yes, waste is segregated into three labelled bins"]
               },
               {
                 "question": 541950011,
@@ -613,9 +547,7 @@
             "options": [
               {
                 "question": 541950008,
-                "option": [
-                  "No, bins are not present"
-                ]
+                "option": ["No, bins are not present"]
               }
             ]
           }
@@ -633,15 +565,11 @@
             "options": [
               {
                 "question": 551560009,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 551560005,
-                "option": [
-                  "Yes, all have been trained"
-                ]
+                "option": ["Yes, all have been trained"]
               }
             ]
           },
@@ -652,15 +580,11 @@
             "options": [
               {
                 "question": 551560009,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 551560005,
-                "option": [
-                  "No, some but not all have been trained"
-                ]
+                "option": ["No, some but not all have been trained"]
               }
             ]
           },
@@ -671,9 +595,7 @@
             "options": [
               {
                 "question": 551560009,
-                "option": [
-                  "Yes but limited"
-                ]
+                "option": ["Yes but limited"]
               },
               {
                 "question": 551560005,
@@ -713,15 +635,11 @@
               },
               {
                 "question": 579840064,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555460003,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           }
@@ -751,9 +669,7 @@
               },
               {
                 "question": 551660013,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -774,9 +690,7 @@
               },
               {
                 "question": 551660013,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               }
             ]
           },
@@ -818,15 +732,11 @@
               },
               {
                 "question": 579840064,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555460003,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -845,15 +755,11 @@
               },
               {
                 "question": 579840064,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555460003,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -887,15 +793,11 @@
             "options": [
               {
                 "question": 539710052,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 539710048,
-                "option": [
-                  "Yes, water and soap"
-                ]
+                "option": ["Yes, water and soap"]
               }
             ]
           },
@@ -906,15 +808,11 @@
             "options": [
               {
                 "question": 539710052,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 539710048,
-                "option": [
-                  "Water only"
-                ]
+                "option": ["Water only"]
               }
             ]
           },
@@ -925,9 +823,7 @@
             "options": [
               {
                 "question": 539710052,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               }
             ]
           }
@@ -996,15 +892,11 @@
             "options": [
               {
                 "question": 545530057,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 575740004,
-                "option": [
-                  "Yes, all have been trained"
-                ]
+                "option": ["Yes, all have been trained"]
               }
             ]
           },
@@ -1015,15 +907,11 @@
             "options": [
               {
                 "question": 545530057,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 575740004,
-                "option": [
-                  "No, some but not all have been trained"
-                ]
+                "option": ["No, some but not all have been trained"]
               }
             ]
           },
@@ -1034,9 +922,7 @@
             "options": [
               {
                 "question": 545530057,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 575740004,
@@ -1087,15 +973,11 @@
               },
               {
                 "question": 466680045,
-                "option": [
-                  "Water is available"
-                ]
+                "option": ["Water is available"]
               },
               {
                 "question": 466760036,
-                "option": [
-                  "Soap or detergent available ."
-                ]
+                "option": ["Soap or detergent available ."]
               }
             ]
           }

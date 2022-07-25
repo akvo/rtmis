@@ -81,8 +81,9 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (formId && !wait) {
-      setDataset([]);
       setLoading(true);
+      setDataset([]);
+      setDataPeriod([]);
       let url = `jmp/${formId}?administration=${currentAdministration?.id}`;
       if (advancedFilters && advancedFilters.length) {
         url = generateAdvanceFilterURL(advancedFilters, url);
@@ -91,6 +92,18 @@ const Dashboard = () => {
         .get(url)
         .then((res) => {
           setDataset(res.data);
+          const url = `submission/period/${formId}?administration=${currentAdministration?.id}`;
+          api
+            .get(url)
+            .then((res) => {
+              setDataPeriod(res.data);
+            })
+            .catch(() => {
+              notify({
+                type: "error",
+                message: text.errorDataLoad,
+              });
+            });
         })
         .catch(() => {
           notify({
@@ -103,24 +116,6 @@ const Dashboard = () => {
         });
     }
   }, [formId, currentAdministration, notify, text, advancedFilters, wait]);
-
-  useEffect(() => {
-    if (formId && dataset.length) {
-      setDataPeriod([]);
-      const url = `submission/period/${formId}?administration=${currentAdministration?.id}`;
-      api
-        .get(url)
-        .then((res) => {
-          setDataPeriod(res.data);
-        })
-        .catch(() => {
-          notify({
-            type: "error",
-            message: text.errorDataLoad,
-          });
-        });
-    }
-  }, [formId, dataset, currentAdministration, notify, text]);
 
   const changeTab = (tabKey) => {
     setActiveTab(tabKey);
@@ -182,34 +177,36 @@ const Dashboard = () => {
   return (
     <div id="dashboard">
       <Affix className="sticky-wrapper">
-        <div className="page-title-wrapper">
-          <h1>{`${prefixText} ${selectedForm.name} Data`}</h1>
-        </div>
-        <VisualisationFilters showFormOptions={false} />
-        <div className="tab-wrapper">
-          {current?.tabs && (
-            <Tabs
-              activeKey={activeTab}
-              onChange={changeTab}
-              type="card"
-              tabBarGutter={10}
-            >
-              {Object.keys(current.tabs).map((key) => {
-                let tabName = key;
-                if (
-                  !["jmp", "glaas", "rush"].includes(key.toLocaleLowerCase())
-                ) {
-                  tabName = key
-                    .split("_")
-                    .map((x) => capitalize(x))
-                    .join(" ");
-                } else {
-                  tabName = key.toUpperCase();
-                }
-                return <TabPane tab={tabName} key={key}></TabPane>;
-              })}
-            </Tabs>
-          )}
+        <div>
+          <div className="page-title-wrapper">
+            <h1>{`${prefixText} ${selectedForm.name} Data`}</h1>
+          </div>
+          <VisualisationFilters showFormOptions={false} />
+          <div className="tab-wrapper">
+            {current?.tabs && (
+              <Tabs
+                activeKey={activeTab}
+                onChange={changeTab}
+                type="card"
+                tabBarGutter={10}
+              >
+                {Object.keys(current.tabs).map((key) => {
+                  let tabName = key;
+                  if (
+                    !["jmp", "glaas", "rush"].includes(key.toLocaleLowerCase())
+                  ) {
+                    tabName = key
+                      .split("_")
+                      .map((x) => capitalize(x))
+                      .join(" ");
+                  } else {
+                    tabName = key.toUpperCase();
+                  }
+                  return <TabPane tab={tabName} key={key}></TabPane>;
+                })}
+              </Tabs>
+            )}
+          </div>
         </div>
       </Affix>
       <Row className="main-wrapper" align="center">
@@ -219,7 +216,7 @@ const Dashboard = () => {
               return (
                 <Row
                   key={`row-${index}`}
-                  className="row-wrapper"
+                  className="flexible-container row-wrapper"
                   gutter={[10, 10]}
                 >
                   {row.map((r, ri) => renderColumn(r, ri))}

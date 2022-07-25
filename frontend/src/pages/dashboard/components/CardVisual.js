@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { Row, Col, Card, Image } from "antd";
 import { get, sum, takeRight } from "lodash";
 import millify from "millify";
+import { store } from "../../../lib";
 
 const cardColorPalette = [
   "#CBBFFF",
@@ -19,7 +20,6 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
     type,
     path,
     calc,
-    span,
     data,
     index,
     color,
@@ -27,6 +27,8 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
     lastUpdate,
     admLevelName,
   } = cardConfig;
+  const administration = store.useState((s) => s.administration);
+  const currentAdministration = takeRight(administration)?.[0];
 
   const renderData = useMemo(() => {
     if (!path || !data.length) {
@@ -44,8 +46,11 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
       };
     }
     if (calc === "count" && path === "length") {
+      const filterAdm = window.dbadm.filter(
+        (d) => d.parent === currentAdministration.id
+      );
       // counties count card
-      const administration_count = data[0].administration_count;
+      const administration_count = filterAdm.length || 1;
       const administration_reported = data.length;
       const adm_percent = Math.round(
         (administration_reported / administration_count) * 100
@@ -70,15 +75,14 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
         value: `${percent}%`,
       };
     }
-  }, [data, calc, path, title, customTotal]);
+  }, [data, calc, path, title, customTotal, currentAdministration]);
 
   return (
     <Col
       key={`col-${type}-${index}`}
-      className="overview-card"
+      className="flexible-columns overview-card"
       align="center"
       justify="space-between"
-      span={span}
     >
       <Card
         style={{
@@ -98,7 +102,7 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
             <Col flex="40%" align="end">
               <Image
                 src={`/assets/dashboard/${icon}`}
-                height={45}
+                height={60}
                 preview={false}
                 alt={icon}
               />

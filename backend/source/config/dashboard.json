@@ -12,7 +12,6 @@
               "title": "Number of HHs reporting",
               "calc": "sum",
               "path": "total",
-              "span": 4,
               "icon": "households.svg",
               "color": "#CBBFFF"
             },
@@ -21,8 +20,7 @@
               "title": "Number of ##administration_level## reporting",
               "calc": "count",
               "path": "length",
-              "span": 4,
-              "icon": "administrative-unit.svg",
+              "icon": "counties.svg",
               "color": "#FFDBBF"
             },
             {
@@ -30,8 +28,7 @@
               "title": "HHs with safely managed sanitation facilities",
               "calc": "percent",
               "path": "data.sanitation service level.safely managed",
-              "span": 4,
-              "icon": "sanitation.svg",
+              "icon": "safely-managed.svg",
               "color": "#FFF8BF"
             },
             {
@@ -39,7 +36,6 @@
               "title": "HHs with Basic hand hygiene facilities",
               "calc": "percent",
               "path": "data.hygiene service level.basic",
-              "span": 4,
               "icon": "hand-hygiene.svg",
               "color": "#BFF7FF"
             },
@@ -48,18 +44,16 @@
               "title": "HHs with sanitation facilities at grade 3",
               "calc": "percent",
               "path": null,
-              "span": 4,
               "icon": "sanitation.svg",
-              "color": "#FFF8BF"
+              "color": "#99BF9A"
             },
             {
               "type": "card",
               "title": "HHs with hand hygiene facilities at grade 3",
               "calc": "percent",
               "path": null,
-              "span": 4,
               "icon": "hand-hygiene.svg",
-              "color": "#BFF7FF"
+              "color": "#F1DBB5"
             }
           ],
           [
@@ -105,28 +99,25 @@
               "title": "% of HHs with Safely managed sanitation",
               "calc": "percent",
               "path": "data.sanitation service level.safely managed",
-              "span": 6
+              "icon": "safely-managed.svg"
             },
             {
               "type": "card",
               "title": "% of HHs practising Open defecation",
               "calc": "percent",
-              "path": "data.sanitation service level.open defecation",
-              "span": 6
+              "path": "data.sanitation service level.open defecation"
             },
             {
               "type": "card",
               "title": "% of HHs with Basic Hygiene facilities",
               "calc": "percent",
-              "path": "data.hygiene service level.basic",
-              "span": 6
+              "path": "data.hygiene service level.basic"
             },
             {
               "type": "card",
               "title": "% of HHs with No Hygiene facility",
               "calc": "percent",
-              "path": "data.hygiene service level.no facility",
-              "span": 6
+              "path": "data.hygiene service level.no facility"
             }
           ],
           [
@@ -234,7 +225,6 @@
               "title": "Number of Health care facilities reporting",
               "calc": "sum",
               "path": "total",
-              "span": 6,
               "icon": "health-facilities.svg",
               "color": "#BFD5FF"
             },
@@ -243,8 +233,7 @@
               "title": "Number of ##administration_level## reporting",
               "calc": "count",
               "path": "length",
-              "span": 6,
-              "icon": "administrative-unit.svg",
+              "icon": "counties.svg",
               "color": "#FFDBBF"
             },
             {
@@ -252,7 +241,6 @@
               "title": "% of Health care facilities with basic sanitation facilities",
               "calc": "percent",
               "path": "data.sanitation service level.basic",
-              "span": 6,
               "icon": "sanitation.svg",
               "color": "#FFF8BF"
             },
@@ -261,7 +249,6 @@
               "title": "% of Health care facilities with basic hand hygiene facilities",
               "calc": "percent",
               "path": "data.hygiene (hand washing) service level.basic",
-              "span": 6,
               "icon": "hand-hygiene.svg",
               "color": "#BFF7FF"
             }
@@ -308,29 +295,25 @@
               "type": "card",
               "title": "% of HCFs with No Service sanitation facilities",
               "calc": "percent",
-              "path": "data.sanitation service level.no service",
-              "span": 6
+              "path": "data.sanitation service level.no service"
             },
             {
               "type": "card",
               "title": "% of HCFs with No Service hygiene facilities ",
               "calc": "percent",
-              "path": "data.hygiene (hand washing) service level.no service",
-              "span": 6
+              "path": "data.hygiene (hand washing) service level.no service"
             },
             {
               "type": "card",
               "title": "% of HCFs with No service Health care waste management",
               "calc": "percent",
-              "path": "data.health care waste management service level.no service",
-              "span": 6
+              "path": "data.health care waste management service level.no service"
             },
             {
               "type": "card",
               "title": "% of HCFs with No Service Environmental cleaning protocols",
               "calc": "percent",
-              "path": "data.environmental cleaning service level.no service",
-              "span": 6
+              "path": "data.environmental cleaning service level.no service"
             }
           ],
           [
@@ -513,7 +496,6 @@
               "title": "Number of Schools reporting",
               "calc": "sum",
               "path": "total",
-              "span": 5,
               "icon": "schools.svg",
               "color": "#99BF9A"
             },
@@ -522,8 +504,7 @@
               "title": "Number of ##administration_level## reporting",
               "calc": "count",
               "path": "length",
-              "span": 5,
-              "icon": "administrative-unit.svg",
+              "icon": "counties.svg",
               "color": "#FFDBBF"
             },
             {
@@ -531,7 +512,6 @@
               "title": "% of Schools with basic water source",
               "calc": "percent",
               "path": null,
-              "span": 4,
               "icon": "basic-water-source.svg",
               "color": null
             },
@@ -540,7 +520,6 @@
               "title": "% of Schools with basic sanitation facilities",
               "calc": "percent",
               "path": "data.sanitation service level.basic",
-              "span": 5,
               "icon": "sanitation.svg",
               "color": "#FFF8BF"
             },
@@ -549,7 +528,6 @@
               "title": "% of Schools with basic hand hygiene facilities",
               "calc": "percent",
               "path": "data.hygiene (handwashing) service level.basic",
-              "span": 5,
               "icon": "hand-hygiene.svg",
               "color": "#BFF7FF"
             }
@@ -596,29 +574,25 @@
               "type": "card",
               "title": "% of Schools with No Service sanitation facilities",
               "calc": "percent",
-              "path": "data.sanitation service level.no service",
-              "span": 6
+              "path": "data.sanitation service level.no service"
             },
             {
               "type": "card",
               "title": "% of Schools with No Service hygiene facilities ",
               "calc": "percent",
-              "path": "data.hygiene (handwashing) service level.no service",
-              "span": 6
+              "path": "data.hygiene (handwashing) service level.no service"
             },
             {
               "type": "card",
               "title": "% of Schools with No service drinking water service level",
               "calc": "percent",
-              "path": "data.drinking water service level.no service",
-              "span": 6
+              "path": "data.drinking water service level.no service"
             },
             {
               "type": "card",
               "title": "% of Schools with No Service enviromental cleaning service level",
               "calc": "percent",
-              "path": "data.enviromental cleaning service level.no service",
-              "span": 6
+              "path": "data.enviromental cleaning service level.no service"
             }
           ],
           [
@@ -816,8 +790,7 @@
               "calc": "count",
               "from": "counties",
               "path": "length",
-              "span": 4,
-              "icon": null
+              "icon": "counties.svg"
             },
             {
               "type": "card",
@@ -825,7 +798,6 @@
               "calc": "percent",
               "from": "counties",
               "path": "589570112.Yes",
-              "span": 4,
               "icon": null
             },
             {
@@ -834,7 +806,6 @@
               "calc": "sum",
               "from": "counties",
               "path": 594410065,
-              "span": 4,
               "icon": null
             },
             {
@@ -843,7 +814,6 @@
               "calc": "tail",
               "from": "national",
               "path": 594410065,
-              "span": 4,
               "icon": null
             },
             {
@@ -852,7 +822,6 @@
               "calc": "sum",
               "from": "counties",
               "path": 595980103,
-              "span": 4,
               "icon": null
             },
             {
@@ -861,7 +830,6 @@
               "calc": "tail",
               "from": "national",
               "path": 595980103,
-              "span": 4,
               "icon": null
             }
           ],
@@ -900,7 +868,6 @@
               "calc": "percent",
               "from": "counties",
               "path": "589570112.Yes",
-              "span": 6,
               "icon": null
             },
             {
@@ -909,7 +876,6 @@
               "calc": "percent",
               "from": "counties",
               "path": "583720152.Yes",
-              "span": 6,
               "icon": null
             },
             {
@@ -918,7 +884,6 @@
               "calc": "sum",
               "from": "counties",
               "path": 594410065,
-              "span": 4,
               "icon": null
             },
             {
@@ -927,7 +892,6 @@
               "calc": "sum",
               "from": "counties",
               "path": 595980103,
-              "span": 4,
               "icon": null
             },
             {
@@ -936,7 +900,6 @@
               "calc": "sum",
               "from": "counties",
               "path": 594440125,
-              "span": 4,
               "icon": null
             }
           ],
