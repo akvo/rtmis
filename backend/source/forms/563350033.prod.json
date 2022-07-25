@@ -57,11 +57,32 @@
           "options": null
         },
         {
+          "id": 561980063,
+          "meta": false,
+          "question": "Is the school in an urban, peri-urban or rural setup?",
+          "name": null,
+          "order": 5,
+          "required": true,
+          "type": "option",
+          "attributes": ["advanced_filter"],
+          "options": [
+            {
+              "name": "Urban"
+            },
+            {
+              "name": "Peri-urban"
+            },
+            {
+              "name": "Rural"
+            }
+          ]
+        },
+        {
           "id": 543080037,
           "meta": true,
           "question": "School name",
           "name": null,
-          "order": 5,
+          "order": 6,
           "required": true,
           "type": "text",
           "attributes": [
@@ -74,7 +95,7 @@
           "meta": true,
           "question": "School code",
           "name": null,
-          "order": 6,
+          "order": 7,
           "required": true,
           "type": "number",
           "attributes": [
@@ -87,7 +108,7 @@
           "meta": true,
           "question": "School level",
           "name": null,
-          "order": 7,
+          "order": 8,
           "required": true,
           "type": "option",
           "attributes": [
@@ -113,7 +134,7 @@
           "meta": false,
           "question": "Number of boys",
           "name": "# of boys",
-          "order": 8,
+          "order": 9,
           "required": true,
           "type": "number",
           "attributes": [
@@ -127,7 +148,7 @@
           "meta": false,
           "question": "Number of girls",
           "name": "# of girls",
-          "order": 9,
+          "order": 10,
           "required": true,
           "type": "number",
           "attributes": [
@@ -141,7 +162,7 @@
           "meta": false,
           "question": "Number of male staff",
           "name": "# of male staff",
-          "order": 10,
+          "order": 11,
           "required": true,
           "type": "number",
           "attributes": [
@@ -155,7 +176,7 @@
           "meta": false,
           "question": "Number of female staff",
           "name": "# of female staff",
-          "order": 11,
+          "order": 12,
           "required": true,
           "type": "number",
           "attributes": [
