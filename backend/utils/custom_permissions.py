@@ -29,3 +29,10 @@ class IsSuperAdmin(BasePermission):
         if request.user.user_access.role == UserRoleTypes.super_admin:
             return True
         return False
+
+
+class PublicGet(BasePermission):
+    def has_permission(self, request, view):
+        if request.method == 'GET':
+            return True
+        return False
