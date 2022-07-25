@@ -147,6 +147,15 @@
           ],
           [
             {
+              "type": "chart",
+              "title": "Menstrual Hygiene service levels",
+              "calc": "jmp",
+              "path": "data.menstrual hygiene service level",
+              "span": 24
+            }
+          ],
+          [
+            {
               "type": "table",
               "title": "Sanitation service levels",
               "columns": [
@@ -193,6 +202,30 @@
           ],
           [
             {
+              "type": "table",
+              "title": "Menstrual Hygiene service levels",
+              "columns": [
+                {
+                  "title": "Administration Unit",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of HHs",
+                  "path": "total",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count by service level",
+                  "children": true,
+                  "children_path": "data.menstrual hygiene service level"
+                }
+              ],
+              "span": 24
+            }
+          ],
+          [
+            {
               "type": "chart",
               "title": "Sanition Service Level by Period",
               "selector": "period",
@@ -205,6 +238,13 @@
               "selector": "period",
               "span": 24,
               "path": "jmp.hygiene service level"
+            },
+            {
+              "type": "chart",
+              "title": "Menstrual Hygiene Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.menstrual hygiene service level"
             }
           ]
         ]
