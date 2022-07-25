@@ -4,7 +4,12 @@ import { useParams } from "react-router-dom";
 import { Row, Col, Tabs, Affix, Select } from "antd";
 import { uiText, store, config, api } from "../../lib";
 import { capitalize } from "lodash";
-import { CardVisual, TableVisual, ChartVisual } from "./components";
+import {
+  CardVisual,
+  TableVisual,
+  ChartVisual,
+  ReportVisual,
+} from "./components";
 import { Maps } from "../../components";
 import { useNotification } from "../../util/hooks";
 import moment from "moment";
@@ -136,6 +141,8 @@ const Dashboard = () => {
             loading={loading}
           />
         );
+      case "report":
+        return <ReportVisual key={index} selectedForm={selectedForm} />;
       default:
         return (
           <CardVisual
