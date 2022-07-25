@@ -22,7 +22,6 @@ import {
   Profile,
   ExportData,
   UploadData,
-  Visualisation,
   NewsEvents,
   HowWeWork,
   Terms,
@@ -35,6 +34,7 @@ import {
   AddOrganisation,
   Dashboard,
   Glaas,
+  // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
@@ -108,10 +108,12 @@ const RouteList = () => {
         path="/data/upload"
         element={<Private element={UploadData} alias="data" />}
       />
+      {/*
       <Route
         path="/data/visualisation"
         element={<Private element={Visualisation} alias="visualisation" />}
       />
+                */}
       <Route
         path="/questionnaires"
         element={<Private element={Questionnaires} alias="questionnaires" />}

@@ -49,7 +49,7 @@ class Command(BaseCommand):
         with open(administration_json, "w") as outfile:
             json.dump(adm, outfile)
         # write visualisation_json
-        visualisation_json = "source/config/visualisation.json"
+        # visualisation_json = "source/config/visualisation.json"
         highlights_json = "source/config/highlights.json"
         dashboard_json = "source/config/dashboard.json"
 
@@ -77,8 +77,8 @@ class Command(BaseCommand):
             open(dashboard_json).read(), ";",
             "var highlights=",
             open(highlights_json).read(), ";",
-            "var visualisation=",
-            open(visualisation_json).read(), ";",
+            # "var visualisation=",
+            # open(visualisation_json).read(), ";",
             "var dbadm=",
             open(administration_json).read(), ";",
             "var topojson=",
