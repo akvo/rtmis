@@ -693,6 +693,13 @@
               "calc": "jmp",
               "path": "data.enviromental cleaning service level",
               "span": 12
+            },
+            {
+              "type": "chart",
+              "title": "Hygiene (MHM) service levels",
+              "calc": "jmp",
+              "path": "data.hygiene (mhm) service level",
+              "span": 24
             }
           ],
           [
@@ -785,6 +792,28 @@
                 }
               ],
               "span": 12
+            },
+            {
+              "type": "table",
+              "title": "Hygiene (MHM) service level",
+              "columns": [
+                {
+                  "title": "Administration Unit",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of Schools",
+                  "path": "total",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count by service level",
+                  "children": true,
+                  "children_path": "data.hygiene (mhm) service level"
+                }
+              ],
+              "span": 24
             }
           ],
           [
@@ -815,6 +844,13 @@
               "selector": "period",
               "span": 24,
               "path": "jmp.enviromental cleaning service level"
+            },
+            {
+              "type": "chart",
+              "title": "Hygiene (MHM) Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.hygiene (mhm) service level"
             }
           ]
         ]
