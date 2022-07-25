@@ -37,6 +37,10 @@ class PublicGet(BasePermission):
             return True
         if request.user.is_anonymous:
             return False
+        if request.method == 'DELETE':
+            if request.user.user_access == UserRoleTypes.super_admin:
+                return True
+            return False
         if request.user.user_access.role in [
                 UserRoleTypes.super_admin,
                 UserRoleTypes.admin,
