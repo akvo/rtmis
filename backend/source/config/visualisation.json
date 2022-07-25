@@ -55,9 +55,8 @@
               {
                 "question": 513690060,
                 "option": [
-                  "Removed by service provider to a treatment plant",
-                  "Removed by service provider to buried pit",
-                  "Emptied by household buried in a covered pit"
+                  "To a treatment plant",
+                  "Buried in an uncovered pit"
                 ]
               }
             ]
@@ -615,7 +614,7 @@
               {
                 "question": 551560009,
                 "option": [
-                  "Yes but limited"
+                  "Yes"
                 ]
               },
               {
@@ -761,7 +760,7 @@
               {
                 "question": 579840064,
                 "option": [
-                  "Yes"
+                  "No"
                 ]
               },
               {

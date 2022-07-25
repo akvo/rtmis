@@ -1,7 +1,7 @@
 [
   {
     "name": "Household",
-    "description": "Description text here",
+    "description": "Contains data collected from sampled households from all the villages in all the 47 counties in Kenya. Data is updated on monthly basis.",
     "maps": {
       "form_id": 519630048,
       "option": "Safely Managed",
@@ -28,11 +28,7 @@
               },
               {
                 "question": 513690060,
-                "option": [
-                  "Removed by service provider to a treatment plant",
-                  "Removed by service provider to buried pit",
-                  "Emptied by household buried in a covered pit"
-                ]
+                "option": ["To a treatment plant", "Buried in an uncovered pit"]
               }
             ]
           }
@@ -43,7 +39,7 @@
       {
         "form_id": 519630048,
         "type": "CRITERIA",
-        "title": "Sanitation service level",
+        "title": "Sanitation by JMP service levels",
         "show_as_map": true,
         "options": [
           {
@@ -65,11 +61,7 @@
               },
               {
                 "question": 513690060,
-                "option": [
-                  "Removed by service provider to a treatment plant",
-                  "Removed by service provider to buried pit",
-                  "Emptied by household buried in a covered pit"
-                ]
+                "option": ["To a treatment plant", "Buried in an uncovered pit"]
               }
             ]
           },
@@ -143,7 +135,7 @@
       {
         "form_id": 519630048,
         "type": "CRITERIA",
-        "title": "Hygiene service level",
+        "title": "Hygiene by JMP service levels",
         "options": [
           {
             "name": "Basic",
@@ -210,7 +202,7 @@
       {
         "form_id": 519630048,
         "type": "CRITERIA",
-        "title": "Menstrual hygiene service level",
+        "title": "Menstrual hygiene by JMP service levels",
         "options": [
           {
             "name": "Awareness",
@@ -270,7 +262,7 @@
   },
   {
     "name": "Health Facilities",
-    "description": "Description text here",
+    "description": "Contains data collected from all levels of health care facilities in all the 47 counties in Kenya. Data is updated on monthly basis.",
     "maps": {
       "form_id": 533560002,
       "option": "Basic",
@@ -321,7 +313,7 @@
       {
         "form_id": 533560002,
         "type": "CRITERIA",
-        "title": "Sanitation service level",
+        "title": "Sanitation by JMP service levels",
         "show_as_map": true,
         "options": [
           {
@@ -418,7 +410,7 @@
       {
         "form_id": 533560002,
         "type": "CRITERIA",
-        "title": "Hygiene (Hand washing) service level",
+        "title": "Hygiene (Hand washing) by JMP service levels",
         "options": [
           {
             "name": "Basic",
@@ -478,7 +470,7 @@
       {
         "form_id": 533560002,
         "type": "CRITERIA",
-        "title": "Health care waste management service level",
+        "title": "Health care waste management service levels",
         "options": [
           {
             "name": "Basic",
@@ -564,7 +556,7 @@
       {
         "form_id": 533560002,
         "type": "CRITERIA",
-        "title": "Environmental cleaning service level",
+        "title": "Environmental cleaning service levels",
         "options": [
           {
             "name": "Basic",
@@ -620,7 +612,7 @@
   },
   {
     "name": "WASH in School",
-    "description": "Description text here",
+    "description": "Contains data collected from all the schools in all the 47 counties in Kenya. Data is updated on monthly basis.",
     "maps": {
       "form_id": 563350033,
       "option": "Basic",
@@ -658,7 +650,7 @@
       {
         "form_id": 563350033,
         "type": "CRITERIA",
-        "title": "Drinking water service level",
+        "title": "Drinking water by JMP service levels",
         "options": [
           {
             "name": "Basic",
@@ -722,7 +714,7 @@
       {
         "form_id": 563350033,
         "type": "CRITERIA",
-        "title": "Sanitation service level",
+        "title": "Sanitation by JMP service levels",
         "show_as_map": true,
         "options": [
           {
@@ -792,7 +784,7 @@
       {
         "form_id": 563350033,
         "type": "CRITERIA",
-        "title": "Hygiene (handwashing) service level",
+        "title": "Hygiene (handwashing) by JMP service levels",
         "options": [
           {
             "name": "Basic",
@@ -840,7 +832,7 @@
       {
         "form_id": 563350033,
         "type": "CRITERIA",
-        "title": "Hygiene (MHM) service level",
+        "title": "Hygiene (MHM) by JMP service levels",
         "options": [
           {
             "name": "Awareness",
@@ -891,7 +883,7 @@
       {
         "form_id": 563350033,
         "type": "CRITERIA",
-        "title": "Enviromental cleaning service level",
+        "title": "Enviromental cleaning service levels",
         "options": [
           {
             "name": "Basic",
@@ -938,6 +930,54 @@
                   "No, none have been trained",
                   "No, there are no staff responsible for cleaning"
                 ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Governance and Policy",
+    "description": "Contains data collected from all 47 Counties in Kenya as well as data entered at National level. Data is updated on annual basis.",
+    "maps": {
+      "form_id": 519630048,
+      "option": "Basic",
+      "fetch_api": false,
+      "shape": {
+        "title": "Budget Utilisation",
+        "type": "CRITERIA",
+        "calculation": "sum"
+      }
+    },
+    "charts": [
+      {
+        "form_id": 519630048,
+        "type": "CRITERIA",
+        "show_as_map": true,
+        "hide": true,
+        "title": "Budget Utilisation",
+        "options": [
+          {
+            "name": "Basic",
+            "score": 10,
+            "color": "#753780",
+            "options": [
+              {
+                "question": 466680043,
+                "option": [
+                  "Fixed facility observed (sink/tap) In dwelling",
+                  "Fixed facility observed (sink/tap)  In yard/plot",
+                  "Mobile object observed (bucket/jug/kettle)"
+                ]
+              },
+              {
+                "question": 466680045,
+                "option": ["Water is available"]
+              },
+              {
+                "question": 466760036,
+                "option": ["Soap or detergent available ."]
               }
             ]
           }

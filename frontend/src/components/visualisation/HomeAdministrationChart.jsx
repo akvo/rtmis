@@ -148,10 +148,13 @@ const HomeAdministrationChart = ({
   }, [isStack, dataset, showEmpty]);
 
   return (
-    <Card className="chart-wrap">
+    <Card
+      className="chart-wrap"
+      style={{ display: setup?.hide ? "none" : "block" }}
+    >
       <Row justify="space-between" align="middle">
         <h3>
-          {isStack ? "County" : "National"} {title}
+          {isStack ? "County" : "National"} {title} ({identifier})
         </h3>
         {isStack && (
           <Checkbox

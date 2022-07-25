@@ -8,13 +8,23 @@ import {
   AxisShortLabelFormatter,
   Title,
   axisTitle,
+  DataView,
+  optionToContent,
   NoData,
+  downloadToExcel,
 } from "./common";
 import sortBy from "lodash/sortBy";
 import isEmpty from "lodash/isEmpty";
 import sumBy from "lodash/sumBy";
 
-const Bar = (data, chartTitle, extra, horizontal = false, grid = {}) => {
+const Bar = (
+  data,
+  chartTitle,
+  excelFile,
+  extra = {},
+  horizontal = false,
+  grid = {}
+) => {
   if (isEmpty(data) || !data) {
     return NoData;
   }
@@ -47,21 +57,36 @@ const Bar = (data, chartTitle, extra, horizontal = false, grid = {}) => {
     tooltip: {
       show: true,
       trigger: "item",
-      formatter: "{b}",
+      formatter: '<div class="no-border">{b}</div>',
       padding: 5,
       backgroundColor: "#f2f2f2",
       ...TextStyle,
     },
     toolbox: {
       show: true,
-      orient: "vertical",
-      right: 15,
-      top: "top",
+      showTitle: true,
+      orient: "horizontal",
+      right: 30,
+      top: 20,
       feature: {
         saveAsImage: {
           type: "jpg",
+          title: "Save Image",
           icon: Icons.saveAsImage,
           backgroundColor: "#EAF5FB",
+        },
+        dataView: {
+          ...DataView,
+          optionToContent: (e) =>
+            optionToContent({ option: e, horizontal: horizontal, suffix: "%" }),
+        },
+        myDownload: {
+          show: true,
+          title: "Download Excel",
+          icon: Icons.download,
+          onclick: (e) => {
+            downloadToExcel(e, excelFile);
+          },
         },
       },
     },

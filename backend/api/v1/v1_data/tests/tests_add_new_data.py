@@ -237,14 +237,13 @@ class AddNewDataTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         self.assertEqual(data, {"message": "ok"})
-        form_data = FormData.objects.filter(form_id=form_id).count()
-        self.assertEqual(form_data, 0)
+        form_data = FormData.objects.filter(form_id=form_id).first()
+        self.assertEqual(form_data.name, "Testing Data National")
+        answers = Answers.objects.filter(data_id=form_data.id).count()
+        self.assertGreater(answers, 0)
         pending_form_data = PendingFormData.objects.filter(
-            form_id=form_id).first()
-        self.assertEqual(pending_form_data.name, "Testing Data National")
-        pending_answers = PendingAnswers.objects.filter(
-            pending_data_id=pending_form_data.id).count()
-        self.assertGreater(pending_answers, 0)
+            form_id=form_id).count()
+        self.assertEqual(pending_form_data, 0)
 
     def test_add_new_data_by_data_entry(self):
         call_command("administration_seeder", "--test")

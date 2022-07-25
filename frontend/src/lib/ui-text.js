@@ -24,7 +24,7 @@ const uiText = {
     hour: "Hour",
     minute: "Minute",
     second: "Second",
-    welcomeCta: "Explore the Data",
+    welcomeCta: "Explore National Data",
     // Error messages
     error: "Error",
     errorPageNA: "Oops, this page is not available",
@@ -60,12 +60,27 @@ const uiText = {
         url: "https://washdata.org/how-we-work/about-jmp#:~:text=Background,hygiene%20(WASH)%20since%201990",
       },
       {
-        text: "CLTS",
-        url: "https://www.communityledtotalsanitation.org/country/kenya",
+        text: "CLTS RTMIS",
+        url: " http://wash.health.go.ke/clts/index.jsp",
       },
       {
-        text: "GLASS",
+        text: "GLAAS",
         url: "https://www.who.int/teams/environment-climate-change-and-health/water-sanitation-and-health/monitoring-and-evidence/wash-systems-monitoring/un-water-global-analysis-and-assessment-of-sanitation-and-drinking-water",
+      },
+    ],
+    footerResourcesTitle: "Resources",
+    footerResourcesItems: [
+      {
+        text: "International Resources",
+        url: "#",
+      },
+      {
+        text: "National Resources",
+        url: "#",
+      },
+      {
+        text: "County Resources",
+        url: "#",
       },
     ],
     footerQuickLinkTitle: "Quick Links",

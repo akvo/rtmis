@@ -1,25 +1,25 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
+import { useParams } from "react-router-dom";
 import { Col, Card } from "antd";
-import { get, capitalize, chain, groupBy, sumBy } from "lodash";
+import { get, capitalize, chain, groupBy, sumBy, orderBy } from "lodash";
 import { Chart } from "../../../components";
+import { jmpColorScore } from "../../../lib";
 
-const exampleTrendChartData = [
-  { name: "Mon", value: 820 },
-  { name: "Tue", value: 932 },
-  { name: "Wed", value: 901 },
-  { name: "Thu", value: 934 },
-  { name: "Fri", value: 1290 },
-  { name: "Sat", value: 1330 },
-  { name: "Sun", value: 1320 },
-];
-
-const ChartVisual = ({ chartConfig }) => {
-  const { title, type, span, data, index, path, api } = chartConfig;
-  const [chartDataApi, setChartDatApi] = useState([]);
+const ChartVisual = ({ chartConfig, loading }) => {
+  const { formId } = useParams();
+  const { title, type, span, data, index, path, selector } = chartConfig;
+  const colorPath =
+    selector !== "period"
+      ? String(path).replace("data", formId)
+      : String(path).replace("jmp", formId);
 
   const chartData = useMemo(() => {
-    if (!path && api && !data.length) {
-      return [];
+    if (selector === "period") {
+      const period = data.map((x) => ({
+        name: x.name,
+        value: get(x, path),
+      }));
+      return period;
     }
     const transform = data
       .map((d) => {
@@ -28,61 +28,39 @@ const ChartVisual = ({ chartConfig }) => {
           return false;
         }
         return Object.keys(obj).map((key) => ({
-          name: capitalize(key),
+          name: key,
           value: obj[key],
         }));
       })
       .filter((x) => x)
       .flatMap((x) => x);
-    return chain(groupBy(transform, "name"))
-      .map((g, gi) => ({
-        name: gi,
-        value: sumBy(g, "value"),
-      }))
+    const results = chain(groupBy(transform, "name"))
+      .map((g, gi) => {
+        const findJMPConfig = get(jmpColorScore, `${colorPath}.${gi}`);
+        const val = {
+          name: capitalize(gi),
+          value: sumBy(g, "value"),
+        };
+        if (!findJMPConfig) {
+          return val;
+        }
+        return {
+          ...val,
+          color: findJMPConfig.color,
+        };
+      })
       .value();
-  }, [data, path, api]);
-
-  useEffect(() => {
-    if (api && !path) {
-      setChartDatApi(exampleTrendChartData);
-    }
-  }, [api, path]);
+    return orderBy(results, ["value"], ["asc"]);
+  }, [data, path, selector, colorPath]);
 
   return (
-    <Col key={`col-${type}-${index}`} span={span}>
+    <Col key={`col-${type}-${index}`} span={span} className="chart-card">
       <Card>
         <h3>{title}</h3>
-        {!path && api ? (
+        {selector === "period" ? (
           <Chart
-            height={50 * chartDataApi.length + 188}
-            type="LINEAREA"
-            data={chartDataApi}
-            wrapper={false}
-            horizontal={true}
-            loading={!chartDataApi.length}
-            series={{
-              left: "10%",
-            }}
-            legend={{
-              top: "middle",
-              left: "65%",
-              right: "right",
-              orient: "vertical",
-              itemGap: 12,
-              textStyle: {
-                fontWeight: "normal",
-                fontSize: 12,
-              },
-            }}
-            grid={{
-              top: 90,
-              left: 120,
-            }}
-          />
-        ) : (
-          <Chart
-            height={50 * chartData.length + 188}
-            type="BAR"
+            excelFile={title}
+            type={path === "total" ? "LINEAREA" : "LINE"}
             data={chartData}
             wrapper={false}
             horizontal={true}
@@ -102,7 +80,37 @@ const ChartVisual = ({ chartConfig }) => {
               },
             }}
             grid={{
-              top: 90,
+              top: 0,
+              left: 120,
+            }}
+            colorConfig={get(jmpColorScore, colorPath)}
+            cumulative
+          />
+        ) : (
+          <Chart
+            height={50 * chartData.length + 188}
+            excelFile={title}
+            type="BAR"
+            data={chartData}
+            wrapper={false}
+            horizontal={true}
+            loading={loading}
+            series={{
+              left: "10%",
+            }}
+            legend={{
+              top: "middle",
+              left: "65%",
+              right: "right",
+              orient: "vertical",
+              itemGap: 12,
+              textStyle: {
+                fontWeight: "normal",
+                fontSize: 12,
+              },
+            }}
+            grid={{
+              top: 70,
               left: 120,
             }}
           />

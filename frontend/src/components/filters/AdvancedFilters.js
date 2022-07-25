@@ -11,19 +11,10 @@ const attributes = ["advanced_filter"];
 const AdvancedFilters = () => {
   const [optionGroups, setOptionGroups] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
-  const { loadingForm, questionGroups, advancedFilters } = store.useState(
-    (s) => s
-  );
-
-  useEffect(() => {
-    if (first(flatten(questionGroups.map((qg) => qg.question)))?.form) {
-      if (advancedFilters.length) {
-        store.update((s) => {
-          s.advancedFilters = [];
-        });
-      }
-    }
-  }, [questionGroups, advancedFilters]);
+  const loadingForm = store.useState((s) => s.loadingForm);
+  const questionGroups = store.useState((s) => s.questionGroups);
+  const showAdvancedFilters = store.useState((s) => s.showAdvancedFilters);
+  const advancedFilters = store.useState((s) => s.advancedFilters);
 
   useEffect(() => {
     if (first(flatten(questionGroups.map((qg) => qg.question)))?.form) {
@@ -115,6 +106,7 @@ const AdvancedFilters = () => {
     }
     return null;
   }, [selectedQuestion, questionGroups, advancedFilters]);
+
   const activeFilters = useMemo(() => {
     const handleCloseTag = (id, value) => {
       store.update((s) => {
@@ -149,37 +141,39 @@ const AdvancedFilters = () => {
   }, [advancedFilters]);
 
   return (
-    <div className="advanced-filters">
-      <Card bodyStyle={{ padding: 12 }} style={{ padding: 0 }}>
-        <div>
-          <Select
-            style={{ width: "100%" }}
-            value={selectedQuestion?.id}
-            onChange={handleChange}
-            disabled={loadingForm}
-            placeholder="Search.."
-            showSearch
-            filterOption={(input, option) =>
-              option.options[0]?.children
-                ?.toLowerCase()
-                .indexOf(input.toLowerCase()) >= 0
-            }
-          >
-            {optionGroups.map((og, ogI) => (
-              <OptGroup label={og.name} key={ogI}>
-                {og.questions.map((gq) => (
-                  <Option key={gq.id} value={gq.id}>
-                    {gq.name}
-                  </Option>
-                ))}
-              </OptGroup>
-            ))}
-          </Select>
-        </div>
-        {FilterOptions}
-      </Card>
-      {activeFilters}
-    </div>
+    showAdvancedFilters && (
+      <div className="advanced-filters">
+        <Card bodyStyle={{ padding: 12 }} style={{ padding: 0 }}>
+          <div>
+            <Select
+              style={{ width: "100%" }}
+              value={selectedQuestion?.id}
+              onChange={handleChange}
+              disabled={loadingForm}
+              placeholder="Search.."
+              showSearch
+              filterOption={(input, option) =>
+                option.options[0]?.children
+                  ?.toLowerCase()
+                  .indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {optionGroups.map((og, ogI) => (
+                <OptGroup label={og.name} key={ogI}>
+                  {og.questions.map((gq) => (
+                    <Option key={gq.id} value={gq.id}>
+                      {gq.name}
+                    </Option>
+                  ))}
+                </OptGroup>
+              ))}
+            </Select>
+          </div>
+          {FilterOptions}
+        </Card>
+        {activeFilters}
+      </div>
+    )
   );
 };
 

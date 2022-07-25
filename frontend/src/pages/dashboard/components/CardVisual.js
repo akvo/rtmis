@@ -1,35 +1,34 @@
 import React, { useMemo } from "react";
-import { Col, Card, Image } from "antd";
-import { store } from "../../../lib";
+import { Row, Col, Card, Image } from "antd";
 import { get, sum, takeRight } from "lodash";
+import millify from "millify";
+import { store } from "../../../lib";
 
-const CardVisual = ({ cardConfig }) => {
-  const { administration } = store.useState((s) => s);
-  const currentAdministration = takeRight(administration)?.[0];
+const cardColorPalette = [
+  "#CBBFFF",
+  "#FFDBBF",
+  "#BFD5FF",
+  "#FFF8BF",
+  "#99BF9A",
+  "#BFF7FF",
+  "#F1DBB5",
+];
+
+const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
   const {
     title,
     type,
     path,
     calc,
-    span,
     data,
     index,
     color,
     icon,
     lastUpdate,
+    admLevelName,
   } = cardConfig;
-
-  const admLevelName = useMemo(() => {
-    const { level } = currentAdministration;
-    let name = "Counties";
-    if (level === 1) {
-      name = "Sub-Counties";
-    }
-    if (level === 2) {
-      name = "Wards";
-    }
-    return name;
-  }, [currentAdministration]);
+  const administration = store.useState((s) => s.administration);
+  const currentAdministration = takeRight(administration)?.[0];
 
   const renderData = useMemo(() => {
     if (!path || !data.length) {
@@ -40,50 +39,78 @@ const CardVisual = ({ cardConfig }) => {
     }
     const transform = data.map((d) => get(d, path));
     if (calc === "sum") {
+      const sums = sum(transform);
       return {
         title: title,
-        value: sum(transform),
+        value: sums > 100 ? millify(sums) : sums,
       };
     }
     if (calc === "count" && path === "length") {
+      const filterAdm = window.dbadm.filter(
+        (d) => d.parent === currentAdministration.id
+      );
+      // counties count card
+      const administration_count = filterAdm.length || 1;
+      const administration_reported = data.length;
+      const adm_percent = Math.round(
+        (administration_reported / administration_count) * 100
+      );
       return {
         title: title,
-        value: data.length,
+        value: `${administration_reported} (${adm_percent}%)`,
+      };
+    }
+    if (calc === "tail") {
+      return {
+        title: title,
+        value: data.length ? millify(takeRight(data)[0][path]) : 0,
       };
     }
     if (calc === "percent") {
-      const totalData = sum(data.map((d) => d.total));
+      const totalData = customTotal || sum(data.map((d) => d.total));
       const sumLevel = sum(transform);
-      const percent = (sumLevel / totalData) * 100;
+      const percent = Math.round((sumLevel / totalData) * 100);
       return {
         title: title,
-        value: `${percent.toFixed(2)}%`,
+        value: `${percent}%`,
       };
     }
-  }, [data, calc, path, title]);
+  }, [data, calc, path, title, customTotal, currentAdministration]);
 
   return (
     <Col
       key={`col-${type}-${index}`}
-      className="overview-card"
+      className="flexible-columns overview-card"
       align="center"
       justify="space-between"
-      span={span}
     >
-      <Card style={{ backgroundColor: color || "#fff" }}>
-        {icon && (
-          <Image
-            src={`/assets/dashboard/${icon}`}
-            width={48}
-            preview={false}
-            alt={icon}
-          />
-        )}
-        <h3 className={icon ? "with-icon" : ""}>
-          {renderData?.title?.replace("##administration_level##", admLevelName)}
-        </h3>
-        <h1 className={icon ? "with-icon" : ""}>{renderData?.value}</h1>
-        <h4>Last Update : {lastUpdate}</h4>
+      <Card
+        style={{
+          backgroundColor: color || cardColorPalette?.[index] || "#fff",
+        }}
+      >
+        <Row gutter={[10, 10]} align="top" justify="space-between">
+          <Col flex={icon ? "60%" : "100%"}>
+            <h3>
+              {renderData?.title?.replace(
+                "##administration_level##",
+                admLevelName?.plural
+              )}
+            </h3>
+          </Col>
+          {icon && (
+            <Col flex="40%" align="end">
+              <Image
+                src={`/assets/dashboard/${icon}`}
+                height={60}
+                preview={false}
+                alt={icon}
+              />
+            </Col>
+          )}
+        </Row>
+        <h1>{!loading && renderData?.value}</h1>
+        <h4>Last Update : {loading ? "Loading..." : lastUpdate}</h4>
       </Card>
     </Col>
   );

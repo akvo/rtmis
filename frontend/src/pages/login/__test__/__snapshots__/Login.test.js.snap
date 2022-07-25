@@ -64,6 +64,17 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
                 Please enter your account details
               </small>
             </h1>
+            <p
+              class="contact-text"
+            >
+              Having trouble accessing the platform? Please 
+              <a
+                href="#"
+              >
+                contact
+              </a>
+              .
+            </p>
             <form
               class="ant-form ant-form-vertical"
               id="login-form"
@@ -524,6 +535,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
                             id="registration-form_password"
                             placeholder="Password"
                             type="password"
+                            value=""
                           />
                           <span
                             class="ant-input-suffix"
@@ -612,6 +624,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
                             id="registration-form_confirm"
                             placeholder="Confirm Password"
                             type="password"
+                            value=""
                           />
                           <span
                             class="ant-input-suffix"

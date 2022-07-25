@@ -1,14 +1,17 @@
-from datetime import timedelta
+from datetime import datetime, timedelta, time
 
 import pandas as pd
 from django.core.management import BaseCommand
 from django.utils import timezone
+from django.utils.timezone import make_aware
+
 from faker import Faker
 
 from api.v1.v1_data.models import FormData, Answers
-from api.v1.v1_forms.constants import QuestionTypes
+from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms
-from api.v1.v1_profile.models import Administration, Levels
+from api.v1.v1_profile.constants import UserRoleTypes
+from api.v1.v1_profile.models import Access, Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_data.functions import refresh_materialized_data
 
@@ -48,7 +51,7 @@ def set_answer_data(data, question):
     return name, value, option
 
 
-def add_fake_answers(data: FormData):
+def add_fake_answers(data: FormData, form_type):
     form = data.form
     meta_name = []
     for question in form.form_questions.all().order_by('order'):
@@ -72,20 +75,20 @@ def add_fake_answers(data: FormData):
             name=name,
             value=value,
             options=option,
-            created_by=SystemUser.objects.order_by('?').first())
-    data.name = ' - '.join(meta_name)
+            created_by=data.created_by)
+    data.name = ' - '.join(meta_name) if \
+        form_type != FormTypes.national else data.name
     data.save()
 
 
 def seed_data(form, fake_geo, level_names, repeat, test):
     for i in range(repeat):
+        now_date = datetime.now()
+        start_date = now_date - timedelta(days=5*365)
+        created = fake.date_between(start_date, now_date)
+        created = datetime.combine(created, time.min)
         geo = fake_geo.iloc[i].to_dict()
-        data = FormData.objects.create(
-            name=fake.pystr_format(),
-            geo=[geo["X"], geo["Y"]],
-            form=form,
-            administration=Administration.objects.first(),
-            created_by=SystemUser.objects.order_by('?').first())
+        geo_value = [geo["X"], geo["Y"]]
         level_id = 1
         if not test:
             for level_name in level_names:
@@ -94,15 +97,50 @@ def seed_data(form, fake_geo, level_names, repeat, test):
                     parent_id=level_id,
                     level=Levels.objects.filter(level=level[1]).first(),
                     name=geo[level_name]).first()
-                level_id = administration.id
-                data.administration = administration
-                data.save()
+                if form.type == FormTypes.national:
+                    access_obj = Access.objects
+                    access_super_admin = access_obj.filter(
+                        role=UserRoleTypes.super_admin).first()
+                    access_admin = access_obj.filter(
+                        role=UserRoleTypes.admin).order_by('?').first()
+                    for access in [access_super_admin, access_admin]:
+                        administration = Administration.objects.filter(
+                            pk=access.administration.id).first()
+                        data_name = "{0} - {1}".format(
+                            administration.name,
+                            created.strftime("%B %Y"))
+                        national_data = FormData.objects.create(
+                            name=data_name,
+                            geo=geo_value,
+                            form=form,
+                            administration=administration,
+                            created_by=access.user)
+                        national_data.created = make_aware(created)
+                        level_id = administration.id
+                        national_data.save()
+                        add_fake_answers(national_data, form.type)
+                else:
+                    data = FormData.objects.create(
+                        name=fake.pystr_format(),
+                        geo=geo_value,
+                        form=form,
+                        administration=administration,
+                        created_by=SystemUser.objects.order_by('?').first())
+                    data.created = make_aware(created)
+                    level_id = administration.id
+                    data.save()
+                    add_fake_answers(data, form.type)
         else:
             level = Levels.objects.order_by('-id').first()
-            data.administration = Administration.objects.filter(
-                level=level).order_by('?').first()
-            data.save()
-        add_fake_answers(data)
+            test_data = FormData.objects.create(
+                name=fake.pystr_format(),
+                geo=geo_value,
+                form=form,
+                administration=Administration.objects.filter(
+                    level=level).order_by('?').first(),
+                created_by=SystemUser.objects.order_by('?').first())
+            test_data.save()
+            add_fake_answers(test_data, form.type)
 
 
 class Command(BaseCommand):
@@ -122,7 +160,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         test = options.get("test")
-        FormData.objects.all().delete()
+        # FormData.objects.all().delete()
         fake_geo = pd.read_csv("./source/kenya_random_points.csv")
         level_names = list(
             filter(lambda x: True if "NAME_" in x else False, list(fake_geo)))
