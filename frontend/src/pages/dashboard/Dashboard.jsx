@@ -7,7 +7,12 @@ import { useNotification } from "../../util/hooks";
 import { api, uiText, store, config } from "../../lib";
 import { capitalize, takeRight } from "lodash";
 import { Maps } from "../../components";
-import { CardVisual, TableVisual, ChartVisual } from "./components";
+import {
+  CardVisual,
+  TableVisual,
+  ChartVisual,
+  ReportVisual,
+} from "./components";
 import { generateAdvanceFilterURL } from "../../util/filter";
 
 const { TabPane } = Tabs;
@@ -157,6 +162,8 @@ const Dashboard = () => {
             loading={loading}
           />
         );
+      case "report":
+        return <ReportVisual key={index} selectedForm={selectedForm} />;
       default:
         return (
           <CardVisual

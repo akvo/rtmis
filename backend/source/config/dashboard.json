@@ -209,6 +209,16 @@
           ]
         ]
       },
+      "report": {
+        "rows": [
+          [
+            {
+              "type": "report",
+              "title": "Report"
+            }
+          ]
+        ]
+      },
       "rush": {}
     }
   },
@@ -477,6 +487,16 @@
               "selector": "period",
               "span": 24,
               "path": "jmp.environmental cleaning service level"
+            }
+          ]
+        ]
+      },
+      "report": {
+        "rows": [
+          [
+            {
+              "type": "report",
+              "title": "Report"
             }
           ]
         ]
@@ -759,6 +779,16 @@
             }
           ]
         ]
+      },
+      "report": {
+        "rows": [
+          [
+            {
+              "type": "report",
+              "title": "Report"
+            }
+          ]
+        ]
       }
     }
   },
@@ -967,6 +997,16 @@
                 }
               ],
               "span": 12
+            }
+          ]
+        ]
+      },
+      "report": {
+        "rows": [
+          [
+            {
+              "type": "report",
+              "title": "Report"
             }
           ]
         ]
