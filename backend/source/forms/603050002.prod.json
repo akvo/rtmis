@@ -67,7 +67,7 @@
           "order": 1,
           "required": true,
           "type": "option",
-          "attributes": [],
+          "attributes": ["advanced_filter"],
           "options": [
             {
               "name": "Sewarage system"
@@ -91,7 +91,7 @@
           "order": 2,
           "required": true,
           "type": "option",
-          "attributes": [],
+          "attributes": ["advanced_filter"],
           "options": [
             {
               "name": "through the sewer system"
