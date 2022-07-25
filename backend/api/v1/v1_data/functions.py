@@ -107,8 +107,19 @@ def get_advance_filter_data_ids(form_id, administration_id, options):
             administration_id=administration_id)
         data = data.filter(administration_id__in=administration_ids)
     if options:
-        data = data.filter(reduce(
-            or_, [Q(options__contains=op) for op in options]))
+        # create unique list for question id in options
+        qids = []
+        for opt in options:
+            val = opt.split("||")[0]
+            if val in qids:
+                continue
+            qids.append(val)
+        # filter options and_ when different question id
+        for qid in qids:
+            # filter options or_ when same question id
+            or_filter_value = filter(lambda x: qid in x, options)
+            data = data.filter(reduce(
+                or_, [Q(options__contains=op) for op in or_filter_value]))
     data = data.values_list('data_id', flat=True)
     return data
 
