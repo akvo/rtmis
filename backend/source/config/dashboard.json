@@ -285,13 +285,13 @@
           [
             {
               "type": "card",
-              "title": "Feacal matter/sludge transported to the treatment plant",
+              "title": "Feacal matter transported to the treatment plant",
               "calc": "percent",
               "path": "data.main type of sanitation.onsite sanitation"
             },
             {
               "type": "card",
-              "title": "Feacal Sludge reaching treatment plants which is treated to standard",
+              "title": "Feacal matter reaching treatment plants which is treated to standard",
               "calc": "avg",
               "suffix": "%",
               "path": "data.average.601660002"
@@ -314,27 +314,10 @@
           [
             {
               "type": "maps",
-              "title": "Main type of sanitation/faecal sludge management",
+              "title": "Main type of sanitation management",
               "calc": "default",
               "path": "data.main type of sanitation.onsite sanitation",
               "span": 24
-            }
-          ],
-          [
-            {
-              "type": "chart",
-              "chartType": "PIE",
-              "title": "% Feacal matter/sludge transported to the treatment plant",
-              "calc": "jmp",
-              "span": 8,
-              "path": "data.sludge transported"
-            },
-            {
-              "type": "chart",
-              "title": "Main type of sanitation/faecal sludge management",
-              "calc": "jmp",
-              "span": 16,
-              "path": "data.sum.603080002"
             }
           ],
           [
@@ -345,6 +328,23 @@
               "calc": "jmp",
               "span": 8,
               "path": "data.main type of sanitation"
+            },
+            {
+              "type": "chart",
+              "title": "Main type of sanitation management",
+              "calc": "jmp",
+              "span": 16,
+              "path": "data.sum.603080002"
+            }
+          ],
+          [
+            {
+              "type": "chart",
+              "chartType": "PIE",
+              "title": "% Feacal matter transported to the treatment plant",
+              "calc": "jmp",
+              "span": 8,
+              "path": "data.sludge transported"
             },
             {
               "type": "chart",

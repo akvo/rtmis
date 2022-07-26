@@ -1219,8 +1219,8 @@ def get_jmp_data(request, version, form_id):
                 pk__in=request.GET.getlist("sum")).all()
         for q in sums:
             if q.type in [QuestionTypes.option, QuestionTypes.multiple_option]:
-                opts[q.id] = list(q.question_question_options.values_list(
-                    'name', flat=True))
+                opts[q.id] = list(q.question_question_options.order_by(
+                    'order').values_list('name', flat=True))
 
     for adm in administration:
         temp = defaultdict(dict)
