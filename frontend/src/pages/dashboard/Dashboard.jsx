@@ -197,20 +197,25 @@ const Dashboard = () => {
                 type="card"
                 tabBarGutter={10}
               >
-                {Object.keys(current.tabs).map((key) => {
-                  let tabName = key;
-                  if (
-                    !["jmp", "glaas", "rush"].includes(key.toLocaleLowerCase())
-                  ) {
-                    tabName = key
-                      .split("_")
-                      .map((x) => capitalize(x))
-                      .join(" ");
-                  } else {
-                    tabName = key.toUpperCase();
-                  }
-                  return <TabPane tab={tabName} key={key}></TabPane>;
-                })}
+                {/* TODO:: For now we will hide the report tab */}
+                {Object.keys(current.tabs)
+                  .filter((x) => x.toLowerCase() !== "report")
+                  .map((key) => {
+                    let tabName = key;
+                    if (
+                      !["jmp", "glaas", "rush"].includes(
+                        key.toLocaleLowerCase()
+                      )
+                    ) {
+                      tabName = key
+                        .split("_")
+                        .map((x) => capitalize(x))
+                        .join(" ");
+                    } else {
+                      tabName = key.toUpperCase();
+                    }
+                    return <TabPane tab={tabName} key={key}></TabPane>;
+                  })}
               </Tabs>
             )}
           </div>

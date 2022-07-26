@@ -67,7 +67,9 @@
           "order": 1,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter"],
+          "attributes": [
+            "advanced_filter"
+          ],
           "options": [
             {
               "name": "Sewarage system"
@@ -87,11 +89,13 @@
           "id": 587530063,
           "meta": false,
           "question": "How is feacal matter/sludge transported to the treatment plant?",
-          "name": null,
+          "name": "Fecal matter/sludge treatment plant transport",
           "order": 2,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter"],
+          "attributes": [
+            "advanced_filter"
+          ],
           "options": [
             {
               "name": "through the sewer system"
