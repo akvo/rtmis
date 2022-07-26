@@ -1164,6 +1164,11 @@ def get_last_update_data_point(request, version, form_id):
             type={'type': 'array', 'items': {'type': 'string'}},
             location=OpenApiParameter.QUERY),
         OpenApiParameter(
+            name='sum',
+            required=False,
+            type={'type': 'array', 'items': {'type': 'number'}},
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
             name='avg',
             required=False,
             type={'type': 'array', 'items': {'type': 'number'}},
@@ -1201,6 +1206,21 @@ def get_jmp_data(request, version, form_id):
         criteria = ViewJMPCriteria.objects.filter(
                 form=form).distinct('name', 'level').all()
         create_cache(criteria_cache, criteria)
+
+    # Custom Criteria (SUM & AVG)
+    sums = []
+    opts = defaultdict(dict)
+    avgs = []
+    if request.GET.getlist("avg"):
+        avgs = Questions.objects.filter(
+                pk__in=request.GET.getlist("avg")).all()
+    if request.GET.getlist("sum"):
+        sums = Questions.objects.filter(
+                pk__in=request.GET.getlist("sum")).all()
+        for q in sums:
+            if q.type in [QuestionTypes.option, QuestionTypes.multiple_option]:
+                opts[q.id] = list(q.question_question_options.values_list(
+                    'name', flat=True))
 
     for adm in administration:
         temp = defaultdict(dict)
@@ -1243,14 +1263,31 @@ def get_jmp_data(request, version, form_id):
                         form=form).aggregate(Sum('total'))
                     data = data.get("total__sum")
                 temp[crt.name][crt.level] = data or 0
-            if request.GET.getlist('avg'):
-                for q in request.GET.getlist('avg'):
+            for q in avgs:
+                answer = Answers.objects.filter(
+                    data__administration__path__startswith=adm_path,
+                    question=q).exclude(
+                    value__isnull=True).aggregate(
+                    avg=Avg('value'))
+                temp['average'][q.id] = answer['avg']
+            for q in sums:
+                if not opts.get(q.id):
                     answer = Answers.objects.filter(
                         data__administration__path__startswith=adm_path,
-                        question_id=q).exclude(
+                        question=q).exclude(
                         value__isnull=True).aggregate(
-                        avg=Avg('value'))
-                    temp['average'][q] = answer['avg']
+                        sum=Sum('value'))
+                    temp['sum'][q.id] = answer['sum']
+                else:
+                    ov = {}
+                    for o in opts.get(q.id):
+                        answer = Answers.objects.filter(
+                            data__administration__path__startswith=adm_path,
+                            options__contains=o,
+                            question=q).aggregate(
+                            count=Count('id'))
+                        ov.update({o: answer["count"]})
+                    temp['sum'][q.id] = ov
             jmp_data.append({
                 "loc": adm.name,
                 "data": temp,
