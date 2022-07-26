@@ -1404,6 +1404,11 @@ def get_period_submission(request, version, form_id):
             required=True,
             type={'type': 'array',
                   'items': {'type': 'number'}},
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='options',
+            required=False,
+            type={'type': 'array', 'items': {'type': 'string'}},
             location=OpenApiParameter.QUERY)],
     tags=['Visualisation'],
     summary='To get Glaas data')
@@ -1415,13 +1420,23 @@ def get_glaas_data(request, version, form_id):
     questions = Questions.objects.filter(form=form)
     form_datas = FormData.objects.filter(form=form)
 
+    # Advance filter
+    data_ids = None
+    if request.GET.getlist('options'):
+        data_ids = get_advance_filter_data_ids(
+            form_id=form_id, administration_id=administration,
+            options=request.GET.getlist('options'))
+
     # get counties data
     counties_questions = questions.filter(
         pk__in=request.GET.getlist('counties_questions')).all()
     counties_data = []
     for adm in administration:
+        filter_form_data_counties = {'administration_id': adm.id}
+        if data_ids:
+            filter_form_data_counties.update({'pk__in': data_ids})
         form_data_ids = form_datas.filter(
-            administration_id=adm.id).values_list('id', flat=True)
+            **filter_form_data_counties).values_list('id', flat=True)
         if not form_data_ids:
             continue
         temp = {'loc': adm.name}
@@ -1433,7 +1448,10 @@ def get_glaas_data(request, version, form_id):
     national_questions = questions.filter(
         pk__in=request.GET.getlist('national_questions')).all()
     national_data = []
-    form_data = form_datas.filter(administration_id=1)
+    filter_form_data_national = {'administration_id': 1}
+    if data_ids:
+        filter_form_data_national.update({'pk__in': data_ids})
+    form_data = form_datas.filter(**filter_form_data_national)
     # arbitrary starting dates
     first_fd = form_data.order_by('created').first()
     if first_fd:
