@@ -6,7 +6,7 @@ from wsgiref.util import FileWrapper
 from django.utils import timezone
 
 from django.contrib.postgres.aggregates import StringAgg
-from django.db.models import Count, TextField, Value, F, Sum
+from django.db.models import Count, TextField, Value, F, Sum, Avg
 from django.db.models.functions import Cast, Coalesce
 from django.http import HttpResponse
 from drf_spectacular.types import OpenApiTypes
@@ -1125,6 +1125,10 @@ def get_last_update_data_point(request, version, form_id):
     form = get_object_or_404(Forms, pk=form_id)
     data = FormData.objects.filter(
         form=form).annotate(last_update=Coalesce('updated', 'created')).first()
+    if not data:
+        return Response(
+                {'last_update': datetime.now().strftime("%d/%m/%Y")},
+                status=status.HTTP_200_OK)
     last_update = datetime.strftime(data.last_update, "%d/%m/%Y")
     return Response({'last_update': last_update},
                     status=status.HTTP_200_OK)
@@ -1158,6 +1162,16 @@ def get_last_update_data_point(request, version, form_id):
             name='options',
             required=False,
             type={'type': 'array', 'items': {'type': 'string'}},
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='sum',
+            required=False,
+            type={'type': 'array', 'items': {'type': 'number'}},
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='avg',
+            required=False,
+            type={'type': 'array', 'items': {'type': 'number'}},
             location=OpenApiParameter.QUERY)],
     tags=['JMP'],
     summary='To get JMP data by location')
@@ -1192,6 +1206,21 @@ def get_jmp_data(request, version, form_id):
         criteria = ViewJMPCriteria.objects.filter(
                 form=form).distinct('name', 'level').all()
         create_cache(criteria_cache, criteria)
+
+    # Custom Criteria (SUM & AVG)
+    sums = []
+    opts = defaultdict(dict)
+    avgs = []
+    if request.GET.getlist("avg"):
+        avgs = Questions.objects.filter(
+                pk__in=request.GET.getlist("avg")).all()
+    if request.GET.getlist("sum"):
+        sums = Questions.objects.filter(
+                pk__in=request.GET.getlist("sum")).all()
+        for q in sums:
+            if q.type in [QuestionTypes.option, QuestionTypes.multiple_option]:
+                opts[q.id] = list(q.question_question_options.values_list(
+                    'name', flat=True))
 
     for adm in administration:
         temp = defaultdict(dict)
@@ -1234,6 +1263,31 @@ def get_jmp_data(request, version, form_id):
                         form=form).aggregate(Sum('total'))
                     data = data.get("total__sum")
                 temp[crt.name][crt.level] = data or 0
+            for q in avgs:
+                answer = Answers.objects.filter(
+                    data__administration__path__startswith=adm_path,
+                    question=q).exclude(
+                    value__isnull=True).aggregate(
+                    avg=Avg('value'))
+                temp['average'][q.id] = answer['avg']
+            for q in sums:
+                if not opts.get(q.id):
+                    answer = Answers.objects.filter(
+                        data__administration__path__startswith=adm_path,
+                        question=q).exclude(
+                        value__isnull=True).aggregate(
+                        sum=Sum('value'))
+                    temp['sum'][q.id] = answer['sum']
+                else:
+                    ov = {}
+                    for o in opts.get(q.id):
+                        answer = Answers.objects.filter(
+                            data__administration__path__startswith=adm_path,
+                            options__contains=o,
+                            question=q).aggregate(
+                            count=Count('id'))
+                        ov.update({o: answer["count"]})
+                    temp['sum'][q.id] = ov
             jmp_data.append({
                 "loc": adm.name,
                 "data": temp,
@@ -1302,6 +1356,8 @@ def get_period_submission(request, version, form_id):
 
     # arbitrary starting dates
     first_fd = FormData.objects.filter(form=form).order_by('created').first()
+    if not first_fd:
+        return Response([], status.HTTP_200_OK)
     year = first_fd.created.year
     month = first_fd.created.month
     total = 0
@@ -1404,6 +1460,11 @@ def get_period_submission(request, version, form_id):
             required=True,
             type={'type': 'array',
                   'items': {'type': 'number'}},
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='options',
+            required=False,
+            type={'type': 'array', 'items': {'type': 'string'}},
             location=OpenApiParameter.QUERY)],
     tags=['Visualisation'],
     summary='To get Glaas data')
@@ -1419,9 +1480,21 @@ def get_glaas_data(request, version, form_id):
     counties_questions = questions.filter(
         pk__in=request.GET.getlist('counties_questions')).all()
     counties_data = []
+    # Advance filter
+    data_ids = None
+    if request.GET.getlist('options'):
+        data_ids = get_advance_filter_data_ids(
+            form_id=form_id,
+            administration_id=[adm.id for adm in administration],
+            options=request.GET.getlist('options'),
+            is_glaas=True)
     for adm in administration:
+        # filter form data
+        filter_form_data_counties = {'administration_id': adm.id}
+        if data_ids:
+            filter_form_data_counties.update({'pk__in': data_ids})
         form_data_ids = form_datas.filter(
-            administration_id=adm.id).values_list('id', flat=True)
+            **filter_form_data_counties).values_list('id', flat=True)
         if not form_data_ids:
             continue
         temp = {'loc': adm.name}
@@ -1430,10 +1503,21 @@ def get_glaas_data(request, version, form_id):
         counties_data.append(temp)
 
     # get national data
+    administration_id = 1
     national_questions = questions.filter(
         pk__in=request.GET.getlist('national_questions')).all()
     national_data = []
-    form_data = form_datas.filter(administration_id=1)
+    # Advance filter
+    data_ids = None
+    if request.GET.getlist('options'):
+        data_ids = get_advance_filter_data_ids(
+            form_id=form_id, administration_id=[administration_id],
+            options=request.GET.getlist('options'), is_glaas=True)
+    # filter form data
+    filter_form_data_national = {'administration_id': administration_id}
+    if data_ids:
+        filter_form_data_national.update({'pk__in': data_ids})
+    form_data = form_datas.filter(**filter_form_data_national)
     # arbitrary starting dates
     first_fd = form_data.order_by('created').first()
     if first_fd:

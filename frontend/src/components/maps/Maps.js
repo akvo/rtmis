@@ -20,6 +20,44 @@ const colorRange = ["#EB5353", "#F9D923", "#9ACD32", "#36AE7C"];
 const borderColor = "#7d7d7d";
 const mapMaxZoom = 13;
 const higlightColor = "#84b4cc";
+const ignoredDropdown = ["average", "sum"];
+
+const IndicatorDropdown = ({
+  indicatorPath,
+  setIndicatorPath,
+  indicators,
+  calc,
+}) => {
+  return (
+    <div className="indicator-selector">
+      <Select
+        value={indicatorPath}
+        style={{ width: 300, textAlign: "left" }}
+        onChange={setIndicatorPath}
+        className="indicator-dropdown"
+      >
+        {calc !== "percent" && (
+          <Option key={"total"} value={"total"}>
+            Total
+          </Option>
+        )}
+        {indicators
+          .filter((i) => !ignoredDropdown.includes(i.name))
+          .map((i) => (
+            <OptGroup key={i.name} label={i.name}>
+              {i.childrens.map((c) => {
+                return (
+                  <Option key={`${i.name}-${c}`} value={`data.${i.name}.${c}`}>
+                    {c}
+                  </Option>
+                );
+              })}
+            </OptGroup>
+          ))}
+      </Select>
+    </div>
+  );
+};
 
 const Maps = ({ loading, mapConfig, style = {}, national }) => {
   // config
@@ -213,33 +251,12 @@ const Maps = ({ loading, mapConfig, style = {}, national }) => {
           <Spin />
         </div>
       )}
-      <div className="indicator-selector">
-        {indicators.length ? (
-          <Select
-            value={indicatorPath}
-            style={{ width: 300, textAlign: "left" }}
-            onChange={setIndicatorPath}
-            className="indicator-dropdown"
-          >
-            {calc !== "percent" && (
-              <Option key={"total"} value={"total"}>
-                Total
-              </Option>
-            )}
-            {indicators.map((i) => (
-              <OptGroup key={i.name} label={i.name}>
-                {i.childrens.map((c) => (
-                  <Option key={`${i.name}-${c}`} value={`data.${i.name}.${c}`}>
-                    {c}
-                  </Option>
-                ))}
-              </OptGroup>
-            ))}
-          </Select>
-        ) : (
-          ""
-        )}
-      </div>
+      <IndicatorDropdown
+        indicators={indicators}
+        indicatorPath={indicatorPath}
+        setIndicatorPath={setIndicatorPath}
+        calc={calc}
+      />
       <div className="map-buttons">
         <Space size="small" direction="vertical">
           <Button
