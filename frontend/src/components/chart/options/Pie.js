@@ -1,26 +1,14 @@
 import {
   Color,
   Easing,
-  Legend,
   TextStyle,
   backgroundColor,
   Icons,
   Title,
-  DataView,
-  optionToContent,
-  downloadToExcel,
 } from "./common";
 import { isEmpty, sumBy } from "lodash";
 
-const Pie = (
-  data,
-  chartTitle,
-  excelFile,
-  extra = {},
-  Doughnut = false,
-  series = {},
-  legend = {}
-) => {
+const Pie = (data, chartTitle, extra = {}, series = {}) => {
   data = !data ? [] : data;
   let labels = [];
   if (data.length > 0) {
@@ -53,10 +41,6 @@ const Pie = (
         fontSize: 12,
       },
     },
-    grid: {
-      top: 0,
-      bottom: 0,
-    },
     toolbox: {
       show: true,
       showTitle: true,
@@ -70,18 +54,6 @@ const Pie = (
           icon: Icons.saveAsImage,
           backgroundColor: "#EAF5FB",
         },
-        dataView: {
-          ...DataView,
-          optionToContent: optionToContent,
-        },
-        myDownload: {
-          show: true,
-          title: "Download Excel",
-          icon: Icons.download,
-          onclick: (e) => {
-            downloadToExcel(e, excelFile);
-          },
-        },
       },
     },
     series: [
@@ -89,8 +61,7 @@ const Pie = (
         name: "main",
         type: "pie",
         left: "center",
-        radius: !Doughnut ? ["0%", "85%"] : ["42%", "85%"],
-        top: "30px",
+        radius: ["0%", "90%"],
         label: {
           formatter: function (params) {
             if (params.value > 0) {
@@ -99,11 +70,10 @@ const Pie = (
             return "";
           },
           show: true,
-          position: !Doughnut ? "inner" : "outside",
+          position: "inner",
           padding: 5,
-          borderRadius: 100,
-          backgroundColor: !Doughnut ? "rgba(0,0,0,.5)" : "rgba(0,0,0,.3)",
-          ...textStyle,
+          backgroundColor: "rgba(0,0,0,.5)",
+          ...TextStyle,
           color: "#fff",
         },
         labelLine: {
@@ -116,18 +86,14 @@ const Pie = (
     ],
     legend: {
       data: labels,
-      ...Legend,
-      top: "top",
-      left: "center",
+      orient: "vertical",
+      top: 30,
+      left: 30,
       icon: "circle",
-      align: "left",
-      orient: "horizontal",
-      itemGap: 12,
       textStyle: {
         fontWeight: "normal",
         fontSize: 12,
       },
-      ...legend,
     },
     ...Color,
     ...backgroundColor,
