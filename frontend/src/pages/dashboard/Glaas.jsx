@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { useParams } from "react-router-dom";
-import { Row, Col, Tabs, Affix, Select } from "antd";
+import { Row, Col, Tabs, Affix, Select, Space } from "antd";
 import { uiText, store, config, api } from "../../lib";
 import { capitalize } from "lodash";
 import {
@@ -11,6 +11,11 @@ import {
   ReportVisual,
 } from "./components";
 import { Maps } from "../../components";
+import {
+  RemoveFiltersButton,
+  AdvancedFiltersButton,
+  AdvancedFilters,
+} from "../../components";
 import { useNotification } from "../../util/hooks";
 import moment from "moment";
 
@@ -168,32 +173,47 @@ const Dashboard = () => {
             <h1>{`${selectedForm.name} Data`}</h1>
           </div>
           <div className="county-filter-wrapper">
-            <Select
-              placeholder="Select County"
-              style={{ width: 200 }}
-              onChange={(e) => {
-                setDataset({});
-                setSelectedCounty(e);
-              }}
-              onClear={() => {
-                setDataset({});
-                setSelectedCounty(null);
-              }}
-              getPopupContainer={(trigger) => trigger.parentNode}
-              dropdownMatchSelectWidth={false}
-              value={selectedCounty || []}
-              disabled={!countiesAdm.length}
-              allowClear
-              showSearch
-              filterOption={true}
-              optionFilterProp="children"
+            <Row
+              align="bottom"
+              justify="space-between"
+              gutter={[0, 20]}
+              wrap={true}
             >
-              {countiesAdm.map((optionValue, optionIdx) => (
-                <Select.Option key={optionIdx} value={optionValue.id}>
-                  {optionValue.name}
-                </Select.Option>
-              ))}
-            </Select>
+              <Col>
+                <Space>
+                  {/* County filter */}
+                  <Select
+                    placeholder="Select County"
+                    style={{ width: 200 }}
+                    onChange={(e) => {
+                      setDataset({});
+                      setSelectedCounty(e);
+                    }}
+                    onClear={() => {
+                      setDataset({});
+                      setSelectedCounty(null);
+                    }}
+                    getPopupContainer={(trigger) => trigger.parentNode}
+                    dropdownMatchSelectWidth={false}
+                    value={selectedCounty || []}
+                    disabled={!countiesAdm.length}
+                    allowClear
+                    showSearch
+                    filterOption={true}
+                    optionFilterProp="children"
+                  >
+                    {countiesAdm.map((optionValue, optionIdx) => (
+                      <Select.Option key={optionIdx} value={optionValue.id}>
+                        {optionValue.name}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                  <RemoveFiltersButton />
+                  <AdvancedFiltersButton />
+                </Space>
+              </Col>
+            </Row>
+            <AdvancedFilters />
           </div>
           <div className="tab-wrapper">
             {current?.tabs && (
