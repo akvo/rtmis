@@ -266,12 +266,16 @@
   {
     "name": "Urban Sanitation",
     "form_id": 603050002,
+    "no_period": true,
     "extra_params": {
       "avg": [
         601660002,
         544720002,
-        603080002,
         611500068
+      ],
+      "sum": [
+        603080002,
+        587530063
       ]
     },
     "page": "dashboard",
@@ -311,9 +315,43 @@
             {
               "type": "maps",
               "title": "Main type of sanitation/faecal sludge management",
-              "calc": "percent",
+              "calc": "default",
               "path": "data.main type of sanitation.onsite sanitation",
               "span": 24
+            }
+          ],
+          [
+            {
+              "type": "chart",
+              "chartType": "PIE",
+              "title": "% Feacal matter/sludge transported to the treatment plant",
+              "calc": "jmp",
+              "span": 8,
+              "path": "data.sludge transported"
+            },
+            {
+              "type": "chart",
+              "title": "Main type of sanitation/faecal sludge management",
+              "calc": "jmp",
+              "span": 16,
+              "path": "data.sum.603080002"
+            }
+          ],
+          [
+            {
+              "type": "chart",
+              "chartType": "PIE",
+              "title": "% of households with onsite sanitation facilities",
+              "calc": "jmp",
+              "span": 8,
+              "path": "data.main type of sanitation"
+            },
+            {
+              "type": "chart",
+              "title": "How feacal matter/sludge transported to the treatment plant",
+              "calc": "jmp",
+              "span": 16,
+              "path": "data.sum.587530063"
             }
           ]
         ]
