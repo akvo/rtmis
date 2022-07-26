@@ -16,6 +16,7 @@ import {
   AdvancedFiltersButton,
   AdvancedFilters,
 } from "../../components";
+import { generateAdvanceFilterURL } from "../../util/filter";
 import { useNotification } from "../../util/hooks";
 import moment from "moment";
 
@@ -34,6 +35,7 @@ const Dashboard = () => {
   const { notify } = useNotification();
 
   const { active: activeLang } = store.useState((s) => s.language);
+  const advancedFilters = store.useState((s) => s.advancedFilters);
   const countiesAdm = window.dbadm.filter((d) => d.parent === 1);
   const [selectedCounty, setSelectedCounty] = useState(null);
   const [allData, setAllData] = useState([]);
@@ -67,7 +69,10 @@ const Dashboard = () => {
       // generate URL
       const countiesURL = counties_questions.join("&counties_questions=");
       const nationalURL = national_questions.join("&national_questions=");
-      const url = `glaas/${formId}?counties_questions=${countiesURL}&national_questions=${nationalURL}`;
+      let url = `glaas/${formId}?counties_questions=${countiesURL}&national_questions=${nationalURL}`;
+      if (advancedFilters && advancedFilters.length) {
+        url = generateAdvanceFilterURL(advancedFilters, url);
+      }
       api
         .get(url)
         .then((res) => {
@@ -85,7 +90,7 @@ const Dashboard = () => {
         });
       setLoading(false);
     }
-  }, [formId, text, wait, current, notify]);
+  }, [formId, text, wait, current, notify, advancedFilters]);
 
   useEffect(() => {
     if (!selectedCounty && !Object.keys(dataset).length) {
