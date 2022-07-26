@@ -20,6 +20,20 @@ import { Breadcrumbs, DescriptionPanel, DataTab } from "../../components";
 import { api, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
 
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      onchange: null,
+      addListener: function () {},
+      removeListener: function () {},
+      addEventListener: function () {},
+      removeEventListener: function () {},
+      dispatchEvent: function () {},
+    };
+  };
+
 const pagePath = [
   {
     title: "Control Center",
