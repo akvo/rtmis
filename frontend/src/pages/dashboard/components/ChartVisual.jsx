@@ -7,7 +7,8 @@ import { jmpColorScore } from "../../../lib";
 
 const ChartVisual = ({ chartConfig, loading }) => {
   const { formId } = useParams();
-  const { title, type, span, data, index, path, selector } = chartConfig;
+  const { title, type, chartType, span, data, index, path, selector } =
+    chartConfig;
   const colorPath =
     selector !== "period"
       ? String(path).replace("data", formId)
@@ -88,16 +89,20 @@ const ChartVisual = ({ chartConfig, loading }) => {
           />
         ) : (
           <Chart
-            height={50 * chartData.length + 188}
+            height={chartType === "PIE" ? 420 : 50 * chartData.length + 188}
             excelFile={title}
-            type="BAR"
+            type={chartType || "BAR"}
             data={chartData}
             wrapper={false}
             horizontal={true}
             loading={loading}
-            series={{
-              left: "10%",
-            }}
+            series={
+              chartType === "BAR"
+                ? {
+                    left: "10%",
+                  }
+                : {}
+            }
             legend={{
               top: "middle",
               left: "65%",
