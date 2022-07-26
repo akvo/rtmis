@@ -6,7 +6,7 @@ from wsgiref.util import FileWrapper
 from django.utils import timezone
 
 from django.contrib.postgres.aggregates import StringAgg
-from django.db.models import Count, TextField, Value, F, Sum
+from django.db.models import Count, TextField, Value, F, Sum, Avg
 from django.db.models.functions import Cast, Coalesce
 from django.http import HttpResponse
 from drf_spectacular.types import OpenApiTypes
@@ -1125,6 +1125,10 @@ def get_last_update_data_point(request, version, form_id):
     form = get_object_or_404(Forms, pk=form_id)
     data = FormData.objects.filter(
         form=form).annotate(last_update=Coalesce('updated', 'created')).first()
+    if not data:
+        return Response(
+                {'last_update': datetime.now().strftime("%d/%m/%Y")},
+                status=status.HTTP_200_OK)
     last_update = datetime.strftime(data.last_update, "%d/%m/%Y")
     return Response({'last_update': last_update},
                     status=status.HTTP_200_OK)
@@ -1158,6 +1162,11 @@ def get_last_update_data_point(request, version, form_id):
             name='options',
             required=False,
             type={'type': 'array', 'items': {'type': 'string'}},
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='avg',
+            required=False,
+            type={'type': 'array', 'items': {'type': 'number'}},
             location=OpenApiParameter.QUERY)],
     tags=['JMP'],
     summary='To get JMP data by location')
@@ -1234,6 +1243,14 @@ def get_jmp_data(request, version, form_id):
                         form=form).aggregate(Sum('total'))
                     data = data.get("total__sum")
                 temp[crt.name][crt.level] = data or 0
+            if request.GET.getlist('avg'):
+                for q in request.GET.getlist('avg'):
+                    answer = Answers.objects.filter(
+                        data__administration__path__startswith=adm_path,
+                        question_id=q).exclude(
+                        value__isnull=True).aggregate(
+                        avg=Avg('value'))
+                    temp['average'][q] = answer['avg']
             jmp_data.append({
                 "loc": adm.name,
                 "data": temp,
@@ -1302,6 +1319,8 @@ def get_period_submission(request, version, form_id):
 
     # arbitrary starting dates
     first_fd = FormData.objects.filter(form=form).order_by('created').first()
+    if not first_fd:
+        return Response([], status.HTTP_200_OK)
     year = first_fd.created.year
     month = first_fd.created.month
     total = 0
