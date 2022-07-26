@@ -107,18 +107,20 @@ const Dashboard = () => {
         .get(url)
         .then((res) => {
           setDataset(res.data);
-          const url = `submission/period/${formId}?administration=${currentAdministration?.id}`;
-          api
-            .get(url)
-            .then((res) => {
-              setDataPeriod(res.data);
-            })
-            .catch(() => {
-              notify({
-                type: "error",
-                message: text.errorDataLoad,
+          if (!current?.no_period) {
+            const url = `submission/period/${formId}?administration=${currentAdministration?.id}`;
+            api
+              .get(url)
+              .then((res) => {
+                setDataPeriod(res.data);
+              })
+              .catch(() => {
+                notify({
+                  type: "error",
+                  message: text.errorDataLoad,
+                });
               });
-            });
+          }
         })
         .catch(() => {
           notify({

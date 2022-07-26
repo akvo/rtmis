@@ -102,7 +102,16 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
       };
     }
     return result;
-  }, [data, calc, path, title, customTotal, currentAdministration]);
+  }, [
+    data,
+    calc,
+    path,
+    title,
+    scale,
+    suffix,
+    customTotal,
+    currentAdministration,
+  ]);
 
   return (
     <Col
