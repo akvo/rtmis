@@ -15,6 +15,7 @@ const EditableCell = ({
   pendingData,
   disabled = false,
   readonly = false,
+  isPublic = false,
 }) => {
   const [editing, setEditing] = useState(false);
   const [locationName, setLocationName] = useState(null);
@@ -147,7 +148,7 @@ const EditableCell = ({
           cursor: !notEditable && !pendingData ? "pointer" : "not-allowed",
         }}
         onClick={() => {
-          if (!notEditable && !pendingData) {
+          if (!notEditable && !pendingData && !isPublic) {
             setEditing(!editing);
           }
         }}

@@ -52,7 +52,8 @@ from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
 from rtmis.settings import REST_FRAMEWORK
-from utils.custom_permissions import IsAdmin, IsApprover, IsSubmitter
+from utils.custom_permissions import IsAdmin, IsApprover, \
+        IsSubmitter, PublicGet
 from utils.custom_serializer_fields import validate_serializers_message
 from utils.default_serializers import DefaultResponseSerializer
 from utils.export_form import generate_excel
@@ -61,7 +62,7 @@ period_length = 60*15
 
 
 class FormDataAddListView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [PublicGet]
 
     @extend_schema(responses={
         (200, 'application/json'):
@@ -289,7 +290,7 @@ class FormDataAddListView(APIView):
 
 
 class DataAnswerDetailDeleteView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [PublicGet]
 
     @extend_schema(
         responses={200: ListDataAnswerSerializer(many=True)},

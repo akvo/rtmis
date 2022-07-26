@@ -10,7 +10,7 @@
           "id": 605030132,
           "meta": false,
           "question": "In what government level is this survey being filled?",
-          "name": null,
+          "name": "Goverment Level",
           "order": 1,
           "required": true,
           "type": "option",
@@ -47,11 +47,13 @@
           "id": 595960114,
           "meta": false,
           "question": "Are there local administrative units available?",
-          "name": null,
+          "name": "Local administrative units available",
           "order": 1,
           "required": true,
           "type": "option",
-          "attributes": [],
+          "attributes": [
+            "advanced_filter"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -65,7 +67,7 @@
           "id": 589570112,
           "meta": false,
           "question": "Do we have established and operational policies and procedures for participation of local communities in water and sanitation management within the administrative units?",
-          "name": null,
+          "name": "Established and Operational Policies / Procedures in WaSH within the Administrative Units",
           "order": 2,
           "required": true,
           "type": "option",
@@ -91,11 +93,13 @@
           "id": 583720152,
           "meta": false,
           "question": "Are costed Sanitation and Hygiene Roadmap available?",
-          "name": null,
+          "name": "Sanitation Roadmap is Available",
           "order": 3,
           "required": true,
           "type": "option",
-          "attributes": [],
+          "attributes": [
+            "advanced_filter"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -220,11 +224,13 @@
           "id": 585710058,
           "meta": false,
           "question": "Is there a system for tracking funding flows to WASH (Urban sanitation, Rural sanitation, and Hygiene promotion)",
-          "name": null,
+          "name": "System for tracking funding flows to WaSH",
           "order": 9,
           "required": true,
           "type": "option",
-          "attributes": [],
+          "attributes": [
+            "advanced_filter"
+          ],
           "options": [
             {
               "name": "Yes"

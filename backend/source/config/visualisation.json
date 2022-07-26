@@ -854,17 +854,34 @@
             "name": "Awareness",
             "score": 10,
             "color": "#753780",
-            "options": []
+            "options": [
+              {
+                "question": 605430054,
+                "option": [
+                  "Yes"
+                ]
+              }
+            ]
           },
           {
             "name": "Use menstrual materials",
-            "score": -1,
+            "score": 10,
             "color": "#FDF177",
-            "options": []
+            "options": [
+              {
+                "question": 610930003,
+                "option": [
+                  "Cloth/reusable sanitary pads",
+                  "Disposable sanitary pads",
+                  "Tampons",
+                  "Menstrual cup"
+                ]
+              }
+            ]
           },
           {
             "name": "Access",
-            "score": -2,
+            "score": 10,
             "color": "#F1AC2A",
             "options": [
               {
@@ -880,16 +897,18 @@
           },
           {
             "name": "Participation",
-            "score": -2,
+            "score": 10,
             "color": "#368541",
             "options": [
               {
-                "question": 538000047,
+                "question": 538000046,
                 "option": [
-                  "Private place / latrine",
-                  "Water",
-                  "Sanitary pads/cloth",
-                  "Soap"
+                  "Eating some specific type food",
+                  "Entering the church or mosque",
+                  "Touching the cross or holly book",
+                  "Milking animals",
+                  "Participating in public ceremonies",
+                  "Preparing/cooking food"
                 ]
               }
             ]

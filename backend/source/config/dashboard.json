@@ -147,6 +147,15 @@
           ],
           [
             {
+              "type": "chart",
+              "title": "Menstrual Hygiene service levels",
+              "calc": "jmp",
+              "path": "data.menstrual hygiene service level",
+              "span": 24
+            }
+          ],
+          [
+            {
               "type": "table",
               "title": "Sanitation service levels",
               "columns": [
@@ -193,6 +202,30 @@
           ],
           [
             {
+              "type": "table",
+              "title": "Menstrual Hygiene service levels",
+              "columns": [
+                {
+                  "title": "Administration Unit",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of HHs",
+                  "path": "total",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count by service level",
+                  "children": true,
+                  "children_path": "data.menstrual hygiene service level"
+                }
+              ],
+              "span": 24
+            }
+          ],
+          [
+            {
               "type": "chart",
               "title": "Sanition Service Level by Period",
               "selector": "period",
@@ -205,11 +238,27 @@
               "selector": "period",
               "span": 24,
               "path": "jmp.hygiene service level"
+            },
+            {
+              "type": "chart",
+              "title": "Menstrual Hygiene Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.menstrual hygiene service level"
             }
           ]
         ]
       },
-      "rush": {}
+      "report": {
+        "rows": [
+          [
+            {
+              "type": "report",
+              "title": "Report"
+            }
+          ]
+        ]
+      }
     }
   },
   {
@@ -480,6 +529,16 @@
             }
           ]
         ]
+      },
+      "report": {
+        "rows": [
+          [
+            {
+              "type": "report",
+              "title": "Report"
+            }
+          ]
+        ]
       }
     }
   },
@@ -634,6 +693,13 @@
               "calc": "jmp",
               "path": "data.enviromental cleaning service level",
               "span": 12
+            },
+            {
+              "type": "chart",
+              "title": "Hygiene (MHM) service levels",
+              "calc": "jmp",
+              "path": "data.hygiene (mhm) service level",
+              "span": 24
             }
           ],
           [
@@ -726,6 +792,28 @@
                 }
               ],
               "span": 12
+            },
+            {
+              "type": "table",
+              "title": "Hygiene (MHM) service level",
+              "columns": [
+                {
+                  "title": "Administration Unit",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of Schools",
+                  "path": "total",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count by service level",
+                  "children": true,
+                  "children_path": "data.hygiene (mhm) service level"
+                }
+              ],
+              "span": 24
             }
           ],
           [
@@ -756,6 +844,23 @@
               "selector": "period",
               "span": 24,
               "path": "jmp.enviromental cleaning service level"
+            },
+            {
+              "type": "chart",
+              "title": "Hygiene (MHM) Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.hygiene (mhm) service level"
+            }
+          ]
+        ]
+      },
+      "report": {
+        "rows": [
+          [
+            {
+              "type": "report",
+              "title": "Report"
             }
           ]
         ]
@@ -967,6 +1072,16 @@
                 }
               ],
               "span": 12
+            }
+          ]
+        ]
+      },
+      "report": {
+        "rows": [
+          [
+            {
+              "type": "report",
+              "title": "Report"
             }
           ]
         ]
