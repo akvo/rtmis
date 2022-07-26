@@ -4,7 +4,12 @@ import { useParams } from "react-router-dom";
 import { Row, Col, Tabs, Affix, Select } from "antd";
 import { uiText, store, config, api } from "../../lib";
 import { capitalize } from "lodash";
-import { CardVisual, TableVisual, ChartVisual } from "./components";
+import {
+  CardVisual,
+  TableVisual,
+  ChartVisual,
+  ReportVisual,
+} from "./components";
 import { Maps } from "../../components";
 import { useNotification } from "../../util/hooks";
 import moment from "moment";
@@ -136,6 +141,8 @@ const Dashboard = () => {
             loading={loading}
           />
         );
+      case "report":
+        return <ReportVisual key={index} selectedForm={selectedForm} />;
       default:
         return (
           <CardVisual
@@ -196,20 +203,25 @@ const Dashboard = () => {
                 type="card"
                 tabBarGutter={10}
               >
-                {Object.keys(current.tabs).map((key) => {
-                  let tabName = key;
-                  if (
-                    !["jmp", "glaas", "rush"].includes(key.toLocaleLowerCase())
-                  ) {
-                    tabName = key
-                      .split("_")
-                      .map((x) => capitalize(x))
-                      .join(" ");
-                  } else {
-                    tabName = key.toUpperCase();
-                  }
-                  return <TabPane tab={tabName} key={key}></TabPane>;
-                })}
+                {/* TODO:: For now we will hide the report tab */}
+                {Object.keys(current.tabs)
+                  .filter((x) => x.toLowerCase() !== "report")
+                  .map((key) => {
+                    let tabName = key;
+                    if (
+                      !["jmp", "glaas", "rush"].includes(
+                        key.toLocaleLowerCase()
+                      )
+                    ) {
+                      tabName = key
+                        .split("_")
+                        .map((x) => capitalize(x))
+                        .join(" ");
+                    } else {
+                      tabName = key.toUpperCase();
+                    }
+                    return <TabPane tab={tabName} key={key}></TabPane>;
+                  })}
               </Tabs>
             )}
           </div>
