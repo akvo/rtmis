@@ -93,6 +93,16 @@ const Dashboard = () => {
       if (advancedFilters && advancedFilters.length) {
         url = generateAdvanceFilterURL(advancedFilters, url);
       }
+      if (current?.extra_params) {
+        const params = Object.keys(current.extra_params).reduce(
+          (prev, curr) => {
+            const ids = current.extra_params[curr].map((x) => `${curr}=${x}`);
+            return [...prev, ...ids];
+          },
+          []
+        );
+        url += `&${params.join("&")}`;
+      }
       api
         .get(url)
         .then((res) => {
@@ -120,7 +130,15 @@ const Dashboard = () => {
           setLoading(false);
         });
     }
-  }, [formId, currentAdministration, notify, text, advancedFilters, wait]);
+  }, [
+    formId,
+    current,
+    currentAdministration,
+    notify,
+    text,
+    advancedFilters,
+    wait,
+  ]);
 
   const changeTab = (tabKey) => {
     setActiveTab(tabKey);
