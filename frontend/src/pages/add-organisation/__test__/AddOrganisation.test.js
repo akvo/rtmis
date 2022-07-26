@@ -10,15 +10,6 @@ jest.mock("axios");
 
 describe("pages/add-organisation", () => {
   test("test AddOrganisation page", async () => {
-    const addOrgPage = render(<AddOrganisation />, { wrapper: MemoryRouter });
-
-    jest.fn(() => {});
-    const orgName = screen.getByTestId("organisation-name");
-    await act(async () => {
-      fireEvent.change(orgName, { target: { value: "Onja Mada" } });
-    });
-    expect(orgName.value).toBe("Onja Mada");
-
     const fakeResult = [
       {
         id: 1,
@@ -32,8 +23,16 @@ describe("pages/add-organisation", () => {
         users: 26,
       },
     ];
-
     axios.post.mockResolvedValue({ status: 200, data: fakeResult });
+
+    const addOrgPage = render(<AddOrganisation />, { wrapper: MemoryRouter });
+
+    jest.fn(() => {});
+    const orgName = screen.getByTestId("organisation-name");
+    await act(async () => {
+      fireEvent.change(orgName, { target: { value: "Onja Mada" } });
+    });
+    expect(orgName.value).toBe("Onja Mada");
 
     let organisation;
     await act(async () => {

@@ -20,6 +20,20 @@ import { useNotification } from "../../util/hooks";
 import { snakeCase, takeRight } from "lodash";
 import moment from "moment";
 
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      onchange: null,
+      addListener: function () {},
+      removeListener: function () {},
+      addEventListener: function () {},
+      removeEventListener: function () {},
+      dispatchEvent: function () {},
+    };
+  };
+
 const allowedFiles = [
   "application/vnd.ms-excel",
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -186,6 +200,7 @@ const UploadData = () => {
           onChange={() => {
             setUpdateExisting(!updateExisting);
           }}
+          data-testid="update-existing-data"
         >
           {text.updateExisting}
         </Checkbox>
@@ -197,14 +212,23 @@ const UploadData = () => {
         <Space align="center" size={32}>
           <img src="/assets/data-download.svg" />
           <p>{text.templateDownloadHint}</p>
-          <Select placeholder="Select Form..." onChange={handleChange}>
+          <Select
+            placeholder="Select Form..."
+            onChange={handleChange}
+            data-testid="select-form"
+          >
             {forms.map((f, fI) => (
-              <Option key={fI} value={f.id}>
+              <Option key={fI} value={f.id} data-testid="select-option">
                 {f.name}
               </Option>
             ))}
           </Select>
-          <Button loading={loading} type="primary" onClick={downloadTemplate}>
+          <Button
+            loading={loading}
+            type="primary"
+            onClick={downloadTemplate}
+            data-testid="download-template-btn"
+          >
             Download
           </Button>
         </Space>
@@ -225,7 +249,7 @@ const UploadData = () => {
           <AdministrationDropdown />
         </Space>
         <div className="upload-wrap">
-          <Dragger {...props}>
+          <Dragger {...props} data-testid="drop-file">
             <p className="ant-upload-drag-icon">
               <FileTextFilled style={{ color: "#707070" }} />
             </p>
