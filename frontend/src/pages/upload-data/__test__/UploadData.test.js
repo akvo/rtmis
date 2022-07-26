@@ -46,9 +46,6 @@ describe("page/upload-data", () => {
       axios.mockResolvedValueOnce({ status: 200, data: templateLink });
     });
 
-    // Drop file and browsing computer
-    fireEvent.click(getByTestId("drop-file"));
-
     expect(container).toMatchSnapshot();
   });
 });
