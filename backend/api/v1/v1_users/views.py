@@ -154,6 +154,7 @@ def login(request, version):
         refresh = RefreshToken.for_user(user)
         data = UserSerializer(instance=user).data
         data['token'] = str(refresh.access_token)
+        data['refresh_token'] = str(refresh)
         data['invite'] = signing.dumps(user.pk)
         response = Response(
             data,
@@ -232,6 +233,7 @@ def set_user_password(request, version):
     refresh = RefreshToken.for_user(user)
     data = UserSerializer(instance=user).data
     data['token'] = str(refresh.access_token)
+    data['refresh_token'] = str(refresh)
     # TODO: remove invite from response
     data['invite'] = signing.dumps(user.pk)
     return Response(data, status=status.HTTP_200_OK)

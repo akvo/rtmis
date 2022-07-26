@@ -120,8 +120,8 @@ SPECTACULAR_SETTINGS = {
 }
 # JWT Config
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=12),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=4),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases

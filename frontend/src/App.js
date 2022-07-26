@@ -161,7 +161,7 @@ const RouteList = () => {
 
 const App = () => {
   const { user: authUser, isLoggedIn } = store.useState((state) => state);
-  const [cookies] = useCookies(["AUTH_TOKEN"]);
+  const [cookies] = useCookies(["AUTH_TOKEN", "REFRESH_TOKEN"]);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const { notify } = useNotification();
@@ -220,7 +220,10 @@ const App = () => {
               };
             });
             reloadData(res.data);
-            api.setToken(cookies.AUTH_TOKEN);
+            api.setToken({
+              token: cookies.AUTH_TOKEN,
+              refresh_token: cookies.REFRESH_TOKEN,
+            });
             setLoading(false);
           })
           .catch((err) => {
@@ -233,6 +236,7 @@ const App = () => {
                 s.isLoggedIn = false;
                 s.user = null;
               });
+              eraseCookieFromAllPaths("AUTH_TOKEN");
               eraseCookieFromAllPaths("AUTH_TOKEN");
             }
             setLoading(false);

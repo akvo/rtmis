@@ -24,7 +24,7 @@ const LoginForm = () => {
         password: values.password,
       })
       .then((res) => {
-        api.setToken(res.data.token);
+        api.setToken(res.data);
         const role_details = config.roles.find(
           (r) => r.id === res.data.role.id
         );

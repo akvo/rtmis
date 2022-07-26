@@ -39,7 +39,7 @@ const RegistrationForm = (props) => {
     api
       .put("user/set-password", postData)
       .then((res) => {
-        api.setToken(res.data.token);
+        api.setToken(res.data);
         const role_details = config.roles.find(
           (r) => r.id === res.data.role.id
         );

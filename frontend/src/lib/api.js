@@ -28,8 +28,9 @@ const API = () => {
     patch: (url, data, config) =>
       axios({ url, method: "PATCH", data, ...getConfig(), ...config }),
     delete: (url) => axios({ url, method: "DELETE", ...getConfig() }),
-    setToken: (token) => {
+    setToken: ({ token, refresh_token }) => {
       api.token = token;
+      api.refresh_token = refresh_token;
     },
   };
 };
