@@ -194,7 +194,7 @@
               {
                 "question": 466680043,
                 "option": [
-                  "No handwashing place in dwelling/yard/plot",
+                  "No handwashing place in dwelling/homestead/plot",
                   "No permission to see"
                 ]
               }
@@ -973,6 +973,80 @@
                 "option": [
                   "No, none have been trained",
                   "No, there are no staff responsible for cleaning"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 603050002,
+    "title": "Urban Sanitation",
+    "type": 2,
+    "chartListTitle": "JMP",
+    "charts": [
+      {
+        "type": "CRITERIA",
+        "title": "Main type of Sanitation",
+        "options": [
+          {
+            "name": "Onsite sanitation",
+            "score": 1,
+            "color": "#753780",
+            "options": [
+              {
+                "question": 603080002,
+                "option": [
+                  "pit latrines",
+                  "Septic tanks"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Off site sanitation",
+            "score": -1,
+            "color": "#F1AC2A",
+            "options": [
+              {
+                "question": 603080002,
+                "option": [
+                  "Sewarage system"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "CRITERIA",
+        "title": "Sludge Transported",
+        "options": [
+          {
+            "name": "Yes",
+            "score": 1,
+            "color": "#753780",
+            "options": [
+              {
+                "question": 587530063,
+                "option": [
+                  "through the sewer system",
+                  "Using tracks"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "No",
+            "score": -1,
+            "color": "#F1AC2A",
+            "options": [
+              {
+                "question": 587530063,
+                "option": [
+                  "Its not transported to the treatment plant"
                 ]
               }
             ]
