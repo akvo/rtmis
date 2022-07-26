@@ -1504,11 +1504,33 @@
       "question_group": "Menstrual hygiene (ask to female members)",
       "questions": [
         {
+          "id": 607250002,
+          "meta": false,
+          "question": "Were you aware of what to expect during your first period?",
+          "name": "Aware of what to expect during first period",
+          "order": 1,
+          "required": true,
+          "type": "option",
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "chart"
+          ],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
           "id": 524810054,
           "meta": false,
           "question": "During your last menstrual period were you able to wash and change in privacy (alone) while at home?",
           "name": "Able to wash and change during menstrual period in privacy",
-          "order": 1,
+          "order": 2,
           "required": true,
           "type": "option",
           "attributes": [
@@ -1530,7 +1552,7 @@
           "meta": false,
           "question": "Where do you wash and change during your menstrual period?",
           "name": "The Location to wash and charge",
-          "order": 2,
+          "order": 3,
           "required": true,
           "type": "option",
           "attributes": [
@@ -1558,7 +1580,7 @@
           "meta": false,
           "question": "During your last menstrual period, what hygiene materials did you mainly use?",
           "name": "Menstrual hygiene material",
-          "order": 3,
+          "order": 4,
           "required": true,
           "type": "option",
           "attributes": [
@@ -1591,7 +1613,7 @@
           "meta": false,
           "question": "Was the mensrual hygiene material affordable?",
           "name": "Affordable of Menstrual hygiene material",
-          "order": 4,
+          "order": 5,
           "required": true,
           "type": "option",
           "attributes": [
@@ -1624,7 +1646,7 @@
           "meta": false,
           "question": "Where do you get your mentrual hygiene materials?",
           "name": "Source of Menstrual hygiene material",
-          "order": 5,
+          "order": 6,
           "required": true,
           "type": "option",
           "attributes": [
@@ -1657,7 +1679,7 @@
           "meta": false,
           "question": "During your last menstrual period, did you miss any of the following activities due to your period? [select multiple]",
           "name": "Missing activities during menstrual period",
-          "order": 6,
+          "order": 7,
           "required": true,
           "type": "multiple_option",
           "attributes": [
@@ -1693,7 +1715,7 @@
           "meta": false,
           "question": "During your menstrual period do you use soap or detergent?",
           "name": "Use of soap / detergent during menstrual period",
-          "order": 7,
+          "order": 8,
           "required": true,
           "type": "option",
           "attributes": [
@@ -1717,7 +1739,7 @@
           "meta": false,
           "question": "What do you usually do with your used menstrual material?",
           "name": "Menstrual hygiene waste",
-          "order": 8,
+          "order": 9,
           "required": true,
           "type": "option",
           "attributes": [
