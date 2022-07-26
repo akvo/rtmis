@@ -21,8 +21,8 @@ window.matchMedia =
 jest.mock("axios");
 
 describe("page/manage-data", () => {
-  test("test if ManageData has a list of data", () => {
-    const { container, getByText } = render(<ManageData />, {
+  test("test if ManageData has a list of data", async () => {
+    const { container, getByText, getByTestId } = render(<ManageData />, {
       wrapper: MemoryRouter,
     });
     expect(screen.getByText(/Control Center/i)).toBeInTheDocument();
@@ -69,5 +69,11 @@ describe("page/manage-data", () => {
 
     fireEvent.click(getByText("Remove Filters"));
     expect(container.querySelector(".ant-select-selection-item")).toBeNull();
+
+    fireEvent.click(getByTestId("advanced-filter"));
+    const advancedFilter = container.querySelector(".advanced-filters");
+    expect(advancedFilter).toBeDefined();
+
+    expect(container).toMatchSnapshot();
   });
 });

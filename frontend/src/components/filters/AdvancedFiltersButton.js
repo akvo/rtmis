@@ -17,6 +17,7 @@ const AdvancedFiltersButton = () => {
       className={
         showAdvancedFilters || advancedFilters.length ? "light active" : "light"
       }
+      data-testid="advanced-filter"
     >
       Advanced Filters
     </Button>
