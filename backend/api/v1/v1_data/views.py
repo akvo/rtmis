@@ -1404,6 +1404,11 @@ def get_period_submission(request, version, form_id):
             required=True,
             type={'type': 'array',
                   'items': {'type': 'number'}},
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='options',
+            required=False,
+            type={'type': 'array', 'items': {'type': 'string'}},
             location=OpenApiParameter.QUERY)],
     tags=['Visualisation'],
     summary='To get Glaas data')
@@ -1419,9 +1424,21 @@ def get_glaas_data(request, version, form_id):
     counties_questions = questions.filter(
         pk__in=request.GET.getlist('counties_questions')).all()
     counties_data = []
+    # Advance filter
+    data_ids = None
+    if request.GET.getlist('options'):
+        data_ids = get_advance_filter_data_ids(
+            form_id=form_id,
+            administration_id=[adm.id for adm in administration],
+            options=request.GET.getlist('options'),
+            is_glaas=True)
     for adm in administration:
+        # filter form data
+        filter_form_data_counties = {'administration_id': adm.id}
+        if data_ids:
+            filter_form_data_counties.update({'pk__in': data_ids})
         form_data_ids = form_datas.filter(
-            administration_id=adm.id).values_list('id', flat=True)
+            **filter_form_data_counties).values_list('id', flat=True)
         if not form_data_ids:
             continue
         temp = {'loc': adm.name}
@@ -1430,10 +1447,21 @@ def get_glaas_data(request, version, form_id):
         counties_data.append(temp)
 
     # get national data
+    administration_id = 1
     national_questions = questions.filter(
         pk__in=request.GET.getlist('national_questions')).all()
     national_data = []
-    form_data = form_datas.filter(administration_id=1)
+    # Advance filter
+    data_ids = None
+    if request.GET.getlist('options'):
+        data_ids = get_advance_filter_data_ids(
+            form_id=form_id, administration_id=[administration_id],
+            options=request.GET.getlist('options'), is_glaas=True)
+    # filter form data
+    filter_form_data_national = {'administration_id': administration_id}
+    if data_ids:
+        filter_form_data_national.update({'pk__in': data_ids})
+    form_data = form_datas.filter(**filter_form_data_national)
     # arbitrary starting dates
     first_fd = form_data.order_by('created').first()
     if first_fd:
