@@ -1,4 +1,11 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/
 *.pyc
+**/.DS_Store
 backend/media/
+notify.team.sh
+.env
+.vscode/configurationCache.log
+.vscode/dryrun.log
+.vscode/settings.json
+.vscode/targets.log

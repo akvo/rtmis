@@ -1,0 +1,169 @@
+text,variable,code,order,questionId,form_id,form_name
+Shared with more than 15 people including other households,HS_toielet_nr_use,HS-2,2,444670051,519630048,household
+Shared with 10-15 people (or less) including other households,HS_toielet_nr_use,HS-1,1,444670051,519630048,household
+No permission to see,HH-handwashing_facility,HH-4,4,466680043,519630048,household
+Fixed facility observed (sink/tap) In dwelling,HH-handwashing_facility,HH-1,1,466680043,519630048,household
+Mobile object observed (bucket/jug/kettle),HH-handwashing_facility,HH-3,3,466680043,519630048,household
+Fixed facility observed (sink/tap)  In yard/plot,HH-handwashing_facility,HH-2,2,466680043,519630048,household
+Water is available,HH_water_available,HH-1,1,466680045,519630048,household
+Water is not available,HH_water_available,HH-2,2,466680045,519630048,household
+Soap or detergent not available,hh_soap_available,HH-2,2,466760036,519630048,household
+Soap or detergent available .,hh_soap_available,HH-1,1,466760036,519630048,household
+Pit latrine without slab/open pit,,HS-5,5,492490054,519630048,household
+Container based sanitation,,HS-4,4,492490054,519630048,household
+Twin pit with slab,,HS-3,3,492490054,519630048,household
+Bucket,,HS-6,6,492490054,519630048,household
+Flush / pour flush,,HS-1,1,492490054,519630048,household
+No facility / Bush / Field,,HS-7,7,492490054,519630048,household
+Pit latrine with slab,,HS-2,2,492490054,519630048,household
+Yes,HS_toilet_use,HS-1,1,496550059,519630048,household
+No,HS_toilet_use,HS-2,2,496550059,519630048,household
+No,HS_feaces_present,HS2,2,512010045,519630048,household
+Yes,HS_feaces_present,HS-1,1,512010045,519630048,household
+Yes,HS_toilet_emptied,HS-1,1,513690059,519630048,household
+No,HS_toilet_emptied,HS-2,2,513690059,519630048,household
+"Open ground, water body or elsewhere",HS_emptied_location,HS-4,4,513690060,519630048,household
+To a treatment plant,HS_emptied_location,HS-1,1,513690060,519630048,household
+Buried in a covered pit,HS_emptied_location,HS-3,3,513690060,519630048,household
+I dont know where the emptier took the sludge,HS_emptied_location,HS-5,5,513690060,519630048,household
+Buried in an uncovered pit,HS_emptied_location,HS-2,2,513690060,519630048,household
+No kids present,HS_Childfeaces_disposal,HS-8,8,513690061,519630048,household
+Left in the open,HS_Childfeaces_disposal,HS-6,6,513690061,519630048,household
+Child used toilet/latrine,HS_Childfeaces_disposal,HS-1,1,513690061,519630048,household
+Thrown into garbage (solid waste),HS_Childfeaces_disposal,HS-4,4,513690061,519630048,household
+Put/rinsed into drain or ditch,HS_Childfeaces_disposal,HS-3,3,513690061,519630048,household
+Don't know,HS_Childfeaces_disposal,HS-9,9,513690061,519630048,household
+Put/rinsed into toilet or latrine,HS_Childfeaces_disposal,HS-2,2,513690061,519630048,household
+Used as manure,HS_Childfeaces_disposal,HS-7,7,513690061,519630048,household
+Buried,HS_Childfeaces_disposal,HS-5,5,513690061,519630048,household
+Yes,HS_toilet_share,HS-1,1,513690062,519630048,household
+No,HS_toilet_share,HS-2,2,513690062,519630048,household
+Yes,HS_toiletphoto,HS-1,1,513690063,519630048,household
+No,HS_toiletphoto,HS-2,2,513690063,519630048,household
+Inside the house,HS_toilet_location,HS-1,1,513690065,519630048,household
+Elsewhere,HS_toilet_location,HS-3,3,513690065,519630048,household
+In my compound/homestead,HS_toilet_location,HS-2,2,513690065,519630048,household
+"Yes, frequently",HS_toilet_leak,HS-3,3,513690066,519630048,household
+"No, never",HS_toilet_leak,HS-1,1,513690066,519630048,household
+Don’t know,HS_toilet_leak,HS-4,4,513690066,519630048,household
+"Yes, sometimes",HS_toilet_leak,HS-2,2,513690066,519630048,household
+Distance/barriers prevent members from reaching the toilet,HS_notuse_reason,HS-2,2,513690067,519630048,household
+Limited mobility prevents members from using the toilet,HS_notuse_reason,HS-1,1,513690067,519630048,household
+Toilet is not always safe for all household members to use,HS_notuse_reason,HS-4,4,513690067,519630048,household
+Toilet is not always available to all household members,HS_notuse_reason,HS-3,3,513690067,519630048,household
+"Toilet not functional (Collapsed, full, abandoned)",HS_availability_toilet,HS-3,3,513690068,519630048,household
+Toilet with inadequate privacy,HS_availability_toilet,HS-2,2,513690068,519630048,household
+Functional toilet with privacy,HS_availability_toilet,HS-4,4,513690068,519630048,household
+No toilet observed,HS_availability_toilet,HS-1,1,513690068,519630048,household
+Bathing in regular place,MHM_activties,HMHM-7,7,524810053,519630048,household
+Cooking food,MHM_activties,HMHM-5,5,524810053,519630048,household
+Participating in social activities,MHM_activties,HMHM-3,3,524810053,519630048,household
+Cooking food?,MHM_activties,HMHM-4,4,524810053,519630048,household
+Attending school,MHM_activties,HMHM-1,1,524810053,519630048,household
+Paid work,MHM_activties,HMHM-2,2,524810053,519630048,household
+Eating with others,MHM_activties,HMHM-6,6,524810053,519630048,household
+No,MHM_privacy,HMHM-2,2,524810054,519630048,household
+Yes,MHM_privacy,HMHM-1,1,524810054,519630048,household
+Cloth/reusable sanitary pads,MHM_products_use,HMHM-1,1,524810057,519630048,household
+Tampons,MHM_products_use,HMHM-3,3,524810057,519630048,household
+Disposable sanitary pads,MHM_products_use,HMHM-2,2,524810057,519630048,household
+Underwear alone,MHM_products_use,HMHM-6,6,524810057,519630048,household
+Menstrual cup,MHM_products_use,HMHM-4,4,524810057,519630048,household
+Toilet paper,MHM_products_use,HMHM-5,5,524810057,519630048,household
+Yes,hcs_toilets_useable,HC-1,1,530250002,53356002,health_facilities
+No,hcs_toilets_useable,HC-2,2,530250002,53356002,health_facilities
+Private place / latrine,smhm_access_facilities,SMHM-1,1,538000047,563350033,school
+Soap,smhm_access_facilities,SMHM-4,4,538000047,563350033,school
+Water,smhm_access_facilities,SMHM-2,2,538000047,563350033,school
+Sanitary pads/cloth,smhm_access_facilities,SMHM-3,3,538000047,563350033,school
+Neither water or soap,ss_soap_available,SH-4,4,539710048,563350033,school
+"Yes, water and soap",ss_soap_available,SH-1,1,539710048,563350033,school
+Water only,ss_soap_available,SH-2,2,539710048,563350033,school
+Soap only,ss_soap_available,SH-3,3,539710048,563350033,school
+No,sh_handwashing_facilities,SH-2,2,539710052,563350033,school
+Yes,sh_handwashing_facilities,SH-1,1,539710052,563350033,school
+Open dumping without treatment,hcw_disposal_sgarpwaste,HC-7,7,541950005,53356002,health_facilities
+Burning in a protected pit,hcw_disposal_sgarpwaste,HC-4,4,541950005,53356002,health_facilities
+Incinerated (other),hcw_disposal_sgarpwaste,HC-3,3,541950005,53356002,health_facilities
+Open burning,hcw_disposal_sgarpwaste,HC-8,8,541950005,53356002,health_facilities
+"Not treated, but collected for medical waste disposal off-site",hcw_disposal_sgarpwaste,HC-6,6,541950005,53356002,health_facilities
+"Not treated, but buried in lined, protected pit",hcw_disposal_sgarpwaste,HC-5,5,541950005,53356002,health_facilities
+Autoclaved,hcw_disposal_sgarpwaste,HC-1,1,541950005,53356002,health_facilities
+"Incinerated (two chamber, 850-1000 °C incinerator)",hcw_disposal_sgarpwaste,HC-2,2,541950005,53356002,health_facilities
+Not treated and added to general waste,hcw_disposal_sgarpwaste,HC-9,9,541950005,53356002,health_facilities
+"No, bins are present but do not meet all requirements or waste is not correctly segregated",hcw_segregation,HC-2,2,541950008,53356002,health_facilities
+"No, bins are not present",hcw_segregation,HC-3,3,541950008,53356002,health_facilities
+"Yes, waste is segregated into three labelled bins",hcw_segregation,HC-1,1,541950008,53356002,health_facilities
+Yes,hcw_hcwm_training,HC-1,1,541950010,53356002,health_facilities
+No,hcw_hcwm_training,HC-2,2,541950010,53356002,health_facilities
+"Incinerated (two chamber, 850-1000 °C incinerator)",hcw_disposal_infectiouswaste,HC-2,2,541950011,53356002,health_facilities
+Incinerated (other),hcw_disposal_infectiouswaste,HC-3,3,541950011,53356002,health_facilities
+Not treated and added to general waste,hcw_disposal_infectiouswaste,HC-9,9,541950011,53356002,health_facilities
+Autoclaved,hcw_disposal_infectiouswaste,HC-1,1,541950011,53356002,health_facilities
+Open dumping without treatment option,hcw_disposal_infectiouswaste,HC-7,7,541950011,53356002,health_facilities
+"Not treated, but buried in lined, protected pit",hcw_disposal_infectiouswaste,HC-5,5,541950011,53356002,health_facilities
+"Not treated, but collected for medical waste disposal off-site",hcw_disposal_infectiouswaste,HC-6,6,541950011,53356002,health_facilities
+Burning in a protected pit,hcw_disposal_infectiouswaste,HC-4,4,541950011,53356002,health_facilities
+Open burning,hcw_disposal_infectiouswaste,HC-8,8,541950011,53356002,health_facilities
+No,hch_cleaning_protocols,SEC-2,2,545530057,563350033,school
+Yes,hch_cleaning_protocols,SEC-1,1,545530057,563350033,school
+Yes,hch_handwashing_facility_toilet,HC-1,1,551560004,53356002,health_facilities
+"No, no handwashing facilities near toilets (within 5 meters)",hch_handwashing_facility_toilet,HC-3,3,551560004,53356002,health_facilities
+"No, there are handwashing facilities near the toilets but lacking soap and/or water",hch_handwashing_facility_toilet,HC-2,2,551560004,53356002,health_facilities
+"No, there are no staff responsible for cleaning",hch_staff_trained,HC-4,4,551560005,53356002,health_facilities
+"No, some but not all have been trained",hch_staff_trained,HC-2,2,551560005,53356002,health_facilities
+"Yes, all have been trained",hch_staff_trained,HC-1,1,551560005,53356002,health_facilities
+"No, none have been trained",hch_staff_trained,HC-3,3,551560005,53356002,health_facilities
+"No, no hand hygiene facilities at the health care facility",hch_handwashing_facility_Pointofcare,HC-4,4,551560007,53356002,health_facilities
+"No, no hand hygiene facilities at points of care",hch_handwashing_facility_Pointofcare,HC-3,3,551560007,53356002,health_facilities
+Yes,hch_handwashing_facility_Pointofcare,HC-1,1,551560007,53356002,health_facilities
+"No, there are hand hygiene facilities at points of care but not functional, or lacking soap and water or alcohol-based hand rub.",hch_handwashing_facility_Pointofcare,HC-2,2,551560007,53356002,health_facilities
+Yes,hch_cleaning_protocals,HC-1,1,551560009,53356002,health_facilities
+No,hch_cleaning_protocals,HC-3,3,551560009,53356002,health_facilities
+Yes but limited,hch_cleaning_protocals,HC-2,2,551560009,53356002,health_facilities
+No water source,S_water_source,S-8,8,551660011,563350033,school
+Unprotected well/spring,S_water_source,S-4,4,551660011,563350033,school
+Protected well/spring,S_water_source,S-2,2,551660011,563350033,school
+"Surface water (lake, river, stream)",S_water_source,S-7,7,551660011,563350033,school
+Tanker-truck or cart,S_water_source,S-6,6,551660011,563350033,school
+Rainwater,S_water_source,S-3,3,551660011,563350033,school
+Piped water supply,S_water_source,S-1,1,551660011,563350033,school
+Packaged bottled water,S_water_source,S-5,5,551660011,563350033,school
+No,S_water_available,S-2,2,551660013,563350033,school
+Yes,S_water_available,S-1,1,551660013,563350033,school
+Pit latrines with slab,ss_toilet_type,SS-2,2,551660029,563350033,school
+Hanging latrines,ss_toilet_type,SS-5,5,551660029,563350033,school
+No toilets or latrines,ss_toilet_type,SS-7,7,551660029,563350033,school
+Flush / Pour-flush toilets,ss_toilet_type,SS-1,1,551660029,563350033,school
+Bucket latrines,ss_toilet_type,SS-6,6,551660029,563350033,school
+Pit latrines without slab,ss_toilet_type,SS-4,4,551660029,563350033,school
+Composting toilets,ss_toilet_type,SS-3,3,551660029,563350033,school
+Yes,hcs_gender_separated,HC-1,1,555370003,53356002,health_facilities
+No,hcs_gender_separated,HC-2,2,555370003,53356002,health_facilities
+Bucket,hcs_toilet_type,HC-7,7,555370004,53356002,health_facilities
+Pit latrine with slab,hcs_toilet_type,HC-3,3,555370004,53356002,health_facilities
+Flush / Pour-flush toilet to sewer connection,hcs_toilet_type,HC-1,1,555370004,53356002,health_facilities
+Flush / Pour-flush toilet to tank or pit,hcs_toilet_type,HC-2,2,555370004,53356002,health_facilities
+No toilet/latrine,hcs_toilet_type,HC-9,9,555370004,53356002,health_facilities
+Composting toilet,hcs_toilet_type,HC-4,4,555370004,53356002,health_facilities
+Pit latrine without slab/open pit,hcs_toilet_type,HC-6,6,555370004,53356002,health_facilities
+Flush / Pour-flush toilet to open drain,hcs_toilet_type,HC-5,5,555370004,53356002,health_facilities
+Hanging toilet/latrine,hcs_toilet_type,HC-8,8,555370004,53356002,health_facilities
+Yes,hcs_mhm_facilities,HC-1,1,555370005,53356002,health_facilities
+No,hcs_mhm_facilities,HC-2,2,555370005,53356002,health_facilities
+No,hcs_accessbility_limitedmobility,HC-2,2,555370006,53356002,health_facilities
+Yes,hcs_accessbility_limitedmobility,HC-1,1,555370006,53356002,health_facilities
+Yes,hcs_stafftoilets,HC-1,1,555370009,53356002,health_facilities
+No,hcs_stafftoilets,HC-2,2,555370009,53356002,health_facilities
+Yes,ss_latrine_use,SS-1,1,555460003,563350033,school
+No,ss_latrine_use,SS-2,2,555460003,563350033,school
+"No, some but not all have been trained",hch_cleaningstaff_trained,SEC-2,2,575740004,563350033,school
+"Yes, all have been trained",hch_cleaningstaff_trained,SEC-1,1,575740004,563350033,school
+"No, there are no staff responsible for cleaning",hch_cleaningstaff_trained,SEC-4,4,575740004,563350033,school
+"No, none have been trained",hch_cleaningstaff_trained,SEC-3,3,575740004,563350033,school
+No,ss_gender_separated,SS-2,2,579840064,563350033,school
+Yes,ss_gender_separated,SS-1,1,579840064,563350033,school
+No,HH_handwashing_facility_available,HH-2,2,599400071,519630048,household
+Yes,HH_handwashing_facility_available,HH-1,1,599400071,519630048,household
+No,MHM_awareness,HMHM-2,2,607250002,519630048,household
+Yes,MHM_awareness,HMHM-1,1,607250002,519630048,household

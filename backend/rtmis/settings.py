@@ -24,6 +24,8 @@ SECRET_KEY = environ["DJANGO_SECRET"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if "DEBUG" in environ else False
+PROD = True if "PROD" in environ else False
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -45,6 +47,8 @@ EXTERNAL_APPS = [
     'rest_framework_simplejwt',
     'drf_spectacular',
     'django_dbml',
+    'django_extensions',
+    'django_q'
 ]
 
 # Add API apps below
@@ -53,6 +57,7 @@ API_APPS = [
     'api.v1.v1_profile',
     'api.v1.v1_forms',
     'api.v1.v1_data',
+    'api.v1.v1_jobs',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + API_APPS + EXTERNAL_APPS
@@ -65,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'middleware.user_activity.UserActivity',
 ]
 
 ROOT_URLCONF = 'rtmis.urls'
@@ -72,7 +78,7 @@ ROOT_URLCONF = 'rtmis.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [Path.joinpath(BASE_DIR, 'rtmis/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -106,14 +112,15 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'RTMIS',
+    'TITLE': 'RUSH',
     'DESCRIPTION': '',
     'VERSION': '1.0.0',
-    # 'SCHEMA_PATH_PREFIX': r'/api/v[0-9]',
+    'SORT_OPERATIONS': False,
+    'COMPONENT_SPLIT_REQUEST': True
 }
 # JWT Config
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=12),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
 }
 # Database
@@ -166,6 +173,15 @@ USE_TZ = True
 
 STATIC_URL = 'static-files/'
 
+# For Caching API call
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/var/tmp/cache',
+    }
+}
+CACHE_FOLDER = "/tmp/cache/"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -174,3 +190,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "v1_users.SystemUser"
 
 FORM_GEO_VALUE = {"lat": 9.145, "lng": 40.4897}
+
+BUCKET_NAME = "rtmis"
+FAKE_STORAGE = False
+
+EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
+MAILJET_API_KEY = environ["MAILJET_APIKEY"]
+MAILJET_API_SECRET = environ["MAILJET_SECRET"]
+EMAIL_FROM = environ.get("EMAIL_FROM") or 'noreply@akvo.org'
+
+Q_CLUSTER = {
+    'name': 'DjangORM',
+    'workers': 4,
+    'timeout': 90,
+    'retry': 120,
+    'queue_limit': 50,
+    'bulk': 10,
+    'orm': 'default'
+}

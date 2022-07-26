@@ -1,39 +1,79 @@
 @import "../../variables";
 
 #root {
-  #addUser {
+  #add-user {
     padding-bottom: 30px;
 
     .ant-card {
       text-align: left;
       margin-bottom: 30px;
 
+      .form-row-adm {
+        h3 {
+          margin-top: 12px;
+          margin-bottom: 12px;
+          font-size: 15px;
+          font-weight: 700;
+        }
+        .ant-space {
+          width: 100%;
+
+          .ant-space-item {
+            width: 100%;
+
+            .ant-select {
+              width: 100%;
+            }
+          }
+        }
+      }
+
+      .form-row-adm,
       .form-row {
         margin-bottom: 8px;
 
         label {
-          font-weight: 600;
+          font-weight: $font-weight-semi-bold !important;
         }
 
         input,
         .ant-select {
           margin-top: 4px;
+
+          span.opt-desc {
+            display: block;
+            font-size: 12px;
+            font-weight: 300;
+            font-style: italic;
+            color: gray;
+          }
         }
       }
 
       .ant-row {
-        .ant-col:first-child {
+        .ant-col {
           padding-right: 10px;
-        }
 
-        .ant-col:nth-child(2) {
-          padding-left: 10px;
+          &:last-child {
+            padding-right: 0;
+          }
         }
       }
     }
-
-    .ant-checkbox-wrapper {
-      margin-right: 12px;
+    .ant-row-end {
+      .ant-form-item {
+        margin-bottom: 0;
+        .ant-checkbox-wrapper {
+          margin-right: 12px;
+        }
+      }
     }
   }
+}
+
+.role-description {
+  color: gray;
+  position: relative;
+  top: -19px;
+  font-style: italic;
 }

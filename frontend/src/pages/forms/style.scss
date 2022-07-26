@@ -12,9 +12,14 @@
       h1 {
         font-family: $font-family;
         font-size: $font-size-large;
-        font-weight: bold;
         letter-spacing: 0.49px;
         color: $color-dark;
+      }
+
+      .arf-container {
+        h1 {
+          display: none;
+        }
       }
 
       .form-container {
@@ -26,7 +31,7 @@
 
       .arf-form-header {
         padding: 0px 0px 40px;
-        background: #f4f7fc;
+        background: $bg-light;
       }
 
       .arf-sidebar {
@@ -53,7 +58,7 @@
 
       .progress-bar {
         .ant-progress-outer {
-          background: white;
+          background: $white;
           padding: 10px 20px;
           border-top: 1px solid #eee;
 
@@ -89,6 +94,29 @@
           }
         }
       }
+    }
+
+    .ant-result {
+      background: $white;
+
+      .ant-result-title {
+        font-family: $font-family;
+        font-weight: 600;
+        font-size: $font-size-large;
+        line-height: 1.35;
+        color: $color-dark;
+      }
+
+      .ant-result-subtitle {
+        color: #3b3b3b;
+        font-size: 14px;
+      }
+    }
+
+    .ant-card {
+      text-align: left;
+      padding: 0;
+      padding-bottom: 72px;
     }
   }
 }

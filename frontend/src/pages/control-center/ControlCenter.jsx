@@ -1,332 +1,162 @@
-import React, { useEffect } from "react";
+import React, { useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Card, Button, Table, Tabs, Progress } from "antd";
+import { Row, Col, Card, Button, Divider } from "antd";
+import { store, config, uiText } from "../../lib";
 import { Link } from "react-router-dom";
-import { store, api } from "../../lib";
-import {
-  PlusSquareOutlined,
-  CloseSquareOutlined,
-  FileTextFilled,
-  InfoCircleOutlined,
-} from "@ant-design/icons";
-
-const { TabPane } = Tabs;
-const datasets = [
-  {
-    title: "Manage Data",
-    buttonLabel: "Manage Data",
-    description:
-      "Open defecation free (ODF) is a term used to describe communities that have shifted to using toilets instead of open defecation. This can happen, for example, after community-led total sanitation programs have been implemented.",
-    link: "/data/manage",
-    image: require("../../assets/big-data.png"),
-  },
-  {
-    title: "Exports",
-    buttonLabel: "Data Exports",
-    description:
-      "Community-led total sanitation (CLTS) is an approach used mainly in developing countries to improve sanitation and hygiene practices in a community. The approach tries to achieve behavior change in mainly rural people by a process of “triggering”, leading to spontaneous and long-term abandonment of open defecation practices.",
-    link: "/",
-    image: require("../../assets/import.png"),
-  },
-  {
-    title: "Data Uploads",
-    buttonLabel: "Data Uploads",
-    description:
-      "WASH is an acronym that stands for “water, sanitation and hygiene”.Universal, affordable and sustainable access to WASH is a key public health issue within international development and is the focus of the first two targets of Sustainable Development Goal 6 (SDG 6).",
-    link: "/",
-    image: require("../../assets/upload.png"),
-  },
-  {
-    title: "User Management",
-    buttonLabel: "Manage User",
-    description:
-      "WASH is an acronym that stands for “water, sanitation and hygiene”.Universal, affordable and sustainable access to WASH is a key public health issue within international development and is the focus of the first two targets of Sustainable Development Goal 6 (SDG 6).",
-    link: "/users",
-    image: require("../../assets/personal-information.png"),
-  },
-];
-const approvalsPending = [
-  {
-    key: "1",
-    filename: "Lorem Ipsum CSV File 1",
-    created_at: "2021-11-08 17:18",
-    completion_status: 100,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 21,
-      name: "K. Choge",
-    },
-  },
-  {
-    key: "2",
-    filename: "Lorem Ipsum CSV File 2",
-    created_at: "2021-11-08 17:18",
-    completion_status: 85,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 22,
-      name: "A. Awiti",
-    },
-  },
-  {
-    key: "3",
-    filename: "Lorem Ipsum CSV File 3",
-    created_at: "2021-11-08 17:18",
-    completion_status: 90,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 23,
-      name: "Ruto Cindy",
-    },
-  },
-  {
-    key: "4",
-    filename: "Lorem Ipsum CSV File 4",
-    created_at: "2021-11-08 17:18",
-    completion_status: 100,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 24,
-      name: "John Doe",
-    },
-  },
-  {
-    key: "5",
-    filename: "Lorem Ipsum CSV File 1",
-    created_at: "2021-11-08 17:18",
-    completion_status: 100,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 21,
-      name: "K. Choge",
-    },
-  },
-  {
-    key: "6",
-    filename: "Lorem Ipsum CSV File 2",
-    created_at: "2021-11-08 17:18",
-    completion_status: 85,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 22,
-      name: "A. Awiti",
-    },
-  },
-  {
-    key: "7",
-    filename: "Lorem Ipsum CSV File 3",
-    created_at: "2021-11-08 17:18",
-    completion_status: 90,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 23,
-      name: "Ruto Cindy",
-    },
-  },
-  {
-    key: "8",
-    filename: "Lorem Ipsum CSV File 4",
-    created_at: "2021-11-08 17:18",
-    completion_status: 100,
-    location: "Baringo",
-    user: {
-      id: 42,
-      name: "Ouma Odhiambo",
-    },
-    waiting_on: {
-      id: 24,
-      name: "John Doe",
-    },
-  },
-];
-const approvalsSubordinates = [];
-
-const columns = [
-  {
-    title: "",
-    dataIndex: "key",
-    key: "key",
-    render: () => <InfoCircleOutlined />,
-  },
-  {
-    title: "File",
-    dataIndex: "filename",
-    key: "filename",
-    render: (filename, row) => (
-      <div className="row">
-        <div>
-          <FileTextFilled style={{ color: "#666666", fontSize: 28 }} />
-        </div>
-        <div>
-          <div>{filename}</div>
-          <div>{row.created_at}</div>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Completion Status",
-    dataIndex: "completion_status",
-    key: "completion_status",
-    render: (status) => (
-      <div className="row">
-        <Progress
-          percent={parseInt(status)}
-          showInfo={false}
-          strokeColor="#b5b5b5"
-        />
-        <div>{status}%</div>
-      </div>
-    ),
-  },
-  {
-    title: "Location",
-    dataIndex: "location",
-    key: "location",
-  },
-  {
-    title: "Uploaded By",
-    dataIndex: "user",
-    render: (user) => user.name || "",
-    key: "user.id",
-  },
-  {
-    title: "Waiting On",
-    dataIndex: "waiting_on",
-    render: (user) => user.name || "",
-    key: "waiting_on.id",
-  },
-  Table.EXPAND_COLUMN,
-];
-
-const renderDetails = (record) => {
-  return <div className="expand-body">Details View for {record.filename}</div>;
-};
+import { PanelApprovals, PanelSubmissions } from "../control-center/components";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
+import { ControlCenterTour } from "./components";
 
 const ControlCenter = () => {
-  const isLoggedIn = store.useState((state) => state.isLoggedIn);
+  const { user: authUser } = store.useState((s) => s);
+  const { language } = store.useState((s) => s);
 
-  const init = () => {
-    api
-      .get("forms/")
-      .then(() => {})
-      .catch((err) => {
-        console.error(err.response.data.message);
-      });
-  };
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      init(); // Test with an auth route
+  const { roles, checkAccess } = config;
+
+  const panels = useMemo(() => {
+    return [
+      {
+        key: "manage-data",
+        title: text.manageDataTitle,
+        buttonLabel: text.manageDataButton,
+        access: "data",
+        description: <div>{text.manageDataText}</div>,
+        link: "/data/manage",
+        image: "/assets/big-data.png",
+      },
+      {
+        key: "data-download",
+        title: text.dataDownloadTitle,
+        buttonLabel: text.dataDownloadButton,
+        access: "data",
+        description: <div>{text.dataDownloadText}</div>,
+        link: "/data/export",
+        image: "/assets/import.png",
+      },
+      {
+        key: "data-upload",
+        title: text.dataUploadTitle,
+        buttonLabel: text.dataUploadButton,
+        access: authUser?.role.id === 4 ? "" : "form",
+        description: <div>{text.dataUploadText}</div>,
+        link: "/data/upload",
+        image: "/assets/upload.png",
+      },
+      {
+        key: "manage-user",
+        title: text.manageUserTitle,
+        buttonLabel: text.manageUserButton,
+        access: "user",
+        description: <div>{text.manageUserText}</div>,
+        link: "/users",
+        image: "/assets/personal-information.png",
+      },
+      {
+        key: "manage-organisation",
+        title: text.orgPanelTitle,
+        buttonLabel: text.orgPanelButton,
+        access: "organisation",
+        description: <div>{text.orgPanelText}</div>,
+        link: "/organisations",
+        image: "/assets/organisation.svg",
+      },
+      {
+        key: "approvals",
+        access: "approvals",
+        render: (
+          <Col key="approvals-panel" span={24}>
+            <PanelApprovals />
+          </Col>
+        ),
+      },
+      {
+        key: "submission",
+        access: "form",
+        render: (
+          <Col key="submission-panel" span={24}>
+            <PanelSubmissions />
+          </Col>
+        ),
+      },
+    ];
+  }, [text, authUser?.role.id]);
+
+  const selectedPanels = useMemo(() => {
+    if (!authUser?.role_detail) {
+      return [];
     }
-  }, [isLoggedIn]);
+    const panelOrder = roles.find(
+      (r) => r.id === authUser?.role_detail?.id
+    )?.control_center_order;
+    const panelByAccess = panels.filter((p) =>
+      checkAccess(authUser?.role_detail, p.access)
+    );
+    return panelOrder.map((x) => panelByAccess.find((p) => p.key === x));
+  }, [panels, roles, checkAccess, authUser]);
 
   return (
     <div id="control-center">
-      <h1>Control Center</h1>
+      <Row justify="space-between">
+        <Breadcrumbs
+          pagePath={[
+            {
+              title: "Control Center",
+              link: "/control-center",
+            },
+          ]}
+        />
+        <ControlCenterTour />
+      </Row>
+      <DescriptionPanel description={text.ccDescriptionPanel} />
+      <Divider />
       <Row gutter={[16, 16]}>
-        {datasets.map((dataset, index) => (
-          <Col className="card-wrapper" span={12} key={index}>
-            <Card bordered={false} hoverable>
-              <div className="row">
-                <div className="flex-1">
-                  <h2>{dataset.title}</h2>
-                  <p>{dataset.description}</p>
-                  <Link to={dataset.link} className="explore">
-                    <Button type="primary">{dataset.buttonLabel}</Button>
-                  </Link>
+        {selectedPanels.map((panel, index) => {
+          if (panel?.render) {
+            return panel.render;
+          }
+          const cardOnly = selectedPanels.filter((x) => !x?.render);
+          const isFullWidth =
+            cardOnly.length === 1 ||
+            (selectedPanels.length % 2 === 1 &&
+              selectedPanels.length - 1 === index);
+          return (
+            <Col
+              className="card-wrapper"
+              span={isFullWidth ? 24 : 12}
+              key={index}
+            >
+              <Card bordered={false} hoverable>
+                <div className="row">
+                  <div className="flex-1">
+                    <h2>{panel.title}</h2>
+                    <span>{panel.description}</span>
+                    <Link to={panel.link} className="explore">
+                      <Button type="primary">{panel.buttonLabel}</Button>
+                    </Link>
+                  </div>
+                  <div>
+                    <img src={panel.image} width={100} height={100} />
+                  </div>
                 </div>
-                <div>
-                  <img src={dataset.image} width={100} height={100} />
-                </div>
-              </div>
-            </Card>
+              </Card>
+            </Col>
+          );
+        })}
+        {/* {authUser.role_detail.page_access.includes("approvals") && (
+          <Col span={24}>
+            <PanelApprovals />
           </Col>
-        ))}
-
-        <Col span={24}>
-          <Card bordered={false}>
-            <div className="row">
-              <div className="flex-1">
-                <h2>Approvals</h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-                  faucibus nisi at quam bibendum consequat. Maecenas tempor
-                  accumsan enim. Integer luctus, eros ut maximus gravida
-                </p>
-              </div>
-              <div>
-                <img
-                  src={require("../../assets/approval.png")}
-                  width={100}
-                  height={100}
-                />
-              </div>
-            </div>
-            <Tabs defaultActiveKey="1" onChange={() => {}}>
-              <TabPane tab="My Pending Approvals" key="1">
-                <Table
-                  dataSource={approvalsPending}
-                  columns={columns}
-                  pagination={{ position: ["none", "none"] }}
-                  scroll={{ y: 270 }}
-                  expandable={{
-                    expandedRowRender: renderDetails,
-                    expandIcon: ({ expanded, onExpand, record }) =>
-                      expanded ? (
-                        <CloseSquareOutlined
-                          onClick={(e) => onExpand(record, e)}
-                          style={{ color: "#e94b4c" }}
-                        />
-                      ) : (
-                        <PlusSquareOutlined
-                          onClick={(e) => onExpand(record, e)}
-                          style={{ color: "#7d7d7d" }}
-                        />
-                      ),
-                  }}
-                />
-              </TabPane>
-              <TabPane tab="Subordinates Approvals" key="2">
-                <Table dataSource={approvalsSubordinates} columns={columns} />
-              </TabPane>
-            </Tabs>
-            <Row justify="space-between">
-              <Button type="primary">View All</Button>
-              <Link to="/approvers">
-                <Button className="light">Manage Approvers</Button>
-              </Link>
-            </Row>
-          </Card>
-        </Col>
+        )}
+        {authUser.role_detail.page_access.includes("form") && (
+          <Col span={24}>
+            <PanelSubmissions />
+          </Col>
+        )} */}
       </Row>
     </div>
   );

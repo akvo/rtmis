@@ -28,7 +28,7 @@ prepare_deployment () {
     gcloud container clusters get-credentials "${cluster}"
 
     sed -e "s/\${CI_COMMIT}/${CI_COMMIT}/g;" \
-        ci/k8s/deployment.yml.template > ci/k8s/deployment.yml
+        ci/k8s/deployment.template.yml > ci/k8s/deployment.yml
 }
 
 apply_deployment () {
@@ -40,6 +40,7 @@ auth
 
 if [[ -z "${CI_TAG:=}" ]]; then
     push_image backend
+    push_image worker
     push_image frontend
 fi
 

@@ -1,31 +1,53 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import "./style.scss";
 import { Row, Col, Spin } from "antd";
-import LoginForm from "./LoginForm";
-import RegistrationForm from "./RegistrationForm";
+import { LoginForm, RegistrationForm, ResetForm } from "./components";
+import { ContactForm } from "../../components";
 import { Link, useParams } from "react-router-dom";
-import backgroundImage from "../../assets/banner.png";
-import { api, config } from "../../lib";
+import { api, config, store, uiText } from "../../lib";
 
 const styles = {
   side: {
-    backgroundImage: `url(${backgroundImage})`,
+    backgroundImage: `url("/assets/banner.jpg")`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
   },
 };
 
+const ContactUsText = () => (
+  <p className="contact-text">
+    Having trouble accessing the platform? Please{" "}
+    <a
+      href="#"
+      onClick={() => {
+        store.update((s) => {
+          s.showContactFormModal = true;
+        });
+      }}
+    >
+      contact
+    </a>
+    .
+  </p>
+);
+
 const Login = () => {
   const { invitationId } = useParams();
   const [invitedUser, setInvitedUser] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
+
   useEffect(() => {
-    if (invitationId) {
+    if (!location.pathname.includes("forgot-password") && invitationId) {
       setLoading(true);
       api
-        .post("verify/invite/", { invite: invitationId })
+        .get(`invitation/${invitationId}`)
         .then((res) => {
           setInvitedUser({
             name: res.data.name,
@@ -45,76 +67,80 @@ const Login = () => {
       <div className="logo">
         <Link to="/">
           <img src={config.siteLogo} alt={config.siteLogo} />
-          <h1>{config.siteTitle}</h1>
+          <h1>
+            {config.siteTitle}
+            <small>{config.siteSubTitle}</small>
+          </h1>
         </Link>
       </div>
       <Row className="wrapper" align="middle">
         <Col span={12} className="left-side">
           <div className="title">
-            <h1>
-              Welcome to the National
-              <br />
-              Sanitation and Hygiene
-              <br />
-              Real-Time Monitoring System
-            </h1>
+            <h1>{text.welcome}</h1>
+            <h2>{text?.welcomeDesc}</h2>
           </div>
         </Col>
         <Col span={12} className="right-side">
-          {loading ? (
-            <div>
-              <Spin />
-              <h2>
-                Verifying
+          {location.pathname.includes("forgot-password") ? (
+            <>
+              <h1>
+                {text.forgotTitle}
                 <br />
-                <small>Please wait..</small>
-              </h2>
-            </div>
+                <small>{text.forgotDesc}</small>
+              </h1>
+              <br />
+              <ContactUsText />
+              <ResetForm />
+            </>
           ) : (
             <>
-              {invitationId ? (
+              {loading ? (
                 <div>
-                  {invitedUser ? (
-                    <>
-                      <h1 data-testid="welcome-title">
-                        Welcome to RTMIS, {invitedUser.name}
-                        <br />
-                        <small>
-                          Set your own password including the following criteria
-                        </small>
-                      </h1>
-                      <RegistrationForm invite={invitedUser.invite} />
-                    </>
-                  ) : (
-                    <div>
-                      <h1>
-                        Invalid Invite Code
-                        <br />
-                        <small>
-                          Lorem, ipsum dolor sit amet consectetur adipisicing
-                          elit. Autem provident voluptatum cum numquam, quidem
-                          vitae, qui quam beatae exercitationem ullam
-                          perferendis! Nobis in aut fuga voluptate harum,
-                          tempore distinctio optio.
-                        </small>
-                      </h1>
-                    </div>
-                  )}
+                  <Spin />
+                  <h2>
+                    Verifying
+                    <br />
+                    <small>Please wait..</small>
+                  </h2>
                 </div>
               ) : (
                 <>
-                  <h1>
-                    Welcome back
-                    <br />
-                    <small>Please enter your account details</small>
-                  </h1>
-                  <LoginForm />
+                  {invitationId ? (
+                    <div>
+                      {invitedUser ? (
+                        // TODO
+                        <>
+                          <h1 data-testid="welcome-title">
+                            {text.welcomeShort}, {invitedUser.name}
+                            <br />
+                            <small>{text.resetHint}</small>
+                          </h1>
+                          <RegistrationForm invite={invitedUser.invite} />
+                        </>
+                      ) : (
+                        <div>
+                          <h1>
+                            {text.invalidInviteTitle}
+                            <br />
+                            <small>{text.invalidInviteDesc}</small>
+                          </h1>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <>
+                      <h1>{text.loginTitle}</h1>
+                      <ContactUsText />
+                      <LoginForm />
+                    </>
+                  )}
                 </>
               )}
             </>
           )}
         </Col>
       </Row>
+      <ContactForm />
     </div>
   );
 };

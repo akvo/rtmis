@@ -13,7 +13,7 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
       >
         <div
           class="background"
-          style="background-image: url(banner.png); background-size: cover; background-position: center; background-repeat: no-repeat;"
+          style="background-image: url(/assets/banner.jpg); background-size: cover; background-position: center; background-repeat: no-repeat;"
         />
         <div
           class="logo"
@@ -26,7 +26,10 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
               src="/logo.png"
             />
             <h1>
-              Ministry of Health
+              RUSH
+              <small>
+                Rural Urban Sanitation and Hygiene
+              </small>
             </h1>
           </a>
         </div>
@@ -40,12 +43,15 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
               class="title"
             >
               <h1>
-                Welcome to the National
+                Rural Urban Sanitation
                 <br />
-                Sanitation and Hygiene
-                <br />
-                Real-Time Monitoring System
+                and Hygiene (RUSH)
               </h1>
+              <h2>
+                Real Time Management Information System (RTMIS)
+                <br />
+                Updated sanitation and hygiene estimates across Kenya
+              </h2>
             </div>
           </div>
           <div
@@ -58,6 +64,17 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
                 Please enter your account details
               </small>
             </h1>
+            <p
+              class="contact-text"
+            >
+              Having trouble accessing the platform? Please 
+              <a
+                href="#"
+              >
+                contact
+              </a>
+              .
+            </p>
             <form
               class="ant-form ant-form-vertical"
               id="login-form"
@@ -224,27 +241,6 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
                     <div
                       class="ant-form-item-control-input-content"
                     >
-                      <label
-                        class="ant-checkbox-wrapper ant-checkbox-wrapper-checked"
-                      >
-                        <span
-                          class="ant-checkbox ant-checkbox-checked"
-                        >
-                          <input
-                            checked=""
-                            class="ant-checkbox-input"
-                            id="login-form_remember"
-                            type="checkbox"
-                            value=""
-                          />
-                          <span
-                            class="ant-checkbox-inner"
-                          />
-                        </span>
-                        <span>
-                          Remember me
-                        </span>
-                      </label>
                       <a
                         class="login-form-forgot"
                         href="/forgot-password"
@@ -279,6 +275,11 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
                   </div>
                 </div>
               </div>
+              <p
+                class="disclaimer"
+              >
+                The user is accountable for his/her account and in case there are any changes (Transfers, retirement, any kind of leave, resignation etc) this should be communicated to the County Administrator or National Super Admin who might be able to assign the roles to the new officer.
+              </p>
             </form>
           </div>
         </div>
@@ -301,7 +302,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
       >
         <div
           class="background"
-          style="background-image: url(banner.png); background-size: cover; background-position: center; background-repeat: no-repeat;"
+          style="background-image: url(/assets/banner.jpg); background-size: cover; background-position: center; background-repeat: no-repeat;"
         />
         <div
           class="logo"
@@ -314,7 +315,10 @@ exports[`Login and Registration test if the registration form exists: Registrati
               src="/logo.png"
             />
             <h1>
-              Ministry of Health
+              RUSH
+              <small>
+                Rural Urban Sanitation and Hygiene
+              </small>
             </h1>
           </a>
         </div>
@@ -328,12 +332,15 @@ exports[`Login and Registration test if the registration form exists: Registrati
               class="title"
             >
               <h1>
-                Welcome to the National
+                Rural Urban Sanitation
                 <br />
-                Sanitation and Hygiene
-                <br />
-                Real-Time Monitoring System
+                and Hygiene (RUSH)
               </h1>
+              <h2>
+                Real Time Management Information System (RTMIS)
+                <br />
+                Updated sanitation and hygiene estimates across Kenya
+              </h2>
             </div>
           </div>
           <div
@@ -343,10 +350,12 @@ exports[`Login and Registration test if the registration form exists: Registrati
               <h1
                 data-testid="welcome-title"
               >
-                Welcome to RTMIS, John Doe
+                Welcome to RUSH, John Doe
                 <br />
                 <small>
-                  Set your own password including the following criteria
+                  Please set your password for the platform.
+                  <br />
+                  Your password must include:
                 </small>
               </h1>
               <div
@@ -399,14 +408,71 @@ exports[`Login and Registration test if the registration form exists: Registrati
                     <input
                       class="ant-checkbox-input"
                       type="checkbox"
-                      value="Special Character"
+                      value="Special Character ( -._!\`'#%&,:;<>=@{}~$()*+/?[]^|] )"
                     />
                     <span
                       class="ant-checkbox-inner"
                     />
                   </span>
                   <span>
-                    Special Character
+                    Special Character ( -._!\`'#%&,:;&lt;&gt;=@{}~$()*+/?[]^|] )
+                  </span>
+                </label>
+                <label
+                  class="ant-checkbox-wrapper ant-checkbox-group-item"
+                >
+                  <span
+                    class="ant-checkbox"
+                  >
+                    <input
+                      class="ant-checkbox-input"
+                      type="checkbox"
+                      value="Uppercase Character"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span>
+                    Uppercase Character
+                  </span>
+                </label>
+                <label
+                  class="ant-checkbox-wrapper ant-checkbox-group-item"
+                >
+                  <span
+                    class="ant-checkbox"
+                  >
+                    <input
+                      class="ant-checkbox-input"
+                      type="checkbox"
+                      value="No White Space"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span>
+                    No White Space
+                  </span>
+                </label>
+                <label
+                  class="ant-checkbox-wrapper ant-checkbox-group-item"
+                >
+                  <span
+                    class="ant-checkbox"
+                  >
+                    <input
+                      class="ant-checkbox-input"
+                      type="checkbox"
+                      value="Minimum 8 Characters"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span>
+                    Minimum 8 Characters
                   </span>
                 </label>
               </div>
@@ -469,6 +535,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
                             id="registration-form_password"
                             placeholder="Password"
                             type="password"
+                            value=""
                           />
                           <span
                             class="ant-input-suffix"
@@ -557,6 +624,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
                             id="registration-form_confirm"
                             placeholder="Confirm Password"
                             type="password"
+                            value=""
                           />
                           <span
                             class="ant-input-suffix"
@@ -614,6 +682,11 @@ exports[`Login and Registration test if the registration form exists: Registrati
                     </div>
                   </div>
                 </div>
+                <p
+                  class="disclaimer"
+                >
+                  The user is accountable for his/her account and in case there are any changes (Transfers, retirement, any kind of leave, resignation etc) this should be communicated to the County Administrator or National Super Admin who might be able to assign the roles to the new officer.
+                </p>
               </form>
             </div>
           </div>

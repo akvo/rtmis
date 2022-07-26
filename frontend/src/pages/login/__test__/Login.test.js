@@ -16,7 +16,6 @@ describe("Login and Registration", () => {
       screen.getByText(/Please enter your account details/i)
     ).toBeInTheDocument();
     expect(screen.getByText(/Email Address/i)).toBeInTheDocument();
-    expect(screen.getByText(/Remember me/i)).toBeInTheDocument();
     expect(screen.getByText(/Forgot password/i)).toBeInTheDocument();
     expect(asFragment()).toMatchSnapshot("LoginPage");
   });
@@ -31,12 +30,12 @@ describe("Login and Registration", () => {
     let registrationPage;
     await act(async () => {
       registrationPage = render(<TestApp entryPoint={"/login/abcd"} />);
-      expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+      expect(screen.getByText(/Invalid/i)).toBeInTheDocument();
     });
 
     const welcome = screen.getByTestId("welcome-title");
     expect(welcome.textContent).toBe(
-      `Welcome to RTMIS, ${fakeUser.name}Set your own password including the following criteria`
+      `Welcome to RUSH, ${fakeUser.name}Please set your password for the platform.Your password must include:`
     );
 
     expect(screen.getByText(/Confirm Password/i)).toBeInTheDocument();

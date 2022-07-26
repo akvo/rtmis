@@ -1,29 +1,53 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Webform } from "akvo-react-form";
 import "akvo-react-form/dist/index.css";
 import "./style.scss";
 import { useParams, useNavigate } from "react-router-dom";
-import { Row, Col, Progress, notification } from "antd";
-import { api } from "../../lib";
-import { take, takeRight, tail, pick } from "lodash";
-
-const parseCascade = (cascade, names, results = []) => {
-  if (names.length) {
-    cascade = cascade.find((c) => c.value === take(names)[0]);
-    results = [...results, cascade.label];
-    return parseCascade(cascade?.children, tail(names), results);
-  }
-  return tail(results);
-};
+import { Row, Col, Space, Progress, Result, Button, notification } from "antd";
+import { api, store, uiText } from "../../lib";
+import { takeRight, pick } from "lodash";
+import { PageLoader, Breadcrumbs, DescriptionPanel } from "../../components";
+import { useNotification } from "../../util/hooks";
+import moment from "moment";
 
 const Forms = () => {
   const navigate = useNavigate();
+  const { user: authUser } = store.useState((s) => s);
   const { formId } = useParams();
   const [loading, setLoading] = useState(true);
   const [forms, setForms] = useState([]);
   const [percentage, setPercentage] = useState(0);
+  const [submit, setSubmit] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const { notify } = useNotification();
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: "/control-center",
+    },
+    {
+      title:
+        authUser?.role?.value === "Data Entry Staff"
+          ? authUser.name
+          : "Manage Data",
+      link:
+        authUser?.role?.value === "Data Entry Staff"
+          ? "/profile"
+          : "/data/manage",
+    },
+    {
+      title: forms.name,
+    },
+  ];
 
   const onFinish = (values) => {
+    setSubmit(true);
     const questions = forms.question_group
       .map((x) => x.question)
       .flatMap((x) => x);
@@ -31,7 +55,7 @@ const Forms = () => {
       .map((v) => {
         const question = questions.find((q) => q.id === parseInt(v));
         let val = values[v];
-        if (val) {
+        if (val || val === 0) {
           val =
             question.type === "option"
               ? [val]
@@ -48,13 +72,9 @@ const Forms = () => {
         return false;
       })
       .filter((x) => x);
-    const cascade = forms?.cascade?.administration || [];
     const names = answers
-      .filter((x) => x.type !== "geo" && x.meta)
+      .filter((x) => !["geo", "cascade"].includes(x.type) && x.meta)
       .map((x) => {
-        if (x.type === "cascade") {
-          return parseCascade(cascade, x.value);
-        }
         return x.value;
       })
       .flatMap((x) => x)
@@ -65,8 +85,12 @@ const Forms = () => {
     )?.value;
     const data = {
       data: {
-        administration: administration ? takeRight(administration)[0] : null,
-        name: names,
+        administration: administration
+          ? takeRight(administration)[0]
+          : authUser.administration.id,
+        name: names.length
+          ? names
+          : `${authUser.administration.name} - ${moment().format("MMM YYYY")}`,
         geo: geo || null,
       },
       answer: answers
@@ -79,20 +103,31 @@ const Forms = () => {
         .map((x) => pick(x, ["question", "value"])),
     };
     api
-      .post(`form-data/${formId}/`, data)
+      .post(`form-pending-data/${formId}`, data)
       .then(() => {
-        notification.success({
-          message: "Submitted",
-        });
         setTimeout(() => {
-          navigate("/control-center");
+          setShowSuccess(true);
         }, 3000);
       })
       .catch(() => {
         notification.error({
-          message: "Something went wrong",
+          message: text.errorSomething,
         });
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setSubmit(false);
+        }, 2000);
       });
+  };
+
+  const onFinishFailed = ({ errorFields }) => {
+    if (errorFields.length) {
+      notify({
+        type: "error",
+        message: text.errorMandatoryFields,
+      });
+    }
   };
 
   const onChange = ({ progress }) => {
@@ -100,29 +135,76 @@ const Forms = () => {
   };
 
   useEffect(() => {
-    (async function () {
-      if (formId && loading) {
-        api.get(`/web/form/${formId}/`).then((x) => {
-          setForms(x.data);
-          setLoading(false);
-        });
-      }
-    })();
+    if (formId && loading) {
+      api.get(`/form/web/${formId}`).then((x) => {
+        setForms(x.data);
+        setLoading(false);
+      });
+    }
   }, [formId, loading]);
-
-  if (loading) {
-    return "";
-  }
-  if (!formId) {
-    return "";
-  }
 
   return (
     <div id="form">
-      <Row justify="center">
+      <Row justify="center" gutter={[16, 16]}>
         <Col span={24} className="webform">
-          <Webform forms={forms} onFinish={onFinish} onChange={onChange} />
-          <Progress className="progress-bar" percent={percentage} />
+          <Space>
+            <Breadcrumbs
+              pagePath={pagePath}
+              description={text.formDescription}
+            />
+          </Space>
+          <DescriptionPanel description={text.formDescription} />
+          {loading || !formId ? (
+            <PageLoader message={text.fetchingForm} />
+          ) : (
+            !showSuccess && (
+              <Webform
+                forms={forms}
+                onFinish={onFinish}
+                onCompleteFailed={onFinishFailed}
+                onChange={onChange}
+                submitButtonSetting={{ loading: submit }}
+              />
+            )
+          )}
+          {(!loading || formId) && !showSuccess && (
+            <Progress className="progress-bar" percent={percentage} />
+          )}
+          {!loading && showSuccess && (
+            <Result
+              status="success"
+              title={text?.formSuccessTitle}
+              subTitle={
+                [1, 2].includes(authUser?.role?.id)
+                  ? text?.formSuccessSubTitleForAdmin
+                  : text?.formSuccessSubTitle
+              }
+              extra={[
+                <Button
+                  type="primary"
+                  key="back-button"
+                  onClick={() => setShowSuccess(false)}
+                >
+                  Add New Submission
+                </Button>,
+                [1, 2].includes(authUser?.role?.id) ? (
+                  <Button
+                    key="manage-button"
+                    onClick={() => navigate("/data/manage")}
+                  >
+                    Finish and Go to Manage Data
+                  </Button>
+                ) : (
+                  <Button
+                    key="batch-button"
+                    onClick={() => navigate("/data/submissions")}
+                  >
+                    Finish and Go to Batch
+                  </Button>
+                ),
+              ]}
+            />
+          )}
         </Col>
       </Row>
     </div>

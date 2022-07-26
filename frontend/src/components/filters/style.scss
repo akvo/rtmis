@@ -2,7 +2,7 @@
 
 #root {
   .ant-input-search {
-    border: 1px solid #d9d9d9;
+    border: 1px solid $color-semi-light;
     .ant-input-affix-wrapper,
     .ant-input-affix-wrapper.ant-input-affix-wrapper-focused {
       border: none;
@@ -15,4 +15,52 @@
       border: none;
     }
   }
+  .advanced-filters {
+    margin-top: 12px;
+    .ant-card {
+      text-align: left;
+    }
+    .filter-options {
+      margin-top: 12px;
+      .ant-col {
+        margin-bottom: 8px;
+      }
+    }
+    .filters-active {
+      padding-top: 12px;
+      .ant-tag {
+        margin-bottom: 6px;
+      }
+    }
+  }
+  .form-dropdown {
+    width: 100%;
+  }
+  .form-dropdown.form-dropdown-title {
+    border-bottom: solid #d9d9e4 1px;
+    padding-bottom: 4px;
+    background-color: transparent;
+    .ant-select-selector {
+      padding-left: 0;
+      border: none;
+      background-color: transparent;
+      .ant-select-selection-item {
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 38px;
+      }
+    }
+    .ant-select-selector::after {
+      line-height: 38px;
+    }
+    .ant-select-arrow {
+      color: #242426;
+    }
+  }
+  .ant-divider {
+    margin-top: 12px;
+  }
+}
+.ant-popover-inner-content {
+  display: none;
 }

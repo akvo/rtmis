@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "charts": [
+      {
+        "type": "CRITERIA",
+        "title": "Example Criteria",
+        "options": [
+          {
+            "name": "Criteria 1",
+            "color": "#368541",
+            "score": 15,
+            "options": [
+              {
+                "question": 102,
+                "option": [
+                  "Male"
+                ]
+              },
+              {
+                "question": 106,
+                "option": [
+                  "Children",
+                  "Parent"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Criteria 2",
+            "score": 10,
+            "color": "#79BE7D",
+            "options": [
+              {
+                "question": 102,
+                "option": [
+                  "Female"
+                ]
+              },
+              {
+                "question": 106,
+                "option": [
+                  "Wife / Husband / Partner"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

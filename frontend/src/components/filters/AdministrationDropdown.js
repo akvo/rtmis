@@ -1,88 +1,46 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./style.scss";
-import { Select, message, Space } from "antd";
-import { useCookies } from "react-cookie";
+import { Select, Space } from "antd";
+import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-
-import { api, store } from "../../lib";
+import { store, config } from "../../lib";
 
 const AdministrationDropdown = ({
-  loading: parentLoading = false,
+  loading = false,
+  withLabel = false,
+  width = 160,
+  persist = false,
+  hidden = false,
+  maxLevel = null,
+  onChange,
   ...props
 }) => {
-  const { administration } = store.useState((state) => state);
-  const [cookies] = useCookies(["AUTH_TOKEN"]);
-  const [loading, setLoading] = useState(true);
+  const { pathname } = useLocation();
+  const { user, administration, isLoggedIn } = store.useState((state) => state);
+
+  const public_state = config.allowedGlobal
+    .map((x) => pathname.includes(x))
+    .filter((x) => x)?.length;
 
   useEffect(() => {
-    if (!cookies.AUTH_TOKEN) {
-      return;
-    }
-    setLoading(true);
-    api
-      .get(`get/profile/`, {
-        headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-      })
-      .then((res) => {
-        api
-          .get(`administration/${res.data.administration.id}/`, {
-            headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-          })
-          .then((adminRes) => {
-            store.update((s) => {
-              s.administration = [
-                {
-                  id: adminRes.data.id,
-                  name: adminRes.data.name,
-                  levelName: adminRes.data.level_name,
-                  children: adminRes.data.children,
-                },
-              ];
-            });
-            setLoading(false);
-          })
-          .catch((err) => {
-            message.error("Could not load filters");
-            setLoading(false);
-            console.error(err);
-          });
-      })
-      .catch((err) => {
-        message.error("Could not load filters");
-        setLoading(false);
-        console.error(err);
+    if (isLoggedIn && !persist && !public_state) {
+      store.update((s) => {
+        s.administration = [config.fn.administration(user.administration.id)];
       });
-  }, [cookies.AUTH_TOKEN]);
+    }
+  }, [user, isLoggedIn, persist, public_state]);
 
   const handleChange = (e, index) => {
     if (!e) {
       return;
     }
-    setLoading(true);
-    api
-      .get(`administration/${e}/`, {
-        headers: { Authorization: `Bearer ${cookies.AUTH_TOKEN}` },
-      })
-      .then((res) => {
-        store.update((s) => {
-          s.administration.length = index + 1;
-          s.administration = [
-            ...s.administration,
-            {
-              id: res.data.id,
-              name: res.data.name,
-              levelName: res.data.level_name,
-              children: res.data.children,
-            },
-          ];
-        });
-        setLoading(false);
-      })
-      .catch((err) => {
-        message.error("Could not load filters");
-        setLoading(false);
-        console.error(err);
-      });
+    store.update((s) => {
+      s.administration.length = index + 1;
+      s.administration = [...s.administration, config.fn.administration(e)];
+    });
+    if (onChange) {
+      onChange();
+    }
   };
 
   const handleClear = (index) => {
@@ -91,42 +49,62 @@ const AdministrationDropdown = ({
     });
   };
 
-  if (administration) {
+  if (administration && !hidden) {
     return (
       <Space {...props}>
         {administration
           .filter((x) => x.children.length)
-          .map((region, regionIdx) => (
-            <Select
-              key={regionIdx}
-              placeholder={`Select ${region.levelName}`}
-              style={{ width: 160 }}
-              onChange={(e) => {
-                handleChange(e, regionIdx);
-              }}
-              onClear={() => {
-                handleClear(regionIdx);
-              }}
-              value={administration[regionIdx + 1]?.id || null}
-              disabled={loading || parentLoading}
-              allowClear
-            >
-              {region.children.map((optionValue, optionIdx) => (
-                <Select.Option key={optionIdx} value={optionValue.id}>
-                  {optionValue.name}
-                </Select.Option>
-              ))}
-            </Select>
-          ))}
+          .map((region, regionIdx) => {
+            if (maxLevel === null || regionIdx + 1 < maxLevel) {
+              return (
+                <div key={regionIdx}>
+                  {withLabel ? (
+                    <label className="ant-form-item-label">
+                      {region?.childLevelName}
+                    </label>
+                  ) : (
+                    ""
+                  )}
+                  <Select
+                    placeholder={`Select ${region?.childLevelName}`}
+                    style={{ width: width }}
+                    onChange={(e) => {
+                      handleChange(e, regionIdx);
+                    }}
+                    onClear={() => {
+                      handleClear(regionIdx);
+                    }}
+                    getPopupContainer={(trigger) => trigger.parentNode}
+                    dropdownMatchSelectWidth={false}
+                    value={administration[regionIdx + 1]?.id || null}
+                    disabled={loading}
+                    allowClear
+                    showSearch
+                    filterOption={true}
+                    optionFilterProp="children"
+                  >
+                    {region.children.map((optionValue, optionIdx) => (
+                      <Select.Option key={optionIdx} value={optionValue.id}>
+                        {optionValue.name}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </div>
+              );
+            }
+          })}
       </Space>
     );
   }
-
   return "";
 };
 
 AdministrationDropdown.propTypes = {
   loading: PropTypes.bool,
+  persist: PropTypes.bool,
+  hidden: PropTypes.bool,
+  maxLevel: PropTypes.number,
+  onChange: PropTypes.func,
 };
 
 export default React.memo(AdministrationDropdown);

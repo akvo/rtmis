@@ -24,7 +24,21 @@
     &.ant-btn-primary {
       background-color: $blue;
       border-color: $blue;
+
+      &[disabled] {
+        color: #fffa;
+        opacity: 0.7;
+      }
     }
+  }
+
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #ffffff;
+    border-color: #d9d9d9;
+  }
+
+  .ant-checkbox-checked .ant-checkbox-inner::after {
+    border-color: $blue;
   }
 
   .ant-card {
@@ -46,25 +60,6 @@
 
   .ant-form-item-explain-error {
     text-align: left;
-  }
-
-  .ant-breadcrumb {
-    .ant-breadcrumb-separator {
-      margin: 0 16px;
-
-      h2 {
-        font-weight: 300;
-        color: #8388a8;
-      }
-    }
-
-    h2 {
-      font-size: 1.6rem;
-    }
-
-    span:last-child span h2 {
-      color: #0058ff;
-    }
   }
 
   .ant-table {
@@ -105,7 +100,7 @@
 
             th {
               background-color: #dededf;
-              font-weight: 600;
+              font-weight: $font-weight-semi-bold;
             }
 
             tr {
@@ -143,7 +138,7 @@
 
     .ant-pagination-item-active {
       border: none;
-      background-color: #0057ff;
+      background-color: $blue;
 
       a {
         color: #fff;
@@ -155,17 +150,62 @@
     }
   }
 
-  button.light {
-    background-color: #b2b3b7;
-    color: #fffe;
-    font-weight: 600;
-    width: auto;
-    margin-left: 0.4rem;
-    border: 0 none;
+  .hidden-field {
+    .ant-form-item-control {
+      .ant-form-item-control-input {
+        display: none;
+      }
+    }
+  }
+}
+
+.ant-pagination-total-text {
+  position: absolute;
+  left: 15px;
+}
+
+// .ant-checkbox-wrapper-checked span:nth-child(2) {
+//   background-color: green;
+//   border-radius: 5px;
+// }
+
+.description-paragraph {
+  margin-top: 4px;
+  padding: 4px;
+  background: transparent;
+  color: $color-default;
+}
+
+.text-muted {
+  color: $color-default;
+}
+
+.text-error {
+  color: #ff4d4f;
+}
+
+button.light {
+  background-color: #b2b3b7;
+  color: #fffe;
+  font-weight: $font-weight-medium;
+  width: auto;
+  border: 0 none;
+  padding: 0 8px;
+
+  &.active {
+    background-color: #969799;
   }
 
-  button.light:hover {
+  &:hover {
     background-color: #969799;
     border: 0 none;
+    color: #fff;
+  }
+
+  &[disabled],
+  &[disabled]:hover {
+    background-color: #b2b3b7;
+    color: #fffa;
+    opacity: 0.7;
   }
 }

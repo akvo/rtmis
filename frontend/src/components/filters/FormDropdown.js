@@ -1,67 +1,56 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useCallback } from "react";
 import "./style.scss";
-import { Select, message } from "antd";
+import { Select } from "antd";
 import PropTypes from "prop-types";
 
-import { api, store } from "../../lib";
+import { store } from "../../lib";
 
-const FormDropdown = ({ loading: parentLoading = false, ...props }) => {
-  const { forms, selectedForm } = store.useState((state) => state);
-  const [loading, setLoading] = useState(true);
+const FormDropdown = ({
+  loading: parentLoading = false,
+  title = false,
+  hidden = false,
+  ...props
+}) => {
+  const { forms, selectedForm, loadingForm } = store.useState((state) => state);
+  const filterForms = title ? window.forms : forms;
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     if (!e) {
       return;
     }
-    api
-      .get(`/form/${e}/`)
-      .then((res) => {
-        store.update((s) => {
-          s.questionGroups = res.data.question_group;
-          s.selectedForm = e;
-        });
-      })
-      .catch(() => {
-        message.error("Could not load form data");
-      });
-  };
-
-  useEffect(() => {
-    setLoading(true);
-    api
-      .get("forms/")
-      .then((res) => {
-        store.update((s) => {
-          s.forms = res.data;
-        });
-        setLoading(false);
-      })
-      .catch((err) => {
-        message.error("Could not load forms");
-        setLoading(false);
-        console.error(err);
-      });
+    store.update((s) => {
+      s.loadingForm = true;
+    });
+    store.update((s) => {
+      s.questionGroups = window.forms.find(
+        (f) => f.id === e
+      ).content.question_group;
+      s.selectedForm = e;
+      s.loadingForm = false;
+      s.advancedFilters = [];
+      s.showAdvancedFilters = false;
+    });
   }, []);
-
   useEffect(() => {
-    if (forms.length && !selectedForm) {
-      handleChange(forms[0].id);
+    if (!!filterForms?.length && !selectedForm) {
+      handleChange(filterForms[0].id);
     }
-  }, [forms, selectedForm]);
-
-  if (forms) {
+  }, [filterForms, selectedForm, handleChange]);
+  if (filterForms && !hidden) {
     return (
       <Select
         placeholder={`Select Form`}
-        style={{ width: 160 }}
+        style={{ width: title ? "100%" : 160 }}
         onChange={(e) => {
           handleChange(e);
         }}
-        value={selectedForm}
-        disabled={loading || parentLoading}
+        value={selectedForm || null}
+        className={`form-dropdown ${title ? " form-dropdown-title" : ""}`}
+        disabled={parentLoading || loadingForm}
+        getPopupContainer={(trigger) => trigger.parentNode}
         {...props}
       >
-        {forms.map((optionValue, optionIdx) => (
+        {filterForms.map((optionValue, optionIdx) => (
           <Select.Option key={optionIdx} value={optionValue.id}>
             {optionValue.name}
           </Select.Option>
@@ -75,6 +64,8 @@ const FormDropdown = ({ loading: parentLoading = false, ...props }) => {
 
 FormDropdown.propTypes = {
   loading: PropTypes.bool,
+  title: PropTypes.bool,
+  hidden: PropTypes.bool,
 };
 
 export default React.memo(FormDropdown);

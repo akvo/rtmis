@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
 import os
+from pathlib import Path
 import sys
 
 
@@ -15,6 +16,9 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
+    """Create fake storage and cache folder"""
+    Path("./tmp/fake_storage").mkdir(parents=True, exist_ok=True)
+    Path("./tmp/cache").mkdir(parents=True, exist_ok=True)
     execute_from_command_line(sys.argv)
 
 

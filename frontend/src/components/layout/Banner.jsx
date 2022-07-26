@@ -1,11 +1,15 @@
-import React from "react";
-import { Row, Col, Button } from "antd";
-import backgroundImage from "../../assets/banner.png";
-import { useLocation } from "react-router-dom";
+import React, { useMemo } from "react";
+import { Row, Col, Button, Space, Dropdown, Menu } from "antd";
+import { DownOutlined } from "@ant-design/icons";
+import { Link, useLocation } from "react-router-dom";
+import ComingSoon from "./custom/ComingSoon";
+import Countdown from "react-countdown";
+import moment from "moment";
+import { uiText, store } from "../../lib";
 
 const styles = {
   banner: {
-    backgroundImage: `url(${backgroundImage})`,
+    backgroundImage: `url("/assets/banner.jpg")`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
@@ -13,28 +17,166 @@ const styles = {
 };
 
 const Banner = () => {
-  const location = useLocation();
-  if (location.pathname !== "/") {
+  const { pathname } = useLocation();
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
+
+  if (
+    pathname !== "/" &&
+    pathname !== "/not-found" &&
+    pathname !== "/coming-soon"
+  ) {
     return "";
   }
+
+  const renderer = ({ days, hours, minutes, seconds, completed }) => {
+    if (completed) {
+      return "";
+    }
+    const futureDate = moment().add(days, "days");
+    const duration = moment.duration(futureDate.diff(moment()));
+    const year = duration.years();
+    const month = duration.months();
+    const day = duration.days();
+    return (
+      <Row className="countdown" align="bottom" gutter={[6, 6]}>
+        <Col className="countdown-col">
+          <div className="countdown-timer">{year}</div>
+          <div className="countdown-text">
+            {text?.year}
+            {year !== 1 && "s"}
+          </div>
+        </Col>
+        <Col className="countdown-col">
+          <div className="countdown-timer">{month}</div>
+          <div className="countdown-text">
+            {text?.month}
+            {month !== 1 && "s"}
+          </div>
+        </Col>
+        <Col className="countdown-col">
+          <div className="countdown-timer">{day}</div>
+          <div className="countdown-text">
+            {text?.day}
+            {day !== 1 && "s"}
+          </div>
+        </Col>
+        <Col className="countdown-col">
+          <div className="countdown-timer">{hours}</div>
+          <div className="countdown-text">
+            {text?.hour}
+            {hours !== 1 && "s"}
+          </div>
+        </Col>
+        <Col className="countdown-col">
+          <div className="countdown-timer">{minutes}</div>
+          <div className="countdown-text">
+            {text?.minute}
+            {minutes !== 1 && "s"}
+          </div>
+        </Col>
+        <Col className="countdown-col">
+          <div className="countdown-timer">{seconds}</div>
+          <div className="countdown-text">
+            {text?.second}
+            {seconds !== 1 && "s"}
+          </div>
+        </Col>
+      </Row>
+    );
+  };
+
+  const HomeBanner = () => {
+    const scrollToView = () => {
+      const section = document.querySelector("#home-visualisation");
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    const DashboardMenu = (
+      <Menu>
+        {window?.dashboard?.map((d) => (
+          <Menu.Item
+            key={`${d.name}`}
+            style={{ fontSize: 16, fontStyle: "italic", padding: 10 }}
+          >
+            <Link to={`/${d.page}/${d.form_id}`}>{d.name}</Link>
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
+    return (
+      <>
+        <h1>{text?.welcome}</h1>
+        <h2>{text?.welcomeDesc}</h2>
+        <div className="launching">
+          <h4>{text?.countdownTitle}</h4>
+          <Countdown date="2025-12-31T09:00:00" renderer={renderer} />
+        </div>
+        <Space size={20}>
+          <Button size="large" onClick={() => scrollToView()}>
+            {text?.welcomeCta}
+          </Button>
+          <Dropdown overlay={DashboardMenu}>
+            <Button size="large" onClick={(e) => e.preventDefault()}>
+              Comprehensive Dashboards <DownOutlined />
+            </Button>
+          </Dropdown>
+        </Space>
+      </>
+    );
+  };
+
+  const ErrorBanner = ({ status, message, description }) => {
+    return (
+      <>
+        <h1>
+          {text?.error} {status}
+          <br />
+          <small>
+            {message ||
+              (status === 404
+                ? text?.errorPageNA
+                : status === 401
+                ? text?.errorAuth
+                : text?.errorUnknown)}
+            <br />
+            {description ||
+              (status === 404
+                ? text?.errorURL
+                : status === 401
+                ? text?.errorVerifyCreds
+                : "")}
+          </small>
+        </h1>
+        <Link to="/">
+          <Button size="large">{text?.backHome}</Button>
+        </Link>
+      </>
+    );
+  };
+
+  const ComingSoonBanner = () => {
+    return (
+      <>
+        <h1>{text?.welcome}</h1>
+        <ComingSoon />
+      </>
+    );
+  };
+
   return (
     <div style={styles.banner}>
       <Row className="banner" align="middle">
         <Col span={20}>
-          <h1>
-            Welcome to the National
-            <br />
-            Sanitation and Hygiene
-            <br />
-            Real-Time Monitoring System
-            <br />
-            <small>
-              Updated estimates for WASH in households accross Kenya
-            </small>
-          </h1>
-          <Button size="large" ghost>
-            Explore the Data
-          </Button>
+          {pathname === "/not-found" ? (
+            <ErrorBanner status={404} />
+          ) : pathname === "/coming-soon" ? (
+            <ComingSoonBanner />
+          ) : (
+            <HomeBanner />
+          )}
         </Col>
       </Row>
     </div>

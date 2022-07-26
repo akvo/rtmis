@@ -9,6 +9,11 @@
     top: 0px;
   }
 
+  .contact-text {
+    color: #fff;
+    font-size: 13px;
+  }
+
   #login {
     background-color: $bg-header;
     margin-right: -$layout-padding;
@@ -27,13 +32,21 @@
       }
 
       h1 {
-        color: $color-light;
+        margin: auto;
+        display: inline-block;
+        color: $white;
         font-weight: $font-weight-semi-bold;
         font-size: $font-size-large;
-        padding-bottom: 0px;
-        padding-left: 10px;
-        margin: auto;
+        margin-bottom: 0px;
+        padding-left: $margin-default;
         vertical-align: middle;
+        letter-spacing: 12px;
+
+        small {
+          display: block;
+          font-size: 14px;
+          letter-spacing: normal;
+        }
       }
 
       img {
@@ -59,10 +72,16 @@
           padding-right: 107px;
 
           h1 {
-            text-align: left;
             color: $white;
             font-weight: $font-weight-semi-bold;
             font-size: $font-size-super-large;
+          }
+
+          h2 {
+            color: $white;
+            font-weight: $font-weight-normal;
+            font-size: $font-size-semi-large;
+            line-height: 1.1;
           }
         }
       }
@@ -74,7 +93,7 @@
         h1 {
           color: $white;
           font-weight: $font-weight-semi-bold;
-          margin-bottom: 20px;
+          margin-bottom: 0px;
 
           small {
             font-size: $font-size-regular;
@@ -112,6 +131,12 @@
               }
             }
           }
+
+          .disclaimer {
+            color: #eb5254b3;
+            font-size: 12px;
+            font-style: italic;
+          }
         }
 
         .ant-checkbox-group {
@@ -141,6 +166,10 @@
                 height: 12px;
               }
             }
+          }
+
+          .ant-checkbox-wrapper-checked {
+            background-color: #00ff5a66;
           }
         }
       }

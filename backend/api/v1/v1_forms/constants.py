@@ -15,7 +15,7 @@ class QuestionTypes:
         text: 'Text',
         number: 'Number',
         option: 'Option',
-        multiple_option: 'Multiple Option',
+        multiple_option: 'Multiple_Option',
         cascade: 'Cascade',
         photo: 'Photo',
         date: 'Date',
@@ -29,4 +29,20 @@ class FormTypes:
     FieldStr = {
         county: 'County',
         national: 'National',
+    }
+
+
+class AttributeTypes:
+    chart = 1
+    aggregate = 2
+    table = 3
+    jmp = 4
+    advanced_filter = 5
+
+    FieldStr = {
+        chart: 'chart',
+        aggregate: 'aggregate',
+        table: 'table',
+        jmp: 'jmp',
+        advanced_filter: 'advanced_filter',
     }

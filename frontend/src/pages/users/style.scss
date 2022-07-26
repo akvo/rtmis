@@ -2,5 +2,33 @@
 
 #root {
   #users {
+    .ant-table {
+      .ant-tag {
+        margin-left: 6px;
+      }
+    }
   }
+}
+
+.ant-modal-content {
+  h2 {
+    margin: 12px 0 24px;
+  }
+  p {
+    margin: 0 15%;
+  }
+  .ant-modal-footer {
+    width: 100%;
+    .ant-row .ant-col:first-child {
+      text-align: left;
+    }
+  }
+}
+.pagination {
+  margin-bottom: 1.5rem;
+  float: right;
+  margin-top: 1.5rem;
+}
+.ant-table-expanded-row .ant-divider {
+  margin-bottom: 10px;
 }

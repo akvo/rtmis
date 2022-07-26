@@ -1,6 +1,11 @@
 @import "../../variables";
 
 #root {
+  .layout .body.body-home {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
   #home {
     h1 {
       text-align: center;
@@ -34,12 +39,53 @@
       }
     }
 
-    .highlights {
+    .home-even,
+    .home-odd {
+      padding-top: 55px;
+      padding-bottom: 55px;
+    }
+
+    .home-even {
       margin-left: -$layout-padding;
       margin-right: -$layout-padding;
       background-color: $white;
-      padding-top: $padding-default;
-      margin-bottom: -$padding-default;
+    }
+
+    .about {
+      p {
+        width: 75%;
+        margin: auto;
+        font-size: 16px;
+        text-align: center;
+      }
+    }
+
+    .highlights {
+      .highlight-title {
+        margin: 12px 0 24px;
+        text-align: center;
+        font-size: 16px;
+      }
+
+      .map-wrapper {
+        padding-bottom: $padding-small;
+        margin-bottom: $padding-default;
+        border-radius: $border-radius;
+        box-shadow: $box-shadow;
+        overflow: hidden;
+      }
+
+      .chart-collapse {
+        .chart-panel {
+          padding: 10px;
+          font-weight: $font-weight-semi-bold;
+          font-size: $font-size-regular;
+          background-color: $bg-light;
+          box-shadow: $box-shadow;
+          overflow: hidden;
+          border: 0;
+        }
+      }
     }
   }
 }
