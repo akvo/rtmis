@@ -255,3 +255,6 @@ class DataVisualisationTestCase(TestCase):
         data = self.client.get(url, content_type='application/json')
         self.assertEqual(data.status_code, 200)
         self.assertEqual(list(data.json()), ["counties", "national"])
+        # glaas with advance filter
+        url = f"{url}&options={advance_filter}"
+        self.assertEqual(data.status_code, 200)
