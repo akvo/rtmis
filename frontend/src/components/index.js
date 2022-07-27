@@ -8,6 +8,8 @@ export { default as DataFilters } from "./filters/DataFilters.js";
 export { default as VisualisationFilters } from "./filters/VisualisationFilters.js";
 export { default as ApproverFilters } from "./filters/ApproverFilters";
 export { default as RemoveFiltersButton } from "./filters/RemoveFiltersButton.js";
+export { default as AdvancedFiltersButton } from "./filters/AdvancedFiltersButton";
+export { default as AdvancedFilters } from "./filters/AdvancedFilters";
 export { default as Breadcrumbs } from "./ui/Breadcrumbs.jsx";
 export { default as PageLoader } from "./ui/PageLoader.jsx";
 export { default as EditableCell } from "./EditableCell.jsx";

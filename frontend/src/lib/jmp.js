@@ -1,4 +1,5 @@
 const jmpColorScore = {
+  // HH
   519630048: {
     "sanitation service level": {
       "safely managed": { color: "#368541", score: 15 },
@@ -19,6 +20,7 @@ const jmpColorScore = {
       participation: { score: -2, color: "#FBD256" },
     },
   },
+  // HCF
   533560002: {
     "sanitation service level": {
       basic: { color: "#368541", score: 15 },
@@ -41,6 +43,7 @@ const jmpColorScore = {
       "no service": { score: -1, color: "#FDF177" },
     },
   },
+  // WASH SCH
   563350033: {
     "drinking water service level": {
       basic: { score: 10, color: "#753780" },
@@ -67,6 +70,17 @@ const jmpColorScore = {
       basic: { score: 10, color: "#753780" },
       limited: { score: -1, color: "#FDF177" },
       "no service": { score: -2, color: "#F1AC2A" },
+    },
+  },
+  // Urban Sanitation
+  603050002: {
+    "main type of sanitation": {
+      "onsite sanitation": { score: 1, color: "#36AE7B" },
+      "off site sanitation": { score: -1, color: "#EB5353" },
+    },
+    "sludge transported": {
+      yes: { score: 1, color: "#36AE7B" },
+      no: { score: -1, color: "#EB5353" },
     },
   },
 };

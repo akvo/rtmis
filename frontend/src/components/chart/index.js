@@ -28,9 +28,7 @@ export const generateOptions = (
         highlighted
       );
     case "PIE":
-      return Pie(data, chartTitle, excelFile, extra, false, series, legend);
-    case "DOUGHNUT":
-      return Pie(data, chartTitle, excelFile, extra, true);
+      return Pie(data, chartTitle, extra, series);
     default:
       return Bar(data, chartTitle, excelFile, extra, horizontal, grid);
   }

@@ -683,7 +683,6 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
                     data.data = form_data
                     data.approved = True
                     data.save()
-                    refresh_materialized_data()
 
                 answer: PendingAnswers
                 for answer in data.pending_data_answer.all():
@@ -698,6 +697,7 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
             batch.approved = True
             batch.updated = timezone.now()
             batch.save()
+            refresh_materialized_data()
         return object
 
     def update(self, instance, validated_data):
@@ -1043,7 +1043,6 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                 administration=data.get('administration'),
                 geo=data.get('geo'),
                 created_by=data.get('created_by'))
-            refresh_materialized_data()
 
         for answer in validated_data.get('answer'):
             name = None
@@ -1098,5 +1097,6 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                     options=option,
                     created_by=self.context.get('user'),
                 )
+        refresh_materialized_data()
 
         return obj_data
