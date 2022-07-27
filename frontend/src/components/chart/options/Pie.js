@@ -79,7 +79,10 @@ const Pie = (data, chartTitle, extra = {}, series = {}) => {
         labelLine: {
           show: true,
         },
-        data: data,
+        data: data.map((v, vi) => ({
+          ...v,
+          itemStyle: { color: v.color || Color.color[vi] },
+        })),
         ...series,
         ...rose,
       },
