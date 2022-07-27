@@ -61,6 +61,8 @@ const RouteList = () => {
       <Route exact path="/form/:formId" element={<Forms />} />
       <Route exact path="/dashboard/:formId" element={<Dashboard />} />
       <Route exact path="/glaas/:formId" element={<Glaas />} />
+      <Route exact path="/report/:formId" element={<Dashboard />} />
+      <Route exact path="/glaas-report/:formId" element={<Glaas />} />
       <Route path="/users" element={<Private element={Users} alias="user" />} />
       <Route
         path="/organisations"
