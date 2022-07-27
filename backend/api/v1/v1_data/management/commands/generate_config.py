@@ -52,6 +52,7 @@ class Command(BaseCommand):
         # visualisation_json = "source/config/visualisation.json"
         highlights_json = "source/config/highlights.json"
         dashboard_json = "source/config/dashboard.json"
+        reports_json = "source/config/reports.json"
 
         # write config
         config_file = jsmin(open("source/config/config.js").read())
@@ -75,6 +76,8 @@ class Command(BaseCommand):
         min_config = jsmin("".join([
             "var dashboard=",
             open(dashboard_json).read(), ";",
+            "var reports=",
+            open(reports_json).read(), ";",
             "var highlights=",
             open(highlights_json).read(), ";",
             # "var visualisation=",
