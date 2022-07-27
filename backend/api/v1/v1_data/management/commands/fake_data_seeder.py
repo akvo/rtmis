@@ -162,6 +162,7 @@ class Command(BaseCommand):
         test = options.get("test")
         # FormData.objects.all().delete()
         fake_geo = pd.read_csv("./source/kenya_random_points.csv")
+        fake_geo = fake_geo.sample(frac=1).reset_index(drop=True)
         level_names = list(
             filter(lambda x: True if "NAME_" in x else False, list(fake_geo)))
         for form in Forms.objects.all():

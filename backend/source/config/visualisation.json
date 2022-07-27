@@ -177,7 +177,7 @@
               {
                 "question": 466680043,
                 "option": [
-                  "No handwashing place in dwelling/yard/plot",
+                  "No handwashing place in dwelling/homestead/plot",
                   "No permission to see"
                 ]
               }
@@ -899,7 +899,7 @@
           {
             "name": "Onsite sanitation",
             "score": 1,
-            "color": "#753780",
+            "color": "#36AE7B",
             "options": [
               {
                 "question": 603080002,
@@ -910,7 +910,7 @@
           {
             "name": "Off site sanitation",
             "score": -1,
-            "color": "#F1AC2A",
+            "color": "#EB5353",
             "options": [
               {
                 "question": 603080002,
@@ -927,7 +927,7 @@
           {
             "name": "Yes",
             "score": 1,
-            "color": "#753780",
+            "color": "#36AE7B",
             "options": [
               {
                 "question": 587530063,
@@ -938,7 +938,7 @@
           {
             "name": "No",
             "score": -1,
-            "color": "#F1AC2A",
+            "color": "#EB5353",
             "options": [
               {
                 "question": 587530063,
