@@ -1,0 +1,492 @@
+[
+  {
+    "name": "Household Data",
+    "form_id": 519630048,
+    "page": "report-dashboard",
+    "tabs": {
+      "overview": {
+        "rows": [
+          [
+            {
+              "type": "table",
+              "title": "Submission by ##administration_level##",
+              "columns": [
+                {
+                  "title": "Administrative Unit",
+                  "path": "loc"
+                },
+                {
+                  "title": "Total Data",
+                  "path": "total"
+                }
+              ],
+              "span": 24
+            }
+          ]
+        ]
+      },
+      "jmp": {
+        "rows": [
+          [
+            {
+              "type": "table",
+              "title": "Sanitation service levels",
+              "columns": [
+                {
+                  "title": "Administration Unit",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of HHs",
+                  "path": "total",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count by service level",
+                  "children": true,
+                  "children_path": "data.sanitation service level"
+                }
+              ],
+              "span": 24
+            }
+          ],
+          [
+            {
+              "type": "table",
+              "title": "Hygiene service levels",
+              "columns": [
+                {
+                  "title": "Administration Unit",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of HHs",
+                  "path": "total",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count by service level",
+                  "children": true,
+                  "children_path": "data.hygiene service level"
+                }
+              ],
+              "span": 24
+            }
+          ],
+          [
+            {
+              "type": "table",
+              "title": "Menstrual Hygiene service levels",
+              "columns": [
+                {
+                  "title": "Administration Unit",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of HHs",
+                  "path": "total",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count by service level",
+                  "children": true,
+                  "children_path": "data.menstrual hygiene service level"
+                }
+              ],
+              "span": 24
+            }
+          ]
+        ]
+      }
+    }
+  },
+  {
+    "name": "Urban Sanitation",
+    "form_id": 603050002,
+    "no_period": true,
+    "extra_params": {
+      "avg": [601660002, 544720002, 611500068],
+      "sum": [603080002, 587530063]
+    },
+    "page": "report-dashboard",
+    "tabs": {
+      "overview": {}
+    }
+  },
+  {
+    "name": "Health Facilities Data",
+    "form_id": 533560002,
+    "page": "report-dashboard",
+    "tabs": {
+      "overview": {
+        "rows": [
+          [
+            {
+              "type": "table",
+              "title": "Submission by ##administration_level##",
+              "columns": [
+                {
+                  "title": "Administration Unit",
+                  "path": "loc"
+                },
+                {
+                  "title": "Total Data",
+                  "path": "total"
+                }
+              ],
+              "span": 24
+            }
+          ]
+        ]
+      },
+      "jmp": {
+        "rows": [
+          [
+            {
+              "type": "table",
+              "title": "Sanitation service levels",
+              "columns": [
+                {
+                  "title": "Administration Unit",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of HCFs",
+                  "path": "total",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count by service level",
+                  "children": true,
+                  "children_path": "data.sanitation service level"
+                }
+              ],
+              "span": 24
+            }
+          ],
+          [
+            {
+              "type": "table",
+              "title": "Hygiene service levels",
+              "columns": [
+                {
+                  "title": "Administration Unit",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of HCFs",
+                  "path": "total",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count by service level",
+                  "children": true,
+                  "children_path": "data.hygiene (hand washing) service level"
+                }
+              ],
+              "span": 24
+            }
+          ],
+          [
+            {
+              "type": "table",
+              "title": "Waste management service levels",
+              "columns": [
+                {
+                  "title": "Administration Unit",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of HCFs",
+                  "path": "total",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count by service level",
+                  "children": true,
+                  "children_path": "data.health care waste management service level"
+                }
+              ],
+              "span": 24
+            }
+          ],
+          [
+            {
+              "type": "table",
+              "title": "Environmental cleaning protocol service levels",
+              "columns": [
+                {
+                  "title": "Administration Unit",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of HCFs",
+                  "path": "total",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count by service level",
+                  "children": true,
+                  "children_path": "data.environmental cleaning service level"
+                }
+              ],
+              "span": 24
+            }
+          ]
+        ]
+      }
+    }
+  },
+  {
+    "name": "WASH in Schools Data",
+    "form_id": 563350033,
+    "page": "report-dashboard",
+    "tabs": {
+      "overview": {
+        "rows": [
+          [
+            {
+              "type": "table",
+              "title": "Submission by ##administration_level##",
+              "columns": [
+                {
+                  "title": "Administration Unit",
+                  "path": "loc"
+                },
+                {
+                  "title": "Total Data",
+                  "path": "total"
+                }
+              ],
+              "span": 24
+            }
+          ]
+        ]
+      },
+      "jmp": {
+        "rows": [
+          [
+            {
+              "type": "table",
+              "title": "Sanitation service levels",
+              "columns": [
+                {
+                  "title": "Administration Unit",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of Schools",
+                  "path": "total",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count by service level",
+                  "children": true,
+                  "children_path": "data.sanitation service level"
+                }
+              ],
+              "span": 24
+            }
+          ],
+          [
+            {
+              "type": "table",
+              "title": "Hygiene service levels",
+              "columns": [
+                {
+                  "title": "Administration Unit",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of Schools",
+                  "path": "total",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count by service level",
+                  "children": true,
+                  "children_path": "data.hygiene (handwashing) service level"
+                }
+              ],
+              "span": 24
+            }
+          ],
+          [
+            {
+              "type": "table",
+              "title": "Drinking water service levels",
+              "columns": [
+                {
+                  "title": "Administration Unit",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of Schools",
+                  "path": "total",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count by service level",
+                  "children": true,
+                  "children_path": "data.drinking water service level"
+                }
+              ],
+              "span": 24
+            }
+          ],
+          [
+            {
+              "type": "table",
+              "title": "Environmental cleaning service levels",
+              "columns": [
+                {
+                  "title": "Administration Unit",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of Schools",
+                  "path": "total",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count by service level",
+                  "children": true,
+                  "children_path": "data.enviromental cleaning service level"
+                }
+              ],
+              "span": 24
+            }
+          ],
+          [
+            {
+              "type": "table",
+              "title": "Hygiene (MHM) service level",
+              "columns": [
+                {
+                  "title": "Administration Unit",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count of Schools",
+                  "path": "total",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Count by service level",
+                  "children": true,
+                  "children_path": "data.hygiene (mhm) service level"
+                }
+              ],
+              "span": 24
+            }
+          ]
+        ]
+      }
+    }
+  },
+  {
+    "name": "Governance and Policy Data",
+    "form_id": 567490004,
+    "params": {
+      "counties_questions": [
+        589570112, 583720152, 594410065, 595980103, 594440125
+      ],
+      "national_questions": [594410065, 595980103, 594440125]
+    },
+    "page": "glaas-report-dashboard",
+    "tabs": {
+      "overview": {
+        "rows": [
+          [
+            {
+              "type": "table",
+              "title": "County Budget Allocation",
+              "calc": "sum",
+              "from": "counties",
+              "columns": [
+                {
+                  "title": "Administration",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Budget Allocated",
+                  "path": 594410065
+                },
+                {
+                  "title": "Budget Utilised",
+                  "path": 595980103
+                }
+              ],
+              "span": 24
+            }
+          ]
+        ]
+      },
+      "glaas": {
+        "rows": [
+          [
+            {
+              "type": "table",
+              "title": "National Budget Reporting",
+              "calc": "sum",
+              "from": "national",
+              "columns": [
+                {
+                  "title": "Year",
+                  "path": "year",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Budget Allocated",
+                  "path": 594410065
+                },
+                {
+                  "title": "Budget Utilised",
+                  "path": 595980103
+                }
+              ],
+              "span": 24
+            }
+          ],
+          [
+            {
+              "type": "table",
+              "title": "Counties Budget Reporting",
+              "calc": "sum",
+              "from": "counties",
+              "columns": [
+                {
+                  "title": "Administration",
+                  "path": "loc",
+                  "fixed": "left"
+                },
+                {
+                  "title": "Budget Allocated",
+                  "path": 594410065
+                },
+                {
+                  "title": "Budget Utilised",
+                  "path": 595980103
+                }
+              ],
+              "span": 24
+            }
+          ]
+        ]
+      }
+    }
+  }
+]
