@@ -198,7 +198,7 @@ exports[`page/upload-data test if users can upload data 1`] = `
             class="ant-space-item"
           >
             <button
-              ant-click-animating-without-extra-node="false"
+              ant-click-animating-without-extra-node="true"
               class="ant-btn ant-btn-primary"
               data-testid="download-template-btn"
               type="button"
@@ -432,4 +432,37 @@ exports[`page/upload-data test if users can upload data 1`] = `
     </div>
   </div>
 </div>
+`;
+
+exports[`page/upload-data test if users can upload data: uploadedFile 1`] = `
+Object {
+  "file": Object {
+    "lastModified": 1654609229865,
+    "lastModifiedDate": "2022-06-07T13:40:29.865Z",
+    "name": "7a13eac4-bfd9-46ab-8bb1-c8ea25bd05ed.xlsx",
+    "originFileObj": Object {
+      "uid": "rc-upload-1658902625996-2",
+    },
+    "percent": 0,
+    "size": 9104,
+    "status": "uploading",
+    "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "uid": "rc-upload-1658902625996-2",
+  },
+  "fileList": Array [
+    Object {
+      "lastModified": 1654609229865,
+      "lastModifiedDate": "2022-06-07T13:40:29.865Z",
+      "name": "7a13eac4-bfd9-46ab-8bb1-c8ea25bd05ed.xlsx",
+      "originFileObj": Object {
+        "uid": "rc-upload-1658902625996-2",
+      },
+      "percent": 0,
+      "size": 9104,
+      "status": "uploading",
+      "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "uid": "rc-upload-1658902625996-2",
+    },
+  ],
+}
 `;

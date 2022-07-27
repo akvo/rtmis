@@ -1,4 +1,4 @@
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { MemoryRouter } from "react-router-dom";
 import axios from "axios";
@@ -7,7 +7,13 @@ import UploadData from "../UploadData";
 
 jest.mock("axios");
 
-describe("page/upload-data", () => {
+describe.only("page/upload-data", () => {
+  let file;
+
+  beforeEach(() => {
+    file = new File(["(⌐□_□)"], "chucknorris.png", { type: "image/png" });
+  });
+
   test("test if users can upload data", async () => {
     axios.mockResolvedValueOnce({ status: 200 });
 
@@ -45,6 +51,49 @@ describe("page/upload-data", () => {
       fireEvent.click(downloadTemplateBtn);
       axios.mockResolvedValueOnce({ status: 200, data: templateLink });
     });
+    // expect(templateLink).toHaveProperty("download");
+
+    // Drag and drop file
+    const uploadedFile = {
+      file: {
+        uid: "rc-upload-1658902625996-2",
+        lastModified: 1654609229865,
+        lastModifiedDate: "2022-06-07T13:40:29.865Z",
+        name: "7a13eac4-bfd9-46ab-8bb1-c8ea25bd05ed.xlsx",
+        size: 9104,
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        percent: 0,
+        originFileObj: {
+          uid: "rc-upload-1658902625996-2",
+        },
+        status: "uploading",
+      },
+      fileList: [
+        {
+          uid: "rc-upload-1658902625996-2",
+          lastModified: 1654609229865,
+          lastModifiedDate: "2022-06-07T13:40:29.865Z",
+          name: "7a13eac4-bfd9-46ab-8bb1-c8ea25bd05ed.xlsx",
+          size: 9104,
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          percent: 0,
+          originFileObj: {
+            uid: "rc-upload-1658902625996-2",
+          },
+          status: "uploading",
+        },
+      ],
+    };
+    const uploader = getByTestId("drop-file");
+    await waitFor(() => {
+      fireEvent.change(uploader, {
+        target: { files: [file] },
+      });
+      axios.mockResolvedValueOnce({ status: 200, data: uploadedFile });
+    });
+    expect(uploadedFile).toHaveProperty("file");
+    expect(uploadedFile).toHaveProperty("fileList");
+    expect(uploadedFile).toMatchSnapshot("uploadedFile");
 
     expect(container).toMatchSnapshot();
   });
