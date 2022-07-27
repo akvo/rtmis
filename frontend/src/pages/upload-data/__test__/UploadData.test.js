@@ -51,7 +51,6 @@ describe.only("page/upload-data", () => {
       fireEvent.click(downloadTemplateBtn);
       axios.mockResolvedValueOnce({ status: 200, data: templateLink });
     });
-    // expect(templateLink).toHaveProperty("download");
 
     // Drag and drop file
     const uploadedFile = {
