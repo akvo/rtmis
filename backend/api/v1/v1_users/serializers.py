@@ -208,6 +208,11 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         self.fields.get('organisation').queryset = Organisation.objects.all()
 
     def validate_role(self, role):
+        # allow self update for county admin
+        if self.instance and self.instance == self.context.get('user') \
+                and self.context.get(
+                'user').user_access.role == UserRoleTypes.admin:
+            return role
         if self.context.get(
                 'user').user_access.role == UserRoleTypes.admin and \
                 role not in [UserRoleTypes.approver, UserRoleTypes.user]:
@@ -218,6 +223,11 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         return role
 
     def validate_administration(self, administration):
+        # allow self update for county admin
+        if self.instance and self.instance == self.context.get('user') \
+                and self.context.get(
+                'user').user_access.role == UserRoleTypes.admin:
+            return administration
         if not self.context.get(
                 'user').user_access.role == UserRoleTypes.super_admin \
                 and administration.level.level <= self.context.get('user') \
@@ -232,6 +242,11 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         return forms
 
     def validate(self, attrs):
+        # allow self update for county admin
+        if self.instance and self.instance == self.context.get('user') \
+                and self.context.get(
+                'user').user_access.role == UserRoleTypes.admin:
+            return attrs
         if self.instance:
             if self.context.get(
                     'user').user_access.role != UserRoleTypes.super_admin \
