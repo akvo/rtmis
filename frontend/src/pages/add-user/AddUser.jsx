@@ -55,7 +55,6 @@ const AddUser = () => {
   const [organisations, setOrganisations] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState([]);
-  const [editedUser, setEditedUser] = useState(null);
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -90,14 +89,9 @@ const AddUser = () => {
   };
 
   const allowedRoles = useMemo(() => {
-    const lookUp =
-      editedUser === authUser.email && authUser.role?.id === 2
-        ? authUser.role.id
-        : authUser.role?.id === 2
-        ? 3
-        : authUser.role?.id || 4;
+    const lookUp = authUser.role?.id === 2 ? 3 : authUser.role?.id || 4;
     return config.roles.filter((r) => r.id >= lookUp);
-  }, [authUser, editedUser]);
+  }, [authUser]);
 
   const onFinish = (values) => {
     if ([3, 5].includes(values.role)) {
@@ -217,7 +211,6 @@ const AddUser = () => {
       try {
         setLoading(true);
         api.get(`user/${id}`).then((res) => {
-          setEditedUser(res.data?.email);
           form.setFieldsValue({
             administration: res.data?.administration,
             designation: parseInt(res.data?.designation) || null,
