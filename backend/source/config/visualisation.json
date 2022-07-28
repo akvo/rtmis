@@ -43,7 +43,7 @@
                 "option": [
                   "Flush / pour flush",
                   "Pit latrine with slab",
-                  "Twin pit with slab"
+                  "VIP latrine"
                 ]
               },
               {
@@ -66,7 +66,7 @@
                 "option": [
                   "Flush / pour flush",
                   "Pit latrine with slab",
-                  "Twin pit with slab"
+                  "VIP latrine"
                 ]
               },
               {
@@ -85,7 +85,7 @@
                 "option": [
                   "Flush / pour flush",
                   "Pit latrine with slab",
-                  "Twin pit with slab"
+                  "VIP latrine"
                 ]
               },
               {
@@ -102,10 +102,8 @@
               {
                 "question": 492490054,
                 "option": [
-                  "Pit latrine without slab / Open pit",
-                  "Twin pit without slab",
-                  "Bucket",
-                  "Hanging toilet / hanging latrine"
+                  "Pit latrine without slab/open pit",
+                  "Bucket"
                 ]
               }
             ]
@@ -142,11 +140,11 @@
               },
               {
                 "question": 466680045,
-                "option": ["Water is available"]
+                "option": ["Yes"]
               },
               {
                 "question": 466760036,
-                "option": ["Soap or detergent available ."]
+                "option": ["Yes"]
               }
             ]
           },
@@ -165,7 +163,7 @@
               },
               {
                 "question": 466680045,
-                "option": ["Water is available"]
+                "option": ["Yes"]
               }
             ]
           },
@@ -175,10 +173,9 @@
             "color": "#F1AC2A",
             "options": [
               {
-                "question": 466680043,
+                "question": 599400071,
                 "option": [
-                  "No handwashing place in dwelling/homestead/plot",
-                  "No permission to see"
+                  "No"
                 ]
               }
             ]
@@ -235,13 +232,7 @@
               {
                 "question": 524810053,
                 "option": [
-                  "Attending school",
-                  "Paid work",
-                  "Participating in social activities",
-                  "Cooking food?",
-                  "Cooking food",
-                  "Eating with others",
-                  "Bathing in regular place"
+                  "Yes"
                 ]
               }
             ]
@@ -818,12 +809,7 @@
               {
                 "question": 538000046,
                 "option": [
-                  "Eating some specific type food",
-                  "Entering the church or mosque",
-                  "Touching the cross or holly book",
-                  "Milking animals",
-                  "Participating in public ceremonies",
-                  "Preparing/cooking food"
+                  "Yes"
                 ]
               }
             ]

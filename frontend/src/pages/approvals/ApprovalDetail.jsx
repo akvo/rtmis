@@ -164,7 +164,8 @@ const ApprovalDetail = ({
     if (!comment.length) {
       notify({
         type: "warning",
-        message: "Please provide notes or feedback to decline the submission",
+        message:
+          "Please provide notes or feedback to decline or approved the submission",
       });
       return;
     }
