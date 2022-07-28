@@ -8,7 +8,7 @@
       "questions": [
         {
           "id": 364240038,
-          "meta": false,
+          "meta": true,
           "question": "Name of the data collector (Enumerator)",
           "name": "Enumerator",
           "order": 1,
@@ -69,7 +69,7 @@
       "questions": [
         {
           "id": 517600060,
-          "meta": true,
+          "meta": false,
           "question": "Take the GPS location of the Household",
           "name": "Geolocation",
           "order": 1,
