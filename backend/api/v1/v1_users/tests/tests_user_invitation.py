@@ -169,7 +169,15 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(add_response.json(),
                          {'message': 'User updated successfully'})
         edit_payload["role"] = 2
-        edit_payload["forms"] = [1]
+        edit_payload["forms"] = [2]
+        add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
+                                       edit_payload,
+                                       content_type='application/json',
+                                       **header)
+        self.assertEqual(add_response.status_code, 200)
+        self.assertEqual(add_response.json(),
+                         {'message': 'User updated successfully'})
+        edit_payload["forms"] = [1, 2]
         add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
                                        edit_payload,
                                        content_type='application/json',
@@ -188,7 +196,9 @@ class UserInvitationTestCase(TestCase):
             'forms', 'approval_assignment', 'pending_approval', 'data',
             'pending_batch'
         ], list(responses))
-        self.assertEqual(responses["forms"], [{'id': 1, 'name': 'Test Form'}])
+        self.assertEqual(responses["forms"],
+                         [{'id': 1, 'name': 'Test Form'},
+                          {'id': 2, 'name': 'Test Form 2'}])
 
     def test_add_admin_user(self):
         call_command("administration_seeder", "--test")
