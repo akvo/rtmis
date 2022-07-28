@@ -522,8 +522,25 @@ class UserEditDeleteView(APIView):
             return Response(
                 {'message': validate_serializers_message(serializer.errors)},
                 status=status.HTTP_400_BAD_REQUEST)
-        # TODO:: assign user to approval tree
+
+        # when add new user as approver or county admin
+        is_approver_assigned = check_form_approval_assigned(
+            role=serializer.validated_data.get('role'),
+            forms=serializer.validated_data.get('forms'),
+            administration=serializer.validated_data.get('administration'),
+            user=instance)
+        if is_approver_assigned:
+            return Response(
+                {'message': is_approver_assigned},
+                status=status.HTTP_403_FORBIDDEN)
+
         user = serializer.save()
+        # when add new user as approver or county admin
+        assign_form_approval(
+            role=serializer.validated_data.get('role'),
+            forms=serializer.validated_data.get('forms'),
+            administration=serializer.validated_data.get('administration'),
+            user=user)
 
         # inform user by inform_user payload
         if serializer.validated_data.get('inform_user'):
