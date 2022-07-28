@@ -10,7 +10,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from api.v1.v1_forms.constants import FormTypes
-from api.v1.v1_forms.models import Forms, FormApprovalRule, FormApprovalAssignment
+from api.v1.v1_forms.models import Forms, FormApprovalRule, \
+    FormApprovalAssignment
 from api.v1.v1_forms.serializers import ListFormSerializer, \
     WebFormDetailSerializer, FormDataSerializer, ListFormRequestSerializer, \
     EditFormTypeSerializer, EditFormApprovalSerializer, \
@@ -210,8 +211,12 @@ def form_approver(request, version):
 def check_form_approver(request, form_id, version):
     form = get_object_or_404(Forms, pk=form_id)
     # find administration id from logged in user
+    if not request.user.user_access.administration.path:
+        return Response({'message': 'National level does not have approver'},
+                        status=status.HTTP_404_NOT_FOUND)
     adm_ids = request.user.user_access.administration.path[:-1].split('.')
     adm_ids += [request.user.user_access.administration_id]
+    adm_ids = [int(adm) for adm in adm_ids]
     # check into form approval assignment table
     approver = FormApprovalAssignment.objects.filter(
         form=form, administration_id__in=adm_ids).count()
