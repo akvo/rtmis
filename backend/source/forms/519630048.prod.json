@@ -1358,7 +1358,7 @@
           "id": 466760036,
           "meta": false,
           "question": "Is soap available at the hand washing facility? Observe",
-          "name": "Availability of Soap / detergent",
+          "name": "Availability of Soap",
           "order": 9,
           "required": true,
           "type": "option",
@@ -1760,7 +1760,7 @@
           "name": "Missing activities during menstrual period",
           "order": 7,
           "required": true,
-          "type": "multiple_option",
+          "type": "option",
           "attributes": [
             "table",
             "chart"
