@@ -241,7 +241,7 @@ const PanelSubmissions = () => {
   }, [activeLang]);
 
   const { notify } = useNotification();
-  const { selectedForm } = store.useState((state) => state);
+  const { selectedForm, user } = store.useState((state) => state);
 
   useEffect(() => {
     let url = `form-pending-data/${selectedForm}/?page=${currentPage}`;
@@ -324,16 +324,21 @@ const PanelSubmissions = () => {
   };
 
   const handleOnClickBatchSelectedDataset = () => {
-    api.get(`form/check-approver/${selectedForm}`).then((res) => {
-      if (!res.data.count) {
-        notify({
-          type: "error",
-          message: text.batchNoApproverMessage,
-        });
-      } else {
-        setModalVisible(true);
-      }
-    });
+    // check only for data entry role
+    if (user.role.id === 4) {
+      api.get(`form/check-approver/${selectedForm}`).then((res) => {
+        if (!res.data.count) {
+          notify({
+            type: "error",
+            message: text.batchNoApproverMessage,
+          });
+        } else {
+          setModalVisible(true);
+        }
+      });
+    } else {
+      setModalVisible(true);
+    }
   };
 
   const btnBatchSelected = useMemo(() => {
