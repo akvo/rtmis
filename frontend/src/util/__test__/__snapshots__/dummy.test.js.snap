@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`util/dummy test if dummy has a chartData as an array of objects 1`] = `
+Object {
+  "chartData": Any<Array>,
+}
+`;
