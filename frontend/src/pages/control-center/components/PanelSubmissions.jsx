@@ -323,25 +323,24 @@ const PanelSubmissions = () => {
       });
   };
 
-  const handleOnClickBatchSelectedDataset = () => {
-    // check only for data entry role
-    if (user.role.id === 4) {
-      api.get(`form/check-approver/${selectedForm}`).then((res) => {
-        if (!res.data.count) {
-          notify({
-            type: "error",
-            message: text.batchNoApproverMessage,
-          });
-        } else {
-          setModalVisible(true);
-        }
-      });
-    } else {
-      setModalVisible(true);
-    }
-  };
-
   const btnBatchSelected = useMemo(() => {
+    const handleOnClickBatchSelectedDataset = () => {
+      // check only for data entry role
+      if (user.role.id === 4) {
+        api.get(`form/check-approver/${selectedForm}`).then((res) => {
+          if (!res.data.count) {
+            notify({
+              type: "error",
+              message: text.batchNoApproverMessage,
+            });
+          } else {
+            setModalVisible(true);
+          }
+        });
+      } else {
+        setModalVisible(true);
+      }
+    };
     if (!!selectedRows.length && modalButton) {
       return (
         <Button type="primary" onClick={handleOnClickBatchSelectedDataset}>
@@ -350,7 +349,15 @@ const PanelSubmissions = () => {
       );
     }
     return "";
-  }, [selectedRows, modalButton, text.batchSelectedDatasets]);
+  }, [
+    selectedRows,
+    modalButton,
+    text.batchSelectedDatasets,
+    notify,
+    selectedForm,
+    text.batchNoApproverMessage,
+    user.role.id,
+  ]);
 
   const DataTable = ({ pane }) => {
     return (

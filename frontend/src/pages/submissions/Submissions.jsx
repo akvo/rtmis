@@ -109,25 +109,24 @@ const Submissions = () => {
     setCurrentPage(e.current);
   };
 
-  const handleOnClickBatchSelectedDataset = () => {
-    // check only for data entry role
-    if (user.role.id === 4) {
-      api.get(`form/check-approver/${selectedForm}`).then((res) => {
-        if (!res.data.count) {
-          notify({
-            type: "error",
-            message: text.batchNoApproverMessage,
-          });
-        } else {
-          setModalVisible(true);
-        }
-      });
-    } else {
-      setModalVisible(true);
-    }
-  };
-
   const btnBatchSelected = useMemo(() => {
+    const handleOnClickBatchSelectedDataset = () => {
+      // check only for data entry role
+      if (user.role.id === 4) {
+        api.get(`form/check-approver/${selectedForm}`).then((res) => {
+          if (!res.data.count) {
+            notify({
+              type: "error",
+              message: text.batchNoApproverMessage,
+            });
+          } else {
+            setModalVisible(true);
+          }
+        });
+      } else {
+        setModalVisible(true);
+      }
+    };
     return (
       dataTab === "pending-submission" && (
         <Button
@@ -139,7 +138,16 @@ const Submissions = () => {
         </Button>
       )
     );
-  }, [selectedRows, modalButton, text.batchSelectedDatasets, dataTab]);
+  }, [
+    selectedRows,
+    modalButton,
+    text.batchSelectedDatasets,
+    dataTab,
+    notify,
+    selectedForm,
+    text.batchNoApproverMessage,
+    user.role.id,
+  ]);
 
   const sendBatch = () => {
     setLoading(true);
