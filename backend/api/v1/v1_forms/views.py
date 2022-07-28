@@ -1,14 +1,16 @@
 # Create your views here.
 from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema, OpenApiParameter
-from rest_framework import status
+from drf_spectacular.utils import extend_schema, OpenApiParameter, \
+    inline_serializer
+
+from rest_framework import status, serializers
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from api.v1.v1_forms.constants import FormTypes
-from api.v1.v1_forms.models import Forms, FormApprovalRule
+from api.v1.v1_forms.models import Forms, FormApprovalRule, FormApprovalAssignment
 from api.v1.v1_forms.serializers import ListFormSerializer, \
     WebFormDetailSerializer, FormDataSerializer, ListFormRequestSerializer, \
     EditFormTypeSerializer, EditFormApprovalSerializer, \
@@ -193,4 +195,25 @@ def form_approver(request, version):
     return Response(FormApproverResponseSerializer(
         instance=instance, many=True,
         context={'form': serializer.validated_data.get('form_id')}).data,
+                    status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    responses={(200, 'application/json'): inline_serializer(
+        'CheckFormApproverSerializer', fields={
+            'count': serializers.IntegerField(),
+        })},
+    tags=['Form'],
+    summary='To check approver for defined form_id & logged in user')
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def check_form_approver(request, form_id, version):
+    form = get_object_or_404(Forms, pk=form_id)
+    # find administration id from logged in user
+    adm_ids = request.user.user_access.administration.path[:-1].split('.')
+    adm_ids += [request.user.user_access.administration_id]
+    # check into form approval assignment table
+    approver = FormApprovalAssignment.objects.filter(
+        form=form, administration_id__in=adm_ids).count()
+    return Response({'count': approver},
                     status=status.HTTP_200_OK)
