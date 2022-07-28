@@ -129,7 +129,16 @@ const UploadData = () => {
   };
 
   const handleChange = (e) => {
-    setFormId(e);
+    api.get(`form/check-approver/${e}`).then((res) => {
+      if (!res.data.count) {
+        notify({
+          type: "error",
+          message: text.bulkUploadNoApproverMessage,
+        });
+      } else {
+        setFormId(e);
+      }
+    });
   };
 
   const downloadTemplate = () => {
