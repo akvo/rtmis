@@ -109,14 +109,25 @@ const Submissions = () => {
     setCurrentPage(e.current);
   };
 
+  const handleOnClickBatchSelectedDataset = () => {
+    api.get(`form/check-approver/${selectedForm}`).then((res) => {
+      if (!res.data.count) {
+        notify({
+          type: "error",
+          message: text.batchNoApproverMessage,
+        });
+      } else {
+        setModalVisible(true);
+      }
+    });
+  };
+
   const btnBatchSelected = useMemo(() => {
     return (
       dataTab === "pending-submission" && (
         <Button
           type="primary"
-          onClick={() => {
-            setModalVisible(true);
-          }}
+          onClick={handleOnClickBatchSelectedDataset}
           disabled={!selectedRows.length && modalButton}
         >
           {text.batchSelectedDatasets}

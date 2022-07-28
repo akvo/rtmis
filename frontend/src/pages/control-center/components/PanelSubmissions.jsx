@@ -25,6 +25,7 @@ import {
 import { DataFilters } from "../../../components";
 import { api, store, uiText } from "../../../lib";
 import { Link } from "react-router-dom";
+import { useNotification } from "../../../util/hooks";
 
 const { TabPane } = Tabs;
 const { TextArea } = Input;
@@ -239,6 +240,7 @@ const PanelSubmissions = () => {
     return uiText[activeLang];
   }, [activeLang]);
 
+  const { notify } = useNotification();
   const { selectedForm } = store.useState((state) => state);
 
   useEffect(() => {
@@ -321,15 +323,23 @@ const PanelSubmissions = () => {
       });
   };
 
+  const handleOnClickBatchSelectedDataset = () => {
+    api.get(`form/check-approver/${selectedForm}`).then((res) => {
+      if (!res.data.count) {
+        notify({
+          type: "error",
+          message: text.batchNoApproverMessage,
+        });
+      } else {
+        setModalVisible(true);
+      }
+    });
+  };
+
   const btnBatchSelected = useMemo(() => {
     if (!!selectedRows.length && modalButton) {
       return (
-        <Button
-          type="primary"
-          onClick={() => {
-            setModalVisible(true);
-          }}
-        >
+        <Button type="primary" onClick={handleOnClickBatchSelectedDataset}>
           {text.batchSelectedDatasets}
         </Button>
       );
