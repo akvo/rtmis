@@ -161,9 +161,14 @@ const ApprovalDetail = ({
       batch: id,
       status: status,
     };
-    if (comment.length) {
-      payload = { ...payload, comment: comment };
+    if (!comment.length) {
+      notify({
+        type: "warning",
+        message: "Please provide notes or feedback to decline the submission",
+      });
+      return;
     }
+    payload = { ...payload, comment: comment };
     api
       .post("pending-data/approve", payload)
       .then(() => {
