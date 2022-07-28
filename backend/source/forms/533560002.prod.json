@@ -31,7 +31,7 @@
         },
         {
           "id": 547720002,
-          "meta": false,
+          "meta": true,
           "question": "Take the GPS location",
           "name": "Geolocation",
           "order": 3,
@@ -60,11 +60,13 @@
           "id": 545980002,
           "meta": false,
           "question": "Is the Health Care facility in an urban, peri-urban or rural setup?",
-          "name": null,
+          "name": "Whether Urban, Peri Urban or Rural",
           "order": 5,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter"],
+          "attributes": [
+            "advanced_filter"
+          ],
           "options": [
             {
               "name": "Urban"
@@ -137,17 +139,6 @@
               "name": "I dont know"
             }
           ]
-        },
-        {
-          "id": 610980068,
-          "meta": false,
-          "question": "Date of assessment?",
-          "name": "Assessment date",
-          "order": 9,
-          "required": true,
-          "type": "date",
-          "attributes": [],
-          "options": null
         }
       ]
     },
