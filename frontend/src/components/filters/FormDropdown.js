@@ -27,6 +27,8 @@ const FormDropdown = ({
       ).content.question_group;
       s.selectedForm = e;
       s.loadingForm = false;
+      s.advancedFilters = [];
+      s.showAdvancedFilters = false;
     });
   }, []);
   useEffect(() => {

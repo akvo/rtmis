@@ -25,3 +25,6 @@ export { default as Settings } from "./settings/Settings";
 export { default as Organisations } from "./organisations/Organisations";
 export { default as AddOrganisation } from "./add-organisation/AddOrganisation";
 export { default as Dashboard } from "./dashboard/Dashboard";
+export { default as Glaas } from "./dashboard/Glaas";
+export { default as ReportDashboard } from "./dashboard/ReportDashboard";
+export { default as GlaasReportDashboard } from "./dashboard/GlaasReportDashboard";

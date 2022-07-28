@@ -15,6 +15,7 @@ const EditableCell = ({
   pendingData,
   disabled = false,
   readonly = false,
+  isPublic = false,
 }) => {
   const [editing, setEditing] = useState(false);
   const [locationName, setLocationName] = useState(null);
@@ -48,7 +49,7 @@ const EditableCell = ({
     !isEqual(record.value, record.newValue);
 
   useEffect(() => {
-    if (record && record.type === "cascade" && !locationName) {
+    if (record && record.type === "cascade" && !record?.api && !locationName) {
       const locName = config.fn.administration(record.value, false);
       setLocationName(locName?.full_name);
     }
@@ -147,12 +148,14 @@ const EditableCell = ({
           cursor: !notEditable && !pendingData ? "pointer" : "not-allowed",
         }}
         onClick={() => {
-          if (!notEditable && !pendingData) {
+          if (!notEditable && !pendingData && !isPublic) {
             setEditing(!editing);
           }
         }}
       >
-        {record.type === "cascade" ? locationName : getAnswerValue()}
+        {record.type === "cascade" && !record?.api
+          ? locationName
+          : getAnswerValue()}
       </Col>
       {edited && (
         <Button

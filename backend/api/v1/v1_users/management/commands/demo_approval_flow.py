@@ -77,7 +77,7 @@ class Command(BaseCommand):
             Access.objects.create(user=submitter,
                                   role=UserRoleTypes.user,
                                   administration=ancestor)
-        UserForms.objects.get_or_create(form=form, user=approver)
+        UserForms.objects.get_or_create(form=form, user=submitter)
         print("\nSubmitter:")
         print(f"- Administration: {administration.full_name}")
         print("- Email: {}\n".format(submitter.email))

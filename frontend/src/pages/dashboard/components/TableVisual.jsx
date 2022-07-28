@@ -1,11 +1,13 @@
 import React, { useMemo } from "react";
-import { Col, Table } from "antd";
+import { Col, Table, Button } from "antd";
 import { get, capitalize, sumBy } from "lodash";
+import { DownloadOutlined } from "@ant-design/icons";
+import { Excel } from "antd-table-saveas-excel";
 
 const fontSize = 12;
 
-const TableVisual = ({ tableConfig }) => {
-  const { title, type, columns, span, data, index } = tableConfig;
+const TableVisual = ({ tableConfig, loading }) => {
+  const { title, type, columns, span, data, index, admLevelName } = tableConfig;
 
   const tableColumns = useMemo(() => {
     return columns.map((c) => {
@@ -36,6 +38,7 @@ const TableVisual = ({ tableConfig }) => {
       };
       tmp = c.path === "loc" ? { ...tmp, width: "200px" } : tmp;
       tmp = c.path === "total" ? { ...tmp, width: "100px" } : tmp;
+      tmp = c.path === "year" ? { ...tmp, width: "100px" } : tmp;
       if (c?.fixed) {
         tmp = {
           ...tmp,
@@ -62,7 +65,13 @@ const TableVisual = ({ tableConfig }) => {
             tmp = { ...tmp, [pd]: pathData[pd] };
           });
         }
-        tmp = { ...tmp, [p]: pathData };
+        tmp = {
+          ...tmp,
+          [p]:
+            typeof pathData === "number" && p !== "year"
+              ? pathData.toLocaleString("en-US")
+              : pathData,
+        };
         return tmp;
       });
       return obj.reduce((curr, next) => ({ ...curr, ...next }));
@@ -82,20 +91,48 @@ const TableVisual = ({ tableConfig }) => {
     [tableColumns]
   );
 
+  const titlePage =
+    title.replace("##administration_level##", admLevelName?.singular) ||
+    "Table";
+
+  const handleExport = (e) => {
+    e.preventDefault();
+    const excel = new Excel();
+    excel
+      .addSheet("data")
+      .addColumns(tableColumns)
+      .addDataSource(tableDataSource)
+      .saveAs(`${titlePage}.xlsx`);
+  };
+
   return (
     <Col
       key={`col-${type}-${index}`}
       align="center"
       justify="space-between"
       span={span}
+      className="table-card"
     >
       <Table
-        title={() => <h3>{title || "Table"}</h3>}
+        title={() => (
+          <div className="table-title">
+            <h3>{titlePage}</h3>
+            <Button
+              icon={<DownloadOutlined />}
+              onClick={handleExport}
+              className="download"
+              size="small"
+            >
+              Download
+            </Button>
+          </div>
+        )}
         columns={tableColumns}
         dataSource={tableDataSource}
         scroll={{ x: xScroll, y: 500 }}
         pagination={false}
         size="small"
+        loading={loading}
         bordered
         rowKey={tableColumns?.[0]?.key || "id"}
       />

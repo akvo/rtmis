@@ -9,7 +9,7 @@ const topojson_object = topojson.objects[Object.keys(topojson.objects)[0]];
 const shapeLevels = Object.keys(topojson_object.geometries[0].properties);
 
 const tile = {
-  url: "https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}",
+  url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png",
   attribution: "Tiles &copy; Esri &mdash; DeLorme, NAVTEQ, Esri",
 };
 
@@ -107,9 +107,13 @@ const getColorScale = ({ method, colors, colorRange }) => {
       [0, 0]
     )
     .map((acc, index) => {
+      if (acc !== 0 && acc < 10) {
+        return Math.ceil(acc / 10) * 10;
+      }
       if (index && acc) {
         acc = acc < 10 ? 10 : acc;
-        acc = 100 * Math.floor((acc + 50) / 100);
+        const floored = 100 * Math.floor((acc + 50) / 100);
+        acc = floored ? floored : acc;
       }
       return acc;
     });

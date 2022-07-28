@@ -115,11 +115,53 @@ body {
 
       .leaflet-pane {
         .leaflet-tile-pane {
-          opacity: 0.8;
+          opacity: 1;
         }
       }
     }
 
     /* End Development Mode */
+    .echarts-for-react {
+      cursor: ns-resize;
+
+      h4 {
+        display: none;
+      }
+
+      div {
+        &:last-child {
+          div {
+            &:last-child {
+              div {
+                &:not(.ant-table-container) {
+                  margin-right: 0px !important;
+                  border-radius: 4px !important;
+                  text-transform: uppercase;
+                  color: #253239 !important;
+                  background-color: #fff !important;
+                  font-weight: 500;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .ant-select-dropdown {
+    .ant-select-item {
+      &.ant-select-item-group {
+        text-transform: capitalize;
+      }
+
+      &.ant-select-item-option {
+        text-transform: capitalize;
+      }
+    }
+
+    .ant-select-item-option-content {
+      text-transform: capitalize;
+    }
   }
 }

@@ -48,17 +48,11 @@
               },
               {
                 "question": 513690062,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 513690060,
-                "option": [
-                  "Removed by service provider to a treatment plant",
-                  "Removed by service provider to buried pit",
-                  "Emptied by household buried in a covered pit"
-                ]
+                "option": ["To a treatment plant", "Buried in an uncovered pit"]
               }
             ]
           },
@@ -77,9 +71,7 @@
               },
               {
                 "question": 513690062,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               }
             ]
           },
@@ -98,9 +90,7 @@
               },
               {
                 "question": 513690062,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -127,9 +117,7 @@
             "options": [
               {
                 "question": 492490054,
-                "option": [
-                  "No facility / Bush / Field"
-                ]
+                "option": ["No facility / Bush / Field"]
               }
             ]
           }
@@ -154,15 +142,11 @@
               },
               {
                 "question": 466680045,
-                "option": [
-                  "Water is available"
-                ]
+                "option": ["Water is available"]
               },
               {
                 "question": 466760036,
-                "option": [
-                  "Soap or detergent available ."
-                ]
+                "option": ["Soap or detergent available ."]
               }
             ]
           },
@@ -181,9 +165,7 @@
               },
               {
                 "question": 466680045,
-                "option": [
-                  "Water is available"
-                ]
+                "option": ["Water is available"]
               }
             ]
           },
@@ -195,7 +177,7 @@
               {
                 "question": 466680043,
                 "option": [
-                  "No handwashing place in dwelling/yard/plot",
+                  "No handwashing place in dwelling/homestead/plot",
                   "No permission to see"
                 ]
               }
@@ -213,10 +195,8 @@
             "score": 15,
             "options": [
               {
-                "question": 524810054,
-                "option": [
-                  "Yes"
-                ]
+                "question": 607250002,
+                "option": ["Yes"]
               }
             ]
           },
@@ -243,9 +223,7 @@
             "options": [
               {
                 "question": 524810054,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -316,33 +294,23 @@
               },
               {
                 "question": 530250002,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555370009,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555370003,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555370005,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555370006,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -362,33 +330,23 @@
               },
               {
                 "question": 530250002,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 555370009,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 555370003,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 555370005,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 555370006,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               }
             ]
           },
@@ -422,15 +380,11 @@
             "options": [
               {
                 "question": 551560007,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 551560004,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -447,9 +401,7 @@
               },
               {
                 "question": 551560004,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -487,9 +439,7 @@
             "options": [
               {
                 "question": 541950008,
-                "option": [
-                  "Yes, waste is segregated into three labelled bins"
-                ]
+                "option": ["Yes, waste is segregated into three labelled bins"]
               },
               {
                 "question": 541950011,
@@ -557,9 +507,7 @@
             "options": [
               {
                 "question": 541950008,
-                "option": [
-                  "No, bins are not present"
-                ]
+                "option": ["No, bins are not present"]
               }
             ]
           }
@@ -576,15 +524,11 @@
             "options": [
               {
                 "question": 551560009,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 551560005,
-                "option": [
-                  "Yes, all have been trained"
-                ]
+                "option": ["Yes, all have been trained"]
               }
             ]
           },
@@ -595,15 +539,11 @@
             "options": [
               {
                 "question": 551560009,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 551560005,
-                "option": [
-                  "No, some but not all have been trained"
-                ]
+                "option": ["No, some but not all have been trained"]
               }
             ]
           },
@@ -614,9 +554,7 @@
             "options": [
               {
                 "question": 551560009,
-                "option": [
-                  "Yes but limited"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 551560005,
@@ -668,9 +606,7 @@
               },
               {
                 "question": 551660013,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -691,9 +627,7 @@
               },
               {
                 "question": 551660013,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               }
             ]
           },
@@ -733,15 +667,11 @@
               },
               {
                 "question": 579840064,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 555460003,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -760,15 +690,11 @@
               },
               {
                 "question": 579840064,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 555460003,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               }
             ]
           },
@@ -801,15 +727,11 @@
             "options": [
               {
                 "question": 539710052,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 539710048,
-                "option": [
-                  "Yes, water and soap"
-                ]
+                "option": ["Yes, water and soap"]
               }
             ]
           },
@@ -820,15 +742,11 @@
             "options": [
               {
                 "question": 539710052,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 539710048,
-                "option": [
-                  "Water only"
-                ]
+                "option": ["Water only"]
               }
             ]
           },
@@ -839,9 +757,7 @@
             "options": [
               {
                 "question": 539710052,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               }
             ]
           }
@@ -855,17 +771,32 @@
             "name": "Awareness",
             "score": 10,
             "color": "#753780",
-            "options": []
+            "options": [
+              {
+                "question": 605430054,
+                "option": ["Yes"]
+              }
+            ]
           },
           {
             "name": "Use menstrual materials",
-            "score": -1,
+            "score": 10,
             "color": "#FDF177",
-            "options": []
+            "options": [
+              {
+                "question": 610930003,
+                "option": [
+                  "Cloth/reusable sanitary pads",
+                  "Disposable sanitary pads",
+                  "Tampons",
+                  "Menstrual cup"
+                ]
+              }
+            ]
           },
           {
             "name": "Access",
-            "score": -2,
+            "score": 10,
             "color": "#F1AC2A",
             "options": [
               {
@@ -881,16 +812,18 @@
           },
           {
             "name": "Participation",
-            "score": -2,
+            "score": 10,
             "color": "#368541",
             "options": [
               {
-                "question": 538000047,
+                "question": 538000046,
                 "option": [
-                  "Private place / latrine",
-                  "Water",
-                  "Sanitary pads/cloth",
-                  "Soap"
+                  "Eating some specific type food",
+                  "Entering the church or mosque",
+                  "Touching the cross or holly book",
+                  "Milking animals",
+                  "Participating in public ceremonies",
+                  "Preparing/cooking food"
                 ]
               }
             ]
@@ -908,15 +841,11 @@
             "options": [
               {
                 "question": 545530057,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 575740004,
-                "option": [
-                  "Yes, all have been trained"
-                ]
+                "option": ["Yes, all have been trained"]
               }
             ]
           },
@@ -927,15 +856,11 @@
             "options": [
               {
                 "question": 545530057,
-                "option": [
-                  "Yes"
-                ]
+                "option": ["Yes"]
               },
               {
                 "question": 575740004,
-                "option": [
-                  "No, some but not all have been trained"
-                ]
+                "option": ["No, some but not all have been trained"]
               }
             ]
           },
@@ -946,9 +871,7 @@
             "options": [
               {
                 "question": 545530057,
-                "option": [
-                  "No"
-                ]
+                "option": ["No"]
               },
               {
                 "question": 575740004,
@@ -956,6 +879,70 @@
                   "No, none have been trained",
                   "No, there are no staff responsible for cleaning"
                 ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 603050002,
+    "title": "Urban Sanitation",
+    "type": 2,
+    "chartListTitle": "JMP",
+    "charts": [
+      {
+        "type": "CRITERIA",
+        "title": "Main type of Sanitation",
+        "options": [
+          {
+            "name": "Onsite sanitation",
+            "score": 1,
+            "color": "#36AE7B",
+            "options": [
+              {
+                "question": 603080002,
+                "option": ["pit latrines", "Septic tanks"]
+              }
+            ]
+          },
+          {
+            "name": "Off site sanitation",
+            "score": -1,
+            "color": "#EB5353",
+            "options": [
+              {
+                "question": 603080002,
+                "option": ["Sewarage system"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "CRITERIA",
+        "title": "Sludge Transported",
+        "options": [
+          {
+            "name": "Yes",
+            "score": 1,
+            "color": "#36AE7B",
+            "options": [
+              {
+                "question": 587530063,
+                "option": ["through the sewer system", "Using tracks"]
+              }
+            ]
+          },
+          {
+            "name": "No",
+            "score": -1,
+            "color": "#EB5353",
+            "options": [
+              {
+                "question": 587530063,
+                "option": ["Its not transported to the treatment plant"]
               }
             ]
           }

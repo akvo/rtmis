@@ -1,14 +1,18 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { useParams } from "react-router-dom";
-import { Row, Col, Tabs, Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { Row, Col, Tabs, Affix } from "antd";
 import { VisualisationFilters } from "../../components";
 import { useNotification } from "../../util/hooks";
 import { api, uiText, store, config } from "../../lib";
 import { capitalize, takeRight } from "lodash";
 import { Maps } from "../../components";
-import { CardVisual, TableVisual, ChartVisual } from "./components";
+import {
+  CardVisual,
+  TableVisual,
+  ChartVisual,
+  ReportVisual,
+} from "./components";
 import { generateAdvanceFilterURL } from "../../util/filter";
 
 const { TabPane } = Tabs;
@@ -19,24 +23,47 @@ const Dashboard = () => {
   const current = window?.dashboard?.find((x) => String(x.form_id) === formId);
   const { notify } = useNotification();
 
-  const { language, administration, advancedFilters } = store.useState(
-    (s) => s
-  );
-  const { active: activeLang } = language;
   const [dataset, setDataset] = useState([]);
+  const [dataPeriod, setDataPeriod] = useState([]);
   const [activeTab, setActiveTab] = useState("overview");
   const [loading, setLoading] = useState(false);
   const [activeItem, setActiveItem] = useState(null);
   const [lastUpdate, setLastUpdate] = useState(null);
 
+  const { active: activeLang } = store.useState((s) => s.language);
+  const advancedFilters = store.useState((s) => s.advancedFilters);
+  const administration = store.useState((s) => s.administration);
+  const [wait, setWait] = useState(true);
+
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const currentAdministration = takeRight(administration)?.[0];
+  const prefixText =
+    currentAdministration?.level === 0
+      ? currentAdministration?.levelName
+      : currentAdministration?.name;
+  const admLevelName = useMemo(() => {
+    const { level } = currentAdministration;
+    let name = { plural: "Counties", singular: "County" };
+    if (level === 1) {
+      name = { plural: "Sub-Counties", singular: "Sub-County" };
+    }
+    if (level === 2) {
+      name = { plural: "Wards", singular: "Ward" };
+    }
+    if (level === 3) {
+      name = { plural: "Ward", singular: "Ward" };
+    }
+    return name;
+  }, [currentAdministration]);
 
   useEffect(() => {
     store.update((s) => {
       s.administration = [config.fn.administration(1)];
     });
+    setWait(false);
   }, []);
 
   useEffect(() => {
@@ -44,6 +71,7 @@ const Dashboard = () => {
       store.update((s) => {
         s.questionGroups = selectedForm.content.question_group;
       });
+      setActiveTab("overview");
       setActiveItem(current?.tabs?.["overview"]);
     }
   }, [selectedForm, current]);
@@ -57,18 +85,42 @@ const Dashboard = () => {
   }, [formId, lastUpdate]);
 
   useEffect(() => {
-    const currentAdministration = takeRight(administration)?.[0]?.id;
-    if (formId) {
-      setDataset([]);
+    if (formId && !wait) {
       setLoading(true);
-      let url = `jmp/${formId}?administration=${currentAdministration}`;
+      setDataset([]);
+      setDataPeriod([]);
+      let url = `jmp/${formId}?administration=${currentAdministration?.id}`;
       if (advancedFilters && advancedFilters.length) {
         url = generateAdvanceFilterURL(advancedFilters, url);
+      }
+      if (current?.extra_params) {
+        const params = Object.keys(current.extra_params).reduce(
+          (prev, curr) => {
+            const ids = current.extra_params[curr].map((x) => `${curr}=${x}`);
+            return [...prev, ...ids];
+          },
+          []
+        );
+        url += `&${params.join("&")}`;
       }
       api
         .get(url)
         .then((res) => {
           setDataset(res.data);
+          if (!current?.no_period) {
+            const url = `submission/period/${formId}?administration=${currentAdministration?.id}`;
+            api
+              .get(url)
+              .then((res) => {
+                setDataPeriod(res.data);
+              })
+              .catch(() => {
+                notify({
+                  type: "error",
+                  message: text.errorDataLoad,
+                });
+              });
+          }
         })
         .catch(() => {
           notify({
@@ -80,7 +132,15 @@ const Dashboard = () => {
           setLoading(false);
         });
     }
-  }, [formId, administration, notify, text, advancedFilters]);
+  }, [
+    formId,
+    current,
+    currentAdministration,
+    notify,
+    text,
+    advancedFilters,
+    wait,
+  ]);
 
   const changeTab = (tabKey) => {
     setActiveTab(tabKey);
@@ -94,22 +154,36 @@ const Dashboard = () => {
           <Maps
             key={index}
             mapConfig={{ ...cfg, data: dataset, index: index }}
+            loading={loading}
           />
         );
       case "chart":
         return (
           <ChartVisual
             key={index}
-            chartConfig={{ ...cfg, data: dataset, index: index }}
+            chartConfig={{
+              ...cfg,
+              data: cfg.selector === "period" ? dataPeriod : dataset,
+              index: index,
+            }}
+            loading={loading}
           />
         );
       case "table":
         return (
           <TableVisual
             key={index}
-            tableConfig={{ ...cfg, data: dataset, index: index }}
+            tableConfig={{
+              ...cfg,
+              data: dataset,
+              index: index,
+              admLevelName: admLevelName,
+            }}
+            loading={loading}
           />
         );
+      case "report":
+        return <ReportVisual key={index} selectedForm={selectedForm} />;
       default:
         return (
           <CardVisual
@@ -119,7 +193,9 @@ const Dashboard = () => {
               data: dataset,
               index: index,
               lastUpdate: lastUpdate,
+              admLevelName: admLevelName,
             }}
+            loading={loading}
           />
         );
     }
@@ -127,47 +203,61 @@ const Dashboard = () => {
 
   return (
     <div id="dashboard">
-      <div className="page-title-wrapper">
-        <h1>{`${selectedForm.name} Data`}</h1>
-      </div>
-      <VisualisationFilters showFormOptions={false} />
+      <Affix className="sticky-wrapper">
+        <div>
+          <div className="page-title-wrapper">
+            <h1>{`${prefixText} ${selectedForm.name} Data`}</h1>
+          </div>
+          <VisualisationFilters showFormOptions={false} />
+          <div className="tab-wrapper">
+            {current?.tabs && (
+              <Tabs
+                activeKey={activeTab}
+                onChange={changeTab}
+                type="card"
+                tabBarGutter={10}
+              >
+                {/* TODO:: For now we will hide the report tab */}
+                {Object.keys(current.tabs)
+                  .filter((x) => x.toLowerCase() !== "report")
+                  .map((key) => {
+                    let tabName = key;
+                    if (
+                      !["jmp", "glaas", "rush"].includes(
+                        key.toLocaleLowerCase()
+                      )
+                    ) {
+                      tabName = key
+                        .split("_")
+                        .map((x) => capitalize(x))
+                        .join(" ");
+                    } else {
+                      tabName = key.toUpperCase();
+                    }
+                    return <TabPane tab={tabName} key={key}></TabPane>;
+                  })}
+              </Tabs>
+            )}
+          </div>
+        </div>
+      </Affix>
       <Row className="main-wrapper" align="center">
         <Col span={24} align="center">
-          {loading && (
-            <Spin
-              className="loading"
-              indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
-            />
+          {current?.tabs && activeItem?.rows ? (
+            activeItem.rows.map((row, index) => {
+              return (
+                <Row
+                  key={`row-${index}`}
+                  className="flexible-container row-wrapper"
+                  gutter={[10, 10]}
+                >
+                  {row.map((r, ri) => renderColumn(r, ri))}
+                </Row>
+              );
+            })
+          ) : (
+            <h4>No data</h4>
           )}
-          {!loading && current?.tabs && (
-            <>
-              <Tabs activeKey={activeTab} onChange={changeTab}>
-                {Object.keys(current.tabs).map((key) => {
-                  const tabName = key
-                    .split("_")
-                    .map((x) => capitalize(x))
-                    .join(" ");
-                  return <TabPane tab={tabName} key={key}></TabPane>;
-                })}
-              </Tabs>
-              {activeItem?.rows ? (
-                activeItem.rows.map((row, index) => {
-                  return (
-                    <Row
-                      key={`row-${index}`}
-                      className="row-wrapper"
-                      gutter={[10, 10]}
-                    >
-                      {row.map((r, ri) => renderColumn(r, ri))}
-                    </Row>
-                  );
-                })
-              ) : (
-                <h4>No data</h4>
-              )}
-            </>
-          )}
-          {!loading && !current?.tabs && <h4>No data</h4>}
         </Col>
       </Row>
     </div>

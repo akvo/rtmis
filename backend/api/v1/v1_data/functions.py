@@ -4,10 +4,11 @@ from operator import or_
 from functools import reduce
 from django.core.cache import cache
 from datetime import datetime
-from django.db.models import Q
+from django.db.models import Q, Count, Sum
 from django.db import transaction, connection
 from api.v1.v1_profile.functions import get_administration_ids_by_path
-from api.v1.v1_data.models import ViewOptions, ViewDataOptions
+from api.v1.v1_data.models import ViewOptions, ViewDataOptions, Answers
+from api.v1.v1_forms.models import QuestionOptions, QuestionTypes
 
 
 @transaction.atomic
@@ -99,14 +100,53 @@ def filter_by_criteria(params, question_ids, options,
     return result
 
 
-def get_advance_filter_data_ids(form_id, administration_id, options):
+def get_advance_filter_data_ids(form_id, administration_id,
+                                options, is_glaas=False):
     data = ViewDataOptions.objects.filter(form_id=form_id)
-    if administration_id:
+    if administration_id and not is_glaas:
         administration_ids = get_administration_ids_by_path(
             administration_id=administration_id)
         data = data.filter(administration_id__in=administration_ids)
+    if administration_id and is_glaas:
+        data = data.filter(administration_id__in=administration_id)
     if options:
-        data = data.filter(reduce(
-            or_, [Q(options__contains=op) for op in options]))
+        # create unique list for question id in options
+        qids = []
+        for opt in options:
+            val = opt.split("||")[0]
+            if val in qids:
+                continue
+            qids.append(val)
+        # filter options and_ when different question id
+        for qid in qids:
+            # filter options or_ when same question id
+            or_filter_value = filter(lambda x: qid in x, options)
+            data = data.filter(reduce(
+                or_, [Q(options__contains=op) for op in or_filter_value]))
     data = data.values_list('data_id', flat=True)
     return data
+
+
+def transform_glass_answer(temp, questions, data_ids):
+    for q in questions:
+        value = None
+        answers = Answers.objects.filter(
+            question_id=q.id, data_id__in=data_ids)
+        if q.type == QuestionTypes.option:
+            options = QuestionOptions.objects.filter(
+                question_id=q.id).values_list('name', flat=True)
+            value = {opt: 0 for opt in options}
+            answers = answers.values(
+                'options').annotate(count=Count('options'))
+            for a in answers:
+                key = a.get('options')[0]
+                prev = value.get(key)
+                value[key] = prev + a.get('count')
+        if q.type == QuestionTypes.number:
+            value = 0
+            answers = answers.values(
+                'value').annotate(sum=Sum('value'))
+            for a in answers:
+                value += a.get('sum')
+        temp.update({q.id: value})
+    return temp

@@ -1,26 +1,27 @@
 [
   {
+    "name": "Household Data",
     "form_id": 519630048,
+    "page": "dashboard",
     "tabs": {
       "overview": {
         "rows": [
           [
             {
               "type": "card",
-              "title": "HHs reporting",
+              "title": "Number of HHs reporting",
               "calc": "sum",
               "path": "total",
-              "span": 4,
               "icon": "households.svg",
+              "scale": 1580000,
               "color": "#CBBFFF"
             },
             {
               "type": "card",
-              "title": "##administration_level## reporting",
+              "title": "Number of ##administration_level## reporting",
               "calc": "count",
               "path": "length",
-              "span": 4,
-              "icon": "administrative-unit.svg",
+              "icon": "counties.svg",
               "color": "#FFDBBF"
             },
             {
@@ -28,8 +29,7 @@
               "title": "HHs with safely managed sanitation facilities",
               "calc": "percent",
               "path": "data.sanitation service level.safely managed",
-              "span": 4,
-              "icon": "sanitation.svg",
+              "icon": "safely-managed.svg",
               "color": "#FFF8BF"
             },
             {
@@ -37,7 +37,6 @@
               "title": "HHs with Basic hand hygiene facilities",
               "calc": "percent",
               "path": "data.hygiene service level.basic",
-              "span": 4,
               "icon": "hand-hygiene.svg",
               "color": "#BFF7FF"
             },
@@ -46,24 +45,22 @@
               "title": "HHs with sanitation facilities at grade 3",
               "calc": "percent",
               "path": null,
-              "span": 4,
               "icon": "sanitation.svg",
-              "color": "#FFF8BF"
+              "color": "#99BF9A"
             },
             {
               "type": "card",
               "title": "HHs with hand hygiene facilities at grade 3",
               "calc": "percent",
               "path": null,
-              "span": 4,
               "icon": "hand-hygiene.svg",
-              "color": "#BFF7FF"
+              "color": "#F1DBB5"
             }
           ],
           [
             {
               "type": "maps",
-              "title": "Counts of datapoint",
+              "title": "Count of HHs data submitted",
               "calc": "default",
               "path": "total",
               "span": 24
@@ -72,19 +69,10 @@
           [
             {
               "type": "chart",
-              "title": "Trend charts",
-              "calc": "sum",
-              "span": 12,
-              "api": "/url"
-            },
-            {
-              "type": "table",
-              "title": null,
-              "columns": [
-                { "title": "Administration", "path": "loc" },
-                { "title": "Total Data", "path": "total" }
-              ],
-              "span": 12
+              "title": "Trend of HHs datapoint submission",
+              "selector": "period",
+              "span": 24,
+              "path": "total"
             }
           ]
         ]
@@ -94,37 +82,34 @@
           [
             {
               "type": "card",
-              "title": "Safely managed",
+              "title": "% of HHs with Safely managed sanitation",
               "calc": "percent",
               "path": "data.sanitation service level.safely managed",
-              "span": 6
+              "icon": "safely-managed.svg"
             },
             {
               "type": "card",
-              "title": "Open defecation",
+              "title": "% of HHs practising Open defecation",
               "calc": "percent",
-              "path": "data.sanitation service level.open defecation",
-              "span": 6
+              "path": "data.sanitation service level.open defecation"
             },
             {
               "type": "card",
-              "title": "Hygiene basic",
+              "title": "% of HHs with Basic Hygiene facilities",
               "calc": "percent",
-              "path": "data.hygiene service level.basic",
-              "span": 6
+              "path": "data.hygiene service level.basic"
             },
             {
               "type": "card",
-              "title": "Hygiene no facility",
+              "title": "% of HHs with No Hygiene facility",
               "calc": "percent",
-              "path": "data.hygiene service level.no facility",
-              "span": 6
+              "path": "data.hygiene service level.no facility"
             }
           ],
           [
             {
               "type": "maps",
-              "title": "% HH safely managed sanitation service level",
+              "title": "% HHs at safely managed sanitation service level",
               "calc": "percent",
               "path": "data.sanitation service level.safely managed",
               "span": 24
@@ -133,14 +118,14 @@
           [
             {
               "type": "chart",
-              "title": "Sanitation service level",
+              "title": "Sanitation service levels",
               "calc": "jmp",
               "path": "data.sanitation service level",
               "span": 12
             },
             {
               "type": "chart",
-              "title": "Hygiene service level",
+              "title": "Hygiene service levels",
               "calc": "jmp",
               "path": "data.hygiene service level",
               "span": 12
@@ -148,79 +133,173 @@
           ],
           [
             {
-              "type": "table",
-              "title": "Table sanitation service level",
-              "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
-                { "title": "Count of HHs", "path": "total", "fixed": "left" },
-                {
-                  "title": "Count by service level",
-                  "children": true,
-                  "children_path": "data.sanitation service level"
-                }
-              ],
-              "span": 12
+              "type": "chart",
+              "title": "Menstrual Hygiene service levels",
+              "calc": "jmp",
+              "path": "data.menstrual hygiene service level",
+              "span": 24
+            }
+          ],
+          [
+            {
+              "type": "chart",
+              "title": "Sanition Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.sanitation service level"
             },
             {
-              "type": "table",
-              "title": "Table hygiene service level",
-              "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
-                { "title": "Count of HHs", "path": "total", "fixed": "left" },
-                {
-                  "title": "Count by service level",
-                  "children": true,
-                  "children_path": "data.hygiene service level"
-                }
-              ],
-              "span": 12
+              "type": "chart",
+              "title": "Hygiene Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.hygiene service level"
+            },
+            {
+              "type": "chart",
+              "title": "Menstrual Hygiene Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.menstrual hygiene service level"
             }
           ]
         ]
       },
-      "rush": {},
-      "data_cube": {}
+      "rush": {}
     }
   },
   {
-    "form_id": 533560002,
+    "name": "Urban Sanitation",
+    "form_id": 603050002,
+    "no_period": true,
+    "extra_params": {
+      "avg": [
+        601660002,
+        544720002,
+        611500068
+      ],
+      "sum": [
+        603080002,
+        587530063
+      ]
+    },
+    "page": "dashboard",
     "tabs": {
       "overview": {
         "rows": [
           [
             {
               "type": "card",
-              "title": "Health care facilities reporting",
+              "title": "Feacal matter transported to the treatment plant",
+              "calc": "percent",
+              "path": "data.main type of sanitation.onsite sanitation"
+            },
+            {
+              "type": "card",
+              "title": "Feacal matter reaching treatment plants which is treated to standard",
+              "calc": "avg",
+              "suffix": "%",
+              "path": "data.average.601660002"
+            },
+            {
+              "type": "card",
+              "title": "Improved piped to sewers which Reach treatment plants",
+              "calc": "avg",
+              "suffix": "%",
+              "path": "data.average.544720002"
+            },
+            {
+              "type": "card",
+              "title": "Waste water treated to standards",
+              "calc": "avg",
+              "suffix": "%",
+              "path": "data.average.611500068"
+            }
+          ],
+          [
+            {
+              "type": "maps",
+              "title": "Main type of sanitation management",
+              "calc": "default",
+              "path": "data.main type of sanitation.onsite sanitation",
+              "span": 24
+            }
+          ],
+          [
+            {
+              "type": "chart",
+              "chartType": "PIE",
+              "title": "% of households with onsite sanitation facilities",
+              "calc": "jmp",
+              "span": 8,
+              "path": "data.main type of sanitation"
+            },
+            {
+              "type": "chart",
+              "title": "Main type of sanitation management",
+              "calc": "jmp",
+              "span": 16,
+              "path": "data.sum.603080002"
+            }
+          ],
+          [
+            {
+              "type": "chart",
+              "chartType": "PIE",
+              "title": "% Feacal matter transported to the treatment plant",
+              "calc": "jmp",
+              "span": 8,
+              "path": "data.sludge transported"
+            },
+            {
+              "type": "chart",
+              "title": "How feacal matter/sludge transported to the treatment plant",
+              "calc": "jmp",
+              "span": 16,
+              "path": "data.sum.587530063"
+            }
+          ]
+        ]
+      }
+    }
+  },
+  {
+    "name": "Health Facilities Data",
+    "form_id": 533560002,
+    "page": "dashboard",
+    "tabs": {
+      "overview": {
+        "rows": [
+          [
+            {
+              "type": "card",
+              "title": "Number of Health care facilities reporting",
               "calc": "sum",
               "path": "total",
-              "span": 6,
               "icon": "health-facilities.svg",
               "color": "#BFD5FF"
             },
             {
               "type": "card",
-              "title": "##administration_level## reporting",
+              "title": "Number of ##administration_level## reporting",
               "calc": "count",
               "path": "length",
-              "span": 6,
-              "icon": "administrative-unit.svg",
+              "icon": "counties.svg",
               "color": "#FFDBBF"
             },
             {
               "type": "card",
-              "title": "Health care facilities with basic sanitation facilities",
+              "title": "% of Health care facilities with basic sanitation facilities",
               "calc": "percent",
               "path": "data.sanitation service level.basic",
-              "span": 6,
               "icon": "sanitation.svg",
               "color": "#FFF8BF"
             },
             {
               "type": "card",
-              "title": "Health care facilities with basic hand hygiene facilities",
+              "title": "% of Health care facilities with basic hand hygiene facilities",
               "calc": "percent",
               "path": "data.hygiene (hand washing) service level.basic",
-              "span": 6,
               "icon": "hand-hygiene.svg",
               "color": "#BFF7FF"
             }
@@ -228,7 +307,7 @@
           [
             {
               "type": "maps",
-              "title": "Counts of datapoint",
+              "title": "Count of Health care facilities data submitted",
               "calc": "default",
               "path": "total",
               "span": 24
@@ -237,19 +316,10 @@
           [
             {
               "type": "chart",
-              "title": "Trend charts",
-              "calc": "sum",
-              "span": 12,
-              "api": "/url"
-            },
-            {
-              "type": "table",
-              "title": null,
-              "columns": [
-                { "title": "Administration", "path": "loc" },
-                { "title": "Total Data", "path": "total" }
-              ],
-              "span": 12
+              "title": "Trend of Health care facilities datapoint submission",
+              "selector": "period",
+              "span": 24,
+              "path": "total"
             }
           ]
         ]
@@ -259,37 +329,33 @@
           [
             {
               "type": "card",
-              "title": "HCF with No Service sanitation facilities",
+              "title": "% of HCFs with No Service sanitation facilities",
               "calc": "percent",
-              "path": "data.sanitation service level.no service",
-              "span": 6
+              "path": "data.sanitation service level.no service"
             },
             {
               "type": "card",
-              "title": "HCF with No Service hygiene facilities ",
+              "title": "% of HCFs with No Service hygiene facilities ",
               "calc": "percent",
-              "path": "data.hygiene (hand washing) service level.no service",
-              "span": 6
+              "path": "data.hygiene (hand washing) service level.no service"
             },
             {
               "type": "card",
-              "title": "HCF with No service Health care waste management",
+              "title": "% of HCFs with No service Health care waste management",
               "calc": "percent",
-              "path": "data.health care waste management service level.no service",
-              "span": 6
+              "path": "data.health care waste management service level.no service"
             },
             {
               "type": "card",
-              "title": "HCF with No Service Environmental cleaning protocols",
+              "title": "% of HCFs with No Service Environmental cleaning protocols",
               "calc": "percent",
-              "path": "data.environmental cleaning service level.no service",
-              "span": 6
+              "path": "data.environmental cleaning service level.no service"
             }
           ],
           [
             {
               "type": "maps",
-              "title": "% HCF with basic sanitation level",
+              "title": "% HCFs at basic sanitation service level",
               "calc": "percent",
               "path": "data.sanitation service level.basic",
               "span": 24
@@ -298,14 +364,14 @@
           [
             {
               "type": "chart",
-              "title": "Sanitation service level",
+              "title": "Sanitation service levels",
               "calc": "jmp",
               "path": "data.sanitation service level",
               "span": 12
             },
             {
               "type": "chart",
-              "title": "Hygiene service level",
+              "title": "Hygiene service levels",
               "calc": "jmp",
               "path": "data.hygiene (hand washing) service level",
               "span": 12
@@ -314,14 +380,14 @@
           [
             {
               "type": "chart",
-              "title": "Health care waste management",
+              "title": "Health care waste management service levels",
               "calc": "jmp",
               "path": "data.health care waste management service level",
               "span": 12
             },
             {
               "type": "chart",
-              "title": "Environmental cleaning protocol",
+              "title": "Environmental cleaning protocol service levels",
               "calc": "jmp",
               "path": "data.environmental cleaning service level",
               "span": 12
@@ -329,118 +395,83 @@
           ],
           [
             {
-              "type": "table",
-              "title": "Table sanitation service level",
-              "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
-                { "title": "Count of HHs", "path": "total", "fixed": "left" },
-                {
-                  "title": "Count by service level",
-                  "children": true,
-                  "children_path": "data.sanitation service level"
-                }
-              ],
-              "span": 12
+              "type": "chart",
+              "title": "Sanition Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.sanitation service level"
             },
             {
-              "type": "table",
-              "title": "Table hygiene service level",
-              "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
-                { "title": "Count of HHs", "path": "total", "fixed": "left" },
-                {
-                  "title": "Count by service level",
-                  "children": true,
-                  "children_path": "data.hygiene (hand washing) service level"
-                }
-              ],
-              "span": 12
-            }
-          ],
-          [
-            {
-              "type": "table",
-              "title": "Table waste management service level",
-              "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
-                { "title": "Count of HHs", "path": "total", "fixed": "left" },
-                {
-                  "title": "Count by service level",
-                  "children": true,
-                  "children_path": "data.health care waste management service level"
-                }
-              ],
-              "span": 12
+              "type": "chart",
+              "title": "Hygiene Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.hygiene (hand washing) service level"
             },
             {
-              "type": "table",
-              "title": "Table environmental cleaning protocol service level",
-              "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
-                { "title": "Count of HHs", "path": "total", "fixed": "left" },
-                {
-                  "title": "Count by service level",
-                  "children": true,
-                  "children_path": "data.environmental cleaning service level"
-                }
-              ],
-              "span": 12
+              "type": "chart",
+              "title": "Waste Management Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.health care waste management service level"
+            },
+            {
+              "type": "chart",
+              "title": "Environmental Cleaning Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.environmental cleaning service level"
             }
           ]
         ]
-      },
-      "rush": {},
-      "data_cube": {}
+      }
     }
   },
   {
+    "name": "WASH in Schools Data",
     "form_id": 563350033,
+    "page": "dashboard",
     "tabs": {
       "overview": {
         "rows": [
           [
             {
               "type": "card",
-              "title": "Schools reporting",
+              "title": "Number of Schools reporting",
               "calc": "sum",
               "path": "total",
-              "span": 5,
               "icon": "schools.svg",
               "color": "#99BF9A"
             },
             {
               "type": "card",
-              "title": "##administration_level## reporting",
+              "title": "Number of ##administration_level## reporting",
               "calc": "count",
               "path": "length",
-              "span": 5,
-              "icon": "administrative-unit.svg",
+              "icon": "counties.svg",
               "color": "#FFDBBF"
             },
             {
               "type": "card",
-              "title": "Schools with basic water source",
+              "title": "% of Schools with basic water source",
               "calc": "percent",
               "path": null,
-              "span": 4,
-              "icon": null,
+              "icon": "basic-water-source.svg",
               "color": null
             },
             {
               "type": "card",
-              "title": "Schools with basic sanitation facilities",
+              "title": "% of Schools with basic sanitation facilities",
               "calc": "percent",
               "path": "data.sanitation service level.basic",
-              "span": 5,
               "icon": "sanitation.svg",
               "color": "#FFF8BF"
             },
             {
               "type": "card",
-              "title": "Schools with basic hand hygiene facilities",
+              "title": "% of Schools with basic hand hygiene facilities",
               "calc": "percent",
               "path": "data.hygiene (handwashing) service level.basic",
-              "span": 5,
               "icon": "hand-hygiene.svg",
               "color": "#BFF7FF"
             }
@@ -448,7 +479,7 @@
           [
             {
               "type": "maps",
-              "title": "Counts of datapoint",
+              "title": "Count of Schools data submitted",
               "calc": "default",
               "path": "total",
               "span": 24
@@ -457,19 +488,10 @@
           [
             {
               "type": "chart",
-              "title": "Trend charts",
-              "calc": "sum",
-              "span": 12,
-              "api": "/url"
-            },
-            {
-              "type": "table",
-              "title": null,
-              "columns": [
-                { "title": "Administration", "path": "loc" },
-                { "title": "Total Data", "path": "total" }
-              ],
-              "span": 12
+              "title": "Trend of Schools datapoint submission",
+              "selector": "period",
+              "span": 24,
+              "path": "total"
             }
           ]
         ]
@@ -479,37 +501,33 @@
           [
             {
               "type": "card",
-              "title": "Schools with No Service sanitation facilities",
+              "title": "% of Schools with No Service sanitation facilities",
               "calc": "percent",
-              "path": "data.sanitation service level.no service",
-              "span": 6
+              "path": "data.sanitation service level.no service"
             },
             {
               "type": "card",
-              "title": "Schools with No Service hygiene facilities ",
+              "title": "% of Schools with No Service hygiene facilities ",
               "calc": "percent",
-              "path": "data.hygiene (handwashing) service level.no service",
-              "span": 6
+              "path": "data.hygiene (handwashing) service level.no service"
             },
             {
               "type": "card",
-              "title": "Schools with No service drinking water service level",
+              "title": "% of Schools with No service drinking water service level",
               "calc": "percent",
-              "path": "data.drinking water service level.no service",
-              "span": 6
+              "path": "data.drinking water service level.no service"
             },
             {
               "type": "card",
-              "title": "Schools with No Service enviromental cleaning service level",
+              "title": "% of Schools with No Service enviromental cleaning service level",
               "calc": "percent",
-              "path": "data.enviromental cleaning service level.no service",
-              "span": 6
+              "path": "data.enviromental cleaning service level.no service"
             }
           ],
           [
             {
               "type": "maps",
-              "title": "% Schools with basic sanitation level",
+              "title": "% Schools at basic sanitation level",
               "calc": "percent",
               "path": "data.sanitation service level.basic",
               "span": 24
@@ -518,14 +536,14 @@
           [
             {
               "type": "chart",
-              "title": "Sanitation service level",
+              "title": "Sanitation service levels",
               "calc": "jmp",
               "path": "data.sanitation service level",
               "span": 12
             },
             {
               "type": "chart",
-              "title": "Hygiene service level",
+              "title": "Hygiene service levels",
               "calc": "jmp",
               "path": "data.hygiene (handwashing) service level",
               "span": 12
@@ -534,99 +552,230 @@
           [
             {
               "type": "chart",
-              "title": "Drinking water service level",
+              "title": "Drinking water service levels",
               "calc": "jmp",
               "path": "data.drinking water service level",
               "span": 12
             },
             {
               "type": "chart",
-              "title": "Environmental cleaning service level",
+              "title": "Environmental cleaning service levels",
               "calc": "jmp",
               "path": "data.enviromental cleaning service level",
               "span": 12
+            },
+            {
+              "type": "chart",
+              "title": "Hygiene (MHM) service levels",
+              "calc": "jmp",
+              "path": "data.hygiene (mhm) service level",
+              "span": 24
+            }
+          ],
+          [
+            {
+              "type": "chart",
+              "title": "Sanition Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.sanitation service level"
+            },
+            {
+              "type": "chart",
+              "title": "Hygiene Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.hygiene (handwashing) service level"
+            },
+            {
+              "type": "chart",
+              "title": "Drinking Water Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.drinking water service level"
+            },
+            {
+              "type": "chart",
+              "title": "Environmental Cleaning Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.enviromental cleaning service level"
+            },
+            {
+              "type": "chart",
+              "title": "Hygiene (MHM) Service Level by Period",
+              "selector": "period",
+              "span": 24,
+              "path": "jmp.hygiene (mhm) service level"
+            }
+          ]
+        ]
+      }
+    }
+  },
+  {
+    "name": "Governance and Policy Data",
+    "form_id": 567490004,
+    "params": {
+      "counties_questions": [
+        589570112,
+        583720152,
+        594410065,
+        595980103,
+        594440125
+      ],
+      "national_questions": [
+        594410065,
+        595980103,
+        594440125
+      ]
+    },
+    "page": "glaas",
+    "tabs": {
+      "overview": {
+        "rows": [
+          [
+            {
+              "type": "card",
+              "title": "Counties Reporting",
+              "calc": "count",
+              "from": "counties",
+              "path": "length",
+              "icon": "counties.svg"
+            },
+            {
+              "type": "card",
+              "title": "Established WASH Policy",
+              "calc": "percent",
+              "from": "counties",
+              "path": "589570112.Yes",
+              "icon": null
+            },
+            {
+              "type": "card",
+              "title": "Allocated S&H County Budget",
+              "calc": "sum",
+              "from": "counties",
+              "path": 594410065,
+              "icon": null
+            },
+            {
+              "type": "card",
+              "title": "Allocated S&H National Budget",
+              "calc": "tail",
+              "from": "national",
+              "path": 594410065,
+              "icon": null
+            },
+            {
+              "type": "card",
+              "title": "Utilised S&H County Budget",
+              "calc": "sum",
+              "from": "counties",
+              "path": 595980103,
+              "icon": null
+            },
+            {
+              "type": "card",
+              "title": "Utilised S&H National Budget",
+              "calc": "tail",
+              "from": "national",
+              "path": 595980103,
+              "icon": null
             }
           ],
           [
             {
               "type": "table",
-              "title": "Table sanitation service level",
+              "title": "County Budget Allocation",
+              "calc": "sum",
+              "from": "counties",
               "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
                 {
-                  "title": "Count of Schools",
-                  "path": "total",
+                  "title": "Administration",
+                  "path": "loc",
                   "fixed": "left"
                 },
                 {
-                  "title": "Count by service level",
-                  "children": true,
-                  "children_path": "data.sanitation service level"
-                }
-              ],
-              "span": 12
-            },
-            {
-              "type": "table",
-              "title": "Table hygiene service level",
-              "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
-                {
-                  "title": "Count of Schools",
-                  "path": "total",
-                  "fixed": "left"
+                  "title": "Budget Allocated",
+                  "path": 594410065
                 },
                 {
-                  "title": "Count by service level",
-                  "children": true,
-                  "children_path": "data.hygiene (handwashing) service level"
+                  "title": "Budget Utilised",
+                  "path": 595980103
                 }
               ],
-              "span": 12
-            }
-          ],
-          [
-            {
-              "type": "table",
-              "title": "Table drinking water service level",
-              "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
-                {
-                  "title": "Count of Schools",
-                  "path": "total",
-                  "fixed": "left"
-                },
-                {
-                  "title": "Count by service level",
-                  "children": true,
-                  "children_path": "data.drinking water service level"
-                }
-              ],
-              "span": 12
-            },
-            {
-              "type": "table",
-              "title": "Table environmental cleaning service level",
-              "columns": [
-                { "title": "Administration", "path": "loc", "fixed": "left" },
-                {
-                  "title": "Count of Schools",
-                  "path": "total",
-                  "fixed": "left"
-                },
-                {
-                  "title": "Count by service level",
-                  "children": true,
-                  "children_path": "data.enviromental cleaning service level"
-                }
-              ],
-              "span": 12
+              "span": 24
             }
           ]
         ]
       },
-      "rush": {},
-      "data_cube": {}
+      "glaas": {
+        "rows": [
+          [
+            {
+              "type": "card",
+              "title": "Established S&H Policy",
+              "calc": "percent",
+              "from": "counties",
+              "path": "589570112.Yes",
+              "icon": null
+            },
+            {
+              "type": "card",
+              "title": "% of Counties with S&H Roadmaps",
+              "calc": "percent",
+              "from": "counties",
+              "path": "583720152.Yes",
+              "icon": null
+            },
+            {
+              "type": "card",
+              "title": "Allocated S&H County Budget",
+              "calc": "sum",
+              "from": "counties",
+              "path": 594410065,
+              "icon": null
+            },
+            {
+              "type": "card",
+              "title": "Utilised S&H County Budget",
+              "calc": "sum",
+              "from": "counties",
+              "path": 595980103,
+              "icon": null
+            },
+            {
+              "type": "card",
+              "title": "S&H Partners",
+              "calc": "sum",
+              "from": "counties",
+              "path": 594440125,
+              "icon": null
+            }
+          ],
+          [
+            {
+              "type": "maps",
+              "title": "S&H Partners",
+              "from": "counties",
+              "calc": "default",
+              "path": 594440125,
+              "span": 24
+            }
+          ],
+          [
+            {
+              "type": "chart",
+              "title": "Sanitation and Hygiene Roadmap",
+              "from": "counties",
+              "calc": "percent",
+              "path": 583720152,
+              "span": 24
+            }
+          ]
+        ]
+      }
     }
   }
 ]

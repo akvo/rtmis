@@ -1,12 +1,12 @@
 # Create your views here.
 from math import ceil
 from collections import defaultdict
-from datetime import datetime, timedelta
+from datetime import datetime, date, timedelta
 from wsgiref.util import FileWrapper
 from django.utils import timezone
 
 from django.contrib.postgres.aggregates import StringAgg
-from django.db.models import Count, TextField, Value, F, Sum
+from django.db.models import Count, TextField, Value, F, Sum, Avg
 from django.db.models.functions import Cast, Coalesce
 from django.http import HttpResponse
 from drf_spectacular.types import OpenApiTypes
@@ -43,22 +43,26 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListMapOverviewDataPointRequestSerializer
 from api.v1.v1_data.functions import refresh_materialized_data, \
     get_cache, create_cache, filter_by_criteria, \
-    get_questions_options_from_params, get_advance_filter_data_ids
+    get_questions_options_from_params, get_advance_filter_data_ids, \
+    transform_glass_answer
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, Questions, \
-        ViewJMPCriteria
+    ViewJMPCriteria
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
 from rtmis.settings import REST_FRAMEWORK
-from utils.custom_permissions import IsAdmin, IsApprover, IsSubmitter
+from utils.custom_permissions import IsAdmin, IsApprover, \
+        IsSubmitter, PublicGet
 from utils.custom_serializer_fields import validate_serializers_message
 from utils.default_serializers import DefaultResponseSerializer
 from utils.export_form import generate_excel
 
+period_length = 60*15
+
 
 class FormDataAddListView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [PublicGet]
 
     @extend_schema(responses={
         (200, 'application/json'):
@@ -286,7 +290,7 @@ class FormDataAddListView(APIView):
 
 
 class DataAnswerDetailDeleteView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [PublicGet]
 
     @extend_schema(
         responses={200: ListDataAnswerSerializer(many=True)},
@@ -1121,6 +1125,10 @@ def get_last_update_data_point(request, version, form_id):
     form = get_object_or_404(Forms, pk=form_id)
     data = FormData.objects.filter(
         form=form).annotate(last_update=Coalesce('updated', 'created')).first()
+    if not data:
+        return Response(
+                {'last_update': datetime.now().strftime("%d/%m/%Y")},
+                status=status.HTTP_200_OK)
     last_update = datetime.strftime(data.last_update, "%d/%m/%Y")
     return Response({'last_update': last_update},
                     status=status.HTTP_200_OK)
@@ -1154,6 +1162,16 @@ def get_last_update_data_point(request, version, form_id):
             name='options',
             required=False,
             type={'type': 'array', 'items': {'type': 'string'}},
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='sum',
+            required=False,
+            type={'type': 'array', 'items': {'type': 'number'}},
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='avg',
+            required=False,
+            type={'type': 'array', 'items': {'type': 'number'}},
             location=OpenApiParameter.QUERY)],
     tags=['JMP'],
     summary='To get JMP data by location')
@@ -1161,6 +1179,8 @@ def get_last_update_data_point(request, version, form_id):
 def get_jmp_data(request, version, form_id):
     form = get_object_or_404(Forms, pk=form_id)
     administration = request.GET.get("administration")
+    adm_filter = get_object_or_404(
+        Administration, pk=administration)
     if not administration:
         administration = 1
     # Advance filter
@@ -1169,18 +1189,48 @@ def get_jmp_data(request, version, form_id):
         data_ids = get_advance_filter_data_ids(
             form_id=form_id, administration_id=administration,
             options=request.GET.getlist('options'))
-    administration = Administration.objects.filter(
-            parent_id=administration).all()
+    # Check administration filter level
+    administration_obj = Administration.objects
+    if adm_filter.level_id < 4:
+        administration = administration_obj.filter(
+            parent_id=administration)
+    else:
+        administration = administration_obj.filter(pk=adm_filter.pk)
+    administration = administration.all()
     jmp_data = []
-    for adm in administration:
-        temp = defaultdict(dict)
-        adm_path = '{0}{1}.'.format(
-                adm.path, adm.id)
+
+    # JMP Criteria
+    criteria_cache = f"jmp-criteria-{form.id}"
+    criteria = get_cache(criteria_cache)
+    if not criteria:
         criteria = ViewJMPCriteria.objects.filter(
                 form=form).distinct('name', 'level').all()
-        filter_total = {
-            'administration__path__startswith': adm_path,
-            'form': form}
+        create_cache(criteria_cache, criteria)
+
+    # Custom Criteria (SUM & AVG)
+    sums = []
+    opts = defaultdict(dict)
+    avgs = []
+    if request.GET.getlist("avg"):
+        avgs = Questions.objects.filter(
+                pk__in=request.GET.getlist("avg")).all()
+    if request.GET.getlist("sum"):
+        sums = Questions.objects.filter(
+                pk__in=request.GET.getlist("sum")).all()
+        for q in sums:
+            if q.type in [QuestionTypes.option, QuestionTypes.multiple_option]:
+                opts[q.id] = list(q.question_question_options.order_by(
+                    'order').values_list('name', flat=True))
+
+    for adm in administration:
+        temp = defaultdict(dict)
+        adm_path = '{0}{1}.'.format(adm.path, adm.id)
+        # if adm last level
+        filter_total = {'form': form}
+        if adm.level_id < 4:
+            filter_total.update({'administration__path__startswith': adm_path})
+        else:
+            filter_total.update({'administration': adm})
         if data_ids:
             filter_total.update({'pk__in': data_ids})
         total = FormData.objects.filter(**filter_total).count()
@@ -1188,27 +1238,299 @@ def get_jmp_data(request, version, form_id):
             for crt in criteria:
                 data = 0
                 if data_ids:
-                    matches = ViewJMPCriteria.objects.filter(
-                            form=form,
-                            name=crt.name,
-                            level=crt.level).count()
+                    # JMP Criteria
+                    matches_name = f"crt.{form.id}{crt.name}{crt.level}"
+                    matches = get_cache(matches_name)
+                    if not matches:
+                        matches = ViewJMPCriteria.objects.filter(
+                                form=form,
+                                name=crt.name,
+                                level=crt.level).count()
+                        create_cache(matches_name, matches)
+
                     data = ViewJMPData.objects.filter(
-                            data_id__in=data_ids,
-                            path__startswith=adm_path,
-                            name=crt.name,
-                            level=crt.level,
-                            matches=matches,
-                            form=form).count()
+                        data_id__in=data_ids,
+                        path__startswith=adm_path,
+                        name=crt.name,
+                        level=crt.level,
+                        matches=matches,
+                        form=form).count()
                 else:
                     data = ViewJMPCount.objects.filter(
-                            path__startswith=adm_path,
-                            name=crt.name,
-                            level=crt.level,
-                            form=form).aggregate(Sum('total'))
+                        path__startswith=adm_path,
+                        name=crt.name,
+                        level=crt.level,
+                        form=form).aggregate(Sum('total'))
                     data = data.get("total__sum")
                 temp[crt.name][crt.level] = data or 0
+            for q in avgs:
+                answer = Answers.objects.filter(
+                    data__administration__path__startswith=adm_path,
+                    question=q).exclude(
+                    value__isnull=True).aggregate(
+                    avg=Avg('value'))
+                temp['average'][q.id] = answer['avg']
+            for q in sums:
+                if not opts.get(q.id):
+                    answer = Answers.objects.filter(
+                        data__administration__path__startswith=adm_path,
+                        question=q).exclude(
+                        value__isnull=True).aggregate(
+                        sum=Sum('value'))
+                    temp['sum'][q.id] = answer['sum']
+                else:
+                    ov = {}
+                    for o in opts.get(q.id):
+                        answer = Answers.objects.filter(
+                            data__administration__path__startswith=adm_path,
+                            options__contains=o,
+                            question=q).aggregate(
+                            count=Count('id'))
+                        ov.update({o: answer["count"]})
+                    temp['sum'][q.id] = ov
             jmp_data.append({
                 "loc": adm.name,
                 "data": temp,
                 "total": total})
     return Response(jmp_data, status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    responses={(200, 'application/json'): inline_serializer(
+        'Submission Period', fields={
+            'name': serializers.CharField(),
+            'value': serializers.IntegerField(),
+            'total': serializers.IntegerField(),
+        }, many=True)},
+    examples=[
+         OpenApiExample(
+            'SubmissionPeriodExample',
+            value=[{
+                'name': "2020 Jan",
+                'value': 50,
+                'total': 50,
+                'jmp': [{
+                    "drinking water service level": {
+                        "basic": 10,
+                        "limited": 20
+                    }
+                }],
+                }, {
+                'name': "2020 Jan",
+                'value': 50,
+                'total': 100,
+                'jmp': [{
+                    "drinking water service level": {
+                        "basic": 10,
+                        "limited": 20
+                    }
+                }]
+            }])
+    ],
+    parameters=[
+        OpenApiParameter(
+            name='administration',
+            required=False,
+            type=OpenApiTypes.NUMBER,
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='options',
+            required=False,
+            type={'type': 'array', 'items': {'type': 'string'}},
+            location=OpenApiParameter.QUERY)],
+    tags=['Visualisation'],
+    summary='To get data submission period count')
+@api_view(['GET'])
+def get_period_submission(request, version, form_id):
+    form = get_object_or_404(Forms, pk=form_id)
+    administration = request.GET.get("administration")
+    if not administration:
+        administration = 1
+    adm = get_object_or_404(Administration, pk=administration)
+    # Advanced filter
+    data_ids = None
+    if request.GET.getlist('options'):
+        data_ids = get_advance_filter_data_ids(
+                form_id=form_id, administration_id=administration,
+                options=request.GET.getlist('options'))
+
+    # arbitrary starting dates
+    first_fd = FormData.objects.filter(form=form).order_by('created').first()
+    if not first_fd:
+        return Response([], status.HTTP_200_OK)
+    year = first_fd.created.year
+    month = first_fd.created.month
+    total = 0
+
+    cyear = date.today().year
+    cmonth = date.today().month
+
+    adm_path = f"{adm.id}."
+    if adm.path:
+        adm_path = '{0}{1}.'.format(adm.path, adm.id)
+    fd = FormData.objects.filter(
+            form=form,
+            administration__path__startswith=adm_path)
+    if data_ids:
+        fd = FormData.objects.filter(
+                pk__in=data_ids,
+                administration__path__startswith=adm_path)
+
+    # JMP Criteria
+    criteria_cache = f"jmp-criteria-{form.id}"
+    criteria = get_cache(criteria_cache)
+    if not criteria:
+        criteria = ViewJMPCriteria.objects.filter(
+                form=form).distinct('name', 'level').all()
+        create_cache(criteria_cache, criteria)
+
+    data = []
+    while year <= cyear:
+        while (year < cyear and month <= 12) or (
+                year == cyear and month <= cmonth):
+            fdp = fd.filter(
+                    created__year=year,
+                    created__month=month)
+            fdp_ids = fdp.values_list('id', flat=True)
+            fdp = fdp.aggregate(Count('id'))
+            jmp_data = defaultdict(dict)
+            for crt in criteria:
+                # JMP Criteria
+                matches_name = f"crt.{form.id}{crt.name}{crt.level}"
+                matches = get_cache(matches_name)
+                if not matches:
+                    matches = ViewJMPCriteria.objects.filter(
+                            form=form,
+                            name=crt.name,
+                            level=crt.level).count()
+                    create_cache(matches_name, matches)
+
+                jmp = ViewJMPData.objects.filter(
+                        data_id__in=fdp_ids,
+                        data__created__year=year,
+                        data__created__month=month,
+                        name=crt.name,
+                        level=crt.level,
+                        matches=matches,
+                        form=form).count()
+                jmp_data[crt.name][crt.level] = jmp or 0
+            month_name = date(1900, month, 1).strftime('%B')
+            total += fdp['id__count']
+            data.append({
+                'name': f"{year} {month_name}",
+                'value': fdp['id__count'],
+                'total': total,
+                'jmp': jmp_data
+            })
+            month += 1
+        month = 1
+        year += 1
+    return Response(data, status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    responses={(200, 'application/json'): inline_serializer(
+        'ListGlaasData', fields={
+            'counties': serializers.ListField(),
+            'national': serializers.ListField(),
+        })},
+    examples=[
+        OpenApiExample(
+            'ListGlaasDataExample',
+            value=[{
+                'counties': [{
+                    'loc': 'Baringo',
+                    'qid': 'answer'
+                }],
+                'national': [{
+                    'year': '2022',
+                    'qid': 'answer'
+                }]
+            }])
+    ],
+    parameters=[
+        OpenApiParameter(
+            name='counties_questions',
+            required=True,
+            type={'type': 'array',
+                  'items': {'type': 'number'}},
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='national_questions',
+            required=True,
+            type={'type': 'array',
+                  'items': {'type': 'number'}},
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='options',
+            required=False,
+            type={'type': 'array', 'items': {'type': 'string'}},
+            location=OpenApiParameter.QUERY)],
+    tags=['Visualisation'],
+    summary='To get Glaas data')
+@api_view(['GET'])
+def get_glaas_data(request, version, form_id):
+    form = get_object_or_404(Forms, pk=form_id)
+    administration = Administration.objects.filter(
+        level_id=2).all()
+    questions = Questions.objects.filter(form=form)
+    form_datas = FormData.objects.filter(form=form)
+
+    # get counties data
+    counties_questions = questions.filter(
+        pk__in=request.GET.getlist('counties_questions')).all()
+    counties_data = []
+    # Advance filter
+    data_ids = None
+    if request.GET.getlist('options'):
+        data_ids = get_advance_filter_data_ids(
+            form_id=form_id,
+            administration_id=[adm.id for adm in administration],
+            options=request.GET.getlist('options'),
+            is_glaas=True)
+    for adm in administration:
+        # filter form data
+        filter_form_data_counties = {'administration_id': adm.id}
+        if data_ids:
+            filter_form_data_counties.update({'pk__in': data_ids})
+        form_data_ids = form_datas.filter(
+            **filter_form_data_counties).values_list('id', flat=True)
+        if not form_data_ids:
+            continue
+        temp = {'loc': adm.name}
+        temp = transform_glass_answer(
+            temp=temp, questions=counties_questions, data_ids=form_data_ids)
+        counties_data.append(temp)
+
+    # get national data
+    administration_id = 1
+    national_questions = questions.filter(
+        pk__in=request.GET.getlist('national_questions')).all()
+    national_data = []
+    # Advance filter
+    data_ids = None
+    if request.GET.getlist('options'):
+        data_ids = get_advance_filter_data_ids(
+            form_id=form_id, administration_id=[administration_id],
+            options=request.GET.getlist('options'), is_glaas=True)
+    # filter form data
+    filter_form_data_national = {'administration_id': administration_id}
+    if data_ids:
+        filter_form_data_national.update({'pk__in': data_ids})
+    form_data = form_datas.filter(**filter_form_data_national)
+    # arbitrary starting dates
+    first_fd = form_data.order_by('created').first()
+    if first_fd:
+        year = first_fd.created.year
+        cyear = date.today().year
+        while year <= cyear:
+            form_data_ids = form_data.filter(
+                created__year=year).values_list('id', flat=True)
+            temp = {'year': year}
+            temp = transform_glass_answer(
+                temp=temp, questions=national_questions,
+                data_ids=form_data_ids)
+            national_data.append(temp)
+            year += 1
+    return Response({'counties': counties_data, 'national': national_data},
+                    status=status.HTTP_200_OK)
