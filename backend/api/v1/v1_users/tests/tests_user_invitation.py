@@ -177,6 +177,19 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(add_response.status_code, 200)
         self.assertEqual(add_response.json(),
                          {'message': 'User updated successfully'})
+        get_response = self.client.get("/api/v1/user/{0}".format(fl[0]['id']),
+                                       content_type='application/json',
+                                       **header)
+        self.assertEqual(get_response.status_code, 200)
+        responses = get_response.json()
+        self.assertEqual([
+            'first_name', 'last_name', 'email', 'administration',
+            'organisation', 'trained', 'role', 'phone_number', 'designation',
+            'forms', 'approval_assignment', 'pending_approval', 'data',
+            'pending_batch'
+        ], list(responses))
+        self.assertEqual(responses["forms"],
+                         [{'id': 2, 'name': 'Test Form 2'}])
         edit_payload["forms"] = [1, 2]
         add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
                                        edit_payload,
