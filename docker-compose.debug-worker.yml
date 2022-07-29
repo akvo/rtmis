@@ -1,0 +1,5 @@
+---
+version: "3.9"
+services:
+  worker:
+    command: ["./debug_worker.sh"]
