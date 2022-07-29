@@ -1231,6 +1231,7 @@ def get_jmp_data(request, version, form_id):
             filter_total.update({'administration__path__startswith': adm_path})
         else:
             filter_total.update({'administration': adm})
+            adm_path = adm.path  # use parent adm path if adm lowest level/ward
         if data_ids:
             filter_total.update({'pk__in': data_ids})
         total = FormData.objects.filter(**filter_total).count()
