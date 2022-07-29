@@ -176,7 +176,10 @@
             "table",
             "chart"
           ],
-          "options": null
+          "options": null,
+          "rule": {
+            "max": 5000.0
+          }
         },
         {
           "id": 543080033,
@@ -190,7 +193,10 @@
             "table",
             "chart"
           ],
-          "options": null
+          "options": null,
+          "rule": {
+            "max": 5000.0
+          }
         },
         {
           "id": 539710035,
