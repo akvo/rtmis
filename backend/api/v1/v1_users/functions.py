@@ -1,6 +1,7 @@
 from django.utils import timezone
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_forms.models import FormApprovalAssignment
+from api.v1.v1_data.models import PendingDataBatch
 
 
 def check_unique_user(role):
@@ -15,12 +16,43 @@ def check_form_approval_assigned(role, forms, administration, user=None):
         return False
     # Check if form id x in y administration has approver assignment
     # send a message to FE 403
-    form_approval_assignment = FormApprovalAssignment.objects.filter(
+    form_approval_assignment_obj = FormApprovalAssignment.objects
+    form_approval_assignment = form_approval_assignment_obj.filter(
         administration=administration)
     if not user:
         form_approval_assignment = form_approval_assignment.filter(
             form__in=forms)
     if user:
+        # TODO NOTES::to delete
+        # CASES
+        # if user has assigned as approver on approver tree
+        # then the administration of that user updated / changed
+        # we will need to do?
+        # ==========================================================
+        # SOLUTION
+        # check updated user by prev administration to approval tree
+        # if any, delete old approval tree then create new
+        # but what happen with the pending data approver ?
+
+        # if administration updated
+        if user.user_access.administration_id != administration.id:
+            # check approver tree with prev administration and prev forms
+            # if any, delete previous approver tree
+            prev_approval_assignment = form_approval_assignment_obj.filter(
+                administration_id=user.user_access.administration_id,
+                form_id__in=[uf.form_id for uf in user.user_form.all()],
+                user=user)
+            if prev_approval_assignment.count():
+                prev_approval_assignment.delete()
+                # check pending batch approval for prev user
+                prev_pending_batch = PendingDataBatch.objects.filter(
+                    administration_id=user.user_access.administration_id,
+                    form_id__in=[uf.form_id for uf in user.user_form.all()],
+                    approved=False).values_list('id', flat=True)
+                print('adm', user.user_access.administration_id,
+                      'forms', [uf.form_id for uf in user.user_form.all()],
+                      'pending bath', prev_pending_batch)
+
         # check if updated user already have form assigned
         form_assigned = form_approval_assignment.filter(
             user=user).distinct('form').values_list('form_id', flat=True)
