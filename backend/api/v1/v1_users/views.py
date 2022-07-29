@@ -434,6 +434,10 @@ def list_users(request, version):
     the_past = timezone.now() - datetime.timedelta(days=10 * 365)
     # also filter soft deletes
     queryset = SystemUser.objects.filter(deleted_at=None, **filter_data)
+    # if not super admin, don't include logged in user role to list
+    if request.user.user_access.role != UserRoleTypes.super_admin:
+        queryset = queryset.filter(
+            user_access__role__gt=request.user.user_access.role)
     # filter by email or fullname
     if serializer.validated_data.get('search'):
         search = serializer.validated_data.get('search')
