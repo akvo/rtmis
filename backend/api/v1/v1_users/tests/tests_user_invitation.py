@@ -192,6 +192,16 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(add_response.status_code, 200)
         self.assertEqual(add_response.json(),
                          {'message': 'User updated successfully'})
+        # change administration
+        edit_payload["administration"] = 3
+        add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
+                                       edit_payload,
+                                       content_type='application/json',
+                                       **header)
+        self.assertEqual(add_response.status_code, 200)
+        self.assertEqual(add_response.json(),
+                         {'message': 'User updated successfully'})
+
         get_response = self.client.get("/api/v1/user/{0}".format(fl[0]['id']),
                                        content_type='application/json',
                                        **header)
