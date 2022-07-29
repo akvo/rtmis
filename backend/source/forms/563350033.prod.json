@@ -18,23 +18,11 @@
           "options": null
         },
         {
-          "id": 5633500331,
-          "meta": false,
-          "question": "Organisation",
-          "name": null,
-          "order": 2,
-          "required": true,
-          "type": "cascade",
-          "api": {
-            "endpoint": "/api/v1/organisations?attributes=2"
-          }
-        },
-        {
           "id": 543080040,
-          "meta": true,
+          "meta": false,
           "question": "Take the GPS location",
           "name": null,
-          "order": 3,
+          "order": 2,
           "required": false,
           "type": "geo",
           "attributes": [
@@ -47,7 +35,7 @@
           "meta": true,
           "question": "Location",
           "name": null,
-          "order": 4,
+          "order": 3,
           "required": true,
           "type": "administration",
           "attributes": [
@@ -61,7 +49,7 @@
           "meta": false,
           "question": "Is the school in an urban, peri-urban or rural setup?",
           "name": "Whether Urban, Peri Urban or Rural",
-          "order": 5,
+          "order": 4,
           "required": true,
           "type": "option",
           "attributes": [
@@ -84,7 +72,7 @@
           "meta": true,
           "question": "School name",
           "name": null,
-          "order": 6,
+          "order": 5,
           "required": true,
           "type": "text",
           "attributes": [
@@ -97,7 +85,7 @@
           "meta": true,
           "question": "School ministry of education code",
           "name": null,
-          "order": 7,
+          "order": 6,
           "required": true,
           "type": "text",
           "attributes": [
@@ -110,7 +98,7 @@
           "meta": true,
           "question": "School level",
           "name": null,
-          "order": 8,
+          "order": 7,
           "required": true,
           "type": "option",
           "attributes": [
@@ -129,14 +117,17 @@
             {
               "name": "High/secondary school"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 592320051,
           "meta": false,
           "question": "Is the school Public or private?",
           "name": null,
-          "order": 9,
+          "order": 8,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -154,7 +145,7 @@
           "meta": false,
           "question": "What is the school category?",
           "name": null,
-          "order": 10,
+          "order": 9,
           "required": true,
           "type": "multiple_option",
           "attributes": [],
@@ -178,7 +169,7 @@
           "meta": false,
           "question": "Number of boys",
           "name": "# of boys",
-          "order": 11,
+          "order": 10,
           "required": true,
           "type": "number",
           "attributes": [
@@ -192,7 +183,7 @@
           "meta": false,
           "question": "Number of girls",
           "name": "# of girls",
-          "order": 12,
+          "order": 11,
           "required": true,
           "type": "number",
           "attributes": [
@@ -206,7 +197,7 @@
           "meta": false,
           "question": "Number of male staff",
           "name": "# of male staff",
-          "order": 13,
+          "order": 12,
           "required": true,
           "type": "number",
           "attributes": [
@@ -220,7 +211,7 @@
           "meta": false,
           "question": "Number of female staff",
           "name": "# of female staff",
-          "order": 14,
+          "order": 13,
           "required": true,
           "type": "number",
           "attributes": [
@@ -345,6 +336,9 @@
               "name": "Unimproved water source is assumed as clean"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660011,
@@ -442,6 +436,9 @@
               "name": "Students are not allowed to drink water in the school"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660013,
@@ -563,6 +560,9 @@
               "name": "Ultraviolet disinfection (with dedicated device)"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660012,
@@ -587,7 +587,7 @@
           ],
           "options": [
             {
-              "name": "Students don’t miss class for searching drinking water"
+              "name": "Students don\u2019t miss class for searching drinking water"
             },
             {
               "name": "Students can wash their hands/bodies"
@@ -602,9 +602,12 @@
               "name": "The water can be used for cleaning the toilet"
             },
             {
-              "name": "I don’t know"
+              "name": "I don\u2019t know"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         }
       ]
     },
@@ -862,18 +865,21 @@
               "name": "No problem"
             },
             {
-              "name": "Girls don’t feel comfortable to use common latrine"
+              "name": "Girls don\u2019t feel comfortable to use common latrine"
             },
             {
-              "name": "Boys don’t feel comfortable to use common latrine"
+              "name": "Boys don\u2019t feel comfortable to use common latrine"
             },
             {
-              "name": "Girls’ latrine is different from boys’ latrine"
+              "name": "Girls\u2019 latrine is different from boys\u2019 latrine"
             },
             {
               "name": "Boys tease girls when they see them in/around latrine"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660029,
@@ -906,6 +912,9 @@
               "name": "Only, when they get permission from the teachers"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660029,
@@ -948,24 +957,27 @@
           "attributes": [],
           "options": [
             {
-              "name": "I don’t use the school latrines because they are always locked"
+              "name": "I don\u2019t use the school latrines because they are always locked"
             },
             {
-              "name": "I don’t use the school latrines because they not clean option"
+              "name": "I don\u2019t use the school latrines because they not clean option"
             },
             {
-              "name": "I don’t use the school latrines because they have bad smell"
+              "name": "I don\u2019t use the school latrines because they have bad smell"
             },
             {
-              "name": "I don’t use the school latrines because they do not have doors/lockers"
+              "name": "I don\u2019t use the school latrines because they do not have doors/lockers"
             },
             {
-              "name": "I don’t use the school latrines because they are not sufficient"
+              "name": "I don\u2019t use the school latrines because they are not sufficient"
             },
             {
-              "name": "I don’t use school latrines because they are not safe for use"
+              "name": "I don\u2019t use school latrines because they are not safe for use"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 555460003,
@@ -1002,9 +1014,12 @@
               "name": "Avoids traveling to long distance"
             },
             {
-              "name": "I don’t know"
+              "name": "I don\u2019t know"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660029,
@@ -1035,6 +1050,9 @@
               "name": "No"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 601780052,
@@ -1070,6 +1088,9 @@
               "name": "Students become sick in the class"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 539710045,
@@ -1144,18 +1165,21 @@
           ],
           "options": [
             {
-              "name": "Girls don’t feel comfortable to use common latrine"
+              "name": "Girls don\u2019t feel comfortable to use common latrine"
             },
             {
-              "name": "Boys don’t feel comfortable to use common latrine"
+              "name": "Boys don\u2019t feel comfortable to use common latrine"
             },
             {
-              "name": "Girls’ latrine is different from boys’ latrine"
+              "name": "Girls\u2019 latrine is different from boys\u2019 latrine"
             },
             {
               "name": "Boys tease girls when they see them in/around latrine"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660027,
@@ -1405,6 +1429,9 @@
               "name": "Manual removal"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 539710038,
@@ -1506,6 +1533,9 @@
               "name": "School yard"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 539710052,
@@ -1580,9 +1610,12 @@
               "name": "With soap and water"
             },
             {
-              "name": "I don’t wash"
+              "name": "I don\u2019t wash"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 539710056,
@@ -1623,7 +1656,10 @@
             {
               "name": "After working on the field"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 539710053,
@@ -1728,7 +1764,10 @@
             {
               "name": "Soap"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 610930003,
@@ -1792,7 +1831,10 @@
             {
               "name": "They have pain"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 538000046,
@@ -1819,7 +1861,7 @@
         {
           "id": 538000049,
           "meta": false,
-          "question": "Are there covered bins for disposal of menstrual hygiene materials in girls’ toilets?",
+          "question": "Are there covered bins for disposal of menstrual hygiene materials in girls\u2019 toilets?",
           "name": "Covered bins in girls toilets",
           "order": 6,
           "required": true,
@@ -1916,7 +1958,7 @@
         {
           "id": 553480028,
           "meta": false,
-          "question": "You can use any place to excrete as long as people don’t see you.",
+          "question": "You can use any place to excrete as long as people don\u2019t see you.",
           "name": "Place to excrete",
           "order": 1,
           "required": true,
@@ -2051,7 +2093,10 @@
             {
               "name": "The waste spreads disease"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 553480034,
@@ -2085,7 +2130,10 @@
             {
               "name": "Thrown on open outside school"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 553480031,
@@ -2118,7 +2166,10 @@
             {
               "name": "Provide sanitation and hygiene education to students"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 545530057,

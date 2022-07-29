@@ -18,23 +18,11 @@
           "options": null
         },
         {
-          "id": 5335600021,
-          "meta": false,
-          "question": "Organisation",
-          "name": null,
-          "order": 2,
-          "required": true,
-          "type": "cascade",
-          "api": {
-            "endpoint": "/api/v1/organisations?attributes=2"
-          }
-        },
-        {
           "id": 547720002,
-          "meta": true,
+          "meta": false,
           "question": "Take the GPS location",
           "name": "Geolocation",
-          "order": 3,
+          "order": 2,
           "required": false,
           "type": "geo",
           "attributes": [
@@ -47,7 +35,7 @@
           "meta": true,
           "question": "Location",
           "name": null,
-          "order": 4,
+          "order": 3,
           "required": true,
           "type": "administration",
           "attributes": [
@@ -61,7 +49,7 @@
           "meta": false,
           "question": "Is the Health Care facility in an urban, peri-urban or rural setup?",
           "name": "Whether Urban, Peri Urban or Rural",
-          "order": 5,
+          "order": 4,
           "required": true,
           "type": "option",
           "attributes": [
@@ -84,7 +72,7 @@
           "meta": false,
           "question": "What is the name of the health care facility?",
           "name": "Health facility Name",
-          "order": 6,
+          "order": 5,
           "required": true,
           "type": "text",
           "attributes": [
@@ -97,7 +85,7 @@
           "meta": true,
           "question": "What is the health facility code?",
           "name": null,
-          "order": 7,
+          "order": 6,
           "required": true,
           "type": "text",
           "attributes": [],
@@ -108,7 +96,7 @@
           "meta": true,
           "question": "Level of the health care facility",
           "name": "Health facility level",
-          "order": 8,
+          "order": 7,
           "required": true,
           "type": "option",
           "attributes": [
@@ -138,7 +126,32 @@
             {
               "name": "I dont know"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
+        },
+        {
+          "id": 611820069,
+          "meta": false,
+          "question": "Approximately how many out patients do you serve in a day?",
+          "name": null,
+          "order": 8,
+          "required": true,
+          "type": "text",
+          "attributes": [],
+          "options": null
+        },
+        {
+          "id": 546020004,
+          "meta": false,
+          "question": "How many in patient beds does the health care facility have?",
+          "name": null,
+          "order": 9,
+          "required": true,
+          "type": "number",
+          "attributes": [],
+          "options": null
         }
       ]
     },
@@ -146,11 +159,29 @@
       "question_group": "Water",
       "questions": [
         {
+          "id": 605940002,
+          "meta": false,
+          "question": "Is water available at the health facility?",
+          "name": null,
+          "order": 1,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
           "id": 563310061,
           "meta": false,
-          "question": "What is the main water supply for the facility? (Tick one)",
+          "question": "What is the main water source for the health facility? (Tick one)",
           "name": "Main water supply",
-          "order": 1,
+          "order": 2,
           "required": true,
           "type": "option",
           "attributes": [
@@ -190,7 +221,15 @@
               "name": "Surface water (river/dam/lake/pond)"
             },
             {
-              "name": "No water source"
+              "name": "No Water facility"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 605940002,
+              "options": [
+                "Yes"
+              ]
             }
           ]
         },
@@ -236,7 +275,7 @@
         {
           "id": 563310064,
           "meta": true,
-          "question": "Is water available at all times and of sufficient quantity for all uses?",
+          "question": "Is water available at the health facility at all times?",
           "name": "Water supply availability (during the survey)",
           "order": 4,
           "required": true,
@@ -248,13 +287,28 @@
           ],
           "options": [
             {
-              "name": "No, available on average <5 days per week"
+              "name": "Yes"
             },
             {
-              "name": "No, Available on average more than 5 days per week or every day but not of quantity"
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 604160004,
+          "meta": false,
+          "question": "Is sufficient quantity of water available for all uses?",
+          "name": null,
+          "order": 5,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "No"
             },
             {
-              "name": "Yes, everyday and of sufficient quantity"
+              "name": "Yes"
             }
           ]
         },
@@ -263,7 +317,7 @@
           "meta": false,
           "question": "Is the water always available at the water source",
           "name": "Water is always availabe",
-          "order": 5,
+          "order": 6,
           "required": true,
           "type": "option",
           "attributes": [
@@ -285,7 +339,7 @@
           "meta": false,
           "question": "Is safe, clean water available from a tap or container",
           "name": null,
-          "order": 6,
+          "order": 7,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -304,13 +358,31 @@
       "question_group": "Sanitation",
       "questions": [
         {
+          "id": 611790061,
+          "meta": false,
+          "question": "Are there toilets at the health facility?",
+          "name": null,
+          "order": 1,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
           "id": 555370004,
           "meta": false,
           "question": "What type of toilets/latrines are at the facility for patients?",
           "name": "Type of toilets / latrines",
-          "order": 1,
+          "order": 2,
           "required": true,
-          "type": "option",
+          "type": "multiple_option",
           "attributes": [
             "advanced_filter",
             "table",
@@ -344,12 +416,20 @@
             {
               "name": "No toilet/latrine"
             }
+          ],
+          "dependency": [
+            {
+              "id": 611790061,
+              "options": [
+                "Yes"
+              ]
+            }
           ]
         },
         {
           "id": 530250002,
           "meta": false,
-          "question": "Are the toilets at the health facility useable (available, functional and private)?",
+          "question": "Are the toilets at the health facility useable (accessible, functional and private)?",
           "name": "Usablility of the toilets",
           "order": 3,
           "required": true,
@@ -372,29 +452,19 @@
         {
           "id": 555370007,
           "meta": false,
-          "question": "In your facility, are there ≥ 4 toilets or improved latrines available for outpatient settings or ≥ 1 per 20 users for inpatient settings?",
+          "question": "How many toilets are available at the outpatient department?",
           "name": "Number of usable toilets",
           "order": 4,
           "required": true,
-          "type": "option",
+          "type": "number",
           "attributes": [
             "table",
             "chart"
           ],
-          "options": [
-            {
-              "name": "No, not present"
-            },
-            {
-              "name": "present, but supplies are not reliably available"
-            },
-            {
-              "name": "Yes, with reliably available supplies"
-            }
-          ],
+          "options": null,
           "dependency": [
             {
-              "id": 530250002,
+              "id": 611790061,
               "options": [
                 "Yes"
               ]
@@ -472,7 +542,7 @@
         {
           "id": 555370006,
           "meta": false,
-          "question": "Are there toilets that are accessible for people with limited mobility?",
+          "question": "Are there toilets that are accessible for people with special needs and disabilities?",
           "name": "The toilets accessible for people with limited mobility",
           "order": 8,
           "required": true,
@@ -493,29 +563,11 @@
           ]
         },
         {
-          "id": 603540061,
-          "meta": false,
-          "question": "Is there at least one toilet or improved latrine that provides the means to manage menstrual hygiene needs?",
-          "name": null,
-          "order": 9,
-          "required": true,
-          "type": "option",
-          "attributes": [],
-          "options": [
-            {
-              "name": "Yes"
-            },
-            {
-              "name": "No"
-            }
-          ]
-        },
-        {
           "id": 585890004,
           "meta": false,
           "question": "Is there a cleaning roster displayed?",
           "name": null,
-          "order": 10,
+          "order": 9,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -571,13 +623,10 @@
           "attributes": [],
           "options": [
             {
-              "name": "Not present"
+              "name": "yes"
             },
             {
-              "name": "Present, Not functioning or no water or soap"
-            },
-            {
-              "name": "Yes"
+              "name": "No"
             }
           ]
         },
@@ -616,13 +665,10 @@
           "attributes": [],
           "options": [
             {
-              "name": "Not present"
+              "name": "Yes"
             },
             {
-              "name": "Stations present, but no water and/or soap or alcohol hand-rub solution."
-            },
-            {
-              "name": "Yes, available with water and/or soap or alcohol hand-rub solution."
+              "name": "No"
             }
           ]
         },
@@ -816,7 +862,7 @@
               "name": "No record of floors and surfaces being cleaned"
             },
             {
-              "name": "Record exists, but is not completed and signed by the cleaner only."
+              "name": "Record exists, but signed by the cleaner only."
             },
             {
               "name": "Yes, record completed and signed daily"
@@ -1025,7 +1071,7 @@
               "name": "Autoclaved"
             },
             {
-              "name": "Incinerated (two chamber, 850-1000 °C incinerator)"
+              "name": "Incinerated (two chamber, 850-1000 \u00b0C incinerator)"
             },
             {
               "name": "Incinerated (other)"
@@ -1048,7 +1094,10 @@
             {
               "name": "Not treated and added to general waste"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 541950005,
@@ -1067,7 +1116,7 @@
               "name": "Autoclaved"
             },
             {
-              "name": "Incinerated (two chamber, 850-1000 °C incinerator)"
+              "name": "Incinerated (two chamber, 850-1000 \u00b0C incinerator)"
             },
             {
               "name": "Incinerated (other)"
@@ -1090,7 +1139,10 @@
             {
               "name": "Not treated and added to general waste"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 541950010,
@@ -1244,7 +1296,7 @@
         {
           "id": 607260066,
           "meta": false,
-          "question": "Are staff handling waste vaccinated against, Hepatitis B,COVID-19 and Tetanus?",
+          "question": "Are staff handling waste vaccinated against Hepatitis B,COVID-19 and Tetanus?",
           "name": null,
           "order": 17,
           "required": true,
@@ -1273,7 +1325,7 @@
           "question": "Any general comments / concerns during the data collection?",
           "name": "General comments",
           "order": 1,
-          "required": true,
+          "required": false,
           "type": "text",
           "attributes": [
             "table"
