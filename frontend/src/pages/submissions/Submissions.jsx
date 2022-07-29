@@ -38,7 +38,7 @@ const Submissions = () => {
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(0);
   const [selectedRows, setSelectedRows] = useState([]);
-  const { selectedForm } = store.useState((state) => state);
+  const { selectedForm, user } = store.useState((state) => state);
   const [batchName, setBatchName] = useState("");
   const [comment, setComment] = useState("");
   const { language } = store.useState((s) => s);
@@ -110,20 +110,44 @@ const Submissions = () => {
   };
 
   const btnBatchSelected = useMemo(() => {
+    const handleOnClickBatchSelectedDataset = () => {
+      // check only for data entry role
+      if (user.role.id === 4) {
+        api.get(`form/check-approver/${selectedForm}`).then((res) => {
+          if (!res.data.count) {
+            notify({
+              type: "error",
+              message: text.batchNoApproverMessage,
+            });
+          } else {
+            setModalVisible(true);
+          }
+        });
+      } else {
+        setModalVisible(true);
+      }
+    };
     return (
       dataTab === "pending-submission" && (
         <Button
           type="primary"
-          onClick={() => {
-            setModalVisible(true);
-          }}
+          onClick={handleOnClickBatchSelectedDataset}
           disabled={!selectedRows.length && modalButton}
         >
           {text.batchSelectedDatasets}
         </Button>
       )
     );
-  }, [selectedRows, modalButton, text.batchSelectedDatasets, dataTab]);
+  }, [
+    selectedRows,
+    modalButton,
+    text.batchSelectedDatasets,
+    dataTab,
+    notify,
+    selectedForm,
+    text.batchNoApproverMessage,
+    user.role.id,
+  ]);
 
   const sendBatch = () => {
     setLoading(true);

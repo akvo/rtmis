@@ -52,3 +52,18 @@ class FormApprovalTestCase(TestCase):
             content_type='application/json',
             **header)
         self.assertEqual(200, response.status_code)
+
+        # check form approval endpoint
+        user = SystemUser.objects.filter(
+            user_access__role=UserRoleTypes.user).first()
+        user = RefreshToken.for_user(user)
+        token = user.access_token
+        header = {
+            'HTTP_AUTHORIZATION': f'Bearer {token}'
+        }
+        response = self.client.get(
+            '/api/v1/form/check-approver/1',
+            content_type='application/json',
+            **header)
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(list(response.json()), ['count'])
