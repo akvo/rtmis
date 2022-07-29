@@ -39,14 +39,14 @@ def validate_header_names(header, col, header_names):
     if "|" not in header:
         default.update({
             "error_message":
-                f"{header} {ValidationText.header_no_question_id.value}",
+            f"{header} {ValidationText.header_no_question_id.value}",
         })
         return default
     if "|" in header:
         if header not in header_names:
             default.update({
                 "error_message":
-                    f"{header} {ValidationText.header_invalid_id.value}",
+                f"{header} {ValidationText.header_invalid_id.value}",
             })
             return default
     return False
@@ -66,16 +66,16 @@ def validate_number(answer, question):
             if r == "max" and float(rule[r]) < answer:
                 return {
                     "error_message":
-                        ValidationText.numeric_max_rule.value.replace(
-                            "--question--", qname).replace("--rule--",
-                                                           str(rule[r]))
+                    ValidationText.numeric_max_rule.value.replace(
+                        "--question--", qname).replace("--rule--",
+                                                       str(rule[r]))
                 }
             if r == "min" and float(rule[r]) > answer:
                 return {
                     "error_message":
-                        ValidationText.numeric_min_rule.value.replace(
-                            "--question--", qname).replace("--rule--",
-                                                           str(rule[r]))
+                    ValidationText.numeric_min_rule.value.replace(
+                        "--question--", qname).replace("--rule--",
+                                                       str(rule[r]))
                 }
     return False
 
@@ -120,9 +120,8 @@ def validate_administration(answer, adm):
     if adm['id'] not in path:
         return {
             "error_message":
-                ValidationText.administration_not_part_of.value.replace(
-                    "--answer--", str(aw[-1])).replace("--administration--",
-                                                       name)
+            ValidationText.administration_not_part_of.value.replace(
+                "--answer--", str(aw[-1])).replace("--administration--", name)
         }
     return False
 
@@ -133,7 +132,7 @@ def validate_date(answer):
     except ValueError:
         return {
             "error_message":
-                f"Invalid date format: {answer}. It should be YYYY-MM-DD"
+            f"Invalid date format: {answer}. It should be YYYY-MM-DD"
         }
     return False
 
@@ -172,7 +171,7 @@ def validate_row_data(col, answer, question: Questions, adm):
         if question.required:
             default.update({
                 "error_message":
-                    f"{question.name} {ValidationText.is_required.value}"
+                f"{question.name} {ValidationText.is_required.value}"
             })
             return default
         return False
@@ -198,8 +197,9 @@ def validate_row_data(col, answer, question: Questions, adm):
         if err:
             default.update(err)
             return default
-    elif question.type in [QuestionTypes.option,
-                           QuestionTypes.multiple_option]:
+    elif question.type in [
+            QuestionTypes.option, QuestionTypes.multiple_option
+    ]:
         err = validate_option(question.question_question_options.all(), answer)
         if err:
             default.update(err)
@@ -218,7 +218,8 @@ def validate_data_id(col, data_id):
     default = {"error": ExcelError.value, "cell": col}
     if data_id and not FormData.objects.filter(id=data_id).exists():
         default.update({
-            "error_message": ValidationText.invalid_data_id.value.replace(
+            "error_message":
+            ValidationText.invalid_data_id.value.replace(
                 "--data_id--", str(data_id))
         })
         return default
@@ -238,21 +239,24 @@ def validate(form: int, administration: int, file: str):
                 "error_message": ValidationText.template_validation.value,
                 "sheets": ",".join(sheet_names)
             }]
-    questions = Questions.objects.filter(form_id=form)
-    header_names = [q.to_excel_header for q in questions]
+    header_ids = list(
+        Questions.objects.filter(form_id=form).values_list('id', flat=True))
     df = pd.read_excel(file, sheet_name='data')
-    if 'id' in list(df):
-        df = df.rename(columns={'id': 'data_id'})
-    # df = df[header_names + ['data_id']]
     if df.shape[0] == 0:
         return [{
             "error": ExcelError.sheet,
             "error_message": ValidationText.file_empty_validation.value,
         }]
+    if 'id' in list(df):
+        df = df.rename(columns={'id': 'data_id'})
     excel_head = {}
     excel_cols = list(itertools.islice(generate_excel_columns(), df.shape[1]))
     for index, header in enumerate(list(df)):
-        excel_head.update({excel_cols[index]: header})
+        header_name = header.split("|")[0]
+        if header_name.isdigit():
+            header_name = int(header_name)
+            df = df.rename({header: header_name})
+        excel_head.update({excel_cols[index]: header_name})
     header_error = []
     data_error = []
 
@@ -261,9 +265,9 @@ def validate(form: int, administration: int, file: str):
     adm = {"id": adm.id, "name": adm.name}
     for col in excel_head:
         header = excel_head[col]
-        if header not in header_names + ['data_id']:
+        if header not in header_ids + ['data_id']:
             continue
-        error = validate_header_names(header, f"{col}1", header_names)
+        error = validate_header_names(header, f"{col}1", header_ids)
 
         if error:
             header_error.append(error)
@@ -277,13 +281,19 @@ def validate(form: int, administration: int, file: str):
                     if error:
                         data_error.append(error)
             else:
-                qid = header.split("|")[0]
-                question = questions.filter(id=int(qid)).first()
+                question = Questions.objects.filter(pk=header).first()
+                print(question.dependency)
+                dependencies = []
+                if question.dependency:
+                    dependencies = question.dependency
+                    for d in dependencies:
+                        d.update({'answers': list(df[d["id"]])})
                 answers = list(df[header])
+                print(dependencies)
                 for i, answer in enumerate(answers):
                     ix = i + 2
-                    error = validate_row_data(f"{col}{ix}", answer,
-                                              question, adm)
+                    error = validate_row_data(f"{col}{ix}", answer, question,
+                                              adm)
                     if error:
                         data_error.append(error)
     return header_error + data_error
