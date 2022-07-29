@@ -25,6 +25,7 @@ import {
 import { DataFilters } from "../../../components";
 import { api, store, uiText } from "../../../lib";
 import { Link } from "react-router-dom";
+import { useNotification } from "../../../util/hooks";
 
 const { TabPane } = Tabs;
 const { TextArea } = Input;
@@ -239,7 +240,8 @@ const PanelSubmissions = () => {
     return uiText[activeLang];
   }, [activeLang]);
 
-  const { selectedForm } = store.useState((state) => state);
+  const { notify } = useNotification();
+  const { selectedForm, user } = store.useState((state) => state);
 
   useEffect(() => {
     let url = `form-pending-data/${selectedForm}/?page=${currentPage}`;
@@ -322,20 +324,40 @@ const PanelSubmissions = () => {
   };
 
   const btnBatchSelected = useMemo(() => {
+    const handleOnClickBatchSelectedDataset = () => {
+      // check only for data entry role
+      if (user.role.id === 4) {
+        api.get(`form/check-approver/${selectedForm}`).then((res) => {
+          if (!res.data.count) {
+            notify({
+              type: "error",
+              message: text.batchNoApproverMessage,
+            });
+          } else {
+            setModalVisible(true);
+          }
+        });
+      } else {
+        setModalVisible(true);
+      }
+    };
     if (!!selectedRows.length && modalButton) {
       return (
-        <Button
-          type="primary"
-          onClick={() => {
-            setModalVisible(true);
-          }}
-        >
+        <Button type="primary" onClick={handleOnClickBatchSelectedDataset}>
           {text.batchSelectedDatasets}
         </Button>
       );
     }
     return "";
-  }, [selectedRows, modalButton, text.batchSelectedDatasets]);
+  }, [
+    selectedRows,
+    modalButton,
+    text.batchSelectedDatasets,
+    notify,
+    selectedForm,
+    text.batchNoApproverMessage,
+    user.role.id,
+  ]);
 
   const DataTable = ({ pane }) => {
     return (

@@ -340,6 +340,10 @@ const uiText = {
     existingApproverTitle: "There are existing approvers for:",
     existingApproverDescription:
       "Please update the setup in manage validation tree or remove these forms for the current user",
+    bulkUploadNoApproverMessage:
+      "Can't upload data, because there's no approver yet.",
+    batchNoApproverMessage:
+      "Can't create batch data, because there's no approver yet.",
   },
 
   de: {},
