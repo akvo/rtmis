@@ -56,12 +56,8 @@ class FormApprovalTestCase(TestCase):
         # check form approval endpoint
         user = SystemUser.objects.filter(
             user_access__role=UserRoleTypes.user).first()
-        user_payload = {"email": user.email, "password": "test"}
-        user_response = self.client.post('/api/v1/login',
-                                         user_payload,
-                                         content_type='application/json')
-        user = user_response.json()
-        token = user.get('token')
+        user = RefreshToken.for_user(user)
+        token = user.access_token
         header = {
             'HTTP_AUTHORIZATION': f'Bearer {token}'
         }
