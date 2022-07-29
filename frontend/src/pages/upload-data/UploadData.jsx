@@ -89,7 +89,7 @@ const UploadData = () => {
         message: text.fileUploadSuccess,
       });
       setUploading(false);
-      navigate("/profile");
+      navigate("/data/submissions");
     } else if (info.file?.status === "error") {
       notify({
         type: "error",
