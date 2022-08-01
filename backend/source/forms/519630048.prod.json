@@ -69,7 +69,7 @@
       "questions": [
         {
           "id": 517600060,
-          "meta": true,
+          "meta": false,
           "question": "Take the GPS location of the Household",
           "name": "Geolocation",
           "order": 1,
@@ -408,7 +408,10 @@
             {
               "name": "Refugee/IDPs"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         }
       ]
     },
@@ -484,8 +487,8 @@
         {
           "id": 594410062,
           "meta": false,
-          "question": "If ‘Flush’ or ‘Pour flush’, also ask: Where does it flush to?",
-          "name": "Whether ‘Flush’ or ‘Pour flush’",
+          "question": "If 'Flush' or 'Pour flush', also ask: Where does it flush to?",
+          "name": "Whether 'Flush' or 'Pour flush'",
           "order": 3,
           "required": true,
           "type": "option",
@@ -777,7 +780,7 @@
               "name": "Yes, frequently"
             },
             {
-              "name": "Don’t know"
+              "name": "Don't know"
             }
           ],
           "dependency": [
@@ -841,6 +844,9 @@
               "name": "I don't know"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 513690059,
@@ -879,6 +885,9 @@
               "name": "I dont know where the emptier took the sludge"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 513690059,
@@ -944,6 +953,9 @@
               "name": "Toilet is not always safe for all household members to use"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 496550059,
@@ -976,6 +988,9 @@
               "name": "on washable clothes or napkin"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 608890003,
@@ -1026,6 +1041,9 @@
               "name": "Don't know"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 601270072,
@@ -1157,7 +1175,10 @@
             {
               "name": "After washing and disposal of a used diaper"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 599400071,
@@ -1203,6 +1224,9 @@
               "name": "No permission to see"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 599400071,
@@ -1410,6 +1434,9 @@
               "name": "Sometimes when they look dirty"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 608890003,
@@ -1504,7 +1531,10 @@
             {
               "name": "Disposed of elsewhere"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 596100077,
@@ -1558,7 +1588,10 @@
             {
               "name": "N/A (cooking, laundry and bathing is done away from the household)"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 599430008,
@@ -1653,7 +1686,10 @@
             {
               "name": "Open field/bush"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 524810057,
@@ -1686,7 +1722,10 @@
             {
               "name": "Underwear alone"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 524810052,
@@ -1740,6 +1779,9 @@
               "name": "Buy it from shop"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 524810057,
@@ -1839,7 +1881,10 @@
             {
               "name": "Put it in trush buckets"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         }
       ]
     },
@@ -1883,7 +1928,10 @@
             {
               "name": "I don't know"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 591770069,
@@ -1931,7 +1979,10 @@
             {
               "name": "I do't know"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 566360065,
