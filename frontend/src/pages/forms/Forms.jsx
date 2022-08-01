@@ -146,6 +146,12 @@ const Forms = () => {
                 ...qVal,
                 ...q.extra,
               };
+              if (q.extra?.allowOther) {
+                qVal = {
+                  ...qVal,
+                  allowOtherText: "Enter any OTHER value",
+                };
+              }
             }
             return qVal;
           });
