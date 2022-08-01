@@ -1,7 +1,10 @@
 from django.utils import timezone
+from rest_framework.exceptions import ValidationError
+
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_forms.models import FormApprovalAssignment
-from api.v1.v1_data.models import PendingDataBatch
+from api.v1.v1_data.models import PendingDataBatch, PendingDataApproval
+from api.v1.v1_data.constants import DataApprovalStatus
 
 
 def check_unique_user(role):
@@ -9,7 +12,7 @@ def check_unique_user(role):
 
 
 def check_form_approval_assigned(role, forms, administration, user=None):
-    # if user is None that for add new user
+    # if user is None that for add new user (user var is edited user)
     # else that for update/edit user
     unique_user = check_unique_user(role)
     if not unique_user:
@@ -22,18 +25,7 @@ def check_form_approval_assigned(role, forms, administration, user=None):
     if not user:
         form_approval_assignment = form_approval_assignment.filter(
             form__in=forms)
-    if user:
-        # TODO NOTES::to delete
-        # CASES
-        # if user has assigned as approver on approver tree
-        # then the administration of that user updated / changed
-        # we will need to do?
-        # ==========================================================
-        # SOLUTION
-        # check updated user by prev administration to approval tree
-        # if any, delete old approval tree then create new
-        # but what happen with the pending data approver ?
-
+    if user:  # for edited user
         # if administration updated
         if user.user_access.administration_id != administration.id:
             # check approver tree with prev administration and prev forms
@@ -43,15 +35,30 @@ def check_form_approval_assigned(role, forms, administration, user=None):
                 form_id__in=[uf.form_id for uf in user.user_form.all()],
                 user=user)
             if prev_approval_assignment.count():
-                prev_approval_assignment.delete()
+                # find administration path
+                user_adm = user.user_access.administration
+                adm_path = f"{user_adm.path}{user_adm.id}"
+                if user_adm.level == 4:
+                    adm_path = user_adm.path
                 # check pending batch approval for prev user
                 prev_pending_batch = PendingDataBatch.objects.filter(
-                    administration_id=user.user_access.administration_id,
+                    administration__path__startswith=adm_path,
                     form_id__in=[uf.form_id for uf in user.user_form.all()],
                     approved=False).values_list('id', flat=True)
-                print('adm', user.user_access.administration_id,
-                      'forms', [uf.form_id for uf in user.user_form.all()],
-                      'pending bath', prev_pending_batch)
+                # find pending data approval by prev_pending_batch
+                prev_pending_approval = PendingDataApproval.objects.filter(
+                    batch_id__in=prev_pending_batch,
+                    status=DataApprovalStatus.pending,
+                    user=user).count()
+                if prev_pending_approval:
+                    # raise an error to prevent administration update
+                    # when edited user has pending data approval
+                    raise ValidationError(
+                        f'Update denied, user {user.email} still \
+                            have pending approval.')
+                else:
+                    # delete previous approval tree
+                    prev_approval_assignment.delete()
 
         # check if updated user already have form assigned
         form_assigned = form_approval_assignment.filter(
