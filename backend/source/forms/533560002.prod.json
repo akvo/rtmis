@@ -37,7 +37,9 @@
           "order": 3,
           "required": false,
           "type": "geo",
-          "attributes": ["table"],
+          "attributes": [
+            "table"
+          ],
           "options": null
         },
         {
@@ -48,7 +50,10 @@
           "order": 4,
           "required": true,
           "type": "administration",
-          "attributes": ["table", "chart"],
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
@@ -59,7 +64,9 @@
           "order": 5,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter"],
+          "attributes": [
+            "advanced_filter"
+          ],
           "options": [
             {
               "name": "Urban"
@@ -80,7 +87,9 @@
           "order": 6,
           "required": true,
           "type": "text",
-          "attributes": ["table"],
+          "attributes": [
+            "table"
+          ],
           "options": null
         },
         {
@@ -102,7 +111,11 @@
           "order": 8,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter", "table", "chart"],
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Level 1"
@@ -183,7 +196,11 @@
           "order": 2,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter", "table", "chart"],
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Piped supply inside the building"
@@ -222,7 +239,9 @@
           "dependency": [
             {
               "id": 605940002,
-              "options": ["Yes"]
+              "options": [
+                "Yes"
+              ]
             }
           ]
         },
@@ -234,7 +253,11 @@
           "order": 3,
           "required": true,
           "type": "option",
-          "attributes": ["table", "aggregate", "chart"],
+          "attributes": [
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "On premises"
@@ -269,7 +292,11 @@
           "order": 4,
           "required": true,
           "type": "option",
-          "attributes": ["table", "aggregate", "chart"],
+          "attributes": [
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -305,7 +332,11 @@
           "order": 6,
           "required": true,
           "type": "option",
-          "attributes": ["table", "aggregate", "chart"],
+          "attributes": [
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -364,7 +395,11 @@
           "order": 2,
           "required": true,
           "type": "multiple_option",
-          "attributes": ["advanced_filter", "table", "chart"],
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Flush / Pour-flush toilet to sewer connection"
@@ -397,7 +432,9 @@
           "dependency": [
             {
               "id": 611790061,
-              "options": ["Yes"]
+              "options": [
+                "Yes"
+              ]
             }
           ]
         },
@@ -409,7 +446,12 @@
           "order": 3,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter", "table", "aggregate", "chart"],
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -427,12 +469,17 @@
           "order": 4,
           "required": true,
           "type": "number",
-          "attributes": ["table", "chart"],
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null,
           "dependency": [
             {
               "id": 611790061,
-              "options": ["Yes"]
+              "options": [
+                "Yes"
+              ]
             }
           ]
         },
@@ -444,7 +491,11 @@
           "order": 5,
           "required": true,
           "type": "option",
-          "attributes": ["table", "aggregate", "chart"],
+          "attributes": [
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -462,7 +513,12 @@
           "order": 6,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter", "table", "aggregate", "chart"],
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -480,7 +536,12 @@
           "order": 7,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter", "table", "aggregate", "chart"],
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -498,7 +559,12 @@
           "order": 8,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter", "table", "aggregate", "chart"],
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -539,7 +605,10 @@
           "order": 1,
           "required": true,
           "type": "option",
-          "attributes": ["table", "chart"],
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -581,7 +650,10 @@
           "order": 3,
           "required": true,
           "type": "option",
-          "attributes": ["table", "chart"],
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -620,7 +692,12 @@
           "order": 5,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter", "table", "aggregate", "chart"],
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -656,7 +733,10 @@
           "order": 7,
           "required": true,
           "type": "option",
-          "attributes": ["table", "chart"],
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes, all have been trained"
@@ -680,7 +760,12 @@
           "order": 8,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter", "table", "aggregate", "chart"],
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -740,7 +825,11 @@
           "order": 11,
           "required": true,
           "type": "option",
-          "attributes": ["table", "aggregate", "chart"],
+          "attributes": [
+            "table",
+            "aggregate",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -889,7 +978,11 @@
           "order": 4,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter", "table", "chart"],
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes, waste is segregated into three labelled bins"
@@ -931,7 +1024,11 @@
           "order": 6,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter", "table", "chart"],
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Present but non functional"
@@ -952,7 +1049,10 @@
           "order": 7,
           "required": true,
           "type": "option",
-          "attributes": ["table", "chart"],
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Present but non functional"
@@ -973,13 +1073,17 @@
           "order": 8,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter", "table", "chart"],
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Autoclaved"
             },
             {
-              "name": "Incinerated (two chamber, 850-1000 \u00b0C incinerator)"
+              "name": "Incinerated (two chamber, 850-1000 °C incinerator)"
             },
             {
               "name": "Incinerated (other)"
@@ -1015,13 +1119,16 @@
           "order": 9,
           "required": true,
           "type": "option",
-          "attributes": ["table", "chart"],
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Autoclaved"
             },
             {
-              "name": "Incinerated (two chamber, 850-1000 \u00b0C incinerator)"
+              "name": "Incinerated (two chamber, 850-1000 °C incinerator)"
             },
             {
               "name": "Incinerated (other)"
@@ -1057,7 +1164,11 @@
           "order": 10,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter", "table", "chart"],
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -1075,7 +1186,11 @@
           "order": 11,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter", "table", "chart"],
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -1093,7 +1208,10 @@
           "order": 12,
           "required": true,
           "type": "option",
-          "attributes": ["table", "chart"],
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -1111,7 +1229,10 @@
           "order": 13,
           "required": true,
           "type": "option",
-          "attributes": ["table", "chart"],
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -1129,7 +1250,10 @@
           "order": 14,
           "required": true,
           "type": "option",
-          "attributes": ["table", "chart"],
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -1215,7 +1339,9 @@
           "order": 1,
           "required": false,
           "type": "text",
-          "attributes": ["table"],
+          "attributes": [
+            "table"
+          ],
           "options": null
         }
       ]
