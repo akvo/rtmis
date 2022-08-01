@@ -31,15 +31,13 @@
         },
         {
           "id": 543080040,
-          "meta": true,
+          "meta": false,
           "question": "Take the GPS location",
           "name": null,
           "order": 3,
           "required": false,
           "type": "geo",
-          "attributes": [
-            "table"
-          ],
+          "attributes": ["table"],
           "options": null
         },
         {
@@ -50,10 +48,7 @@
           "order": 4,
           "required": true,
           "type": "administration",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null
         },
         {
@@ -64,9 +59,7 @@
           "order": 5,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter"
-          ],
+          "attributes": ["advanced_filter"],
           "options": [
             {
               "name": "Urban"
@@ -87,9 +80,7 @@
           "order": 6,
           "required": true,
           "type": "text",
-          "attributes": [
-            "table"
-          ],
+          "attributes": ["table"],
           "options": null
         },
         {
@@ -100,9 +91,7 @@
           "order": 7,
           "required": true,
           "type": "text",
-          "attributes": [
-            "table"
-          ],
+          "attributes": ["table"],
           "options": null
         },
         {
@@ -113,12 +102,7 @@
           "order": 8,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "table", "chart", "aggregate"],
           "options": [
             {
               "name": "Pre-primary"
@@ -129,7 +113,10 @@
             {
               "name": "High/secondary school"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 592320051,
@@ -181,11 +168,11 @@
           "order": 11,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
-          "options": null
+          "attributes": ["table", "chart"],
+          "options": null,
+          "rule": {
+            "max": 5000.0
+          }
         },
         {
           "id": 543080033,
@@ -195,11 +182,11 @@
           "order": 12,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
-          "options": null
+          "attributes": ["table", "chart"],
+          "options": null,
+          "rule": {
+            "max": 5000.0
+          }
         },
         {
           "id": 539710035,
@@ -209,10 +196,7 @@
           "order": 13,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null
         },
         {
@@ -223,10 +207,7 @@
           "order": 14,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null
         }
       ]
@@ -260,11 +241,7 @@
           "order": 2,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["table", "chart", "aggregate"],
           "options": [
             {
               "name": "Piped water supply"
@@ -294,9 +271,7 @@
           "dependency": [
             {
               "id": 597580048,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -308,11 +283,7 @@
           "order": 3,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart"
-          ],
+          "attributes": ["advanced_filter", "table", "chart"],
           "options": [
             {
               "name": "Improved water source is too far"
@@ -345,6 +316,9 @@
               "name": "Unimproved water source is assumed as clean"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660011,
@@ -369,9 +343,7 @@
           "dependency": [
             {
               "id": 597580048,
-              "options": [
-                "No"
-              ]
+              "options": ["No"]
             }
           ]
         },
@@ -383,11 +355,7 @@
           "order": 5,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["table", "chart", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -405,11 +373,7 @@
           "order": 6,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["table", "chart", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -427,10 +391,7 @@
           "order": 7,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "The water is not clean"
@@ -442,12 +403,13 @@
               "name": "Students are not allowed to drink water in the school"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660013,
-              "options": [
-                "No"
-              ]
+              "options": ["No"]
             }
           ]
         },
@@ -459,12 +421,7 @@
           "order": 8,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "table", "chart", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -482,11 +439,7 @@
           "order": 9,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["table", "chart", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -504,10 +457,7 @@
           "order": 10,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null
         },
         {
@@ -518,11 +468,7 @@
           "order": 11,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["table", "chart", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -540,12 +486,7 @@
           "order": 12,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "table", "chart", "aggregate"],
           "options": [
             {
               "name": "Filtration"
@@ -563,12 +504,13 @@
               "name": "Ultraviolet disinfection (with dedicated device)"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660012,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -580,14 +522,10 @@
           "order": 13,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["table", "chart", "aggregate"],
           "options": [
             {
-              "name": "Students don’t miss class for searching drinking water"
+              "name": "Students don't miss class for searching drinking water"
             },
             {
               "name": "Students can wash their hands/bodies"
@@ -602,9 +540,12 @@
               "name": "The water can be used for cleaning the toilet"
             },
             {
-              "name": "I don’t know"
+              "name": "I don't know"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         }
       ]
     },
@@ -637,11 +578,7 @@
           "order": 2,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["table", "chart", "aggregate"],
           "options": [
             {
               "name": "Flush / Pour-flush toilets"
@@ -668,9 +605,7 @@
           "dependency": [
             {
               "id": 601780052,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -682,12 +617,7 @@
           "order": 3,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "table", "chart", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -718,17 +648,12 @@
           "order": 4,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null,
           "dependency": [
             {
               "id": 601780052,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -740,10 +665,7 @@
           "order": 5,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null,
           "dependency": [
             {
@@ -765,17 +687,12 @@
           "order": 6,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null,
           "dependency": [
             {
               "id": 551660029,
-              "options": [
-                "No toilets or latrines"
-              ]
+              "options": ["No toilets or latrines"]
             }
           ]
         },
@@ -787,17 +704,12 @@
           "order": 7,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null,
           "dependency": [
             {
               "id": 551660029,
-              "options": [
-                "No toilets or latrines"
-              ]
+              "options": ["No toilets or latrines"]
             }
           ]
         },
@@ -809,17 +721,12 @@
           "order": 8,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null,
           "dependency": [
             {
               "id": 551660029,
-              "options": [
-                "No toilets or latrines"
-              ]
+              "options": ["No toilets or latrines"]
             }
           ]
         },
@@ -831,17 +738,12 @@
           "order": 9,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null,
           "dependency": [
             {
               "id": 551660029,
-              "options": [
-                "No toilets or latrines"
-              ]
+              "options": ["No toilets or latrines"]
             }
           ]
         },
@@ -853,33 +755,31 @@
           "order": 10,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "No problem"
             },
             {
-              "name": "Girls don’t feel comfortable to use common latrine"
+              "name": "Girls don't feel comfortable to use common latrine"
             },
             {
-              "name": "Boys don’t feel comfortable to use common latrine"
+              "name": "Boys don't feel comfortable to use common latrine"
             },
             {
-              "name": "Girls’ latrine is different from boys’ latrine"
+              "name": "Girls' latrine is different from boys' latrine"
             },
             {
               "name": "Boys tease girls when they see them in/around latrine"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660029,
-              "options": [
-                "No toilets or latrines"
-              ]
+              "options": ["No toilets or latrines"]
             }
           ]
         },
@@ -891,10 +791,7 @@
           "order": 11,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "At all times during the school day"
@@ -906,12 +803,13 @@
               "name": "Only, when they get permission from the teachers"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660029,
-              "options": [
-                "No toilets or latrines"
-              ]
+              "options": ["No toilets or latrines"]
             }
           ]
         },
@@ -923,11 +821,7 @@
           "order": 12,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["table", "chart", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -948,30 +842,31 @@
           "attributes": [],
           "options": [
             {
-              "name": "I don’t use the school latrines because they are always locked"
+              "name": "I don't use the school latrines because they are always locked"
             },
             {
-              "name": "I don’t use the school latrines because they not clean option"
+              "name": "I don't use the school latrines because they not clean option"
             },
             {
-              "name": "I don’t use the school latrines because they have bad smell"
+              "name": "I don't use the school latrines because they have bad smell"
             },
             {
-              "name": "I don’t use the school latrines because they do not have doors/lockers"
+              "name": "I don't use the school latrines because they do not have doors/lockers"
             },
             {
-              "name": "I don’t use the school latrines because they are not sufficient"
+              "name": "I don't use the school latrines because they are not sufficient"
             },
             {
-              "name": "I don’t use school latrines because they are not safe for use"
+              "name": "I don't use school latrines because they are not safe for use"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 555460003,
-              "options": [
-                "No"
-              ]
+              "options": ["No"]
             }
           ]
         },
@@ -983,11 +878,7 @@
           "order": 14,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Offers privacy"
@@ -1002,15 +893,16 @@
               "name": "Avoids traveling to long distance"
             },
             {
-              "name": "I don’t know"
+              "name": "I don't know"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660029,
-              "options": [
-                "No toilets or latrines"
-              ]
+              "options": ["No toilets or latrines"]
             }
           ]
         },
@@ -1022,11 +914,7 @@
           "order": 15,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1035,12 +923,13 @@
               "name": "No"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 601780052,
-              "options": [
-                "No"
-              ]
+              "options": ["No"]
             }
           ]
         },
@@ -1052,10 +941,7 @@
           "order": 16,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table"
-          ],
+          "attributes": ["chart", "table"],
           "options": [
             {
               "name": "Students missed class to go home for defecation or urine"
@@ -1070,12 +956,13 @@
               "name": "Students become sick in the class"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 539710045,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1087,10 +974,7 @@
           "order": 17,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table"
-          ],
+          "attributes": ["chart", "table"],
           "options": [
             {
               "name": "Yes"
@@ -1114,10 +998,7 @@
           "order": 18,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table"
-          ],
+          "attributes": ["chart", "table"],
           "options": [
             {
               "name": "Yes"
@@ -1138,30 +1019,28 @@
           "order": 19,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table"
-          ],
+          "attributes": ["chart", "table"],
           "options": [
             {
-              "name": "Girls don’t feel comfortable to use common latrine"
+              "name": "Girls don't feel comfortable to use common latrine"
             },
             {
-              "name": "Boys don’t feel comfortable to use common latrine"
+              "name": "Boys don't feel comfortable to use common latrine"
             },
             {
-              "name": "Girls’ latrine is different from boys’ latrine"
+              "name": "Girls' latrine is different from boys' latrine"
             },
             {
               "name": "Boys tease girls when they see them in/around latrine"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660027,
-              "options": [
-                "No"
-              ]
+              "options": ["No"]
             }
           ]
         },
@@ -1173,11 +1052,7 @@
           "order": 20,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "At least once per day"
@@ -1195,9 +1070,7 @@
           "dependency": [
             {
               "id": 601780052,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1209,11 +1082,7 @@
           "order": 21,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Clean"
@@ -1234,11 +1103,7 @@
           "order": 22,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1256,12 +1121,7 @@
           "order": 23,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1273,9 +1133,7 @@
           "dependency": [
             {
               "id": 601780052,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1308,9 +1166,7 @@
           "dependency": [
             {
               "id": 539710039,
-              "options": [
-                "No"
-              ]
+              "options": ["No"]
             }
           ]
         },
@@ -1322,11 +1178,7 @@
           "order": 25,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1344,11 +1196,7 @@
           "order": 26,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1366,11 +1214,7 @@
           "order": 27,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1382,9 +1226,7 @@
           "dependency": [
             {
               "id": 601780052,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1405,12 +1247,13 @@
               "name": "Manual removal"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 539710038,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         }
@@ -1427,12 +1270,7 @@
           "order": 1,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1450,12 +1288,7 @@
           "order": 2,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes, water and soap"
@@ -1473,9 +1306,7 @@
           "dependency": [
             {
               "id": 539710052,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1487,11 +1318,7 @@
           "order": 3,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Toilets"
@@ -1506,12 +1333,13 @@
               "name": "School yard"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 539710052,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1523,17 +1351,12 @@
           "order": 4,
           "required": true,
           "type": "number",
-          "attributes": [
-            "chart",
-            "table"
-          ],
+          "attributes": ["chart", "table"],
           "options": null,
           "dependency": [
             {
               "id": 539710052,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1545,11 +1368,7 @@
           "order": 5,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1567,11 +1386,7 @@
           "order": 6,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "With water only"
@@ -1580,15 +1395,16 @@
               "name": "With soap and water"
             },
             {
-              "name": "I don’t wash"
+              "name": "I don't wash"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 539710056,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1600,10 +1416,7 @@
           "order": 7,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "advanced_filter",
-            "chart"
-          ],
+          "attributes": ["advanced_filter", "chart"],
           "options": [
             {
               "name": "After I wake up from my sleep"
@@ -1623,7 +1436,10 @@
             {
               "name": "After working on the field"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 539710053,
@@ -1633,12 +1449,7 @@
           "order": 8,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1650,9 +1461,7 @@
           "dependency": [
             {
               "id": 539710052,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1664,11 +1473,7 @@
           "order": 9,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1709,12 +1514,7 @@
           "order": 2,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "advanced_filter",
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "chart", "table", "aggregate"],
           "options": [
             {
               "name": "Private place / latrine"
@@ -1728,7 +1528,10 @@
             {
               "name": "Soap"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 610930003,
@@ -1768,11 +1571,7 @@
           "order": 4,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "There is no private place (latrine) for changing used sanitary pads or cloth"
@@ -1792,7 +1591,10 @@
             {
               "name": "They have pain"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 538000046,
@@ -1802,11 +1604,7 @@
           "order": 5,
           "required": false,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1819,16 +1617,12 @@
         {
           "id": 538000049,
           "meta": false,
-          "question": "Are there covered bins for disposal of menstrual hygiene materials in girls’ toilets?",
+          "question": "Are there covered bins for disposal of menstrual hygiene materials in girls' toilets?",
           "name": "Covered bins in girls toilets",
           "order": 6,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1854,9 +1648,7 @@
           "dependency": [
             {
               "id": 538000049,
-              "options": [
-                "No"
-              ]
+              "options": ["No"]
             }
           ]
         },
@@ -1868,11 +1660,7 @@
           "order": 8,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1890,12 +1678,7 @@
           "order": 9,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes, water and soap"
@@ -1916,16 +1699,12 @@
         {
           "id": 553480028,
           "meta": false,
-          "question": "You can use any place to excrete as long as people don’t see you.",
+          "question": "You can use any place to excrete as long as people don't see you.",
           "name": "Place to excrete",
           "order": 1,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1946,11 +1725,7 @@
           "order": 2,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1971,11 +1746,7 @@
           "order": 3,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Daily"
@@ -2005,11 +1776,7 @@
           "order": 4,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -2030,11 +1797,7 @@
           "order": 5,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "The waste contaminates the water"
@@ -2051,7 +1814,10 @@
             {
               "name": "The waste spreads disease"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 553480034,
@@ -2061,11 +1827,7 @@
           "order": 6,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Buried in a pit within school compound"
@@ -2085,7 +1847,10 @@
             {
               "name": "Thrown on open outside school"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 553480031,
@@ -2095,10 +1860,7 @@
           "order": 7,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "chart",
-            "table"
-          ],
+          "attributes": ["chart", "table"],
           "options": [
             {
               "name": "Make latrine available for students"
@@ -2118,7 +1880,10 @@
             {
               "name": "Provide sanitation and hygiene education to students"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 545530057,
@@ -2128,12 +1893,7 @@
           "order": 8,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -2151,10 +1911,7 @@
           "order": 9,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table"
-          ],
+          "attributes": ["chart", "table"],
           "options": [
             {
               "name": "Yes, all have been trained"
@@ -2183,9 +1940,7 @@
           "order": 1,
           "required": false,
           "type": "text",
-          "attributes": [
-            "table"
-          ],
+          "attributes": ["table"],
           "options": null
         }
       ]

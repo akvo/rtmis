@@ -136,8 +136,25 @@ const Forms = () => {
 
   useEffect(() => {
     if (formId && loading) {
-      api.get(`/form/web/${formId}`).then((x) => {
-        setForms(x.data);
+      api.get(`/form/web/${formId}`).then((res) => {
+        const questionGroups = res.data.question_group.map((qg) => {
+          const questions = qg.question.map((q) => {
+            let qVal = { ...q };
+            if (q?.extra) {
+              delete qVal.extra;
+              qVal = {
+                ...qVal,
+                ...q.extra,
+              };
+            }
+            return qVal;
+          });
+          return {
+            ...qg,
+            question: questions,
+          };
+        });
+        setForms({ ...res.data, question_group: questionGroups });
         setLoading(false);
       });
     }
