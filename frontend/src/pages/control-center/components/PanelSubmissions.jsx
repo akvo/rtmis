@@ -283,6 +283,7 @@ const PanelSubmissions = () => {
   useEffect(() => {
     if (selectedForm) {
       setSelectedRows([]);
+      setSelectedRowKeys([]);
     }
   }, [selectedForm]);
 
