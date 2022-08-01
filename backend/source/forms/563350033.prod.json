@@ -129,7 +129,10 @@
             {
               "name": "High/secondary school"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 592320051,
@@ -185,7 +188,10 @@
             "table",
             "chart"
           ],
-          "options": null
+          "options": null,
+          "rule": {
+            "max": 5000
+          }
         },
         {
           "id": 543080033,
@@ -199,7 +205,10 @@
             "table",
             "chart"
           ],
-          "options": null
+          "options": null,
+          "rule": {
+            "max": 5000
+          }
         },
         {
           "id": 539710035,
@@ -345,6 +354,9 @@
               "name": "Unimproved water source is assumed as clean"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660011,
@@ -442,6 +454,9 @@
               "name": "Students are not allowed to drink water in the school"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660013,
@@ -563,6 +578,9 @@
               "name": "Ultraviolet disinfection (with dedicated device)"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660012,
@@ -587,7 +605,7 @@
           ],
           "options": [
             {
-              "name": "Students don’t miss class for searching drinking water"
+              "name": "Students don't miss class for searching drinking water"
             },
             {
               "name": "Students can wash their hands/bodies"
@@ -602,9 +620,12 @@
               "name": "The water can be used for cleaning the toilet"
             },
             {
-              "name": "I don’t know"
+              "name": "I don't know"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         }
       ]
     },
@@ -862,18 +883,21 @@
               "name": "No problem"
             },
             {
-              "name": "Girls don’t feel comfortable to use common latrine"
+              "name": "Girls don't feel comfortable to use common latrine"
             },
             {
-              "name": "Boys don’t feel comfortable to use common latrine"
+              "name": "Boys don't feel comfortable to use common latrine"
             },
             {
-              "name": "Girls’ latrine is different from boys’ latrine"
+              "name": "Girls' latrine is different from boys' latrine"
             },
             {
               "name": "Boys tease girls when they see them in/around latrine"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660029,
@@ -906,6 +930,9 @@
               "name": "Only, when they get permission from the teachers"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660029,
@@ -948,24 +975,27 @@
           "attributes": [],
           "options": [
             {
-              "name": "I don’t use the school latrines because they are always locked"
+              "name": "I don't use the school latrines because they are always locked"
             },
             {
-              "name": "I don’t use the school latrines because they not clean option"
+              "name": "I don't use the school latrines because they not clean option"
             },
             {
-              "name": "I don’t use the school latrines because they have bad smell"
+              "name": "I don't use the school latrines because they have bad smell"
             },
             {
-              "name": "I don’t use the school latrines because they do not have doors/lockers"
+              "name": "I don't use the school latrines because they do not have doors/lockers"
             },
             {
-              "name": "I don’t use the school latrines because they are not sufficient"
+              "name": "I don't use the school latrines because they are not sufficient"
             },
             {
-              "name": "I don’t use school latrines because they are not safe for use"
+              "name": "I don't use school latrines because they are not safe for use"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 555460003,
@@ -1002,9 +1032,12 @@
               "name": "Avoids traveling to long distance"
             },
             {
-              "name": "I don’t know"
+              "name": "I don't know"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660029,
@@ -1035,6 +1068,9 @@
               "name": "No"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 601780052,
@@ -1070,6 +1106,9 @@
               "name": "Students become sick in the class"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 539710045,
@@ -1144,18 +1183,21 @@
           ],
           "options": [
             {
-              "name": "Girls don’t feel comfortable to use common latrine"
+              "name": "Girls don't feel comfortable to use common latrine"
             },
             {
-              "name": "Boys don’t feel comfortable to use common latrine"
+              "name": "Boys don't feel comfortable to use common latrine"
             },
             {
-              "name": "Girls’ latrine is different from boys’ latrine"
+              "name": "Girls' latrine is different from boys' latrine"
             },
             {
               "name": "Boys tease girls when they see them in/around latrine"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660027,
@@ -1405,6 +1447,9 @@
               "name": "Manual removal"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 539710038,
@@ -1506,6 +1551,9 @@
               "name": "School yard"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 539710052,
@@ -1580,9 +1628,12 @@
               "name": "With soap and water"
             },
             {
-              "name": "I don’t wash"
+              "name": "I don't wash"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 539710056,
@@ -1623,7 +1674,10 @@
             {
               "name": "After working on the field"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 539710053,
@@ -1728,7 +1782,10 @@
             {
               "name": "Soap"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 610930003,
@@ -1792,7 +1849,10 @@
             {
               "name": "They have pain"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 538000046,
@@ -1819,7 +1879,7 @@
         {
           "id": 538000049,
           "meta": false,
-          "question": "Are there covered bins for disposal of menstrual hygiene materials in girls’ toilets?",
+          "question": "Are there covered bins for disposal of menstrual hygiene materials in girls' toilets?",
           "name": "Covered bins in girls toilets",
           "order": 6,
           "required": true,
@@ -1916,7 +1976,7 @@
         {
           "id": 553480028,
           "meta": false,
-          "question": "You can use any place to excrete as long as people don’t see you.",
+          "question": "You can use any place to excrete as long as people don't see you.",
           "name": "Place to excrete",
           "order": 1,
           "required": true,
@@ -2051,7 +2111,10 @@
             {
               "name": "The waste spreads disease"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 553480034,
@@ -2085,7 +2148,10 @@
             {
               "name": "Thrown on open outside school"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 553480031,
@@ -2118,7 +2184,10 @@
             {
               "name": "Provide sanitation and hygiene education to students"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 545530057,
