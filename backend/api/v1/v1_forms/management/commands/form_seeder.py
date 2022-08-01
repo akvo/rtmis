@@ -109,6 +109,7 @@ class Command(BaseCommand):
                         question.dependency = q.get("dependency")
                         question.type = getattr(QuestionTypes, q["type"])
                         question.api = q.get("api")
+                        question.extra = q.get("extra")
                         question.save()
                     if q.get("options"):
                         QO.objects.filter(question=question).all().delete()
