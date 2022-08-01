@@ -238,6 +238,27 @@ class UserInvitationTestCase(TestCase):
                          [{'id': 1, 'name': 'Test Form'},
                           {'id': 2, 'name': 'Test Form 2'}])
 
+        # test_update_user_with_pending_approval
+        call_command("fake_pending_data_seeder")
+        find_user = SystemUser.objects.filter(
+            user_access__role=UserRoleTypes.admin).order_by('-id').first()
+        edit_payload = {
+            "first_name": find_user.first_name,
+            "last_name": find_user.last_name,
+            "email": find_user.email,
+            "administration": find_user.user_access.administration_id + 1,
+            "organisation": org.id,
+            "trained": False,
+            "role": find_user.user_access.role,
+            "forms": [fr.form_id for fr in find_user.user_form.all()],
+            "inform_user": True,
+        }
+        response = self.client.put("/api/v1/user/{0}".format(find_user.id),
+                                   edit_payload,
+                                   content_type='application/json',
+                                   **header)
+        self.assertEqual(response.status_code, 409)
+
     def test_add_admin_user(self):
         call_command("administration_seeder", "--test")
         call_command("form_seeder", "--test")
