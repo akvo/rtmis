@@ -26,6 +26,7 @@ import { DataFilters } from "../../../components";
 import { api, store, uiText } from "../../../lib";
 import { Link } from "react-router-dom";
 import { useNotification } from "../../../util/hooks";
+import { isEmpty, without, union, xor } from "lodash";
 
 const { TabPane } = Tabs;
 const { TextArea } = Input;
@@ -161,7 +162,7 @@ const columnsPending = [
     ),
   },
   {
-    title: "administration",
+    title: "Administration",
     dataIndex: "administration",
     key: "administration",
   },
@@ -228,6 +229,7 @@ const PanelSubmissions = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedTab, setSelectedTab] = useState("pending-data");
   const [batchName, setBatchName] = useState("");
   const [modalButton, setModalButton] = useState(true);
@@ -290,17 +292,18 @@ const PanelSubmissions = () => {
     }
   }, [selectedTab]);
 
+  useEffect(() => {
+    if (dataset.length) {
+      const selectedDataset = selectedRowKeys.map((s) => {
+        const findData = dataset.find((d) => d.id === s);
+        return findData;
+      });
+      setSelectedRows(selectedDataset);
+    }
+  }, [dataset, selectedRowKeys]);
+
   const handlePageChange = (e) => {
     setCurrentPage(e.current);
-  };
-
-  const handleSelect = (row, checked) => {
-    const current = selectedRows.filter((s) => s.id !== row.id);
-    if (checked) {
-      setSelectedRows([...current, row]);
-    } else {
-      setSelectedRows(current);
-    }
   };
 
   const sendBatch = () => {
@@ -313,6 +316,7 @@ const PanelSubmissions = () => {
       )
       .then(() => {
         setSelectedRows([]);
+        setSelectedRowKeys([]);
         setModalVisible(false);
         setLoading(false);
         setSelectedTab("pending-batch");
@@ -321,6 +325,27 @@ const PanelSubmissions = () => {
         setLoading(false);
         setModalVisible(false);
       });
+  };
+
+  const hasSelected = !isEmpty(selectedRowKeys);
+  const onSelectTableRow = (val) => {
+    const { id } = val;
+    selectedRowKeys.includes(id)
+      ? setSelectedRowKeys(without(selectedRowKeys, id))
+      : setSelectedRowKeys([...selectedRowKeys, id]);
+  };
+
+  const onSelectAllTableRow = (isSelected) => {
+    const ids = dataset.filter((x) => !x?.disabled).map((x) => x.id);
+    if (!isSelected && hasSelected) {
+      setSelectedRowKeys(xor(selectedRowKeys, ids));
+    }
+    if (isSelected && !hasSelected) {
+      setSelectedRowKeys(ids);
+    }
+    if (isSelected && hasSelected) {
+      setSelectedRowKeys(union(selectedRowKeys, ids));
+    }
   };
 
   const btnBatchSelected = useMemo(() => {
@@ -366,25 +391,22 @@ const PanelSubmissions = () => {
         dataSource={dataset}
         columns={
           pane === "pending-data"
-            ? [
-                ...columnsPending,
-                {
-                  title: text.batchDatasets,
-                  render: (row) => (
-                    <Checkbox
-                      checked={
-                        selectedRows.filter((s) => s.id === row.id).length
-                      }
-                      onChange={(e) => {
-                        handleSelect(row, e.target.checked);
-                      }}
-                    />
-                  ),
-                },
-              ]
+            ? [...columnsPending]
             : [...columnsBatch, Table.EXPAND_COLUMN]
         }
         onChange={handlePageChange}
+        rowSelection={
+          pane === "pending-data"
+            ? {
+                selectedRowKeys: selectedRowKeys,
+                onSelect: onSelectTableRow,
+                onSelectAll: onSelectAllTableRow,
+                getCheckboxProps: (record) => ({
+                  disabled: record?.disabled,
+                }),
+              }
+            : false
+        }
         pagination={{
           current: currentPage,
           total: totalCount,
