@@ -12,8 +12,6 @@ const TableVisual = ({ tableConfig, loading }) => {
   const { formId } = useParams();
   const { title, type, columns, span, data, index, admLevelName } = tableConfig;
 
-  const jmpConfig = jmpColorScore?.[formId];
-
   const tableColumns = useMemo(() => {
     return columns.map((c) => {
       const showPercent = c?.show_percent;
@@ -26,17 +24,22 @@ const TableVisual = ({ tableConfig, loading }) => {
             children: [],
           };
         }
-        const jmpType = c.children_path.split(".")[1];
+        const jmpConfigPath = String(c.children_path).replace("data", formId);
+        const jmpServiceLevelOrder = get(jmpColorScore, jmpConfigPath);
         const child = Object.keys(obj).map((key) => {
-          const jmpOrder = Object.keys(jmpConfig[jmpType]);
           let col = {
             title: capitalize(key),
             dataIndex: key,
             key: key,
             width: key.length * fontSize,
             align: "center",
-            order: jmpOrder.indexOf(key) + 1,
           };
+          if (jmpServiceLevelOrder) {
+            col = {
+              ...col,
+              order: Object.keys(jmpServiceLevelOrder).indexOf(key) + 1,
+            };
+          }
           if (showPercent && percentPath) {
             col = {
               ...col,
@@ -70,7 +73,7 @@ const TableVisual = ({ tableConfig, loading }) => {
       }
       return tmp;
     });
-  }, [columns, data, jmpConfig]);
+  }, [columns, data, formId]);
 
   const tableDataSource = useMemo(() => {
     const paths = columns.map((x) => {
