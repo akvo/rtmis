@@ -1,13 +1,18 @@
 import React, { useMemo } from "react";
+import { useParams } from "react-router-dom";
 import { Col, Table, Button } from "antd";
-import { get, capitalize, sumBy } from "lodash";
+import { get, capitalize, sumBy, orderBy } from "lodash";
 import { DownloadOutlined } from "@ant-design/icons";
 import { Excel } from "antd-table-saveas-excel";
+import { jmpColorScore } from "../../../lib";
 
 const fontSize = 12;
 
 const TableVisual = ({ tableConfig, loading }) => {
+  const { formId } = useParams();
   const { title, type, columns, span, data, index, admLevelName } = tableConfig;
+
+  const jmpConfig = jmpColorScore?.[formId];
 
   const tableColumns = useMemo(() => {
     return columns.map((c) => {
@@ -21,13 +26,16 @@ const TableVisual = ({ tableConfig, loading }) => {
             children: [],
           };
         }
+        const jmpType = c.children_path.split(".")[1];
         const child = Object.keys(obj).map((key) => {
+          const jmpOrder = Object.keys(jmpConfig[jmpType]);
           let col = {
             title: capitalize(key),
             dataIndex: key,
             key: key,
             width: key.length * fontSize,
             align: "center",
+            order: jmpOrder.indexOf(key) + 1,
           };
           if (showPercent && percentPath) {
             col = {
@@ -43,7 +51,7 @@ const TableVisual = ({ tableConfig, loading }) => {
         });
         return {
           title: c.title,
-          children: child,
+          children: orderBy(child, "order"),
         };
       }
       let tmp = {
@@ -62,7 +70,7 @@ const TableVisual = ({ tableConfig, loading }) => {
       }
       return tmp;
     });
-  }, [columns, data]);
+  }, [columns, data, jmpConfig]);
 
   const tableDataSource = useMemo(() => {
     const paths = columns.map((x) => {
