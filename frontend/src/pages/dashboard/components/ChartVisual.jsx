@@ -1,18 +1,20 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Col, Card } from "antd";
+import { Row, Col, Card, Switch, Space } from "antd";
 import { get, capitalize, chain, groupBy, sumBy, orderBy } from "lodash";
 import { Chart } from "../../../components";
 import { jmpColorScore } from "../../../lib";
 
 const ChartVisual = ({ chartConfig, loading }) => {
   const { formId } = useParams();
-  const { title, type, chartType, span, data, index, path, selector } =
+  const { title, type, chartType, span, data, index, path, selector, calc } =
     chartConfig;
   const colorPath =
     selector !== "period"
       ? String(path).replace("data", formId)
       : String(path).replace("jmp", formId);
+  const [isStack, setIsStack] = useState(false);
+  const showSwitcher = calc === "jmp";
 
   const chartData = useMemo(() => {
     if (selector === "period") {
@@ -22,42 +24,71 @@ const ChartVisual = ({ chartConfig, loading }) => {
       }));
       return period;
     }
-    const transform = data
-      .map((d) => {
-        const obj = get(d, path);
-        if (!obj) {
-          return false;
-        }
-        return Object.keys(obj).map((key) => ({
-          name: key,
-          value: obj[key],
-        }));
-      })
-      .filter((x) => x)
-      .flatMap((x) => x);
-    const results = chain(groupBy(transform, "name"))
-      .map((g, gi) => {
-        const findJMPConfig = get(jmpColorScore, `${colorPath}.${gi}`);
-        const val = {
-          name: capitalize(gi),
-          value: sumBy(g, "value"),
-        };
-        if (!findJMPConfig) {
-          return val;
-        }
+    if (!isStack) {
+      const transform = data
+        .map((d) => {
+          const obj = get(d, path);
+          if (!obj) {
+            return false;
+          }
+          return Object.keys(obj).map((key) => ({
+            name: key,
+            value: obj[key],
+          }));
+        })
+        .filter((x) => x)
+        .flatMap((x) => x);
+      const results = chain(groupBy(transform, "name"))
+        .map((g, gi) => {
+          const findJMPConfig = get(jmpColorScore, `${colorPath}.${gi}`);
+          const val = {
+            name: capitalize(gi),
+            value: sumBy(g, "value"),
+          };
+          if (!findJMPConfig) {
+            return val;
+          }
+          return {
+            ...val,
+            color: findJMPConfig.color,
+          };
+        })
+        .value();
+      return orderBy(results, ["value"], ["asc"]);
+    }
+    if (isStack) {
+      const transform = data.map((d) => {
+        const serviceLevel = get(d, path);
+        const stack = Object.keys(serviceLevel).map((key) => {
+          return {
+            name: capitalize(key),
+            title: capitalize(key),
+            value: serviceLevel[key],
+            total: serviceLevel[key],
+          };
+        });
         return {
-          ...val,
-          color: findJMPConfig.color,
+          name: d.loc,
+          title: d.loc,
+          stack: stack,
         };
-      })
-      .value();
-    return orderBy(results, ["value"], ["asc"]);
-  }, [data, path, selector, colorPath]);
+      });
+      return transform;
+    }
+  }, [data, path, selector, colorPath, isStack]);
 
   return (
     <Col key={`col-${type}-${index}`} span={span} className="chart-card">
       <Card>
-        <h3>{title}</h3>
+        <Row className="chart-header" justify="space-between" align="middle">
+          <h3>{title}</h3>
+          {showSwitcher && (
+            <Space align="center">
+              <span>Show By County</span>
+              <Switch size="small" checked={isStack} onChange={setIsStack} />
+            </Space>
+          )}
+        </Row>
         {selector === "period" ? (
           <Chart
             excelFile={title}
@@ -86,6 +117,16 @@ const ChartVisual = ({ chartConfig, loading }) => {
             }}
             colorConfig={get(jmpColorScore, colorPath)}
             cumulative
+          />
+        ) : isStack ? (
+          <Chart
+            height={50 * chartData.length + 188}
+            type="BARSTACK"
+            data={chartData}
+            wrapper={false}
+            horizontal={true}
+            series={{ left: "10%" }}
+            loading={loading}
           />
         ) : (
           <Chart
