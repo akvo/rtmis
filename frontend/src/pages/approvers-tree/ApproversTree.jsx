@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Card, Divider, Select, Space } from "antd";
+import { Row, Col, Card, Divider, Space } from "antd";
 import { Breadcrumbs, DescriptionPanel, UserTab } from "../../components";
 import { api, store, uiText } from "../../lib";
 import ApproverFilters from "../../components/filters/ApproverFilters";
@@ -8,7 +8,6 @@ import { SteppedLineTo } from "react-lineto";
 import { take, takeRight } from "lodash";
 import { useNotification } from "../../util/hooks";
 
-const { Option } = Select;
 const pagePath = [
   {
     title: "Control Center",
@@ -227,7 +226,7 @@ const ApproversTree = () => {
                   ).user;
                   const approverName = approver
                     ? `${approver.first_name} ${approver.last_name}`
-                    : "-";
+                    : text.notAssigned;
                   return (
                     <div
                       className={`tree-block tree-block-${k + 1}-${childItem.id}
@@ -255,51 +254,6 @@ const ApproversTree = () => {
                         <div>{childItem.name}</div>
                         <h3>{approverName}</h3>
                       </Space>
-                      {/* <Select
-                        key={`user-dropdown-${childItem.id}`}
-                        allowClear
-                        placeholder={text.notAssigned}
-                        value={
-                          dataset[k]?.children?.find(
-                            (c) => c.administration.id === childItem.id
-                          )?.user
-                        }
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                        onChange={(e) => {
-                          if (!e) {
-                            return;
-                          }
-                          const newNodes = JSON.parse(JSON.stringify(dataset));
-                          newNodes[k].children[l].user = e;
-                          setDataset(newNodes);
-                        }}
-                        onClear={() => {
-                          const cleared = [...dataset];
-                          cleared[k].children[l].user_delete =
-                            cleared[k].children[l].user;
-                          cleared[k].children[l].flag = "delete";
-                          cleared[k].children[l].user = null;
-                          setDataset(cleared);
-                        }}
-                        disabled={
-                          loading ||
-                          (k < administration.length - 1 &&
-                            administration[k + 1]?.children[0]?.parent !==
-                              childItem.id)
-                        }
-                      >
-                        {(
-                          dataset[k]?.children?.find(
-                            (c) => c.administration?.id === childItem.id
-                          )?.user_list || []
-                        ).map((user, userIndex) => (
-                          <Option key={userIndex} value={user.id}>
-                            {user.name}
-                          </Option>
-                        ))}
-                      </Select> */}
                     </div>
                   );
                 })}
