@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Card, Divider, Select } from "antd";
+import { Row, Col, Card, Divider, Select, Space } from "antd";
 import { Breadcrumbs, DescriptionPanel, UserTab } from "../../components";
 import { api, store, uiText } from "../../lib";
 import ApproverFilters from "../../components/filters/ApproverFilters";
@@ -69,7 +69,7 @@ const ApproversTree = () => {
                 childLevelName: selectedAdministration.childLevelName,
                 children: res.data.map((cI) => ({
                   ...cI,
-                  user: cI.user?.id,
+                  user: cI.user,
                 })),
               },
             ];
@@ -221,9 +221,16 @@ const ApproversTree = () => {
                 className={`tree-col-${k + 1}`}
                 align="center"
               >
-                {adminItem.children?.map((childItem, l) => (
-                  <div
-                    className={`tree-block tree-block-${k + 1}-${childItem.id}
+                {adminItem.children?.map((childItem, l) => {
+                  const approver = dataset[k]?.children?.find(
+                    (c) => c.administration.id === childItem.id
+                  ).user;
+                  const approverName = approver
+                    ? `${approver.first_name} ${approver.last_name}`
+                    : "-";
+                  return (
+                    <div
+                      className={`tree-block tree-block-${k + 1}-${childItem.id}
                       ${
                         k >= administration.length - 1 ||
                         administration[k + 1]?.children[0]?.parent ===
@@ -232,66 +239,70 @@ const ApproversTree = () => {
                           : ""
                       }
                     `}
-                    key={l}
-                    onClick={() => {
-                      if (
-                        adminItem.levelName !==
-                          takeRight(window.levels, 2)[0]?.name &&
-                        administration[k + 1]?.children[0]?.parent !==
-                          childItem.id
-                      ) {
-                        handleClick(childItem.id, k);
-                      }
-                    }}
-                  >
-                    <div>{childItem.name}</div>
-                    <Select
-                      key={`user-dropdown-${childItem.id}`}
-                      allowClear
-                      placeholder={text.notAssigned}
-                      value={
-                        dataset[k]?.children?.find(
-                          (c) => c.administration.id === childItem.id
-                        )?.user
-                      }
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                      onChange={(e) => {
-                        if (!e) {
-                          return;
-                        }
-                        const newNodes = JSON.parse(JSON.stringify(dataset));
-                        newNodes[k].children[l].user = e;
-                        setDataset(newNodes);
-                      }}
-                      onClear={() => {
-                        const cleared = [...dataset];
-                        cleared[k].children[l].user_delete =
-                          cleared[k].children[l].user;
-                        cleared[k].children[l].flag = "delete";
-                        cleared[k].children[l].user = null;
-                        setDataset(cleared);
-                      }}
-                      disabled={
-                        loading ||
-                        (k < administration.length - 1 &&
+                      key={l}
+                      onClick={() => {
+                        if (
+                          adminItem.levelName !==
+                            takeRight(window.levels, 2)[0]?.name &&
                           administration[k + 1]?.children[0]?.parent !==
-                            childItem.id)
-                      }
+                            childItem.id
+                        ) {
+                          handleClick(childItem.id, k);
+                        }
+                      }}
                     >
-                      {(
-                        dataset[k]?.children?.find(
-                          (c) => c.administration?.id === childItem.id
-                        )?.user_list || []
-                      ).map((user, userIndex) => (
-                        <Option key={userIndex} value={user.id}>
-                          {user.name}
-                        </Option>
-                      ))}
-                    </Select>
-                  </div>
-                ))}
+                      <Space direction="vertical">
+                        <div>{childItem.name}</div>
+                        <h3>{approverName}</h3>
+                      </Space>
+                      {/* <Select
+                        key={`user-dropdown-${childItem.id}`}
+                        allowClear
+                        placeholder={text.notAssigned}
+                        value={
+                          dataset[k]?.children?.find(
+                            (c) => c.administration.id === childItem.id
+                          )?.user
+                        }
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        onChange={(e) => {
+                          if (!e) {
+                            return;
+                          }
+                          const newNodes = JSON.parse(JSON.stringify(dataset));
+                          newNodes[k].children[l].user = e;
+                          setDataset(newNodes);
+                        }}
+                        onClear={() => {
+                          const cleared = [...dataset];
+                          cleared[k].children[l].user_delete =
+                            cleared[k].children[l].user;
+                          cleared[k].children[l].flag = "delete";
+                          cleared[k].children[l].user = null;
+                          setDataset(cleared);
+                        }}
+                        disabled={
+                          loading ||
+                          (k < administration.length - 1 &&
+                            administration[k + 1]?.children[0]?.parent !==
+                              childItem.id)
+                        }
+                      >
+                        {(
+                          dataset[k]?.children?.find(
+                            (c) => c.administration?.id === childItem.id
+                          )?.user_list || []
+                        ).map((user, userIndex) => (
+                          <Option key={userIndex} value={user.id}>
+                            {user.name}
+                          </Option>
+                        ))}
+                      </Select> */}
+                    </div>
+                  );
+                })}
               </Col>
             )
         )
