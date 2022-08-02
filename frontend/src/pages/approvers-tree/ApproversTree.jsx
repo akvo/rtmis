@@ -25,7 +25,6 @@ const ApproversTree = () => {
   const [datasetJson, setDatasetJson] = useState("[]");
   const [scroll, setScroll] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [saving, setSaving] = useState(false);
   const { notify } = useNotification();
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
@@ -90,53 +89,6 @@ const ApproversTree = () => {
   const isPristine = useMemo(() => {
     return JSON.stringify(dataset) === datasetJson;
   }, [dataset, datasetJson]);
-
-  const resetForm = () => {
-    if (administration.length === 1) {
-      setDataset(JSON.parse(datasetJson));
-    } else {
-      store.update((s) => {
-        s.administration.length = 1;
-      });
-    }
-  };
-
-  const handleSubmit = () => {
-    const formData = dataset.reduce((arr, adminData) => {
-      adminData.children
-        .filter((c) => c.user || c?.flag === "delete")
-        .map((childData) => {
-          const isDelete = childData?.flag && childData.flag === "delete";
-          arr.push({
-            user_id:
-              isDelete && childData?.user_delete
-                ? childData.user_delete
-                : childData.user,
-            administration_id: childData.administration.id,
-            flag: isDelete ? childData.flag : "add",
-          });
-        });
-      return arr;
-    }, []);
-    setSaving(true);
-    api
-      .post(`form/approver/${selectedForm}`, formData)
-      .then(() => {
-        setDatasetJson(JSON.stringify(dataset));
-        notify({
-          type: "success",
-          message: "Approvers updated",
-        });
-        setSaving(false);
-      })
-      .catch(() => {
-        notify({
-          type: "error",
-          message: "Could not update approvers",
-        });
-        setSaving(false);
-      });
-  };
 
   const handleColScroll = ({ target }) => {
     setScroll(target.scrollTop);
@@ -369,11 +321,9 @@ const ApproversTree = () => {
       </Row>
       <UserTab />
       <ApproverFilters
-        loading={saving}
+        loading={false}
         disabled={isPristine || loading}
-        visible={dataset.length}
-        reset={resetForm}
-        save={handleSubmit}
+        visible={false}
       />
       <Divider />
       <Card style={{ padding: 0, minHeight: "40vh" }}>
