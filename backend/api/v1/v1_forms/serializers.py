@@ -361,22 +361,9 @@ class FormApproverUserSerializer(serializers.ModelSerializer):
         fields = ['id', 'first_name', 'last_name', 'email']
 
 
-class FormApproverUserListSerializer(serializers.ModelSerializer):
-    name = serializers.SerializerMethodField()
-
-    @extend_schema_field(OpenApiTypes.STR)
-    def get_name(self, instance: SystemUser):
-        return instance.get_full_name()
-
-    class Meta:
-        model = SystemUser
-        fields = ['id', 'name']
-
-
 class FormApproverResponseSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
     administration = serializers.SerializerMethodField()
-    user_list = serializers.SerializerMethodField()
 
     @extend_schema_field(FormApproverUserSerializer(many=True))
     def get_user(self, instance: Administration):
@@ -390,15 +377,6 @@ class FormApproverResponseSerializer(serializers.ModelSerializer):
     def get_administration(self, instance: Administration):
         return {'id': instance.id, 'name': instance.name}
 
-    @extend_schema_field(FormApproverUserListSerializer(many=True))
-    def get_user_list(self, instance: Administration):
-        users = SystemUser.objects.filter(
-                user_access__role__in=[
-                    UserRoleTypes.approver,
-                    UserRoleTypes.admin],
-                user_access__administration=instance)
-        return FormApproverUserListSerializer(instance=users, many=True).data
-
     class Meta:
         model = Administration
-        fields = ['user', 'administration', 'user_list']
+        fields = ['user', 'administration']
