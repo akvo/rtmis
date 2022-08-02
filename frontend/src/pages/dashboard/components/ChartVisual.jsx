@@ -7,8 +7,18 @@ import { jmpColorScore } from "../../../lib";
 
 const ChartVisual = ({ chartConfig, loading }) => {
   const { formId } = useParams();
-  const { title, type, chartType, span, data, index, path, selector, calc } =
-    chartConfig;
+  const {
+    title,
+    type,
+    chartType,
+    span,
+    data,
+    index,
+    path,
+    selector,
+    calc,
+    admLevelName,
+  } = chartConfig;
   const colorPath =
     selector !== "period"
       ? String(path).replace("data", formId)
@@ -117,7 +127,7 @@ const ChartVisual = ({ chartConfig, loading }) => {
           )}
           {showSwitcher && (
             <Space align="center">
-              <span>Show By County</span>
+              <span>Show By {admLevelName.singular}</span>
               <Switch size="small" checked={isStack} onChange={setIsStack} />
             </Space>
           )}
