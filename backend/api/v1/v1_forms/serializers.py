@@ -1,13 +1,11 @@
 from collections import OrderedDict
 
 from django.db.models import Q
-from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field, inline_serializer
 from rest_framework import serializers
 
-from api.v1.v1_forms.constants import QuestionTypes, \
-        AttributeTypes, FormTypes
+from api.v1.v1_forms.constants import QuestionTypes, AttributeTypes, FormTypes
 from api.v1.v1_forms.models import Forms, QuestionGroup, Questions, \
     QuestionOptions, QuestionAttribute, \
     FormApprovalRule, FormApprovalAssignment
@@ -337,45 +335,6 @@ class EditFormApprovalSerializer(serializers.ModelSerializer):
     class Meta:
         model = FormApprovalRule
         fields = ['form_id', 'level_id']
-
-
-class ApprovalFormUserSerializer(serializers.ModelSerializer):
-    user_id = CustomPrimaryKeyRelatedField(queryset=SystemUser.objects.none(),
-                                           source='user')
-    administration_id = CustomPrimaryKeyRelatedField(
-        queryset=Administration.objects.none(), source='administration')
-    flag = CustomChoiceField(choices=["add", "delete"],
-                             required=True)
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.fields.get('user_id').queryset = SystemUser.objects.all()
-        self.fields.get(
-            'administration_id').queryset = Administration.objects.all()
-
-    def create(self, validated_data):
-        flag = validated_data.get('flag')
-        try:
-            assignment = FormApprovalAssignment.objects.get(
-                form=self.context.get('form'),
-                administration=validated_data.get('administration'))
-            if flag == "add":
-                assignment.user = validated_data.get('user')
-                assignment.updated = timezone.now()
-                assignment.save()
-            if flag == "delete":
-                assignment.delete()
-        except FormApprovalAssignment.DoesNotExist:
-            assignment = FormApprovalAssignment.objects.create(
-                form=self.context.get('form'),
-                administration=validated_data.get('administration'),
-                user=validated_data.get('user'))
-
-        return assignment
-
-    class Meta:
-        model = FormApprovalAssignment
-        fields = ['user_id', 'administration_id', 'flag']
 
 
 class FormApprovalLevelListSerializer(serializers.ModelSerializer):
