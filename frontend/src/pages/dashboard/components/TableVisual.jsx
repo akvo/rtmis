@@ -11,6 +11,8 @@ const TableVisual = ({ tableConfig, loading }) => {
 
   const tableColumns = useMemo(() => {
     return columns.map((c) => {
+      const showPercent = c?.show_percent;
+      const percentPath = c?.percent_path;
       if (c?.children) {
         const obj = get(data?.[0], c.children_path);
         if (!obj) {
@@ -19,13 +21,26 @@ const TableVisual = ({ tableConfig, loading }) => {
             children: [],
           };
         }
-        const child = Object.keys(obj).map((key) => ({
-          title: capitalize(key),
-          dataIndex: key,
-          key: key,
-          width: key.length * fontSize,
-          align: "center",
-        }));
+        const child = Object.keys(obj).map((key) => {
+          let col = {
+            title: capitalize(key),
+            dataIndex: key,
+            key: key,
+            width: key.length * fontSize,
+            align: "center",
+          };
+          if (showPercent && percentPath) {
+            col = {
+              ...col,
+              render: (val, record) => {
+                const percentDivider = Number(get(record, percentPath));
+                const percent = (val / percentDivider) * 100;
+                return `${val} (${percent.toFixed()}%)`;
+              },
+            };
+          }
+          return col;
+        });
         return {
           title: c.title,
           children: child,
