@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Row, Col, Button, Space, Dropdown, Menu } from "antd";
+import { Row, Col, Button, Dropdown, Menu } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { Link, useLocation } from "react-router-dom";
 import ComingSoon from "./custom/ComingSoon";
@@ -114,16 +114,24 @@ const Banner = () => {
           <h4>{text?.countdownTitle}</h4>
           <Countdown date="2025-12-31T09:00:00" renderer={renderer} />
         </div>
-        <Space size={20}>
-          <Button size="large" onClick={() => scrollToView()}>
+        <Row>
+          <Button
+            size="large"
+            onClick={() => scrollToView()}
+            className="btn-explore-national-data"
+          >
             {text?.welcomeCta}
           </Button>
           <Dropdown overlay={DashboardMenu}>
-            <Button size="large" onClick={(e) => e.preventDefault()}>
+            <Button
+              size="large"
+              onClick={(e) => e.preventDefault()}
+              className="btn-dashboard"
+            >
               Comprehensive Dashboards <DownOutlined />
             </Button>
           </Dropdown>
-        </Space>
+        </Row>
       </>
     );
   };
