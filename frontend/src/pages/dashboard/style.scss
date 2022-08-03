@@ -23,7 +23,6 @@
 
     .ant-tabs-tab.ant-tabs-tab-active {
       background-color: $blue;
-      padding: 0 12px;
     }
 
     .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
@@ -118,13 +117,15 @@
                 padding: 0px;
                 text-align: left;
 
+                .chart-header {
+                  border-bottom: 1px solid #f0f0f0;
+                  padding: 8px 12px;
+                }
+
                 h3 {
                   font-size: 1.17em;
                   color: #253239;
-                  padding: 8px;
                   margin-bottom: 0px;
-                  text-align: center;
-                  border-bottom: 1px solid #f0f0f0;
                 }
               }
             }

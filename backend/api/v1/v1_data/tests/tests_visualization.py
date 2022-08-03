@@ -249,9 +249,27 @@ class DataVisualisationTestCase(TestCase):
         self.assertEqual(list(data.json()[0]),
                          ['loc', 'data', 'total'])
 
+        # JMP - WITH EXTRA PARAMS
+        url = f"/api/v1/jmp/{form.id}?administration=1&avg=109&sum=102"
+        data = self.client.get(url, content_type='application/json')
+        self.assertEqual(data.status_code, 200)
+        data = data.json()
+        self.assertEqual(list(data[0]), ['loc', 'data', 'total'])
+        self.assertEqual(
+                list(data[0]['data']),
+                ['example criteria', 'average', 'sum'])
+        self.assertEqual(
+                list(data[0]['data']['example criteria']),
+                ['criteria 1', 'criteria 2'])
+        self.assertEqual(list(data[0]['data']['average']), ['109'])
+        self.assertEqual(list(data[0]['data']['sum']), ['102'])
+
         # GLAAS API
         url = f"/api/v1/glaas/{form.id}"
         url = f"{url}?counties_questions=102&national_questions=109"
         data = self.client.get(url, content_type='application/json')
         self.assertEqual(data.status_code, 200)
         self.assertEqual(list(data.json()), ["counties", "national"])
+        # glaas with advance filter
+        url = f"{url}&options={advance_filter}"
+        self.assertEqual(data.status_code, 200)

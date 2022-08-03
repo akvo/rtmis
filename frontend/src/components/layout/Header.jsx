@@ -16,6 +16,7 @@ const Header = ({ className = "header", ...props }) => {
     return uiText[activeLang];
   }, [activeLang]);
   const dashboards = window?.dashboard;
+  const reports = window?.reports;
 
   const signOut = async () => {
     eraseCookieFromAllPaths("AUTH_TOKEN");
@@ -51,6 +52,16 @@ const Header = ({ className = "header", ...props }) => {
   const DashboardMenu = (
     <Menu>
       {dashboards?.map((d) => (
+        <Menu.Item key={`${d.name}`} className="dashboard-menu-item">
+          <Link to={`/${d.page}/${d.form_id}`}>{d.name}</Link>
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
+
+  const ReportsMenu = (
+    <Menu>
+      {reports?.map((d) => (
         <Menu.Item key={`${d.name}`} className="dashboard-menu-item">
           <Link to={`/${d.page}/${d.form_id}`}>{d.name}</Link>
         </Menu.Item>
@@ -104,6 +115,16 @@ const Header = ({ className = "header", ...props }) => {
                   }}
                 >
                   {text?.dashboards}
+                </a>
+              </Dropdown>
+              <Dropdown overlay={ReportsMenu}>
+                <a
+                  className="ant-dropdown-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                  }}
+                >
+                  {text?.reports}
                 </a>
               </Dropdown>
               {/* <a className="dev">Monitoring</a> */}

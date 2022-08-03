@@ -1,12 +1,6 @@
 import "./App.scss";
 import React, { useEffect, useState } from "react";
-import {
-  Route,
-  Routes,
-  Navigate,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import {
   Home,
   Login,
@@ -22,7 +16,6 @@ import {
   Profile,
   ExportData,
   UploadData,
-  Visualisation,
   NewsEvents,
   HowWeWork,
   Terms,
@@ -35,12 +28,15 @@ import {
   AddOrganisation,
   Dashboard,
   Glaas,
+  ReportDashboard,
+  GlaasReportDashboard,
+  // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
 import { Layout, PageLoader } from "./components";
 import { useNotification } from "./util/hooks";
-import { timeDiffHours, eraseCookieFromAllPaths } from "./util/date";
+import { eraseCookieFromAllPaths } from "./util/date";
 import { reloadData } from "./util/form";
 
 const Private = ({ element: Element, alias }) => {
@@ -67,6 +63,16 @@ const RouteList = () => {
       <Route exact path="/form/:formId" element={<Forms />} />
       <Route exact path="/dashboard/:formId" element={<Dashboard />} />
       <Route exact path="/glaas/:formId" element={<Glaas />} />
+      <Route
+        exact
+        path="/report-dashboard/:formId"
+        element={<ReportDashboard />}
+      />
+      <Route
+        exact
+        path="/glaas-report-dashboard/:formId"
+        element={<GlaasReportDashboard />}
+      />
       <Route path="/users" element={<Private element={Users} alias="user" />} />
       <Route
         path="/organisations"
@@ -108,10 +114,12 @@ const RouteList = () => {
         path="/data/upload"
         element={<Private element={UploadData} alias="data" />}
       />
+      {/*
       <Route
         path="/data/visualisation"
         element={<Private element={Visualisation} alias="visualisation" />}
       />
+                */}
       <Route
         path="/questionnaires"
         element={<Private element={Questionnaires} alias="questionnaires" />}
@@ -160,7 +168,7 @@ const RouteList = () => {
 const App = () => {
   const { user: authUser, isLoggedIn } = store.useState((state) => state);
   const [cookies] = useCookies(["AUTH_TOKEN"]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const { notify } = useNotification();
   const pageLocation = useLocation();
@@ -169,23 +177,24 @@ const App = () => {
     .map((x) => location.pathname.includes(x))
     .filter((x) => x)?.length;
 
-  document.addEventListener(
-    "click",
-    () => {
-      if (isLoggedIn && authUser?.last_login) {
-        const expired = timeDiffHours(authUser.last_login);
-        if (expired >= 4) {
-          eraseCookieFromAllPaths("AUTH_TOKEN");
-          store.update((s) => {
-            s.isLoggedIn = false;
-            s.user = null;
-          });
-          navigate("login");
-        }
-      }
-    },
-    { passive: true }
-  );
+  // document.addEventListener(
+  //   "click",
+  //   () => {
+  //     if (isLoggedIn && authUser?.last_login) {
+  //       const expired = timeDiffHours(authUser.last_login);
+  //       console.log("test", expired);
+  //       if (expired >= 4) {
+  //         eraseCookieFromAllPaths("AUTH_TOKEN");
+  //         store.update((s) => {
+  //           s.isLoggedIn = false;
+  //           s.user = null;
+  //         });
+  //         navigate("login");
+  //       }
+  //     }
+  //   },
+  //   { passive: true }
+  // );
 
   // detect location change to reset advanced filters
   useEffect(() => {

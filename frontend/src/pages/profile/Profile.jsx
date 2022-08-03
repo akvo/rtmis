@@ -40,7 +40,7 @@ const Profile = () => {
   ];
 
   const fullAdministrationName = window.dbadm
-    .find((x) => x.id === 322)
+    .find((x) => x.id === authUser.administration.id)
     ?.full_name?.split("|")
     .join(" - ");
 

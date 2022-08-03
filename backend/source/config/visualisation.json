@@ -41,9 +41,9 @@
               {
                 "question": 492490054,
                 "option": [
-                  "Flush / pour flush",
-                  "Pit latrine with slab",
-                  "Twin pit with slab"
+                  "Flush or pour flush toilet",
+                  "Pit latrine",
+                  "VIP latrine"
                 ]
               },
               {
@@ -69,9 +69,9 @@
               {
                 "question": 492490054,
                 "option": [
-                  "Flush / pour flush",
-                  "Pit latrine with slab",
-                  "Twin pit with slab"
+                  "Flush or pour flush toilet",
+                  "Pit latrine",
+                  "VIP latrine"
                 ]
               },
               {
@@ -90,9 +90,9 @@
               {
                 "question": 492490054,
                 "option": [
-                  "Flush / pour flush",
-                  "Pit latrine with slab",
-                  "Twin pit with slab"
+                  "Flush or pour flush toilet",
+                  "Pit latrine",
+                  "VIP latrine"
                 ]
               },
               {
@@ -111,10 +111,7 @@
               {
                 "question": 492490054,
                 "option": [
-                  "Pit latrine without slab / Open pit",
-                  "Twin pit without slab",
-                  "Bucket",
-                  "Hanging toilet / hanging latrine"
+                  "Bucket"
                 ]
               }
             ]
@@ -125,9 +122,9 @@
             "color": "#F1AC2A",
             "options": [
               {
-                "question": 492490054,
+                "question": 513690068,
                 "option": [
-                  "No facility / Bush / Field"
+                  "No"
                 ]
               }
             ]
@@ -146,21 +143,22 @@
               {
                 "question": 466680043,
                 "option": [
-                  "Fixed facility observed (sink/tap) In dwelling",
-                  "Fixed facility observed (sink/tap)  In yard/plot",
-                  "Mobile object observed (bucket/jug/kettle)"
+                  "Sink",
+                  "Tap",
+                  "Mobile object (bucket/jug/kettle)",
+                  "Tippy tap"
                 ]
               },
               {
                 "question": 466680045,
                 "option": [
-                  "Water is available"
+                  "Yes"
                 ]
               },
               {
                 "question": 466760036,
                 "option": [
-                  "Soap or detergent available ."
+                  "Yes"
                 ]
               }
             ]
@@ -173,15 +171,16 @@
               {
                 "question": 466680043,
                 "option": [
-                  "Fixed facility observed (sink/tap) In dwelling",
-                  "Fixed facility observed (sink/tap)  In yard/plot",
-                  "Mobile object observed (bucket/jug/kettle)"
+                  "Sink",
+                  "Tap",
+                  "Mobile object (bucket/jug/kettle)",
+                  "Tippy tap"
                 ]
               },
               {
                 "question": 466680045,
                 "option": [
-                  "Water is available"
+                  "Yes"
                 ]
               }
             ]
@@ -192,10 +191,9 @@
             "color": "#F1AC2A",
             "options": [
               {
-                "question": 466680043,
+                "question": 599400071,
                 "option": [
-                  "No handwashing place in dwelling/yard/plot",
-                  "No permission to see"
+                  "No"
                 ]
               }
             ]
@@ -212,7 +210,7 @@
             "score": 15,
             "options": [
               {
-                "question": 524810054,
+                "question": 607250002,
                 "option": [
                   "Yes"
                 ]
@@ -256,13 +254,7 @@
               {
                 "question": 524810053,
                 "option": [
-                  "Attending school",
-                  "Paid work",
-                  "Participating in social activities",
-                  "Cooking food?",
-                  "Cooking food",
-                  "Eating with others",
-                  "Bathing in regular place"
+                  "Yes"
                 ]
               }
             ]
@@ -307,9 +299,9 @@
               {
                 "question": 555370004,
                 "option": [
-                  "Flush / Pour-flush toilet to sewer connection",
-                  "Flush / Pour-flush toilet to tank or pit",
-                  "Pit latrine with slab",
+                  "Flush / Pour-flush toilet",
+                  "VIP latrine",
+                  "Pit latrine",
                   "Composting toilet"
                 ]
               },
@@ -353,9 +345,9 @@
               {
                 "question": 555370004,
                 "option": [
-                  "Flush / Pour-flush toilet to sewer connection",
-                  "Flush / Pour-flush toilet to tank or pit",
-                  "Pit latrine with slab",
+                  "Flush / Pour-flush toilet",
+                  "VIP latrine",
+                  "Pit latrine",
                   "Composting toilet"
                 ]
               },
@@ -397,13 +389,9 @@
             "color": "#FDF177",
             "options": [
               {
-                "question": 555370004,
+                "question": 611790061,
                 "option": [
-                  "Flush / Pour-flush toilet to open drain",
-                  "Pit latrine without slab/open pit",
-                  "Bucket",
-                  "Hanging toilet/latrine",
-                  "No toilet/latrine"
+                  "No"
                 ]
               }
             ]
@@ -494,22 +482,18 @@
                 "question": 541950011,
                 "option": [
                   "Autoclaved",
-                  "Incinerated (two chamber, 850-1000 °C incinerator)",
-                  "Incinerated (other)",
-                  "Burning in a protected pit",
-                  "Not treated, but buried in lined, protected pit",
-                  "Not treated, but collected for medical waste disposal off-site"
+                  "Incinerated",
+                  "Buried in lined, protected pit",
+                  "Collected for medical waste disposal off-site"
                 ]
               },
               {
                 "question": 541950005,
                 "option": [
                   "Autoclaved",
-                  "Incinerated (two chamber, 850-1000 °C incinerator)",
-                  "Incinerated (other)",
-                  "Burning in a protected pit",
-                  "Not treated, but buried in lined, protected pit",
-                  "Not treated, but collected for medical waste disposal off-site"
+                  "Incinerated",
+                  "Buried in lined, protected pit",
+                  "Collected for medical waste disposal off-site"
                 ]
               }
             ]
@@ -529,22 +513,18 @@
                 "question": 541950011,
                 "option": [
                   "Autoclaved",
-                  "Incinerated (two chamber, 850-1000 °C incinerator)",
-                  "Incinerated (other)",
-                  "Burning in a protected pit",
-                  "Not treated, but buried in lined, protected pit",
-                  "Not treated, but collected for medical waste disposal off-site"
+                  "Incinerated",
+                  "Buried in lined, protected pit",
+                  "Collected for medical waste disposal off-site"
                 ]
               },
               {
                 "question": 541950005,
                 "option": [
                   "Autoclaved",
-                  "Incinerated (two chamber, 850-1000 °C incinerator)",
-                  "Incinerated (other)",
-                  "Burning in a protected pit",
-                  "Not treated, but buried in lined, protected pit",
-                  "Not treated, but collected for medical waste disposal off-site"
+                  "Incinerated",
+                  "Buried in lined, protected pit",
+                  "Collected for medical waste disposal off-site"
                 ]
               }
             ]
@@ -854,17 +834,34 @@
             "name": "Awareness",
             "score": 10,
             "color": "#753780",
-            "options": []
+            "options": [
+              {
+                "question": 605430054,
+                "option": [
+                  "Yes"
+                ]
+              }
+            ]
           },
           {
             "name": "Use menstrual materials",
-            "score": -1,
+            "score": 10,
             "color": "#FDF177",
-            "options": []
+            "options": [
+              {
+                "question": 610930003,
+                "option": [
+                  "Cloth/reusable sanitary pads",
+                  "Disposable sanitary pads",
+                  "Tampons",
+                  "Menstrual cup"
+                ]
+              }
+            ]
           },
           {
             "name": "Access",
-            "score": -2,
+            "score": 10,
             "color": "#F1AC2A",
             "options": [
               {
@@ -880,16 +877,13 @@
           },
           {
             "name": "Participation",
-            "score": -2,
+            "score": 10,
             "color": "#368541",
             "options": [
               {
-                "question": 538000047,
+                "question": 538000046,
                 "option": [
-                  "Private place / latrine",
-                  "Water",
-                  "Sanitary pads/cloth",
-                  "Soap"
+                  "Yes"
                 ]
               }
             ]
@@ -954,6 +948,80 @@
                 "option": [
                   "No, none have been trained",
                   "No, there are no staff responsible for cleaning"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 603050002,
+    "title": "Urban Sanitation",
+    "type": 2,
+    "chartListTitle": "JMP",
+    "charts": [
+      {
+        "type": "CRITERIA",
+        "title": "Main type of Sanitation",
+        "options": [
+          {
+            "name": "Onsite sanitation",
+            "score": 1,
+            "color": "#36AE7B",
+            "options": [
+              {
+                "question": 603080002,
+                "option": [
+                  "pit latrines",
+                  "Septic tanks"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Off site sanitation",
+            "score": -1,
+            "color": "#EB5353",
+            "options": [
+              {
+                "question": 603080002,
+                "option": [
+                  "Sewarage system"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "CRITERIA",
+        "title": "Sludge Transported",
+        "options": [
+          {
+            "name": "Yes",
+            "score": 1,
+            "color": "#36AE7B",
+            "options": [
+              {
+                "question": 587530063,
+                "option": [
+                  "through the sewer system",
+                  "Using tracks"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "No",
+            "score": -1,
+            "color": "#EB5353",
+            "options": [
+              {
+                "question": 587530063,
+                "option": [
+                  "Its not transported to the treatment plant"
                 ]
               }
             ]

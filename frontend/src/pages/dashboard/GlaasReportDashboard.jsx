@@ -4,13 +4,7 @@ import { useParams } from "react-router-dom";
 import { Row, Col, Tabs, Affix, Select, Space } from "antd";
 import { uiText, store, config, api } from "../../lib";
 import { capitalize } from "lodash";
-import {
-  CardVisual,
-  TableVisual,
-  ChartVisual,
-  ReportVisual,
-} from "./components";
-import { Maps } from "../../components";
+import { TableVisual } from "./components";
 import {
   RemoveFiltersButton,
   AdvancedFiltersButton,
@@ -18,14 +12,13 @@ import {
 } from "../../components";
 import { generateAdvanceFilterURL } from "../../util/filter";
 import { useNotification } from "../../util/hooks";
-import moment from "moment";
 
 const { TabPane } = Tabs;
 
-const Dashboard = () => {
+const GlassReportDashboard = () => {
   const { formId } = useParams();
   const selectedForm = window?.forms?.find((x) => String(x.id) === formId);
-  const current = window?.dashboard?.find((x) => String(x.form_id) === formId);
+  const current = window?.reports?.find((x) => String(x.form_id) === formId);
 
   const [dataset, setDataset] = useState({});
   const [activeTab, setActiveTab] = useState("overview");
@@ -113,61 +106,17 @@ const Dashboard = () => {
   };
 
   const renderColumn = (cfg, index) => {
-    switch (cfg.type) {
-      case "chart":
-        return (
-          <ChartVisual
-            key={index}
-            chartConfig={{
-              ...cfg,
-              data: dataset[cfg.from] || [],
-              index: index,
-            }}
-            loading={loading}
-          />
-        );
-      case "maps":
-        return (
-          <Maps
-            key={index}
-            mapConfig={{
-              ...cfg,
-              data: dataset?.[cfg.from] || [],
-              index: index,
-            }}
-            loading={loading}
-            national
-          />
-        );
-      case "table":
-        return (
-          <TableVisual
-            key={index}
-            tableConfig={{
-              ...cfg,
-              data: dataset?.[cfg.from] || [],
-              index: index,
-            }}
-            loading={loading}
-          />
-        );
-      case "report":
-        return <ReportVisual key={index} selectedForm={selectedForm} />;
-      default:
-        return (
-          <CardVisual
-            key={index}
-            cardConfig={{
-              ...cfg,
-              data: dataset?.[cfg.from] || [],
-              index: index,
-              lastUpdate: moment().format("L"),
-            }}
-            customTotal={window.dbadm.filter((d) => d.level === 2).length}
-            loading={loading}
-          />
-        );
-    }
+    return (
+      <TableVisual
+        key={index}
+        tableConfig={{
+          ...cfg,
+          data: dataset?.[cfg.from] || [],
+          index: index,
+        }}
+        loading={loading}
+      />
+    );
   };
 
   return (
@@ -228,25 +177,20 @@ const Dashboard = () => {
                 type="card"
                 tabBarGutter={10}
               >
-                {/* TODO:: For now we will hide the report tab */}
-                {Object.keys(current.tabs)
-                  .filter((x) => x.toLowerCase() !== "report")
-                  .map((key) => {
-                    let tabName = key;
-                    if (
-                      !["jmp", "glaas", "rush"].includes(
-                        key.toLocaleLowerCase()
-                      )
-                    ) {
-                      tabName = key
-                        .split("_")
-                        .map((x) => capitalize(x))
-                        .join(" ");
-                    } else {
-                      tabName = key.toUpperCase();
-                    }
-                    return <TabPane tab={tabName} key={key}></TabPane>;
-                  })}
+                {Object.keys(current.tabs).map((key) => {
+                  let tabName = key;
+                  if (
+                    !["jmp", "glaas", "rush"].includes(key.toLocaleLowerCase())
+                  ) {
+                    tabName = key
+                      .split("_")
+                      .map((x) => capitalize(x))
+                      .join(" ");
+                  } else {
+                    tabName = key.toUpperCase();
+                  }
+                  return <TabPane tab={tabName} key={key}></TabPane>;
+                })}
               </Tabs>
             )}
           </div>
@@ -276,4 +220,4 @@ const Dashboard = () => {
   );
 };
 
-export default React.memo(Dashboard);
+export default React.memo(GlassReportDashboard);

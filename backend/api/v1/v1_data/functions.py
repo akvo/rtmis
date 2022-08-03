@@ -100,15 +100,29 @@ def filter_by_criteria(params, question_ids, options,
     return result
 
 
-def get_advance_filter_data_ids(form_id, administration_id, options):
+def get_advance_filter_data_ids(form_id, administration_id,
+                                options, is_glaas=False):
     data = ViewDataOptions.objects.filter(form_id=form_id)
-    if administration_id:
+    if administration_id and not is_glaas:
         administration_ids = get_administration_ids_by_path(
             administration_id=administration_id)
         data = data.filter(administration_id__in=administration_ids)
+    if administration_id and is_glaas:
+        data = data.filter(administration_id__in=administration_id)
     if options:
-        data = data.filter(reduce(
-            or_, [Q(options__contains=op) for op in options]))
+        # create unique list for question id in options
+        qids = []
+        for opt in options:
+            val = opt.split("||")[0]
+            if val in qids:
+                continue
+            qids.append(val)
+        # filter options and_ when different question id
+        for qid in qids:
+            # filter options or_ when same question id
+            or_filter_value = filter(lambda x: qid in x, options)
+            data = data.filter(reduce(
+                or_, [Q(options__contains=op) for op in or_filter_value]))
     data = data.values_list('data_id', flat=True)
     return data
 

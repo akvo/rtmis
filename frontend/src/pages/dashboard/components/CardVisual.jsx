@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Row, Col, Card, Image } from "antd";
-import { get, sum, takeRight } from "lodash";
+import { get, sum, mean, takeRight } from "lodash";
 import millify from "millify";
 import { store } from "../../../lib";
 
@@ -20,8 +20,10 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
     type,
     path,
     calc,
+    scale,
     data,
     index,
+    suffix,
     color,
     icon,
     lastUpdate,
@@ -37,10 +39,14 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
         value: "-",
       };
     }
+    let result = {
+      title: title,
+      value: 0,
+    };
     const transform = data.map((d) => get(d, path));
     if (calc === "sum") {
       const sums = sum(transform);
-      return {
+      result = {
         title: title,
         value: sums > 100 ? millify(sums) : sums,
       };
@@ -51,17 +57,18 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
       );
       // counties count card
       const administration_count = filterAdm.length || 1;
-      const administration_reported = data.length;
+      // filter data by total > 0
+      const administration_reported = data.filter((d) => d.total > 0).length;
       const adm_percent = Math.round(
         (administration_reported / administration_count) * 100
       );
-      return {
+      result = {
         title: title,
         value: `${administration_reported} (${adm_percent}%)`,
       };
     }
     if (calc === "tail") {
-      return {
+      result = {
         title: title,
         value: data.length ? millify(takeRight(data)[0][path]) : 0,
       };
@@ -70,12 +77,42 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
       const totalData = customTotal || sum(data.map((d) => d.total));
       const sumLevel = sum(transform);
       const percent = Math.round((sumLevel / totalData) * 100);
-      return {
+      result = {
         title: title,
         value: `${percent}%`,
       };
     }
-  }, [data, calc, path, title, customTotal, currentAdministration]);
+    if (calc === "avg") {
+      const avg = mean(transform);
+      result = {
+        title: title,
+        value: avg.toFixed(2),
+      };
+    }
+    if (scale) {
+      const percentage = ((result.value / scale) * 100)?.toFixed(2);
+      result = {
+        ...result,
+        value: `${result.value} (${percentage} %)`,
+      };
+    }
+    if (suffix) {
+      result = {
+        ...result,
+        value: `${result.value} ${suffix}`,
+      };
+    }
+    return result;
+  }, [
+    data,
+    calc,
+    path,
+    title,
+    scale,
+    suffix,
+    customTotal,
+    currentAdministration,
+  ]);
 
   return (
     <Col

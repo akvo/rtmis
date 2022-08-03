@@ -6,25 +6,18 @@ import { VisualisationFilters } from "../../components";
 import { useNotification } from "../../util/hooks";
 import { api, uiText, store, config } from "../../lib";
 import { capitalize, takeRight } from "lodash";
-import { Maps } from "../../components";
-import {
-  CardVisual,
-  TableVisual,
-  ChartVisual,
-  ReportVisual,
-} from "./components";
+import { TableVisual } from "./components";
 import { generateAdvanceFilterURL } from "../../util/filter";
 
 const { TabPane } = Tabs;
 
-const Dashboard = () => {
+const ReportDashboard = () => {
   const { formId } = useParams();
   const selectedForm = window?.forms?.find((x) => String(x.id) === formId);
-  const current = window?.dashboard?.find((x) => String(x.form_id) === formId);
+  const current = window?.reports?.find((x) => String(x.form_id) === formId);
   const { notify } = useNotification();
 
   const [dataset, setDataset] = useState([]);
-  const [dataPeriod, setDataPeriod] = useState([]);
   const [activeTab, setActiveTab] = useState("overview");
   const [loading, setLoading] = useState(false);
   const [activeItem, setActiveItem] = useState(null);
@@ -88,7 +81,6 @@ const Dashboard = () => {
     if (formId && !wait) {
       setLoading(true);
       setDataset([]);
-      setDataPeriod([]);
       let url = `jmp/${formId}?administration=${currentAdministration?.id}`;
       if (advancedFilters && advancedFilters.length) {
         url = generateAdvanceFilterURL(advancedFilters, url);
@@ -107,20 +99,6 @@ const Dashboard = () => {
         .get(url)
         .then((res) => {
           setDataset(res.data);
-          if (!current?.no_period) {
-            const url = `submission/period/${formId}?administration=${currentAdministration?.id}`;
-            api
-              .get(url)
-              .then((res) => {
-                setDataPeriod(res.data);
-              })
-              .catch(() => {
-                notify({
-                  type: "error",
-                  message: text.errorDataLoad,
-                });
-              });
-          }
         })
         .catch(() => {
           notify({
@@ -150,62 +128,18 @@ const Dashboard = () => {
   const renderColumn = (cfg, index) => {
     // filter data by total > 0
     const filteredDataByTotal = dataset.filter((d) => d.total > 0);
-    switch (cfg.type) {
-      case "maps":
-        return (
-          <Maps
-            key={index}
-            mapConfig={{
-              ...cfg,
-              data: filteredDataByTotal,
-              index: index,
-            }}
-            loading={loading}
-          />
-        );
-      case "chart":
-        return (
-          <ChartVisual
-            key={index}
-            chartConfig={{
-              ...cfg,
-              data: cfg.selector === "period" ? dataPeriod : dataset,
-              index: index,
-              admLevelName: admLevelName,
-            }}
-            loading={loading}
-          />
-        );
-      case "table":
-        return (
-          <TableVisual
-            key={index}
-            tableConfig={{
-              ...cfg,
-              data: filteredDataByTotal,
-              index: index,
-              admLevelName: admLevelName,
-            }}
-            loading={loading}
-          />
-        );
-      case "report":
-        return <ReportVisual key={index} selectedForm={selectedForm} />;
-      default:
-        return (
-          <CardVisual
-            key={index}
-            cardConfig={{
-              ...cfg,
-              data: dataset,
-              index: index,
-              lastUpdate: lastUpdate,
-              admLevelName: admLevelName,
-            }}
-            loading={loading}
-          />
-        );
-    }
+    return (
+      <TableVisual
+        key={index}
+        tableConfig={{
+          ...cfg,
+          data: filteredDataByTotal,
+          index: index,
+          admLevelName: admLevelName,
+        }}
+        loading={loading}
+      />
+    );
   };
 
   return (
@@ -224,25 +158,20 @@ const Dashboard = () => {
                 type="card"
                 tabBarGutter={10}
               >
-                {/* TODO:: For now we will hide the report tab */}
-                {Object.keys(current.tabs)
-                  .filter((x) => x.toLowerCase() !== "report")
-                  .map((key) => {
-                    let tabName = key;
-                    if (
-                      !["jmp", "glaas", "rush"].includes(
-                        key.toLocaleLowerCase()
-                      )
-                    ) {
-                      tabName = key
-                        .split("_")
-                        .map((x) => capitalize(x))
-                        .join(" ");
-                    } else {
-                      tabName = key.toUpperCase();
-                    }
-                    return <TabPane tab={tabName} key={key}></TabPane>;
-                  })}
+                {Object.keys(current.tabs).map((key) => {
+                  let tabName = key;
+                  if (
+                    !["jmp", "glaas", "rush"].includes(key.toLocaleLowerCase())
+                  ) {
+                    tabName = key
+                      .split("_")
+                      .map((x) => capitalize(x))
+                      .join(" ");
+                  } else {
+                    tabName = key.toUpperCase();
+                  }
+                  return <TabPane tab={tabName} key={key}></TabPane>;
+                })}
               </Tabs>
             )}
           </div>
@@ -271,4 +200,4 @@ const Dashboard = () => {
   );
 };
 
-export default React.memo(Dashboard);
+export default React.memo(ReportDashboard);

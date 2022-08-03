@@ -13,6 +13,7 @@ const DataDetail = ({
   updater,
   updateRecord,
   setDeleteData,
+  isPublic = false,
 }) => {
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -207,6 +208,7 @@ const DataDetail = ({
                       updateCell={updateCell}
                       resetCell={resetCell}
                       pendingData={pendingData}
+                      isPublic={isPublic}
                     />
                   ),
                 },
@@ -231,21 +233,23 @@ const DataDetail = ({
           </div>
         ))}
       </div>
-      <div>
-        <Space>
-          <Button
-            type="primary"
-            onClick={handleSave}
-            disabled={!edited || saving}
-            loading={saving}
-          >
-            Save Edits
-          </Button>
-          <Button type="danger" onClick={() => setDeleteData(record)}>
-            Delete
-          </Button>
-        </Space>
-      </div>
+      {!isPublic && (
+        <div>
+          <Space>
+            <Button
+              type="primary"
+              onClick={handleSave}
+              disabled={!edited || saving}
+              loading={saving}
+            >
+              Save Edits
+            </Button>
+            <Button type="danger" onClick={() => setDeleteData(record)}>
+              Delete
+            </Button>
+          </Space>
+        </div>
+      )}
     </>
   );
 };

@@ -22,9 +22,15 @@ class Command(BaseCommand):
                             const=1,
                             default=False,
                             type=int)
+        parser.add_argument("-f",
+                            "--file",
+                            nargs="?",
+                            default=False,
+                            type=int)
 
     def handle(self, *args, **options):
         TEST = options.get("test")
+        JSON_FILE = options.get("file")
         # for JMP attribute seeder
         jmp_criteria_config_source = './source/config/visualisation.json'
         if TEST:
@@ -42,6 +48,8 @@ class Command(BaseCommand):
                    if TEST else "example" not in x, source_files))
         if PROD:
             source_files = list(filter(lambda x: "prod" in x, source_files))
+        if JSON_FILE:
+            source_files = [f"{source_folder}{JSON_FILE}.prod.json"]
         for source in source_files:
             json_form = open(source, 'r')
             json_form = json.load(json_form)
@@ -101,6 +109,7 @@ class Command(BaseCommand):
                         question.dependency = q.get("dependency")
                         question.type = getattr(QuestionTypes, q["type"])
                         question.api = q.get("api")
+                        question.extra = q.get("extra")
                         question.save()
                     if q.get("options"):
                         QO.objects.filter(question=question).all().delete()
