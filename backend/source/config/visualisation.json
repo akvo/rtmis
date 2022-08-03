@@ -41,8 +41,8 @@
               {
                 "question": 492490054,
                 "option": [
-                  "Flush / pour flush",
-                  "Pit latrine with slab",
+                  "Flush or pour flush toilet",
+                  "Pit latrine",
                   "VIP latrine"
                 ]
               },
@@ -64,8 +64,8 @@
               {
                 "question": 492490054,
                 "option": [
-                  "Flush / pour flush",
-                  "Pit latrine with slab",
+                  "Flush or pour flush toilet",
+                  "Pit latrine",
                   "VIP latrine"
                 ]
               },
@@ -83,8 +83,8 @@
               {
                 "question": 492490054,
                 "option": [
-                  "Flush / pour flush",
-                  "Pit latrine with slab",
+                  "Flush or pour flush toilet",
+                  "Pit latrine",
                   "VIP latrine"
                 ]
               },
@@ -102,7 +102,7 @@
               {
                 "question": 492490054,
                 "option": [
-                  "Pit latrine without slab/open pit",
+                  
                   "Bucket"
                 ]
               }
@@ -114,8 +114,8 @@
             "color": "#F1AC2A",
             "options": [
               {
-                "question": 492490054,
-                "option": ["No facility / Bush / Field"]
+                "question": 513690068,
+                "option": ["No"]
               }
             ]
           }
@@ -133,9 +133,10 @@
               {
                 "question": 466680043,
                 "option": [
-                  "Fixed facility observed (sink/tap) In dwelling",
-                  "Fixed facility observed (sink/tap)  In yard/plot",
-                  "Mobile object observed (bucket/jug/kettle)"
+                  "Sink",
+                  "Tap",
+                  "Mobile object (bucket/jug/kettle)",
+                  "Tippy tap"
                 ]
               },
               {
@@ -156,9 +157,10 @@
               {
                 "question": 466680043,
                 "option": [
-                  "Fixed facility observed (sink/tap) In dwelling",
-                  "Fixed facility observed (sink/tap)  In yard/plot",
-                  "Mobile object observed (bucket/jug/kettle)"
+                  "Sink",
+                  "Tap",
+                  "Mobile object (bucket/jug/kettle)",
+                  "Tippy tap"
                 ]
               },
               {
@@ -277,9 +279,9 @@
               {
                 "question": 555370004,
                 "option": [
-                  "Flush / Pour-flush toilet to sewer connection",
-                  "Flush / Pour-flush toilet to tank or pit",
-                  "Pit latrine with slab",
+                  "Flush / Pour-flush toilet",
+                  "VIP latrine",
+                  "Pit latrine",
                   "Composting toilet"
                 ]
               },
@@ -313,9 +315,9 @@
               {
                 "question": 555370004,
                 "option": [
-                  "Flush / Pour-flush toilet to sewer connection",
-                  "Flush / Pour-flush toilet to tank or pit",
-                  "Pit latrine with slab",
+                  "Flush / Pour-flush toilet",
+                  "VIP latrine",
+                  "Pit latrine",
                   "Composting toilet"
                 ]
               },
@@ -347,14 +349,8 @@
             "color": "#FDF177",
             "options": [
               {
-                "question": 555370004,
-                "option": [
-                  "Flush / Pour-flush toilet to open drain",
-                  "Pit latrine without slab/open pit",
-                  "Bucket",
-                  "Hanging toilet/latrine",
-                  "No toilet/latrine"
-                ]
+                "question": 611790061,
+                "option": ["No"]
               }
             ]
           }
@@ -436,22 +432,19 @@
                 "question": 541950011,
                 "option": [
                   "Autoclaved",
-                  "Incinerated (two chamber, 850-1000 °C incinerator)",
-                  "Incinerated (other)",
-                  "Burning in a protected pit",
-                  "Not treated, but buried in lined, protected pit",
-                  "Not treated, but collected for medical waste disposal off-site"
+                  "Incinerated",
+                  "Buried in lined, protected pit",
+                  "Collected for medical waste disposal off-site"
+                  
                 ]
               },
               {
                 "question": 541950005,
                 "option": [
                   "Autoclaved",
-                  "Incinerated (two chamber, 850-1000 °C incinerator)",
-                  "Incinerated (other)",
-                  "Burning in a protected pit",
-                  "Not treated, but buried in lined, protected pit",
-                  "Not treated, but collected for medical waste disposal off-site"
+                  "Incinerated",
+                  "Buried in lined, protected pit",
+                  "Collected for medical waste disposal off-site"
                 ]
               }
             ]
@@ -471,22 +464,18 @@
                 "question": 541950011,
                 "option": [
                   "Autoclaved",
-                  "Incinerated (two chamber, 850-1000 °C incinerator)",
-                  "Incinerated (other)",
-                  "Burning in a protected pit",
-                  "Not treated, but buried in lined, protected pit",
-                  "Not treated, but collected for medical waste disposal off-site"
+                  "Incinerated",
+                  "Buried in lined, protected pit",
+                  "Collected for medical waste disposal off-site"
                 ]
               },
               {
                 "question": 541950005,
                 "option": [
                   "Autoclaved",
-                  "Incinerated (two chamber, 850-1000 °C incinerator)",
-                  "Incinerated (other)",
-                  "Burning in a protected pit",
-                  "Not treated, but buried in lined, protected pit",
-                  "Not treated, but collected for medical waste disposal off-site"
+                  "Incinerated",
+                  "Buried in lined, protected pit",
+                  "Collected for medical waste disposal off-site"
                 ]
               }
             ]
