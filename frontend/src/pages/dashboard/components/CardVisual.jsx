@@ -57,7 +57,8 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
       );
       // counties count card
       const administration_count = filterAdm.length || 1;
-      const administration_reported = data.length;
+      // filter data by total > 0
+      const administration_reported = data.filter((d) => d.total > 0).length;
       const adm_percent = Math.round(
         (administration_reported / administration_count) * 100
       );
