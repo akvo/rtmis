@@ -52,6 +52,8 @@ class FormApprovalTestCase(TestCase):
             content_type='application/json',
             **header)
         self.assertEqual(200, response.status_code)
+        self.assertEqual(list(response.json()[0]),
+                         ['user', 'administration'])
 
         # check form approval endpoint
         user = SystemUser.objects.filter(
