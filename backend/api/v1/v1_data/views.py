@@ -1235,64 +1235,63 @@ def get_jmp_data(request, version, form_id):
         if data_ids:
             filter_total.update({'pk__in': data_ids})
         total = FormData.objects.filter(**filter_total).count()
-        if total:
-            for crt in criteria:
-                data = 0
-                if data_ids:
-                    # JMP Criteria
-                    matches_name = f"crt.{form.id}{crt.name}{crt.level}"
-                    matches = get_cache(matches_name)
-                    if not matches:
-                        matches = ViewJMPCriteria.objects.filter(
-                                form=form,
-                                name=crt.name,
-                                level=crt.level).count()
-                        create_cache(matches_name, matches)
+        for crt in criteria:
+            data = 0
+            if data_ids:
+                # JMP Criteria
+                matches_name = f"crt.{form.id}{crt.name}{crt.level}"
+                matches = get_cache(matches_name)
+                if not matches:
+                    matches = ViewJMPCriteria.objects.filter(
+                            form=form,
+                            name=crt.name,
+                            level=crt.level).count()
+                    create_cache(matches_name, matches)
 
-                    data = ViewJMPData.objects.filter(
-                        data_id__in=data_ids,
-                        path__startswith=adm_path,
-                        name=crt.name,
-                        level=crt.level,
-                        matches=matches,
-                        form=form).count()
-                else:
-                    data = ViewJMPCount.objects.filter(
-                        path__startswith=adm_path,
-                        name=crt.name,
-                        level=crt.level,
-                        form=form).aggregate(Sum('total'))
-                    data = data.get("total__sum")
-                temp[crt.name][crt.level] = data or 0
-            for q in avgs:
+                data = ViewJMPData.objects.filter(
+                    data_id__in=data_ids,
+                    path__startswith=adm_path,
+                    name=crt.name,
+                    level=crt.level,
+                    matches=matches,
+                    form=form).count()
+            else:
+                data = ViewJMPCount.objects.filter(
+                    path__startswith=adm_path,
+                    name=crt.name,
+                    level=crt.level,
+                    form=form).aggregate(Sum('total'))
+                data = data.get("total__sum")
+            temp[crt.name][crt.level] = data or 0
+        for q in avgs:
+            answer = Answers.objects.filter(
+                data__administration__path__startswith=adm_path,
+                question=q).exclude(
+                value__isnull=True).aggregate(
+                avg=Avg('value'))
+            temp['average'][q.id] = answer['avg']
+        for q in sums:
+            if not opts.get(q.id):
                 answer = Answers.objects.filter(
                     data__administration__path__startswith=adm_path,
                     question=q).exclude(
                     value__isnull=True).aggregate(
-                    avg=Avg('value'))
-                temp['average'][q.id] = answer['avg']
-            for q in sums:
-                if not opts.get(q.id):
+                    sum=Sum('value'))
+                temp['sum'][q.id] = answer['sum']
+            else:
+                ov = {}
+                for o in opts.get(q.id):
                     answer = Answers.objects.filter(
                         data__administration__path__startswith=adm_path,
-                        question=q).exclude(
-                        value__isnull=True).aggregate(
-                        sum=Sum('value'))
-                    temp['sum'][q.id] = answer['sum']
-                else:
-                    ov = {}
-                    for o in opts.get(q.id):
-                        answer = Answers.objects.filter(
-                            data__administration__path__startswith=adm_path,
-                            options__contains=o,
-                            question=q).aggregate(
-                            count=Count('id'))
-                        ov.update({o: answer["count"]})
-                    temp['sum'][q.id] = ov
-            jmp_data.append({
-                "loc": adm.name,
-                "data": temp,
-                "total": total})
+                        options__contains=o,
+                        question=q).aggregate(
+                        count=Count('id'))
+                    ov.update({o: answer["count"]})
+                temp['sum'][q.id] = ov
+        jmp_data.append({
+            "loc": adm.name,
+            "data": temp,
+            "total": total})
     return Response(jmp_data, status=status.HTTP_200_OK)
 
 
