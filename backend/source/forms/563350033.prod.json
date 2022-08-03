@@ -139,7 +139,7 @@
           "meta": false,
           "question": "Is the school Public or private?",
           "name": null,
-          "order": 8,
+          "order": 9,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -157,7 +157,7 @@
           "meta": false,
           "question": "What is the school category?",
           "name": null,
-          "order": 9,
+          "order": 10,
           "required": true,
           "type": "multiple_option",
           "attributes": [],
@@ -181,7 +181,7 @@
           "meta": false,
           "question": "Number of boys",
           "name": "# of boys",
-          "order": 10,
+          "order": 11,
           "required": true,
           "type": "number",
           "attributes": [
@@ -198,7 +198,7 @@
           "meta": false,
           "question": "Number of girls",
           "name": "# of girls",
-          "order": 11,
+          "order": 12,
           "required": true,
           "type": "number",
           "attributes": [
@@ -215,7 +215,7 @@
           "meta": false,
           "question": "Number of male staff",
           "name": "# of male staff",
-          "order": 12,
+          "order": 13,
           "required": true,
           "type": "number",
           "attributes": [
@@ -229,7 +229,7 @@
           "meta": false,
           "question": "Number of female staff",
           "name": "# of female staff",
-          "order": 13,
+          "order": 14,
           "required": true,
           "type": "number",
           "attributes": [
