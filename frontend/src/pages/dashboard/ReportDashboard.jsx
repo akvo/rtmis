@@ -126,12 +126,14 @@ const ReportDashboard = () => {
   };
 
   const renderColumn = (cfg, index) => {
+    // filter data by total > 0
+    const filteredDataByTotal = dataset.filter((d) => d.total > 0);
     return (
       <TableVisual
         key={index}
         tableConfig={{
           ...cfg,
-          data: dataset,
+          data: filteredDataByTotal,
           index: index,
           admLevelName: admLevelName,
         }}
