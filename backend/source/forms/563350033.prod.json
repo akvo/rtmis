@@ -19,7 +19,7 @@
         },
         {
           "id": 543080040,
-          "meta": false,
+          "meta": true,
           "question": "Take the GPS location",
           "name": null,
           "order": 2,
@@ -178,7 +178,7 @@
           ],
           "options": null,
           "rule": {
-            "max": 5000.0
+            "max": 5000
           }
         },
         {
@@ -195,7 +195,7 @@
           ],
           "options": null,
           "rule": {
-            "max": 5000.0
+            "max": 5000
           }
         },
         {
