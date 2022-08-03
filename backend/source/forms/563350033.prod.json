@@ -18,11 +18,23 @@
           "options": null
         },
         {
+          "id": 5633500331,
+          "meta": false,
+          "question": "Organisation",
+          "name": null,
+          "order": 2,
+          "required": true,
+          "type": "cascade",
+          "api": {
+            "endpoint": "/api/v1/organisations?attributes=2"
+          }
+        },
+        {
           "id": 543080040,
           "meta": true,
           "question": "Take the GPS location",
           "name": null,
-          "order": 2,
+          "order": 3,
           "required": false,
           "type": "geo",
           "attributes": [
@@ -35,7 +47,7 @@
           "meta": true,
           "question": "Location",
           "name": null,
-          "order": 3,
+          "order": 4,
           "required": true,
           "type": "administration",
           "attributes": [
@@ -49,7 +61,7 @@
           "meta": false,
           "question": "Is the school in an urban, peri-urban or rural setup?",
           "name": "Whether Urban, Peri Urban or Rural",
-          "order": 4,
+          "order": 5,
           "required": true,
           "type": "option",
           "attributes": [
@@ -72,7 +84,7 @@
           "meta": true,
           "question": "School name",
           "name": null,
-          "order": 5,
+          "order": 6,
           "required": true,
           "type": "text",
           "attributes": [
@@ -85,7 +97,7 @@
           "meta": true,
           "question": "School ministry of education code",
           "name": null,
-          "order": 6,
+          "order": 7,
           "required": true,
           "type": "text",
           "attributes": [
@@ -98,7 +110,7 @@
           "meta": true,
           "question": "School level",
           "name": null,
-          "order": 7,
+          "order": 8,
           "required": true,
           "type": "option",
           "attributes": [
