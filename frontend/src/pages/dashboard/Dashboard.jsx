@@ -148,12 +148,18 @@ const Dashboard = () => {
   };
 
   const renderColumn = (cfg, index) => {
+    // filter data by total > 0
+    const filteredDataByTotal = dataset.filter((d) => d.total > 0);
     switch (cfg.type) {
       case "maps":
         return (
           <Maps
             key={index}
-            mapConfig={{ ...cfg, data: dataset, index: index }}
+            mapConfig={{
+              ...cfg,
+              data: filteredDataByTotal,
+              index: index,
+            }}
             loading={loading}
           />
         );
@@ -176,7 +182,7 @@ const Dashboard = () => {
             key={index}
             tableConfig={{
               ...cfg,
-              data: dataset,
+              data: filteredDataByTotal,
               index: index,
               admLevelName: admLevelName,
             }}
