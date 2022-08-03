@@ -45,7 +45,9 @@
                 {
                   "title": "Count by service level",
                   "children": true,
-                  "children_path": "data.sanitation service level"
+                  "children_path": "data.sanitation service level",
+                  "show_percent": true,
+                  "percent_path": "total"
                 }
               ],
               "span": 24
@@ -69,7 +71,9 @@
                 {
                   "title": "Count by service level",
                   "children": true,
-                  "children_path": "data.hygiene service level"
+                  "children_path": "data.hygiene service level",
+                  "show_percent": true,
+                  "percent_path": "total"
                 }
               ],
               "span": 24
@@ -93,7 +97,9 @@
                 {
                   "title": "Count by service level",
                   "children": true,
-                  "children_path": "data.menstrual hygiene service level"
+                  "children_path": "data.menstrual hygiene service level",
+                  "show_percent": true,
+                  "percent_path": "total"
                 }
               ],
               "span": 24
@@ -162,7 +168,9 @@
                 {
                   "title": "Count by service level",
                   "children": true,
-                  "children_path": "data.sanitation service level"
+                  "children_path": "data.sanitation service level",
+                  "show_percent": true,
+                  "percent_path": "total"
                 }
               ],
               "span": 24
@@ -186,7 +194,9 @@
                 {
                   "title": "Count by service level",
                   "children": true,
-                  "children_path": "data.hygiene (hand washing) service level"
+                  "children_path": "data.hygiene (hand washing) service level",
+                  "show_percent": true,
+                  "percent_path": "total"
                 }
               ],
               "span": 24
@@ -210,7 +220,9 @@
                 {
                   "title": "Count by service level",
                   "children": true,
-                  "children_path": "data.health care waste management service level"
+                  "children_path": "data.health care waste management service level",
+                  "show_percent": true,
+                  "percent_path": "total"
                 }
               ],
               "span": 24
@@ -234,7 +246,9 @@
                 {
                   "title": "Count by service level",
                   "children": true,
-                  "children_path": "data.environmental cleaning service level"
+                  "children_path": "data.environmental cleaning service level",
+                  "show_percent": true,
+                  "percent_path": "total"
                 }
               ],
               "span": 24
@@ -290,7 +304,9 @@
                 {
                   "title": "Count by service level",
                   "children": true,
-                  "children_path": "data.sanitation service level"
+                  "children_path": "data.sanitation service level",
+                  "show_percent": true,
+                  "percent_path": "total"
                 }
               ],
               "span": 24
@@ -314,7 +330,9 @@
                 {
                   "title": "Count by service level",
                   "children": true,
-                  "children_path": "data.hygiene (handwashing) service level"
+                  "children_path": "data.hygiene (handwashing) service level",
+                  "show_percent": true,
+                  "percent_path": "total"
                 }
               ],
               "span": 24
@@ -338,7 +356,9 @@
                 {
                   "title": "Count by service level",
                   "children": true,
-                  "children_path": "data.drinking water service level"
+                  "children_path": "data.drinking water service level",
+                  "show_percent": true,
+                  "percent_path": "total"
                 }
               ],
               "span": 24
@@ -362,7 +382,9 @@
                 {
                   "title": "Count by service level",
                   "children": true,
-                  "children_path": "data.enviromental cleaning service level"
+                  "children_path": "data.enviromental cleaning service level",
+                  "show_percent": true,
+                  "percent_path": "total"
                 }
               ],
               "span": 24
@@ -386,7 +408,9 @@
                 {
                   "title": "Count by service level",
                   "children": true,
-                  "children_path": "data.hygiene (mhm) service level"
+                  "children_path": "data.hygiene (mhm) service level",
+                  "show_percent": true,
+                  "percent_path": "total"
                 }
               ],
               "span": 24
