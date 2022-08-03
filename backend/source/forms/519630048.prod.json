@@ -250,7 +250,7 @@
           "name": "Children under 5 years",
           "order": 11,
           "required": true,
-          "type": "option",
+          "type": "multiple_option",
           "attributes": [
             "advanced_filter"
           ],
@@ -421,14 +421,15 @@
         {
           "id": 513690068,
           "meta": false,
-          "question": "Is a functional household toilet  with adequate privacy available? ask permission to observe the facility.",
-          "name": "Functional Toilet Availability",
+          "question": "Does the household have a latrine facility?",
+          "name": " Toilet Availabile",
           "order": 1,
           "required": true,
           "type": "option",
           "attributes": [
             "table",
-            "chart"
+            "chart",
+            "advanced_filter"
           ],
           "options": [
             {
@@ -462,25 +463,27 @@
           ],
           "options": [
             {
-              "name": "Flush / pour flush"
+              "name": "Flush or pour flush toilet"
             },
             {
-              "name": "Pit latrine with slab"
+              "name": "Pit latrine"
             },
             {
               "name": "VIP latrine"
             },
             {
-              "name": "Container based sanitation"
-            },
-            {
-              "name": "Pit latrine without slab/open pit"
+              "name": "Container based sanitation facility"
             },
             {
               "name": "Bucket"
-            },
+            }
+          ],
+          "dependency": [
             {
-              "name": "No facility / Bush / Field"
+              "id": 513690068,
+              "options": [
+                "Yes"
+              ]
             }
           ]
         },
@@ -514,7 +517,7 @@
             {
               "id": 492490054,
               "options": [
-                "Flush / pour flush"
+                "Flush or pour flush toilet"
               ]
             }
           ]
@@ -551,7 +554,7 @@
         {
           "id": 608880007,
           "meta": false,
-          "question": "Does the superstructure of the latrine provide privacy?",
+          "question": "Does the superstructure of the latrine provide privacy? (please observe)",
           "name": "Latrine superstructure affords privacy and can prevent animals from entering",
           "order": 5,
           "required": true,
@@ -569,11 +572,10 @@
             {
               "id": 492490054,
               "options": [
-                "Flush / pour flush",
-                "Pit latrine with slab",
+                "Flush or pour flush toilet",
+                "Pit latrine",
                 "VIP latrine",
-                "Container based sanitation",
-                "Pit latrine without slab/open pit"
+                "Container based sanitation facility"
               ]
             }
           ]
@@ -599,11 +601,10 @@
             {
               "id": 492490054,
               "options": [
-                "Flush / pour flush",
-                "Pit latrine with slab",
+                "Flush or pour flush toilet",
+                "Pit latrine",
                 "VIP latrine",
-                "Container based sanitation",
-                "Pit latrine without slab/open pit"
+                "Container based sanitation facility"
               ]
             }
           ]
@@ -629,11 +630,10 @@
             {
               "id": 492490054,
               "options": [
-                "Flush / pour flush",
-                "Pit latrine with slab",
+                "Flush or pour flush toilet",
+                "Pit latrine",
                 "VIP latrine",
-                "Container based sanitation",
-                "Pit latrine without slab/open pit"
+                "Container based sanitation facility"
               ]
             }
           ]
@@ -659,9 +659,8 @@
             {
               "id": 492490054,
               "options": [
-                "Pit latrine with slab",
-                "VIP latrine",
-                "Pit latrine without slab/open pit"
+                "Pit latrine",
+                "VIP latrine"
               ]
             }
           ]
@@ -742,7 +741,7 @@
               "name": "Inside the house"
             },
             {
-              "name": "In my compound/homestead"
+              "name": "In my compound"
             },
             {
               "name": "Elsewhere"
@@ -835,10 +834,10 @@
               "name": "A County/municipal service provider"
             },
             {
-              "name": "Local emptier"
+              "name": "Private emptying company"
             },
             {
-              "name": "Private emptier/Tracks"
+              "name": "Manual emptiers"
             },
             {
               "name": "I don't know"
@@ -859,7 +858,7 @@
         {
           "id": 513690060,
           "meta": false,
-          "question": "The last time it was emptied, where were the contents emptied to?",
+          "question": "Where were the contents emptied to?",
           "name": "Contents of pit latrine",
           "order": 15,
           "required": true,
@@ -879,7 +878,7 @@
               "name": "Buried in a covered pit"
             },
             {
-              "name": "Open ground, water body or elsewhere"
+              "name": "Open ground or water body"
             },
             {
               "name": "I dont know where the emptier took the sludge"
@@ -941,16 +940,16 @@
           ],
           "options": [
             {
-              "name": "Limited mobility prevents members from using the toilet"
+              "name": "Limited mobility"
             },
             {
-              "name": "Distance/barriers prevent members from reaching the toilet"
+              "name": "Distance/barriers from the house"
             },
             {
-              "name": "Toilet is not always available to all household members"
+              "name": "Sometimes the toilet is locked"
             },
             {
-              "name": "Toilet is not always safe for all household members to use"
+              "name": "The toilet is not always safe"
             }
           ],
           "extra": {
@@ -1074,9 +1073,9 @@
           ],
           "dependency": [
             {
-              "id": 608890003,
+              "id": 601270072,
               "options": [
-                "0-5"
+                "on washable clothes or napkin"
               ]
             }
           ]
@@ -1100,9 +1099,9 @@
           ],
           "dependency": [
             {
-              "id": 608890003,
+              "id": 601270072,
               "options": [
-                "0-5"
+                "On the diaper"
               ]
             }
           ]
@@ -1141,7 +1140,7 @@
         {
           "id": 466680040,
           "meta": false,
-          "question": "When do your household member wash their hands?",
+          "question": "In your opinion, when should your household members wash their hands?",
           "name": "Critical times for handwashing",
           "order": 1,
           "required": true,
@@ -1201,7 +1200,7 @@
         {
           "id": 466680043,
           "meta": false,
-          "question": "Can you please show me where members of your household most often wash their hands?",
+          "question": "Where do members of your household wash their hands?",
           "name": "Handwashing Facilty",
           "order": 3,
           "required": true,
@@ -1212,16 +1211,16 @@
           ],
           "options": [
             {
-              "name": "Fixed facility observed (sink/tap) In dwelling"
+              "name": "Sink"
             },
             {
-              "name": "Fixed facility observed (sink/tap)  In yard/plot"
+              "name": "Tap"
             },
             {
-              "name": "Mobile object observed (bucket/jug/kettle)"
+              "name": "Mobile object (bucket/jug/kettle)"
             },
             {
-              "name": "No permission to see"
+              "name": "Tippy tap"
             }
           ],
           "extra": {
@@ -1239,7 +1238,7 @@
         {
           "id": 587740004,
           "meta": false,
-          "question": "Where is/are the hand washing facilities located?",
+          "question": "Where is the hand washing facilities located?",
           "name": "Location of handwashing facility",
           "order": 4,
           "required": true,
@@ -1253,46 +1252,16 @@
               "name": "In the house"
             },
             {
-              "name": "in the kitchen"
-            },
-            {
-              "name": "Else where within the homestead"
-            },
-            {
-              "name": "mobile object (bucket, jug, kettle)"
+              "name": "Within the homestead"
             }
           ],
           "dependency": [
             {
-              "id": 599400071,
+              "id": 466680043,
               "options": [
-                "Yes"
-              ]
-            }
-          ]
-        },
-        {
-          "id": 608880010,
-          "meta": false,
-          "question": "Is there a durable handwashing facility with piped water or water storage, in a fixed and appropriate location",
-          "name": "Durable handwashing caility with piped water",
-          "order": 5,
-          "required": true,
-          "type": "option",
-          "attributes": [],
-          "options": [
-            {
-              "name": "Yes"
-            },
-            {
-              "name": "No"
-            }
-          ],
-          "dependency": [
-            {
-              "id": 599400071,
-              "options": [
-                "Yes"
+                "Sink",
+                "Tap",
+                "Tippy tap"
               ]
             }
           ]
@@ -1300,9 +1269,9 @@
         {
           "id": 466680045,
           "meta": false,
-          "question": "Is water available at the place for hand washing?",
+          "question": "Is water available at the place for hand washing? (Observe)",
           "name": "Availability of Water in handwashing facilty",
-          "order": 6,
+          "order": 5,
           "required": true,
           "type": "option",
           "attributes": [
@@ -1331,7 +1300,7 @@
           "meta": false,
           "question": "Does the water have minimal handling or hands-free operation of the handwashing facility",
           "name": "Hands-free operation of the handwashing facility",
-          "order": 7,
+          "order": 6,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -1357,7 +1326,7 @@
           "meta": false,
           "question": "Is the water collected and drained from the hand washing facility into a safe disposal point?",
           "name": "Safe drainage for handwashing facility",
-          "order": 8,
+          "order": 7,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -1383,7 +1352,7 @@
           "meta": false,
           "question": "Is soap available at the hand washing facility? Observe",
           "name": "Availability of Soap",
-          "order": 9,
+          "order": 8,
           "required": true,
           "type": "option",
           "attributes": [
@@ -1412,7 +1381,7 @@
           "meta": false,
           "question": "When do you wash your children's faces?",
           "name": "Time for Washing children's faces",
-          "order": 10,
+          "order": 9,
           "required": true,
           "type": "multiple_option",
           "attributes": [
@@ -1451,7 +1420,7 @@
           "meta": false,
           "question": "May I take a photo of the handwashing station?",
           "name": null,
-          "order": 11,
+          "order": 10,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -1465,11 +1434,9 @@
           ],
           "dependency": [
             {
-              "id": 466680043,
+              "id": 599400071,
               "options": [
-                "Fixed facility observed (sink/tap) In dwelling",
-                "Fixed facility observed (sink/tap)  In yard/plot",
-                "Mobile object observed (bucket/jug/kettle)"
+                "Yes"
               ]
             }
           ]
@@ -1477,9 +1444,9 @@
         {
           "id": 466680042,
           "meta": false,
-          "question": "Make a photo of the handwashing station",
+          "question": "Take a photo of the handwashing station",
           "name": "Handwashing photo",
-          "order": 12,
+          "order": 11,
           "required": true,
           "type": "geo",
           "attributes": [
@@ -1514,10 +1481,10 @@
           ],
           "options": [
             {
-              "name": "Collected by formal service provider"
+              "name": "Collected by the municipal council"
             },
             {
-              "name": "Collected by informal service provider"
+              "name": "Collected by private garbage collectors"
             },
             {
               "name": "Disposed of in designated waste disposal area"
@@ -1526,7 +1493,10 @@
               "name": "Disposed of within household yard or plot"
             },
             {
-              "name": "Buried or burned"
+              "name": "Buried"
+            },
+            {
+              "name": "burned"
             },
             {
               "name": "Disposed of elsewhere"
@@ -1568,19 +1538,7 @@
           ],
           "options": [
             {
-              "name": "Sink/drain connected to sewer"
-            },
-            {
-              "name": "Sink/drain connected to septic tank"
-            },
-            {
-              "name": "Sink/drain connected to pit"
-            },
-            {
-              "name": "Sink/drain connected to soak pit"
-            },
-            {
-              "name": "Sink/drain connected to open drain or open ground"
+              "name": "Sink"
             },
             {
               "name": "Disposed directly to open ground or water body"
@@ -1594,11 +1552,83 @@
           }
         },
         {
+          "id": 618810012,
+          "meta": false,
+          "question": "Where does the sink drain to?",
+          "name": null,
+          "order": 4,
+          "required": true,
+          "type": "multiple_option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Sewer"
+            },
+            {
+              "name": "Septic tank"
+            },
+            {
+              "name": "Pit"
+            },
+            {
+              "name": "Soak pit"
+            },
+            {
+              "name": "Open ground"
+            },
+            {
+              "name": "Water body"
+            }
+          ],
+          "extra": {
+            "allowOther": true
+          },
+          "dependency": [
+            {
+              "id": 466690043,
+              "options": [
+                "Sink"
+              ]
+            }
+          ]
+        },
+        {
           "id": 599430008,
           "meta": false,
           "question": "Are there adequate soak pits and drainage, with no visible erosion or liquid wastes in the household compound?",
           "name": "Adequate soak pits and drainage in the household compound",
-          "order": 4,
+          "order": 5,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 618810012,
+              "options": [
+                "Soak pit"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question_group": "Menstrual hygiene (ask to female members)",
+      "questions": [
+        {
+          "id": 600370068,
+          "meta": false,
+          "question": "I am now going to ask you questions related to menstruation, are you comfortable and willing to answer the questions?",
+          "name": null,
+          "order": 1,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -1610,39 +1640,12 @@
               "name": "No"
             }
           ]
-        }
-      ]
-    },
-    {
-      "question_group": "Menstrual hygiene (ask to female members)",
-      "questions": [
+        },
         {
           "id": 607250002,
           "meta": false,
           "question": "Were you given any information on menstruation before you got your first period?",
           "name": "Aware of what to expect during first period",
-          "order": 1,
-          "required": true,
-          "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart"
-          ],
-          "options": [
-            {
-              "name": "Yes"
-            },
-            {
-              "name": "No"
-            }
-          ]
-        },
-        {
-          "id": 524810054,
-          "meta": false,
-          "question": "During your last menstrual period, did you have space to wash and change in privacy (alone) while at home?",
-          "name": "Able to wash and change during menstrual period in privacy",
           "order": 2,
           "required": true,
           "type": "option",
@@ -1658,6 +1661,44 @@
             {
               "name": "No"
             }
+          ],
+          "dependency": [
+            {
+              "id": 600370068,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 524810054,
+          "meta": false,
+          "question": "During your last menstrual period, did you have space to wash and change in privacy (alone) while at home?",
+          "name": "Able to wash and change during menstrual period in privacy",
+          "order": 3,
+          "required": true,
+          "type": "option",
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "chart"
+          ],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 600370068,
+              "options": [
+                "Yes"
+              ]
+            }
           ]
         },
         {
@@ -1665,7 +1706,7 @@
           "meta": false,
           "question": "During your last period, Where did you wash and change?",
           "name": "The Location to wash and charge",
-          "order": 3,
+          "order": 4,
           "required": true,
           "type": "option",
           "attributes": [
@@ -1689,14 +1730,22 @@
           ],
           "extra": {
             "allowOther": true
-          }
+          },
+          "dependency": [
+            {
+              "id": 600370068,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
         },
         {
           "id": 524810057,
           "meta": false,
           "question": "During your last menstrual period, what hygiene materials did you mainly use?",
           "name": "Menstrual hygiene material",
-          "order": 4,
+          "order": 5,
           "required": true,
           "type": "option",
           "attributes": [
@@ -1725,14 +1774,22 @@
           ],
           "extra": {
             "allowOther": true
-          }
+          },
+          "dependency": [
+            {
+              "id": 600370068,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
         },
         {
           "id": 524810052,
           "meta": false,
           "question": "Was the menstrual hygiene material affordable?",
           "name": "Affordable of Menstrual hygiene material",
-          "order": 5,
+          "order": 6,
           "required": true,
           "type": "option",
           "attributes": [
@@ -1764,7 +1821,7 @@
           "meta": false,
           "question": "Where do you get your menstrual hygiene materials?",
           "name": "Source of Menstrual hygiene material",
-          "order": 6,
+          "order": 7,
           "required": true,
           "type": "option",
           "attributes": [
@@ -1800,27 +1857,6 @@
           "meta": false,
           "question": "During your last periods, Did you miss any activities because you were on your menstrual periods?",
           "name": "Missing activities during menstrual period",
-          "order": 7,
-          "required": true,
-          "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
-          "options": [
-            {
-              "name": "Yes"
-            },
-            {
-              "name": "No"
-            }
-          ]
-        },
-        {
-          "id": 524810050,
-          "meta": false,
-          "question": "During your last menstrual period, did you have access to soap for bathing?",
-          "name": "Use of soap / detergent during menstrual period",
           "order": 8,
           "required": true,
           "type": "option",
@@ -1835,6 +1871,43 @@
             {
               "name": "No"
             }
+          ],
+          "dependency": [
+            {
+              "id": 600370068,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 524810050,
+          "meta": false,
+          "question": "During your last menstrual period, did you have access to soap for bathing?",
+          "name": "Use of soap / detergent during menstrual period",
+          "order": 9,
+          "required": true,
+          "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 600370068,
+              "options": [
+                "Yes"
+              ]
+            }
           ]
         },
         {
@@ -1842,7 +1915,7 @@
           "meta": false,
           "question": "During your last menstrual period, did you have access to soap for cleaning your menstrual material?",
           "name": null,
-          "order": 9,
+          "order": 10,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -1853,6 +1926,14 @@
             {
               "name": "No"
             }
+          ],
+          "dependency": [
+            {
+              "id": 600370068,
+              "options": [
+                "Yes"
+              ]
+            }
           ]
         },
         {
@@ -1860,7 +1941,7 @@
           "meta": false,
           "question": "What do you usually do with your used menstrual material?",
           "name": "Menstrual hygiene waste",
-          "order": 10,
+          "order": 11,
           "required": true,
           "type": "multiple_option",
           "attributes": [
@@ -1870,21 +1951,32 @@
           ],
           "options": [
             {
-              "name": "Throw it in latrine"
+              "name": "Throw it in the pit latrine"
             },
             {
               "name": "Throw it open field"
             },
             {
-              "name": "wash it or reuse it"
+              "name": "wash it"
             },
             {
-              "name": "Put it in trush buckets"
+              "name": "Put it in trash bins"
+            },
+            {
+              "name": "Re-use it"
             }
           ],
           "extra": {
             "allowOther": true
-          }
+          },
+          "dependency": [
+            {
+              "id": 600370068,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
         }
       ]
     },
@@ -1894,7 +1986,7 @@
         {
           "id": 587720010,
           "meta": false,
-          "question": "Is drinking water collected in clean containers; adequate quality; safely stored, and safely used?",
+          "question": "Is drinking water collected in clean covered containers",
           "name": "Drinking water collected in clean containers",
           "order": 1,
           "required": true,
@@ -1910,35 +2002,11 @@
           ]
         },
         {
-          "id": 596150064,
+          "id": 592440013,
           "meta": false,
-          "question": "Where is the drinking water source located?",
-          "name": "Location of drinking water source",
+          "question": "Does drinking water have any taste or colour?",
+          "name": null,
           "order": 2,
-          "required": true,
-          "type": "option",
-          "attributes": [],
-          "options": [
-            {
-              "name": "Within the homestead"
-            },
-            {
-              "name": "In a communal area"
-            },
-            {
-              "name": "I don't know"
-            }
-          ],
-          "extra": {
-            "allowOther": true
-          }
-        },
-        {
-          "id": 591770069,
-          "meta": false,
-          "question": "Are the water sources clean, protected and well-drained",
-          "name": "water sources clean, protected and well-drained",
-          "order": 3,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -1952,11 +2020,92 @@
           ]
         },
         {
+          "id": 596150064,
+          "meta": false,
+          "question": "Where is the drinking water point located?",
+          "name": "Location of drinking water source",
+          "order": 3,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Within the homestead"
+            },
+            {
+              "name": "In a communal area"
+            },
+            {
+              "name": "In the house"
+            },
+            {
+              "name": "I don't know"
+            }
+          ],
+          "extra": {
+            "allowOther": true
+          }
+        },
+        {
+          "id": 591770069,
+          "meta": false,
+          "question": "Is the water source clean, protected and well-drained",
+          "name": "water sources clean, protected and well-drained",
+          "order": 4,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 588190063,
+          "meta": false,
+          "question": "What do you usually do to the water to make it safer to drink?",
+          "name": null,
+          "order": 5,
+          "required": true,
+          "type": "multiple_option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Boil"
+            },
+            {
+              "name": "Add chrorine"
+            },
+            {
+              "name": "Strain through cloth"
+            },
+            {
+              "name": "Use water filter"
+            },
+            {
+              "name": "Solar disinfection"
+            },
+            {
+              "name": "Decant"
+            },
+            {
+              "name": "I don't do anything"
+            }
+          ],
+          "extra": {
+            "allowOther": true
+          }
+        },
+        {
           "id": 583880004,
           "meta": false,
-          "question": "How is food stored?",
+          "question": "How is cooked and uncooked food stored?",
           "name": "How food is stored",
-          "order": 4,
+          "order": 6,
           "required": true,
           "type": "multiple_option",
           "attributes": [],
@@ -1968,7 +2117,7 @@
               "name": "In covered storage"
             },
             {
-              "name": "While it's washed (raw foods)"
+              "name": "While it's washed (fruits and vegetables)"
             },
             {
               "name": "Inside the house"
@@ -1985,11 +2134,38 @@
           }
         },
         {
+          "id": 586330017,
+          "meta": false,
+          "question": "Where do you store your cleaned kitchen utensils?",
+          "name": null,
+          "order": 7,
+          "required": true,
+          "type": "multiple_option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "In a covered container"
+            },
+            {
+              "name": "In a utensil rack"
+            },
+            {
+              "name": "On the ground"
+            },
+            {
+              "name": "Out side"
+            }
+          ],
+          "extra": {
+            "allowOther": true
+          }
+        },
+        {
           "id": 566360065,
           "meta": false,
           "question": "Are the children under 5 years fully immunised (ask to observe the vaccination records)",
           "name": "All under 5 years fully immunized",
-          "order": 5,
+          "order": 8,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -2015,7 +2191,7 @@
           "meta": false,
           "question": "Have all the under-5 children received a Vitamin A supplement in the last 6 months.",
           "name": "All under 5 years received Vit A suppliment last 6 months",
-          "order": 6,
+          "order": 9,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -2041,7 +2217,7 @@
           "meta": false,
           "question": "Are all infants exclusively breastfed until they are 6 months old?",
           "name": "all infants exclusively breastfed until they are 6 months old",
-          "order": 7,
+          "order": 10,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -2067,7 +2243,7 @@
           "meta": false,
           "question": "In the last 7 days, did all under-2 children receive foods from the following food groups?",
           "name": "All under-2 children receive foods from 5 or more food groups",
-          "order": 8,
+          "order": 11,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -2129,7 +2305,7 @@
         {
           "id": 605310003,
           "meta": false,
-          "question": "Do all children and all at-risk adults received deworming treatment in the last 12 months",
+          "question": "Have all children and all at-risk adults received deworming treatment in the last 12 months",
           "name": "All children and all at-risk adults received deworming treatment in the last 12 months",
           "order": 2,
           "required": true,
@@ -2147,7 +2323,7 @@
         {
           "id": 587710066,
           "meta": false,
-          "question": "Is there absence of standing water or untreated larval breeding sites are visible in the household compound",
+          "question": "Is there visible standing water or untreated larval breeding sites in the household compound?",
           "name": "Absence of standing water or untreated larval breeding sites are visible in the household compound",
           "order": 3,
           "required": true,
@@ -2168,10 +2344,10 @@
       "question_group": "Safe management of animal and animal waste",
       "questions": [
         {
-          "id": 607120066,
+          "id": 600370070,
           "meta": false,
-          "question": "Is the animal wastes visible inside the house, or around the house in the household compound (other than in sites where manure is stored)",
-          "name": "Animal wastes visible inside the house, or around the house in the household compound",
+          "question": "Do your household keep any animals or poultry?",
+          "name": null,
           "order": 1,
           "required": true,
           "type": "option",
@@ -2186,10 +2362,10 @@
           ]
         },
         {
-          "id": 596140066,
+          "id": 607120066,
           "meta": false,
-          "question": "Is animal wastes collected, stored and managed in an appropriate facility, located away from the house",
-          "name": "animal wastes collected, stored and managed in an appropriate facility, located away from the house",
+          "question": "Is the animal wastes visible inside the house, or around the house in the household compound (other than in sites where manure is stored)",
+          "name": "Animal wastes visible inside the house, or around the house in the household compound",
           "order": 2,
           "required": true,
           "type": "option",
@@ -2201,13 +2377,21 @@
             {
               "name": "No"
             }
+          ],
+          "dependency": [
+            {
+              "id": 600370070,
+              "options": [
+                "Yes"
+              ]
+            }
           ]
         },
         {
-          "id": 607140007,
+          "id": 596140066,
           "meta": false,
-          "question": "Is there penning and confinement of animals in the household compound",
-          "name": "Presence of penning and confinement of animals in the household compound",
+          "question": "Is animal waste collected, stored and managed in an appropriate facility, located away from the house",
+          "name": "animal wastes collected, stored and managed in an appropriate facility, located away from the house",
           "order": 3,
           "required": true,
           "type": "option",
@@ -2219,6 +2403,40 @@
             {
               "name": "No"
             }
+          ],
+          "dependency": [
+            {
+              "id": 600370070,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 607140007,
+          "meta": false,
+          "question": "Is there penning and confinement of animals in the household compound",
+          "name": "Presence of penning and confinement of animals in the household compound",
+          "order": 4,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 600370070,
+              "options": [
+                "Yes"
+              ]
+            }
           ]
         }
       ]
@@ -2229,14 +2447,25 @@
         {
           "id": 507140056,
           "meta": false,
-          "question": "Any general comments / concerns during the data collection?",
+          "question": "Any general comments from the respondent?",
           "name": "General Comments",
           "order": 1,
-          "required": true,
+          "required": false,
           "type": "text",
           "attributes": [
             "table"
           ],
+          "options": null
+        },
+        {
+          "id": 592440014,
+          "meta": false,
+          "question": "Any general comments from the data collector?",
+          "name": null,
+          "order": 2,
+          "required": false,
+          "type": "text",
+          "attributes": [],
           "options": null
         }
       ]
