@@ -25,7 +25,8 @@ const ChartVisual = ({ chartConfig, loading }) => {
       : String(path).replace("jmp", formId);
   const [isStack, setIsStack] = useState(false);
   const [showEmpty, setShowEmpty] = useState(false);
-  const showSwitcher = calc === "jmp";
+  const showSwitcher =
+    calc?.toLowerCase() === "jmp" && chartType?.toLowerCase() !== "pie";
 
   const chartData = useMemo(() => {
     let jmpServiceLevelOrder = get(jmpColorScore, colorPath);
@@ -83,8 +84,13 @@ const ChartVisual = ({ chartConfig, loading }) => {
             total: !isNil(findJMPConfig?.score)
               ? serviceLevel[key] * findJMPConfig.score
               : serviceLevel[key],
-            color: findJMPConfig.color,
           };
+          if (findJMPConfig) {
+            obj = {
+              ...obj,
+              color: findJMPConfig.color,
+            };
+          }
           if (jmpServiceLevelOrder) {
             obj = { ...obj, order: jmpServiceLevelOrder.indexOf(key) + 1 };
           }
