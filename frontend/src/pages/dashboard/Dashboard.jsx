@@ -165,6 +165,7 @@ const Dashboard = () => {
               ...cfg,
               data: cfg.selector === "period" ? dataPeriod : dataset,
               index: index,
+              admLevelName: admLevelName,
             }}
             loading={loading}
           />
