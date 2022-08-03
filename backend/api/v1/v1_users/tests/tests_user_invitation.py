@@ -1,6 +1,7 @@
 from django.core import signing
 from django.core.management import call_command
 from django.test import TestCase
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from django.test.utils import override_settings
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -90,6 +91,20 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(users['data'][0]['email'], 'admin@rush.com')
         self.assertEqual(users['data'][0]['first_name'], 'Admin')
         self.assertEqual(users['data'][0]['last_name'], 'RUSH')
+        # test filter user if not super admin user logged in
+        call_command("fake_user_seeder", "-r", 10)
+        find_user = SystemUser.objects.filter(
+            user_access__role=UserRoleTypes.admin).first()
+        token = RefreshToken.for_user(find_user)
+        response = self.client.get(
+            "/api/v1/users?page=1&administration={}".format(
+                find_user.user_access.administration_id),
+            follow=True,
+            **{'HTTP_AUTHORIZATION': f'Bearer {token.access_token}'})
+        users = response.json()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(users),
+                         ['current', 'data', 'total', 'total_page'])
 
     def test_add_edit_user(self):
         call_command("administration_seeder", "--test")
@@ -177,6 +192,16 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(add_response.status_code, 200)
         self.assertEqual(add_response.json(),
                          {'message': 'User updated successfully'})
+        # change administration
+        edit_payload["administration"] = 3
+        add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
+                                       edit_payload,
+                                       content_type='application/json',
+                                       **header)
+        self.assertEqual(add_response.status_code, 200)
+        self.assertEqual(add_response.json(),
+                         {'message': 'User updated successfully'})
+
         get_response = self.client.get("/api/v1/user/{0}".format(fl[0]['id']),
                                        content_type='application/json',
                                        **header)
@@ -212,6 +237,27 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(responses["forms"],
                          [{'id': 1, 'name': 'Test Form'},
                           {'id': 2, 'name': 'Test Form 2'}])
+
+        # test_update_user_with_pending_approval
+        call_command("fake_pending_data_seeder")
+        find_user = SystemUser.objects.filter(
+            user_access__role=UserRoleTypes.admin).order_by('-id').first()
+        edit_payload = {
+            "first_name": find_user.first_name,
+            "last_name": find_user.last_name,
+            "email": find_user.email,
+            "administration": find_user.user_access.administration_id + 1,
+            "organisation": org.id,
+            "trained": False,
+            "role": find_user.user_access.role,
+            "forms": [fr.form_id for fr in find_user.user_form.all()],
+            "inform_user": True,
+        }
+        response = self.client.put("/api/v1/user/{0}".format(find_user.id),
+                                   edit_payload,
+                                   content_type='application/json',
+                                   **header)
+        self.assertEqual(response.status_code, 409)
 
     def test_add_admin_user(self):
         call_command("administration_seeder", "--test")

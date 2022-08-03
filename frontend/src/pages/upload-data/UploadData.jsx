@@ -10,6 +10,7 @@ import {
   Space,
   Select,
   Upload,
+  Result,
 } from "antd";
 import { FileTextFilled } from "@ant-design/icons";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
@@ -43,6 +44,7 @@ const UploadData = () => {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [updateExisting, setUpdateExisting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const { notify } = useNotification();
   const navigate = useNavigate();
   const { language } = store.useState((s) => s);
@@ -89,7 +91,8 @@ const UploadData = () => {
         message: text.fileUploadSuccess,
       });
       setUploading(false);
-      navigate("/profile");
+      // navigate("/data/submissions");
+      setShowSuccess(true);
     } else if (info.file?.status === "error") {
       notify({
         type: "error",
@@ -129,7 +132,21 @@ const UploadData = () => {
   };
 
   const handleChange = (e) => {
-    setFormId(e);
+    // check only for data entry role
+    if (user.role.id === 4) {
+      api.get(`form/check-approver/${e}`).then((res) => {
+        if (!res.data.count) {
+          notify({
+            type: "error",
+            message: text.bulkUploadNoApproverMessage,
+          });
+        } else {
+          setFormId(e);
+        }
+      });
+    } else {
+      setFormId(e);
+    }
   };
 
   const downloadTemplate = () => {
@@ -179,69 +196,109 @@ const UploadData = () => {
         </Col>
       </Row>
       <Divider />
-      <Row align="middle">
-        <Checkbox
-          id="updateExisting"
-          checked={updateExisting}
-          onChange={() => {
-            setUpdateExisting(!updateExisting);
-          }}
+      {!loading && showSuccess && (
+        <Card
+          style={{ padding: 0, minHeight: "40vh" }}
+          bodyStyle={{ padding: 0 }}
         >
-          {text.updateExisting}
-        </Checkbox>
-      </Row>
-      <Card
-        style={{ padding: 0, minHeight: "40vh" }}
-        bodyStyle={{ padding: 0 }}
-      >
-        <Space align="center" size={32}>
-          <img src="/assets/data-download.svg" />
-          <p>{text.templateDownloadHint}</p>
-          <Select placeholder="Select Form..." onChange={handleChange}>
-            {forms.map((f, fI) => (
-              <Option key={fI} value={f.id}>
-                {f.name}
-              </Option>
-            ))}
-          </Select>
-          <Button loading={loading} type="primary" onClick={downloadTemplate}>
-            Download
-          </Button>
-        </Space>
-        <Space align="center" size={32}>
-          <img src="/assets/data-upload.svg" />
-          <p>Upload your data</p>
-          <Select
-            placeholder="Select Form..."
-            value={formId}
-            onChange={handleChange}
+          <Result
+            status="success"
+            title={text?.formSuccessTitle}
+            extra={[
+              <p key="phar">
+                Thank you for uploading the data file. Do note that the data
+                will be validated by the system . You will be notified via email
+                if the data fails the validation tests . There will also be an
+                attachment of the validation errors that needs to be corrected.
+                If there are no validation errors , then the data will be
+                forwarded for verification, approval, and certification
+              </p>,
+              <Divider key="divider" />,
+              <Button
+                type="primary"
+                key="back-button"
+                onClick={() => setShowSuccess(false)}
+              >
+                Upload Another File
+              </Button>,
+              <Button key="page" onClick={() => navigate("/control-center")}>
+                Back to Control Center
+              </Button>,
+            ]}
+          />
+        </Card>
+      )}
+      {!showSuccess && (
+        <>
+          <Row align="middle">
+            <Checkbox
+              id="updateExisting"
+              checked={updateExisting}
+              onChange={() => {
+                setUpdateExisting(!updateExisting);
+              }}
+            >
+              {text.updateExisting}
+            </Checkbox>
+          </Row>
+          <Card
+            style={{ padding: 0, minHeight: "40vh" }}
+            bodyStyle={{ padding: 0 }}
           >
-            {forms.map((f, fI) => (
-              <Option key={fI} value={f.id}>
-                {f.name}
-              </Option>
-            ))}
-          </Select>
-          <AdministrationDropdown />
-        </Space>
-        <div className="upload-wrap">
-          <Dragger {...props}>
-            <p className="ant-upload-drag-icon">
-              <FileTextFilled style={{ color: "#707070" }} />
-            </p>
-            <p className="ant-upload-text">
-              {formId
-                ? uploading
-                  ? text.uploading
-                  : text.dropFile
-                : text.selectForm}
-            </p>
-            <Button disabled={!formId} loading={uploading}>
-              {text.browseComputer}
-            </Button>
-          </Dragger>
-        </div>
-      </Card>
+            <Space align="center" size={32}>
+              <img src="/assets/data-download.svg" />
+              <p>{text.templateDownloadHint}</p>
+              <Select placeholder="Select Form..." onChange={handleChange}>
+                {forms.map((f, fI) => (
+                  <Option key={fI} value={f.id}>
+                    {f.name}
+                  </Option>
+                ))}
+              </Select>
+              <Button
+                loading={loading}
+                type="primary"
+                onClick={downloadTemplate}
+              >
+                Download
+              </Button>
+            </Space>
+            <Space align="center" size={32}>
+              <img src="/assets/data-upload.svg" />
+              <p>Upload your data</p>
+              <Select
+                placeholder="Select Form..."
+                value={formId}
+                onChange={handleChange}
+              >
+                {forms.map((f, fI) => (
+                  <Option key={fI} value={f.id}>
+                    {f.name}
+                  </Option>
+                ))}
+              </Select>
+              <AdministrationDropdown />
+            </Space>
+            <div className="upload-wrap">
+              <Dragger {...props}>
+                <p className="ant-upload-drag-icon">
+                  <FileTextFilled style={{ color: "#707070" }} />
+                </p>
+                <p className="ant-upload-text">
+                  {formId
+                    ? uploading
+                      ? text.uploading
+                      : text.dropFile
+                    : text.selectForm}
+                </p>
+                <Button disabled={!formId} loading={uploading}>
+                  {text.browseComputer}
+                </Button>
+              </Dragger>
+            </div>
+          </Card>
+        </>
+      )}
     </div>
   );
 };

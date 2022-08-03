@@ -41,18 +41,23 @@
               {
                 "question": 492490054,
                 "option": [
-                  "Flush / pour flush",
-                  "Pit latrine with slab",
-                  "Twin pit with slab"
+                  "Flush or pour flush toilet",
+                  "Pit latrine",
+                  "VIP latrine"
                 ]
               },
               {
                 "question": 513690062,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               },
               {
                 "question": 513690060,
-                "option": ["To a treatment plant", "Buried in an uncovered pit"]
+                "option": [
+                  "To a treatment plant",
+                  "Buried in an uncovered pit"
+                ]
               }
             ]
           },
@@ -64,14 +69,16 @@
               {
                 "question": 492490054,
                 "option": [
-                  "Flush / pour flush",
-                  "Pit latrine with slab",
-                  "Twin pit with slab"
+                  "Flush or pour flush toilet",
+                  "Pit latrine",
+                  "VIP latrine"
                 ]
               },
               {
                 "question": 513690062,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               }
             ]
           },
@@ -83,14 +90,16 @@
               {
                 "question": 492490054,
                 "option": [
-                  "Flush / pour flush",
-                  "Pit latrine with slab",
-                  "Twin pit with slab"
+                  "Flush or pour flush toilet",
+                  "Pit latrine",
+                  "VIP latrine"
                 ]
               },
               {
                 "question": 513690062,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -102,10 +111,7 @@
               {
                 "question": 492490054,
                 "option": [
-                  "Pit latrine without slab / Open pit",
-                  "Twin pit without slab",
-                  "Bucket",
-                  "Hanging toilet / hanging latrine"
+                  "Bucket"
                 ]
               }
             ]
@@ -116,8 +122,10 @@
             "color": "#F1AC2A",
             "options": [
               {
-                "question": 492490054,
-                "option": ["No facility / Bush / Field"]
+                "question": 513690068,
+                "option": [
+                  "No"
+                ]
               }
             ]
           }
@@ -135,18 +143,23 @@
               {
                 "question": 466680043,
                 "option": [
-                  "Fixed facility observed (sink/tap) In dwelling",
-                  "Fixed facility observed (sink/tap)  In yard/plot",
-                  "Mobile object observed (bucket/jug/kettle)"
+                  "Sink",
+                  "Tap",
+                  "Mobile object (bucket/jug/kettle)",
+                  "Tippy tap"
                 ]
               },
               {
                 "question": 466680045,
-                "option": ["Water is available"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 466760036,
-                "option": ["Soap or detergent available ."]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -158,14 +171,17 @@
               {
                 "question": 466680043,
                 "option": [
-                  "Fixed facility observed (sink/tap) In dwelling",
-                  "Fixed facility observed (sink/tap)  In yard/plot",
-                  "Mobile object observed (bucket/jug/kettle)"
+                  "Sink",
+                  "Tap",
+                  "Mobile object (bucket/jug/kettle)",
+                  "Tippy tap"
                 ]
               },
               {
                 "question": 466680045,
-                "option": ["Water is available"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -175,10 +191,9 @@
             "color": "#F1AC2A",
             "options": [
               {
-                "question": 466680043,
+                "question": 599400071,
                 "option": [
-                  "No handwashing place in dwelling/homestead/plot",
-                  "No permission to see"
+                  "No"
                 ]
               }
             ]
@@ -196,7 +211,9 @@
             "options": [
               {
                 "question": 607250002,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -223,7 +240,9 @@
             "options": [
               {
                 "question": 524810054,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -235,13 +254,7 @@
               {
                 "question": 524810053,
                 "option": [
-                  "Attending school",
-                  "Paid work",
-                  "Participating in social activities",
-                  "Cooking food?",
-                  "Cooking food",
-                  "Eating with others",
-                  "Bathing in regular place"
+                  "Yes"
                 ]
               }
             ]
@@ -286,31 +299,41 @@
               {
                 "question": 555370004,
                 "option": [
-                  "Flush / Pour-flush toilet to sewer connection",
-                  "Flush / Pour-flush toilet to tank or pit",
-                  "Pit latrine with slab",
+                  "Flush / Pour-flush toilet",
+                  "VIP latrine",
+                  "Pit latrine",
                   "Composting toilet"
                 ]
               },
               {
                 "question": 530250002,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 555370009,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 555370003,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 555370005,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 555370006,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -322,31 +345,41 @@
               {
                 "question": 555370004,
                 "option": [
-                  "Flush / Pour-flush toilet to sewer connection",
-                  "Flush / Pour-flush toilet to tank or pit",
-                  "Pit latrine with slab",
+                  "Flush / Pour-flush toilet",
+                  "VIP latrine",
+                  "Pit latrine",
                   "Composting toilet"
                 ]
               },
               {
                 "question": 530250002,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               },
               {
                 "question": 555370009,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               },
               {
                 "question": 555370003,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               },
               {
                 "question": 555370005,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               },
               {
                 "question": 555370006,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               }
             ]
           },
@@ -356,13 +389,9 @@
             "color": "#FDF177",
             "options": [
               {
-                "question": 555370004,
+                "question": 611790061,
                 "option": [
-                  "Flush / Pour-flush toilet to open drain",
-                  "Pit latrine without slab/open pit",
-                  "Bucket",
-                  "Hanging toilet/latrine",
-                  "No toilet/latrine"
+                  "No"
                 ]
               }
             ]
@@ -380,11 +409,15 @@
             "options": [
               {
                 "question": 551560007,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 551560004,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -401,7 +434,9 @@
               },
               {
                 "question": 551560004,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -439,28 +474,26 @@
             "options": [
               {
                 "question": 541950008,
-                "option": ["Yes, waste is segregated into three labelled bins"]
+                "option": [
+                  "Yes, waste is segregated into three labelled bins"
+                ]
               },
               {
                 "question": 541950011,
                 "option": [
                   "Autoclaved",
-                  "Incinerated (two chamber, 850-1000 °C incinerator)",
-                  "Incinerated (other)",
-                  "Burning in a protected pit",
-                  "Not treated, but buried in lined, protected pit",
-                  "Not treated, but collected for medical waste disposal off-site"
+                  "Incinerated",
+                  "Buried in lined, protected pit",
+                  "Collected for medical waste disposal off-site"
                 ]
               },
               {
                 "question": 541950005,
                 "option": [
                   "Autoclaved",
-                  "Incinerated (two chamber, 850-1000 °C incinerator)",
-                  "Incinerated (other)",
-                  "Burning in a protected pit",
-                  "Not treated, but buried in lined, protected pit",
-                  "Not treated, but collected for medical waste disposal off-site"
+                  "Incinerated",
+                  "Buried in lined, protected pit",
+                  "Collected for medical waste disposal off-site"
                 ]
               }
             ]
@@ -480,22 +513,18 @@
                 "question": 541950011,
                 "option": [
                   "Autoclaved",
-                  "Incinerated (two chamber, 850-1000 °C incinerator)",
-                  "Incinerated (other)",
-                  "Burning in a protected pit",
-                  "Not treated, but buried in lined, protected pit",
-                  "Not treated, but collected for medical waste disposal off-site"
+                  "Incinerated",
+                  "Buried in lined, protected pit",
+                  "Collected for medical waste disposal off-site"
                 ]
               },
               {
                 "question": 541950005,
                 "option": [
                   "Autoclaved",
-                  "Incinerated (two chamber, 850-1000 °C incinerator)",
-                  "Incinerated (other)",
-                  "Burning in a protected pit",
-                  "Not treated, but buried in lined, protected pit",
-                  "Not treated, but collected for medical waste disposal off-site"
+                  "Incinerated",
+                  "Buried in lined, protected pit",
+                  "Collected for medical waste disposal off-site"
                 ]
               }
             ]
@@ -507,7 +536,9 @@
             "options": [
               {
                 "question": 541950008,
-                "option": ["No, bins are not present"]
+                "option": [
+                  "No, bins are not present"
+                ]
               }
             ]
           }
@@ -524,11 +555,15 @@
             "options": [
               {
                 "question": 551560009,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 551560005,
-                "option": ["Yes, all have been trained"]
+                "option": [
+                  "Yes, all have been trained"
+                ]
               }
             ]
           },
@@ -539,11 +574,15 @@
             "options": [
               {
                 "question": 551560009,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 551560005,
-                "option": ["No, some but not all have been trained"]
+                "option": [
+                  "No, some but not all have been trained"
+                ]
               }
             ]
           },
@@ -554,7 +593,9 @@
             "options": [
               {
                 "question": 551560009,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 551560005,
@@ -606,7 +647,9 @@
               },
               {
                 "question": 551660013,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -627,7 +670,9 @@
               },
               {
                 "question": 551660013,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               }
             ]
           },
@@ -667,11 +712,15 @@
               },
               {
                 "question": 579840064,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 555460003,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -690,11 +739,15 @@
               },
               {
                 "question": 579840064,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               },
               {
                 "question": 555460003,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -727,11 +780,15 @@
             "options": [
               {
                 "question": 539710052,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 539710048,
-                "option": ["Yes, water and soap"]
+                "option": [
+                  "Yes, water and soap"
+                ]
               }
             ]
           },
@@ -742,11 +799,15 @@
             "options": [
               {
                 "question": 539710052,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 539710048,
-                "option": ["Water only"]
+                "option": [
+                  "Water only"
+                ]
               }
             ]
           },
@@ -757,7 +818,9 @@
             "options": [
               {
                 "question": 539710052,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               }
             ]
           }
@@ -774,7 +837,9 @@
             "options": [
               {
                 "question": 605430054,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               }
             ]
           },
@@ -818,12 +883,7 @@
               {
                 "question": 538000046,
                 "option": [
-                  "Eating some specific type food",
-                  "Entering the church or mosque",
-                  "Touching the cross or holly book",
-                  "Milking animals",
-                  "Participating in public ceremonies",
-                  "Preparing/cooking food"
+                  "Yes"
                 ]
               }
             ]
@@ -841,11 +901,15 @@
             "options": [
               {
                 "question": 545530057,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 575740004,
-                "option": ["Yes, all have been trained"]
+                "option": [
+                  "Yes, all have been trained"
+                ]
               }
             ]
           },
@@ -856,11 +920,15 @@
             "options": [
               {
                 "question": 545530057,
-                "option": ["Yes"]
+                "option": [
+                  "Yes"
+                ]
               },
               {
                 "question": 575740004,
-                "option": ["No, some but not all have been trained"]
+                "option": [
+                  "No, some but not all have been trained"
+                ]
               }
             ]
           },
@@ -871,7 +939,9 @@
             "options": [
               {
                 "question": 545530057,
-                "option": ["No"]
+                "option": [
+                  "No"
+                ]
               },
               {
                 "question": 575740004,
@@ -903,7 +973,10 @@
             "options": [
               {
                 "question": 603080002,
-                "option": ["pit latrines", "Septic tanks"]
+                "option": [
+                  "pit latrines",
+                  "Septic tanks"
+                ]
               }
             ]
           },
@@ -914,7 +987,9 @@
             "options": [
               {
                 "question": 603080002,
-                "option": ["Sewarage system"]
+                "option": [
+                  "Sewarage system"
+                ]
               }
             ]
           }
@@ -931,7 +1006,10 @@
             "options": [
               {
                 "question": 587530063,
-                "option": ["through the sewer system", "Using tracks"]
+                "option": [
+                  "through the sewer system",
+                  "Using tracks"
+                ]
               }
             ]
           },
@@ -942,7 +1020,9 @@
             "options": [
               {
                 "question": 587530063,
-                "option": ["Its not transported to the treatment plant"]
+                "option": [
+                  "Its not transported to the treatment plant"
+                ]
               }
             ]
           }

@@ -24,6 +24,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.exceptions import ValidationError
 
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Access, Administration, Levels
@@ -434,6 +435,10 @@ def list_users(request, version):
     the_past = timezone.now() - datetime.timedelta(days=10 * 365)
     # also filter soft deletes
     queryset = SystemUser.objects.filter(deleted_at=None, **filter_data)
+    # if not super admin, don't include logged in user role to list
+    if request.user.user_access.role != UserRoleTypes.super_admin:
+        queryset = queryset.filter(
+            user_access__role__gt=request.user.user_access.role)
     # filter by email or fullname
     if serializer.validated_data.get('search'):
         search = serializer.validated_data.get('search')
@@ -523,16 +528,22 @@ class UserEditDeleteView(APIView):
                 {'message': validate_serializers_message(serializer.errors)},
                 status=status.HTTP_400_BAD_REQUEST)
 
-        # when add new user as approver or county admin
-        is_approver_assigned = check_form_approval_assigned(
-            role=serializer.validated_data.get('role'),
-            forms=serializer.validated_data.get('forms'),
-            administration=serializer.validated_data.get('administration'),
-            user=instance)
-        if is_approver_assigned:
+        try:
+            # when add new user as approver or county admin
+            is_approver_assigned = check_form_approval_assigned(
+                role=serializer.validated_data.get('role'),
+                forms=serializer.validated_data.get('forms'),
+                administration=serializer.validated_data.get('administration'),
+                user=instance)
+            if is_approver_assigned:
+                return Response(
+                    {'message': is_approver_assigned},
+                    status=status.HTTP_403_FORBIDDEN)
+        except ValidationError:
             return Response(
-                {'message': is_approver_assigned},
-                status=status.HTTP_403_FORBIDDEN)
+                {'message': f'Update denied, user {instance.email} still \
+                    have pending approval.'},
+                status=status.HTTP_409_CONFLICT)
 
         user = serializer.save()
         # when add new user as approver or county admin
