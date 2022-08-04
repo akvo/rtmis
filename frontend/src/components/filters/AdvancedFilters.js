@@ -153,7 +153,7 @@ const AdvancedFilters = () => {
               placeholder="Search.."
               showSearch
               filterOption={(input, option) =>
-                option.options[0]?.children
+                option.options?.[0]?.children
                   ?.toLowerCase()
                   .indexOf(input.toLowerCase()) >= 0
               }
