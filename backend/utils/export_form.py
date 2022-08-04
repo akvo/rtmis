@@ -3,23 +3,14 @@ import pathlib
 
 import pandas as pd
 
-from api.v1.v1_forms.models import Forms
+from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 
 
-def fetch_questions(form: Forms):
-    questions = []
-    # order question group by qg order
-    qgroups = form.form_question_group.all().order_by('order')
-    for qg in qgroups:
-        question = qg.question_group_question.all().order_by('order')
-        questions.extend(question)
-    return questions
-
-
 def get_definition(form: Forms):
-    questions = fetch_questions(form)
+    questions = questions = Questions.objects.filter(form=form).order_by(
+        "question_group__order", "order").all()
     framed = []
     indexer = 1
     for q in [qs.to_definition() for qs in questions]:
@@ -82,7 +73,8 @@ def generate_definition_sheet(form: Forms):
 
 
 def generate_excel(form: Forms, user: SystemUser):
-    questions = fetch_questions(form)
+    questions = questions = Questions.objects.filter(form=form).order_by(
+        "question_group__order", "order").all()
     data = pd.DataFrame(
         columns=['{0}|{1}'.format(q.id, q.name) for q in questions], index=[0])
     form_name = form.name
