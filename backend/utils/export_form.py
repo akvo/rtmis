@@ -3,14 +3,29 @@ import pathlib
 
 import pandas as pd
 
-from api.v1.v1_forms.models import Forms, Questions
+from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 
 
+def fetch_questions(form: Forms):
+    questions = []
+    # fetch question value not using order by qg id like on /form/web/ API
+    # so question group will be ordered in right order
+    # e.g. for HH, General remarks (id = 9) should be the last group
+    # and we have other group Good nutrition (id = 31)
+    # if we ordered by qg id that not will be correct order
+    qgroups = form.form_question_group.all()
+    for qg in qgroups:
+        question = qg.question_group_question.all().order_by('order')
+        questions.extend(question)
+    return questions
+
+
 def get_definition(form: Forms):
-    questions = form.form_questions.all()
+    questions = fetch_questions(form)
     framed = []
+    indexer = 1
     for q in [qs.to_definition() for qs in questions]:
         rule = ""
         dependency = ""
@@ -39,7 +54,8 @@ def get_definition(form: Forms):
                     "option": o,
                     "required": "YES" if q["required"] else "NO",
                     "rule": rule,
-                    "dependency": dependency
+                    "dependency": dependency,
+                    "indexer": indexer
                 })
         else:
             framed.append({
@@ -51,29 +67,26 @@ def get_definition(form: Forms):
                 "option": "",
                 "required": "YES" if q["required"] else "NO",
                 "rule": rule,
-                "dependency": dependency
+                "dependency": dependency,
+                "indexer": indexer
             })
+        indexer += 1
     return framed
 
 
 def generate_definition_sheet(form: Forms):
     definitions = get_definition(form=form)
     df = pd.DataFrame(definitions)
-    df = df.sort_values(by=["qg_id", "order"])
-    df["indexer"] = df.apply(lambda x: str(x["qg_id"]) + str(x["order"]),
-                             axis=1)
     selected_columns = [
         "indexer", "id", "question", "type", "required", "dependency",
-        "option", "rule"
-    ]
+        "option", "rule"]
     df = df[selected_columns]
     df = df.groupby(selected_columns).first()
     return df.droplevel('indexer')
 
 
 def generate_excel(form: Forms, user: SystemUser):
-    questions = Questions.objects.filter(form=form).order_by(
-        "question_group_id", "order").all()
+    questions = fetch_questions(form)
     data = pd.DataFrame(
         columns=['{0}|{1}'.format(q.id, q.name) for q in questions], index=[0])
     form_name = form.name
