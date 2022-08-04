@@ -4,9 +4,11 @@ from collections import defaultdict
 from datetime import datetime, date, timedelta
 from wsgiref.util import FileWrapper
 from django.utils import timezone
+from operator import or_
+from functools import reduce
 
 from django.contrib.postgres.aggregates import StringAgg
-from django.db.models import Count, TextField, Value, F, Sum, Avg
+from django.db.models import Count, TextField, Value, F, Sum, Avg, Q
 from django.db.models.functions import Cast, Coalesce
 from django.http import HttpResponse
 from drf_spectacular.types import OpenApiTypes
@@ -1184,11 +1186,12 @@ def get_jmp_data(request, version, form_id):
     if not administration:
         administration = 1
     # Advance filter
+    options = request.GET.getlist('options')
     data_ids = None
-    if request.GET.getlist('options'):
+    if options:
         data_ids = get_advance_filter_data_ids(
             form_id=form_id, administration_id=administration,
-            options=request.GET.getlist('options'))
+            options=options)
     # Check administration filter level
     administration_obj = Administration.objects
     if adm_filter.level_id < 4:
@@ -1200,12 +1203,18 @@ def get_jmp_data(request, version, form_id):
     jmp_data = []
 
     # JMP Criteria
+    jmp_criteria_obj = ViewJMPCriteria.objects.filter(form=form)
     criteria_cache = f"jmp-criteria-{form.id}"
     criteria = get_cache(criteria_cache)
     if not criteria:
-        criteria = ViewJMPCriteria.objects.filter(
-                form=form).distinct('name', 'level').all()
+        criteria = jmp_criteria_obj.distinct('name', 'level', 'criteria').all()
         create_cache(criteria_cache, criteria)
+
+    # check if advance filter value is on JMP criteria
+    is_jmp_criteria = False
+    if options:
+        is_jmp_criteria = jmp_criteria_obj.filter(reduce(
+            or_, [Q(criteria__contains=op) for op in options])).first()
 
     # Custom Criteria (SUM & AVG)
     sums = []
@@ -1240,12 +1249,29 @@ def get_jmp_data(request, version, form_id):
             if data_ids:
                 # JMP Criteria
                 matches_name = f"crt.{form.id}{crt.name}{crt.level}"
+                matches_name = f"{matches_name}{'_'.join(options)}"
                 matches = get_cache(matches_name)
                 if not matches:
-                    matches = ViewJMPCriteria.objects.filter(
-                            form=form,
-                            name=crt.name,
-                            level=crt.level).count()
+                    matches = jmp_criteria_obj.filter(
+                        name=crt.name, level=crt.level)
+                    # filter by criteria defined in is_jmp_criteria
+                    # create unique list for question id in options
+                    if is_jmp_criteria and is_jmp_criteria.name == crt.name:
+                        qids = []
+                        for opt in is_jmp_criteria.criteria:
+                            val = opt.split("||")[0]
+                            if val in qids:
+                                continue
+                            qids.append(val)
+                        # filter options and_ when different question id
+                        for qid in qids:
+                            # filter options or_ when same question id
+                            or_filter_value = filter(
+                                lambda x: qid in x, options)
+                            matches = matches.filter(reduce(
+                                or_, [Q(criteria__contains=op)
+                                      for op in or_filter_value]))
+                    matches = matches.count()
                     create_cache(matches_name, matches)
 
                 data = ViewJMPData.objects.filter(
