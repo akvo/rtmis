@@ -72,13 +72,14 @@ class Command(BaseCommand):
                     self.stdout.write(
                         f"Form Updated | {form.name} V{form.version}")
             # question group loop
-            for qg in json_form["question_groups"]:
+            for qgi, qg in enumerate(json_form["question_groups"]):
                 question_group, created = QG.objects.update_or_create(
                     name=qg["question_group"],
                     form=form,
                     defaults={
                         "name": qg["question_group"],
-                        "form": form
+                        "form": form,
+                        "order": qgi + 1
                     })
                 if created:
                     question_group.save()
