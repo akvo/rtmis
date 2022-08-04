@@ -62,6 +62,12 @@ const Profile = () => {
             </Space>
           </li>
           <li>
+            <h3>Phone Number</h3>
+            <Space size="large" align="center">
+              <span>{authUser?.phone_number}</span>
+            </Space>
+          </li>
+          <li>
             <h3>Role</h3>
             <Space size="large" align="center">
               <span>{authUser?.role?.value}</span>
