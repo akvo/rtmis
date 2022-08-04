@@ -172,7 +172,7 @@ class WebFormDetailSerializer(serializers.ModelSerializer):
     @extend_schema_field(ListQuestionGroupSerializer(many=True))
     def get_question_group(self, instance: Forms):
         return ListQuestionGroupSerializer(
-            instance=instance.form_question_group.all(),
+            instance=instance.form_question_group.all().order_by('order'),
             many=True,
             context={
                 'user': self.context.get('user')
