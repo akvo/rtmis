@@ -74,6 +74,9 @@ const UploadData = () => {
   };
 
   const selectedAdministration = takeRight(administration, 1)[0]?.name;
+  // Do not allow to bulk upload without selecting atleast one admin level
+  const allowBulkUpload =
+    formId && takeRight(administration, 1)[0]?.level !== 0;
 
   useEffect(() => {
     if (formId && selectedAdministration && user) {
@@ -126,7 +129,7 @@ const UploadData = () => {
     maxCount: 1,
     showUploadList: false,
     accept: allowedFiles.join(","),
-    disabled: !fileName || uploading,
+    disabled: !allowBulkUpload || !fileName || uploading,
     customRequest: uploadRequest,
     onChange: onChange,
   };
@@ -291,7 +294,7 @@ const UploadData = () => {
                       : text.dropFile
                     : text.selectForm}
                 </p>
-                <Button disabled={!formId} loading={uploading}>
+                <Button disabled={!allowBulkUpload} loading={uploading}>
                   {text.browseComputer}
                 </Button>
               </Dragger>
