@@ -175,7 +175,7 @@ const ApproversTree = () => {
                 {adminItem.children?.map((childItem, l) => {
                   const approver = dataset[k]?.children?.find(
                     (c) => c.administration.id === childItem.id
-                  ).user;
+                  )?.user;
                   const approverName = approver
                     ? `${approver.first_name} ${approver.last_name}`
                     : text.notAssigned;
@@ -204,7 +204,9 @@ const ApproversTree = () => {
                     >
                       <Space direction="vertical">
                         <div>{childItem.name}</div>
-                        <h3>{approverName}</h3>
+                        <h3 className={approver ? "" : "not-assigned"}>
+                          {approverName}
+                        </h3>
                       </Space>
                     </div>
                   );
@@ -247,11 +249,11 @@ const ApproversTree = () => {
       selectedForm &&
       administration.map((adminItem, m) => (
         <div key={m}>
-          {adminItem.children.map((childItem) => {
+          {adminItem.children.map((childItem, ci) => {
             const isParent =
               administration[m + 1]?.children[0]?.parent === childItem.id;
             return (
-              <>
+              <div key={ci}>
                 <SteppedLineTo
                   within={`tree-col-${m + 1}`}
                   key={`tree-line-${m + 1}-${childItem.id}`}
@@ -291,7 +293,7 @@ const ApproversTree = () => {
                     zIndex={100}
                   />
                 )}
-              </>
+              </div>
             );
           })}
         </div>
