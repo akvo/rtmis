@@ -7,6 +7,7 @@ import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store, uiText, config } from "../../lib";
 import { columnsApproval } from "./";
 import ApprovalDetails from "./ApprovalDetail";
+import { ApprovalTour } from "./components";
 
 const columns = [...columnsApproval, Table.EXPAND_COLUMN];
 
@@ -75,6 +76,10 @@ const Approvals = () => {
         <Col>
           <Breadcrumbs pagePath={pagePath} />
         </Col>
+        <ApprovalTour />
+      </Row>
+      <Divider />
+      <Row justify="end">
         <Col>
           {(role === 1 || role === 2) && (
             <Link to={role === 1 ? "/questionnaires" : "/questionnaires/admin"}>

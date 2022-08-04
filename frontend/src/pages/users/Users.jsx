@@ -12,6 +12,7 @@ import {
   UserTab,
 } from "../../components";
 import { useNotification } from "../../util/hooks";
+import { UserTour } from "./components";
 import { reverse } from "lodash";
 import moment from "moment";
 
@@ -216,7 +217,7 @@ const Users = () => {
 
   return (
     <div id="users">
-      <Row justify="space-between" align="bottom">
+      <Row justify="space-between" align="start">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel description={text.manageUserText} />
