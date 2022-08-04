@@ -10,12 +10,8 @@ from api.v1.v1_users.models import SystemUser
 
 def fetch_questions(form: Forms):
     questions = []
-    # fetch question value not using order by qg id like on /form/web/ API
-    # so question group will be ordered in right order
-    # e.g. for HH, General remarks (id = 9) should be the last group
-    # and we have other group Good nutrition (id = 31)
-    # if we ordered by qg id that not will be correct order
-    qgroups = form.form_question_group.all()
+    # order question group by qg order
+    qgroups = form.form_question_group.all().order_by('order')
     for qg in qgroups:
         question = qg.question_group_question.all().order_by('order')
         questions.extend(question)
