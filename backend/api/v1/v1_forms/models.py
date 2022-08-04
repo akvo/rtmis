@@ -67,6 +67,7 @@ class QuestionGroup(models.Model):
                              on_delete=models.CASCADE,
                              related_name='form_question_group')
     name = models.TextField()
+    order = models.BigIntegerField(null=True, default=None)
 
     def __str__(self):
         return self.name
