@@ -77,10 +77,6 @@ def get_definition(form: Forms):
 def generate_definition_sheet(form: Forms):
     definitions = get_definition(form=form)
     df = pd.DataFrame(definitions)
-    # can't sort by qg_id and order because qg_id contains insert/update id
-    # df = df.sort_values(by=["qg_id", "order"])
-    # df["indexer"] = df.apply(lambda x: str(x["qg_id"]) + str(x["order"]),
-    #                          axis=1)
     selected_columns = [
         "indexer", "id", "question", "type", "required", "dependency",
         "option", "rule"]
@@ -90,8 +86,6 @@ def generate_definition_sheet(form: Forms):
 
 
 def generate_excel(form: Forms, user: SystemUser):
-    # questions = Questions.objects.filter(form=form).order_by(
-    #     "question_group_id", "order").all()
     questions = fetch_questions(form)
     data = pd.DataFrame(
         columns=['{0}|{1}'.format(q.id, q.name) for q in questions], index=[0])
