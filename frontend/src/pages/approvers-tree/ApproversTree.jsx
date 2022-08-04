@@ -188,7 +188,7 @@ const ApproversTree = () => {
                           childItem.id
                           ? "active"
                           : ""
-                      }
+                      } ${approver ? "assigned" : ""}
                     `}
                       key={l}
                       onClick={() => {
