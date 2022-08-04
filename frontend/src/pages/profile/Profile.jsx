@@ -59,6 +59,9 @@ const Profile = () => {
             <h3>Name</h3>
             <Space size="large" align="center">
               <span>{authUser?.name}</span>
+              <span style={{ fontStyle: "italic" }}>
+                {authUser?.role?.value}
+              </span>
             </Space>
           </li>
           <li>
