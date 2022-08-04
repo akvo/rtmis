@@ -124,23 +124,26 @@ def assign_form_approval(role, forms, administration, user):
 
     # Assign to previous batch
     if role in [UserRoleTypes.approver, UserRoleTypes.admin]:
-        current_batch = []
-        for fr in form_to_assign:
-            current_batch = PendingDataBatch.objects.filter(
-                approved=False,
-                administration__path__startswith=administration.path,
-                form=fr).all()
+        current_batch = PendingDataBatch.objects.filter(
+            approved=False,
+            administration__path__startswith=administration.path).all()
         for batch in current_batch:
-            approver = PendingDataApproval.objects.filter(
-                level=administration.level,
-                batch=batch).first()
-            if not approver:
-                approver = PendingDataApproval(
+            if batch.form in forms:
+                approver = PendingDataApproval.objects.filter(
                     level=administration.level,
-                    user=user,
-                    batch=batch
-                )
+                    batch=batch).first()
+                if not approver:
+                    approver = PendingDataApproval(
+                        level=administration.level,
+                        user=user,
+                        batch=batch
+                    )
+                else:
+                    approver.user = user
+                approver.save()
             else:
-                approver.user = user
-            approver.save()
+                approver = PendingDataApproval.objects.filter(
+                        batch=batch,
+                        user=user).all()
+                approver.delete()
     return approval
