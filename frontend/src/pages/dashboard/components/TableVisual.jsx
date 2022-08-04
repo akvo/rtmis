@@ -21,7 +21,7 @@ const TableVisual = ({ tableConfig, loading }) => {
         if (!obj) {
           return {
             title: c.title,
-            children: [],
+            render: () => "No data",
           };
         }
         const jmpConfigPath = String(c.children_path).replace("data", formId);

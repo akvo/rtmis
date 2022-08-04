@@ -79,7 +79,7 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
       const percent = Math.round((sumLevel / totalData) * 100);
       result = {
         title: title,
-        value: `${percent}%`,
+        value: `${!isNaN(percent) ? percent : 0}%`,
       };
     }
     if (calc === "avg") {
