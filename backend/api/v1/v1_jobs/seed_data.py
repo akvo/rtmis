@@ -27,6 +27,8 @@ def save_data(user: SystemUser, batch: PendingDataBatch, dp: dict, qs: dict):
         if a == 'data_id':
             continue
         aw = dp[a]
+        if aw != aw:
+            continue
         if isinstance(aw, str):
             aw = HText(aw).clean
         if isinstance(aw, float):

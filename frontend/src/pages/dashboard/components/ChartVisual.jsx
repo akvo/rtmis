@@ -1,7 +1,16 @@
 import React, { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Row, Col, Card, Switch, Space, Checkbox } from "antd";
-import { get, capitalize, chain, groupBy, sumBy, orderBy, isNil } from "lodash";
+import {
+  get,
+  capitalize,
+  chain,
+  groupBy,
+  sumBy,
+  orderBy,
+  isNil,
+  isEmpty,
+} from "lodash";
 import { Chart } from "../../../components";
 import { jmpColorScore } from "../../../lib";
 
@@ -75,7 +84,10 @@ const ChartVisual = ({ chartConfig, loading }) => {
     if (isStack) {
       let temp = data.map((d) => {
         const serviceLevel = get(d, path);
-        const stack = Object.keys(serviceLevel).map((key) => {
+        const serviceLevelOptions = !isEmpty(serviceLevel)
+          ? Object.keys(serviceLevel)
+          : [];
+        const stack = serviceLevelOptions.map((key) => {
           const findJMPConfig = get(jmpColorScore, `${colorPath}.${key}`);
           let obj = {
             name: capitalize(key),
