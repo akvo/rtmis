@@ -13,7 +13,7 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
       >
         <div
           class="background"
-          style="background-image: url(/assets/banner.png); background-size: cover; background-position: center; background-repeat: no-repeat;"
+          style="background-image: url(/assets/banner.jpg); background-size: cover; background-position: center; background-repeat: no-repeat;"
         />
         <div
           class="logo"
@@ -27,6 +27,9 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
             />
             <h1>
               RUSH
+              <small>
+                Rural Urban Sanitation and Hygiene
+              </small>
             </h1>
           </a>
         </div>
@@ -40,12 +43,15 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
               class="title"
             >
               <h1>
-                Welcome to the Rural Urban
+                Rural Urban Sanitation
                 <br />
-                Sanitation and Hygiene (RUSH)
-                <br />
-                Monitoring Platform
+                and Hygiene (RUSH)
               </h1>
+              <h2>
+                Real Time Management Information System (RTMIS)
+                <br />
+                Updated sanitation and hygiene estimates across Kenya
+              </h2>
             </div>
           </div>
           <div
@@ -58,6 +64,17 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
                 Please enter your account details
               </small>
             </h1>
+            <p
+              class="contact-text"
+            >
+              Having trouble accessing the platform? Please 
+              <a
+                href="#"
+              >
+                contact
+              </a>
+              .
+            </p>
             <form
               class="ant-form ant-form-vertical"
               id="login-form"
@@ -285,7 +302,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
       >
         <div
           class="background"
-          style="background-image: url(/assets/banner.png); background-size: cover; background-position: center; background-repeat: no-repeat;"
+          style="background-image: url(/assets/banner.jpg); background-size: cover; background-position: center; background-repeat: no-repeat;"
         />
         <div
           class="logo"
@@ -299,6 +316,9 @@ exports[`Login and Registration test if the registration form exists: Registrati
             />
             <h1>
               RUSH
+              <small>
+                Rural Urban Sanitation and Hygiene
+              </small>
             </h1>
           </a>
         </div>
@@ -312,12 +332,15 @@ exports[`Login and Registration test if the registration form exists: Registrati
               class="title"
             >
               <h1>
-                Welcome to the Rural Urban
+                Rural Urban Sanitation
                 <br />
-                Sanitation and Hygiene (RUSH)
-                <br />
-                Monitoring Platform
+                and Hygiene (RUSH)
               </h1>
+              <h2>
+                Real Time Management Information System (RTMIS)
+                <br />
+                Updated sanitation and hygiene estimates across Kenya
+              </h2>
             </div>
           </div>
           <div
@@ -512,6 +535,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
                             id="registration-form_password"
                             placeholder="Password"
                             type="password"
+                            value=""
                           />
                           <span
                             class="ant-input-suffix"
@@ -600,6 +624,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
                             id="registration-form_confirm"
                             placeholder="Confirm Password"
                             type="password"
+                            value=""
                           />
                           <span
                             class="ant-input-suffix"

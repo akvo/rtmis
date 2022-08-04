@@ -1,0 +1,155 @@
+@import "../../variables.scss";
+
+#root {
+  overflow-x: visible !important;
+
+  #dashboard {
+    min-height: 10vh;
+
+    .page-title-wrapper {
+      padding: 12px 0;
+    }
+
+    .ant-tabs-nav-wrap {
+      border-bottom: 1px solid #b5b5b5;
+    }
+
+    .ant-tabs-tab {
+      font-weight: 500;
+      color: $color-dark;
+      background-color: transparent;
+      border: 0;
+    }
+
+    .ant-tabs-tab.ant-tabs-tab-active {
+      background-color: $blue;
+    }
+
+    .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+      color: $white;
+    }
+
+    .table-title {
+      position: relative;
+
+      h3 {
+        margin-bottom: 0px;
+      }
+
+      button {
+        &.download {
+          position: absolute;
+          top: 0;
+          right: 0;
+        }
+      }
+    }
+
+    .tab-wrapper {
+      padding-top: 24px;
+    }
+
+    .main-wrapper {
+      min-height: 550px;
+
+      h4 {
+        margin-top: 50px;
+      }
+
+      .loading {
+        margin-top: 95px;
+      }
+
+      .row-wrapper {
+        padding: 12px 0;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .ant-col {
+          &.overview-card {
+            flex: 1 1;
+            width: 0;
+
+            .ant-card {
+              padding: 20px;
+
+              .ant-card-body {
+                padding: 0px;
+                text-align: left;
+
+                h3 {
+                  font-size: $font-size-regular;
+                  color: $color-dark;
+                  min-height: 7rem;
+                }
+
+                h1 {
+                  padding: 10px 0;
+                  margin: 0;
+                  margin-top: 10px;
+                }
+
+                h4 {
+                  margin: 0;
+                  padding: 0;
+                  border-top: 1px solid $color-dark;
+                  padding-top: 10px;
+                  font-size: $font-size-small;
+                  text-align: right;
+                }
+
+                .ant-image {
+                  background-color: rgba(255, 255, 255, 0.35);
+                  mix-blend-mode: multiply;
+                  padding: 2.5px;
+                }
+              }
+            }
+          }
+
+          &.chart-card {
+            .ant-card {
+              padding: 0;
+
+              .ant-card-body {
+                padding: 0px;
+                text-align: left;
+
+                .chart-header {
+                  border-bottom: 1px solid #f0f0f0;
+                  padding: 8px 12px;
+                }
+
+                h3 {
+                  font-size: 1.17em;
+                  color: #253239;
+                  margin-bottom: 0px;
+                }
+              }
+            }
+          }
+
+          &.table-card {
+            .ant-table-wrapper {
+              box-shadow: $box-shadow;
+              border-radius: 6px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.sticky-wrapper {
+  margin-left: -$layout-padding;
+  margin-right: -$layout-padding;
+  padding-left: $layout-padding;
+  padding-right: $layout-padding;
+  position: sticky;
+  top: 0;
+  background-color: $bg-light;
+  z-index: 99;
+}

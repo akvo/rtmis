@@ -3,6 +3,7 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom";
+import "jest-canvas-mock";
 
 window.topojson = { objects: { kenya: { geometries: [{ properties: {} }] } } };
 window.levels = [
@@ -20,4 +21,21 @@ window.visualisation = [];
 
 window.highlights = [];
 
-window.dbadm = [];
+window.dbadm = [
+  {
+    full_name: "Indonesia",
+    id: 1,
+    level: 0,
+    name: "Indonesia",
+    parent: null,
+    path: null,
+  },
+  {
+    full_name: "Indonesia|Jakarta",
+    id: 2,
+    level: 1,
+    name: "Jakarta",
+    parent: 1,
+    path: "1.",
+  },
+];

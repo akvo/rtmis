@@ -10,6 +10,8 @@ import {
   Input,
   Select,
   Checkbox,
+  Modal,
+  Table,
 } from "antd";
 import { AdministrationDropdown } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
@@ -32,6 +34,15 @@ const descriptionData = (
 );
 
 const AddUser = () => {
+  const {
+    user: authUser,
+    administration,
+    forms,
+    loadingForm,
+    language,
+  } = store.useState((s) => s);
+  const { active: activeLang } = language;
+
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
   const [role, setRole] = useState(null);
@@ -39,23 +50,16 @@ const AddUser = () => {
   const [adminError, setAdminError] = useState(null);
   const [levelError, setLevelError] = useState(false);
   const [form] = Form.useForm();
-  const { language } = store.useState((s) => s);
-  const { active: activeLang } = language;
-  const text = useMemo(() => {
-    return uiText[activeLang];
-  }, [activeLang]);
-  const {
-    user: authUser,
-    administration,
-    loadingAdministration,
-    forms,
-    loadingForm,
-  } = store.useState((s) => s);
   const navigate = useNavigate();
   const { notify } = useNotification();
   const { id } = useParams();
-
   const [organisations, setOrganisations] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalContent, setModalContent] = useState([]);
+
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   useEffect(() => {
     if (!organisations.length) {
@@ -79,6 +83,11 @@ const AddUser = () => {
       title: id ? text.editUser : text.addUser,
     },
   ];
+
+  const onCloseModal = () => {
+    setIsModalVisible(false);
+    setModalContent([]);
+  };
 
   const allowedRoles = useMemo(() => {
     const lookUp = authUser.role?.id === 2 ? 3 : authUser.role?.id || 4;
@@ -135,12 +144,17 @@ const AddUser = () => {
         navigate("/users");
       })
       .catch((err) => {
-        notify({
-          type: "error",
-          message:
-            err?.response?.data?.message ||
-            `User could not be ${id ? "updated" : "added"}`,
-        });
+        if (err?.response?.status === 403) {
+          setIsModalVisible(true);
+          setModalContent(err?.response?.data?.message);
+        } else {
+          notify({
+            type: "error",
+            message:
+              err?.response?.data?.message ||
+              `User could not be ${id ? "updated" : "added"}`,
+          });
+        }
         setSubmitting(false);
       });
   };
@@ -178,38 +192,24 @@ const AddUser = () => {
 
   useEffect(() => {
     const fetchData = (adminId, acc, roleRes) => {
-      api.get(`administration/${adminId}`).then((res) => {
-        acc.unshift({
-          id: res.data.id,
-          name: res.data.name,
-          levelName: res.data.level_name,
-          children: res.data.children,
-          childLevelName: res.data.children_level_name,
+      const adm = config.fn.administration(adminId);
+      acc.unshift(adm);
+      if (adm.level > 0) {
+        fetchData(adm.parent, acc, roleRes);
+      } else {
+        store.update((s) => {
+          s.administration = acc;
         });
-        if (res.data.level > 0) {
-          fetchData(res.data.parent, acc, roleRes);
-        } else {
-          store.update((s) => {
-            s.administration = acc;
-          });
-          store.update((s) => {
-            s.loadingAdministration = false;
-          });
-          if ([3, 5].includes(roleRes)) {
-            setLevel(
-              window.levels.find(
-                (l) => l.name === takeRight(acc, 1)[0].levelName
-              ).level + 1
-            );
-          }
+        if ([3, 5].includes(roleRes)) {
+          setLevel(
+            window.levels.find((l) => l.name === takeRight(acc, 1)[0].levelName)
+              .level + 1
+          );
         }
-      });
+      }
     };
     if (id) {
       try {
-        store.update((s) => {
-          s.loadingAdministration = true;
-        });
         setLoading(true);
         api.get(`user/${id}`).then((res) => {
           form.setFieldsValue({
@@ -223,6 +223,11 @@ const AddUser = () => {
             forms: res.data?.forms.map((f) => parseInt(f.id)),
             organisation: res.data?.organisation?.id || [],
             trained: res?.data?.trained,
+            inform_user: !id
+              ? true
+              : authUser?.email === res.data?.email
+              ? false
+              : true,
           });
           setRole(res.data?.role);
           setLoading(false);
@@ -233,7 +238,7 @@ const AddUser = () => {
         setLoading(false);
       }
     }
-  }, [id, form, forms, notify, text.errorUserLoad]);
+  }, [id, form, forms, notify, text.errorUserLoad, authUser?.email]);
 
   const allowedLevels = useMemo(() => {
     const admLevels =
@@ -429,26 +434,22 @@ const AddUser = () => {
             <div className="form-row-adm">
               <h3>Administration</h3>
               {!!adminError && <div className="text-error">{adminError}</div>}
-              {loadingAdministration ? (
-                <p style={{ paddingLeft: 12, color: "#6b6b6f" }}>Loading..</p>
-              ) : (
-                <AdministrationDropdown
-                  direction="vertical"
-                  withLabel={true}
-                  persist={true}
-                  size="large"
-                  width="100%"
-                  onChange={onAdminChange}
-                  maxLevel={
-                    [3, 5].includes(role)
-                      ? level
-                      : max(
-                          allowedRoles?.find((r) => r.id === role)
-                            ?.administration_level
-                        ) || null
-                  }
-                />
-              )}
+              <AdministrationDropdown
+                direction="vertical"
+                withLabel={true}
+                persist={true}
+                size="large"
+                width="100%"
+                onChange={onAdminChange}
+                maxLevel={
+                  [3, 5].includes(role)
+                    ? level
+                    : max(
+                        allowedRoles?.find((r) => r.id === role)
+                          ?.administration_level
+                      ) || null
+                }
+              />
             </div>
           )}
           {[2, 3, 4].includes(role) && (
@@ -491,21 +492,66 @@ const AddUser = () => {
               name="inform_user"
               rules={[{ required: false }]}
             >
-              <Checkbox>{text.informUser}</Checkbox>
+              <Checkbox
+                disabled={
+                  !id
+                    ? true
+                    : authUser?.email === form.getFieldValue("email")
+                    ? true
+                    : false
+                }
+              >
+                {text.informUser}
+              </Checkbox>
             </Form.Item>
           </Col>
           <Col>
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={submitting}
-              disabled={loadingAdministration}
-            >
+            <Button type="primary" htmlType="submit" loading={submitting}>
               {id ? text.updateUser : text.addUser}
             </Button>
           </Col>
         </Row>
       </Form>
+
+      {/* Notification modal */}
+      <Modal
+        visible={isModalVisible}
+        onCancel={onCloseModal}
+        centered
+        width="575px"
+        footer={
+          <Row justify="center" align="middle">
+            <Col>
+              <Button className="light" onClick={onCloseModal}>
+                Cancel
+              </Button>
+            </Col>
+          </Row>
+        }
+        bodyStyle={{ textAlign: "center" }}
+      >
+        <img src="/assets/user.svg" height="80" />
+        <br />
+        <br />
+        <p>{text.existingApproverTitle}</p>
+        <Table
+          columns={[
+            {
+              title: "Form",
+              dataIndex: "form",
+            },
+            {
+              title: "Administration",
+              dataIndex: "administration",
+            },
+          ]}
+          dataSource={modalContent}
+          rowKey="id"
+          pagination={false}
+        />
+        <br />
+        <p>{text.existingApproverDescription}</p>
+      </Modal>
     </div>
   );
 };

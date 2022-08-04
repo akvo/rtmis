@@ -18,6 +18,7 @@ class DataTestCase(TestCase):
         call_command("fake_data_seeder", "-r", 1, '-t', True)
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
 
+        # PRIVATE ACCESS
         data = self.client.get(
             "/api/v1/form-data/1?page=1&administration=1",
             follow=True,
@@ -31,6 +32,12 @@ class DataTestCase(TestCase):
             'updated_by', 'created', 'updated', 'pending_data'
         ])
 
+        # PUBLIC ACCESS WITHOUT HEADER TOKEN
+        data = self.client.get("/api/v1/form-data/1?page=1",
+                               follow=True)
+        self.assertEqual(data.status_code, 200)
+
+        # EMPTY PAGE 2
         data = self.client.get("/api/v1/form-data/1?page=2",
                                follow=True,
                                **header)
@@ -45,6 +52,7 @@ class DataTestCase(TestCase):
         token = user_response.json().get('token')
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
 
+        # NOT FOUND
         res = self.client.delete("/api/v1/data/1", follow=True, **header)
         self.assertEqual(res.status_code, 404)
 
@@ -52,6 +60,11 @@ class DataTestCase(TestCase):
         call_command("fake_data_seeder", "-r", 1, '-t', True)
 
         data_id = FormData.objects.first().id
+
+        # REQUIRE AUTH
+        res = self.client.delete("/api/v1/data/{data_id}")
+        self.assertEqual(res.status_code, 404)
+
         res = self.client.delete(
             f"/api/v1/data/{data_id}",
             follow=True, **header)
@@ -68,6 +81,7 @@ class DataTestCase(TestCase):
         token = user_response.json().get('token')
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
 
+        # NOT FOUND
         res = self.client.delete("/api/v1/data/1", follow=True, **header)
         self.assertEqual(res.status_code, 404)
 
@@ -124,6 +138,7 @@ class DataTestCase(TestCase):
         self.assertEqual(res.status_code, 200)
         res = res.json()
         self.assertEqual(res, {"message": "direct update success"})
+
         # Get answer from data with history
         res = self.client.get(f'/api/v1/data/{data_id}',
                               content_type='application/json',

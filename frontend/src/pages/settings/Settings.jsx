@@ -1,3 +1,4 @@
+/* TODO: DELETE COMPLETELY */
 import React, { useMemo } from "react";
 import "./style.scss";
 import { Row, Col, Card, Button, Divider } from "antd";

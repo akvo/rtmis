@@ -3,8 +3,7 @@ import "./style.scss";
 import { Select } from "antd";
 import PropTypes from "prop-types";
 
-import { api, store } from "../../lib";
-import { useNotification } from "../../util/hooks";
+import { store } from "../../lib";
 
 const FormDropdown = ({
   loading: parentLoading = false,
@@ -13,40 +12,25 @@ const FormDropdown = ({
   ...props
 }) => {
   const { forms, selectedForm, loadingForm } = store.useState((state) => state);
-  const { notify } = useNotification();
   const filterForms = title ? window.forms : forms;
 
-  const handleChange = useCallback(
-    (e) => {
-      if (!e) {
-        return;
-      }
-      store.update((s) => {
-        s.loadingForm = true;
-      });
-      api
-        .get(`/form/${e}`)
-        .then((res) => {
-          store.update((s) => {
-            s.questionGroups = res.data.question_group;
-            s.selectedForm = e;
-          });
-          store.update((s) => {
-            s.loadingForm = false;
-          });
-        })
-        .catch(() => {
-          notify({
-            type: "error",
-            message: "Could not load form data",
-          });
-          store.update((s) => {
-            s.loadingForm = false;
-          });
-        });
-    },
-    [notify]
-  );
+  const handleChange = useCallback((e) => {
+    if (!e) {
+      return;
+    }
+    store.update((s) => {
+      s.loadingForm = true;
+    });
+    store.update((s) => {
+      s.questionGroups = window.forms.find(
+        (f) => f.id === e
+      ).content.question_group;
+      s.selectedForm = e;
+      s.loadingForm = false;
+      s.advancedFilters = [];
+      s.showAdvancedFilters = false;
+    });
+  }, []);
   useEffect(() => {
     if (!!filterForms?.length && !selectedForm) {
       handleChange(filterForms[0].id);

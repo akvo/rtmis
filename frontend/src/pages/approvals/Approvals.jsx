@@ -4,22 +4,13 @@ import { Row, Col, Card, Divider, Table, Tabs, Button } from "antd";
 import { Breadcrumbs } from "../../components";
 import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
-import { api, store, uiText } from "../../lib";
+import { api, store, uiText, config } from "../../lib";
 import { columnsApproval } from "./";
 import ApprovalDetails from "./ApprovalDetail";
 import { ApprovalTour } from "./components";
 
 const columns = [...columnsApproval, Table.EXPAND_COLUMN];
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Approvals",
-  },
-];
 const { TabPane } = Tabs;
 
 const Approvals = () => {
@@ -33,10 +24,21 @@ const Approvals = () => {
   const [reload, setReload] = useState(0);
   const { user } = store.useState((state) => state);
   const { language } = store.useState((s) => s);
+  const { approvalsLiteral } = config;
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: "/control-center",
+    },
+    {
+      title: approvalsLiteral(user),
+    },
+  ];
 
   useEffect(() => {
     setRole(user?.role?.id);

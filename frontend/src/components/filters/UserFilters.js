@@ -21,18 +21,21 @@ const UserFilters = ({
   const { trained, role, organisation } = filters;
 
   const { trainedStatus } = config;
-  const allowedRole = config.roles.filter((r) => r.id >= authUser.role.id);
+  // show role > logged in user if logged in user not super admin
+  // show all role for super admin
+  const allowedRole = config.roles.filter((r) =>
+    authUser.role.id >= 2 ? r.id > authUser.role.id : r.id >= authUser.role.id
+  );
 
   const [organisations, setOrganisations] = useState([]);
 
   useEffect(() => {
     if (!organisations.length) {
-      // filter by 1 for member attribute
       api.get("organisations").then((res) => {
         setOrganisations(res.data);
       });
     }
-  }, [organisations]);
+  }, [organisations, setOrganisations]);
 
   return (
     <Row>

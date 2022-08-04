@@ -7,48 +7,118 @@
       "question_group": "Demographics",
       "questions": [
         {
+          "id": 603550073,
+          "meta": true,
+          "question": "Name of the data collector (Enumerator)",
+          "name": null,
+          "order": 1,
+          "required": true,
+          "type": "text",
+          "attributes": [],
+          "options": null
+        },
+        {
+          "id": 5633500331,
+          "meta": false,
+          "question": "Organisation",
+          "name": null,
+          "order": 2,
+          "required": true,
+          "type": "cascade",
+          "api": {
+            "endpoint": "/api/v1/organisations?attributes=2"
+          }
+        },
+        {
           "id": 543080040,
           "meta": true,
           "question": "Take the GPS location",
-          "order": 1,
-          "required": true,
+          "name": null,
+          "order": 3,
+          "required": false,
           "type": "geo",
+          "attributes": [
+            "table"
+          ],
           "options": null
         },
         {
           "id": 543080041,
           "meta": true,
           "question": "Location",
-          "order": 2,
+          "name": null,
+          "order": 4,
           "required": true,
           "type": "administration",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
+        },
+        {
+          "id": 561980063,
+          "meta": false,
+          "question": "Is the school in an urban, peri-urban or rural setup?",
+          "name": "Whether Urban, Peri Urban or Rural",
+          "order": 5,
+          "required": true,
+          "type": "option",
+          "attributes": [
+            "advanced_filter"
+          ],
+          "options": [
+            {
+              "name": "Urban"
+            },
+            {
+              "name": "Peri-urban"
+            },
+            {
+              "name": "Rural"
+            }
+          ]
         },
         {
           "id": 543080037,
           "meta": true,
           "question": "School name",
-          "order": 3,
+          "name": null,
+          "order": 6,
           "required": true,
           "type": "text",
+          "attributes": [
+            "table"
+          ],
           "options": null
         },
         {
           "id": 543080035,
           "meta": true,
-          "question": "School code",
-          "order": 4,
+          "question": "School ministry of education code",
+          "name": null,
+          "order": 7,
           "required": true,
-          "type": "number",
+          "type": "text",
+          "attributes": [
+            "table"
+          ],
           "options": null
         },
         {
           "id": 543080036,
-          "meta": false,
+          "meta": true,
           "question": "School level",
-          "order": 5,
+          "name": null,
+          "order": 8,
           "required": true,
           "type": "option",
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "chart",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Pre-primary"
@@ -59,42 +129,113 @@
             {
               "name": "High/secondary school"
             }
+          ],
+          "extra": {
+            "allowOther": true
+          }
+        },
+        {
+          "id": 592320051,
+          "meta": false,
+          "question": "Is the school Public or private?",
+          "name": null,
+          "order": 9,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Public"
+            },
+            {
+              "name": "Private"
+            }
+          ]
+        },
+        {
+          "id": 604180066,
+          "meta": false,
+          "question": "What is the school category?",
+          "name": null,
+          "order": 10,
+          "required": true,
+          "type": "multiple_option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Regular primary"
+            },
+            {
+              "name": "Special unit"
+            },
+            {
+              "name": "Integrated"
+            },
+            {
+              "name": "Special school"
+            }
           ]
         },
         {
           "id": 543080042,
           "meta": false,
           "question": "Number of boys",
-          "order": 6,
+          "name": "# of boys",
+          "order": 11,
           "required": true,
           "type": "number",
-          "options": null
+          "attributes": [
+            "table",
+            "chart"
+          ],
+          "options": null,
+          "rule": {
+            "max": 5000
+          }
         },
         {
           "id": 543080033,
           "meta": false,
           "question": "Number of girls",
-          "order": 7,
+          "name": "# of girls",
+          "order": 12,
           "required": true,
           "type": "number",
-          "options": null
+          "attributes": [
+            "table",
+            "chart"
+          ],
+          "options": null,
+          "rule": {
+            "max": 5000
+          }
         },
         {
           "id": 539710035,
           "meta": false,
           "question": "Number of male staff",
-          "order": 8,
+          "name": "# of male staff",
+          "order": 13,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
           "id": 543080039,
           "meta": false,
           "question": "Number of female staff",
-          "order": 9,
+          "name": "# of female staff",
+          "order": 14,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         }
       ]
@@ -103,12 +244,36 @@
       "question_group": "Water",
       "questions": [
         {
-          "id": 551660011,
+          "id": 597580048,
           "meta": false,
-          "question": "What is the main source of drinking water provided by the school?",
+          "question": "Is drinking water available in the school?",
+          "name": null,
           "order": 1,
           "required": true,
           "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 551660011,
+          "meta": false,
+          "question": "What is the main source of drinking water in the school?",
+          "name": "Main source of drinking water",
+          "order": 2,
+          "required": true,
+          "type": "option",
+          "attributes": [
+            "table",
+            "chart",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Piped water supply"
@@ -134,15 +299,29 @@
             {
               "name": "No water source"
             }
+          ],
+          "dependency": [
+            {
+              "id": 597580048,
+              "options": [
+                "Yes"
+              ]
+            }
           ]
         },
         {
           "id": 551660010,
           "meta": false,
           "question": "If unimproved, Why does school use water from unimproved water source?",
-          "order": 2,
+          "name": "Main source of drinking water",
+          "order": 3,
           "required": true,
           "type": "option",
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "Improved water source is too far"
@@ -175,6 +354,9 @@
               "name": "Unimproved water source is assumed as clean"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660011,
@@ -187,12 +369,37 @@
           ]
         },
         {
+          "id": 600220069,
+          "meta": false,
+          "question": "If no, Where does the school get drinking from?",
+          "name": null,
+          "order": 4,
+          "required": true,
+          "type": "text",
+          "attributes": [],
+          "options": null,
+          "dependency": [
+            {
+              "id": 597580048,
+              "options": [
+                "No"
+              ]
+            }
+          ]
+        },
+        {
           "id": 551660013,
           "meta": false,
           "question": "Is drinking water from the main source currently available at the school?",
-          "order": 3,
+          "name": "Drinking water from main source is available",
+          "order": 5,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -206,31 +413,39 @@
           "id": 551660018,
           "meta": false,
           "question": "Is drinking water from the main source typically available throughout the school year?",
-          "order": 4,
+          "name": "Drinking water is available throughout the schooll year",
+          "order": 6,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart",
+            "aggregate"
+          ],
           "options": [
             {
-              "name": "Yes (always)"
+              "name": "Yes"
             },
             {
-              "name": "Mostly (unavailable <30 days total)"
-            },
-            {
-              "name": "No (unavailable > 30 days total)"
+              "name": "No"
             }
           ]
         },
         {
           "id": 557060036,
           "meta": false,
-          "question": "What is the main reason for drinking water not being available during the school?",
-          "order": 5,
+          "question": "What is the main reason for drinking water not being available at the school?",
+          "name": "Reason why drinking water is not available",
+          "order": 7,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
-              "name": "The water is not clean or not safe"
+              "name": "The water is not clean"
             },
             {
               "name": "The water is not easily accessible for students"
@@ -239,6 +454,9 @@
               "name": "Students are not allowed to drink water in the school"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660013,
@@ -252,9 +470,16 @@
           "id": 551660014,
           "meta": false,
           "question": "Is drinking water accessible to those with limited mobility or vision?",
-          "order": 6,
+          "name": "Drinking water accessible for students with limited mobility or vision impaired",
+          "order": 8,
           "required": true,
           "type": "option",
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "chart",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -268,9 +493,15 @@
           "id": 551660019,
           "meta": false,
           "question": "Is drinking water accessible to the smallest children at the school?",
-          "order": 7,
+          "name": "Drinking water accessible for smallest children at the school",
+          "order": 9,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -284,18 +515,29 @@
           "id": 551660016,
           "meta": false,
           "question": "How many drinking water points (e.g. taps) are at the school?",
-          "order": 8,
+          "name": "# of drinking water points",
+          "order": 10,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null
         },
         {
           "id": 551660012,
           "meta": false,
-          "question": "Does the school do anything to the water from the main source to make it safe to drink?",
-          "order": 9,
+          "question": "Does the school treat drinking water?",
+          "name": "School do something to make it safe to drink",
+          "order": 11,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -309,9 +551,16 @@
           "id": 551660015,
           "meta": false,
           "question": "If yes, what treatment method is used?",
-          "order": 10,
+          "name": "Water treatment method",
+          "order": 12,
           "required": true,
           "type": "option",
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "chart",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Filtration"
@@ -328,18 +577,35 @@
             {
               "name": "Ultraviolet disinfection (with dedicated device)"
             }
+          ],
+          "extra": {
+            "allowOther": true
+          },
+          "dependency": [
+            {
+              "id": 551660012,
+              "options": [
+                "Yes"
+              ]
+            }
           ]
         },
         {
           "id": 551660017,
           "meta": false,
-          "question": "In your opinion, what are the advantages of providing water in the school?",
-          "order": 11,
+          "question": "In your opinion, what are the benefits of having water in the school?",
+          "name": "Advantages of providing water in school",
+          "order": 13,
           "required": true,
-          "type": "option",
+          "type": "multiple_option",
+          "attributes": [
+            "table",
+            "chart",
+            "aggregate"
+          ],
           "options": [
             {
-              "name": "Students don’t miss class for searching drinking water"
+              "name": "Students don't miss class for searching drinking water"
             },
             {
               "name": "Students can wash their hands/bodies"
@@ -354,9 +620,12 @@
               "name": "The water can be used for cleaning the toilet"
             },
             {
-              "name": "I don’t know"
+              "name": "I don't know"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         }
       ]
     },
@@ -364,12 +633,36 @@
       "question_group": "Sanitation",
       "questions": [
         {
-          "id": 551660029,
+          "id": 601780052,
           "meta": false,
-          "question": "What type of student toilets/ latrines are at the school? (check one - most common)",
+          "question": "Does the school have sanitation facilities?",
+          "name": null,
           "order": 1,
           "required": true,
           "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 551660029,
+          "meta": false,
+          "question": "What type of student toilets/ latrines are at the school? (check one - most common)",
+          "name": "Types of latrines for students",
+          "order": 2,
+          "required": true,
+          "type": "option",
+          "attributes": [
+            "table",
+            "chart",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Flush / Pour-flush toilets"
@@ -392,15 +685,30 @@
             {
               "name": "No toilets or latrines"
             }
+          ],
+          "dependency": [
+            {
+              "id": 601780052,
+              "options": [
+                "Yes"
+              ]
+            }
           ]
         },
         {
           "id": 579840064,
           "meta": false,
           "question": "Are there gender separated toilets?",
-          "order": 2,
+          "name": "Gender-separated toilets",
+          "order": 3,
           "required": true,
           "type": "option",
+          "attributes": [
+            "advanced_filter",
+            "table",
+            "chart",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -427,24 +735,45 @@
           "id": 551660020,
           "meta": false,
           "question": "How many girls only toilets available?",
-          "order": 3,
+          "name": null,
+          "order": 4,
           "required": true,
           "type": "number",
-          "options": null
+          "attributes": [
+            "table",
+            "chart"
+          ],
+          "options": null,
+          "dependency": [
+            {
+              "id": 601780052,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
         },
         {
           "id": 539710041,
           "meta": false,
-          "question": "How many girls only toilets available?",
-          "order": 4,
+          "question": "How many girls only toilets are in use?",
+          "name": "# of girls toilets",
+          "order": 5,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null,
           "dependency": [
             {
               "id": 551660029,
               "options": [
-                "No toilets or latrines"
+                "Flush / Pour-flush toilets",
+                "Pit latrines with slab",
+                "Composting toilets",
+                "Pit latrines without slab"
               ]
             }
           ]
@@ -453,9 +782,14 @@
           "id": 539710043,
           "meta": false,
           "question": "How many boys only toilets available?",
-          "order": 5,
+          "name": "# of boys toilets",
+          "order": 6,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null,
           "dependency": [
             {
@@ -470,9 +804,14 @@
           "id": 539710037,
           "meta": false,
           "question": "How many boys only toilets are in use?",
-          "order": 6,
+          "name": "# of boys toilets in use",
+          "order": 7,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null,
           "dependency": [
             {
@@ -487,9 +826,14 @@
           "id": 551660025,
           "meta": false,
           "question": "How many common use toilets available?",
-          "order": 7,
+          "name": "# common use of toilets",
+          "order": 8,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null,
           "dependency": [
             {
@@ -504,9 +848,14 @@
           "id": 539710044,
           "meta": false,
           "question": "How many common use toilets IN USE?",
-          "order": 8,
+          "name": "# common use of toilets in use",
+          "order": 9,
           "required": true,
           "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": null,
           "dependency": [
             {
@@ -521,26 +870,34 @@
           "id": 555460002,
           "meta": false,
           "question": "Do boys and girls have problems using the common latrine, and why?",
-          "order": 9,
+          "name": "Problems using the common laterine",
+          "order": 10,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "No problem"
             },
             {
-              "name": "Girls don’t feel comfortable to use common latrine"
+              "name": "Girls don't feel comfortable to use common latrine"
             },
             {
-              "name": "Boys don’t feel comfortable to use common latrine"
+              "name": "Boys don't feel comfortable to use common latrine"
             },
             {
-              "name": "Girls’ latrine is different from boys’ latrine"
+              "name": "Girls' latrine is different from boys' latrine"
             },
             {
               "name": "Boys tease girls when they see them in/around latrine"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660029,
@@ -554,9 +911,14 @@
           "id": 551660023,
           "meta": false,
           "question": "When are students permitted to use the school latrines?",
-          "order": 10,
+          "name": "Students permitted to use the school laterines",
+          "order": 11,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
           "options": [
             {
               "name": "At all times during the school day"
@@ -568,6 +930,9 @@
               "name": "Only, when they get permission from the teachers"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660029,
@@ -581,9 +946,15 @@
           "id": 555460003,
           "meta": false,
           "question": "Are the latrines being used?",
-          "order": 11,
+          "name": "Laterines are being used",
+          "order": 12,
           "required": true,
           "type": "option",
+          "attributes": [
+            "table",
+            "chart",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -597,29 +968,34 @@
           "id": 551660026,
           "meta": false,
           "question": "If the latrines/toilets are not used, what is/are the reason/s?",
-          "order": 12,
+          "name": "Reason to not use laterine / toilets",
+          "order": 13,
           "required": true,
           "type": "multiple_option",
+          "attributes": [],
           "options": [
             {
-              "name": "I don’t use the school latrines because they are always locked"
+              "name": "I don't use the school latrines because they are always locked"
             },
             {
-              "name": "I don’t use the school latrines because they not clean option"
+              "name": "I don't use the school latrines because they not clean option"
             },
             {
-              "name": "I don’t use the school latrines because they have bad smell"
+              "name": "I don't use the school latrines because they have bad smell"
             },
             {
-              "name": "I don’t use the school latrines because they do not have doors/lockers"
+              "name": "I don't use the school latrines because they do not have doors/lockers"
             },
             {
-              "name": "I don’t use the school latrines because they are not sufficient"
+              "name": "I don't use the school latrines because they are not sufficient"
             },
             {
-              "name": "I don’t use school latrines because they are not safe for use"
+              "name": "I don't use school latrines because they are not safe for use"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 555460003,
@@ -633,9 +1009,15 @@
           "id": 551660022,
           "meta": false,
           "question": "What do you think are the advantage of having latrines in the school?",
-          "order": 13,
+          "name": "The advantage of having laterines",
+          "order": 14,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Offers privacy"
@@ -650,9 +1032,12 @@
               "name": "Avoids traveling to long distance"
             },
             {
-              "name": "I don’t know"
+              "name": "I don't know"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660029,
@@ -665,10 +1050,16 @@
         {
           "id": 539710045,
           "meta": false,
-          "question": "Have you ever seen in the school any student/s facing a challenge due to lack of latrine?",
-          "order": 14,
+          "question": "Do the student/s facing any challenge due to lack of latrine?",
+          "name": "Any challenge due to lack of laterine",
+          "order": 15,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -676,15 +1067,31 @@
             {
               "name": "No"
             }
+          ],
+          "extra": {
+            "allowOther": true
+          },
+          "dependency": [
+            {
+              "id": 601780052,
+              "options": [
+                "No"
+              ]
+            }
           ]
         },
         {
           "id": 539710042,
           "meta": false,
           "question": "What is the challenge they face?",
-          "order": 15,
+          "name": "The challenge due to lack of laterine",
+          "order": 16,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table"
+          ],
           "options": [
             {
               "name": "Students missed class to go home for defecation or urine"
@@ -699,6 +1106,9 @@
               "name": "Students become sick in the class"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 539710045,
@@ -712,9 +1122,14 @@
           "id": 539710040,
           "meta": false,
           "question": "Are there dust bins in the school latrines?",
-          "order": 16,
+          "name": "Dust bins in the school latereines",
+          "order": 17,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -734,9 +1149,14 @@
           "id": 551660027,
           "meta": false,
           "question": "Can boys and girls use common latrines?",
-          "order": 17,
+          "name": "Boys and girls use common laterines",
+          "order": 18,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -753,23 +1173,31 @@
           "id": 551660028,
           "meta": false,
           "question": "Why can't boys and girls use the common latrine?",
-          "order": 18,
+          "name": "Reason not using the common laterine",
+          "order": 19,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table"
+          ],
           "options": [
             {
-              "name": "Girls don’t feel comfortable to use common latrine"
+              "name": "Girls don't feel comfortable to use common latrine"
             },
             {
-              "name": "Boys don’t feel comfortable to use common latrine"
+              "name": "Boys don't feel comfortable to use common latrine"
             },
             {
-              "name": "Girls’ latrine is different from boys’ latrine"
+              "name": "Girls' latrine is different from boys' latrine"
             },
             {
               "name": "Boys tease girls when they see them in/around latrine"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 551660027,
@@ -782,10 +1210,16 @@
         {
           "id": 539710036,
           "meta": false,
-          "question": "How many times per week are the student toilets cleaned?",
-          "order": 19,
+          "question": "How frequent are toilets cleaned?",
+          "name": "Toilet cleaned / week",
+          "order": 20,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "At least once per day"
@@ -799,15 +1233,29 @@
             {
               "name": "Less than once per week"
             }
+          ],
+          "dependency": [
+            {
+              "id": 601780052,
+              "options": [
+                "Yes"
+              ]
+            }
           ]
         },
         {
           "id": 555460005,
           "meta": false,
           "question": "In general, how clean are the student toilets?",
-          "order": 20,
+          "name": "The student toilets is clean",
+          "order": 21,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Clean"
@@ -824,9 +1272,15 @@
           "id": 551660021,
           "meta": false,
           "question": "Is there at least one usable toilet/latrine that is accessible to the smallest children at the school?",
-          "order": 21,
+          "name": "The student toilets is clean",
+          "order": 22,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -839,10 +1293,17 @@
         {
           "id": 539710039,
           "meta": false,
-          "question": "Is there at least one usable toilet/latrine that is accessible to those with limited mobility or vision?",
-          "order": 22,
+          "question": "Is there at least one usable toilet/latrine that is adapted for learners with special needs and disabilities?",
+          "name": "Toilet / laterine is accessible limited mobility or vision",
+          "order": 23,
           "required": true,
           "type": "option",
+          "attributes": [
+            "advanced_filter",
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -850,15 +1311,64 @@
             {
               "name": "No"
             }
+          ],
+          "dependency": [
+            {
+              "id": 601780052,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 611830002,
+          "meta": false,
+          "question": "If no, where do they go for short and long calls?",
+          "name": null,
+          "order": 24,
+          "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Regular latrine"
+            },
+            {
+              "name": "Open space"
+            },
+            {
+              "name": "Bucket"
+            },
+            {
+              "name": "Flush toilets"
+            },
+            {
+              "name": "At home"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 539710039,
+              "options": [
+                "No"
+              ]
+            }
           ]
         },
         {
           "id": 555460004,
           "meta": false,
-          "question": "Are culturally appropriate anal cleansing materials currently available to all students?",
-          "order": 23,
+          "question": "Are appropriate anal cleansing materials available to all students?",
+          "name": "Appropriate anal cleansing materials is available",
+          "order": 25,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -872,9 +1382,15 @@
           "id": 551660024,
           "meta": false,
           "question": "Is there currently functional lighting in the student toilets?",
-          "order": 24,
+          "name": "Functional lighting in the students toilets",
+          "order": 26,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -888,18 +1404,58 @@
           "id": 539710038,
           "meta": false,
           "question": "Are latrines or septic tanks emptied (or latrines safely covered) when they fill up?",
-          "order": 25,
+          "name": "Functional lighting in the students toilets",
+          "order": 27,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
             },
             {
               "name": "No"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 601780052,
+              "options": [
+                "Yes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": 611840003,
+          "meta": false,
+          "question": "If Yes, How are they emptied?",
+          "name": null,
+          "order": 28,
+          "required": true,
+          "type": "multiple_option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Through use of exhauster truck"
             },
             {
-              "name": "Does not apply"
+              "name": "Manual removal"
+            }
+          ],
+          "extra": {
+            "allowOther": true
+          },
+          "dependency": [
+            {
+              "id": 539710038,
+              "options": [
+                "Yes"
+              ]
             }
           ]
         }
@@ -912,9 +1468,16 @@
           "id": 539710052,
           "meta": false,
           "question": "Are there handwashing facilities at the school?",
+          "name": "Handwashing facilities is available",
           "order": 1,
           "required": true,
           "type": "option",
+          "attributes": [
+            "advanced_filter",
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -928,9 +1491,16 @@
           "id": 539710048,
           "meta": false,
           "question": "Are both soap and water currently available at the handwashing facilities?",
+          "name": "Soap and water are available",
           "order": 2,
           "required": true,
           "type": "option",
+          "attributes": [
+            "advanced_filter",
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes, water and soap"
@@ -958,9 +1528,15 @@
           "id": 539710051,
           "meta": false,
           "question": "Where are handwashing facilities with water and soap located at the school? (mark all that apply)",
+          "name": "Handwashing facilities location",
           "order": 3,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Toilets"
@@ -975,6 +1551,9 @@
               "name": "School yard"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 539710052,
@@ -988,9 +1567,14 @@
           "id": 539710055,
           "meta": false,
           "question": "How many handwashing facilities with water and soap are located at the school?",
+          "name": "# of handwashing facilities with water and soap",
           "order": 4,
           "required": true,
           "type": "number",
+          "attributes": [
+            "chart",
+            "table"
+          ],
           "options": null,
           "dependency": [
             {
@@ -1005,9 +1589,15 @@
           "id": 539710056,
           "meta": false,
           "question": "Do pupils wash their hands in the school?",
+          "name": "Pupils wash their hands in the school",
           "order": 5,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -1021,9 +1611,15 @@
           "id": 539710050,
           "meta": false,
           "question": "How do they usually wash their hands in the school?",
+          "name": "How to wash their hands in the school",
           "order": 6,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "With water only"
@@ -1032,9 +1628,12 @@
               "name": "With soap and water"
             },
             {
-              "name": "I don’t wash"
+              "name": "I don't wash"
             }
           ],
+          "extra": {
+            "allowOther": true
+          },
           "dependency": [
             {
               "id": 539710056,
@@ -1047,10 +1646,15 @@
         {
           "id": 539710049,
           "meta": false,
-          "question": "When do you think is the critical hand washing time for whether you at home or at school?",
+          "question": "When do you think is the critical hand washing time when at home or at school?",
+          "name": null,
           "order": 7,
           "required": true,
-          "type": "option",
+          "type": "multiple_option",
+          "attributes": [
+            "advanced_filter",
+            "chart"
+          ],
           "options": [
             {
               "name": "After I wake up from my sleep"
@@ -1070,15 +1674,25 @@
             {
               "name": "After working on the field"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 539710053,
           "meta": false,
-          "question": "Are there handwashing facilities accessible to those with limited mobility or vision?",
+          "question": "Are there hand washing facilities accessible to learners with special needs and disabilities?",
+          "name": "Handwashing facilities is accessible for limited mobility or vision",
           "order": 8,
           "required": true,
           "type": "option",
+          "attributes": [
+            "advanced_filter",
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -1086,15 +1700,29 @@
             {
               "name": "No"
             }
+          ],
+          "dependency": [
+            {
+              "id": 539710052,
+              "options": [
+                "Yes"
+              ]
+            }
           ]
         },
         {
           "id": 539710054,
           "meta": false,
           "question": "Are there handwashing facilities accessible to the smallest children at the school?",
+          "name": "Handwashing facilities is accessible to the smallest children",
           "order": 9,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -1110,12 +1738,37 @@
       "question_group": "MENSTRUAL HYGIENE",
       "questions": [
         {
-          "id": 538000047,
+          "id": 605430054,
           "meta": false,
-          "question": "What facilities are available for girls to manage their menses hygienically and without being embarrassed while in school?",
+          "question": "Have girls been educated on what to expect during their first period?",
+          "name": null,
           "order": 1,
           "required": true,
+          "type": "option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ]
+        },
+        {
+          "id": 538000047,
+          "meta": false,
+          "question": "What facilities have been provided for girls to manage their menses hygienically and without being embarrassed while in school?",
+          "name": "Private facility for girls during menstrual period",
+          "order": 2,
+          "required": true,
           "type": "multiple_option",
+          "attributes": [
+            "advanced_filter",
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Private place / latrine"
@@ -1129,15 +1782,54 @@
             {
               "name": "Soap"
             }
+          ],
+          "extra": {
+            "allowOther": true
+          }
+        },
+        {
+          "id": 610930003,
+          "meta": false,
+          "question": "What menstrual hygiene materials are provided to the girls during menstruation while at school?",
+          "name": null,
+          "order": 3,
+          "required": true,
+          "type": "multiple_option",
+          "attributes": [],
+          "options": [
+            {
+              "name": "Cloth/reusable sanitary pads"
+            },
+            {
+              "name": "Disposable sanitary pads"
+            },
+            {
+              "name": "Tampons"
+            },
+            {
+              "name": "Menstrual cup"
+            },
+            {
+              "name": "Toilet paper"
+            },
+            {
+              "name": "Underwear alone"
+            }
           ]
         },
         {
           "id": 538000045,
           "meta": false,
-          "question": "Do school girls face challenges during their menstruation time in school?",
-          "order": 2,
+          "question": "Which challenges do girls during their menstruation while in school?",
+          "name": "Challenges during their menstruation time",
+          "order": 4,
           "required": true,
           "type": "multiple_option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "There is no private place (latrine) for changing used sanitary pads or cloth"
@@ -1157,70 +1849,46 @@
             {
               "name": "They have pain"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
-          "id": 538000044,
+          "id": 538000046,
           "meta": false,
-          "question": "Are there restrictions for girls during their menstruation period?",
-          "order": 3,
-          "required": true,
+          "question": "Do girls miss any activities because of menstruation?",
+          "name": "Missing activities during menstruation",
+          "order": 5,
+          "required": false,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
             },
             {
               "name": "No"
-            },
-            {
-              "name": "Don't know"
-            }
-          ]
-        },
-        {
-          "id": 538000046,
-          "meta": false,
-          "question": "Are there restrictions for girls during their menstruation period?",
-          "order": 4,
-          "required": true,
-          "type": "multiple_option",
-          "options": [
-            {
-              "name": "Eating some specific type food"
-            },
-            {
-              "name": "Entering the church or mosque"
-            },
-            {
-              "name": "Touching the cross or holly book"
-            },
-            {
-              "name": "Milking animals"
-            },
-            {
-              "name": "Participating in public ceremonies"
-            },
-            {
-              "name": "Preparing/cooking food"
-            }
-          ],
-          "dependency": [
-            {
-              "id": 538000044,
-              "options": [
-                "Yes"
-              ]
             }
           ]
         },
         {
           "id": 538000049,
           "meta": false,
-          "question": "Are there covered bins for disposal of menstrual hygiene materials in girls’ toilets?",
-          "order": 5,
+          "question": "Are there covered bins for disposal of menstrual hygiene materials in girls' toilets?",
+          "name": "Covered bins in girls toilets",
+          "order": 6,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -1234,12 +1902,37 @@
           ]
         },
         {
+          "id": 596730171,
+          "meta": false,
+          "question": "If No, where do they dispose off?",
+          "name": null,
+          "order": 7,
+          "required": true,
+          "type": "text",
+          "attributes": [],
+          "options": null,
+          "dependency": [
+            {
+              "id": 538000049,
+              "options": [
+                "No"
+              ]
+            }
+          ]
+        },
+        {
           "id": 538000050,
           "meta": false,
           "question": "Are there disposal mechanisms for menstrual hygiene waste at the school?",
-          "order": 6,
+          "name": "Disposal mechanism",
+          "order": 8,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -1253,9 +1946,16 @@
           "id": 538000048,
           "meta": false,
           "question": "Are water and soap available in a private space for girls to manage menstrual hygiene?",
-          "order": 7,
+          "name": "Water and soap are available in a girls private space",
+          "order": 9,
           "required": true,
           "type": "option",
+          "attributes": [
+            "advanced_filter",
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes, water and soap"
@@ -1276,10 +1976,16 @@
         {
           "id": 553480028,
           "meta": false,
-          "question": "You can use any place to excrete as long as people don’t see you.",
+          "question": "You can use any place to excrete as long as people don't see you.",
+          "name": "Place to excrete",
           "order": 1,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -1296,9 +2002,15 @@
           "id": 553480030,
           "meta": false,
           "question": "My school tolerates open defecation",
+          "name": "Tolerates open defecation",
           "order": 2,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -1315,9 +2027,15 @@
           "id": 553480029,
           "meta": false,
           "question": "How often is the school compound swept/cleaned?",
+          "name": "Compound swept / cleaned",
           "order": 3,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Daily"
@@ -1343,9 +2061,15 @@
           "id": 553480033,
           "meta": false,
           "question": "Are there garbage or waste materials that are currently affecting the sanitation of the school?",
+          "name": "Waste materials affecting the sanitation",
           "order": 4,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -1362,9 +2086,15 @@
           "id": 553480032,
           "meta": false,
           "question": "How are the garbage/waste materials affecting the school sanitation?",
+          "name": "The effect of the waste",
           "order": 5,
           "required": true,
           "type": "multiple_option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "The waste contaminates the water"
@@ -1381,43 +2111,60 @@
             {
               "name": "The waste spreads disease"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 553480034,
           "meta": false,
-          "question": "How should the garbage or waste materials safely and hygienically be disposed?",
+          "question": "How does the school dispose off garbage or waste materials safely and hygienically?",
+          "name": "How it should be disposed",
           "order": 6,
           "required": true,
           "type": "multiple_option",
+          "attributes": [
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
-              "name": "They should be buried in a pit within school compound"
+              "name": "Buried in a pit within school compound"
             },
             {
-              "name": "They should be burned in a pit within school compound"
+              "name": "Burned in a pit within school compound"
             },
             {
-              "name": "They should be collected in a container"
+              "name": "Collected in a container"
             },
             {
-              "name": "They should be thrown on damping site"
+              "name": "Thrown on damping site"
             },
             {
-              "name": "They should be thrown in school compound without burying /burning"
+              "name": "Thrown in school compound without burying /burning"
             },
             {
-              "name": "They should be thrown on open outside school"
+              "name": "Thrown on open outside school"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 553480031,
           "meta": false,
           "question": "In your opinion, what should the school do to promote good hygiene and sanitation of students?",
+          "name": "Opinion on how to promote good hygiene and sanitation",
           "order": 7,
           "required": true,
           "type": "multiple_option",
+          "attributes": [
+            "chart",
+            "table"
+          ],
           "options": [
             {
               "name": "Make latrine available for students"
@@ -1437,15 +2184,25 @@
             {
               "name": "Provide sanitation and hygiene education to students"
             }
-          ]
+          ],
+          "extra": {
+            "allowOther": true
+          }
         },
         {
           "id": 545530057,
           "meta": false,
           "question": "Are cleaning protocols available?",
+          "name": "Cleaning protocols is available",
           "order": 8,
           "required": true,
           "type": "option",
+          "attributes": [
+            "advanced_filter",
+            "chart",
+            "table",
+            "aggregate"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -1458,10 +2215,15 @@
         {
           "id": 575740004,
           "meta": false,
-          "question": "Have all staff responsible for cleaning received training?",
+          "question": "Have all the staff responsible for cleaning been trained on the training protocol?",
+          "name": "Cleaning staff is trained",
           "order": 9,
           "required": true,
           "type": "option",
+          "attributes": [
+            "chart",
+            "table"
+          ],
           "options": [
             {
               "name": "Yes, all have been trained"
@@ -1486,9 +2248,13 @@
           "id": 539700037,
           "meta": false,
           "question": "Any general comments / concerns during the data collection?",
+          "name": "General comments",
           "order": 1,
-          "required": true,
+          "required": false,
           "type": "text",
+          "attributes": [
+            "table"
+          ],
           "options": null
         }
       ]

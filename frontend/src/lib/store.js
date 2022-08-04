@@ -1,5 +1,6 @@
 import { Store } from "pullstate";
 import { sortArray } from "../util/form";
+import config from "./config";
 
 const defaultUIState = {
   isLoggedIn: false,
@@ -13,9 +14,8 @@ const defaultUIState = {
     active: "en",
     langs: { en: "English", de: "German" },
   },
-  administration: [],
+  administration: [config.fn.administration(1)],
   selectedAdministration: null,
-  loadingAdministration: false,
   loadingMap: false,
   forms: window.forms.sort(sortArray),
   levels: window.levels,
@@ -25,6 +25,7 @@ const defaultUIState = {
   showAdvancedFilters: false,
   advancedFilters: [],
   administrationLevel: null,
+  showContactFormModal: false,
 };
 
 const store = new Store(defaultUIState);

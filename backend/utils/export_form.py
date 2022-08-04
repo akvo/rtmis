@@ -3,7 +3,7 @@ import pathlib
 
 import pandas as pd
 
-from api.v1.v1_forms.models import Forms
+from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 
@@ -72,7 +72,8 @@ def generate_definition_sheet(form: Forms):
 
 
 def generate_excel(form: Forms, user: SystemUser):
-    questions = form.form_questions.all()
+    questions = Questions.objects.filter(form=form).order_by(
+        "question_group_id", "order").all()
     data = pd.DataFrame(
         columns=['{0}|{1}'.format(q.id, q.name) for q in questions], index=[0])
     form_name = form.name

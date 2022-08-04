@@ -15,14 +15,24 @@ const EditableCell = ({
   pendingData,
   disabled = false,
   readonly = false,
+  isPublic = false,
 }) => {
   const [editing, setEditing] = useState(false);
   const [locationName, setLocationName] = useState(null);
   const [value, setValue] = useState(null);
 
   useEffect(() => {
-    if (record && (record.newValue || record.value)) {
-      const newValue = record.newValue ? record.newValue : record.value;
+    if (
+      record &&
+      (record.newValue ||
+        record.newValue === 0 ||
+        record.value ||
+        record.value === 0)
+    ) {
+      const newValue =
+        record.newValue || record.newValue === 0
+          ? record.newValue
+          : record.value;
       setValue(
         record.type === "date"
           ? moment(newValue).format("YYYY-MM-DD")
@@ -34,10 +44,12 @@ const EditableCell = ({
   const notEditable =
     record.type === "cascade" || record.type === "geo" || readonly;
   const edited =
-    record && record.newValue && !isEqual(record.value, record.newValue);
+    record &&
+    (record.newValue || record.newValue === 0) &&
+    !isEqual(record.value, record.newValue);
 
   useEffect(() => {
-    if (record && record.type === "cascade" && !locationName) {
+    if (record && record.type === "cascade" && !record?.api && !locationName) {
       const locName = config.fn.administration(record.value, false);
       setLocationName(locName?.full_name);
     }
@@ -136,12 +148,14 @@ const EditableCell = ({
           cursor: !notEditable && !pendingData ? "pointer" : "not-allowed",
         }}
         onClick={() => {
-          if (!notEditable && !pendingData) {
+          if (!notEditable && !pendingData && !isPublic) {
             setEditing(!editing);
           }
         }}
       >
-        {record.type === "cascade" ? locationName : getAnswerValue()}
+        {record.type === "cascade" && !record?.api
+          ? locationName
+          : getAnswerValue()}
       </Col>
       {edited && (
         <Button

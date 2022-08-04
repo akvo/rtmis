@@ -4,7 +4,7 @@ from django.db import models
 
 # Create your models here.
 from api.v1.v1_forms.constants import QuestionTypes, \
-    FormTypes
+    FormTypes, AttributeTypes
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 
@@ -90,6 +90,8 @@ class Questions(models.Model):
     required = models.BooleanField(default=True)
     rule = models.JSONField(default=None, null=True)
     dependency = models.JSONField(default=None, null=True)
+    api = models.JSONField(default=None, null=True)
+    extra = models.JSONField(default=None, null=True)
 
     def __str__(self):
         return self.text
@@ -109,6 +111,7 @@ class Questions(models.Model):
             "rule": self.rule,
             "dependency": self.dependency,
             "options": options,
+            "extra": self.extra
         }
 
     @property
@@ -147,4 +150,37 @@ class UserForms(models.Model):
         return self.user.email
 
     class Meta:
+        unique_together = ('user', 'form')
         db_table = 'user_form'
+
+
+class QuestionAttribute(models.Model):
+    name = models.TextField(null=True, default=None)
+    question = models.ForeignKey(to=Questions,
+                                 on_delete=models.CASCADE,
+                                 related_name='question_question_attribute')
+    attribute = models.IntegerField(choices=AttributeTypes.FieldStr.items())
+    options = models.JSONField(default=None, null=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        unique_together = ('name', 'question', 'attribute', 'options')
+        db_table = 'question_attribute'
+
+
+class ViewJMPCriteria(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    form = models.ForeignKey(
+        to=Forms,
+        on_delete=models.DO_NOTHING,
+        related_name='form_view_jmp_criteria')
+    name = models.TextField()
+    criteria = models.JSONField(default=None, null=True)
+    level = models.TextField()
+    score = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'view_jmp_criteria'

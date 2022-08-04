@@ -16,8 +16,8 @@ const Header = ({ className = "header", ...props }) => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
-
-  const isSuperAdmin = user?.role?.id === 1;
+  const dashboards = window?.dashboard;
+  const reports = window?.reports;
 
   const signOut = async () => {
     eraseCookieFromAllPaths("AUTH_TOKEN");
@@ -35,11 +35,6 @@ const Header = ({ className = "header", ...props }) => {
           <Link to="/control-center">{text?.controlCenter}</Link>
         </Menu.Item>
       )}
-      {isSuperAdmin && (
-        <Menu.Item key="settings">
-          <Link to="/settings">{text?.settings}</Link>
-        </Menu.Item>
-      )}
       <Menu.Item key="profile">
         <Link to="/profile">{text?.myProfile}</Link>
       </Menu.Item>
@@ -52,6 +47,26 @@ const Header = ({ className = "header", ...props }) => {
           {text?.signOut}
         </a>
       </Menu.Item>
+    </Menu>
+  );
+
+  const DashboardMenu = (
+    <Menu>
+      {dashboards?.map((d) => (
+        <Menu.Item key={`${d.name}`} className="dashboard-menu-item">
+          <Link to={`/${d.page}/${d.form_id}`}>{d.name}</Link>
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
+
+  const ReportsMenu = (
+    <Menu>
+      {reports?.map((d) => (
+        <Menu.Item key={`${d.name}`} className="dashboard-menu-item">
+          <Link to={`/${d.page}/${d.form_id}`}>{d.name}</Link>
+        </Menu.Item>
+      ))}
     </Menu>
   );
 
@@ -89,10 +104,31 @@ const Header = ({ className = "header", ...props }) => {
           <div className="navigation">
             <HomeTour style={{ verticalAlign: "-7px" }} />
             <Space>
-              <Link to="/data/visualisation">{text?.dashboards}</Link>
+              {/* old dashboard */}
+              {/* <Link to="/data/visualisation">{text?.dashboards}</Link> */}
               <Link className="dev" to="/reports">
                 {text?.reports}
               </Link>
+              <Dropdown overlay={DashboardMenu}>
+                <a
+                  className="ant-dropdown-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                  }}
+                >
+                  {text?.dashboards}
+                </a>
+              </Dropdown>
+              <Dropdown overlay={ReportsMenu}>
+                <a
+                  className="ant-dropdown-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                  }}
+                >
+                  {text?.reports}
+                </a>
+              </Dropdown>
               {/* <a className="dev">Monitoring</a> */}
               {/* <Link className="dev" to="/how-we-work">
               How We Work

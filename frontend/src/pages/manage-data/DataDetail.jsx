@@ -13,6 +13,7 @@ const DataDetail = ({
   updater,
   updateRecord,
   setDeleteData,
+  isPublic = false,
 }) => {
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -29,7 +30,10 @@ const DataDetail = ({
             ...qg,
             question: qg.question.map((qi) => {
               if (qi.id === key) {
-                if (isEqual(qi.value, value) && qi.newValue) {
+                if (
+                  isEqual(qi.value, value) &&
+                  (qi.newValue || qi.newValue === 0)
+                ) {
                   delete qi.newValue;
                 } else {
                   qi.newValue = value;
@@ -68,10 +72,15 @@ const DataDetail = ({
     const formRes = forms.find((f) => f.id === formId);
     dataset.map((rd) => {
       rd.question.map((rq) => {
-        if (rq.newValue) {
+        if (rq.newValue || rq.newValue === 0) {
+          let value = rq.newValue;
+          if (rq.type === "number") {
+            value =
+              parseFloat(value) % 1 !== 0 ? parseFloat(value) : parseInt(value);
+          }
           data.push({
             question: rq.id,
-            value: rq.type === "number" ? parseInt(rq.newValue) : rq.newValue,
+            value: value,
           });
         }
       });
@@ -120,7 +129,10 @@ const DataDetail = ({
               const findData = res.data.find((d) => d.question === q.id);
               return {
                 ...q,
-                value: findData?.value || null,
+                value:
+                  findData?.value || findData?.value === 0
+                    ? findData.value
+                    : null,
                 history: findData?.history || false,
               };
             });
@@ -176,7 +188,8 @@ const DataDetail = ({
               pagination={false}
               dataSource={r.question}
               rowClassName={(record) =>
-                record.newValue && !isEqual(record.newValue, record.value)
+                (record.newValue || record.newValue === 0) &&
+                !isEqual(record.newValue, record.value)
                   ? "row-edited"
                   : "row-normal"
               }
@@ -195,6 +208,7 @@ const DataDetail = ({
                       updateCell={updateCell}
                       resetCell={resetCell}
                       pendingData={pendingData}
+                      isPublic={isPublic}
                     />
                   ),
                 },
@@ -219,21 +233,23 @@ const DataDetail = ({
           </div>
         ))}
       </div>
-      <div>
-        <Space>
-          <Button
-            type="primary"
-            onClick={handleSave}
-            disabled={!edited || saving}
-            loading={saving}
-          >
-            Save Edits
-          </Button>
-          <Button type="danger" onClick={() => setDeleteData(record)}>
-            Delete
-          </Button>
-        </Space>
-      </div>
+      {!isPublic && (
+        <div>
+          <Space>
+            <Button
+              type="primary"
+              onClick={handleSave}
+              disabled={!edited || saving}
+              loading={saving}
+            >
+              Save Edits
+            </Button>
+            <Button type="danger" onClick={() => setDeleteData(record)}>
+              Delete
+            </Button>
+          </Space>
+        </div>
+      )}
     </>
   );
 };

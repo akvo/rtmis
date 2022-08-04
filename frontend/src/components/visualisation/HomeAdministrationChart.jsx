@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { Card, Row, Checkbox, Switch, Space } from "antd";
-import { api } from "../../lib";
+import { api, queue } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { sumBy, isNil, orderBy } from "lodash";
 import _ from "lodash";
@@ -9,15 +9,26 @@ import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
 
-const HomeAdministrationChart = ({ config, formId, runNow, nextCall }) => {
+const HomeAdministrationChart = ({
+  setup,
+  formId,
+  index,
+  setMapValues,
+  identifier = "",
+}) => {
   const [dataset, setDataset] = useState([]);
   const [showEmpty, setShowEmpty] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [isStack, setIsStack] = useState(false);
   const [chartColors, setChartColors] = useState([]);
 
   const { notify } = useNotification();
-  const { id, title, stack, options, type, horizontal = true } = config;
+  const { id, title, stack, options, type, horizontal = true } = setup;
+
+  const { next, wait } = queue.useState((q) => q);
+
+  const showAsMap = setup?.show_as_map;
+  const runCall = index === next && !wait;
+  const loading = next <= index;
 
   const getOptionColor = (name, index) => {
     return (
@@ -31,18 +42,22 @@ const HomeAdministrationChart = ({ config, formId, runNow, nextCall }) => {
   };
 
   useEffect(() => {
-    if (formId && (type === "CRITERIA" || id) && runNow) {
-      setLoading(true);
+    if (formId && (type === "CRITERIA" || id) && runCall) {
+      const cacheName = `home-page-${identifier}-${title}`
+        .replace(/ /g, "-")
+        .toLowerCase();
       const url =
-        (type === "CRITERIA"
-          ? "chart/overview/criteria/"
-          : "chart/administration/") +
+        (type === "CRITERIA" ? "chart/criteria/" : "chart/administration/") +
         `${formId}?` +
-        (type === "ADMINISTRATION" ? `question=${id}&` : "");
+        (type === "ADMINISTRATION" ? `question=${id}&` : "") +
+        (type === "CRITERIA" ? `cache=${cacheName}` : "");
       api[type === "CRITERIA" ? "post" : "get"](
         url,
         type === "CRITERIA"
-          ? options.map((o) => ({ name: o.name, options: o.options }))
+          ? options.map((o) => ({
+              name: o.name,
+              options: o.options,
+            }))
           : {}
       )
         .then((res) => {
@@ -76,6 +91,9 @@ const HomeAdministrationChart = ({ config, formId, runNow, nextCall }) => {
               },
             ]);
           }
+          if (showAsMap) {
+            setMapValues(temp);
+          }
           setDataset(temp);
         })
         .catch(() => {
@@ -85,11 +103,25 @@ const HomeAdministrationChart = ({ config, formId, runNow, nextCall }) => {
           });
         })
         .finally(() => {
-          nextCall();
-          setLoading(false);
+          queue.update((q) => {
+            q.next = index + 1;
+          });
         });
     }
-  }, [formId, id, notify, options, stack?.options, type, runNow, nextCall]);
+  }, [
+    formId,
+    id,
+    index,
+    title,
+    identifier,
+    notify,
+    options,
+    stack,
+    type,
+    runCall,
+    showAsMap,
+    setMapValues,
+  ]);
 
   const transformDataset = useMemo(() => {
     if (isStack) {
@@ -116,10 +148,13 @@ const HomeAdministrationChart = ({ config, formId, runNow, nextCall }) => {
   }, [isStack, dataset, showEmpty]);
 
   return (
-    <Card className="chart-wrap">
+    <Card
+      className="chart-wrap"
+      style={{ display: setup?.hide ? "none" : "block" }}
+    >
       <Row justify="space-between" align="middle">
         <h3>
-          {isStack ? "County" : "National"} {title}
+          {isStack ? "County" : "National"} {title} ({identifier})
         </h3>
         {isStack && (
           <Checkbox
@@ -146,11 +181,6 @@ const HomeAdministrationChart = ({ config, formId, runNow, nextCall }) => {
             horizontal={horizontal}
             series={{ left: "10%" }}
             loading={loading}
-            loadingOption={{
-              text: "",
-              color: "#1b91ff",
-              lineWidth: 1,
-            }}
           />
         ) : (
           <Chart
@@ -160,12 +190,7 @@ const HomeAdministrationChart = ({ config, formId, runNow, nextCall }) => {
             wrapper={false}
             horizontal={horizontal}
             loading={loading}
-            loadingOption={{
-              text: "",
-              color: "#1b91ff",
-              lineWidth: 1,
-            }}
-            extra={{ color: chartColors }}
+            extra={{ color: chartColors, animation: next === index + 1 }}
             series={{
               left: "10%",
             }}
@@ -193,7 +218,7 @@ const HomeAdministrationChart = ({ config, formId, runNow, nextCall }) => {
 
 HomeAdministrationChart.propTypes = {
   formId: PropTypes.number.isRequired,
-  config: PropTypes.shape({
+  setup: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
     stack: PropTypes.any,

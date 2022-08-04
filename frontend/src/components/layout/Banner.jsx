@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
-import { Row, Col, Button } from "antd";
+import { Row, Col, Button, Dropdown, Menu } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 import { Link, useLocation } from "react-router-dom";
 import ComingSoon from "./custom/ComingSoon";
 import Countdown from "react-countdown";
@@ -8,7 +9,7 @@ import { uiText, store } from "../../lib";
 
 const styles = {
   banner: {
-    backgroundImage: `url("/assets/banner.png")`,
+    backgroundImage: `url("/assets/banner.jpg")`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
@@ -89,20 +90,48 @@ const Banner = () => {
   };
 
   const HomeBanner = () => {
+    const scrollToView = () => {
+      const section = document.querySelector("#home-visualisation");
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    const DashboardMenu = (
+      <Menu>
+        {window?.dashboard?.map((d) => (
+          <Menu.Item
+            key={`${d.name}`}
+            style={{ fontSize: 16, fontStyle: "italic", padding: 10 }}
+          >
+            <Link to={`/${d.page}/${d.form_id}`}>{d.name}</Link>
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
     return (
       <>
-        <h1>
-          {text?.welcome}
-          <br />
-          <small>{text?.welcomeDesc}</small>
-        </h1>
+        <h1>{text?.welcome}</h1>
+        <h2>{text?.welcomeDesc}</h2>
         <div className="launching">
           <h4>{text?.countdownTitle}</h4>
           <Countdown date="2025-12-31T09:00:00" renderer={renderer} />
         </div>
-        <Button size="large" ghost>
-          <Link to="/data/visualisation">{text?.welcomeCta}</Link>
-        </Button>
+        <Row>
+          <Button
+            size="large"
+            onClick={() => scrollToView()}
+            className="btn-explore-national-data"
+          >
+            {text?.welcomeCta}
+          </Button>
+          <Dropdown overlay={DashboardMenu}>
+            <Button
+              size="large"
+              onClick={(e) => e.preventDefault()}
+              className="btn-dashboard"
+            >
+              Comprehensive Dashboards <DownOutlined />
+            </Button>
+          </Dropdown>
+        </Row>
       </>
     );
   };
@@ -130,7 +159,7 @@ const Banner = () => {
           </small>
         </h1>
         <Link to="/">
-          <Button ghost>{text?.backHome}</Button>
+          <Button size="large">{text?.backHome}</Button>
         </Link>
       </>
     );

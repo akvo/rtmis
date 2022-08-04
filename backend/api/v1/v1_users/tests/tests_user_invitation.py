@@ -1,10 +1,12 @@
 from django.core import signing
 from django.core.management import call_command
 from django.test import TestCase
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from django.test.utils import override_settings
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_users.models import SystemUser, Organisation
+from api.v1.v1_forms.models import FormApprovalAssignment
 from utils.email_helper import EmailTypes
 
 
@@ -55,7 +57,8 @@ class UserInvitationTestCase(TestCase):
             'phone_number',
             'designation',
             'invite',
-            'forms'
+            'forms',
+            'last_login'
         ], list(users['data'][0]))
         response = self.client.get("/api/v1/users?pending=true",
                                    follow=True,
@@ -88,6 +91,20 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(users['data'][0]['email'], 'admin@rush.com')
         self.assertEqual(users['data'][0]['first_name'], 'Admin')
         self.assertEqual(users['data'][0]['last_name'], 'RUSH')
+        # test filter user if not super admin user logged in
+        call_command("fake_user_seeder", "-r", 10)
+        find_user = SystemUser.objects.filter(
+            user_access__role=UserRoleTypes.admin).first()
+        token = RefreshToken.for_user(find_user)
+        response = self.client.get(
+            "/api/v1/users?page=1&administration={}".format(
+                find_user.user_access.administration_id),
+            follow=True,
+            **{'HTTP_AUTHORIZATION': f'Bearer {token.access_token}'})
+        users = response.json()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(users),
+                         ['current', 'data', 'total', 'total_page'])
 
     def test_add_edit_user(self):
         call_command("administration_seeder", "--test")
@@ -108,6 +125,7 @@ class UserInvitationTestCase(TestCase):
             "organisation": org.id,
             "forms": [1],
             "trained": True,
+            "inform_user": True,
         }
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         add_response = self.client.post("/api/v1/user",
@@ -135,6 +153,7 @@ class UserInvitationTestCase(TestCase):
             "trained": False,
             "role": 6,
             "forms": [1, 2],
+            "inform_user": True,
         }
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
 
@@ -165,7 +184,38 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(add_response.json(),
                          {'message': 'User updated successfully'})
         edit_payload["role"] = 2
-        edit_payload["forms"] = [1]
+        edit_payload["forms"] = [2]
+        add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
+                                       edit_payload,
+                                       content_type='application/json',
+                                       **header)
+        self.assertEqual(add_response.status_code, 200)
+        self.assertEqual(add_response.json(),
+                         {'message': 'User updated successfully'})
+        # change administration
+        edit_payload["administration"] = 3
+        add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
+                                       edit_payload,
+                                       content_type='application/json',
+                                       **header)
+        self.assertEqual(add_response.status_code, 200)
+        self.assertEqual(add_response.json(),
+                         {'message': 'User updated successfully'})
+
+        get_response = self.client.get("/api/v1/user/{0}".format(fl[0]['id']),
+                                       content_type='application/json',
+                                       **header)
+        self.assertEqual(get_response.status_code, 200)
+        responses = get_response.json()
+        self.assertEqual([
+            'first_name', 'last_name', 'email', 'administration',
+            'organisation', 'trained', 'role', 'phone_number', 'designation',
+            'forms', 'approval_assignment', 'pending_approval', 'data',
+            'pending_batch'
+        ], list(responses))
+        self.assertEqual(responses["forms"],
+                         [{'id': 2, 'name': 'Test Form 2'}])
+        edit_payload["forms"] = [1, 2]
         add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
                                        edit_payload,
                                        content_type='application/json',
@@ -184,7 +234,207 @@ class UserInvitationTestCase(TestCase):
             'forms', 'approval_assignment', 'pending_approval', 'data',
             'pending_batch'
         ], list(responses))
-        self.assertEqual(responses["forms"], [{'id': 1, 'name': 'Test Form'}])
+        self.assertEqual(responses["forms"],
+                         [{'id': 1, 'name': 'Test Form'},
+                          {'id': 2, 'name': 'Test Form 2'}])
+
+        # test_update_user_with_pending_approval
+        call_command("fake_pending_data_seeder")
+        find_user = SystemUser.objects.filter(
+            user_access__role=UserRoleTypes.admin).order_by('-id').first()
+        edit_payload = {
+            "first_name": find_user.first_name,
+            "last_name": find_user.last_name,
+            "email": find_user.email,
+            "administration": find_user.user_access.administration_id + 1,
+            "organisation": org.id,
+            "trained": False,
+            "role": find_user.user_access.role,
+            "forms": [fr.form_id for fr in find_user.user_form.all()],
+            "inform_user": True,
+        }
+        response = self.client.put("/api/v1/user/{0}".format(find_user.id),
+                                   edit_payload,
+                                   content_type='application/json',
+                                   **header)
+        self.assertEqual(response.status_code, 409)
+
+    def test_add_admin_user(self):
+        call_command("administration_seeder", "--test")
+        call_command("form_seeder", "--test")
+        call_command("fake_organisation_seeder", "--repeat", 3)
+        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
+        user_response = self.client.post('/api/v1/login',
+                                         user_payload,
+                                         content_type='application/json')
+        org = Organisation.objects.order_by('?').first()
+        user = user_response.json()
+        token = user.get('token')
+        payload = {
+            "first_name": "County",
+            "last_name": "Admin",
+            "email": "county_admin@example.com",
+            "administration": 2,
+            "organisation": org.id,
+            "role": 2,
+            "forms": [1],
+            "trained": False,
+        }
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        add_response = self.client.post("/api/v1/user",
+                                        payload,
+                                        content_type='application/json',
+                                        **header)
+        self.assertEqual(add_response.status_code, 200)
+        self.assertEqual(add_response.json(),
+                         {'message': 'User added successfully'})
+        user = SystemUser.objects.filter(
+            email="county_admin@example.com").first()
+        form_approval_assignment = FormApprovalAssignment.objects.filter(
+            form=1, administration=2, user=user).first()
+        self.assertEqual(form_approval_assignment.user, user)
+        # Add user for same form and administration
+        payload = {
+            "first_name": "Second County",
+            "last_name": "Admin",
+            "email": "county_admin2@example.com",
+            "administration": 2,
+            "organisation": org.id,
+            "role": 2,
+            "forms": [1],
+            "trained": False,
+        }
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        add_response = self.client.post("/api/v1/user",
+                                        payload,
+                                        content_type='application/json',
+                                        **header)
+        self.assertEqual(add_response.status_code, 403)
+        # Add user for different administration
+        payload = {
+            "first_name": "Third County",
+            "last_name": "Admin",
+            "email": "county_admin3@example.com",
+            "administration": 3,
+            "organisation": org.id,
+            "role": 2,
+            "forms": [1],
+            "trained": False,
+        }
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        add_response = self.client.post("/api/v1/user",
+                                        payload,
+                                        content_type='application/json',
+                                        **header)
+        self.assertEqual(add_response.status_code, 200)
+
+    def test_add_aprroval_user(self):
+        call_command("administration_seeder", "--test")
+        call_command("form_seeder", "--test")
+        call_command("fake_organisation_seeder", "--repeat", 3)
+        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
+        user_response = self.client.post('/api/v1/login',
+                                         user_payload,
+                                         content_type='application/json')
+        org = Organisation.objects.order_by('?').first()
+        user = user_response.json()
+        token = user.get('token')
+        payload = {
+            "first_name": "Test",
+            "last_name": "Approver",
+            "email": "test_approver@example.com",
+            "administration": 2,
+            "organisation": org.id,
+            "role": 3,
+            "forms": [1],
+            "trained": True,
+        }
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        add_response = self.client.post("/api/v1/user",
+                                        payload,
+                                        content_type='application/json',
+                                        **header)
+        self.assertEqual(add_response.status_code, 200)
+        self.assertEqual(add_response.json(),
+                         {'message': 'User added successfully'})
+        user = SystemUser.objects.filter(
+            email="test_approver@example.com").first()
+        form_approval_assignment = FormApprovalAssignment.objects.filter(
+            form=1, administration=2, user=user).first()
+        self.assertEqual(form_approval_assignment.user, user)
+        # Add user for same form and administration
+        payload = {
+            "first_name": "Test Second",
+            "last_name": "Approver",
+            "email": "test2_approver@example.com",
+            "administration": 2,
+            "organisation": org.id,
+            "role": 3,
+            "forms": [1],
+            "trained": True,
+        }
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        add_response = self.client.post("/api/v1/user",
+                                        payload,
+                                        content_type='application/json',
+                                        **header)
+        self.assertEqual(add_response.status_code, 403)
+        # Add user for different administration
+        payload = {
+            "first_name": "Test Third",
+            "last_name": "Approver",
+            "email": "test3_approver@example.com",
+            "administration": 3,
+            "organisation": org.id,
+            "role": 3,
+            "forms": [1],
+            "trained": True,
+        }
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        add_response = self.client.post("/api/v1/user",
+                                        payload,
+                                        content_type='application/json',
+                                        **header)
+        self.assertEqual(add_response.status_code, 200)
+        # Add another role with same form and administration
+        payload = {
+            "first_name": "Data",
+            "last_name": "Entry",
+            "email": "data_entry@example.com",
+            "administration": 3,
+            "organisation": org.id,
+            "role": 4,
+            "forms": [1],
+            "trained": True,
+        }
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        add_response = self.client.post("/api/v1/user",
+                                        payload,
+                                        content_type='application/json',
+                                        **header)
+        self.assertEqual(add_response.status_code, 200)
+        user = SystemUser.objects.filter(
+            email="data_entry@example.com").first()
+        form_approval_assignment = FormApprovalAssignment.objects.filter(
+            form=1, administration=3, user=user).first()
+        self.assertEqual(form_approval_assignment, None)
+        # Add another role with same form and administration
+        payload = {
+            "first_name": "Second Data",
+            "last_name": "Entry",
+            "email": "data_entry2@example.com",
+            "administration": 3,
+            "organisation": org.id,
+            "role": 4,
+            "forms": [1],
+            "trained": True,
+        }
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        add_response = self.client.post("/api/v1/user",
+                                        payload,
+                                        content_type='application/json',
+                                        **header)
+        self.assertEqual(add_response.status_code, 200)
 
     def test_get_user_profile(self):
         call_command("administration_seeder", "--test")

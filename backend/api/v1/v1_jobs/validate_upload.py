@@ -54,13 +54,15 @@ def validate_header_names(header, col, header_names):
 
 def validate_number(answer, question):
     try:
-        answer = int(answer)
+        answer = float(answer)
     except ValueError:
         return {"error_message": ValidationText.numeric_validation.value}
     if question.rule:
         rule = question.rule
         qname = question.name
         for r in rule:
+            if r == "allow_decimal" and not rule[r]:
+                answer = int(float(answer))
             if r == "max" and float(rule[r]) < answer:
                 return {
                     "error_message":
@@ -127,15 +129,7 @@ def validate_administration(answer, adm):
 
 def validate_date(answer):
     try:
-        answer = int(answer)
-        return {
-            "error_message":
-                f"Invalid date format: {answer}. It should be YYYY-MM-DD"
-        }
-    except ValueError:
-        pass
-    try:
-        answer = datetime.datetime.strptime(answer, "%Y-%m-%d")
+        answer = datetime.datetime.strptime(str(answer), "%Y-%m-%d")
     except ValueError:
         return {
             "error_message":
@@ -175,12 +169,12 @@ def validate_option(options, answer):
 def validate_row_data(col, answer, question: Questions, adm):
     default = {"error": ExcelError.value, "cell": col}
     if answer != answer:
-        if question.required:
-            default.update({
-                "error_message":
-                    f"{question.name} {ValidationText.is_required.value}"
-            })
-            return default
+        # if question.required:
+        #     default.update({
+        #         "error_message":
+        #             f"{question.name} {ValidationText.is_required.value}"
+        #     })
+        #     return default
         return False
     if isinstance(answer, str):
         answer = HText(answer).clean
@@ -249,7 +243,6 @@ def validate(form: int, administration: int, file: str):
     df = pd.read_excel(file, sheet_name='data')
     if 'id' in list(df):
         df = df.rename(columns={'id': 'data_id'})
-    # df = df[header_names + ['data_id']]
     if df.shape[0] == 0:
         return [{
             "error": ExcelError.sheet,
@@ -267,29 +260,30 @@ def validate(form: int, administration: int, file: str):
     adm = {"id": adm.id, "name": adm.name}
     for col in excel_head:
         header = excel_head[col]
+        errors = None
         if header not in header_names + ['data_id']:
-            continue
-        error = validate_header_names(header, f"{col}1", header_names)
-
-        if error:
-            header_error.append(error)
-        if not error:
+            errors = validate_header_names(header, f"{col}1", header_names)
+        if errors:
+            header_error.append(errors)
+        if not errors:
             if header == 'data_id':
                 data_ids = list(df[header])
                 for i, data_id in enumerate(data_ids):
                     ix = i + 2
                     data_id = None if math.isnan(data_id) else data_id
-                    error = validate_data_id(f"{col}{ix}", data_id)
-                    if error:
-                        data_error.append(error)
+                    errors = validate_data_id(f"{col}{ix}", data_id)
+                    if errors:
+                        data_error.append(errors)
             else:
                 qid = header.split("|")[0]
                 question = questions.filter(id=int(qid)).first()
                 answers = list(df[header])
                 for i, answer in enumerate(answers):
                     ix = i + 2
-                    error = validate_row_data(f"{col}{ix}", answer,
-                                              question, adm)
-                    if error:
-                        data_error.append(error)
+                    errors = validate_row_data(
+                            f"{col}{ix}",
+                            answer,
+                            question, adm)
+                    if errors:
+                        data_error.append(errors)
     return header_error + data_error

@@ -20,21 +20,9 @@ const Footer = ({ className = "footer", ...props }) => {
   return (
     <div className={className}>
       <Row align="top" justify="space-between" {...props}>
-        <Col span={6}>
+        <Col span={8}>
           <h2>{text?.footerAboutTitle}</h2>
           <p>{text?.footerAboutDescription}</p>
-          <h3>{text?.footerQuickLinkTitle}</h3>
-          {text?.footerQuickLinkItems?.map((x, xi) => (
-            <a
-              key={`quick-link-${xi}`}
-              className="link-inline"
-              target="_blank"
-              rel="noreferrer"
-              href={x.url}
-            >
-              {x.text}
-            </a>
-          ))}
         </Col>
         <Col span={4}>
           <h2>{text?.footerExternalLinkTitle}</h2>
@@ -51,11 +39,11 @@ const Footer = ({ className = "footer", ...props }) => {
           )}
         </Col>
         <Col span={4}>
-          <h2>{text?.footerAgenciesTitle}</h2>
-          {!!text?.footerAgenciesItems && (
+          <h2>{text?.footerResourcesTitle}</h2>
+          {!!text?.footerResourcesItems && (
             <ul>
-              {text.footerAgenciesItems.map((x, xi) => (
-                <li key={`agencies-${xi}`}>
+              {text.footerResourcesItems.map((x, xi) => (
+                <li key={`ext-link-${xi}`}>
                   <a target="_blank" rel="noreferrer" href={x.url}>
                     {x.text}
                   </a>
@@ -64,7 +52,7 @@ const Footer = ({ className = "footer", ...props }) => {
             </ul>
           )}
         </Col>
-        <Col span={4}>
+        <Col span={6}>
           <h2>{text?.footerContactTitle}</h2>
           <p>{text?.footerContactAddress}</p>
           <ul>
@@ -88,6 +76,7 @@ const Footer = ({ className = "footer", ...props }) => {
                 {text?.footerContactEmail}
               </a>
             </li>
+            {/*
             <li>
               <a
                 className="ant-btn ant-btn-sm ant-btn-ghost"
@@ -98,6 +87,7 @@ const Footer = ({ className = "footer", ...props }) => {
                 <b>{text?.footerContactFeedback?.text}</b>
               </a>
             </li>
+            */}
           </ul>
         </Col>
       </Row>

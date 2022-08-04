@@ -1,186 +1,197 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { Card, Row, Checkbox } from "antd";
-import { api, store, uiText } from "../../lib";
+import { api, store, uiText, queue } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { takeRight, sumBy, isNil, orderBy } from "lodash";
 import { Chart } from "../../components";
 import PropTypes from "prop-types";
 import { Color } from "../../components/chart/options/common";
+import { generateAdvanceFilterURL } from "../../util/filter";
 
-const AdministrationChart = ({ config, formId }) => {
+const getOptionColor = (name, index) => {
+  return (
+    Color.option.find((c) => {
+      const lookUp = name?.toLowerCase();
+      return lookUp
+        ? c.keys?.some((keyStr) => keyStr.toLowerCase() === lookUp)
+        : false;
+    })?.color || Color.color[index]
+  );
+};
+
+const transformDefaultData = (source, type, stack, options) => {
+  source = source.map((d) => {
+    const optRes = stack?.options?.find(
+      (op) => op.name.toLowerCase() === d.group.toLowerCase()
+    );
+    return {
+      name: d.group,
+      title: optRes?.title || d.group,
+      stack: d.child.map((dc, dcI) => {
+        const stackRes = options?.find(
+          (sO) => sO.name.toLowerCase() === dc.name.toLowerCase()
+        );
+        return {
+          name: dc.name,
+          title: stackRes?.title || dc.name,
+          value: dc.value,
+          color: stackRes?.color || getOptionColor(dc.name, dcI),
+          total: !isNil(stackRes?.score) ? dc.value * stackRes.score : dc.value,
+        };
+      }),
+    };
+  });
+  if (type === "CRITERIA") {
+    source = orderBy(source, [
+      function (e) {
+        return sumBy(e.stack, "total");
+      },
+    ]);
+  }
+  return source;
+};
+
+const AdministrationChart = ({ current, index }) => {
   const [dataset, setDataset] = useState([]);
   const [showEmpty, setShowEmpty] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [parent, setParent] = useState(null);
   const { notify } = useNotification();
-  const { id, title, stack, options, type, horizontal = true } = config;
-  const { administration, loadingAdministration } = store.useState(
-    (state) => state
-  );
-  const { language } = store.useState((s) => s);
+  const {
+    selectedForm: formId,
+    administration,
+    language,
+    advancedFilters,
+  } = store.useState((s) => s);
+
+  const { next, wait } = queue.useState((q) => q);
+  const runCall = index === next && !wait;
+  const loading = next <= index && administration.length < window.levels.length;
+
+  const { id, title, stack, options, type, horizontal = true } = current;
+  const selectedAdministration = takeRight(administration, 1)[0] || null;
+
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
-  const getOptionColor = (name, index) => {
-    return (
-      Color.option.find((c) => {
-        const lookUp = name?.toLowerCase();
-        return lookUp
-          ? c.keys?.some((keyStr) => keyStr.toLowerCase() === lookUp)
-          : false;
-      })?.color || Color.color[index]
-    );
-  };
-  const selectedAdministration = takeRight(administration, 1)[0] || null;
-  const fetchAdministration = (adminId) => {
-    store.update((s) => {
-      s.loadingAdministration = true;
-    });
-    api
-      .get(`administration/${adminId}`)
-      .then((res) => {
-        store.update((s) => {
-          if (
-            selectedAdministration?.levelName ===
-            takeRight(window.levels, 1)[0]?.name
-          ) {
-            s.administration.length = s.administration.length - 1;
-          }
-          s.administration = [
-            ...s.administration,
-            {
-              id: res.data.id,
-              name: res.data.name,
-              levelName: res.data.level_name,
-              parent: res.data.parent,
-              children: res.data.children,
-              childLevelName: res.data.children_level_name,
-            },
-          ];
-        });
-      })
-      .catch((err) => {
-        notify({
-          type: "error",
-          message: "Could not load region",
-        });
-        console.error(err);
-      })
-      .finally(() => {
-        store.update((s) => {
-          s.loadingAdministration = false;
-        });
-      });
-  };
+
+  /*
   const onAdminClick = (e) => {
-    if (loadingAdministration || !e) {
-      return;
-    }
+    queue.update((s) => {
+      s.next = null;
+    });
     const adminRes = (
       selectedAdministration?.levelName === takeRight(window.levels, 1)[0]?.name
         ? takeRight(administration, 2)[0]
         : takeRight(administration, 1)[0]
     ).children?.find((c) => c.name.toLowerCase() === e.toLowerCase());
     if (adminRes?.id) {
-      fetchAdministration(adminRes.id);
+      store.update((s) => {
+        if (
+          selectedAdministration?.levelName ===
+          takeRight(window.levels, 1)[0]?.name
+        ) {
+          s.administration.length = s.administration.length - 1;
+        }
+        s.administration = [
+          ...s.administration,
+          config.fn.administration(adminRes.id),
+        ];
+      });
     }
   };
-  const fetchData = useCallback(
-    (adminId) => {
-      if (formId && adminId && (type === "CRITERIA" || id)) {
-        setLoading(true);
-        const url =
-          (type === "CRITERIA" ? "chart/criteria/" : "chart/administration/") +
-          `${formId}?` +
-          (type === "ADMINISTRATION" ? `question=${id}&` : "") +
-          `administration=${adminId}`;
-        api[type === "CRITERIA" ? "post" : "get"](
-          url,
-          type === "CRITERIA"
-            ? options.map((o) => ({ name: o.name, options: o.options }))
-            : {}
-        )
-          .then((res) => {
-            let temp = res.data?.data?.map((d) => {
-              const optRes = stack?.options?.find(
-                (op) => op.name.toLowerCase() === d.group.toLowerCase()
-              );
-              return {
-                name: d.group,
-                title: optRes?.title || d.group,
-                stack: d.child.map((dc, dcI) => {
-                  const stackRes = options?.find(
-                    (sO) => sO.name.toLowerCase() === dc.name.toLowerCase()
-                  );
-                  return {
-                    name: dc.name,
-                    title: stackRes?.title || dc.name,
-                    value: dc.value,
-                    color: stackRes?.color || getOptionColor(dc.name, dcI),
-                    total: !isNil(stackRes?.score)
-                      ? dc.value * stackRes.score
-                      : dc.value,
-                  };
-                }),
-              };
-            });
-            if (type === "CRITERIA") {
-              temp = orderBy(temp, [
-                function (e) {
-                  return sumBy(e.stack, "total");
-                },
-              ]);
-            }
-            setDataset(temp);
-          })
-          .catch(() => {
-            notify({
-              type: "error",
-              message: text.errorDataLoad,
-            });
-          })
-          .finally(() => {
-            setLoading(false);
-          });
-      }
-    },
-    [formId, id, stack?.options, options, type, notify, text.errorDataLoad]
-  );
+  */
   useEffect(() => {
-    if (administration.length && !loadingAdministration) {
+    let adminId = null;
+    if (
+      administration.length === 1 ||
+      (takeRight(administration, 1)[0]?.levelName !==
+        takeRight(window.levels, 1)[0]?.name &&
+        (parent === null ||
+          (!!parent && !!takeRight(administration, 1)[0]?.parent)))
+    ) {
+      if (administration.length === 1) {
+        setParent(null);
+      } else if (takeRight(administration, 2)[0]?.id) {
+        setParent(takeRight(administration, 2)[0].id);
+      }
+      adminId = takeRight(administration, 1)[0]?.id;
+    } else {
       if (
-        administration.length === 1 ||
-        (takeRight(administration, 1)[0]?.levelName !==
-          takeRight(window.levels, 1)[0]?.name &&
-          (parent === null ||
-            (!!parent && !!takeRight(administration, 1)[0]?.parent)))
+        parent === null ||
+        (!!parent &&
+          !!takeRight(administration, 1)[0]?.parent &&
+          takeRight(administration, 1)[0]?.parent !== parent)
       ) {
-        if (administration.length === 1) {
-          setParent(null);
-        } else if (takeRight(administration, 2)[0]?.id) {
+        if (takeRight(administration, 2)[0]?.id) {
           setParent(takeRight(administration, 2)[0].id);
         }
-        fetchData(takeRight(administration, 1)[0]?.id);
-      } else {
-        if (
-          parent === null ||
-          (!!parent &&
-            !!takeRight(administration, 1)[0]?.parent &&
-            takeRight(administration, 1)[0]?.parent !== parent)
-        ) {
-          if (takeRight(administration, 2)[0]?.id) {
-            setParent(takeRight(administration, 2)[0].id);
-          }
-          fetchData(takeRight(administration, 2)[0]?.id);
-        }
+        adminId = takeRight(administration, 2)[0]?.id;
       }
     }
-  }, [administration, loadingAdministration, fetchData, parent]);
-  const filtered = showEmpty
-    ? dataset
-    : dataset.filter((d) => sumBy(d.stack, "value") > 0);
+    if (formId && adminId && (type === "CRITERIA" || id) && runCall) {
+      const method = type === "CRITERIA" ? "post" : "get";
+      const base = type.toLowerCase();
+      const payload =
+        type === "CRITERIA"
+          ? options.map((o) => ({ name: o.name, options: o.options }))
+          : {};
+
+      let url = `chart/${base}/${formId}?`;
+      url += `administration=${adminId}`;
+      url += type === "ADMINISTRATION" ? `&question=${id}` : "";
+      if (advancedFilters && advancedFilters.length) {
+        url = generateAdvanceFilterURL(advancedFilters, url);
+      }
+
+      api[method](url, payload)
+        .then((res) => {
+          setDataset(
+            transformDefaultData(res.data.data, type, stack?.options, options)
+          );
+        })
+        .catch((e) => {
+          console.error(e);
+          notify({
+            type: "error",
+            message: text.errorDataLoad,
+          });
+        })
+        .finally(() => {
+          queue.update((q) => {
+            q.next = index + 1;
+          });
+        });
+    }
+  }, [
+    formId,
+    id,
+    index,
+    stack,
+    options,
+    type,
+    notify,
+    text,
+    administration,
+    parent,
+    runCall,
+    advancedFilters,
+  ]);
+
+  useEffect(() => {
+    queue.update((q) => {
+      q.next = 1;
+      q.wait = null;
+    });
+  }, [advancedFilters]);
+
+  const filtered = useMemo(() => {
+    return showEmpty
+      ? dataset
+      : dataset.filter((d) => sumBy(d.stack, "value") > 0);
+  }, [dataset, showEmpty]);
+
   const highlighted = useMemo(() => {
     return selectedAdministration?.levelName ===
       takeRight(window.levels, 1)[0]?.name
@@ -230,20 +241,16 @@ const AdministrationChart = ({ config, formId }) => {
       </Row>
       <div className="chart-inner">
         <Chart
+          // callbacks={{ onClick: onAdminClick }}
           height={50 * filtered.length + 188}
           type="BARSTACK"
           data={filtered}
           wrapper={false}
           horizontal={horizontal}
           series={{ left: "10%" }}
-          callbacks={{ onClick: onAdminClick }}
           highlighted={highlighted}
-          loading={loadingAdministration || loading}
-          loadingOption={{
-            text: "",
-            color: "#1b91ff",
-            lineWidth: 1,
-          }}
+          loading={loading}
+          extra={{ animation: next === index + 1 }}
         />
       </div>
     </Card>
@@ -251,8 +258,7 @@ const AdministrationChart = ({ config, formId }) => {
 };
 
 AdministrationChart.propTypes = {
-  formId: PropTypes.number.isRequired,
-  config: PropTypes.shape({
+  current: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
     stack: PropTypes.any,

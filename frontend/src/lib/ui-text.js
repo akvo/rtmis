@@ -5,14 +5,18 @@ const uiText = {
     // Home page
     welcome: (
       <Fragment>
-        Welcome to the Rural Urban
+        Rural Urban Sanitation
         <br />
-        Sanitation and Hygiene (RUSH)
-        <br />
-        Monitoring Platform
+        and Hygiene (RUSH)
       </Fragment>
     ),
-    welcomeDesc: "Updated sanitation and hygiene estimates across Kenya",
+    welcomeDesc: (
+      <Fragment>
+        Real Time Management Information System (RTMIS)
+        <br />
+        Updated sanitation and hygiene estimates across Kenya
+      </Fragment>
+    ),
     countdownTitle: "Time remaining to achieve national RUSH targets:",
     year: "Year",
     month: "Month",
@@ -20,10 +24,10 @@ const uiText = {
     hour: "Hour",
     minute: "Minute",
     second: "Second",
-    welcomeCta: "Explore the Data",
+    welcomeCta: "Explore National Data",
     // Error messages
     error: "Error",
-    errorPageNA: "Oops this page is not available",
+    errorPageNA: "Oops, this page is not available",
     errorAuth: "You are not authorised to access this page",
     errorUnknown: "An unknown error occurred",
     errorURL:
@@ -43,8 +47,8 @@ const uiText = {
     footerContactTitle: "Contacts",
     footerContactAddress:
       "Afya House, Cathedral Road, P.O. Box:30016–00100, Nairobi, Kenya",
-    footerContactPhone: "+254-20-2717077",
-    footerContactEmail: "ps@health.go.ke",
+    footerContactPhone: "+25x-xx-xxxxx",
+    footerContactEmail: "xxx@health.go.ke",
     footerContactFeedback: {
       text: "Feedback Form",
       url: "https://docs.google.com/forms/d/e/1FAIpQLSf5rjD66CCcMWYgFwkNp8Xb1lRJoec1CwhhPnjOd-mU84ktPA/viewform",
@@ -52,43 +56,41 @@ const uiText = {
     footerExternalLinkTitle: "External Links",
     footerExternalLinkItems: [
       {
-        text: "Data Capture Tool (DCT)",
-        url: "https://khro-dct.health.go.ke/",
-      },
-      { text: "mygov Website", url: "http://mygov.go.ke/" },
-      { text: "Presidency", url: "http://presidency.go.ke/" },
-      { text: "eCitizen Kenya", url: "http://ecitizen.go.ke/" },
-      { text: "Huduma Center Kenya", url: "http://hudumakenya.go.ke/" },
-    ],
-    footerAgenciesTitle: "Agencies",
-    footerAgenciesItems: [
-      {
-        text: "Inauguration of the National Advisory Committee",
-        url: "https://www.health.go.ke/inauguration-of-the-national-advisory-committee/",
-      },
-      {
-        text: "Press Releases",
-        url: "https://www.health.go.ke/press-releases/",
-      },
-      { text: "KEMRI", url: "https://kemri.org/" },
-      { text: "KEMSA", url: "https://kemsa.co.ke/" },
-    ],
-    footerQuickLinkTitle: "Quick Links",
-    footerQuickLinkItems: [
-      {
         text: "JMP",
         url: "https://washdata.org/how-we-work/about-jmp#:~:text=Background,hygiene%20(WASH)%20since%201990",
       },
       {
-        text: "CLTS",
-        url: "https://www.communityledtotalsanitation.org/country/kenya",
+        text: "CLTS RTMIS",
+        url: " http://wash.health.go.ke/clts/index.jsp",
       },
       {
-        text: "GLASS",
+        text: "GLAAS",
         url: "https://www.who.int/teams/environment-climate-change-and-health/water-sanitation-and-health/monitoring-and-evidence/wash-systems-monitoring/un-water-global-analysis-and-assessment-of-sanitation-and-drinking-water",
       },
     ],
-    copyright: "Privacy Policy / Terms of Use / © 2022 — Ministry of Health",
+    footerResourcesTitle: "Resources",
+    footerResourcesItems: [
+      {
+        text: "International Resources",
+        url: "#",
+      },
+      {
+        text: "National Resources",
+        url: "#",
+      },
+      {
+        text: "County Resources",
+        url: "#",
+      },
+    ],
+    footerQuickLinkTitle: "Quick Links",
+    footerQuickLinkItems: [
+      {
+        text: "TEST",
+        url: "https://akvo.org",
+      },
+    ],
+    copyright: "© 2022 — Ministry of Health",
     // Header Links
     controlCenter: "Control Center",
     myProfile: "My Profile",
@@ -125,45 +127,45 @@ const uiText = {
     valOrgName: "Organization name is required",
     valOrgAttributes: "Please select an Attributes",
     // Control Center
-    ccPane1Title: "Manage Data",
-    ccPane1Button: "Manage Data",
-    ccPane1Text: (
+    manageDataTitle: "Manage Data",
+    manageDataButton: "Manage Data",
+    manageDataText: (
       <Fragment>
         This is where you :
         <ul>
           <li>Add new data using webforms</li>
           <li>Bulk upload data using spreadsheets</li>
-          <li>Export data</li>
+          <li>Download data</li>
         </ul>
       </Fragment>
     ),
-    ccPane2Title: "Exports",
-    ccPane2Button: "Data Exports",
-    ccPane2Text: (
+    dataDownloadTitle: "Data Download",
+    dataDownloadButton: "Download Data",
+    dataDownloadText: (
       <Fragment>
         This is where you :
         <ul>
-          <li>Access exported data</li>
+          <li>Access downloaded data</li>
         </ul>
       </Fragment>
     ),
-    ccPane3Title: "Data Upload",
-    ccPane3Button: "Data Upload",
-    ccPane3Text: (
+    dataUploadTitle: "Data Upload",
+    dataUploadButton: "Data Upload",
+    dataUploadText: (
       <Fragment>
         This is where you :
         <ul>
           <li>Download upload template</li>
           <li>Bulk upload new data</li>
-          <li>Bulk upload existing data</li>
+          <li>Bulk update existing data</li>
         </ul>
       </Fragment>
     ),
-    ccPane4Title: "User Management",
-    ccPane4Button: "Manage Users",
-    ccPane4Text: (
+    manageUserTitle: "User Management",
+    manageUserButton: "Manage Users",
+    manageUserText: (
       <Fragment>
-        This where you manage users based on their roles , regions and
+        This is where you manage users based on their roles , regions and
         questionnaire access . You can :
         <ul>
           <li>Add new user</li>
@@ -173,7 +175,7 @@ const uiText = {
       </Fragment>
     ),
     ccDescriptionPanel:
-      "Instant access to the all the administration pages and overview panels for data approvals.",
+      "Instant access to all the administration pages and overview panels for data approvals.",
     // Settings
     orgPanelTitle: "Manage Organization",
     orgPanelButton: "Manage Organization",
@@ -188,16 +190,16 @@ const uiText = {
       </Fragment>
     ),
     settingsDescriptionPanel:
-      "This page allow Super Admin to maintain system critical master lists.",
+      "This page allows Super Admin to maintain system critical master lists.",
     // Approvals
-    approvalsTab1: "My Pending Approvals",
+    approvalsTab1: "My Pending",
     approvalsTab2: "Subordinates Approvals",
     approvalsTab3: "Approved",
     manageQnApproval: "Manage Questionnaire Approval",
     // Approvers Tree
     notAssigned: "Not assigned",
     // Misc
-    informUser: "Inform User of Changes",
+    informUser: "Inform User for Changes",
     // Data Uploads
     batchSelectedDatasets: "Batch Selected Datasets",
     batchDatasets: "Batch Datasets",
@@ -290,14 +292,14 @@ const uiText = {
       </Fragment>
     ),
     // Upload Data
-    dataExportSuccess: "Data exported successfully",
-    dataExportFail: "Data export failed",
+    dataExportSuccess: "Data downloaded successfully",
+    dataExportFail: "Data download failed",
     fileUploadSuccess: "File uploaded successfully",
     fileUploadFail: "Could not upload file",
     templateFetchFail: "Could not fetch template",
     updateExisting: "Update Existing Data",
     templateDownloadHint:
-      "If you do not already have a template please download it",
+      "If you do not already have a template, please download it",
     uploading: "Uploading..",
     dropFile: "Drop your file here",
     selectForm: "Please select a form",
@@ -334,6 +336,14 @@ const uiText = {
     tourUserManagement: "Magni provident aliquam harum cupiditate iste",
     tourDataUploadsPanel:
       "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
+    // Add user modal notification
+    existingApproverTitle: "There are existing approvers for:",
+    existingApproverDescription:
+      "Please update the setup in manage validation tree or remove these forms for the current user",
+    bulkUploadNoApproverMessage:
+      "Can't upload data, because there's no approver yet.",
+    batchNoApproverMessage:
+      "Can't create batch data, because there's no approver yet.",
   },
 
   de: {},

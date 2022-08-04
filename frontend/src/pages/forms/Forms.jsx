@@ -9,6 +9,7 @@ import { takeRight, pick } from "lodash";
 import { PageLoader, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
 import { FormTour } from "./components";
+import moment from "moment";
 
 const Forms = () => {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ const Forms = () => {
       .map((v) => {
         const question = questions.find((q) => q.id === parseInt(v));
         let val = values[v];
-        if (val) {
+        if (val || val === 0) {
           val =
             question.type === "option"
               ? [val]
@@ -85,8 +86,12 @@ const Forms = () => {
     )?.value;
     const data = {
       data: {
-        administration: administration ? takeRight(administration)[0] : null,
-        name: names,
+        administration: administration
+          ? takeRight(administration)[0]
+          : authUser.administration.id,
+        name: names.length
+          ? names
+          : `${authUser.administration.name} - ${moment().format("MMM YYYY")}`,
         geo: geo || null,
       },
       answer: answers
@@ -132,8 +137,31 @@ const Forms = () => {
 
   useEffect(() => {
     if (formId && loading) {
-      api.get(`/form/web/${formId}`).then((x) => {
-        setForms(x.data);
+      api.get(`/form/web/${formId}`).then((res) => {
+        const questionGroups = res.data.question_group.map((qg) => {
+          const questions = qg.question.map((q) => {
+            let qVal = { ...q };
+            if (q?.extra) {
+              delete qVal.extra;
+              qVal = {
+                ...qVal,
+                ...q.extra,
+              };
+              if (q.extra?.allowOther) {
+                qVal = {
+                  ...qVal,
+                  allowOtherText: "Enter any OTHER value",
+                };
+              }
+            }
+            return qVal;
+          });
+          return {
+            ...qg,
+            question: questions,
+          };
+        });
+        setForms({ ...res.data, question_group: questionGroups });
         setLoading(false);
       });
     }
@@ -174,7 +202,7 @@ const Forms = () => {
               status="success"
               title={text?.formSuccessTitle}
               subTitle={
-                authUser?.role?.id === 1
+                [1, 2].includes(authUser?.role?.id)
                   ? text?.formSuccessSubTitleForAdmin
                   : text?.formSuccessSubTitle
               }
@@ -186,19 +214,19 @@ const Forms = () => {
                 >
                   Add New Submission
                 </Button>,
-                authUser?.role?.id !== 1 ? (
-                  <Button
-                    key="batch-button"
-                    onClick={() => navigate("/data/submissions")}
-                  >
-                    Finish and Go to Batch
-                  </Button>
-                ) : (
+                [1, 2].includes(authUser?.role?.id) ? (
                   <Button
                     key="manage-button"
                     onClick={() => navigate("/data/manage")}
                   >
                     Finish and Go to Manage Data
+                  </Button>
+                ) : (
+                  <Button
+                    key="batch-button"
+                    onClick={() => navigate("/data/submissions")}
+                  >
+                    Finish and Go to Batch
                   </Button>
                 ),
               ]}

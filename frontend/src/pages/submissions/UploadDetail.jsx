@@ -101,10 +101,18 @@ const UploadDetail = ({ record, setReload }) => {
     const formData = [];
     data.data.map((rd) => {
       rd.question.map((rq) => {
-        if (rq.newValue && !isEqual(rq.value, rq.newValue)) {
+        if (
+          (rq.newValue || rq.newValue === 0) &&
+          !isEqual(rq.value, rq.newValue)
+        ) {
+          let value = rq.newValue;
+          if (rq.type === "number") {
+            value =
+              parseFloat(value) % 1 !== 0 ? parseFloat(value) : parseInt(value);
+          }
           formData.push({
             question: rq.id,
-            value: rq.type === "number" ? +rq.newValue : rq.newValue,
+            value: value,
           });
         }
       });
@@ -198,7 +206,10 @@ const UploadDetail = ({ record, setReload }) => {
         ...rd,
         question: rd.question.map((rq) => {
           if (rq.id === key && rI.id === parentId) {
-            if (isEqual(rq.value, value) && rq.newValue) {
+            if (
+              isEqual(rq.value, value) &&
+              (rq.newValue || rq.newValue === 0)
+            ) {
               delete rq.newValue;
             } else {
               rq.newValue = value;
@@ -209,7 +220,11 @@ const UploadDetail = ({ record, setReload }) => {
             }
             return rq;
           }
-          if (rq.newValue && !isEqual(rq.value, rq.newValue) && !hasEdits) {
+          if (
+            (rq.newValue || rq.newValue === 0) &&
+            !isEqual(rq.value, rq.newValue) &&
+            !hasEdits
+          ) {
             hasEdits = true;
           }
           return rq;
@@ -235,7 +250,11 @@ const UploadDetail = ({ record, setReload }) => {
             delete rq.newValue;
             return rq;
           }
-          if (rq.newValue && !isEqual(rq.value, rq.newValue) && !hasEdits) {
+          if (
+            (rq.newValue || rq.newValue === 0) &&
+            !isEqual(rq.value, rq.newValue) &&
+            !hasEdits
+          ) {
             hasEdits = true;
           }
           return rq;
@@ -255,20 +274,10 @@ const UploadDetail = ({ record, setReload }) => {
       rv.map((rI) => (rI.id === recordId ? { ...rI, loading: true } : rI))
     );
     if (questionGroups.length < 1) {
-      api
-        .get(`form/${record.form?.id}`)
-        .then((res) => {
-          setQuestionGroups(res.data.question_group);
-          fetchData(recordId, res.data.question_group);
-        })
-        .catch((e) => {
-          console.error(e);
-          setRawValues((rv) =>
-            rv.map((rI) =>
-              rI.id === recordId ? { ...rI, loading: false } : rI
-            )
-          );
-        });
+      const qg = window.forms.find((f) => f.id === record.form?.id).content
+        .question_group;
+      setQuestionGroups(qg);
+      fetchData(recordId, qg);
     } else {
       fetchData(recordId, questionGroups);
     }
@@ -279,15 +288,22 @@ const UploadDetail = ({ record, setReload }) => {
     api
       .get(`pending-data/${recordId}`)
       .then((res) => {
-        const data = questionGroups.map((qg) => ({
-          ...qg,
-          question: qg.question.map((q) => ({
-            ...q,
-            value: res.data.find((d) => d.question === q.id)?.value || null,
-            history:
-              res.data.find((d) => d.question === q.id)?.history || false,
-          })),
-        }));
+        const data = questionGroups.map((qg) => {
+          return {
+            ...qg,
+            question: qg.question.map((q) => {
+              const findValue = res.data.find(
+                (d) => d.question === q.id
+              )?.value;
+              return {
+                ...q,
+                value: findValue || findValue === 0 ? findValue : null,
+                history:
+                  res.data.find((d) => d.question === q.id)?.history || false,
+              };
+            }),
+          };
+        });
         setRawValues((rv) =>
           rv.map((rI) =>
             rI.id === recordId ? { ...rI, data, loading: false } : rI
@@ -320,8 +336,9 @@ const UploadDetail = ({ record, setReload }) => {
     return (
       !!flatten(
         rawValues.find((d) => d.id === id)?.data?.map((g) => g.question)
-      )?.filter((d) => d.newValue && !isEqual(d.value, d.newValue))?.length ||
-      false
+      )?.filter(
+        (d) => (d.newValue || d.newValue === 0) && !isEqual(d.value, d.newValue)
+      )?.length || false
     );
   };
 
@@ -341,7 +358,8 @@ const UploadDetail = ({ record, setReload }) => {
         dataSource={selectedTab === "raw-data" ? rawValues : values}
         columns={columns}
         rowClassName={(record) =>
-          record.newValue && !isEqual(record.value, record.newValue)
+          (record.newValue || record.newValue === 0) &&
+          !isEqual(record.value, record.newValue)
             ? "row-edited"
             : "row-normal"
         }
@@ -378,7 +396,7 @@ const UploadDetail = ({ record, setReload }) => {
                                 pagination={false}
                                 dataSource={r.question}
                                 rowClassName={(row) =>
-                                  row.newValue &&
+                                  (row.newValue || row.newValue === 0) &&
                                   !isEqual(row.newValue, row.value)
                                     ? "row-edited"
                                     : "row-normal"

@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
 import "./style.scss";
 import { Space, Card, Divider, Row, Tag } from "antd";
-import { store, config } from "../../lib";
+import { store } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
-import { PanelApprovals, PanelSubmissions, ProfileTour } from "./components";
+import { ProfileTour } from "./components";
 import moment from "moment";
 
 const descriptionData =
@@ -14,7 +14,7 @@ const Profile = () => {
   const { trained } = authUser;
 
   const trainedBadge = useMemo(() => {
-    if (!trained) {
+    if (trained) {
       return (
         <Tag color="warning" style={{ marginBottom: 11 }}>
           Trained
@@ -39,6 +39,11 @@ const Profile = () => {
     },
   ];
 
+  const fullAdministrationName = window.dbadm
+    .find((x) => x.id === authUser.administration.id)
+    ?.full_name?.split("|")
+    .join(" - ");
+
   return (
     <div id="profile">
       <Row justify="space-between">
@@ -54,6 +59,15 @@ const Profile = () => {
             <h3>Name</h3>
             <Space size="large" align="center">
               <span>{authUser?.name}</span>
+              <span style={{ fontStyle: "italic" }}>
+                {authUser?.role?.value}
+              </span>
+            </Space>
+          </li>
+          <li>
+            <h3>Phone Number</h3>
+            <Space size="large" align="center">
+              <span>{authUser?.phone_number}</span>
             </Space>
           </li>
           <li>
@@ -76,7 +90,7 @@ const Profile = () => {
           </li>
           <li>
             <h3>Administration</h3>
-            <p>{authUser?.administration?.name}</p>
+            <p>{fullAdministrationName || authUser?.administration?.name}</p>
           </li>
           <li>
             <h3>Questionnaires</h3>
@@ -100,12 +114,6 @@ const Profile = () => {
           </li>
         </ul>
       </Card>
-      {config.checkAccess(authUser?.role_detail, "form") && (
-        <PanelSubmissions />
-      )}
-      {config.checkAccess(authUser?.role_detail, "approvals") && (
-        <PanelApprovals />
-      )}
     </div>
   );
 };

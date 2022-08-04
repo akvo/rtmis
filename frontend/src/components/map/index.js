@@ -7,7 +7,7 @@ import {
   GeoJSON,
   Tooltip,
 } from "react-leaflet";
-import { api, geo, store } from "../../lib";
+import { api, config, geo, store, queue } from "../../lib";
 import {
   takeRight,
   intersection,
@@ -24,6 +24,9 @@ import {
   FullscreenOutlined,
 } from "@ant-design/icons";
 import "leaflet/dist/leaflet.css";
+import { generateAdvanceFilterURL } from "../../util/filter";
+
+const disableMarker = true;
 
 const { geojson, tile, defaultPos, getBounds } = geo;
 const defPos = defaultPos();
@@ -53,6 +56,7 @@ const Map = ({ current, style }) => {
     selectedAdministration,
     loadingMap,
     questionGroups,
+    advancedFilters,
   } = store.useState((s) => s);
   const [maps, setMaps] = useState(null);
   const [results, setResults] = useState([]);
@@ -85,29 +89,21 @@ const Map = ({ current, style }) => {
         1
       )[0];
       const fetchData = (adminId, acc) => {
-        api.get(`administration/${adminId}`).then((res) => {
-          acc.unshift({
-            id: res.data.id,
-            name: res.data.name,
-            levelName: res.data.level_name,
-            parent: res.data.parent,
-            children: res.data.children,
-            childLevelName: res.data.children_level_name,
+        const adm = config.fn.administration(adminId);
+        acc.unshift(adm);
+        if (adm.level > 0) {
+          fetchData(adm.parent, acc);
+        } else {
+          store.update((s) => {
+            s.administration = acc;
+            s.loadingMap = false;
           });
-          if (res.data.level > 0) {
-            fetchData(res.data.parent, acc);
-          } else {
-            store.update((s) => {
-              s.administration = acc;
-              s.loadingAdministration = false;
-              s.loadingMap = false;
-            });
-          }
-        });
+          queue.update((q) => {
+            q.next = 1;
+            q.wait = null;
+          });
+        }
       };
-      store.update((s) => {
-        s.loadingAdministration = true;
-      });
       fetchData(selectedAdmin, []);
     }
   }, [selectedAdministration, administration, loadingMap]);
@@ -142,9 +138,9 @@ const Map = ({ current, style }) => {
           : "#e6e8f4";
       const opacity = sc ? 0.8 : 0.3;
       return {
-        fillColor,
+        fillColor: fillColor,
         fillOpacity: 1,
-        opacity,
+        opacity: opacity,
         color: "#000",
       };
     }
@@ -161,10 +157,14 @@ const Map = ({ current, style }) => {
       store.update((s) => {
         s.loadingMap = true;
       });
+
+      let url = `maps/${selectedForm}?shape=${current?.maps?.shape?.id}`;
+      url += !disableMarker ? `&marker=${current?.maps?.marker?.id}` : "";
+      if (advancedFilters && advancedFilters.length) {
+        url = generateAdvanceFilterURL(advancedFilters, url);
+      }
       api
-        .get(
-          `maps/${selectedForm}?marker=${current?.maps?.marker?.id}&shape=${current?.maps?.shape?.id}`
-        )
+        .get(url)
         .then((res) => {
           setResults(res.data);
         })
@@ -175,9 +175,12 @@ const Map = ({ current, style }) => {
           store.update((s) => {
             s.loadingMap = false;
           });
+          queue.update((q) => {
+            q.wait = null;
+          });
         });
     }
-  }, [selectedForm, current]);
+  }, [selectedForm, current, advancedFilters]);
 
   useEffect(() => {
     if (hoveredShape && results.length && administration.length) {
@@ -209,61 +212,20 @@ const Map = ({ current, style }) => {
   }, [hoveredShape, results, current, administration, adminName]);
 
   const markerLegendOptions = useMemo(() => {
-    if (current && current?.maps?.marker) {
+    if (current && current?.maps?.marker && !disableMarker) {
       return (
         flatten(questionGroups.map((qg) => qg.question))
           .find((q) => q.id === current.maps.marker.id)
           ?.option?.map((o) => {
             const moRes = current.maps.marker.options?.find(
-              (mo) => mo.id === o.id
-            )?.name;
-            return moRes ? { ...o, title: moRes } : o;
+              (mo) => mo.name.toLowerCase() === o.name.toLowerCase()
+            );
+            return moRes ? { ...o, title: moRes?.rename || moRes?.name } : o;
           }) || []
       );
     }
     return [];
   }, [current, questionGroups]);
-
-  const Markers = ({ data }) => {
-    if (data.length) {
-      const r = 5;
-      data = data.filter((d) => d.geo?.length === 2);
-      return data.map(({ id, geo, marker, name }) => {
-        const markerRes = markerLegendOptions
-          .map((x) => x.name)
-          .findIndex((sO) => sO === marker[0]);
-        const highlight =
-          markerLegendSelected?.name &&
-          intersection([markerLegendSelected.name], marker).length;
-        const markerColor =
-          markerRes === -1 ? "#111" : markerColorRange[markerRes];
-        return (
-          <Circle
-            key={id}
-            center={{ lat: geo[1], lng: geo[0] }}
-            pathOptions={{
-              fillColor: highlight ? "#FFF" : markerColor,
-              color: markerColor,
-              opacity: 1,
-              fillOpacity: 1,
-            }}
-            radius={r * 100 * (highlight ? 5 : 1)}
-          >
-            <Tooltip direction="top">
-              <div className="marker-tooltip-container">
-                <h3>{takeRight(name.split(" - "), 1)[0]}</h3>
-                <div className="marker-tooltip-name">
-                  {current?.maps?.marker?.title}
-                </div>
-                <div className="marker-tooltip-value">{marker[0]}</div>
-              </div>
-            </Tooltip>
-          </Circle>
-        );
-      });
-    }
-    return null;
-  };
 
   const handleMarkerLegendClick = useCallback(
     (value) => {
@@ -275,8 +237,9 @@ const Map = ({ current, style }) => {
     },
     [markerLegendSelected]
   );
+
   const MarkerLegend = useMemo(() => {
-    if (markerLegendOptions) {
+    if (markerLegendOptions && !disableMarker) {
       return (
         <div className="marker-legend">
           <h4>{current?.maps?.marker?.title}</h4>
@@ -355,6 +318,47 @@ const Map = ({ current, style }) => {
     return color;
   };
 
+  const Markers = ({ data }) => {
+    if (data.length) {
+      const r = 5;
+      data = data.filter((d) => d.geo?.length === 2);
+      return data.map(({ id, geo, marker, name }) => {
+        const markerRes = markerLegendOptions
+          .map((x) => x.name)
+          .findIndex((sO) => sO === marker[0]);
+        const highlight =
+          markerLegendSelected?.name &&
+          intersection([markerLegendSelected.name], marker).length;
+        const markerColor =
+          markerRes === -1 ? "#111" : markerColorRange[markerRes];
+        return (
+          <Circle
+            key={id}
+            center={{ lat: geo[1], lng: geo[0] }}
+            pathOptions={{
+              fillColor: highlight ? "#FFF" : markerColor,
+              color: markerColor,
+              opacity: 1,
+              fillOpacity: 1,
+            }}
+            radius={r * 100 * (highlight ? 5 : 1)}
+          >
+            <Tooltip direction="top">
+              <div className="marker-tooltip-container">
+                <h3>{takeRight(name.split(" - "), 1)[0]}</h3>
+                <div className="marker-tooltip-name">
+                  {current?.maps?.marker?.title}
+                </div>
+                <div className="marker-tooltip-value">{marker[0]}</div>
+              </div>
+            </Tooltip>
+          </Circle>
+        );
+      });
+    }
+    return null;
+  };
+
   const ShapeLegend = ({ thresholds }) => {
     const handleShapeLegendClick = (index) => {
       if (shapeFilterColor === colorRange[index]) {
@@ -363,6 +367,7 @@ const Map = ({ current, style }) => {
       }
       setShapeFilterColor(colorRange[index]);
     };
+    thresholds = [...thresholds, thresholds[thresholds.length - 1]];
 
     return current && !loadingMap && thresholds.length ? (
       <div className="shape-legend">
@@ -454,7 +459,9 @@ const Map = ({ current, style }) => {
             )}
           </GeoJSON>
         )}
-        {!loadingMap && !!results.length && <Markers data={results} />}
+        {!loadingMap && !!results.length && !disableMarker && (
+          <Markers data={results} />
+        )}
       </MapContainer>
       {!loadingMap && !loadingForm && (
         <ShapeLegend thresholds={colorScale.thresholds()} />

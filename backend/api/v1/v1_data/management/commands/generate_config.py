@@ -7,11 +7,14 @@ from jsmin import jsmin
 from api.v1.v1_forms.constants import FormTypes
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Levels, Administration
+from api.v1.v1_forms.serializers import FormDataSerializer
+from api.v1.v1_data.functions import refresh_materialized_data
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
         # fetch all administrations
+        print("GENERATING CONFIG JS")
         all_administrations = {}
         adm = []
         administrations = Administration.objects.all()
@@ -45,6 +48,11 @@ class Command(BaseCommand):
         administration_json = "source/administration.json"
         with open(administration_json, "w") as outfile:
             json.dump(adm, outfile)
+        # write visualisation_json
+        # visualisation_json = "source/config/visualisation.json"
+        highlights_json = "source/config/highlights.json"
+        dashboard_json = "source/config/dashboard.json"
+        reports_json = "source/config/reports.json"
 
         # write config
         config_file = jsmin(open("source/config/config.js").read())
@@ -63,8 +71,17 @@ class Command(BaseCommand):
                 'type': form.type,
                 'version': form.version,
                 'type_text': FormTypes.FieldStr.get(form.type),
+                'content': FormDataSerializer(instance=form).data
             })
         min_config = jsmin("".join([
+            "var dashboard=",
+            open(dashboard_json).read(), ";",
+            "var reports=",
+            open(reports_json).read(), ";",
+            "var highlights=",
+            open(highlights_json).read(), ";",
+            # "var visualisation=",
+            # open(visualisation_json).read(), ";",
             "var dbadm=",
             open(administration_json).read(), ";",
             "var topojson=",
@@ -74,3 +91,9 @@ class Command(BaseCommand):
         ]))
         open("source/config/config.min.js", 'w').write(min_config)
         os.remove(administration_json)
+        del levels
+        del forms
+        del min_config
+        del all_administrations
+        del adm
+        refresh_materialized_data()

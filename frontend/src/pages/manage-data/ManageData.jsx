@@ -20,9 +20,15 @@ import {
 } from "@ant-design/icons";
 import { api, store, uiText } from "../../lib";
 import DataDetail from "./DataDetail";
-import { DataFilters, Breadcrumbs, DescriptionPanel } from "../../components";
+import {
+  DataFilters,
+  Breadcrumbs,
+  DescriptionPanel,
+  DataTab,
+} from "../../components";
 import { useNotification } from "../../util/hooks";
 import { ManageDataTour } from "./components";
+import { generateAdvanceFilterURL } from "../../util/filter";
 
 const pagePath = [
   {
@@ -43,7 +49,7 @@ const ManageData = () => {
   const [updateRecord, setUpdateRecord] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const [deleting, setDeleting] = useState(false);
-  const { language } = store.useState((s) => s);
+  const { language, advancedFilters } = store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -53,7 +59,6 @@ const ManageData = () => {
     (state) => state
   );
 
-  const descriptionData = <div>{text.ccPane1Text}</div>;
   const isAdministrationLoaded = administration.length;
   const selectedAdministration =
     administration.length > 0
@@ -133,6 +138,9 @@ const ManageData = () => {
       if (selectedAdministration?.id) {
         url += `&administration=${selectedAdministration.id}`;
       }
+      if (advancedFilters && advancedFilters.length) {
+        url = generateAdvanceFilterURL(advancedFilters, url);
+      }
       api
         .get(url)
         .then((res) => {
@@ -153,6 +161,7 @@ const ManageData = () => {
     currentPage,
     isAdministrationLoaded,
     updateRecord,
+    advancedFilters,
   ]);
 
   return (
@@ -160,11 +169,11 @@ const ManageData = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={descriptionData} />
+          <DescriptionPanel description={text.manageDataText} />
         </Col>
         <ManageDataTour />
       </Row>
-      <Divider />
+      <DataTab />
       <DataFilters query={query} setQuery={setQuery} loading={loading} />
       <Divider />
       <Card

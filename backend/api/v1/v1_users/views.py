@@ -24,17 +24,22 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.exceptions import ValidationError
 
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Access, Administration, Levels
 from api.v1.v1_users.models import SystemUser, Organisation, \
-        OrganisationAttribute
+    OrganisationAttribute
 from api.v1.v1_users.serializers import LoginSerializer, UserSerializer, \
     UserRoleSerializer, VerifyInviteSerializer, SetUserPasswordSerializer, \
     ListAdministrationSerializer, AddEditUserSerializer, ListUserSerializer, \
     ListUserRequestSerializer, ListLevelSerializer, UserDetailSerializer, \
     ForgotPasswordSerializer, \
     OrganisationListSerializer, AddEditOrganisationSerializer
+
+from api.v1.v1_users.functions import check_form_approval_assigned, \
+    assign_form_approval
+
 from api.v1.v1_forms.models import Forms
 # from api.v1.v1_data.models import PendingDataBatch, \
 #     PendingDataApproval, FormData
@@ -46,6 +51,34 @@ from utils.email_helper import send_email
 from utils.email_helper import ListEmailTypeRequestSerializer, EmailTypes
 
 webdomain = os.environ["WEBDOMAIN"]
+
+
+def send_email_to_user(type, user, request):
+    url = f"{webdomain}/login/{signing.dumps(user.pk)}"
+    user = Access.objects.filter(user=user.pk).first()
+    admin = Access.objects.filter(user=request.user.pk).first()
+    user_forms = Forms.objects.filter(
+        pk__in=request.data.get("forms")).all()
+    listing = [{
+        "name": "Role",
+        "value": user.role_name
+    }, {
+        "name": "Region",
+        "value": user.administration.full_name
+    }]
+    if user_forms:
+        user_forms = ", ".join([form.name for form in user_forms])
+        listing.append({"name": "Questionnaire", "value": user_forms})
+
+    data = {
+        'send_to': [user.user.email],
+        'listing': listing,
+        'admin': f"""{admin.user.name}, {admin.user.designation_name},
+                {admin.administration.full_name}."""
+    }
+    if type == EmailTypes.user_invite:
+        data['button_url'] = url
+    send_email(type=type, context=data)
 
 
 @extend_schema(description='Use to check System health', tags=['Dev'])
@@ -267,32 +300,28 @@ def add_user(request, version):
         return Response(
             {'message': validate_serializers_message(serializer.errors)},
             status=status.HTTP_400_BAD_REQUEST)
+
+    # when add new user as approver or county admin
+    is_approver_assigned = check_form_approval_assigned(
+        role=serializer.validated_data.get('role'),
+        forms=serializer.validated_data.get('forms'),
+        administration=serializer.validated_data.get('administration'))
+    if is_approver_assigned:
+        return Response(
+            {'message': is_approver_assigned},
+            status=status.HTTP_403_FORBIDDEN)
+
     user = serializer.save()
-    url = f"{webdomain}/login/{signing.dumps(user.pk)}"
-    user = Access.objects.filter(user=user.pk).first()
-    admin = Access.objects.filter(user=request.user.pk).first()
-    user_forms = Forms.objects.filter(pk__in=request.data.get("forms")).all()
-    listing = [{
-        "name": "Role",
-        "value": user.role_name
-    }, {
-        "name": "Region",
-        "value": user.administration.full_name
-    }]
-    if user_forms:
-        user_forms = ", ".join([form.name for form in user_forms])
-        listing.append({"name": "Questionnaire", "value": user_forms})
-    data = {
-        'button_url':
-        url,
-        'send_to': [user.user.email],
-        'listing':
-        listing,
-        'admin':
-        f"""{admin.user.name}, {admin.user.designation_name},
-        {admin.administration.full_name}."""
-    }
-    send_email(type=EmailTypes.user_invite, context=data)
+    # when add new user as approver or county admin
+    assign_form_approval(
+        role=serializer.validated_data.get('role'),
+        forms=serializer.validated_data.get('forms'),
+        administration=serializer.validated_data.get('administration'),
+        user=user)
+
+    if serializer.validated_data.get('inform_user'):
+        send_email_to_user(
+            type=EmailTypes.user_invite, user=user, request=request)
     return Response({'message': 'User added successfully'},
                     status=status.HTTP_200_OK)
 
@@ -406,6 +435,10 @@ def list_users(request, version):
     the_past = timezone.now() - datetime.timedelta(days=10 * 365)
     # also filter soft deletes
     queryset = SystemUser.objects.filter(deleted_at=None, **filter_data)
+    # if not super admin, don't include logged in user role to list
+    if request.user.user_access.role != UserRoleTypes.super_admin:
+        queryset = queryset.filter(
+            user_access__role__gt=request.user.user_access.role)
     # filter by email or fullname
     if serializer.validated_data.get('search'):
         search = serializer.validated_data.get('search')
@@ -494,7 +527,36 @@ class UserEditDeleteView(APIView):
             return Response(
                 {'message': validate_serializers_message(serializer.errors)},
                 status=status.HTTP_400_BAD_REQUEST)
-        serializer.save()
+
+        try:
+            # when add new user as approver or county admin
+            is_approver_assigned = check_form_approval_assigned(
+                role=serializer.validated_data.get('role'),
+                forms=serializer.validated_data.get('forms'),
+                administration=serializer.validated_data.get('administration'),
+                user=instance)
+            if is_approver_assigned:
+                return Response(
+                    {'message': is_approver_assigned},
+                    status=status.HTTP_403_FORBIDDEN)
+        except ValidationError:
+            return Response(
+                {'message': f'Update denied, user {instance.email} still \
+                    have pending approval.'},
+                status=status.HTTP_409_CONFLICT)
+
+        user = serializer.save()
+        # when add new user as approver or county admin
+        assign_form_approval(
+            role=serializer.validated_data.get('role'),
+            forms=serializer.validated_data.get('forms'),
+            administration=serializer.validated_data.get('administration'),
+            user=user)
+
+        # inform user by inform_user payload
+        if serializer.validated_data.get('inform_user'):
+            send_email_to_user(
+                type=EmailTypes.user_update, user=user, request=request)
         return Response({'message': 'User updated successfully'},
                         status=status.HTTP_200_OK)
 
@@ -525,6 +587,10 @@ def forgot_password(request, version):
                                     required=False,
                                     type=OpenApiTypes.NUMBER,
                                     location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='id',
+                                    required=False,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY),
                    OpenApiParameter(name='search',
                                     required=False,
                                     type=OpenApiTypes.STR,
@@ -534,15 +600,19 @@ def forgot_password(request, version):
                summary='Get list of organisation')
 @api_view(['GET'])
 def list_organisations(request, version):
+    id = request.GET.get('id')
     attributes = request.GET.get('attributes')
     search = request.GET.get('search')
     instance = Organisation.objects.all()
-    if attributes:
+    if id:
+        instance = Organisation.objects.filter(
+            pk=id).all()
+    if attributes and not id:
         ids = OrganisationAttribute.objects.filter(
             type=attributes).distinct("organisation_id")
         instance = Organisation.objects.filter(
             pk__in=[o.organisation_id for o in ids]).all()
-    if search:
+    if search and not id:
         instance = instance.filter(name__icontains=search)
     return Response(OrganisationListSerializer(instance=instance,
                                                many=True).data,
@@ -581,8 +651,7 @@ class OrganisationEditDeleteView(APIView):
                         status=status.HTTP_200_OK)
 
     @extend_schema(responses={
-        204:
-        OpenApiResponse(description='Deletion with no response')
+        204: OpenApiResponse(description='Deletion with no response')
     },
                    tags=['Organisation'],
                    summary='To delete organisation')

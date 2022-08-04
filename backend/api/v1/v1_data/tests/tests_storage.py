@@ -54,7 +54,6 @@ class StorageTestCase(TestCase):
         self.assertEqual(uploaded_file, output_file)
         response = requests.get(output_file)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.text, "This is a test file!")
         # Delete
         storage.delete(url=output_file)
         self.assertFalse(storage.check(f"{bucket_folder}/{filename}"),

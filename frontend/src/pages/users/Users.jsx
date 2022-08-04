@@ -5,9 +5,16 @@ import { Link } from "react-router-dom";
 import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { api, store, uiText } from "../../lib";
 import UserDetail from "./UserDetail";
-import { UserFilters, Breadcrumbs, DescriptionPanel } from "../../components";
+import {
+  UserFilters,
+  Breadcrumbs,
+  DescriptionPanel,
+  UserTab,
+} from "../../components";
 import { useNotification } from "../../util/hooks";
 import { UserTour } from "./components";
+import { reverse } from "lodash";
+import moment from "moment";
 
 const pagePath = [
   {
@@ -33,8 +40,6 @@ const Users = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
-
-  const descriptionData = <div>{text.ccPane4Text}</div>;
 
   const { administration, filters, isLoggedIn } = store.useState(
     (state) => state
@@ -80,7 +85,15 @@ const Users = () => {
     {
       title: "Region",
       dataIndex: "administration",
-      render: (administration) => administration?.name || "",
+      render: (administration) => {
+        const adm = administration?.id
+          ? window.dbadm.find((d) => d.id === administration.id)?.full_name
+          : false;
+        if (adm) {
+          return reverse(adm.split("|")).join(", ");
+        }
+        return adm;
+      },
     },
     {
       title: "Phone",
@@ -92,6 +105,13 @@ const Users = () => {
       dataIndex: "forms",
       align: "center",
       render: (forms) => forms.length || "None",
+    },
+    {
+      title: "Last Login",
+      dataIndex: "last_login",
+      align: "center",
+      render: (last_login) =>
+        last_login ? moment.unix(last_login).format("MMMM Do YYYY") : "-",
     },
     Table.EXPAND_COLUMN,
   ];
@@ -200,18 +220,16 @@ const Users = () => {
       <Row justify="space-between" align="start">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={descriptionData} />
+          <DescriptionPanel description={text.manageUserText} />
         </Col>
-        <UserTour />
       </Row>
-      <Row justify="end">
-        <Col>
+      <UserTab
+        tabBarExtraContent={
           <Link to="/user/add">
             <Button type="primary">Add new user</Button>
           </Link>
-        </Col>
-      </Row>
-      <Divider />
+        }
+      />
       <UserFilters
         query={query}
         setQuery={setQuery}

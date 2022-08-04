@@ -1,6 +1,6 @@
 import "./App.scss";
 import React, { useEffect, useState } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import {
   Home,
   Login,
@@ -16,7 +16,6 @@ import {
   Profile,
   ExportData,
   UploadData,
-  Visualisation,
   NewsEvents,
   HowWeWork,
   Terms,
@@ -27,14 +26,18 @@ import {
   Settings,
   Organisations,
   AddOrganisation,
+  Dashboard,
+  Glaas,
+  ReportDashboard,
+  GlaasReportDashboard,
+  // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
 import { store, api, config } from "./lib";
 import { Layout, PageLoader } from "./components";
 import { useNotification } from "./util/hooks";
-import { timeDiffHours } from "./util/date";
-import { reloadData } from "./util/form";
 import { eraseCookieFromAllPaths } from "./util/date";
+import { reloadData } from "./util/form";
 
 const Private = ({ element: Element, alias }) => {
   const { user: authUser } = store.useState((state) => state);
@@ -58,6 +61,18 @@ const RouteList = () => {
       <Route exact path="/forgot-password" element={<Login />} />
       <Route exact path="/data" element={<Home />} />
       <Route exact path="/form/:formId" element={<Forms />} />
+      <Route exact path="/dashboard/:formId" element={<Dashboard />} />
+      <Route exact path="/glaas/:formId" element={<Glaas />} />
+      <Route
+        exact
+        path="/report-dashboard/:formId"
+        element={<ReportDashboard />}
+      />
+      <Route
+        exact
+        path="/glaas-report-dashboard/:formId"
+        element={<GlaasReportDashboard />}
+      />
       <Route path="/users" element={<Private element={Users} alias="user" />} />
       <Route
         path="/organisations"
@@ -99,10 +114,12 @@ const RouteList = () => {
         path="/data/upload"
         element={<Private element={UploadData} alias="data" />}
       />
+      {/*
       <Route
         path="/data/visualisation"
         element={<Private element={Visualisation} alias="visualisation" />}
       />
+                */}
       <Route
         path="/questionnaires"
         element={<Private element={Questionnaires} alias="questionnaires" />}
@@ -150,22 +167,42 @@ const RouteList = () => {
 
 const App = () => {
   const { user: authUser, isLoggedIn } = store.useState((state) => state);
-  const [cookies, removeCookie] = useCookies(["AUTH_TOKEN"]);
+  const [cookies] = useCookies(["AUTH_TOKEN"]);
+  // const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const { notify } = useNotification();
+  const pageLocation = useLocation();
 
-  document.addEventListener("click", () => {
-    if (isLoggedIn && authUser?.last_login) {
-      const expired = timeDiffHours(authUser.last_login);
-      if (expired >= 2) {
-        eraseCookieFromAllPaths("AUTH_TOKEN");
-        store.update((s) => {
-          s.isLoggedIn = false;
-          s.user = null;
-        });
-      }
-    }
-  });
+  const public_state = config.allowedGlobal
+    .map((x) => location.pathname.includes(x))
+    .filter((x) => x)?.length;
+
+  // document.addEventListener(
+  //   "click",
+  //   () => {
+  //     if (isLoggedIn && authUser?.last_login) {
+  //       const expired = timeDiffHours(authUser.last_login);
+  //       console.log("test", expired);
+  //       if (expired >= 4) {
+  //         eraseCookieFromAllPaths("AUTH_TOKEN");
+  //         store.update((s) => {
+  //           s.isLoggedIn = false;
+  //           s.user = null;
+  //         });
+  //         navigate("login");
+  //       }
+  //     }
+  //   },
+  //   { passive: true }
+  // );
+
+  // detect location change to reset advanced filters
+  useEffect(() => {
+    store.update((s) => {
+      s.advancedFilters = [];
+      s.showAdvancedFilters = false;
+    });
+  }, [pageLocation]);
 
   useEffect(() => {
     if (!location.pathname.includes("/login")) {
@@ -199,40 +236,46 @@ const App = () => {
                 type: "error",
                 message: "Your session has expired",
               });
-              removeCookie("AUTH_TOKEN");
               store.update((s) => {
                 s.isLoggedIn = false;
                 s.user = null;
               });
+              eraseCookieFromAllPaths("AUTH_TOKEN");
             }
             setLoading(false);
             console.error(err);
           });
       } else if (!cookies.AUTH_TOKEN) {
         setLoading(false);
+        eraseCookieFromAllPaths("AUTH_TOKEN");
       }
     } else {
       setLoading(false);
     }
-  }, [authUser, isLoggedIn, removeCookie, cookies, notify]);
+  }, [authUser, isLoggedIn, cookies, notify]);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && !public_state) {
       store.update((s) => {
         s.administration = [
           config.fn.administration(authUser.administration.id),
         ];
-        s.loadingAdministration = false;
       });
     }
-  }, [authUser, isLoggedIn, notify]);
+  }, [authUser, isLoggedIn, public_state]);
+
+  const isHome = location.pathname === "/";
+
+  const isPublic = config.allowedGlobal
+    .map((x) => location.pathname.includes(x))
+    .filter((x) => x)?.length;
 
   return (
     <Layout>
       <Layout.Header />
       <Layout.Banner />
       <Layout.Body>
-        {loading ? (
+        {loading && !isHome && !isPublic ? (
           <PageLoader message="Initializing. Please wait.." />
         ) : (
           <RouteList />

@@ -3,32 +3,36 @@ import "./style.scss";
 import { Card, Select, Checkbox, Row, Col, Tag, Popover } from "antd";
 import { store } from "../../lib";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { first, flatten } from "lodash";
+import { first, flatten, intersection } from "lodash";
 
 const { Option, OptGroup } = Select;
+const attributes = ["advanced_filter"];
 
 const AdvancedFilters = () => {
   const [optionGroups, setOptionGroups] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
-  const { selectedForm, loadingForm, questionGroups, advancedFilters } =
-    store.useState((s) => s);
+  const loadingForm = store.useState((s) => s.loadingForm);
+  const questionGroups = store.useState((s) => s.questionGroups);
+  const showAdvancedFilters = store.useState((s) => s.showAdvancedFilters);
+  const advancedFilters = store.useState((s) => s.advancedFilters);
 
   useEffect(() => {
     if (first(flatten(questionGroups.map((qg) => qg.question)))?.form) {
-      store.update((s) => {
-        s.advancedFilters = [];
-      });
       setSelectedQuestion(null);
       setOptionGroups(
         questionGroups
           ?.map((d) => ({
             name: d.name,
-            questions: d.question.filter((q) => q.type === "option"),
+            questions: d.question.filter(
+              (q) =>
+                intersection(q?.attributes || [], attributes).length ===
+                attributes.length
+            ),
           }))
-          ?.filter((qg) => qg.questions.length > 0) || []
+          ?.filter((qg) => qg.questions.length > 0)
       );
     }
-  }, [selectedForm, questionGroups]);
+  }, [questionGroups]);
 
   const handleChange = (e) => {
     const questionRes = flatten(
@@ -102,6 +106,7 @@ const AdvancedFilters = () => {
     }
     return null;
   }, [selectedQuestion, questionGroups, advancedFilters]);
+
   const activeFilters = useMemo(() => {
     const handleCloseTag = (id, value) => {
       store.update((s) => {
@@ -134,38 +139,41 @@ const AdvancedFilters = () => {
     }
     return null;
   }, [advancedFilters]);
+
   return (
-    <div className="advanced-filters">
-      <Card bodyStyle={{ padding: 12 }} style={{ padding: 0 }}>
-        <div>
-          <Select
-            style={{ width: "100%" }}
-            value={selectedQuestion?.id}
-            onChange={handleChange}
-            disabled={loadingForm}
-            placeholder="Search.."
-            showSearch
-            filterOption={(input, option) =>
-              option.options[0]?.children
-                ?.toLowerCase()
-                .indexOf(input.toLowerCase()) >= 0
-            }
-          >
-            {optionGroups.map((og, ogI) => (
-              <OptGroup label={og.name} key={ogI}>
-                {og.questions.map((gq) => (
-                  <Option key={gq.id} value={gq.id}>
-                    {gq.name}
-                  </Option>
-                ))}
-              </OptGroup>
-            ))}
-          </Select>
-        </div>
-        {FilterOptions}
-      </Card>
-      {activeFilters}
-    </div>
+    showAdvancedFilters && (
+      <div className="advanced-filters">
+        <Card bodyStyle={{ padding: 12 }} style={{ padding: 0 }}>
+          <div>
+            <Select
+              style={{ width: "100%" }}
+              value={selectedQuestion?.id}
+              onChange={handleChange}
+              disabled={loadingForm}
+              placeholder="Search.."
+              showSearch
+              filterOption={(input, option) =>
+                option.options?.[0]?.children
+                  ?.toLowerCase()
+                  .indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {optionGroups.map((og, ogI) => (
+                <OptGroup label={og.name} key={ogI}>
+                  {og.questions.map((gq) => (
+                    <Option key={gq.id} value={gq.id}>
+                      {gq.name}
+                    </Option>
+                  ))}
+                </OptGroup>
+              ))}
+            </Select>
+          </div>
+          {FilterOptions}
+        </Card>
+        {activeFilters}
+      </div>
+    )
   );
 };
 

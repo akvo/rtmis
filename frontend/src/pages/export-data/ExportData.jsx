@@ -4,7 +4,6 @@ import {
   Row,
   Col,
   Card,
-  Divider,
   Table,
   ConfigProvider,
   Empty,
@@ -17,7 +16,7 @@ import {
   DownloadOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import { Breadcrumbs, DescriptionPanel } from "../../components";
+import { Breadcrumbs, DescriptionPanel, DataTab } from "../../components";
 import { api, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { ExportDataTour } from "./components";
@@ -28,15 +27,15 @@ const pagePath = [
     link: "/control-center",
   },
   {
-    title: "Export Data",
+    title: "Data Download",
   },
 ];
 const descriptionData = (
   <p>
     This page shows your list of data export requests.
     <br />
-    For exports which are already generated, please click. on the Download
-    button to download the data.
+    For exports which are already generated, please click on the Download button
+    to download the data.
   </p>
 );
 const ExportData = () => {
@@ -206,7 +205,7 @@ const ExportData = () => {
         </Col>
         <ExportDataTour />
       </Row>
-      <Divider />
+      <DataTab />
       <Card
         style={{ padding: 0, minHeight: "40vh" }}
         bodyStyle={{ padding: 0 }}

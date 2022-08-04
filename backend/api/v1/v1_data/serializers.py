@@ -1,3 +1,4 @@
+import requests
 from django.db.models import Sum, Q
 from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
@@ -14,12 +15,13 @@ from api.v1.v1_forms.models import Questions, QuestionOptions, Forms, \
     FormApprovalAssignment
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration
-from api.v1.v1_users.models import SystemUser
+from api.v1.v1_users.models import SystemUser, Organisation
 from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
     UnvalidatedField, CustomListField, CustomCharField, CustomChoiceField, \
     CustomBooleanField
 from utils.default_serializers import CommonDataSerializer
 from utils.email_helper import send_email, EmailTypes
+from api.v1.v1_data.functions import refresh_materialized_data
 from utils.functions import update_date_time_format, get_answer_value
 from utils.functions import get_answer_history
 
@@ -63,27 +65,28 @@ class SubmitFormDataAnswerSerializer(serializers.ModelSerializer):
         if not isinstance(attrs.get('value'),
                           list) and attrs.get('question').type in [
                               QuestionTypes.geo, QuestionTypes.option,
-                              QuestionTypes.multiple_option
-                          ]:
+                              QuestionTypes.multiple_option]:
             raise ValidationError(
                 'Valid list value is required for Question:{0}'.format(
                     attrs.get('question').id))
         elif not isinstance(
                 attrs.get('value'), str) and attrs.get('question').type in [
-                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
-                ]:
+                    QuestionTypes.text, QuestionTypes.photo,
+                    QuestionTypes.date]:
             raise ValidationError(
                 'Valid string value is required for Question:{0}'.format(
                     attrs.get('question').id))
-
-        elif not isinstance(
-                attrs.get('value'), int) and attrs.get('question').type in [
-                    QuestionTypes.number, QuestionTypes.administration
-                ]:
-
+        elif not (isinstance(
+                attrs.get('value'), int) or isinstance(
+                attrs.get('value'), float)) and attrs.get('question').type in [
+                    QuestionTypes.number, QuestionTypes.administration,
+                    QuestionTypes.cascade]:
             raise ValidationError(
                 'Valid number value is required for Question:{0}'.format(
                     attrs.get('question').id))
+
+        if attrs.get('question').type == QuestionTypes.administration:
+            attrs['value'] = int(float(attrs.get('value')))
 
         return attrs
 
@@ -127,14 +130,28 @@ class SubmitFormSerializer(serializers.Serializer):
             option = None
 
             if answer.get('question').type in [
-                    QuestionTypes.geo, QuestionTypes.option,
-                    QuestionTypes.multiple_option
+                QuestionTypes.geo, QuestionTypes.option,
+                QuestionTypes.multiple_option
             ]:
                 option = answer.get('value')
             elif answer.get('question').type in [
-                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+                QuestionTypes.text, QuestionTypes.photo,
+                QuestionTypes.date
             ]:
                 name = answer.get('value')
+            elif answer.get('question').type == QuestionTypes.cascade:
+                id = answer.get('value')
+                ep = answer.get('question').api.get('endpoint')
+                val = None
+                if "organisation" in ep:
+                    val = Organisation.objects.filter(pk=id).first()
+                    val = val.name
+                else:
+                    ep = ep.split("?")[0]
+                    ep = f"{ep}?id={id}"
+                    val = requests.get(ep).json()
+                    val = val[0].get('name')
+                name = val
             else:
                 # for administration,number question type
                 value = answer.get('value')
@@ -151,7 +168,7 @@ class SubmitFormSerializer(serializers.Serializer):
 
 
 class AnswerHistorySerializer(serializers.Serializer):
-    value = serializers.IntegerField()
+    value = serializers.FloatField()
     created = CustomCharField()
     created_by = CustomCharField()
 
@@ -306,10 +323,13 @@ class ListChartDataPointRequestSerializer(serializers.Serializer):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        queryset = self.context.get('form').form_questions.filter(
-            type=QuestionTypes.option)
-        self.fields.get('question').queryset = queryset
-        self.fields.get('stack').queryset = queryset
+        queryset = self.context.get('form').form_questions
+        self.fields.get('question').queryset = queryset.filter(
+            Q(type=QuestionTypes.option) | Q(type=QuestionTypes.number)
+            | Q(type=QuestionTypes.multiple_option))
+        self.fields.get('stack').queryset = queryset.filter(
+            Q(type=QuestionTypes.option)
+            | Q(type=QuestionTypes.multiple_option))
 
 
 class ListChartQuestionDataPointSerializer(serializers.ModelSerializer):
@@ -317,8 +337,11 @@ class ListChartQuestionDataPointSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.INT)
     def get_value(self, instance: QuestionOptions):
-        return instance.question.question_answer.filter(
-            options__contains=instance.name).count()
+        value = instance.question.question_answer.filter(
+            options__contains=instance.name)
+        if self.context.get('data_ids'):
+            value = value.filter(data_id__in=self.context.get('data_ids'))
+        return value.count()
 
     class Meta:
         model = QuestionOptions
@@ -328,22 +351,6 @@ class ListChartQuestionDataPointSerializer(serializers.ModelSerializer):
 class ChartDataSerializer(serializers.Serializer):
     type = serializers.CharField(),
     data = ListChartQuestionDataPointSerializer(many=True)
-
-
-class ListChartOverviewRequestSerializer(serializers.Serializer):
-    stack = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none(),
-                                         required=False)
-    question = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none())
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        queryset = self.context.get('form').form_questions
-        self.fields.get('question').queryset = queryset.filter(
-            Q(type=QuestionTypes.option) | Q(type=QuestionTypes.number)
-            | Q(type=QuestionTypes.multiple_option))
-        self.fields.get('stack').queryset = queryset.filter(
-            Q(type=QuestionTypes.option)
-            | Q(type=QuestionTypes.multiple_option))
 
 
 class ListChartAdministrationRequestSerializer(serializers.Serializer):
@@ -690,6 +697,7 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
             batch.approved = True
             batch.updated = timezone.now()
             batch.save()
+            refresh_materialized_data()
         return object
 
     def update(self, instance, validated_data):
@@ -849,8 +857,7 @@ class CreateBatchSerializer(serializers.Serializer):
     name = CustomCharField()
     comment = CustomCharField(required=False)
     data = CustomListField(child=CustomPrimaryKeyRelatedField(
-        queryset=PendingFormData.objects.none()),
-                           required=False)
+        queryset=PendingFormData.objects.none()), required=False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -879,8 +886,9 @@ class CreateBatchSerializer(serializers.Serializer):
             administration_id=user.user_access.administration_id,
             user=user,
             name=validated_data.get('name'))
-        PendingDataBatchComments.objects.create(
-            user=user, batch=obj, comment=validated_data.get('comment'))
+        for data in validated_data.get('data'):
+            data.batch = obj
+            data.save()
         for administration in Administration.objects.filter(
                 id__in=path.split('.')):
             assignment = FormApprovalAssignment.objects.filter(
@@ -910,9 +918,9 @@ class CreateBatchSerializer(serializers.Serializer):
                     }]
                 }
                 send_email(context=data, type=EmailTypes.pending_approval)
-        for data in validated_data.get('data'):
-            data.batch = obj
-            data.save()
+        if validated_data.get('comment'):
+            PendingDataBatchComments.objects.create(
+                user=user, batch=obj, comment=validated_data.get('comment'))
         return obj
 
     def update(self, instance, validated_data):
@@ -958,27 +966,28 @@ class SubmitPendingFormDataAnswerSerializer(serializers.ModelSerializer):
         if not isinstance(attrs.get('value'),
                           list) and attrs.get('question').type in [
                               QuestionTypes.geo, QuestionTypes.option,
-                              QuestionTypes.multiple_option
-                          ]:
+                              QuestionTypes.multiple_option]:
             raise ValidationError(
                 'Valid list value is required for Question:{0}'.format(
                     attrs.get('question').id))
         elif not isinstance(
                 attrs.get('value'), str) and attrs.get('question').type in [
-                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
-                ]:
+                    QuestionTypes.text, QuestionTypes.photo,
+                    QuestionTypes.date]:
             raise ValidationError(
                 'Valid string value is required for Question:{0}'.format(
                     attrs.get('question').id))
-
-        elif not isinstance(
-                attrs.get('value'), int) and attrs.get('question').type in [
-                    QuestionTypes.number, QuestionTypes.administration
-                ]:
-
+        elif not (isinstance(
+                attrs.get('value'), int) or isinstance(
+                attrs.get('value'), float)) and attrs.get('question').type in [
+                    QuestionTypes.number, QuestionTypes.administration,
+                    QuestionTypes.cascade]:
             raise ValidationError(
                 'Valid number value is required for Question:{0}'.format(
                     attrs.get('question').id))
+
+        if attrs.get('question').type == QuestionTypes.administration:
+            attrs['value'] = int(float(attrs.get('value')))
 
         return attrs
 
@@ -1018,12 +1027,10 @@ class SubmitPendingFormSerializer(serializers.Serializer):
 
         # check user role and form type
         user: SystemUser = self.context.get('user')
-        form: Forms = self.context.get('form')
         is_super_admin = user.user_access.role == UserRoleTypes.super_admin
         is_county_admin = user.user_access.role == UserRoleTypes.admin
-        is_county_form = form.type == FormTypes.county
 
-        direct_to_data = is_super_admin or (is_county_admin and is_county_form)
+        direct_to_data = is_super_admin or is_county_admin
 
         # save to pending data
         if not direct_to_data:
@@ -1049,9 +1056,23 @@ class SubmitPendingFormSerializer(serializers.Serializer):
             ]:
                 option = answer.get('value')
             elif answer.get('question').type in [
-                    QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+                    QuestionTypes.text, QuestionTypes.photo,
+                    QuestionTypes.date
             ]:
                 name = answer.get('value')
+            elif answer.get('question').type == QuestionTypes.cascade:
+                id = answer.get('value')
+                ep = answer.get('question').api.get('endpoint')
+                val = None
+                if "organisation" in ep:
+                    val = Organisation.objects.filter(pk=id).first()
+                    val = val.name
+                else:
+                    ep = ep.split("?")[0]
+                    ep = f"{ep}?id={id}"
+                    val = requests.get(ep).json()
+                    val = val[0].get('name')
+                name = val
             else:
                 # for administration,number question type
                 value = answer.get('value')
@@ -1077,5 +1098,6 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                     options=option,
                     created_by=self.context.get('user'),
                 )
+        refresh_materialized_data()
 
         return obj_data

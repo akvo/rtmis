@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap");
+
 html,
 body,
 #root {
@@ -105,6 +106,62 @@ body {
       }
     }
 
+    .leaflet-container {
+      background-color: #fff;
+
+      .leaflet-control-attribution {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .leaflet-pane {
+        .leaflet-tile-pane {
+          opacity: 1;
+        }
+      }
+    }
+
     /* End Development Mode */
+    .echarts-for-react {
+      cursor: ns-resize;
+
+      h4 {
+        display: none;
+      }
+
+      div {
+        &:last-child {
+          div {
+            &:last-child {
+              div {
+                &:not(.ant-table-container) {
+                  margin-right: 0px !important;
+                  border-radius: 4px !important;
+                  text-transform: uppercase;
+                  color: #253239 !important;
+                  background-color: #fff !important;
+                  font-weight: 500;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .ant-select-dropdown {
+    .ant-select-item {
+      &.ant-select-item-group {
+        text-transform: capitalize;
+      }
+
+      &.ant-select-item-option {
+        text-transform: capitalize;
+      }
+    }
+
+    .ant-select-item-option-content {
+      text-transform: capitalize;
+    }
   }
 }

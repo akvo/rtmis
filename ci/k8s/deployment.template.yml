@@ -133,6 +133,8 @@ spec:
                 secretKeyRef:
                   name: rtmis
                   key: webdomain
+            - name: PROD
+              value: "TRUE"
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /secrets/credentials.json
           readinessProbe:
@@ -155,7 +157,7 @@ spec:
               cpu: "100m"
               memory: "256Mi"
             limits:
-              cpu: "500m"
+              cpu: "1000m"
               memory: "1024Mi"
         - name: worker
           image: eu.gcr.io/akvo-lumen/rtmis/worker:${CI_COMMIT}

@@ -19,7 +19,7 @@ import {
   LoadingOutlined,
   HistoryOutlined,
 } from "@ant-design/icons";
-import { api, store, uiText } from "../../lib";
+import { api, store, uiText, config } from "../../lib";
 import { EditableCell } from "../../components";
 import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
@@ -110,8 +110,11 @@ const ApprovalDetail = ({
   const [comment, setComment] = useState("");
   const [questionGroups, setQuestionGroups] = useState([]);
   const { notify } = useNotification();
-  const { language } = store.useState((s) => s);
+
+  const { user: authUser, language } = store.useState((s) => s);
+  const { approvalsLiteral } = config;
   const { active: activeLang } = language;
+
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
@@ -121,8 +124,16 @@ const ApprovalDetail = ({
     const formData = [];
     data.data.map((rd) => {
       rd.question.map((rq) => {
-        if (rq.newValue && !isEqual(rq.value, rq.newValue)) {
-          formData.push({ question: rq.id, value: rq.newValue });
+        if (
+          (rq.newValue || rq.newValue === 0) &&
+          !isEqual(rq.value, rq.newValue)
+        ) {
+          let value = rq.newValue;
+          if (rq.type === "number") {
+            value =
+              parseFloat(value) % 1 !== 0 ? parseFloat(value) : parseInt(value);
+          }
+          formData.push({ question: rq.id, value: value });
         }
       });
     });
@@ -150,9 +161,15 @@ const ApprovalDetail = ({
       batch: id,
       status: status,
     };
-    if (comment.length) {
-      payload = { ...payload, comment: comment };
+    if (!comment.length) {
+      notify({
+        type: "warning",
+        message:
+          "Please provide notes or feedback to decline or approved the submission",
+      });
+      return;
     }
+    payload = { ...payload, comment: comment };
     api
       .post("pending-data/approve", payload)
       .then(() => {
@@ -232,7 +249,10 @@ const ApprovalDetail = ({
         ...rd,
         question: rd.question.map((rq) => {
           if (rq.id === key && rI.id === parentId) {
-            if (isEqual(rq.value, value) && rq.newValue) {
+            if (
+              isEqual(rq.value, value) &&
+              (rq.newValue || rq.newValue === 0)
+            ) {
               delete rq.newValue;
             } else {
               rq.newValue = value;
@@ -243,7 +263,11 @@ const ApprovalDetail = ({
             }
             return rq;
           }
-          if (rq.newValue && !isEqual(rq.value, rq.newValue) && !hasEdits) {
+          if (
+            (rq.newValue || rq.newValue === 0) &&
+            !isEqual(rq.value, rq.newValue) &&
+            !hasEdits
+          ) {
             hasEdits = true;
           }
           return rq;
@@ -269,7 +293,11 @@ const ApprovalDetail = ({
             delete rq.newValue;
             return rq;
           }
-          if (rq.newValue && !isEqual(rq.value, rq.newValue) && !hasEdits) {
+          if (
+            (rq.newValue || rq.newValue === 0) &&
+            !isEqual(rq.value, rq.newValue) &&
+            !hasEdits
+          ) {
             hasEdits = true;
           }
           return rq;
@@ -289,20 +317,10 @@ const ApprovalDetail = ({
       rv.map((rI) => (rI.id === recordId ? { ...rI, loading: true } : rI))
     );
     if (questionGroups.length < 1) {
-      api
-        .get(`form/${record.form?.id}`)
-        .then((res) => {
-          setQuestionGroups(res.data.question_group);
-          fetchData(recordId, res.data.question_group);
-        })
-        .catch((e) => {
-          console.error(e);
-          setRawValues((rv) =>
-            rv.map((rI) =>
-              rI.id === recordId ? { ...rI, loading: false } : rI
-            )
-          );
-        });
+      const qg = window.forms.find((f) => f.id === record.form?.id).content
+        .question_group;
+      setQuestionGroups(qg);
+      fetchData(recordId, qg);
     } else {
       fetchData(recordId, questionGroups);
     }
@@ -313,15 +331,22 @@ const ApprovalDetail = ({
     api
       .get(`pending-data/${recordId}`)
       .then((res) => {
-        const data = questionGroups.map((qg) => ({
-          ...qg,
-          question: qg.question.map((q) => ({
-            ...q,
-            value: res.data.find((d) => d.question === q.id)?.value || null,
-            history:
-              res.data.find((d) => d.question === q.id)?.history || false,
-          })),
-        }));
+        const data = questionGroups.map((qg) => {
+          return {
+            ...qg,
+            question: qg.question.map((q) => {
+              const findValue = res.data.find(
+                (d) => d.question === q.id
+              )?.value;
+              return {
+                ...q,
+                value: findValue || findValue === 0 ? findValue : null,
+                history:
+                  res.data.find((d) => d.question === q.id)?.history || false,
+              };
+            }),
+          };
+        });
         setRawValues((rv) =>
           rv.map((rI) =>
             rI.id === recordId ? { ...rI, data, loading: false } : rI
@@ -343,8 +368,9 @@ const ApprovalDetail = ({
     return (
       !!flatten(
         rawValues.find((d) => d.id === id)?.data?.map((g) => g.question)
-      )?.filter((d) => d.newValue && !isEqual(d.value, d.newValue))?.length ||
-      false
+      )?.filter(
+        (d) => (d.newValue || d.newValue === 0) && !isEqual(d.value, d.newValue)
+      )?.length || false
     );
   };
 
@@ -394,7 +420,7 @@ const ApprovalDetail = ({
                                 pagination={false}
                                 dataSource={r.question}
                                 rowClassName={(record) =>
-                                  record.newValue &&
+                                  (record.newValue || record.newValue === 0) &&
                                   !isEqual(record.newValue, record.value)
                                     ? "row-edited"
                                     : "row-normal"
@@ -536,7 +562,7 @@ const ApprovalDetail = ({
               onClick={() => handleApprove(record.id, 2)}
               disabled={!approve}
             >
-              Approve
+              {approvalsLiteral({ ...authUser, isButton: true })}
             </Button>
           </Space>
         </Col>

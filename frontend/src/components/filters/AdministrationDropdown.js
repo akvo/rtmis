@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import "./style.scss";
 import { Select, Space } from "antd";
+import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { store, config } from "../../lib";
-import { useNotification } from "../../util/hooks";
 
 const AdministrationDropdown = ({
   loading = false,
@@ -15,37 +15,28 @@ const AdministrationDropdown = ({
   onChange,
   ...props
 }) => {
-  const { user, administration, isLoggedIn, loadingAdministration } =
-    store.useState((state) => state);
-  const { notify } = useNotification();
+  const { pathname } = useLocation();
+  const { user, administration, isLoggedIn } = store.useState((state) => state);
+
+  const public_state = config.allowedGlobal
+    .map((x) => pathname.includes(x))
+    .filter((x) => x)?.length;
 
   useEffect(() => {
-    if (isLoggedIn && !persist) {
-      store.update((s) => {
-        s.loadingAdministration = true;
-      });
+    if (isLoggedIn && !persist && !public_state) {
       store.update((s) => {
         s.administration = [config.fn.administration(user.administration.id)];
       });
-      store.update((s) => {
-        s.loadingAdministration = false;
-      });
     }
-  }, [user, isLoggedIn, notify, persist]);
+  }, [user, isLoggedIn, persist, public_state]);
 
   const handleChange = (e, index) => {
     if (!e) {
       return;
     }
     store.update((s) => {
-      s.loadingAdministration = true;
-    });
-    store.update((s) => {
       s.administration.length = index + 1;
       s.administration = [...s.administration, config.fn.administration(e)];
-    });
-    store.update((s) => {
-      s.loadingAdministration = false;
     });
     if (onChange) {
       onChange();
@@ -86,7 +77,7 @@ const AdministrationDropdown = ({
                     getPopupContainer={(trigger) => trigger.parentNode}
                     dropdownMatchSelectWidth={false}
                     value={administration[regionIdx + 1]?.id || null}
-                    disabled={loadingAdministration || loading}
+                    disabled={loading}
                     allowClear
                     showSearch
                     filterOption={true}

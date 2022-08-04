@@ -24,6 +24,8 @@ import { columnsPending, columnsBatch, columnsSelected } from "./";
 import UploadDetail from "./UploadDetail";
 import FormDropdown from "../../components/filters/FormDropdown";
 import { DataUploadsTour } from "./components";
+import { isEmpty, without, union, xor } from "lodash";
+
 const { TextArea } = Input;
 
 const { TabPane } = Tabs;
@@ -39,7 +41,8 @@ const Submissions = () => {
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(0);
   const [selectedRows, setSelectedRows] = useState([]);
-  const { selectedForm } = store.useState((state) => state);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const { selectedForm, user } = store.useState((state) => state);
   const [batchName, setBatchName] = useState("");
   const [comment, setComment] = useState("");
   const { language } = store.useState((s) => s);
@@ -95,36 +98,84 @@ const Submissions = () => {
   useEffect(() => {
     if (selectedForm) {
       setSelectedRows([]);
+      setSelectedRowKeys([]);
     }
   }, [selectedForm]);
 
-  const handleSelect = (row, checked) => {
-    const current = selectedRows.filter((s) => s.id !== row.id);
-    if (checked) {
-      setSelectedRows([...current, row]);
-    } else {
-      setSelectedRows(current);
+  useEffect(() => {
+    if (dataset.length) {
+      const selectedDataset = selectedRowKeys.map((s) => {
+        const findData = dataset.find((d) => d.id === s);
+        return findData;
+      });
+      setSelectedRows(selectedDataset);
     }
-  };
+  }, [dataset, selectedRowKeys]);
+
   const handleChange = (e) => {
     setCurrentPage(e.current);
   };
 
   const btnBatchSelected = useMemo(() => {
+    const handleOnClickBatchSelectedDataset = () => {
+      // check only for data entry role
+      if (user.role.id === 4) {
+        api.get(`form/check-approver/${selectedForm}`).then((res) => {
+          if (!res.data.count) {
+            notify({
+              type: "error",
+              message: text.batchNoApproverMessage,
+            });
+          } else {
+            setModalVisible(true);
+          }
+        });
+      } else {
+        setModalVisible(true);
+      }
+    };
     return (
       dataTab === "pending-submission" && (
         <Button
           type="primary"
-          onClick={() => {
-            setModalVisible(true);
-          }}
+          onClick={handleOnClickBatchSelectedDataset}
           disabled={!selectedRows.length && modalButton}
         >
           {text.batchSelectedDatasets}
         </Button>
       )
     );
-  }, [selectedRows, modalButton, text.batchSelectedDatasets, dataTab]);
+  }, [
+    selectedRows,
+    modalButton,
+    text.batchSelectedDatasets,
+    dataTab,
+    notify,
+    selectedForm,
+    text.batchNoApproverMessage,
+    user.role.id,
+  ]);
+
+  const hasSelected = !isEmpty(selectedRowKeys);
+  const onSelectTableRow = (val) => {
+    const { id } = val;
+    selectedRowKeys.includes(id)
+      ? setSelectedRowKeys(without(selectedRowKeys, id))
+      : setSelectedRowKeys([...selectedRowKeys, id]);
+  };
+
+  const onSelectAllTableRow = (isSelected) => {
+    const ids = dataset.filter((x) => !x?.disabled).map((x) => x.id);
+    if (!isSelected && hasSelected) {
+      setSelectedRowKeys(xor(selectedRowKeys, ids));
+    }
+    if (isSelected && !hasSelected) {
+      setSelectedRowKeys(ids);
+    }
+    if (isSelected && hasSelected) {
+      setSelectedRowKeys(union(selectedRowKeys, ids));
+    }
+  };
 
   const sendBatch = () => {
     setLoading(true);
@@ -136,6 +187,7 @@ const Submissions = () => {
       )
       .then(() => {
         setSelectedRows([]);
+        setSelectedRowKeys([]);
         setBatchName("");
         setComment("");
         setDataTab("pending-approval");
@@ -176,25 +228,20 @@ const Submissions = () => {
           onChange={handleChange}
           columns={
             dataTab === "pending-submission"
-              ? [
-                  ...columnsPending,
-                  {
-                    title: text.batchDatasets,
-                    render: (row) => (
-                      <Checkbox
-                        checked={
-                          selectedRows.filter((s) => s.id === row.id).length
-                        }
-                        onChange={(e) => {
-                          handleSelect(row, e.target.checked);
-                        }}
-                      />
-                    ),
-                    width: 180,
-                    align: "center",
-                  },
-                ]
+              ? [...columnsPending]
               : [...columnsBatch, Table.EXPAND_COLUMN]
+          }
+          rowSelection={
+            dataTab === "pending-submission"
+              ? {
+                  selectedRowKeys: selectedRowKeys,
+                  onSelect: onSelectTableRow,
+                  onSelectAll: onSelectAllTableRow,
+                  getCheckboxProps: (record) => ({
+                    disabled: record?.disabled,
+                  }),
+                }
+              : false
           }
           loading={loading}
           pagination={{

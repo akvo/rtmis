@@ -51,7 +51,7 @@ const LoginForm = () => {
         });
         reloadData(res.data);
         setLoading(false);
-        navigate("/profile");
+        navigate("/control-center");
       })
       .catch((err) => {
         if (err.response.status === 401 || err.response.status === 400) {
