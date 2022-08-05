@@ -11,6 +11,7 @@ from django.contrib.postgres.aggregates import StringAgg
 from django.db.models import Count, TextField, Value, F, Sum, Avg, Q
 from django.db.models.functions import Cast, Coalesce
 from django.http import HttpResponse
+from django_q.tasks import async_task
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, inline_serializer, \
     OpenApiParameter, OpenApiResponse, OpenApiExample
@@ -43,10 +44,9 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ChartDataSerializer, ListChartCriteriaRequestSerializer, \
     ListMapOverviewDataPointSerializer, \
     ListMapOverviewDataPointRequestSerializer
-from api.v1.v1_data.functions import refresh_materialized_data, \
-    get_cache, create_cache, filter_by_criteria, \
-    get_questions_options_from_params, get_advance_filter_data_ids, \
-    transform_glass_answer
+from api.v1.v1_data.functions import get_cache, create_cache, \
+    filter_by_criteria, get_questions_options_from_params, \
+    get_advance_filter_data_ids, transform_glass_answer
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, Questions, \
     ViewJMPCriteria
@@ -246,7 +246,7 @@ class FormDataAddListView(APIView):
             data.updated = timezone.now()
             data.updated_by = user
             data.save()
-            refresh_materialized_data()
+            async_task('api.v1.v1_data.functions.refresh_materialized_data')
             return Response({'message': 'direct update success'},
                             status=status.HTTP_200_OK)
         # Store edit data to pending form data

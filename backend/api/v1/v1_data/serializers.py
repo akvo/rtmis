@@ -1,6 +1,7 @@
 import requests
 from django.db.models import Sum, Q
 from django.utils import timezone
+from django_q.tasks import async_task
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field, inline_serializer
 from rest_framework import serializers
@@ -21,7 +22,6 @@ from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
     CustomBooleanField
 from utils.default_serializers import CommonDataSerializer
 from utils.email_helper import send_email, EmailTypes
-from api.v1.v1_data.functions import refresh_materialized_data
 from utils.functions import update_date_time_format, get_answer_value
 from utils.functions import get_answer_history
 
@@ -648,56 +648,13 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
                 ]).count():
             pending_data_list = PendingFormData.objects.filter(
                 batch=batch).all()
+            # Seed data via Async Task
             for data in pending_data_list:
-                if data.data:
-                    form_data: FormData = data.data
-                    form_data.name = data.name
-                    form_data.form = data.form
-                    form_data.administration = data.administration
-                    form_data.geo = data.geo
-                    form_data.updated_by = data.created_by
-                    form_data.updated = timezone.now()
-                    form_data.save()
-
-                    for answer in data.pending_data_answer.all():
-                        form_answer = Answers.objects.get(
-                            data=form_data, question=answer.question)
-
-                        AnswerHistory.objects.create(
-                            data=form_answer.data,
-                            question=form_answer.question,
-                            name=form_answer.name,
-                            value=form_answer.value,
-                            options=form_answer.options,
-                            created_by=form_answer.created_by)
-                        form_answer.delete()
-
-                else:
-                    form_data = FormData.objects.create(
-                        name=data.name,
-                        form=data.form,
-                        administration=data.administration,
-                        geo=data.geo,
-                        created_by=data.created_by,
-                    )
-                    data.data = form_data
-                    data.approved = True
-                    data.save()
-
-                answer: PendingAnswers
-                for answer in data.pending_data_answer.all():
-                    Answers.objects.create(
-                        data=form_data,
-                        question=answer.question,
-                        name=answer.name,
-                        value=answer.value,
-                        options=answer.options,
-                        created_by=answer.created_by,
-                    )
+                async_task('api.v1.v1_data.tasks.seed_approved_data', data)
             batch.approved = True
             batch.updated = timezone.now()
             batch.save()
-            refresh_materialized_data()
+            async_task('api.v1.v1_data.functions.refresh_materialized_data')
         return object
 
     def update(self, instance, validated_data):
@@ -1098,6 +1055,6 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                     options=option,
                     created_by=self.context.get('user'),
                 )
-        refresh_materialized_data()
+        async_task('api.v1.v1_data.functions.refresh_materialized_data')
 
         return obj_data
