@@ -30,11 +30,9 @@ def rearrange_columns(col_names: list):
     col_question = list(filter(lambda x: HText(x).hasnum, col_names))
     if len(col_question) == len(col_names):
         return col_question
-    col_names = [
-                    "id", "created_at", "created_by", "updated_at",
-                    "updated_by",
-                    "datapoint_name", "administration", "geolocation"
-                ] + col_question
+    col_names = ["id", "created_at", "created_by", "updated_at",
+                 "updated_by", "datapoint_name", "administration",
+                 "geolocation"] + col_question
     return col_names
 
 
@@ -175,13 +173,13 @@ def seed_data_job_result(task):
             'listing': [{
                 'name': "Upload Date",
                 'value': job.created.strftime("%m-%d-%Y, %H:%M:%S"),
-                }, {
+            }, {
                 'name': "Questionnaire",
                 'value': form.name
-                }, {
+            }, {
                 'name': "Number of Records",
                 'value': df.shape[0]
-             }],
+            }],
         }
         send_email(context=data, type=EmailTypes.new_request)
     else:
@@ -206,17 +204,17 @@ def validate_excel(job_id):
         error_file = f"./tmp/error-{job_id}.csv"
         error_list.to_csv(error_file, index=False)
         data = {
-             'send_to': [job.user.email],
-             'listing': [{
+            'send_to': [job.user.email],
+            'listing': [{
                 'name': "Upload Date",
                 'value': job.created.strftime("%m-%d-%Y, %H:%M:%S"),
-                }, {
+            }, {
                 'name': "Questionnaire",
                 'value': form.name
-                }, {
+            }, {
                 'name': "Number of Records",
                 'value': df.shape[0]
-             }],
+            }],
         }
         send_email(context=data,
                    type=EmailTypes.upload_error,

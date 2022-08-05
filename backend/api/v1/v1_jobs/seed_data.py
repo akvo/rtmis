@@ -38,9 +38,7 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
         valid = True
         q = qs[a]
 
-        answer_models = Answers if is_super_admin else PendingAnswers
-        answer = answer_models(question_id=q.id, created_by=user)
-
+        answer = PendingAnswers(question_id=q.id, created_by=user)
         if q.type == QuestionTypes.administration:
             adms = aw.split("|")
             adm_list = []
@@ -124,15 +122,14 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
         'answerlist': answerlist,
         'name': name,
         'answer_history_list': answer_history_list}
-    print(res)
     return res
 
 
-def save_data(user: SystemUser, batch: PendingDataBatch, dp: dict, qs: dict):
+def save_data(user: SystemUser, dp: dict, qs: dict, form_id: int, batch_id):
     is_super_admin = user.user_access.role == UserRoleTypes.super_admin
     data_id = None if math.isnan(dp['data_id']) else dp['data_id']
     temp = collect_answers(user=user, dp=dp, qs=qs, data_id=data_id)
-    administration = temp.ge('administration')
+    administration = temp.get('administration')
     geo = temp.get('geo')
     answerlist = temp.get('answerlist')
     name = temp.get('name')
@@ -141,29 +138,35 @@ def save_data(user: SystemUser, batch: PendingDataBatch, dp: dict, qs: dict):
     if is_super_admin:
         data = FormData.objects.create(
             name=name,
-            form_id=batch.form_id,
+            form_id=form_id,
             administration_id=administration,
             geo=geo,
-            created_by=batch.user)
+            created_by=user)
     else:
         data = PendingFormData.objects.create(
             name=name,
-            form_id=batch.form_id,
+            form_id=form_id,
             administration_id=administration,
             geo=geo,
             data_id=data_id,
-            batch=batch,
-            created_by=batch.user)
-    for val in answerlist:
-        if is_super_admin:
-            val.data = data
-        else:
-            val.pending_data = data
+            batch_id=batch_id,
+            created_by=user)
     if is_super_admin:
-        Answers.objects.bulk_create(answerlist)
+        answer_to_create = []
+        for val in answerlist:
+            answer_to_create.append(Answers(
+                data=data,
+                question_id=val.question_id,
+                name=val.name,
+                value=val.value,
+                options=val.options,
+                created_by=val.created_by))
+        Answers.objects.bulk_create(answer_to_create)
         if answer_history_list:
             AnswerHistory.objects.bulk_create(answer_history_list)
     else:
+        for val in answerlist:
+            val.pending_data = data
         PendingAnswers.objects.bulk_create(answerlist)
     return data
 
@@ -187,31 +190,34 @@ def seed_excel_data(job: Jobs):
             questions.update({id: question})
     df = df.rename(columns=columns)
     datapoints = df.to_dict("records")
-    batch = PendingDataBatch.objects.create(
-        form_id=job.info.get('form'),
-        administration_id=job.info.get('administration'),
-        user=job.user,
-        name=job.info.get('file'))
+    form_id = job.info.get('form')
+    if not is_super_admin:
+        batch = PendingDataBatch.objects.create(
+            form_id=form_id,
+            administration_id=job.info.get('administration'),
+            user=job.user,
+            name=job.info.get('file'))
     records = []
     for datapoint in datapoints:
         if is_super_admin:
             data: FormData = save_data(
-                user=job.user, batch=batch, dp=datapoint, qs=questions)
+                user=job.user, dp=datapoint, qs=questions,
+                form_id=form_id, batch_id=None)
             answer_count = data.data_answer.count()
         else:
             data: PendingFormData = save_data(
-                user=job.user, batch=batch, dp=datapoint, qs=questions)
+                user=job.user, dp=datapoint, qs=questions,
+                form_id=form_id, batch_id=batch.id)
             answer_count = data.pending_data_answer.count()
         if answer_count:
             records.append(data)
         else:
             data.delete()
     if len(records) == 0:
-        form_id = job.info.get("form")
         form = Forms.objects.filter(pk=int(form_id)).first()
         context = {
-            'send_to': [batch.user.email],
-            'form': batch.form,
+            'send_to': [job.user.email],
+            'form': form.name,
             'user': job.user,
             'listing': [{
                 'name': "Upload Date",
@@ -225,12 +231,11 @@ def seed_excel_data(job: Jobs):
             }],
         }
         send_email(context=context, type=EmailTypes.unchanged_data)
-        batch.delete()
+        if not is_super_admin:
+            batch.delete()
         os.remove(file)
         return None
-    if is_super_admin:
-        batch.delete()
-    else:
+    if not is_super_admin:
         path = '{0}{1}'.format(
             batch.administration.path, batch.administration_id)
         for administration in Administration.objects.filter(
