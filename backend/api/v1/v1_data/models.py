@@ -228,7 +228,7 @@ class Answers(models.Model):
     updated = models.DateTimeField(default=None, null=True)
 
     def __str__(self):
-        return str(self.id)
+        return self.data.name
 
     @property
     def to_data_frame(self) -> dict:

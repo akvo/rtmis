@@ -4,6 +4,7 @@ import pandas as pd
 from django.utils import timezone
 from django_q.tasks import async_task
 
+from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_jobs.constants import JobStatus, JobTypes
 from api.v1.v1_jobs.functions import HText
@@ -158,6 +159,7 @@ def seed_data_job(job_id):
 def seed_data_job_result(task):
     job = Jobs.objects.get(task_id=task.id)
     job.attempt = job.attempt + 1
+    is_super_admin = job.user.user_access.role == UserRoleTypes.super_admin
     if task.result:
         job.status = JobStatus.done
         job.available = timezone.now()
@@ -166,8 +168,10 @@ def seed_data_job_result(task):
         file = job.info.get("file")
         storage.download(f"upload/{file}")
         df = pd.read_excel(f"./tmp/{file}", sheet_name='data')
+        subject = "New Data Uploaded" if is_super_admin \
+            else 'New Request @{0}'.format(job.user.get_full_name())
         data = {
-            'subject': 'New Request @{0}'.format(job.user.get_full_name()),
+            'subject': subject,
             'title': "New Data Submission",
             'send_to': [job.user.email],
             'listing': [{
@@ -180,6 +184,7 @@ def seed_data_job_result(task):
                 'name': "Number of Records",
                 'value': df.shape[0]
             }],
+            'is_super_admin': is_super_admin
         }
         send_email(context=data, type=EmailTypes.new_request)
     else:
