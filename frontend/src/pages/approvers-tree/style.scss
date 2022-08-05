@@ -5,6 +5,7 @@
     .ant-row.tree-header {
       border-bottom: solid #d7dbec 1px;
       padding-bottom: 25px;
+
       &.loading {
         opacity: 0.3;
       }
@@ -105,6 +106,13 @@
                 color: $blue;
               }
             }
+
+            h3 {
+              &.not-assigned {
+                font-style: italic;
+                color: #9e9e9e;
+              }
+            }
           }
 
           .tree-block:hover {
@@ -119,6 +127,20 @@
             box-shadow: inset 0px 0px 0px 2px #0080ff;
             -moz-box-shadow: inset 0px 0px 0px 2px #0080ff;
             background-color: #fff;
+          }
+
+          .tree-block.active,
+          .tree-block.active:hover,
+          .tree-block {
+            &.assigned {
+              background-color: #0080ff;
+              color: #fff;
+              font-weight: bold;
+
+              h3 {
+                color: #fff;
+              }
+            }
           }
         }
 
