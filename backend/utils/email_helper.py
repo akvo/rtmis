@@ -199,13 +199,16 @@ def email_context(context: dict, type: str):
             "explore_button": True
         })
     if type == EmailTypes.new_request:
+        extend_body = "The appovers for this data will be notified"
+        if context.get('is_super_admin'):
+            extend_body = False
         context.update({
             "image": f"{webdomain}/email-icons/info-circle.png",
             "info_text": """
             The spreadsheet that you uploaded has been successfully
             validated and submitted.
             """,
-            "extend_body": "The appovers for this data will be notified",
+            "extend_body": extend_body,
             "explore_button": True
         })
     if type == EmailTypes.upload_error:

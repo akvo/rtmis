@@ -102,6 +102,8 @@ def validate_geo(answer):
 
 
 def validate_administration(answer, adm):
+    if adm['id'] == 1:
+        return False
     aw = answer.split("|")
     name = adm["name"]
     if len(aw) < 2:
@@ -281,9 +283,7 @@ def validate(form: int, administration: int, file: str):
                 for i, answer in enumerate(answers):
                     ix = i + 2
                     errors = validate_row_data(
-                            f"{col}{ix}",
-                            answer,
-                            question, adm)
+                        f"{col}{ix}", answer, question, adm)
                     if errors:
                         data_error.append(errors)
     return header_error + data_error
