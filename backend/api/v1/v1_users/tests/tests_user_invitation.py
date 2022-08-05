@@ -257,7 +257,7 @@ class UserInvitationTestCase(TestCase):
                                    edit_payload,
                                    content_type='application/json',
                                    **header)
-        self.assertEqual(response.status_code, 409)
+        self.assertEqual(response.status_code, 403)
 
     def test_add_admin_user(self):
         call_command("administration_seeder", "--test")
