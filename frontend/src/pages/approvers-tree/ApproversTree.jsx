@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Card, Divider, Select } from "antd";
+import { Row, Col, Card, Divider, Space } from "antd";
 import { Breadcrumbs, DescriptionPanel, UserTab } from "../../components";
 import { api, store, uiText } from "../../lib";
 import ApproverFilters from "../../components/filters/ApproverFilters";
@@ -8,7 +8,6 @@ import { SteppedLineTo } from "react-lineto";
 import { take, takeRight } from "lodash";
 import { useNotification } from "../../util/hooks";
 
-const { Option } = Select;
 const pagePath = [
   {
     title: "Control Center",
@@ -26,7 +25,6 @@ const ApproversTree = () => {
   const [datasetJson, setDatasetJson] = useState("[]");
   const [scroll, setScroll] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [saving, setSaving] = useState(false);
   const { notify } = useNotification();
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
@@ -69,7 +67,7 @@ const ApproversTree = () => {
                 childLevelName: selectedAdministration.childLevelName,
                 children: res.data.map((cI) => ({
                   ...cI,
-                  user: cI.user?.id,
+                  user: cI.user,
                 })),
               },
             ];
@@ -91,53 +89,6 @@ const ApproversTree = () => {
   const isPristine = useMemo(() => {
     return JSON.stringify(dataset) === datasetJson;
   }, [dataset, datasetJson]);
-
-  const resetForm = () => {
-    if (administration.length === 1) {
-      setDataset(JSON.parse(datasetJson));
-    } else {
-      store.update((s) => {
-        s.administration.length = 1;
-      });
-    }
-  };
-
-  const handleSubmit = () => {
-    const formData = dataset.reduce((arr, adminData) => {
-      adminData.children
-        .filter((c) => c.user || c?.flag === "delete")
-        .map((childData) => {
-          const isDelete = childData?.flag && childData.flag === "delete";
-          arr.push({
-            user_id:
-              isDelete && childData?.user_delete
-                ? childData.user_delete
-                : childData.user,
-            administration_id: childData.administration.id,
-            flag: isDelete ? childData.flag : "add",
-          });
-        });
-      return arr;
-    }, []);
-    setSaving(true);
-    api
-      .post(`form/approver/${selectedForm}`, formData)
-      .then(() => {
-        setDatasetJson(JSON.stringify(dataset));
-        notify({
-          type: "success",
-          message: "Approvers updated",
-        });
-        setSaving(false);
-      })
-      .catch(() => {
-        notify({
-          type: "error",
-          message: "Could not update approvers",
-        });
-        setSaving(false);
-      });
-  };
 
   const handleColScroll = ({ target }) => {
     setScroll(target.scrollTop);
@@ -221,77 +172,45 @@ const ApproversTree = () => {
                 className={`tree-col-${k + 1}`}
                 align="center"
               >
-                {adminItem.children?.map((childItem, l) => (
-                  <div
-                    className={`tree-block tree-block-${k + 1}-${childItem.id}
+                {adminItem.children?.map((childItem, l) => {
+                  const approver = dataset[k]?.children?.find(
+                    (c) => c.administration.id === childItem.id
+                  )?.user;
+                  const approverName = approver
+                    ? `${approver.first_name} ${approver.last_name}`
+                    : text.notAssigned;
+                  return (
+                    <div
+                      className={`tree-block tree-block-${k + 1}-${childItem.id}
                       ${
                         k >= administration.length - 1 ||
                         administration[k + 1]?.children[0]?.parent ===
                           childItem.id
                           ? "active"
                           : ""
-                      }
+                      } ${approver ? "assigned" : ""}
                     `}
-                    key={l}
-                    onClick={() => {
-                      if (
-                        adminItem.levelName !==
-                          takeRight(window.levels, 2)[0]?.name &&
-                        administration[k + 1]?.children[0]?.parent !==
-                          childItem.id
-                      ) {
-                        handleClick(childItem.id, k);
-                      }
-                    }}
-                  >
-                    <div>{childItem.name}</div>
-                    <Select
-                      key={`user-dropdown-${childItem.id}`}
-                      allowClear
-                      placeholder={text.notAssigned}
-                      value={
-                        dataset[k]?.children?.find(
-                          (c) => c.administration.id === childItem.id
-                        )?.user
-                      }
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                      onChange={(e) => {
-                        if (!e) {
-                          return;
-                        }
-                        const newNodes = JSON.parse(JSON.stringify(dataset));
-                        newNodes[k].children[l].user = e;
-                        setDataset(newNodes);
-                      }}
-                      onClear={() => {
-                        const cleared = [...dataset];
-                        cleared[k].children[l].user_delete =
-                          cleared[k].children[l].user;
-                        cleared[k].children[l].flag = "delete";
-                        cleared[k].children[l].user = null;
-                        setDataset(cleared);
-                      }}
-                      disabled={
-                        loading ||
-                        (k < administration.length - 1 &&
+                      key={l}
+                      onClick={() => {
+                        if (
+                          adminItem.levelName !==
+                            takeRight(window.levels, 2)[0]?.name &&
                           administration[k + 1]?.children[0]?.parent !==
-                            childItem.id)
-                      }
+                            childItem.id
+                        ) {
+                          handleClick(childItem.id, k);
+                        }
+                      }}
                     >
-                      {(
-                        dataset[k]?.children?.find(
-                          (c) => c.administration?.id === childItem.id
-                        )?.user_list || []
-                      ).map((user, userIndex) => (
-                        <Option key={userIndex} value={user.id}>
-                          {user.name}
-                        </Option>
-                      ))}
-                    </Select>
-                  </div>
-                ))}
+                      <Space direction="vertical">
+                        <div>{childItem.name}</div>
+                        <h3 className={approver ? "" : "not-assigned"}>
+                          {approverName}
+                        </h3>
+                      </Space>
+                    </div>
+                  );
+                })}
               </Col>
             )
         )
@@ -330,11 +249,11 @@ const ApproversTree = () => {
       selectedForm &&
       administration.map((adminItem, m) => (
         <div key={m}>
-          {adminItem.children.map((childItem) => {
+          {adminItem.children.map((childItem, ci) => {
             const isParent =
               administration[m + 1]?.children[0]?.parent === childItem.id;
             return (
-              <>
+              <div key={ci}>
                 <SteppedLineTo
                   within={`tree-col-${m + 1}`}
                   key={`tree-line-${m + 1}-${childItem.id}`}
@@ -374,7 +293,7 @@ const ApproversTree = () => {
                     zIndex={100}
                   />
                 )}
-              </>
+              </div>
             );
           })}
         </div>
@@ -404,11 +323,9 @@ const ApproversTree = () => {
       </Row>
       <UserTab />
       <ApproverFilters
-        loading={saving}
+        loading={false}
         disabled={isPristine || loading}
-        visible={dataset.length}
-        reset={resetForm}
-        save={handleSubmit}
+        visible={false}
       />
       <Divider />
       <Card style={{ padding: 0, minHeight: "40vh" }}>

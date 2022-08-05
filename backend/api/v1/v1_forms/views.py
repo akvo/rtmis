@@ -15,8 +15,8 @@ from api.v1.v1_forms.models import Forms, FormApprovalRule, \
 from api.v1.v1_forms.serializers import ListFormSerializer, \
     WebFormDetailSerializer, FormDataSerializer, ListFormRequestSerializer, \
     EditFormTypeSerializer, EditFormApprovalSerializer, \
-    ApprovalFormUserSerializer, FormApprovalLevelListSerializer, \
-    FormApproverRequestSerializer, FormApproverResponseSerializer
+    FormApprovalLevelListSerializer, FormApproverRequestSerializer, \
+    FormApproverResponseSerializer
 from api.v1.v1_profile.models import Administration
 from api.v1.v1_data.functions import get_cache, create_cache
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
@@ -111,26 +111,6 @@ def edit_form_approval(request, version):
     serializer = EditFormApprovalSerializer(data=request.data,
                                             many=True,
                                             context={'user': request.user})
-    if not serializer.is_valid():
-        return Response(
-            {'message': validate_serializers_message(serializer.errors)},
-            status=status.HTTP_400_BAD_REQUEST)
-    serializer.save()
-    return Response({'message': 'Forms updated successfully'},
-                    status=status.HTTP_200_OK)
-
-
-@extend_schema(request=ApprovalFormUserSerializer(many=True),
-               responses={200: DefaultResponseSerializer},
-               tags=['Form'],
-               summary='To assign approver to form')
-@api_view(['POST'])
-@permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
-def approval_form_users(request, version, form_id):
-    form = get_object_or_404(Forms, pk=form_id)
-    serializer = ApprovalFormUserSerializer(data=request.data,
-                                            many=True,
-                                            context={'form': form})
     if not serializer.is_valid():
         return Response(
             {'message': validate_serializers_message(serializer.errors)},
