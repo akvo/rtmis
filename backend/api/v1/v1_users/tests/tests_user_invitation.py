@@ -239,7 +239,7 @@ class UserInvitationTestCase(TestCase):
                           {'id': 2, 'name': 'Test Form 2'}])
 
         # test_update_user_with_pending_approval
-        call_command("fake_pending_data_seeder")
+        call_command("fake_pending_data_seeder", "--test")
         find_user = SystemUser.objects.filter(
             user_access__role=UserRoleTypes.admin).order_by('-id').first()
         edit_payload = {
