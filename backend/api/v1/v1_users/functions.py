@@ -38,14 +38,10 @@ def check_form_approval_assigned(role, forms, administration, user=None):
                 user_adm = user.user_access.administration
                 filter_batch = {
                     'form_id__in': [uf.form_id for uf in user.user_form.all()],
-                    'approved': False}
+                    'approved': False
+                }
                 if user_adm.level.level == 3:
-                    filter_batch.update(
-                            {'administration_id': user_adm.id})
-                elif user_adm.level.level == 0:
-                    filter_batch.update(
-                        {'administration__path__startswith':
-                            f"{user_adm.id}."})
+                    filter_batch.update({'administration_id': user_adm.id})
                 else:
                     adm_path = f"{user_adm.path}{user_adm.id}"
                     filter_batch.update(
@@ -102,9 +98,7 @@ def assign_form_approval(role, forms, administration, user):
     form_to_assign = forms
     # check if forms already asiggned into user
     check = FormApprovalAssignment.objects.filter(
-        administration=administration,
-        form__in=forms,
-        user=user)
+        administration=administration, form__in=forms, user=user)
     if check:
         form_to_assign = []
         for fr in forms:
@@ -115,35 +109,34 @@ def assign_form_approval(role, forms, administration, user):
             fa.updated = timezone.now()
             fa.save()
     # Add user value to approval assignment table (approval tree)
-    form_approval_obj = [FormApprovalAssignment(
-        form=fr,
-        administration=administration,
-        user=user
-    ) for fr in form_to_assign]
+    form_approval_obj = [
+        FormApprovalAssignment(form=fr,
+                               administration=administration,
+                               user=user) for fr in form_to_assign
+    ]
     approval = FormApprovalAssignment.objects.bulk_create(form_approval_obj)
 
     # Assign to previous batch
-    if role in [UserRoleTypes.approver, UserRoleTypes.admin]:
+    has_pending_data_batch = PendingDataBatch.objects.filter(
+        approved=False).count()
+    if role in [UserRoleTypes.approver, UserRoleTypes.admin
+                ] and has_pending_data_batch:
         current_batch = PendingDataBatch.objects.filter(
             approved=False,
             administration__path__startswith=administration.path).all()
-        for batch in current_batch:
-            if batch.form in forms:
-                approver = PendingDataApproval.objects.filter(
-                    level=administration.level,
-                    batch=batch).first()
-                if not approver:
-                    approver = PendingDataApproval(
-                        level=administration.level,
-                        user=user,
-                        batch=batch
-                    )
+        if current_batch.count():
+            for batch in current_batch:
+                if batch.form in forms:
+                    approver = PendingDataApproval.objects.filter(
+                        level=administration.level, batch=batch).first()
+                    if not approver:
+                        approver = PendingDataApproval(
+                            level=administration.level, user=user, batch=batch)
+                    else:
+                        approver.user = user
+                    approver.save()
                 else:
-                    approver.user = user
-                approver.save()
-            else:
-                approver = PendingDataApproval.objects.filter(
-                        batch=batch,
-                        user=user).all()
-                approver.delete()
+                    approver = PendingDataApproval.objects.filter(
+                        batch=batch, user=user).all()
+                    approver.delete()
     return approval
