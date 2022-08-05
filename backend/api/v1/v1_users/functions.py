@@ -1,6 +1,7 @@
 from django.utils import timezone
 
 from api.v1.v1_profile.constants import UserRoleTypes
+from api.v1.v1_forms.constants import FormTypes
 from api.v1.v1_forms.models import FormApprovalAssignment
 from api.v1.v1_data.models import PendingDataBatch, PendingDataApproval
 from api.v1.v1_data.constants import DataApprovalStatus
@@ -105,6 +106,12 @@ def assign_form_approval(role, forms, administration, user):
         form_to_assign = []
         for fr in forms:
             if fr.id in check.values_list('form_id', flat=True):
+                continue
+            if role is not UserRoleTypes.super_admin and \
+                    fr.type == FormTypes.national:
+                continue
+            if role is UserRoleTypes.super_admin and \
+                    fr.type == FormTypes.county:
                 continue
             form_to_assign.append(fr)
         for fa in check.all():
