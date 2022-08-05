@@ -24,7 +24,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.exceptions import ValidationError
 
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Access, Administration, Levels
@@ -528,23 +527,16 @@ class UserEditDeleteView(APIView):
                 {'message': validate_serializers_message(serializer.errors)},
                 status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            # when add new user as approver or county admin
-            is_approver_assigned = check_form_approval_assigned(
-                role=serializer.validated_data.get('role'),
-                forms=serializer.validated_data.get('forms'),
-                administration=serializer.validated_data.get('administration'),
-                user=instance)
-            if is_approver_assigned:
-                return Response(
-                    {'message': is_approver_assigned},
-                    status=status.HTTP_403_FORBIDDEN)
-        except ValidationError:
+        # when add new user as approver or county admin
+        is_approver_assigned = check_form_approval_assigned(
+            role=serializer.validated_data.get('role'),
+            forms=serializer.validated_data.get('forms'),
+            administration=serializer.validated_data.get('administration'),
+            user=instance)
+        if is_approver_assigned:
             return Response(
-                {'message': f'Update denied, user {instance.email} still \
-                    have pending approval.'},
-                status=status.HTTP_409_CONFLICT)
-
+                {'message': is_approver_assigned},
+                status=status.HTTP_403_FORBIDDEN)
         user = serializer.save()
         # when add new user as approver or county admin
         assign_form_approval(
