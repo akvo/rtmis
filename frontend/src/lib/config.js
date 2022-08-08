@@ -50,6 +50,7 @@ const config = {
         "manage-user",
         "manage-data",
         "manage-organisation",
+        "approvals",
       ],
     },
     {
