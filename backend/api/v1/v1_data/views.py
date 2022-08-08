@@ -54,7 +54,7 @@ from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
 from rtmis.settings import REST_FRAMEWORK
-from utils.custom_permissions import IsAdmin, IsApprover, \
+from utils.custom_permissions import IsSuperAdmin, IsAdmin, IsApprover, \
         IsSubmitter, PublicGet
 from utils.custom_serializer_fields import validate_serializers_message
 from utils.default_serializers import DefaultResponseSerializer
@@ -733,7 +733,7 @@ def get_chart_criteria(request, version, form_id):
     ],
     summary='To get list of pending batch')
 @api_view(['GET'])
-@permission_classes([IsAuthenticated, IsAdmin | IsApprover])
+@permission_classes([IsAuthenticated, IsApprover | IsAdmin | IsSuperAdmin])
 def list_pending_batch(request, version):
     serializer = PendingBatchDataFilterSerializer(data=request.GET)
     if not serializer.is_valid():
@@ -827,7 +827,7 @@ class PendingDataDetailDeleteView(APIView):
                tags=['Pending Data'],
                summary='Approve pending data')
 @api_view(['POST'])
-@permission_classes([IsAuthenticated, IsApprover | IsAdmin])
+@permission_classes([IsAuthenticated, IsApprover | IsAdmin | IsSuperAdmin])
 def approve_pending_data(request, version):
     serializer = ApprovePendingDataRequestSerializer(
         data=request.data,

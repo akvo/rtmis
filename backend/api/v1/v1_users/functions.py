@@ -1,13 +1,16 @@
 from django.utils import timezone
 
 from api.v1.v1_profile.constants import UserRoleTypes
+from api.v1.v1_forms.constants import FormTypes
 from api.v1.v1_forms.models import FormApprovalAssignment
 from api.v1.v1_data.models import PendingDataBatch, PendingDataApproval
 from api.v1.v1_data.constants import DataApprovalStatus
 
 
 def check_unique_user(role):
-    return role in [UserRoleTypes.admin, UserRoleTypes.approver]
+    return role in [
+        UserRoleTypes.super_admin, UserRoleTypes.admin, UserRoleTypes.approver
+    ]
 
 
 def check_form_approval_assigned(role, forms, administration, user=None):
@@ -40,7 +43,7 @@ def check_form_approval_assigned(role, forms, administration, user=None):
                     'form_id__in': [uf.form_id for uf in user.user_form.all()],
                     'approved': False
                 }
-                if user_adm.level.level == 3:
+                if user_adm.level.level in [0, 3]:
                     filter_batch.update({'administration_id': user_adm.id})
                 else:
                     adm_path = f"{user_adm.path}{user_adm.id}"
@@ -104,6 +107,12 @@ def assign_form_approval(role, forms, administration, user):
         for fr in forms:
             if fr.id in check.values_list('form_id', flat=True):
                 continue
+            if role is not UserRoleTypes.super_admin and \
+                    fr.type == FormTypes.national:
+                continue
+            if role is UserRoleTypes.super_admin and \
+                    fr.type == FormTypes.county:
+                continue
             form_to_assign.append(fr)
         for fa in check.all():
             fa.updated = timezone.now()
@@ -119,11 +128,14 @@ def assign_form_approval(role, forms, administration, user):
     # Assign to previous batch
     has_pending_data_batch = PendingDataBatch.objects.filter(
         approved=False).count()
-    if role in [UserRoleTypes.approver, UserRoleTypes.admin
-                ] and has_pending_data_batch:
-        current_batch = PendingDataBatch.objects.filter(
-            approved=False,
-            administration__path__startswith=administration.path).all()
+    if has_pending_data_batch:
+        batch_filter = {"approved": False}
+        if administration.path:
+            batch_filter.update(
+                {'administration__path__startswith': administration.path})
+        else:
+            batch_filter.update({'administration': 1})
+        current_batch = PendingDataBatch.objects.filter(**batch_filter).all()
         if current_batch.count():
             for batch in current_batch:
                 if batch.form in forms:
