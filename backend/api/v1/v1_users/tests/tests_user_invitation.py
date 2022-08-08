@@ -133,7 +133,7 @@ class UserInvitationTestCase(TestCase):
                                         content_type='application/json',
                                         **header)
         self.assertEqual(add_response.status_code, 400)
-        payload["role"] = 2
+        payload["role"] = UserRoleTypes.admin
         add_response = self.client.post("/api/v1/user",
                                         payload,
                                         content_type='application/json',
@@ -169,13 +169,13 @@ class UserInvitationTestCase(TestCase):
                                        content_type='application/json',
                                        **header)
         self.assertEqual(add_response.status_code, 400)
-        edit_payload["role"] = 4
+        edit_payload["role"] = UserRoleTypes.user
         add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
                                        edit_payload,
                                        content_type='application/json',
                                        **header)
         self.assertEqual(add_response.status_code, 400)
-        edit_payload["role"] = 2
+        edit_payload["role"] = UserRoleTypes.admin
         add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
                                        edit_payload,
                                        content_type='application/json',
@@ -183,7 +183,7 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(add_response.status_code, 200)
         self.assertEqual(add_response.json(),
                          {'message': 'User updated successfully'})
-        edit_payload["role"] = 2
+        edit_payload["role"] = UserRoleTypes.admin
         edit_payload["forms"] = [2]
         add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
                                        edit_payload,
@@ -430,6 +430,32 @@ class UserInvitationTestCase(TestCase):
             "trained": True,
         }
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        add_response = self.client.post("/api/v1/user",
+                                        payload,
+                                        content_type='application/json',
+                                        **header)
+        self.assertEqual(add_response.status_code, 200)
+
+        # Add national super admin approver
+        payload = {
+            "first_name": "National Approver",
+            "last_name": "Entry",
+            "email": "national_approver@example.com",
+            "organisation": org.id,
+            "role": 1,
+            "forms": [1],
+            "trained": True,
+        }
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        add_response = self.client.post("/api/v1/user",
+                                        payload,
+                                        content_type='application/json',
+                                        **header)
+        self.assertEqual(add_response.status_code, 400)
+        self.assertEqual(
+            add_response.json(),
+            {"message": "Super Admin can only approve National Type of form"})
+        payload["forms"] = [2]
         add_response = self.client.post("/api/v1/user",
                                         payload,
                                         content_type='application/json',

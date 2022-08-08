@@ -147,16 +147,6 @@ const ControlCenter = () => {
             </Col>
           );
         })}
-        {/* {authUser.role_detail.page_access.includes("approvals") && (
-          <Col span={24}>
-            <PanelApprovals />
-          </Col>
-        )}
-        {authUser.role_detail.page_access.includes("form") && (
-          <Col span={24}>
-            <PanelSubmissions />
-          </Col>
-        )} */}
       </Row>
     </div>
   );
