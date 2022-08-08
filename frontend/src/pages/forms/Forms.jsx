@@ -26,6 +26,14 @@ const Forms = () => {
     return uiText[activeLang];
   }, [activeLang]);
 
+  const formType = window.forms.find(
+    (x) => x.id === parseInt(formId)
+  )?.type_text;
+
+  const redirectToBatch =
+    (formType === "National" && authUser.role.id === 2) ||
+    (formType === "County" && authUser.role.id > 2);
+
   const pagePath = [
     {
       title: "Control Center",
@@ -198,9 +206,9 @@ const Forms = () => {
               status="success"
               title={text?.formSuccessTitle}
               subTitle={
-                [1, 2].includes(authUser?.role?.id)
-                  ? text?.formSuccessSubTitleForAdmin
-                  : text?.formSuccessSubTitle
+                redirectToBatch
+                  ? text?.formSuccessSubTitle
+                  : text?.formSuccessSubTitleForAdmin
               }
               extra={[
                 <Button
@@ -210,7 +218,7 @@ const Forms = () => {
                 >
                   Add New Submission
                 </Button>,
-                [1, 2].includes(authUser?.role?.id) ? (
+                !redirectToBatch ? (
                   <Button
                     key="manage-button"
                     onClick={() => navigate("/data/manage")}
