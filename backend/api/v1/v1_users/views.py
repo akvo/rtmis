@@ -24,7 +24,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.exceptions import ValidationError
 
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Access, Administration, Levels
@@ -283,10 +282,13 @@ def list_levels(request, version):
 def add_user(request, version):
     if request.data.get("role") == UserRoleTypes.super_admin:
         request.data.update({
-            "forms": [],
             "administration":
             Administration.objects.filter(level__level=0).first().id
         })
+        if not request.data.get("forms"):
+            request.data.update({
+                "forms": []
+            })
     if request.data.get("role") == UserRoleTypes.read_only:
         request.data.update({"forms": []})
         if not request.data.get("administration"):
@@ -515,10 +517,13 @@ class UserEditDeleteView(APIView):
     def put(self, request, user_id, version):
         if request.data.get("role") == UserRoleTypes.super_admin:
             request.data.update({
-                "forms": [],
                 "administration":
                 Administration.objects.filter(level__level=0).first().id
             })
+            if not request.data.get("forms"):
+                request.data.update({
+                    "forms": []
+                })
         instance = get_object_or_404(SystemUser, pk=user_id, deleted_at=None)
         serializer = AddEditUserSerializer(data=request.data,
                                            context={'user': request.user},
@@ -528,23 +533,16 @@ class UserEditDeleteView(APIView):
                 {'message': validate_serializers_message(serializer.errors)},
                 status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            # when add new user as approver or county admin
-            is_approver_assigned = check_form_approval_assigned(
-                role=serializer.validated_data.get('role'),
-                forms=serializer.validated_data.get('forms'),
-                administration=serializer.validated_data.get('administration'),
-                user=instance)
-            if is_approver_assigned:
-                return Response(
-                    {'message': is_approver_assigned},
-                    status=status.HTTP_403_FORBIDDEN)
-        except ValidationError:
+        # when add new user as approver or county admin
+        is_approver_assigned = check_form_approval_assigned(
+            role=serializer.validated_data.get('role'),
+            forms=serializer.validated_data.get('forms'),
+            administration=serializer.validated_data.get('administration'),
+            user=instance)
+        if is_approver_assigned:
             return Response(
-                {'message': f'Update denied, user {instance.email} still \
-                    have pending approval.'},
-                status=status.HTTP_409_CONFLICT)
-
+                {'message': is_approver_assigned},
+                status=status.HTTP_403_FORBIDDEN)
         user = serializer.save()
         # when add new user as approver or county admin
         assign_form_approval(
