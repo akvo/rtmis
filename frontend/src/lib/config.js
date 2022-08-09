@@ -316,12 +316,10 @@ const config = {
           // },
         },
       ],
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      description: "",
       footer: {
         title: "Footer title 1",
-        description:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+        description: "",
       },
     },
     {
@@ -478,7 +476,6 @@ const config = {
           "Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
       },
     },
-
     {
       id: 4,
       formId: 533560002,
@@ -581,12 +578,10 @@ const config = {
           ],
         },
       ],
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      description: "",
       footer: {
         title: "Footer title 1",
-        description:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+        description: "",
       },
     },
     {
@@ -663,7 +658,6 @@ const config = {
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
       },
     },
-
     {
       id: 6,
       formId: 563350033,

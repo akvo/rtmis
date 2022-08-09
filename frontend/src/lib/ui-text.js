@@ -101,9 +101,8 @@ const uiText = {
     newsEvents: "News & Events",
     login: "Log in",
     // Placeholder text
-    lorem:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, assumenda quos? Quia deleniti sapiente aut! Ab consequatur cumque fugit ea. Dolore ex rerum quisquam inventore eum dicta doloribus harum cum.",
-    lorem2: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    lorem: "",
+    lorem2: "",
     // Charts
     showEmpty: "Show empty values",
     // User Management
@@ -253,8 +252,7 @@ const uiText = {
       </Fragment>
     ),
     invalidInviteTitle: "Invalid Invite Code",
-    invalidInviteDesc:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem provident voluptatum cum numquam, quidem vitae, qui quam beatae exercitationem ullam perferendis! Nobis in aut fuga voluptate harum, tempore distinctio optio.",
+    invalidInviteDesc: "",
     // Register
     passwordRule1: "Lowercase Character",
     passwordRule2: "Numbers",
@@ -326,16 +324,18 @@ const uiText = {
     prev: "Prev",
     next: "Next",
     finish: "Finish",
-    tourControlCenter:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
-    tourDataUploads: "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
-    tourApprovals: "Placeat impedit iure quaerat neque sit quasi",
-    tourApprovers: "Magni provident aliquam harum cupiditate iste",
-    tourManageData: "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
-    tourExports: "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
-    tourUserManagement: "Magni provident aliquam harum cupiditate iste",
-    tourDataUploadsPanel:
-      "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
+    tourControlCenter: "",
+    tourDataUploads:
+      "The Bulk Upload button is going to redirect you to the data upload page where you can upload data from your computer.",
+    tourApprovals: "",
+    tourApprovers: "",
+    tourManageData:
+      "You can click on the Manage Data button that redirects to the Manage Data page. Then click the Next button to see what you can do after that.",
+    tourExports:
+      "Now, you can export data by clicking on the highlighted button which is labelled Data Upload.",
+    tourUserManagement:
+      "You can click on the Manage User button that redirects to the Manage User page where you can see a list of users and you can also add new ones.",
+    tourDataUploadsPanel: "",
     // Add user modal notification
     existingApproverTitle: "There are existing approvers for:",
     existingApproverDescription:

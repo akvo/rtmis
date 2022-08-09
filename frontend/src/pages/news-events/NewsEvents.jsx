@@ -5,24 +5,8 @@ const { Paragraph } = Typography;
 
 const updates = [
   {
-    title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis non esse sint dolore corporis sit a vero nisi dolores blanditiis veritatis, cumque quibusdam asperiores at quaerat. Earum quam sint incidunt. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  },
-  {
-    title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis non esse sint dolore corporis sit a vero nisi dolores blanditiis veritatis, cumque quibusdam asperiores at quaerat. Earum quam sint incidunt. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  },
-  {
-    title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis non esse sint dolore corporis sit a vero nisi dolores blanditiis veritatis, cumque quibusdam asperiores at quaerat. Earum quam sint incidunt. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  },
-  {
-    title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis non esse sint dolore corporis sit a vero nisi dolores blanditiis veritatis, cumque quibusdam asperiores at quaerat. Earum quam sint incidunt. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    title: "Meeting with colleagues",
+    description: "",
   },
 ];
 const events = [
