@@ -282,10 +282,13 @@ def list_levels(request, version):
 def add_user(request, version):
     if request.data.get("role") == UserRoleTypes.super_admin:
         request.data.update({
-            "forms": [],
             "administration":
             Administration.objects.filter(level__level=0).first().id
         })
+        if not request.data.get("forms"):
+            request.data.update({
+                "forms": []
+            })
     if request.data.get("role") == UserRoleTypes.read_only:
         request.data.update({"forms": []})
         if not request.data.get("administration"):
@@ -514,10 +517,13 @@ class UserEditDeleteView(APIView):
     def put(self, request, user_id, version):
         if request.data.get("role") == UserRoleTypes.super_admin:
             request.data.update({
-                "forms": [],
                 "administration":
                 Administration.objects.filter(level__level=0).first().id
             })
+            if not request.data.get("forms"):
+                request.data.update({
+                    "forms": []
+                })
         instance = get_object_or_404(SystemUser, pk=user_id, deleted_at=None)
         serializer = AddEditUserSerializer(data=request.data,
                                            context={'user': request.user},

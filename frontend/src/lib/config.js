@@ -50,6 +50,7 @@ const config = {
         "manage-user",
         "manage-data",
         "manage-organisation",
+        "approvals",
       ],
     },
     {
@@ -71,7 +72,12 @@ const config = {
       administration_level: [2],
       description:
         "Overall County administrator of the RUSH. Assigns roles to all sub county RUSH admins (approvers) in the county under jusridistion.",
-      control_center_order: ["manage-user", "manage-data", "approvals"],
+      control_center_order: [
+        "manage-user",
+        "manage-data",
+        "approvals",
+        "submission",
+      ],
     },
     {
       id: 3,
