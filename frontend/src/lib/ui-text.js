@@ -345,7 +345,6 @@ const uiText = {
     batchNoApproverMessage:
       "Can't create batch data, because there's no approver yet.",
   },
-
   de: {},
 };
 
