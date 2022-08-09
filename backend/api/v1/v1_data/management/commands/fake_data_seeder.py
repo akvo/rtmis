@@ -54,7 +54,8 @@ def set_answer_data(data, question):
 def add_fake_answers(data: FormData, form_type):
     form = data.form
     meta_name = []
-    for question in form.form_questions.all().order_by('order'):
+    for question in form.form_questions.all().order_by('question_group__order',
+                                                       'order'):
         name, value, option = set_answer_data(data, question)
         if question.meta:
             if name:
@@ -69,13 +70,23 @@ def add_fake_answers(data: FormData, form_type):
         if question.type == QuestionTypes.administration:
             name = None
 
-        Answers.objects.create(
-            data=data,
-            question=question,
-            name=name,
-            value=value,
-            options=option,
-            created_by=data.created_by)
+        seed = True
+        if question.dependency:
+            for d in question.dependency:
+                prev_answer = Answers.objects.filter(
+                        data=data, question_id=d.get('id')).first()
+                if prev_answer:
+                    seed = False
+                    for o in prev_answer.options:
+                        if o in d.get("options"):
+                            seed = True
+        if seed:
+            Answers.objects.create(data=data,
+                                   question=question,
+                                   name=name,
+                                   value=value,
+                                   options=option,
+                                   created_by=data.created_by)
     data.name = ' - '.join(meta_name) if \
         form_type != FormTypes.national else data.name
     data.save()
@@ -84,7 +95,7 @@ def add_fake_answers(data: FormData, form_type):
 def seed_data(form, fake_geo, level_names, repeat, test):
     for i in range(repeat):
         now_date = datetime.now()
-        start_date = now_date - timedelta(days=5*365)
+        start_date = now_date - timedelta(days=5 * 365)
         created = fake.date_between(start_date, now_date)
         created = datetime.combine(created, time.min)
         geo = fake_geo.iloc[i].to_dict()
@@ -107,8 +118,7 @@ def seed_data(form, fake_geo, level_names, repeat, test):
                         administration = Administration.objects.filter(
                             pk=access.administration.id).first()
                         data_name = "{0} - {1}".format(
-                            administration.name,
-                            created.strftime("%B %Y"))
+                            administration.name, created.strftime("%B %Y"))
                         national_data = FormData.objects.create(
                             name=data_name,
                             geo=geo_value,
