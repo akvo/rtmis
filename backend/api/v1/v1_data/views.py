@@ -11,6 +11,7 @@ from django.contrib.postgres.aggregates import StringAgg
 from django.db.models import Count, TextField, Value, F, Sum, Avg, Q
 from django.db.models.functions import Cast, Coalesce
 from django.http import HttpResponse
+from django_q.tasks import async_task
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, inline_serializer, \
     OpenApiParameter, OpenApiResponse, OpenApiExample
@@ -43,10 +44,9 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ChartDataSerializer, ListChartCriteriaRequestSerializer, \
     ListMapOverviewDataPointSerializer, \
     ListMapOverviewDataPointRequestSerializer
-from api.v1.v1_data.functions import refresh_materialized_data, \
-    get_cache, create_cache, filter_by_criteria, \
-    get_questions_options_from_params, get_advance_filter_data_ids, \
-    transform_glass_answer
+from api.v1.v1_data.functions import get_cache, create_cache, \
+    filter_by_criteria, get_questions_options_from_params, \
+    get_advance_filter_data_ids, transform_glass_answer
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, Questions, \
     ViewJMPCriteria
@@ -54,7 +54,7 @@ from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
 from rtmis.settings import REST_FRAMEWORK
-from utils.custom_permissions import IsAdmin, IsApprover, \
+from utils.custom_permissions import IsSuperAdmin, IsAdmin, IsApprover, \
         IsSubmitter, PublicGet
 from utils.custom_serializer_fields import validate_serializers_message
 from utils.default_serializers import DefaultResponseSerializer
@@ -205,16 +205,22 @@ class FormDataAddListView(APIView):
         if is_super_admin or is_county_admin_with_county_form:
             # move current answer to answer_history
             for answer in answers:
-                form_answer = Answers.objects.get(
-                    data=data, question=answer.get('question'))
-                AnswerHistory.objects.create(
-                    data=form_answer.data,
-                    question=form_answer.question,
-                    name=form_answer.name,
-                    value=form_answer.value,
-                    options=form_answer.options,
-                    created_by=user
-                )
+                form_answer = Answers.objects.filter(
+                    data=data, question=answer.get('question')).first()
+                if form_answer:
+                    AnswerHistory.objects.create(
+                        data=form_answer.data,
+                        question=form_answer.question,
+                        name=form_answer.name,
+                        value=form_answer.value,
+                        options=form_answer.options,
+                        created_by=user
+                    )
+                if not form_answer:
+                    form_answer = Answers(
+                            data=data,
+                            question_id=answer.get('question'),
+                            created_by=user)
                 # prepare updated answer
                 question_id = answer.get('question')
                 question = Questions.objects.get(
@@ -246,7 +252,7 @@ class FormDataAddListView(APIView):
             data.updated = timezone.now()
             data.updated_by = user
             data.save()
-            refresh_materialized_data()
+            async_task('api.v1.v1_data.functions.refresh_materialized_data')
             return Response({'message': 'direct update success'},
                             status=status.HTTP_200_OK)
         # Store edit data to pending form data
@@ -733,7 +739,7 @@ def get_chart_criteria(request, version, form_id):
     ],
     summary='To get list of pending batch')
 @api_view(['GET'])
-@permission_classes([IsAuthenticated, IsAdmin | IsApprover])
+@permission_classes([IsAuthenticated, IsApprover | IsAdmin | IsSuperAdmin])
 def list_pending_batch(request, version):
     serializer = PendingBatchDataFilterSerializer(data=request.GET)
     if not serializer.is_valid():
@@ -827,7 +833,7 @@ class PendingDataDetailDeleteView(APIView):
                tags=['Pending Data'],
                summary='Approve pending data')
 @api_view(['POST'])
-@permission_classes([IsAuthenticated, IsApprover | IsAdmin])
+@permission_classes([IsAuthenticated, IsApprover | IsAdmin | IsSuperAdmin])
 def approve_pending_data(request, version):
     serializer = ApprovePendingDataRequestSerializer(
         data=request.data,

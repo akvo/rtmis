@@ -90,7 +90,9 @@ const Approvals = () => {
       >
         <Tabs defaultActiveKey={approvalTab} onChange={setApprovalTab}>
           <TabPane tab={text.approvalsTab1} key="my-pending"></TabPane>
-          <TabPane tab={text.approvalsTab2} key="subordinate"></TabPane>
+          {user.role_detail.name !== "Super Admin" && (
+            <TabPane tab={text.approvalsTab2} key="subordinate"></TabPane>
+          )}
           <TabPane tab={text.approvalsTab3} key="approved"></TabPane>
         </Tabs>
         <Table
