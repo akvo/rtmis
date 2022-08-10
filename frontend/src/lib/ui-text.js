@@ -324,11 +324,14 @@ const uiText = {
     prev: "Prev",
     next: "Next",
     finish: "Finish",
-    tourControlCenter: "",
+    tourControlCenter:
+      "You can see your current user setup and the most important activities for your current user setup.",
     tourDataUploads:
       "The Bulk Upload button is going to redirect you to the data upload page where you can upload data from your computer.",
-    tourApprovals: "",
-    tourApprovers: "",
+    tourApprovals:
+      "This page shows a list of your pending data. You can click on the View All button to see all data.",
+    tourApprovers:
+      "To manage the data approvers, you click on the Manage Approvers button.",
     tourManageData:
       "You can click on the Manage Data button that redirects to the Manage Data page. Then click the Next button to see what you can do after that.",
     tourExports:
