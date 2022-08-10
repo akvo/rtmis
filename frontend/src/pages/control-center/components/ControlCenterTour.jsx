@@ -18,11 +18,6 @@ const ControlCenterTour = () => {
             title: "Manage Data",
             description: text.tourManageData,
           },
-          {
-            image: "/assets/tour/control-center/2.png",
-            title: "Exports",
-            description: text.tourExports,
-          },
         ]
       : []),
     ...(authUser?.role_id !== 4 &&
@@ -41,30 +36,6 @@ const ControlCenterTour = () => {
             image: "/assets/tour/control-center/4.png",
             title: "User Management",
             description: text.tourUserManagement,
-          },
-        ]
-      : []),
-    ...(authUser?.role_id === 4 ||
-    config.checkAccess(authUser?.role_detail, "form")
-      ? [
-          {
-            image: "/assets/tour/control-center/5.png",
-            title: "Data Uploads Panel",
-            description: text.tourDataUploadsPanel,
-          },
-        ]
-      : []),
-    ...(config.checkAccess(authUser?.role_detail, "approvals")
-      ? [
-          {
-            image: "/assets/tour/control-center/6.png",
-            title: "Manage Approvals",
-            description: text.tourApprovals,
-          },
-          {
-            image: "/assets/tour/control-center/7.png",
-            title: "Manage Approvers",
-            description: text.tourApprovers,
           },
         ]
       : []),
