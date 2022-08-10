@@ -145,13 +145,14 @@ class Command(BaseCommand):
                 for criteria in attr.get('options'):
                     if not criteria.get('options'):
                         continue
-                    for op in criteria.get('options'):
+                    for iop, op in enumerate(criteria.get('options')):
                         jmp_attrs.append({
                             "name":
-                            "{}|{}|{}".format(
+                            "{}|{}|{}|{}".format(
                                 attr.get('title').lower(),
                                 criteria.get('name').lower(),
-                                criteria.get('score')),
+                                criteria.get('score'),
+                                op.get("group") or iop + 1),
                             "question":
                             op.get('question'),
                             "option":
