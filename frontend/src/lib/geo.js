@@ -13,7 +13,7 @@ const tile = {
   attribution: "Tiles &copy; Esri &mdash; DeLorme, NAVTEQ, Esri",
 };
 
-export const getBounds = (administration) => {
+const getBounds = (administration) => {
   const selected = administration.map((x, i) => {
     return {
       value: x.name,
@@ -44,7 +44,7 @@ export const getBounds = (administration) => {
   };
 };
 
-export const defaultPos = () => {
+const defaultPos = () => {
   const mergeTopo = merge(topojson, topojson_object.geometries);
   const center = geoCentroid(mergeTopo).reverse();
   const bounds = geoBounds(mergeTopo);

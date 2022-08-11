@@ -1,0 +1,341 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`page/manage-data test if ManageData has a list of data 1`] = `
+<div>
+  <div
+    id="exportData"
+  >
+    <div
+      class="ant-row ant-row-space-between"
+    >
+      <div
+        class="ant-col"
+      >
+        <div
+          class="ant-breadcrumb"
+        >
+          <span>
+            <span
+              class="ant-breadcrumb-link"
+            >
+              <a
+                href="/control-center"
+              >
+                <h1
+                  class="ant-typography"
+                  style="display: inline;"
+                >
+                  Control Center
+                </h1>
+              </a>
+            </span>
+            <span
+              class="ant-breadcrumb-separator"
+            >
+              &gt;
+            </span>
+          </span>
+          <span>
+            <span
+              class="ant-breadcrumb-link"
+            >
+              <h2
+                class="ant-typography"
+                style="display: inline;"
+              >
+                Data Download
+              </h2>
+            </span>
+            <span
+              class="ant-breadcrumb-separator"
+            >
+              &gt;
+            </span>
+          </span>
+        </div>
+        <div
+          class="description-paragraph"
+        >
+          <p>
+            This page shows your list of data export requests.
+            <br />
+            For exports which are already generated, please click on the Download button to download the data.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="ant-tabs ant-tabs-top ant-tabs-large"
+    >
+      <div
+        class="ant-tabs-nav"
+        role="tablist"
+      >
+        <div
+          class="ant-tabs-nav-wrap"
+        >
+          <div
+            class="ant-tabs-nav-list"
+            style="transform: translate(0px, 0px);"
+          >
+            <div
+              class="ant-tabs-tab"
+            >
+              <div
+                aria-controls="rc-tabs-test-panel-/data/manage"
+                aria-selected="false"
+                class="ant-tabs-tab-btn"
+                id="rc-tabs-test-tab-/data/manage"
+                role="tab"
+                tabindex="0"
+              >
+                Manage Data
+              </div>
+            </div>
+            <div
+              class="ant-tabs-tab"
+            >
+              <div
+                aria-controls="rc-tabs-test-panel-/data/export"
+                aria-selected="false"
+                class="ant-tabs-tab-btn"
+                id="rc-tabs-test-tab-/data/export"
+                role="tab"
+                tabindex="0"
+              >
+                Downloaded Data
+              </div>
+            </div>
+            <div
+              class="ant-tabs-ink-bar ant-tabs-ink-bar-animated"
+            />
+          </div>
+        </div>
+        <div
+          class="ant-tabs-nav-operations ant-tabs-nav-operations-hidden"
+        >
+          <button
+            aria-controls="rc-tabs-test-more-popup"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-hidden="true"
+            class="ant-tabs-nav-more"
+            id="rc-tabs-test-more"
+            style="visibility: hidden; order: 1;"
+            tabindex="-1"
+            type="button"
+          >
+            <span
+              aria-label="ellipsis"
+              class="anticon anticon-ellipsis"
+              role="img"
+            >
+              <svg
+                aria-hidden="true"
+                data-icon="ellipsis"
+                fill="currentColor"
+                focusable="false"
+                height="1em"
+                viewBox="64 64 896 896"
+                width="1em"
+              >
+                <path
+                  d="M176 511a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0z"
+                />
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
+      <div
+        class="ant-tabs-content-holder"
+      >
+        <div
+          class="ant-tabs-content ant-tabs-content-top"
+        >
+          <div
+            aria-hidden="true"
+            aria-labelledby="rc-tabs-test-tab-/data/manage"
+            class="ant-tabs-tabpane"
+            id="rc-tabs-test-panel-/data/manage"
+            role="tabpanel"
+            style="display: none;"
+            tabindex="-1"
+          />
+          <div
+            aria-hidden="true"
+            aria-labelledby="rc-tabs-test-tab-/data/export"
+            class="ant-tabs-tabpane"
+            id="rc-tabs-test-panel-/data/export"
+            role="tabpanel"
+            style="display: none;"
+            tabindex="-1"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="ant-card ant-card-bordered"
+      style="padding: 0px; min-height: 40vh;"
+    >
+      <div
+        class="ant-card-body"
+        style="padding: 0px;"
+      >
+        <div
+          class="ant-table-wrapper"
+        >
+          <div
+            class="ant-spin-nested-loading"
+          >
+            <div
+              class="ant-spin-container"
+            >
+              <div
+                class="ant-table"
+              >
+                <div
+                  class="ant-table-container"
+                >
+                  <div
+                    class="ant-table-content"
+                  >
+                    <table
+                      style="table-layout: auto;"
+                    >
+                      <colgroup>
+                        <col
+                          style="width: 40px;"
+                        />
+                      </colgroup>
+                      <tbody
+                        class="ant-table-tbody"
+                      >
+                        <tr
+                          class="ant-table-row ant-table-row-level-0"
+                          data-row-key="6"
+                        >
+                          <td
+                            class="ant-table-cell"
+                          >
+                            <span
+                              aria-label="file-text"
+                              class="anticon anticon-file-text"
+                              role="img"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                data-icon="file-text"
+                                fill="currentColor"
+                                focusable="false"
+                                height="1em"
+                                viewBox="64 64 896 896"
+                                width="1em"
+                              >
+                                <path
+                                  d="M854.6 288.7c6 6 9.4 14.1 9.4 22.6V928c0 17.7-14.3 32-32 32H192c-17.7 0-32-14.3-32-32V96c0-17.7 14.3-32 32-32h424.7c8.5 0 16.7 3.4 22.7 9.4l215.2 215.3zM790.2 326L602 137.8V326h188.2zM320 482a8 8 0 00-8 8v48a8 8 0 008 8h384a8 8 0 008-8v-48a8 8 0 00-8-8H320zm0 136a8 8 0 00-8 8v48a8 8 0 008 8h184a8 8 0 008-8v-48a8 8 0 00-8-8H320z"
+                                />
+                              </svg>
+                            </span>
+                          </td>
+                          <td
+                            class="ant-table-cell"
+                          >
+                            <div>
+                              <div>
+                                <strong>
+                                  download-clts-220726-2e9077ce-0f1a-4838-80c7-b08c65426eb0.xlsx
+                                </strong>
+                              </div>
+                              <div>
+                                -
+                              </div>
+                              <div>
+                                Filters: 
+                                <span
+                                  class="ant-tag"
+                                >
+                                  None
+                                </span>
+                              </div>
+                            </div>
+                          </td>
+                          <td
+                            class="ant-table-cell"
+                          >
+                            26-07-2022 06:29:43
+                          </td>
+                          <td
+                            class="ant-table-cell"
+                          >
+                            <div
+                              class="ant-row"
+                            >
+                              <button
+                                class="ant-btn ant-btn-background-ghost"
+                                disabled=""
+                                type="button"
+                              >
+                                <span
+                                  aria-label="exclamation-circle"
+                                  class="anticon anticon-exclamation-circle"
+                                  role="img"
+                                  style="color: red;"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    data-icon="exclamation-circle"
+                                    fill="currentColor"
+                                    focusable="false"
+                                    height="1em"
+                                    viewBox="64 64 896 896"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"
+                                    />
+                                    <path
+                                      d="M464 688a48 48 0 1096 0 48 48 0 10-96 0zm24-112h48c4.4 0 8-3.6 8-8V296c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8z"
+                                    />
+                                  </svg>
+                                </span>
+                                <span>
+                                  Failed
+                                </span>
+                              </button>
+                              <button
+                                class="ant-btn ant-btn-background-ghost dev"
+                                type="button"
+                              >
+                                <span>
+                                  Delete
+                                </span>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div
+                  class="ant-table-footer"
+                >
+                  <button
+                    class="ant-btn ant-btn-link"
+                    type="button"
+                  >
+                    <span>
+                      Load More
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

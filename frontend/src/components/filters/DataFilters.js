@@ -69,11 +69,12 @@ const DataFilters = ({ loading }) => {
                   type="primary"
                   onClick={exportGenerate}
                   loading={exporting}
+                  data-testid="download-data"
                 >
                   Download Data
                 </Button>
               )}
-              <Link to="/data/upload">
+              <Link to="/data/upload" data-testid="bulk-upload">
                 <Button type="primary">Bulk Upload</Button>
               </Link>
               <Link to={`/form/${selectedForm}`}>

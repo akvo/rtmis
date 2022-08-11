@@ -843,9 +843,8 @@ class CreateBatchSerializer(serializers.Serializer):
             administration_id=user.user_access.administration_id,
             user=user,
             name=validated_data.get('name'))
-        for data in validated_data.get('data'):
-            data.batch = obj
-            data.save()
+        PendingDataBatchComments.objects.create(
+            user=user, batch=obj, comment=validated_data.get('comment'))
         for administration in Administration.objects.filter(
                 id__in=path.split('.')):
             assignment = FormApprovalAssignment.objects.filter(
@@ -875,9 +874,9 @@ class CreateBatchSerializer(serializers.Serializer):
                     }]
                 }
                 send_email(context=data, type=EmailTypes.pending_approval)
-        if validated_data.get('comment'):
-            PendingDataBatchComments.objects.create(
-                user=user, batch=obj, comment=validated_data.get('comment'))
+        for data in validated_data.get('data'):
+            data.batch = obj
+            data.save()
         return obj
 
     def update(self, instance, validated_data):

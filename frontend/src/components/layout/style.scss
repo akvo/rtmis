@@ -29,7 +29,7 @@
 
     .banner {
       // min-height: calc(100vh - #{$layout-padding});
-      min-height: calc(100vh - 368px);
+      min-height: calc(100vh - 320px);
 
       .countdown {
         text-align: center;
@@ -54,7 +54,6 @@
       }
 
       h1 {
-        margin-top: 24px;
         color: $white;
         font-weight: $font-weight-semi-bold;
         font-size: $font-size-super-large;
@@ -86,15 +85,6 @@
               }
             }
           }
-        }
-
-        &.btn-explore-national-data {
-          margin-right: 24px;
-          margin-bottom: 24px;
-        }
-
-        &.btn-dashboard {
-          margin-bottom: 24px;
         }
       }
     }

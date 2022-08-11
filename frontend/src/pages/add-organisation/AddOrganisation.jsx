@@ -6,6 +6,20 @@ import { api, store, config, uiText } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
 
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      onchange: null,
+      addListener: function () {},
+      removeListener: function () {},
+      addEventListener: function () {},
+      removeEventListener: function () {},
+      dispatchEvent: function () {},
+    };
+  };
+
 const { Option } = Select;
 
 const descriptionData = (
@@ -116,7 +130,7 @@ const AddOrganisation = () => {
                   },
                 ]}
               >
-                <Input />
+                <Input data-testid="organisation-name" />
               </Form.Item>
             </Col>
           </Row>
@@ -132,9 +146,14 @@ const AddOrganisation = () => {
                 mode="multiple"
                 allowClear
                 loading={!organisationAttributes.length || loading}
+                data-testid="select"
               >
                 {organisationAttributes?.map((o, oi) => (
-                  <Option key={`org-attr-${oi}`} value={o.id}>
+                  <Option
+                    key={`org-attr-${oi}`}
+                    value={o.id}
+                    data-testid="select-option"
+                  >
                     {o.name}
                   </Option>
                 ))}

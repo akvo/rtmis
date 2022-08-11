@@ -10,6 +10,20 @@ import { PageLoader, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
 import moment from "moment";
 
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      onchange: null,
+      addListener: function () {},
+      removeListener: function () {},
+      addEventListener: function () {},
+      removeEventListener: function () {},
+      dispatchEvent: function () {},
+    };
+  };
+
 const Forms = () => {
   const navigate = useNavigate();
   const { user: authUser } = store.useState((s) => s);
@@ -144,31 +158,8 @@ const Forms = () => {
 
   useEffect(() => {
     if (formId && loading) {
-      api.get(`/form/web/${formId}`).then((res) => {
-        const questionGroups = res.data.question_group.map((qg) => {
-          const questions = qg.question.map((q) => {
-            let qVal = { ...q };
-            if (q?.extra) {
-              delete qVal.extra;
-              qVal = {
-                ...qVal,
-                ...q.extra,
-              };
-              if (q.extra?.allowOther) {
-                qVal = {
-                  ...qVal,
-                  allowOtherText: "Enter any OTHER value",
-                };
-              }
-            }
-            return qVal;
-          });
-          return {
-            ...qg,
-            question: questions,
-          };
-        });
-        setForms({ ...res.data, question_group: questionGroups });
+      api.get(`/form/web/${formId}`).then((x) => {
+        setForms(x.data);
         setLoading(false);
       });
     }

@@ -53,9 +53,11 @@ const Private = ({ element: Element, alias }) => {
 };
 
 const RouteList = () => {
+  const { highlights } = window;
+
   return (
     <Routes>
-      <Route exact path="/" element={<Home />} />
+      <Route exact path="/" element={<Home highlights={highlights} />} />
       <Route exact path="/login" element={<Login />} />
       <Route exact path="/login/:invitationId" element={<Login />} />
       <Route exact path="/forgot-password" element={<Login />} />

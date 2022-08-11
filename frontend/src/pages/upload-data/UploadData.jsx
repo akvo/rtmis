@@ -10,7 +10,6 @@ import {
   Space,
   Select,
   Upload,
-  Result,
 } from "antd";
 import { FileTextFilled } from "@ant-design/icons";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
@@ -20,6 +19,20 @@ import { api, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { snakeCase, takeRight } from "lodash";
 import moment from "moment";
+
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      onchange: null,
+      addListener: function () {},
+      removeListener: function () {},
+      addEventListener: function () {},
+      removeEventListener: function () {},
+      dispatchEvent: function () {},
+    };
+  };
 
 const allowedFiles = [
   "application/vnd.ms-excel",
@@ -44,7 +57,6 @@ const UploadData = () => {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [updateExisting, setUpdateExisting] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
   const { notify } = useNotification();
   const navigate = useNavigate();
   const { language } = store.useState((s) => s);
@@ -94,8 +106,7 @@ const UploadData = () => {
         message: text.fileUploadSuccess,
       });
       setUploading(false);
-      // navigate("/data/submissions");
-      setShowSuccess(true);
+      navigate("/profile");
     } else if (info.file?.status === "error") {
       notify({
         type: "error",
@@ -135,21 +146,7 @@ const UploadData = () => {
   };
 
   const handleChange = (e) => {
-    // check only for data entry role
-    if (user.role.id === 4) {
-      api.get(`form/check-approver/${e}`).then((res) => {
-        if (!res.data.count) {
-          notify({
-            type: "error",
-            message: text.bulkUploadNoApproverMessage,
-          });
-        } else {
-          setFormId(e);
-        }
-      });
-    } else {
-      setFormId(e);
-    }
+    setFormId(e);
   };
 
   const downloadTemplate = () => {
@@ -199,54 +196,52 @@ const UploadData = () => {
         </Col>
       </Row>
       <Divider />
-      {!loading && showSuccess && (
-        <Card
-          style={{ padding: 0, minHeight: "40vh" }}
-          bodyStyle={{ padding: 0 }}
+      <Row align="middle">
+        <Checkbox
+          id="updateExisting"
+          checked={updateExisting}
+          onChange={() => {
+            setUpdateExisting(!updateExisting);
+          }}
+          data-testid="update-existing-data"
         >
-          <Result
-            status="success"
-            title={text?.formSuccessTitle}
-            extra={[
-              <p key="phar">
-                Thank you for uploading the data file. Do note that the data
-                will be validated by the system . You will be notified via email
-                if the data fails the validation tests . There will also be an
-                attachment of the validation errors that needs to be corrected.
-                If there are no validation errors , then the data will be
-                forwarded for verification, approval, and certification
-              </p>,
-              <Divider key="divider" />,
-              <Button
-                type="primary"
-                key="back-button"
-                onClick={() => setShowSuccess(false)}
-              >
-                Upload Another File
-              </Button>,
-              <Button key="page" onClick={() => navigate("/control-center")}>
-                Back to Control Center
-              </Button>,
-            ]}
-          />
-        </Card>
-      )}
-      {!showSuccess && (
-        <>
-          <Row align="middle">
-            <Checkbox
-              id="updateExisting"
-              checked={updateExisting}
-              onChange={() => {
-                setUpdateExisting(!updateExisting);
-              }}
-            >
-              {text.updateExisting}
-            </Checkbox>
-          </Row>
-          <Card
-            style={{ padding: 0, minHeight: "40vh" }}
-            bodyStyle={{ padding: 0 }}
+          {text.updateExisting}
+        </Checkbox>
+      </Row>
+      <Card
+        style={{ padding: 0, minHeight: "40vh" }}
+        bodyStyle={{ padding: 0 }}
+      >
+        <Space align="center" size={32}>
+          <img src="/assets/data-download.svg" />
+          <p>{text.templateDownloadHint}</p>
+          <Select
+            placeholder="Select Form..."
+            onChange={handleChange}
+            data-testid="select-form"
+          >
+            {forms.map((f, fI) => (
+              <Option key={fI} value={f.id} data-testid="select-option">
+                {f.name}
+              </Option>
+            ))}
+          </Select>
+          <Button
+            loading={loading}
+            type="primary"
+            onClick={downloadTemplate}
+            data-testid="download-template-btn"
+          >
+            Download
+          </Button>
+        </Space>
+        <Space align="center" size={32}>
+          <img src="/assets/data-upload.svg" />
+          <p>Upload your data</p>
+          <Select
+            placeholder="Select Form..."
+            value={formId}
+            onChange={handleChange}
           >
             <Space align="center" size={32}>
               <img src="/assets/data-download.svg" />
@@ -283,7 +278,7 @@ const UploadData = () => {
               <AdministrationDropdown />
             </Space>
             <div className="upload-wrap">
-              <Dragger {...props}>
+              <Dragger {...props} data-testid="drop-file">
                 <p className="ant-upload-drag-icon">
                   <FileTextFilled style={{ color: "#707070" }} />
                 </p>
@@ -299,9 +294,9 @@ const UploadData = () => {
                 </Button>
               </Dragger>
             </div>
-          </Card>
-        </>
-      )}
+          </Select>
+        </Space>
+      </Card>
     </div>
   );
 };

@@ -15,10 +15,14 @@ const UserTab = ({ tabBarExtraContent }) => {
       onChange={(key) => navigate(key)}
       tabBarExtraContent={tabBarExtraContent}
     >
-      <TabPane tab="Manage Users" key="/users">
+      <TabPane tab="Manage Users" key="/users" data-testid="manage-users">
         &nbsp;
       </TabPane>
-      <TabPane tab="Data Validation Tree" key="/approvers/tree">
+      <TabPane
+        tab="Data Validation Tree"
+        key="/approvers/tree"
+        data-testid="manage-data-validation"
+      >
         &nbsp;
       </TabPane>
     </Tabs>

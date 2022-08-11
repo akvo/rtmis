@@ -6,22 +6,36 @@ import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { ProfileTour } from "./components";
 import moment from "moment";
 
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      onchange: null,
+      addListener: function () {},
+      removeListener: function () {},
+      addEventListener: function () {},
+      removeEventListener: function () {},
+      dispatchEvent: function () {},
+    };
+  };
+
 const descriptionData =
   "This page shows your current user setup. It also shows the most important activities for your current user setup";
 
 const Profile = () => {
   const { forms, user: authUser } = store.useState((s) => s);
-  const { trained } = authUser;
+  // const { trained } = authUser;
 
   const trainedBadge = useMemo(() => {
-    if (trained) {
+    if (authUser?.trained) {
       return (
         <Tag color="warning" style={{ marginBottom: 11 }}>
           Trained
         </Tag>
       );
     }
-  }, [trained]);
+  }, [authUser?.trained]);
 
   const pagePath = [
     {
@@ -40,7 +54,7 @@ const Profile = () => {
   ];
 
   const fullAdministrationName = window.dbadm
-    .find((x) => x.id === authUser.administration.id)
+    .find((x) => x.id === 322)
     ?.full_name?.split("|")
     .join(" - ");
 
@@ -55,7 +69,7 @@ const Profile = () => {
       <Card style={{ padding: 0, marginBottom: 12 }}>
         <h1>My Profile</h1>
         <ul className="profile-detail">
-          <li>
+          <li data-testid="name">
             <h3>Name</h3>
             <Space size="large" align="center">
               <span>{authUser?.name}</span>
@@ -70,29 +84,29 @@ const Profile = () => {
               <span>{authUser?.phone_number}</span>
             </Space>
           </li>
-          <li>
+          <li data-testid="role">
             <h3>Role</h3>
             <Space size="large" align="center">
               <span>{authUser?.role?.value}</span>
             </Space>
           </li>
-          <li>
+          <li data-testid="organisation">
             <h3>Organization</h3>
             <Space size="large" align="center">
               <span>{authUser?.organisation?.name}</span>
             </Space>
           </li>
-          <li>
+          <li data-testid="designation">
             <h3>Designation</h3>
             <Space size="large" align="center">
               <span>{authUser?.designation?.name}</span>
             </Space>
           </li>
-          <li>
+          <li data-testid="administration">
             <h3>Administration</h3>
             <p>{fullAdministrationName || authUser?.administration?.name}</p>
           </li>
-          <li>
+          <li data-testid="questionnaire">
             <h3>Questionnaires</h3>
             <Space size="large" align="center">
               {forms.map((qi, qiI) => (
@@ -100,7 +114,7 @@ const Profile = () => {
               ))}
             </Space>
           </li>
-          <li>
+          <li data-testid="last-login">
             <h3>Last login</h3>
             <Space size="large" align="center">
               <span>

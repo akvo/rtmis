@@ -7,6 +7,20 @@ import { HomeMap } from "./components";
 import { queue, store } from "../../lib";
 const { TabPane } = Tabs;
 
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      onchange: null,
+      addListener: function () {},
+      removeListener: function () {},
+      addEventListener: function () {},
+      removeEventListener: function () {},
+      dispatchEvent: function () {},
+    };
+  };
+
 const partners = ["us-aid.png", "japan.png", "unicef.png"];
 const { Panel } = Collapse;
 
@@ -54,8 +68,7 @@ export const Visuals = ({ current, mapValues, setMapValues }) => {
   );
 };
 
-const Home = () => {
-  const { highlights } = window;
+const Home = ({ highlights }) => {
   const [currentHighlight, setCurrentHighlight] = useState(highlights?.[0]);
   const [mapValues, setMapValues] = useState([]);
 

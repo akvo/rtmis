@@ -52,6 +52,8 @@ class FormApprovalTestCase(TestCase):
             content_type='application/json',
             **header)
         self.assertEqual(200, response.status_code)
+<<<<<<< HEAD
+=======
         self.assertEqual(list(response.json()[0]),
                          ['user', 'administration'])
 
@@ -70,3 +72,4 @@ class FormApprovalTestCase(TestCase):
                 **header)
             self.assertEqual(200, response.status_code)
             self.assertEqual(list(response.json()), ['count'])
+>>>>>>> b42ce27e8c1e90440351bcbbf19ff97edff7501b

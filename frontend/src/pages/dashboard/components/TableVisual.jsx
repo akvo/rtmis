@@ -1,21 +1,16 @@
 import React, { useMemo } from "react";
-import { useParams } from "react-router-dom";
 import { Col, Table, Button } from "antd";
-import { get, capitalize, sumBy, orderBy } from "lodash";
+import { get, capitalize, sumBy } from "lodash";
 import { DownloadOutlined } from "@ant-design/icons";
 import { Excel } from "antd-table-saveas-excel";
-import { jmpColorScore } from "../../../lib";
 
 const fontSize = 12;
 
 const TableVisual = ({ tableConfig, loading }) => {
-  const { formId } = useParams();
   const { title, type, columns, span, data, index, admLevelName } = tableConfig;
 
   const tableColumns = useMemo(() => {
     return columns.map((c) => {
-      const showPercent = c?.show_percent;
-      const percentPath = c?.percent_path;
       if (c?.children) {
         const obj = get(data?.[0], c.children_path);
         if (!obj) {
@@ -24,37 +19,16 @@ const TableVisual = ({ tableConfig, loading }) => {
             render: () => "No data",
           };
         }
-        const jmpConfigPath = String(c.children_path).replace("data", formId);
-        const jmpServiceLevelOrder = get(jmpColorScore, jmpConfigPath);
-        const child = Object.keys(obj).map((key) => {
-          let col = {
-            title: capitalize(key),
-            dataIndex: key,
-            key: key,
-            width: key.length * fontSize,
-            align: "center",
-          };
-          if (jmpServiceLevelOrder) {
-            col = {
-              ...col,
-              order: Object.keys(jmpServiceLevelOrder).indexOf(key) + 1,
-            };
-          }
-          if (showPercent && percentPath) {
-            col = {
-              ...col,
-              render: (val, record) => {
-                const percentDivider = Number(get(record, percentPath));
-                const percent = (val / percentDivider) * 100;
-                return `${val} (${percent.toFixed()}%)`;
-              },
-            };
-          }
-          return col;
-        });
+        const child = Object.keys(obj).map((key) => ({
+          title: capitalize(key),
+          dataIndex: key,
+          key: key,
+          width: key.length * fontSize,
+          align: "center",
+        }));
         return {
           title: c.title,
-          children: orderBy(child, "order"),
+          children: child,
         };
       }
       let tmp = {
@@ -73,7 +47,7 @@ const TableVisual = ({ tableConfig, loading }) => {
       }
       return tmp;
     });
-  }, [columns, data, formId]);
+  }, [columns, data]);
 
   const tableDataSource = useMemo(() => {
     const paths = columns.map((x) => {

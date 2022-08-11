@@ -171,12 +171,21 @@ def validate_option(options, answer):
 def validate_row_data(col, answer, question: Questions, adm):
     default = {"error": ExcelError.value, "cell": col}
     if answer != answer:
+<<<<<<< HEAD
+        if question.required:
+            default.update({
+                "error_message":
+                    f"{question.name} {ValidationText.is_required.value}"
+            })
+            return default
+=======
         # if question.required:
         #     default.update({
         #         "error_message":
         #             f"{question.name} {ValidationText.is_required.value}"
         #     })
         #     return default
+>>>>>>> b42ce27e8c1e90440351bcbbf19ff97edff7501b
         return False
     if isinstance(answer, str):
         answer = HText(answer).clean

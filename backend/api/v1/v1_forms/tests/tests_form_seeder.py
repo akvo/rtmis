@@ -101,7 +101,7 @@ class FormSeederTestCase(TestCase):
                          response["question_group"][0]["question"][0]['id'])
         self.assertEqual('Name of the data collector (Enumerator)',
                          response["question_group"][0]["question"][0]['name'])
-        self.assertEqual(True,
+        self.assertEqual(False,
                          response["question_group"][0]["question"][0]['meta'])
         self.assertEqual(5196300481,
                          response["question_group"][0]["question"][1]['id'])
@@ -132,5 +132,4 @@ class FormSeederTestCase(TestCase):
         self.assertEqual('Name of the data collector (Enumerator)',
                          response["question_group"][0]["question"][0]['text'])
         self.assertIn(
-            "advanced_filter",
-            response["question_group"][1]["question"][3]["attributes"])
+            "jmp", response["question_group"][2]["question"][2]["attributes"])

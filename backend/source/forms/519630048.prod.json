@@ -8,7 +8,7 @@
       "questions": [
         {
           "id": 364240038,
-          "meta": true,
+          "meta": false,
           "question": "Name of the data collector (Enumerator)",
           "name": "Enumerator",
           "order": 1,
@@ -69,11 +69,11 @@
       "questions": [
         {
           "id": 517600060,
-          "meta": true,
+          "meta": false,
           "question": "Take the GPS location of the Household",
           "name": "Geolocation",
           "order": 1,
-          "required": false,
+          "required": true,
           "type": "geo",
           "attributes": [
             "table"
@@ -184,13 +184,7 @@
               "name": "Spouse"
             },
             {
-              "name": "Offspring (Above 18 years)"
-            },
-            {
-              "name": "sibling"
-            },
-            {
-              "name": "Parent"
+              "name": "Offspring"
             }
           ]
         },
@@ -213,6 +207,15 @@
             {
               "name": "Female"
             }
+          ],
+          "dependency": [
+            {
+              "id": 517600056,
+              "options": [
+                "Spouse",
+                "Offspring"
+              ]
+            }
           ]
         },
         {
@@ -232,7 +235,7 @@
         {
           "id": 519660047,
           "meta": false,
-          "question": "How many members are there in this household?",
+          "question": "How many members are there in this household? (Household members living under the same roof, share the same dish and have lived at least for the past six months)",
           "name": "HH Members",
           "order": 10,
           "required": true,
@@ -246,7 +249,7 @@
         {
           "id": 608890003,
           "meta": false,
-          "question": "What age are the members of the household?",
+          "question": "Do you have children under 5 years?",
           "name": "Children under 5 years",
           "order": 11,
           "required": true,
@@ -256,26 +259,17 @@
           ],
           "options": [
             {
-              "name": "0-5"
+              "name": "Yes"
             },
             {
-              "name": "6-12"
-            },
-            {
-              "name": "13-24"
-            },
-            {
-              "name": "25-59"
-            },
-            {
-              "name": "60+"
+              "name": "No"
             }
           ]
         },
         {
           "id": 519660048,
           "meta": false,
-          "question": "How many members are 0-5 years",
+          "question": "Number of children 0-5 years",
           "name": "0-5 Years",
           "order": 12,
           "required": true,
@@ -284,21 +278,13 @@
             "table",
             "chart"
           ],
-          "options": null,
-          "dependency": [
-            {
-              "id": 608890003,
-              "options": [
-                "0-5"
-              ]
-            }
-          ]
+          "options": null
         },
         {
           "id": 517600058,
           "meta": false,
-          "question": "How many members are between the age of 6-12 years?",
-          "name": "6-12 Years",
+          "question": "Number of members of the household between 6-17 years",
+          "name": "6-17 Years",
           "order": 13,
           "required": true,
           "type": "number",
@@ -306,21 +292,13 @@
             "table",
             "chart"
           ],
-          "options": null,
-          "dependency": [
-            {
-              "id": 608890003,
-              "options": [
-                "6-12"
-              ]
-            }
-          ]
+          "options": null
         },
         {
           "id": 519660050,
           "meta": false,
-          "question": "how many member are between the age of 13-24 years?",
-          "name": "13-24 Years",
+          "question": "Number of members 18-65 years",
+          "name": "18-65 Years",
           "order": 14,
           "required": true,
           "type": "number",
@@ -328,63 +306,28 @@
             "table",
             "chart"
           ],
-          "options": null,
-          "dependency": [
-            {
-              "id": 608890003,
-              "options": [
-                "13-24"
-              ]
-            }
-          ]
-        },
-        {
-          "id": 600180100,
-          "meta": false,
-          "question": "How many members are between the age of 25-59 years?",
-          "name": "25-59 Years",
-          "order": 15,
-          "required": true,
-          "type": "number",
-          "attributes": [],
-          "options": null,
-          "dependency": [
-            {
-              "id": 608890003,
-              "options": [
-                "25-59"
-              ]
-            }
-          ]
+          "options": null
         },
         {
           "id": 519660054,
           "meta": false,
-          "question": "How many members are above 60 years?",
-          "name": "60 Years +",
-          "order": 16,
+          "question": "Number of members 65+",
+          "name": "65 Years +",
+          "order": 15,
           "required": true,
           "type": "number",
           "attributes": [
             "table",
             "chart"
           ],
-          "options": null,
-          "dependency": [
-            {
-              "id": 608890003,
-              "options": [
-                "60+"
-              ]
-            }
-          ]
+          "options": null
         },
         {
           "id": 519660052,
           "meta": false,
           "question": "Residential status of this household in the community",
           "name": "Residential Status",
-          "order": 17,
+          "order": 16,
           "required": true,
           "type": "option",
           "attributes": [
@@ -401,17 +344,8 @@
             },
             {
               "name": "Nomadic"
-            },
-            {
-              "name": "Tenant"
-            },
-            {
-              "name": "Refugee/IDPs"
             }
-          ],
-          "extra": {
-            "allowOther": true
-          }
+          ]
         }
       ]
     },
@@ -433,10 +367,16 @@
           ],
           "options": [
             {
-              "name": "Yes"
+              "name": "No toilet observed"
             },
             {
-              "name": "No"
+              "name": "Toilet with inadequate privacy"
+            },
+            {
+              "name": "Toilet not functional (Collapsed, full, abandoned)"
+            },
+            {
+              "name": "Functional toilet with privacy"
             }
           ],
           "dependency": [
@@ -449,11 +389,43 @@
           ]
         },
         {
+          "id": 512010045,
+          "meta": false,
+          "question": "Is there presence of feaces, urine or soiled cleaning material in or around the toilet?",
+          "name": "Presence of Faces in Vicinity",
+          "order": 2,
+          "required": true,
+          "type": "option",
+          "attributes": [
+            "table",
+            "chart"
+          ],
+          "options": [
+            {
+              "name": "Yes"
+            },
+            {
+              "name": "No"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 513690068,
+              "options": [
+                "No toilet observed",
+                "Toilet with inadequate privacy",
+                "Toilet not functional (Collapsed, full, abandoned)",
+                "Functional toilet with privacy"
+              ]
+            }
+          ]
+        },
+        {
           "id": 492490054,
           "meta": false,
           "question": "What kind of toilet facility do members of your household usually use?",
           "name": "Toilet Type",
-          "order": 2,
+          "order": 3,
           "required": false,
           "type": "option",
           "attributes": [
@@ -469,7 +441,7 @@
               "name": "Pit latrine"
             },
             {
-              "name": "VIP latrine"
+              "name": "Pit latrine without slab / Open pit"
             },
             {
               "name": "Container based sanitation facility"
@@ -490,9 +462,9 @@
         {
           "id": 594410062,
           "meta": false,
-          "question": "If 'Flush' or 'Pour flush', also ask: Where does it flush to?",
-          "name": "Whether 'Flush' or 'Pour flush'",
-          "order": 3,
+          "question": "If ‘Flush’ or ‘Pour flush’, also ask: Where does it flush to?",
+          "name": "Whether ‘Flush’ or ‘Pour flush’",
+          "order": 4,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -518,35 +490,6 @@
               "id": 492490054,
               "options": [
                 "Flush or pour flush toilet"
-              ]
-            }
-          ]
-        },
-        {
-          "id": 512010045,
-          "meta": false,
-          "question": "Is there presence of feaces, urine or soiled cleaning material in or around the toilet?",
-          "name": "Presence of Faces in Vicinity",
-          "order": 4,
-          "required": true,
-          "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
-          "options": [
-            {
-              "name": "Yes"
-            },
-            {
-              "name": "No"
-            }
-          ],
-          "dependency": [
-            {
-              "id": 513690068,
-              "options": [
-                "Yes"
               ]
             }
           ]
@@ -612,7 +555,7 @@
         {
           "id": 566360070,
           "meta": false,
-          "question": "Is the latrine wall made from durable materials, or approved resilient local materials",
+          "question": "Is the latrine made from durable materials, or approved resilient local materials",
           "name": "Whether latrine is made from durable materials, or approved resilient local materials",
           "order": 7,
           "required": true,
@@ -690,7 +633,8 @@
             {
               "id": 513690068,
               "options": [
-                "Yes"
+                "Toilet with inadequate privacy",
+                "Functional toilet with privacy"
               ]
             }
           ]
@@ -751,7 +695,9 @@
             {
               "id": 513690068,
               "options": [
-                "Yes"
+                "Toilet with inadequate privacy",
+                "Toilet not functional (Collapsed, full, abandoned)",
+                "Functional toilet with privacy"
               ]
             }
           ]
@@ -779,14 +725,16 @@
               "name": "Yes, frequently"
             },
             {
-              "name": "Don't know"
+              "name": "Don’t know"
             }
           ],
           "dependency": [
             {
               "id": 513690068,
               "options": [
-                "Yes"
+                "Toilet with inadequate privacy",
+                "Toilet not functional (Collapsed, full, abandoned)",
+                "Functional toilet with privacy"
               ]
             }
           ]
@@ -815,7 +763,9 @@
             {
               "id": 513690068,
               "options": [
-                "Yes"
+                "Toilet with inadequate privacy",
+                "Toilet not functional (Collapsed, full, abandoned)",
+                "Functional toilet with privacy"
               ]
             }
           ]
@@ -843,9 +793,6 @@
               "name": "I don't know"
             }
           ],
-          "extra": {
-            "allowOther": true
-          },
           "dependency": [
             {
               "id": 513690059,
@@ -884,9 +831,6 @@
               "name": "I dont know where the emptier took the sludge"
             }
           ],
-          "extra": {
-            "allowOther": true
-          },
           "dependency": [
             {
               "id": 513690059,
@@ -921,7 +865,9 @@
             {
               "id": 513690068,
               "options": [
-                "Yes"
+                "Toilet with inadequate privacy",
+                "Toilet not functional (Collapsed, full, abandoned)",
+                "Functional toilet with privacy"
               ]
             }
           ]
@@ -952,9 +898,6 @@
               "name": "The toilet is not always safe"
             }
           ],
-          "extra": {
-            "allowOther": true
-          },
           "dependency": [
             {
               "id": 496550059,
@@ -967,7 +910,7 @@
         {
           "id": 601270072,
           "meta": false,
-          "question": "The last time the chidren (0-5years) defecated, where did they defecate?",
+          "question": "The last time the child/chidren (0-5years) passed stools, where did they defecate?",
           "name": "Where child/chidren (0-5years) defecated last time",
           "order": 18,
           "required": true,
@@ -984,25 +927,14 @@
               "name": "In the compound"
             },
             {
-              "name": "on washable clothes or napkin"
-            }
-          ],
-          "extra": {
-            "allowOther": true
-          },
-          "dependency": [
-            {
-              "id": 608890003,
-              "options": [
-                "0-5"
-              ]
+              "name": "I don't have a child"
             }
           ]
         },
         {
           "id": 513690061,
           "meta": false,
-          "question": "The last time the chidren (0-5years) defecated, where did you dispose of the feaces?",
+          "question": "The last time the child/chidren (0-5years) passed stools, where did you dispose of the feaces?",
           "name": "Disposal of child feaces",
           "order": 19,
           "required": true,
@@ -1040,16 +972,12 @@
               "name": "Don't know"
             }
           ],
-          "extra": {
-            "allowOther": true
-          },
           "dependency": [
             {
               "id": 601270072,
               "options": [
                 "On the diaper",
-                "In the compound",
-                "on washable clothes or napkin"
+                "In the compound"
               ]
             }
           ]
@@ -1057,7 +985,7 @@
         {
           "id": 550560064,
           "meta": false,
-          "question": "Is water from the washable cloths or napkins disposed safely?",
+          "question": "Are washable cloths cleaned in a safe place and disposable diapers safely disposed?",
           "name": "Washable cloths cleaned in a safe place and disposable diapers safely disposed",
           "order": 20,
           "required": true,
@@ -1111,7 +1039,7 @@
           "meta": false,
           "question": "May I take a photo of your toilet facility?",
           "name": null,
-          "order": 22,
+          "order": 21,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -1127,7 +1055,9 @@
             {
               "id": 513690068,
               "options": [
-                "Yes"
+                "Toilet with inadequate privacy",
+                "Toilet not functional (Collapsed, full, abandoned)",
+                "Functional toilet with privacy"
               ]
             }
           ]
@@ -1144,7 +1074,7 @@
           "name": "Critical times for handwashing",
           "order": 1,
           "required": true,
-          "type": "multiple_option",
+          "type": "option",
           "attributes": [
             "table",
             "chart"
@@ -1174,15 +1104,12 @@
             {
               "name": "After washing and disposal of a used diaper"
             }
-          ],
-          "extra": {
-            "allowOther": true
-          }
+          ]
         },
         {
           "id": 599400071,
           "meta": false,
-          "question": "Is a hand washing facility available?",
+          "question": "Is there availability of a hand washing facility?",
           "name": "Availability of a hand washing facility",
           "order": 2,
           "required": true,
@@ -1228,10 +1155,7 @@
           },
           "dependency": [
             {
-              "id": 599400071,
-              "options": [
-                "Yes"
-              ]
+              "name": "No permission to see"
             }
           ]
         },
@@ -1242,7 +1166,7 @@
           "name": "Location of handwashing facility",
           "order": 4,
           "required": true,
-          "type": "multiple_option",
+          "type": "option",
           "attributes": [],
           "options": [
             {
@@ -1280,17 +1204,19 @@
           ],
           "options": [
             {
-              "name": "Yes"
+              "name": "Water is available"
             },
             {
-              "name": "No"
+              "name": "Water is not available"
             }
           ],
           "dependency": [
             {
-              "id": 599400071,
+              "id": 466680043,
               "options": [
-                "Yes"
+                "Fixed facility observed (sink/tap) In dwelling",
+                "Fixed facility observed (sink/tap)  In yard/plot",
+                "Mobile object observed (bucket/jug/kettle)"
               ]
             }
           ]
@@ -1316,7 +1242,7 @@
             {
               "id": 466680045,
               "options": [
-                "Yes"
+                "Water is available"
               ]
             }
           ]
@@ -1342,7 +1268,7 @@
             {
               "id": 466680045,
               "options": [
-                "Yes"
+                "Water is available"
               ]
             }
           ]
@@ -1361,17 +1287,19 @@
           ],
           "options": [
             {
-              "name": "Yes"
+              "name": "Soap or detergent available ."
             },
             {
-              "name": "No"
+              "name": "Soap or detergent not available"
             }
           ],
           "dependency": [
             {
-              "id": 599400071,
+              "id": 466680043,
               "options": [
-                "Yes"
+                "Fixed facility observed (sink/tap) In dwelling",
+                "Fixed facility observed (sink/tap)  In yard/plot",
+                "Mobile object observed (bucket/jug/kettle)"
               ]
             }
           ]
@@ -1383,7 +1311,7 @@
           "name": "Time for Washing children's faces",
           "order": 9,
           "required": true,
-          "type": "multiple_option",
+          "type": "option",
           "attributes": [
             "advanced_filter",
             "table",
@@ -1401,17 +1329,6 @@
             },
             {
               "name": "Sometimes when they look dirty"
-            }
-          ],
-          "extra": {
-            "allowOther": true
-          },
-          "dependency": [
-            {
-              "id": 608890003,
-              "options": [
-                "0-5"
-              ]
             }
           ]
         },
@@ -1470,11 +1387,11 @@
         {
           "id": 466690044,
           "meta": false,
-          "question": "How does your household usually dispose off garbage?",
+          "question": "How does your household usually dispose of garbage?",
           "name": "Garbage disposal methods",
           "order": 1,
           "required": true,
-          "type": "multiple_option",
+          "type": "option",
           "attributes": [
             "table",
             "chart"
@@ -1500,16 +1417,16 @@
             },
             {
               "name": "Disposed of elsewhere"
+            },
+            {
+              "name": "Don’t know"
             }
-          ],
-          "extra": {
-            "allowOther": true
-          }
+          ]
         },
         {
           "id": 596100077,
           "meta": false,
-          "question": "Is there visible garbage in and around the household compound?",
+          "question": "Is there visible solid waste in and around the household compound?",
           "name": "Visible solid waste in and around the household compound",
           "order": 2,
           "required": true,
@@ -1527,11 +1444,11 @@
         {
           "id": 466690043,
           "meta": false,
-          "question": "How do you dispose household waste water used for cooking, laundry and bathing?",
+          "question": "How do you dispose of household water used for cooking, laundry and bathing?",
           "name": "Waste Water Disposal method",
           "order": 3,
           "required": true,
-          "type": "multiple_option",
+          "type": "option",
           "attributes": [
             "table",
             "chart"
@@ -1644,7 +1561,7 @@
         {
           "id": 607250002,
           "meta": false,
-          "question": "Were you given any information on menstruation before you got your first period?",
+          "question": "Were you aware of what to expect during your first period?",
           "name": "Aware of what to expect during first period",
           "order": 2,
           "required": true,
@@ -1674,7 +1591,7 @@
         {
           "id": 524810054,
           "meta": false,
-          "question": "During your last menstrual period, did you have space to wash and change in privacy (alone) while at home?",
+          "question": "During your last menstrual period were you able to wash and change in privacy (alone) while at home?",
           "name": "Able to wash and change during menstrual period in privacy",
           "order": 3,
           "required": true,
@@ -1704,7 +1621,7 @@
         {
           "id": 524810056,
           "meta": false,
-          "question": "During your last period, Where did you wash and change?",
+          "question": "Where do you wash and change during your menstrual period?",
           "name": "The Location to wash and charge",
           "order": 4,
           "required": true,
@@ -1787,7 +1704,7 @@
         {
           "id": 524810052,
           "meta": false,
-          "question": "Was the menstrual hygiene material affordable?",
+          "question": "Was the mensrual hygiene material affordable?",
           "name": "Affordable of Menstrual hygiene material",
           "order": 6,
           "required": true,
@@ -1811,7 +1728,8 @@
                 "Cloth/reusable sanitary pads",
                 "Disposable sanitary pads",
                 "Tampons",
-                "Menstrual cup"
+                "Menstrual cup",
+                "Toilet paper"
               ]
             }
           ]
@@ -1819,7 +1737,7 @@
         {
           "id": 524810055,
           "meta": false,
-          "question": "Where do you get your menstrual hygiene materials?",
+          "question": "Where do you get your mentrual hygiene materials?",
           "name": "Source of Menstrual hygiene material",
           "order": 7,
           "required": true,
@@ -1836,9 +1754,6 @@
               "name": "Buy it from shop"
             }
           ],
-          "extra": {
-            "allowOther": true
-          },
           "dependency": [
             {
               "id": 524810057,
@@ -1855,21 +1770,36 @@
         {
           "id": 524810053,
           "meta": false,
-          "question": "During your last periods, Did you miss any activities because you were on your menstrual periods?",
+          "question": "During your last menstrual period, did you miss any of the following activities due to your period? [select multiple]",
           "name": "Missing activities during menstrual period",
           "order": 8,
           "required": true,
-          "type": "option",
+          "type": "multiple_option",
           "attributes": [
             "table",
             "chart"
           ],
           "options": [
             {
-              "name": "Yes"
+              "name": "Attending school"
             },
             {
-              "name": "No"
+              "name": "Paid work"
+            },
+            {
+              "name": "Participating in social activities"
+            },
+            {
+              "name": "Cooking food?"
+            },
+            {
+              "name": "Cooking food"
+            },
+            {
+              "name": "Eating with others"
+            },
+            {
+              "name": "Bathing in regular place"
             }
           ],
           "dependency": [
@@ -1884,7 +1814,7 @@
         {
           "id": 524810050,
           "meta": false,
-          "question": "During your last menstrual period, did you have access to soap for bathing?",
+          "question": "During your menstrual period do you use soap or detergent?",
           "name": "Use of soap / detergent during menstrual period",
           "order": 9,
           "required": true,
@@ -1895,7 +1825,7 @@
           ],
           "options": [
             {
-              "name": "Yes"
+              "name": "Every time"
             },
             {
               "name": "No"
@@ -1924,7 +1854,7 @@
               "name": "Yes"
             },
             {
-              "name": "No"
+              "name": "Never"
             }
           ],
           "dependency": [
@@ -1943,7 +1873,7 @@
           "name": "Menstrual hygiene waste",
           "order": 11,
           "required": true,
-          "type": "multiple_option",
+          "type": "option",
           "attributes": [
             "advanced_filter",
             "table",
@@ -2041,10 +1971,7 @@
             {
               "name": "I don't know"
             }
-          ],
-          "extra": {
-            "allowOther": true
-          }
+          ]
         },
         {
           "id": 591770069,
@@ -2128,10 +2055,7 @@
             {
               "name": "I do't know"
             }
-          ],
-          "extra": {
-            "allowOther": true
-          }
+          ]
         },
         {
           "id": 586330017,
@@ -2181,7 +2105,7 @@
             {
               "id": 608890003,
               "options": [
-                "0-5"
+                "Yes"
               ]
             }
           ]
@@ -2207,7 +2131,7 @@
             {
               "id": 608890003,
               "options": [
-                "0-5"
+                "Yes"
               ]
             }
           ]
@@ -2233,7 +2157,7 @@
             {
               "id": 608890003,
               "options": [
-                "0-5"
+                "Yes"
               ]
             }
           ]
@@ -2241,7 +2165,7 @@
         {
           "id": 608880005,
           "meta": false,
-          "question": "In the last 7 days, did all under-2 children receive foods from the following food groups?",
+          "question": "Do all under-2 children receive foods from 5 or more food groups?",
           "name": "All under-2 children receive foods from 5 or more food groups",
           "order": 11,
           "required": true,
@@ -2249,32 +2173,17 @@
           "attributes": [],
           "options": [
             {
-              "name": "Breast milk"
+              "name": "Yes"
             },
             {
-              "name": "fruit/vegetables"
-            },
-            {
-              "name": "grains/roots/tubers"
-            },
-            {
-              "name": "meat/offal/fish"
-            },
-            {
-              "name": "eggs"
-            },
-            {
-              "name": "pulses/nuts"
-            },
-            {
-              "name": "Milk"
+              "name": "No"
             }
           ],
           "dependency": [
             {
               "id": 608890003,
               "options": [
-                "0-5"
+                "Yes"
               ]
             }
           ]

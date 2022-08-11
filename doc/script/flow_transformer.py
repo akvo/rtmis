@@ -35,22 +35,12 @@ def tranform_form(flow_form, existing_questions):
             options = q.get("options")
             qtype = question_types.get(q.get("type"))
             vrule = q.get("validationRule")
-            rule = {}
-            extra = {}
             if vrule:
                 if vrule.get("validationType") == "numeric":
                     qtype = question_types.get("number")
-                if vrule.get("allowDecimal"):
-                    rule.update({'allowDecimal': vrule.get("allowDecimal")})
-                if vrule.get("minVal"):
-                    rule.update({'min': vrule.get("minVal")})
-                if vrule.get("maxVal"):
-                    rule.update({'max': vrule.get("maxVal")})
             if options:
                 if options.get("allowMultiple"):
                     qtype = question_types.get("multiple_option")
-                if options.get("allowOther"):
-                    extra.update({'allowOther': options.get("allowOther")})
                 options = [{
                     "name": o.get("text")
                 } for o in options.get("option")]
@@ -73,10 +63,6 @@ def tranform_form(flow_form, existing_questions):
                 "attributes": attributes,
                 "options": options
             }
-            if extra:
-                question.update({'extra': extra})
-            if rule:
-                question.update({'rule': rule})
             dependency = q.get("dependency")
             if dependency:
                 dependency = [{

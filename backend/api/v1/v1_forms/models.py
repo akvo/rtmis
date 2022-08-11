@@ -92,7 +92,6 @@ class Questions(models.Model):
     rule = models.JSONField(default=None, null=True)
     dependency = models.JSONField(default=None, null=True)
     api = models.JSONField(default=None, null=True)
-    extra = models.JSONField(default=None, null=True)
 
     def __str__(self):
         return self.text
@@ -112,7 +111,6 @@ class Questions(models.Model):
             "rule": self.rule,
             "dependency": self.dependency,
             "options": options,
-            "extra": self.extra
         }
 
     @property

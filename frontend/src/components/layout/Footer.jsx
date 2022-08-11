@@ -4,6 +4,20 @@ import { Row, Col } from "antd";
 import { useLocation } from "react-router-dom";
 import { uiText, store } from "../../lib";
 
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      onchange: null,
+      addListener: function () {},
+      removeListener: function () {},
+      addEventListener: function () {},
+      removeEventListener: function () {},
+      dispatchEvent: function () {},
+    };
+  };
+
 const Footer = ({ className = "footer", ...props }) => {
   const location = useLocation();
   const { language } = store.useState((s) => s);

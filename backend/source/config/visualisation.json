@@ -191,9 +191,10 @@
             "color": "#F1AC2A",
             "options": [
               {
-                "question": 599400071,
+                "question": 466680043,
                 "option": [
-                  "No"
+                  "No handwashing place in dwelling/homestead/plot",
+                  "No permission to see"
                 ]
               }
             ]
@@ -254,7 +255,13 @@
               {
                 "question": 524810053,
                 "option": [
-                  "Yes"
+                  "Attending school",
+                  "Paid work",
+                  "Participating in social activities",
+                  "Cooking food?",
+                  "Cooking food",
+                  "Eating with others",
+                  "Bathing in regular place"
                 ]
               }
             ]
@@ -883,7 +890,12 @@
               {
                 "question": 538000046,
                 "option": [
-                  "Yes"
+                  "Eating some specific type food",
+                  "Entering the church or mosque",
+                  "Touching the cross or holly book",
+                  "Milking animals",
+                  "Participating in public ceremonies",
+                  "Preparing/cooking food"
                 ]
               }
             ]

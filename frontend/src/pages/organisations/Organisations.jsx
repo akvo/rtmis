@@ -18,6 +18,20 @@ import { api, store, uiText, config } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { orderBy } from "lodash";
 
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      onchange: null,
+      addListener: function () {},
+      removeListener: function () {},
+      addEventListener: function () {},
+      removeEventListener: function () {},
+      dispatchEvent: function () {},
+    };
+  };
+
 const { Search } = Input;
 const { Option } = Select;
 
@@ -91,7 +105,7 @@ const Organisations = () => {
       key: "action",
       render: (record, rowValue) => (
         <Space>
-          <Link to={`/organisation/${record.id}`}>
+          <Link to={`/organisation/${record.id}`} data-testid="edit">
             <Button type="secondary" size="small">
               Edit
             </Button>
@@ -104,6 +118,7 @@ const Organisations = () => {
             onClick={() =>
               setDeleteOrganisation({ ...record, count: rowValue.users })
             }
+            data-testid="delete"
           >
             Delete
           </Button>
@@ -187,7 +202,7 @@ const Organisations = () => {
           <DescriptionPanel description={descriptionData} />
         </Col>
         <Col>
-          <Link to="/organisation/add">
+          <Link to="/organisation/add" data-testid="new-organisation">
             <Button type="primary">Add new organization</Button>
           </Link>
         </Col>
@@ -212,9 +227,10 @@ const Organisations = () => {
               style={{ width: 225 }}
               onChange={setAttributes}
               allowClear
+              data-testid="select"
             >
               {organisationAttributes?.map((o, oi) => (
-                <Option key={`org-${oi}`} value={o.id}>
+                <Option key={`org-${oi}`} value={o.id} data-testid="option">
                   {o.name}
                 </Option>
               ))}

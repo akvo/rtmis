@@ -15,6 +15,20 @@ import {
 } from "./components";
 import { generateAdvanceFilterURL } from "../../util/filter";
 
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      onchange: null,
+      addListener: function () {},
+      removeListener: function () {},
+      addEventListener: function () {},
+      removeEventListener: function () {},
+      dispatchEvent: function () {},
+    };
+  };
+
 const { TabPane } = Tabs;
 
 const Dashboard = () => {
@@ -171,7 +185,6 @@ const Dashboard = () => {
               ...cfg,
               data: cfg.selector === "period" ? dataPeriod : dataset,
               index: index,
-              admLevelName: admLevelName,
             }}
             loading={loading}
           />
@@ -213,7 +226,7 @@ const Dashboard = () => {
       <Affix className="sticky-wrapper">
         <div>
           <div className="page-title-wrapper">
-            <h1>{`${prefixText} ${selectedForm.name} Data`}</h1>
+            <h1>{`${prefixText} ${selectedForm?.name} Data`}</h1>
           </div>
           <VisualisationFilters showFormOptions={false} />
           <div className="tab-wrapper">

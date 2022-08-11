@@ -3,8 +3,6 @@ from django.utils import timezone
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_forms.constants import FormTypes
 from api.v1.v1_forms.models import FormApprovalAssignment
-from api.v1.v1_data.models import PendingDataBatch, PendingDataApproval
-from api.v1.v1_data.constants import DataApprovalStatus
 
 
 def check_unique_user(role):
@@ -14,15 +12,14 @@ def check_unique_user(role):
 
 
 def check_form_approval_assigned(role, forms, administration, user=None):
-    # if user is None that for add new user (user var is edited user)
+    # if user is None that for add new user
     # else that for update/edit user
     unique_user = check_unique_user(role)
     if not unique_user:
         return False
     # Check if form id x in y administration has approver assignment
     # send a message to FE 403
-    form_approval_assignment_obj = FormApprovalAssignment.objects
-    form_approval_assignment = form_approval_assignment_obj.filter(
+    form_approval_assignment = FormApprovalAssignment.objects.filter(
         administration=administration)
     if not user:
         form_approval_assignment = form_approval_assignment.filter(

@@ -1,0 +1,249 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`pages/approvals test approval page 1`] = `
+<div>
+  <div
+    id="questionnaires"
+  >
+    <div
+      class="ant-row ant-row-space-between"
+    >
+      <div
+        class="ant-col"
+      >
+        <div
+          class="ant-breadcrumb"
+        >
+          <span>
+            <span
+              class="ant-breadcrumb-link"
+            >
+              <a
+                href="/control-center"
+              >
+                <h1
+                  class="ant-typography"
+                  style="display: inline;"
+                >
+                  Control Center
+                </h1>
+              </a>
+            </span>
+            <span
+              class="ant-breadcrumb-separator"
+            >
+              &gt;
+            </span>
+          </span>
+          <span>
+            <span
+              class="ant-breadcrumb-link"
+            >
+              <a
+                href="/approvals"
+              >
+                <h2
+                  class="ant-typography"
+                  style="display: inline;"
+                >
+                  Approvals
+                </h2>
+              </a>
+            </span>
+            <span
+              class="ant-breadcrumb-separator"
+            >
+              &gt;
+            </span>
+          </span>
+          <span>
+            <span
+              class="ant-breadcrumb-link"
+            >
+              <h3
+                class="ant-typography"
+                style="display: inline;"
+              >
+                Manage Questionnaires Approvals
+              </h3>
+            </span>
+            <span
+              class="ant-breadcrumb-separator"
+            >
+              &gt;
+            </span>
+          </span>
+        </div>
+      </div>
+      <div
+        class="ant-col"
+      >
+        <div
+          class="ant-space ant-space-horizontal ant-space-align-center"
+        >
+          <div
+            class="ant-space-item"
+            style="margin-right: 6px;"
+          >
+            <button
+              ant-click-animating-without-extra-node="true"
+              class="ant-btn light"
+              data-testid="reset-btn"
+              disabled=""
+              type="button"
+            >
+              <span>
+                Reset
+              </span>
+            </button>
+          </div>
+          <div
+            class="ant-space-item"
+          >
+            <button
+              ant-click-animating-without-extra-node="true"
+              class="ant-btn ant-btn-primary"
+              data-testid="save-btn"
+              disabled=""
+              type="button"
+            >
+              <span>
+                Save
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="ant-divider ant-divider-horizontal"
+      role="separator"
+    />
+    <div
+      class="ant-card ant-card-bordered"
+      style="padding: 0px; min-height: 40vh;"
+    >
+      <div
+        class="ant-card-body"
+        style="padding: 30px;"
+      >
+        <div
+          class="ant-table-wrapper"
+        >
+          <div
+            class="ant-spin-nested-loading"
+          >
+            <div
+              class="ant-spin-container"
+            >
+              <div
+                class="ant-table"
+              >
+                <div
+                  class="ant-table-container"
+                >
+                  <div
+                    class="ant-table-content"
+                  >
+                    <table
+                      style="table-layout: auto;"
+                    >
+                      <colgroup />
+                      <thead
+                        class="ant-table-thead"
+                      >
+                        <tr>
+                          <th
+                            class="ant-table-cell"
+                          >
+                            Questionnaire
+                          </th>
+                          <th
+                            class="ant-table-cell"
+                          >
+                            Questionnaire Description
+                          </th>
+                          <th
+                            class="ant-table-cell"
+                          >
+                            National
+                          </th>
+                          <th
+                            class="ant-table-cell"
+                          >
+                            County
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody
+                        class="ant-table-tbody"
+                      >
+                        <tr
+                          class="ant-table-row ant-table-row-level-0"
+                        >
+                          <td
+                            class="ant-table-cell"
+                          >
+                            CLTS
+                          </td>
+                          <td
+                            class="ant-table-cell"
+                          >
+                            <span>
+                              -
+                            </span>
+                          </td>
+                          <td
+                            class="ant-table-cell"
+                          >
+                            <label
+                              class="ant-checkbox-wrapper"
+                            >
+                              <span
+                                class="ant-checkbox"
+                              >
+                                <input
+                                  class="ant-checkbox-input"
+                                  type="checkbox"
+                                  value=""
+                                />
+                                <span
+                                  class="ant-checkbox-inner"
+                                />
+                              </span>
+                            </label>
+                          </td>
+                          <td
+                            class="ant-table-cell"
+                          >
+                            <label
+                              class="ant-checkbox-wrapper"
+                            >
+                              <span
+                                class="ant-checkbox"
+                              >
+                                <input
+                                  class="ant-checkbox-input"
+                                  type="checkbox"
+                                  value=""
+                                />
+                                <span
+                                  class="ant-checkbox-inner"
+                                />
+                              </span>
+                            </label>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -7,6 +7,20 @@ import { PanelApprovals, PanelSubmissions } from "../control-center/components";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { ControlCenterTour } from "./components";
 
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      onchange: null,
+      addListener: function () {},
+      removeListener: function () {},
+      addEventListener: function () {},
+      removeEventListener: function () {},
+      dispatchEvent: function () {},
+    };
+  };
+
 const ControlCenter = () => {
   const { user: authUser } = store.useState((s) => s);
   const { language } = store.useState((s) => s);
@@ -114,7 +128,7 @@ const ControlCenter = () => {
       </Row>
       <DescriptionPanel description={text.ccDescriptionPanel} />
       <Divider />
-      <Row gutter={[16, 16]}>
+      <Row gutter={[16, 16]} data-testid="control-center-cards">
         {selectedPanels.map((panel, index) => {
           if (panel?.render) {
             return panel.render;

@@ -17,6 +17,20 @@ import { Breadcrumbs } from "../../components";
 import { reloadData } from "../../util/form";
 import { useNotification } from "../../util/hooks";
 
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      onchange: null,
+      addListener: function () {},
+      removeListener: function () {},
+      addEventListener: function () {},
+      removeEventListener: function () {},
+      dispatchEvent: function () {},
+    };
+  };
+
 const pagePath = [
   {
     title: "Control Center",
@@ -135,6 +149,7 @@ const Questionnaires = () => {
                 const cloned = JSON.parse(JSON.stringify(forms));
                 setDataset(cloned);
               }}
+              data-testid="reset-btn"
             >
               Reset
             </Button>
@@ -143,6 +158,7 @@ const Questionnaires = () => {
               disabled={isPristine}
               onClick={handleSubmit}
               loading={loading}
+              data-testid="save-btn"
             >
               Save
             </Button>

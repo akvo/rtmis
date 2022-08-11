@@ -6,6 +6,20 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { config, store, uiText } from "../../lib";
 import { eraseCookieFromAllPaths } from "../../util/date";
 
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      onchange: null,
+      addListener: function () {},
+      removeListener: function () {},
+      addEventListener: function () {},
+      removeEventListener: function () {},
+      dispatchEvent: function () {},
+    };
+  };
+
 const Header = ({ className = "header", ...props }) => {
   const { isLoggedIn, user } = store.useState();
   const navigate = useNavigate();
@@ -85,7 +99,7 @@ const Header = ({ className = "header", ...props }) => {
     >
       <Col>
         <div className="logo">
-          <Link to="/">
+          <Link to="/" data-testid="logo">
             <img
               className="small-logo"
               src={config.siteLogo}
@@ -107,22 +121,24 @@ const Header = ({ className = "header", ...props }) => {
               <Link className="dev" to="/reports">
                 {text?.reports}
               </Link>
-              <Dropdown overlay={DashboardMenu}>
+              <Dropdown overlay={DashboardMenu} data-testid="dashboard-menu">
                 <a
                   className="ant-dropdown-link"
                   onClick={(e) => {
                     e.preventDefault();
                   }}
+                  data-testid="dashboard"
                 >
                   {text?.dashboards}
                 </a>
               </Dropdown>
-              <Dropdown overlay={ReportsMenu}>
+              <Dropdown overlay={ReportsMenu} data-testid="report-menu">
                 <a
                   className="ant-dropdown-link"
                   onClick={(e) => {
                     e.preventDefault();
                   }}
+                  data-testid="report"
                 >
                   {text?.reports}
                 </a>
@@ -144,6 +160,7 @@ const Header = ({ className = "header", ...props }) => {
                   onClick={(e) => {
                     e.preventDefault();
                   }}
+                  data-testid="profile"
                 >
                   {user?.name || ""}
                   <span className="icon">
@@ -152,7 +169,7 @@ const Header = ({ className = "header", ...props }) => {
                 </a>
               </Dropdown>
             ) : (
-              <Link to={"/login"}>
+              <Link to={"/login"} data-testid="login">
                 <Button type="primary" size="small">
                   {text?.login}
                 </Button>
