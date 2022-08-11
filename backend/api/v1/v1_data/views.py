@@ -205,16 +205,22 @@ class FormDataAddListView(APIView):
         if is_super_admin or is_county_admin_with_county_form:
             # move current answer to answer_history
             for answer in answers:
-                form_answer = Answers.objects.get(
-                    data=data, question=answer.get('question'))
-                AnswerHistory.objects.create(
-                    data=form_answer.data,
-                    question=form_answer.question,
-                    name=form_answer.name,
-                    value=form_answer.value,
-                    options=form_answer.options,
-                    created_by=user
-                )
+                form_answer = Answers.objects.filter(
+                    data=data, question=answer.get('question')).first()
+                if form_answer:
+                    AnswerHistory.objects.create(
+                        data=form_answer.data,
+                        question=form_answer.question,
+                        name=form_answer.name,
+                        value=form_answer.value,
+                        options=form_answer.options,
+                        created_by=user
+                    )
+                if not form_answer:
+                    form_answer = Answers(
+                            data=data,
+                            question_id=answer.get('question'),
+                            created_by=user)
                 # prepare updated answer
                 question_id = answer.get('question')
                 question = Questions.objects.get(
