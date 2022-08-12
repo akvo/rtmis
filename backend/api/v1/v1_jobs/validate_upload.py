@@ -44,9 +44,10 @@ def validate_header_names(header, col, header_names):
         return default
     if "|" in header:
         if header not in header_names:
+            header_id = header.split("|")[0]
             default.update({
                 "error_message":
-                f"{header} {ValidationText.header_invalid_id.value}",
+                f"{header_id} {ValidationText.header_invalid_id.value}",
             })
             return default
     return False
@@ -167,12 +168,12 @@ def validate_option(options, answer):
     return False
 
 
-def validate_dependency(col, answered: bool, dependency_answers,
+def validate_dependency(col, answered: bool, dependency_answer,
                         question: Questions):
     default = {
         "error": ExcelError.value,
         "cell": col,
-        "error_message": f"{question.name} {ValidationText.is_required.value}"
+        "error_message": f"{question.id} {ValidationText.is_required.value}"
     }
     if not question.required and not question.dependency:
         # no answer requirements at all (best performance)
@@ -183,19 +184,16 @@ def validate_dependency(col, answered: bool, dependency_answers,
     if question.dependency:
         # check if the answer is required or should be blank
         question_dependency = question.dependency[0]
-        dependency_answer = dependency_answers == dependency_answers
         question_is_appear = False
         if dependency_answer:
             for daw in dependency_answer.split("|"):
-                if question_is_appear:
-                    break
                 if daw in question_dependency["options"]:
                     question_is_appear = True
         # answer should be blank
         if answered and not question_is_appear:
             default.update({
                 "error_message":
-                f"{question.name} {ValidationText.should_be_empty.value}"
+                f"{question.id} {ValidationText.should_be_empty.value}"
             })
             return default
         # answer should not be empty
@@ -205,11 +203,11 @@ def validate_dependency(col, answered: bool, dependency_answers,
     return False
 
 
-def validate_row_data(col, answer, dependency_answers, question: Questions,
+def validate_row_data(col, answer, dependency_answer, question: Questions,
                       adm):
     default = {"error": ExcelError.value, "cell": col}
     answered = answer == answer
-    dependency_errors = validate_dependency(col, answered, dependency_answers,
+    dependency_errors = validate_dependency(col, answered, dependency_answer,
                                             question)
     if dependency_errors:
         return dependency_errors
@@ -322,15 +320,18 @@ def validate(form: int, administration: int, file: str):
                 if question.dependency:
                     dependency = questions.filter(
                         id=question.dependency[0].get("id")).first()
-                    dependencies = list(df[dependency.to_excel_header])
+                    if dependency.to_excel_header in list(df):
+                        dependencies = list(df[dependency.to_excel_header])
                 answers = list(df[header])
                 for i, answer in enumerate(answers):
                     ix = i + 2
-                    dependency_answers = False
+                    dependency_answer = False
                     if dependencies:
-                        dependency_answers = dependencies[i]
+                        dependency_answer = dependencies[i]
+                        if dependency_answer != dependency_answer:
+                            dependency_answer = False
                     errors = validate_row_data(f"{col}{ix}", answer,
-                                               dependency_answers, question,
+                                               dependency_answer, question,
                                                adm)
                     if errors:
                         data_error.append(errors)
