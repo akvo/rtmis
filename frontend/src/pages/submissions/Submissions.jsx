@@ -305,7 +305,9 @@ const Submissions = () => {
               <TextArea rows={4} onChange={(e) => setComment(e.target.value)} />
             </Col>
             <Col xs={12} align="left">
-              <Checkbox className="dev">{text.sendNewRequest}</Checkbox>
+              <Checkbox checked={true} disabled={true} className="dev">
+                {text.sendNewRequest}
+              </Checkbox>
             </Col>
             <Col xs={12}>
               <Button
