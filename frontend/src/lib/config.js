@@ -183,6 +183,10 @@ const config = {
       name: "M&E",
     },
     {
+      id: 12,
+      name: "Teacher",
+    },
+    {
       id: 10,
       name: "IT",
     },
