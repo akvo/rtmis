@@ -22,4 +22,5 @@ for v in villages.to_dict("records"):
     res.append(name)
 
 pd.DataFrame(res)[["path_id", "County", "Subcounty", "Ward", "Village"
-                   ]].to_csv("./administration_scraped_transformed.csv")
+                   ]].to_csv("./administration_scraped_transformed.csv",
+                             index=False)
