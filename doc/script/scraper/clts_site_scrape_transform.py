@@ -6,11 +6,11 @@ villages = data[data["level"] == "Village"]
 
 def get_name(df, value, name={}, path=[]):
     if value.get("parent"):
-        parent_name = df[df["id"] == value["parent"]].to_dict("records")
-        if len(parent_name):
-            path.append(str(parent_name[0]["parent"]))
-            name.update({parent_name[0]["level"]: parent_name[0]["name"]})
-        return get_name(df, parent_name[0], name, path)
+        path.append(str(value["parent"]))
+        parent = df[df["id"] == value["parent"]].to_dict("records")
+        if len(parent):
+            name.update({parent[0]["level"]: parent[0]["name"]})
+        return get_name(df, parent[0], name, path)
     path.reverse()
     name.update({"path_id": ".".join(path)})
     return name
