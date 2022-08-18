@@ -1,0 +1,16 @@
+Administration
+==============
+
+Manage Users (Add, Delete and Modify Users)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. From the User Management tab of the control centre, click the *Manage Users* button to add a new user, modify an existing user or delete an existing user.
+2. To add a new user, click the ***ADD NEW USER*** button. Next, fill all the mandatory fields and assign the user an organisation, designation, role, administrative region and questionnaires. Finally, click the Add User button to notify your new user. 
+3. To delete an existing user, expand the toggle button next to the user and click the delete the *DELETE* button. Next, confirm you are deleting the user by clicking the DELETE button in the pop-up window.
+4. To modify an existing user, expand the toggle button next to the user and click the *EDIT* button. Edit the user details and then click the *UPDATE USER* button.
+
+Manage Data Validation Setup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Select the **Manage Data Validation Setup** tab from the manage users section of the control centre to access the approval chain for every questionnaire. Here, you can assign approvers for each questionnaire for every administrative region. 
+2. Assign each questionnaire an approver at the desired administrative region. Remember to save your changes.
