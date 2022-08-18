@@ -16,6 +16,8 @@ Real Time Monitoring Information Systems
 
    install
    deployment
+   gettingSatarted
+   practice
 
 
 .. |Build Status| image:: https://akvo.semaphoreci.com/badges/rtmis/branches/main.svg?style=shields
