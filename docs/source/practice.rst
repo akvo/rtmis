@@ -89,3 +89,29 @@ Manage Data Validation Setup
   .. image:: ../assests/image22.png
      :alt: Data validation
      :width: 100%
+
+Approval workflow
+~~~~~~~~~~~~~~~~~~
+
+Submitting Data for Approval
+-----------------------------
+1. All data that is pending submission for approval will appear on the pending submission tab. Note that you will need to select different questionnaires to see **pending submissions** for each questionnaire. This is to avoid batching data from different questionnaires in one batch for approval which is not valid.
+  .. image:: ../assests/image37.png
+     :alt: Data validation
+     :width: 100%
+
+2. Next, select all the datasets you are submitting for approval by ticking the checkbox next to each data set then click the **BATCH SELECTED DATASETS** button.
+  .. image:: ../assests/image45.png
+     :alt: Data validation
+     :width: 100%
+
+3. In the pop-up window, label your batch with a relevant name and add any comment for your approver. Next, tick the checkbox to **send a new approval request** and click the **CREATE A NEW BATCH** button.
+  .. image:: ../assests/image14.png
+     :alt: Data validation
+     :width: 100%
+
+4. Your dataset is now submitted for approval and will appear in the **pending approval** tab. You can expand each data set to see your approver who will receive an email notification to approve your data.Notifications/Alerts
+  .. image:: ../assests/image46.png
+     :alt: Data validation
+     :width: 100%
+ 
