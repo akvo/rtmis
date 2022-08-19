@@ -19,6 +19,7 @@ Real Time Monitoring Information Systems
    gettingSatarted
    dataManagement
    outputs
+   individualPractice
 
 .. |Build Status| image:: https://akvo.semaphoreci.com/badges/rtmis/branches/main.svg?style=shields
    :target: https://akvo.semaphoreci.com/projects/rtmis
