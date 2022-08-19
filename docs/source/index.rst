@@ -17,8 +17,7 @@ Real Time Monitoring Information Systems
    deployment
    practice
    gettingSatarted
-   inputChannels
-   administration
+   dataManagement
 
 .. |Build Status| image:: https://akvo.semaphoreci.com/badges/rtmis/branches/main.svg?style=shields
    :target: https://akvo.semaphoreci.com/projects/rtmis
