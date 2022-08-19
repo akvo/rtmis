@@ -18,11 +18,23 @@
           "options": null
         },
         {
-          "id": 543080040,
+          "id": 5633500331,
           "meta": false,
-          "question": "Take the GPS location",
+          "question": "Organisation",
           "name": null,
           "order": 2,
+          "required": true,
+          "type": "cascade",
+          "api": {
+            "endpoint": "/api/v1/organisations?attributes=2"
+          }
+        },
+        {
+          "id": 543080040,
+          "meta": true,
+          "question": "Take the GPS location",
+          "name": null,
+          "order": 3,
           "required": false,
           "type": "geo",
           "attributes": [
@@ -35,7 +47,7 @@
           "meta": true,
           "question": "Location",
           "name": null,
-          "order": 3,
+          "order": 4,
           "required": true,
           "type": "administration",
           "attributes": [
@@ -49,7 +61,7 @@
           "meta": false,
           "question": "Is the school in an urban, peri-urban or rural setup?",
           "name": "Whether Urban, Peri Urban or Rural",
-          "order": 4,
+          "order": 5,
           "required": true,
           "type": "option",
           "attributes": [
@@ -72,7 +84,7 @@
           "meta": true,
           "question": "School name",
           "name": null,
-          "order": 5,
+          "order": 6,
           "required": true,
           "type": "text",
           "attributes": [
@@ -85,7 +97,7 @@
           "meta": true,
           "question": "School ministry of education code",
           "name": null,
-          "order": 6,
+          "order": 7,
           "required": true,
           "type": "text",
           "attributes": [
@@ -98,7 +110,7 @@
           "meta": true,
           "question": "School level",
           "name": null,
-          "order": 7,
+          "order": 8,
           "required": true,
           "type": "option",
           "attributes": [
@@ -127,7 +139,7 @@
           "meta": false,
           "question": "Is the school Public or private?",
           "name": null,
-          "order": 8,
+          "order": 9,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -145,7 +157,7 @@
           "meta": false,
           "question": "What is the school category?",
           "name": null,
-          "order": 9,
+          "order": 10,
           "required": true,
           "type": "multiple_option",
           "attributes": [],
@@ -169,23 +181,6 @@
           "meta": false,
           "question": "Number of boys",
           "name": "# of boys",
-          "order": 10,
-          "required": true,
-          "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
-          "options": null,
-          "rule": {
-            "max": 5000.0
-          }
-        },
-        {
-          "id": 543080033,
-          "meta": false,
-          "question": "Number of girls",
-          "name": "# of girls",
           "order": 11,
           "required": true,
           "type": "number",
@@ -195,7 +190,24 @@
           ],
           "options": null,
           "rule": {
-            "max": 5000.0
+            "max": 5000
+          }
+        },
+        {
+          "id": 543080033,
+          "meta": false,
+          "question": "Number of girls",
+          "name": "# of girls",
+          "order": 12,
+          "required": true,
+          "type": "number",
+          "attributes": [
+            "table",
+            "chart"
+          ],
+          "options": null,
+          "rule": {
+            "max": 5000
           }
         },
         {
@@ -203,7 +215,7 @@
           "meta": false,
           "question": "Number of male staff",
           "name": "# of male staff",
-          "order": 12,
+          "order": 13,
           "required": true,
           "type": "number",
           "attributes": [
@@ -217,7 +229,7 @@
           "meta": false,
           "question": "Number of female staff",
           "name": "# of female staff",
-          "order": 13,
+          "order": 14,
           "required": true,
           "type": "number",
           "attributes": [
