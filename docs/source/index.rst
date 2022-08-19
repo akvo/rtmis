@@ -12,12 +12,12 @@ Status|
 Real Time Monitoring Information Systems
 
 .. toctree::
-   :maxdepth: 2
 
    install
    deployment
-   gettingSatarted
    practice
+   gettingSatarted
+   inputChannels
    administration
 
 .. |Build Status| image:: https://akvo.semaphoreci.com/badges/rtmis/branches/main.svg?style=shields
