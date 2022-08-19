@@ -115,3 +115,40 @@ Submitting Data for Approval
      :alt: Data validation
      :width: 100%
  
+Approving Data
+----------------
+1. Data Approvers will receive an E-mail notification every time there is data that needs their approval within their assigned administrative region. Log in to approve the data.
+  .. image:: ../assests/image32.png
+     :alt: Approving
+     :width: 100%
+ 
+2. All datasets that are pending approval will appear in the **My Pending Approvals** tab of the Approvals section. Click the **View All** button to begin the approval process.
+  .. image:: ../assests/image38.png
+     :alt: Approving
+     :width: 100%
+ 
+3. To approve or decline a dataset, expand the toggle button next to each data set. Here we have two tabs:
+**Data Summary**: A quick snapshot of the data you are approving.
+**Raw Data**: From this tab, you can access the raw data, make edits and save edits.
+You can add notes and feedback and the data submitter will receive an email notification once the dataset is approved or declined.
+  .. image:: ../assests/image7.png
+     :alt: Decline or approve
+     :width: 100%
+
+  .. image:: ../assests/image2.png
+     :alt: Decline or approve
+     :width: 100%
+ 
+4. Note: Rejected datasets will appear in the **My Pending Approvals** tab with the status **Rejected**. The status will change to **Pending** when the data submitter updates the rejected dataset as per the Approver’s instructions.
+
+Handling Rejected Data
+-----------------------
+1. Rejected datasets will appear in the **Pending Approval** tab with the status **Rejected**. Enumerators will receive an email notification when their data is rejected with an explanation from the approver why the data was rejected. Next, expand the toggle button next to the rejected dataset to make edits and resubmit your dataset.
+  .. image:: ../assests/image26.png
+     :alt: Reject Data
+     :width: 100%
+
+2. From the **Raw Data** tab, make any edits as per your Approver’s instructions. You can reset to default values in case you make an error while editing. Finally, when you are done with all edits click the **SAVE EDITS** button. Your dataset will now appear under **Pending Approval** with the status **Pending** and your Approver will be able to review and approve again.
+  .. image:: ../assests/image5.png
+     :alt: Reject Data
+     :width: 100%
