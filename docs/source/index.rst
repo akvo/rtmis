@@ -16,6 +16,16 @@ Real Time Monitoring Information Systems
 
    install
    deployment
+   start
+   practice
+   inputChannel
+   dataPresentation
+   administration
+   approval
+   dataManagement
+   outputs
+   individualPractice
+   
 
 
 .. |Build Status| image:: https://akvo.semaphoreci.com/badges/rtmis/branches/main.svg?style=shields
