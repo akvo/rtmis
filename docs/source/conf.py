@@ -1,4 +1,5 @@
 import sphinx_rtd_theme
+
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -34,6 +35,11 @@ extensions = [
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
+
+# Add css style
+html_css_files = [
+    'css/docs.css',
+]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
