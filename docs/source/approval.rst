@@ -1,5 +1,18 @@
-Approval workflow
-==================
+.. raw:: html
+
+    <style>
+      .green {color: green; font-size: 18px;}
+      .blue {color: blue;}
+      .bolditalic {font-style: italic; font-weight: 700;}  
+    </style>
+
+.. role:: blue
+
+:blue:`Approval workflow`
+=========================
+
+.. role:: green
+.. role:: bolditalic
 
 :green:`Submitting Data for Approval`
 --------------------------------------

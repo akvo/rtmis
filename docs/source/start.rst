@@ -1,9 +1,18 @@
-Get Started
-================
+.. raw:: html
 
-.. role:: heading
+    <style>
+      .green {color: green; font-size: 18px;}
+      .blue {color: blue;}  
+    </style>
+
+.. role:: blue
+
+:blue:`Get Started`
+====================
+
+.. role:: green
   
-:heading:`User Types & Basic principal`
+:green:`User Types & Basic principal`
 ----------------------------------------
 
 * There are three types of users that comprise Platform administrators (Super admins, County admins, sub county PHOs/Approvers), data collectors (Enumerators) and information consumers (National, County, institutional and public )
@@ -19,7 +28,7 @@ Get Started
 * Data entered by county admin is automatically approved if the questionnaire has final approval in the county level
 * Once a data set is rejected, the pending approval lock is removed so that it can be edited.
   
-:heading:`User Roles and Permissions`
+:green:`User Roles and Permissions`
 --------------------------------------
 
 +---------------------------+------------------------+----------------------------------------------+
@@ -50,7 +59,7 @@ Get Started
 ||                          || dash boards only      || boards only                                 |
 +---------------------------+------------------------+----------------------------------------------+
 
-:heading:`Setting up Account for the First Time`
+:green:`Setting up Account for the First Time`
 --------------------------------------------------
 
 Users who have been registered in the RUSH platform will receive an invitation email to complete the account setup process. Click the Set Password button to activate your account. Make sure you are on the testing url rtmis.akvo.org. Set a strong password and click Set New Password to login to your account.

@@ -1,5 +1,16 @@
-Outputs
-========
+.. raw:: html
+
+    <style>
+      .green {color: green; font-size: 18px;}
+      .blue {color: blue;}
+    </style>
+
+.. role:: blue
+
+:blue:`Outputs`
+===============
+
+.. role:: green
 
 :green:`Auto Generated visualisations`
 ---------------------------------------

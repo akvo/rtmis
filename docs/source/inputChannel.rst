@@ -1,5 +1,15 @@
-Overview of Input Channels
-===========================
+.. raw:: html
+
+    <style>
+      .green {color: green; font-size: 18px;}
+      .blue {color: blue;}
+      .bolditalic {font-style: italic; font-weight: 700;}  
+    </style>
+
+.. role:: blue
+
+:blue:`Overview of Input Channels`
+===================================
 
 .. role:: green
 
