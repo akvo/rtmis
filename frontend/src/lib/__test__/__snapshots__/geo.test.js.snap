@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`geo check geo Object 1`] = `
+Object {
+  "countiesjson": Object {
+    "features": Array [],
+    "type": "FeatureCollection",
+  },
+  "defaultPos": [Function],
+  "geojson": Object {
+    "geometry": null,
+    "properties": Object {},
+    "type": "Feature",
+  },
+  "getBounds": [Function],
+  "getColorScale": [Function],
+  "getGeometry": [Function],
+  "shapeLevels": Array [],
+  "tile": Object {
+    "attribution": "Tiles &copy; Esri &mdash; DeLorme, NAVTEQ, Esri",
+    "url": "https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png",
+  },
+}
+`;
