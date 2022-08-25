@@ -2,7 +2,7 @@ import { orderBy } from "lodash";
 
 const config = {
   siteTitle: "RUSH",
-  siteSubTitle: "Rural Urban Sanitation and Hygiene",
+  siteSubTitle: "Kenya Rural Urban Sanitation and Hygiene",
   siteLogo: "/logo.png",
   trainedStatus: [
     {
@@ -181,6 +181,10 @@ const config = {
     {
       id: 9,
       name: "M&E",
+    },
+    {
+      id: 12,
+      name: "Teacher",
     },
     {
       id: 10,
