@@ -41,9 +41,9 @@ During phase 2 of RUSH RTMIS implementation, data collection will be done at eve
 -----------------------
 
 From the Manage Data section of the control centre, expand the toggle button next to a data point to delete it.
-.. image:: ../assests/image43.png
-    :alt: Deleting Data
-    :width: 100%
+    .. image:: ../assests/image43.png
+        :alt: Deleting Data
+        :width: 100%
 
 :green:`Downloading data`
 --------------------------

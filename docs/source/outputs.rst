@@ -41,9 +41,9 @@
 ------------------------------------------
 
 Downloaded data can be accessed from the Downloaded Data tab of the control center. Click the download button to get your data in a spreadsheet.
-.. image:: ../assests/image44.png
-    :alt: spreadsheets
-    :width: 100%
+    .. image:: ../assests/image44.png
+        :alt: spreadsheets
+        :width: 100%
 
 :green:`Notifications`
 ------------------------
