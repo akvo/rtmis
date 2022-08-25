@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`util/filter test if generateAdvanceFilterURL returns the expected value 1`] = `"jmp/519630048?administration=1&&options=603100002%7C%7Crural"`;
