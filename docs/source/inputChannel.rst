@@ -1,7 +1,7 @@
 .. raw:: html
 
     <style>
-      .bolditalic {font-style: italic; font-weight: 700;}  
+      .bolditalic {font-style: italic; font-weight: 700;}
     </style>
 
 Overview of Input Channels

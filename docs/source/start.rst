@@ -16,7 +16,7 @@ User Types & Basic principal
 * Approved data can only be deleted by county admin or super admin
 * Data entered by county admin is automatically approved if the questionnaire has final approval in the county level
 * Once a data set is rejected, the pending approval lock is removed so that it can be edited.
-  
+
 User Roles and Permissions
 ---------------------------
 

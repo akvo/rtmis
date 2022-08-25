@@ -1,7 +1,7 @@
 .. raw:: html
 
     <style>
-      .bolditalic {font-style: italic; font-weight: 700;}  
+      .bolditalic {font-style: italic; font-weight: 700;}
     </style>
 
 .. role:: bolditalic
@@ -18,7 +18,7 @@ Manage Users (Add, Delete and Modify Users)
    :alt: Manage User
    :width: 100%
 
-2. To add a new user, click the :bolditalic:`ADD NEW USER` button. Next, fill all the mandatory fields and assign the user an organisation, designation, role, administrative region and questionnaires. Finally, click the Add User button to notify your new user. 
+2. To add a new user, click the :bolditalic:`ADD NEW USER` button. Next, fill all the mandatory fields and assign the user an organisation, designation, role, administrative region and questionnaires. Finally, click the Add User button to notify your new user.
 
 .. image:: ../assests/image23.png
    :alt: Add new User
@@ -54,7 +54,7 @@ Manage Users (Add, Delete and Modify Users)
 Manage Data Validation Setup`
 ------------------------------
 
-1. Select the :bolditalic:`Manage Data Validation Setup` tab from the manage users section of the control centre to access the approval chain for every questionnaire. Here, you can assign approvers for each questionnaire for every administrative region. 
+1. Select the :bolditalic:`Manage Data Validation Setup` tab from the manage users section of the control centre to access the approval chain for every questionnaire. Here, you can assign approvers for each questionnaire for every administrative region.
 
 .. image:: ../assests/image47.png
    :alt: Data validation

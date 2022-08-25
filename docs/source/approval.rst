@@ -1,7 +1,7 @@
 .. raw:: html
 
     <style>
-      .bolditalic {font-style: italic; font-weight: 700;}  
+      .bolditalic {font-style: italic; font-weight: 700;}
     </style>
 
 Approval workflow
@@ -44,13 +44,13 @@ Approving Data
 .. image:: ../assests/image32.png
    :alt: Approving
    :width: 100%
- 
+
 2. All datasets that are pending approval will appear in the :bolditalic:`My Pending Approvals` tab of the Approvals section. Click the :bolditalic:`View All` button to begin the approval process.
 
 .. image:: ../assests/image38.png
     :alt: Approving
     :width: 100%
- 
+
 3. To approve or decline a dataset, expand the toggle button next to each data set. Here we have two tabs:
 **Data Summary**: A quick snapshot of the data you are approving.
 **Raw Data**: From this tab, you can access the raw data, make edits and save edits.
@@ -66,7 +66,7 @@ You can add notes and feedback and the data submitter will receive an email noti
 
 1. Note: Rejected datasets will appear in the :bolditalic:`My Pending Approvals` tab with the status :bolditalic:`Rejected:bolditalic:`. The status will change to :bolditalic:`Pending` when the data submitter updates the rejected dataset as per the Approver’s instructions.
 
- 
+
 Handling Rejected Data
 -----------------------
 
