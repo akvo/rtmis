@@ -9,8 +9,10 @@ from api.v1.v1_users.models import SystemUser
 
 
 def get_definition(form: Forms):
-    questions = form.form_questions.all()
+    questions = questions = Questions.objects.filter(form=form).order_by(
+        "question_group__order", "order").all()
     framed = []
+    indexer = 1
     for q in [qs.to_definition() for qs in questions]:
         rule = ""
         dependency = ""
@@ -39,7 +41,8 @@ def get_definition(form: Forms):
                     "option": o,
                     "required": "YES" if q["required"] else "NO",
                     "rule": rule,
-                    "dependency": dependency
+                    "dependency": dependency,
+                    "indexer": indexer
                 })
         else:
             framed.append({
@@ -51,29 +54,27 @@ def get_definition(form: Forms):
                 "option": "",
                 "required": "YES" if q["required"] else "NO",
                 "rule": rule,
-                "dependency": dependency
+                "dependency": dependency,
+                "indexer": indexer
             })
+        indexer += 1
     return framed
 
 
 def generate_definition_sheet(form: Forms):
     definitions = get_definition(form=form)
     df = pd.DataFrame(definitions)
-    df = df.sort_values(by=["qg_id", "order"])
-    df["indexer"] = df.apply(lambda x: str(x["qg_id"]) + str(x["order"]),
-                             axis=1)
     selected_columns = [
         "indexer", "id", "question", "type", "required", "dependency",
-        "option", "rule"
-    ]
+        "option", "rule"]
     df = df[selected_columns]
     df = df.groupby(selected_columns).first()
     return df.droplevel('indexer')
 
 
 def generate_excel(form: Forms, user: SystemUser):
-    questions = Questions.objects.filter(form=form).order_by(
-        "question_group_id", "order").all()
+    questions = questions = Questions.objects.filter(form=form).order_by(
+        "question_group__order", "order").all()
     data = pd.DataFrame(
         columns=['{0}|{1}'.format(q.id, q.name) for q in questions], index=[0])
     form_name = form.name

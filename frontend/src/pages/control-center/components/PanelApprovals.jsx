@@ -59,7 +59,9 @@ const PanelApprovals = () => {
           tab={`${text.approvalsTab1} ${approvalsText}`}
           key="my-pending"
         ></TabPane>
-        <TabPane tab={text.approvalsTab2} key="subordinate"></TabPane>
+        {authUser.role_detail.name !== "Super Admin" && (
+          <TabPane tab={text.approvalsTab2} key="subordinate"></TabPane>
+        )}
       </Tabs>
       <Table
         dataSource={approvalsPending}

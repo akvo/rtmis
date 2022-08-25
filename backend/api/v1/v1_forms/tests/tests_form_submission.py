@@ -4,7 +4,6 @@ from django.test.utils import override_settings
 
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Administration, Levels
-from api.v1.v1_users.models import SystemUser
 
 
 def seed_administration_test():
@@ -168,51 +167,6 @@ class FormSubmissionTestCase(TestCase):
                                    payload,
                                    content_type='application/json',
                                    **header)
-        self.assertEqual(200, response.status_code)
-        self.assertEqual(response.json().get('message'),
-                         'Forms updated successfully')
-
-    def test_approval_form_user(self):
-        call_command("administration_seeder", "--test")
-        call_command("form_seeder", "--test")
-        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login',
-                                         user_payload,
-                                         content_type='application/json')
-        user = user_response.json()
-        token = user.get('token')
-        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
-        u = SystemUser.objects.first()
-        payload = [{"user_id": u.id, "administration_id": 0}]
-        response = self.client.post('/api/v1/form/approver/1',
-                                    payload,
-                                    content_type='application/json',
-                                    **header)
-
-        self.assertEqual(400, response.status_code)
-        # add/update
-        payload = [{
-            "user_id": u.id,
-            "administration_id": 1,
-            "flag": "add"
-        }]
-        response = self.client.post('/api/v1/form/approver/1',
-                                    payload,
-                                    content_type='application/json',
-                                    **header)
-        self.assertEqual(200, response.status_code)
-        self.assertEqual(response.json().get('message'),
-                         'Forms updated successfully')
-        # delete
-        payload = [{
-            "user_id": u.id,
-            "administration_id": 1,
-            "flag": "delete"
-        }]
-        response = self.client.post('/api/v1/form/approver/1',
-                                    payload,
-                                    content_type='application/json',
-                                    **header)
         self.assertEqual(200, response.status_code)
         self.assertEqual(response.json().get('message'),
                          'Forms updated successfully')

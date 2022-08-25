@@ -32,6 +32,7 @@ class ValidationText(enum.Enum):
     template_validation = "Wrong sheet names or invalid file upload template"
     file_empty_validation = "You have uploaded an empty sheet"
     is_required = "is required"
+    should_be_empty = "should be empty"
     start_validation = "DATA VALIDATION STARTED"
     successfully_validation = "IS SUCCESSFULLY VALIDATED"
     error_validation = "VALIDATION ERROR"

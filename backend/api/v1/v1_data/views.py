@@ -4,11 +4,14 @@ from collections import defaultdict
 from datetime import datetime, date, timedelta
 from wsgiref.util import FileWrapper
 from django.utils import timezone
+from operator import or_
+from functools import reduce
 
 from django.contrib.postgres.aggregates import StringAgg
-from django.db.models import Count, TextField, Value, F, Sum, Avg
+from django.db.models import Count, TextField, Value, F, Sum, Avg, Q
 from django.db.models.functions import Cast, Coalesce
 from django.http import HttpResponse
+from django_q.tasks import async_task
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, inline_serializer, \
     OpenApiParameter, OpenApiResponse, OpenApiExample
@@ -41,10 +44,9 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ChartDataSerializer, ListChartCriteriaRequestSerializer, \
     ListMapOverviewDataPointSerializer, \
     ListMapOverviewDataPointRequestSerializer
-from api.v1.v1_data.functions import refresh_materialized_data, \
-    get_cache, create_cache, filter_by_criteria, \
-    get_questions_options_from_params, get_advance_filter_data_ids, \
-    transform_glass_answer
+from api.v1.v1_data.functions import get_cache, create_cache, \
+    filter_by_criteria, get_questions_options_from_params, \
+    get_advance_filter_data_ids, transform_glass_answer
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, Questions, \
     ViewJMPCriteria
@@ -52,7 +54,7 @@ from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
 from rtmis.settings import REST_FRAMEWORK
-from utils.custom_permissions import IsAdmin, IsApprover, \
+from utils.custom_permissions import IsSuperAdmin, IsAdmin, IsApprover, \
         IsSubmitter, PublicGet
 from utils.custom_serializer_fields import validate_serializers_message
 from utils.default_serializers import DefaultResponseSerializer
@@ -203,16 +205,22 @@ class FormDataAddListView(APIView):
         if is_super_admin or is_county_admin_with_county_form:
             # move current answer to answer_history
             for answer in answers:
-                form_answer = Answers.objects.get(
-                    data=data, question=answer.get('question'))
-                AnswerHistory.objects.create(
-                    data=form_answer.data,
-                    question=form_answer.question,
-                    name=form_answer.name,
-                    value=form_answer.value,
-                    options=form_answer.options,
-                    created_by=user
-                )
+                form_answer = Answers.objects.filter(
+                    data=data, question=answer.get('question')).first()
+                if form_answer:
+                    AnswerHistory.objects.create(
+                        data=form_answer.data,
+                        question=form_answer.question,
+                        name=form_answer.name,
+                        value=form_answer.value,
+                        options=form_answer.options,
+                        created_by=user
+                    )
+                if not form_answer:
+                    form_answer = Answers(
+                            data=data,
+                            question_id=answer.get('question'),
+                            created_by=user)
                 # prepare updated answer
                 question_id = answer.get('question')
                 question = Questions.objects.get(
@@ -244,7 +252,7 @@ class FormDataAddListView(APIView):
             data.updated = timezone.now()
             data.updated_by = user
             data.save()
-            refresh_materialized_data()
+            async_task('api.v1.v1_data.functions.refresh_materialized_data')
             return Response({'message': 'direct update success'},
                             status=status.HTTP_200_OK)
         # Store edit data to pending form data
@@ -731,7 +739,7 @@ def get_chart_criteria(request, version, form_id):
     ],
     summary='To get list of pending batch')
 @api_view(['GET'])
-@permission_classes([IsAuthenticated, IsAdmin | IsApprover])
+@permission_classes([IsAuthenticated, IsApprover | IsAdmin | IsSuperAdmin])
 def list_pending_batch(request, version):
     serializer = PendingBatchDataFilterSerializer(data=request.GET)
     if not serializer.is_valid():
@@ -825,7 +833,7 @@ class PendingDataDetailDeleteView(APIView):
                tags=['Pending Data'],
                summary='Approve pending data')
 @api_view(['POST'])
-@permission_classes([IsAuthenticated, IsApprover | IsAdmin])
+@permission_classes([IsAuthenticated, IsApprover | IsAdmin | IsSuperAdmin])
 def approve_pending_data(request, version):
     serializer = ApprovePendingDataRequestSerializer(
         data=request.data,
@@ -1123,8 +1131,8 @@ class PendingFormDataView(APIView):
 @api_view(['GET'])
 def get_last_update_data_point(request, version, form_id):
     form = get_object_or_404(Forms, pk=form_id)
-    data = FormData.objects.filter(
-        form=form).annotate(last_update=Coalesce('updated', 'created')).first()
+    data = FormData.objects.filter(form=form).annotate(
+        last_update=Coalesce('updated', 'created')).latest('last_update')
     if not data:
         return Response(
                 {'last_update': datetime.now().strftime("%d/%m/%Y")},
@@ -1184,11 +1192,12 @@ def get_jmp_data(request, version, form_id):
     if not administration:
         administration = 1
     # Advance filter
+    options = request.GET.getlist('options')
     data_ids = None
-    if request.GET.getlist('options'):
+    if options:
         data_ids = get_advance_filter_data_ids(
             form_id=form_id, administration_id=administration,
-            options=request.GET.getlist('options'))
+            options=options)
     # Check administration filter level
     administration_obj = Administration.objects
     if adm_filter.level_id < 4:
@@ -1200,12 +1209,18 @@ def get_jmp_data(request, version, form_id):
     jmp_data = []
 
     # JMP Criteria
+    jmp_criteria_obj = ViewJMPCriteria.objects.filter(form=form)
     criteria_cache = f"jmp-criteria-{form.id}"
     criteria = get_cache(criteria_cache)
     if not criteria:
-        criteria = ViewJMPCriteria.objects.filter(
-                form=form).distinct('name', 'level').all()
+        criteria = jmp_criteria_obj.distinct('name', 'level', 'criteria').all()
         create_cache(criteria_cache, criteria)
+
+    # check if advance filter value is on JMP criteria
+    is_jmp_criteria = False
+    if options:
+        is_jmp_criteria = jmp_criteria_obj.filter(reduce(
+            or_, [Q(criteria__contains=op) for op in options])).first()
 
     # Custom Criteria (SUM & AVG)
     sums = []
@@ -1240,12 +1255,29 @@ def get_jmp_data(request, version, form_id):
             if data_ids:
                 # JMP Criteria
                 matches_name = f"crt.{form.id}{crt.name}{crt.level}"
+                matches_name = f"{matches_name}{'_'.join(options)}"
                 matches = get_cache(matches_name)
                 if not matches:
-                    matches = ViewJMPCriteria.objects.filter(
-                            form=form,
-                            name=crt.name,
-                            level=crt.level).count()
+                    matches = jmp_criteria_obj.filter(
+                        name=crt.name, level=crt.level)
+                    # filter by criteria defined in is_jmp_criteria
+                    # create unique list for question id in options
+                    if is_jmp_criteria and is_jmp_criteria.name == crt.name:
+                        qids = []
+                        for opt in is_jmp_criteria.criteria:
+                            val = opt.split("||")[0]
+                            if val in qids:
+                                continue
+                            qids.append(val)
+                        # filter options and_ when different question id
+                        for qid in qids:
+                            # filter options or_ when same question id
+                            or_filter_value = filter(
+                                lambda x: qid in x, options)
+                            matches = matches.filter(reduce(
+                                or_, [Q(criteria__contains=op)
+                                      for op in or_filter_value]))
+                    matches = matches.count()
                     create_cache(matches_name, matches)
 
                 data = ViewJMPData.objects.filter(

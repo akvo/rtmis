@@ -26,6 +26,7 @@ class UserDesignationTypes:
     me = 9
     it = 10
     sa = 11
+    tr = 12
 
     FieldStr = {
         nse: "NSE (National Sanitation Extender)",
@@ -39,6 +40,7 @@ class UserDesignationTypes:
         me: "M&E",
         it: "IT",
         sa: "System Admin",
+        tr: "Teacher"
     }
 
 

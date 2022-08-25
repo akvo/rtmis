@@ -39,14 +39,15 @@ def validate_header_names(header, col, header_names):
     if "|" not in header:
         default.update({
             "error_message":
-                f"{header} {ValidationText.header_no_question_id.value}",
+            f"{header} {ValidationText.header_no_question_id.value}",
         })
         return default
     if "|" in header:
         if header not in header_names:
+            header_id = header.split("|")[0]
             default.update({
                 "error_message":
-                    f"{header} {ValidationText.header_invalid_id.value}",
+                f"{header_id} {ValidationText.header_invalid_id.value}",
             })
             return default
     return False
@@ -66,16 +67,16 @@ def validate_number(answer, question):
             if r == "max" and float(rule[r]) < answer:
                 return {
                     "error_message":
-                        ValidationText.numeric_max_rule.value.replace(
-                            "--question--", qname).replace("--rule--",
-                                                           str(rule[r]))
+                    ValidationText.numeric_max_rule.value.replace(
+                        "--question--", qname).replace("--rule--",
+                                                       str(rule[r]))
                 }
             if r == "min" and float(rule[r]) > answer:
                 return {
                     "error_message":
-                        ValidationText.numeric_min_rule.value.replace(
-                            "--question--", qname).replace("--rule--",
-                                                           str(rule[r]))
+                    ValidationText.numeric_min_rule.value.replace(
+                        "--question--", qname).replace("--rule--",
+                                                       str(rule[r]))
                 }
     return False
 
@@ -102,6 +103,8 @@ def validate_geo(answer):
 
 
 def validate_administration(answer, adm):
+    if adm['id'] == 1:
+        return False
     aw = answer.split("|")
     name = adm["name"]
     if len(aw) < 2:
@@ -120,9 +123,8 @@ def validate_administration(answer, adm):
     if adm['id'] not in path:
         return {
             "error_message":
-                ValidationText.administration_not_part_of.value.replace(
-                    "--answer--", str(aw[-1])).replace("--administration--",
-                                                       name)
+            ValidationText.administration_not_part_of.value.replace(
+                "--answer--", str(aw[-1])).replace("--administration--", name)
         }
     return False
 
@@ -133,7 +135,7 @@ def validate_date(answer):
     except ValueError:
         return {
             "error_message":
-                f"Invalid date format: {answer}. It should be YYYY-MM-DD"
+            f"Invalid date format: {answer}. It should be YYYY-MM-DD"
         }
     return False
 
@@ -166,16 +168,51 @@ def validate_option(options, answer):
     return False
 
 
-def validate_row_data(col, answer, question: Questions, adm):
+def validate_dependency(col, answered: bool, dependency_answer,
+                        question: Questions):
+    default = {
+        "error": ExcelError.value,
+        "cell": col,
+        "error_message": f"{question.id} {ValidationText.is_required.value}"
+    }
+    if not question.required and not question.dependency:
+        # no answer requirements at all (best performance)
+        return False
+    if not answered and question.required and not question.dependency:
+        # answer is absolutely required
+        return default
+    if question.dependency:
+        # check if the answer is required or should be blank
+        question_dependency = question.dependency[0]
+        question_is_appear = False
+        if dependency_answer:
+            for daw in dependency_answer.split("|"):
+                if daw in question_dependency["options"]:
+                    question_is_appear = True
+        # answer should be blank
+        if answered and not question_is_appear:
+            default.update({
+                "error_message":
+                f"{question.id} {ValidationText.should_be_empty.value}"
+            })
+            return default
+        # answer should not be empty
+        if not answered and question_is_appear and question.required:
+            return default
+    # no requirement wether answered or not
+    return False
+
+
+def validate_row_data(col, answer, dependency_answer, question: Questions,
+                      adm):
     default = {"error": ExcelError.value, "cell": col}
-    # if answer != answer:
-    #     if question.required:
-    #         default.update({
-    #             "error_message":
-    #                 f"{question.name} {ValidationText.is_required.value}"
-    #         })
-    #         return default
-    #     return False
+    answered = answer == answer
+    dependency_errors = validate_dependency(col, answered, dependency_answer,
+                                            question)
+    if dependency_errors:
+        return dependency_errors
+    if not answered:
+        return False
     if isinstance(answer, str):
         answer = HText(answer).clean
     if question.type == QuestionTypes.administration:
@@ -198,8 +235,9 @@ def validate_row_data(col, answer, question: Questions, adm):
         if err:
             default.update(err)
             return default
-    elif question.type in [QuestionTypes.option,
-                           QuestionTypes.multiple_option]:
+    elif question.type in [
+            QuestionTypes.option, QuestionTypes.multiple_option
+    ]:
         err = validate_option(question.question_question_options.all(), answer)
         if err:
             default.update(err)
@@ -218,7 +256,8 @@ def validate_data_id(col, data_id):
     default = {"error": ExcelError.value, "cell": col}
     if data_id and not FormData.objects.filter(id=data_id).exists():
         default.update({
-            "error_message": ValidationText.invalid_data_id.value.replace(
+            "error_message":
+            ValidationText.invalid_data_id.value.replace(
                 "--data_id--", str(data_id))
         })
         return default
@@ -243,7 +282,6 @@ def validate(form: int, administration: int, file: str):
     df = pd.read_excel(file, sheet_name='data')
     if 'id' in list(df):
         df = df.rename(columns={'id': 'data_id'})
-    # df = df[header_names + ['data_id']]
     if df.shape[0] == 0:
         return [{
             "error": ExcelError.sheet,
@@ -261,29 +299,40 @@ def validate(form: int, administration: int, file: str):
     adm = {"id": adm.id, "name": adm.name}
     for col in excel_head:
         header = excel_head[col]
+        errors = None
         if header not in header_names + ['data_id']:
-            continue
-        error = validate_header_names(header, f"{col}1", header_names)
-
-        if error:
-            header_error.append(error)
-        if not error:
+            errors = validate_header_names(header, f"{col}1", header_names)
+        if errors:
+            header_error.append(errors)
+        if not errors:
             if header == 'data_id':
                 data_ids = list(df[header])
                 for i, data_id in enumerate(data_ids):
                     ix = i + 2
                     data_id = None if math.isnan(data_id) else data_id
-                    error = validate_data_id(f"{col}{ix}", data_id)
-                    if error:
-                        data_error.append(error)
+                    errors = validate_data_id(f"{col}{ix}", data_id)
+                    if errors:
+                        data_error.append(errors)
             else:
                 qid = header.split("|")[0]
                 question = questions.filter(id=int(qid)).first()
+                dependencies = False
+                if question.dependency:
+                    dependency = questions.filter(
+                        id=question.dependency[0].get("id")).first()
+                    if dependency.to_excel_header in list(df):
+                        dependencies = list(df[dependency.to_excel_header])
                 answers = list(df[header])
                 for i, answer in enumerate(answers):
                     ix = i + 2
-                    error = validate_row_data(f"{col}{ix}", answer,
-                                              question, adm)
-                    if error:
-                        data_error.append(error)
+                    dependency_answer = False
+                    if dependencies:
+                        dependency_answer = dependencies[i]
+                        if dependency_answer != dependency_answer:
+                            dependency_answer = False
+                    errors = validate_row_data(f"{col}{ix}", answer,
+                                               dependency_answer, question,
+                                               adm)
+                    if errors:
+                        data_error.append(errors)
     return header_error + data_error

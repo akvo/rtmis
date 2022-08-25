@@ -254,10 +254,15 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         form_types = [f.type for f in attrs.get('forms')]
         if attrs.get('role') == UserRoleTypes.user \
                 and FormTypes.national in form_types:
-            raise ValidationError({
+            raise ValidationError(
                 'User with role User only allow to '
                 'access County forms type'
-            })
+            )
+        if attrs.get('role') == UserRoleTypes.super_admin \
+                and FormTypes.county in form_types:
+            raise ValidationError(
+                'Super Admin can only approve National Type of form'
+            )
         return attrs
 
     def create(self, validated_data):

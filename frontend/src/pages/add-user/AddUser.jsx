@@ -53,6 +53,7 @@ const AddUser = () => {
   const { notify } = useNotification();
   const { id } = useParams();
   const [organisations, setOrganisations] = useState([]);
+  const [nationalApprover, setNationalApprover] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState([]);
 
@@ -222,6 +223,7 @@ const AddUser = () => {
             forms: res.data?.forms.map((f) => parseInt(f.id)),
             organisation: res.data?.organisation?.id || [],
             trained: res?.data?.trained,
+            nationalApprover: res.data?.role === 1 && !!res.data?.forms?.length,
             inform_user: !id
               ? true
               : authUser?.email === res.data?.email
@@ -230,6 +232,9 @@ const AddUser = () => {
           });
           setRole(res.data?.role);
           setLoading(false);
+          setNationalApprover(
+            res.data?.role === 1 && !!res.data?.forms?.length
+          );
           fetchData(res.data.administration, [], res.data?.role);
         });
       } catch (error) {
@@ -246,6 +251,9 @@ const AddUser = () => {
   }, [role, allowedRoles]);
 
   const allowedForms = useMemo(() => {
+    if (role === 1) {
+      return forms.filter((f) => f.type === 2);
+    }
     return role < 3 ? forms : forms.filter((f) => f.type === 1);
   }, [role, forms]);
 
@@ -448,7 +456,18 @@ const AddUser = () => {
               />
             </div>
           )}
-          {[2, 3, 4].includes(role) && (
+          {role === 1 && (
+            <div className="form-row">
+              <Form.Item
+                name="nationalApprover"
+                valuePropName="checked"
+                onChange={(e) => setNationalApprover(e.target.checked)}
+              >
+                <Checkbox>National Approver</Checkbox>
+              </Form.Item>
+            </div>
+          )}
+          {([2, 3, 4].includes(role) || nationalApprover) && (
             <div className="form-row" style={{ marginTop: 24 }}>
               {loadingForm || loading ? (
                 <>

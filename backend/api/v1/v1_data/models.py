@@ -34,12 +34,9 @@ class FormData(models.Model):
     @property
     def to_data_frame(self):
         data = {
-            "id":
-            self.id,
-            "datapoint_name":
-            self.name,
-            "administration":
-            self.administration.administration_column,
+            "id": self.id,
+            "datapoint_name": self.name,
+            "administration": self.administration.administration_column,
             "geolocation":
             f"{self.geo[0]}, {self.geo[1]}" if self.geo else None,
             "created_by":
@@ -51,7 +48,9 @@ class FormData(models.Model):
             "updated_at":
             self.updated.strftime("%B %d, %Y") if self.updated else None,
         }
-        for a in self.data_answer.all():
+        for a in self.data_answer.order_by(
+                'question__question_group_id',
+                'question__order').all():
             data.update(a.to_data_frame)
         return data
 

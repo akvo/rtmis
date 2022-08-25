@@ -174,10 +174,8 @@ def upload_excel(request, form_id, version):
                               status=JobStatus.on_progress,
                               user=request.user,
                               info={
-                                  'file':
-                                  filename,
-                                  'form':
-                                  form_id,
+                                  'file': filename,
+                                  'form': form_id,
                                   'administration':
                                   request.user.user_access.administration_id
                               })

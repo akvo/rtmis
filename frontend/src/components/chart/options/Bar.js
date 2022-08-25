@@ -141,7 +141,7 @@ const Bar = (
           ...TextStyle,
           color: "#fff",
           formatter: (s) => {
-            return `${s.data.count} (${s.value} %)`;
+            return `${s.value} %`;
           },
         },
       },

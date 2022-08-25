@@ -72,13 +72,14 @@ class Command(BaseCommand):
                     self.stdout.write(
                         f"Form Updated | {form.name} V{form.version}")
             # question group loop
-            for qg in json_form["question_groups"]:
+            for qgi, qg in enumerate(json_form["question_groups"]):
                 question_group, created = QG.objects.update_or_create(
                     name=qg["question_group"],
                     form=form,
                     defaults={
                         "name": qg["question_group"],
-                        "form": form
+                        "form": form,
+                        "order": qgi + 1
                     })
                 if created:
                     question_group.save()
@@ -144,13 +145,14 @@ class Command(BaseCommand):
                 for criteria in attr.get('options'):
                     if not criteria.get('options'):
                         continue
-                    for op in criteria.get('options'):
+                    for iop, op in enumerate(criteria.get('options')):
                         jmp_attrs.append({
                             "name":
-                            "{}|{}|{}".format(
+                            "{}|{}|{}|{}".format(
                                 attr.get('title').lower(),
                                 criteria.get('name').lower(),
-                                criteria.get('score')),
+                                criteria.get('score'),
+                                op.get("group") or iop + 1),
                             "question":
                             op.get('question'),
                             "option":

@@ -23,6 +23,17 @@ const Footer = ({ className = "footer", ...props }) => {
         <Col span={8}>
           <h2>{text?.footerAboutTitle}</h2>
           <p>{text?.footerAboutDescription}</p>
+          {text?.footerQuickLinkItems?.map((x, xi) => (
+            <a
+              key={`quick-link-${xi}`}
+              className="link-inline"
+              target="_blank"
+              rel="noreferrer"
+              href={x.url}
+            >
+              {x.text}
+            </a>
+          ))}
         </Col>
         <Col span={4}>
           <h2>{text?.footerExternalLinkTitle}</h2>
