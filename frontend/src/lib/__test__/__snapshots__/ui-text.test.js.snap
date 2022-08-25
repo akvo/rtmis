@@ -109,8 +109,8 @@ Object {
     "footerExternalLinkTitle": "External Links",
     "footerQuickLinkItems": Array [
       Object {
-        "text": "TEST",
-        "url": "https://akvo.org",
+        "text": "Read the Docs",
+        "url": "/documentation",
       },
     ],
     "footerQuickLinkTitle": "Quick Links",
@@ -250,12 +250,12 @@ Object {
     "second": "Second",
     "selectForm": "Please select a form",
     "sendInstructions": "Send Instructions",
-    "sendNewRequest": "Send a new approval request",
+    "sendNewRequest": "Notify Approver",
     "settings": "System Settings",
     "settingsDescriptionPanel": "This page allows Super Admin to maintain system critical master lists.",
     "showEmpty": "Show empty values",
     "signOut": "Sign Out",
-    "submissionComment": "Submission comment (Optional)",
+    "submissionComment": "Submission comment",
     "templateDownloadHint": "If you do not already have a template, please download it",
     "templateFetchFail": "Could not fetch template",
     "tourApprovals": "Placeat impedit iure quaerat neque sit quasi",
@@ -289,7 +289,7 @@ Object {
     "valPhone": "Phone number is required",
     "valRole": "Please select a Role",
     "welcome": <React.Fragment>
-      Rural Urban Sanitation
+      Kenya Rural Urban Sanitation
       <br />
       and Hygiene (RUSH)
     </React.Fragment>,
