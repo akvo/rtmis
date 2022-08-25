@@ -86,8 +86,8 @@ const uiText = {
     footerQuickLinkTitle: "Quick Links",
     footerQuickLinkItems: [
       {
-        text: "TEST",
-        url: "https://akvo.org",
+        text: "Read the Docs",
+        url: "/documentation",
       },
     ],
     copyright: "© 2022 — Ministry of Health",
