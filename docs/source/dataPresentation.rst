@@ -1,23 +1,11 @@
-.. raw:: html
+In-depth presentation of Data forms
+====================================
 
-    <style>
-      .green {color: green; font-size: 18px;}
-      .blue {color: blue;}
-    </style>
-
-.. role:: blue
-
-
-:blue:`In-depth presentation of Data forms`
-============================================
-
-.. role:: green
-
-:green:`> Household data form` 
---------------------------------
-:green:`> Schools and institutions data form`
-----------------------------------------------
-:green:`> Health care facilities data form`
---------------------------------------------
-:green:`> Governance and Policy data form`
---------------------------------------------
+> Household data form
+-----------------------
+> Schools and institutions data form
+-------------------------------------
+> Health care facilities data form
+-----------------------------------
+> Governance and Policy data form
+-----------------------------------

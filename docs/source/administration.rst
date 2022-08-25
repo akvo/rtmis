@@ -1,21 +1,16 @@
 .. raw:: html
 
     <style>
-      .green {color: green; font-size: 18px;}
-      .blue {color: blue;}
       .bolditalic {font-style: italic; font-weight: 700;}  
     </style>
 
-.. role:: blue
 .. role:: bolditalic
 
-:blue:`Administration`
-======================
+Administration
+===============
 
-.. role:: green
-
-:green:`Manage Users (Add, Delete and Modify Users)`
-------------------------------------------------------
+Manage Users (Add, Delete and Modify Users)
+--------------------------------------------
 
 1. From the User Management tab of the control centre, click the :bolditalic:`Manage Users` button to add a new user, modify an existing user or delete an existing user.
 
@@ -56,8 +51,8 @@
    :alt: Edited User
    :width: 100%
 
-:green:`Manage Data Validation Setup`
---------------------------------------
+Manage Data Validation Setup`
+------------------------------
 
 1. Select the :bolditalic:`Manage Data Validation Setup` tab from the manage users section of the control centre to access the approval chain for every questionnaire. Here, you can assign approvers for each questionnaire for every administrative region. 
 
@@ -70,4 +65,3 @@
 .. image:: ../assests/image22.png
    :alt: Data validation
    :width: 100%
-
