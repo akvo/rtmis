@@ -19,6 +19,7 @@ import { api, store, config, uiText } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { takeRight, take, max } from "lodash";
 import { useNotification } from "../../util/hooks";
+import { AddUserTour } from "./components";
 
 const { Option } = Select;
 
@@ -261,9 +262,12 @@ const AddUser = () => {
     <div id="add-user">
       <Row justify="space-between">
         <Col>
-          <Breadcrumbs pagePath={pagePath} />
+          <Row justify="space-between">
+            <Breadcrumbs pagePath={pagePath} />
+          </Row>
           <DescriptionPanel description={descriptionData} />
         </Col>
+        <AddUserTour />
       </Row>
       <Divider />
       <Form

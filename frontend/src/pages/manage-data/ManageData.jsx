@@ -27,6 +27,7 @@ import {
   DataTab,
 } from "../../components";
 import { useNotification } from "../../util/hooks";
+import { ManageDataTour } from "./components";
 import { generateAdvanceFilterURL } from "../../util/filter";
 
 const pagePath = [
@@ -170,6 +171,7 @@ const ManageData = () => {
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel description={text.manageDataText} />
         </Col>
+        <ManageDataTour />
       </Row>
       <DataTab />
       <DataFilters query={query} setQuery={setQuery} loading={loading} />
