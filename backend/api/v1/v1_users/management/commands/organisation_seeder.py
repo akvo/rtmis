@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from django.core.management import BaseCommand
+from utils.db_manager import reset_table_sequence
 from api.v1.v1_profile.constants import OrganisationTypes
 from api.v1.v1_users.models import Organisation, OrganisationAttribute
 
@@ -41,9 +42,9 @@ class Command(BaseCommand):
             for tp in types:
                 org_type = getattr(OrganisationTypes, tp.strip())
                 if not OrganisationAttribute.objects.filter(
-                        organisation=organisation,
-                        type=org_type).first():
+                        organisation=organisation, type=org_type).first():
                     attr = OrganisationAttribute(organisation=organisation,
                                                  type=org_type)
                     attr.save()
+        reset_table_sequence('organisation')
         self.stdout.write('-- FINISH')
