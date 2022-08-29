@@ -146,6 +146,7 @@ const Header = ({ className = "header", ...props }) => {
                   }}
                 >
                   {user?.name || ""}
+                  <span className="role">, {user?.role?.value || ""}</span>
                   <span className="icon">
                     <UserOutlined />
                   </span>

@@ -159,6 +159,7 @@
       .account {
         margin-left: 30px;
         vertical-align: middle;
+        padding-top: 4px;
 
         button {
           &.ant-btn {
@@ -169,6 +170,11 @@
 
         a {
           color: $color-light;
+
+          .role {
+            font-style: italic;
+            letter-spacing: initial;
+          }
 
           .icon {
             margin-left: $margin-small;
