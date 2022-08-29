@@ -27,8 +27,6 @@ const Header = ({ className = "header", ...props }) => {
     navigate("login");
   };
 
-  console.log(user);
-
   const userMenu = (
     <Menu>
       {config.checkAccess(user?.role_detail, "control-center") && (
@@ -147,7 +145,10 @@ const Header = ({ className = "header", ...props }) => {
                     e.preventDefault();
                   }}
                 >
-                  {user?.name || ""}, {user?.role?.value || ""}
+                  {user?.name || ""},
+                  <span style={{ fontStyle: "italic" }}>
+                    {""} {user?.role?.value || ""}
+                  </span>
                   <span className="icon">
                     <UserOutlined />
                   </span>
