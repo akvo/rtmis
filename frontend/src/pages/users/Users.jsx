@@ -222,6 +222,7 @@ const Users = () => {
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel description={text.manageUserText} />
         </Col>
+        <UserTour />
       </Row>
       <UserTab
         tabBarExtraContent={

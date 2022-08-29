@@ -2,7 +2,7 @@ import React from "react";
 import { Tour } from "../../../components";
 import { store, config } from "../../../lib";
 
-const QuestionnaireTour = () => {
+const UserTour = () => {
   const { user: authUser } = store.useState((s) => s);
 
   const steps = [
@@ -14,14 +14,10 @@ const QuestionnaireTour = () => {
             description: "Search user by name, country, organization and role",
           },
           {
-            image: "/assets/tour/manage-user/1.png",
+            image: "/assets/tour/manage-user/4.png",
             title: "Add user",
-            description: "A button to add a new user.",
-          },
-          {
-            image: "/assets/tour/manage-user/2.png",
-            title: "List of users",
-            description: "A table to see the list of users.",
+            description:
+              "A user can add a new user by clicking on this button which redirect to add-user page",
           },
         ]
       : []),
@@ -30,4 +26,4 @@ const QuestionnaireTour = () => {
   return <Tour steps={steps} title="Users" />;
 };
 
-export default React.memo(QuestionnaireTour);
+export default React.memo(UserTour);
