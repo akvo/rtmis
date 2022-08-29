@@ -4,6 +4,7 @@ import pandas as pd
 from django.utils import timezone
 from django_q.tasks import async_task
 
+from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_jobs.constants import JobStatus, JobTypes
 from api.v1.v1_jobs.functions import HText
@@ -30,11 +31,9 @@ def rearrange_columns(col_names: list):
     col_question = list(filter(lambda x: HText(x).hasnum, col_names))
     if len(col_question) == len(col_names):
         return col_question
-    col_names = [
-                    "id", "created_at", "created_by", "updated_at",
-                    "updated_by",
-                    "datapoint_name", "administration", "geolocation"
-                ] + col_question
+    col_names = ["id", "created_at", "created_by", "updated_at",
+                 "updated_by", "datapoint_name", "administration",
+                 "geolocation"] + col_question
     return col_names
 
 
@@ -160,6 +159,7 @@ def seed_data_job(job_id):
 def seed_data_job_result(task):
     job = Jobs.objects.get(task_id=task.id)
     job.attempt = job.attempt + 1
+    is_super_admin = job.user.user_access.role == UserRoleTypes.super_admin
     if task.result:
         job.status = JobStatus.done
         job.available = timezone.now()
@@ -168,20 +168,23 @@ def seed_data_job_result(task):
         file = job.info.get("file")
         storage.download(f"upload/{file}")
         df = pd.read_excel(f"./tmp/{file}", sheet_name='data')
+        subject = "New Data Uploaded" if is_super_admin \
+            else 'New Request @{0}'.format(job.user.get_full_name())
         data = {
-            'subject': 'New Request @{0}'.format(job.user.get_full_name()),
+            'subject': subject,
             'title': "New Data Submission",
             'send_to': [job.user.email],
             'listing': [{
                 'name': "Upload Date",
                 'value': job.created.strftime("%m-%d-%Y, %H:%M:%S"),
-                }, {
+            }, {
                 'name': "Questionnaire",
                 'value': form.name
-                }, {
+            }, {
                 'name': "Number of Records",
                 'value': df.shape[0]
-             }],
+            }],
+            'is_super_admin': is_super_admin
         }
         send_email(context=data, type=EmailTypes.new_request)
     else:
@@ -206,17 +209,17 @@ def validate_excel(job_id):
         error_file = f"./tmp/error-{job_id}.csv"
         error_list.to_csv(error_file, index=False)
         data = {
-             'send_to': [job.user.email],
-             'listing': [{
+            'send_to': [job.user.email],
+            'listing': [{
                 'name': "Upload Date",
                 'value': job.created.strftime("%m-%d-%Y, %H:%M:%S"),
-                }, {
+            }, {
                 'name': "Questionnaire",
                 'value': form.name
-                }, {
+            }, {
                 'name': "Number of Records",
                 'value': df.shape[0]
-             }],
+            }],
         }
         send_email(context=data,
                    type=EmailTypes.upload_error,
