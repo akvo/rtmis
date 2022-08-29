@@ -9,9 +9,10 @@ const AddUserTour = () => {
     ...(config.checkAccess(authUser?.role_detail, "user")
       ? [
           {
-            image: "/assets/tour/add-user/1.png",
-            title: "Form for a new User",
-            description: "This shows a form to add a new user.",
+            image: "/assets/tour/add-user/add-user.png",
+            title: "Add a new user",
+            description:
+              "A user can fill this form and click on the SUBMIT button to post their new user.",
           },
         ]
       : []),
