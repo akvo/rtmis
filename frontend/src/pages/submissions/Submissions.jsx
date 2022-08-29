@@ -23,6 +23,7 @@ import { useNotification } from "../../util/hooks";
 import { columnsPending, columnsBatch, columnsSelected } from "./";
 import UploadDetail from "./UploadDetail";
 import FormDropdown from "../../components/filters/FormDropdown";
+import { DataUploadsTour } from "./components";
 import { isEmpty, without, union, xor } from "lodash";
 
 const { TextArea } = Input;
@@ -204,7 +205,10 @@ const Submissions = () => {
   };
   return (
     <div id="submissions">
-      <Breadcrumbs pagePath={pagePath} />
+      <Row justify="space-between">
+        <Breadcrumbs pagePath={pagePath} />
+        <DataUploadsTour />
+      </Row>
       <Divider />
       <FormDropdown hidden={true} />
       <Card style={{ padding: 0 }} bodyStyle={{ padding: 30 }}>

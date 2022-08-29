@@ -8,7 +8,7 @@ import {
   DataChart,
   AdministrationChart,
 } from "../../components";
-import { QuestionChart } from "./components";
+import { QuestionChart, VisualisationTour } from "./components";
 
 const Visualisation = () => {
   const [current, setCurrent] = useState(null);
@@ -25,6 +25,10 @@ const Visualisation = () => {
 
   return (
     <div id="visualisation">
+      <Row justify="end">
+        <VisualisationTour />
+      </Row>
+      <Divider />
       <VisualisationFilters />
       <Row gutter={12} className="main-wrap" justify="space-between">
         <Col span={current?.charts?.length ? 12 : 24}>
