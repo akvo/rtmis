@@ -145,10 +145,8 @@ const Header = ({ className = "header", ...props }) => {
                     e.preventDefault();
                   }}
                 >
-                  {user?.name || ""},
-                  <span style={{ fontStyle: "italic" }}>
-                    {""} {user?.role?.value || ""}
-                  </span>
+                  {user?.name || ""}
+                  <span className="role">, {user?.role?.value || ""}</span>
                   <span className="icon">
                     <UserOutlined />
                   </span>
