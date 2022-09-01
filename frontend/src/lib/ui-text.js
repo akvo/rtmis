@@ -5,7 +5,7 @@ const uiText = {
     // Home page
     welcome: (
       <Fragment>
-        Rural Urban Sanitation
+        Kenya Rural Urban Sanitation
         <br />
         and Hygiene (RUSH)
       </Fragment>
@@ -86,8 +86,8 @@ const uiText = {
     footerQuickLinkTitle: "Quick Links",
     footerQuickLinkItems: [
       {
-        text: "TEST",
-        url: "https://akvo.org",
+        text: "Read the Docs",
+        url: "/documentation",
       },
     ],
     copyright: "© 2022 — Ministry of Health",
@@ -206,8 +206,8 @@ const uiText = {
     uploadsTab2: "Pending Approval",
     uploadsTab3: "Approved",
     batchName: "Batch Name",
-    submissionComment: "Submission comment (Optional)",
-    sendNewRequest: "Send a new approval request",
+    submissionComment: "Submission comment",
+    sendNewRequest: "Notify Approver",
     createNewBatch: "Create a new batch",
     batchHintText: "You are about to create a Batch CSV File",
     batchHintDesc:

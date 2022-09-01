@@ -65,7 +65,7 @@ const Pie = (data, chartTitle, extra = {}, series = {}) => {
         label: {
           formatter: function (params) {
             if (params.value > 0) {
-              return `${params.data.percentage} % (${params.value})`;
+              return `${params.data.percentage} %`;
             }
             return "";
           },
