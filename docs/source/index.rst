@@ -11,6 +11,8 @@ Status|
 
 Real Time Monitoring Information Systems
 
+|PDF Download|
+
 .. toctree::
    :maxdepth: 2
 
@@ -38,3 +40,8 @@ Real Time Monitoring Information Systems
    :target: https://img.shields.io/github/last-commit/akvo/rtmis/main
 .. |Coverage Status| image:: https://coveralls.io/repos/github/akvo/rtmis/badge.svg
    :target: https://coveralls.io/github/akvo/rtmis
+.. |PDF Download| raw:: html
+
+   <a href="https://rtmis.readthedocs.io/_/downloads/en/latest/pdf/" target="_blank"><img src="/_images/download.png"></img>
+
+.. |Download Image| image:: ../assests/download.png
