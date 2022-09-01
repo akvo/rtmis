@@ -399,12 +399,10 @@ const config = {
           ],
         },
       ],
-      description:
-        "Consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      description: "",
       footer: {
         title: "Footer title 2",
-        description:
-          "Consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+        description: "",
       },
     },
     {
@@ -472,12 +470,10 @@ const config = {
           ],
         },
       ],
-      description:
-        "Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      description: "",
       footer: {
         title: "Footer title 3",
-        description:
-          "Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+        description: "",
       },
     },
     {
@@ -654,12 +650,10 @@ const config = {
           ],
         },
       ],
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      description: "",
       footer: {
         title: "Footer title 1",
-        description:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+        description: "",
       },
     },
     {
@@ -732,12 +726,10 @@ const config = {
           ],
         },
       ],
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      description: "",
       footer: {
         title: "Footer title 1",
-        description:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+        description: "",
       },
     },
     {
@@ -815,12 +807,10 @@ const config = {
           ],
         },
       ],
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+      description: "",
       footer: {
         title: "Footer title 1",
-        description:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, sunt corrupti fuga facilis non illo eos. Quae optio illum doloribus provident, non esse libero modi excepturi porro ducimus, voluptatibus tenetur!",
+        description: "",
       },
     },
   ],
