@@ -15,17 +15,14 @@ Real Time Monitoring Information Systems
    :maxdepth: 2
 
    install
-   deployment
    start
-   practice
    inputChannel
-   dataPresentation
    administration
    approval
    dataManagement
    outputs
-   individualPractice
    download
+   deployment
 
 .. |Build Status| image:: https://akvo.semaphoreci.com/badges/rtmis/branches/main.svg?style=shields
    :target: https://akvo.semaphoreci.com/projects/rtmis
