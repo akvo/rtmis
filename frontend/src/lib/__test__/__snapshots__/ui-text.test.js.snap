@@ -144,7 +144,7 @@ Object {
     "hour": "Hour",
     "informUser": "Inform User for Changes",
     "instructionsMailed": "Instructions mailed successfully",
-    "invalidInviteDesc": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem provident voluptatum cum numquam, quidem vitae, qui quam beatae exercitationem ullam perferendis! Nobis in aut fuga voluptate harum, tempore distinctio optio.",
+    "invalidInviteDesc": "",
     "invalidInviteTitle": "Invalid Invite Code",
     "login": "Log in",
     "loginTitle": <React.Fragment>
@@ -154,8 +154,8 @@ Object {
         Please enter your account details
       </small>
     </React.Fragment>,
-    "lorem": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, assumenda quos? Quia deleniti sapiente aut! Ab consequatur cumque fugit ea. Dolore ex rerum quisquam inventore eum dicta doloribus harum cum.",
-    "lorem2": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    "lorem": "",
+    "lorem2": "",
     "manageDataButton": "Manage Data",
     "manageDataText": <React.Fragment>
       This is where you :
@@ -258,14 +258,14 @@ Object {
     "submissionComment": "Submission comment",
     "templateDownloadHint": "If you do not already have a template, please download it",
     "templateFetchFail": "Could not fetch template",
-    "tourApprovals": "Placeat impedit iure quaerat neque sit quasi",
-    "tourApprovers": "Magni provident aliquam harum cupiditate iste",
-    "tourControlCenter": "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
-    "tourDataUploads": "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
-    "tourDataUploadsPanel": "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
-    "tourExports": "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
-    "tourManageData": "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
-    "tourUserManagement": "Magni provident aliquam harum cupiditate iste",
+    "tourApprovals": "This page shows a list of your pending data. You can click on the View All button to see all data.",
+    "tourApprovers": "To manage the data approvers, you click on the Manage Approvers button.",
+    "tourControlCenter": "You can see your current user setup and the most important activities for your current user setup.",
+    "tourDataUploads": "The Bulk Upload button is going to redirect you to the data upload page where you can upload data from your computer.",
+    "tourDataUploadsPanel": "",
+    "tourExports": "Now, you can export data by clicking on the highlighted button which is labelled Data Upload.",
+    "tourManageData": "You can click on the Manage Data button that redirects to the Manage Data page. Then click the Next button to see what you can do after that.",
+    "tourUserManagement": "You can click on the Manage User button that redirects to the Manage User page where you can see a list of users and you can also add new ones.",
     "updateExisting": "Update Existing Data",
     "updateOrganisation": "Update Organization",
     "updateUser": "Update User",
