@@ -1,5 +1,12 @@
-Data Management
-================
+.. raw:: html
+
+    <style>
+      .heading {font-size: 34px; font-weight: 700;}
+    </style>
+
+.. role:: heading
+
+:heading:`Data Management`
 
 Data Protection Act
 --------------------

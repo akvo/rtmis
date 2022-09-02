@@ -11,22 +11,59 @@ Status|
 
 Real Time Monitoring Information Systems
 
-|PDF Download|
+.. toctree::
+   :maxdepth: 2
+   :caption: Getting Started
+   
+   install
 
 .. toctree::
    :maxdepth: 2
+   :caption: Get Started
 
-   install
-   deployment
    start
-   practice
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Overview of input channel
+
    inputChannel
-   dataPresentation
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Administration
+   
    administration
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Approval Workflow
+
    approval
+   
+.. toctree::
+   :maxdepth: 2
+   :caption: Data Management
+
    dataManagement
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Outputs
+
    outputs
-   individualPractice
+
+.. toctree::
+   :maxdepth: 2
+   :caption: PDF
+
+   download
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Deployment
+
+   deployment
 
 .. |Build Status| image:: https://akvo.semaphoreci.com/badges/rtmis/branches/main.svg?style=shields
    :target: https://akvo.semaphoreci.com/projects/rtmis
@@ -40,8 +77,3 @@ Real Time Monitoring Information Systems
    :target: https://img.shields.io/github/last-commit/akvo/rtmis/main
 .. |Coverage Status| image:: https://coveralls.io/repos/github/akvo/rtmis/badge.svg
    :target: https://coveralls.io/github/akvo/rtmis
-.. |PDF Download| raw:: html
-
-   <a href="https://rtmis.readthedocs.io/_/downloads/en/latest/pdf/" target="_blank"><img src="./_images/download.png"></img>
-
-.. |Download Image| image:: ../assests/download.png
