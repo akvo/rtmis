@@ -2,12 +2,13 @@
 
     <style>
       .bolditalic {font-style: italic; font-weight: 700;}
+      .heading {font-size: 34px; font-weight: 700;}
     </style>
 
 .. role:: bolditalic
+.. role:: heading
 
-Administration
-===============
+:heading:`Administration`
 
 Manage Users (Add, Delete and Modify Users)
 --------------------------------------------
