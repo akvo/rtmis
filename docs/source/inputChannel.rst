@@ -4,9 +4,6 @@
       .bolditalic {font-style: italic; font-weight: 700;}
     </style>
 
-Overview of Input Channels
-===========================
-
 .. role:: bolditalic
   :class: bolditalic
 

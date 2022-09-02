@@ -13,15 +13,56 @@ Real Time Monitoring Information Systems
 
 .. toctree::
    :maxdepth: 2
-
+   :caption: Getting Started
+   
    install
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Start
+
    start
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Overview of input channel
+
    inputChannel
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Administration
+   
    administration
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Approval Workflow
+
    approval
+   
+.. toctree::
+   :maxdepth: 2
+   :caption: Data Management
+
    dataManagement
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Outputs
+
    outputs
+
+.. toctree::
+   :maxdepth: 2
+   :caption: PDF
+
    download
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Deployment
+
    deployment
 
 .. |Build Status| image:: https://akvo.semaphoreci.com/badges/rtmis/branches/main.svg?style=shields

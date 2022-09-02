@@ -4,9 +4,6 @@
       .bolditalic {font-style: italic; font-weight: 700;}
     </style>
 
-Approval workflow
-==================
-
 .. role:: bolditalic
 
 Submitting Data for Approval

@@ -1,6 +1,3 @@
-Outputs
-========
-
 Auto Generated visualisations
 ------------------------------
 

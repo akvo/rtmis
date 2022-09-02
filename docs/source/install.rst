@@ -1,6 +1,3 @@
-Getting Started
-===============
-
 Real Time Monitoring Information Systems
 
 

@@ -1,6 +1,3 @@
-Get Started
-============
-
 User Types & Basic principal
 -----------------------------
 

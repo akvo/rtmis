@@ -1,6 +1,3 @@
-Data Management
-================
-
 Data Protection Act
 --------------------
 

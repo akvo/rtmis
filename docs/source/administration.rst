@@ -6,9 +6,6 @@
 
 .. role:: bolditalic
 
-Administration
-===============
-
 Manage Users (Add, Delete and Modify Users)
 --------------------------------------------
 
