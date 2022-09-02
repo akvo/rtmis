@@ -19,7 +19,7 @@ Real Time Monitoring Information Systems
 
 .. toctree::
    :maxdepth: 2
-   :caption: Start
+   :caption: Get Started
 
    start
 

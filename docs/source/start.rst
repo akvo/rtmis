@@ -1,3 +1,13 @@
+.. raw:: html
+
+    <style>
+      .heading {font-size: 34px; font-weight: 700;}
+    </style>
+
+.. role:: heading
+
+:heading:`Get Started`
+
 User Types & Basic principal
 -----------------------------
 

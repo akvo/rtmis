@@ -1,3 +1,4 @@
+from pickle import TRUE
 import sphinx_rtd_theme
 
 # Configuration file for the Sphinx documentation builder.
@@ -61,9 +62,9 @@ html_theme_options = {
     'prev_next_buttons_location': 'bottom',
     'style_external_links': False,
     # Toc options
-    'collapse_navigation': True,
+    'collapse_navigation': TRUE,
     'sticky_navigation': True,
-    'navigation_depth': 3,
-    'includehidden': True,
+    'navigation_depth': -1,
+    'includehidden': TRUE,
     'titles_only': False,
 }
