@@ -1,5 +1,12 @@
-Outputs
-========
+.. raw:: html
+
+    <style>
+      .heading {font-size: 34px; font-weight: 700;}
+    </style>
+
+.. role:: heading
+
+:heading:`Outputs`
 
 Auto Generated visualisations
 ------------------------------

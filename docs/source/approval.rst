@@ -2,10 +2,13 @@
 
     <style>
       .bolditalic {font-style: italic; font-weight: 700;}
+      .heading {font-size: 34px; font-weight: 700;}
     </style>
 
-Approval workflow
-==================
+.. role:: bolditalic
+.. role:: heading
+
+:heading:`Approval workflow`
 
 .. role:: bolditalic
 
