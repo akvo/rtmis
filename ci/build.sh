@@ -79,6 +79,7 @@ frontend_build () {
 
     # Code Quality and Build Folder
     sed 's/"warn"/"error"/g' < frontend/.eslintrc.json > frontend/.eslintrc.prod.json
+    sed "s/\"##CACHE_VERSION##\"/\"${CI_COMMIT}\"/g" < frontend/public/service-worker.template.js > frontend/public/service-worker.js
 
     dc -f docker-compose.yml run \
        --rm \

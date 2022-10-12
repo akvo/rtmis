@@ -87,7 +87,7 @@ const uiText = {
     footerQuickLinkItems: [
       {
         text: "Read the Docs",
-        url: "/documentation",
+        url: "/documentation/",
       },
     ],
     copyright: "© 2022 — Ministry of Health",
