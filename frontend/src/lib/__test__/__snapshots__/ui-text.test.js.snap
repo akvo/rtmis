@@ -110,7 +110,7 @@ Object {
     "footerQuickLinkItems": Array [
       Object {
         "text": "Read the Docs",
-        "url": "/documentation",
+        "url": "/documentation/",
       },
     ],
     "footerQuickLinkTitle": "Quick Links",
