@@ -7,6 +7,18 @@ from api.v1.v1_data.models import FormData, Answers
 from utils.functions import update_date_time_format, get_answer_value
 
 
+class ListCsvDataAnswerSerializer(serializers.ModelSerializer):
+    value = serializers.SerializerMethodField()
+
+    @extend_schema_field(OpenApiTypes.ANY)
+    def get_value(self, instance: Answers):
+        return get_answer_value(instance)
+
+    class Meta:
+        model = Answers
+        fields = ["question", "value"]
+
+
 class ListRawDataAnswerSerializer(serializers.ModelSerializer):
     question = serializers.SerializerMethodField()
     value = serializers.SerializerMethodField()
