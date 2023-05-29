@@ -1131,12 +1131,15 @@ class PendingFormDataView(APIView):
 @api_view(['GET'])
 def get_last_update_data_point(request, version, form_id):
     form = get_object_or_404(Forms, pk=form_id)
-    data = FormData.objects.filter(form=form).annotate(
-        last_update=Coalesce('updated', 'created')).latest('last_update')
-    if not data:
+    data = FormData.objects.filter(form=form)
+    if not data.exists():
         return Response(
-                {'last_update': datetime.now().strftime("%d/%m/%Y")},
-                status=status.HTTP_200_OK)
+            {"last_update": datetime.now().strftime("%d/%m/%Y")},
+            status=status.HTTP_200_OK,
+        )
+    data = data.annotate(last_update=Coalesce("updated", "created")).latest(
+        "last_update"
+    )
     last_update = datetime.strftime(data.last_update, "%d/%m/%Y")
     return Response({'last_update': last_update},
                     status=status.HTTP_200_OK)
