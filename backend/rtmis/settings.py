@@ -58,6 +58,7 @@ API_APPS = [
     'api.v1.v1_forms',
     'api.v1.v1_data',
     'api.v1.v1_jobs',
+    'api.v1.v1_categories',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + API_APPS + EXTERNAL_APPS
@@ -188,6 +189,7 @@ CACHE_FOLDER = "/tmp/cache/"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "v1_users.SystemUser"
+MASTER_DATA = "./source"
 
 FORM_GEO_VALUE = {"lat": 9.145, "lng": 40.4897}
 
