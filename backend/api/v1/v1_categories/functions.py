@@ -1,5 +1,4 @@
 import json
-from rtmis.settings import MASTER_DATA
 from django.db import transaction, connection
 
 
@@ -86,7 +85,7 @@ def get_valid_list(opt, c, category):
 
 
 def get_category(opt: dict):
-    file_config = f"{MASTER_DATA}/config/category.json"
+    file_config = "./source/config/category.json"
     with open(file_config) as config_file:
         configs = json.load(config_file)
     category = False

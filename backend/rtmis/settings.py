@@ -189,7 +189,6 @@ CACHE_FOLDER = "/tmp/cache/"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "v1_users.SystemUser"
-MASTER_DATA = "./source"
 
 FORM_GEO_VALUE = {"lat": 9.145, "lng": 40.4897}
 

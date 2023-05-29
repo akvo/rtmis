@@ -1,7 +1,6 @@
 import os
 import json
 from django.core.management import BaseCommand
-from rtmis.settings import MASTER_DATA
 from django.db import connection
 
 
@@ -12,7 +11,9 @@ def drop_schema():
                 SELECT EXISTS(
                 SELECT relname FROM pg_class
                 WHERE relkind = 'm' AND relname = %s)
-                """, ['data_category'])
+                """,
+            ["data_category"],
+        )
         exists = cursor.fetchone()[0]
         if exists:
             cursor.execute("DROP MATERIALIZED VIEW data_category;")
@@ -28,7 +29,7 @@ def get_question_config(config: dict, cl: list):
 
 
 def generate_schema() -> str:
-    file_config = open(f"{MASTER_DATA}/config/category.json")
+    file_config = open("./source/config/category.json")
     configs = json.load(file_config)
     file_config.close()
     if len(configs) == 0:
@@ -42,9 +43,11 @@ def generate_schema() -> str:
         for c in config["categories"]:
             question_config = get_question_config(config=c, cl=question_config)
         ql = ",".join(question_config)
-        mview += (f"SELECT q.form_id, a.data_id, '{config['name']}' as name,"
-                  " jsonb_object_agg(a.question_id,COALESCE(a.options,"
-                  " to_jsonb(array[a.value]))) as options \n")
+        mview += (
+            f"SELECT q.form_id, a.data_id, '{config['name']}' as name,"
+            " jsonb_object_agg(a.question_id,COALESCE(a.options,"
+            " to_jsonb(array[a.value]))) as options \n"
+        )
         mview += "FROM answer a \n"
         mview += "LEFT JOIN question q ON q.id = a.question_id \n"
         mview += "WHERE (a.value IS NOT NULL OR a.options IS NOT NULL) \n"
@@ -56,14 +59,13 @@ def generate_schema() -> str:
 
 
 def category_json_availability(apps, schema_editor):
-    if os.path.exists("{MASTER_DATA}/config/category.json"):
-        return [('v1_categories', 'category_json_is_available')]
+    if os.path.exists("./source/config/category.json"):
+        return [("v1_categories", "category_json_is_available")]
     else:
         return []
 
 
 class Command(BaseCommand):
-
     def handle(self, *args, **options):
         try:
             views = generate_schema()
@@ -71,4 +73,4 @@ class Command(BaseCommand):
             with connection.cursor() as cursor:
                 cursor.execute(views)
         except FileNotFoundError:
-            print(f"{MASTER_DATA}/category.json is not exist")
+            print("./source/category.json is not exist")
