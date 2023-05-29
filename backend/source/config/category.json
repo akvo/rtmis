@@ -1,0 +1,276 @@
+[
+    {
+        "name": "Sanitation",
+        "form": 533560002,
+        "labels": [
+            {
+                "name": "Basic",
+                "color": "#368541",
+                "score": 15
+            },
+            {
+                "name": "Limited",
+                "color": "#79BE7D",
+                "score": 10
+            },
+            {
+                "name": "No service",
+                "color": "#FDF177",
+                "score": -1
+            }
+        ],
+        "categories": [
+            {
+                "name": "Basic",
+                "questions": [
+                    {
+                        "id": 611790061,
+                        "text": "Are there toilets at the health facility?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "name": "No service",
+                            "ignore": [
+                                555370004,
+                                530250002,
+                                555370009,
+                                555370003,
+                                555370005,
+                                555370006
+                            ]
+                        }
+                    },
+                    {
+                        "id": 555370004,
+                        "text": "What type of toilets/latrines are at the facility for patients?",
+                        "options": [
+                            "Flush / Pour-flush toilet",
+                            "VIP latrine",
+                            "Pit latrine",
+                            "Composting toilet"
+                        ],
+                        "else": {
+                            "name": "No Service"
+                        }
+                    },
+                    {
+                        "id": 530250002,
+                        "text": "Are the toilets at the health facility useable (accessible, functional and private)?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "name": "Limited"
+                        }
+                    },
+                    {
+                        "id": 555370009,
+                        "text": "Are there toilets that are dedicated for staff?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "name": "Limited"
+                        }
+                    },
+                    {
+                        "id": 555370003,
+                        "text": "Are there toilets separated by gender?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "name": "Limited"
+                        }
+                    },
+                    {
+                        "id": 555370005,
+                        "text": "Are there toilets that have menstrual hygiene facilities?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "name": "Limited"
+                        }
+                    },
+                    {
+                        "id": 555370006,
+                        "text": "Are there toilets that are accessible for people with special needs and disabilities?",
+                        "options": [
+                            "Yes"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Hygiene",
+        "form": 533560002,
+        "labels": [
+            {
+                "name": "Basic",
+                "color": "#368541"
+            },
+            {
+                "name": "Limited",
+                "color": "#79BE7D"
+            },
+            {
+                "name": "No service",
+                "color": "#FDF177"
+            }
+        ],
+        "categories": [
+            {
+                "name": "Basic",
+                "questions": [
+                    {
+                        "id": 551560007,
+                        "text": "Are functioning hand hygiene stations (that is, alcohol-based hand rub solution or soap and water and clean single-use towels) available at all points of care?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "other": [
+                            {
+                                "name": "Limited",
+                                "options": [
+                                    "No, there are hand hygiene facilities at points of care but not functional, or lacking soap and water or alcohol-based hand rub."
+                                ],
+                                "questions": []
+                            }
+                        ],
+                        "else": {
+                            "name": "No service"
+                        }
+                    },
+                    {
+                        "id": 551560004,
+                        "text": "Is there a functional handwashing facility at one or more toilets on the day of the survey?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "name": "No Service"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Health Care Waste",
+        "form": 533560002,
+        "labels": [
+            {
+                "name": "Basic",
+                "color": "#368541"
+            },
+            {
+                "name": "Limited",
+                "color": "#79BE7D"
+            },
+            {
+                "name": "No service",
+                "color": "#FDF177"
+            }
+        ],
+        "categories": [
+            {
+                "name": "Basic",
+                "questions": [
+                    {
+                        "id": 541950008,
+                        "text": "Is waste correctly segregated into at least three labelled bins in the consultation area?",
+                        "options": [
+                            "Yes, waste is segregated into three labelled bins"
+                        ],
+                        "other": [
+                            {
+                                "name": "Limited",
+                                "options": [
+                                    "No, bins are present but do not meet all requirements or waste is not correctly segregated"
+                                ],
+                                "questions": []
+                            }
+                        ],
+                        "else": {
+                            "name": "No service"
+                        }
+                    },
+                    {
+                        "id": 541950011,
+                        "text": "How does this facility usually treat/ dispose of infectious waste?",
+                        "options": [
+                            "Autoclaved",
+                            "Incinerated",
+                            "Buried in lined, protected pit",
+                            "Collected for medical waste disposal off-site"
+                        ],
+                        "else": {
+                            "name": "No service"
+                        }
+                    },
+                    {
+                        "id": 541950005,
+                        "text": "How does this facility usually treat/ dispose of sharps waste?",
+                        "options": [
+                            "Autoclaved",
+                            "Incinerated",
+                            "Buried in lined, protected pit",
+                            "Collected for medical waste disposal off-site"
+                        ],
+                        "else": {
+                            "name": "No service"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Environmental Cleaning",
+        "form": 533560002,
+        "labels": [
+            {
+                "name": "Basic",
+                "color": "#368541"
+            },
+            {
+                "name": "Limited",
+                "color": "#79BE7D"
+            },
+            {
+                "name": "No service",
+                "color": "#FDF177"
+            }
+        ],
+        "categories": [
+            {
+                "name": "Basic",
+                "questions": [
+                    {
+                        "id": 551560005,
+                        "text": "Have all staff responsible for cleaning received training?",
+                        "options": [
+                            "Yes, all have been trained"
+                        ],
+                        "other": [
+                            {
+                                "name": "Limited",
+                                "options": [
+                                    "No, some but not all have been trained"
+                                ],
+                                "questions": []
+                            }
+                        ],
+                        "else": {
+                            "name": "No Service"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]
