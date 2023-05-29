@@ -5,6 +5,7 @@ from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import override_settings
 from api.v1.v1_data.models import Answers, Questions
+from api.v1.v1_categories.functions import validate_number, get_valid_list
 
 
 @override_settings(USE_TZ=False)
@@ -126,3 +127,74 @@ class CategoryTestCase(TestCase):
                 self.assertEqual(db_answer, csv_answer)
         # ... Perform assertions on the CSV content
         # based on the expected values
+
+    def test_validate_number(self):
+        answer = [10]
+        opt1 = {"number": {"greater_than": 0}}
+        res1 = validate_number(q=opt1, answer=answer)
+        self.assertTrue(res1)
+
+        opt2 = {"number": {"less_than": 11}}
+        res2 = validate_number(q=opt2, answer=answer)
+        assert res2 is True
+        self.assertTrue(res2)
+
+        opt3 = {"number": {"equal": 10}}
+        res3 = validate_number(q=opt3, answer=answer)
+        self.assertTrue(res3)
+
+        opt4 = {"number": {"greater_than_equal": 10}}
+        res4 = validate_number(q=opt4, answer=answer)
+        self.assertTrue(res4)
+
+        opt5 = {"number": {"less_than_equal": 10}}
+        res5 = validate_number(q=opt5, answer=answer)
+        self.assertTrue(res5)
+
+    def test_get_valid_list(self):
+        opt = {
+            "567820002": ["Yes"],
+            "567800083": ["No"],
+            "578820191": ["Girls Only"],
+        }
+        c = {
+            "name": "Basic",
+            "questions": [
+                {
+                    "id": 567820002,
+                    "name": "Toilet Available?",
+                    "options": ["Yes"],
+                    "else": {
+                        "name": "No Service",
+                        "ignore": [567800083, 578820191],
+                    },
+                },
+                {
+                    "id": 567800083,
+                    "name": "Share with outside member?",
+                    "options": ["No"],
+                    "else": {"name": "Limited"},
+                },
+                {
+                    "id": 578820191,
+                    "name": "A",
+                    "options": ["Boys n Girls"],
+                    "other": [
+                        {
+                            "name": "Limited",
+                            "options": ["Girls Only", "Boys Only"],
+                            "questions": [],
+                        }
+                    ],
+                    "else": {"name": "No facility"},
+                },
+            ],
+        }
+        category = False
+        results = get_valid_list(opt, c, category)
+        self.assertEqual(results, "Limited")
+        opt2 = {
+            "567820002": ["No"],
+        }
+        results = get_valid_list(opt2, c, category)
+        self.assertEqual(results, "Basic")
