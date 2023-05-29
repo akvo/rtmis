@@ -58,6 +58,7 @@ API_APPS = [
     'api.v1.v1_forms',
     'api.v1.v1_data',
     'api.v1.v1_jobs',
+    'api.v1.v1_categories',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + API_APPS + EXTERNAL_APPS
