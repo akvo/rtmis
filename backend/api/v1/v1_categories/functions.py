@@ -111,3 +111,14 @@ def get_category_results(data):
             updated_data[item["id"]] = item
     updated_data = list(updated_data.values())
     return updated_data
+
+
+def get_jmp_config_by_form(form: int) -> list:
+    try:
+        file_config = "./.category.json"
+        with open(file_config, "r") as categories:
+            json_config = json.load(categories)
+    except Exception:
+        json_config = []
+    configs = list(filter(lambda c: c["form"] == int(form), json_config))
+    return configs
