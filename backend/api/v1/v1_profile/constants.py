@@ -22,11 +22,12 @@ class UserDesignationTypes:
     cpho = 5
     cwash = 6
     cha = 7
-    chew = 9
+    chew = 8
     me = 9
     it = 10
     sa = 11
     tr = 12
+    chv = 13
 
     FieldStr = {
         nse: "NSE (National Sanitation Extender)",
@@ -36,11 +37,12 @@ class UserDesignationTypes:
         cpho: "CPHO (County Public Health Officer)",
         cwash: "CWASH (County WASH Officer)",
         cha: "CHA (Community Health Assistant)",
-        chew: "CHEW (Community Helath Extension Worker)",
+        chew: "CHEW (Community Health Extension Worker)",
         me: "M&E",
         it: "IT",
         sa: "System Admin",
-        tr: "Teacher"
+        tr: "Teacher",
+        chv: "CHV (Community Health Volunteer)"
     }
 
 

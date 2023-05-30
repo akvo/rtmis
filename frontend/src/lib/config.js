@@ -179,6 +179,10 @@ const config = {
       name: "CHEW (Community Health Extension Worker)",
     },
     {
+      id: 13,
+      name: "CHV (Community Health Volunteer)",
+    },
+    {
       id: 9,
       name: "M&E",
     },
