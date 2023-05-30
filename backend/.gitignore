@@ -5,4 +5,5 @@ __pycache__
 .coverage
 .coverage.*
 db.dbml
+diagram.png
 **.min.js
