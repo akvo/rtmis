@@ -74,12 +74,12 @@ def get_valid_list(opt, c, category):
                                 category = get_valid_list(opt, o, category)
                             else:
                                 category = o.get("name")
-    if len(valid) >= len(validator):
+    if len(valid) >= len(validator) and not exit:
         conditions = [v if v in valid else False for v in validator]
         conditions = list(filter(lambda x: x is not False, conditions))
         if sorted(conditions) == sorted(validator):
             category = c["name"]
-    if sorted(valid) == sorted(validator):
+    if sorted(valid) == sorted(validator) and not exit:
         category = c["name"]
     return category
 

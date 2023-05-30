@@ -151,12 +151,8 @@ class CategoryTestCase(TestCase):
         res5 = validate_number(q=opt5, answer=answer)
         self.assertTrue(res5)
 
-    def test_get_valid_list(self):
-        opt = {
-            "567820002": ["Yes"],
-            "567800083": ["No"],
-            "578820191": ["Girls Only"],
-        }
+    def test_get_valid_list_with_else_has_ignore_and_name(self):
+        opt = {"567820002": ["Yes"], "567800083": ["No"], "567800080": [1]}
         c = {
             "name": "Basic",
             "questions": [
@@ -166,7 +162,7 @@ class CategoryTestCase(TestCase):
                     "options": ["Yes"],
                     "else": {
                         "name": "No Service",
-                        "ignore": [567800083, 578820191],
+                        "ignore": [567800083, 567800080],
                     },
                 },
                 {
@@ -176,25 +172,112 @@ class CategoryTestCase(TestCase):
                     "else": {"name": "Limited"},
                 },
                 {
-                    "id": 578820191,
-                    "name": "A",
-                    "options": ["Boys n Girls"],
-                    "other": [
-                        {
-                            "name": "Limited",
-                            "options": ["Girls Only", "Boys Only"],
-                            "questions": [],
-                        }
-                    ],
-                    "else": {"name": "No facility"},
+                    "id": 567800080,
+                    "name": "Usable Toilet",
+                    "number": {"greater_than": 0},
+                    "else": {"name": "Limited"},
                 },
             ],
         }
         category = False
-        results = get_valid_list(opt, c, category)
-        self.assertEqual(results, "Limited")
-        opt2 = {
-            "567820002": ["No"],
+        res1 = get_valid_list(opt, c, category)
+        self.assertEqual(res1, "Basic")
+
+        opt = {"567820002": ["Yes"], "567800083": ["Yes"], "567800080": [1]}
+        res2 = get_valid_list(opt, c, category)
+        self.assertEqual(res2, "Limited")
+
+        opt = {"567820002": ["Yes"], "567800083": ["No"], "567800080": [0]}
+        res3 = get_valid_list(opt, c, category)
+        self.assertEqual(res3, "Limited")
+
+        opt = {"567820002": ["No"]}
+        res4 = get_valid_list(opt, c, category)
+        self.assertEqual(res4, "No Service")
+
+    def test_get_valid_list_with_else_has_ignore_only(self):
+        opt = {"578820191": ["Co-education"], "567800081": ["Yes"]}
+        category = False
+        c_school = {
+            "name": "Basic",
+            "questions": [
+                {
+                    "id": 578820191,
+                    "name": "Is the school co-ed",
+                    "options": ["Co-education"],
+                    "else": {"ignore": [567800081]},
+                },
+                {
+                    "id": 567800081,
+                    "name": "Saperate Toilet",
+                    "options": ["Yes"],
+                    "else": {"name": "Limited"},
+                },
+            ],
         }
-        results = get_valid_list(opt2, c, category)
-        self.assertEqual(results, "Basic")
+        res = get_valid_list(opt=opt, c=c_school, category=category)
+        self.assertEqual(res, "Basic")
+
+        opt2 = {"578820191": ["Co-education"], "567800081": ["No"]}
+        res2 = get_valid_list(opt=opt2, c=c_school, category=category)
+        self.assertEqual(res2, "Limited")
+
+        opt3 = {"578820191": ["Girls only"]}
+        res3 = get_valid_list(opt=opt3, c=c_school, category=category)
+        self.assertEqual(res3, "Basic")
+
+    def test_get_valid_list_with_other(self):
+        opt = {"573340127": ["Protected dug well"]}
+        category = False
+        c = {
+            "name": "Basic",
+            "questions": [
+                {
+                    "id": 573340127,
+                    "name": "Main Source",
+                    "options": [
+                        "Protected dug well",
+                        "Public tap/standpipe",
+                        "Piped to neighbour",
+                    ],
+                    "other": [
+                        {
+                            "name": "Surface Water",
+                            "options": ["Surface water"],
+                            "questions": [],
+                        }
+                    ],
+                    "else": {"name": "Unimproved"},
+                },
+            ],
+        }
+        res = get_valid_list(opt, c, category)
+        self.assertEqual(res, "Basic")
+
+        opt = {"573340127": ["Surface water"]}
+        res2 = get_valid_list(opt, c, category)
+        self.assertEqual(res2, "Surface Water")
+
+        opt = {"573340127": ["No water source"]}
+        res3 = get_valid_list(opt, c, category)
+        self.assertEqual(res3, "Unimproved")
+
+    def test_get_valid_list_without_other_and_else(self):
+        opt = {"573340127": ["Rainwater"]}
+        category = False
+        c = {
+            "name": "Basic",
+            "questions": [
+                {
+                    "id": 573340127,
+                    "name": "Main Source",
+                    "options": [
+                        "Protected dug well",
+                        "Public tap/standpipe",
+                        "Piped to neighbour",
+                    ],
+                },
+            ],
+        }
+        res = get_valid_list(opt, c, category)
+        self.assertFalse(res)
