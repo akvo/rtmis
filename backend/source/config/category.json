@@ -146,6 +146,19 @@
                         }
                     },
                     {
+                        "id": 611790061,
+                        "text": "Are there toilets at the health facility?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "name": "No service",
+                            "ignore": [
+                                551560004
+                            ]
+                        }
+                    },
+                    {
                         "id": 551560004,
                         "text": "Is there a functional handwashing facility at one or more toilets on the day of the survey?",
                         "options": [
