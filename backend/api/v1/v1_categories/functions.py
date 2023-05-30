@@ -32,9 +32,9 @@ def validate_number(q, answer):
 def get_valid_list(opt, c, category):
     validator = [q["id"] for q in c["questions"]]
     valid = []
-    exit = False
+    exit_category = False
     for q in c["questions"]:
-        if exit:
+        if exit_category:
             continue
         answer = opt.get(str(q["id"]))
         if not answer:
@@ -47,7 +47,7 @@ def get_valid_list(opt, c, category):
             else:
                 elses = q.get("else")
                 category = elses.get("name")
-                exit = True
+                exit_category = True
         if q.get("options"):
             if len(set(q["options"]).intersection(answer)):
                 valid.append(q["id"])
@@ -57,7 +57,7 @@ def get_valid_list(opt, c, category):
                     elses = q.get("else")
                     if elses.get("name"):
                         category = elses.get("name")
-                        exit = True
+                        exit_category = True
                     if elses.get("ignore"):
                         validator = list(
                             filter(
@@ -69,17 +69,17 @@ def get_valid_list(opt, c, category):
                 if q.get("other"):
                     for o in q.get("other"):
                         if len(set(o["options"]).intersection(answer)):
-                            exit = True
+                            exit_category = True
                             if len(o.get("questions")):
                                 category = get_valid_list(opt, o, category)
                             else:
                                 category = o.get("name")
-    if len(valid) >= len(validator) and not exit:
+    if len(valid) >= len(validator) and not exit_category:
         conditions = [v if v in valid else False for v in validator]
         conditions = list(filter(lambda x: x is not False, conditions))
         if sorted(conditions) == sorted(validator):
             category = c["name"]
-    if sorted(valid) == sorted(validator) and not exit:
+    if sorted(valid) == sorted(validator) and not exit_category:
         category = c["name"]
     return category
 
