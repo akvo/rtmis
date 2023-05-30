@@ -1,5 +1,6 @@
 import os
 import json
+import shutil
 from django.core.management import BaseCommand
 from django.db import connection
 
@@ -28,8 +29,8 @@ def get_question_config(config: dict, cl: list):
     return cl
 
 
-def generate_schema() -> str:
-    file_config = open("./source/config/category.json")
+def generate_schema(file_path: str) -> str:
+    file_config = open(file_path)
     configs = json.load(file_config)
     file_config.close()
     if len(configs) == 0:
@@ -66,11 +67,24 @@ def category_json_availability(apps, schema_editor):
 
 
 class Command(BaseCommand):
+    def add_arguments(self, parser):
+        parser.add_argument(
+            "-f", "--file", nargs="?", const=None, default=None, type=str
+        )
+
     def handle(self, *args, **options):
         try:
-            views = generate_schema()
+            file_path = options.get("file")
+            file_path = (
+                file_path if file_path else "./source/config/category.json"
+            )
+            views = generate_schema(file_path=file_path)
             drop_schema()
             with connection.cursor() as cursor:
                 cursor.execute(views)
+            try:
+                shutil.copy(file_path, ".category.json")
+            except PermissionError:
+                print("Permission denied.")
         except FileNotFoundError:
             print("./source/category.json is not exist")
