@@ -51,7 +51,7 @@
                             "Composting toilet"
                         ],
                         "else": {
-                            "name": "No Service"
+                            "name": "No service"
                         }
                     },
                     {
@@ -146,13 +146,26 @@
                         }
                     },
                     {
+                        "id": 611790061,
+                        "text": "Are there toilets at the health facility?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "name": "No service",
+                            "ignore": [
+                                551560004
+                            ]
+                        }
+                    },
+                    {
                         "id": 551560004,
                         "text": "Is there a functional handwashing facility at one or more toilets on the day of the survey?",
                         "options": [
                             "Yes"
                         ],
                         "else": {
-                            "name": "No Service"
+                            "name": "No service"
                         }
                     }
                 ]
@@ -165,15 +178,18 @@
         "labels": [
             {
                 "name": "Basic",
-                "color": "#368541"
+                "color": "#368541",
+                "score": 15
             },
             {
                 "name": "Limited",
-                "color": "#79BE7D"
+                "color": "#79BE7D",
+                "score": 10
             },
             {
                 "name": "No service",
-                "color": "#FDF177"
+                "color": "#FDF177",
+                "score": -1
             }
         ],
         "categories": [
@@ -266,7 +282,714 @@
                             }
                         ],
                         "else": {
+                            "name": "No service"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Sanitation",
+        "form": 519630048,
+        "labels": [
+            {
+                "name": "Safely Managed",
+                "color": "#368541",
+                "score": 15
+            },
+            {
+                "name": "Basic",
+                "color": "#79BE7D",
+                "score": 10
+            },
+            {
+                "name": "Limited",
+                "color": "#FDF177",
+                "score": -1
+            },
+            {
+                "name": "Unimproved",
+                "color": "#FBD256",
+                "score": -2
+            },
+            {
+                "name": "Open Defecation",
+                "color": "#F1AC2A",
+                "score": -3
+            }
+        ],
+        "categories": [
+            {
+                "name": "Safely Managed",
+                "questions": [
+                    {
+                        "id": 513690068,
+                        "text": "Does the household have a latrine facility?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "name": "Open Defecation",
+                            "ignore": [
+                                492490054,
+                                513690062,
+                                513690059
+                            ]
+                        }
+                    },
+                    {
+                        "id": 492490054,
+                        "text": "What kind of toilet facility do members of your household usually use?",
+                        "options": [
+                            "Flush or pour flush toilet",
+                            "Pit latrine",
+                            "VIP latrine"
+                        ],
+                        "other": [
+                            {
+                                "name": "Unimproved",
+                                "options": [
+                                    "Bucket"
+                                ],
+                                "questions": []
+                            }
+                        ],
+                        "else": {
+                            "name": "Open Defecation"
+                        }
+                    },
+                    {
+                        "id": 513690062,
+                        "text": "Do you share this facility with others who are not members of your household?",
+                        "options": [
+                            "No"
+                        ],
+                        "else": {
+                            "name": "Limited"
+                        }
+                    },
+                    {
+                        "id": 513690059,
+                        "text": "Has your pit latrine or septic tank ever been emptied?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "ignore": [
+                                513690060
+                            ]
+                        }
+                    },
+                    {
+                        "id": 513690060,
+                        "text": "Where were the contents emptied to?",
+                        "options": [
+                            "To a treatment plant",
+                            "Buried in an uncovered pit"
+                        ],
+                        "else": {
+                            "name": "Basic"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Hygiene (handwashing)",
+        "form": 519630048,
+        "labels": [
+            {
+                "name": "Basic",
+                "color": "#753780",
+                "score": 10
+            },
+            {
+                "name": "Limited",
+                "color": "#FDF177",
+                "score": -1
+            },
+            {
+                "name": "No facility",
+                "color": "#F1AC2A",
+                "score": -2
+            }
+        ],
+        "categories": [
+            {
+                "name": "Basic",
+                "questions": [
+                    {
+                        "id": 599400071,
+                        "text": "Is a hand washing facility available?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "name": "No facility",
+                            "ignore": [
+                                466680043,
+                                466680045,
+                                466760036
+                            ]
+                        }
+                    },
+                    {
+                        "id": 466680043,
+                        "text": "Where do members of your household wash their hands?",
+                        "options": [
+                            "Sink",
+                            "Tap",
+                            "Mobile object (bucket/jug/kettle)",
+                            "Tippy tap"
+                        ],
+                        "else": {
+                            "name": "No facility"
+                        }
+                    },
+                    {
+                        "id": 466680045,
+                        "text": "Is water available at the place for hand washing? (Observe)",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "name": "Limited"
+                        }
+                    },
+                    {
+                        "id": 466760036,
+                        "text": "Is soap available at the hand washing facility? Observe",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "name": "Limited"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Hygiene (MHM)",
+        "form": 519630048,
+        "labels": [
+            {
+                "name": "Awareness",
+                "color": "#368541",
+                "score": 15
+            },
+            {
+                "name": "Use of menstrual materials",
+                "score": 10,
+                "color": "#79BE7D"
+            },
+            {
+                "name": "Access",
+                "score": -1,
+                "color": "#FDF177"
+            },
+            {
+                "name": "Participation",
+                "score": -2,
+                "color": "#FBD256"
+            }
+        ],
+        "categories": [
+            {
+                "name": "Awareness",
+                "questions": [
+                    {
+                        "id": 600370068,
+                        "text": "I am now going to ask you questions related to menstruation, are you comfortable and willing to answer the questions?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "ignore": [
+                                607250002
+                            ]
+                        }
+                    },
+                    {
+                        "id": 607250002,
+                        "text": "Were you given any information on menstruation before you got your first period?",
+                        "options": [
+                            "Yes"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Use of menstrual materials",
+                "questions": [
+                    {
+                        "id": 600370068,
+                        "text": "I am now going to ask you questions related to menstruation, are you comfortable and willing to answer the questions?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "ignore": [
+                                524810057
+                            ]
+                        }
+                    },
+                    {
+                        "id": 524810057,
+                        "text": "During your last menstrual period, what hygiene materials did you mainly use?",
+                        "options": [
+                            "Cloth/reusable sanitary pads",
+                            "Disposable sanitary pads",
+                            "Tampons",
+                            "Menstrual cup"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Access",
+                "questions": [
+                    {
+                        "id": 600370068,
+                        "text": "I am now going to ask you questions related to menstruation, are you comfortable and willing to answer the questions?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "ignore": [
+                                524810054
+                            ]
+                        }
+                    },
+                    {
+                        "id": 524810054,
+                        "text": "During your last menstrual period, did you have space to wash and change in privacy (alone) while at home?",
+                        "options": [
+                            "Yes"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Participation",
+                "questions": [
+                    {
+                        "id": 600370068,
+                        "text": "I am now going to ask you questions related to menstruation, are you comfortable and willing to answer the questions?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "ignore": [
+                                524810053
+                            ]
+                        }
+                    },
+                    {
+                        "id": 524810053,
+                        "text": "During your last periods, Did you miss any activities because you were on your menstrual periods?",
+                        "options": [
+                            "Yes"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Water",
+        "form": 563350033,
+        "labels": [
+            {
+                "name": "Basic",
+                "score": 10,
+                "color": "#753780"
+            },
+            {
+                "name": "Limited",
+                "score": -1,
+                "color": "#FDF177"
+            },
+            {
+                "name": "No Service",
+                "score": -2,
+                "color": "#F1AC2A"
+            }
+        ],
+        "categories": [
+            {
+                "name": "Basic",
+                "questions": [
+                    {
+                        "id": 597580048,
+                        "text": "Is drinking water available in the school?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "ignore": [
+                                551660011
+                            ]
+                        }
+                    },
+                    {
+                        "id": 551660011,
+                        "text": "What is the main source of drinking water in the school?",
+                        "options": [
+                            "Piped water supply",
+                            "Protected well/spring",
+                            "Rainwater",
+                            "Unprotected well/spring",
+                            "Packaged bottled water"
+                        ],
+                        "else": {
                             "name": "No Service"
+                        }
+                    },
+                    {
+                        "id": 551660013,
+                        "text": "Is drinking water from the main source currently available at the school?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "name": "Limited"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Sanitation",
+        "form": 563350033,
+        "labels": [
+            {
+                "name": "Basic",
+                "score": 10,
+                "color": "#753780"
+            },
+            {
+                "name": "Limited",
+                "score": -1,
+                "color": "#FDF177"
+            },
+            {
+                "name": "No Service",
+                "score": -2,
+                "color": "#F1AC2A"
+            }
+        ],
+        "categories": [
+            {
+                "name": "Basic",
+                "questions": [
+                    {
+                        "id": 601780052,
+                        "text": "Does the school have sanitation facilities?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "ignore": [
+                                551660029
+                            ]
+                        }
+                    },
+                    {
+                        "id": 551660029,
+                        "text": "What type of student toilets/ latrines are at the school? (check one - most common)",
+                        "options": [
+                            "Flush / Pour-flush toilets",
+                            "Pit latrines with slab",
+                            "Composting toilets"
+                        ],
+                        "else": {
+                            "name": "No Service",
+                            "ignore": [
+                                579840064
+                            ]
+                        }
+                    },
+                    {
+                        "id": 579840064,
+                        "text": "Are there gender separated toilets?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "name": "Limited"
+                        }
+                    },
+                    {
+                        "id": 555460003,
+                        "text": "Are the latrines being used?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "name": "No Service"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Hygiene (handwashing)",
+        "form": 563350033,
+        "labels": [
+            {
+                "name": "Basic",
+                "score": 10,
+                "color": "#753780"
+            },
+            {
+                "name": "Limited",
+                "score": -1,
+                "color": "#FDF177"
+            },
+            {
+                "name": "No Service",
+                "score": -2,
+                "color": "#F1AC2A"
+            }
+        ],
+        "categories": [
+            {
+                "name": "Basic",
+                "questions": [
+                    {
+                        "id": 539710052,
+                        "text": "Are there handwashing facilities at the school?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "name": "No Service",
+                            "ignore": [
+                                539710048
+                            ]
+                        }
+                    },
+                    {
+                        "id": 539710048,
+                        "text": "Are both soap and water currently available at the handwashing facilities?",
+                        "options": [
+                            "Yes, water and soap"
+                        ],
+                        "else": {
+                            "name": "Limited"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Hygiene (MHM)",
+        "form": 563350033,
+        "labels": [
+            {
+                "name": "Awareness",
+                "color": "#753780",
+                "score": 15
+            },
+            {
+                "name": "Use of menstrual materials",
+                "score": 10,
+                "color": "#753780"
+            },
+            {
+                "name": "Access",
+                "score": -1,
+                "color": "#F1AC2A"
+            },
+            {
+                "name": "Participation",
+                "score": -2,
+                "color": "#368541"
+            }
+        ],
+        "categories": [
+            {
+                "name": "Awareness",
+                "questions": [
+                    {
+                        "id": 605430054,
+                        "text": "Have girls been educated on what to expect during their first period?",
+                        "options": [
+                            "Yes"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Use of menstrual materials",
+                "questions": [
+                    {
+                        "id": 610930003,
+                        "text": "What menstrual hygiene materials are provided to the girls during menstruation while at school?",
+                        "options": [
+                            "Cloth/reusable sanitary pads",
+                            "Disposable sanitary pads",
+                            "Tampons",
+                            "Menstrual cup"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Access",
+                "questions": [
+                    {
+                        "id": 538000047,
+                        "text": "What facilities have been provided for girls to manage their menses hygienically and without being embarrassed while in school?",
+                        "options": [
+                            "Private place / latrine",
+                            "Water",
+                            "Sanitary pads/cloth",
+                            "Soap"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Participation",
+                "questions": [
+                    {
+                        "id": 538000046,
+                        "text": "Do girls miss any activities because of menstruation?",
+                        "options": [
+                            "Yes"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Environmental Cleaning",
+        "form": 563350033,
+        "labels": [
+            {
+                "name": "Basic",
+                "score": 10,
+                "color": "#753780"
+            },
+            {
+                "name": "Limited",
+                "score": -1,
+                "color": "#FDF177"
+            },
+            {
+                "name": "No service",
+                "score": -2,
+                "color": "#F1AC2A"
+            }
+        ],
+        "categories": [
+            {
+                "name": "Basic",
+                "questions": [
+                    {
+                        "id": 545530057,
+                        "text": "Are cleaning protocols available?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "name": "No Service"
+                        }
+                    },
+                    {
+                        "id": 575740004,
+                        "text": "Have all the staff responsible for cleaning been trained on the training protocol?",
+                        "options": [
+                            "Yes, all have been trained"
+                        ],
+                        "other": [
+                            {
+                                "name": "Limited",
+                                "options": [
+                                    "No, some but not all have been trained"
+                                ],
+                                "questions": []
+                            }
+                        ],
+                        "else": {
+                            "name": "No Service"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Sanitation",
+        "form": 603050002,
+        "labels": [
+            {
+                "name": "Onsite sanitation",
+                "score": 1,
+                "color": "#36AE7B"
+            },
+            {
+                "name": "Off site sanitation",
+                "score": -1,
+                "color": "#EB5353"
+            }
+        ],
+        "categories": [
+            {
+                "name": "Onsite sanitation",
+                "questions": [
+                    {
+                        "id": 603080002,
+                        "text": "What is the main type of sanitation/faecal sludge management exists in the town/city",
+                        "options": [
+                            "pit latrines",
+                            "Septic tanks"
+                        ],
+                        "else": {
+                            "name": "Off site sanitation"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Sludge Transported",
+        "form": 603050002,
+        "labels": [
+            {
+                "name": "Yes",
+                "score": 1,
+                "color": "#36AE7B"
+            },
+            {
+                "name": "No",
+                "score": -1,
+                "color": "#EB5353"
+            }
+        ],
+        "categories": [
+            {
+                "name": "Yes",
+                "questions": [
+                    {
+                        "id": 587530063,
+                        "text": "How is feacal matter/sludge transported to the treatment plant?",
+                        "options": [
+                            "through the sewer system",
+                            "Using tracks"
+                        ],
+                        "else": {
+                            "name": "No"
                         }
                     }
                 ]
