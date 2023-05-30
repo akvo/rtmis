@@ -324,6 +324,18 @@
                 "name": "Safely Managed",
                 "questions": [
                     {
+                        "id": 444670046,
+                        "text": "Are you willing to participate in the survey?",
+                        "options": [
+                            "Yes"
+                        ],
+                        "else": {
+                            "ignore": [
+                                513690068
+                            ]
+                        }
+                    },
+                    {
                         "id": 513690068,
                         "text": "Does the household have a latrine facility?",
                         "options": [
