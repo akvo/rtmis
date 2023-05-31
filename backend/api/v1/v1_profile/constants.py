@@ -10,7 +10,7 @@ class UserRoleTypes:
         admin: 'County Admin',
         approver: 'Data Approver',
         user: 'Data Entry Staff',
-        read_only: 'Institutional User'
+        # read_only: 'Institutional User'
     }
 
 
