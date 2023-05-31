@@ -1,27 +1,27 @@
 [
     {
-        "name": "Sanitation",
+        "name": "sanitation service level",
         "form": 533560002,
         "labels": [
             {
-                "name": "Basic",
+                "name": "basic",
                 "color": "#368541",
                 "score": 15
             },
             {
-                "name": "Limited",
+                "name": "limited",
                 "color": "#79BE7D",
                 "score": 10
             },
             {
-                "name": "No service",
+                "name": "no service",
                 "color": "#FDF177",
                 "score": -1
             }
         ],
         "categories": [
             {
-                "name": "Basic",
+                "name": "basic",
                 "questions": [
                     {
                         "id": 611790061,
@@ -30,7 +30,7 @@
                             "Yes"
                         ],
                         "else": {
-                            "name": "No service",
+                            "name": "no service",
                             "ignore": [
                                 555370004,
                                 530250002,
@@ -51,7 +51,7 @@
                             "Composting toilet"
                         ],
                         "else": {
-                            "name": "No service"
+                            "name": "no service"
                         }
                     },
                     {
@@ -61,7 +61,7 @@
                             "Yes"
                         ],
                         "else": {
-                            "name": "Limited"
+                            "name": "limited"
                         }
                     },
                     {
@@ -71,7 +71,7 @@
                             "Yes"
                         ],
                         "else": {
-                            "name": "Limited"
+                            "name": "limited"
                         }
                     },
                     {
@@ -81,7 +81,7 @@
                             "Yes"
                         ],
                         "else": {
-                            "name": "Limited"
+                            "name": "limited"
                         }
                     },
                     {
@@ -91,7 +91,7 @@
                             "Yes"
                         ],
                         "else": {
-                            "name": "Limited"
+                            "name": "limited"
                         }
                     },
                     {
@@ -106,25 +106,25 @@
         ]
     },
     {
-        "name": "Hygiene",
+        "name": "hygiene service level",
         "form": 533560002,
         "labels": [
             {
-                "name": "Basic",
+                "name": "basic",
                 "color": "#368541"
             },
             {
-                "name": "Limited",
+                "name": "limited",
                 "color": "#79BE7D"
             },
             {
-                "name": "No service",
+                "name": "no service",
                 "color": "#FDF177"
             }
         ],
         "categories": [
             {
-                "name": "Basic",
+                "name": "basic",
                 "questions": [
                     {
                         "id": 551560007,
@@ -134,7 +134,7 @@
                         ],
                         "other": [
                             {
-                                "name": "Limited",
+                                "name": "limited",
                                 "options": [
                                     "No, there are hand hygiene facilities at points of care but not functional, or lacking soap and water or alcohol-based hand rub."
                                 ],
@@ -142,7 +142,7 @@
                             }
                         ],
                         "else": {
-                            "name": "No service"
+                            "name": "no service"
                         }
                     },
                     {
@@ -152,7 +152,7 @@
                             "Yes"
                         ],
                         "else": {
-                            "name": "No service",
+                            "name": "no service",
                             "ignore": [
                                 551560004
                             ]
@@ -165,7 +165,7 @@
                             "Yes"
                         ],
                         "else": {
-                            "name": "No service"
+                            "name": "no service"
                         }
                     }
                 ]
@@ -173,28 +173,28 @@
         ]
     },
     {
-        "name": "Health Care Waste",
+        "name": "health care waste management service level",
         "form": 533560002,
         "labels": [
             {
-                "name": "Basic",
+                "name": "basic",
                 "color": "#368541",
                 "score": 15
             },
             {
-                "name": "Limited",
+                "name": "limited",
                 "color": "#79BE7D",
                 "score": 10
             },
             {
-                "name": "No service",
+                "name": "no service",
                 "color": "#FDF177",
                 "score": -1
             }
         ],
         "categories": [
             {
-                "name": "Basic",
+                "name": "basic",
                 "questions": [
                     {
                         "id": 541950008,
@@ -204,7 +204,7 @@
                         ],
                         "other": [
                             {
-                                "name": "Limited",
+                                "name": "limited",
                                 "options": [
                                     "No, bins are present but do not meet all requirements or waste is not correctly segregated"
                                 ],
@@ -212,7 +212,7 @@
                             }
                         ],
                         "else": {
-                            "name": "No service"
+                            "name": "no service"
                         }
                     },
                     {
@@ -225,7 +225,7 @@
                             "Collected for medical waste disposal off-site"
                         ],
                         "else": {
-                            "name": "No service"
+                            "name": "no service"
                         }
                     },
                     {
@@ -238,7 +238,7 @@
                             "Collected for medical waste disposal off-site"
                         ],
                         "else": {
-                            "name": "No service"
+                            "name": "no service"
                         }
                     }
                 ]
@@ -246,25 +246,25 @@
         ]
     },
     {
-        "name": "Environmental Cleaning",
+        "name": "environmental cleaning service level",
         "form": 533560002,
         "labels": [
             {
-                "name": "Basic",
+                "name": "basic",
                 "color": "#368541"
             },
             {
-                "name": "Limited",
+                "name": "limited",
                 "color": "#79BE7D"
             },
             {
-                "name": "No service",
+                "name": "no service",
                 "color": "#FDF177"
             }
         ],
         "categories": [
             {
-                "name": "Basic",
+                "name": "basic",
                 "questions": [
                     {
                         "id": 551560005,
@@ -274,7 +274,7 @@
                         ],
                         "other": [
                             {
-                                "name": "Limited",
+                                "name": "limited",
                                 "options": [
                                     "No, some but not all have been trained"
                                 ],
@@ -282,7 +282,7 @@
                             }
                         ],
                         "else": {
-                            "name": "No service"
+                            "name": "no service"
                         }
                     }
                 ]
@@ -290,38 +290,38 @@
         ]
     },
     {
-        "name": "Sanitation",
+        "name": "sanitation service level",
         "form": 519630048,
         "labels": [
             {
-                "name": "Safely Managed",
+                "name": "safely managed",
                 "color": "#368541",
                 "score": 15
             },
             {
-                "name": "Basic",
+                "name": "basic",
                 "color": "#79BE7D",
                 "score": 10
             },
             {
-                "name": "Limited",
+                "name": "limited",
                 "color": "#FDF177",
                 "score": -1
             },
             {
-                "name": "Unimproved",
+                "name": "unimproved",
                 "color": "#FBD256",
                 "score": -2
             },
             {
-                "name": "Open Defecation",
+                "name": "open defecation",
                 "color": "#F1AC2A",
                 "score": -3
             }
         ],
         "categories": [
             {
-                "name": "Safely Managed",
+                "name": "safely managed",
                 "questions": [
                     {
                         "id": 444670046,
@@ -342,7 +342,7 @@
                             "Yes"
                         ],
                         "else": {
-                            "name": "Open Defecation",
+                            "name": "open defecation",
                             "ignore": [
                                 492490054,
                                 513690062,
@@ -360,7 +360,7 @@
                         ],
                         "other": [
                             {
-                                "name": "Unimproved",
+                                "name": "unimproved",
                                 "options": [
                                     "Bucket"
                                 ],
@@ -368,7 +368,7 @@
                             }
                         ],
                         "else": {
-                            "name": "Open Defecation"
+                            "name": "open defecation"
                         }
                     },
                     {
@@ -378,7 +378,7 @@
                             "No"
                         ],
                         "else": {
-                            "name": "Limited"
+                            "name": "limited"
                         }
                     },
                     {
@@ -401,7 +401,7 @@
                             "Buried in an uncovered pit"
                         ],
                         "else": {
-                            "name": "Basic"
+                            "name": "basic"
                         }
                     }
                 ]
@@ -409,28 +409,28 @@
         ]
     },
     {
-        "name": "Hygiene (handwashing)",
+        "name": "hygiene service level",
         "form": 519630048,
         "labels": [
             {
-                "name": "Basic",
+                "name": "basic",
                 "color": "#753780",
                 "score": 10
             },
             {
-                "name": "Limited",
+                "name": "limited",
                 "color": "#FDF177",
                 "score": -1
             },
             {
-                "name": "No facility",
+                "name": "no facility",
                 "color": "#F1AC2A",
                 "score": -2
             }
         ],
         "categories": [
             {
-                "name": "Basic",
+                "name": "basic",
                 "questions": [
                     {
                         "id": 599400071,
@@ -439,7 +439,7 @@
                             "Yes"
                         ],
                         "else": {
-                            "name": "No facility",
+                            "name": "no facility",
                             "ignore": [
                                 466680043,
                                 466680045,
@@ -457,7 +457,7 @@
                             "Tippy tap"
                         ],
                         "else": {
-                            "name": "No facility"
+                            "name": "no facility"
                         }
                     },
                     {
@@ -467,7 +467,7 @@
                             "Yes"
                         ],
                         "else": {
-                            "name": "Limited"
+                            "name": "limited"
                         }
                     },
                     {
@@ -477,7 +477,7 @@
                             "Yes"
                         ],
                         "else": {
-                            "name": "Limited"
+                            "name": "limited"
                         }
                     }
                 ]
@@ -485,7 +485,7 @@
         ]
     },
     {
-        "name": "Hygiene (MHM)",
+        "name": "menstrual hygiene service level",
         "form": 519630048,
         "labels": [
             {
@@ -530,81 +530,47 @@
                         "text": "Were you given any information on menstruation before you got your first period?",
                         "options": [
                             "Yes"
-                        ]
-                    }
-                ]
-            },
-            {
-                "name": "Use of menstrual materials",
-                "questions": [
-                    {
-                        "id": 600370068,
-                        "text": "I am now going to ask you questions related to menstruation, are you comfortable and willing to answer the questions?",
-                        "options": [
-                            "Yes"
                         ],
-                        "else": {
-                            "ignore": [
-                                524810057
-                            ]
-                        }
-                    },
-                    {
-                        "id": 524810057,
-                        "text": "During your last menstrual period, what hygiene materials did you mainly use?",
-                        "options": [
-                            "Cloth/reusable sanitary pads",
-                            "Disposable sanitary pads",
-                            "Tampons",
-                            "Menstrual cup"
-                        ]
-                    }
-                ]
-            },
-            {
-                "name": "Access",
-                "questions": [
-                    {
-                        "id": 600370068,
-                        "text": "I am now going to ask you questions related to menstruation, are you comfortable and willing to answer the questions?",
-                        "options": [
-                            "Yes"
-                        ],
-                        "else": {
-                            "ignore": [
-                                524810054
-                            ]
-                        }
-                    },
-                    {
-                        "id": 524810054,
-                        "text": "During your last menstrual period, did you have space to wash and change in privacy (alone) while at home?",
-                        "options": [
-                            "Yes"
-                        ]
-                    }
-                ]
-            },
-            {
-                "name": "Participation",
-                "questions": [
-                    {
-                        "id": 600370068,
-                        "text": "I am now going to ask you questions related to menstruation, are you comfortable and willing to answer the questions?",
-                        "options": [
-                            "Yes"
-                        ],
-                        "else": {
-                            "ignore": [
-                                524810053
-                            ]
-                        }
-                    },
-                    {
-                        "id": 524810053,
-                        "text": "During your last periods, Did you miss any activities because you were on your menstrual periods?",
-                        "options": [
-                            "Yes"
+                        "other": [
+                            {
+                                "name": "Use of menstrual materials",
+                                "options": [
+                                    "No"
+                                ],
+                                "questions": [
+                                    {
+                                        "id": 524810057,
+                                        "text": "During your last menstrual period, what hygiene materials did you mainly use?",
+                                        "options": [
+                                            "Cloth/reusable sanitary pads",
+                                            "Disposable sanitary pads",
+                                            "Tampons",
+                                            "Menstrual cup"
+                                        ],
+                                        "other": [
+                                            {
+                                                "name": "Access",
+                                                "options": [
+                                                    "Toilet paper",
+                                                    "Underwear alone"
+                                                ],
+                                                "questions": [
+                                                    {
+                                                        "id": 524810054,
+                                                        "text": "During your last menstrual period, did you have space to wash and change in privacy (alone) while at home?",
+                                                        "options": [
+                                                            "Yes"
+                                                        ],
+                                                        "else": {
+                                                            "name": "Participation"
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
                         ]
                     }
                 ]
@@ -612,28 +578,28 @@
         ]
     },
     {
-        "name": "Water",
+        "name": "drinking water service level",
         "form": 563350033,
         "labels": [
             {
-                "name": "Basic",
+                "name": "basic",
                 "score": 10,
                 "color": "#753780"
             },
             {
-                "name": "Limited",
+                "name": "limited",
                 "score": -1,
                 "color": "#FDF177"
             },
             {
-                "name": "No Service",
+                "name": "no service",
                 "score": -2,
                 "color": "#F1AC2A"
             }
         ],
         "categories": [
             {
-                "name": "Basic",
+                "name": "basic",
                 "questions": [
                     {
                         "id": 597580048,
@@ -658,7 +624,7 @@
                             "Packaged bottled water"
                         ],
                         "else": {
-                            "name": "No Service"
+                            "name": "no service"
                         }
                     },
                     {
@@ -668,7 +634,7 @@
                             "Yes"
                         ],
                         "else": {
-                            "name": "Limited"
+                            "name": "limited"
                         }
                     }
                 ]
@@ -676,28 +642,28 @@
         ]
     },
     {
-        "name": "Sanitation",
+        "name": "sanitation service level",
         "form": 563350033,
         "labels": [
             {
-                "name": "Basic",
+                "name": "basic",
                 "score": 10,
                 "color": "#753780"
             },
             {
-                "name": "Limited",
+                "name": "limited",
                 "score": -1,
                 "color": "#FDF177"
             },
             {
-                "name": "No Service",
+                "name": "no service",
                 "score": -2,
                 "color": "#F1AC2A"
             }
         ],
         "categories": [
             {
-                "name": "Basic",
+                "name": "basic",
                 "questions": [
                     {
                         "id": 601780052,
@@ -720,7 +686,7 @@
                             "Composting toilets"
                         ],
                         "else": {
-                            "name": "No Service",
+                            "name": "no service",
                             "ignore": [
                                 579840064
                             ]
@@ -733,7 +699,7 @@
                             "Yes"
                         ],
                         "else": {
-                            "name": "Limited"
+                            "name": "limited"
                         }
                     },
                     {
@@ -743,7 +709,7 @@
                             "Yes"
                         ],
                         "else": {
-                            "name": "No Service"
+                            "name": "no service"
                         }
                     }
                 ]
@@ -751,28 +717,28 @@
         ]
     },
     {
-        "name": "Hygiene (handwashing)",
+        "name": "hygiene service level",
         "form": 563350033,
         "labels": [
             {
-                "name": "Basic",
+                "name": "basic",
                 "score": 10,
                 "color": "#753780"
             },
             {
-                "name": "Limited",
+                "name": "limited",
                 "score": -1,
                 "color": "#FDF177"
             },
             {
-                "name": "No Service",
+                "name": "no service",
                 "score": -2,
                 "color": "#F1AC2A"
             }
         ],
         "categories": [
             {
-                "name": "Basic",
+                "name": "basic",
                 "questions": [
                     {
                         "id": 539710052,
@@ -781,7 +747,7 @@
                             "Yes"
                         ],
                         "else": {
-                            "name": "No Service",
+                            "name": "no service",
                             "ignore": [
                                 539710048
                             ]
@@ -794,7 +760,7 @@
                             "Yes, water and soap"
                         ],
                         "else": {
-                            "name": "Limited"
+                            "name": "limited"
                         }
                     }
                 ]
@@ -802,7 +768,7 @@
         ]
     },
     {
-        "name": "Hygiene (MHM)",
+        "name": "menstrual hygiene service level",
         "form": 563350033,
         "labels": [
             {
@@ -884,28 +850,28 @@
         ]
     },
     {
-        "name": "Environmental Cleaning",
+        "name": "environmental cleaning service level",
         "form": 563350033,
         "labels": [
             {
-                "name": "Basic",
+                "name": "basic",
                 "score": 10,
                 "color": "#753780"
             },
             {
-                "name": "Limited",
+                "name": "limited",
                 "score": -1,
                 "color": "#FDF177"
             },
             {
-                "name": "No service",
+                "name": "no service",
                 "score": -2,
                 "color": "#F1AC2A"
             }
         ],
         "categories": [
             {
-                "name": "Basic",
+                "name": "basic",
                 "questions": [
                     {
                         "id": 545530057,
@@ -914,7 +880,7 @@
                             "Yes"
                         ],
                         "else": {
-                            "name": "No Service"
+                            "name": "no service"
                         }
                     },
                     {
@@ -925,7 +891,7 @@
                         ],
                         "other": [
                             {
-                                "name": "Limited",
+                                "name": "limited",
                                 "options": [
                                     "No, some but not all have been trained"
                                 ],
@@ -933,7 +899,7 @@
                             }
                         ],
                         "else": {
-                            "name": "No Service"
+                            "name": "no service"
                         }
                     }
                 ]
@@ -941,7 +907,7 @@
         ]
     },
     {
-        "name": "Sanitation",
+        "name": "main type of sanitation",
         "form": 603050002,
         "labels": [
             {
@@ -975,7 +941,7 @@
         ]
     },
     {
-        "name": "Sludge Transported",
+        "name": "sludge transported",
         "form": 603050002,
         "labels": [
             {
