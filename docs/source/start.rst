@@ -30,29 +30,19 @@ User Roles and Permissions
 +---------------------------+------------------------+----------------------------------------------+
 | User Roles                | Privileges             | Definitions                                  |
 +===========================+========================+==============================================+
-|| **Data Submitter**       || Data upload, View     || An enumerator can only edit data if the     |
+|| **Data Entry Staff**     || Data upload, View     || An enumerator can only edit data if the     |
 ||                          ||                       || approver has rejected the data              |
 +---------------------------+------------------------+----------------------------------------------+
-|| **Approver**             || Edit, View, Data      || Approvals restricted by region              |
+|| **Data Approver**        || Edit, View, Data      || Approvals restricted by region              |
 ||                          || Approval              ||                                             |
 +---------------------------+------------------------+----------------------------------------------+
-|| **County Administrator** ||  Edit, View, Approve, || County level administrators will manage     |
+|| **County Admin**         ||  Edit, View, Approve, || County level administrators will manage     |
 ||                          || Manage Users          || users In addition to everything that an     |
 ||                          ||                       || approver can do                             |
 +---------------------------+------------------------+----------------------------------------------+
-|| **Super Administrator**  || Edit, View, Approve,  || National level administrators with country  |
+|| **Super Admin**          || Edit, View, Approve,  || National level administrators with country  |
 ||                          || Manage Users, Manage  || wide scope . Will all privileges along with |
 ||                          || survey configurations || managing key system level configurations    |
-+---------------------------+------------------------+----------------------------------------------+
-|| **Institutional User**   || View, download        || A “read only” user whose access can be      |
-||                          || approved datasets     || limited by region and/or Forms. These       |
-||                          ||                       || will be institutional users (UNICEF/        |
-||                          ||                       || Donors, academic institutions etc) . Can    |
-||                          ||                       || only view and download approved             |
-||                          ||                       || datasets                                    |
-+---------------------------+------------------------+----------------------------------------------+
-|| **Public User**          || View auto generated   || Can only view auto generated dash           |
-||                          || dash boards only      || boards only                                 |
 +---------------------------+------------------------+----------------------------------------------+
 
 Setting up Account for the First Time

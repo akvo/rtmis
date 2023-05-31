@@ -114,15 +114,15 @@ const config = {
         "Overall role to collect data from community/village assigned to them",
       control_center_order: ["submission", "manage-data"],
     },
-    {
-      id: 5,
-      name: "Institutional User",
-      filter_form: false,
-      page_access: ["profile", "visualisation", "reports"],
-      administration_level: [1, 2, 3, 4],
-      description: "Can view and download data from all counties",
-      control_center_order: [],
-    },
+    // {
+    //   id: 5,
+    //   name: "Institutional User",
+    //   filter_form: false,
+    //   page_access: ["profile", "visualisation", "reports"],
+    //   administration_level: [1, 2, 3, 4],
+    //   description: "Can view and download data from all counties",
+    //   control_center_order: [],
+    // },
   ],
   checkAccess: (roles, page) => {
     return roles?.page_access?.includes(page);
