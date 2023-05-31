@@ -26,9 +26,7 @@ from rest_framework.views import APIView
 from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
     PendingDataBatch, ViewPendingDataApproval, PendingAnswers, \
-    AnswerHistory, PendingAnswerHistory, PendingDataApproval, \
-    ViewJMPData
-# ViewJMPCount
+    AnswerHistory, PendingAnswerHistory, PendingDataApproval
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
@@ -49,8 +47,7 @@ from api.v1.v1_data.functions import get_cache, create_cache, \
     filter_by_criteria, get_questions_options_from_params, \
     get_advance_filter_data_ids, transform_glass_answer
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
-from api.v1.v1_forms.models import Forms, Questions, \
-    ViewJMPCriteria
+from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -1256,14 +1253,16 @@ def get_jmp_data(request, version, form_id):
         total = 0
         for crt in criteria:
             for lb in crt["labels"]:
-                subtotal = len(
-                    list(
-                        filter(
-                            lambda c: c["category"][crt["name"]] == lb["name"],
-                            categories,
-                        )
+                matched = list(
+                    filter(
+                        lambda c: (
+                            c["category"][crt["name"]] == lb["name"]
+                            if crt["name"] in c["category"] else False
+                        ),
+                        categories
                     )
                 )
+                subtotal = len(matched)
                 temp[crt["name"]][lb["name"]] = subtotal
                 total += subtotal
         for q in avgs:
@@ -1377,12 +1376,7 @@ def get_period_submission(request, version, form_id):
                 administration__path__startswith=adm_path)
 
     # JMP Criteria
-    criteria_cache = f"jmp-criteria-{form.id}"
-    criteria = get_cache(criteria_cache)
-    if not criteria:
-        criteria = ViewJMPCriteria.objects.filter(
-                form=form).distinct('name', 'level').all()
-        create_cache(criteria_cache, criteria)
+    criteria = get_jmp_config_by_form(form=form_id)
 
     data = []
     while year <= cyear:
@@ -1393,27 +1387,32 @@ def get_period_submission(request, version, form_id):
                     created__month=month)
             fdp_ids = fdp.values_list('id', flat=True)
             fdp = fdp.aggregate(Count('id'))
+            categories = DataCategory.objects.filter(
+                form_id=form_id,
+                data_id__in=fdp_ids,
+            )
+            categories = get_category_results(categories)
             jmp_data = defaultdict(dict)
             for crt in criteria:
                 # JMP Criteria
-                matches_name = f"crt.{form.id}{crt.name}{crt.level}"
-                matches = get_cache(matches_name)
-                if not matches:
-                    matches = ViewJMPCriteria.objects.filter(
-                            form=form,
-                            name=crt.name,
-                            level=crt.level).count()
-                    create_cache(matches_name, matches)
+                for lb in crt["labels"]:
+                    matches_name = f"crt.{form.id}{crt['name']}{lb['name']}"
+                    matches = get_cache(matches_name)
+                    if not matches:
+                        matches = len(
+                            list(
+                                filter(
+                                    lambda c: (
+                                        c["category"][crt["name"]]
+                                        == lb["name"]
+                                    ),
+                                    categories,
+                                )
+                            )
+                        )
+                        create_cache(matches_name, matches)
 
-                jmp = ViewJMPData.objects.filter(
-                        data_id__in=fdp_ids,
-                        data__created__year=year,
-                        data__created__month=month,
-                        name=crt.name,
-                        level=crt.level,
-                        matches=matches,
-                        form=form).count()
-                jmp_data[crt.name][crt.level] = jmp or 0
+                        jmp_data[crt["name"]][lb["name"]] = matches
             month_name = date(1900, month, 1).strftime('%B')
             total += fdp['id__count']
             data.append({
