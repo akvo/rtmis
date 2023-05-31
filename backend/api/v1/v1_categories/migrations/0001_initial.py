@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('v1_data', '0023_viewjmpcount')
     ]
-
+    file_path = "./source/config/category.json"
     operations = [
         migrations.CreateModel(
             name='DataCategory',
@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.RunSQL(
-            generate_schema(), """
+            generate_schema(file_path=file_path), """
             DROP MATERIALIZED VIEW data_category;
             """)
     ]
