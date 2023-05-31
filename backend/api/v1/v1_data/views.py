@@ -4,11 +4,11 @@ from collections import defaultdict
 from datetime import datetime, date, timedelta
 from wsgiref.util import FileWrapper
 from django.utils import timezone
-from operator import or_
-from functools import reduce
+# from operator import or_
+# from functools import reduce
 
 from django.contrib.postgres.aggregates import StringAgg
-from django.db.models import Count, TextField, Value, F, Sum, Avg, Q
+from django.db.models import Count, TextField, Value, F, Sum, Avg
 from django.db.models.functions import Cast, Coalesce
 from django.http import HttpResponse
 from django_q.tasks import async_task
@@ -26,8 +26,7 @@ from rest_framework.views import APIView
 from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import FormData, Answers, PendingFormData, \
     PendingDataBatch, ViewPendingDataApproval, PendingAnswers, \
-    AnswerHistory, PendingAnswerHistory, PendingDataApproval, \
-    ViewJMPCount, ViewJMPData
+    AnswerHistory, PendingAnswerHistory, PendingDataApproval
 from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListFormDataSerializer, ListFormDataRequestSerializer, \
     ListDataAnswerSerializer, ListMapDataPointSerializer, \
@@ -48,11 +47,16 @@ from api.v1.v1_data.functions import get_cache, create_cache, \
     filter_by_criteria, get_questions_options_from_params, \
     get_advance_filter_data_ids, transform_glass_answer
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
-from api.v1.v1_forms.models import Forms, Questions, \
-    ViewJMPCriteria
+from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
+from api.v1.v1_categories.functions import (
+    get_category_results,
+    get_jmp_config_by_form
+)
+from api.v1.v1_categories.models import DataCategory
+
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import IsSuperAdmin, IsAdmin, IsApprover, \
         IsSubmitter, PublicGet
@@ -1190,40 +1194,26 @@ def get_last_update_data_point(request, version, form_id):
 def get_jmp_data(request, version, form_id):
     form = get_object_or_404(Forms, pk=form_id)
     administration = request.GET.get("administration")
-    adm_filter = get_object_or_404(
-        Administration, pk=administration)
+    adm_filter = get_object_or_404(Administration, pk=administration)
     if not administration:
         administration = 1
     # Advance filter
-    options = request.GET.getlist('options')
+    options = request.GET.getlist("options")
     data_ids = None
     if options:
         data_ids = get_advance_filter_data_ids(
-            form_id=form_id, administration_id=administration,
-            options=options)
+            form_id=form_id, administration_id=administration, options=options
+        )
     # Check administration filter level
     administration_obj = Administration.objects
     if adm_filter.level_id < 4:
-        administration = administration_obj.filter(
-            parent_id=administration)
+        administration = administration_obj.filter(parent_id=administration)
     else:
         administration = administration_obj.filter(pk=adm_filter.pk)
     administration = administration.all()
     jmp_data = []
-
     # JMP Criteria
-    jmp_criteria_obj = ViewJMPCriteria.objects.filter(form=form)
-    criteria_cache = f"jmp-criteria-{form.id}"
-    criteria = get_cache(criteria_cache)
-    if not criteria:
-        criteria = jmp_criteria_obj.distinct('name', 'level', 'criteria').all()
-        create_cache(criteria_cache, criteria)
-
-    # check if advance filter value is on JMP criteria
-    is_jmp_criteria = False
-    if options:
-        is_jmp_criteria = jmp_criteria_obj.filter(reduce(
-            or_, [Q(criteria__contains=op) for op in options])).first()
+    criteria = get_jmp_config_by_form(form=form_id)
 
     # Custom Criteria (SUM & AVG)
     sums = []
@@ -1239,65 +1229,40 @@ def get_jmp_data(request, version, form_id):
             if q.type in [QuestionTypes.option, QuestionTypes.multiple_option]:
                 opts[q.id] = list(q.question_question_options.order_by(
                     'order').values_list('name', flat=True))
-
     for adm in administration:
         temp = defaultdict(dict)
-        adm_path = '{0}{1}.'.format(adm.path, adm.id)
+        adm_path = "{0}{1}.".format(adm.path, adm.id)
         # if adm last level
-        filter_total = {'form': form}
+        filter_total = {"form": form}
         if adm.level_id < 4:
-            filter_total.update({'administration__path__startswith': adm_path})
+            filter_total.update({"administration__path__startswith": adm_path})
         else:
-            filter_total.update({'administration': adm})
+            filter_total.update({"administration": adm})
             adm_path = adm.path  # use parent adm path if adm lowest level/ward
         if data_ids:
-            filter_total.update({'pk__in': data_ids})
-        total = FormData.objects.filter(**filter_total).count()
+            filter_total.update({"pk__in": data_ids})
+        dataset = FormData.objects.filter(**filter_total)
+        categories = []
+        if dataset.count() and len(categories) == 0:
+            ids = data_ids if data_ids else [d.id for d in dataset.all()]
+            categories = DataCategory.objects.filter(
+                form_id=form_id,
+                data_id__in=ids,
+            )
+            categories = get_category_results(categories)
+        total = 0
         for crt in criteria:
-            data = 0
-            if data_ids:
-                # JMP Criteria
-                matches_name = f"crt.{form.id}{crt.name}{crt.level}"
-                matches_name = f"{matches_name}{'_'.join(options)}"
-                matches = get_cache(matches_name)
-                if not matches:
-                    matches = jmp_criteria_obj.filter(
-                        name=crt.name, level=crt.level)
-                    # filter by criteria defined in is_jmp_criteria
-                    # create unique list for question id in options
-                    if is_jmp_criteria and is_jmp_criteria.name == crt.name:
-                        qids = []
-                        for opt in is_jmp_criteria.criteria:
-                            val = opt.split("||")[0]
-                            if val in qids:
-                                continue
-                            qids.append(val)
-                        # filter options and_ when different question id
-                        for qid in qids:
-                            # filter options or_ when same question id
-                            or_filter_value = filter(
-                                lambda x: qid in x, options)
-                            matches = matches.filter(reduce(
-                                or_, [Q(criteria__contains=op)
-                                      for op in or_filter_value]))
-                    matches = matches.count()
-                    create_cache(matches_name, matches)
-
-                data = ViewJMPData.objects.filter(
-                    data_id__in=data_ids,
-                    path__startswith=adm_path,
-                    name=crt.name,
-                    level=crt.level,
-                    matches=matches,
-                    form=form).count()
-            else:
-                data = ViewJMPCount.objects.filter(
-                    path__startswith=adm_path,
-                    name=crt.name,
-                    level=crt.level,
-                    form=form).aggregate(Sum('total'))
-                data = data.get("total__sum")
-            temp[crt.name][crt.level] = data or 0
+            for lb in crt["labels"]:
+                subtotal = len(
+                    list(
+                        filter(
+                            lambda c: c["category"][crt["name"]] == lb["name"],
+                            categories,
+                        )
+                    )
+                )
+                temp[crt["name"]][lb["name"]] = subtotal
+                total += subtotal
         for q in avgs:
             answer = Answers.objects.filter(
                 data__administration__path__startswith=adm_path,
@@ -1323,10 +1288,7 @@ def get_jmp_data(request, version, form_id):
                         count=Count('id'))
                     ov.update({o: answer["count"]})
                 temp['sum'][q.id] = ov
-        jmp_data.append({
-            "loc": adm.name,
-            "data": temp,
-            "total": total})
+        jmp_data.append({"loc": adm.name, "data": temp, "total": total})
     return Response(jmp_data, status=status.HTTP_200_OK)
 
 
@@ -1412,12 +1374,7 @@ def get_period_submission(request, version, form_id):
                 administration__path__startswith=adm_path)
 
     # JMP Criteria
-    criteria_cache = f"jmp-criteria-{form.id}"
-    criteria = get_cache(criteria_cache)
-    if not criteria:
-        criteria = ViewJMPCriteria.objects.filter(
-                form=form).distinct('name', 'level').all()
-        create_cache(criteria_cache, criteria)
+    criteria = get_jmp_config_by_form(form=form_id)
 
     data = []
     while year <= cyear:
@@ -1428,27 +1385,32 @@ def get_period_submission(request, version, form_id):
                     created__month=month)
             fdp_ids = fdp.values_list('id', flat=True)
             fdp = fdp.aggregate(Count('id'))
+            categories = DataCategory.objects.filter(
+                form_id=form_id,
+                data_id__in=fdp_ids,
+            )
+            categories = get_category_results(categories)
             jmp_data = defaultdict(dict)
             for crt in criteria:
                 # JMP Criteria
-                matches_name = f"crt.{form.id}{crt.name}{crt.level}"
-                matches = get_cache(matches_name)
-                if not matches:
-                    matches = ViewJMPCriteria.objects.filter(
-                            form=form,
-                            name=crt.name,
-                            level=crt.level).count()
-                    create_cache(matches_name, matches)
+                for lb in crt["labels"]:
+                    matches_name = f"crt.{form.id}{crt['name']}{lb['name']}"
+                    matches = get_cache(matches_name)
+                    if not matches:
+                        matches = len(
+                            list(
+                                filter(
+                                    lambda c: (
+                                        c["category"][crt["name"]]
+                                        == lb["name"]
+                                    ),
+                                    categories,
+                                )
+                            )
+                        )
+                        create_cache(matches_name, matches)
 
-                jmp = ViewJMPData.objects.filter(
-                        data_id__in=fdp_ids,
-                        data__created__year=year,
-                        data__created__month=month,
-                        name=crt.name,
-                        level=crt.level,
-                        matches=matches,
-                        form=form).count()
-                jmp_data[crt.name][crt.level] = jmp or 0
+                        jmp_data[crt["name"]][lb["name"]] = matches
             month_name = date(1900, month, 1).strftime('%B')
             total += fdp['id__count']
             data.append({
