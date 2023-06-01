@@ -44,7 +44,6 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListMapOverviewDataPointSerializer, \
     ListMapOverviewDataPointRequestSerializer
 from api.v1.v1_data.functions import get_cache, create_cache, \
-    filter_by_criteria, get_questions_options_from_params, \
     get_advance_filter_data_ids, transform_glass_answer
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms, Questions
@@ -661,11 +660,17 @@ def get_chart_administration(request, version, form_id):
 @api_view(['POST'])
 def get_chart_criteria(request, version, form_id):
     cache_name = request.GET.get("cache")
+    category_name = None
     if cache_name:
-        cache_name = f"chart_criteria-{cache_name}"
+        category_name = cache_name.replace("-", " ")
+        cache_name = f"{form_id}-{cache_name}"
         cache_data = get_cache(cache_name)
         if cache_data:
             return Response(cache_data, status=status.HTTP_200_OK)
+    # JMP Criteria
+    criteria = get_jmp_config_by_form(form=form_id)
+    criteria = list(filter(lambda c: c["name"] == category_name, criteria))
+    labels = criteria[0]["labels"] if len(criteria) else []
     administration = request.GET.get("administration")
     if not administration:
         administration = 1
@@ -678,40 +683,47 @@ def get_chart_criteria(request, version, form_id):
             {'message': validate_serializers_message(serializer.errors)},
             status=status.HTTP_400_BAD_REQUEST
         )
-    max_level = Levels.objects.order_by('-level').first()
+    max_level = Levels.objects.order_by("-level").first()
     childs = Administration.objects.filter(parent=administration).all()
     if administration.level.level == max_level.level:
         childs = [administration]
     data = []
-    # Advance filter
-    data_ids = None
-    if request.GET.getlist('options'):
-        data_ids = get_advance_filter_data_ids(
-            form_id=form_id,
-            administration_id=request.GET.get('administration'),
-            options=request.GET.getlist('options'))
-    question_ids, options = get_questions_options_from_params(
-        params=serializer.validated_data)
     for child in childs:
-        filter_path = child.path
-        if child.level.level < max_level.level:
-            filter_path = "{0}{1}.".format(child.path, child.id)
-        administration_ids = list(Administration.objects.filter(
-            path__startswith=filter_path).values_list('id', flat=True))
+        data_ids = list(
+            FormData.objects.filter(
+                form_id=form_id,
+                administration_id=child.id,
+            ).values_list("id", flat=True)
+        )
+        categories = DataCategory.objects.filter(
+            form_id=form_id,
+            data_id__in=data_ids,
+        )
+        categories = get_category_results(categories)
+        jmp = []
+        for label in labels:
+            matched = list(
+                filter(
+                    lambda c: (
+                        c["category"][category_name] == label["name"]
+                        if category_name in c["category"]
+                        else False
+                    ),
+                    categories,
+                )
+            )
+            subtotal = len(matched)
+            jmp.append(
+                {"name": label["name"], "value": subtotal}
+            )
         values = {
-            'group': child.name,
-            'child': filter_by_criteria(
-                params=serializer.validated_data,
-                question_ids=question_ids,
-                options=options,
-                administration_ids=administration_ids,
-                filter=request.GET.getlist('options'),
-                data_ids=data_ids)
+            "group": child.name,
+            "child": jmp
         }
         data.append(values)
     resp = {"type": "BARSTACK", "data": data}
     if cache_name:
-        create_cache(cache_name, resp)
+        create_cache(f"{form_id}-{cache_name}", resp)
     del data
     return Response(resp, status=status.HTTP_200_OK)
 
