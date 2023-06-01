@@ -216,7 +216,9 @@ class DataVisualisationTestCase(TestCase):
         self.assertEqual(data.status_code, 400)
 
         # CORRECT PARAMETER, RUN WITH CACHE
-        url = "/api/v1/chart/criteria/{0}?cache=test-cache".format(form.id)
+        url = (
+            "/api/v1/chart/criteria/{0}?cache=example-criteria".format(form.id)
+        )
         payload = [{
             "name": "Test",
             "options": [{
