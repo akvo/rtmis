@@ -134,6 +134,8 @@ def save_data(user: SystemUser, dp: dict, qs: dict, form_id: int, batch_id):
     answerlist = temp.get('answerlist')
     name = temp.get('name')
     answer_history_list = temp.get('answer_history_list')
+    if data_id:
+        return FormData.objects.get(pk=data_id)
 
     if is_super_admin:
         data = FormData.objects.create(
