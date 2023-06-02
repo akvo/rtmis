@@ -45,3 +45,4 @@ class DownloadListSerializer(serializers.ModelSerializer):
 
 class UploadExcelSerializer(serializers.Serializer):
     file = CustomFileField(validators=[FileExtensionValidator(['xlsx'])])
+    is_update = serializers.BooleanField(default=False)

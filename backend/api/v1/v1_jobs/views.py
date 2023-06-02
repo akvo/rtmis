@@ -179,6 +179,8 @@ def upload_excel(request, form_id, version):
                                   'administration':
                                   request.user.user_access.administration_id
                               })
+    is_update = serializer.validated_data.get('is_update')
+    print("is_update:", is_update)
     task_id = async_task('api.v1.v1_jobs.job.validate_excel',
                          job.id,
                          hook='api.v1.v1_jobs.job.validate_excel_result')
