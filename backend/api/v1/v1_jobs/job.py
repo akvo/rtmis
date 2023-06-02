@@ -232,21 +232,18 @@ def validate_excel(job_id):
 def validate_excel_result(task):
     job = Jobs.objects.get(task_id=task.id)
     job.attempt = job.attempt + 1
+    job_info = job.info
     if task.result:
         job.status = JobStatus.done
         job.available = timezone.now()
         job.save()
+        job_info.update({'ref_job_id': job.id})
         new_job = Jobs.objects.create(
             result=job.info.get('file'),
             type=JobTypes.seed_data,
             status=JobStatus.on_progress,
             user=job.user,
-            info={
-                'file': job.info.get('file'),
-                'form': job.info.get('form'),
-                'administration': job.info.get('administration'),
-                'ref_job_id': job.id,
-            }
+            info=job_info
         )
         task_id = async_task(
             'api.v1.v1_jobs.job.seed_data_job', new_job.id,
