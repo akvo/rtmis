@@ -288,8 +288,10 @@ def validate(form: int, administration: int, file: str):
     questions = Questions.objects.filter(form_id=form)
     header_names = [q.to_excel_header for q in questions]
     df = pd.read_excel(file, sheet_name='data')
+    collect_data_ids = []
     if 'id' in list(df):
         df = df.rename(columns={'id': 'data_id'})
+        collect_data_ids = df["data_id"].tolist()
     if df.shape[0] == 0:
         return [{
             "error": ExcelError.sheet,
@@ -300,7 +302,6 @@ def validate(form: int, administration: int, file: str):
     for index, header in enumerate(list(df)):
         excel_head.update({excel_cols[index]: header})
 
-    collect_data_ids = df["data_id"].tolist()
     header_error = []
     data_error = []
 
