@@ -209,3 +209,22 @@ Q_CLUSTER = {
     'bulk': 10,
     'orm': 'default'
 }
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': f'{BASE_DIR}/logfile.log',
+        },
+    },
+    'loggers': {
+        'your_app_name': {
+            'handlers': ['file'],
+            'level': 'WARNING',
+        },
+    },
+}
