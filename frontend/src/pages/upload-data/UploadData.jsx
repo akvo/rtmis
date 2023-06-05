@@ -108,6 +108,7 @@ const UploadData = () => {
   const uploadRequest = ({ file, onSuccess }) => {
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("is_update", updateExisting);
     setUploading(true);
     api
       .post(`upload/excel/${formId}`, formData)
