@@ -252,12 +252,20 @@ def validate_sheet_name(file: str):
     return xl.sheet_names
 
 
-def validate_data_id(col, data_id):
+def validate_data_id(col, data_id, collect_data_ids=[]):
     default = {"error": ExcelError.value, "cell": col}
     if data_id and not FormData.objects.filter(id=data_id).exists():
         default.update({
             "error_message":
             ValidationText.invalid_data_id.value.replace(
+                "--data_id--", str(data_id))
+        })
+        return default
+    # check duplicated data_id
+    if collect_data_ids.count(data_id) > 1:
+        default.update({
+            "error_message":
+            ValidationText.duplicated_data_id.value.replace(
                 "--data_id--", str(data_id))
         })
         return default
@@ -291,11 +299,12 @@ def validate(form: int, administration: int, file: str):
     excel_cols = list(itertools.islice(generate_excel_columns(), df.shape[1]))
     for index, header in enumerate(list(df)):
         excel_head.update({excel_cols[index]: header})
+
+    collect_data_ids = df["data_id"].tolist()
     header_error = []
     data_error = []
 
     adm = Administration.objects.get(id=administration)
-
     adm = {"id": adm.id, "name": adm.name}
     for col in excel_head:
         header = excel_head[col]
@@ -310,7 +319,9 @@ def validate(form: int, administration: int, file: str):
                 for i, data_id in enumerate(data_ids):
                     ix = i + 2
                     data_id = None if math.isnan(data_id) else data_id
-                    errors = validate_data_id(f"{col}{ix}", data_id)
+                    errors = validate_data_id(
+                        f"{col}{ix}", data_id, collect_data_ids
+                    )
                     if errors:
                         data_error.append(errors)
             else:
