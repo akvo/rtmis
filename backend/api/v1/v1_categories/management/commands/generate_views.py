@@ -29,14 +29,16 @@ def get_question_config(config: dict, cl: list):
     return cl
 
 
-def generate_schema(file_path: str) -> str:
+def generate_schema(file_path: str = None) -> str:
+    if not file_path:
+        return ""
     file_config = open(file_path)
     configs = json.load(file_config)
     file_config.close()
     if len(configs) == 0:
         return ""
 
-    mview = "CREATE MATERIALIZED VIEW data_category AS\n"
+    mview = "CREATE MATERIALIZED VIEW IF NOT EXISTS data_category AS\n"
     mview += "SELECT ROW_NUMBER() OVER (PARTITION BY TRUE) as id, *\n"
     mview += "FROM (\n"
     for main_union, config in enumerate(configs):
