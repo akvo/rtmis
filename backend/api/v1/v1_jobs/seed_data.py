@@ -17,9 +17,9 @@ from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
 from utils.email_helper import send_email, EmailTypes
 
-# TODO:: Delete logging
-import logging
-logger = logging.getLogger('your_app_name')
+# import logging
+# logger = logging.getLogger('rtmis')
+# logger.warning("This is log message")
 
 
 def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
@@ -139,9 +139,6 @@ def save_data(user: SystemUser, dp: dict, qs: dict, form_id: int, batch_id):
     name = temp.get('name')
     answer_history_list = temp.get('answer_history_list')
 
-    # TODO:: Delete logging
-    logger.warning(f"collect_answers: {temp}")
-
     if is_super_admin:
         try:
             FormData.objects.filter(pk=data_id).update(
@@ -149,7 +146,7 @@ def save_data(user: SystemUser, dp: dict, qs: dict, form_id: int, batch_id):
                 form_id=form_id,
                 administration_id=administration,
                 geo=geo,
-                created_by=user,
+                updated_by=user,
                 updated=timezone.now())
             data = FormData.objects.get(pk=data_id)
         except FormData.DoesNotExist:
@@ -160,6 +157,7 @@ def save_data(user: SystemUser, dp: dict, qs: dict, form_id: int, batch_id):
                 geo=geo,
                 created_by=user)
     else:
+        # same logic as backend/api/v1/v1_data/views.py line 258
         data = PendingFormData.objects.create(
             name=name,
             form_id=form_id,
@@ -168,6 +166,7 @@ def save_data(user: SystemUser, dp: dict, qs: dict, form_id: int, batch_id):
             data_id=data_id,
             batch_id=batch_id,
             created_by=user)
+
     if is_super_admin:
         answer_to_create = []
         for val in answerlist:
@@ -185,7 +184,6 @@ def save_data(user: SystemUser, dp: dict, qs: dict, form_id: int, batch_id):
         for val in answerlist:
             val.pending_data = data
         PendingAnswers.objects.bulk_create(answerlist)
-    logger.warning('============================================')
     return data
 
 

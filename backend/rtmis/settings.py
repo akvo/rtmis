@@ -210,7 +210,6 @@ Q_CLUSTER = {
     'orm': 'default'
 }
 
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -218,7 +217,7 @@ LOGGING = {
         'file': {
             'level': 'WARNING',
             'class': 'logging.FileHandler',
-            'filename': f'{BASE_DIR}/logfile.log',
+            'filename': f'{BASE_DIR}/logs/logfile.log',
         },
     },
     'loggers': {
