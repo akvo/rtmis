@@ -159,6 +159,7 @@ def upload_excel(request, form_id, version):
         return Response(
             {'message': validate_serializers_message(serializer.errors)},
             status=status.HTTP_400_BAD_REQUEST)
+    is_update = serializer.validated_data.get('is_update')
     fs = FileSystemStorage()
     file = fs.save(f"./tmp/{serializer.validated_data.get('file').name}",
                    serializer.validated_data.get('file'))
@@ -177,7 +178,8 @@ def upload_excel(request, form_id, version):
                                   'file': filename,
                                   'form': form_id,
                                   'administration':
-                                  request.user.user_access.administration_id
+                                  request.user.user_access.administration_id,
+                                  'is_update': is_update
                               })
     task_id = async_task('api.v1.v1_jobs.job.validate_excel',
                          job.id,
