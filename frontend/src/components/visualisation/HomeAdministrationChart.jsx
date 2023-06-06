@@ -22,7 +22,7 @@ const HomeAdministrationChart = ({
   const [chartColors, setChartColors] = useState([]);
 
   const { notify } = useNotification();
-  const { id, title, stack, options, type, horizontal = true } = setup;
+  const { id, title, cache, stack, options, type, horizontal = true } = setup;
 
   const { next, wait } = queue.useState((q) => q);
 
@@ -43,9 +43,7 @@ const HomeAdministrationChart = ({
 
   useEffect(() => {
     if (formId && (type === "CRITERIA" || id) && runCall) {
-      const cacheName = `home-page-${identifier}-${title}`
-        .replace(/ /g, "-")
-        .toLowerCase();
+      const cacheName = cache.replace(/ /g, "-").toLowerCase();
       const url =
         (type === "CRITERIA" ? "chart/criteria/" : "chart/administration/") +
         `${formId}?` +
@@ -113,6 +111,7 @@ const HomeAdministrationChart = ({
     id,
     index,
     title,
+    cache,
     identifier,
     notify,
     options,

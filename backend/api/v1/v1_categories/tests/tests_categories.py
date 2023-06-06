@@ -6,11 +6,13 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from api.v1.v1_data.models import Answers, Questions
 from api.v1.v1_categories.functions import validate_number, get_valid_list
+from api.v1.v1_categories.models import DataCategory
 
 
 @override_settings(USE_TZ=False)
 class CategoryTestCase(TestCase):
-    def test_powerbi_endpoint(self):
+    def setUp(self):
+        super().setUp()
         call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rush.com", "password": "Test105*"}
         user_response = self.client.post(
@@ -20,8 +22,24 @@ class CategoryTestCase(TestCase):
 
         call_command("form_seeder", "--test")
         call_command("fake_data_seeder", "-r", 1, "-t", True)
-        header = {"HTTP_AUTHORIZATION": f"Bearer {token}"}
+        self.header = {"HTTP_AUTHORIZATION": f"Bearer {token}"}
 
+        call_command(
+            "generate_views", "-f", "./source/config/category-example.json"
+        )
+
+    def tearDown(self):
+        super().tearDown()
+        call_command("generate_views")
+
+    def test_data_category_serialization(self):
+        category = DataCategory.objects.first()
+        self.assertEqual(
+            list(category.serialize), ["id", "name", "data", "form", "opt"]
+        )
+
+    def test_powerbi_endpoint(self):
+        header = self.header
         # PRIVATE RAW DATA ACCESS (POWER BI)
         data = self.client.get(
             "/api/v1/raw-data/1?page=1", follow=True, **header
@@ -87,14 +105,6 @@ class CategoryTestCase(TestCase):
         )
 
     def test_csv_endpoint(self):
-        call_command("administration_seeder", "--test")
-        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
-        self.client.post(
-            "/api/v1/login", user_payload, content_type="application/json"
-        )
-        call_command("form_seeder", "--test")
-        call_command("fake_data_seeder", "-r", 1, "-t", True)
-
         # Call the function and get the response
         response = self.client.get("/api/v1/raw-data-csv/1", follow=True)
 

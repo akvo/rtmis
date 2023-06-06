@@ -27,7 +27,7 @@ const jmpColorScore = {
       limited: { score: 10, color: "#79BE7D" },
       "no service": { score: -1, color: "#FDF177" },
     },
-    "hygiene (hand washing) service level": {
+    "hygiene service level": {
       basic: { color: "#368541", score: 15 },
       limited: { score: 10, color: "#79BE7D" },
       "no service": { score: -1, color: "#FDF177" },
@@ -55,18 +55,18 @@ const jmpColorScore = {
       limited: { score: -1, color: "#FDF177" },
       "no service": { score: -2, color: "#F1AC2A" },
     },
-    "hygiene (handwashing) service level": {
+    "hygiene service level": {
       basic: { score: 10, color: "#753780" },
       limited: { score: -1, color: "#FDF177" },
       "no service": { score: -2, color: "#F1AC2A" },
     },
-    "hygiene (mhm) service level": {
+    "menstrual hygiene service level": {
       awareness: { score: 10, color: "#753780" },
       "use of menstrual materials": { score: -1, color: "#FDF177" },
       access: { score: -2, color: "#F1AC2A" },
       participation: { score: -2, color: "#368541" },
     },
-    "enviromental cleaning service level": {
+    "environmental cleaning service level": {
       basic: { score: 10, color: "#753780" },
       limited: { score: -1, color: "#FDF177" },
       "no service": { score: -2, color: "#F1AC2A" },
