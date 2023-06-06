@@ -1,0 +1,44 @@
+[
+    {
+        "name": "example criteria",
+        "form": 1,
+        "labels": [
+            {
+                "name": "criteria 1",
+                "color": "#368541",
+                "score": 15
+            },
+            {
+                "name": "criteria 2",
+                "score": 10,
+                "color": "#79BE7D"
+            }
+        ],
+        "categories": [
+            {
+                "name": "criteria 1",
+                "questions": [
+                    {
+                        "id": 102,
+                        "options": [
+                            "Male"
+                        ],
+                        "else": {
+                            "name": "criteria 2"
+                        }
+                    },
+                    {
+                        "id": 106,
+                        "options": [
+                            "Children",
+                            "Parent"
+                        ],
+                        "else": {
+                            "name": "criteria 2"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]

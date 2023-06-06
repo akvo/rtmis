@@ -41,6 +41,7 @@
         "type": "CRITERIA",
         "title": "Sanitation by JMP service levels",
         "show_as_map": true,
+        "cache": "sanitation-service-level",
         "options": [
           {
             "name": "Safely Managed",
@@ -136,6 +137,7 @@
         "form_id": 519630048,
         "type": "CRITERIA",
         "title": "Hygiene by JMP service levels",
+        "cache": "hygiene-service-level",
         "options": [
           {
             "name": "Basic",
@@ -203,6 +205,7 @@
         "form_id": 519630048,
         "type": "CRITERIA",
         "title": "Menstrual hygiene by JMP service levels",
+        "cache": "menstrual-hygiene-service-level",
         "options": [
           {
             "name": "Awareness",
@@ -320,6 +323,7 @@
         "type": "CRITERIA",
         "title": "Sanitation by JMP service levels",
         "show_as_map": true,
+        "cache": "sanitation-service-level",
         "options": [
           {
             "name": "Basic",
@@ -416,6 +420,7 @@
         "form_id": 533560002,
         "type": "CRITERIA",
         "title": "Hygiene (Hand washing) by JMP service levels",
+        "cache": "hygiene-service-level",
         "options": [
           {
             "name": "Basic",
@@ -476,6 +481,7 @@
         "form_id": 533560002,
         "type": "CRITERIA",
         "title": "Health care waste management service levels",
+        "cache": "health-care-waste-management-service-level",
         "options": [
           {
             "name": "Basic",
@@ -562,6 +568,7 @@
         "form_id": 533560002,
         "type": "CRITERIA",
         "title": "Environmental cleaning service levels",
+        "cache": "environmental-cleaning-service-level",
         "options": [
           {
             "name": "Basic",
@@ -656,6 +663,7 @@
         "form_id": 563350033,
         "type": "CRITERIA",
         "title": "Drinking water by JMP service levels",
+        "cache": "drinking-water-service-level",
         "options": [
           {
             "name": "Basic",
@@ -721,6 +729,7 @@
         "type": "CRITERIA",
         "title": "Sanitation by JMP service levels",
         "show_as_map": true,
+        "cache": "sanitation-service-level",
         "options": [
           {
             "name": "Basic",
@@ -790,6 +799,7 @@
         "form_id": 563350033,
         "type": "CRITERIA",
         "title": "Hygiene (handwashing) by JMP service levels",
+        "cache": "hygiene-service-level",
         "options": [
           {
             "name": "Basic",
@@ -838,6 +848,7 @@
         "form_id": 563350033,
         "type": "CRITERIA",
         "title": "Hygiene (MHM) by JMP service levels",
+        "cache": "menstrual-hygiene-service-level",
         "options": [
           {
             "name": "Awareness",
@@ -906,6 +917,7 @@
         "form_id": 563350033,
         "type": "CRITERIA",
         "title": "Enviromental cleaning service levels",
+        "cache": "environmental-cleaning-service-level",
         "options": [
           {
             "name": "Basic",
@@ -979,6 +991,7 @@
         "show_as_map": true,
         "hide": true,
         "title": "Budget Utilisation",
+        "cache": "hygiene-service-level",
         "options": [
           {
             "name": "Basic",
