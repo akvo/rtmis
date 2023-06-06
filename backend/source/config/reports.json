@@ -194,7 +194,7 @@
                 {
                   "title": "Count by service level",
                   "children": true,
-                  "children_path": "data.hygiene (hand washing) service level",
+                  "children_path": "data.hygiene service level",
                   "show_percent": true,
                   "percent_path": "total"
                 }
@@ -330,7 +330,7 @@
                 {
                   "title": "Count by service level",
                   "children": true,
-                  "children_path": "data.hygiene (handwashing) service level",
+                  "children_path": "data.hygiene service level",
                   "show_percent": true,
                   "percent_path": "total"
                 }
@@ -382,7 +382,7 @@
                 {
                   "title": "Count by service level",
                   "children": true,
-                  "children_path": "data.enviromental cleaning service level",
+                  "children_path": "data.environmental cleaning service level",
                   "show_percent": true,
                   "percent_path": "total"
                 }
@@ -408,7 +408,7 @@
                 {
                   "title": "Count by service level",
                   "children": true,
-                  "children_path": "data.hygiene (mhm) service level",
+                  "children_path": "data.menstrual hygiene service level",
                   "show_percent": true,
                   "percent_path": "total"
                 }
