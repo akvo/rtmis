@@ -37,3 +37,4 @@ class ValidationText(enum.Enum):
     successfully_validation = "IS SUCCESSFULLY VALIDATED"
     error_validation = "VALIDATION ERROR"
     invalid_data_id = "--data_id-- is not a valid data id"
+    duplicated_data_id = "--data_id-- is a duplicate data id"
