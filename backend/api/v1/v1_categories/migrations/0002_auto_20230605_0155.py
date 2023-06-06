@@ -12,5 +12,8 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunSQL(
             generate_schema(file_path=file_path),
+            """
+            DROP MATERIALIZED VIEW data_category;
+            """,
         )
     ]
