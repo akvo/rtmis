@@ -10,6 +10,16 @@ from api.v1.v1_forms.constants import QuestionTypes
 
 @override_settings(USE_TZ=False)
 class DataVisualisationTestCase(TestCase):
+    def setUp(self):
+        super().setUp()
+        call_command(
+            "generate_views", "-f", "./source/config/category-example.json"
+        )
+
+    def tearDown(self):
+        super().tearDown()
+        call_command("generate_views")
+
     def test_maps_data(self):
         call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rush.com", "password": "Test105*"}
@@ -206,7 +216,9 @@ class DataVisualisationTestCase(TestCase):
         self.assertEqual(data.status_code, 400)
 
         # CORRECT PARAMETER, RUN WITH CACHE
-        url = "/api/v1/chart/criteria/{0}?cache=test-cache".format(form.id)
+        url = (
+            "/api/v1/chart/criteria/{0}?cache=example-criteria".format(form.id)
+        )
         payload = [{
             "name": "Test",
             "options": [{

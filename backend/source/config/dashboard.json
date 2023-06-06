@@ -299,7 +299,7 @@
               "type": "card",
               "title": "% of Health care facilities with basic hand hygiene facilities",
               "calc": "percent",
-              "path": "data.hygiene (hand washing) service level.basic",
+              "path": "data.hygiene service level.basic",
               "icon": "hand-hygiene.svg",
               "color": "#BFF7FF"
             }
@@ -337,7 +337,7 @@
               "type": "card",
               "title": "% of HCFs with No Service hygiene facilities ",
               "calc": "percent",
-              "path": "data.hygiene (hand washing) service level.no service"
+              "path": "data.hygiene service level.no service"
             },
             {
               "type": "card",
@@ -373,7 +373,7 @@
               "type": "chart",
               "title": "Hygiene service levels",
               "calc": "jmp",
-              "path": "data.hygiene (hand washing) service level",
+              "path": "data.hygiene service level",
               "span": 12
             }
           ],
@@ -406,7 +406,7 @@
               "title": "Hygiene Service Level by Period",
               "selector": "period",
               "span": 24,
-              "path": "jmp.hygiene (hand washing) service level"
+              "path": "jmp.hygiene service level"
             },
             {
               "type": "chart",
@@ -471,7 +471,7 @@
               "type": "card",
               "title": "% of Schools with basic hand hygiene facilities",
               "calc": "percent",
-              "path": "data.hygiene (handwashing) service level.basic",
+              "path": "data.hygiene service level.basic",
               "icon": "hand-hygiene.svg",
               "color": "#BFF7FF"
             }
@@ -509,7 +509,7 @@
               "type": "card",
               "title": "% of Schools with No Service hygiene facilities ",
               "calc": "percent",
-              "path": "data.hygiene (handwashing) service level.no service"
+              "path": "data.hygiene service level.no service"
             },
             {
               "type": "card",
@@ -519,9 +519,9 @@
             },
             {
               "type": "card",
-              "title": "% of Schools with No Service enviromental cleaning service level",
+              "title": "% of Schools with No Service environmental cleaning service level",
               "calc": "percent",
-              "path": "data.enviromental cleaning service level.no service"
+              "path": "data.environmental cleaning service level.no service"
             }
           ],
           [
@@ -545,7 +545,7 @@
               "type": "chart",
               "title": "Hygiene service levels",
               "calc": "jmp",
-              "path": "data.hygiene (handwashing) service level",
+              "path": "data.hygiene service level",
               "span": 12
             }
           ],
@@ -561,14 +561,14 @@
               "type": "chart",
               "title": "Environmental cleaning service levels",
               "calc": "jmp",
-              "path": "data.enviromental cleaning service level",
+              "path": "data.environmental cleaning service level",
               "span": 12
             },
             {
               "type": "chart",
               "title": "Hygiene (MHM) service levels",
               "calc": "jmp",
-              "path": "data.hygiene (mhm) service level",
+              "path": "data.menstrual hygiene service level",
               "span": 24
             }
           ],
@@ -582,10 +582,10 @@
             },
             {
               "type": "chart",
-              "title": "Hygiene Service Level by Period",
+              "title": "Hygiene Service Level by Period-03",
               "selector": "period",
               "span": 24,
-              "path": "jmp.hygiene (handwashing) service level"
+              "path": "jmp.hygiene service level"
             },
             {
               "type": "chart",
@@ -599,14 +599,14 @@
               "title": "Environmental Cleaning Service Level by Period",
               "selector": "period",
               "span": 24,
-              "path": "jmp.enviromental cleaning service level"
+              "path": "jmp.environmental cleaning service level"
             },
             {
               "type": "chart",
               "title": "Hygiene (MHM) Service Level by Period",
               "selector": "period",
               "span": 24,
-              "path": "jmp.hygiene (mhm) service level"
+              "path": "jmp.menstrual hygiene service level"
             }
           ]
         ]
