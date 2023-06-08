@@ -195,6 +195,9 @@ const Forms = () => {
                 onCompleteFailed={onFinishFailed}
                 onChange={onChange}
                 submitButtonSetting={{ loading: submit }}
+                languagesDropdownSetting={{
+                  showLanguageDropdown: false,
+                }}
               />
             )
           )}
