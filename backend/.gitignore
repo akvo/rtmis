@@ -4,6 +4,7 @@ __pycache__
 /tmp
 .coverage
 .coverage.*
+.category.json
 db.dbml
 diagram.png
 **.min.js
