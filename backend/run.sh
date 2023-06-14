@@ -12,4 +12,5 @@ pip check
 
 python manage.py migrate
 python manage.py generate_config
+python manage.py generate_views
 python manage.py runserver 0.0.0.0:8000
