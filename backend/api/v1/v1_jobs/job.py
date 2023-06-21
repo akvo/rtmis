@@ -151,7 +151,11 @@ def seed_data_job(job_id):
     try:
         job = Jobs.objects.get(pk=job_id)
         seed_excel_data(job)
-    except Exception:
+    except (ValueError, OSError, NameError, TypeError):
+        print("Error seed data job")
+        return False
+    except Exception as unknown_error:
+        print("Unknown error seed data job", unknown_error)
         return False
     return True
 
