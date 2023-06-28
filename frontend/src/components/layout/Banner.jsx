@@ -9,7 +9,7 @@ import { uiText, store } from "../../lib";
 
 const styles = {
   banner: {
-    backgroundImage: `url("/assets/banner.jpg")`,
+    backgroundImage: `url("/assets/header-image-background.jpg")`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
