@@ -8,7 +8,7 @@ import { api, config, store, uiText } from "../../lib";
 
 const styles = {
   side: {
-    backgroundImage: `url("/assets/banner.jpg")`,
+    backgroundImage: `url("/assets/header-image-background.jpg")`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
