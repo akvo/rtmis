@@ -5,9 +5,8 @@ const uiText = {
     // Home page
     welcome: (
       <Fragment>
-        Kenya Rural Urban Sanitation
-        <br />
-        and Hygiene (RUSH)
+        Real Time Management Information System (RTMIS) for Monitoring
+        Sanitation and Hygiene Indicators across Kenya
       </Fragment>
     ),
     welcomeDesc: (
