@@ -289,9 +289,7 @@ Object {
     "valPhone": "Phone number is required",
     "valRole": "Please select a Role",
     "welcome": <React.Fragment>
-      Kenya Rural Urban Sanitation
-      <br />
-      and Hygiene (RUSH)
+      Real Time Management Information System (RTMIS) for Monitoring Sanitation and Hygiene Indicators across Kenya
     </React.Fragment>,
     "welcomeCta": "Explore National Data",
     "welcomeDesc": <React.Fragment>
