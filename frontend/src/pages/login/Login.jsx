@@ -76,8 +76,7 @@ const Login = () => {
       <Row className="wrapper" align="middle">
         <Col span={12} className="left-side">
           <div className="title">
-            <h1>{text.welcome}</h1>
-            <h2>{text?.welcomeDesc}</h2>
+            <h1 className="welcome">{text.welcome}</h1>
           </div>
         </Col>
         <Col span={12} className="right-side">

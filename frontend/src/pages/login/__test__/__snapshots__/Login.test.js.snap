@@ -28,7 +28,7 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
             <h1>
               RUSH
               <small>
-                Kenya Rural Urban Sanitation and Hygiene
+                Kenya Rural and Urban Sanitation & Hygiene Monitoring Platform
               </small>
             </h1>
           </a>
@@ -42,16 +42,11 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
             <div
               class="title"
             >
-              <h1>
-                Kenya Rural Urban Sanitation
-                <br />
-                and Hygiene (RUSH)
+              <h1
+                class="welcome"
+              >
+                Real Time Management Information System (RTMIS) for Monitoring Sanitation and Hygiene Indicators across Kenya
               </h1>
-              <h2>
-                Real Time Management Information System (RTMIS)
-                <br />
-                Updated sanitation and hygiene estimates across Kenya
-              </h2>
             </div>
           </div>
           <div
@@ -317,7 +312,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
             <h1>
               RUSH
               <small>
-                Kenya Rural Urban Sanitation and Hygiene
+                Kenya Rural and Urban Sanitation & Hygiene Monitoring Platform
               </small>
             </h1>
           </a>
@@ -331,16 +326,11 @@ exports[`Login and Registration test if the registration form exists: Registrati
             <div
               class="title"
             >
-              <h1>
-                Kenya Rural Urban Sanitation
-                <br />
-                and Hygiene (RUSH)
+              <h1
+                class="welcome"
+              >
+                Real Time Management Information System (RTMIS) for Monitoring Sanitation and Hygiene Indicators across Kenya
               </h1>
-              <h2>
-                Real Time Management Information System (RTMIS)
-                <br />
-                Updated sanitation and hygiene estimates across Kenya
-              </h2>
             </div>
           </div>
           <div
@@ -535,6 +525,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
                             id="registration-form_password"
                             placeholder="Password"
                             type="password"
+                            value=""
                           />
                           <span
                             class="ant-input-suffix"
@@ -623,6 +614,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
                             id="registration-form_confirm"
                             placeholder="Confirm Password"
                             type="password"
+                            value=""
                           />
                           <span
                             class="ant-input-suffix"
