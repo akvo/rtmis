@@ -2,7 +2,8 @@ import { orderBy } from "lodash";
 
 const config = {
   siteTitle: "RUSH",
-  siteSubTitle: "Kenya Rural Urban Sanitation and Hygiene",
+  siteSubTitle:
+    "Kenya Rural and Urban Sanitation & Hygiene Monitoring Platform",
   siteLogo: "/logo.png",
   trainedStatus: [
     {
