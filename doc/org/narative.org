@@ -1,0 +1,45 @@
+* Visualisation
+
+Welcome to the video tutorial showcasing the features and functionalities of the RUSH platform. In this tutorial, we'll explore the key components and demonstrate how this platform can make sanitation and hygiene monitoring and management better.
+
+Let's start with the visualizations dashboard. Please note that the data showcased in this tutorial is for demonstration purposes only and does not reflect real-world data.
+
+On the visualizations dashboard, users can view interactive charts, graphs, tables, and maps that offer insights into simulated sanitation and hygiene data. These visualizations are designed to illustrate the potential of the platform and the types of insights it can provide.
+
+By selecting filters and parameters, users can customize the visualizations to focus on specific regions, time periods, or data attributes. Keep in mind that the data shown here is simulated and does not represent actual sanitation and hygiene data.
+
+One example of visualizing household data is through tabular representations. Users can view the data in a structured and organized format, allowing for easy access and analysis. The tabular view presents the data in rows and columns, providing detailed information about households and their corresponding sanitation and hygiene indicators.
+
+Another way to interact with the household data is through charts. The JMP charts offer various types of graphical representations, such as bar charts, line graphs, and pie charts. These charts provide a visual summary of the data, making it easier to identify trends, comparisons, and patterns.
+
+Users can customize the charts by selecting specific variables or parameters, enabling them to focus on specific aspects of the data. Additionally, the charts can be saved as images, allowing users to capture and share visual snapshots of the data for presentations or reports.
+
+Furthermore, users have the option to download the household data as a CSV file. This downloadable format provides the flexibility to further analyze the data using external tools or import it into other software applications for advanced analysis and reporting.
+
+The combination of tabular representations and JMP charts in the RUSH platform enables users to gain valuable insights from household data related to sanitation and hygiene. Whether it's examining indicators, comparing regions, or identifying areas for improvement, the visualizations provide a user-friendly and comprehensive way to explore the data.
+
+Please note that the data presented in the tutorial is simulated and does not represent actual household data. The purpose is to showcase the functionality of the visualizations and the various ways users can interact with and extract insights from the household data.
+
+By utilizing JMP charts and offering different ways to view, save, and download the data, the RUSH platform empowers users to make informed decisions, monitor progress, and drive positive change in sanitation and hygiene practices.
+
+* Admin Dashboard
+
+Now, we'll explore the admin dashboard, specifically designed for super admin users. Let's dive in!
+
+The admin dashboard provides a comprehensive set of features and functionalities to manage the platform effectively. As a super admin, you have access to all the menus, allowing you to oversee user management, data management, organizational settings, and data approval processes.
+
+Let's start with user management. The user management menu empowers you to create new user accounts, modify existing accounts, assign roles, and define access permissions. You can seamlessly handle user onboarding and ensure the right roles are assigned to the appropriate users.
+
+The data validation tree displays the hierarchy of data validation roles, ensuring that the entered data goes through the necessary approval process. The tree follows a logical structure, starting with the questionnaire level and then moving on to the county, sub-county, and ward levels.
+
+Next, we have the data management menu. Here, you can oversee and control all aspects of data within the RUSH platform. This includes data entry forms, data validation rules, data import and export functionalities, and data integrity checks. You have the power to manage data accuracy and reliability.
+
+Moving on, we have the manage organization menu. This menu allows you to define and configure the organizational settings within the platform. You can create hierarchies, set up administrative levels, and establish approval workflows. These settings ensure seamless collaboration and streamline data approval processes.
+
+Finally, we have the data approval page. This is a crucial component of the RUSH platform, enabling you to review and approve data submissions from different administrative levels. The data approval page provides an overview of pending approvals, allowing you to ensure data accuracy and compliance before finalizing the entries.
+
+The admin dashboard, tailored for super admin users, serves as a command center, giving you the tools and insights to manage user accounts, control data flow, configure organizational settings, and oversee the data approval process.
+
+Remember, as a super admin, you play a crucial role in maintaining the integrity and effectiveness of the RUSH platform. By leveraging the admin dashboard's capabilities, you can ensure smooth operations and enable data-driven decision-making across all administrative levels.
+
+That concludes our tutorial on the admin dashboard of the RUSH platform. We hope this overview has provided you with a clear understanding of the features and functionalities available to super admin users.
