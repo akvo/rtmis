@@ -35,6 +35,23 @@ Network Config:
 - [setupProxy.js](https://github.com/akvo/rtmis/blob/main/frontend/src/setupProxy.js)
 - [mainnetwork](https://github.com/akvo/rtmis/blob/docker-compose.override.yml#L4-L8) container setup
 
+Add New User and Seed Master Data:
+
+Once the containers are up and running, you can seed the necessary data by running the following command:
+
+```bash
+./dc.sh exec backend ./seeder.sh
+```
+
+The script will prompt you for various actions related to data seeding such as: 
+
+- seed administrative data
+- add a new super admin
+- seed fake users
+- seed forms
+- and seed fake data
+
+Answer each prompt by entering 'y' or 'n' followed by the Enter key.
 
 #### Log
 
