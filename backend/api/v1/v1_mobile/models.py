@@ -3,7 +3,7 @@ from api.v1.v1_users.models import SystemUser
 from api.v1.v1_forms.models import Forms
 
 
-class Mobile(models.Model):
+class MobileFormAssignment(models.Model):
     name = models.CharField(max_length=50)
     user = models.ForeignKey(SystemUser,
                              on_delete=models.CASCADE,
