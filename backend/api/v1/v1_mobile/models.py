@@ -5,7 +5,9 @@ from api.v1.v1_forms.models import Forms
 
 class Mobile(models.Model):
     name = models.CharField(max_length=50)
-    user = models.ForeignKey(SystemUser, on_delete=models.CASCADE, related_name='mobiles')
+    user = models.ForeignKey(SystemUser,
+                             on_delete=models.CASCADE,
+                             related_name='mobiles')
     mobile_passcode = models.CharField(max_length=10)
     forms = models.ManyToManyField(Forms, related_name='mobiles')
 

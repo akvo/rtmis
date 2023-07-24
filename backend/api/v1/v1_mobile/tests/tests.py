@@ -3,21 +3,28 @@ from django.test import TestCase
 from api.v1.v1_mobile.models import Mobile
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_forms.models import Forms
+from api.v1.v1_profile.models import Administration, Access
+from api.v1.v1_profile.constants import UserRoleTypes
 
 
 class MobileModelTest(TestCase):
+
     def setUp(self):
         # Create a test SystemUser for ForeignKey relationship
-        self.user = SystemUser.objects.create(
-            email='test@akvo.org',
-            first_name='Test',
-            last_name='User'
-        )
+        call_command("administration_seeder", "--test")
+        call_command("form_seeder", "--test")
+        self.user = SystemUser.objects.create(email='test@test.org',
+                                              first_name='Test',
+                                              last_name='User')
         # Create a test Mobile instance
-        self.mobile = Mobile.objects.create(
-            user=self.user,
-            mobile_passcode='1234'
-        )
+        self.mobile = Mobile.objects.create(name='example assignment',
+                                            user=self.user,
+                                            mobile_passcode='1234')
+        self.administration = Administration.objects.filter(
+            parent__isnull=True).first()
+        role = UserRoleTypes.user
+        self.user_access = Access.objects.create(
+            user=self.user, role=role, administration=self.administration)
 
     def test_mobile_creation(self):
         """Test that Mobile instance is created correctly."""
@@ -30,8 +37,6 @@ class MobileModelTest(TestCase):
 
     def test_mobile_forms_relationship(self):
         """Test Many-to-Many relationship with Form."""
-        call_command("form_seeder", "--test")
-        call_command("administration_seeder", "--test")
         form = Forms.objects.first()
         self.mobile.forms.add(form)
 
