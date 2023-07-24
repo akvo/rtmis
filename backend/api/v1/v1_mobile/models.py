@@ -12,4 +12,4 @@ class Mobile(models.Model):
     forms = models.ManyToManyField(Forms, related_name='mobiles')
 
     def __str__(self):
-        return f'Mobile: {self.id}'
+        return f'Mobile: {self.id} {self.name}'

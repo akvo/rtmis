@@ -2,9 +2,19 @@ from django.core.management import call_command
 from django.test import TestCase
 from api.v1.v1_mobile.models import Mobile
 from api.v1.v1_users.models import SystemUser
-from api.v1.v1_forms.models import Forms
+from api.v1.v1_forms.models import Forms, UserForms
 from api.v1.v1_profile.models import Administration, Access
 from api.v1.v1_profile.constants import UserRoleTypes
+
+
+def add_mobile_forms(user, mobile, forms):
+    """Helper function to add forms to a mobile."""
+    user_forms = UserForms.objects.filter(user=user).all()
+    user_forms = [uf.form for uf in user_forms]
+    for form in forms:
+        if form in user_forms:
+            mobile.forms.add(form)
+    return mobile
 
 
 class MobileModelTest(TestCase):
@@ -47,5 +57,26 @@ class MobileModelTest(TestCase):
 
     def test_mobile_str_representation(self):
         """Test __str__ method for Mobile model."""
-        expected_str = f'Mobile: {self.mobile.id}'
+        expected_str = f'Mobile: {self.mobile.id} {self.mobile.name}'
         self.assertEqual(str(self.mobile), expected_str)
+
+    def test_mobile_has_many_forms(self):
+        """Test that Mobile can have many Forms."""
+        forms = Forms.objects.all()
+        self.assertEqual(forms.count(), 2)
+        self.mobile.forms.add(forms[0])
+        self.mobile.forms.add(forms[1])
+        self.assertEqual(self.mobile.forms.count(), 2)
+
+    def test_add_mobile_forms(self):
+        """Test helper function add_mobile_forms."""
+        forms = Forms.objects.all()
+        user_forms = UserForms.objects.create(form=forms[0], user=self.user)
+        self.assertEqual(user_forms, UserForms.objects.first())
+        self.assertEqual(forms.count(), 2)
+        self.mobile = add_mobile_forms(self.user, self.mobile, forms)
+        self.assertEqual(self.mobile.forms.count(), 1)
+        """Only success if user has right access to the form"""
+        UserForms.objects.create(form=forms[1], user=self.user)
+        self.mobile = add_mobile_forms(self.user, self.mobile, forms)
+        self.assertEqual(self.mobile.forms.count(), 2)
