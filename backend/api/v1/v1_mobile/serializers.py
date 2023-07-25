@@ -1,13 +1,20 @@
 from rest_framework import serializers
 from api.v1.v1_mobile.models import MobileFormAssignment
+from drf_spectacular.utils import extend_schema_field
+from drf_spectacular.types import OpenApiTypes
+from api.v1.v1_forms.models import Forms
 
 
 class MobileFormListFormSerializer(serializers.ModelSerializer):
     """Serializer for Forms model."""
 
-    id = serializers.IntegerField(read_only=True)
+    form_id = serializers.IntegerField(source="id")
     name = serializers.CharField(read_only=True)
-    forms = serializers.SerializerMethodField()
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_name(self, obj):
+        """Return form name."""
+        return Forms.objects.get(id=obj.id).name
 
     def create(self, validated_data):
         """Create form."""
@@ -15,7 +22,7 @@ class MobileFormListFormSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MobileFormAssignment
-        fields = ["id", "name"]
+        fields = ["form_id", "name"]
 
 
 class MobileFormAssignmentSerializer(serializers.ModelSerializer):
@@ -24,16 +31,13 @@ class MobileFormAssignmentSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(read_only=True)
     user = serializers.SerializerMethodField()
-    forms = serializers.SerializerMethodField()
+    forms = MobileFormListFormSerializer(many=True)
     passcode = serializers.CharField(write_only=True)
 
+    @extend_schema_field(OpenApiTypes.STR)
     def get_user(self, obj):
         """Return user email."""
         return obj.user.email
-
-    def get_forms(self, obj):
-        """Return list of forms."""
-        return MobileFormListFormSerializer(obj.forms.all(), many=True).data
 
     class Meta:
         model = MobileFormAssignment

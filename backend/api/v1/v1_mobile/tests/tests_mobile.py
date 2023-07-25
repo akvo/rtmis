@@ -106,5 +106,5 @@ class MobileFormAssignmentModelTest(TestCase):
         self.assertEqual(serializer.data["name"], self.mobile_form.name)
         self.assertEqual(serializer.data["user"], self.mobile_form.user.email)
         self.assertEqual(len(serializer.data["forms"]), 1)
-        self.assertEqual(serializer.data["forms"][0]["id"], forms[0].id)
+        self.assertEqual(serializer.data["forms"][0]["form_id"], forms[0].id)
         self.assertEqual(serializer.data["forms"][0]["name"], forms[0].name)

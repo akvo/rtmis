@@ -6,8 +6,8 @@ from django.contrib.auth.hashers import make_password, check_password
 
 class MobileFormAssignmentManager(models.Manager):
     def create(self, name, user, passcode, forms):
-        mobile_assignment = self.model(name=name, user=user, passcode=passcode)
-        mobile_assignment.passcode = make_password(passcode)
+        mobile_assignment = self.model(
+            name=name, user=user, passcode=make_password(passcode))
         user_forms = UserForms.objects.filter(user=user).all()
         user_forms = [uf.form for uf in user_forms]
         for form in forms:
