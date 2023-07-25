@@ -30,15 +30,10 @@ class MobileFormAssignmentSerializer(serializers.ModelSerializer):
 
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(read_only=True)
-    user = serializers.SerializerMethodField()
-    forms = MobileFormListFormSerializer(many=True)
     passcode = serializers.CharField(write_only=True)
-
-    @extend_schema_field(OpenApiTypes.STR)
-    def get_user(self, obj):
-        """Return user email."""
-        return obj.user.email
+    forms = MobileFormListFormSerializer(many=True)
+    user = serializers.CharField(write_only=True)
 
     class Meta:
         model = MobileFormAssignment
-        fields = ["id", "name", "user", "forms", "passcode"]
+        fields = ["id", "name", "forms", "passcode", "user"]

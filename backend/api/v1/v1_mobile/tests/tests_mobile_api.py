@@ -5,7 +5,6 @@ from api.v1.v1_users.models import SystemUser
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.models import Administration, Access
 from api.v1.v1_profile.constants import UserRoleTypes
-from django.contrib.auth.hashers import make_password
 # from django.contrib.auth.hashers import check_password
 
 
@@ -14,13 +13,13 @@ class MobileFormAssignmentApiTest(TestCase):
         # Create a test SystemUser for ForeignKey relationship
         call_command("administration_seeder", "--test")
         call_command("form_seeder", "--test")
-        self.user = SystemUser.objects.create(
-            email="test@test.org", first_name="Test", last_name="User",
-            password=make_password("Test")
+        self.user = SystemUser.objects._create_user(
+            email="test@test.org",
+            password="Test",
+            first_name="Test",
+            last_name="User"
         )
-        self.administration = Administration.objects.filter(
-            parent__isnull=True
-        ).first()
+        self.administration = Administration.objects.last()
         role = UserRoleTypes.user
         self.user_access = Access.objects.create(
             user=self.user, role=role, administration=self.administration
@@ -45,16 +44,15 @@ class MobileFormAssignmentApiTest(TestCase):
         response = self.client.get("/api/v1/mobile-form-assignment/",
                                    content_type='application/json',
                                    **headers)
+        response_json = response.json()
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 1)
-        self.assertObjectHasKeys(response.data[0], ["id", "name", "forms"])
-        self.assertEqual(
-            response.data[0]["name"], self.mobile_form.name
-        )
-        self.assertEqual(
-            response.data[0]["forms"][0]["name"],
-            self.mobile_form.forms.first().name
-        )
+        for json in response_json:
+            del json['id']
+        self.assertEqual(response_json, [{
+                "name": "example assignment",
+                "forms": [],
+        }])
 
 #    def test_mobile_form_assignment_api_post(self):
 #        response = self.client.post("/api/v1/mobile-form-assignment/", {
