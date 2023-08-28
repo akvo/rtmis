@@ -1,0 +1,95 @@
+#+title: DSL.HEALTH.GO.KE API Data
+#+author: Deden Bangkit
+
+#+PROPERTY: header-args:sh    :exports both
+#+PROPERTY: header-args:sh+   :results drawer
+#+PROPERTY: header-args:sh+   :noweb strip-export
+
+* Administrative
+** GET Counties
+
+#+name: List Counties
+#+begin_src bash :results drawer
+curl 'http://dsl.health.go.ke/dsl/api/counties' -X GET \
+    -H 'Accept: application/json' | jq > administrative-lv-1-counties.json
+#+end_src
+
+#+RESULTS: List Counties
+:results:
+:end:
+
+** GET SubCounties
+
+#+name: List Sub-Counties
+#+begin_src bash :results drawer
+curl 'http://dsl.health.go.ke/dsl/api/subcounties' -X GET \
+    -H 'Accept: application/json' | jq > administrative-lv-2-subcounties.json
+#+end_src
+
+#+RESULTS: List Sub-Counties
+:results:
+:end:
+
+** GET Wards
+
+#+name: List Wards
+#+begin_src bash :results None
+curl 'http://dsl.health.go.ke/dsl/api/wards' -X GET \
+    -H 'Accept: application/json' | jq > administrative-lv-4-wards.json
+#+end_src
+
+#+RESULTS: List Wards
+
+* Facilities
+** List Facility Levels
+
+#+name: List Facility Levels
+#+begin_src bash :results drawer
+curl 'http://dsl.health.go.ke/dsl/api/facilitylevel' -X GET \
+    -H 'Accept: application/json' | jq
+#+end_src
+
+** List Facilities By Level
+
+*** Level 0
+#+name: List Facilities Level 0
+#+begin_src bash
+curl -X GET \
+    'http://dsl.health.go.ke/dsl/api/facilitylevel/0' \
+    -H 'Accept: application/json' | jq > ./facilities-lv-0.json
+#+end_src
+
+*** Level 1
+#+name: List Facilities Level 1
+#+begin_src bash
+curl -X GET \
+    'http://dsl.health.go.ke/dsl/api/facilitylevel/1' \
+    -H 'Accept: application/json' | jq > ./facilities-lv-1.json
+#+end_src
+
+*** Level 2
+#+name: List Facilities Level 2
+#+begin_src bash
+curl -X GET \
+    'http://dsl.health.go.ke/dsl/api/facilitylevel/2' \
+    -H 'Accept: application/json' | jq > ./facilities-lv-2.json
+#+end_src
+
+*** Level 3
+#+name: List Facilities Level 2
+#+begin_src bash
+curl -X GET \
+    'http://dsl.health.go.ke/dsl/api/facilitylevel/3' \
+    -H 'Accept: application/json' | jq > ./facilities-lv-3.json
+#+end_src
+
+** List Facilities - All
+
+#+name: Get All Facilities
+#+begin_src bash :results drawer
+curl -X GET \
+    'http://dsl.health.go.ke/dsl/api/facilities' \
+    -H 'Accept: application/json' | jq > ./facilities.json
+#+end_src
+
+#+RESULTS:
