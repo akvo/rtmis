@@ -62,6 +62,15 @@ curl 'https://api.kmhfl.health.go.ke/api/common/filtering_summaries/?fields=serv
 
 #+RESULTS: List Services
 
+** CHU Status
+
+#+name: CHU Status
+#+begin_src
+curl 'https://api.kmhfl.health.go.ke/api/common/filtering_summaries/?fields=chu_status' \
+    -H 'Accept: application/json, */*' \
+    -H 'Authorization: Bearer TMDwn95aV5UuNcBdKPXes0JXRD53xz' \
+    | jq .chu_status > filter-chu-status.json
+#+end_src
 
 * Administrative
 
@@ -124,3 +133,5 @@ curl 'https://api.kmhfl.health.go.ke/api/facilities/material/?fields=id,code,nam
 #+end_src
 
 #+RESULTS: List Facilities
+
+* Community Health Units
