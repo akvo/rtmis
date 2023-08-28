@@ -9,6 +9,6 @@ apk --update add \
     curl~=8.0.1-r0 \
     jq~=1.6 \
     wait4ports~=0.3.3-r0 \
-    postgresql-client~=13.11-r0
+    postgresql-client~=13.12
 
 exec "$@"
