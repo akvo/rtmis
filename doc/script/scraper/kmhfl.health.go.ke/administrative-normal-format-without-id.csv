@@ -1,0 +1,1454 @@
+county,sub_county,constituency,wards
+Garissa,Dadaab Refugee Camp,Daadab,Ifo
+Garissa,Dadaab Refugee Camp,Daadab,Dagahaley
+Garissa,Dadaab Refugee Camp,Daadab,Hagadera Camp
+Nairobi,Mathare,Mathare,Kiamaiko
+Nairobi,Mathare,Mathare,Mlango Kubwa
+Nairobi,Mathare,Mathare,Ngei
+Nairobi,Mathare,Mathare,Huruma
+Nairobi,Mathare,Mathare,Mabatini
+Nairobi,Mathare,Mathare,Hospital
+Nairobi,Starehe,Starehe,Nairobi South
+Nairobi,Starehe,Starehe,Landimawe
+Nairobi,Starehe,Starehe,Ziwani/Kariokor
+Nairobi,Starehe,Starehe,Pangani
+Nairobi,Starehe,Starehe,Ngara
+Nairobi,Starehe,Starehe,Nairobi Central
+Nairobi,Kamukunji,Kamukunji,California
+Nairobi,Kamukunji,Kamukunji,Airbase
+Nairobi,Kamukunji,Kamukunji,Eastleigh South
+Nairobi,Kamukunji,Kamukunji,Eastleigh North
+Nairobi,Kamukunji,Kamukunji,Pumwani
+Nairobi,Makadara,Makadara,Makongeni
+Nairobi,Makadara,Makadara,Harambee
+Nairobi,Makadara,Makadara,Viwandani
+Nairobi,Makadara,Makadara,Maringo/Hamza
+Nairobi,Embakasi West,Embakasi West,Kariobangi South
+Nairobi,Embakasi West,Embakasi West,Mowlem
+Nairobi,Embakasi West,Embakasi West,Umoja II
+Nairobi,Embakasi West,Embakasi West,Umoja I
+Nairobi,Embakasi East,Embakasi East,Mihango
+Nairobi,Embakasi East,Embakasi East,Utawala
+Nairobi,Embakasi East,Embakasi East,Embakasi
+Nairobi,Embakasi East,Embakasi East,Lower Savannah
+Nairobi,Embakasi East,Embakasi East,Upper Savannah
+Nairobi,Embakasi Central,Embakasi Central,Matopeni/Spring Valley
+Nairobi,Embakasi Central,Embakasi Central,Komarock
+Nairobi,Embakasi Central,Embakasi Central,Kayole South
+Nairobi,Embakasi Central,Embakasi Central,Kayole Central
+Nairobi,Embakasi Central,Embakasi Central,Kayole North
+Nairobi,Embakasi North,Embakasi North,Dandora Area Iv
+Nairobi,Embakasi North,Embakasi North,Dandora Area III
+Nairobi,Embakasi North,Embakasi North,Dandora Area II
+Nairobi,Embakasi North,Embakasi North,Dandora Area I
+Nairobi,Embakasi North,Embakasi North,Kariobangi North
+Nairobi,Embakasi South,Embakasi South,Kware
+Nairobi,Embakasi South,Embakasi South,Pipeline
+Nairobi,Embakasi South,Embakasi South,Kwa Reuben
+Nairobi,Embakasi South,Embakasi South,Kwa Njenga
+Nairobi,Embakasi South,Embakasi South,Imara Daima
+Nairobi,Ruaraka,Ruaraka,Korogocho
+Nairobi,Ruaraka,Ruaraka,Lucky Summer
+Nairobi,Ruaraka,Ruaraka,Mathare North
+Nairobi,Ruaraka,Ruaraka,Utalii
+Nairobi,Ruaraka,Ruaraka,Babandogo
+Nairobi,Kasarani,Kasarani,Ruai
+Nairobi,Kasarani,Kasarani,Njiru
+Nairobi,Kasarani,Kasarani,Kasarani
+Nairobi,Kasarani,Kasarani,Mwiki
+Nairobi,Kasarani,Kasarani,Clay City
+Nairobi,Roysambu,Roysambu,Kahawa
+Nairobi,Roysambu,Roysambu,Roysambu
+Nairobi,Roysambu,Roysambu,Zimmerman
+Nairobi,Roysambu,Roysambu,Kahawa West
+Nairobi,Roysambu,Roysambu,Githurai
+Nairobi,Kibra,Kibra,Sarang'ombe
+Nairobi,Kibra,Kibra,Woodley/Kenyatta Golf Course
+Nairobi,Kibra,Kibra,Makina
+Nairobi,Kibra,Kibra,Lindi
+Nairobi,Kibra,Kibra,Laini Saba
+Nairobi,Langata,Kibra,Nyayo Highrise
+Nairobi,Langata,Langata,South C
+Nairobi,Langata,Langata,Mugumo-ini
+Nairobi,Langata,Langata,Nairobi West
+Nairobi,Langata,Langata,Karen
+Nairobi,Dagoretti South,Dagoretti South,Waithaka
+Nairobi,Dagoretti South,Dagoretti South,Uthiru/Ruthimitu
+Nairobi,Dagoretti South,Dagoretti South,Riruta
+Nairobi,Dagoretti South,Dagoretti South,Ngando
+Nairobi,Dagoretti South,Dagoretti South,Mutu-ini
+Nairobi,Dagoretti North,Dagoretti South,Kabiro
+Nairobi,Dagoretti North,Dagoretti North,Kileleshwa
+Nairobi,Dagoretti North,Dagoretti North,Gatina
+Nairobi,Dagoretti North,Dagoretti North,Kawangware
+Nairobi,Dagoretti North,Dagoretti North,Kilimani
+Nairobi,Westlands,Westlands,Mountain View
+Nairobi,Westlands,Westlands,Kangemi
+Nairobi,Westlands,Westlands,Karura
+Nairobi,Westlands,Westlands,Parklands/Highridge
+Nairobi,Westlands,Westlands,Kitisuru
+Nyamira,Borabu,Borabu,Esise
+Nyamira,Borabu,Borabu,Nyansiongo
+Nyamira,Borabu,Borabu,Kiabonyoru
+Nyamira,Borabu,Borabu,Mekenene
+Nyamira,Nyamira North,North Mugirango,Ekerenyo
+Nyamira,Nyamira North,North Mugirango,Magwagwa
+Nyamira,Nyamira North,North Mugirango,Bokeira
+Nyamira,Nyamira North,North Mugirango,Bomwagamo
+Nyamira,Nyamira North,North Mugirango,Itibo
+Nyamira,Nyamira,West Mugirango,Township
+Nyamira,Nyamira,West Mugirango,Bonyamatuta
+Nyamira,Nyamira,West Mugirango,Bosamaro
+Nyamira,Nyamira,West Mugirango,Bogichora
+Nyamira,Nyamira,West Mugirango,Nyamaiya
+Nyamira,Masaba North,Kitutu Masaba,Gesima
+Nyamira,Manga,Kitutu Masaba,Manga
+Nyamira,Manga,Kitutu Masaba,Magombo
+Nyamira,Manga,Kitutu Masaba,Kamera
+Nyamira,Masaba North,Kitutu Masaba,Gachuba
+Nyamira,Masaba North,Kitutu Masaba,Rigoma
+Kisii,Kitutu Chache South,Kitutu Chache South,Nyatieko
+Kisii,Kitutu Chache South,Kitutu Chache South,Kitutu Central
+Kisii,Kitutu Chache South,Kitutu Chache South,Nyakoe
+Kisii,Kitutu Chache South,Kitutu Chache South,Bogeka
+Kisii,Kitutu Chache South,Kitutu Chache South,Bogusero
+Kisii,Kitutu Chache North,Kitutu Chache North,Kegogi
+Kisii,Kitutu Chache North,Kitutu Chache North,Marani
+Kisii,Kitutu Chache North,Kitutu Chache North,Sensi
+Kisii,Kitutu Chache North,Kitutu Chache North,Monyerero
+Kisii,Nyaribari Chache,Nyaribari Chache,Ibeno
+Kisii,Nyaribari Chache,Nyaribari Chache,Birongo
+Kisii,Nyaribari Chache,Nyaribari Chache,Kiogoro
+Kisii,Nyaribari Chache,Nyaribari Chache,Keumbu
+Kisii,Nyaribari Chache,Nyaribari Chache,Kisii Central
+Kisii,Nyaribari Chache,Nyaribari Chache,Bobaracho
+Kisii,Nyaribari Masaba,Nyaribari Masaba,Kiamokama
+Kisii,Nyaribari Masaba,Nyaribari Masaba,Gesusu
+Kisii,Nyaribari Masaba,Nyaribari Masaba,Masimba
+Kisii,Nyaribari Masaba,Nyaribari Masaba,Nyamasibi
+Kisii,Nyaribari Masaba,Nyaribari Masaba,Ichuni
+Kisii,Bomachoge Chache,Bomachoge Chache,Bosoti/Sengera
+Kisii,Bomachoge Chache,Bomachoge Chache,Boochi/Tendere
+Kisii,Bomachoge Chache,Bomachoge Chache,Majoge Basi
+Kisii,Bobasi,Bobasi,Bobasi/Boitangare
+Kisii,Bobasi,Bobasi,Sameta/Mokwerero
+Kisii,Bobasi,Bobasi,Bobasi Chache
+Kisii,Bobasi,Bobasi,Bassi Bogetaorio
+Kisii,Bobasi,Bobasi,Nyacheki
+Kisii,Bobasi,Bobasi,Basi Central
+Kisii,Bobasi,Bobasi,Masige East
+Kisii,Bobasi,Bobasi,Masige West
+Kisii,Bomachoge Borabu,Bomachoge Borabu,Magenche
+Kisii,Bomachoge Borabu,Bomachoge Borabu,Bokimonge
+Kisii,Bomachoge Borabu,Bomachoge Borabu,Boochi Borabu
+Kisii,Bomachoge Borabu,Bomachoge Borabu,Bombaba Borabu
+Kisii,South Mugirango,South Mugirango,Getenga
+Kisii,South Mugirango,South Mugirango,Moticho
+Kisii,South Mugirango,South Mugirango,Borabu/Chitago
+Kisii,South Mugirango,South Mugirango,Bogetenga
+Kisii,South Mugirango,South Mugirango,Boikanga
+Kisii,South Mugirango,South Mugirango,Tabaka
+Kisii,Bonchari,Bonchari,Riana
+Kisii,Bonchari,Bonchari,Bomorenda
+Kisii,Bonchari,Bonchari,Bogiakumu
+Kisii,Bonchari,Bonchari,Bomariba
+Migori,Kuria East,Kuria East,Nyabasi West
+Migori,Kuria East,Kuria East,Nyabasi East
+Migori,Kuria East,Kuria East,Ntimaru East
+Migori,Kuria East,Kuria East,Ntimaru West
+Migori,Kuria East,Kuria East,Gokeharaka/Getambwega
+Migori,Kuria West,Kuria West,Nyanmosense/Komosoko
+Migori,Kuria West,Kuria West,Tagare
+Migori,Kuria West,Kuria West,Masaba
+Migori,Kuria West,Kuria West,Mokerero
+Migori,Kuria West,Kuria West,Isibania
+Migori,Kuria West,Kuria West,Bukira Central/Ikerege
+Migori,Kuria West,Kuria West,Bukira East
+Migori,Nyatike,Nyatike,Muhuru
+Migori,Nyatike,Nyatike,Got Kachola
+Migori,Nyatike,Nyatike,Kaler
+Migori,Nyatike,Nyatike,Macalder/Kanyarwanda
+Migori,Nyatike,Nyatike,North Kadem
+Migori,Nyatike,Nyatike,Kanyasa
+Migori,Nyatike,Nyatike,Kachien'g
+Migori,Uriri,Uriri,East Kanyamkago
+Migori,Uriri,Uriri,South Kanyamkago
+Migori,Uriri,Uriri,Central Kanyamkago
+Migori,Uriri,Uriri,North Kanyamkago
+Migori,Uriri,Uriri,West Kanyamkago
+Migori,Suna West,Suna West,Wasimbete
+Migori,Suna West,Suna West,Ragana-oruba
+Migori,Suna West,Suna West,Waseweta II
+Migori,Suna West,Suna West,Wiga
+Migori,Suna East,Suna East,Kwa
+Migori,Suna East,Suna East,Kakrao
+Migori,Suna East,Suna East,Suna Central
+Migori,Suna East,Suna East,God Jope
+Migori,Awendo,Awendo,Central Sakwa
+Migori,Awendo,Awendo,West Sakwa
+Migori,Awendo,Awendo,South Sakwa
+Migori,Awendo,Awendo,North Sakwa
+Migori,Rongo,Rongo,South Kamagambo
+Migori,Rongo,Rongo,East Kamagambo
+Migori,Rongo,Rongo,Central Kamagambo
+Migori,Rongo,Rongo,North Kamagambo
+Homa Bay,Suba South,Suba,Ruma-kaksingiri East
+Homa Bay,Suba South,Suba,Kaksingiri West
+Homa Bay,Suba South,Suba,Gwassi North
+Homa Bay,Suba South,Suba,Gwassi South
+Homa Bay,Mbita,Mbita,Lambwe
+Homa Bay,Mbita,Mbita,Gembe
+Homa Bay,Mbita,Mbita,Kasgunga
+Homa Bay,Mbita,Mbita,Rusinga Island
+Homa Bay,Suba Central,Mbita,Mfangano Island
+Homa Bay,Ndhiwa,Ndhiwa,Kanyamwa Kosewe
+Homa Bay,Ndhiwa,Ndhiwa,Kanyamwa Kologi
+Homa Bay,Ndhiwa,Ndhiwa,Kabuoch South/Pala
+Homa Bay,Ndhiwa,Ndhiwa,Kabouch North
+Homa Bay,Ndhiwa,Ndhiwa,Kanyikela
+Homa Bay,Ndhiwa,Ndhiwa,Kanyadoto
+Homa Bay,Ndhiwa,Ndhiwa,Kwabwai
+Homa Bay,Homa Bay Town,Homa Bay Town,Homa Bay East
+Homa Bay,Homa Bay Town,Homa Bay Town,Homa Bay West
+Homa Bay,Homa Bay Town,Homa Bay Town,Homa Bay Arujo
+Homa Bay,Homa Bay Town,Homa Bay Town,Homa Bay Central
+Homa Bay,Rangwe,Rangwe,Kochia
+Homa Bay,Rangwe,Rangwe,Kagan
+Homa Bay,Rangwe,Rangwe,East Gem
+Homa Bay,Rangwe,Rangwe,West Gem
+Homa Bay,Karachuonyo,Karachuonyo,Kendu Bay Town
+Homa Bay,Karachuonyo,Karachuonyo,Wang'chieng
+Homa Bay,Karachuonyo,Karachuonyo,Kibiri
+Homa Bay,Karachuonyo,Karachuonyo,Kanyaluo
+Homa Bay,Karachuonyo,Karachuonyo,Central
+Homa Bay,Karachuonyo,Karachuonyo,North Karachuonyo
+Homa Bay,Karachuonyo,Karachuonyo,West Karachuonyo
+Homa Bay,Kabondo Kasipul,Kabondo Kasipul,Kojwach
+Homa Bay,Kabondo Kasipul,Kabondo Kasipul,Kokwanyo/Kakelo
+Homa Bay,Kabondo Kasipul,Kabondo Kasipul,Kabondo West
+Homa Bay,Kabondo Kasipul,Kabondo Kasipul,Kabondo East
+Homa Bay,Rachuonyo South,Kasipul,West Kamagak
+Homa Bay,Rachuonyo South,Kasipul,East Kamagak
+Homa Bay,Rachuonyo South,Kasipul,Central Kasipul
+Homa Bay,Rachuonyo South,Kasipul,South Kasipul
+Homa Bay,Rachuonyo South,Kasipul,West Kasipul
+Kisumu,Nyakach,Nyakach,South East Nyakach
+Kisumu,Nyakach,Nyakach,West Nyakach
+Kisumu,Nyakach,Nyakach,Central Nyakach
+Kisumu,Nyakach,Nyakach,North Nyakach
+Kisumu,Nyakach,Nyakach,South West Nyakach
+Kisumu,Muhoroni,Muhoroni,Muhoroni Koru
+Kisumu,Muhoroni,Muhoroni,Chemelil
+Kisumu,Muhoroni,Muhoroni,Masogo/Nyang'oma
+Kisumu,Muhoroni,Muhoroni,Ombeyi
+Kisumu,Muhoroni,Muhoroni,Miwani
+Kisumu,Nyando,Nyando,Kobura
+Kisumu,Nyando,Nyando,Kabonyo/Kanyagwai
+Kisumu,Nyando,Nyando,Ahero
+Kisumu,Nyando,Nyando,Awasi/Onjiko
+Kisumu,Nyando,Nyando,East Kano/Wawidhi
+Kisumu,Seme,Seme,North Seme
+Kisumu,Seme,Seme,East Seme
+Kisumu,Seme,Seme,Central Seme
+Kisumu,Seme,Seme,West Seme
+Kisumu,Kisumu Central,Kisumu Central,Nyalenda B
+Kisumu,Kisumu Central,Kisumu Central,Kondele
+Kisumu,Kisumu Central,Kisumu Central,Market Milimani
+Kisumu,Kisumu Central,Kisumu Central,Shauri Moyo Kaloleni
+Kisumu,Kisumu Central,Kisumu Central,Migosi
+Kisumu,Kisumu Central,Kisumu Central,Railways
+Kisumu,Kisumu West,Kisumu West,North West Kisumu
+Kisumu,Kisumu West,Kisumu West,West Kisumu
+Kisumu,Kisumu West,Kisumu West,Kisumu North
+Kisumu,Kisumu West,Kisumu West,Central Kisumu
+Kisumu,Kisumu West,Kisumu West,South West Kisumu
+Kisumu,Kisumu East,Kisumu East,Kolwa Central
+Kisumu,Kisumu Central,Kisumu Central,Nyalenda A
+Kisumu,Kisumu East,Kisumu East,Manyatta B
+Kisumu,Kisumu East,Kisumu East,Kolwa East
+Kisumu,Kisumu East,Kisumu East,Kajulu
+Siaya,Rarieda,Rarieda,West Uyoma
+Siaya,Rarieda,Rarieda,South Uyoma
+Siaya,Rarieda,Rarieda,North Uyoma
+Siaya,Rarieda,Rarieda,West Asembo
+Siaya,Rarieda,Rarieda,East Asembo
+Siaya,Bondo,Bondo,North Sakwa
+Siaya,Bondo,Bondo,West Sakwa
+Siaya,Bondo,Bondo,Yimbo East
+Siaya,Bondo,Bondo,South Sakwa
+Siaya,Bondo,Bondo,Central Sakwa
+Siaya,Bondo,Bondo,West Yimbo
+Siaya,Gem,Gem,South Gem
+Siaya,Gem,Gem,East Gem
+Siaya,Gem,Gem,Yala Township
+Siaya,Gem,Gem,Central Gem
+Siaya,Gem,Gem,West Gem
+Siaya,Gem,Gem,North Gem
+Siaya,Alego Usonga,Alego Usonga,South East Alego
+Siaya,Alego Usonga,Alego Usonga,North Alego
+Siaya,Alego Usonga,Alego Usonga,Siaya Township
+Siaya,Alego Usonga,Alego Usonga,Central Alego
+Siaya,Alego Usonga,Alego Usonga,West Alego
+Siaya,Alego Usonga,Alego Usonga,Usonga
+Siaya,Ugunja,Ugunja,Ugunja
+Siaya,Ugunja,Ugunja,Sigomere
+Siaya,Ugunja,Ugunja,Sidindi
+Siaya,Ugenya,Ugenya,East Ugenya
+Siaya,Ugenya,Ugenya,North Ugenya
+Siaya,Ugenya,Ugenya,Ukwala
+Siaya,Ugenya,Ugenya,West Ugenya
+Busia,Bunyala,Budalangi,Bunyala South
+Busia,Bunyala,Budalangi,Bunyala West
+Busia,Bunyala,Budalangi,Bunyala North
+Busia,Bunyala,Budalangi,Bunyala Central
+Busia,Samia,Funyula,Bwiri
+Busia,Samia,Funyula,Ageng'a Nanguba
+Busia,Samia,Funyula,Nangina
+Busia,Samia,Funyula,Namboboto-nambuku
+Busia,Butula,Butula,Elugulu
+Busia,Butula,Butula,Marachi North
+Busia,Butula,Butula,Marachi East
+Busia,Butula,Butula,Marachi Central
+Busia,Butula,Butula,Kingandole
+Busia,Butula,Butula,Marachi West
+Busia,Matayos,Matayos,Burumba
+Busia,Matayos,Matayos,Busibwabo
+Busia,Matayos,Matayos,Matayos South
+Busia,Matayos,Matayos,Mayenje
+Busia,Matayos,Matayos,Bukhayo West
+Busia,Nambale,Nambale,Bukhayo Central
+Busia,Nambale,Nambale,Bukhayo East
+Busia,Nambale,Nambale,Bukhayo North/Walatsi
+Busia,Nambale,Nambale,Nambale
+Busia,Teso South,Teso South,Amukura Central
+Busia,Teso South,Teso South,Amukura East
+Busia,Teso South,Teso South,Amukura West
+Busia,Teso South,Teso South,Chakol North
+Busia,Teso South,Teso South,Chakol South
+Busia,Teso South,Teso South,Ang'orom
+Busia,Teso North,Teso North,Malaba South
+Busia,Teso North,Teso North,Ang'urai East
+Busia,Teso North,Teso North,Ang'urai North
+Busia,Teso North,Teso North,Ang'urai South
+Busia,Teso North,Teso North,Malaba North
+Busia,Teso North,Teso North,Malaba Central
+Bungoma,Tongaren,Tongaren,Soysambu/Mitua
+Bungoma,Tongaren,Tongaren,Tongaren
+Bungoma,Tongaren,Tongaren,Ndalu
+Bungoma,Tongaren,Tongaren,Milima
+Bungoma,Tongaren,Tongaren,Naitiri/Kabuyefwe
+Bungoma,Tongaren,Tongaren,Mbakalo
+Bungoma,Kimilili,Kimilili,Kamukuywa
+Bungoma,Kimilili,Kimilili,Maeni
+Bungoma,Kimilili,Kimilili,Kimilili
+Bungoma,Kimilili,Kimilili,Kibingei
+Bungoma,Webuye West,Webute West,Bokoli
+Bungoma,Webuye West,Webute West,Matulo
+Bungoma,Webuye West,Webute West,Sitikho
+Bungoma,Webuye West,Webute West,Misikhu
+Bungoma,Webuye East,Webuye East,Maraka
+Bungoma,Webuye East,Webuye East,Ndivisi
+Bungoma,Webuye East,Webuye East,Mihuu
+Bungoma,Kanduyi,Kanduyi,West Sang'alo
+Bungoma,Kanduyi,Kanduyi,Marakaru/Tuuti
+Bungoma,Kanduyi,Kanduyi,East Sang'alo
+Bungoma,Kanduyi,Kanduyi,Musikoma
+Bungoma,Kanduyi,Kanduyi,Khalaba
+Bungoma,Kanduyi,Kanduyi,Township
+Bungoma,Kanduyi,Kanduyi,Bukembe East
+Bungoma,Kanduyi,Kanduyi,Bukembe West
+Bungoma,Bumula,Bumula,Siboti
+Bungoma,Bumula,Bumula,West Bukusu
+Bungoma,Bumula,Bumula,Kimaeti
+Bungoma,Bumula,Bumula,Kabula
+Bungoma,Bumula,Bumula,Khasoko
+Bungoma,Bumula,Bumula,Bumula
+Bungoma,Bumula,Bumula,South Bukusu
+Bungoma,Kabuchai,Kabuchai,Mukuyuni
+Bungoma,Kabuchai,Kabuchai,Bwake/Luuya
+Bungoma,Kabuchai,Kabuchai,West Nalondo
+Bungoma,Kabuchai,Kabuchai,Kabuchai/Chwele
+Bungoma,Sirisia,Sirisia,Lwandanyi
+Bungoma,Sirisia,Sirisia,Malakisi/South Kulisiru
+Bungoma,Sirisia,Sirisia,Namwela
+Bungoma,Mt Elgon,Mt. Elgon,Elgon
+Bungoma,Mt Elgon,Mt. Elgon,Kaptama
+Bungoma,Cheptais,Mt. Elgon,Kapkateny
+Bungoma,Cheptais,Mt. Elgon,Chepyuk
+Bungoma,Cheptais,Mt. Elgon,Chesikaki
+Bungoma,Cheptais,Mt. Elgon,Cheptais
+Vihiga,Emuhaya,Emuhaya,West Bunyore
+Vihiga,Emuhaya,Emuhaya,Central Bunyore
+Vihiga,Emuhaya,Emuhaya,North East Bunyore
+Vihiga,Luanda,Luanda,Emabungo
+Vihiga,Luanda,Luanda,Luanda South
+Vihiga,Luanda,Luanda,Mwibona
+Vihiga,Luanda,Luanda,Wemilabi
+Vihiga,Luanda,Luanda,Luanda Township
+Vihiga,Hamisi,Hamisi,Jepkoyai
+Vihiga,Hamisi,Hamisi,Tambua
+Vihiga,Hamisi,Hamisi,Muhudu
+Vihiga,Hamisi,Hamisi,Banja
+Vihiga,Hamisi,Hamisi,Shamakhokho
+Vihiga,Hamisi,Hamisi,Gisambai
+Vihiga,Hamisi,Hamisi,Shiru
+Vihiga,Sabatia,Sabatia,Busali
+Vihiga,Sabatia,Sabatia,Wodanga
+Vihiga,Sabatia,Sabatia,North Maragoli
+Vihiga,Sabatia,Sabatia,Chavakali
+Vihiga,Sabatia,Sabatia,West Sabatia
+Vihiga,Sabatia,Sabatia,Lyaduywa/Izava
+Vihiga,Vihiga,Vihiga,Mungoma
+Vihiga,Vihiga,Vihiga,Central Maragoli
+Vihiga,Vihiga,Vihiga,South Maragoli
+Vihiga,Vihiga,Vihiga,Lugaga-wamuluma
+Kakamega,Ikolomani,Ikolomani,Idakho Central
+Kakamega,Ikolomani,Ikolomani,Idakho North
+Kakamega,Ikolomani,Ikolomani,Idakho East
+Kakamega,Ikolomani,Ikolomani,Idakho South
+Kakamega,Shinyalu,Shinyalu,Isukha West
+Kakamega,Shinyalu,Shinyalu,Isukha East
+Kakamega,Shinyalu,Shinyalu,Isukha South
+Kakamega,Shinyalu,Shinyalu,Isukha Central
+Kakamega,Shinyalu,Shinyalu,Murhanda
+Kakamega,Shinyalu,Shinyalu,Isukha North
+Kakamega,Khwisero,Khwisero,Kisa Central
+Kakamega,Khwisero,Khwisero,Kisa West
+Kakamega,Khwisero,Khwisero,Kisa East
+Kakamega,Khwisero,Khwisero,Kisa North
+Kakamega,Butere,Butere,Marama South
+Kakamega,Butere,Butere,Marama North
+Kakamega,Butere,Butere,Marenyo-shianda
+Kakamega,Butere,Butere,Marama Central
+Kakamega,Butere,Butere,Marama West
+Kakamega,Matungu,Matungu,Namamali
+Kakamega,Matungu,Matungu,Mayoni
+Kakamega,Matungu,Matungu,Khalaba
+Kakamega,Matungu,Matungu,Kholera
+Kakamega,Matungu,Matungu,Koyonzo
+Kakamega,Mumias East,Mumias East,East Wanga
+Kakamega,Mumias East,Mumias East,Malaha/Isongo/Makunga
+Kakamega,Mumias East,Mumias East,Lusheya/Lubinu
+Kakamega,Mumias West,Mumias West,Musanda
+Kakamega,Mumias West,Mumias West,Etenje
+Kakamega,Mumias West,Mumias West,Mumias North
+Kakamega,Mumias West,Mumias West,Mumias Central
+Kakamega,Navakholo,Navakholo,Bunyala Central
+Kakamega,Navakholo,Navakholo,Bunyala East
+Kakamega,Navakholo,Navakholo,Bunyala West
+Kakamega,Navakholo,Navakholo,Shinoyi-shikomari-esumeiya
+Kakamega,Navakholo,Navakholo,Ingoste-matiha
+Kakamega,Lurambi,Lurambi,Shirere
+Kakamega,Lurambi,Lurambi,Mahiakalo
+Kakamega,Lurambi,Lurambi,Sheywe
+Kakamega,Lurambi,Lurambi,Butsotso Central
+Kakamega,Lurambi,Lurambi,Butsotso South
+Kakamega,Lurambi,Lurambi,Butsotso East
+Kakamega,Malava,Malava,South Kabras
+Kakamega,Malava,Malava,Shirungu-mugai
+Kakamega,Malava,Malava,Manda-shivanga
+Kakamega,Malava,Malava,Butali/Chegulo
+Kakamega,Malava,Malava,East Kabras
+Kakamega,Malava,Malava,Chemuche
+Kakamega,Malava,Malava,West Kabras
+Kakamega,Likuyani,Likuyani,Sinoko
+Kakamega,Likuyani,Likuyani,Nzoia
+Kakamega,Likuyani,Likuyani,Kongoni
+Kakamega,Likuyani,Likuyani,Sango
+Kakamega,Likuyani,Likuyani,Likuyani
+Kakamega,Lugari,Lugari,Lwandeti
+Kakamega,Lugari,Lugari,Chevaywa
+Kakamega,Lugari,Lugari,Chekalini
+Kakamega,Lugari,Lugari,Lumakanda
+Kakamega,Lugari,Lugari,Lugari
+Kakamega,Lugari,Lugari,Mautuma
+Bomet,Konoin,Konoin,Embomos
+Bomet,Konoin,Konoin,Boito
+Bomet,Konoin,Konoin,Mogogosiek
+Bomet,Konoin,Konoin,Kimulot
+Bomet,Konoin,Konoin,Chepchabas
+Bomet,Bomet Central,Bomet Central,Mutarakwa
+Bomet,Bomet Central,Bomet Central,Chesoen
+Bomet,Bomet Central,Bomet Central,Singorwet
+Bomet,Bomet Central,Bomet Central,Ndaraweta
+Bomet,Bomet Central,Bomet Central,Silibwet Township
+Bomet,Bomet East,Bomet East,Chemaner
+Bomet,Bomet East,Bomet East,Kipreres
+Bomet,Bomet East,Bomet East,Longisa
+Bomet,Bomet East,Bomet East,Kembu
+Bomet,Bomet East,Bomet East,Merigi
+Bomet,Chepalungu,Chepalungu,Siongiroi
+Bomet,Chepalungu,Chepalungu,Chebunyo
+Bomet,Chepalungu,Chepalungu,Sigor
+Bomet,Chepalungu,Chepalungu,Nyangores
+Bomet,Chepalungu,Chepalungu,Kong'asis
+Bomet,Sotik,Sotik,Rongena/Manaret
+Bomet,Sotik,Sotik,Kapletundo
+Bomet,Sotik,Sotik,Kipsonoi
+Bomet,Sotik,Sotik,Chemagel
+Bomet,Sotik,Sotik,Ndanai/Abosi
+Kericho,Sigowet/Soin,Sigowet/Soin,Soin
+Kericho,Sigowet/Soin,Sigowet/Soin,Soliat
+Kericho,Sigowet/Soin,Sigowet/Soin,Kaplelartet
+Kericho,Sigowet/Soin,Sigowet/Soin,Sigowet
+Kericho,Belgut,Belgut,Kapsuser
+Kericho,Belgut,Belgut,Chaik
+Kericho,Belgut,Belgut,Cheptororiet/Seretut
+Kericho,Belgut,Belgut,Kabianga
+Kericho,Belgut,Belgut,Waldai
+Kericho,Bureti,Bureti,Kapkatet
+Kericho,Bureti,Bureti,Cheplanget
+Kericho,Bureti,Bureti,Litein
+Kericho,Bureti,Bureti,Chemosot
+Kericho,Bureti,Bureti,Cheboin
+Kericho,Bureti,Bureti,Tebesonik
+Kericho,Bureti,Bureti,Kisiara
+Kericho,Ainamoi,Ainamoi,Kapsaos
+Kericho,Ainamoi,Ainamoi,Kipchimchim
+Kericho,Ainamoi,Ainamoi,Kipchebor
+Kericho,Ainamoi,Ainamoi,Kapkugerwet
+Kericho,Ainamoi,Ainamoi,Ainamoi
+Kericho,Ainamoi,Ainamoi,Kapsoit
+Kericho,Kipkelion West,Kipkelion West,Chilchila
+Kericho,Kipkelion West,Kipkelion West,Kipkelion
+Kericho,Kipkelion West,Kipkelion West,Kamasian
+Kericho,Kipkelion West,Kipkelion West,Kunyak
+Kericho,Kipkelion East,Kipkelion East,Tendeno/Sorget
+Kericho,Kipkelion East,Kipkelion East,Chepseon
+Kericho,Kipkelion East,Kipkelion East,Kedowa/Kimugul
+Kericho,Kipkelion East,Kipkelion East,Londiani
+Kajiado,Loitokitok,Kajiado South,Kimana
+Kajiado,Loitokitok,Kajiado South,Rombo
+Kajiado,Loitokitok,Kajiado South,Kuku
+Kajiado,Loitokitok,Kajiado South,Imbrikani/Eselelnkei
+Kajiado,Loitokitok,Kajiado South,Entonet/Lenkism
+Kajiado,Kajiado West,Kajiado West,Mosiro
+Kajiado,Kajiado West,Kajiado West,Ewuaso Oo Nkidong'i
+Kajiado,Kajiado West,Kajiado West,Magadi
+Kajiado,Kajiado West,Kajiado West,Iloodokilani
+Kajiado,Kajiado West,Kajiado West,Keekonyokie
+Kajiado,Kajiado East,Kajiado East,Imaroro
+Kajiado,Kajiado East,Kajiado East,Kenyawa-poka
+Kajiado,Kajiado East,Kajiado East,Oloosirkon/Sholinke
+Kajiado,Kajiado East,Kajiado East,Kitengela
+Kajiado,Kajiado East,Kajiado East,Kaputiei North
+Kajiado,Kajiado Central,Kajiado Central,Matapato South
+Kajiado,Kajiado Central,Kajiado Central,Matapato North
+Kajiado,Kajiado Central,Kajiado Central,Dalalekutuk
+Kajiado,Kajiado Central,Kajiado Central,Ildamat
+Kajiado,Kajiado Central,Kajiado Central,Purko
+Kajiado,Kajiado North,Kajiado North,Ngong
+Kajiado,Kajiado North,Kajiado North,Oloolua
+Kajiado,Kajiado North,Kajiado North,Nkaimurunya
+Kajiado,Kajiado North,Kajiado North,Ongata Rongai
+Kajiado,Kajiado North,Kajiado North,Olkeri
+Narok,Narok West,Narok West,Naikarra
+Narok,Narok West,Narok West,Siana
+Narok,Narok West,Narok West,Mara
+Narok,Narok West,Narok West,Ilmotiook
+Narok,Narok South,Narok South,Sagamian
+Narok,Narok South,Narok South,Sogoo
+Narok,Narok South,Narok South,Loita
+Narok,Narok South,Narok South,Melelo
+Narok,Narok South,Narok South,Ololulung'a
+Narok,Narok South,Narok South,Maji Moto/Naroosura
+Narok,Narok East,Narok East,Suswa
+Narok,Narok East,Narok East,Keekonyokie
+Narok,Narok East,Narok East,Ildamat
+Narok,Narok East,Narok East,Mosiro
+Narok,Narok North,Narok North,Melili
+Narok,Narok North,Narok North,Olorropil
+Narok,Narok North,Narok North,Nkareta
+Narok,Narok North,Narok North,Narok Town
+Narok,Narok North,Narok North,Olokurto
+Narok,Narok North,Narok North,Olposimoru
+Narok,Transmara East,Emurua Dikirr,Kapsasian
+Narok,Transmara East,Emurua Dikirr,Mogondo
+Narok,Transmara East,Emurua Dikirr,Ololmasani
+Narok,Transmara East,Emurua Dikirr,Iikerin
+Narok,Transmara West,Kilgoris,Lolgorian
+Narok,Transmara West,Kilgoris,Kimintet
+Narok,Transmara West,Kilgoris,Shankoe
+Narok,Transmara West,Kilgoris,Angata Barikoi
+Narok,Transmara West,Kilgoris,Keyian
+Narok,Transmara West,Kilgoris,Kilgoris Central
+Nakuru,Nakuru East,Nakuru Town East,Nakuru East
+Nakuru,Nakuru East,Nakuru Town East,Menengai
+Nakuru,Nakuru East,Nakuru Town East,Flamingo
+Nakuru,Nakuru East,Nakuru Town East,Kivumbuni
+Nakuru,Nakuru East,Nakuru Town East,Biashara
+Nakuru,Nakuru West,Nakuru Town West,Shaabab
+Nakuru,Nakuru West,Nakuru Town West,Rhoda
+Nakuru,Nakuru West,Nakuru Town West,Kapkures
+Nakuru,Nakuru West,Nakuru Town West,Kaptembwo
+Nakuru,Nakuru West,Nakuru Town East,London
+Nakuru,Nakuru West,Nakuru Town West,Barut
+Nakuru,Nakuru North,Bahati,Bahati
+Nakuru,Nakuru North,Bahati,Lanet/Umoja
+Nakuru,Nakuru North,Bahati,Kiamaina
+Nakuru,Nakuru North,Bahati,Kabatini
+Nakuru,Nakuru North,Bahati,Dundori
+Nakuru,Rongai,Rongai,Solai
+Nakuru,Rongai,Rongai,Mosop
+Nakuru,Rongai,Rongai,Visoi
+Nakuru,Rongai,Rongai,Soin
+Nakuru,Rongai,Rongai,Menengai West
+Nakuru,Subukia,Subukia,Kabazi
+Nakuru,Subukia,Subukia,Waseges
+Nakuru,Subukia,Subukia,Subukia
+Nakuru,Kuresoi North,Kuresoi North,Kamara
+Nakuru,Kuresoi North,Kuresoi North,Sirikwa
+Nakuru,Kuresoi North,Kuresoi North,Nyota
+Nakuru,Kuresoi North,Kuresoi North,Kiptororo
+Nakuru,Kuresoi South,Kuresoi South,Tinet
+Nakuru,Kuresoi South,Kuresoi South,Kiptagich
+Nakuru,Kuresoi South,Kuresoi South,Keringet
+Nakuru,Kuresoi South,Kuresoi South,Amalo
+Nakuru,Gilgil,Gilgil,Murindati
+Nakuru,Gilgil,Gilgil,Malewa West
+Nakuru,Gilgil,Gilgil,Mbaruk/Eburu
+Nakuru,Gilgil,Gilgil,Elementaita
+Nakuru,Gilgil,Gilgil,Gilgil
+Nakuru,Naivasha,Naivasha,Viwandani
+Nakuru,Naivasha,Naivasha,Naivasha East
+Nakuru,Naivasha,Naivasha,Olkaria
+Nakuru,Naivasha,Naivasha,Maeilla
+Nakuru,Naivasha,Naivasha,Mai Mahiu
+Nakuru,Naivasha,Naivasha,Lake View
+Nakuru,Naivasha,Naivasha,Hellsgate
+Nakuru,Naivasha,Naivasha,Biashara
+Nakuru,Njoro,Njoro,Njoro
+Nakuru,Njoro,Njoro,Lare
+Nakuru,Njoro,Njoro,Nessuit
+Nakuru,Njoro,Njoro,Kihingo
+Nakuru,Njoro,Njoro,Mauche
+Nakuru,Njoro,Njoro,Mau Narok
+Nakuru,Molo,Molo,Molo
+Nakuru,Molo,Molo,Turi
+Nakuru,Molo,Molo,Elburgon
+Nakuru,Molo,Molo,Mariashoni
+Laikipia,Laikipia North,Laikipia North,Mugogodo East
+Laikipia,Laikipia North,Laikipia North,Mugogodo West
+Laikipia,Laikipia North,Laikipia North,Segera
+Laikipia,Laikipia North,Laikipia North,Sosian
+Laikipia,Laikipia East,Laikipia North,Umande
+Laikipia,Laikipia East,Laikipia East,Nanyuki
+Laikipia,Laikipia East,Laikipia East,Thingithu
+Laikipia,Laikipia East,Laikipia East,Tigithi
+Laikipia,Laikipia East,Laikipia East,Ngobit
+Laikipia,Laikipia West,Laikipia West,Salama
+Laikipia,Laikipia West,Laikipia West,Igwamiti
+Laikipia,Laikipia West,Laikipia West,Marmanet
+Laikipia,Laikipia West,Laikipia West,Githiga
+Laikipia,Laikipia West,Laikipia West,Rumuruti Township
+Laikipia,Laikipia West,Laikipia West,Ol-moran
+Baringo,Koibatek,Eldama Ravine,Koibatek
+Baringo,Koibatek,Eldama Ravine,Lembus/Perkerra
+Baringo,Koibatek,Eldama Ravine,Mumberes/Maji Mazuri
+Baringo,Koibatek,Eldama Ravine,Ravine
+Baringo,Koibatek,Eldama Ravine,Lembus Kwen
+Baringo,Koibatek,Eldama Ravine,Lembus
+Baringo,Mogotio,Mogotio,Kisanana
+Baringo,Mogotio,Mogotio,Emining
+Baringo,Mogotio,Mogotio,Mogotio
+Baringo,Marigat,Baringo South,Mukutani
+Baringo,Marigat,Baringo South,Mochongoi
+Baringo,Marigat,Baringo South,Iichamus
+Baringo,Marigat,Baringo South,Marigat
+Baringo,Baringo Central,Baringo Central,Kapropita
+Baringo,Baringo Central,Baringo Central,Ewalel/Chapchap
+Baringo,Baringo Central,Baringo Central,Tenges
+Baringo,Baringo Central,Baringo Central,Sacho
+Baringo,Baringo Central,Baringo Central,Kabarnet
+Baringo,Baringo North,Baringo North,Bartabwa
+Baringo,Baringo North,Baringo North,Saimo/Soi
+Baringo,Baringo North,Baringo North,Saimoi/Kipsaraman
+Baringo,Baringo North,Baringo North,Kabartonjo
+Baringo,Baringo North,Baringo North,Barwessa
+Baringo,Tiaty East,Tiaty,Churo/Amaya
+Baringo,Tiaty East,Tiaty,Tangulbei/Korossi
+Baringo,Tiaty East,Tiaty,Loiyamorok
+Baringo,Tiaty East,Tiaty,Silale
+Baringo,East Pokot,Tiaty,Ribkwo
+Baringo,East Pokot,Tiaty,Kolowa
+Baringo,East Pokot,Tiaty,Tirioko
+Nandi,Mosop,Mosop,Sangalo/Kebulonik
+Nandi,Mosop,Mosop,Kabisaga
+Nandi,Mosop,Mosop,Ndalat
+Nandi,Mosop,Mosop,Kabiyet
+Nandi,Mosop,Mosop,Kurgung/Surungai
+Nandi,Mosop,Mosop,Kipkaren
+Nandi,Mosop,Mosop,Chepterwai
+Nandi,Emgwen,Emgwen,Kilibwoni
+Nandi,Emgwen,Emgwen,Kapsabet
+Nandi,Emgwen,Emgwen,Kapkangani
+Nandi,Emgwen,Emgwen,Chepkumia
+Nandi,Chesumei,Chesumei,Kiptuiya
+Nandi,Chesumei,Chesumei,Kaptel/Kamoiywo
+Nandi,Chesumei,Chesumei,Lelmoko/Ngechek
+Nandi,Chesumei,Chesumei,Kosirai
+Nandi,Chesumei,Chesumei,Chemundu/Kapng'etunyi
+Nandi,Nandi Hills,Nandi Hills,Kapchorua
+Nandi,Nandi Hills,Nandi Hills,Ol'lessos
+Nandi,Nandi Hills,Nandi Hills,Chepkunyuk
+Nandi,Nandi Hills,Nandi Hills,Nandi Hills
+Nandi,Aldai,Aldai,Koyo/Ndurio
+Nandi,Aldai,Aldai,Kaptumo/Kaboi
+Nandi,Aldai,Aldai,Kobujoi
+Nandi,Aldai,Aldai,Kemeloi-maraba
+Nandi,Aldai,Aldai,Terik
+Nandi,Aldai,Aldai,Kabwareng
+Nandi,Tinderet,Tinderet,Kapsimwotwo
+Nandi,Tinderet,Tinderet,Chemelil/Chemase
+Nandi,Tinderet,Tinderet,Tinderet
+Nandi,Tinderet,Tinderet,Songhor/Soba
+Elgeyo Marakwet,Keiyo South,Keiyo South,Metkei
+Elgeyo Marakwet,Keiyo South,Keiyo South,Kabiemit
+Elgeyo Marakwet,Keiyo South,Keiyo South,Soy South
+Elgeyo Marakwet,Keiyo South,Keiyo South,Soy North
+Elgeyo Marakwet,Keiyo South,Keiyo South,Chepkorio
+Elgeyo Marakwet,Keiyo South,Keiyo South,Kaptarakwa
+Elgeyo Marakwet,Keiyo North,Keiyo North,Tambach
+Elgeyo Marakwet,Keiyo North,Keiyo North,Kapchemutwa
+Elgeyo Marakwet,Keiyo North,Keiyo North,Kamariny
+Elgeyo Marakwet,Keiyo North,Keiyo North,Emsoo
+Elgeyo Marakwet,Marakwet West,Marakwet West,Arror
+Elgeyo Marakwet,Marakwet West,Marakwet West,Kapsowar
+Elgeyo Marakwet,Marakwet West,Marakwet West,Moiben/Kuserwo
+Elgeyo Marakwet,Marakwet West,Marakwet West,Cherang'any/Chebororwa
+Elgeyo Marakwet,Marakwet West,Marakwet West,Sengwer
+Elgeyo Marakwet,Marakwet West,Marakwet West,Lelan
+Elgeyo Marakwet,Marakwet East,Marakwet East,Embobut/Embulot
+Elgeyo Marakwet,Marakwet East,Marakwet East,Endo
+Elgeyo Marakwet,Marakwet East,Marakwet East,Sambirir
+Elgeyo Marakwet,Marakwet East,Marakwet East,Kapyego
+Uasin Gishu,Kesses,Kesses,Tarakwa
+Uasin Gishu,Kesses,Kesses,Tulwet/Chuiyat
+Uasin Gishu,Kesses,Kesses,Cheptiret/Kipchamo
+Uasin Gishu,Kesses,Kesses,Racecourse
+Uasin Gishu,Kapseret,Kapseret,Langas
+Uasin Gishu,Kapseret,Kapseret,Megun
+Uasin Gishu,Kapseret,Kapseret,Ngeria
+Uasin Gishu,Kapseret,Kapseret,Kipkenyo
+Uasin Gishu,Kapseret,Kapseret,Simat/Kapseret
+Uasin Gishu,Ainabkoi,Ainabkoi,Ainabkoi/Olare
+Uasin Gishu,Ainabkoi,Ainabkoi,Kaptagat
+Uasin Gishu,Ainabkoi,Ainabkoi,Kapsoya
+Uasin Gishu,Moiben,Moiben,Kimumu
+Uasin Gishu,Moiben,Moiben,Moiben
+Uasin Gishu,Moiben,Moiben,Karuna/Meibeki
+Uasin Gishu,Moiben,Moiben,Sergoit
+Uasin Gishu,Moiben,Moiben,Tembelio
+Uasin Gishu,Turbo,Turbo,Huruma
+Uasin Gishu,Turbo,Turbo,Kapsaos
+Uasin Gishu,Turbo,Turbo,Kiplombe
+Uasin Gishu,Turbo,Turbo,Kamagut
+Uasin Gishu,Turbo,Turbo,Tapsagoi
+Uasin Gishu,Turbo,Turbo,Ngenyilel
+Uasin Gishu,Soy,Soy,Kuinet/Kapsuswa
+Uasin Gishu,Soy,Soy,Soy
+Uasin Gishu,Soy,Soy,Kipsomba
+Uasin Gishu,Soy,Soy,Segeroi/Barsombe
+Uasin Gishu,Soy,Soy,Ziwa
+Uasin Gishu,Soy,Soy,Kapkures
+Uasin Gishu,Soy,Soy,Moi's Bridge
+Trans Nzoia,Cherangany,Cherangany,Sitatunga
+Trans Nzoia,Cherangany,Cherangany,Chepsiro/Kiptoror
+Trans Nzoia,Cherangany,Cherangany,Cherangany/Suwerwa
+Trans Nzoia,Cherangany,Cherangany,Motosiet
+Trans Nzoia,Cherangany,Cherangany,Kaplamai
+Trans Nzoia,Cherangany,Cherangany,Makutano
+Trans Nzoia,Cherangany,Cherangany,Sinyerere
+Trans Nzoia,Kiminini,Kiminini,Nabiswa
+Trans Nzoia,Kiminini,Kiminini,Sikhendu
+Trans Nzoia,Kiminini,Kiminini,Hospital
+Trans Nzoia,Kiminini,Kiminini,Sirende
+Trans Nzoia,Kiminini,Kiminini,Waitaluk
+Trans Nzoia,Kiminini,Kiminini,Kiminini
+Trans Nzoia,Saboti,Saboti,Machewa
+Trans Nzoia,Saboti,Saboti,Saboti
+Trans Nzoia,Saboti,Saboti,Tuwani
+Trans Nzoia,Saboti,Saboti,Matisi
+Trans Nzoia,Saboti,Saboti,Kinyoro
+Trans Nzoia,Endebess,Endebess,Matumbei
+Trans Nzoia,Endebess,Endebess,Endebess
+Trans Nzoia,Endebess,Endebess,Chepchoina
+Trans Nzoia,Kwanza,Kwanza,Bidii
+Trans Nzoia,Kwanza,Kwanza,Keiyo
+Trans Nzoia,Kwanza,Kwanza,Kwanza
+Trans Nzoia,Kwanza,Kwanza,Kapomboi
+Samburu,Samburu East,Samburu East,Wamba North
+Samburu,Samburu East,Samburu East,Wamba East
+Samburu,Samburu East,Samburu East,Wamba West
+Samburu,Samburu East,Samburu East,Waso
+Samburu,Samburu North,Samburu North,Baawa
+Samburu,Samburu North,Samburu North,Angata Nayokie
+Samburu,Samburu North,Samburu North,Nyiro
+Samburu,Samburu North,Samburu North,Ndoto
+Samburu,Samburu North,Samburu North,Nachola
+Samburu,Samburu North,Samburu North,El-barta
+Samburu,Samburu Central,Samburu Central,Porro
+Samburu,Samburu Central,Samburu Central,Loosuk
+Samburu,Samburu Central,Samburu Central,Maralal
+Samburu,Samburu Central,Samburu Central,Suguta Marmar
+Samburu,Samburu Central,Samburu Central,Lodokejek
+West Pokot,Pokot South,Pokot South,Tapach
+West Pokot,Pokot South,Pokot South,Lelan
+West Pokot,KIPKOMO,Pokot South,Batei
+West Pokot,KIPKOMO,Pokot South,Chepareria
+West Pokot,Pokot North,Kacheliba,Alale
+West Pokot,Pokot North,Kacheliba,Kiwawa
+West Pokot,KACHELIBA,Kacheliba,Kapchok
+West Pokot,Pokot North,Kacheliba,Kasei
+West Pokot,KACHELIBA,Kacheliba,Kodich
+West Pokot,KACHELIBA,Kacheliba,Suam
+West Pokot,Pokot Central,Sigor,Wei Wei
+West Pokot,Pokot Central,Sigor,Lomut
+West Pokot,Pokot Central,Sigor,Masool
+West Pokot,Pokot Central,Sigor,Sekerr
+West Pokot,West Pokot,Kapenguria,Sook
+West Pokot,West Pokot,Kapenguria,Endugh
+West Pokot,West Pokot,Kapenguria,Siyoi
+West Pokot,West Pokot,Kapenguria,Mnagei
+West Pokot,West Pokot,Kapenguria,Kapenguria
+West Pokot,West Pokot,Kapenguria,Riwo
+Turkana,Turkana East,Turkana East,Lokori/Kochodin
+Turkana,Turkana East,Turkana East,Katilia
+Turkana,Turkana East,Turkana East,Kapedo/Napeitom
+Turkana,Turkana South,Turkana South,Lokichar
+Turkana,Turkana South,Turkana South,Kalapata
+Turkana,Turkana South,Turkana South,Lobokat
+Turkana,Turkana South,Turkana South,Katilu
+Turkana,Turkana South,Turkana South,Kaputir
+Turkana,Loima,Loima,Lokiriama/Lorengippi
+Turkana,Loima,Loima,Loima
+Turkana,Loima,Loima,Turkwel
+Turkana,Loima,Loima,Kotaruk/Lobei
+Turkana,Turkana Central,Turkana Central,Kanamkemer
+Turkana,Turkana Central,Turkana Central,Lodwar Township
+Turkana,Turkana Central,Turkana Central,Kalokol
+Turkana,Turkana Central,Turkana Central,Kang'atotha
+Turkana,Turkana Central,Turkana Central,Kerio Delta
+Turkana,Turkana West,Turkana West,Nanaam
+Turkana,Turkana West,Turkana West,Lokichoggio
+Turkana,Turkana West,Turkana West,Kalobeyei
+Turkana,Turkana West,Turkana West,Songot
+Turkana,Turkana West,Turkana West,Letea
+Turkana,Turkana West,Turkana West,Lopur
+Turkana,Turkana West,Turkana West,Kakuma
+Turkana,Turkana North,Turkana North,Nakalale
+Turkana,Kibish,Turkana North,Kibish
+Turkana,Turkana North,Turkana North,Kaaleng/Kaikor
+Turkana,Turkana North,Turkana North,Lapur
+Turkana,Turkana North,Turkana North,Lakezone
+Turkana,Turkana North,Turkana North,Kaeris
+Kiambu,Lari,Lari,Lari/Kirenga
+Kiambu,Lari,Lari,Kamburu
+Kiambu,Lari,Lari,Nyanduma
+Kiambu,Lari,Lari,Kijabe
+Kiambu,Lari,Lari,Kinale
+Kiambu,Limuru,Limuru,Ngecha Tigoni
+Kiambu,Limuru,Limuru,Limuru East
+Kiambu,Limuru,Limuru,Ndeiya
+Kiambu,Limuru,Limuru,Limuru Central
+Kiambu,Limuru,Limuru,Bibirioni
+Kiambu,Kikuyu,Kikuyu,Kinoo
+Kiambu,Kikuyu,Kikuyu,Kikuyu
+Kiambu,Kikuyu,Kikuyu,Sigona
+Kiambu,Kikuyu,Kikuyu,Nachu
+Kiambu,Kikuyu,Kikuyu,Karai
+Kiambu,Kabete,Kabete,Uthiru
+Kiambu,Kabete,Kabete,Kabete
+Kiambu,Kabete,Kabete,Nyadhuna
+Kiambu,Kabete,Kabete,Muguga
+Kiambu,Kabete,Kabete,Gitaru
+Kiambu,Kiambaa,Kiambaa,Kihara
+Kiambu,Kiambaa,Kiambaa,Muchatha
+Kiambu,Kiambaa,Kiambaa,Ndenderu
+Kiambu,Kiambaa,Kiambaa,Karuri
+Kiambu,Kiambaa,Kiambaa,Cianda
+Kiambu,Kiambu Town,Kiambu,Township
+Kiambu,Kiambu Town,Kiambu,Riabai
+Kiambu,Kiambu Town,Kiambu,Ndumberi
+Kiambu,Kiambu Town,Kiambu,Ting'ang'a
+Kiambu,Githunguri,Githunguri,Komothai
+Kiambu,Githunguri,Githunguri,Ngewa
+Kiambu,Githunguri,Githunguri,Ikinu
+Kiambu,Githunguri,Githunguri,Githiga
+Kiambu,Githunguri,Githunguri,Githunguri
+Kiambu,Ruiru,Ruiru,Mwihoko
+Kiambu,Ruiru,Ruiru,Mwiki
+Kiambu,Ruiru,Ruiru,Kiuu
+Kiambu,Ruiru,Ruiru,Kahawa Wendani
+Kiambu,Ruiru,Ruiru,Kahawa/Sukari
+Kiambu,Ruiru,Ruiru,Gatongora
+Kiambu,Ruiru,Ruiru,Biashara
+Kiambu,Ruiru,Ruiru,Gitothua
+Kiambu,Thika Town,Thika Town,Ngoliba
+Kiambu,Thika Town,Thika Town,Gatuanyaga
+Kiambu,Thika Town,Thika Town,Hospital
+Kiambu,Thika Town,Thika Town,Kamenu
+Kiambu,Thika Town,Thika Town,Township
+Kiambu,Juja,Juja,Kalimoni
+Kiambu,Juja,Juja,Witeithie
+Kiambu,Juja,Juja,Juja
+Kiambu,Juja,Juja,Theta
+Kiambu,Juja,Juja,Murera
+Kiambu,Gatundu North,Gatundu North,Mang'u
+Kiambu,Gatundu North,Gatundu North,Chania
+Kiambu,Gatundu North,Gatundu North,Githobokoni
+Kiambu,Gatundu North,Gatundu North,Gituamba
+Kiambu,Gatundu South,Gatundu South,Ngenda
+Kiambu,Gatundu South,Gatundu South,Ndarugu
+Kiambu,Gatundu South,Gatundu South,Kiganjo
+Kiambu,Gatundu South,Gatundu South,Kiamwangi
+Muranga,Gatanga,Gatanga,Kariara
+Muranga,Gatanga,Gatanga,Gatanga
+Muranga,Gatanga,Gatanga,Kihumbu-ini
+Muranga,Gatanga,Gatanga,Mugumo-ini
+Muranga,Gatanga,Gatanga,Kakuzi/Mitubiri
+Muranga,Gatanga,Gatanga,Ithanga
+Muranga,Kandara,Kandara,Ruchu
+Muranga,Kandara,Kandara,Ithiru
+Muranga,Kandara,Kandara,Gaichanjiru
+Muranga,Kandara,Kandara,Kagundu-ini
+Muranga,Kandara,Kandara,Muruka
+Muranga,Kandara,Kandara,Ng'araria
+Muranga,muranga south,Maragwa,Nginda
+Muranga,muranga south,Maragwa,Ichagaki
+Muranga,muranga south,Maragwa,Kamahuha
+Muranga,muranga south,Maragwa,Kambiti
+Muranga,muranga south,Maragwa,Makuyu
+Muranga,muranga south,Maragwa,Kimorori/Wempa
+Muranga,Kigumo,Kigumo,Kinyona
+Muranga,Kigumo,Kigumo,Kangari
+Muranga,Kigumo,Kigumo,Kigumo
+Muranga,Kigumo,Kigumo,Muthithi
+Muranga,Kigumo,Kigumo,Kahumbu
+Muranga,Kiharu,Kiharu,Gaturi
+Muranga,Kiharu,Kiharu,Murarandia
+Muranga,Kiharu,Kiharu,Township
+Muranga,Kiharu,Kiharu,Mbiri
+Muranga,Kiharu,Kiharu,Mugoiri
+Muranga,Kiharu,Kiharu,Wangu
+Muranga,Mathioya,Mathioya,Kamacharia
+Muranga,Mathioya,Mathioya,Kiru
+Muranga,Mathioya,Mathioya,Gitugi
+Muranga,Kangema,Kangema,Rwathia
+Muranga,Kangema,Kangema,Muguru
+Muranga,Kangema,Kangema,Kanyenya-ini
+Kirinyaga,Kirinyaga Central,Kirinyaga Central,Inoi
+Kirinyaga,Kirinyaga Central,Kirinyaga Central,Kerugoya
+Kirinyaga,Kirinyaga Central,Kirinyaga Central,Kanyekini
+Kirinyaga,Kirinyaga Central,Kirinyaga Central,Mutira
+Kirinyaga,Kirinyaga West,Ndia,Kariti
+Kirinyaga,Kirinyaga West,Ndia,Kiine
+Kirinyaga,Kirinyaga West,Ndia,Mukure
+Kirinyaga,Kirinyaga East,Gichugu,Karumandi
+Kirinyaga,Kirinyaga East,Gichugu,Ngariama
+Kirinyaga,Kirinyaga East,Gichugu,Njukiine
+Kirinyaga,Kirinyaga East,Gichugu,Baragwi
+Kirinyaga,Kirinyaga East,Gichugu,Kabare
+Kirinyaga,Kirinyaga South,Mwea,Tebere
+Kirinyaga,Kirinyaga South,Mwea,Gathigiriri
+Kirinyaga,Kirinyaga South,Mwea,Murinduko
+Kirinyaga,Kirinyaga South,Mwea,Nyangati
+Kirinyaga,Kirinyaga North/Mwea West,Mwea,Wamumu
+Kirinyaga,Kirinyaga North/Mwea West,Mwea,Thiba
+Kirinyaga,Kirinyaga North/Mwea West,Mwea,Kangai
+Kirinyaga,Kirinyaga North/Mwea West,Mwea,Mutithi
+Nyeri,Nyeri Central,Nyeri Town,Kamakwa/Mukaro
+Nyeri,Nyeri Central,Nyeri Town,Ruring'u
+Nyeri,Nyeri Central,Nyeri Town,Gatitu/Muruguru
+Nyeri,Nyeri Central,Nyeri Town,Rware
+Nyeri,Nyeri Central,Nyeri Town,Kiganjo/Mathari
+Nyeri,Mukurweini,Mukurweini,Mukurwe-ini Central
+Nyeri,Mukurweini,Mukurweini,Mukurwe-ini West
+Nyeri,Mukurweini,Mukurweini,Rugi
+Nyeri,Mukurweini,Mukurweini,Gikondi
+Nyeri,Nyeri South,Nyeri South,Karima
+Nyeri,Nyeri South,Nyeri South,Chinga
+Nyeri,Nyeri South,Nyeri South,Iria-ini
+Nyeri,Nyeri South,Nyeri South,Mahiga
+Nyeri,Mathira East,Mathira,Karatina Town
+Nyeri,Mathira West,Mathira,Kirimukuyu
+Nyeri,Mathira East,Mathira,Konyu
+Nyeri,Mathira East,Mathira,Iriaini
+Nyeri,Mathira East,Mathira,Magutu
+Nyeri,Mathira West,Mathira,Ruguru
+Nyeri,Kieni East,Kieni,Gakawa
+Nyeri,Kieni East,Kieni,Kabaru
+Nyeri,Kieni East,Kieni,Thegu River
+Nyeri,Kieni West,Kieni,Gatarakwa
+Nyeri,Kieni West,Kieni,Mugunda
+Nyeri,Kieni West,Kieni,Mwiyogo/Endarasha
+Nyeri,Kieni East,Kieni,Naromoru/Kiamathaga
+Nyeri,Kieni West,Kieni,Mweiga
+Nyeri,Tetu,Tetu,Aguthi-gaaki
+Nyeri,Tetu,Tetu,Wamagana
+Nyeri,Tetu,Tetu,Dedan Kimathi
+Nyandarua,Ndaragwa,Ndaragwa,Shamata
+Nyandarua,Ndaragwa,Ndaragwa,Central
+Nyandarua,Ndaragwa,Ndaragwa,Kiritta
+Nyandarua,Ndaragwa,Ndaragwa,Leshau/Pondo
+Nyandarua,Oljoroorok,Oljorook,Charagita
+Nyandarua,Oljoroorok,Oljorook,Weru
+Nyandarua,Oljoroorok,Oljorook,Gatimu
+Nyandarua,Oljoroorok,Oljorook,Gathanji
+Nyandarua,Olkalou,Ol Kalou,Rurii
+Nyandarua,Olkalou,Ol Kalou,Kaimbaga
+Nyandarua,Olkalou,Ol Kalou,Mirangine
+Nyandarua,Olkalou,Ol Kalou,Kanjuiri Range
+Nyandarua,Olkalou,Ol Kalou,Karau
+Nyandarua,Kipipiri,Kipipiri,Githioro
+Nyandarua,Kipipiri,Kipipiri,Geta
+Nyandarua,Kipipiri,Kipipiri,Kipipiri
+Nyandarua,Kipipiri,Kipipiri,Wanjohi
+Nyandarua,Kinangop,Kinangop,Magumu
+Nyandarua,Kinangop,Kinangop,Githabai
+Nyandarua,Kinangop,Kinangop,Nyakio
+Nyandarua,Kinangop,Kinangop,Njabani/Kiburu
+Nyandarua,Kinangop,Kinangop,Murungaru
+Nyandarua,Kinangop,Kinangop,North Kinangop
+Nyandarua,Kinangop,Kinangop,Gathara
+Nyandarua,Kinangop,Kinangop,Engineer
+Makueni,Kibwezi East,Kibwezi East,Ivingoni/Nzambani
+Makueni,Kibwezi East,Kibwezi East,Thange
+Makueni,Kibwezi East,Kibwezi East,Mtito Andei
+Makueni,Kibwezi East,Kibwezi East,Masongaleni
+Makueni,Kibwezi West,Kibwezi West,Emali/Mulala
+Makueni,Kibwezi West,Kibwezi West,Nguu/Masumba
+Makueni,Kibwezi West,Kibwezi West,Kikumbulyu South
+Makueni,Kibwezi West,Kibwezi West,Kikumbulyu North
+Makueni,Kibwezi West,Kibwezi West,Nguumo
+Makueni,Kibwezi West,Kibwezi West,Makindu
+Makueni,Makueni,Makueni,Mbitini
+Makueni,Makueni,Makueni,Nzaui/Kilili/Kalamba
+Makueni,Makueni,Makueni,Kathonzweni
+Makueni,Makueni,Makueni,Kitise/Kithuki
+Makueni,Makueni,Makueni,Mavindini
+Makueni,Makueni,Makueni,Muvau/Kikumini
+Makueni,Makueni,Makueni,Wote
+Makueni,Kaiti,Kaiti,Ilima
+Makueni,Kaiti,Kaiti,Kilungu
+Makueni,Kaiti,Kaiti,Kee
+Makueni,Kaiti,Kaiti,Ukia
+Makueni,Kilome,Kilome,Kima Kiu/Kalanzoni
+Makueni,Kilome,Kilome,Mukaa
+Makueni,Kilome,Kilome,Kasikeu
+Makueni,Mbooni,Mbooni,Kalawa
+Makueni,Mbooni,Mbooni,Waia-kako
+Makueni,Mbooni,Mbooni,Kiteta-kisau
+Makueni,Mbooni,Mbooni,Kithungo/Kitundu
+Makueni,Mbooni,Mbooni,Mbooni
+Makueni,Mbooni,Mbooni,Tulimani
+Machakos,Mwala,Mwala,Kibauni
+Machakos,Mwala,Mwala,Wamunyu
+Machakos,Mwala,Mwala,Muthetheni
+Machakos,Mwala,Mwala,Masii
+Machakos,Mwala,Mwala,Makutano/Mwala
+Machakos,Mwala,Mwala,Mbiuni
+Machakos,Kalama,Machakos Town,Kola
+Machakos,Machakos,Machakos Town,Muvuti/Kiima-kimwe
+Machakos,Machakos,Machakos Town,Mumbuni North
+Machakos,Machakos,Machakos Town,Machakos Central
+Machakos,Machakos,Machakos Town,Mutituni
+Machakos,Machakos,Machakos Town,Mua
+Machakos,Kalama,Machakos Town,Kalama
+Machakos,Athi River,Mavoko,Syokimau/Mulolongo
+Machakos,Athi River,Mavoko,Muthwani
+Machakos,Athi River,Mavoko,Kinanie
+Machakos,Athi River,Mavoko,Athi River
+Machakos,Kathiani,Kathiani,Lower Kaewa/Kaani
+Machakos,Kathiani,Kathiani,Upper Kaewa/Iveti
+Machakos,Kathiani,Kathiani,Kathiani Central
+Machakos,Kathiani,Kathiani,Mitamboni
+Machakos,Matungulu,Matungulu,Kyeleni
+Machakos,Matungulu,Matungulu,Matungulu West
+Machakos,Matungulu,Matungulu,Matungulu East
+Machakos,Matungulu,Matungulu,Matungulu North
+Machakos,Matungulu,Matungulu,Tala
+Machakos,Kangundo,Kangundo,Kangundo West
+Machakos,Kangundo,Kangundo,Kangundo East
+Machakos,Kangundo,Kangundo,Kangundo Central
+Machakos,Kangundo,Kangundo,Kangundo North
+Machakos,Yatta,Yatta,Katangi
+Machakos,Yatta,Yatta,Ikombe
+Machakos,Yatta,Yatta,Kithimani
+Machakos,Yatta,Yatta,Matuu
+Machakos,Yatta,Yatta,Ndalani
+Machakos,Masinga,Masinga,Ndithini
+Machakos,Masinga,Masinga,Muthesya
+Machakos,Masinga,Masinga,Ekalakala
+Machakos,Masinga,Masinga,Masinga Central
+Machakos,Masinga,Masinga,Kivaa
+Kitui,Kitui South,Kitui South,Athi
+Kitui,Kitui South,Kitui South,Kanziku
+Kitui,Kitui South,Kitui South,Ikutha
+Kitui,Kitui South,Kitui South,Mutha
+Kitui,Kitui South,Kitui South,Mutomo
+Kitui,Kitui South,Kitui South,Ikanga/Kyatune
+Kitui,Kitui East,Kitui East,Mutitu/Kaliku
+Kitui,Kitui East,Kitui East,Endau/Malalani
+Kitui,Kitui East,Kitui East,Voo/Kyamatu
+Kitui,Kitui East,Kitui East,Chuluni
+Kitui,Kitui East,Kitui East,Nzambani
+Kitui,Kitui East,Kitui East,Zombe/Mwitika
+Kitui,Kitui Central,Kitui Central,Kyangwithya East
+Kitui,Kitui Central,Kitui Central,Mulango
+Kitui,Kitui Central,Kitui Central,Kyangwithya West
+Kitui,Kitui Central,Kitui Central,Township
+Kitui,Kitui Central,Kitui Central,Miambani
+Kitui,Kitui Rural,Kitui Central,Kanyangi
+Kitui,Kitui Rural,Kitui Rural,Kwavonza/Yatta
+Kitui,Kitui Rural,Kitui Rural,Mbitini
+Kitui,Kitui Rural,Kitui Rural,Kisasi
+Kitui,Kitui West,Kitui West,Kwamutonga/Kithumula
+Kitui,Kitui West,Kitui West,Matinyani
+Kitui,Kitui West,Kitui West,Kauwi
+Kitui,Kitui West,Kitui West,Mutongoni
+Kitui,Mwingi Central,Mwingi Central,Waita
+Kitui,Mwingi Central,Mwingi Central,Mui
+Kitui,Mwingi Central,Mwingi Central,Nuu
+Kitui,Mwingi Central,Mwingi Central,Nguni
+Kitui,Mwingi Central,Mwingi Central,Kivou
+Kitui,Mwingi Central,Mwingi Central,Central
+Kitui,Mwingi West,Mwingi West,Kiomo/Kyethani
+Kitui,Mwingi West,Mwingi West,Migwani
+Kitui,Mwingi West,Mwingi West,Nguutani
+Kitui,Mwingi West,Mwingi West,Kyome/Thaana
+Kitui,Mwingi North,Mwingi North,Tharaka
+Kitui,Mwingi North,Mwingi North,Tseikuru
+Kitui,Mwingi North,Mwingi North,Mumoni
+Kitui,Mwingi North,Mwingi North,Kyuso
+Kitui,Mwingi North,Mwingi North,Ngomeni
+Embu,Mbeere North,Mbeere North,Evurore
+Embu,Mbeere North,Mbeere North,Muminji
+Embu,Mbeere North,Mbeere North,Nthawa
+Embu,Mbeere South,Mbeere South,Kiambere
+Embu,Mbeere South,Mbeere South,Mavuria
+Embu,Mbeere South,Mbeere South,Mbeti South
+Embu,Mwea,Mbeere South,Makima
+Embu,Mwea,Mbeere South,Mwea
+Embu,Runyenjes,Runyenjes,Kyeni South
+Embu,Runyenjes,Runyenjes,Kyeni North
+Embu,Runyenjes,Runyenjes,Kagaari North
+Embu,Runyenjes,Runyenjes,Central Ward
+Embu,Runyenjes,Runyenjes,Kagaari South
+Embu,Manyatta,Manyatta,Gaturi North
+Embu,Manyatta,Manyatta,Gaturi South
+Embu,Manyatta,Manyatta,Kirimari
+Embu,Manyatta,Manyatta,Mbeti North
+Embu,Manyatta,Manyatta,Nginda
+Embu,Manyatta,Manyatta,Kithimu
+Embu,Manyatta,Manyatta,Ruguru-ngandori
+Tharaka Nithi,Tharaka South,Tharaka,Marimanti
+Tharaka Nithi,Tharaka South,Tharaka,Chiakagira
+Tharaka Nithi,Tharaka South,Tharaka,Nkondi
+Tharaka Nithi,Tharaka North,Tharaka,Mukothima
+Tharaka Nithi,Tharaka North,Tharaka,Gatunga
+Tharaka Nithi,Igambangombe,Chuka/Igambang'ombe,Igambang'ombe
+Tharaka Nithi,Chuka,Chuka/Igambang'ombe,Mugwe
+Tharaka Nithi,Chuka,Chuka/Igambang'ombe,Magumoni
+Tharaka Nithi,Chuka,Chuka/Igambang'ombe,Karingani
+Tharaka Nithi,Igambangombe,Chuka/Igambang'ombe,Mariani
+Tharaka Nithi,Mwimbi,Maara,Chogoria
+Tharaka Nithi,Mwimbi,Maara,Ganga
+Tharaka Nithi,Mwimbi,Maara,Mwimbi
+Tharaka Nithi,Muthambi,Maara,Muthambi
+Tharaka Nithi,Muthambi,Maara,Mitheru
+Meru,Imenti South,South Imenti,Nkuene
+Meru,Imenti South,South Imenti,Abogeta West
+Meru,Imenti South,South Imenti,Abogeta East
+Meru,Imenti South,South Imenti,Igoji West
+Meru,Imenti South,South Imenti,Igoji East
+Meru,Imenti South,South Imenti,Mitunguu
+Meru,Buuri East,Buuri,Kibirichia
+Meru,Imenti Central,Central Imenti,Kiagu
+Meru,Imenti Central,Central Imenti,Abothuguchi West
+Meru,Imenti Central,Central Imenti,Abothuguchi Central
+Meru,Imenti Central,Central Imenti,Mwangathia
+Meru,Buuri East,Buuri,Ruiru/Rwawera
+Meru,Buuri East,Buuri,Kiirua/Naari
+Meru,Buuri West,Buuri,Kisima
+Meru,Buuri West,Buuri,Timau
+Meru,Imenti North,North Imenti,Nyaki East
+Meru,Imenti North,North Imenti,Nyaki West
+Meru,Imenti North,North Imenti,Ntima West
+Meru,Imenti North,North Imenti,Ntima East
+Meru,Imenti North,North Imenti,Municipality
+Meru,Tigania East,Tigania East,Karama
+Meru,Tigania East,Tigania East,Muthara
+Meru,Tigania Central,Tigania East,Kinguchwa
+Meru,Tigania Central,Tigania East,Mikinduri
+Meru,Tigania Central,Tigania East,Thangatha
+Meru,Tigania West,Tigania West,Mbeu
+Meru,Tigania West,Tigania West,Nkomo
+Meru,Tigania West,Tigania West,Kianjai
+Meru,Tigania West,Tigania West,Akithii
+Meru,Tigania West,Tigania West,Athwana
+Meru,Igembe North,Igembe North,Amwathi
+Meru,Igembe North,Igembe North,Naathu
+Meru,Igembe North,Igembe North,Antubetwe Kiongo
+Meru,Igembe North,Igembe North,Ntunene
+Meru,Igembe North,Igembe North,Antuambui
+Meru,Igembe Central,Igembe Central,Kangeta
+Meru,Igembe Central,Igembe Central,Njia
+Meru,Igembe Central,Igembe Central,Igembe East
+Meru,Igembe Central,Igembe Central,Athiru Ruujine
+Meru,Igembe Central,Igembe Central,Akirang'ondu
+Meru,Igembe South,Igembe South,Kanuni
+Meru,Igembe South,Igembe South,Akachiu
+Meru,Igembe South,Igembe South,Athiru Gaiti
+Meru,Igembe South,Igembe South,Kiegoi/Antubochiu
+Meru,Igembe South,Igembe South,Maua
+Isiolo,Garbatulla,Isiolo South,Sericho
+Isiolo,Garbatulla,Isiolo South,Kinna
+Isiolo,Garbatulla,Isiolo South,Garba Tulla
+Isiolo,Isiolo,Isiolo North,Oldo/Nyiro
+Isiolo,Isiolo,Isiolo North,Burat
+Isiolo,Isiolo,Isiolo North,Ngare Mara
+Isiolo,Merti,Isiolo North,Cherab
+Isiolo,Merti,Isiolo North,Chari
+Isiolo,Isiolo,Isiolo North,Bulla Pesa
+Isiolo,Isiolo,Isiolo North,Wabera
+Marsabit,Laisamis,Laisamis,Laisamis
+Marsabit,Laisamis,Laisamis,Loglogo
+Marsabit,Laisamis,Laisamis,Korr/Ngurunit
+Marsabit,Laisamis,Laisamis,Kargi/South Horr
+Marsabit,Laisamis,Laisamis,Loiyangalani
+Marsabit,Saku,Saku,Marsabit Central
+Marsabit,Saku,Saku,Karare
+Marsabit,Saku,Saku,Sagante/Jaldesa
+Marsabit,North Horr,North Horr,Illeret
+Marsabit,North Horr,North Horr,North Horr
+Marsabit,North Horr,North Horr,Turbi
+Marsabit,North Horr,North Horr,Maikona
+Marsabit,North Horr,North Horr,Dukana
+Marsabit,Moyale,Moyale,Obbu
+Marsabit,Moyale,Moyale,Uran
+Marsabit,Moyale,Moyale,Moyale Township
+Marsabit,Moyale,Moyale,Golbo
+Marsabit,Moyale,Moyale,Heillu/Manyatta
+Marsabit,Moyale,Moyale,Sololo
+Marsabit,Moyale,Moyale,Butiye
+Mandera,Lafey,Lafey,Alungo Gof
+Mandera,Lafey,Lafey,Waranqara
+Mandera,Lafey,Lafey,Lafey
+Mandera,Lafey,Lafey,Fino
+Mandera,Lafey,Lafey,Libehia
+Mandera,Mandera East,Mandera East,Township
+Mandera,Mandera East,Mandera East,Neboi
+Mandera,Mandera East,Mandera East,Khalalio
+Mandera,Mandera East,Mandera East,Bulla Mpya
+Mandera,Mandera East,Mandera East,Arabia
+Mandera,Mandera South,Mandera South,Shimbir Fatuma
+Mandera,Mandera South,Mandera South,Elwak North
+Mandera,Mandera South,Mandera South,Elwak South
+Mandera,Mandera South,Mandera South,Kutulo
+Mandera,Mandera South,Mandera South,Wargudud
+Mandera,Mandera North,Mandera North,Rhamu Dimtu
+Mandera,Mandera North,Mandera North,Rhamu
+Mandera,Mandera North,Mandera North,Marothile
+Mandera,Mandera North,Mandera North,Guticha
+Mandera,Mandera North,Mandera North,Ashabito
+Mandera,Banissa,Banissa,Kilwehiri
+Mandera,Banissa,Banissa,Malkamari
+Mandera,Banissa,Banissa,Guba
+Mandera,Banissa,Banissa,Derkhale
+Mandera,Banissa,Banissa,Banissa
+Mandera,Mandera West,Mandera West,Gither
+Mandera,Mandera West,Mandera West,Dandu
+Mandera,Mandera West,Mandera West,Lagsure
+Mandera,Mandera West,Mandera West,Takaba
+Mandera,Mandera West,Mandera West,Takaba South
+Wajir,Wajir South,Wajir South,Diif
+Wajir,Wajir South,Wajir South,Ibrahim Ure
+Wajir,Wajir South,Wajir South,Lagboghoi South
+Wajir,Wajir South,Wajir South,Habasswein
+Wajir,Wajir South,Wajir South,Dadaja Bulla
+Wajir,Wajir South,Wajir South,Burder
+Wajir,Wajir South,Wajir South,Benane
+Wajir,Eldas,Eldas,Elnur/Tula Tula
+Wajir,Eldas,Eldas,Lakoley South/Basir
+Wajir,Eldas,Eldas,Della
+Wajir,Eldas,Eldas,Eldas
+Wajir,Wajir West,Wajir West,Ganyure/Wagalla
+Wajir,Wajir West,Wajir West,Ademasajide
+Wajir,Wajir West,Wajir West,Hadado/Athibohol
+Wajir,Wajir West,Wajir West,Arbajahan
+Wajir,Tarbaj,Tarbaj,Wargadud
+Wajir,Tarbaj,Tarbaj,Tarbaj
+Wajir,Tarbaj,Tarbaj,Sarman
+Wajir,Tarbaj,Tarbaj,Elben
+Wajir,Wajir East,Wajir East,Khorof/Harar
+Wajir,Wajir East,Wajir East,Barwago
+Wajir,Wajir East,Wajir East,Township
+Wajir,Wajir East,Wajir East,Wagberi
+Wajir,Wajir North,Wajir North,Godoma
+Wajir,Wajir North,Wajir North,Danaba
+Wajir,Wajir North,Wajir North,Batalu
+Wajir,Wajir North,Wajir North,Malkagufu
+Wajir,Wajir North,Wajir North,Korondile
+Wajir,Wajir North,Wajir North,Bute
+Wajir,Wajir North,Wajir North,Gurar
+Garissa,Ijara,Ijara,Masalani
+Garissa,Ijara,Ijara,Ijara
+Garissa,Hulugho,Ijara,Sangailu
+Garissa,Hulugho,Ijara,Hulugho
+Garissa,Fafi,Fafi,Nanighi
+Garissa,Fafi,Fafi,Fafi
+Garissa,Fafi,Fafi,Jarajila
+Garissa,Fafi,Fafi,Dekaharia
+Garissa,Fafi,Fafi,Bura
+Garissa,Dadaab,Daadab,Abakaile
+Garissa,Dadaab,Daadab,Liboi
+Garissa,Dadaab,Daadab,Damajale
+Garissa,Dadaab,Daadab,Labisgale
+Garissa,Dadaab,Daadab,Dadaab
+Garissa,Dadaab,Daadab,Dertu
+Garissa,Lagdera,Lagdera,Baraki
+Garissa,Lagdera,Lagdera,Sabena
+Garissa,Lagdera,Lagdera,Maalamin
+Garissa,Lagdera,Lagdera,Goreale
+Garissa,Lagdera,Lagdera,Benane
+Garissa,Lagdera,Lagdera,Modogashe
+Garissa,Balambala,Balambala,Sankuri
+Garissa,Balambala,Balambala,Saka
+Garissa,Balambala,Balambala,Jarajara
+Garissa,Balambala,Balambala,Danyere
+Garissa,Balambala,Balambala,Balambala
+Garissa,Garissa,Garissa Township,Iftin
+Garissa,Garissa,Garissa Township,Township
+Garissa,Garissa,Garissa Township,Galbet
+Garissa,Garissa,Garissa Township,Waberi
+Taita Taveta,Voi,Voi,Ngolia
+Taita Taveta,Voi,Voi,Kasigau
+Taita Taveta,Voi,Voi,Marungu
+Taita Taveta,Voi,Voi,Kaloleni
+Taita Taveta,Voi,Voi,Sagala
+Taita Taveta,Voi,Voi,Mbololo
+Taita Taveta,Mwatate,Mwatate,Wusi/Kishamba
+Taita Taveta,Mwatate,Mwatate,Chawia
+Taita Taveta,Mwatate,Mwatate,Bura(Mwatate)
+Taita Taveta,Mwatate,Mwatate,Mwatate
+Taita Taveta,Mwatate,Mwatate,Ronge
+Taita Taveta,Wundanyi,Wundanyi,Mwanda/Mgange
+Taita Taveta,Wundanyi,Wundanyi,Wumingu/Kishushe
+Taita Taveta,Wundanyi,Wundanyi,Werugha
+Taita Taveta,Wundanyi,Wundanyi,Wundanyi/Mbale
+Taita Taveta,Taveta,Taveta,Mata
+Taita Taveta,Taveta,Taveta,Mboghoni
+Taita Taveta,Taveta,Taveta,Bomani
+Taita Taveta,Taveta,Taveta,Mahoo
+Taita Taveta,Taveta,Taveta,Chala
+Lamu,Lamu West,Lamu West,Bahari
+Lamu,Lamu West,Lamu West,Witu
+Lamu,Lamu West,Lamu West,Hongwe
+Lamu,Lamu West,Lamu West,Mkunumbi
+Lamu,Lamu Central,Lamu West,Hindi
+Lamu,Lamu Central,Lamu West,Mkomani
+Lamu,Lamu Central,Lamu West,Shella
+Lamu,Lamu East,Lamu East,Basuba
+Lamu,Lamu East,Lamu East,Kiunga
+Lamu,Lamu East,Lamu East,Faza
+Tana River,Bura,Bura,Madogo
+Tana River,Bura,Bura,Sala
+Tana River,Bura,Bura,Bangale
+Tana River,Bura,Bura,Bura
+Tana River,Bura,Bura,Chewele
+Tana River,Galole,Galole,Wayu
+Tana River,Galole,Galole,Chewani
+Tana River,Galole,Galole,Mikinduni
+Tana River,Galole,Galole,Kinakomba
+Tana River,Garsen,Garsen,Garsen North
+Tana River,Garsen,Garsen,Garsen West
+Tana River,Garsen,Garsen,Garsen Central
+Tana River,Garsen,Garsen,Kipini West
+Tana River,Garsen,Garsen,Garsen South
+Tana River,Garsen,Garsen,Kipini East
+Kilifi,Magarini,Magarini,Sabaki
+Kilifi,Magarini,Magarini,Garashi
+Kilifi,Magarini,Magarini,Adu
+Kilifi,Magarini,Magarini,Gongoni
+Kilifi,Magarini,Magarini,Magarini
+Kilifi,Magarini,Magarini,Marafa
+Kilifi,Malindi,Malindi,Shella
+Kilifi,Malindi,Malindi,Malindi Town
+Kilifi,Malindi,Malindi,Ganda
+Kilifi,Malindi,Malindi,Kakuyuni
+Kilifi,Malindi,Malindi,Jilore
+Kilifi,Ganze,Ganze,Sokoke
+Kilifi,Ganze,Ganze,Jaribuni
+Kilifi,Ganze,Ganze,Bamba
+Kilifi,Ganze,Ganze,Ganze
+Kilifi,Rabai,Rabai,Rabai/Kisurutini
+Kilifi,Rabai,Rabai,Kambe/Ribe
+Kilifi,Rabai,Rabai,Ruruma
+Kilifi,Rabai,Rabai,Mwawesa
+Kilifi,Kaloleni,Kaloleni,Mwanamwinga
+Kilifi,Kaloleni,Kaloleni,Kaloleni
+Kilifi,Kaloleni,Kaloleni,Kayafungo
+Kilifi,Kaloleni,Kaloleni,Mariakani
+Kilifi,Kilifi South,Kilifi South,Mtepeni
+Kilifi,Kilifi South,Kilifi South,Chasimba
+Kilifi,Kilifi South,Kilifi South,Shimo La Tewa
+Kilifi,Kilifi South,Kilifi South,Mwarakaya
+Kilifi,Kilifi South,Kilifi South,Junju
+Kilifi,Kilifi North,Kilifi North,Mnarani
+Kilifi,Kilifi North,Kilifi North,Watamu
+Kilifi,Kilifi North,Kilifi North,Matsangoni
+Kilifi,Kilifi North,Kilifi North,Dabaso
+Kilifi,Kilifi North,Kilifi North,Kibarani
+Kilifi,Kilifi North,Kilifi North,Sokoni
+Kilifi,Kilifi North,Kilifi North,Tezo
+Kwale,Kinango,Kinango,Kasemeni
+Kwale,Kinango,Kinango,Mwavumbo
+Kwale,Kinango,Kinango,Chengoni/Samburu
+Kwale,Kinango,Kinango,Mackinon Road
+Kwale,Kinango,Kinango,Kinango
+Kwale,Kinango,Kinango,Puma
+Kwale,Kinango,Kinango,Ndavaya
+Kwale,Matuga,Matuga,Mkongani
+Kwale,Matuga,Matuga,Kubo South
+Kwale,Matuga,Matuga,Tiwi
+Kwale,Matuga,Matuga,Waangombeni
+Kwale,Matuga,Matuga,Tsimba Golini
+Kwale,Lunga Lunga,Lunga Lunga,Vanga
+Kwale,Lunga Lunga,Lunga Lunga,Mwereni
+Kwale,Lunga Lunga,Lunga Lunga,Dzombo
+Kwale,Lunga Lunga,Lunga Lunga,Pongwe/Kikokeni
+Kwale,Msambweni,Msambweni,Ramisi
+Kwale,Msambweni,Msambweni,Kinondo
+Kwale,Msambweni,Msambweni,Ukunda
+Kwale,Msambweni,Msambweni,Gambato Bongwe
+Mombasa,Mvita,Mvita,Majengo
+Mombasa,Mvita,Mvita,Shimanzi/Ganjoni
+Mombasa,Mvita,Mvita,Tononoka
+Mombasa,Mvita,Mvita,Tudor
+Mombasa,Mvita,Mvita,Mji Wa Kale/Makadara
+Mombasa,Likoni,Likoni,Timbwani
+Mombasa,Likoni,Likoni,Likoni
+Mombasa,Likoni,Likoni,Bofu
+Mombasa,Likoni,Likoni,Shika Adabu
+Mombasa,Likoni,Likoni,Mtongwe
+Mombasa,Nyali,Nyali,Kadzandani
+Mombasa,Nyali,Nyali,Kongowea
+Mombasa,Nyali,Nyali,Mkomani
+Mombasa,Nyali,Nyali,Ziwa La Ng'ombe
+Mombasa,Nyali,Nyali,Frere Town
+Mombasa,Kisauni,Kisauni,Shanzu
+Mombasa,Kisauni,Kisauni,Magogoni
+Mombasa,Kisauni,Kisauni,Mtopanga
+Mombasa,Kisauni,Kisauni,Mwakirunge
+Mombasa,Kisauni,Kisauni,Bamburi
+Mombasa,Kisauni,Kisauni,Junda
+Mombasa,Kisauni,Kisauni,Mjambere
+Mombasa,Jomvu,Jomvu,Mikindani
+Mombasa,Jomvu,Jomvu,Miritini
+Mombasa,Jomvu,Jomvu,Jomvu Kuu
+Mombasa,Changamwe,Changamwe,Chaani
+Mombasa,Changamwe,Changamwe,Changamwe
+Mombasa,Changamwe,Changamwe,Airport
+Mombasa,Changamwe,Changamwe,Kipevu
+Mombasa,Changamwe,Changamwe,Port Reitz
