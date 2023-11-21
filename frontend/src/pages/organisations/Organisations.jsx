@@ -194,7 +194,6 @@ const Organisations = () => {
           </Link>
         }
       />
-      <Divider />
 
       {/* Filter */}
       <Row>
