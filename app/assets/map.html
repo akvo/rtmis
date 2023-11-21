@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      html,
+      body,
+      #map {
+        height: 100%;
+        width: 100vw;
+      }
+    </style>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  </head>
+  <body>
+    <div id="map" style="height: 100vh" data-lat="{{latitude}}" data-lng="{{longitude}}"></div>
+    <script>
+      function handleMapClick(event) {
+        const markerData = { lat: event.latlng.lat, lng: event.latlng.lng };
+        const eventData = { type: 'markerClicked', data: markerData };
+        window.ReactNativeWebView.postMessage(JSON.stringify(eventData));
+      }
+    </script>
+    <script>
+      const selector = document.getElementById('map');
+      const map = L.map('map', { zoomControl: false }).fitWorld();
+
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        minZoom: 8,
+        maxZoom: 19,
+        zoom: 13,
+        attribution: '© OpenStreetMap',
+      }).addTo(map);
+
+      //map.locate({setView: true, maxZoom: 19});
+      const lat = selector.getAttribute('data-lat');
+      const lng = selector.getAttribute('data-lng');
+
+      map.setView([lat, lng], 19);
+      let marker = L.marker([lat, lng]).addTo(map);
+
+      L.control
+        .zoom({
+          position: 'bottomleft',
+        })
+        .addTo(map);
+
+      map.on('click', (e) => {
+        if (marker) {
+          map.removeLayer(marker);
+        }
+
+        handleMapClick(e);
+        map.invalidateSize();
+
+        marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+      });
+
+      document.addEventListener('message', function (event) {
+        const eventData = JSON.parse(event.data);
+        if (eventData.type === 'changeMarker') {
+          if (marker) {
+            map.removeLayer(marker);
+          }
+          const { lat, lng } = eventData.data;
+          marker = L.marker([lat, lng]).addTo(map);
+
+          const fgMarker = new L.FeatureGroup();
+          fgMarker.addLayer(marker);
+          map.fitBounds(fgMarker.getBounds());
+        }
+      });
+    </script>
+  </body>
+</html>

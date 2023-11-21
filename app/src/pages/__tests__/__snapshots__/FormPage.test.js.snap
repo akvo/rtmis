@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormPage component should render component correctly 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#f9fafb",
+      "flex": 1,
+      "flexDirection": "column",
+      "flexWrap": "wrap",
+    }
+  }
+  testID="stack-container"
+>
+  <View
+    style={
+      {
+        "flex": 1,
+        "flexDirection": "column",
+        "justifyContent": "center",
+        "width": "100%",
+      }
+    }
+  >
+    <ActivityIndicator />
+  </View>
+  <Modal
+    hardwareAccelerated={false}
+    onRequestClose={[Function]}
+    testID="save-dialog-menu"
+    transparent={true}
+    visible={false}
+  />
+  <Modal
+    hardwareAccelerated={false}
+    onRequestClose={[Function]}
+    style={
+      {
+        "width": "100%",
+      }
+    }
+    testID="exit-confirmation-dialog"
+    transparent={true}
+    visible={false}
+  />
+</View>
+`;
