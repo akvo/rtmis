@@ -1,7 +1,15 @@
-import React, { useMemo } from "react";
-import { Card, Col, Divider, Row } from "antd";
-import { Breadcrumbs, DescriptionPanel, ManageDataTab } from "../../components";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { Button, Card, Col, Divider, Row, Table, Typography } from "antd";
+import {
+  AdministrationFilters,
+  Breadcrumbs,
+  DescriptionPanel,
+  ManageDataTab,
+} from "../../components";
+
 import { store, uiText } from "../../lib";
+import fakeDataApi from "../../placeholders/master-data-attributes.json";
+import { Link } from "react-router-dom";
 
 const pagePath = [
   {
@@ -13,13 +21,77 @@ const pagePath = [
   },
 ];
 
+const { Text } = Typography;
+
 const MasterDataAttributes = () => {
+  const [loading, setLoading] = useState(true);
+  const [dataset, setDataset] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
 
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const columns = [
+    {
+      title: "Attribute Type",
+      dataIndex: "attribute_type",
+    },
+    {
+      title: "Attribute",
+      dataIndex: "name",
+    },
+    {
+      title: "Value",
+      dataIndex: "options",
+      render: (options) => {
+        return (
+          <Text>
+            {options.length
+              ? options.map((o) => o?.name).join(" | ")
+              : "Number"}
+          </Text>
+        );
+      },
+    },
+    {
+      title: "Action",
+      dataIndex: "id",
+      render: (dataID) => {
+        return (
+          <>
+            <Button type="link" danger>
+              Delete
+            </Button>
+            <Link to={`/master-data/attributes/${dataID}/edit`}>
+              <Button type="link">Edit</Button>
+            </Link>
+          </>
+        );
+      },
+    },
+  ];
+
+  const handleChange = (e) => {
+    setCurrentPage(e.current);
+  };
+
+  const fetchData = useCallback(() => {
+    setTimeout(() => {
+      const { data: _dataset, total } = fakeDataApi;
+      setDataset(_dataset);
+      setTotalCount(total);
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   return (
     <div id="users">
@@ -30,20 +102,13 @@ const MasterDataAttributes = () => {
         </Col>
       </Row>
       <ManageDataTab />
-      {/* <UserFilters
-        query={query}
-        setQuery={setQuery}
-        fetchData={fetchData}
-        pending={pending}
-        setPending={setPending}
-        loading={loading}
-      /> */}
+      <AdministrationFilters />
       <Divider />
       <Card
         style={{ padding: 0, minHeight: "40vh" }}
         bodyStyle={{ padding: 0 }}
       >
-        {/* <Table
+        <Table
           columns={columns}
           rowClassName={() => "editable-row"}
           dataSource={dataset}
@@ -55,31 +120,10 @@ const MasterDataAttributes = () => {
             total: totalCount,
             pageSize: 10,
             showTotal: (total, range) =>
-              `Results: ${range[0]} - ${range[1]} of ${total} users`,
+              `Results: ${range[0]} - ${range[1]} of ${total} items`,
           }}
           rowKey="id"
-          expandable={{
-            expandedRowRender: (record) => (
-              <UserDetail
-                record={record}
-                setDeleteUser={setDeleteUser}
-                deleting={deleting}
-              />
-            ),
-            expandIcon: ({ expanded, onExpand, record }) =>
-              expanded ? (
-                <CloseSquareOutlined
-                  onClick={(e) => onExpand(record, e)}
-                  style={{ color: "#e94b4c" }}
-                />
-              ) : (
-                <PlusSquareOutlined
-                  onClick={(e) => onExpand(record, e)}
-                  style={{ color: "#7d7d7d" }}
-                />
-              ),
-          }}
-        /> */}
+        />
       </Card>
     </div>
   );
