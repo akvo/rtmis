@@ -13,7 +13,7 @@ import {
   Input,
 } from "antd";
 import { Link } from "react-router-dom";
-import { Breadcrumbs, DescriptionPanel } from "../../components";
+import { Breadcrumbs, DescriptionPanel, ManageDataTab } from "../../components";
 import { api, store, uiText, config } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { orderBy } from "lodash";
@@ -186,12 +186,14 @@ const Organisations = () => {
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel description={descriptionData} />
         </Col>
-        <Col>
+      </Row>
+      <ManageDataTab
+        tabBarExtraContent={
           <Link to="/organisation/add">
             <Button type="primary">Add new organization</Button>
           </Link>
-        </Col>
-      </Row>
+        }
+      />
       <Divider />
 
       {/* Filter */}
