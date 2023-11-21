@@ -1,0 +1,36 @@
+[
+  {
+    "administration_id": 1,
+    "administration_attribute_id": 1,
+    "attribute": "Number of population",
+    "value": 200,
+    "options": []
+  },
+  {
+    "administration_id": 1,
+    "administration_attribute_id": 1,
+    "attribute": "Whether Urban, Peri Urban or Rural",
+    "value": ["Rural"],
+    "options": [
+      {
+        "id": 201,
+        "name": "Rural"
+      },
+      {
+        "id": 202,
+        "name": "Peri-urban"
+      },
+      {
+        "id": 203,
+        "name": "Urban"
+      }
+    ]
+  },
+  {
+    "administration_id": 1,
+    "administration_attribute_id": 1,
+    "attribute": "Area",
+    "value": 212.5,
+    "options": []
+  }
+]
