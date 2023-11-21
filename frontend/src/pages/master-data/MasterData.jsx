@@ -36,6 +36,10 @@ const MasterData = () => {
 
   const columns = [
     {
+      title: "Code",
+      dataIndex: "code",
+    },
+    {
       title: "Name",
       dataIndex: "name",
     },
@@ -98,7 +102,13 @@ const MasterData = () => {
           }}
           rowKey="id"
           expandable={{
-            expandedRowRender: (record) => <DetailTable record={record} />,
+            expandedRowRender: (record) => {
+              return (
+                <>
+                  <DetailTable record={record} />
+                </>
+              );
+            },
             expandIcon: ({ expanded, onExpand, record }) =>
               expanded ? (
                 <CloseSquareOutlined
