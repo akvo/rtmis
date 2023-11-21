@@ -1,0 +1,49 @@
+{
+  "expo": {
+    "name": "nmis-mobile",
+    "slug": "nmis-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.akvo.nmis"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d54da262-7b9b-4379-8538-9146753cbb31"
+      }
+    },
+    "owner": "akvo",
+    "backgroundFetch": {
+      "jobs": [
+        {
+          "jobName": "sync-form-version",
+          "minimumInterval": 86400,
+          "enabled": true
+        },
+        {
+          "jobName": "sync-form-submission",
+          "minimumInterval": 1,
+          "enabled": true
+        }
+      ]
+    }
+  }
+}
