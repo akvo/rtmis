@@ -1,0 +1,137 @@
+* Filters
+
+Queries: county,facility_type,constituency,ward,operation_status,service_category,owner_type,owner,service,keph_level,sub_county
+
+** Facility Type
+
+#+name: List Facility Type
+#+begin_src bash
+curl 'https://api.kmhfl.health.go.ke/api/common/filtering_summaries/?fields=facility_type' \
+    -H 'Accept: application/json, */*' \
+    -H 'Authorization: Bearer TMDwn95aV5UuNcBdKPXes0JXRD53xz' \
+    | jq .facility_type > filter-facility-type.json
+#+end_src
+
+#+RESULTS: List Facility Type
+
+** Owner Type
+
+#+name: List Owner Type
+#+begin_src bash
+curl 'https://api.kmhfl.health.go.ke/api/common/filtering_summaries/?fields=owner_type' \
+    -H 'Accept: application/json, */*' \
+    -H 'Authorization: Bearer TMDwn95aV5UuNcBdKPXes0JXRD53xz' \
+    | jq .owner_type > filter-owner-type.json
+#+end_src
+
+#+RESULTS: List Owner Type
+
+** Owner
+
+#+name: List Owner
+#+begin_src bash
+curl 'https://api.kmhfl.health.go.ke/api/common/filtering_summaries/?fields=owner' \
+    -H 'Accept: application/json, */*' \
+    -H 'Authorization: Bearer TMDwn95aV5UuNcBdKPXes0JXRD53xz' \
+    | jq .owner > filter-owner.json
+#+end_src
+
+#+RESULTS: List Owner
+
+** Service Category
+
+#+name: List Service Category
+#+begin_src bash
+curl 'https://api.kmhfl.health.go.ke/api/common/filtering_summaries/?fields=service_category' \
+    -H 'Accept: application/json, */*' \
+    -H 'Authorization: Bearer TMDwn95aV5UuNcBdKPXes0JXRD53xz' \
+    | jq .ownwer > filter-service-category.json
+#+end_src
+
+#+RESULTS: List Service Category
+
+** Services
+
+#+name: List Services
+#+begin_src bash
+curl 'https://api.kmhfl.health.go.ke/api/common/filtering_summaries/?fields=service' \
+    -H 'Accept: application/json, */*' \
+    -H 'Authorization: Bearer TMDwn95aV5UuNcBdKPXes0JXRD53xz' \
+    | jq .ownwer > filter-service.json
+#+end_src
+
+#+RESULTS: List Services
+
+** CHU Status
+
+#+name: CHU Status
+#+begin_src
+curl 'https://api.kmhfl.health.go.ke/api/common/filtering_summaries/?fields=chu_status' \
+    -H 'Accept: application/json, */*' \
+    -H 'Authorization: Bearer TMDwn95aV5UuNcBdKPXes0JXRD53xz' \
+    | jq .chu_status > filter-chu-status.json
+#+end_src
+
+* Administrative
+
+** Counties
+#+name: List Counties
+#+begin_src bash
+curl 'https://api.kmhfl.health.go.ke/api/common/filtering_summaries/?fields=county' \
+    -H 'Accept: application/json, */*' \
+    -H 'Authorization: Bearer TMDwn95aV5UuNcBdKPXes0JXRD53xz' \
+    | jq .county > administrative-lv-2-counties.json
+#+end_src
+
+#+RESULTS: List Counties
+
+** Subcounties
+#+name: List SubCounties
+#+begin_src bash
+curl 'https://api.kmhfl.health.go.ke/api/common/filtering_summaries/?fields=sub_county' \
+    -H 'Accept: application/json, */*' \
+    -H 'Authorization: Bearer TMDwn95aV5UuNcBdKPXes0JXRD53xz' \
+    | jq .sub_county > administrative-lv-3-subcounties.json
+#+end_src
+
+#+RESULTS: List SubCounties
+
+** Constituencies
+#+name: List Constituencies
+#+begin_src bash
+curl 'https://api.kmhfl.health.go.ke/api/common/filtering_summaries/?fields=constituency' \
+    -H 'Accept: application/json, */*' \
+    -H 'Authorization: Bearer TMDwn95aV5UuNcBdKPXes0JXRD53xz' \
+    | jq .constituency > administrative-lv-4-constituency.json
+#+end_src
+
+#+RESULTS: List Constituencies
+
+** Wards
+
+#+name: List Wards
+#+begin_src bash :results None
+curl 'https://api.kmhfl.health.go.ke/api/common/filtering_summaries/?fields=ward' \
+    -H 'Accept: application/json, */*' \
+    -H 'Authorization: Bearer TMDwn95aV5UuNcBdKPXes0JXRD53xz' \
+    | jq .ward > administrative-lv-5-wards.json
+#+end_src
+
+#+RESULTS: List Wards
+
+
+* Health Facilities
+
+** List Facilities
+
+#+name: List Facilities
+#+begin_src bash
+curl 'https://api.kmhfl.health.go.ke/api/facilities/material/?fields=id,code,name,regulatory_status_name,facility_type_name,owner_name,county,constituency,ward_name,keph_level,operation_status_name' \
+    -H 'Accept: application/json, */*' \
+    -H 'Authorization: Bearer TMDwn95aV5UuNcBdKPXes0JXRD53xz' \
+    | jq > facilities.json
+#+end_src
+
+#+RESULTS: List Facilities
+
+* Community Health Units
