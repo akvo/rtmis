@@ -1,6 +1,6 @@
 import exampleAdm from "./administration.json";
-import entitySchool from "./entity-hcf.json";
-import entityHCF from "./entity-school.json";
+import entitySchool from "./entity-school.json";
+import entityHCF from "./entity-hcf.json";
 
 export const fakeDetailApi = (id) => {
   const adms = [1, 2, 3, 4, 5];

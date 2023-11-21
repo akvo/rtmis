@@ -1,17 +1,36 @@
 [
   {
-    "field": "Kepala Daerah",
-    "value": "Heru Budi Hartono",
-    "option": null
+    "administration_id": 1,
+    "administration_attribute_id": 1,
+    "attribute": "Number of population",
+    "value": 200,
+    "options": []
   },
   {
-    "field": "Luas wilayah",
-    "value": 664.57,
-    "option": null
+    "administration_id": 1,
+    "administration_attribute_id": 1,
+    "attribute": "Whether Urban, Peri Urban or Rural",
+    "value": ["Rural"],
+    "options": [
+      {
+        "id": 201,
+        "name": "Rural"
+      },
+      {
+        "id": 202,
+        "name": "Peri-urban"
+      },
+      {
+        "id": 203,
+        "name": "Urban"
+      }
+    ]
   },
   {
-    "field": "Bahasa",
-    "value": 111,
-    "option": "Indonesia"
+    "administration_id": 1,
+    "administration_attribute_id": 1,
+    "attribute": "Area",
+    "value": 212.5,
+    "options": []
   }
 ]
