@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
-import { Button, Card, Col, Divider, Row, Table } from "antd";
+import { Card, Col, Divider, Row } from "antd";
 import { Breadcrumbs, DescriptionPanel, ManageDataTab } from "../../components";
-import { Link } from "react-router-dom";
 import { store, uiText } from "../../lib";
 
 const pagePath = [

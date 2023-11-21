@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Button, Card, Col, Divider, Row, Table } from "antd";
+import { Card, Col, Divider, Row, Table } from "antd";
 import {
   AdministrationFilters,
   Breadcrumbs,
@@ -57,12 +57,11 @@ const MasterData = () => {
   const fetchData = useCallback(() => {
     setTimeout(() => {
       const { data: _dataset, total } = fakeDataApi;
-      console.log("_dataset", _dataset, fakeDataApi);
       setDataset(_dataset);
       setTotalCount(total);
       setLoading(false);
     }, 2000);
-  });
+  }, []);
 
   useEffect(() => {
     fetchData();
