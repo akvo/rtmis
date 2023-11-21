@@ -1,0 +1,79 @@
+#+title: RTMIS Notes
+
+* 2023-09-29 Master Data Function
+
+** Entities
+
+| id | name                   |
+|  1 | School                 |
+|  2 | Health Care Facilities |
+
+** Entity Data
+
+| id | entity_id | name            | administration_id |
+|  1 |         1 | Bantul School   |                   |
+|  2 |         1 | Sleman School   |                   |
+|  3 |         2 | Bantul Hospital |                   |
+|  4 |         2 | Sleman Hospital |                   |
+|  5 |         1 | Kasihan School  |                   |
+
+** Entity Attributes
+
+| id | entity_id | name              |
+|  1 |         1 | Type of School    |
+|  2 |         2 | Type of Hospital  |
+
+** Entity Attributes Option
+
+| id | entity_attribute_id | name             |
+|  1 |                   1 | Primary School   |
+|  2 |                   1 | Secondary School |
+
+** Entity Values
+
+| id | entity_data_id | entity_attribute_id | value            |
+|  1 |              1 |                   1 | Primary School   |
+|  2 |              5 |                   1 | Secondary School |
+
+** Administration Attributes
+
+| id | administration_level_id | Type   | name              |
+|  1 |                       1 | option | Type of Locality  |
+|  2 |                       2 | number | Population        |
+|  3 |                       2 | aggr   | Water Points Type |
+
+*** Type: Enum (Options, Number, Aggr)
+
+** Administration Attributes Option
+
+| id | administration_attributes_id | name       |
+|  1 |                            1 | Urban      |
+|  2 |                            1 | Rural      |
+|  3 |                            3 | Pipe Water |
+|  4 |                            3 | Dugwell    |
+
+** Administration Values
+
+| id | administration_id | administration_attributes_id | value | jsonb                           |
+|  1 |                56 |                            3 | null  | {"Dugwell": 1, "Pipe Water": 2} |
+|  2 |                10 |                            1 | null  | {"Urban"}                       |
+|  3 |                56 |                            2 | 3000  | null                            |
+
+** validation for option type
+*** if parent has value for particular administration_attributes_id then invalidate the children input
+so if admin say bantul is "Urban" -> False because; bantul is "Urban" based on it's parent "Jogja"
+*** if children has value for particular administration_attributes_id then overide the children value
+
+** the example description
+say: administration_id 56 is Bantul, 10 is Jogja
+Bantul has 3000 population, it's urban locality, it has 1 duggwell and 2 pipe waters.
+
+** visualisation case
+I select Jogja in dropdown, I select type of locality
+In case Jogja has 5 Cities, 100 Kecamatan
+
+** Materialized View for Aggregation Visualisation Query
+
+| id | type           | name          | attribute         | option     | value |
+|  1 | administration | Bantul        | Water Points Type | Dugwell    |     1 |
+|  2 | entity         | Bantul School | Type of school    | Highschool |     1 |

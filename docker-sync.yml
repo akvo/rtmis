@@ -3,3 +3,5 @@ version: "3.9"
 syncs:
   rtmis-docker-sync:
     src: "./frontend/node_modules"
+  nmis-mobile-docker-sync:
+    src: "./app/node_modules"
