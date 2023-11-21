@@ -1,0 +1,18 @@
+---
+version: "3.9"
+services:
+  mobileapp:
+    image: node:18.16.0-alpine
+    command: ["./start.sh"]
+    volumes:
+      - rtmis-docker-mobile-sync:/app/node_modules:nocopy
+      - ./.git:/app/.git:ro
+    working_dir: /app
+    ports:
+      - 8081:8081
+      - 19000:19000
+    environment:
+      - BACKEND_IP_ADDRESS=${IP_ADDRESS}
+volumes:
+  rtmis-docker-mobile-sync:
+    external: true
