@@ -1,0 +1,22 @@
+[
+    {
+        "field": "Jumlah siwa",
+        "value": 500,
+        "option": null
+    },
+    {
+        "field": "Jenis sekolah",
+        "value": 1001,
+        "option": "SMP"
+    },
+    {
+        "field": "Sumber air minum",
+        "value": 3001,
+        "option": "PDAM"
+    },
+    {
+        "field": "Jumlah Toilet",
+        "value": 3,
+        "option": null
+    }
+]

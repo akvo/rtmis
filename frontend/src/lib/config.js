@@ -43,6 +43,7 @@ const config = {
         "reports",
         "settings",
         "organisation",
+        "master-data",
       ],
       administration_level: [1],
       description:
