@@ -28,3 +28,6 @@ export { default as Dashboard } from "./dashboard/Dashboard";
 export { default as Glaas } from "./dashboard/Glaas";
 export { default as ReportDashboard } from "./dashboard/ReportDashboard";
 export { default as GlaasReportDashboard } from "./dashboard/GlaasReportDashboard";
+export { default as MasterData } from "./master-data/MasterData";
+export { default as MasterDataAttributes } from "./master-data-attributes/MasterDataAttributes";
+export { default as MasterDataEntities } from "./master-data-entities/MasterDataEntities";
