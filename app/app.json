@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "nmis-mobile",
-    "slug": "nmis-mobile",
+    "name": "rtmis-mobile",
+    "slug": "rtmis-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,7 +20,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.akvo.nmis"
+      "package": "com.akvo.rtmis"
     },
     "web": {
       "favicon": "./assets/favicon.png"

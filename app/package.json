@@ -1,5 +1,5 @@
 {
-  "name": "nmis-mobile",
+  "name": "rtmis-mobile",
   "version": "1.2.9",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
