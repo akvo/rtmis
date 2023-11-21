@@ -1,17 +1,17 @@
 [
-    {
-        "field": "Kepala Daerah",
-        "value": "Heru Budi Hartono",
-        "option": null
-    },
-    {
-        "field": "Luas wilayah",
-        "value": 664.57,
-        "option": null
-    },
-    {
-        "field": "Bahasa",
-        "value": 111,
-        "option": "Indonesia"
-    }
+  {
+    "field": "Kepala Daerah",
+    "value": "Heru Budi Hartono",
+    "option": null
+  },
+  {
+    "field": "Luas wilayah",
+    "value": 664.57,
+    "option": null
+  },
+  {
+    "field": "Bahasa",
+    "value": 111,
+    "option": "Indonesia"
+  }
 ]

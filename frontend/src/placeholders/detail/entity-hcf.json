@@ -1,17 +1,17 @@
 [
-    {
-        "field": "Menerima BPJS?",
-        "value": true,
-        "option": "Ya"
-    },
-    {
-        "field": "Jumlah ambulan",
-        "value": 5,
-        "option": null
-    },
-    {
-        "field": "Direktur",
-        "value": "Dr. Lorem ipsum",
-        "option": null
-    }
+  {
+    "field": "Menerima BPJS?",
+    "value": true,
+    "option": "Ya"
+  },
+  {
+    "field": "Jumlah ambulan",
+    "value": 5,
+    "option": null
+  },
+  {
+    "field": "Direktur",
+    "value": "Dr. Lorem ipsum",
+    "option": null
+  }
 ]
