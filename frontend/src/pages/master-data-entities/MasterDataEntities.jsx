@@ -1,8 +1,16 @@
-import React, { useMemo } from "react";
-import { Card, Col, Divider, Row } from "antd";
-import { Breadcrumbs, DescriptionPanel, ManageDataTab } from "../../components";
-// import { Link } from "react-router-dom";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { Card, Col, Divider, Row, Table } from "antd";
+import {
+  AdministrationFilters,
+  Breadcrumbs,
+  DescriptionPanel,
+  DetailTable,
+  ManageDataTab,
+} from "../../components";
+import { CloseSquareOutlined, PlusSquareOutlined } from "@ant-design/icons";
+
 import { store, uiText } from "../../lib";
+import fakeDataApi from "../../placeholders/master-data-entities.json";
 
 const pagePath = [
   {
@@ -15,12 +23,50 @@ const pagePath = [
 ];
 
 const MasterDataEntities = () => {
+  const [loading, setLoading] = useState(true);
+  const [dataset, setDataset] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
 
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const columns = [
+    {
+      title: "Entity",
+      dataIndex: "entity",
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+    },
+    {
+      title: "Administration",
+      dataIndex: "administration",
+    },
+    Table.EXPAND_COLUMN,
+  ];
+
+  const handleChange = (e) => {
+    setCurrentPage(e.current);
+  };
+
+  const fetchData = useCallback(() => {
+    setTimeout(() => {
+      const { data: _dataset, total } = fakeDataApi;
+      setDataset(_dataset);
+      setTotalCount(total);
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   return (
     <div id="users">
@@ -31,20 +77,13 @@ const MasterDataEntities = () => {
         </Col>
       </Row>
       <ManageDataTab />
-      {/* <UserFilters
-        query={query}
-        setQuery={setQuery}
-        fetchData={fetchData}
-        pending={pending}
-        setPending={setPending}
-        loading={loading}
-      /> */}
+      <AdministrationFilters />
       <Divider />
       <Card
         style={{ padding: 0, minHeight: "40vh" }}
         bodyStyle={{ padding: 0 }}
       >
-        {/* <Table
+        <Table
           columns={columns}
           rowClassName={() => "editable-row"}
           dataSource={dataset}
@@ -56,17 +95,11 @@ const MasterDataEntities = () => {
             total: totalCount,
             pageSize: 10,
             showTotal: (total, range) =>
-              `Results: ${range[0]} - ${range[1]} of ${total} users`,
+              `Results: ${range[0]} - ${range[1]} of ${total} items`,
           }}
           rowKey="id"
           expandable={{
-            expandedRowRender: (record) => (
-              <UserDetail
-                record={record}
-                setDeleteUser={setDeleteUser}
-                deleting={deleting}
-              />
-            ),
+            expandedRowRender: (record) => <DetailTable record={record} />,
             expandIcon: ({ expanded, onExpand, record }) =>
               expanded ? (
                 <CloseSquareOutlined
@@ -80,7 +113,7 @@ const MasterDataEntities = () => {
                 />
               ),
           }}
-        /> */}
+        />
       </Card>
     </div>
   );
