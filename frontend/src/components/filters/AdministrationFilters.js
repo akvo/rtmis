@@ -41,7 +41,7 @@ const AdministrationFilters = ({ loading }) => {
               <Button type="primary">Bulk Upload</Button>
             </Link>
             <Button type="primary">Export</Button>
-            <Link to="/master-data/add">
+            <Link to="/master-data/add-administration">
               <Button type="primary">Add New</Button>
             </Link>
           </Space>
