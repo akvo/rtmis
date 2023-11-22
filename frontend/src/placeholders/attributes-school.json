@@ -1,0 +1,62 @@
+[
+  {
+    "id": 31,
+    "name": "School level",
+    "options": [
+      {
+        "id": 111,
+        "name": "Pre-primary"
+      },
+      {
+        "id": 112,
+        "name": "Primary"
+      },
+      {
+        "id": 113,
+        "name": "High/secondary school"
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "name": "Number of toilets",
+    "options": []
+  },
+  {
+    "id": 33,
+    "name": "Gender-separated toilets",
+    "options": [
+      {
+        "id": 211,
+        "name": "Yes"
+      },
+      {
+        "id": 212,
+        "name": "No"
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "name": "Number of drinking water points",
+    "options": []
+  },
+  {
+    "id": 35,
+    "name": "Main source of drinking water",
+    "options": [
+      {
+        "id": 511,
+        "name": "Piped water supply"
+      },
+      {
+        "id": 512,
+        "name": "Protected well/spring"
+      },
+      {
+        "id": 513,
+        "name": "Rainwater"
+      }
+    ]
+  }
+]
