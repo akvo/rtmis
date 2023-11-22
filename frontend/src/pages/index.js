@@ -33,3 +33,4 @@ export { default as MasterDataAttributes } from "./master-data-attributes/Master
 export { default as MasterDataEntities } from "./master-data-entities/MasterDataEntities";
 export { default as AddAdministration } from "./master-data/AddAdministration";
 export { default as AddAttribute } from "./master-data-attributes/AddAttribute";
+export { default as AddEntity } from "./master-data-entities/AddEntity";
