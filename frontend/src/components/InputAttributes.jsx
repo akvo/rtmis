@@ -1,4 +1,4 @@
-import { Row, Col, Form, Input, Select } from "antd";
+import { Row, Col, Form, Input, Select, Spin } from "antd";
 
 const { Option } = Select;
 
@@ -34,19 +34,21 @@ const InputType = ({ field, name, options }) => {
   );
 };
 
-const InputAttributes = ({ attributes = [] }) => {
+const InputAttributes = ({ attributes = [], loading = false }) => {
   return (
-    <Form.List name="attributes">
-      {(fields) => {
-        return (
-          <>
-            {fields.map((field, index) => (
-              <InputType {...attributes?.[index]} field={field} key={index} />
-            ))}
-          </>
-        );
-      }}
-    </Form.List>
+    <Spin spinning={loading} tip="Loading...">
+      <Form.List name="attributes">
+        {(fields) => {
+          return (
+            <>
+              {fields.map((field, index) => (
+                <InputType {...attributes?.[index]} field={field} key={index} />
+              ))}
+            </>
+          );
+        }}
+      </Form.List>
+    </Spin>
   );
 };
 
