@@ -58,7 +58,7 @@ const AddOrganisation = () => {
           message: `Organization ${id ? "updated" : "added"}`,
         });
         setSubmitting(false);
-        navigate("/organisations");
+        navigate("/master-data/organisations");
       })
       .catch((err) => {
         notify({
