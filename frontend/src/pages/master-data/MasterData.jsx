@@ -26,6 +26,7 @@ const MasterData = () => {
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const newAdm = store.useState((s) => s.masterData.administration);
 
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
@@ -62,10 +63,13 @@ const MasterData = () => {
     setTimeout(() => {
       const { data: _dataset, total } = fakeDataApi;
       setDataset(_dataset);
+      if (Object.keys(newAdm).length) {
+        setDataset([newAdm, ..._dataset]);
+      }
       setTotalCount(total);
       setLoading(false);
     }, 2000);
-  }, []);
+  }, [newAdm]);
 
   useEffect(() => {
     fetchData();
@@ -103,9 +107,18 @@ const MasterData = () => {
           rowKey="id"
           expandable={{
             expandedRowRender: (record) => {
+              // TODO
+              // initialValues only for dummy to replace static json
+              const initialValues = record?.attributes?.length
+                ? record.attributes.map((a) => ({
+                    field: a.attribute,
+                    value: a.value,
+                  }))
+                : [];
+
               return (
                 <>
-                  <DetailTable record={record} />
+                  <DetailTable record={record} initialValues={initialValues} />
                 </>
               );
             },

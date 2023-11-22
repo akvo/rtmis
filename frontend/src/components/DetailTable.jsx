@@ -4,11 +4,15 @@ import snakeCase from "lodash/snakeCase";
 import { fakeDetailApi } from "../placeholders/detail";
 import EditableCell from "./EditableCell";
 
-const DetailTable = ({ record = {} }) => {
-  const [records, setRecords] = useState([]);
+const DetailTable = ({ record = {}, initialValues = [] }) => {
+  const [records, setRecords] = useState(initialValues);
   const [loading, setLoading] = useState(true);
 
   const fetchData = useCallback(() => {
+    if (initialValues.length) {
+      setLoading(false);
+      return;
+    }
     setTimeout(() => {
       const data = fakeDetailApi(record.id);
       const _records = data.map((d) => ({
@@ -21,7 +25,7 @@ const DetailTable = ({ record = {} }) => {
       setRecords(_records);
       setLoading(false);
     }, 2000);
-  }, [record]);
+  }, [record, initialValues]);
 
   useEffect(() => {
     fetchData();
