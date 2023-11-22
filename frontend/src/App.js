@@ -30,6 +30,10 @@ import {
   Glaas,
   ReportDashboard,
   GlaasReportDashboard,
+  MasterData,
+  MasterDataAttributes,
+  MasterDataEntities,
+  AddAdministration,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -75,7 +79,7 @@ const RouteList = () => {
       />
       <Route path="/users" element={<Private element={Users} alias="user" />} />
       <Route
-        path="/organisations"
+        path="/master-data/organisations"
         element={<Private element={Organisations} alias="organisation" />}
       />
       <Route
@@ -153,6 +157,22 @@ const RouteList = () => {
       <Route
         path="/report/:templateId"
         element={<Private element={Report} alias="reports" />}
+      />
+      <Route
+        path="/master-data"
+        element={<Private element={MasterData} alias="master-data" />}
+      />
+      <Route
+        path="/master-data/add-administration"
+        element={<Private element={AddAdministration} alias="master-data" />}
+      />
+      <Route
+        path="/master-data/attributes"
+        element={<Private element={MasterDataAttributes} alias="master-data" />}
+      />
+      <Route
+        path="/master-data/entities"
+        element={<Private element={MasterDataEntities} alias="master-data" />}
       />
       <Route path="/news-events" element={<NewsEvents />} />
       <Route path="/how-we-work" element={<HowWeWork />} />
