@@ -192,6 +192,22 @@ Object {
     "manageUserTitle": "User Management",
     "manageUsers": "Manage Users",
     "minute": "Minute",
+    "mobilePanelButton": "Manage Data Collectors",
+    "mobilePanelText": <React.Fragment>
+      This is where you :
+      <ul>
+        <li>
+          Add new mobile data collector
+        </li>
+        <li>
+          Modify existing mobile data collector
+        </li>
+        <li>
+          Delete existing mobile data collector
+        </li>
+      </ul>
+    </React.Fragment>,
+    "mobilePanelTitle": "Mobile Data Collectors",
     "month": "Month",
     "myProfile": "My Profile",
     "newsEvents": "News & Events",

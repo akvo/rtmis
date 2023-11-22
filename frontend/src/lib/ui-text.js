@@ -343,6 +343,18 @@ const uiText = {
       "Can't upload data, because there's no approver yet.",
     batchNoApproverMessage:
       "Can't create batch data, because there's no approver yet.",
+    mobilePanelTitle: "Mobile Data Collectors",
+    mobilePanelButton: "Manage Data Collectors",
+    mobilePanelText: (
+      <Fragment>
+        This is where you :
+        <ul>
+          <li>Add new mobile data collector</li>
+          <li>Modify existing mobile data collector</li>
+          <li>Delete existing mobile data collector</li>
+        </ul>
+      </Fragment>
+    ),
   },
 
   de: {},
