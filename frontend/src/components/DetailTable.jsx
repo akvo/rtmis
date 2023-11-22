@@ -34,7 +34,7 @@ const DetailTable = ({ record = {}, initialValues = [], onDelete }) => {
       setRecords(_records);
       setLoading(false);
     }
-  }, [record, preload, loading, initialValues]);
+  }, [record, preload, initialValues]);
 
   useEffect(() => {
     fetchData();
@@ -67,8 +67,7 @@ const DetailTable = ({ record = {}, initialValues = [], onDelete }) => {
         },
       });
     });
-    const results = await Promise.allSettled(endpoints);
-    console.log("results", results);
+    await Promise.allSettled(endpoints);
     setSaving(false);
   };
 
