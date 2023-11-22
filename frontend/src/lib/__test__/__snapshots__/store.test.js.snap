@@ -79,6 +79,7 @@ Object {
   ],
   "loadingForm": false,
   "loadingMap": false,
+  "mobileAssignment": Object {},
   "questionGroups": Array [],
   "selectedAdministration": null,
   "selectedForm": null,
