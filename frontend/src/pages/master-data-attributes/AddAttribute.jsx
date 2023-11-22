@@ -1,10 +1,21 @@
 import React, { useState } from "react";
-import { Button, Card, Col, Divider, Form, Input, Row, Select } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Divider,
+  Form,
+  Input,
+  Row,
+  Select,
+  Space,
+} from "antd";
 import { Breadcrumbs } from "../../components";
 import { useNavigate } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
 import { store } from "../../lib";
 import { MinusCircleOutlined } from "@ant-design/icons";
+import "./style.scss";
 
 const pagePath = [
   {
@@ -85,7 +96,7 @@ const AddAttribute = () => {
   };
 
   return (
-    <>
+    <div id="add-attribute">
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
@@ -159,27 +170,32 @@ const AddAttribute = () => {
               </Form.Item>
             </Col>
           </Row>
-          <Form.List name="options">
-            {(fields, { add, remove }) => (
-              <div>
-                {fields.map(({ key, name, ...restField }) => (
-                  <div key={key}>
-                    <Form.Item name={[name, "name"]} {...restField}>
-                      <Input />
-                    </Form.Item>
-                    <Button
-                      icon={<MinusCircleOutlined />}
-                      onClick={() => remove(name)}
-                    >
-                      Remove
-                    </Button>
-                  </div>
-                ))}
-                <br />
-                <Button onClick={() => add()}>Add option</Button>
-              </div>
-            )}
-          </Form.List>
+          <Row className="form-row">
+            <Col span={24}>
+              <Form.Item label="Options">
+                <Form.List name="options">
+                  {(fields, { add, remove }) => (
+                    <div>
+                      {fields.map(({ key, name, ...restField }) => (
+                        <Space key={key}>
+                          <Form.Item name={[name, "name"]} {...restField}>
+                            <Input />
+                          </Form.Item>
+                          <Button
+                            icon={<MinusCircleOutlined />}
+                            onClick={() => remove(name)}
+                          >
+                            Remove
+                          </Button>
+                        </Space>
+                      ))}
+                      <Button onClick={() => add()}>Add option</Button>
+                    </div>
+                  )}
+                </Form.List>
+              </Form.Item>
+            </Col>
+          </Row>
         </Card>
         <Row justify="end" align="middle">
           <Col>
@@ -189,7 +205,7 @@ const AddAttribute = () => {
           </Col>
         </Row>
       </Form>
-    </>
+    </div>
   );
 };
 
