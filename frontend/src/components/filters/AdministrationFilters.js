@@ -6,7 +6,10 @@ import { Link } from "react-router-dom";
 
 const { Search } = Input;
 
-const AdministrationFilters = ({ loading }) => {
+const AdministrationFilters = ({
+  loading,
+  addLink = "/master-data/add-administration",
+}) => {
   const authUser = store.useState((s) => s.user);
 
   return (
@@ -41,7 +44,7 @@ const AdministrationFilters = ({ loading }) => {
               <Button type="primary">Bulk Upload</Button>
             </Link>
             <Button type="primary">Export</Button>
-            <Link to="/master-data/add-administration">
+            <Link to={addLink}>
               <Button type="primary">Add New</Button>
             </Link>
           </Space>
