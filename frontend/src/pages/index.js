@@ -28,3 +28,5 @@ export { default as Dashboard } from "./dashboard/Dashboard";
 export { default as Glaas } from "./dashboard/Glaas";
 export { default as ReportDashboard } from "./dashboard/ReportDashboard";
 export { default as GlaasReportDashboard } from "./dashboard/GlaasReportDashboard";
+export { default as MobileDataCollector } from "./mobile-data-collector/MobileDataCollector";
+export { default as AddMobileDataCollector } from "./mobile-data-collector/AddMobileDataCollector";

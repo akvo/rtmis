@@ -30,6 +30,8 @@ import {
   Glaas,
   ReportDashboard,
   GlaasReportDashboard,
+  MobileDataCollector,
+  AddMobileDataCollector,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -153,6 +155,14 @@ const RouteList = () => {
       <Route
         path="/report/:templateId"
         element={<Private element={Report} alias="reports" />}
+      />
+      <Route
+        path="/mobile/data-collectors"
+        element={<Private element={MobileDataCollector} alias="mobile" />}
+      />
+      <Route
+        path="/mobile/data-collectors/add"
+        element={<Private element={AddMobileDataCollector} alias="mobile" />}
       />
       <Route path="/news-events" element={<NewsEvents />} />
       <Route path="/how-we-work" element={<HowWeWork />} />
