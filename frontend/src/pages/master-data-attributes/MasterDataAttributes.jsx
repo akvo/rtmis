@@ -29,6 +29,7 @@ const MasterDataAttributes = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const newAttribute = store.useState((s) => s.masterData.attribute);
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
 
@@ -84,10 +85,13 @@ const MasterDataAttributes = () => {
     setTimeout(() => {
       const { data: _dataset, total } = fakeDataApi;
       setDataset(_dataset);
+      if (Object.keys(newAttribute).length) {
+        setDataset([newAttribute, ..._dataset]);
+      }
       setTotalCount(total);
       setLoading(false);
     }, 2000);
-  }, []);
+  }, [newAttribute]);
 
   useEffect(() => {
     fetchData();
@@ -102,7 +106,7 @@ const MasterDataAttributes = () => {
         </Col>
       </Row>
       <ManageDataTab />
-      <AdministrationFilters />
+      <AdministrationFilters addLink="/master-data/attributes/add" />
       <Divider />
       <Card
         style={{ padding: 0, minHeight: "40vh" }}
