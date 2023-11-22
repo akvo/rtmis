@@ -1,20 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  Divider,
-  Form,
-  Input,
-  Row,
-  Select,
-  Skeleton,
-} from "antd";
+import { Button, Card, Col, Divider, Form, Input, Row, Select } from "antd";
 import { Breadcrumbs, InputAttributes } from "../../components";
 import { useNavigate } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
 import fakeAttributes from "../../placeholders/attributes-administration.json";
 import { store } from "../../lib";
+import "./style.scss";
 
 const pagePath = [
   {
@@ -134,7 +125,7 @@ const AddAdministration = () => {
   }, []);
 
   return (
-    <>
+    <div id="add-administration">
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
@@ -224,9 +215,7 @@ const AddAdministration = () => {
               </Select>
             </Form.Item>
           </div>
-          <Skeleton loading={loading} active>
-            <InputAttributes attributes={attributes} />
-          </Skeleton>
+          <InputAttributes attributes={attributes} loading={loading} />
         </Card>
         <Row justify="end" align="middle">
           <Col>
@@ -236,7 +225,7 @@ const AddAdministration = () => {
           </Col>
         </Row>
       </Form>
-    </>
+    </div>
   );
 };
 
