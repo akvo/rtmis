@@ -35,7 +35,7 @@ const AddOrganisation = () => {
     },
     {
       title: text.manageOrganisations,
-      link: "/organisations",
+      link: "/master-data/organisations",
     },
     {
       title: id ? text.editOrganisation : text.addOrganisation,

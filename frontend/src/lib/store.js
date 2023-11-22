@@ -26,6 +26,14 @@ const defaultUIState = {
   advancedFilters: [],
   administrationLevel: null,
   showContactFormModal: false,
+  /**
+   * Dummy new item/edit item in master data
+   */
+  masterData: {
+    administration: {},
+    attribute: {},
+    entity: {},
+  },
 };
 
 const store = new Store(defaultUIState);
