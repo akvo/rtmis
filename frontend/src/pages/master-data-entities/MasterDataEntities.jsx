@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Card, Col, Divider, Row, Table } from "antd";
 import {
-  AdministrationFilters,
   Breadcrumbs,
   DescriptionPanel,
   DetailTable,
+  EntityFilters,
   ManageDataTab,
 } from "../../components";
 import { CloseSquareOutlined, PlusSquareOutlined } from "@ant-design/icons";
@@ -30,6 +30,7 @@ const MasterDataEntities = () => {
 
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
+  const newEntity = store.useState((s) => s.masterData.entity);
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -56,13 +57,23 @@ const MasterDataEntities = () => {
   };
 
   const fetchData = useCallback(() => {
+    // TODO
     setTimeout(() => {
       const { data: _dataset, total } = fakeDataApi;
       setDataset(_dataset);
+      if (Object.keys(newEntity).length) {
+        setDataset([
+          {
+            ...newEntity,
+            entity: newEntity?.entity_id === 1 ? "School" : "Health Facility",
+          },
+          ..._dataset,
+        ]);
+      }
       setTotalCount(total);
       setLoading(false);
     }, 2000);
-  }, []);
+  }, [newEntity]);
 
   useEffect(() => {
     fetchData();
@@ -77,7 +88,7 @@ const MasterDataEntities = () => {
         </Col>
       </Row>
       <ManageDataTab />
-      <AdministrationFilters />
+      <EntityFilters />
       <Divider />
       <Card
         style={{ padding: 0, minHeight: "40vh" }}
@@ -99,7 +110,19 @@ const MasterDataEntities = () => {
           }}
           rowKey="id"
           expandable={{
-            expandedRowRender: (record) => <DetailTable record={record} />,
+            expandedRowRender: (record) => {
+              // TODO
+              // initialValues only for dummy to replace static json
+              const initialValues = record?.attributes?.length
+                ? record.attributes.map((a) => ({
+                    field: a.attribute,
+                    value: a.value,
+                  }))
+                : [];
+              return (
+                <DetailTable record={record} initialValues={initialValues} />
+              );
+            },
             expandIcon: ({ expanded, onExpand, record }) =>
               expanded ? (
                 <CloseSquareOutlined
