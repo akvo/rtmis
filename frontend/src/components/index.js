@@ -28,3 +28,4 @@ export { default as ContactForm } from "./contact-form/ContactForm";
 export { default as ManageDataTab } from "./tabs/MasterDataTab";
 export { default as AdministrationFilters } from "./filters/AdministrationFilters";
 export { default as DetailTable } from "./DetailTable";
+export { default as InputAttributes } from "./InputAttributes";
