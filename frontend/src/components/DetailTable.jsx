@@ -1,22 +1,31 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Col, Row, Table } from "antd";
+import { Button, Col, Row, Space, Table } from "antd";
 import snakeCase from "lodash/snakeCase";
 import { fakeDetailApi } from "../placeholders/detail";
 import EditableCell from "./EditableCell";
+import axios from "axios";
 
-const DetailTable = ({ record = {}, initialValues = [] }) => {
+const DetailTable = ({ record = {}, initialValues = [], onDelete }) => {
   const [records, setRecords] = useState(initialValues);
+  const [preload, setPreload] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
-  const fetchData = useCallback(() => {
-    if (initialValues.length) {
+  const fetchData = useCallback(async () => {
+    if (preload && initialValues.length) {
+      setPreload(false);
       setLoading(false);
       return;
     }
-    setTimeout(() => {
+    if (preload && !initialValues.length) {
+      setPreload(false);
+      await new Promise((r) => setTimeout(r, 2000));
+      // TODO
+      // replace with real data
       const data = fakeDetailApi(record.id);
-      const _records = data.map((d) => ({
+      const _records = data.map((d, dx) => ({
         ...d,
+        id: dx + 1,
         field: d?.field || d?.attribute,
         type: d?.options?.length ? "option" : "number",
         option: d?.options || [],
@@ -24,12 +33,44 @@ const DetailTable = ({ record = {}, initialValues = [] }) => {
       }));
       setRecords(_records);
       setLoading(false);
-    }, 2000);
-  }, [record, initialValues]);
+    }
+  }, [record, preload, loading, initialValues]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  const updateCell = (recordID, parentId, value) => {
+    // TODO
+    const _records = records.map((r) => {
+      if (r.id === recordID) {
+        return { ...r, value };
+      }
+      return r;
+    });
+    setRecords(_records);
+  };
+
+  const handleSave = async () => {
+    setSaving(true);
+    // TODO
+    const endpoints = records.map((r) => {
+      const payload = {
+        administration_id: r.administration_attribute_id,
+        administration_attribute_id: r.administration_attribute_id,
+        value: r.value,
+        options: r.options,
+      };
+      return axios.put("https://httpbin.org/status/200", payload, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    });
+    const results = await Promise.allSettled(endpoints);
+    console.log("results", results);
+    setSaving(false);
+  };
 
   const columns = [
     {
@@ -42,7 +83,9 @@ const DetailTable = ({ record = {}, initialValues = [] }) => {
       title: "Value",
       dataIndex: "value",
       key: "value",
-      render: (_, record) => <EditableCell record={record} />,
+      render: (_, record) => (
+        <EditableCell record={record} updateCell={updateCell} parentId={1} />
+      ),
     },
   ];
   return (
@@ -58,6 +101,23 @@ const DetailTable = ({ record = {}, initialValues = [] }) => {
           />
         </Col>
       </Row>
+      <div>
+        <Space>
+          <Button
+            type="primary"
+            onClick={handleSave}
+            disabled={saving}
+            loading={saving}
+          >
+            Save Edits
+          </Button>
+          {onDelete && (
+            <Button type="danger" onClick={() => onDelete(record)}>
+              Delete
+            </Button>
+          )}
+        </Space>
+      </div>
     </>
   );
 };
