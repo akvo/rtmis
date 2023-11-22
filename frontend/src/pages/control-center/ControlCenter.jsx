@@ -58,11 +58,11 @@ const ControlCenter = () => {
       },
       {
         key: "manage-organisation",
-        title: text.orgPanelTitle,
-        buttonLabel: text.orgPanelButton,
-        access: "organisation",
-        description: <div>{text.orgPanelText}</div>,
-        link: "/organisations",
+        title: text.mdPanelTitle,
+        buttonLabel: text.mdPanelButton,
+        access: "master-data",
+        description: <div>{text.mdPanelText}</div>,
+        link: "/master-data",
         image: "/assets/organisation.svg",
       },
       {

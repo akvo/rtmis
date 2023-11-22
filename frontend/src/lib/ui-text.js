@@ -355,6 +355,18 @@ const uiText = {
         </ul>
       </Fragment>
     ),
+    mdPanelTitle: "Master Data",
+    mdPanelButton: "Master Data",
+    mdPanelText: (
+      <Fragment>
+        This is where you :
+        <ul>
+          <li>View all master data</li>
+          <li>Modify existing data</li>
+          <li>Delete existing data</li>
+        </ul>
+      </Fragment>
+    ),
   },
 
   de: {},

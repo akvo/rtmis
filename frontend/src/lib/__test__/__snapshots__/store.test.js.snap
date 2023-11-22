@@ -80,6 +80,11 @@ Object {
   "loadingForm": false,
   "loadingMap": false,
   "mobileAssignment": Object {},
+  "masterData": Object {
+    "administration": Object {},
+    "attribute": Object {},
+    "entity": Object {},
+  },
   "questionGroups": Array [],
   "selectedAdministration": null,
   "selectedForm": null,

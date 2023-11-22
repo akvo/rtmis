@@ -44,6 +44,7 @@ const config = {
         "settings",
         "organisation",
         "mobile",
+        "master-data",
       ],
       administration_level: [1],
       description:

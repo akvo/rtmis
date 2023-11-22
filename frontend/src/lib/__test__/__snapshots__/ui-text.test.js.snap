@@ -191,6 +191,22 @@ Object {
     </React.Fragment>,
     "manageUserTitle": "User Management",
     "manageUsers": "Manage Users",
+    "mdPanelButton": "Master Data",
+    "mdPanelText": <React.Fragment>
+      This is where you :
+      <ul>
+        <li>
+          View all master data
+        </li>
+        <li>
+          Modify existing data
+        </li>
+        <li>
+          Delete existing data
+        </li>
+      </ul>
+    </React.Fragment>,
+    "mdPanelTitle": "Master Data",
     "minute": "Minute",
     "mobilePanelButton": "Manage Data Collectors",
     "mobilePanelText": <React.Fragment>
