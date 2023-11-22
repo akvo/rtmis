@@ -79,6 +79,11 @@ Object {
   ],
   "loadingForm": false,
   "loadingMap": false,
+  "masterData": Object {
+    "administration": Object {},
+    "attribute": Object {},
+    "entity": Object {},
+  },
   "questionGroups": Array [],
   "selectedAdministration": null,
   "selectedForm": null,
