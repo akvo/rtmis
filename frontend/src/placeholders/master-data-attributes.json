@@ -1,0 +1,95 @@
+{
+  "current": 1,
+  "total": 7,
+  "total_page": 1,
+  "data": [
+    {
+      "id": 100,
+      "attribute_type": "administration",
+      "level_id": null,
+      "name": "Number of population",
+      "options": []
+    },
+    {
+      "id": 101,
+      "attribute_type": "administration",
+      "level_id": null,
+      "name": "Area",
+      "options": []
+    },
+    {
+      "id": 102,
+      "attribute_type": "administration",
+      "level_id": null,
+      "name": "Whether Urban, Peri Urban or Rural",
+      "options": [
+        {
+          "id": 201,
+          "name": "Rural"
+        },
+        {
+          "id": 202,
+          "name": "Peri-urban"
+        },
+        {
+          "id": 203,
+          "name": "Urban"
+        }
+      ]
+    },
+    {
+      "id": 106,
+      "attribute_type": "entity",
+      "level_id": null,
+      "name": "School level",
+      "options": [
+        {
+          "id": 111,
+          "name": "Pre-primary"
+        },
+        {
+          "id": 112,
+          "name": "Primary"
+        },
+        {
+          "id": 113,
+          "name": "High/secondary school"
+        }
+      ]
+    },
+    {
+      "id": 107,
+      "attribute_type": "entity",
+      "level_id": null,
+      "name": "Main source of drinking water",
+      "options": [
+        {
+          "id": 511,
+          "name": "Piped water supply"
+        },
+        {
+          "id": 512,
+          "name": "Protected well/spring"
+        },
+        {
+          "id": 513,
+          "name": "Rainwater"
+        }
+      ]
+    },
+    {
+      "id": 108,
+      "attribute_type": "entity",
+      "level_id": null,
+      "name": "Number of drinking water points",
+      "options": []
+    },
+    {
+      "id": 108,
+      "attribute_type": "entity",
+      "level_id": null,
+      "name": "How many in patient beds?",
+      "options": []
+    }
+  ]
+}

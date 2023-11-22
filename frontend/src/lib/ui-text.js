@@ -343,6 +343,18 @@ const uiText = {
       "Can't upload data, because there's no approver yet.",
     batchNoApproverMessage:
       "Can't create batch data, because there's no approver yet.",
+    mdPanelTitle: "Master Data",
+    mdPanelButton: "Master Data",
+    mdPanelText: (
+      <Fragment>
+        This is where you :
+        <ul>
+          <li>View all master data</li>
+          <li>Modify existing data</li>
+          <li>Delete existing data</li>
+        </ul>
+      </Fragment>
+    ),
   },
 
   de: {},
