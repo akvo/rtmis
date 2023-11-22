@@ -1,23 +1,34 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Row, Col, Card, Form, Button, Divider, Input, Select } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import { api, store } from "../../lib";
-import { Breadcrumbs, DescriptionPanel } from "../../components";
+import { api, config, store } from "../../lib";
+import {
+  AdministrationDropdown,
+  Breadcrumbs,
+  DescriptionPanel,
+} from "../../components";
 import { useNotification } from "../../util/hooks";
+import "./style.scss";
 
 const { Option } = Select;
 
 const descriptionData = (
-  <p>This page allows you to add organisations to the RUSH platform.</p>
+  <p>
+    This page allows you to add mobile data collectors to the RUSH platform.
+  </p>
 );
 
-const AddMobileDataCollector = () => {
+const AddAssignment = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const { notify } = useNotification();
-  const { forms: userForms, administration: userAdministrations } =
-    store.useState((s) => s);
+  const {
+    forms: userForms,
+    user: authUser,
+    administration: userAdms,
+    isLoggedIn,
+  } = store.useState((s) => s);
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -28,7 +39,7 @@ const AddMobileDataCollector = () => {
     },
     {
       title: "Mobile Data Collectors",
-      link: "/mobile/data-collectors",
+      link: "/mobile-assignment",
     },
     {
       title: "Add Mobile Data Collector",
@@ -36,16 +47,45 @@ const AddMobileDataCollector = () => {
   ];
 
   const onFinish = async (values) => {
+    // TODO
     setSubmitting(true);
+    const passcode = Math.random().toString(36).slice(7);
     const payload = {
       name: values.name,
       administrations: values.administrations,
       forms: values.forms,
+      passcode,
+      id: passcode,
     };
     await new Promise((r) => setTimeout(r, 2000));
-    console.log("payload", payload);
+    store.update((s) => {
+      s.mobileAssignment = payload;
+    });
+    notify({
+      type: "success",
+      message: `Data collector added`,
+    });
     setSubmitting(false);
+    navigate("/mobile-assignment");
   };
+
+  const initialValues = useMemo(() => {
+    const { administration: userAdm } = authUser;
+    if (id) {
+      return {
+        name: "EditedUser",
+        administrations: [59],
+        forms: [563350033],
+      };
+    }
+    return {
+      name: "",
+      administrations: [
+        { ...userAdm, label: userAdm?.name, value: userAdm?.id },
+      ],
+      forms: [],
+    };
+  }, [id, authUser]);
 
   useEffect(() => {
     if (id) {
@@ -60,8 +100,18 @@ const AddMobileDataCollector = () => {
     }
   }, [id, form]);
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      store.update((s) => {
+        s.administration = [
+          config.fn.administration(authUser.administration.id),
+        ];
+      });
+    }
+  }, [authUser, isLoggedIn]);
+
   return (
-    <div id="add-organisation">
+    <div id="add-assignment">
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
@@ -73,13 +123,17 @@ const AddMobileDataCollector = () => {
         name="user-form"
         form={form}
         layout="vertical"
-        initialValues={{
-          name: "",
-          attributes: [],
-        }}
+        initialValues={initialValues}
         onFinish={onFinish}
       >
         <Card bodyStyle={{ padding: 0 }}>
+          <AdministrationDropdown
+            direction="vertical"
+            withLabel={true}
+            // persist={true}
+            size="large"
+            width="100%"
+          />
           <Row className="form-row">
             <Col span={24}>
               <Form.Item
@@ -108,11 +162,13 @@ const AddMobileDataCollector = () => {
                 allowClear
                 loading={loading}
               >
-                {userAdministrations?.map((adm) => (
-                  <Option key={adm.id} value={adm.id}>
-                    {adm.name}
-                  </Option>
-                ))}
+                {userAdms
+                  ?.filter((a) => a?.level === 2)
+                  ?.map((adm) => (
+                    <Option key={adm.id} value={adm.id}>
+                      {adm.name}
+                    </Option>
+                  ))}
               </Select>
             </Form.Item>
           </div>
@@ -146,4 +202,4 @@ const AddMobileDataCollector = () => {
   );
 };
 
-export default React.memo(AddMobileDataCollector);
+export default React.memo(AddAssignment);

@@ -71,7 +71,7 @@ const ControlCenter = () => {
         buttonLabel: text.mobilePanelButton,
         access: "mobile",
         description: <div>{text.mobilePanelText}</div>,
-        link: "/mobile/data-collectors",
+        link: "/mobile-assignment",
         image: "/assets/personal-information.png",
       },
       {
