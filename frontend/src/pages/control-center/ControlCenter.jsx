@@ -66,6 +66,15 @@ const ControlCenter = () => {
         image: "/assets/organisation.svg",
       },
       {
+        key: "manage-mobile",
+        title: text.mobilePanelTitle,
+        buttonLabel: text.mobilePanelButton,
+        access: "mobile",
+        description: <div>{text.mobilePanelText}</div>,
+        link: "/mobile/data-collectors",
+        image: "/assets/personal-information.png",
+      },
+      {
         key: "approvals",
         access: "approvals",
         render: (
