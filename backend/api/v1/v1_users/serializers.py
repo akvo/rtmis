@@ -13,10 +13,11 @@ from api.v1.v1_profile.constants import UserRoleTypes, OrganisationTypes
 from api.v1.v1_profile.models import Administration, Access, Levels
 from api.v1.v1_users.models import SystemUser, \
         Organisation, OrganisationAttribute
+from api.v1.v1_mobile.models import MobileAssignment
 from utils.custom_serializer_fields import CustomEmailField, CustomCharField, \
     CustomPrimaryKeyRelatedField, CustomChoiceField, CustomBooleanField, \
     CustomMultipleChoiceField
-
+from utils.custom_helper import CustomPasscode
 
 class OrganisationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -406,6 +407,7 @@ class UserSerializer(serializers.ModelSerializer):
     role = serializers.SerializerMethodField()
     forms = serializers.SerializerMethodField()
     last_login = serializers.SerializerMethodField()
+    passcode = serializers.SerializerMethodField()
 
     @extend_schema_field(UserAdministrationSerializer)
     def get_administration(self, instance: SystemUser):
@@ -438,12 +440,20 @@ class UserSerializer(serializers.ModelSerializer):
             return instance.last_login.timestamp()
         return None
 
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_passcode(self, instance: SystemUser):
+        mobile_assignment = MobileAssignment.objects.filter(user=instance).first()
+        if mobile_assignment:
+            passcode = CustomPasscode().decode(mobile_assignment.passcode)
+            return passcode
+        return None
+
     class Meta:
         model = SystemUser
         fields = [
             'email', 'name', 'administration', 'trained', 'role',
             'phone_number', 'designation', 'forms', 'organisation',
-            'last_login'
+            'last_login', 'passcode'
         ]
 
 

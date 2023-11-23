@@ -137,6 +137,7 @@ Object {
       <br />
       Once you have sumitted a webform, please do not forget to add it as part of a batch and send it for approval.
     </p>,
+    "formPasscode": "Form Passcode",
     "formSuccessSubTitle": "Do note that this data has NOT been sent for approval. If you are ready to send the submissions for approval, please create a batch and send to the approver",
     "formSuccessSubTitleForAdmin": "Do note that the data submitted by SUPER ADMIN role will not go through the approval flow and recorded as approved data",
     "formSuccessTitle": "Thank you for the submission",
