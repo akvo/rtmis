@@ -51,6 +51,6 @@ class AdministrationViewSet(ModelViewSet):
     pagination_class = Pagination
 
     def get_serializer(self, *args, **kwargs):
-        if (self.action != 'retrieve'):
+        if (self.action == 'list'):
             kwargs.update({'compact': True})
         return super().get_serializer(*args, **kwargs)
