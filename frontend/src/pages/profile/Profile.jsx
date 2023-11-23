@@ -1,17 +1,26 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import "./style.scss";
-import { Space, Card, Divider, Row, Tag } from "antd";
-import { store } from "../../lib";
+import { Space, Card, Divider, Row, Tag, Typography } from "antd";
+import { store, uiText } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { ProfileTour } from "./components";
 import moment from "moment";
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 
 const descriptionData =
   "This page shows your current user setup. It also shows the most important activities for your current user setup";
 
+const { Text } = Typography;
+
 const Profile = () => {
-  const { forms, user: authUser } = store.useState((s) => s);
+  const [showPasscode, setShowPasscode] = useState(false);
+  const { forms, user: authUser, language } = store.useState((s) => s);
   const { trained } = authUser;
+  const { active: activeLang } = language;
+
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   const trainedBadge = useMemo(() => {
     if (trained) {
@@ -98,6 +107,24 @@ const Profile = () => {
               {forms.map((qi, qiI) => (
                 <span key={qiI}>{qi.name}</span>
               ))}
+            </Space>
+          </li>
+          <li>
+            <h3>{text.formPasscode}</h3>
+            <Space size="large" align="center">
+              <span
+                onClick={() => setShowPasscode(!showPasscode)}
+                style={{ cursor: "pointer" }}
+              >
+                {showPasscode ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+              </span>
+              <Text style={{ fontSize: "18px" }} strong copyable>
+                {authUser?.passcode
+                  ? showPasscode
+                    ? authUser.passcode
+                    : "********"
+                  : "-"}
+              </Text>
             </Space>
           </li>
           <li>
