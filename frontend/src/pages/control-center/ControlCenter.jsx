@@ -57,13 +57,22 @@ const ControlCenter = () => {
         image: "/assets/personal-information.png",
       },
       {
-        key: "manage-organisation",
+        key: "manage-master-data",
         title: text.mdPanelTitle,
         buttonLabel: text.mdPanelButton,
         access: "master-data",
         description: <div>{text.mdPanelText}</div>,
         link: "/master-data",
         image: "/assets/organisation.svg",
+      },
+      {
+        key: "manage-mobile",
+        title: text.mobilePanelTitle,
+        buttonLabel: text.mobilePanelButton,
+        access: "mobile",
+        description: <div>{text.mobilePanelText}</div>,
+        link: "/mobile-assignment",
+        image: "/assets/personal-information.png",
       },
       {
         key: "approvals",

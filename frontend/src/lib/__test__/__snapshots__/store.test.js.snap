@@ -79,6 +79,7 @@ Object {
   ],
   "loadingForm": false,
   "loadingMap": false,
+  "mobileAssignment": Object {},
   "masterData": Object {
     "administration": Object {},
     "attribute": Object {},

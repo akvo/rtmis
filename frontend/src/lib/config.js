@@ -43,6 +43,7 @@ const config = {
         "reports",
         "settings",
         "organisation",
+        "mobile",
         "master-data",
       ],
       administration_level: [1],
@@ -51,7 +52,8 @@ const config = {
       control_center_order: [
         "manage-user",
         "manage-data",
-        "manage-organisation",
+        "manage-master-data",
+        "manage-mobile",
         "approvals",
       ],
     },
@@ -110,11 +112,12 @@ const config = {
         "visualisation",
         "control-center",
         "reports",
+        "mobile",
       ],
       administration_level: [4],
       description:
         "Overall role to collect data from community/village assigned to them",
-      control_center_order: ["submission", "manage-data"],
+      control_center_order: ["submission", "manage-data", "manage-mobile"],
     },
     {
       id: 5,
