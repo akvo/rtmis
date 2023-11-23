@@ -118,7 +118,11 @@ const Profile = () => {
               >
                 {showPasscode ? <EyeInvisibleOutlined /> : <EyeOutlined />}
               </span>
-              <Text style={{ fontSize: "18px" }} strong copyable>
+              <Text
+                style={{ fontSize: "18px" }}
+                copyable={{ text: authUser?.passcode }}
+                strong
+              >
                 {authUser?.passcode
                   ? showPasscode
                     ? authUser.passcode
