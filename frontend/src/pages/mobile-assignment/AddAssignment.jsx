@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { Row, Col, Card, Form, Button, Divider, Input, Select } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import { api, store, uiText } from "../../lib";
+import { store, uiText } from "../../lib";
 import {
   AdministrationDropdown,
   Breadcrumbs,
@@ -99,7 +99,6 @@ const AddAssignment = () => {
   const fakeFetchData = useCallback(async () => {
     // TODO
     if (id) {
-      console.log("fired");
       setLoading(true);
       await new Promise((r) => setTimeout(r, 2000));
       setLoading(false);
