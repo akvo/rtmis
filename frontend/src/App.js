@@ -30,6 +30,8 @@ import {
   Glaas,
   ReportDashboard,
   GlaasReportDashboard,
+  MobileAssignment,
+  AddAssignment,
   MasterData,
   MasterDataAttributes,
   MasterDataEntities,
@@ -159,6 +161,18 @@ const RouteList = () => {
       <Route
         path="/report/:templateId"
         element={<Private element={Report} alias="reports" />}
+      />
+      <Route
+        path="/mobile-assignment"
+        element={<Private element={MobileAssignment} alias="mobile" />}
+      />
+      <Route
+        path="/mobile-assignment/form"
+        element={<Private element={AddAssignment} alias="mobile" />}
+      />
+      <Route
+        path="/mobile-assignment/form/:id"
+        element={<Private element={AddAssignment} alias="mobile" />}
       />
       <Route
         path="/master-data"
