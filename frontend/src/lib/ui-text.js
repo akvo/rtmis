@@ -355,6 +355,7 @@ const uiText = {
         </ul>
       </Fragment>
     ),
+    formPasscode: "Form Passcode",
   },
 
   de: {},
