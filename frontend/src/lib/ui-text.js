@@ -355,6 +355,23 @@ const uiText = {
         </ul>
       </Fragment>
     ),
+    mobileEditText: "Edit Assignment",
+    mobileAddText: "Add Assignment",
+    mobileButtonSave: "Save",
+    mobileButtonAdd: "Add new data collector",
+    mobileLabelName: "Name",
+    mobileLabelAdm: "Village",
+    mobileLabelForms: "Forms",
+    mobileNameRequired: "Please input name",
+    mobileAdmRequired: "Please select one or more villages",
+    mobileFormsRequired: "Please select one or more forms",
+    mobileSelectAdm: "Select village...",
+    mobileSelectForms: "Select forms...",
+    mobileConfirmDeletion: "Are you sure?",
+    mobilePanelAddDesc:
+      "This page allows you to add mobile data collectors to the RUSH platform.",
+    mobilePanelEditDesc:
+      "This page allows you to edit mobile data collectors to the RUSH platform.",
     mdPanelTitle: "Master Data",
     mdPanelButton: "Master Data",
     mdPanelText: (

@@ -93,7 +93,7 @@ const MobileAssignment = () => {
       dataIndex: "administrations",
       key: "administrations",
       render: (record) => {
-        return <>{record?.map((r) => r?.name || r)?.join(" | ")}</>;
+        return <>{record?.map((r) => r?.name || r?.label)?.join(" | ")}</>;
       },
     },
     {
@@ -101,7 +101,7 @@ const MobileAssignment = () => {
       dataIndex: "forms",
       key: "Forms",
       render: (record) => {
-        return <>{record?.map((r) => r?.name || r)?.join(" | ")}</>;
+        return <>{record?.map((r) => r?.name || r?.label)?.join(" | ")}</>;
       },
     },
     Table.EXPAND_COLUMN,
@@ -140,7 +140,7 @@ const MobileAssignment = () => {
         </Col>
         <Col>
           <Link to="/mobile-assignment/form">
-            <Button type="primary">Add new data collector</Button>
+            <Button type="primary">{text.mobileButtonAdd}</Button>
           </Link>
         </Col>
       </Row>
@@ -212,7 +212,7 @@ const MobileAssignment = () => {
         onOk={handleOnDelete}
         onCancel={() => setDeleteUser(null)}
       >
-        <p>Are you sure?</p>
+        <p>{text.mobileConfirmDeletion}</p>
       </Modal>
     </div>
   );

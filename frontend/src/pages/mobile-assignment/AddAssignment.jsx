@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { Row, Col, Card, Form, Button, Divider, Input, Select } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import { api, config, store } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import {
   AdministrationDropdown,
   Breadcrumbs,
@@ -12,11 +12,7 @@ import "./style.scss";
 
 const { Option } = Select;
 
-const descriptionData = (
-  <p>
-    This page allows you to add mobile data collectors to the RUSH platform.
-  </p>
-);
+const WARD_LEVEL = 3;
 
 const AddAssignment = () => {
   const { id } = useParams();
@@ -27,22 +23,31 @@ const AddAssignment = () => {
     forms: userForms,
     user: authUser,
     administration: userAdms,
-    isLoggedIn,
+
+    language,
   } = store.useState((s) => s);
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
+  const pageTitle = id ? text.mobileEditText : text.mobileAddText;
+  const descriptionData = (
+    <p>{id ? text.mobilePanelEditDesc : text.mobilePanelAddDesc}</p>
+  );
   const pagePath = [
     {
-      title: "Control Center",
+      title: text.controlCenter,
       link: "/control-center",
     },
     {
-      title: "Mobile Data Collectors",
+      title: text.mobilePanelTitle,
       link: "/mobile-assignment",
     },
     {
-      title: "Add Mobile Data Collector",
+      title: pageTitle,
     },
   ];
 
@@ -63,7 +68,7 @@ const AddAssignment = () => {
     });
     notify({
       type: "success",
-      message: `Data collector added`,
+      message: `Data collector ${id ? "updated" : "added"}`,
     });
     setSubmitting(false);
     navigate("/mobile-assignment");
@@ -71,44 +76,39 @@ const AddAssignment = () => {
 
   const initialValues = useMemo(() => {
     const { administration: userAdm } = authUser;
+    const _administrations =
+      userAdm?.level === WARD_LEVEL
+        ? [{ ...userAdm, label: userAdm?.name, value: userAdm?.id }]
+        : [];
     if (id) {
+      // TODO
       return {
         name: "EditedUser",
-        administrations: [59],
-        forms: [563350033],
+        administrations: [{ value: 910, label: "Khalaba" }],
+        forms: [{ value: 563350033, label: "WASH in Schools" }],
       };
     }
+
     return {
       name: "",
-      administrations: [
-        { ...userAdm, label: userAdm?.name, value: userAdm?.id },
-      ],
+      administrations: _administrations,
       forms: [],
     };
   }, [id, authUser]);
 
-  useEffect(() => {
+  const fakeFetchData = useCallback(async () => {
+    // TODO
     if (id) {
+      console.log("fired");
       setLoading(true);
-      api.get(`organisation/${id}`).then((res) => {
-        form.setFieldsValue({
-          name: res.data.name,
-          attributes: res.data.attributes.map((a) => a.type_id),
-        });
-        setLoading(false);
-      });
+      await new Promise((r) => setTimeout(r, 2000));
+      setLoading(false);
     }
-  }, [id, form]);
+  }, [id]);
 
   useEffect(() => {
-    if (isLoggedIn) {
-      store.update((s) => {
-        s.administration = [
-          config.fn.administration(authUser.administration.id),
-        ];
-      });
-    }
-  }, [authUser, isLoggedIn]);
+    fakeFetchData();
+  }, [fakeFetchData]);
 
   return (
     <div id="add-assignment">
@@ -138,10 +138,11 @@ const AddAssignment = () => {
             <Col span={24}>
               <Form.Item
                 name="name"
-                label="Name"
+                label={text.mobileLabelName}
                 rules={[
                   {
                     required: true,
+                    message: text.mobileNameRequired,
                   },
                 ]}
               >
@@ -152,18 +153,18 @@ const AddAssignment = () => {
           <div className="form-row">
             <Form.Item
               name="administrations"
-              label="Villages"
-              rules={[{ required: true }]}
+              label={text.mobileLabelAdm}
+              rules={[{ required: true, message: text.mobileAdmRequired }]}
             >
               <Select
                 getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder="Select Village.."
+                placeholder={text.mobileSelectAdm}
                 mode="multiple"
                 allowClear
                 loading={loading}
               >
                 {userAdms
-                  ?.filter((a) => a?.level === 2)
+                  ?.filter((a) => a?.level === WARD_LEVEL)
                   ?.map((adm) => (
                     <Option key={adm.id} value={adm.id}>
                       {adm.name}
@@ -173,10 +174,14 @@ const AddAssignment = () => {
             </Form.Item>
           </div>
           <div className="form-row">
-            <Form.Item name="forms" label="Forms" rules={[{ required: true }]}>
+            <Form.Item
+              name="forms"
+              label={text.mobileLabelForms}
+              rules={[{ required: true, message: text.mobileFormsRequired }]}
+            >
               <Select
                 getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder="Select forms.."
+                placeholder={text.mobileSelectForms}
                 mode="multiple"
                 allowClear
                 loading={loading}
@@ -193,7 +198,7 @@ const AddAssignment = () => {
         <Row justify="end" align="middle">
           <Col>
             <Button type="primary" htmlType="submit" loading={submitting}>
-              Add mobile data collector
+              {text.mobileButtonSave}
             </Button>
           </Col>
         </Row>
