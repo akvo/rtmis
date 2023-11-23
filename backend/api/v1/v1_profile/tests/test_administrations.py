@@ -51,6 +51,37 @@ class AdministrationTestCase(TestCase, ProfileTestHelperMixin):
         self.assertEqual(created.parent, adm_level_1)
         self.assertEqual(created.level, level_2)
 
+    def test_create_without_parent(self):
+        payload = {'name': 'Test', 'code': 'T'}
+
+        response = typing.cast(
+                HttpResponse,
+                self.client.post(
+                    "/api/v1/administrations",
+                    payload,
+                    content_type='application/json',
+                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+
+        self.assertEqual(response.status_code, 400)
+        body = response.json()
+        self.assertIn('parent', body)
+
+    def test_create_with_invalid_level(self):
+        adm_level_3 = Administration.objects.get(level__level=3)
+        payload = {'parent': adm_level_3.id, 'name': 'Test', 'code': 'T'}
+
+        response = typing.cast(
+                HttpResponse,
+                self.client.post(
+                    "/api/v1/administrations",
+                    payload,
+                    content_type='application/json',
+                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+
+        self.assertEqual(response.status_code, 400)
+        body = response.json()
+        self.assertIn('parent', body)
+
     def test_retrieve(self):
         adm = Administration.objects.get(id=2)
         response = typing.cast(
@@ -116,14 +147,6 @@ class AdministrationTestCase(TestCase, ProfileTestHelperMixin):
         self.assertEqual(response.status_code, 204)
         self.assertFalse(
                 Administration.objects.filter(id=test_adm.id).exists())
-
-    @unittest.skip('TODO')
-    def test_create_without_parent(self):
-        pass
-
-    @unittest.skip('TODO')
-    def test_create_with_invalid_level(self):
-        pass
 
     @unittest.skip('TODO')
     def test_delete_administration_that_have_relations(self):

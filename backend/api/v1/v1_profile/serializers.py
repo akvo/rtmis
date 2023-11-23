@@ -20,9 +20,18 @@ class AdministrationLevelsSerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 
+def validate_parent(obj: Administration):
+    sub_level = obj.level.level + 1
+    try:
+        Levels.objects.get(level=sub_level)
+    except Levels.DoesNotExist:
+        raise serializers.ValidationError('Invalid parent level')
+
+
 class AdministrationSerializer(serializers.ModelSerializer):
     parent = RelatedAdministrationField(
-            queryset=Administration.objects.all())  # type: ignore
+            queryset=Administration.objects.all(),
+            validators=[validate_parent])  # type: ignore
     level = AdministrationLevelsSerializer(read_only=True)
     children = RelatedAdministrationField(
             source='parent_administration',
