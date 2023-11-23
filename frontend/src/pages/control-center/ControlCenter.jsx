@@ -57,7 +57,7 @@ const ControlCenter = () => {
         image: "/assets/personal-information.png",
       },
       {
-        key: "manage-organisation",
+        key: "manage-master-data",
         title: text.mdPanelTitle,
         buttonLabel: text.mdPanelButton,
         access: "master-data",

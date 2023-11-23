@@ -52,7 +52,7 @@ const config = {
       control_center_order: [
         "manage-user",
         "manage-data",
-        "manage-organisation",
+        "manage-master-data",
         "manage-mobile",
         "approvals",
       ],
