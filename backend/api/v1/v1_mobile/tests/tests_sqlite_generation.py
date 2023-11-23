@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from nwmis.settings import MASTER_DATA
+from rtmis.settings import MASTER_DATA
 from django.test import TestCase
 from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import Organisation

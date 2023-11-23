@@ -1,5 +1,5 @@
 import os
-from nwmis.settings import STORAGE_PATH
+from rtmis.settings import STORAGE_PATH
 from django.test import TestCase
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.models import Administration, Access

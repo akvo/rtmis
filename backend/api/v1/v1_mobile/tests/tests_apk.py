@@ -1,7 +1,7 @@
 import os
 import requests_mock
 import requests as r
-from nwmis.settings import BASE_DIR, APP_NAME, MASTER_DATA, APK_UPLOAD_SECRET
+from rtmis.settings import BASE_DIR, APP_NAME, MASTER_DATA, APK_UPLOAD_SECRET
 from django.test import TestCase
 from api.v1.v1_mobile.models import MobileApk
 

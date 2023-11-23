@@ -1,7 +1,7 @@
 import os
 import requests
 import mimetypes
-from nwmis.settings import MASTER_DATA, BASE_DIR, APP_NAME, APK_UPLOAD_SECRET
+from rtmis.settings import MASTER_DATA, BASE_DIR, APP_NAME, APK_UPLOAD_SECRET
 from drf_spectacular.utils import extend_schema
 from django.http import HttpResponse
 from rest_framework import status, serializers
