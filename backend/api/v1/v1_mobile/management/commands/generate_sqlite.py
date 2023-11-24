@@ -5,11 +5,10 @@ from api.v1.v1_users.models import Organisation
 
 
 class Command(BaseCommand):
-
     def handle(self, *args, **options):
         conn, file = generate_sqlite(Administration)
-        print(f"{file} Generated Successfully")
+        print(f'{file} Generated Successfully')
         conn.close()
         conn, file = generate_sqlite(Organisation)
-        print(f"{file} Generated Successfully")
+        print(f'{file} Generated Successfully')
         conn.close()
