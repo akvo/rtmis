@@ -19,6 +19,7 @@ from utils.custom_serializer_fields import CustomEmailField, CustomCharField, \
     CustomMultipleChoiceField
 from utils.custom_helper import CustomPasscode
 
+
 class OrganisationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organisation
@@ -442,7 +443,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_passcode(self, instance: SystemUser):
-        mobile_assignment = MobileAssignment.objects.filter(user=instance).first()
+        mobile_assignment = MobileAssignment \
+            .objects.filter(user=instance).first()
         if mobile_assignment:
             passcode = CustomPasscode().decode(mobile_assignment.passcode)
             return passcode
