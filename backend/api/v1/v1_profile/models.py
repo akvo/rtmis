@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -78,3 +79,14 @@ class Access(models.Model):
 
     class Meta:
         db_table = 'access'
+
+
+class AdministrationAttribute(models.Model):
+    name = models.TextField()
+    options = ArrayField(
+            models.CharField(max_length=255, null=True),
+            default=list,
+            blank=True)
+
+    class Meta:
+        db_table = 'administration_attribute'
