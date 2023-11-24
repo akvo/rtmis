@@ -12,9 +12,12 @@ services:
       - 8888:8888
   frontend:
     network_mode: service:mainnetwork
+    volumes:
+      - ${STORAGE_PATH}/images:/app/public/images:delegated
   worker:
     volumes:
       - ../akvo-config/k8s-secrets/test/rtmis:/credentials/:ro
+      - ${STORAGE_PATH}:/app/storage:delegated
     environment:
       - GOOGLE_APPLICATION_CREDENTIALS=/credentials/rtmis-service-account.json
       - MAILJET_APIKEY=$MAILJET_APIKEY
@@ -23,6 +26,7 @@ services:
   backend:
     volumes:
       - ../akvo-config/k8s-secrets/test/rtmis:/credentials/:ro
+      - ${STORAGE_PATH}:/app/storage:delegated
     environment:
       - GOOGLE_APPLICATION_CREDENTIALS=/credentials/rtmis-service-account.json
       - MAILJET_APIKEY=$MAILJET_APIKEY
