@@ -209,6 +209,37 @@ Object {
     </React.Fragment>,
     "mdPanelTitle": "Master Data",
     "minute": "Minute",
+    "mobileAddText": "Add Assignment",
+    "mobileAdmRequired": "Please select one or more villages",
+    "mobileButtonAdd": "Add new data collector",
+    "mobileButtonSave": "Save",
+    "mobileConfirmDeletion": "Are you sure?",
+    "mobileEditText": "Edit Assignment",
+    "mobileFormsRequired": "Please select one or more forms",
+    "mobileLabelAdm": "Village",
+    "mobileLabelForms": "Forms",
+    "mobileLabelName": "Name",
+    "mobileNameRequired": "Please input name",
+    "mobilePanelAddDesc": "This page allows you to add mobile data collectors to the RUSH platform.",
+    "mobilePanelButton": "Manage Data Collectors",
+    "mobilePanelEditDesc": "This page allows you to edit mobile data collectors to the RUSH platform.",
+    "mobilePanelText": <React.Fragment>
+      This is where you :
+      <ul>
+        <li>
+          Add new mobile data collector
+        </li>
+        <li>
+          Modify existing mobile data collector
+        </li>
+        <li>
+          Delete existing mobile data collector
+        </li>
+      </ul>
+    </React.Fragment>,
+    "mobilePanelTitle": "Mobile Data Collectors",
+    "mobileSelectAdm": "Select village...",
+    "mobileSelectForms": "Select forms...",
     "month": "Month",
     "myProfile": "My Profile",
     "newsEvents": "News & Events",
