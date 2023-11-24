@@ -30,7 +30,7 @@ class FormApprovalRule(models.Model):
                              related_name='form_form_approval_rule')
     administration = models.ForeignKey(
         to=Administration,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name='administration_form_approval')  # noqa
     levels = models.ManyToManyField(to=Levels,
                                     related_name='levels_form_approval')
@@ -48,7 +48,7 @@ class FormApprovalAssignment(models.Model):
                              related_name='form_data_approval')
     administration = models.ForeignKey(
         to=Administration,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name='administration_data_approval')
     user = models.ForeignKey(to=SystemUser,
                              on_delete=models.CASCADE,
