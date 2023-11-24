@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from api.v1.v1_profile.models import Administration, Levels
+from api.v1.v1_profile.models import (
+        Administration, AdministrationAttribute, Levels)
 
 
 class RelatedAdministrationField(serializers.PrimaryKeyRelatedField):
@@ -65,3 +66,9 @@ class AdministrationSerializer(serializers.ModelSerializer):
         except Levels.DoesNotExist as e:
             raise ValueError() from e
         validated_data.update({'level': sublevel})
+
+
+class AdministrationAttributeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AdministrationAttribute
+        fields = ['id', 'name', 'options']
