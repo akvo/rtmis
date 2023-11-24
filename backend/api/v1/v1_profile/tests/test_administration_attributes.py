@@ -1,12 +1,13 @@
 import typing
 from django.core.management import call_command
 from django.http import HttpResponse
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from api.v1.v1_profile.models import AdministrationAttribute
 
 from api.v1.v1_profile.tests.mixins import ProfileTestHelperMixin
 
 
+@override_settings(USE_TZ=False)
 class AdministrationAttributeTestCase(TestCase, ProfileTestHelperMixin):
 
     def setUp(self) -> None:

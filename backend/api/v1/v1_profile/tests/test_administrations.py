@@ -1,14 +1,14 @@
 import typing
-import unittest
 from django.core.management import call_command
 from django.http import HttpResponse
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from api.v1.v1_profile.models import (
         Administration, AdministrationAttribute, Levels)
 from api.v1.v1_profile.tests.mixins import ProfileTestHelperMixin
 
 
+@override_settings(USE_TZ=False)
 class AdministrationTestCase(TestCase, ProfileTestHelperMixin):
 
     def setUp(self) -> None:
@@ -149,11 +149,19 @@ class AdministrationTestCase(TestCase, ProfileTestHelperMixin):
         self.assertFalse(
                 Administration.objects.filter(id=test_adm.id).exists())
 
-    @unittest.skip('TODO')
     def test_delete_administration_that_have_relations(self):
-        ...
+        root = Administration.objects.get(id=1)
+        response = typing.cast(
+                HttpResponse,
+                self.client.delete(
+                    f"/api/v1/administrations/{root.id}",
+                    content_type="application/json",
+                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+        self.assertEqual(response.status_code, 409)
+        self.assertIn('error', response.json())
 
 
+@override_settings(USE_TZ=False)
 class AdministrationAttributeValueTestCase(TestCase, ProfileTestHelperMixin):
     def setUp(self) -> None:
         super().setUp()

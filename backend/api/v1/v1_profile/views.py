@@ -1,4 +1,5 @@
 # Create your views here.
+from django.db.models import ProtectedError
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework.viewsets import ModelViewSet
 from api.v1.v1_profile.models import Administration, AdministrationAttribute
@@ -55,6 +56,18 @@ class AdministrationViewSet(ModelViewSet):
         if (self.action == 'list'):
             kwargs.update({'compact': True})
         return super().get_serializer(*args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        try:
+            instance.delete()
+        except ProtectedError:
+            error = (
+                f'Cannot delete "Administration: {instance}" because it is '
+                'referenced by other data'
+            )
+            return Response({'error': error}, status=status.HTTP_409_CONFLICT)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @extend_schema(tags=['Administration'])
