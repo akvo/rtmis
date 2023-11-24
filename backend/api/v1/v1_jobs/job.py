@@ -132,7 +132,7 @@ def job_generate_download(job_id, **kwargs):
     })
     worksheet.merge_range('A1:B1', 'Context', merge_format)
     writer.save()
-    url = upload(file=file_path, folder='download', public=True)
+    url = upload(file=file_path, folder='download')
     return url
 
 

@@ -134,6 +134,8 @@ class PendingFormData(models.Model):
                                    null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(default=None, null=True)
+    duration = models.IntegerField(default=0)
+    submitter = models.CharField(max_length=255, default=None, null=True)
 
     def __str__(self):
         return self.name

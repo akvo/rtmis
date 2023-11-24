@@ -59,6 +59,8 @@ API_APPS = [
     'api.v1.v1_data',
     'api.v1.v1_jobs',
     'api.v1.v1_categories',
+    'api.v1.v1_mobile',
+    'api.v1.v1_files',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + API_APPS + EXTERNAL_APPS
@@ -189,6 +191,12 @@ CACHE_FOLDER = "/tmp/cache/"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "v1_users.SystemUser"
+
+# MOBILE ENV VARIABLES
+APK_UPLOAD_SECRET = environ.get("APK_UPLOAD_SECRET")
+APP_NAME = "rtmis"
+MASTER_DATA = "./source"
+STORAGE_PATH = environ.get("STORAGE_PATH", "./storage")
 
 FORM_GEO_VALUE = {"lat": 9.145, "lng": 40.4897}
 
