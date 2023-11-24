@@ -23,5 +23,7 @@ class CustomPasscode():
         return encoded_passcode.decode('utf-8')
 
     def decode(self, encoded_passcode):
-        passcode_bytes = base64.urlsafe_b64decode(encoded_passcode.encode('utf-8'))
+        passcode_bytes = base64.urlsafe_b64decode(
+            encoded_passcode.encode('utf-8')
+        )
         return passcode_bytes.decode('utf-8')
