@@ -1,8 +1,9 @@
 # Create your views here.
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework.viewsets import ModelViewSet
-from api.v1.v1_profile.models import Administration
-from api.v1.v1_profile.serializers import AdministrationSerializer
+from api.v1.v1_profile.models import Administration, AdministrationAttribute
+from api.v1.v1_profile.serializers import (
+        AdministrationAttributeSerializer, AdministrationSerializer)
 from utils.default_serializers import DefaultResponseSerializer
 from utils.custom_pagination import Pagination
 from rest_framework.decorators import api_view
@@ -54,3 +55,11 @@ class AdministrationViewSet(ModelViewSet):
         if (self.action == 'list'):
             kwargs.update({'compact': True})
         return super().get_serializer(*args, **kwargs)
+
+
+@extend_schema(tags=['Administration'])
+class AdministrationAttributeViewSet(ModelViewSet):
+    queryset = AdministrationAttribute.objects.order_by('id').all()
+    serializer_class = AdministrationAttributeSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
