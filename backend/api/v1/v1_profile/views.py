@@ -1,9 +1,15 @@
 # Create your views here.
 from drf_spectacular.utils import extend_schema, inline_serializer
+from rest_framework.viewsets import ModelViewSet
+from api.v1.v1_profile.models import Administration, AdministrationAttribute
+from api.v1.v1_profile.serializers import (
+        AdministrationAttributeSerializer, AdministrationSerializer)
 from utils.default_serializers import DefaultResponseSerializer
+from utils.custom_pagination import Pagination
 from rest_framework.decorators import api_view
 from rest_framework import serializers, status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from utils.email_helper import send_email, EmailTypes
 
 
@@ -34,3 +40,26 @@ def send_feedback(request, version):
     send_email(context=data, type=EmailTypes.feedback)
     return Response({'message': 'Feedback was sent successfully.'},
                     status=status.HTTP_200_OK)
+
+
+@extend_schema(tags=['Administration'])
+class AdministrationViewSet(ModelViewSet):
+    queryset = Administration.objects\
+            .prefetch_related('parent_administration', 'attributes')\
+            .order_by('id').all()
+    serializer_class = AdministrationSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = Pagination
+
+    def get_serializer(self, *args, **kwargs):
+        if (self.action == 'list'):
+            kwargs.update({'compact': True})
+        return super().get_serializer(*args, **kwargs)
+
+
+@extend_schema(tags=['Administration'])
+class AdministrationAttributeViewSet(ModelViewSet):
+    queryset = AdministrationAttribute.objects.order_by('id').all()
+    serializer_class = AdministrationAttributeSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
