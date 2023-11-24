@@ -19,7 +19,7 @@ from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import SystemUser, Organisation
 from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
     UnvalidatedField, CustomListField, CustomCharField, CustomChoiceField, \
-    CustomBooleanField
+    CustomBooleanField, CustomIntegerField
 from utils.default_serializers import CommonDataSerializer
 from utils.email_helper import send_email, EmailTypes
 from utils.functions import update_date_time_format, get_answer_value
@@ -888,6 +888,9 @@ class SubmitPendingFormDataSerializer(serializers.ModelSerializer):
     administration = CustomPrimaryKeyRelatedField(
         queryset=Administration.objects.none())
     name = CustomCharField()
+    geo = CustomListField(required=False)
+    submitter = CustomCharField(required=False)
+    duration = CustomIntegerField(required=False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -896,7 +899,7 @@ class SubmitPendingFormDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PendingFormData
-        fields = ['name', 'geo', 'administration']
+        fields = ['name', 'geo', 'administration', 'submitter', 'duration']
 
 
 class SubmitPendingFormDataAnswerSerializer(serializers.ModelSerializer):
