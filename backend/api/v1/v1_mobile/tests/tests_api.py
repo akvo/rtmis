@@ -141,5 +141,5 @@ class MobileAssignmentApiTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(
             list(response.data),
-            ["name", "version", "cascades", "question_group", "translations"]
+            ["name", "version", "cascades", "question_group"]
         )
