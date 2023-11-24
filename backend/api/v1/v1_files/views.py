@@ -1,7 +1,9 @@
 from .serializers import UploadImagesSerializer
 from rest_framework import serializers
 from drf_spectacular.utils import extend_schema, inline_serializer
-from rest_framework.decorators import api_view, permission_classes, parser_classes
+from rest_framework.decorators import (
+    api_view, permission_classes, parser_classes
+)
 from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -32,6 +34,9 @@ def upload_images(request, version):
         )
     filename = process_image(request)
     return Response(
-        {"message": "File uploaded successfully", "file": f"/images/{filename}"},
+        {
+            "message": "File uploaded successfully",
+            "file": f"/images/{filename}"
+        },
         status=status.HTTP_200_OK,
     )
