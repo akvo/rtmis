@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from api.v1.v1_profile.models import (
-        Administration, AdministrationAttribute, Levels)
+        Administration, AdministrationAttribute, AdministrationAttributeValue,
+        Levels)
 
 
 class RelatedAdministrationField(serializers.PrimaryKeyRelatedField):
@@ -29,6 +30,18 @@ def validate_parent(obj: Administration):
         raise serializers.ValidationError('Invalid parent level')
 
 
+class AdministrationAttributeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AdministrationAttribute
+        fields = ['id', 'name', 'options']
+
+
+class AdministrationAttributeValueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AdministrationAttributeValue
+        fields = ['attribute', 'value', 'options']
+
+
 class AdministrationSerializer(serializers.ModelSerializer):
     parent = RelatedAdministrationField(
             queryset=Administration.objects.all(),
@@ -37,10 +50,20 @@ class AdministrationSerializer(serializers.ModelSerializer):
     children = RelatedAdministrationField(
             source='parent_administration',
             read_only=True, many=True)
+    attributes = AdministrationAttributeValueSerializer(
+            many=True, required=False)
 
     class Meta:
         model = Administration
-        fields = ['id', 'name', 'code', 'parent', 'level', 'children']
+        fields = [
+            'id',
+            'name',
+            'code',
+            'parent',
+            'level',
+            'children',
+            'attributes'
+        ]
 
     def __init__(self, *args, **kwargs):
         compact = kwargs.pop('compact', False)
@@ -52,12 +75,27 @@ class AdministrationSerializer(serializers.ModelSerializer):
                 self.fields.pop(field_name)
 
     def create(self, validated_data):
+        attributes = validated_data.pop('attributes', [])
         self._assign_level(validated_data)
-        return super().create(validated_data)
+        instance = super().create(validated_data)
+        for attribute in attributes:
+            instance.attributes.create(**attribute)
+        return instance
 
     def update(self, instance, validated_data):
+        attributes = validated_data.pop('attributes', [])
         self._assign_level(validated_data)
-        return super().update(instance, validated_data)
+        instance = super().update(instance, validated_data)
+        for it in attributes:
+            attribute = it.pop('attribute')
+            data = dict(attribute=attribute)
+            target, created = instance.attributes.get_or_create(
+                    **data, defaults=it)
+            if not created:
+                AdministrationAttributeValue.objects\
+                        .filter(id=target.id).update(**it)
+
+        return instance
 
     def _assign_level(self, validated_data):
         parent_level = validated_data.get('parent').level.level
@@ -66,9 +104,3 @@ class AdministrationSerializer(serializers.ModelSerializer):
         except Levels.DoesNotExist as e:
             raise ValueError() from e
         validated_data.update({'level': sublevel})
-
-
-class AdministrationAttributeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AdministrationAttribute
-        fields = ['id', 'name', 'options']

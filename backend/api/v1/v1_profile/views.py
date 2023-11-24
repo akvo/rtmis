@@ -45,7 +45,7 @@ def send_feedback(request, version):
 @extend_schema(tags=['Administration'])
 class AdministrationViewSet(ModelViewSet):
     queryset = Administration.objects\
-            .prefetch_related('parent_administration')\
+            .prefetch_related('parent_administration', 'attributes')\
             .order_by('id').all()
     serializer_class = AdministrationSerializer
     permission_classes = [IsAuthenticated]
