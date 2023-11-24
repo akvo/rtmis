@@ -19,7 +19,7 @@ class Levels(models.Model):
 
 class Administration(models.Model):
     parent = models.ForeignKey('self',
-                               on_delete=models.SET_NULL,
+                               on_delete=models.PROTECT,
                                # NOTE: should be named 'children'
                                related_name='parent_administration',
                                default=None,
