@@ -28,6 +28,8 @@ For initial run, you need to create a new docker volume.
 docker volume create rtmis-docker-sync
 ```
 
+Note: On some linux systems, you may need to change the permissions of the directory where the volume is stored.
+
 The development site should be running at: [localhost:3000](http://localhost:3000). Any endpoints with prefix
 
 - `^/api/*` is redirected to [localhost:8000/api](http://localhost:8000/api)
@@ -55,6 +57,12 @@ The script will prompt you for various actions related to data seeding such as:
 - and seed fake data
 
 Answer each prompt by entering 'y' or 'n' followed by the Enter key.
+
+```bash
+./dc.sh exec backend python manage.py generate_views
+```
+
+This command will generate materialized view for `DataCategory` model
 
 #### Log
 
