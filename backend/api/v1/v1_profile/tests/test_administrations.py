@@ -158,7 +158,9 @@ class AdministrationTestCase(TestCase, ProfileTestHelperMixin):
                     content_type="application/json",
                     HTTP_AUTHORIZATION=f'Bearer {self.token}'))
         self.assertEqual(response.status_code, 409)
-        self.assertIn('error', response.json())
+        body = response.json()
+        self.assertIn('error', body)
+        self.assertIn('referenced_by', body)
 
 
 @override_settings(USE_TZ=False)
