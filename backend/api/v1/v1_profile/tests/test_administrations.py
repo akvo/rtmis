@@ -36,7 +36,7 @@ class AdministrationTestCase(TestCase, ProfileTestHelperMixin):
     def test_create(self):
         level_2 = Levels.objects.get(level=2)
         adm_level_1 = Administration.objects.get(level__level=1)
-        payload = {'parent': adm_level_1.id, 'name': 'Test', 'code': 'T'}
+        payload = {'parent': adm_level_1.id, 'name': 'Test'}
 
         response = typing.cast(
                 HttpResponse,
@@ -48,7 +48,7 @@ class AdministrationTestCase(TestCase, ProfileTestHelperMixin):
 
         self.assertEqual(response.status_code, 201)
         created = Administration.objects.get(name='Test')
-        self.assertEqual(created.code, 'T')
+        self.assertIsNotNone(created.code)
         self.assertEqual(created.parent, adm_level_1)
         self.assertEqual(created.level, level_2)
 
@@ -111,7 +111,6 @@ class AdministrationTestCase(TestCase, ProfileTestHelperMixin):
         payload = {
             'parent': adm_level_1.id,
             'name': 'Test renamed',
-            'code': 'TR'
         }
 
         response = typing.cast(
@@ -125,7 +124,6 @@ class AdministrationTestCase(TestCase, ProfileTestHelperMixin):
         self.assertEqual(response.status_code, 200)
         updated = Administration.objects.get(id=test_adm.id)
         self.assertEqual(updated.name, 'Test renamed')
-        self.assertEqual(updated.code, 'TR')
         self.assertEqual(updated.parent, adm_level_1)
         self.assertEqual(updated.level, level_2)
 
