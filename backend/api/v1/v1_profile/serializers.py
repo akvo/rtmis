@@ -1,3 +1,5 @@
+import random
+import string
 from typing import Any, Dict, cast
 from rest_framework import serializers
 from api.v1.v1_profile.models import (
@@ -149,6 +151,7 @@ class AdministrationSerializer(serializers.ModelSerializer):
             'children',
             'attributes'
         ]
+        read_only_fields = ['code']
 
     def __init__(self, *args, **kwargs):
         compact = kwargs.pop('compact', False)
@@ -162,6 +165,7 @@ class AdministrationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         attributes = validated_data.pop('attributes', [])
         self._assign_level(validated_data)
+        self._set_code(validated_data)
         instance = super().create(validated_data)
         for attribute in attributes:
             instance.attributes.create(**attribute)
@@ -181,6 +185,13 @@ class AdministrationSerializer(serializers.ModelSerializer):
                         .filter(id=target.id).update(**it)
 
         return instance
+
+    def _set_code(self, validated_data):
+        code = ''.join([
+            random.choice(string.ascii_letters + string.digits+'-_')
+            for _ in range(10)
+        ])
+        validated_data.update({'code': code})
 
     def _assign_level(self, validated_data):
         parent_level = validated_data.get('parent').level.level
