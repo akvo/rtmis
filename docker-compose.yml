@@ -14,6 +14,8 @@ services:
       - DB_HOST=db
       - DEBUG=True
       - DJANGO_SECRET=local-secret
+      - APK_UPLOAD_SECRET
+      - STORAGE_PATH
     depends_on:
       - db
   worker:
@@ -29,6 +31,8 @@ services:
       - DB_HOST=db
       - DEBUG=True
       - DJANGO_SECRET=local-secret
+      - APK_UPLOAD_SECRET
+      - STORAGE_PATH
     depends_on:
       - backend
   frontend:
