@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, cast
 from rest_framework import serializers
 from api.v1.v1_profile.models import (
         Administration, AdministrationAttribute, AdministrationAttributeValue,
@@ -45,9 +45,78 @@ class AdministrationAttributeSerializer(serializers.ModelSerializer):
 
 
 class AdministrationAttributeValueSerializer(serializers.ModelSerializer):
+    INVALID_VALUE_ERROR = 'Invalid value for attribute "%s"'
+    type = serializers.ReadOnlyField(source='attribute.type')
+
     class Meta:
         model = AdministrationAttributeValue
-        fields = ['attribute', 'value', 'options']
+        fields = ['attribute', 'type', 'value']
+
+    def to_internal_value(self, data: Dict):
+        value = data.get('value', None)
+        if value:
+            data['value'] = {'value': value}
+        return super().to_internal_value(data)
+
+    def validate(self, data):
+        attribute = cast(AdministrationAttribute, data.get('attribute'))
+        value = data.get('value', {}).get('value', None)
+        if value:
+            if attribute.type == AdministrationAttribute.Type.VALUE:
+                self._validate_value_attribute(attribute, value)
+            if attribute.type == AdministrationAttribute.Type.OPTION:
+                self._validate_option_attribute(attribute, value)
+            if attribute.type == AdministrationAttribute.Type.MULTIPLE_OPTION:
+                self._validate_multiple_option_attribute(attribute, value)
+            if attribute.type == AdministrationAttribute.Type.AGGREGATE:
+                self._validate_aggregate_attribute(attribute, value)
+        return data
+
+    def _validate_value_attribute(self, attribute, value):
+        if type(value) == dict:
+            raise serializers.ValidationError(
+                    self.INVALID_VALUE_ERROR.format(attribute.name))
+        if type(value) == list and len(value) > 0:
+            raise serializers.ValidationError(
+                    self.INVALID_VALUE_ERROR.format(attribute.name))
+
+    def _validate_option_attribute(self, attribute, value):
+        if value not in attribute.options:
+            raise serializers.ValidationError(
+                    self.INVALID_VALUE_ERROR.format(attribute.name))
+
+    def _validate_multiple_option_attribute(self, attribute, value):
+        if type(value) != list:
+            raise serializers.ValidationError(
+                    self.INVALID_VALUE_ERROR.format(attribute.name))
+        for val in value:
+            if val not in attribute.options:
+                raise serializers.ValidationError(
+                        self.INVALID_VALUE_ERROR.format(attribute.name))
+
+    def _validate_aggregate_attribute(self, attribute, value):
+        if type(value) != dict:
+            raise serializers.ValidationError(
+                    self.INVALID_VALUE_ERROR.format(attribute.name))
+        for key in value:
+            if key not in attribute.options:
+                raise serializers.ValidationError(
+                        self.INVALID_VALUE_ERROR.format(attribute.name))
+
+    def to_representation(self, instance: AdministrationAttributeValue):
+        data = super().to_representation(instance)
+        value = self._present_value(data, instance.attribute.type)
+        data['value'] = value
+        return data
+
+    def _present_value(self, data: Dict, type: str):
+        value = data.get('value', {}).get('value', None)
+        if value is None and\
+                type == AdministrationAttribute.Type.MULTIPLE_OPTION:
+            return []
+        if value is None and type == AdministrationAttribute.Type.AGGREGATE:
+            return {}
+        return value
 
 
 def validate_parent(obj: Administration):
