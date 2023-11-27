@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -18,7 +19,8 @@ class Levels(models.Model):
 
 class Administration(models.Model):
     parent = models.ForeignKey('self',
-                               on_delete=models.SET_NULL,
+                               on_delete=models.PROTECT,
+                               # NOTE: should be named 'children'
                                related_name='parent_administration',
                                default=None,
                                null=True)
@@ -77,3 +79,28 @@ class Access(models.Model):
 
     class Meta:
         db_table = 'access'
+
+
+class AdministrationAttribute(models.Model):
+    name = models.TextField()
+    options = ArrayField(
+            models.CharField(max_length=255, null=True),
+            default=list,
+            blank=True)
+
+    class Meta:
+        db_table = 'administration_attribute'
+
+
+class AdministrationAttributeValue(models.Model):
+    administration = models.ForeignKey(
+            to=Administration,
+            on_delete=models.CASCADE,
+            related_name='attributes')
+    attribute = models.ForeignKey(
+            to=AdministrationAttribute, on_delete=models.CASCADE)
+    value = models.TextField()
+    options = models.JSONField(default=list, blank=True)
+
+    class Meta:
+        db_table = 'administration_attribute_value'

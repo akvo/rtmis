@@ -14,7 +14,7 @@ class FormData(models.Model):
                              on_delete=models.CASCADE,
                              related_name='form_form_data')
     administration = models.ForeignKey(to=Administration,
-                                       on_delete=models.CASCADE,
+                                       on_delete=models.PROTECT,
                                        related_name='administration_form_data')
     geo = models.JSONField(null=True, default=None)
     created_by = models.ForeignKey(to=SystemUser,
@@ -68,7 +68,7 @@ class PendingDataBatch(models.Model):
                              related_name='form_batch_data')
     administration = models.ForeignKey(
         to=Administration,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name='administration_pending_data_batch')
     user = models.ForeignKey(to=SystemUser,
                              on_delete=models.CASCADE,
@@ -116,7 +116,7 @@ class PendingFormData(models.Model):
                              null=True)
     administration = models.ForeignKey(
         to=Administration,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name='administration_pending_form_data')  # noqa
     geo = models.JSONField(null=True, default=None)
     batch = models.ForeignKey(to=PendingDataBatch,
@@ -304,7 +304,7 @@ class ViewDataOptions(models.Model):
                              related_name='data_view_data_options')
     administration = models.ForeignKey(
         to=Administration,
-        on_delete=models.DO_NOTHING,
+        on_delete=models.PROTECT,
         related_name='administration_view_data_options')
     form = models.ForeignKey(to=Forms,
                              on_delete=models.DO_NOTHING,
@@ -323,7 +323,7 @@ class ViewOptions(models.Model):
                              related_name='data_view_options')
     administration = models.ForeignKey(
         to=Administration,
-        on_delete=models.DO_NOTHING,
+        on_delete=models.PROTECT,
         related_name='administration_view_options')
     question = models.ForeignKey(to=Questions,
                                  on_delete=models.DO_NOTHING,
