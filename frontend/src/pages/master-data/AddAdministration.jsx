@@ -3,8 +3,7 @@ import { Button, Card, Col, Divider, Form, Input, Row, Select } from "antd";
 import { Breadcrumbs, InputAttributes } from "../../components";
 import { useNavigate } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
-import fakeAttributes from "../../placeholders/attributes-administration.json";
-import { store } from "../../lib";
+import { api } from "../../lib";
 import "./style.scss";
 
 const pagePath = [
@@ -18,27 +17,6 @@ const pagePath = [
   },
   {
     title: "Add Administration",
-  },
-];
-
-const admLevels = [
-  {
-    id: 2,
-    level: 1,
-    name: "NAME_1",
-    alias: "County",
-  },
-  {
-    id: 3,
-    level: 2,
-    name: "NAME_2",
-    alias: "Sub-County",
-  },
-  {
-    id: 4,
-    level: 3,
-    name: "NAME_3",
-    alias: "Ward",
   },
 ];
 
@@ -56,70 +34,68 @@ const AddAdministration = () => {
 
   const onFinish = async (values) => {
     setSubmitting(true);
-
-    const attributesPayload = values.attributes.map((attr, ax) => {
-      const attrName = attributes?.[ax]?.name;
-      const fieldValue = attr?.[attrName];
-      // TODO
-      return {
-        administration_id: 1,
-        administration_attribute_id: attributes?.[ax]?.id,
-        attribute: attrName,
-        value: fieldValue,
-        options: attributes?.[ax]?.options ? [fieldValue] : [],
-      };
-    });
     const payload = {
-      code: values.code,
-      name: values.name,
-      level_id: values.level_id,
-      parent_id: values.parent_id,
-      attributes: attributesPayload,
+      ...values,
+      attributes: values.attributes.map((attr) => {
+        const { id: attrId, ...fieldValue } = attr;
+        return {
+          attribute: attrId,
+          value: Object.values(fieldValue)?.[0] || "",
+          options: [],
+        };
+      }),
     };
-    store.update((s) => {
-      const _md = {
-        ...s.masterData,
-        administration: { ...payload, id: 1011 },
-      };
-      s.masterData = _md;
-    });
-    await new Promise((r) => setTimeout(r, 2000));
-    notify({
-      type: "success",
-      message: `Administration added`,
-    });
-    setSubmitting(false);
-    navigate("/master-data");
+    try {
+      await api.post(`/administrations`, payload);
+      notify({
+        type: "success",
+        message: `Administration added`,
+      });
+      setSubmitting(false);
+      navigate("/master-data");
+    } catch (error) {
+      setSubmitting(false);
+    }
   };
 
-  const fakeGetAttributesApi = useCallback(async () => {
-    await new Promise((r) => setTimeout(r, 2000));
-    const attrFields = fakeAttributes.map((attr) => {
-      return {
-        [attr.name]: attr.options.length ? [] : "",
-      };
-    });
-    setAttributes(fakeAttributes);
-    form.setFieldsValue({ attributes: attrFields });
-    setLoading(false);
+  const fetchAttributes = useCallback(async () => {
+    try {
+      const { data: _attributes } = await api.get("/administration-attributes");
+      const attrFields = _attributes.map((attr) => {
+        return {
+          id: attr?.id,
+          [attr.name]: attr.options.length ? [] : "",
+        };
+      });
+      setAttributes(_attributes);
+      form.setFieldsValue({ attributes: attrFields });
+      setLoading(false);
+    } catch {
+      setLoading(false);
+    }
   }, [form]);
 
   useEffect(() => {
-    fakeGetAttributesApi();
-  }, [fakeGetAttributesApi]);
+    fetchAttributes();
+  }, [fetchAttributes]);
 
   useEffect(() => {
     // TODO
     // get real adm parents
     setParents([
       {
-        id: 1,
-        code: "JKT",
-        name: "DKI Jakarta",
-        level_id: 1,
-        parent_id: null,
-        parent: null,
-        path: "1",
+        id: 3,
+        name: "Bomet",
+        code: null,
+        parent: {
+          id: 1,
+          name: "Kenya",
+          code: null,
+        },
+        level: {
+          id: 2,
+          name: "County",
+        },
       },
     ]);
   }, []);
@@ -140,8 +116,7 @@ const AddAdministration = () => {
         initialValues={{
           code: "",
           name: "",
-          level_id: null,
-          parent_id: null,
+          parent: null,
           attributes: [],
         }}
         onFinish={onFinish}
@@ -177,28 +152,10 @@ const AddAdministration = () => {
               </Form.Item>
             </Col>
           </Row>
+
           <div className="form-row">
             <Form.Item
-              name="level_id"
-              label="Administration Level"
-              rules={[{ required: true }]}
-            >
-              <Select
-                getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder="Select level.."
-                allowClear
-              >
-                {admLevels?.map((adm, adx) => (
-                  <Option key={`org-attr-${adx}`} value={adm.id}>
-                    {adm.alias}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </div>
-          <div className="form-row">
-            <Form.Item
-              name="parent_id"
+              name="parent"
               label="Administration Parent"
               rules={[{ required: true }]}
             >

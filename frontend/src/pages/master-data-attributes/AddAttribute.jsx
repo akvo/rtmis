@@ -11,54 +11,22 @@ import {
   Space,
 } from "antd";
 import { Breadcrumbs } from "../../components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
-import { store } from "../../lib";
+import { api } from "../../lib";
 import { MinusCircleOutlined } from "@ant-design/icons";
 import "./style.scss";
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Attributes",
-    link: "/master-data/attributes",
-  },
-  {
-    title: "Add Attribute",
-  },
-];
-
-const admLevels = [
-  {
-    id: 2,
-    level: 1,
-    name: "NAME_1",
-    alias: "County",
-  },
-  {
-    id: 3,
-    level: 2,
-    name: "NAME_2",
-    alias: "Sub-County",
-  },
-  {
-    id: 4,
-    level: 3,
-    name: "NAME_3",
-    alias: "Ward",
-  },
-];
 const attributeTypes = [
   {
     id: 1,
     name: "administration",
+    api: "/administration-attributes",
   },
   {
     id: 2,
     name: "entity",
+    api: null,
   },
 ];
 
@@ -66,33 +34,52 @@ const { Option } = Select;
 
 const AddAttribute = () => {
   const [submitting, setSubmitting] = useState(false);
+  const [attrType, setAttrType] = useState(null);
 
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const { notify } = useNotification();
+  const { id } = useParams();
+
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: "/control-center",
+    },
+    {
+      title: "Manage Attributes",
+      link: "/master-data/attributes",
+    },
+    {
+      title: id ? "Edit Attribute" : "Add Attribute",
+    },
+  ];
+
+  const handleOnSelectType = (val) => {
+    const findType = attributeTypes.find((atype) => atype.id === val);
+    setAttrType(findType);
+  };
 
   const onFinish = async (values) => {
-    setSubmitting(true);
-    const payload = {
-      attribute_type: values.attribute_type,
-      level_id: values.level_id,
-      name: values.name,
-      options: values.options,
-    };
-    store.update((s) => {
-      const _md = {
-        ...s.masterData,
-        attribute: { ...payload, id: 1011 },
-      };
-      s.masterData = _md;
-    });
-    await new Promise((r) => setTimeout(r, 2000));
-    notify({
-      type: "success",
-      message: `Attribute added`,
-    });
-    setSubmitting(false);
-    navigate("/master-data/attributes");
+    if (!attrType?.api) {
+      return;
+    }
+    try {
+      setSubmitting(true);
+      const apiURL = id ? `${attrType.api}/${id}` : attrType.api;
+      await api.post(apiURL, {
+        name: values.name,
+        options: values.options.map((o) => o.name),
+      });
+      notify({
+        type: "success",
+        message: `Attribute ${id ? "updated" : "added"}`,
+      });
+      setSubmitting(false);
+      navigate("/master-data/attributes");
+    } catch {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -110,7 +97,6 @@ const AddAttribute = () => {
         layout="vertical"
         initialValues={{
           attribute_type: "",
-          level_id: null,
           name: "",
           options: [],
         }}
@@ -126,30 +112,12 @@ const AddAttribute = () => {
               <Select
                 getPopupContainer={(trigger) => trigger.parentNode}
                 placeholder="Select type..."
+                onSelect={handleOnSelectType}
                 allowClear
               >
                 {attributeTypes?.map((at) => (
                   <Option key={at.id} value={at.id}>
                     {at.name}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </div>
-          <div className="form-row">
-            <Form.Item
-              name="level_id"
-              label="Attribute Level"
-              rules={[{ required: true }]}
-            >
-              <Select
-                getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder="Select level.."
-                allowClear
-              >
-                {admLevels?.map((adm, adx) => (
-                  <Option key={`org-attr-${adx}`} value={adm.id}>
-                    {adm.alias}
                   </Option>
                 ))}
               </Select>
