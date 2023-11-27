@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from rest_framework import serializers
 from api.v1.v1_profile.models import (
         Administration, AdministrationAttribute, AdministrationAttributeValue,
@@ -22,24 +23,39 @@ class AdministrationLevelsSerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 
-def validate_parent(obj: Administration):
-    sub_level = obj.level.level + 1
-    try:
-        Levels.objects.get(level=sub_level)
-    except Levels.DoesNotExist:
-        raise serializers.ValidationError('Invalid parent level')
-
-
 class AdministrationAttributeSerializer(serializers.ModelSerializer):
     class Meta:
         model = AdministrationAttribute
-        fields = ['id', 'name', 'options']
+        fields = ['id', 'name', 'type', 'options']
+
+    def validate(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        type = data.get('type', AdministrationAttribute.Type.VALUE)
+        options = data.get('options', [])
+        if type == AdministrationAttribute.Type.VALUE and len(options) > 0:
+            error = (
+                f'Attribute of type "{AdministrationAttribute.Type.VALUE}" '
+                'should not have any options'
+            )
+            raise serializers.ValidationError(error)
+        if type != AdministrationAttribute.Type.VALUE and len(options) < 1:
+            error = f'Attribute of type "{type}" should have at least 1 option'
+            raise serializers.ValidationError(error)
+
+        return super().validate(data)
 
 
 class AdministrationAttributeValueSerializer(serializers.ModelSerializer):
     class Meta:
         model = AdministrationAttributeValue
         fields = ['attribute', 'value', 'options']
+
+
+def validate_parent(obj: Administration):
+    sub_level = obj.level.level + 1
+    try:
+        Levels.objects.get(level=sub_level)
+    except Levels.DoesNotExist:
+        raise serializers.ValidationError('Invalid parent level')
 
 
 class AdministrationSerializer(serializers.ModelSerializer):

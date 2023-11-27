@@ -82,7 +82,17 @@ class Access(models.Model):
 
 
 class AdministrationAttribute(models.Model):
+    class Type(models.TextChoices):
+        VALUE = 'value', 'Value'
+        OPTION = 'option', 'Option'
+        MULTIPLE_OPTION = 'multiple_option', 'Multiple option'
+        AGGREGATE = 'aggregate', 'Aggregate'
+
     name = models.TextField()
+    type = models.CharField(
+            max_length=25,
+            choices=Type.choices,
+            default=Type.VALUE)
     options = ArrayField(
             models.CharField(max_length=255, null=True),
             default=list,
