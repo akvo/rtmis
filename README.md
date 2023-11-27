@@ -16,6 +16,28 @@ Real Time Monitoring Information Systems
 
 Expected that PORT 5432 and 3000 are not being used by other services.
 
+.env
+
+```bash
+DB_HOST=db
+DB_PASSWORD=password
+DB_SCHEMA=rtmis
+DB_USER=akvo
+DEBUG="True"
+DJANGO_SECRET=local-secret
+GOOGLE_APPLICATION_CREDENTIALS
+MAILJET_APIKEY
+MAILJET_SECRET
+WEBDOMAIN
+POSTGRES_PASSWORD=password
+PGADMIN_DEFAULT_EMAIL=dev@akvo.org
+PGADMIN_DEFAULT_PASSWORD=password
+PGADMIN_LISTEN_PORT="5050"
+IP_ADDRESS="http://<your_ip_address>:3000/api/v1/device"
+APK_UPLOAD_SECRET="123456789AU"
+STORAGE_PATH="./storage"
+```
+
 #### Start
 
 For initial run, you need to create a new docker volume.
@@ -46,7 +68,7 @@ Once the containers are up and running, you can seed the necessary data by runni
 ./dc.sh exec backend ./seeder.sh
 ```
 
-The script will prompt you for various actions related to data seeding such as: 
+The script will prompt you for various actions related to data seeding such as:
 
 - seed administrative data
 - add a new super admin
