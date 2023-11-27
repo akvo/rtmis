@@ -109,8 +109,7 @@ class AdministrationAttributeValue(models.Model):
             related_name='attributes')
     attribute = models.ForeignKey(
             to=AdministrationAttribute, on_delete=models.CASCADE)
-    value = models.TextField()
-    options = models.JSONField(default=list, blank=True)
+    value = models.JSONField(default=dict)
 
     class Meta:
         db_table = 'administration_attribute_value'
