@@ -1,5 +1,9 @@
 # Create your views here.
+import typing
+from django.contrib.admin.sites import site
+from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import ProtectedError
+from django.contrib.admin.utils import get_deleted_objects
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework.viewsets import ModelViewSet
 from api.v1.v1_profile.models import Administration, AdministrationAttribute
@@ -62,11 +66,15 @@ class AdministrationViewSet(ModelViewSet):
         try:
             instance.delete()
         except ProtectedError:
+            _, _, _, protected = get_deleted_objects(
+                    [instance], typing.cast(WSGIRequest, request), site)
             error = (
                 f'Cannot delete "Administration: {instance}" because it is '
                 'referenced by other data'
             )
-            return Response({'error': error}, status=status.HTTP_409_CONFLICT)
+            return Response(
+                    {'error': error, 'referenced_by': protected},
+                    status=status.HTTP_409_CONFLICT)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
