@@ -5,24 +5,10 @@ import {
   Breadcrumbs,
   InputAttributes,
 } from "../../components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
 import { api, store } from "../../lib";
 import "./style.scss";
-
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Administrative List",
-    link: "/master-data",
-  },
-  {
-    title: "Add Administration",
-  },
-];
 
 const admLevels = [
   {
@@ -49,11 +35,14 @@ const AddAdministration = () => {
   const [loading, setLoading] = useState(true);
   const [attributes, setAttributes] = useState(true);
   const [level, setLevel] = useState(1);
+  const [preload, setPreload] = useState(true);
   const selectedAdm = store.useState((s) => s.administration);
+  const initialValues = store.useState((s) => s.masterData.administration);
 
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const { notify } = useNotification();
+  const { id } = useParams();
 
   const onFinish = async (values) => {
     setSubmitting(true);
@@ -62,20 +51,33 @@ const AddAdministration = () => {
       const payload = {
         code: values.code,
         name: values.name,
-        parent: parent?.id || null,
+        parent: parent?.id || values.parent,
         attributes: values.attributes.map((attr) => {
-          const { id: attrId, ...fieldValue } = attr;
+          const { id: attrId, aggregate, ...fieldValue } = attr;
+          const attributeValue = aggregate?.[0]
+            ? aggregate?.[0]
+            : Object.values(fieldValue)?.[0] || "";
           return {
             attribute: attrId,
-            value: Object.values(fieldValue)?.[0] || "",
-            options: [],
+            value: attributeValue,
           };
         }),
       };
-      await api.post("/administrations", payload);
-      notify({
-        type: "success",
-        message: `Administration added`,
+      if (id) {
+        await api.put(`/administrations/${id}`, payload);
+        notify({
+          type: "success",
+          message: `Administration updated`,
+        });
+      } else {
+        await api.post("/administrations", payload);
+        notify({
+          type: "success",
+          message: `Administration added`,
+        });
+      }
+      store.update((s) => {
+        s.masterData.administration = {};
       });
       setSubmitting(false);
       navigate("/master-data");
@@ -84,26 +86,74 @@ const AddAdministration = () => {
     }
   };
 
+  const fetchData = useCallback(async () => {
+    if (id && preload && !initialValues?.id) {
+      setPreload(false);
+      const { data: apiData } = await api.get(`/administrations/${id}`);
+      store.update((s) => {
+        s.masterData.administration = apiData;
+      });
+    }
+    if ((!id || initialValues?.id) && preload) {
+      setPreload(false);
+    }
+  }, [id, preload, initialValues]);
+
   const fetchAttributes = useCallback(async () => {
+    if (id && !initialValues?.id) {
+      return;
+    }
     try {
       const { data: _attributes } = await api.get("/administration-attributes");
       const attrFields = _attributes.map((attr) => {
+        const findValue = initialValues?.attributes?.find(
+          (a) => a?.attribute === attr?.id
+        );
+        if (attr.type === "aggregate") {
+          const initAggregation = attr?.options?.reduce((acc, currentValue) => {
+            acc[currentValue] = findValue?.value?.[currentValue] || null;
+            return acc;
+          }, {});
+          return {
+            id: attr?.id,
+            aggregate: [initAggregation],
+          };
+        }
+        const defaultValue = attr.type === "value" ? "" : [];
         return {
           id: attr?.id,
-          [attr.name]: attr.options.length ? [] : "",
+          [attr.name]: findValue?.value || defaultValue,
         };
       });
       setAttributes(_attributes);
-      form.setFieldsValue({ attributes: attrFields });
+      form.setFieldsValue({ ...initialValues, attributes: attrFields });
       setLoading(false);
     } catch {
       setLoading(false);
     }
-  }, [form]);
+  }, [form, id, initialValues]);
 
   useEffect(() => {
     fetchAttributes();
   }, [fetchAttributes]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: "/control-center",
+    },
+    {
+      title: "Manage Administrative List",
+      link: "/master-data",
+    },
+    {
+      title: id ? "Edit Administration" : "Add Administration",
+    },
+  ];
 
   return (
     <div id="add-administration">
@@ -114,33 +164,25 @@ const AddAdministration = () => {
         </Col>
       </Row>
       <Divider />
-      <Form
-        name="adm-form"
-        form={form}
-        layout="vertical"
-        initialValues={{
-          code: "",
-          name: "",
-          level_id: 1,
-          parent: 1,
-          attributes: [],
-        }}
-        onFinish={onFinish}
-      >
+      <Form name="adm-form" form={form} layout="vertical" onFinish={onFinish}>
         <Card bodyStyle={{ padding: 0 }}>
           <Row gutter={16}>
             <Col span={6}>
               <div className="form-row">
-                <Form.Item
-                  name="level_id"
-                  label="Administration Level"
-                  rules={[{ required: true }]}
-                >
+                <Form.Item name="level_id" label="Administration Level">
                   <Select
                     getPopupContainer={(trigger) => trigger.parentNode}
                     placeholder="Select level.."
                     value={level}
-                    onChange={setLevel}
+                    onChange={(val) => {
+                      setLevel(val);
+                      store.update((s) => {
+                        s.masterData.administration = {
+                          ...s.masterData.administration,
+                          parent: null,
+                        };
+                      });
+                    }}
                     allowClear
                   >
                     {admLevels?.map((adm) => (
@@ -154,20 +196,30 @@ const AddAdministration = () => {
             </Col>
             <Col span={18}>
               <Form.Item name="parent" label="Administration Parent">
-                {level === 1 ? (
-                  <Select placeholder="Select parent.." allowClear>
-                    {selectedAdm?.map((adm) => (
-                      <Option key={adm.id} value={adm.id}>
-                        {adm.name}
-                      </Option>
-                    ))}
-                  </Select>
-                ) : (
-                  <AdministrationDropdown
-                    size="large"
-                    width="100%"
-                    maxLevel={level}
+                {initialValues?.parent?.name ? (
+                  <Input
+                    type="text"
+                    value={initialValues.parent.name}
+                    readOnly
                   />
+                ) : (
+                  <>
+                    {level === 1 ? (
+                      <Select placeholder="Select parent.." allowClear>
+                        {selectedAdm?.map((adm) => (
+                          <Option key={adm.id} value={adm.id}>
+                            {adm.name}
+                          </Option>
+                        ))}
+                      </Select>
+                    ) : (
+                      <AdministrationDropdown
+                        size="large"
+                        width="100%"
+                        maxLevel={level}
+                      />
+                    )}
+                  </>
                 )}
 
                 <Input type="hidden" />
@@ -206,10 +258,10 @@ const AddAdministration = () => {
           </Row>
           <InputAttributes attributes={attributes} loading={loading} />
         </Card>
-        <Row justify="end" align="middle">
+        <Row align="middle">
           <Col>
             <Button type="primary" htmlType="submit" loading={submitting}>
-              Add administration
+              Save administration
             </Button>
           </Col>
         </Row>
