@@ -2,22 +2,19 @@ import { Row, Col, Form, Input, Select, Spin } from "antd";
 
 const { Option } = Select;
 
-const InputType = ({ field, name, options }) => {
+const InputType = ({ field, name, options, mode }) => {
   return options.length ? (
     <div className="form-row">
-      <Form.Item
-        name={[field.name, name]}
-        label={name}
-        rules={[{ required: true }]}
-      >
+      <Form.Item name={[field.name, name]} label={name}>
         <Select
           getPopupContainer={(trigger) => trigger.parentNode}
-          placeholder="Select level.."
+          placeholder={`Select ${name}...`}
           allowClear
+          mode={mode}
         >
-          {options?.map((opt) => (
-            <Option key={opt.id} value={opt.id}>
-              {opt.name}
+          {options?.map((opt, index) => (
+            <Option key={index} value={opt}>
+              {opt}
             </Option>
           ))}
         </Select>
@@ -34,7 +31,7 @@ const InputType = ({ field, name, options }) => {
   );
 };
 
-const InputAttributes = ({ attributes = [], loading = false }) => {
+const InputAttributes = ({ attributes = [], loading = false, mode = null }) => {
   return (
     <Spin spinning={loading} tip="Loading...">
       <Form.List name="attributes">
@@ -42,7 +39,12 @@ const InputAttributes = ({ attributes = [], loading = false }) => {
           return (
             <>
               {fields.map((field, index) => (
-                <InputType {...attributes?.[index]} field={field} key={index} />
+                <InputType
+                  field={field}
+                  key={index}
+                  mode={mode}
+                  {...attributes?.[index]}
+                />
               ))}
             </>
           );
