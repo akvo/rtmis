@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Card, Col, Divider, Row, Table } from "antd";
+import { Card, Col, Divider, Modal, Row, Table } from "antd";
 import {
   AdministrationFilters,
   Breadcrumbs,
@@ -64,9 +64,28 @@ const MasterData = () => {
     setCurrentPage(e.current);
   };
 
-  const handleOnUpdate = (row) => {
-    const _dataset = dataset.map((d) => (d?.id === row?.id ? row : d));
-    setDataset(_dataset);
+  const deleteAdministration = async (row) => {
+    setLoading(true);
+    try {
+      await api.delete(`/administrations/${row.id}`);
+      const _dataset = dataset.filter((d) => d?.id !== row?.id);
+      setDataset(_dataset);
+      setLoading(false);
+    } catch {
+      setLoading(false);
+    }
+  };
+
+  const handleOnDelete = (row) => {
+    Modal.confirm({
+      title: `Delete ${row.name}?`,
+      onOk: () => {
+        store.update((s) => {
+          s.masterData.administration = {};
+        });
+        deleteAdministration(row);
+      },
+    });
   };
 
   const fetchAttributes = useCallback(async () => {
@@ -139,7 +158,7 @@ const MasterData = () => {
               return (
                 <DetailAdministration
                   {...{ record, attributes }}
-                  onUpdate={handleOnUpdate}
+                  onDelete={handleOnDelete}
                 />
               );
             },
