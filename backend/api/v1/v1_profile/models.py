@@ -82,7 +82,17 @@ class Access(models.Model):
 
 
 class AdministrationAttribute(models.Model):
+    class Type(models.TextChoices):
+        VALUE = 'value', 'Value'
+        OPTION = 'option', 'Option'
+        MULTIPLE_OPTION = 'multiple_option', 'Multiple option'
+        AGGREGATE = 'aggregate', 'Aggregate'
+
     name = models.TextField()
+    type = models.CharField(
+            max_length=25,
+            choices=Type.choices,
+            default=Type.VALUE)
     options = ArrayField(
             models.CharField(max_length=255, null=True),
             default=list,
@@ -99,8 +109,7 @@ class AdministrationAttributeValue(models.Model):
             related_name='attributes')
     attribute = models.ForeignKey(
             to=AdministrationAttribute, on_delete=models.CASCADE)
-    value = models.TextField()
-    options = models.JSONField(default=list, blank=True)
+    value = models.JSONField(default=dict)
 
     class Meta:
         db_table = 'administration_attribute_value'
