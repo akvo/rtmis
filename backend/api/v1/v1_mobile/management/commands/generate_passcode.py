@@ -8,6 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        MobileAssignment.objects.all().delete()
         for user in SystemUser.objects.all():
             access = Access.objects.filter(user=user).first()
             if not access:
