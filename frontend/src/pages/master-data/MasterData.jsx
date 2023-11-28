@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Card, Col, Divider, Modal, Row, Table } from "antd";
+import { Button, Card, Col, Divider, Row, Table } from "antd";
+import { CloseSquareOutlined, PlusSquareOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 import {
   AdministrationFilters,
   Breadcrumbs,
@@ -7,7 +9,6 @@ import {
   ManageDataTab,
 } from "../../components";
 import { api, store, uiText } from "../../lib";
-import { CloseSquareOutlined, PlusSquareOutlined } from "@ant-design/icons";
 import DetailAdministration from "./DetailAdministration";
 
 const pagePath = [
@@ -26,6 +27,7 @@ const MasterData = () => {
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
 
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
@@ -38,6 +40,7 @@ const MasterData = () => {
     {
       title: "Code",
       dataIndex: "code",
+      width: "10%",
     },
     {
       title: "Name",
@@ -53,35 +56,26 @@ const MasterData = () => {
       dataIndex: "parent",
       render: (record) => record?.name || "",
     },
+    {
+      title: "Action",
+      dataIndex: "id",
+      width: "10%",
+      render: (recordID) => {
+        return (
+          <Button
+            type="link"
+            onClick={() => navigate(`/master-data/${recordID}/edit`)}
+          >
+            Edit
+          </Button>
+        );
+      },
+    },
     Table.EXPAND_COLUMN,
   ];
 
   const handleChange = (e) => {
     setCurrentPage(e.current);
-  };
-
-  const deleteAdministration = async (row) => {
-    setLoading(true);
-    try {
-      await api.delete(`/administrations/${row.id}`);
-      const _dataset = dataset.filter((d) => d?.id !== row?.id);
-      setDataset(_dataset);
-      setLoading(false);
-    } catch {
-      setLoading(false);
-    }
-  };
-
-  const handleOnDelete = (row) => {
-    Modal.confirm({
-      title: `Delete ${row.name}?`,
-      onOk: () => {
-        store.update((s) => {
-          s.masterData.administration = {};
-        });
-        deleteAdministration(row);
-      },
-    });
   };
 
   const fetchAttributes = useCallback(async () => {
@@ -151,12 +145,7 @@ const MasterData = () => {
           rowKey="id"
           expandable={{
             expandedRowRender: (record) => {
-              return (
-                <DetailAdministration
-                  {...{ record, attributes }}
-                  onDelete={handleOnDelete}
-                />
-              );
+              return <DetailAdministration {...{ record, attributes }} />;
             },
             expandIcon: ({ expanded, onExpand, record }) =>
               expanded ? (
