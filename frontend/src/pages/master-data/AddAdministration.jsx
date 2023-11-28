@@ -1,5 +1,16 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, Card, Col, Divider, Form, Input, Row, Select } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Divider,
+  Form,
+  Input,
+  Modal,
+  Row,
+  Select,
+  Space,
+} from "antd";
 import {
   AdministrationDropdown,
   Breadcrumbs,
@@ -44,6 +55,45 @@ const AddAdministration = () => {
   const { notify } = useNotification();
   const { id } = useParams();
 
+  const deleteAdministration = async (row) => {
+    try {
+      await api.delete(`/administrations/${row.id}`);
+      notify({
+        type: "success",
+        message: `Administration deleted`,
+      });
+      navigate("/master-data");
+    } catch {
+      Modal.error({
+        title: "Unable to delete the administration",
+        content: (
+          <>
+            It is associated with other resources or has cascade restrictions.
+            <br />
+            <em>
+              Please review and resolve dependencies before attempting to
+              delete.
+            </em>
+          </>
+        ),
+      });
+      setLoading(false);
+    }
+  };
+
+  const handleOnDelete = () => {
+    Modal.confirm({
+      title: `Delete ${initialValues.name}`,
+      content: "Are you sure you want to delete this administration?",
+      onOk: () => {
+        store.update((s) => {
+          s.masterData.administration = {};
+        });
+        deleteAdministration(initialValues);
+      },
+    });
+  };
+
   const onFinish = async (values) => {
     setSubmitting(true);
     try {
@@ -87,17 +137,14 @@ const AddAdministration = () => {
   };
 
   const fetchData = useCallback(async () => {
-    if (id && preload && !initialValues?.id) {
+    if (id && preload) {
       setPreload(false);
       const { data: apiData } = await api.get(`/administrations/${id}`);
       store.update((s) => {
         s.masterData.administration = apiData;
       });
     }
-    if ((!id || initialValues?.id) && preload) {
-      setPreload(false);
-    }
-  }, [id, preload, initialValues]);
+  }, [id, preload]);
 
   const fetchAttributes = useCallback(async () => {
     if (id && !initialValues?.id) {
@@ -111,7 +158,9 @@ const AddAdministration = () => {
         );
         if (attr.type === "aggregate") {
           const initAggregation = attr?.options?.reduce((acc, currentValue) => {
-            acc[currentValue] = findValue?.value?.[currentValue] || null;
+            acc[currentValue] = id
+              ? findValue?.value?.[currentValue] || null
+              : null;
             return acc;
           }, {});
           return {
@@ -122,11 +171,14 @@ const AddAdministration = () => {
         const defaultValue = attr.type === "value" ? "" : [];
         return {
           id: attr?.id,
-          [attr.name]: findValue?.value || defaultValue,
+          [attr.name]: id ? findValue?.value || defaultValue : defaultValue,
         };
       });
       setAttributes(_attributes);
-      form.setFieldsValue({ ...initialValues, attributes: attrFields });
+      const fieldValues = id
+        ? { ...initialValues, attributes: attrFields }
+        : { attributes: attrFields };
+      form.setFieldsValue(fieldValues);
       setLoading(false);
     } catch {
       setLoading(false);
@@ -228,15 +280,7 @@ const AddAdministration = () => {
           </Row>
           <Row className="form-row">
             <Col span={24}>
-              <Form.Item
-                name="code"
-                label="Administration Code"
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
-              >
+              <Form.Item name="code" label="Administration Code">
                 <Input />
               </Form.Item>
             </Col>
@@ -258,13 +302,16 @@ const AddAdministration = () => {
           </Row>
           <InputAttributes attributes={attributes} loading={loading} />
         </Card>
-        <Row align="middle">
-          <Col>
-            <Button type="primary" htmlType="submit" loading={submitting}>
-              Save administration
+        <Space direction="horizontal">
+          {id && (
+            <Button type="danger" onClick={handleOnDelete}>
+              Delete
             </Button>
-          </Col>
-        </Row>
+          )}
+          <Button type="primary" htmlType="submit" loading={submitting}>
+            Save administration
+          </Button>
+        </Space>
       </Form>
     </div>
   );
