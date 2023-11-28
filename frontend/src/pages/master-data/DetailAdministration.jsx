@@ -2,20 +2,19 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Button, Col, Row, Space, Table } from "antd";
 import snakeCase from "lodash/snakeCase";
 
-import { api } from "../../lib";
-import { EditableCell } from "../../components";
+import { api, store } from "../../lib";
+import { useNavigate } from "react-router-dom";
 
 const DetailAdministration = ({
   record = {},
   initialValues = [],
   attributes = [],
   onDelete,
-  onUpdate,
 }) => {
   const [records, setRecords] = useState(initialValues);
   const [preload, setPreload] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
+  const navigate = useNavigate();
 
   const fetchData = useCallback(async () => {
     if (preload && initialValues.length) {
@@ -27,20 +26,22 @@ const DetailAdministration = ({
       setPreload(false);
       const { data: apiData } = await api.get(`/administrations/${record?.id}`);
       const { attributes: attrValues } = apiData || {};
+      store.update((s) => {
+        s.masterData.administration = {
+          ...apiData,
+          level_id: apiData?.level?.id - 1,
+        };
+      });
 
       const _records = attributes.map((a) => {
         const findValue = attrValues.find((av) => av?.attribute === a.id);
-        const recordValue = a.options?.length
-          ? [findValue?.value]
-          : findValue?.value || "";
-        const recordType = a.options?.length ? "option" : "number";
         return {
           id: a.id,
           key: snakeCase(a.name),
           field: a.name,
           attribute: a.id,
-          value: recordValue,
-          type: recordType,
+          value: findValue?.value || "",
+          type: a.type,
           option: a.options.map((opt) => ({ name: opt })),
         };
       });
@@ -53,49 +54,6 @@ const DetailAdministration = ({
     fetchData();
   }, [fetchData]);
 
-  const updateCell = (recordID, parentId, value) => {
-    const _records = records.map((r) => {
-      if (r.id === recordID) {
-        return { ...r, value };
-      }
-      return r;
-    });
-    setRecords(_records);
-  };
-
-  const resetCell = () => {
-    return;
-  };
-
-  const handleSave = async () => {
-    try {
-      setSaving(true);
-      const _attributes = records.map((r) => {
-        const attrValue = Array.isArray(r?.value) ? r.value?.[0] : r.value;
-        const attrOptions = Array.isArray(r?.value)
-          ? r.value.map((val) => ({ [r.field]: val }))
-          : {};
-        return {
-          attribute: r?.attribute,
-          value: attrValue,
-          options: attrOptions,
-        };
-      });
-      const { data: _record } = await api.put(
-        `/administrations/${record?.id}`,
-        {
-          name: record.name,
-          parent: record.parent?.id,
-          attributes: _attributes,
-        }
-      );
-      onUpdate(_record);
-      setSaving(false);
-    } catch {
-      setSaving(false);
-    }
-  };
-
   const columns = [
     {
       title: "Field",
@@ -107,14 +65,27 @@ const DetailAdministration = ({
       title: "Value",
       dataIndex: "value",
       key: "value",
-      render: (_, record) => (
-        <EditableCell
-          record={record}
-          updateCell={updateCell}
-          resetCell={resetCell}
-          parentId={1}
-        />
-      ),
+      render: (dataValue, record) => {
+        return (
+          <>
+            {record.type === "value" && <>{dataValue}</>}
+            {["option", "multiple_option"].includes(record.type) &&
+              dataValue && <>{dataValue?.join(" | ")}</>}
+            {record.type === "aggregate" && dataValue && (
+              <ul>
+                {Object.keys(dataValue).map((dataKey, index) => {
+                  return (
+                    <li key={index}>
+                      <strong>{`${dataKey}: `}</strong>
+                      {dataValue[dataKey]}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </>
+        );
+      },
     },
   ];
   return (
@@ -134,11 +105,9 @@ const DetailAdministration = ({
         <Space>
           <Button
             type="primary"
-            onClick={handleSave}
-            disabled={saving}
-            loading={saving}
+            onClick={() => navigate(`/master-data/${record?.id}/edit`)}
           >
-            Save Edits
+            Edit
           </Button>
           {onDelete && (
             <Button type="danger" onClick={() => onDelete(record)}>
