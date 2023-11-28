@@ -145,8 +145,6 @@ const EditableCell = ({
       <Col
         flex={1}
         style={{
-          width: "100%",
-          minHeight: 32,
           cursor: !notEditable && !pendingData ? "pointer" : "not-allowed",
         }}
         onClick={() => {
@@ -177,7 +175,7 @@ EditableCell.propTypes = {
   record: PropTypes.shape({
     id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
-    value: PropTypes.any,
+    value: PropTypes.any.isRequired,
     option: PropTypes.array,
     newValue: PropTypes.any,
   }),
