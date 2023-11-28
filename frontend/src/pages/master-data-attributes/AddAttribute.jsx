@@ -18,19 +18,36 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
 import { MinusCircleOutlined } from "@ant-design/icons";
 import "./style.scss";
-import { api } from "../../lib";
+import { api, store } from "../../lib";
 
-const TYPES = ["Value", "Option", "Multiple Option", "Aggregate"];
-const OPTION_TYPES = ["Option", "Multiple Option", "Aggregate"];
+const TYPES = [
+  {
+    value: "value",
+    label: "Value",
+  },
+  {
+    value: "option",
+    label: "Option",
+  },
+  {
+    value: "multiple_option",
+    label: "Multiple Option",
+  },
+  {
+    value: "aggregate",
+    label: "Aggregate",
+  },
+];
+const OPTION_TYPES = ["option", "multiple_option", "aggregate"];
 
-const { Option } = Select;
 const { TabPane } = Tabs;
 const { Title } = Typography;
 
 const AddAttribute = () => {
+  const initialValues = store.useState((s) => s.masterData.attribute);
   const [submitting, setSubmitting] = useState(false);
   const [activeTab, setActiveTab] = useState("administration");
-  const [attrType, setAttrType] = useState(null);
+  const [attrType, setAttrType] = useState(initialValues?.type || null);
   const [openModal, setOpenModal] = useState({ open: false, data: {} });
 
   const navigate = useNavigate();
@@ -53,16 +70,16 @@ const AddAttribute = () => {
   ];
 
   const onFinish = async (values) => {
-    // TODO
-    const apiURL = id
-      ? `/administration-attributes/${id}`
-      : "/administration-attributes";
     try {
       setSubmitting(true);
-      const { data: apiData } = await api.post(apiURL, {
+      const payload = {
         name: values.name,
+        type: values.type,
         options: values?.options?.map((o) => o.name) || [],
-      });
+      };
+      const { data: apiData } = id
+        ? await api.put(`/administration-attributes/${id}`, payload)
+        : await api.post("/administration-attributes", payload);
       notify({
         type: "success",
         message: `Attribute ${id ? "updated" : "added"}`,
@@ -72,6 +89,24 @@ const AddAttribute = () => {
     } catch {
       setSubmitting(false);
     }
+  };
+
+  const handleOnAdd = () => {
+    store.update((s) => {
+      s.masterData.attribute = {};
+    });
+    form.setFieldsValue({
+      type: null,
+      name: "",
+      options: [],
+    });
+    navigate("/master-data/attributes/add");
+    setOpenModal({ open: false, data: {} });
+  };
+
+  const handleOnManage = () => {
+    navigate(`/master-data/attributes/${openModal.data?.id}/edit`);
+    setOpenModal({ open: false, data: {} });
   };
 
   return (
@@ -91,18 +126,13 @@ const AddAttribute = () => {
         name="adm-form"
         form={form}
         layout="vertical"
-        initialValues={{
-          attribute_type: "",
-          level_id: null,
-          name: "",
-          options: [],
-        }}
+        initialValues={initialValues}
         onFinish={onFinish}
       >
         <Card bodyStyle={{ padding: 0 }}>
           <div className="form-row">
             <Form.Item
-              name="attribute_type"
+              name="type"
               label="Attribute Type"
               rules={[{ required: true }]}
             >
@@ -111,13 +141,8 @@ const AddAttribute = () => {
                 placeholder="Select type..."
                 onSelect={setAttrType}
                 allowClear
-              >
-                {TYPES?.map((item, tx) => (
-                  <Option key={tx} value={item}>
-                    {item}
-                  </Option>
-                ))}
-              </Select>
+                options={TYPES}
+              />
             </Form.Item>
           </div>
           <Row className="form-row">
@@ -188,23 +213,8 @@ const AddAttribute = () => {
               </Button>
             </Col>
             <Col span={16}>
-              <Button
-                onClick={() => {
-                  navigate(
-                    `/master-data/attributes/${openModal.data?.id}/edit`
-                  );
-                  setOpenModal({ open: false, data: {} });
-                }}
-              >
-                Manage Attributes
-              </Button>
-              <Button
-                type="primary"
-                onClick={() => {
-                  form.resetFields();
-                  setOpenModal({ open: false, data: {} });
-                }}
-              >
+              <Button onClick={handleOnManage}>Manage Attributes</Button>
+              <Button type="primary" onClick={handleOnAdd}>
                 Add Another
               </Button>
             </Col>
