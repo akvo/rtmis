@@ -26,6 +26,11 @@ const pagePath = [
 
 const admLevels = [
   {
+    id: 1,
+    level: 0,
+    name: "National",
+  },
+  {
     id: 2,
     level: 1,
     name: "County",
@@ -35,11 +40,6 @@ const admLevels = [
     level: 2,
     name: "Sub-County",
   },
-  {
-    id: 4,
-    level: 3,
-    name: "Ward",
-  },
 ];
 
 const { Option } = Select;
@@ -48,7 +48,7 @@ const AddAdministration = () => {
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(true);
   const [attributes, setAttributes] = useState(true);
-  const [level, setLevel] = useState(2);
+  const [level, setLevel] = useState(1);
   const selectedAdm = store.useState((s) => s.administration);
 
   const navigate = useNavigate();
@@ -121,8 +121,8 @@ const AddAdministration = () => {
         initialValues={{
           code: "",
           name: "",
-          level_id: null,
-          parent_id: null,
+          level_id: 1,
+          parent: 1,
           attributes: [],
         }}
         onFinish={onFinish}
@@ -143,8 +143,8 @@ const AddAdministration = () => {
                     onChange={setLevel}
                     allowClear
                   >
-                    {admLevels?.map((adm, adx) => (
-                      <Option key={`org-attr-${adx}`} value={adm.id}>
+                    {admLevels?.map((adm) => (
+                      <Option key={adm.id} value={adm.id}>
                         {adm.name}
                       </Option>
                     ))}
@@ -154,11 +154,22 @@ const AddAdministration = () => {
             </Col>
             <Col span={18}>
               <Form.Item name="parent" label="Administration Parent">
-                <AdministrationDropdown
-                  size="large"
-                  width="100%"
-                  maxLevel={level}
-                />
+                {level === 1 ? (
+                  <Select placeholder="Select parent.." allowClear>
+                    {selectedAdm?.map((adm) => (
+                      <Option key={adm.id} value={adm.id}>
+                        {adm.name}
+                      </Option>
+                    ))}
+                  </Select>
+                ) : (
+                  <AdministrationDropdown
+                    size="large"
+                    width="100%"
+                    maxLevel={level}
+                  />
+                )}
+
                 <Input type="hidden" />
               </Form.Item>
             </Col>
