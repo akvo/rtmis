@@ -183,11 +183,19 @@ const RouteList = () => {
         element={<Private element={AddAdministration} alias="master-data" />}
       />
       <Route
+        path="/master-data/:id/edit"
+        element={<Private element={AddAdministration} alias="master-data" />}
+      />
+      <Route
         path="/master-data/attributes"
         element={<Private element={MasterDataAttributes} alias="master-data" />}
       />
       <Route
         path="/master-data/attributes/add"
+        element={<Private element={AddAttribute} alias="master-data" />}
+      />
+      <Route
+        path="/master-data/attributes/:id/edit"
         element={<Private element={AddAttribute} alias="master-data" />}
       />
       <Route

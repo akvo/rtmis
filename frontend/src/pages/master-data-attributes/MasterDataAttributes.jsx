@@ -7,9 +7,8 @@ import {
   ManageDataTab,
 } from "../../components";
 
-import { store, uiText } from "../../lib";
-import fakeDataApi from "../../placeholders/master-data-attributes.json";
-import { Link } from "react-router-dom";
+import { api, store, uiText } from "../../lib";
+import { useNavigate } from "react-router-dom";
 
 const pagePath = [
   {
@@ -26,10 +25,8 @@ const { Text } = Typography;
 const MasterDataAttributes = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
-  const [totalCount, setTotalCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
 
-  const newAttribute = store.useState((s) => s.masterData.attribute);
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
 
@@ -37,14 +34,28 @@ const MasterDataAttributes = () => {
     return uiText[activeLang];
   }, [activeLang]);
 
+  const handleOnEdit = (record) => {
+    store.update((s) => {
+      s.masterData.attribute = {
+        ...record,
+        options: record?.options?.map((opt) => ({ name: opt })),
+      };
+    });
+    navigate(`/master-data/attributes/${record.id}/edit`);
+  };
+
   const columns = [
     {
-      title: "Attribute Type",
-      dataIndex: "attribute_type",
+      title: "Attribute For",
+      dataIndex: "attribute_for",
     },
     {
       title: "Attribute",
       dataIndex: "name",
+    },
+    {
+      title: "Type",
+      dataIndex: "type",
     },
     {
       title: "Value",
@@ -52,9 +63,7 @@ const MasterDataAttributes = () => {
       render: (options) => {
         return (
           <Text>
-            {options.length
-              ? options.map((o) => o?.name).join(" | ")
-              : "Number"}
+            {options.length ? options.map((o) => o).join(" | ") : "Number"}
           </Text>
         );
       },
@@ -62,36 +71,31 @@ const MasterDataAttributes = () => {
     {
       title: "Action",
       dataIndex: "id",
-      render: (dataID) => {
+      render: (_, record) => {
         return (
           <>
-            <Button type="link" danger>
-              Delete
+            <Button type="link" onClick={() => handleOnEdit(record)}>
+              Edit
             </Button>
-            <Link to={`/master-data/attributes/${dataID}/edit`}>
-              <Button type="link">Edit</Button>
-            </Link>
           </>
         );
       },
     },
   ];
 
-  const handleChange = (e) => {
-    setCurrentPage(e.current);
-  };
-
-  const fetchData = useCallback(() => {
-    setTimeout(() => {
-      const { data: _dataset, total } = fakeDataApi;
+  const fetchData = useCallback(async () => {
+    try {
+      const { data: apiData } = await api.get("/administration-attributes");
+      const _dataset = apiData.map((d) => ({
+        ...d,
+        attribute_for: "administration",
+      }));
       setDataset(_dataset);
-      if (Object.keys(newAttribute).length) {
-        setDataset([newAttribute, ..._dataset]);
-      }
-      setTotalCount(total);
       setLoading(false);
-    }, 2000);
-  }, [newAttribute]);
+    } catch {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -117,15 +121,6 @@ const MasterDataAttributes = () => {
           rowClassName={() => "editable-row"}
           dataSource={dataset}
           loading={loading}
-          onChange={handleChange}
-          pagination={{
-            showSizeChanger: false,
-            current: currentPage,
-            total: totalCount,
-            pageSize: 10,
-            showTotal: (total, range) =>
-              `Results: ${range[0]} - ${range[1]} of ${total} items`,
-          }}
           rowKey="id"
         />
       </Card>
