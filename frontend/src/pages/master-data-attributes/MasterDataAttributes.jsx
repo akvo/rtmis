@@ -1,14 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  Divider,
-  Modal,
-  Row,
-  Table,
-  Typography,
-} from "antd";
+import { Button, Card, Col, Divider, Row, Table, Typography } from "antd";
 import {
   AdministrationFilters,
   Breadcrumbs,
@@ -43,23 +34,6 @@ const MasterDataAttributes = () => {
     return uiText[activeLang];
   }, [activeLang]);
 
-  const handleOnDelete = (record) => {
-    Modal.confirm({
-      title: `Delete "${record?.name || "item"}"?`,
-      onOk: async () => {
-        try {
-          setLoading(true);
-          await api.delete(`/administration-attributes/${record?.id}`);
-          const _dataset = dataset.filter((d) => d?.id !== record?.id);
-          setDataset(_dataset);
-          setLoading(false);
-        } catch {
-          setLoading(false);
-        }
-      },
-    });
-  };
-
   const handleOnEdit = (record) => {
     store.update((s) => {
       s.masterData.attribute = {
@@ -72,8 +46,8 @@ const MasterDataAttributes = () => {
 
   const columns = [
     {
-      title: "Attribute Type",
-      dataIndex: "attribute_type",
+      title: "Attribute For",
+      dataIndex: "attribute_for",
     },
     {
       title: "Attribute",
@@ -100,9 +74,6 @@ const MasterDataAttributes = () => {
       render: (_, record) => {
         return (
           <>
-            <Button type="link" onClick={() => handleOnDelete(record)} danger>
-              Delete
-            </Button>
             <Button type="link" onClick={() => handleOnEdit(record)}>
               Edit
             </Button>
@@ -117,7 +88,7 @@ const MasterDataAttributes = () => {
       const { data: apiData } = await api.get("/administration-attributes");
       const _dataset = apiData.map((d) => ({
         ...d,
-        attribute_type: "administration",
+        attribute_for: "administration",
       }));
       setDataset(_dataset);
       setLoading(false);
