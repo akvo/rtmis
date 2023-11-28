@@ -1,16 +1,19 @@
 from django.db import models
 from api.v1.v1_users.models import SystemUser
+from api.v1.v1_profile.models import Administration
+from api.v1.v1_forms.models import Forms
 from utils.custom_helper import generate_random_string, CustomPasscode
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class MobileAssignmentManager(models.Manager):
-    def create_assignment(self, user, passcode=None):
+    def create_assignment(self, user, name, passcode=None):
         token = RefreshToken.for_user(user)
         if not passcode:
             passcode = generate_random_string(8)
         mobile_assignment = self.create(
             user=user,
+            name=name,
             token=token.access_token,
             passcode=CustomPasscode().encode(passcode),
         )
@@ -18,12 +21,16 @@ class MobileAssignmentManager(models.Manager):
 
 
 class MobileAssignment(models.Model):
+    name = models.CharField(max_length=255, null=True, blank=True)
     passcode = models.CharField(max_length=256)
-    user = models.OneToOneField(
+    user = models.ForeignKey(
         SystemUser, on_delete=models.CASCADE, related_name='mobile_assignments'
     )
     token = models.CharField(max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    forms = models.ManyToManyField(Forms)
+    administrations = models.ManyToManyField(Administration)
 
     def set_passcode(self, passcode):
         self.passcode = CustomPasscode().encode(passcode)
