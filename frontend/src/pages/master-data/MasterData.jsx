@@ -46,16 +46,12 @@ const MasterData = () => {
     {
       title: "Level",
       dataIndex: "level",
-      render: (record) => {
-        return record ? record?.name : "";
-      },
+      render: (record) => record?.name || "",
     },
     {
       title: "Parent",
       dataIndex: "parent",
-      render: (record) => {
-        return record ? record?.name : "";
-      },
+      render: (record) => record?.name || "",
     },
     Table.EXPAND_COLUMN,
   ];
@@ -105,8 +101,8 @@ const MasterData = () => {
         `/administrations?page=${currentPage}`
       );
       const { total, current, data } = apiData;
-      const _dataset = data.filter((d) => d?.level?.id !== 1);
-      setDataset(_dataset);
+      // const _dataset = data.filter((d) => d?.level?.id !== 1);
+      setDataset(data);
       setTotalCount(total);
       setCurrentPage(current);
       setLoading(false);
