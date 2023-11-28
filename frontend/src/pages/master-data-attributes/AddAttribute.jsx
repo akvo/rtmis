@@ -6,93 +6,107 @@ import {
   Divider,
   Form,
   Input,
+  Modal,
   Row,
   Select,
   Space,
+  Tabs,
+  Typography,
 } from "antd";
 import { Breadcrumbs } from "../../components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
-import { store } from "../../lib";
 import { MinusCircleOutlined } from "@ant-design/icons";
 import "./style.scss";
+import { api, store } from "../../lib";
 
-const pagePath = [
+const TYPES = [
   {
-    title: "Control Center",
-    link: "/control-center",
+    value: "value",
+    label: "Value",
   },
   {
-    title: "Manage Attributes",
-    link: "/master-data/attributes",
+    value: "option",
+    label: "Option",
   },
   {
-    title: "Add Attribute",
+    value: "multiple_option",
+    label: "Multiple Option",
+  },
+  {
+    value: "aggregate",
+    label: "Aggregate",
   },
 ];
+const OPTION_TYPES = ["option", "multiple_option", "aggregate"];
 
-const admLevels = [
-  {
-    id: 2,
-    level: 1,
-    name: "NAME_1",
-    alias: "County",
-  },
-  {
-    id: 3,
-    level: 2,
-    name: "NAME_2",
-    alias: "Sub-County",
-  },
-  {
-    id: 4,
-    level: 3,
-    name: "NAME_3",
-    alias: "Ward",
-  },
-];
-const attributeTypes = [
-  {
-    id: 1,
-    name: "administration",
-  },
-  {
-    id: 2,
-    name: "entity",
-  },
-];
-
-const { Option } = Select;
+const { TabPane } = Tabs;
+const { Title } = Typography;
 
 const AddAttribute = () => {
+  const initialValues = store.useState((s) => s.masterData.attribute);
   const [submitting, setSubmitting] = useState(false);
+  const [activeTab, setActiveTab] = useState("administration");
+  const [attrType, setAttrType] = useState(initialValues?.type || null);
+  const [openModal, setOpenModal] = useState({ open: false, data: {} });
 
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const { notify } = useNotification();
+  const { id } = useParams();
+
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: "/control-center",
+    },
+    {
+      title: "Manage Attributes",
+      link: "/master-data/attributes",
+    },
+    {
+      title: id ? "Edit Attribute" : "Add Attribute",
+    },
+  ];
 
   const onFinish = async (values) => {
-    setSubmitting(true);
-    const payload = {
-      attribute_type: values.attribute_type,
-      level_id: values.level_id,
-      name: values.name,
-      options: values.options,
-    };
-    store.update((s) => {
-      const _md = {
-        ...s.masterData,
-        attribute: { ...payload, id: 1011 },
+    try {
+      setSubmitting(true);
+      const payload = {
+        name: values.name,
+        type: values.type,
+        options: values?.options?.map((o) => o.name) || [],
       };
-      s.masterData = _md;
+      const { data: apiData } = id
+        ? await api.put(`/administration-attributes/${id}`, payload)
+        : await api.post("/administration-attributes", payload);
+      notify({
+        type: "success",
+        message: `Attribute ${id ? "updated" : "added"}`,
+      });
+      setSubmitting(false);
+      setOpenModal({ open: true, data: apiData });
+    } catch {
+      setSubmitting(false);
+    }
+  };
+
+  const handleOnAdd = () => {
+    store.update((s) => {
+      s.masterData.attribute = {};
     });
-    await new Promise((r) => setTimeout(r, 2000));
-    notify({
-      type: "success",
-      message: `Attribute added`,
+    form.setFieldsValue({
+      type: null,
+      name: "",
+      options: [],
     });
-    setSubmitting(false);
-    navigate("/master-data/attributes");
+    navigate("/master-data/attributes/add");
+    setOpenModal({ open: false, data: {} });
+  };
+
+  const handleOnManage = () => {
+    navigate(`/master-data/attributes/${openModal.data?.id}/edit`);
+    setOpenModal({ open: false, data: {} });
   };
 
   return (
@@ -104,55 +118,31 @@ const AddAttribute = () => {
         </Col>
       </Row>
       <Divider />
+      <Tabs size="large" activeKey={activeTab} onChange={setActiveTab}>
+        <TabPane tab="Administration" key="administration" />
+        <TabPane tab="Entity" key="entity" disabled />
+      </Tabs>
       <Form
         name="adm-form"
         form={form}
         layout="vertical"
-        initialValues={{
-          attribute_type: "",
-          level_id: null,
-          name: "",
-          options: [],
-        }}
+        initialValues={initialValues}
         onFinish={onFinish}
       >
         <Card bodyStyle={{ padding: 0 }}>
           <div className="form-row">
             <Form.Item
-              name="attribute_type"
+              name="type"
               label="Attribute Type"
               rules={[{ required: true }]}
             >
               <Select
                 getPopupContainer={(trigger) => trigger.parentNode}
                 placeholder="Select type..."
+                onSelect={setAttrType}
                 allowClear
-              >
-                {attributeTypes?.map((at) => (
-                  <Option key={at.id} value={at.id}>
-                    {at.name}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </div>
-          <div className="form-row">
-            <Form.Item
-              name="level_id"
-              label="Attribute Level"
-              rules={[{ required: true }]}
-            >
-              <Select
-                getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder="Select level.."
-                allowClear
-              >
-                {admLevels?.map((adm, adx) => (
-                  <Option key={`org-attr-${adx}`} value={adm.id}>
-                    {adm.alias}
-                  </Option>
-                ))}
-              </Select>
+                options={TYPES}
+              />
             </Form.Item>
           </div>
           <Row className="form-row">
@@ -170,41 +160,71 @@ const AddAttribute = () => {
               </Form.Item>
             </Col>
           </Row>
-          <Row className="form-row">
-            <Col span={24}>
-              <Form.Item label="Options">
-                <Form.List name="options">
-                  {(fields, { add, remove }) => (
-                    <div>
-                      {fields.map(({ key, name, ...restField }) => (
-                        <Space key={key}>
-                          <Form.Item name={[name, "name"]} {...restField}>
-                            <Input />
-                          </Form.Item>
-                          <Button
-                            icon={<MinusCircleOutlined />}
-                            onClick={() => remove(name)}
-                          >
-                            Remove
-                          </Button>
-                        </Space>
-                      ))}
-                      <Button onClick={() => add()}>Add option</Button>
-                    </div>
-                  )}
-                </Form.List>
-              </Form.Item>
-            </Col>
-          </Row>
+          {OPTION_TYPES.includes(attrType) && (
+            <Row className="form-row">
+              <Col span={24}>
+                <Form.Item label="Options">
+                  <Form.List name="options">
+                    {(fields, { add, remove }) => (
+                      <div>
+                        {fields.map(({ key, name, ...restField }) => (
+                          <Space key={key}>
+                            <Form.Item name={[name, "name"]} {...restField}>
+                              <Input />
+                            </Form.Item>
+                            <Button
+                              icon={<MinusCircleOutlined />}
+                              onClick={() => remove(name)}
+                            >
+                              Remove
+                            </Button>
+                          </Space>
+                        ))}
+                        <Button onClick={() => add()}>Add option</Button>
+                      </div>
+                    )}
+                  </Form.List>
+                </Form.Item>
+              </Col>
+            </Row>
+          )}
         </Card>
-        <Row justify="end" align="middle">
+        <Row align="middle">
           <Col>
             <Button type="primary" htmlType="submit" loading={submitting}>
-              Add attribute
+              Save attribute
             </Button>
           </Col>
         </Row>
       </Form>
+      <Modal
+        visible={openModal.open}
+        closable={false}
+        footer={
+          <Row type="flex" justify="space-between">
+            <Col span={4}>
+              <Button
+                type="link"
+                onClick={() => {
+                  navigate("/master-data/attributes");
+                }}
+              >
+                Return to List
+              </Button>
+            </Col>
+            <Col span={16}>
+              <Button onClick={handleOnManage}>Manage Attributes</Button>
+              <Button type="primary" onClick={handleOnAdd}>
+                Add Another
+              </Button>
+            </Col>
+          </Row>
+        }
+      >
+        <Title level={4} style={{ textAlign: "center" }}>
+          What would you like to do next?
+        </Title>
+      </Modal>
     </div>
   );
 };
