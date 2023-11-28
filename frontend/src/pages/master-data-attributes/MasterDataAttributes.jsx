@@ -1,5 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Button, Card, Col, Divider, Row, Table, Typography } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Divider,
+  Modal,
+  Row,
+  Table,
+  Typography,
+} from "antd";
 import {
   AdministrationFilters,
   Breadcrumbs,
@@ -7,9 +16,8 @@ import {
   ManageDataTab,
 } from "../../components";
 
-import { store, uiText } from "../../lib";
-import fakeDataApi from "../../placeholders/master-data-attributes.json";
-import { Link } from "react-router-dom";
+import { api, store, uiText } from "../../lib";
+import { useNavigate } from "react-router-dom";
 
 const pagePath = [
   {
@@ -26,16 +34,41 @@ const { Text } = Typography;
 const MasterDataAttributes = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
-  const [totalCount, setTotalCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
 
-  const newAttribute = store.useState((s) => s.masterData.attribute);
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
 
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const handleOnDelete = (record) => {
+    Modal.confirm({
+      title: `Delete "${record?.name || "item"}"?`,
+      onOk: async () => {
+        try {
+          setLoading(true);
+          await api.delete(`/administration-attributes/${record?.id}`);
+          const _dataset = dataset.filter((d) => d?.id !== record?.id);
+          setDataset(_dataset);
+          setLoading(false);
+        } catch {
+          setLoading(false);
+        }
+      },
+    });
+  };
+
+  const handleOnEdit = (record) => {
+    store.update((s) => {
+      s.masterData.attribute = {
+        ...record,
+        options: record?.options?.map((opt) => ({ name: opt })),
+      };
+    });
+    navigate(`/master-data/attributes/${record.id}/edit`);
+  };
 
   const columns = [
     {
@@ -47,14 +80,16 @@ const MasterDataAttributes = () => {
       dataIndex: "name",
     },
     {
+      title: "Type",
+      dataIndex: "type",
+    },
+    {
       title: "Value",
       dataIndex: "options",
       render: (options) => {
         return (
           <Text>
-            {options.length
-              ? options.map((o) => o?.name).join(" | ")
-              : "Number"}
+            {options.length ? options.map((o) => o).join(" | ") : "Number"}
           </Text>
         );
       },
@@ -62,36 +97,34 @@ const MasterDataAttributes = () => {
     {
       title: "Action",
       dataIndex: "id",
-      render: (dataID) => {
+      render: (_, record) => {
         return (
           <>
-            <Button type="link" danger>
+            <Button type="link" onClick={() => handleOnDelete(record)} danger>
               Delete
             </Button>
-            <Link to={`/master-data/attributes/${dataID}/edit`}>
-              <Button type="link">Edit</Button>
-            </Link>
+            <Button type="link" onClick={() => handleOnEdit(record)}>
+              Edit
+            </Button>
           </>
         );
       },
     },
   ];
 
-  const handleChange = (e) => {
-    setCurrentPage(e.current);
-  };
-
-  const fetchData = useCallback(() => {
-    setTimeout(() => {
-      const { data: _dataset, total } = fakeDataApi;
+  const fetchData = useCallback(async () => {
+    try {
+      const { data: apiData } = await api.get("/administration-attributes");
+      const _dataset = apiData.map((d) => ({
+        ...d,
+        attribute_type: "administration",
+      }));
       setDataset(_dataset);
-      if (Object.keys(newAttribute).length) {
-        setDataset([newAttribute, ..._dataset]);
-      }
-      setTotalCount(total);
       setLoading(false);
-    }, 2000);
-  }, [newAttribute]);
+    } catch {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -117,15 +150,6 @@ const MasterDataAttributes = () => {
           rowClassName={() => "editable-row"}
           dataSource={dataset}
           loading={loading}
-          onChange={handleChange}
-          pagination={{
-            showSizeChanger: false,
-            current: currentPage,
-            total: totalCount,
-            pageSize: 10,
-            showTotal: (total, range) =>
-              `Results: ${range[0]} - ${range[1]} of ${total} items`,
-          }}
           rowKey="id"
         />
       </Card>
