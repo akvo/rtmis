@@ -27,9 +27,6 @@ const defaultUIState = {
   administrationLevel: null,
   showContactFormModal: false,
   mobileAssignment: {},
-  /**
-   * Dummy new item/edit item in master data
-   */
   masterData: {
     administration: {},
     attribute: {},
