@@ -1,10 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Button, Card, Col, Divider, Form, Input, Row, Select } from "antd";
-import { Breadcrumbs, InputAttributes } from "../../components";
+import {
+  AdministrationDropdown,
+  Breadcrumbs,
+  InputAttributes,
+} from "../../components";
 import { useNavigate } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
-import fakeAttributes from "../../placeholders/attributes-administration.json";
-import { store } from "../../lib";
+import { api, store } from "../../lib";
 import "./style.scss";
 
 const pagePath = [
@@ -25,20 +28,17 @@ const admLevels = [
   {
     id: 2,
     level: 1,
-    name: "NAME_1",
-    alias: "County",
+    name: "County",
   },
   {
     id: 3,
     level: 2,
-    name: "NAME_2",
-    alias: "Sub-County",
+    name: "Sub-County",
   },
   {
     id: 4,
     level: 3,
-    name: "NAME_3",
-    alias: "Ward",
+    name: "Ward",
   },
 ];
 
@@ -46,9 +46,10 @@ const { Option } = Select;
 
 const AddAdministration = () => {
   const [submitting, setSubmitting] = useState(false);
-  const [parents, setParents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [attributes, setAttributes] = useState(true);
+  const [level, setLevel] = useState(2);
+  const selectedAdm = store.useState((s) => s.administration);
 
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -56,73 +57,53 @@ const AddAdministration = () => {
 
   const onFinish = async (values) => {
     setSubmitting(true);
-
-    const attributesPayload = values.attributes.map((attr, ax) => {
-      const attrName = attributes?.[ax]?.name;
-      const fieldValue = attr?.[attrName];
-      // TODO
-      return {
-        administration_id: 1,
-        administration_attribute_id: attributes?.[ax]?.id,
-        attribute: attrName,
-        value: fieldValue,
-        options: attributes?.[ax]?.options ? [fieldValue] : [],
+    try {
+      const parent = selectedAdm?.slice(-1)?.[0];
+      const payload = {
+        code: values.code,
+        name: values.name,
+        parent: parent?.id || null,
+        attributes: values.attributes.map((attr) => {
+          const { id: attrId, ...fieldValue } = attr;
+          return {
+            attribute: attrId,
+            value: Object.values(fieldValue)?.[0] || "",
+            options: [],
+          };
+        }),
       };
-    });
-    const payload = {
-      code: values.code,
-      name: values.name,
-      level_id: values.level_id,
-      parent_id: values.parent_id,
-      attributes: attributesPayload,
-    };
-    store.update((s) => {
-      const _md = {
-        ...s.masterData,
-        administration: { ...payload, id: 1011 },
-      };
-      s.masterData = _md;
-    });
-    await new Promise((r) => setTimeout(r, 2000));
-    notify({
-      type: "success",
-      message: `Administration added`,
-    });
-    setSubmitting(false);
-    navigate("/master-data");
+      await api.post("/administrations", payload);
+      notify({
+        type: "success",
+        message: `Administration added`,
+      });
+      setSubmitting(false);
+      navigate("/master-data");
+    } catch {
+      setSubmitting(false);
+    }
   };
 
-  const fakeGetAttributesApi = useCallback(async () => {
-    await new Promise((r) => setTimeout(r, 2000));
-    const attrFields = fakeAttributes.map((attr) => {
-      return {
-        [attr.name]: attr.options.length ? [] : "",
-      };
-    });
-    setAttributes(fakeAttributes);
-    form.setFieldsValue({ attributes: attrFields });
-    setLoading(false);
+  const fetchAttributes = useCallback(async () => {
+    try {
+      const { data: _attributes } = await api.get("/administration-attributes");
+      const attrFields = _attributes.map((attr) => {
+        return {
+          id: attr?.id,
+          [attr.name]: attr.options.length ? [] : "",
+        };
+      });
+      setAttributes(_attributes);
+      form.setFieldsValue({ attributes: attrFields });
+      setLoading(false);
+    } catch {
+      setLoading(false);
+    }
   }, [form]);
 
   useEffect(() => {
-    fakeGetAttributesApi();
-  }, [fakeGetAttributesApi]);
-
-  useEffect(() => {
-    // TODO
-    // get real adm parents
-    setParents([
-      {
-        id: 1,
-        code: "JKT",
-        name: "DKI Jakarta",
-        level_id: 1,
-        parent_id: null,
-        parent: null,
-        path: "1",
-      },
-    ]);
-  }, []);
+    fetchAttributes();
+  }, [fetchAttributes]);
 
   return (
     <div id="add-administration">
@@ -147,6 +128,41 @@ const AddAdministration = () => {
         onFinish={onFinish}
       >
         <Card bodyStyle={{ padding: 0 }}>
+          <Row gutter={16}>
+            <Col span={6}>
+              <div className="form-row">
+                <Form.Item
+                  name="level_id"
+                  label="Administration Level"
+                  rules={[{ required: true }]}
+                >
+                  <Select
+                    getPopupContainer={(trigger) => trigger.parentNode}
+                    placeholder="Select level.."
+                    value={level}
+                    onChange={setLevel}
+                    allowClear
+                  >
+                    {admLevels?.map((adm, adx) => (
+                      <Option key={`org-attr-${adx}`} value={adm.id}>
+                        {adm.name}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </div>
+            </Col>
+            <Col span={18}>
+              <Form.Item name="parent" label="Administration Parent">
+                <AdministrationDropdown
+                  size="large"
+                  width="100%"
+                  maxLevel={level}
+                />
+                <Input type="hidden" />
+              </Form.Item>
+            </Col>
+          </Row>
           <Row className="form-row">
             <Col span={24}>
               <Form.Item
@@ -177,44 +193,6 @@ const AddAdministration = () => {
               </Form.Item>
             </Col>
           </Row>
-          <div className="form-row">
-            <Form.Item
-              name="level_id"
-              label="Administration Level"
-              rules={[{ required: true }]}
-            >
-              <Select
-                getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder="Select level.."
-                allowClear
-              >
-                {admLevels?.map((adm, adx) => (
-                  <Option key={`org-attr-${adx}`} value={adm.id}>
-                    {adm.alias}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </div>
-          <div className="form-row">
-            <Form.Item
-              name="parent_id"
-              label="Administration Parent"
-              rules={[{ required: true }]}
-            >
-              <Select
-                getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder="Select parent.."
-                allowClear
-              >
-                {parents?.map((p, px) => (
-                  <Option key={`adm-parent-${px}`} value={p.id}>
-                    {p.name}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </div>
           <InputAttributes attributes={attributes} loading={loading} />
         </Card>
         <Row justify="end" align="middle">
