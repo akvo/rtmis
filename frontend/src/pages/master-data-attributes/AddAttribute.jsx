@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -11,7 +11,6 @@ import {
   Select,
   Space,
   Tabs,
-  Typography,
 } from "antd";
 import { Breadcrumbs } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
@@ -41,14 +40,12 @@ const TYPES = [
 const OPTION_TYPES = ["option", "multiple_option", "aggregate"];
 
 const { TabPane } = Tabs;
-const { Title } = Typography;
 
 const AddAttribute = () => {
   const initialValues = store.useState((s) => s.masterData.attribute);
   const [submitting, setSubmitting] = useState(false);
   const [activeTab, setActiveTab] = useState("administration");
   const [attrType, setAttrType] = useState(initialValues?.type || null);
-  const [openModal, setOpenModal] = useState({ open: false, data: {} });
 
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -77,37 +74,59 @@ const AddAttribute = () => {
         type: values.type,
         options: values?.options?.map((o) => o.name) || [],
       };
-      const { data: apiData } = id
-        ? await api.put(`/administration-attributes/${id}`, payload)
-        : await api.post("/administration-attributes", payload);
+      if (id) {
+        await api.put(`/administration-attributes/${id}`, payload);
+      } else {
+        await api.post("/administration-attributes", payload);
+      }
       notify({
         type: "success",
         message: `Attribute ${id ? "updated" : "added"}`,
       });
       setSubmitting(false);
-      setOpenModal({ open: true, data: apiData });
+      navigate("/master-data/attributes");
     } catch {
       setSubmitting(false);
     }
   };
 
-  const handleOnAdd = () => {
-    store.update((s) => {
-      s.masterData.attribute = {};
-    });
-    form.setFieldsValue({
-      type: null,
-      name: "",
-      options: [],
-    });
-    navigate("/master-data/attributes/add");
-    setOpenModal({ open: false, data: {} });
+  const deleteAttribute = async (record) => {
+    try {
+      await api.delete(`/administration-attributes/${record?.id}`);
+      notify({
+        type: "success",
+        message: `Attribute deleted`,
+      });
+      navigate("/master-data/attributes");
+    } catch {
+      Modal.error({
+        title: "Unable to delete the attribute",
+      });
+    }
   };
 
-  const handleOnManage = () => {
-    navigate(`/master-data/attributes/${openModal.data?.id}/edit`);
-    setOpenModal({ open: false, data: {} });
+  const handleOnDelete = (record) => {
+    Modal.confirm({
+      title: `Delete "${record?.name || "attribute"}"`,
+      content: "Are you sure you want to delete this attribute?",
+      onOk: () => {
+        deleteAttribute(record);
+      },
+    });
   };
+
+  useEffect(() => {
+    if (!id && initialValues?.id) {
+      form.setFieldsValue({
+        type: null,
+        name: "",
+        options: [],
+      });
+      store.update((s) => {
+        s.masterData.attribute = {};
+      });
+    }
+  }, [initialValues, id, form]);
 
   return (
     <div id="add-attribute">
@@ -189,42 +208,17 @@ const AddAttribute = () => {
             </Row>
           )}
         </Card>
-        <Row align="middle">
-          <Col>
-            <Button type="primary" htmlType="submit" loading={submitting}>
-              Save attribute
+        <Space direction="horizontal">
+          {initialValues?.id && (
+            <Button type="danger" onClick={() => handleOnDelete(initialValues)}>
+              Delete
             </Button>
-          </Col>
-        </Row>
+          )}
+          <Button type="primary" htmlType="submit" loading={submitting}>
+            Save attribute
+          </Button>
+        </Space>
       </Form>
-      <Modal
-        visible={openModal.open}
-        closable={false}
-        footer={
-          <Row type="flex" justify="space-between">
-            <Col span={4}>
-              <Button
-                type="link"
-                onClick={() => {
-                  navigate("/master-data/attributes");
-                }}
-              >
-                Return to List
-              </Button>
-            </Col>
-            <Col span={16}>
-              <Button onClick={handleOnManage}>Manage Attributes</Button>
-              <Button type="primary" onClick={handleOnAdd}>
-                Add Another
-              </Button>
-            </Col>
-          </Row>
-        }
-      >
-        <Title level={4} style={{ textAlign: "center" }}>
-          What would you like to do next?
-        </Title>
-      </Modal>
     </div>
   );
 };
