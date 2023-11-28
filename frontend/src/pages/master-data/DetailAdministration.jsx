@@ -26,10 +26,11 @@ const DetailAdministration = ({
       setPreload(false);
       const { data: apiData } = await api.get(`/administrations/${record?.id}`);
       const { attributes: attrValues } = apiData || {};
+      const levelID = apiData?.level?.id;
       store.update((s) => {
         s.masterData.administration = {
           ...apiData,
-          level_id: apiData?.level?.id - 1,
+          level_id: levelID === 1 ? 1 : levelID - 1,
         };
       });
 
