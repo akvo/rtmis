@@ -1,20 +1,17 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, Col, Row, Space, Table } from "antd";
+import { Col, Row, Table } from "antd";
 import snakeCase from "lodash/snakeCase";
 
-import { api, store } from "../../lib";
-import { useNavigate } from "react-router-dom";
+import { api } from "../../lib";
 
 const DetailAdministration = ({
   record = {},
   initialValues = [],
   attributes = [],
-  onDelete,
 }) => {
   const [records, setRecords] = useState(initialValues);
   const [preload, setPreload] = useState(true);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   const fetchData = useCallback(async () => {
     if (preload && initialValues.length) {
@@ -26,13 +23,6 @@ const DetailAdministration = ({
       setPreload(false);
       const { data: apiData } = await api.get(`/administrations/${record?.id}`);
       const { attributes: attrValues } = apiData || {};
-      const levelID = apiData?.level?.id;
-      store.update((s) => {
-        s.masterData.administration = {
-          ...apiData,
-          level_id: levelID === 1 ? 1 : levelID - 1,
-        };
-      });
 
       const _records = attributes.map((a) => {
         const findValue = attrValues.find((av) => av?.attribute === a.id);
@@ -73,7 +63,7 @@ const DetailAdministration = ({
             {["option", "multiple_option"].includes(record.type) &&
               dataValue && <>{dataValue?.join(" | ")}</>}
             {record.type === "aggregate" && dataValue && (
-              <ul>
+              <ul style={{ paddingLeft: "12px" }}>
                 {Object.keys(dataValue).map((dataKey, index) => {
                   return (
                     <li key={index}>
@@ -102,21 +92,6 @@ const DetailAdministration = ({
           />
         </Col>
       </Row>
-      <div>
-        <Space>
-          <Button
-            type="primary"
-            onClick={() => navigate(`/master-data/${record?.id}/edit`)}
-          >
-            Edit
-          </Button>
-          {onDelete && (
-            <Button type="danger" onClick={() => onDelete(record)}>
-              Delete
-            </Button>
-          )}
-        </Space>
-      </div>
     </>
   );
 };
