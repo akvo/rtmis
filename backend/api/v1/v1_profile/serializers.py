@@ -151,7 +151,7 @@ class AdministrationSerializer(serializers.ModelSerializer):
             'children',
             'attributes'
         ]
-        read_only_fields = ['code']
+        # read_only_fields = ['code']
 
     def __init__(self, *args, **kwargs):
         compact = kwargs.pop('compact', False)
