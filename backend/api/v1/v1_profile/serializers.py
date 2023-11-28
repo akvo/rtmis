@@ -1,3 +1,6 @@
+import random
+import string
+from typing import Any, Dict, cast
 from rest_framework import serializers
 from api.v1.v1_profile.models import (
         Administration, AdministrationAttribute, AdministrationAttributeValue,
@@ -22,24 +25,108 @@ class AdministrationLevelsSerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 
+class AdministrationAttributeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AdministrationAttribute
+        fields = ['id', 'name', 'type', 'options']
+
+    def validate(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        type = data.get('type', AdministrationAttribute.Type.VALUE)
+        options = data.get('options', [])
+        if type == AdministrationAttribute.Type.VALUE and len(options) > 0:
+            error = (
+                f'Attribute of type "{AdministrationAttribute.Type.VALUE}" '
+                'should not have any options'
+            )
+            raise serializers.ValidationError(error)
+        if type != AdministrationAttribute.Type.VALUE and len(options) < 1:
+            error = f'Attribute of type "{type}" should have at least 1 option'
+            raise serializers.ValidationError(error)
+
+        return super().validate(data)
+
+
+class AdministrationAttributeValueSerializer(serializers.ModelSerializer):
+    INVALID_VALUE_ERROR = 'Invalid value for attribute "%s"'
+    type = serializers.ReadOnlyField(source='attribute.type')
+
+    class Meta:
+        model = AdministrationAttributeValue
+        fields = ['attribute', 'type', 'value']
+
+    def to_internal_value(self, data: Dict):
+        value = data.get('value', None)
+        if value:
+            data['value'] = {'value': value}
+        return super().to_internal_value(data)
+
+    def validate(self, data):
+        attribute = cast(AdministrationAttribute, data.get('attribute'))
+        value = data.get('value', {}).get('value', None)
+        if value:
+            if attribute.type == AdministrationAttribute.Type.VALUE:
+                self._validate_value_attribute(attribute, value)
+            if attribute.type == AdministrationAttribute.Type.OPTION:
+                self._validate_option_attribute(attribute, value)
+            if attribute.type == AdministrationAttribute.Type.MULTIPLE_OPTION:
+                self._validate_multiple_option_attribute(attribute, value)
+            if attribute.type == AdministrationAttribute.Type.AGGREGATE:
+                self._validate_aggregate_attribute(attribute, value)
+        return data
+
+    def _validate_value_attribute(self, attribute, value):
+        if type(value) == dict:
+            raise serializers.ValidationError(
+                    self.INVALID_VALUE_ERROR.format(attribute.name))
+        if type(value) == list and len(value) > 0:
+            raise serializers.ValidationError(
+                    self.INVALID_VALUE_ERROR.format(attribute.name))
+
+    def _validate_option_attribute(self, attribute, value):
+        if value not in attribute.options:
+            raise serializers.ValidationError(
+                    self.INVALID_VALUE_ERROR.format(attribute.name))
+
+    def _validate_multiple_option_attribute(self, attribute, value):
+        if type(value) != list:
+            raise serializers.ValidationError(
+                    self.INVALID_VALUE_ERROR.format(attribute.name))
+        for val in value:
+            if val not in attribute.options:
+                raise serializers.ValidationError(
+                        self.INVALID_VALUE_ERROR.format(attribute.name))
+
+    def _validate_aggregate_attribute(self, attribute, value):
+        if type(value) != dict:
+            raise serializers.ValidationError(
+                    self.INVALID_VALUE_ERROR.format(attribute.name))
+        for key in value:
+            if key not in attribute.options:
+                raise serializers.ValidationError(
+                        self.INVALID_VALUE_ERROR.format(attribute.name))
+
+    def to_representation(self, instance: AdministrationAttributeValue):
+        data = super().to_representation(instance)
+        value = self._present_value(data, instance.attribute.type)
+        data['value'] = value
+        return data
+
+    def _present_value(self, data: Dict, type: str):
+        value = data.get('value', {}).get('value', None)
+        if value is None and\
+                type == AdministrationAttribute.Type.MULTIPLE_OPTION:
+            return []
+        if value is None and type == AdministrationAttribute.Type.AGGREGATE:
+            return {}
+        return value
+
+
 def validate_parent(obj: Administration):
     sub_level = obj.level.level + 1
     try:
         Levels.objects.get(level=sub_level)
     except Levels.DoesNotExist:
         raise serializers.ValidationError('Invalid parent level')
-
-
-class AdministrationAttributeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AdministrationAttribute
-        fields = ['id', 'name', 'options']
-
-
-class AdministrationAttributeValueSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AdministrationAttributeValue
-        fields = ['attribute', 'value', 'options']
 
 
 class AdministrationSerializer(serializers.ModelSerializer):
@@ -64,6 +151,7 @@ class AdministrationSerializer(serializers.ModelSerializer):
             'children',
             'attributes'
         ]
+        read_only_fields = ['code']
 
     def __init__(self, *args, **kwargs):
         compact = kwargs.pop('compact', False)
@@ -77,6 +165,7 @@ class AdministrationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         attributes = validated_data.pop('attributes', [])
         self._assign_level(validated_data)
+        self._set_code(validated_data)
         instance = super().create(validated_data)
         for attribute in attributes:
             instance.attributes.create(**attribute)
@@ -96,6 +185,13 @@ class AdministrationSerializer(serializers.ModelSerializer):
                         .filter(id=target.id).update(**it)
 
         return instance
+
+    def _set_code(self, validated_data):
+        code = ''.join([
+            random.choice(string.ascii_letters + string.digits+'-_')
+            for _ in range(10)
+        ])
+        validated_data.update({'code': code})
 
     def _assign_level(self, validated_data):
         parent_level = validated_data.get('parent').level.level
