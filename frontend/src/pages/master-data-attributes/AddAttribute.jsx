@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -6,94 +6,127 @@ import {
   Divider,
   Form,
   Input,
+  Modal,
   Row,
   Select,
   Space,
+  Tabs,
 } from "antd";
 import { Breadcrumbs } from "../../components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
-import { store } from "../../lib";
 import { MinusCircleOutlined } from "@ant-design/icons";
 import "./style.scss";
+import { api, store } from "../../lib";
 
-const pagePath = [
+const TYPES = [
   {
-    title: "Control Center",
-    link: "/control-center",
+    value: "value",
+    label: "Value",
   },
   {
-    title: "Manage Attributes",
-    link: "/master-data/attributes",
+    value: "option",
+    label: "Option",
   },
   {
-    title: "Add Attribute",
+    value: "multiple_option",
+    label: "Multiple Option",
+  },
+  {
+    value: "aggregate",
+    label: "Aggregate",
   },
 ];
+const OPTION_TYPES = ["option", "multiple_option", "aggregate"];
 
-const admLevels = [
-  {
-    id: 2,
-    level: 1,
-    name: "NAME_1",
-    alias: "County",
-  },
-  {
-    id: 3,
-    level: 2,
-    name: "NAME_2",
-    alias: "Sub-County",
-  },
-  {
-    id: 4,
-    level: 3,
-    name: "NAME_3",
-    alias: "Ward",
-  },
-];
-const attributeTypes = [
-  {
-    id: 1,
-    name: "administration",
-  },
-  {
-    id: 2,
-    name: "entity",
-  },
-];
-
-const { Option } = Select;
+const { TabPane } = Tabs;
 
 const AddAttribute = () => {
+  const initialValues = store.useState((s) => s.masterData.attribute);
   const [submitting, setSubmitting] = useState(false);
+  const [activeTab, setActiveTab] = useState("administration");
+  const [attrType, setAttrType] = useState(initialValues?.type || null);
 
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const { notify } = useNotification();
+  const { id } = useParams();
+
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: "/control-center",
+    },
+    {
+      title: "Manage Attributes",
+      link: "/master-data/attributes",
+    },
+    {
+      title: id ? "Edit Attribute" : "Add Attribute",
+    },
+  ];
 
   const onFinish = async (values) => {
-    setSubmitting(true);
-    const payload = {
-      attribute_type: values.attribute_type,
-      level_id: values.level_id,
-      name: values.name,
-      options: values.options,
-    };
-    store.update((s) => {
-      const _md = {
-        ...s.masterData,
-        attribute: { ...payload, id: 1011 },
+    try {
+      setSubmitting(true);
+      const payload = {
+        name: values.name,
+        type: values.type,
+        options: values?.options?.map((o) => o.name) || [],
       };
-      s.masterData = _md;
-    });
-    await new Promise((r) => setTimeout(r, 2000));
-    notify({
-      type: "success",
-      message: `Attribute added`,
-    });
-    setSubmitting(false);
-    navigate("/master-data/attributes");
+      if (id) {
+        await api.put(`/administration-attributes/${id}`, payload);
+      } else {
+        await api.post("/administration-attributes", payload);
+      }
+      notify({
+        type: "success",
+        message: `Attribute ${id ? "updated" : "added"}`,
+      });
+      setSubmitting(false);
+      navigate("/master-data/attributes");
+    } catch {
+      setSubmitting(false);
+    }
   };
+
+  const deleteAttribute = async (record) => {
+    try {
+      await api.delete(`/administration-attributes/${record?.id}`);
+      notify({
+        type: "success",
+        message: `Attribute deleted`,
+      });
+      navigate("/master-data/attributes");
+    } catch {
+      Modal.error({
+        title: "Unable to delete the attribute",
+      });
+    }
+  };
+
+  const handleOnDelete = (record) => {
+    Modal.confirm({
+      title: `Delete "${record?.name || "attribute"}"`,
+      content: "Are you sure you want to delete this attribute?",
+      onOk: () => {
+        deleteAttribute(record);
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (!id && initialValues?.id) {
+      form.setFieldsValue({
+        type: null,
+        name: "",
+        options: [],
+      });
+      store.update((s) => {
+        s.masterData.attribute = {};
+      });
+    }
+  }, [initialValues, id, form]);
 
   return (
     <div id="add-attribute">
@@ -104,55 +137,31 @@ const AddAttribute = () => {
         </Col>
       </Row>
       <Divider />
+      <Tabs size="large" activeKey={activeTab} onChange={setActiveTab}>
+        <TabPane tab="Administration" key="administration" />
+        <TabPane tab="Entity" key="entity" disabled />
+      </Tabs>
       <Form
         name="adm-form"
         form={form}
         layout="vertical"
-        initialValues={{
-          attribute_type: "",
-          level_id: null,
-          name: "",
-          options: [],
-        }}
+        initialValues={initialValues}
         onFinish={onFinish}
       >
         <Card bodyStyle={{ padding: 0 }}>
           <div className="form-row">
             <Form.Item
-              name="attribute_type"
+              name="type"
               label="Attribute Type"
               rules={[{ required: true }]}
             >
               <Select
                 getPopupContainer={(trigger) => trigger.parentNode}
                 placeholder="Select type..."
+                onSelect={setAttrType}
                 allowClear
-              >
-                {attributeTypes?.map((at) => (
-                  <Option key={at.id} value={at.id}>
-                    {at.name}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </div>
-          <div className="form-row">
-            <Form.Item
-              name="level_id"
-              label="Attribute Level"
-              rules={[{ required: true }]}
-            >
-              <Select
-                getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder="Select level.."
-                allowClear
-              >
-                {admLevels?.map((adm, adx) => (
-                  <Option key={`org-attr-${adx}`} value={adm.id}>
-                    {adm.alias}
-                  </Option>
-                ))}
-              </Select>
+                options={TYPES}
+              />
             </Form.Item>
           </div>
           <Row className="form-row">
@@ -170,40 +179,45 @@ const AddAttribute = () => {
               </Form.Item>
             </Col>
           </Row>
-          <Row className="form-row">
-            <Col span={24}>
-              <Form.Item label="Options">
-                <Form.List name="options">
-                  {(fields, { add, remove }) => (
-                    <div>
-                      {fields.map(({ key, name, ...restField }) => (
-                        <Space key={key}>
-                          <Form.Item name={[name, "name"]} {...restField}>
-                            <Input />
-                          </Form.Item>
-                          <Button
-                            icon={<MinusCircleOutlined />}
-                            onClick={() => remove(name)}
-                          >
-                            Remove
-                          </Button>
-                        </Space>
-                      ))}
-                      <Button onClick={() => add()}>Add option</Button>
-                    </div>
-                  )}
-                </Form.List>
-              </Form.Item>
-            </Col>
-          </Row>
+          {OPTION_TYPES.includes(attrType) && (
+            <Row className="form-row">
+              <Col span={24}>
+                <Form.Item label="Options">
+                  <Form.List name="options">
+                    {(fields, { add, remove }) => (
+                      <div>
+                        {fields.map(({ key, name, ...restField }) => (
+                          <Space key={key}>
+                            <Form.Item name={[name, "name"]} {...restField}>
+                              <Input />
+                            </Form.Item>
+                            <Button
+                              icon={<MinusCircleOutlined />}
+                              onClick={() => remove(name)}
+                            >
+                              Remove
+                            </Button>
+                          </Space>
+                        ))}
+                        <Button onClick={() => add()}>Add option</Button>
+                      </div>
+                    )}
+                  </Form.List>
+                </Form.Item>
+              </Col>
+            </Row>
+          )}
         </Card>
-        <Row justify="end" align="middle">
-          <Col>
-            <Button type="primary" htmlType="submit" loading={submitting}>
-              Add attribute
+        <Space direction="horizontal">
+          {initialValues?.id && (
+            <Button type="danger" onClick={() => handleOnDelete(initialValues)}>
+              Delete
             </Button>
-          </Col>
-        </Row>
+          )}
+          <Button type="primary" htmlType="submit" loading={submitting}>
+            Save attribute
+          </Button>
+        </Space>
       </Form>
     </div>
   );
