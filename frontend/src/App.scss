@@ -1,6 +1,6 @@
 @import "variables";
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Poppins|Montserrat:wght@400;500;600;700&display=swap");
 
 #root {
   font-family: "Poppins", sans-serif;
@@ -11,14 +11,23 @@
     font-size: 28px;
     font-weight: $font-weight-semi-bold;
     line-height: 1.2;
+    color: $blue;
   }
   h1.welcome {
     line-height: 1.4;
   }
 
   .ant-btn {
-    border-radius: 4px;
-    text-transform: uppercase;
+    border-radius: 100px;
+    display: flex;
+    padding: 6.4px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    &:not(.ant-btn-link) {
+      box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.04);
+    }
 
     &.ant-btn-sm {
       font-size: 12px;
@@ -32,6 +41,13 @@
         color: #fffa;
         opacity: 0.7;
       }
+    }
+    & > .anticon + span,
+    & > span + .anticon {
+      margin-left: 0;
+    }
+    &.ant-btn-link {
+      color: $blue;
     }
   }
 
