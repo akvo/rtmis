@@ -101,6 +101,7 @@
           border: 0;
         }
       }
+
       .report-wrapper {
         width: 100%;
         display: flex;
@@ -142,6 +143,11 @@
           width: fit-content;
         }
       }
+
+      img {
+        width: 100%;
+      }
+
       .todo-visualisation {
         display: flex;
         flex-direction: column;
@@ -153,6 +159,12 @@
         em {
           color: $color-semi-light;
         }
+      }
+    }
+
+    .contact {
+      h1 {
+        text-align: center;
       }
     }
   }

@@ -171,8 +171,8 @@ const Home = () => {
       </div>
       <div className="home-odd contact">
         <h1>Contact Us</h1>
-        <Row align="middle">
-          <Space direction="vertical">
+        <Row align="middle" justify="center">
+          <Space direction="vertical" align="center">
             <h3>Get in touch with us for support or feedback.</h3>
             <Button
               type="primary"
