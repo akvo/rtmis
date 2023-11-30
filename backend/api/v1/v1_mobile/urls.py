@@ -7,9 +7,18 @@ from .views import (
     download_sqlite_file,
     upload_apk_file,
     download_apk_file,
+    MobileAssignmentViewSet,
 )
 
 urlpatterns = [
+    re_path(
+        r'^(?P<version>(v1))/mobile-assignments/(?P<pk>[0-9]+)',
+        MobileAssignmentViewSet.as_view({'put': 'update', 'delete': 'destroy'})
+    ),
+    re_path(
+        r'^(?P<version>(v1))/mobile-assignments',
+        MobileAssignmentViewSet.as_view({'get': 'list', 'post': 'create'})
+    ),
     re_path(r'^(?P<version>(v1))/device/auth', get_mobile_forms),
     re_path(
         r'^(?P<version>(v1))/device/form/(?P<form_id>[0-9]+)',
