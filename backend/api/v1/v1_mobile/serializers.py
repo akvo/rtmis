@@ -2,11 +2,10 @@ from typing import Any, Dict
 from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
 from rest_framework_simplejwt.tokens import RefreshToken
-from api.v1.v1_forms.models import Forms, UserForms
+from api.v1.v1_forms.models import Forms
 from drf_spectacular.types import OpenApiTypes
 from api.v1.v1_profile.models import Administration
 from utils.custom_serializer_fields import CustomCharField
-from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_mobile.models import MobileAssignment, MobileApk
 from utils.custom_helper import CustomPasscode, generate_random_string
 
@@ -26,18 +25,14 @@ class MobileFormSerializer(serializers.ModelSerializer):
 
 
 class MobileAssignmentFormsSerializer(serializers.Serializer):
+    code = CustomCharField(max_length=255, write_only=True)
+    name = serializers.CharField(read_only=True)
     syncToken = serializers.CharField(source='token', read_only=True)
     formsUrl = serializers.SerializerMethodField()
-    code = CustomCharField(max_length=255, write_only=True)
 
     @extend_schema_field(MobileFormSerializer(many=True))
     def get_formsUrl(self, obj):
-        user_forms = UserForms.objects.filter(user=obj.user)
-        if obj.user.user_access.role == UserRoleTypes.super_admin:
-            return MobileFormSerializer(Forms.objects.all(), many=True).data
-        return MobileFormSerializer(
-            [form.form for form in user_forms], many=True
-        ).data
+        return MobileFormSerializer(obj.forms.all(), many=True).data
 
     def validate_code(self, value):
         passcode = CustomPasscode().encode(value)
@@ -45,13 +40,8 @@ class MobileAssignmentFormsSerializer(serializers.Serializer):
             raise serializers.ValidationError('Invalid passcode')
         return value
 
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        data.pop('code', None)
-        return data
-
     class Meta:
-        fields = ['syncToken', 'formsUrl', 'code']
+        fields = ['name', 'syncToken', 'formsUrl', 'code']
 
 
 class IdAndNameRelatedField(serializers.PrimaryKeyRelatedField):
