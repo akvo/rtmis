@@ -29,7 +29,7 @@ class MobileAssignmentManagerTest(TestCase):
 
         # Test without passcode
         mobile_assignment = MobileAssignment.objects.create_assignment(
-            user=self.user
+            user=self.user, name='test'
         )
         self.assertEqual(mobile_assignment.user, self.user)
         # Passcode is not stored in plain text
@@ -45,7 +45,7 @@ class MobileAssignmentManagerTest(TestCase):
 
         # Test with passcode
         mobile_assignment = MobileAssignment.objects.create_assignment(
-            user=self.user, passcode='passcode1234'
+            user=self.user, name='test', passcode='passcode1234'
         )
         self.assertEqual(mobile_assignment.user, self.user)
         # Passcode is not stored in plain text
@@ -61,7 +61,7 @@ class MobileAssignmentManagerTest(TestCase):
         from utils.custom_helper import CustomPasscode
 
         mobile_assignment = MobileAssignment.objects.create_assignment(
-            user=self.user, passcode='passcode1234'
+            user=self.user, name='test', passcode='passcode1234'
         )
         self.assertEqual(mobile_assignment.user, self.user)
         passcode = mobile_assignment.get_passcode()

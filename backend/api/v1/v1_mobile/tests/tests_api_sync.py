@@ -30,7 +30,7 @@ class MobileAssignmentApiSyncTest(TestCase):
         UserForms.objects.create(user=self.user, form=self.form)
         self.passcode = 'passcode1234'
         MobileAssignment.objects.create_assignment(
-            user=self.user, passcode=self.passcode
+            user=self.user, name='test', passcode=self.passcode
         )
         self.mobile_assignment = MobileAssignment.objects.get(user=self.user)
         self.token = self.mobile_assignment.token

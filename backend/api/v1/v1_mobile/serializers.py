@@ -1,11 +1,14 @@
+from typing import Any, Dict
 from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
+from rest_framework_simplejwt.tokens import RefreshToken
 from api.v1.v1_forms.models import Forms, UserForms
 from drf_spectacular.types import OpenApiTypes
+from api.v1.v1_profile.models import Administration
 from utils.custom_serializer_fields import CustomCharField
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_mobile.models import MobileAssignment, MobileApk
-from utils.custom_helper import CustomPasscode
+from utils.custom_helper import CustomPasscode, generate_random_string
 
 
 class MobileFormSerializer(serializers.ModelSerializer):
@@ -49,6 +52,43 @@ class MobileAssignmentFormsSerializer(serializers.Serializer):
 
     class Meta:
         fields = ['syncToken', 'formsUrl', 'code']
+
+
+class IdAndNameRelatedField(serializers.PrimaryKeyRelatedField):
+    def use_pk_only_optimization(self) -> bool:
+        return False
+
+    def to_representation(self, value):
+        return {
+            'id': value.pk,
+            'name': value.name,
+        }
+
+
+class MobileAssignmentSerializer(serializers.ModelSerializer):
+    forms = IdAndNameRelatedField(queryset=Forms.objects.all(), many=True)
+    administrations = IdAndNameRelatedField(
+            queryset=Administration.objects.all(), many=True)
+
+    class Meta:
+        model = MobileAssignment
+        fields = [
+            'id',
+            'name',
+            'passcode',
+            'forms',
+            'administrations'
+        ]
+        read_only_fields = ['passcode']
+
+    def create(self, validated_data: Dict[str, Any]):
+        user = self.context.get('request').user
+        token = RefreshToken.for_user(user)
+        passcode = CustomPasscode().encode(generate_random_string(8))
+        validated_data.update({
+            'user': user, 'token': token, 'passcode': passcode})
+        instance = super().create(validated_data)
+        return instance
 
 
 class MobileApkSerializer(serializers.Serializer):

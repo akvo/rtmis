@@ -1,6 +1,8 @@
 import os
 import requests
 import mimetypes
+
+from rest_framework.viewsets import ModelViewSet
 from rtmis.settings import MASTER_DATA, BASE_DIR, APP_NAME, APK_UPLOAD_SECRET
 from drf_spectacular.utils import extend_schema
 from django.http import HttpResponse
@@ -15,9 +17,12 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser
 from drf_spectacular.utils import inline_serializer
+
+from utils.custom_pagination import Pagination
 from .serializers import (
     MobileAssignmentFormsSerializer,
     MobileApkSerializer,
+    MobileAssignmentSerializer,
 )
 from .models import MobileAssignment, MobileApk
 from api.v1.v1_forms.models import Forms
@@ -273,3 +278,14 @@ def upload_apk_file(request, version):
     file_cache.close()
     serializer.save()
     return Response({'message': 'ok'}, status=status.HTTP_201_CREATED)
+
+
+@extend_schema(tags=['Mobile Assignment'])
+class MobileAssignmentViewSet(ModelViewSet):
+    queryset = MobileAssignment.objects\
+            .prefetch_related('administrations', 'forms')\
+            .order_by('id')\
+            .all()
+    serializer_class = MobileAssignmentSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = Pagination
