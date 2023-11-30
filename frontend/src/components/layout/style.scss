@@ -110,11 +110,12 @@
     }
 
     .header {
-      background-color: $bg-header;
+      background-color: $bg-header-light;
       font-weight: $font-weight-semi-bold;
       color: $color-dark;
       padding-top: $padding-header;
       padding-bottom: $padding-header;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
       position: sticky;
       top: 0;
       z-index: 999;
@@ -191,7 +192,7 @@
         }
 
         a {
-          color: $color-light;
+          color: $color-dark;
 
           .role {
             font-style: italic;
@@ -229,6 +230,8 @@
       background-color: $bg-dark;
       color: $color-light;
       font-weight: $font-weight-normal;
+      font-size: $font-size-regular;
+      padding-top: 78px;
 
       h2,
       h3 {
@@ -248,6 +251,30 @@
         li {
           text-decoration: none;
           list-style: none;
+        }
+        &:not(.list-inline) li:not(:last-child) {
+          margin-bottom: $padding-small;
+        }
+
+        &.list-inline {
+          li {
+            display: inline;
+
+            a {
+              font-style: normal;
+              font-weight: $font-weight-semi-bold;
+              line-height: 150%;
+            }
+            &:first-child {
+              padding-left: 0;
+              padding-right: 32px;
+            }
+            &:not(:first-child) {
+              border-left: 1px solid #fff;
+              padding-left: 32px;
+              padding-right: 32px;
+            }
+          }
         }
       }
 
@@ -269,6 +296,17 @@
 
         &.ant-btn {
           margin-top: 30px;
+        }
+      }
+
+      .about-wrapper {
+        img.small-logo {
+          width: 67px;
+          margin-bottom: 32px;
+        }
+        p {
+          max-width: 50%;
+          margin-bottom: 32px;
         }
       }
     }
