@@ -1,19 +1,9 @@
 import React, { useMemo, useState, useEffect, useCallback } from "react";
-import {
-  Row,
-  Col,
-  Card,
-  Button,
-  Divider,
-  Table,
-  Space,
-  Input,
-  Modal,
-} from "antd";
+import { Row, Col, Card, Button, Divider, Table, Space, Input } from "antd";
 import { CloseSquareOutlined, PlusSquareOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
-import { store, uiText } from "../../lib";
+import { api, store, uiText } from "../../lib";
 // import { api, store, uiText, config } from "../../lib";
 import DetailAssignment from "./DetailAssignment";
 // import { orderBy } from "lodash";
@@ -30,46 +20,15 @@ const pagePath = [
   },
 ];
 
-const fakeAssignments = [
-  {
-    id: 1,
-    name: "Jhon Doe",
-    passcode: "h3llo7",
-    administrations: [
-      {
-        id: 11,
-        name: "Central Kasipul",
-      },
-      {
-        id: 12,
-        name: "East Kamagak",
-      },
-    ],
-    forms: [
-      {
-        id: 519630048,
-        name: "Household",
-      },
-      {
-        id: 563350033,
-        name: "WASH in schools",
-      },
-    ],
-  },
-];
-
 const MobileAssignment = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState(null);
   const [dataset, setDataset] = useState([]);
-  const [deleteUser, setDeleteUser] = useState(null);
-  const [deleting, setDeleting] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
-  const newAssignment = store.useState((s) => s.mobileAssignment);
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -104,28 +63,40 @@ const MobileAssignment = () => {
         return <>{record?.map((r) => r?.name || r?.label)?.join(" | ")}</>;
       },
     },
+    {
+      title: "Action",
+      dataIndex: "id",
+      key: "id",
+      width: "10%",
+      render: (recordID) => {
+        return (
+          <Link to={`/mobile-assignment/form/${recordID}`}>
+            <Button type="link">Edit</Button>
+          </Link>
+        );
+      },
+    },
     Table.EXPAND_COLUMN,
   ];
 
-  const handleOnDelete = async () => {
-    setDeleteUser(null);
-    setDeleting(true);
-    await new Promise((r) => setTimeout(r, 2000));
-    setDataset(dataset.slice(-1));
-    setDeleting(false);
+  const handleChange = (e) => {
+    setCurrentPage(e.current);
   };
 
   const fetchData = useCallback(async () => {
-    // TODO
-    await new Promise((r) => setTimeout(r, 2000));
-    setDataset(fakeAssignments);
-    if (Object.keys(newAssignment).length) {
-      setDataset([newAssignment, ...fakeAssignments]);
+    try {
+      const { data: apiData } = await api.get(
+        `/mobile-assignments?page=${currentPage}`
+      );
+      const { total, current, data: _assignments } = apiData || {};
+      setDataset(_assignments);
+      setTotalCount(total);
+      setCurrentPage(current);
+      setLoading(false);
+    } catch {
+      setLoading(false);
     }
-    setTotalCount(1);
-    setCurrentPage(1);
-    setLoading(false);
-  }, [newAssignment]);
+  }, [currentPage]);
 
   useEffect(() => {
     fetchData();
@@ -174,6 +145,7 @@ const MobileAssignment = () => {
           rowClassName={() => "editable-row"}
           dataSource={dataset}
           loading={loading}
+          onChange={handleChange}
           pagination={{
             showSizeChanger: false,
             current: currentPage,
@@ -184,13 +156,7 @@ const MobileAssignment = () => {
           }}
           rowKey="id"
           expandable={{
-            expandedRowRender: (record) => (
-              <DetailAssignment
-                record={record}
-                setDeleteUser={setDeleteUser}
-                deleting={deleting}
-              />
-            ),
+            expandedRowRender: (record) => <DetailAssignment record={record} />,
             expandIcon: ({ expanded, onExpand, record }) =>
               expanded ? (
                 <CloseSquareOutlined
@@ -206,14 +172,6 @@ const MobileAssignment = () => {
           }}
         />
       </Card>
-      <Modal
-        title={deleteUser?.name}
-        visible={deleteUser}
-        onOk={handleOnDelete}
-        onCancel={() => setDeleteUser(null)}
-      >
-        <p>{text.mobileConfirmDeletion}</p>
-      </Modal>
     </div>
   );
 };
