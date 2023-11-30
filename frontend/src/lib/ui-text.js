@@ -89,6 +89,20 @@ const uiText = {
         url: "/documentation/",
       },
     ],
+    footerLegalLinkItems: [
+      {
+        text: "Privacy Policy",
+        url: "#",
+      },
+      {
+        text: "Terms & Conditions",
+        url: "#",
+      },
+      {
+        text: "Cookie Policy",
+        url: "#",
+      },
+    ],
     copyright: "© 2022 — Ministry of Health",
     // Header Links
     controlCenter: "Control Center",
