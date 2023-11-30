@@ -66,7 +66,7 @@ const AdministrationDropdown = ({
                     ""
                   )}
                   <Select
-                    placeholder={`Select ${region?.childLevelName}`}
+                    placeholder={`Select ${region?.childLevelName || ""}`}
                     style={{ width: width }}
                     onChange={(e) => {
                       handleChange(e, regionIdx);
