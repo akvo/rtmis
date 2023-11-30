@@ -1,9 +1,11 @@
 import os
 import requests
 import mimetypes
+
+from rest_framework.viewsets import ModelViewSet
 from rtmis.settings import MASTER_DATA, BASE_DIR, APP_NAME, APK_UPLOAD_SECRET
 from drf_spectacular.utils import extend_schema
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from rest_framework import status, serializers
 from rest_framework.response import Response
 from rest_framework.decorators import (
@@ -15,9 +17,12 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser
 from drf_spectacular.utils import inline_serializer
+
+from utils.custom_pagination import Pagination
 from .serializers import (
     MobileAssignmentFormsSerializer,
     MobileApkSerializer,
+    MobileAssignmentSerializer,
 )
 from .models import MobileAssignment, MobileApk
 from api.v1.v1_forms.models import Forms
@@ -68,12 +73,51 @@ def get_mobile_forms(request, version):
 )
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_mobile_form_details(request, version, form_id):
+def get_mobile_form_details(request: HttpRequest, version, form_id):
+    token = get_raw_token(request)
+    try:
+        assignment = MobileAssignment.objects.get(token=token)
+    except MobileAssignment.DoesNotExist:
+        return Response(
+            {'message': 'Mobile assignment is not found'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
     instance = get_object_or_404(Forms, pk=form_id)
-    instance = WebFormDetailSerializer(
-        instance=instance, context={'user': request.user}
+    data = WebFormDetailSerializer(
+        instance=instance,
+        context={
+            'user': request.user,
+            'mobile_assignment': assignment,
+        }
     ).data
-    return Response(instance, status=status.HTTP_200_OK)
+    return Response(data, status=status.HTTP_200_OK)
+
+
+def get_raw_token(request):
+    """
+    Extracts an unvalidated JSON web token from the given request.
+    """
+    encoding = 'iso-8859-1'
+    auth_header_bytes = ('Bearer'.encode(encoding),)
+
+    header = request.META.get('HTTP_AUTHORIZATION')
+    if isinstance(header, str):
+        header = header.encode(encoding)
+
+    parts = header.split()
+
+    if len(parts) == 0:
+        # Empty AUTHORIZATION header sent
+        return None
+
+    if parts[0] not in auth_header_bytes:
+        # Assume the header does not contain a JSON web token
+        return None
+
+    if len(parts) != 2:
+        return None
+
+    return parts[1].decode('utf-8')
 
 
 @extend_schema(
@@ -273,3 +317,14 @@ def upload_apk_file(request, version):
     file_cache.close()
     serializer.save()
     return Response({'message': 'ok'}, status=status.HTTP_201_CREATED)
+
+
+@extend_schema(tags=['Mobile Assignment'])
+class MobileAssignmentViewSet(ModelViewSet):
+    queryset = MobileAssignment.objects\
+            .prefetch_related('administrations', 'forms')\
+            .order_by('id')\
+            .all()
+    serializer_class = MobileAssignmentSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = Pagination
