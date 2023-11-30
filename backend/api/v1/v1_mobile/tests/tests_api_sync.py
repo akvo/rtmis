@@ -22,18 +22,45 @@ class MobileAssignmentApiSyncTest(TestCase):
         self.administration = Administration.objects.filter(
             parent__isnull=True
         ).first()
+        self.administration2 = Administration.objects.last()
+        self.form = Forms.objects.first()
+
+        # TODO: remove?
         role = UserRoleTypes.user
         self.user_access = Access.objects.create(
             user=self.user, role=role, administration=self.administration
         )
-        self.form = Forms.objects.first()
         UserForms.objects.create(user=self.user, form=self.form)
+
         self.passcode = 'passcode1234'
         MobileAssignment.objects.create_assignment(
-            user=self.user, name='test', passcode=self.passcode
+            user=self.user, name='test assignment', passcode=self.passcode
         )
         self.mobile_assignment = MobileAssignment.objects.get(user=self.user)
+        self.mobile_assignment.administrations.add(
+            self.administration,
+            self.administration2
+        )
+        self.mobile_assignment.forms.add(self.form)
         self.token = self.mobile_assignment.token
+
+    def test_get_form_details(self):
+        response = self.client.get(
+            f'/api/v1/device/form/{self.form.id}',
+            follow=True,
+            content_type='application/json',
+            **{'HTTP_AUTHORIZATION': f'Bearer {self.token}'},
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.json()
+        cascades = [
+            q for q in data['question_group'][0]['question']
+            if q['type'] == 'cascade'
+        ]
+        self.assertEqual(
+            cascades[0]['source']['parent_id'],
+            [self.administration.id, self.administration2.id]
+        )
 
     def test_mobile_sync_to_pending_datapoint(self):
         response = self.client.get(
@@ -45,7 +72,6 @@ class MobileAssignmentApiSyncTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         json_form = response.json()
         questions = []
-        json_form['question_group']
         for question_group in json_form['question_group']:
             for question in question_group['question']:
                 questions.append(question)
