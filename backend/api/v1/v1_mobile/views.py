@@ -74,6 +74,7 @@ def get_mobile_forms(request, version):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_mobile_form_details(request: HttpRequest, version, form_id):
+    instance = get_object_or_404(Forms, pk=form_id)
     token = get_raw_token(request)
     try:
         assignment = MobileAssignment.objects.get(token=token)
@@ -82,7 +83,6 @@ def get_mobile_form_details(request: HttpRequest, version, form_id):
             {'message': 'Mobile assignment is not found'},
             status=status.HTTP_400_BAD_REQUEST
         )
-    instance = get_object_or_404(Forms, pk=form_id)
     data = WebFormDetailSerializer(
         instance=instance,
         context={
@@ -141,6 +141,14 @@ def get_raw_token(request):
 @permission_classes([IsAuthenticated])
 def sync_pending_form_data(request, version):
     form = get_object_or_404(Forms, pk=request.data.get('formId'))
+    token = get_raw_token(request)
+    try:
+        assignment = MobileAssignment.objects.get(token=token)
+    except MobileAssignment.DoesNotExist:
+        return Response(
+            {'message': 'Mobile assignment is not found'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
     user = request.user
     administration = Access.objects.filter(user=user).first().administration
     if not request.data.get('answers'):
@@ -157,7 +165,7 @@ def sync_pending_form_data(request, version):
             'administration': administration.id,
             'name': request.data.get('name'),
             'geo': request.data.get('geo'),
-            'submitter': request.data.get('submitter'),
+            'submitter': assignment.name,
             'duration': request.data.get('duration'),
         },
         'answer': answers,

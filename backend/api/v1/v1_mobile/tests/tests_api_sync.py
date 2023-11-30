@@ -25,7 +25,6 @@ class MobileAssignmentApiSyncTest(TestCase):
         self.administration2 = Administration.objects.last()
         self.form = Forms.objects.first()
 
-        # TODO: remove?
         role = UserRoleTypes.user
         self.user_access = Access.objects.create(
             user=self.user, role=role, administration=self.administration
@@ -126,7 +125,8 @@ class MobileAssignmentApiSyncTest(TestCase):
         ).count()
         self.assertEqual(answer_data, len(list(answers)))
         self.assertTrue(pending_data[0].geo, [0, 0])
-        self.assertEqual(pending_data[0].submitter, 'Test Enumerator')
+        self.assertEqual(
+                pending_data[0].submitter, self.mobile_assignment.name)
         self.assertEqual(pending_data[0].duration, 3000)
 
         # Submit with invalid token
