@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Row, Col, Button, Dropdown, Menu } from "antd";
-import { DownOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import { Link, useLocation } from "react-router-dom";
 import ComingSoon from "./custom/ComingSoon";
 import Countdown from "react-countdown";
@@ -9,7 +9,7 @@ import { uiText, store } from "../../lib";
 
 const styles = {
   banner: {
-    backgroundImage: `url("/assets/header-image-background.jpg")`,
+    backgroundImage: `url("/assets/rtmis-hero.jpeg")`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
@@ -115,7 +115,7 @@ const Banner = () => {
         </div>
         <Row>
           <Button
-            size="large"
+            type="primary"
             onClick={() => scrollToView()}
             className="btn-explore-national-data"
           >
@@ -123,11 +123,11 @@ const Banner = () => {
           </Button>
           <Dropdown overlay={DashboardMenu}>
             <Button
-              size="large"
+              icon={<PlusOutlined />}
               onClick={(e) => e.preventDefault()}
               className="btn-dashboard"
             >
-              Comprehensive Dashboards <DownOutlined />
+              Comprehensive Dashboards
             </Button>
           </Dropdown>
         </Row>
