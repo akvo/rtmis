@@ -21,8 +21,8 @@ import {
 import { useNotification } from "../../util/hooks";
 import "./style.scss";
 
-const { Option } = Select;
 const WARD_LEVEL = 3;
+const MAX_LEVEL = 4;
 
 const AddAssignment = () => {
   const { id } = useParams();
@@ -35,13 +35,15 @@ const AddAssignment = () => {
     administration: selectedAdministration,
     language,
   } = store.useState((s) => s);
+  const editAssignment = store.useState((s) => s.mobileAssignment);
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
   const [preload, setPreload] = useState(true);
-  const [editAssignment, setEditAssignment] = useState(null);
   const [villageFetching, setVillageFetching] = useState(false);
   const [ward, setWard] = useState(null);
-  const [villages, setVillages] = useState([]);
+  const [villages, setVillages] = useState(
+    editAssignment?.administrations || []
+  );
 
   const { active: activeLang } = language;
   const text = useMemo(() => {
@@ -100,10 +102,15 @@ const AddAssignment = () => {
   const onFinish = async (values) => {
     setSubmitting(true);
     try {
+      const payload = {
+        name: values.name,
+        administrations: values.administrations,
+        forms: values.forms,
+      };
       if (id) {
-        await api.put(`/mobile-assignments/${id}`, values);
+        await api.put(`/mobile-assignments/${id}`, payload);
       } else {
-        await api.post("/mobile-assignments", values);
+        await api.post("/mobile-assignments", payload);
       }
       notify({
         type: "success",
@@ -134,20 +141,22 @@ const AddAssignment = () => {
     }
   }, [findWard, ward]);
 
-  const fetchData = useCallback(async () => {
-    if (id && preload) {
+  const fetchData = useCallback(() => {
+    if (id && preload && editAssignment?.id) {
       setPreload(false);
-      setLoading(true);
-      const { data: apiData } = await api.get(`/mobile-assignments/${id}`);
-      setEditAssignment(apiData);
-      form.setFieldsValue(apiData);
-      setLoading(false);
+      setVillages(editAssignment.administrations);
+
+      form.setFieldsValue({
+        ...editAssignment,
+        administrations: editAssignment.administrations.map((a) => a?.id),
+        forms: editAssignment.forms.map((f) => f?.id),
+      });
     }
 
     if (!id && preload) {
       setPreload(false);
     }
-  }, [id, preload, form]);
+  }, [id, preload, form, editAssignment]);
 
   useEffect(() => {
     fetchData();
@@ -184,17 +193,20 @@ const AddAssignment = () => {
               </Form.Item>
             </Col>
           </Row>
+          <Form.Item name="parent" label="Administration Parent">
+            <AdministrationDropdown
+              size="large"
+              width="100%"
+              direction="vertical"
+              maxLevel={MAX_LEVEL}
+            />
+          </Form.Item>
           <div className="form-row">
             <Form.Item
               name="administrations"
               label={text.mobileLabelAdm}
               rules={[{ required: true, message: text.mobileAdmRequired }]}
             >
-              <AdministrationDropdown
-                direction="vertical"
-                size="large"
-                width="100%"
-              />
               <Select
                 allowClear
                 getPopupContainer={(trigger) => trigger.parentNode}
@@ -221,13 +233,9 @@ const AddAssignment = () => {
                 mode="multiple"
                 allowClear
                 loading={loading}
-              >
-                {userForms?.map((form) => (
-                  <Option key={form.id} value={form.id}>
-                    {form.name}
-                  </Option>
-                ))}
-              </Select>
+                fieldNames={{ value: "id", label: "name" }}
+                options={userForms}
+              />
             </Form.Item>
           </div>
         </Card>
