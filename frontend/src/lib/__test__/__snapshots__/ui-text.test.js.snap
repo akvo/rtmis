@@ -216,7 +216,7 @@ Object {
     "mobileConfirmDeletion": "Are you sure?",
     "mobileEditText": "Edit Assignment",
     "mobileFormsRequired": "Please select one or more forms",
-    "mobileLabelAdm": "Village",
+    "mobileLabelAdm": "Administrations",
     "mobileLabelForms": "Forms",
     "mobileLabelName": "Name",
     "mobileNameRequired": "Please input name",

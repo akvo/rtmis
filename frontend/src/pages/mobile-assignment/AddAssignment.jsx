@@ -1,7 +1,18 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-import { Row, Col, Card, Form, Button, Divider, Input, Select } from "antd";
+import {
+  Row,
+  Col,
+  Card,
+  Form,
+  Button,
+  Divider,
+  Input,
+  Select,
+  Space,
+  Modal,
+} from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import { store, uiText } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import {
   AdministrationDropdown,
   Breadcrumbs,
@@ -10,9 +21,7 @@ import {
 import { useNotification } from "../../util/hooks";
 import "./style.scss";
 
-const { Option } = Select;
-
-const WARD_LEVEL = 3;
+const IS_SUPER_ADMIN = 1;
 
 const AddAssignment = () => {
   const { id } = useParams();
@@ -22,12 +31,20 @@ const AddAssignment = () => {
   const {
     forms: userForms,
     user: authUser,
-    administration: userAdms,
-
     language,
+    levels,
   } = store.useState((s) => s);
+  const editAssignment = store.useState((s) => s.mobileAssignment);
+  const userAdmLevel = authUser?.administration?.level;
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [preload, setPreload] = useState(true);
+  const [level, setLevel] = useState(userAdmLevel);
+
+  const admLevels = levels
+    .slice()
+    .filter((l) => l?.level >= userAdmLevel)
+    .sort((a, b) => a?.level - b?.level);
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -51,63 +68,70 @@ const AddAssignment = () => {
     },
   ];
 
-  const onFinish = async (values) => {
-    // TODO
-    setSubmitting(true);
-    const passcode = Math.random().toString(36).slice(7);
-    const payload = {
-      name: values.name,
-      administrations: values.administrations,
-      forms: values.forms,
-      passcode,
-      id: passcode,
-    };
-    await new Promise((r) => setTimeout(r, 2000));
-    store.update((s) => {
-      s.mobileAssignment = payload;
-    });
-    notify({
-      type: "success",
-      message: `Data collector ${id ? "updated" : "added"}`,
-    });
-    setSubmitting(false);
-    navigate("/mobile-assignment");
+  const deleteAssginment = async () => {
+    try {
+      await api.delete(`/mobile-assignments/${id}`);
+      navigate("/mobile-assignment");
+    } catch {
+      notify({
+        type: "error",
+        message: "Oops, something went wrong.",
+      });
+    }
   };
 
-  const initialValues = useMemo(() => {
-    const { administration: userAdm } = authUser;
-    const _administrations =
-      userAdm?.level === WARD_LEVEL
-        ? [{ ...userAdm, label: userAdm?.name, value: userAdm?.id }]
-        : [];
-    if (id) {
-      // TODO
-      return {
-        name: "EditedUser",
-        administrations: [{ value: 910, label: "Khalaba" }],
-        forms: [{ value: 563350033, label: "WASH in Schools" }],
+  const onDelete = () => {
+    Modal.confirm({
+      title: `Delete ${editAssignment?.name || "Assignment"}`,
+      content: "Are you sure you want to delete this assignment?",
+      onOk: () => {
+        deleteAssginment();
+      },
+    });
+  };
+
+  const onFinish = async (values) => {
+    setSubmitting(true);
+    try {
+      const payload = {
+        name: values.name,
+        administrations: values.administrations,
+        forms: values.forms,
       };
-    }
-
-    return {
-      name: "",
-      administrations: _administrations,
-      forms: [],
-    };
-  }, [id, authUser]);
-
-  const fakeFetchData = useCallback(async () => {
-    // TODO
-    if (id) {
-      setLoading(true);
-      await new Promise((r) => setTimeout(r, 2000));
+      if (id) {
+        await api.put(`/mobile-assignments/${id}`, payload);
+      } else {
+        await api.post("/mobile-assignments", payload);
+      }
+      notify({
+        type: "success",
+        message: id ? "Mobile assignment update" : "Mobile assignment added",
+      });
       setLoading(false);
+      navigate("/mobile-assignment");
+    } catch {
+      setSubmitting(false);
     }
-  }, [id]);
+  };
+
+  const fetchData = useCallback(() => {
+    if (id && preload && editAssignment?.id) {
+      setPreload(false);
+      form.setFieldsValue({
+        ...editAssignment,
+        administrations: editAssignment.administrations.map((a) => a?.id),
+        forms: editAssignment.forms.map((f) => f?.id),
+      });
+    }
+
+    if (!id && preload) {
+      setPreload(false);
+    }
+  }, [id, preload, form, editAssignment]);
 
   useEffect(() => {
-    fakeFetchData();
-  }, [fakeFetchData]);
+    fetchData();
+  }, [fetchData]);
 
   return (
     <div id="add-assignment">
@@ -118,21 +142,8 @@ const AddAssignment = () => {
         </Col>
       </Row>
       <Divider />
-      <Form
-        name="user-form"
-        form={form}
-        layout="vertical"
-        initialValues={initialValues}
-        onFinish={onFinish}
-      >
+      <Form name="user-form" form={form} layout="vertical" onFinish={onFinish}>
         <Card bodyStyle={{ padding: 0 }}>
-          <AdministrationDropdown
-            direction="vertical"
-            withLabel={true}
-            // persist={true}
-            size="large"
-            width="100%"
-          />
           <Row className="form-row">
             <Col span={24}>
               <Form.Item
@@ -149,27 +160,38 @@ const AddAssignment = () => {
               </Form.Item>
             </Col>
           </Row>
+          {authUser?.role?.id === IS_SUPER_ADMIN && (
+            <div className="form-row">
+              <Form.Item name="level_id" label="Administration Level">
+                <Select
+                  getPopupContainer={(trigger) => trigger.parentNode}
+                  placeholder="Select level.."
+                  onChange={setLevel}
+                  fieldNames={{ value: "id", label: "name" }}
+                  options={admLevels}
+                  allowClear
+                />
+              </Form.Item>
+            </div>
+          )}
           <div className="form-row">
             <Form.Item
               name="administrations"
               label={text.mobileLabelAdm}
               rules={[{ required: true, message: text.mobileAdmRequired }]}
             >
-              <Select
-                getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder={text.mobileSelectAdm}
-                mode="multiple"
-                allowClear
-                loading={loading}
-              >
-                {userAdms
-                  ?.filter((a) => a?.level === WARD_LEVEL)
-                  ?.map((adm) => (
-                    <Option key={adm.id} value={adm.id}>
-                      {adm.name}
-                    </Option>
-                  ))}
-              </Select>
+              <AdministrationDropdown
+                size="large"
+                width="100%"
+                direction="vertical"
+                maxLevel={level}
+                onChange={(values) => {
+                  if (values) {
+                    form.setFieldsValue({ administrations: values });
+                  }
+                }}
+                allowMultiple
+              />
             </Form.Item>
           </div>
           <div className="form-row">
@@ -184,23 +206,22 @@ const AddAssignment = () => {
                 mode="multiple"
                 allowClear
                 loading={loading}
-              >
-                {userForms?.map((form) => (
-                  <Option key={form.id} value={form.id}>
-                    {form.name}
-                  </Option>
-                ))}
-              </Select>
+                fieldNames={{ value: "id", label: "name" }}
+                options={userForms}
+              />
             </Form.Item>
           </div>
         </Card>
-        <Row justify="end" align="middle">
-          <Col>
-            <Button type="primary" htmlType="submit" loading={submitting}>
-              {text.mobileButtonSave}
+        <Space>
+          {id && (
+            <Button type="danger" onClick={onDelete}>
+              Delete
             </Button>
-          </Col>
-        </Row>
+          )}
+          <Button type="primary" htmlType="submit" loading={submitting}>
+            {text.mobileButtonSave}
+          </Button>
+        </Space>
       </Form>
     </div>
   );
