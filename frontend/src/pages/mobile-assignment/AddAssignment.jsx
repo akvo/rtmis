@@ -21,8 +21,6 @@ import {
 import { useNotification } from "../../util/hooks";
 import "./style.scss";
 
-const WARD_LEVEL = 3;
-const MAX_LEVEL = 4;
 const IS_SUPER_ADMIN = 1;
 
 const AddAssignment = () => {
@@ -33,19 +31,20 @@ const AddAssignment = () => {
   const {
     forms: userForms,
     user: authUser,
-    administration: selectedAdministration,
     language,
+    levels,
   } = store.useState((s) => s);
   const editAssignment = store.useState((s) => s.mobileAssignment);
+  const userAdmLevel = authUser?.administration?.level;
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
   const [preload, setPreload] = useState(true);
-  const [villageFetching, setVillageFetching] = useState(false);
-  const [ward, setWard] = useState(null);
-  const [villages, setVillages] = useState(
-    editAssignment?.administrations || []
-  );
+  const [level, setLevel] = useState(userAdmLevel);
 
+  const admLevels = levels
+    .slice()
+    .filter((l) => l?.level >= userAdmLevel)
+    .sort((a, b) => a?.level - b?.level);
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -68,15 +67,6 @@ const AddAssignment = () => {
       title: pageTitle,
     },
   ];
-
-  const findWard = useMemo(() => {
-    return authUser?.administration?.level === WARD_LEVEL &&
-      authUser?.administration?.id !== 1
-      ? authUser.administration
-      : selectedAdministration?.find(
-          (s) => s.level === WARD_LEVEL && s.id !== 1
-        );
-  }, [authUser, selectedAdministration]);
 
   const deleteAssginment = async () => {
     try {
@@ -124,29 +114,9 @@ const AddAssignment = () => {
     }
   };
 
-  const fetchVillages = useCallback(async () => {
-    if (findWard && findWard?.id !== ward?.id) {
-      setWard(findWard);
-      setVillageFetching(true);
-      try {
-        const { data: apiData } = await api.get(
-          `/administrations/${findWard.id}`
-        );
-        const { children: _villages } = apiData || {};
-        setVillages(_villages);
-        setVillageFetching(false);
-      } catch {
-        setVillages([]);
-        setVillageFetching(false);
-      }
-    }
-  }, [findWard, ward]);
-
   const fetchData = useCallback(() => {
     if (id && preload && editAssignment?.id) {
       setPreload(false);
-      setVillages(editAssignment.administrations);
-
       form.setFieldsValue({
         ...editAssignment,
         administrations: editAssignment.administrations.map((a) => a?.id),
@@ -162,10 +132,6 @@ const AddAssignment = () => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
-  useEffect(() => {
-    fetchVillages();
-  }, [fetchVillages]);
 
   return (
     <div id="add-assignment">
@@ -195,14 +161,18 @@ const AddAssignment = () => {
             </Col>
           </Row>
           {authUser?.role?.id === IS_SUPER_ADMIN && (
-            <Form.Item name="parent" label="Administration Parent">
-              <AdministrationDropdown
-                size="large"
-                width="100%"
-                direction="vertical"
-                maxLevel={MAX_LEVEL}
-              />
-            </Form.Item>
+            <div className="form-row">
+              <Form.Item name="level_id" label="Administration Level">
+                <Select
+                  getPopupContainer={(trigger) => trigger.parentNode}
+                  placeholder="Select level.."
+                  onChange={setLevel}
+                  fieldNames={{ value: "id", label: "name" }}
+                  options={admLevels}
+                  allowClear
+                />
+              </Form.Item>
+            </div>
           )}
           <div className="form-row">
             <Form.Item
@@ -210,17 +180,17 @@ const AddAssignment = () => {
               label={text.mobileLabelAdm}
               rules={[{ required: true, message: text.mobileAdmRequired }]}
             >
-              <Select
-                allowClear
-                getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder={text.mobileSelectAdm}
-                mode="multiple"
-                fieldNames={{ value: "id", label: "name" }}
-                loading={villageFetching}
-                options={villages}
-                onChange={(_values) => {
-                  form.setFieldsValue({ administrations: _values });
+              <AdministrationDropdown
+                size="large"
+                width="100%"
+                direction="vertical"
+                maxLevel={level}
+                onChange={(values) => {
+                  if (values) {
+                    form.setFieldsValue({ administrations: values });
+                  }
                 }}
+                allowMultiple
               />
             </Form.Item>
           </div>
