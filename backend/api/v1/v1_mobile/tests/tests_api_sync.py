@@ -99,7 +99,6 @@ class MobileAssignmentApiSyncTest(TestCase):
             'name': 'testing datapoint',
             'duration': 3000,
             'submittedAt': '2021-01-01T00:00:00.000Z',
-            'submitter': 'Test Enumerator',
             'geo': [0, 0],
             'answers': answers,
         }
@@ -169,7 +168,6 @@ class MobileAssignmentApiSyncTest(TestCase):
                 'name': 'testing datapoint',
                 'duration': 3000,
                 'submittedAt': '2021-01-01T00:00:00.000Z',
-                'submitter': 'Test Enumerator',
                 'geo': [0, 0],
                 'answers': {'1': 'testing'},
             },  # data is empty
