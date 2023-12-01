@@ -23,6 +23,7 @@ import "./style.scss";
 
 const WARD_LEVEL = 3;
 const MAX_LEVEL = 4;
+const IS_SUPER_ADMIN = 1;
 
 const AddAssignment = () => {
   const { id } = useParams();
@@ -193,14 +194,16 @@ const AddAssignment = () => {
               </Form.Item>
             </Col>
           </Row>
-          <Form.Item name="parent" label="Administration Parent">
-            <AdministrationDropdown
-              size="large"
-              width="100%"
-              direction="vertical"
-              maxLevel={MAX_LEVEL}
-            />
-          </Form.Item>
+          {authUser?.role?.id === IS_SUPER_ADMIN && (
+            <Form.Item name="parent" label="Administration Parent">
+              <AdministrationDropdown
+                size="large"
+                width="100%"
+                direction="vertical"
+                maxLevel={MAX_LEVEL}
+              />
+            </Form.Item>
+          )}
           <div className="form-row">
             <Form.Item
               name="administrations"
