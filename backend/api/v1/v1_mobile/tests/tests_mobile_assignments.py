@@ -45,6 +45,28 @@ class MobileAssignmentTestCase(TestCase, ProfileTestHelperMixin):
         body = response.json()
         self.assertEqual(len(body['data']), 2)
 
+    def test_list_shows_only_created_by_user(self):
+        other_user = self.create_user('otheruser@akvo.org', self.ROLE_ADMIN)
+        assignment1 = MobileAssignment.objects.create_assignment(
+                user=other_user, name='assignment #1')
+        assignment2 = MobileAssignment.objects.create_assignment(
+                user=self.user, name='assignment #2')
+        assignment3 = MobileAssignment.objects.create_assignment(
+                user=other_user, name='assignment #3')
+
+        response = typing.cast(
+                HttpResponse,
+                self.client.get(
+                    '/api/v1/mobile-assignments',
+                    content_type="application/json",
+                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+
+        data = response.json().get('data')
+        ids = [it['id'] for it in data]
+        self.assertIn(assignment2.id, ids)
+        self.assertNotIn(assignment1.id, ids)
+        self.assertNotIn(assignment3.id, ids)
+
     def test_create(self):
         adm = Administration.objects.first()
         form = Forms.objects.first()

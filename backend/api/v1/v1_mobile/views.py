@@ -329,10 +329,13 @@ def upload_apk_file(request, version):
 
 @extend_schema(tags=['Mobile Assignment'])
 class MobileAssignmentViewSet(ModelViewSet):
-    queryset = MobileAssignment.objects\
-            .prefetch_related('administrations', 'forms')\
-            .order_by('id')\
-            .all()
     serializer_class = MobileAssignmentSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = Pagination
+
+    def get_queryset(self):
+        user = self.request.user
+        return MobileAssignment.objects\
+            .prefetch_related('administrations', 'forms')\
+            .filter(user=user)\
+            .order_by('id')
