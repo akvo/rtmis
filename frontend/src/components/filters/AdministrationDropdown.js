@@ -12,6 +12,7 @@ const AdministrationDropdown = ({
   persist = false,
   hidden = false,
   maxLevel = null,
+  allowMultiple = false,
   onChange,
   ...props
 }) => {
@@ -36,10 +37,13 @@ const AdministrationDropdown = ({
     }
     store.update((s) => {
       s.administration.length = index + 1;
-      s.administration = [...s.administration, config.fn.administration(e)];
+      const findAdm = config.fn.administration(e);
+      const admItems = Array.isArray(findAdm) ? findAdm : [findAdm];
+      s.administration = [...s.administration, ...admItems];
     });
     if (onChange) {
-      onChange();
+      const _values = allowMultiple && Array.isArray(e) ? e : null;
+      onChange(_values);
     }
   };
 
@@ -56,6 +60,18 @@ const AdministrationDropdown = ({
           .filter((x) => x.children.length)
           .map((region, regionIdx) => {
             if (maxLevel === null || regionIdx + 1 < maxLevel) {
+              const isNotAdmin = user?.role?.id !== 1;
+              const isLastItem =
+                (user?.administration?.level === region?.level && isNotAdmin) ||
+                maxLevel - 1 === regionIdx + 1;
+              const selectMode =
+                allowMultiple && isLastItem ? "multiple" : null;
+              const selectValues =
+                selectMode === "multiple"
+                  ? administration
+                      ?.slice(regionIdx + 1, administration.length)
+                      ?.map((a) => a?.id)
+                  : administration[regionIdx + 1]?.id || null;
               return (
                 <div key={regionIdx}>
                   {withLabel ? (
@@ -76,12 +92,13 @@ const AdministrationDropdown = ({
                     }}
                     getPopupContainer={(trigger) => trigger.parentNode}
                     dropdownMatchSelectWidth={false}
-                    value={administration[regionIdx + 1]?.id || null}
+                    value={selectValues}
                     disabled={loading}
                     allowClear
                     showSearch
                     filterOption={true}
                     optionFilterProp="children"
+                    mode={selectMode}
                   >
                     {region.children.map((optionValue, optionIdx) => (
                       <Select.Option key={optionIdx} value={optionValue.id}>
@@ -104,6 +121,7 @@ AdministrationDropdown.propTypes = {
   persist: PropTypes.bool,
   hidden: PropTypes.bool,
   maxLevel: PropTypes.number,
+  allowMultiple: PropTypes.bool,
   onChange: PropTypes.func,
 };
 
