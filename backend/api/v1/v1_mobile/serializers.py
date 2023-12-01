@@ -71,7 +71,11 @@ class MobileAssignmentSerializer(serializers.ModelSerializer):
         user = self.context.get("request").user
         token = RefreshToken.for_user(user)
         passcode = CustomPasscode().encode(generate_random_string(8))
-        validated_data.update({"user": user, "token": token, "passcode": passcode})
+        validated_data.update({
+            "user": user,
+            "token": token,
+            "passcode": passcode
+        })
         instance = super().create(validated_data)
         return instance
 
