@@ -115,7 +115,7 @@ const Home = () => {
       </div>
       <div className="home-even highlights">
         <div className="body">
-          <Row justify="space-between">
+          <Row gutter={24} justify="space-between">
             <Col lg={10}>
               <div className="report-wrapper">
                 <div className="description">
@@ -138,11 +138,13 @@ const Home = () => {
                 <Button type="primary">{text.welcomeCta}</Button>
               </div>
             </Col>
-            <Col lg={8}>
-              <img
-                src={"/assets/rtmis-girl-washing-her-hands.png"}
-                alt="Girl washing her hands"
-              />
+            <Col lg={14}>
+              <div className="report-visual-wrapper">
+                <img
+                  src={"/assets/rtmis-girl-washing-her-hands.png"}
+                  alt="Girl washing her hands"
+                />
+              </div>
             </Col>
           </Row>
         </div>

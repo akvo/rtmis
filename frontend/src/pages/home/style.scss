@@ -144,8 +144,13 @@
         }
       }
 
-      img {
+      .report-visual-wrapper {
         width: 100%;
+        text-align: right;
+        img {
+          width: 100%;
+          max-width: 600px;
+        }
       }
 
       .todo-visualisation {
