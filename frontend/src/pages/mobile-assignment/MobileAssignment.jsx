@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { Row, Col, Card, Button, Divider, Table, Space, Input } from "antd";
 import { CloseSquareOutlined, PlusSquareOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { api, store, uiText } from "../../lib";
 // import { api, store, uiText, config } from "../../lib";
@@ -27,12 +27,20 @@ const MobileAssignment = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const navigate = useNavigate();
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
 
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const handleOnEdit = (record) => {
+    store.update((s) => {
+      s.mobileAssignment = record;
+    });
+    navigate(`/mobile-assignment/form/${record?.id}`);
+  };
 
   const descriptionData = <div>{text.mobilePanelText}</div>;
   const columns = [
@@ -68,11 +76,11 @@ const MobileAssignment = () => {
       dataIndex: "id",
       key: "id",
       width: "10%",
-      render: (recordID) => {
+      render: (_, record) => {
         return (
-          <Link to={`/mobile-assignment/form/${recordID}`}>
-            <Button type="link">Edit</Button>
-          </Link>
+          <Button type="link" onClick={() => handleOnEdit(record)}>
+            Edit
+          </Button>
         );
       },
     },
