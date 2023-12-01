@@ -37,6 +37,11 @@ const admLevels = [
     level: 2,
     name: "Sub-County",
   },
+  {
+    id: 4,
+    level: 3,
+    name: "Ward",
+  },
 ];
 
 const { Option } = Select;

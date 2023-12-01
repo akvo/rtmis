@@ -1,19 +1,9 @@
 import React from "react";
-import { Row, Col, Table, Button, Space, Divider, Typography } from "antd";
-import { Link } from "react-router-dom";
+import { Row, Col, Table, Divider, Typography } from "antd";
 
 const { Text } = Typography;
 
-const DetailAssignment = ({ record, setDeleteUser, deleting }) => {
-  const handleOnClickDelete = () => {
-    setDeleteUser({
-      id: 11,
-      name: "deletedUser",
-      forms: [],
-      administrations: [],
-    });
-  };
-
+const DetailAssignment = ({ record }) => {
   const columns = [
     {
       title: "Field",
@@ -68,16 +58,6 @@ const DetailAssignment = ({ record, setDeleteUser, deleting }) => {
         </Col>
         <Divider />
       </Row>
-      <div>
-        <Space>
-          <Link to={`/mobile-assignment/form/${record.id}`}>
-            <Button type="primary">Edit</Button>
-          </Link>
-          <Button loading={deleting} onClick={handleOnClickDelete} danger>
-            Delete
-          </Button>
-        </Space>
-      </div>
     </>
   );
 };
