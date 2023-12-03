@@ -151,7 +151,6 @@ class AdministrationSerializer(serializers.ModelSerializer):
             'children',
             'attributes'
         ]
-        # read_only_fields = ['code']
 
     def __init__(self, *args, **kwargs):
         compact = kwargs.pop('compact', False)
@@ -187,6 +186,8 @@ class AdministrationSerializer(serializers.ModelSerializer):
         return instance
 
     def _set_code(self, validated_data):
+        if len(validated_data.get('code', '')) > 0:
+            return
         code = ''.join([
             random.choice(string.ascii_letters + string.digits+'-_')
             for _ in range(10)

@@ -2,11 +2,12 @@
 import typing
 from django.contrib.admin.sites import site
 from django.core.handlers.wsgi import WSGIRequest
-from django.db.models import ProtectedError
+from django.db.models import ProtectedError, Q
 from django.contrib.admin.utils import get_deleted_objects
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework.viewsets import ModelViewSet
-from api.v1.v1_profile.models import Administration, AdministrationAttribute
+from api.v1.v1_profile.models import (
+        Administration, AdministrationAttribute, Levels)
 from api.v1.v1_profile.serializers import (
         AdministrationAttributeSerializer, AdministrationSerializer)
 from utils.default_serializers import DefaultResponseSerializer
@@ -49,12 +50,34 @@ def send_feedback(request, version):
 
 @extend_schema(tags=['Administration'])
 class AdministrationViewSet(ModelViewSet):
-    queryset = Administration.objects\
-            .prefetch_related('parent_administration', 'attributes')\
-            .order_by('id').all()
     serializer_class = AdministrationSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = Pagination
+
+    def get_queryset(self):
+        queryset = Administration.objects\
+            .prefetch_related('parent_administration', 'attributes')\
+            .all()
+        search = self.request.query_params.get('search')
+        parent_id = self.request.query_params.get('parent')
+        level_id = self.request.query_params.get('level')
+        if search:
+            queryset = queryset.filter(
+                    Q(name__icontains=search) | Q(code__icontains=search))
+        if parent_id:
+            try:
+                parent = Administration.objects.get(id=parent_id)
+                queryset = queryset.filter(
+                        path__startswith=f"{parent.path}{parent.id}.")
+            except Administration.DoesNotExist:
+                pass
+        if level_id:
+            try:
+                level = Levels.objects.get(id=level_id)
+                queryset = queryset.filter(level=level)
+            except Levels.DoesNotExist:
+                pass
+        return queryset.order_by('id')
 
     def get_serializer(self, *args, **kwargs):
         if (self.action == 'list'):
