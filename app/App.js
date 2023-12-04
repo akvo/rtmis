@@ -26,7 +26,9 @@ const App = () => {
         .getActiveUser()
         .then((user) => {
           console.info('Users =>', user);
-          const page = session && user?.id ? 'Home' : 'AddUser';
+
+          const page = 'Home';
+          // session && user?.id ? 'Home' : 'AddUser';
           return { user, page };
         })
         .then(({ user, page }) => {
