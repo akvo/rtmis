@@ -42,7 +42,7 @@ const AuthForm = ({ navigation }) => {
 
     if (!activeUser?.id) {
       const newUserId = await crudUsers.addNew({
-        name: data?.name,
+        name: data?.name || 'Data collector',
         active: 1,
         token: data?.syncToken,
       });
