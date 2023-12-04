@@ -3,14 +3,17 @@ import RemoveFiltersButton from "./RemoveFiltersButton";
 import AdministrationDropdown from "./AdministrationDropdown";
 import { store } from "../../lib";
 import { Link } from "react-router-dom";
+import debounce from "lodash.debounce";
 
 const { Search } = Input;
 
 const AdministrationFilters = ({
   loading,
+  onSearchChange = console.log,
   addLink = "/master-data/add-administration",
 }) => {
   const authUser = store.useState((s) => s.user);
+  const handleChange = debounce(onSearchChange, 300);
 
   return (
     <Row>
@@ -18,15 +21,9 @@ const AdministrationFilters = ({
         <Space>
           <Search
             placeholder="Enter name or code..."
-            // value={query}
-            // onChange={(e) => {
-            //   setQuery(e.target.value);
-            // }}
-            // onSearch={(e) => {
-            //   fetchData(e);
-            // }}
+            onChange={({ target }) => handleChange(target.value)}
+            onSearch={(value) => onSearchChange(value)}
             style={{ width: 240 }}
-            // loading={loading && !!query}
             allowClear
           />
           <AdministrationDropdown loading={loading} />
