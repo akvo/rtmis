@@ -21,24 +21,6 @@ import { useNotification } from "../../util/hooks";
 import { api, store } from "../../lib";
 import "./style.scss";
 
-const admLevels = [
-  {
-    id: 1,
-    level: 0,
-    name: "National",
-  },
-  {
-    id: 2,
-    level: 1,
-    name: "County",
-  },
-  {
-    id: 3,
-    level: 2,
-    name: "Sub-County",
-  },
-];
-
 const { Option } = Select;
 
 const AddAdministration = () => {
@@ -47,6 +29,7 @@ const AddAdministration = () => {
   const [attributes, setAttributes] = useState(true);
   const [level, setLevel] = useState(1);
   const [preload, setPreload] = useState(true);
+  const admLevels = store.useState((s) => s.levels);
   const selectedAdm = store.useState((s) => s.administration);
   const initialValues = store.useState((s) => s.masterData.administration);
 
@@ -237,11 +220,14 @@ const AddAdministration = () => {
                     }}
                     allowClear
                   >
-                    {admLevels?.map((adm) => (
-                      <Option key={adm.id} value={adm.id}>
-                        {adm.name}
-                      </Option>
-                    ))}
+                    {admLevels
+                      ?.slice()
+                      ?.sort((a, b) => a?.level - b?.level)
+                      ?.map((adm) => (
+                        <Option key={adm.id} value={adm.id}>
+                          {adm.name}
+                        </Option>
+                      ))}
                   </Select>
                 </Form.Item>
               </div>

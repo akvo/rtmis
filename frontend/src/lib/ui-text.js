@@ -360,7 +360,7 @@ const uiText = {
     mobileButtonSave: "Save",
     mobileButtonAdd: "Add new data collector",
     mobileLabelName: "Name",
-    mobileLabelAdm: "Village",
+    mobileLabelAdm: "Administrations",
     mobileLabelForms: "Forms",
     mobileNameRequired: "Please input name",
     mobileAdmRequired: "Please select one or more villages",
