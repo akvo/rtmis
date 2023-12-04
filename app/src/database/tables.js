@@ -6,6 +6,7 @@ export const tables = [
       name: 'TEXT',
       password: 'TEXT',
       active: 'TINYINT',
+      token: 'TEXT',
     },
   },
   {
@@ -24,6 +25,7 @@ export const tables = [
     name: 'forms',
     fields: {
       id: 'INTEGER PRIMARY KEY NOT NULL',
+      userId: 'INTEGER NULL',
       formId: 'INTEGER NOT NULL',
       version: 'VARCHAR(255)',
       latest: 'TINYINT',
@@ -38,6 +40,7 @@ export const tables = [
       id: 'INTEGER PRIMARY KEY NOT NULL',
       form: 'INTEGER NOT NULL',
       user: 'INTEGER NOT NULL',
+      submitter: 'TEXT',
       name: 'VARCHAR(255)',
       geo: 'VARCHAR(255)',
       submitted: 'TINYINT',

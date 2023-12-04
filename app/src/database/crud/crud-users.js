@@ -24,6 +24,23 @@ const usersQuery = () => {
       }
       return rows._array[0];
     },
+    addNew: async (payload) => {
+      const { insertId } = await conn.tx(db, query.insert('users', payload), []);
+      return insertId;
+    },
+    toggleActive: async ({ id, active }) => {
+      try {
+        const { rowsAffected } = await conn.tx(
+          db,
+          query.update('users', { id }, { active: !active }),
+          [id],
+        );
+        return rowsAffected;
+      } catch (error) {
+        console.error('Toggle active:', error);
+        return false;
+      }
+    },
   };
 };
 
