@@ -28,9 +28,10 @@ const MasterData = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
-
-  const { language } = store.useState((s) => s);
+  const [search, setSearch] = useState("");
+  const { language, administration } = store.useState((s) => s);
   const { active: activeLang } = language;
+  const parent = administration.slice(-1)?.[0]?.id;
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -91,9 +92,14 @@ const MasterData = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      const { data: apiData } = await api.get(
-        `/administrations?page=${currentPage}`
-      );
+      let url = `/administrations?page=${currentPage}`;
+      if (parent) {
+        url = url + `&parent=${parent}`;
+      }
+      if (search) {
+        url = url + `&search=${search}`;
+      }
+      const { data: apiData } = await api.get(url);
       const { total, current, data } = apiData;
       // const _dataset = data.filter((d) => d?.level?.id !== 1);
       setDataset(data);
@@ -103,7 +109,7 @@ const MasterData = () => {
     } catch {
       setLoading(false);
     }
-  }, [currentPage]);
+  }, [currentPage, parent, search]);
 
   useEffect(() => {
     fetchAttributes();
@@ -122,7 +128,7 @@ const MasterData = () => {
         </Col>
       </Row>
       <ManageDataTab />
-      <AdministrationFilters loading={loading} />
+      <AdministrationFilters loading={loading} onSearchChange={setSearch} />
       <Divider />
       <Card
         style={{ padding: 0, minHeight: "40vh" }}
