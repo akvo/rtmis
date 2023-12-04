@@ -3,8 +3,50 @@ import PropTypes from "prop-types";
 import { Row, Col, Space, Button, Menu, Dropdown } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FaChevronDown } from "react-icons/fa";
 import { config, store, uiText } from "../../lib";
 import { eraseCookieFromAllPaths } from "../../util/date";
+
+const VerticalLine = () => (
+  <svg
+    width="4"
+    height="46"
+    viewBox="0 0 4 51"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect
+      width="4"
+      height="16.6667"
+      transform="matrix(-1 0 0 1 4 0.5)"
+      fill="black"
+    />
+    <rect
+      width="4"
+      height="16.6667"
+      transform="matrix(-1 0 0 1 4 17.1665)"
+      fill="#BE0000"
+    />
+    <rect
+      width="4"
+      height="16.6667"
+      transform="matrix(-1 0 0 1 4 33.8335)"
+      fill="#006818"
+    />
+    <rect
+      width="4"
+      height="2.38095"
+      transform="matrix(-1 0 0 1 4 16.373)"
+      fill="white"
+    />
+    <rect
+      width="4"
+      height="2.38095"
+      transform="matrix(-1 0 0 1 4 33.0396)"
+      fill="white"
+    />
+  </svg>
+);
 
 const Header = ({ className = "header", ...props }) => {
   const { isLoggedIn, user } = store.useState();
@@ -86,15 +128,18 @@ const Header = ({ className = "header", ...props }) => {
       <Col>
         <div className="logo">
           <Link to="/">
-            <img
-              className="small-logo"
-              src={config.siteLogo}
-              alt={config.siteLogo}
-            />
-            <h1>
-              {config.siteTitle}
-              <small>{config.siteSubTitle}</small>
-            </h1>
+            <div className="logo-wrapper">
+              <img
+                className="small-logo"
+                src={config.siteLogo}
+                alt={config.siteLogo}
+              />
+              <VerticalLine />
+              <h1>
+                {config.siteTitle}
+                <small>{config.siteSubTitle}</small>
+              </h1>
+            </div>
           </Link>
         </div>
       </Col>
@@ -115,6 +160,7 @@ const Header = ({ className = "header", ...props }) => {
                   }}
                 >
                   {text?.dashboards}
+                  <FaChevronDown />
                 </a>
               </Dropdown>
               <Dropdown overlay={ReportsMenu}>
@@ -125,6 +171,7 @@ const Header = ({ className = "header", ...props }) => {
                   }}
                 >
                   {text?.reports}
+                  <FaChevronDown />
                 </a>
               </Dropdown>
               {/* <a className="dev">Monitoring</a> */}
@@ -154,9 +201,7 @@ const Header = ({ className = "header", ...props }) => {
               </Dropdown>
             ) : (
               <Link to={"/login"}>
-                <Button type="primary" size="small">
-                  {text?.login}
-                </Button>
+                <Button type="primary">{text?.login}</Button>
               </Link>
             )}
           </div>
