@@ -260,7 +260,7 @@ def email_context(context: dict, type: str):
     return context
 
 
-def send_email(context: dict, type=str, path=None,
+def send_email(context: dict, type: str, path=None,
                content_type=None, send=True):
     context = email_context(context=context, type=type)
     try:

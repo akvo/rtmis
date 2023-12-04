@@ -39,6 +39,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
     rule = serializers.SerializerMethodField()
     extra = serializers.SerializerMethodField()
+    source = serializers.SerializerMethodField()
 
     @extend_schema_field(ListOptionSerializer(many=True))
     def get_option(self, instance: Questions):
@@ -117,11 +118,34 @@ class ListQuestionSerializer(serializers.ModelSerializer):
         return OrderedDict([(key, result[key]) for key in result
                             if result[key] is not None])
 
+    @extend_schema_field(
+        inline_serializer('QuestionSourceFormat',
+                          fields={
+                            'file': serializers.CharField(),
+                            'parent': serializers.IntegerField(),
+                          }))
+    def get_source(self, instance: Questions):
+        user = self.context.get('user')
+        assignment = self.context.get('mobile_assignment')
+        if instance.type == QuestionTypes.cascade:
+            return {
+                "file": "organisation.sqlite",
+                "parent_id": []
+            }
+        if instance.type == QuestionTypes.administration:
+            return {
+                "file": "administrator.sqlite",
+                "parent_id": [
+                    a.id for a in assignment.administrations.all()
+                ] if assignment else [user.user_access.administration.id]
+            }
+        return None
+
     class Meta:
         model = Questions
         fields = [
             'id', 'name', 'order', 'type', 'required', 'dependency', 'option',
-            'center', 'api', 'meta', 'rule', 'extra'
+            'center', 'api', 'meta', 'rule', 'extra', 'source'
         ]
 
 
@@ -133,9 +157,7 @@ class ListQuestionGroupSerializer(serializers.ModelSerializer):
     def get_question(self, instance: QuestionGroup):
         return ListQuestionSerializer(
             instance=instance.question_group_question.all().order_by('order'),
-            context={
-                'user': self.context.get('user')
-            },
+            context=self.context,
             many=True).data
 
     class Meta:
@@ -166,19 +188,32 @@ class ListAdministrationCascadeSerializer(serializers.ModelSerializer):
 
 class WebFormDetailSerializer(serializers.ModelSerializer):
     question_group = serializers.SerializerMethodField()
+    cascades = serializers.SerializerMethodField()
 
     @extend_schema_field(ListQuestionGroupSerializer(many=True))
     def get_question_group(self, instance: Forms):
         return ListQuestionGroupSerializer(
             instance=instance.form_question_group.all().order_by('order'),
             many=True,
-            context={
-                'user': self.context.get('user')
-            }).data
+            context=self.context
+        ).data
+
+    @extend_schema_field(serializers.ListField())
+    def get_cascades(self, instance: Forms):
+        cascade_questions = Questions.objects.filter(type__in=[
+            QuestionTypes.cascade, QuestionTypes.administration
+        ], form=instance).all()
+        source = []
+        for cascade_question in cascade_questions:
+            if cascade_question.type == QuestionTypes.administration:
+                source.append("/sqlite/administrator.sqlite")
+            else:
+                source.append("/sqlite/organisation.sqlite")
+        return source
 
     class Meta:
         model = Forms
-        fields = ['name', 'question_group']
+        fields = ['name', 'version', 'cascades', 'question_group']
 
 
 class ListFormRequestSerializer(serializers.Serializer):

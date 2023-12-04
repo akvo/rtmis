@@ -30,6 +30,14 @@ import {
   Glaas,
   ReportDashboard,
   GlaasReportDashboard,
+  MobileAssignment,
+  AddAssignment,
+  MasterData,
+  MasterDataAttributes,
+  MasterDataEntities,
+  AddAdministration,
+  AddAttribute,
+  AddEntity,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -75,7 +83,7 @@ const RouteList = () => {
       />
       <Route path="/users" element={<Private element={Users} alias="user" />} />
       <Route
-        path="/organisations"
+        path="/master-data/organisations"
         element={<Private element={Organisations} alias="organisation" />}
       />
       <Route
@@ -153,6 +161,50 @@ const RouteList = () => {
       <Route
         path="/report/:templateId"
         element={<Private element={Report} alias="reports" />}
+      />
+      <Route
+        path="/mobile-assignment"
+        element={<Private element={MobileAssignment} alias="mobile" />}
+      />
+      <Route
+        path="/mobile-assignment/form"
+        element={<Private element={AddAssignment} alias="mobile" />}
+      />
+      <Route
+        path="/mobile-assignment/form/:id"
+        element={<Private element={AddAssignment} alias="mobile" />}
+      />
+      <Route
+        path="/master-data"
+        element={<Private element={MasterData} alias="master-data" />}
+      />
+      <Route
+        path="/master-data/add-administration"
+        element={<Private element={AddAdministration} alias="master-data" />}
+      />
+      <Route
+        path="/master-data/:id/edit"
+        element={<Private element={AddAdministration} alias="master-data" />}
+      />
+      <Route
+        path="/master-data/attributes"
+        element={<Private element={MasterDataAttributes} alias="master-data" />}
+      />
+      <Route
+        path="/master-data/attributes/add"
+        element={<Private element={AddAttribute} alias="master-data" />}
+      />
+      <Route
+        path="/master-data/attributes/:id/edit"
+        element={<Private element={AddAttribute} alias="master-data" />}
+      />
+      <Route
+        path="/master-data/entities"
+        element={<Private element={MasterDataEntities} alias="master-data" />}
+      />
+      <Route
+        path="/master-data/entities/add"
+        element={<Private element={AddEntity} alias="master-data" />}
       />
       <Route path="/news-events" element={<NewsEvents />} />
       <Route path="/how-we-work" element={<HowWeWork />} />

@@ -25,3 +25,8 @@ export { default as Tour } from "./tour/Tour.js";
 export { default as UserTab } from "./tabs/UserTab";
 export { default as DataTab } from "./tabs/DataTab";
 export { default as ContactForm } from "./contact-form/ContactForm";
+export { default as ManageDataTab } from "./tabs/MasterDataTab";
+export { default as AdministrationFilters } from "./filters/AdministrationFilters";
+export { default as DetailTable } from "./DetailTable";
+export { default as InputAttributes } from "./InputAttributes";
+export { default as EntityFilters } from "./filters/EntityFilters";

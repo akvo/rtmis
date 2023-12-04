@@ -26,6 +26,12 @@ const defaultUIState = {
   advancedFilters: [],
   administrationLevel: null,
   showContactFormModal: false,
+  mobileAssignment: {},
+  masterData: {
+    administration: {},
+    attribute: {},
+    entity: {},
+  },
 };
 
 const store = new Store(defaultUIState);

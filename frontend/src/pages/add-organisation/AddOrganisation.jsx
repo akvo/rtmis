@@ -35,7 +35,7 @@ const AddOrganisation = () => {
     },
     {
       title: text.manageOrganisations,
-      link: "/organisations",
+      link: "/master-data/organisations",
     },
     {
       title: id ? text.editOrganisation : text.addOrganisation,
@@ -58,7 +58,7 @@ const AddOrganisation = () => {
           message: `Organization ${id ? "updated" : "added"}`,
         });
         setSubmitting(false);
-        navigate("/organisations");
+        navigate("/master-data/organisations");
       })
       .catch((err) => {
         notify({
