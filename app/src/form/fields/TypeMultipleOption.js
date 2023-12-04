@@ -2,7 +2,6 @@ import React from 'react';
 import { View } from 'react-native';
 import { FieldLabel } from '../support';
 import { styles } from '../styles';
-import { CheckBox } from '@rneui/themed';
 import { MultiSelect } from 'react-native-element-dropdown';
 import { FormState } from '../../store';
 import { i18n } from '../../lib';
@@ -19,7 +18,7 @@ const TypeMultipleOption = ({
   requiredSign,
 }) => {
   const showSearch = React.useMemo(() => {
-    return option.length >= 3;
+    return option.length > 3;
   }, [option]);
   const activeLang = FormState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
