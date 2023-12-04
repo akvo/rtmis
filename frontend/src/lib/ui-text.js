@@ -89,6 +89,20 @@ const uiText = {
         url: "/documentation/",
       },
     ],
+    footerLegalLinkItems: [
+      {
+        text: "Privacy Policy",
+        url: "#",
+      },
+      {
+        text: "Terms & Conditions",
+        url: "#",
+      },
+      {
+        text: "Cookie Policy",
+        url: "#",
+      },
+    ],
     copyright: "© 2022 — Ministry of Health",
     // Header Links
     controlCenter: "Control Center",
@@ -360,7 +374,7 @@ const uiText = {
     mobileButtonSave: "Save",
     mobileButtonAdd: "Add new data collector",
     mobileLabelName: "Name",
-    mobileLabelAdm: "Village",
+    mobileLabelAdm: "Administrations",
     mobileLabelForms: "Forms",
     mobileNameRequired: "Please input name",
     mobileAdmRequired: "Please select one or more villages",
