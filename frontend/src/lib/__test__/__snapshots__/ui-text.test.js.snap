@@ -107,6 +107,20 @@ Object {
       },
     ],
     "footerExternalLinkTitle": "External Links",
+    "footerLegalLinkItems": Array [
+      Object {
+        "text": "Privacy Policy",
+        "url": "#",
+      },
+      Object {
+        "text": "Terms & Conditions",
+        "url": "#",
+      },
+      Object {
+        "text": "Cookie Policy",
+        "url": "#",
+      },
+    ],
     "footerQuickLinkItems": Array [
       Object {
         "text": "Read the Docs",
