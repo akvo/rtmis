@@ -126,15 +126,18 @@ class ListQuestionSerializer(serializers.ModelSerializer):
                           }))
     def get_source(self, instance: Questions):
         user = self.context.get('user')
+        assignment = self.context.get('mobile_assignment')
         if instance.type == QuestionTypes.cascade:
             return {
                 "file": "organisation.sqlite",
-                "parent_id": 0
+                "parent_id": []
             }
         if instance.type == QuestionTypes.administration:
             return {
                 "file": "administrator.sqlite",
-                "parent_id": user.user_access.administration.id or 0
+                "parent_id": [
+                    a.id for a in assignment.administrations.all()
+                ] if assignment else [user.user_access.administration.id]
             }
         return None
 
@@ -154,9 +157,7 @@ class ListQuestionGroupSerializer(serializers.ModelSerializer):
     def get_question(self, instance: QuestionGroup):
         return ListQuestionSerializer(
             instance=instance.question_group_question.all().order_by('order'),
-            context={
-                'user': self.context.get('user')
-            },
+            context=self.context,
             many=True).data
 
     class Meta:
@@ -194,9 +195,8 @@ class WebFormDetailSerializer(serializers.ModelSerializer):
         return ListQuestionGroupSerializer(
             instance=instance.form_question_group.all().order_by('order'),
             many=True,
-            context={
-                'user': self.context.get('user')
-            }).data
+            context=self.context
+        ).data
 
     @extend_schema_field(serializers.ListField())
     def get_cascades(self, instance: Forms):

@@ -1,5 +1,16 @@
 import { orderBy } from "lodash";
 
+const mapChildren = (useradm) => {
+  const children = window.dbadm.filter((i) => i.parent === useradm.id);
+  return {
+    ...useradm,
+    levelName: window.levels.find((l) => l.level === useradm.level)?.name,
+    childLevelName:
+      window.levels.find((l) => l.level === useradm.level + 1)?.name || null,
+    children: orderBy(children, "name"),
+  };
+};
+
 const config = {
   siteTitle: "RUSH",
   siteSubTitle:
@@ -842,19 +853,16 @@ const config = {
   allowedGlobal: ["/dashboard/", "/glaas/"],
   fn: {
     administration: (id, withchildren = true) => {
+      if (Array.isArray(id)) {
+        return window.dbadm
+          .filter((i) => id.includes(i.id))
+          .map((useradm) => mapChildren(useradm));
+      }
       const useradm = window.dbadm.find((i) => i.id === id);
       if (!withchildren) {
         return useradm;
       }
-      const children = window.dbadm.filter((i) => i.parent === useradm.id);
-      return {
-        ...useradm,
-        levelName: window.levels.find((l) => l.level === useradm.level)?.name,
-        childLevelName:
-          window.levels.find((l) => l.level === useradm.level + 1)?.name ||
-          null,
-        children: orderBy(children, "name"),
-      };
+      return mapChildren(useradm);
     },
     ls: {
       set: (name, data) => {
