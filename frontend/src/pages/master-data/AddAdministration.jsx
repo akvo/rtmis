@@ -210,7 +210,7 @@ const AddAdministration = () => {
       <Divider />
       <Form name="adm-form" form={form} layout="vertical" onFinish={onFinish}>
         <Card bodyStyle={{ padding: 0 }}>
-          <Row gutter={16}>
+          <Row gutter={16} align="middle">
             <Col span={6}>
               <div className="form-row">
                 <Form.Item name="level_id" label="Parent Level">
