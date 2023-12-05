@@ -21,7 +21,7 @@ const App = () => {
       .then((user) => {
         console.info('Users =>', user);
 
-        const page = 'Home';
+        const page = user?.id ? 'Users' : 'Home';
         return { user, page };
       })
       .then(({ user, page }) => {
