@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Button,
   Card,
@@ -11,11 +11,7 @@ import {
   Select,
   Space,
 } from "antd";
-import {
-  AdministrationDropdown,
-  Breadcrumbs,
-  InputAttributes,
-} from "../../components";
+import { Breadcrumbs, InputAttributes } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
 import { api, store } from "../../lib";
@@ -27,10 +23,9 @@ const AddAdministration = () => {
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(true);
   const [attributes, setAttributes] = useState(true);
-  const [level, setLevel] = useState(1);
+  const [level, setLevel] = useState(null);
   const [preload, setPreload] = useState(true);
-  const admLevels = store.useState((s) => s.levels)?.slice(0, -1);
-  const selectedAdm = store.useState((s) => s.administration);
+  const admLevels = store.useState((s) => s.levels);
   const initialValues = store.useState((s) => s.masterData.administration);
 
   const navigate = useNavigate();
@@ -77,14 +72,17 @@ const AddAdministration = () => {
     });
   };
 
+  const parentAdm = useMemo(() => {
+    return level === null ? [] : window.dbadm.filter((a) => a.level === level);
+  }, [level]);
+
   const onFinish = async (values) => {
     setSubmitting(true);
     try {
-      const parent = selectedAdm?.slice(-1)?.[0];
       const payload = {
         code: values.code,
         name: values.name,
-        parent: parent?.id || values.parent,
+        parent: values.parent,
         attributes: values.attributes.map((attr) => {
           const { id: attrId, aggregate, ...fieldValue } = attr;
           const attributeValue = aggregate?.[0]
@@ -158,15 +156,26 @@ const AddAdministration = () => {
         };
       });
       setAttributes(_attributes);
+      const findLevel = admLevels.find(
+        (l) => l.id === initialValues?.level?.id
+      );
+      if (findLevel) {
+        setLevel(findLevel.level - 1);
+      }
       const fieldValues = id
-        ? { ...initialValues, attributes: attrFields }
+        ? {
+            ...initialValues,
+            parent: initialValues?.parent?.id,
+            level_id: findLevel?.level - 1,
+            attributes: attrFields,
+          }
         : { attributes: attrFields };
       form.setFieldsValue(fieldValues);
       setLoading(false);
     } catch {
       setLoading(false);
     }
-  }, [form, id, initialValues]);
+  }, [form, id, initialValues, admLevels]);
 
   useEffect(() => {
     fetchAttributes();
@@ -204,19 +213,14 @@ const AddAdministration = () => {
           <Row gutter={16}>
             <Col span={6}>
               <div className="form-row">
-                <Form.Item name="level_id" label="Administration Level">
+                <Form.Item name="level_id" label="Parent Level">
                   <Select
                     getPopupContainer={(trigger) => trigger.parentNode}
                     placeholder="Select level.."
                     value={level}
                     onChange={(val) => {
                       setLevel(val);
-                      store.update((s) => {
-                        s.masterData.administration = {
-                          ...s.masterData.administration,
-                          parent: null,
-                        };
-                      });
+                      form.setFieldsValue({ parent: null });
                     }}
                     allowClear
                   >
@@ -224,7 +228,7 @@ const AddAdministration = () => {
                       ?.slice()
                       ?.sort((a, b) => a?.level - b?.level)
                       ?.map((adm) => (
-                        <Option key={adm.id} value={adm.id}>
+                        <Option key={adm.id} value={adm.level}>
                           {adm.name}
                         </Option>
                       ))}
@@ -234,33 +238,19 @@ const AddAdministration = () => {
             </Col>
             <Col span={18}>
               <Form.Item name="parent" label="Administration Parent">
-                {initialValues?.parent?.name ? (
-                  <Input
-                    type="text"
-                    value={initialValues.parent.name}
-                    readOnly
-                  />
-                ) : (
-                  <>
-                    {level === 1 ? (
-                      <Select placeholder="Select parent.." allowClear>
-                        {selectedAdm?.map((adm) => (
-                          <Option key={adm.id} value={adm.id}>
-                            {adm.name}
-                          </Option>
-                        ))}
-                      </Select>
-                    ) : (
-                      <AdministrationDropdown
-                        size="large"
-                        width="100%"
-                        maxLevel={level}
-                      />
-                    )}
-                  </>
-                )}
-
-                <Input type="hidden" />
+                <Select
+                  showSearch
+                  filterOption={(input, option) =>
+                    (option?.name ?? "")
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  getPopupContainer={(trigger) => trigger.parentNode}
+                  placeholder="Select parent.."
+                  fieldNames={{ value: "id", label: "name" }}
+                  options={parentAdm}
+                  allowClear
+                />
               </Form.Item>
             </Col>
           </Row>
