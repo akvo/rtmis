@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { BaseLayout } from '../components';
 import { conn, query } from '../database';
-import { UserState, UIState } from '../store';
+import { UserState, UIState, AuthState } from '../store';
 import { api, i18n } from '../lib';
 import { crudConfig } from '../database/crud';
 
@@ -41,9 +41,12 @@ const Users = ({ navigation, route }) => {
     await conn.tx(db, thisUserQuery, [id]);
     // change passcode when switching users
     await crudConfig.updateConfig({ authenticationCode: password });
-    // update axios bearer token
+    // update axios bearer token & global state
     api.setToken(token);
 
+    AuthState.update((s) => {
+      s.token = token;
+    });
     UserState.update((s) => {
       s.id = id;
       s.name = name;

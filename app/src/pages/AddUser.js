@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { BaseLayout } from '../components';
 import { conn, query } from '../database';
-import { UserState, UIState } from '../store';
+import { UserState, UIState, AuthState } from '../store';
 import { api, i18n } from '../lib';
 import { crudForms, crudUsers, crudConfig } from '../database/crud';
 
@@ -85,7 +85,12 @@ const AddUser = ({ navigation }) => {
         );
         // save session
         const bearerToken = apiData.syncToken;
+
         api.setToken(bearerToken);
+        AuthState.update((s) => {
+          s.token = bearerToken;
+        });
+
         await crudConfig.updateConfig({ authenticationCode: name });
 
         const userID = await handleActiveUser({ ...apiData, passcode: name });
