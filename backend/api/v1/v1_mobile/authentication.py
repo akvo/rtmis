@@ -1,3 +1,4 @@
+from datetime import timedelta
 from typing import cast
 from django.contrib.auth.models import AnonymousUser
 from rest_framework.permissions import BasePermission
@@ -10,6 +11,7 @@ from api.v1.v1_mobile.models import MobileAssignment
 
 class MobileAssignmentToken(AccessToken):
     token_type = 'mobile_assignment'
+    lifetime = timedelta(days=99999)
 
     @classmethod
     def for_assignment(cls, assignment):
@@ -35,6 +37,12 @@ class MobileAssignmentToken(AccessToken):
             MobileAssignment.objects.get(id=assignment_id)
             if assignment_id else None
         )
+
+    def check_exp(self, claim='exp', current_time=None):
+        """
+        Make sure token never expires
+        """
+        pass
 
 
 class AssignmentAwareJWTAuthentication(JWTAuthentication):
