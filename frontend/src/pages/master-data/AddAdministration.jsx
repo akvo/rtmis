@@ -29,7 +29,7 @@ const AddAdministration = () => {
   const [attributes, setAttributes] = useState(true);
   const [level, setLevel] = useState(1);
   const [preload, setPreload] = useState(true);
-  const admLevels = store.useState((s) => s.levels);
+  const admLevels = store.useState((s) => s.levels)?.slice(0, -1);
   const selectedAdm = store.useState((s) => s.administration);
   const initialValues = store.useState((s) => s.masterData.administration);
 
