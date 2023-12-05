@@ -33,6 +33,7 @@ const Home = ({ navigation, route }) => {
 
   useEffect(() => {
     if (params || currentUserId || activeLang !== appLang || isManualSynced) {
+      setData([]);
       setAppLang(activeLang);
       UIState.update((s) => {
         s.isManualSynced = false;
