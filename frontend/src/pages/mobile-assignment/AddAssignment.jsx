@@ -182,28 +182,28 @@ const AddAssignment = () => {
               </Form.Item>
             </div>
           )}
-          <div className="form-row">
-            <Form.Item
-              name="administrations"
-              label={text.mobileLabelAdm}
-              rules={[
-                { required: admIsRequired, message: text.mobileAdmRequired },
-              ]}
-            >
-              <AdministrationDropdown
-                size="large"
-                width="100%"
-                direction="vertical"
-                maxLevel={level}
-                onChange={(values) => {
-                  if (values) {
-                    form.setFieldsValue({ administrations: values });
-                  }
-                }}
-                allowMultiple
-              />
-            </Form.Item>
-          </div>
+          {admIsRequired && (
+            <div className="form-row">
+              <Form.Item
+                name="administrations"
+                label={text.mobileLabelAdm}
+                rules={[{ required: true, message: text.mobileAdmRequired }]}
+              >
+                <AdministrationDropdown
+                  size="large"
+                  width="100%"
+                  direction="vertical"
+                  maxLevel={level}
+                  onChange={(values) => {
+                    if (values) {
+                      form.setFieldsValue({ administrations: values });
+                    }
+                  }}
+                  allowMultiple
+                />
+              </Form.Item>
+            </div>
+          )}
           <div className="form-row">
             <Form.Item
               name="forms"
