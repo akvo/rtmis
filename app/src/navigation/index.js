@@ -118,8 +118,6 @@ const RootNavigator = () => {
           <Stack.Screen name="AuthForm" component={AuthFormPage} />
           <Stack.Screen name="AuthByPassForm" component={AuthByPassFormPage} />
         </>
-      ) : !userDefined ? (
-        <Stack.Screen name="AddUser" component={AddUserPage} />
       ) : (
         <>
           <Stack.Screen name="Home" component={HomePage} />

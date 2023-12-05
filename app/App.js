@@ -5,7 +5,7 @@ import NetInfo from '@react-native-community/netinfo';
 import Navigation from './src/navigation';
 import { conn, query, tables } from './src/database';
 import { UIState, AuthState, UserState, BuildParamsState } from './src/store';
-import { crudSessions, crudUsers, crudConfig } from './src/database/crud';
+import { crudUsers, crudConfig } from './src/database/crud';
 import { api } from './src/lib';
 import { NetworkStatusBar } from './src/components';
 
@@ -15,35 +15,30 @@ const App = () => {
   const serverURLState = BuildParamsState.useState((s) => s.serverURL);
 
   const handleCheckSession = () => {
-    crudSessions.selectLastSession().then((session) => {
-      if (!session) {
-        return session;
-      }
-      console.info('Session =>', session);
-      api.setToken(session.token);
-      // check users exist
-      crudUsers
-        .getActiveUser()
-        .then((user) => {
-          console.info('Users =>', user);
-          const page = session && user?.id ? 'Home' : 'AddUser';
-          return { user, page };
-        })
-        .then(({ user, page }) => {
-          UserState.update((s) => {
-            s.id = user.id;
-            s.name = user.name;
-            s.password = user.password;
-          });
-          AuthState.update((s) => {
-            s.token = session.token;
-            s.authenticationCode = session.passcode;
-          });
-          UIState.update((s) => {
-            s.currentPage = page;
-          });
+    // check users exist
+    crudUsers
+      .getActiveUser()
+      .then((user) => {
+        console.info('Users =>', user);
+
+        const page = 'Home';
+        return { user, page };
+      })
+      .then(({ user, page }) => {
+        api.setToken(user.token);
+        UserState.update((s) => {
+          s.id = user.id;
+          s.name = user.name;
+          s.password = user.password;
         });
-    });
+        AuthState.update((s) => {
+          s.token = user.token;
+          s.authenticationCode = user.password;
+        });
+        UIState.update((s) => {
+          s.currentPage = page;
+        });
+      });
   };
 
   const handleInitConfig = async () => {

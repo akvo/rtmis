@@ -6,7 +6,7 @@ import { Input, Button, Text, Dialog } from '@rneui/themed';
 import { CenterLayout, Image } from '../components';
 import { api, cascades, i18n } from '../lib';
 import { AuthState, UserState, UIState } from '../store';
-import { crudSessions, crudForms, crudUsers, crudConfig } from '../database/crud';
+import { crudForms, crudUsers, crudConfig } from '../database/crud';
 
 const ToggleEye = ({ hidden, onPress }) => {
   const iconName = hidden ? 'eye' : 'eye-off';
@@ -27,9 +27,54 @@ const AuthForm = ({ navigation }) => {
   const trans = i18n.text(activeLang);
 
   const toggleHidden = () => setHidden(!hidden);
-  const goTo = (page) => navigation.navigate(page);
 
   const disableLoginButton = React.useMemo(() => !passcode || passcode === '', [passcode]);
+
+  const handleActiveUser = async (data = {}) => {
+    const activeUser = await crudUsers.getActiveUser();
+    if (activeUser) {
+      UserState.update((s) => {
+        s.id = activeUser.id;
+        s.name = activeUser.name;
+      });
+      return activeUser.id;
+    }
+
+    if (!activeUser?.id) {
+      const newUserId = await crudUsers.addNew({
+        name: data?.name || 'Data collector',
+        active: 1,
+        token: data?.syncToken,
+        password: data?.passcode,
+      });
+      UserState.update((s) => {
+        s.id = newUserId;
+        s.name = data?.name;
+      });
+      return newUserId;
+    }
+  };
+
+  const handleGetAllForms = async (formsUrl, userID) => {
+    formsUrl.forEach(async (form) => {
+      // Fetch form detail
+      const formRes = await api.get(form.url);
+      const savedForm = await crudForms.addForm({
+        ...form,
+        userId: userID,
+        formJSON: formRes?.data,
+      });
+      console.info('Saved Forms...', form.id, savedForm);
+
+      // download cascades files
+      if (formRes?.data?.cascades?.length) {
+        formRes.data.cascades.forEach((cascadeFile) => {
+          const downloadUrl = api.getConfig().baseURL + cascadeFile;
+          cascades.download(downloadUrl, cascadeFile);
+        });
+      }
+    });
+  };
 
   const handleOnPressLogin = () => {
     // check connection
@@ -42,68 +87,42 @@ const AuthForm = ({ navigation }) => {
 
     setError(null);
     setLoading(true);
-    const data = new FormData();
-    data.append('code', passcode);
     api
-      .post('/auth', data, { headers: { 'Content-Type': 'multipart/form-data' } })
+      .post('/auth', { code: passcode })
       .then(async (res) => {
         try {
           const { data } = res;
           // save session
           const bearerToken = data.syncToken;
-          const lastSession = await crudSessions.selectLastSession();
-          if (!lastSession && lastSession?.token !== bearerToken) {
-            console.info('Saving tokens...');
-            await crudSessions.addSession({ token: bearerToken, passcode });
-            api.setToken(bearerToken);
-            await crudConfig.updateConfig({ authenticationCode: passcode });
-          }
-          await cascades.createSqliteDir();
-          // save forms
-          await data.formsUrl.forEach(async (form) => {
-            // Fetch form detail
-            const formRes = await api.get(form.url);
-            const savedForm = await crudForms.addForm({ ...form, formJSON: formRes?.data });
-            console.info('Saved Forms...', form.id, savedForm);
+          api.setToken(bearerToken);
 
-            // download cascades files
-            if (formRes?.data?.cascades?.length) {
-              formRes.data.cascades.forEach((cascadeFile) => {
-                const downloadUrl = api.getConfig().baseURL + cascadeFile;
-                cascades.download(downloadUrl, cascadeFile);
-              });
-            }
-          });
-          // check users exist
-          const activeUser = await crudUsers.getActiveUser();
+          await crudConfig.updateConfig({ authenticationCode: passcode });
+          await cascades.createSqliteDir();
           // update auth state
           AuthState.update((s) => {
             s.authenticationCode = passcode;
             s.token = bearerToken;
           });
-          if (!activeUser || !activeUser?.id) {
-            goTo('AddUser');
-            return;
-          }
-          // update user state
-          UserState.update((s) => {
-            s.id = activeUser.id;
-            s.name = activeUser.name;
-            s.password = activeUser.password;
-          });
+
+          const userID = await handleActiveUser({ ...data, passcode });
+
+          await handleGetAllForms(data.formsUrl, userID);
+
           // go to home page (form list)
-          goTo('Home');
-          return;
+          setTimeout(() => {
+            navigation.navigate('Home', { newForms: true });
+          }, 500);
         } catch (err) {
           console.error(err);
         }
       })
       .catch((err) => {
-        const { status: errStatus } = err?.response;
+        const { status: errStatus, message: errMessage } = err?.response;
         if ([400, 401].includes(errStatus)) {
           setError(trans.authErrorPasscode);
         } else {
-          setError(err?.message);
+          console.log('errStatus', err?.message);
+          setError(errMessage);
         }
       })
       .finally(() => setLoading(false));

@@ -3,7 +3,7 @@ import backgroundTask from '../background-task';
 import notification from '../notification';
 import * as BackgroundFetch from 'expo-background-fetch';
 import * as TaskManager from 'expo-task-manager';
-import { crudForms, crudSessions, crudUsers, crudDataPoints } from '../../database/crud';
+import { crudForms, crudUsers, crudDataPoints } from '../../database/crud';
 import { waitFor } from '@testing-library/react-native';
 
 jest.mock('../api');
@@ -25,14 +25,14 @@ describe('backgroundTask', () => {
       jest.clearAllMocks();
     });
 
-    const mockSession = { passcode: '12345' };
+    const mockSession = { id: 1, name: 'John Doe', password: '12345', token: 'bearerTok3n' };
     const mockForm = { id: 1, version: '1.0.0', url: '/forms/1' };
     const mockFormData = { formsUrl: [mockForm], syncToken: 'Bearer token', message: 'Success' };
 
     it('should handle syncFormVersion with showNotificationOnly=true', async () => {
       const mockFormExist = false;
 
-      crudSessions.selectLastSession.mockImplementation(() => Promise.resolve(mockSession));
+      crudUsers.getActiveUser.mockImplementation(() => Promise.resolve(mockSession));
       api.post.mockImplementation(() => Promise.resolve({ data: mockFormData }));
       crudForms.selectFormByIdAndVersion.mockImplementation(() => Promise.resolve(mockFormExist));
       crudForms.updateForm.mockImplementation(() => Promise.resolve(false));
@@ -41,10 +41,8 @@ describe('backgroundTask', () => {
       const sendPushNotification = jest.fn();
       await backgroundTask.syncFormVersion({ showNotificationOnly: true, sendPushNotification });
 
-      expect(crudSessions.selectLastSession).toHaveBeenCalled();
-      expect(api.post).toHaveBeenCalledWith('/auth', expect.any(FormData), {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+      expect(crudUsers.getActiveUser).toHaveBeenCalled();
+      expect(api.post).toHaveBeenCalledWith('/auth', { code: mockSession.password });
       expect(crudForms.selectFormByIdAndVersion).toHaveBeenCalledWith(mockForm);
       expect(api.get).not.toHaveBeenCalled();
       expect(crudForms.updateForm).not.toHaveBeenCalled();
@@ -58,7 +56,7 @@ describe('backgroundTask', () => {
       const mockUpdatedForm = { rowsAffected: 1 };
       const mockSavedForm = { rowsAffected: 1 };
 
-      crudSessions.selectLastSession.mockImplementation(() => Promise.resolve(mockSession));
+      crudUsers.getActiveUser.mockImplementation(() => Promise.resolve(mockSession));
       api.post.mockImplementation(() => Promise.resolve({ data: mockFormData }));
       crudForms.selectFormByIdAndVersion.mockResolvedValue(mockFormExist);
       api.get.mockImplementation(() => Promise.resolve(mockFormRes));
@@ -69,10 +67,8 @@ describe('backgroundTask', () => {
       const sendPushNotification = jest.fn();
       await backgroundTask.syncFormVersion({ showNotificationOnly: false, sendPushNotification });
 
-      expect(crudSessions.selectLastSession).toHaveBeenCalled();
-      expect(api.post).toHaveBeenCalledWith('/auth', expect.any(FormData), {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+      expect(crudUsers.getActiveUser).toHaveBeenCalled();
+      expect(api.post).toHaveBeenCalledWith('/auth', { code: mockSession.password });
       expect(crudForms.selectFormByIdAndVersion).toHaveBeenCalledWith(mockForm);
       await waitFor(() => expect(api.get).toHaveBeenCalledWith(mockForm.url));
       expect(crudForms.updateForm).toHaveBeenCalledWith(mockForm);
@@ -121,7 +117,7 @@ describe('backgroundTask', () => {
   });
 
   describe('syncFormSubmission', () => {
-    const mockSession = { token: 'eyjtoken', passcode: '12345' };
+    const mockSession = { token: 'eyjtoken', passcode: '12345', name: 'John Doe' };
     const mockForm = {
       id: 123,
       formId: 456,
@@ -151,12 +147,6 @@ describe('backgroundTask', () => {
         json: JSON.stringify({ 101: 'Data point 1', 102: 1, 103: 'file://photo_103_1.jpeg' }),
       },
     ];
-    const mockUser = {
-      id: 1,
-      name: 'John Doe',
-      password: 'password',
-      active: 1,
-    };
 
     beforeEach(() => {
       jest.clearAllMocks();
@@ -173,7 +163,7 @@ describe('backgroundTask', () => {
     it('should not sync submission and send push notification if data not available', async () => {
       const consoleSpy = jest.spyOn(console, 'error');
       // api.get.mockImplementation(() => Promise.resolve(true));
-      crudSessions.selectLastSession.mockImplementation(() => Promise.resolve(mockSession));
+      crudUsers.getActiveUser.mockImplementation(() => Promise.resolve(mockSession));
       crudDataPoints.selectSubmissionToSync.mockImplementation(() => Promise.resolve([]));
       api.setToken.mockReturnValue({ token: mockSession.token });
 
@@ -181,10 +171,9 @@ describe('backgroundTask', () => {
       expect(consoleSpy).not.toHaveBeenCalled();
 
       await waitFor(() => {
-        expect(crudSessions.selectLastSession).toHaveBeenCalled();
+        expect(crudUsers.getActiveUser).toHaveBeenCalled();
         expect(api.setToken).toHaveBeenCalled();
         expect(crudDataPoints.selectSubmissionToSync).toHaveBeenCalled();
-        expect(crudUsers.selectUserById).not.toHaveBeenCalled();
         expect(crudForms.selectFormById).not.toHaveBeenCalled();
         expect(api.post).not.toHaveBeenCalled();
         expect(crudDataPoints.updateDataPoint).not.toHaveBeenCalled();
@@ -195,9 +184,8 @@ describe('backgroundTask', () => {
     it('should not send push notification if sync to server failed', async () => {
       const consoleSpy = jest.spyOn(console, 'error');
       // api.get.mockImplementation(() => Promise.resolve(true));
-      crudSessions.selectLastSession.mockImplementation(() => Promise.resolve(mockSession));
+      crudUsers.getActiveUser.mockImplementation(() => Promise.resolve(mockSession));
       crudDataPoints.selectSubmissionToSync.mockImplementation(() => Promise.resolve(dataPoints));
-      crudUsers.selectUserById.mockImplementation(() => Promise.resolve(mockUser));
       crudForms.selectFormById.mockImplementation(() => Promise.resolve(mockForm));
 
       api.setToken.mockReturnValue({ token: mockSession.token });
@@ -209,10 +197,9 @@ describe('backgroundTask', () => {
       expect(consoleSpy).not.toHaveBeenCalled();
 
       await waitFor(() => {
-        expect(crudSessions.selectLastSession).toHaveBeenCalled();
+        expect(crudUsers.getActiveUser).toHaveBeenCalled();
         expect(api.setToken).toHaveBeenCalled();
         expect(crudDataPoints.selectSubmissionToSync).toHaveBeenCalled();
-        expect(crudUsers.selectUserById).toHaveBeenCalled();
         expect(crudForms.selectFormById).toHaveBeenCalled();
         expect(api.post).toHaveBeenCalledWith('/sync', {
           answers: { 101: 'Data point 1', 102: 1, 103: 'file://photo_103_1.jpeg' },
@@ -231,9 +218,8 @@ describe('backgroundTask', () => {
     it('should sync submission if any and send push notification', async () => {
       const consoleSpy = jest.spyOn(console, 'error');
       // api.get.mockImplementation(() => Promise.resolve(true));
-      crudSessions.selectLastSession.mockImplementation(() => Promise.resolve(mockSession));
+      crudUsers.getActiveUser.mockImplementation(() => Promise.resolve(mockSession));
       crudDataPoints.selectSubmissionToSync.mockImplementation(() => Promise.resolve(dataPoints));
-      crudUsers.selectUserById.mockImplementation(() => Promise.resolve(mockUser));
       crudForms.selectFormById.mockImplementation(() => Promise.resolve(mockForm));
       crudDataPoints.updateDataPoint.mockImplementation(() => Promise.resolve({ rowsAffected: 1 }));
       notification.sendPushNotification.mockImplementation(() =>
@@ -249,10 +235,9 @@ describe('backgroundTask', () => {
       expect(consoleSpy).not.toHaveBeenCalled();
 
       await waitFor(() => {
-        expect(crudSessions.selectLastSession).toHaveBeenCalled();
+        expect(crudUsers.getActiveUser).toHaveBeenCalled();
         expect(api.setToken).toHaveBeenCalled();
         expect(crudDataPoints.selectSubmissionToSync).toHaveBeenCalled();
-        expect(crudUsers.selectUserById).toHaveBeenCalled();
         expect(crudForms.selectFormById).toHaveBeenCalled();
         expect(api.post).toHaveBeenCalledWith('/sync', {
           answers: { 101: 'Data point 1', 102: 1, 103: 'file://photo_103_1.jpeg' },
@@ -269,9 +254,8 @@ describe('backgroundTask', () => {
     });
 
     it('should replace photo question answer with file from photos', async () => {
-      crudSessions.selectLastSession.mockImplementation(() => Promise.resolve(mockSession));
+      crudUsers.getActiveUser.mockImplementation(() => Promise.resolve(mockSession));
       crudDataPoints.selectSubmissionToSync.mockImplementation(() => Promise.resolve(dataPoints));
-      crudUsers.selectUserById.mockImplementation(() => Promise.resolve(mockUser));
       crudForms.selectFormById.mockImplementation(() => Promise.resolve(mockForm));
       crudDataPoints.updateDataPoint.mockImplementation(() => Promise.resolve({ rowsAffected: 1 }));
 

@@ -536,8 +536,17 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = PendingFormData
         fields = [
-            'id', 'data_id', 'name', 'form', 'administration', 'geo',
-            'created_by', 'created', 'pending_answer_history'
+            'id',
+            'data_id',
+            'name',
+            'form',
+            'administration',
+            'geo',
+            'submitter',
+            'duration',
+            'created_by',
+            'created',
+            'pending_answer_history'
         ]
 
 
