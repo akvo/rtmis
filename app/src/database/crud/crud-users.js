@@ -41,6 +41,10 @@ const usersQuery = () => {
         return false;
       }
     },
+    checkPasscode: async (passcode) => {
+      const { rows } = await conn.tx(db, query.read('users', { password: passcode }), [passcode]);
+      return rows;
+    },
   };
 };
 
