@@ -70,7 +70,6 @@ const RootNavigator = () => {
   const preventHardwareBackPressFormPages = ['Home', 'AddUser'];
   const currentPage = UIState.useState((s) => s.currentPage);
   const token = AuthState.useState((s) => s.token); // user already has session
-  const userDefined = UserState.useState((s) => s.id);
   const syncInterval = BuildParamsState.useState((s) => s.dataSyncInterval);
 
   React.useEffect(() => {
@@ -118,8 +117,6 @@ const RootNavigator = () => {
           <Stack.Screen name="AuthForm" component={AuthFormPage} />
           <Stack.Screen name="AuthByPassForm" component={AuthByPassFormPage} />
         </>
-      ) : !userDefined ? (
-        <Stack.Screen name="AddUser" component={AddUserPage} />
       ) : (
         <>
           <Stack.Screen name="Home" component={HomePage} />
