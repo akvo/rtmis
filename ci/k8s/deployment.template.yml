@@ -19,8 +19,8 @@ spec:
         run: rtmis
         rtmis-version: "${CI_COMMIT}"
       annotations:
-        prometheus.io/scrape: 'true'
-        prometheus.io/port: '3000'
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3000"
     spec:
       containers:
         - name: frontend
@@ -34,6 +34,9 @@ spec:
             limits:
               cpu: "200m"
               memory: "64Mi"
+          volumeMounts:
+            - name: nfs-pvc
+              mountPath: "/usr/share/nginx/html/storage"
         - name: cloud-sql-proxy
           resources:
             requests:
@@ -137,6 +140,16 @@ spec:
               value: "TRUE"
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /secrets/credentials.json
+            - name: STORAGE_PATH
+              valueFrom:
+                secretKeyRef:
+                  name: rtmis
+                  key: storage-path
+            - name: APK_UPLOAD_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: rtmis
+                  key: apk-upload-secret
           readinessProbe:
             httpGet:
               path: /api/v1/health/check
@@ -152,6 +165,8 @@ spec:
               mountPath: /secrets/credentials.json
               subPath: rtmis-service-account.json
               readOnly: true
+            - name: nfs-pvc
+              mountPath: "/app/storage"
           resources:
             requests:
               cpu: "100m"
@@ -209,11 +224,23 @@ spec:
                   key: webdomain
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /secrets/credentials.json
+            - name: STORAGE_PATH
+              valueFrom:
+                secretKeyRef:
+                  name: rtmis
+                  key: storage-path
+            - name: APK_UPLOAD_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: rtmis
+                  key: apk-upload-secret
           volumeMounts:
             - name: rtmis-secrets
               mountPath: /secrets/credentials.json
               subPath: rtmis-service-account.json
               readOnly: true
+            - name: nfs-pvc
+              mountPath: "/app/storage"
           resources:
             requests:
               cpu: "100m"
@@ -225,3 +252,6 @@ spec:
         - name: rtmis-secrets
           secret:
             secretName: rtmis
+        - name: nfs-pvc
+          persistentVolumeClaim:
+            claimName: rtmis

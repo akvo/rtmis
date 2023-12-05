@@ -32,6 +32,7 @@ prepare_deployment () {
 }
 
 apply_deployment () {
+    kubectl apply -f ci/k8s/volume-claim.template.yml
     kubectl apply -f ci/k8s/deployment.yml
     kubectl apply -f ci/k8s/service.yml
 }
