@@ -45,6 +45,7 @@ const AuthForm = ({ navigation }) => {
         name: data?.name || 'Data collector',
         active: 1,
         token: data?.syncToken,
+        password: data?.passcode,
       });
       UserState.update((s) => {
         s.id = newUserId;
@@ -107,7 +108,7 @@ const AuthForm = ({ navigation }) => {
             s.token = bearerToken;
           });
 
-          const userID = await handleActiveUser(data);
+          const userID = await handleActiveUser({ ...data, passcode });
 
           await handleGetAllForms(data.formsUrl, userID);
 
