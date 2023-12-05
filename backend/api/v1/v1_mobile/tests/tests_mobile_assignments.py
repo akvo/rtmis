@@ -7,6 +7,7 @@ from api.v1.v1_mobile.models import MobileAssignment
 from api.v1.v1_profile.models import Administration
 
 from api.v1.v1_profile.tests.mixins import ProfileTestHelperMixin
+from utils.custom_helper import CustomPasscode
 
 
 @override_settings(USE_TZ=False)
@@ -86,9 +87,13 @@ class MobileAssignmentTestCase(TestCase, ProfileTestHelperMixin):
 
         self.assertEqual(response.status_code, 201)
         data = response.json()
-        self.assertTrue(len(data['passcode']) > 0)
-        self.assertEqual(len(data['forms']), 1)
-        self.assertEqual(len(data['administrations']), 1)
+        assignment = MobileAssignment.objects.get(name='test assignment')
+        self.assertEqual(
+                CustomPasscode().encode(data['passcode']), assignment.passcode)
+        self.assertEqual(len(data['forms']), assignment.forms.count())
+        self.assertEqual(
+                len(data['administrations']),
+                assignment.administrations.count())
 
     def test_update(self):
         assignment = MobileAssignment.objects.create_assignment(

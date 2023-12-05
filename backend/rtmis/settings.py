@@ -99,7 +99,7 @@ WSGI_APPLICATION = 'rtmis.wsgi.application'
 # Rest Settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':
-        ('rest_framework_simplejwt.authentication.JWTAuthentication',),
+        ('api.v1.v1_mobile.authentication.AssignmentAwareJWTAuthentication',),
     'DEFAULT_VERSIONING_CLASS':
         'rest_framework.versioning.URLPathVersioning',
     'DATE_FORMAT':
@@ -125,6 +125,10 @@ SPECTACULAR_SETTINGS = {
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=12),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
+    'AUTH_TOKEN_CLASSES': (
+        'rest_framework_simplejwt.tokens.AccessToken',
+        'api.v1.v1_mobile.authentication.MobileAssignmentToken',
+    ),
 }
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases

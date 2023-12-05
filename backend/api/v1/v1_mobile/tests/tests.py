@@ -37,7 +37,6 @@ class MobileAssignmentManagerTest(TestCase):
         passcode = mobile_assignment.get_passcode()
         passcode = CustomPasscode().decode(passcode)
         self.assertEqual(len(passcode), 8)
-        self.assertTrue(mobile_assignment.token)
 
     def test_create_mobile_assignment_with_passcode(self):
         from api.v1.v1_mobile.models import MobileAssignment

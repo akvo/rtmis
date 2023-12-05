@@ -1,11 +1,15 @@
 import os
+from typing import cast
 import requests
 import mimetypes
+from rest_framework.request import Request
 
 from rest_framework.viewsets import ModelViewSet
+from api.v1.v1_mobile.authentication import (
+        IsMobileAssignment, MobileAssignmentToken)
 from rtmis.settings import MASTER_DATA, BASE_DIR, APP_NAME, APK_UPLOAD_SECRET
 from drf_spectacular.utils import extend_schema
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpResponse
 from rest_framework import status, serializers
 from rest_framework.response import Response
 from rest_framework.decorators import (
@@ -72,21 +76,14 @@ def get_mobile_forms(request, version):
     summary='To get form in mobile form format',
 )
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_mobile_form_details(request: HttpRequest, version, form_id):
+@permission_classes([IsMobileAssignment])
+def get_mobile_form_details(request: Request, version, form_id):
     instance = get_object_or_404(Forms, pk=form_id)
-    token = get_raw_token(request)
-    try:
-        assignment = MobileAssignment.objects.get(token=token)
-    except MobileAssignment.DoesNotExist:
-        return Response(
-            {'message': 'Mobile assignment is not found'},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+    assignment = cast(MobileAssignmentToken, request.auth).assignment
     data = WebFormDetailSerializer(
         instance=instance,
         context={
-            'user': request.user,
+            'user': assignment.user,
             'mobile_assignment': assignment,
         }
     ).data
@@ -138,18 +135,11 @@ def get_raw_token(request):
     summary='Submit pending form data',
 )
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsMobileAssignment])
 def sync_pending_form_data(request, version):
     form = get_object_or_404(Forms, pk=request.data.get('formId'))
-    token = get_raw_token(request)
-    try:
-        assignment = MobileAssignment.objects.get(token=token)
-    except MobileAssignment.DoesNotExist:
-        return Response(
-            {'message': 'Mobile assignment is not found'},
-            status=status.HTTP_400_BAD_REQUEST
-        )
-    user = request.user
+    assignment = cast(MobileAssignmentToken, request.auth).assignment
+    user = assignment.user
     administration = Access.objects.filter(user=user).first().administration
     if not request.data.get('answers'):
         return Response(
@@ -171,7 +161,7 @@ def sync_pending_form_data(request, version):
         'answer': answers,
     }
     serializer = SubmitPendingFormSerializer(
-        data=data, context={'user': request.user, 'form': form}
+        data=data, context={'user': user, 'form': form}
     )
     if not serializer.is_valid():
         return Response(
@@ -222,7 +212,7 @@ def download_sqlite_file(request, version, file_name):
     },
 )
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsMobileAssignment])
 @parser_classes([MultiPartParser])
 def upload_image_form_device(request, version):
     serializer = UploadImagesSerializer(data=request.data)
