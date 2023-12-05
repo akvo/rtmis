@@ -18,6 +18,7 @@ const mockForms = [
     submitted: 2,
     draft: 0,
     synced: 2,
+    userId: 1,
   },
   {
     id: 2,
@@ -30,6 +31,7 @@ const mockForms = [
     submitted: 1,
     draft: 3,
     synced: 0,
+    userId: 1,
   },
   {
     id: 3,
@@ -42,6 +44,7 @@ const mockForms = [
     submitted: 2,
     draft: 1,
     synced: 1,
+    userId: 1,
   },
 ];
 

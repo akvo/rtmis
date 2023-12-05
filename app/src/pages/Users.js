@@ -7,6 +7,7 @@ import { BaseLayout } from '../components';
 import { conn, query } from '../database';
 import { UserState, UIState } from '../store';
 import { i18n } from '../lib';
+import { crudConfig } from '../database/crud';
 
 const db = conn.init;
 
@@ -32,12 +33,14 @@ const Users = ({ navigation, route }) => {
     setLoading(false);
   }, []);
 
-  const handleSelectUser = async (id, name) => {
+  const handleSelectUser = async ({ id, name, password }) => {
     const currUserQuery = query.update('users', { id: currUserID }, { active: 0 });
     await conn.tx(db, currUserQuery, [currUserID]);
 
     const thisUserQuery = query.update('users', { id }, { active: 1 });
     await conn.tx(db, thisUserQuery, [id]);
+    // change passcode when switching users
+    await crudConfig.updateConfig({ authenticationCode: password });
 
     UserState.update((s) => {
       s.id = id;
@@ -96,7 +99,7 @@ const Users = ({ navigation, route }) => {
           return (
             <ListItem.Swipeable
               key={index}
-              onPress={async () => await handleSelectUser(user.id, user.name)}
+              onPress={async () => await handleSelectUser(user)}
               rightContent={(reset) => (
                 <Button
                   title={trans.buttonDelete}
