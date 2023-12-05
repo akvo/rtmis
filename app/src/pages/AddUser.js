@@ -9,7 +9,7 @@ import { BaseLayout } from '../components';
 import { conn, query } from '../database';
 import { UserState, UIState } from '../store';
 import { api, i18n } from '../lib';
-import { crudSessions, crudForms, crudUsers, crudConfig } from '../database/crud';
+import { crudForms, crudUsers, crudConfig } from '../database/crud';
 
 db = conn.init;
 
@@ -85,13 +85,8 @@ const AddUser = ({ navigation }) => {
         );
         // save session
         const bearerToken = apiData.syncToken;
-        const lastSession = await crudSessions.selectLastSession();
-        if (!lastSession && lastSession?.token !== bearerToken) {
-          console.info('Saving tokens...');
-          await crudSessions.addSession({ token: bearerToken, passcode: name });
-          api.setToken(bearerToken);
-          await crudConfig.updateConfig({ authenticationCode: name });
-        }
+        api.setToken(bearerToken);
+        await crudConfig.updateConfig({ authenticationCode: name });
 
         const userID = await handleActiveUser({ ...apiData, passcode: name });
 

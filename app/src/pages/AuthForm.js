@@ -6,7 +6,7 @@ import { Input, Button, Text, Dialog } from '@rneui/themed';
 import { CenterLayout, Image } from '../components';
 import { api, cascades, i18n } from '../lib';
 import { AuthState, UserState, UIState } from '../store';
-import { crudSessions, crudForms, crudUsers, crudConfig } from '../database/crud';
+import { crudForms, crudUsers, crudConfig } from '../database/crud';
 
 const ToggleEye = ({ hidden, onPress }) => {
   const iconName = hidden ? 'eye' : 'eye-off';
@@ -94,13 +94,9 @@ const AuthForm = ({ navigation }) => {
           const { data } = res;
           // save session
           const bearerToken = data.syncToken;
-          const lastSession = await crudSessions.selectLastSession();
-          if (!lastSession && lastSession?.token !== bearerToken) {
-            console.info('Saving tokens...');
-            await crudSessions.addSession({ token: bearerToken, passcode });
-            api.setToken(bearerToken);
-            await crudConfig.updateConfig({ authenticationCode: passcode });
-          }
+          api.setToken(bearerToken);
+
+          await crudConfig.updateConfig({ authenticationCode: passcode });
           await cascades.createSqliteDir();
           // update auth state
           AuthState.update((s) => {
