@@ -277,7 +277,7 @@ exports[`AddUserPage renders correctly 1`] = `
             }
             testID="listItemTitle"
           >
-            Username 
+            Passcode 
             <Text
               accessibilityRole="text"
               color="#ff0000"
@@ -319,7 +319,7 @@ exports[`AddUserPage renders correctly 1`] = `
                 editable={true}
                 name="name"
                 onChangeText={[Function]}
-                placeholder="Username"
+                placeholder="Passcode"
                 placeholderTextColor="#86939e"
                 style={
                   {
