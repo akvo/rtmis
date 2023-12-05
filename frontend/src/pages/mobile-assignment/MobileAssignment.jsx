@@ -54,7 +54,7 @@ const MobileAssignment = () => {
       key: "name",
     },
     {
-      title: "Village",
+      title: "Administrations",
       dataIndex: "administrations",
       key: "administrations",
       render: (record) => {
