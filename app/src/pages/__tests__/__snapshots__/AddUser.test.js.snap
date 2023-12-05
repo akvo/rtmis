@@ -142,7 +142,7 @@ exports[`AddUserPage renders correctly 1`] = `
           }
           testID="page-title"
         >
-          Create New Profile
+          Add new passcode
         </Text>
       </View>
       <View

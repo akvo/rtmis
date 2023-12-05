@@ -40,6 +40,7 @@ const AddUser = ({ navigation }) => {
       name: data?.name || 'Data collector',
       active: 1,
       token: data?.syncToken,
+      password: data?.passcode,
     });
     UserState.update((s) => {
       s.id = newUserId;
@@ -72,30 +73,36 @@ const AddUser = ({ navigation }) => {
   const submitData = async ({ name }) => {
     setLoading(true);
     try {
-      const { data: apiData } = await api.post(
-        '/auth',
-        { code: name },
-        { headers: { 'Content-Type': 'multipart/form-data' } },
-      );
-      // save session
-      const bearerToken = apiData.syncToken;
-      const lastSession = await crudSessions.selectLastSession();
-      if (!lastSession && lastSession?.token !== bearerToken) {
-        console.info('Saving tokens...');
-        await crudSessions.addSession({ token: bearerToken, passcode: name });
-        api.setToken(bearerToken);
-        await crudConfig.updateConfig({ authenticationCode: name });
+      const { length: exist } = await crudUsers.checkPasscode(name);
+      if (exist) {
+        formRef.current.setErrors({ name: trans.errorUserExist });
+        setLoading(false);
+      } else {
+        const { data: apiData } = await api.post(
+          '/auth',
+          { code: name },
+          { headers: { 'Content-Type': 'multipart/form-data' } },
+        );
+        // save session
+        const bearerToken = apiData.syncToken;
+        const lastSession = await crudSessions.selectLastSession();
+        if (!lastSession && lastSession?.token !== bearerToken) {
+          console.info('Saving tokens...');
+          await crudSessions.addSession({ token: bearerToken, passcode: name });
+          api.setToken(bearerToken);
+          await crudConfig.updateConfig({ authenticationCode: name });
+        }
+
+        const userID = await handleActiveUser({ ...apiData, passcode: name });
+
+        await handleGetAllForms(apiData.formsUrl, userID);
+
+        setLoading(false);
+
+        setTimeout(() => {
+          navigation.navigate('Home', { newForms: true });
+        }, 500);
       }
-
-      const userID = await handleActiveUser(apiData);
-
-      await handleGetAllForms(apiData.formsUrl, userID);
-
-      setLoading(false);
-
-      setTimeout(() => {
-        navigation.navigate('Home', { newForms: true });
-      }, 500);
     } catch (error) {
       console.error(error);
       setLoading(false);

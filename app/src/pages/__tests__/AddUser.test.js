@@ -5,9 +5,9 @@ import { useNavigation } from '@react-navigation/native';
 
 import AddUser from '../AddUser';
 import { UserState } from '../../store';
-import { conn, query } from '../../database';
+import { conn } from '../../database';
 import api from '../../lib/api';
-import { crudForms } from '../../database/crud';
+import { crudForms, crudUsers } from '../../database/crud';
 
 jest.mock('expo-sqlite');
 
@@ -32,7 +32,7 @@ describe('AddUserPage', () => {
     fireEvent.press(saveButton);
 
     await waitFor(() => {
-      const errorText = getByText('Username is required');
+      const errorText = getByText('Passcode is required');
       expect(errorText).toBeDefined();
     });
   });
@@ -49,6 +49,10 @@ describe('AddUserPage', () => {
         token: 'tokenUser1',
       },
     ];
+    /**
+     * mock No passcode available
+     */
+    crudUsers.checkPasscode.mockImplementation(() => Promise.resolve({ rows: [{ length: 0 }] }));
 
     const { result: navigationRef } = renderHook(() => useNavigation());
     const navigation = navigationRef.current;
