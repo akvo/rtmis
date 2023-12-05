@@ -152,6 +152,8 @@ spec:
               mountPath: /secrets/credentials.json
               subPath: rtmis-service-account.json
               readOnly: true
+            - name: nfs-pvc
+              mountPath: "/app/storage"
           resources:
             requests:
               cpu: "100m"
@@ -214,6 +216,8 @@ spec:
               mountPath: /secrets/credentials.json
               subPath: rtmis-service-account.json
               readOnly: true
+            - name: nfs-pvc
+              mountPath: "/app/storage"
           resources:
             requests:
               cpu: "100m"
@@ -225,3 +229,6 @@ spec:
         - name: rtmis-secrets
           secret:
             secretName: rtmis
+        - name: nfs-pvc
+          persistentVolumeClaim:
+            claimName: rtmis
