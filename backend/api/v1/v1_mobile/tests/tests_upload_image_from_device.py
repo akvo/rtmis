@@ -1,12 +1,12 @@
 import os
+from api.v1.v1_mobile.tests.mixins import AssignmentTokenTestHelperMixin
 from rtmis.settings import STORAGE_PATH
 from django.test import TestCase
 from api.v1.v1_users.models import SystemUser
-from api.v1.v1_profile.models import Administration, Access
-from api.v1.v1_profile.constants import UserRoleTypes
+from api.v1.v1_profile.models import Administration
 from django.core.management import call_command
 from api.v1.v1_mobile.models import MobileAssignment
-from api.v1.v1_forms.models import Forms, UserForms
+from api.v1.v1_forms.models import Forms
 from utils import storage
 
 
@@ -17,7 +17,7 @@ def generate_file(filename: str):
     return filename
 
 
-class MobileAssignmentUploadImages(TestCase):
+class MobileAssignmentUploadImages(TestCase, AssignmentTokenTestHelperMixin):
     def setUp(self):
         call_command('administration_seeder', '--test')
         call_command('form_seeder', '--test')
@@ -30,18 +30,14 @@ class MobileAssignmentUploadImages(TestCase):
         self.administration = Administration.objects.filter(
             parent__isnull=True
         ).first()
-        role = UserRoleTypes.user
-        self.user_access = Access.objects.create(
-            user=self.user, role=role, administration=self.administration
-        )
         self.form = Forms.objects.first()
-        UserForms.objects.create(user=self.user, form=self.form)
         self.passcode = 'passcode1234'
         MobileAssignment.objects.create_assignment(
             user=self.user, name='test', passcode=self.passcode
         )
         self.mobile_assignment = MobileAssignment.objects.get(user=self.user)
-        self.token = self.mobile_assignment.token
+        self.mobile_assignment.forms.add(self.form)
+        self.mobile_assignment.administrations.add(self.administration)
         self.filename = generate_file(filename='test_image.jpg')
 
     # Delete Images after all finish
@@ -49,10 +45,12 @@ class MobileAssignmentUploadImages(TestCase):
         os.remove(self.filename)
 
     def test_upload_image(self):
+        token = self.get_assignmen_token(self.passcode)
+
         response = self.client.post(
             '/api/v1/device/images',
             {'file': open(self.filename, 'rb')},
-            HTTP_AUTHORIZATION=f'Bearer {self.token}',
+            HTTP_AUTHORIZATION=f'Bearer {token}',
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(list(response.json()), ['message', 'file'])

@@ -1,4 +1,5 @@
 from django.test import TestCase
+from api.v1.v1_mobile.authentication import MobileAssignmentToken
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.models import Administration, Access
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -39,9 +40,10 @@ class MobileAssignmentApiTest(TestCase):
         )
 
         serializer = MobileAssignmentFormsSerializer(self.mobile_assignment)
-        self.assertEqual(
-            serializer.data['syncToken'], self.mobile_assignment.token
-        )
+        syncToken = serializer.data['syncToken']
+        token = MobileAssignmentToken(syncToken)
+
+        self.assertEqual(token.assignment.id, self.mobile_assignment.id)
         self.assertEqual(
             dict(serializer.data['formsUrl'][0]),
             {
@@ -58,10 +60,13 @@ class MobileAssignmentApiTest(TestCase):
             code,
             content_type='application/json',
         )
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(
-            response.data['syncToken'], self.mobile_assignment.token
-        )
+
+        syncToken = response.data['syncToken']
+        token = MobileAssignmentToken(syncToken)
+
+        self.assertEqual(token.assignment.id, self.mobile_assignment.id)
         self.assertEqual(
             dict(response.data['formsUrl'][0]),
             {
@@ -114,3 +119,18 @@ class MobileAssignmentApiTest(TestCase):
             list(response.data),
             ['name', 'version', 'cascades', 'question_group'],
         )
+
+    def test_assignment_token_no_access(self):
+        code = {'code': self.passcode}
+        auth = self.client.post(
+            '/api/v1/device/auth',
+            code,
+            content_type='application/json',
+        )
+        token = auth.data['syncToken']
+        response = self.client.get(
+            '/api/v1/profile',
+            content_type='application/json',
+            **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
+        )
+        self.assertEqual(response.status_code, 403)

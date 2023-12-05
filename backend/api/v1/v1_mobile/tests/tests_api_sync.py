@@ -1,4 +1,5 @@
 from django.test import TestCase
+from api.v1.v1_mobile.tests.mixins import AssignmentTokenTestHelperMixin
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.models import Administration, Access
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -9,7 +10,7 @@ from api.v1.v1_data.models import PendingFormData, PendingAnswers
 from rest_framework import status
 
 
-class MobileAssignmentApiSyncTest(TestCase):
+class MobileAssignmentApiSyncTest(TestCase, AssignmentTokenTestHelperMixin):
     def setUp(self):
         call_command('administration_seeder', '--test')
         call_command('form_seeder', '--test')
@@ -41,14 +42,14 @@ class MobileAssignmentApiSyncTest(TestCase):
             self.administration2
         )
         self.mobile_assignment.forms.add(self.form)
-        self.token = self.mobile_assignment.token
 
     def test_get_form_details(self):
+        token = self.get_assignmen_token(self.passcode)
         response = self.client.get(
             f'/api/v1/device/form/{self.form.id}',
             follow=True,
             content_type='application/json',
-            **{'HTTP_AUTHORIZATION': f'Bearer {self.token}'},
+            **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = response.json()
@@ -62,11 +63,12 @@ class MobileAssignmentApiSyncTest(TestCase):
         )
 
     def test_mobile_sync_to_pending_datapoint(self):
+        token = self.get_assignmen_token(self.passcode)
         response = self.client.get(
             f'/api/v1/device/form/{self.form.id}',
             follow=True,
             content_type='application/json',
-            **{'HTTP_AUTHORIZATION': f'Bearer {self.token}'},
+            **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         json_form = response.json()
@@ -111,7 +113,7 @@ class MobileAssignmentApiSyncTest(TestCase):
             post_data,
             follow=True,
             content_type='application/json',
-            **{'HTTP_AUTHORIZATION': f'Bearer {self.token}'},
+            **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -129,7 +131,6 @@ class MobileAssignmentApiSyncTest(TestCase):
         self.assertEqual(pending_data[0].duration, 3000)
 
         # Submit with invalid token
-        #
         response = self.client.post(
             '/api/v1/device/sync',
             post_data,
@@ -145,7 +146,7 @@ class MobileAssignmentApiSyncTest(TestCase):
             {},  # everything is is empty
             follow=True,
             content_type='application/json',
-            **{'HTTP_AUTHORIZATION': f'Bearer {self.token}'},
+            **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
         )
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -155,7 +156,7 @@ class MobileAssignmentApiSyncTest(TestCase):
             {'formId': self.form.id},  # required params is incomplete
             follow=True,
             content_type='application/json',
-            **{'HTTP_AUTHORIZATION': f'Bearer {self.token}'},
+            **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
         )
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -173,7 +174,7 @@ class MobileAssignmentApiSyncTest(TestCase):
             },  # data is empty
             follow=True,
             content_type='application/json',
-            **{'HTTP_AUTHORIZATION': f'Bearer {self.token}'},
+            **{'HTTP_AUTHORIZATION': f'Bearer {token}'},
         )
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
