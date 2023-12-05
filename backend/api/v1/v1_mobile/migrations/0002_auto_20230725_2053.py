@@ -6,32 +6,33 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 
 def create_mobile_assignment(apps, schema_editor):
-    MobileAssignment = apps.get_model('v1_mobile', 'MobileAssignment')
-    SystemUser = apps.get_model('v1_users', 'SystemUser')
-    Access = apps.get_model('v1_profile', 'Access')
-    from utils.custom_helper import generate_random_string
+    pass
+    # MobileAssignment = apps.get_model('v1_mobile', 'MobileAssignment')
+    # SystemUser = apps.get_model('v1_users', 'SystemUser')
+    # Access = apps.get_model('v1_profile', 'Access')
+    # from utils.custom_helper import generate_random_string
 
-    for user in SystemUser.objects.all():
-        access = Access.objects.filter(user=user).first()
-        if not access:
-            continue
-        token = RefreshToken.for_user(user)
-        passcode = generate_random_string(8)
-        MobileAssignment.objects.create(
-            user=user,
-            token=token.access_token,
-            passcode=CustomPasscode().encode(passcode),
-        )
+    # for user in SystemUser.objects.all():
+    #     access = Access.objects.filter(user=user).first()
+    #     if not access:
+    #         continue
+    #     token = RefreshToken.for_user(user)
+    #     passcode = generate_random_string(8)
+    #     MobileAssignment.objects.create(
+    #         user=user,
+    #         token=token.access_token,
+    #         passcode=CustomPasscode().encode(passcode),
+    #     )
 
 
 def reverse_create_mobile_assignment(apps, schema_editor):
-    MobileAssignment = apps.get_model('v1_mobile', 'MobileAssignment')
+    MobileAssignment = apps.get_model("v1_mobile", "MobileAssignment")
     MobileAssignment.objects.all().delete()
 
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('v1_mobile', '0001_initial'),
+        ("v1_mobile", "0001_initial"),
     ]
 
     operations = [

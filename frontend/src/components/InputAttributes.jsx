@@ -51,7 +51,7 @@ const InputType = ({ field, name, options, type }) => {
         </div>
       )}
       {type === "aggregate" && (
-        <Row className="form-row">
+        <Row className="form-row" align="middle">
           <Col span={6}>
             <Text>{name}</Text>
           </Col>
