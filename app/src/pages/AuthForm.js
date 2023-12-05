@@ -86,10 +86,8 @@ const AuthForm = ({ navigation }) => {
 
     setError(null);
     setLoading(true);
-    const data = new FormData();
-    data.append('code', passcode);
     api
-      .post('/auth', data, { headers: { 'Content-Type': 'multipart/form-data' } })
+      .post('/auth', { code: passcode })
       .then(async (res) => {
         try {
           const { data } = res;
@@ -122,11 +120,12 @@ const AuthForm = ({ navigation }) => {
         }
       })
       .catch((err) => {
-        const { status: errStatus } = err?.response;
+        const { status: errStatus, message: errMessage } = err?.response;
         if ([400, 401].includes(errStatus)) {
           setError(trans.authErrorPasscode);
         } else {
-          setError(err?.message);
+          console.log('errStatus', err?.message);
+          setError(errMessage);
         }
       })
       .finally(() => setLoading(false));
