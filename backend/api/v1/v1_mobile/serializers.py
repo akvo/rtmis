@@ -1,9 +1,9 @@
 from typing import Any, Dict
 from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
-from rest_framework_simplejwt.tokens import RefreshToken
 from api.v1.v1_forms.models import Forms
 from drf_spectacular.types import OpenApiTypes
+from api.v1.v1_mobile.authentication import MobileAssignmentToken
 from api.v1.v1_profile.models import Administration
 from utils.custom_serializer_fields import CustomCharField
 from api.v1.v1_mobile.models import MobileAssignment, MobileApk
@@ -27,12 +27,15 @@ class MobileFormSerializer(serializers.ModelSerializer):
 class MobileAssignmentFormsSerializer(serializers.Serializer):
     code = CustomCharField(max_length=255, write_only=True)
     name = serializers.CharField(read_only=True)
-    syncToken = serializers.CharField(source="token", read_only=True)
+    syncToken = serializers.SerializerMethodField()
     formsUrl = serializers.SerializerMethodField()
 
     @extend_schema_field(MobileFormSerializer(many=True))
     def get_formsUrl(self, obj):
         return MobileFormSerializer(obj.forms.all(), many=True).data
+
+    def get_syncToken(self, obj):
+        return str(MobileAssignmentToken.for_assignment(obj))
 
     def validate_code(self, value):
         passcode = CustomPasscode().encode(value)
@@ -69,15 +72,12 @@ class MobileAssignmentSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data: Dict[str, Any]):
         user = self.context.get("request").user
-        token = RefreshToken.for_user(user)
         passcode = CustomPasscode().encode(generate_random_string(8))
         validated_data.update({
             "user": user,
-            "token": token,
             "passcode": passcode
         })
-        instance = super().create(validated_data)
-        return instance
+        return super().create(validated_data)
 
     def get_passcode(self, obj):
         return CustomPasscode().decode(obj.passcode)
