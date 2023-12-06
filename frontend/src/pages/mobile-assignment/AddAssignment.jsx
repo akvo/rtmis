@@ -216,6 +216,7 @@ const AddAssignment = () => {
                       form.setFieldsValue({ administrations: values });
                     }
                   }}
+                  persist={id ? true : false}
                   allowMultiple
                 />
               </Form.Item>
