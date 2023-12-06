@@ -49,6 +49,7 @@ const ResetForm = () => {
         email: "",
       }}
       onFinish={onFinish}
+      style={{ marginTop: "10px" }}
     >
       <Form.Item
         name="email"
@@ -61,10 +62,7 @@ const ResetForm = () => {
           },
         ]}
       >
-        <Input
-          prefix={<UserOutlined className="site-form-item-icon" />}
-          placeholder="Email"
-        />
+        <Input placeholder="Email" />
       </Form.Item>
       <Form.Item style={{ marginTop: 8 }}>
         <Button type="primary" htmlType="submit" loading={loading}>
