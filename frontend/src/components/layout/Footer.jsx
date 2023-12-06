@@ -11,10 +11,7 @@ const Footer = ({ className = "footer", ...props }) => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
-  if (
-    location.pathname.includes("/login") ||
-    location.pathname.includes("/report/")
-  ) {
+  if (location.pathname.includes("/report/")) {
     return "";
   }
   return (
