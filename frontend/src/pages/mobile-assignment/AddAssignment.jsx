@@ -42,7 +42,7 @@ const AddAssignment = () => {
   const [level, setLevel] = useState(userAdmLevel);
 
   const admLevels = levels
-    .slice()
+    .slice(1, levels.length)
     .filter((l) => l?.level >= userAdmLevel)
     .sort((a, b) => a?.level - b?.level);
   const { active: activeLang } = language;
@@ -174,26 +174,28 @@ const AddAssignment = () => {
               </Form.Item>
             </div>
           )}
-          <div className="form-row">
-            <Form.Item
-              name="administrations"
-              label={text.mobileLabelAdm}
-              rules={[{ required: true, message: text.mobileAdmRequired }]}
-            >
-              <AdministrationDropdown
-                size="large"
-                width="100%"
-                direction="vertical"
-                maxLevel={level}
-                onChange={(values) => {
-                  if (values) {
-                    form.setFieldsValue({ administrations: values });
-                  }
-                }}
-                allowMultiple
-              />
-            </Form.Item>
-          </div>
+          {level > 0 && (
+            <div className="form-row">
+              <Form.Item
+                name="administrations"
+                label={text.mobileLabelAdm}
+                rules={[{ required: true, message: text.mobileAdmRequired }]}
+              >
+                <AdministrationDropdown
+                  size="large"
+                  width="100%"
+                  direction="vertical"
+                  maxLevel={level}
+                  onChange={(values) => {
+                    if (values) {
+                      form.setFieldsValue({ administrations: values });
+                    }
+                  }}
+                  allowMultiple
+                />
+              </Form.Item>
+            </div>
+          )}
           <div className="form-row">
             <Form.Item
               name="forms"
