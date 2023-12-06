@@ -16,7 +16,7 @@ describe("Login and Registration", () => {
       screen.getByText(/Please enter your account details/i)
     ).toBeInTheDocument();
     expect(screen.getByText(/Email Address/i)).toBeInTheDocument();
-    expect(screen.getByText(/Forgot password/i)).toBeInTheDocument();
+    expect(screen.getByText(/Recover Password/i)).toBeInTheDocument();
     expect(asFragment()).toMatchSnapshot("LoginPage");
   });
 
@@ -34,9 +34,7 @@ describe("Login and Registration", () => {
     });
 
     const welcome = screen.getByTestId("welcome-title");
-    expect(welcome.textContent).toBe(
-      `Welcome to RUSH, ${fakeUser.name}Please set your password for the platform.Your password must include:`
-    );
+    expect(welcome.textContent).toBe(`Welcome to RUSH, ${fakeUser.name}`);
 
     expect(screen.getByText(/Confirm Password/i)).toBeInTheDocument();
     expect(screen.getByText(/Set New Password/i)).toBeInTheDocument();
