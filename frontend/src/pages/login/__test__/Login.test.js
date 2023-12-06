@@ -16,7 +16,7 @@ describe("Login and Registration", () => {
       screen.getByText(/Please enter your account details/i)
     ).toBeInTheDocument();
     expect(screen.getByText(/Email Address/i)).toBeInTheDocument();
-    expect(screen.getByText(/Forgot password/i)).toBeInTheDocument();
+    expect(screen.getByText(/Recover Password/i)).toBeInTheDocument();
     expect(asFragment()).toMatchSnapshot("LoginPage");
   });
 
