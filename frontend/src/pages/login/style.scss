@@ -15,12 +15,13 @@
     text-align: center;
     padding-top: 16px;
     margin: 0px;
+    a {
+      color: $blue;
+    }
   }
 
   #login {
     background-color: $bg-light;
-    margin-right: -$layout-padding;
-    margin-left: -$layout-padding;
 
     .logo {
       position: absolute;
@@ -58,10 +59,6 @@
     }
 
     .wrapper {
-      margin-top: -$padding-default;
-      margin-bottom: -$padding-default;
-      height: 100vh;
-
       .right-side,
       .left-side {
         align-items: middle;
@@ -118,6 +115,9 @@
               }
               input {
                 padding: 10px 24px;
+                border-color: $stroke-color;
+                color: $color-dark;
+                font-weight: $font-weight-semi-bold;
               }
 
               .ant-checkbox-wrapper {
@@ -126,6 +126,7 @@
 
               .login-form-forgot {
                 float: right;
+                color: $blue;
               }
             }
           }
