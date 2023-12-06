@@ -1,7 +1,9 @@
 from django.urls import re_path
 
 from api.v1.v1_profile.views import (
-        AdministrationAttributeViewSet, AdministrationViewSet, send_feedback)
+    AdministrationAttributeViewSet, AdministrationViewSet, EntityDataViewSet,
+    EntityViewSet, send_feedback
+)
 
 urlpatterns = [
     re_path(
@@ -33,5 +35,35 @@ urlpatterns = [
             'post': 'create',
             }),
         name='administrations-list'),
+    re_path(
+        r'^(?P<version>(v1))/entity-data/(?P<pk>[0-9]+)',
+        EntityDataViewSet.as_view({
+            'get': 'retrieve',
+            'put': 'update',
+            'delete': 'destroy',
+            }),
+        name='entity-data-list'),
+    re_path(
+        r'^(?P<version>(v1))/entity-data',
+        EntityDataViewSet.as_view({
+            'get': 'list',
+            'post': 'create',
+            }),
+        name='entity-data-list'),
+    re_path(
+        r'^(?P<version>(v1))/entities/(?P<pk>[0-9]+)',
+        EntityViewSet.as_view({
+            'get': 'retrieve',
+            'put': 'update',
+            'delete': 'destroy',
+            }),
+        name='entities-list'),
+    re_path(
+        r'^(?P<version>(v1))/entities',
+        EntityViewSet.as_view({
+            'get': 'list',
+            'post': 'create',
+            }),
+        name='entities-list'),
     re_path(r'^(?P<version>(v1))/feedback', send_feedback),
 ]
