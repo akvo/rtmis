@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import LogoutButton from '../LogoutButton';
 import { AuthState, UserState } from '../../store';
 import { conn, query } from '../../database';
-import { cascades, i18n } from '../../lib';
+import { cascades, i18n, api } from '../../lib';
 
 jest.mock('@react-navigation/native');
 jest.mock('expo-sqlite');
@@ -15,6 +15,9 @@ jest.mock('../../lib', () => ({
   },
   i18n: {
     text: jest.fn(),
+  },
+  api: {
+    setToken: jest.fn(),
   },
 }));
 

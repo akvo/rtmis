@@ -1,4 +1,4 @@
-import { crudForms, crudSessions, crudDataPoints, crudUsers } from '../database/crud';
+import { crudForms, crudDataPoints, crudUsers } from '../database/crud';
 import api from './api';
 import * as BackgroundFetch from 'expo-background-fetch';
 import * as TaskManager from 'expo-task-manager';
@@ -10,42 +10,37 @@ const syncFormVersion = async ({
 }) => {
   try {
     // find last session
-    const session = await crudSessions.selectLastSession();
+    const session = await crudUsers.getActiveUser();
     if (!session) {
       return;
     }
-    const authenticationCode = session.passcode;
-    const data = new FormData();
-    data.append('code', authenticationCode);
-    api
-      .post('/auth', data, { headers: { 'Content-Type': 'multipart/form-data' } })
-      .then(async (res) => {
-        const { data } = res;
-        const promises = data.formsUrl.map(async (form) => {
-          const formExist = await crudForms.selectFormByIdAndVersion({ ...form });
-          if (formExist) {
-            return false;
-          }
-          if (showNotificationOnly) {
-            console.info('[bgTask]New form:', form.id, form.version);
-            return { id: form.id, version: form.version };
-          }
-          const formRes = await api.get(form.url);
-          // update previous form latest value to 0
-          await crudForms.updateForm({ ...form });
-          console.info('[syncForm]Updated Forms...', form.id);
-          const savedForm = await crudForms.addForm({ ...form, formJSON: formRes?.data });
-          console.info('[syncForm]Saved Forms...', form.id);
-          return savedForm;
-        });
-        Promise.all(promises).then((res) => {
-          const exist = res.filter((x) => x);
-          if (!exist.length || !showNotificationOnly) {
-            return;
-          }
-          sendPushNotification();
-        });
+    api.post('/auth', { code: session.password }).then(async (res) => {
+      const { data } = res;
+      const promises = data.formsUrl.map(async (form) => {
+        const formExist = await crudForms.selectFormByIdAndVersion({ ...form });
+        if (formExist) {
+          return false;
+        }
+        if (showNotificationOnly) {
+          console.info('[bgTask]New form:', form.id, form.version);
+          return { id: form.id, version: form.version };
+        }
+        const formRes = await api.get(form.url);
+        // update previous form latest value to 0
+        await crudForms.updateForm({ ...form });
+        console.info('[syncForm]Updated Forms...', form.id);
+        const savedForm = await crudForms.addForm({ ...form, formJSON: formRes?.data });
+        console.info('[syncForm]Saved Forms...', form.id);
+        return savedForm;
       });
+      Promise.all(promises).then((res) => {
+        const exist = res.filter((x) => x);
+        if (!exist.length || !showNotificationOnly) {
+          return;
+        }
+        sendPushNotification();
+      });
+    });
   } catch (err) {
     console.error('[bgTask]sycnFormVersion failed:', err);
   }
@@ -85,15 +80,13 @@ const syncFormSubmission = async (photos = []) => {
     let sendNotification = false;
     console.info('[syncFormSubmision] SyncData started => ', new Date());
     // get token
-    const session = await crudSessions.selectLastSession();
+    const session = await crudUsers.getActiveUser();
     // set token
     api.setToken(session.token);
     // get all datapoints to sync
     const data = await crudDataPoints.selectSubmissionToSync();
     console.info('[syncFormSubmision] data point to sync:', data.length);
     const syncProcess = data.map(async (d) => {
-      // get user
-      const user = await crudUsers.selectUserById({ id: d.user });
       const form = await crudForms.selectFormById({ id: d.form });
       const geo = d.geo ? d.geo.split('|')?.map((x) => parseFloat(x)) : [];
 
@@ -108,7 +101,7 @@ const syncFormSubmission = async (photos = []) => {
         name: d.name,
         duration: Math.round(d.duration),
         submittedAt: d.submittedAt,
-        submitter: user.name,
+        submitter: session.name,
         geo,
         answers: answerValues,
       };

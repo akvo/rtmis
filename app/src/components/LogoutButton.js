@@ -4,7 +4,7 @@ import { ListItem, Dialog, Text, Icon } from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native';
 import { AuthState, UserState, FormState, UIState } from '../store';
 import { conn, query } from '../database';
-import { cascades, i18n } from '../lib';
+import { api, cascades, i18n } from '../lib';
 
 const db = conn.init;
 
@@ -48,6 +48,10 @@ const LogoutButton = () => {
      * Remove sqlite files
      */
     await cascades.dropFiles();
+    /**
+     * Reset axios token
+     */
+    api.setToken(null);
 
     navigation.navigate('GetStarted');
   };
