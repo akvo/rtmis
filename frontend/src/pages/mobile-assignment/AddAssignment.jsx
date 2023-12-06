@@ -42,7 +42,7 @@ const AddAssignment = () => {
   const [level, setLevel] = useState(userAdmLevel);
 
   const admLevels = levels
-    .slice()
+    .slice(1, levels.length)
     .filter((l) => l?.level >= userAdmLevel)
     .sort((a, b) => a?.level - b?.level);
   const { active: activeLang } = language;
@@ -122,12 +122,37 @@ const AddAssignment = () => {
         administrations: editAssignment.administrations.map((a) => a?.id),
         forms: editAssignment.forms.map((f) => f?.id),
       });
+      const editAdm = editAssignment?.administrations?.map((a) =>
+        window.dbadm.find((dba) => dba.id === a?.id)
+      );
+      const findLvl = levels.find((l) => l?.level === editAdm?.[0]?.level);
+      if (findLvl) {
+        setLevel(findLvl.id);
+        form.setFieldsValue({ level_id: findLvl.id });
+      }
+      const parentAdm = editAdm?.[0]?.path
+        ?.split(".")
+        ?.filter((p) => p)
+        .map((pID) =>
+          window.dbadm.find((dba) => dba?.id === parseInt(pID, 10))
+        );
+
+      store.update((s) => {
+        s.administration = [...parentAdm, ...editAdm]?.map((a, ax) => {
+          const childLevel = levels.find((l) => l?.level === ax + 1);
+          return {
+            ...a,
+            childLevelName: childLevel?.name || null,
+            children: window.dbadm.filter((sa) => sa?.parent === a?.id),
+          };
+        });
+      });
     }
 
     if (!id && preload) {
       setPreload(false);
     }
-  }, [id, preload, form, editAssignment]);
+  }, [id, preload, form, editAssignment, levels]);
 
   useEffect(() => {
     fetchData();
@@ -174,26 +199,29 @@ const AddAssignment = () => {
               </Form.Item>
             </div>
           )}
-          <div className="form-row">
-            <Form.Item
-              name="administrations"
-              label={text.mobileLabelAdm}
-              rules={[{ required: true, message: text.mobileAdmRequired }]}
-            >
-              <AdministrationDropdown
-                size="large"
-                width="100%"
-                direction="vertical"
-                maxLevel={level}
-                onChange={(values) => {
-                  if (values) {
-                    form.setFieldsValue({ administrations: values });
-                  }
-                }}
-                allowMultiple
-              />
-            </Form.Item>
-          </div>
+          {level > 0 && (
+            <div className="form-row">
+              <Form.Item
+                name="administrations"
+                label={text.mobileLabelAdm}
+                rules={[{ required: true, message: text.mobileAdmRequired }]}
+              >
+                <AdministrationDropdown
+                  size="large"
+                  width="100%"
+                  direction="vertical"
+                  maxLevel={level}
+                  onChange={(values) => {
+                    if (values) {
+                      form.setFieldsValue({ administrations: values });
+                    }
+                  }}
+                  persist={id ? true : false}
+                  allowMultiple
+                />
+              </Form.Item>
+            </div>
+          )}
           <div className="form-row">
             <Form.Item
               name="forms"
