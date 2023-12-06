@@ -1,6 +1,7 @@
 @import "../../variables";
 
 #root {
+  min-height: 100vh;
   .background {
     content: "";
     width: 100%;
@@ -22,6 +23,18 @@
 
   #login {
     background-color: $bg-light;
+    min-height: 100vh;
+    .loading-container {
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      h2,
+      small {
+        color: $bg-dark !important;
+      }
+    }
 
     .logo {
       position: absolute;
@@ -112,6 +125,10 @@
                   font-size: 14px;
                   font-weight: $font-weight-semi-bold;
                 }
+              }
+
+              .ant-input-affix-wrapper {
+                padding: 0px 10px 0px 0px;
               }
               input {
                 padding: 10px 24px;

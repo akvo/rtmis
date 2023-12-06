@@ -6,15 +6,6 @@ import { ContactForm } from "../../components";
 import { useParams } from "react-router-dom";
 import { api, store, uiText } from "../../lib";
 
-const styles = {
-  side: {
-    backgroundImage: `url("/assets/dot-pattern.svg")`,
-    backgroundSize: "100% 100%",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-  },
-};
-
 const ContactUsText = () => (
   <p className="contact-text">
     Please enter your account details <br /> Having trouble accessing the
@@ -64,24 +55,18 @@ const Login = () => {
 
   return (
     <div id="login">
-      <div className="background" style={styles.side} />
       <Row className="wrapper" align="middle">
         <Col span={24} className="right-side">
           {location.pathname.includes("forgot-password") ? (
-            <>
-              <h1>
-                {text.forgotTitle}
-                <br />
-                <small>{text.forgotDesc}</small>
-              </h1>
-              <br />
-              <ContactUsText />
+            <div className="login-form-container">
+              <h1>{text.forgotTitle}</h1>
+              <p className="contact-text">{text.forgotDesc}</p>
               <ResetForm />
-            </>
+            </div>
           ) : (
             <>
               {loading ? (
-                <div>
+                <div className="loading-container">
                   <Spin />
                   <h2>
                     Verifying
@@ -94,15 +79,15 @@ const Login = () => {
                   {invitationId ? (
                     <div>
                       {invitedUser ? (
-                        // TODO
-                        <>
-                          <h1 data-testid="welcome-title">
-                            {text.welcomeShort}, {invitedUser.name}
-                            <br />
-                            <small>{text.resetHint}</small>
-                          </h1>
+                        <div className="login-form-container">
+                          <div className="login-content">
+                            <h1 data-testid="welcome-title">
+                              {text.welcomeShort}, {invitedUser.name}
+                            </h1>
+                            <p className="contact-text">{text.resetHint}</p>
+                          </div>
                           <RegistrationForm invite={invitedUser.invite} />
-                        </>
+                        </div>
                       ) : (
                         <div>
                           <h1>
