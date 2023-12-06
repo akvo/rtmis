@@ -8,7 +8,7 @@ import { api, config, store, uiText } from "../../lib";
 
 const styles = {
   side: {
-    backgroundImage: `url("/assets/dot pattern.svg")`,
+    backgroundImage: `url("/assets/dot-pattern.svg")`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
@@ -64,22 +64,8 @@ const Login = () => {
   return (
     <div id="login">
       <div className="background" style={styles.side} />
-      <div className="logo">
-        <Link to="/">
-          <img src={config.siteLogo} alt={config.siteLogo} />
-          <h1>
-            {config.siteTitle}
-            <small>{config.siteSubTitle}</small>
-          </h1>
-        </Link>
-      </div>
       <Row className="wrapper" align="middle">
-        <Col span={12} className="left-side">
-          <div className="title">
-            <h1 className="welcome">{text.welcome}</h1>
-          </div>
-        </Col>
-        <Col span={12} className="right-side">
+        <Col span={24} className="right-side">
           {location.pathname.includes("forgot-password") ? (
             <>
               <h1>
