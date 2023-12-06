@@ -6,6 +6,171 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
     class="ant-row  layout"
   >
     <div
+      class="ant-row ant-row-space-between ant-row-middle header"
+    >
+      <div
+        class="ant-col"
+      >
+        <div
+          class="logo"
+        >
+          <a
+            href="/"
+          >
+            <div
+              class="logo-wrapper"
+            >
+              <img
+                alt="/logo.png"
+                class="small-logo"
+                src="/logo.png"
+              />
+              <svg
+                fill="none"
+                height="46"
+                viewBox="0 0 4 51"
+                width="4"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  fill="black"
+                  height="16.6667"
+                  transform="matrix(-1 0 0 1 4 0.5)"
+                  width="4"
+                />
+                <rect
+                  fill="#BE0000"
+                  height="16.6667"
+                  transform="matrix(-1 0 0 1 4 17.1665)"
+                  width="4"
+                />
+                <rect
+                  fill="#006818"
+                  height="16.6667"
+                  transform="matrix(-1 0 0 1 4 33.8335)"
+                  width="4"
+                />
+                <rect
+                  fill="white"
+                  height="2.38095"
+                  transform="matrix(-1 0 0 1 4 16.373)"
+                  width="4"
+                />
+                <rect
+                  fill="white"
+                  height="2.38095"
+                  transform="matrix(-1 0 0 1 4 33.0396)"
+                  width="4"
+                />
+              </svg>
+              <h1>
+                RUSH
+                <small>
+                  Kenya Rural and Urban Sanitation & Hygiene Monitoring Platform
+                </small>
+              </h1>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div
+        class="ant-col"
+      >
+        <div
+          class="navigation"
+        >
+          <div
+            class="ant-space ant-space-horizontal ant-space-align-center"
+          >
+            <div
+              class="ant-space-item"
+              style="margin-right: 8px;"
+            >
+              <a
+                class="dev"
+                href="/reports"
+              >
+                Reports
+              </a>
+            </div>
+            <div
+              class="ant-space-item"
+              style="margin-right: 8px;"
+            >
+              <a
+                class="ant-dropdown-trigger ant-dropdown-link"
+              >
+                Dashboards
+                <svg
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 448 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                  />
+                </svg>
+              </a>
+            </div>
+            <div
+              class="ant-space-item"
+              style="margin-right: 8px;"
+            >
+              <a
+                class="ant-dropdown-trigger ant-dropdown-link"
+              >
+                Reports
+                <svg
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 448 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                  />
+                </svg>
+              </a>
+            </div>
+            <div
+              class="ant-space-item"
+            >
+              <a
+                class="dev"
+                href="/news-events"
+              >
+                News & Events
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="account"
+        >
+          <a
+            href="/login"
+          >
+            <button
+              ant-click-animating-without-extra-node="false"
+              class="ant-btn ant-btn-primary"
+              type="button"
+            >
+              <span>
+                Log in
+              </span>
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
       class="body"
     >
       <div
@@ -13,44 +178,13 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
       >
         <div
           class="background"
-          style="background-image: url(/assets/header-image-background.jpg); background-size: cover; background-position: center; background-repeat: no-repeat;"
+          style="background-image: url(/assets/dot-pattern.svg); background-size: cover; background-position: center; background-repeat: no-repeat;"
         />
-        <div
-          class="logo"
-        >
-          <a
-            href="/"
-          >
-            <img
-              alt="/logo.png"
-              src="/logo.png"
-            />
-            <h1>
-              RUSH
-              <small>
-                Kenya Rural and Urban Sanitation & Hygiene Monitoring Platform
-              </small>
-            </h1>
-          </a>
-        </div>
         <div
           class="ant-row ant-row-middle wrapper"
         >
           <div
-            class="ant-col ant-col-12 left-side"
-          >
-            <div
-              class="title"
-            >
-              <h1
-                class="welcome"
-              >
-                Real Time Management Information System (RTMIS) for Monitoring Sanitation and Hygiene Indicators across Kenya
-              </h1>
-            </div>
-          </div>
-          <div
-            class="ant-col ant-col-12 right-side"
+            class="ant-col ant-col-24 right-side"
           >
             <h1>
               Welcome back
@@ -290,6 +424,170 @@ exports[`Login and Registration test if the registration form exists: Registrati
     class="ant-row  layout"
   >
     <div
+      class="ant-row ant-row-space-between ant-row-middle header"
+    >
+      <div
+        class="ant-col"
+      >
+        <div
+          class="logo"
+        >
+          <a
+            href="/"
+          >
+            <div
+              class="logo-wrapper"
+            >
+              <img
+                alt="/logo.png"
+                class="small-logo"
+                src="/logo.png"
+              />
+              <svg
+                fill="none"
+                height="46"
+                viewBox="0 0 4 51"
+                width="4"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  fill="black"
+                  height="16.6667"
+                  transform="matrix(-1 0 0 1 4 0.5)"
+                  width="4"
+                />
+                <rect
+                  fill="#BE0000"
+                  height="16.6667"
+                  transform="matrix(-1 0 0 1 4 17.1665)"
+                  width="4"
+                />
+                <rect
+                  fill="#006818"
+                  height="16.6667"
+                  transform="matrix(-1 0 0 1 4 33.8335)"
+                  width="4"
+                />
+                <rect
+                  fill="white"
+                  height="2.38095"
+                  transform="matrix(-1 0 0 1 4 16.373)"
+                  width="4"
+                />
+                <rect
+                  fill="white"
+                  height="2.38095"
+                  transform="matrix(-1 0 0 1 4 33.0396)"
+                  width="4"
+                />
+              </svg>
+              <h1>
+                RUSH
+                <small>
+                  Kenya Rural and Urban Sanitation & Hygiene Monitoring Platform
+                </small>
+              </h1>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div
+        class="ant-col"
+      >
+        <div
+          class="navigation"
+        >
+          <div
+            class="ant-space ant-space-horizontal ant-space-align-center"
+          >
+            <div
+              class="ant-space-item"
+              style="margin-right: 8px;"
+            >
+              <a
+                class="dev"
+                href="/reports"
+              >
+                Reports
+              </a>
+            </div>
+            <div
+              class="ant-space-item"
+              style="margin-right: 8px;"
+            >
+              <a
+                class="ant-dropdown-trigger ant-dropdown-link"
+              >
+                Dashboards
+                <svg
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 448 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                  />
+                </svg>
+              </a>
+            </div>
+            <div
+              class="ant-space-item"
+              style="margin-right: 8px;"
+            >
+              <a
+                class="ant-dropdown-trigger ant-dropdown-link"
+              >
+                Reports
+                <svg
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 448 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                  />
+                </svg>
+              </a>
+            </div>
+            <div
+              class="ant-space-item"
+            >
+              <a
+                class="dev"
+                href="/news-events"
+              >
+                News & Events
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="account"
+        >
+          <a
+            href="/login"
+          >
+            <button
+              class="ant-btn ant-btn-primary"
+              type="button"
+            >
+              <span>
+                Log in
+              </span>
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
       class="body"
     >
       <div
@@ -297,44 +595,13 @@ exports[`Login and Registration test if the registration form exists: Registrati
       >
         <div
           class="background"
-          style="background-image: url(/assets/header-image-background.jpg); background-size: cover; background-position: center; background-repeat: no-repeat;"
+          style="background-image: url(/assets/dot-pattern.svg); background-size: cover; background-position: center; background-repeat: no-repeat;"
         />
-        <div
-          class="logo"
-        >
-          <a
-            href="/"
-          >
-            <img
-              alt="/logo.png"
-              src="/logo.png"
-            />
-            <h1>
-              RUSH
-              <small>
-                Kenya Rural and Urban Sanitation & Hygiene Monitoring Platform
-              </small>
-            </h1>
-          </a>
-        </div>
         <div
           class="ant-row ant-row-middle wrapper"
         >
           <div
-            class="ant-col ant-col-12 left-side"
-          >
-            <div
-              class="title"
-            >
-              <h1
-                class="welcome"
-              >
-                Real Time Management Information System (RTMIS) for Monitoring Sanitation and Hygiene Indicators across Kenya
-              </h1>
-            </div>
-          </div>
-          <div
-            class="ant-col ant-col-12 right-side"
+            class="ant-col ant-col-24 right-side"
           >
             <div>
               <h1
@@ -525,6 +792,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
                             id="registration-form_password"
                             placeholder="Password"
                             type="password"
+                            value=""
                           />
                           <span
                             class="ant-input-suffix"
@@ -613,6 +881,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
                             id="registration-form_confirm"
                             placeholder="Confirm Password"
                             type="password"
+                            value=""
                           />
                           <span
                             class="ant-input-suffix"

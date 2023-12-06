@@ -3,8 +3,8 @@ import "./style.scss";
 import { Row, Col, Spin } from "antd";
 import { LoginForm, RegistrationForm, ResetForm } from "./components";
 import { ContactForm } from "../../components";
-import { Link, useParams } from "react-router-dom";
-import { api, config, store, uiText } from "../../lib";
+import { useParams } from "react-router-dom";
+import { api, store, uiText } from "../../lib";
 
 const styles = {
   side: {
