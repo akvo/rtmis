@@ -9,7 +9,7 @@ import { api, store, uiText } from "../../lib";
 const styles = {
   side: {
     backgroundImage: `url("/assets/dot-pattern.svg")`,
-    backgroundSize: "cover",
+    backgroundSize: "100% 100%",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
   },
@@ -17,7 +17,8 @@ const styles = {
 
 const ContactUsText = () => (
   <p className="contact-text">
-    Having trouble accessing the platform? Please{" "}
+    Please enter your account details <br /> Having trouble accessing the
+    platform? Please{" "}
     <a
       href="#"
       onClick={() => {
@@ -113,11 +114,14 @@ const Login = () => {
                       )}
                     </div>
                   ) : (
-                    <>
-                      <h1>{text.loginTitle}</h1>
-                      <ContactUsText />
+                    <div className="login-form-container">
+                      <img src="./logo-black.png" alt="login-logo" />
+                      <div className="login-content">
+                        <h1>{text.loginTitle}</h1>
+                        <ContactUsText />
+                      </div>
                       <LoginForm />
-                    </>
+                    </div>
                   )}
                 </>
               )}

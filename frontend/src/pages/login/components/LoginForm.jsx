@@ -83,10 +83,7 @@ const LoginForm = () => {
           },
         ]}
       >
-        <Input
-          prefix={<UserOutlined className="site-form-item-icon" />}
-          placeholder="Email"
-        />
+        <Input placeholder="Email" />
       </Form.Item>
       <Form.Item
         name="password"
@@ -99,15 +96,11 @@ const LoginForm = () => {
           },
         ]}
       >
-        <Input.Password
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          disabled={loading}
-          placeholder="Password"
-        />
+        <Input.Password disabled={loading} placeholder="Password" />
       </Form.Item>
       <Form.Item>
         <Link className="login-form-forgot" to="/forgot-password">
-          Forgot password
+          Recover Password
         </Link>
       </Form.Item>
       <Form.Item>

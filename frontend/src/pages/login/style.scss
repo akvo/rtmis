@@ -10,8 +10,11 @@
   }
 
   .contact-text {
-    color: #fff;
+    color: #000;
     font-size: 13px;
+    text-align: center;
+    padding-top: 16px;
+    margin: 0px;
   }
 
   #login {
@@ -66,14 +69,19 @@
 
       .right-side {
         h1 {
-          color: $white;
+          color: $blue;
           font-weight: $font-weight-semi-bold;
           margin-bottom: 0px;
+          text-align: center;
 
           small {
             font-size: $font-size-regular;
             font-weight: $font-weight-normal;
           }
+        }
+        img {
+          margin: 0 auto;
+          display: block;
         }
 
         h2 {
@@ -84,17 +92,32 @@
             color: #fffa;
           }
         }
+        .login-form-container {
+          background-color: white;
+          max-width: 450px;
+          margin: 0 auto;
+          box-shadow: 0px 4px 35px 0px rgba(0, 0, 0, 0.1);
+          padding: 24px;
+          .login-content {
+            padding: 40px 0px;
+          }
+          button {
+            margin: 0 auto;
+          }
+        }
 
         .ant-form {
           &.ant-form-vertical {
-            margin-top: 24px;
-
             .ant-form-item {
               .ant-form-item-label {
                 label {
-                  color: $white;
+                  color: $blue-darker;
+                  font-size: 14px;
                   font-weight: $font-weight-semi-bold;
                 }
+              }
+              input {
+                padding: 10px 24px;
               }
 
               .ant-checkbox-wrapper {
@@ -108,9 +131,9 @@
           }
 
           .disclaimer {
-            color: #eb5254b3;
+            color: $blue-dark;
             font-size: 12px;
-            font-style: italic;
+            font-style: normal;
           }
         }
 
