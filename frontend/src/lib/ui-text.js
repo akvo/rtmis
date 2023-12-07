@@ -282,13 +282,7 @@ const uiText = {
     accountDisclaimer:
       "The user is accountable for his/her account and in case there are any changes (Transfers, retirement, any kind of leave, resignation etc) this should be communicated to the County Administrator or National Super Admin who might be able to assign the roles to the new officer.",
     // Log in
-    loginTitle: (
-      <Fragment>
-        Welcome back
-        <br />
-        <small>Please enter your account details</small>
-      </Fragment>
-    ),
+    loginTitle: "Welcome back",
     contactAdmin: "Please contact the administrator",
     formAssignmentError:
       "You don't have any form assignment, please contact the administrator",
@@ -376,10 +370,11 @@ const uiText = {
     mobileLabelName: "Name",
     mobileLabelAdm: "Administrations",
     mobileLabelForms: "Forms",
-    mobileNameRequired: "Please input name",
-    mobileAdmRequired: "Please select one or more villages",
-    mobileFormsRequired: "Please select one or more forms",
-    mobileSelectAdm: "Select village...",
+    mobileNameRequired: "Name is required",
+    mobileLevelRequired: "Level is required",
+    mobileAdmRequired: "Administration is required: one or multiple",
+    mobileFormsRequired: "Form is required: one or multiple",
+    mobileSelectAdm: "Select administrations...",
     mobileSelectForms: "Select forms...",
     mobileConfirmDeletion: "Are you sure?",
     mobilePanelAddDesc:

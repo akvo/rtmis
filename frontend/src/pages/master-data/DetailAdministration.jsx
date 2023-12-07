@@ -59,9 +59,10 @@ const DetailAdministration = ({
       render: (dataValue, record) => {
         return (
           <>
-            {record.type === "value" && <>{dataValue}</>}
-            {["option", "multiple_option"].includes(record.type) &&
-              dataValue && <>{dataValue?.join(" | ")}</>}
+            {["value", "option"].includes(record.type) && <>{dataValue}</>}
+            {record.type === "multiple_option" && (
+              <>{dataValue?.length ? dataValue?.join(" | ") : ""}</>
+            )}
             {record.type === "aggregate" && dataValue && (
               <ul style={{ paddingLeft: "12px" }}>
                 {Object.keys(dataValue).map((dataKey, index) => {
