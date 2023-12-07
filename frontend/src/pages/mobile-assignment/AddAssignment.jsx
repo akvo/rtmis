@@ -43,7 +43,7 @@ const AddAssignment = () => {
   const [level, setLevel] = useState(userAdmLevel);
 
   const admLevels = levels
-    .slice()
+    .slice(1, levels.length)
     .filter((l) => l?.level >= userAdmLevel)
     .sort((a, b) => a?.level - b?.level);
   const admChildren = selectedAdm
