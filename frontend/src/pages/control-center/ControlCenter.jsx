@@ -145,7 +145,9 @@ const ControlCenter = () => {
                     <h2>{panel.title}</h2>
                     <span>{panel.description}</span>
                     <Link to={panel.link} className="explore">
-                      <Button type="primary">{panel.buttonLabel}</Button>
+                      <Button type="primary" shape="round">
+                        {panel.buttonLabel}
+                      </Button>
                     </Link>
                   </div>
                   <div>
