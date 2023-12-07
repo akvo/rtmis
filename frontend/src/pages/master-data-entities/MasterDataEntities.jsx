@@ -36,6 +36,16 @@ const MasterDataEntities = () => {
     return uiText[activeLang];
   }, [activeLang]);
 
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: "/control-center",
+    },
+    {
+      title: text.manageEntities,
+    },
+  ];
+
   const columns = [
     {
       title: "Entity",
@@ -84,7 +94,10 @@ const MasterDataEntities = () => {
       <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={text.manageUserText} />
+          <DescriptionPanel
+            description={text.manageUserText}
+            title="Manage Entities"
+          />
         </Col>
       </Row>
       <ManageDataTab />

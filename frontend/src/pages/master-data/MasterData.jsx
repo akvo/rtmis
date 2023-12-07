@@ -11,16 +11,6 @@ import {
 import { api, store, uiText } from "../../lib";
 import DetailAdministration from "./DetailAdministration";
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Administrative List",
-  },
-];
-
 const MasterData = () => {
   const [loading, setLoading] = useState(true);
   const [attributes, setAttributes] = useState([]);
@@ -36,6 +26,16 @@ const MasterData = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: "/control-center",
+    },
+    {
+      title: text.manageAdministrativeList,
+    },
+  ];
 
   const columns = [
     {
@@ -124,7 +124,10 @@ const MasterData = () => {
       <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={text.manageUserText} />
+          <DescriptionPanel
+            description={text.manageUserText}
+            title="Manage Administrative List"
+          />
         </Col>
       </Row>
       <ManageDataTab />

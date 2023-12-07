@@ -8,16 +8,6 @@ import { SteppedLineTo } from "react-lineto";
 import { take, takeRight } from "lodash";
 import { useNotification } from "../../util/hooks";
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Data Validation Setup",
-  },
-];
-
 const ApproversTree = () => {
   const { administration, forms, selectedForm } = store.useState((s) => s);
   const [nodes, setNodes] = useState([]);
@@ -31,6 +21,16 @@ const ApproversTree = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: "/control-center",
+    },
+    {
+      title: text.manageDataValidationSetup,
+    },
+  ];
 
   useEffect(() => {
     setNodes([
@@ -318,6 +318,7 @@ const ApproversTree = () => {
                 </ul>
               </>
             }
+            title="Manage Data Validation Setup"
           />
         </Col>
       </Row>
