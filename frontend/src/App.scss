@@ -18,6 +18,13 @@
   }
 
   .ant-btn {
+    &:hover {
+      border-color: $blue;
+      color: $blue;
+    }
+    &.ant-btn-link {
+      color: $blue;
+    }
     &.ant-btn-primary {
       background-color: $blue;
       border-color: $blue;

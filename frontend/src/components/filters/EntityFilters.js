@@ -3,6 +3,11 @@ import RemoveFiltersButton from "./RemoveFiltersButton";
 import AdministrationDropdown from "./AdministrationDropdown";
 import { store } from "../../lib";
 import { Link } from "react-router-dom";
+import {
+  PlusOutlined,
+  DownloadOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 
 const { Search } = Input;
 
@@ -38,11 +43,17 @@ const EntityFilters = ({ loading }) => {
         <Col>
           <Space>
             <Link to="/data/upload">
-              <Button type="primary">Bulk Upload</Button>
+              <Button icon={<UploadOutlined />} shape="round">
+                Bulk Upload
+              </Button>
             </Link>
-            <Button type="primary">Export</Button>
+            <Button icon={<DownloadOutlined />} shape="round">
+              Export
+            </Button>
             <Link to="/master-data/entities/add">
-              <Button type="primary">Add New</Button>
+              <Button type="primary" icon={<PlusOutlined />} shape="round">
+                Add New
+              </Button>
             </Link>
           </Space>
         </Col>
