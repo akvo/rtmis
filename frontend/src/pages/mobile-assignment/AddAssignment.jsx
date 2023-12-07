@@ -12,7 +12,7 @@ import {
   Modal,
 } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import { api, store, uiText } from "../../lib";
+import { api, config, store, uiText } from "../../lib";
 import {
   AdministrationDropdown,
   Breadcrumbs,
@@ -21,7 +21,7 @@ import {
 import { useNotification } from "../../util/hooks";
 import "./style.scss";
 
-const IS_SUPER_ADMIN = 1;
+const IS_SUPER_ADMIN = config.roles.find((x) => x.name === "Super Admin").id;
 
 const AddAssignment = () => {
   const { id } = useParams();
@@ -97,6 +97,17 @@ const AddAssignment = () => {
     });
   };
 
+  const onSelectLevel = (val) => {
+    setLevel(val);
+    if (selectedAdm.length > 1) {
+      store.update((s) => {
+        s.administration = [
+          config.fn.administration(authUser.administration.id),
+        ];
+      });
+    }
+  };
+
   const onFinish = async (values) => {
     setSubmitting(true);
     try {
@@ -130,12 +141,38 @@ const AddAssignment = () => {
         administrations: editAssignment.administrations.map((a) => a?.id),
         forms: editAssignment.forms.map((f) => f?.id),
       });
+      const editAdm = editAssignment?.administrations?.map((a) =>
+        window.dbadm.find((dba) => dba.id === a?.id)
+      );
+      const findLvl = levels.find((l) => l?.level === editAdm?.[0]?.level);
+      if (findLvl) {
+        setLevel(findLvl.id);
+        form.setFieldsValue({ level_id: findLvl.id });
+      }
+      const parentAdm =
+        editAdm[0]?.path
+          ?.split(".")
+          ?.filter((p) => p)
+          ?.map((pID) =>
+            window.dbadm.find((dba) => dba?.id === parseInt(pID, 10))
+          ) || [];
+
+      store.update((s) => {
+        s.administration = [...parentAdm, ...editAdm]?.map((a, ax) => {
+          const childLevel = levels.find((l) => l?.level === ax + 1);
+          return {
+            ...a,
+            childLevelName: childLevel?.name || null,
+            children: window.dbadm.filter((sa) => sa?.parent === a?.id),
+          };
+        });
+      });
     }
 
     if (!id && preload) {
       setPreload(false);
     }
-  }, [id, preload, form, editAssignment]);
+  }, [id, preload, form, editAssignment, levels]);
 
   useEffect(() => {
     fetchData();
@@ -170,11 +207,20 @@ const AddAssignment = () => {
           </Row>
           {authUser?.role?.id === IS_SUPER_ADMIN && (
             <div className="form-row">
-              <Form.Item name="level_id" label="Administration Level">
+              <Form.Item
+                name="level_id"
+                label="Administration Level"
+                rules={[
+                  {
+                    required: true,
+                    message: text.mobileLevelRequired,
+                  },
+                ]}
+              >
                 <Select
                   getPopupContainer={(trigger) => trigger.parentNode}
                   placeholder="Select level.."
-                  onChange={setLevel}
+                  onChange={onSelectLevel}
                   fieldNames={{ value: "id", label: "name" }}
                   options={admLevels}
                   allowClear
@@ -182,7 +228,8 @@ const AddAssignment = () => {
               </Form.Item>
             </div>
           )}
-          {admIsRequired && (
+          {((admIsRequired && authUser?.role?.id !== IS_SUPER_ADMIN) ||
+            (level > 0 && authUser?.role?.id === IS_SUPER_ADMIN)) && (
             <div className="form-row">
               <Form.Item
                 name="administrations"
@@ -199,6 +246,7 @@ const AddAssignment = () => {
                       form.setFieldsValue({ administrations: values });
                     }
                   }}
+                  persist={id ? true : false}
                   allowMultiple
                 />
               </Form.Item>
