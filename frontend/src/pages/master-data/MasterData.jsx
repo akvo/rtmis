@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Button, Card, Col, Divider, Row, Table } from "antd";
+import { Button, Col, Divider, Row, Table } from "antd";
 import { CloseSquareOutlined, PlusSquareOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import {
@@ -128,46 +128,51 @@ const MasterData = () => {
         </Col>
       </Row>
       <ManageDataTab />
-      <AdministrationFilters loading={loading} onSearchChange={setSearch} />
-      <Divider />
-      <Card
-        style={{ padding: 0, minHeight: "40vh" }}
-        bodyStyle={{ padding: 0 }}
-      >
-        <Table
-          columns={columns}
-          rowClassName={() => "editable-row"}
-          dataSource={dataset}
-          loading={loading}
-          onChange={handleChange}
-          pagination={{
-            showSizeChanger: false,
-            current: currentPage,
-            total: totalCount,
-            pageSize: 10,
-            showTotal: (total, range) =>
-              `Results: ${range[0]} - ${range[1]} of ${total} items`,
-          }}
-          rowKey="id"
-          expandable={{
-            expandedRowRender: (record) => {
-              return <DetailAdministration {...{ record, attributes }} />;
-            },
-            expandIcon: ({ expanded, onExpand, record }) =>
-              expanded ? (
-                <CloseSquareOutlined
-                  onClick={(e) => onExpand(record, e)}
-                  style={{ color: "#e94b4c" }}
-                />
-              ) : (
-                <PlusSquareOutlined
-                  onClick={(e) => onExpand(record, e)}
-                  style={{ color: "#7d7d7d" }}
-                />
-              ),
-          }}
-        />
-      </Card>
+
+      <div className="table-section">
+        <div className="table-wrapper">
+          <AdministrationFilters loading={loading} onSearchChange={setSearch} />
+          <Divider />
+          <div
+            style={{ padding: 0, minHeight: "40vh" }}
+            bodyStyle={{ padding: 0 }}
+          >
+            <Table
+              columns={columns}
+              rowClassName={() => "editable-row"}
+              dataSource={dataset}
+              loading={loading}
+              onChange={handleChange}
+              pagination={{
+                showSizeChanger: false,
+                current: currentPage,
+                total: totalCount,
+                pageSize: 10,
+                showTotal: (total, range) =>
+                  `Results: ${range[0]} - ${range[1]} of ${total} items`,
+              }}
+              rowKey="id"
+              expandable={{
+                expandedRowRender: (record) => {
+                  return <DetailAdministration {...{ record, attributes }} />;
+                },
+                expandIcon: ({ expanded, onExpand, record }) =>
+                  expanded ? (
+                    <CloseSquareOutlined
+                      onClick={(e) => onExpand(record, e)}
+                      style={{ color: "#e94b4c" }}
+                    />
+                  ) : (
+                    <PlusSquareOutlined
+                      onClick={(e) => onExpand(record, e)}
+                      style={{ color: "#7d7d7d" }}
+                    />
+                  ),
+              }}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
