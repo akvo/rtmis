@@ -138,12 +138,13 @@ const AddAssignment = () => {
         setLevel(findLvl.id);
         form.setFieldsValue({ level_id: findLvl.id });
       }
-      const parentAdm = editAdm?.[0]?.path
-        ?.split(".")
-        ?.filter((p) => p)
-        .map((pID) =>
-          window.dbadm.find((dba) => dba?.id === parseInt(pID, 10))
-        );
+      const parentAdm =
+        editAdm[0]?.path
+          ?.split(".")
+          ?.filter((p) => p)
+          ?.map((pID) =>
+            window.dbadm.find((dba) => dba?.id === parseInt(pID, 10))
+          ) || [];
 
       store.update((s) => {
         s.administration = [...parentAdm, ...editAdm]?.map((a, ax) => {
