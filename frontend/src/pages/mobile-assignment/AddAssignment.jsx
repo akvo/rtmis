@@ -12,7 +12,7 @@ import {
   Modal,
 } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import { api, store, uiText } from "../../lib";
+import { api, config, store, uiText } from "../../lib";
 import {
   AdministrationDropdown,
   Breadcrumbs,
@@ -95,6 +95,17 @@ const AddAssignment = () => {
         deleteAssginment();
       },
     });
+  };
+
+  const onSelectLevel = (val) => {
+    setLevel(val);
+    if (selectedAdm.length > 1) {
+      store.update((s) => {
+        s.administration = [
+          config.fn.administration(authUser.administration.id),
+        ];
+      });
+    }
   };
 
   const onFinish = async (values) => {
@@ -200,7 +211,7 @@ const AddAssignment = () => {
                 <Select
                   getPopupContainer={(trigger) => trigger.parentNode}
                   placeholder="Select level.."
-                  onChange={setLevel}
+                  onChange={onSelectLevel}
                   fieldNames={{ value: "id", label: "name" }}
                   options={admLevels}
                   allowClear
