@@ -3,8 +3,9 @@ import string
 from typing import Any, Dict, cast
 from rest_framework import serializers
 from api.v1.v1_profile.models import (
-        Administration, AdministrationAttribute, AdministrationAttributeValue,
-        Levels)
+    Administration, AdministrationAttribute, AdministrationAttributeValue,
+    Entity, EntityData, Levels
+)
 
 
 class RelatedAdministrationField(serializers.PrimaryKeyRelatedField):
@@ -201,3 +202,30 @@ class AdministrationSerializer(serializers.ModelSerializer):
         except Levels.DoesNotExist as e:
             raise ValueError() from e
         validated_data.update({'level': sublevel})
+
+
+class EntitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Entity
+        fields = ['id', 'name']
+
+
+class RelatedEntityField(serializers.PrimaryKeyRelatedField):
+    def use_pk_only_optimization(self):
+        return False
+
+    def to_representation(self, value):
+        return {
+            "id": value.pk,
+            "name": value.name,
+        }
+
+
+class EntityDataSerializer(serializers.ModelSerializer):
+    administration = RelatedAdministrationField(
+            queryset=Administration.objects.all())
+    entity = RelatedEntityField(queryset=Entity.objects.all())
+
+    class Meta:
+        model = EntityData
+        fields = ['id', 'name', 'code', 'administration', 'entity']

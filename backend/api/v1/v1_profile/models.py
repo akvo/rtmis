@@ -113,3 +113,21 @@ class AdministrationAttributeValue(models.Model):
 
     class Meta:
         db_table = 'administration_attribute_value'
+
+
+class Entity(models.Model):
+    name = models.TextField()
+
+    class Meta:
+        db_table = 'entities'
+
+
+class EntityData(models.Model):
+    name = models.TextField()
+    code = models.CharField(max_length=255, null=True, default=None)
+    entity = models.ForeignKey(to=Entity, on_delete=models.PROTECT)
+    administration = models.ForeignKey(
+            to=Administration, on_delete=models.PROTECT)
+
+    class Meta:
+        db_table = 'entity_data'
