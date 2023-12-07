@@ -45,7 +45,6 @@ const AddAdministration = () => {
   const levelIDs =
     admLevels?.slice(1, admLevels.length - 1)?.map((l) => l.id) || [];
   const showAdm = levelIDs.includes(level);
-  const showLvl = (id && levelIDs.includes(level)) || !id;
 
   const deleteAdministration = async (row) => {
     try {
@@ -160,6 +159,12 @@ const AddAdministration = () => {
     if (id && !initialValues?.id) {
       return;
     }
+    if (!id) {
+      store.update((s) => {
+        s.masterData.administration = {};
+      });
+      form.resetFields();
+    }
     try {
       const { data: _attributes } = await api.get("/administration-attributes");
       const attrFields = _attributes.map((attr) => {
@@ -188,7 +193,7 @@ const AddAdministration = () => {
       const findParent = window.dbadm.find(
         (adm) => adm?.id === initialValues?.parent?.id
       );
-      if (findParent) {
+      if (findParent && id) {
         const findLevel = admLevels.find((l) => l?.level === findParent.level);
         setLevel(findLevel?.id);
         const ancestors =
@@ -210,9 +215,10 @@ const AddAdministration = () => {
             };
           });
         });
+        const level_id = levelIDs.includes(findLevel?.id) ? findLevel.id : null;
         form.setFieldsValue({
           ...initialValues,
-          level_id: findLevel?.id,
+          level_id,
           attributes: attrFields,
         });
       } else {
@@ -257,53 +263,50 @@ const AddAdministration = () => {
       <Divider />
       <Form name="adm-form" form={form} layout="vertical" onFinish={onFinish}>
         <Card bodyStyle={{ padding: 0 }}>
-          {showLvl && (
-            <Row gutter={16} align="middle">
-              <Col span={6}>
-                <div className="form-row">
-                  <Form.Item name="level_id" label="Parent Level">
-                    <Select
-                      getPopupContainer={(trigger) => trigger.parentNode}
-                      placeholder="Select level.."
-                      value={level}
-                      onChange={(val) => {
-                        setLevel(val);
-                        form.setFieldsValue({ parent: null });
-                      }}
-                      allowClear
-                    >
-                      {admLevels
-                        ?.slice(1, admLevels.length - 1)
-                        ?.filter((l) => l?.id >= levelAccess[0])
-                        ?.sort((a, b) => a?.level - b?.level)
-                        ?.map((adm) => (
-                          <Option key={adm.id} value={adm.id}>
-                            {adm.name}
-                          </Option>
-                        ))}
-                    </Select>
-                  </Form.Item>
-                </div>
-              </Col>
-              <Col span={18}>
-                {showAdm && (
-                  <Form.Item name="parent" label="Administration Parent">
-                    <AdministrationDropdown
-                      size="large"
-                      width="100%"
-                      maxLevel={level}
-                      persist={ADM_PERSIST}
-                    />
-                  </Form.Item>
-                )}
-              </Col>
-            </Row>
-          )}
-          <Row className="form-row">
-            <Col span={24}>
+          <Row gutter={16}>
+            <Col span={6}>
               <Form.Item name="code" label="Administration Code">
                 <Input />
               </Form.Item>
+            </Col>
+            <Col span={6}>
+              <div className="form-row">
+                <Form.Item name="level_id" label="Parent Level">
+                  <Select
+                    getPopupContainer={(trigger) => trigger.parentNode}
+                    placeholder="Select level.."
+                    value={level}
+                    onChange={(val) => {
+                      setLevel(val);
+                      form.setFieldsValue({ parent: null });
+                    }}
+                    allowClear
+                  >
+                    {admLevels
+                      ?.slice(1, admLevels.length - 1)
+                      ?.filter((l) => l?.id >= levelAccess[0])
+                      ?.sort((a, b) => a?.level - b?.level)
+                      ?.map((adm) => (
+                        <Option key={adm.id} value={adm.id}>
+                          {adm.name}
+                        </Option>
+                      ))}
+                  </Select>
+                </Form.Item>
+              </div>
+            </Col>
+            <Col span={12}>
+              {showAdm && (
+                <Form.Item name="parent" label="Administration Parent">
+                  <AdministrationDropdown
+                    size="large"
+                    width="100%"
+                    maxLevel={level}
+                    persist={ADM_PERSIST}
+                    currentId={id}
+                  />
+                </Form.Item>
+              )}
             </Col>
           </Row>
           <Row className="form-row">
@@ -314,6 +317,7 @@ const AddAdministration = () => {
                 rules={[
                   {
                     required: true,
+                    message: "Administration name is required",
                   },
                 ]}
               >
