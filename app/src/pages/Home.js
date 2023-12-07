@@ -33,20 +33,23 @@ const Home = ({ navigation, route }) => {
 
   useEffect(() => {
     if (params || currentUserId || activeLang !== appLang || isManualSynced) {
+      setData([]);
       setAppLang(activeLang);
       UIState.update((s) => {
         s.isManualSynced = false;
       });
       crudForms.selectLatestFormVersion({ user: currentUserId }).then((results) => {
-        const forms = results.map((r) => ({
-          ...r,
-          subtitles: [
-            `${trans.versionLabel}${r.version}`,
-            `${trans.submittedLabel}${r.submitted}`,
-            `${trans.draftLabel}${r.draft}`,
-            `${trans.syncLabel}${r.synced}`,
-          ],
-        }));
+        const forms = results
+          .map((r) => ({
+            ...r,
+            subtitles: [
+              `${trans.versionLabel}${r.version}`,
+              `${trans.submittedLabel}${r.submitted}`,
+              `${trans.draftLabel}${r.draft}`,
+              `${trans.syncLabel}${r.synced}`,
+            ],
+          }))
+          .filter((r) => r?.userId === currentUserId);
         setData(forms);
       });
     }
