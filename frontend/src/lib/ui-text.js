@@ -371,9 +371,9 @@ const uiText = {
     mobileLabelAdm: "Administrations",
     mobileLabelForms: "Forms",
     mobileNameRequired: "Please input name",
-    mobileAdmRequired: "Please select one or more villages",
+    mobileAdmRequired: "Please select one or more administrations",
     mobileFormsRequired: "Please select one or more forms",
-    mobileSelectAdm: "Select village...",
+    mobileSelectAdm: "Select administrations...",
     mobileSelectForms: "Select forms...",
     mobileConfirmDeletion: "Are you sure?",
     mobilePanelAddDesc:
