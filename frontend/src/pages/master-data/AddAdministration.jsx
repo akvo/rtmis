@@ -18,7 +18,7 @@ import {
 } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
-import { api, store } from "../../lib";
+import { api, config, store } from "../../lib";
 import "./style.scss";
 
 const { Option } = Select;
@@ -29,6 +29,10 @@ const AddAdministration = () => {
   const [attributes, setAttributes] = useState(true);
   const [level, setLevel] = useState(null);
   const [preload, setPreload] = useState(true);
+  const authUser = store.useState((s) => s.user);
+  const { administration_level: levelAccess } = config.roles.find(
+    (r) => r?.id === authUser?.role?.id
+  );
   const admLevels = store.useState((s) => s.levels);
   const initialValues = store.useState((s) => s.masterData.administration);
   const selectedAdmns = store.useState((s) => s.administration);
@@ -38,10 +42,10 @@ const AddAdministration = () => {
   const { notify } = useNotification();
   const { id } = useParams();
   const ADM_PERSIST = id ? true : false;
-  const allLevels =
+  const levelIDs =
     admLevels?.slice(1, admLevels.length - 1)?.map((l) => l.id) || [];
-  const showAdm = allLevels.includes(level);
-  const showLvl = (id && allLevels.includes(level)) || !id;
+  const showAdm = levelIDs.includes(level);
+  const showLvl = (id && levelIDs.includes(level)) || !id;
 
   const deleteAdministration = async (row) => {
     try {
@@ -270,6 +274,7 @@ const AddAdministration = () => {
                     >
                       {admLevels
                         ?.slice(1, admLevels.length - 1)
+                        ?.filter((l) => l?.id >= levelAccess[0])
                         ?.sort((a, b) => a?.level - b?.level)
                         ?.map((adm) => (
                           <Option key={adm.id} value={adm.id}>
