@@ -215,7 +215,12 @@ const AddAdministration = () => {
             };
           });
         });
-        const level_id = levelIDs.includes(findLevel?.id) ? findLevel.id : null;
+        const level_id = admLevels
+          ?.slice(1, admLevels.length - 1)
+          ?.map((l) => l.id)
+          ?.includes(findLevel?.id)
+          ? findLevel.id
+          : null;
         form.setFieldsValue({
           ...initialValues,
           level_id,
@@ -228,7 +233,7 @@ const AddAdministration = () => {
     } catch {
       setLoading(false);
     }
-  }, [form, id, initialValues, admLevels, levelIDs]);
+  }, [form, id, initialValues, admLevels]);
 
   useEffect(() => {
     fetchAttributes();
