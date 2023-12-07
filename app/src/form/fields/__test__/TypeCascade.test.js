@@ -99,7 +99,7 @@ describe('TypeCascade', () => {
       values[fieldName] = value;
     });
 
-    const questionSource = { file: 'file.sqlite', parent_id: 107 };
+    const questionSource = { file: 'file.sqlite', parent_id: [107] };
     const { getByTestId, getByText, queryByText } = render(
       <TypeCascade
         onChange={mockedOnChange}
@@ -446,7 +446,7 @@ describe('TypeCascade', () => {
       values[fieldName] = value;
     });
 
-    const questionSource = { file: 'file.sqlite', parent_id: 114 };
+    const questionSource = { file: 'file.sqlite', parent_id: [114] };
     const { getByTestId, getByText } = render(
       <TypeCascade
         onChange={mockedOnChange}
@@ -480,7 +480,7 @@ describe('TypeCascade', () => {
       values[fieldName] = value;
     });
 
-    const questionSource = { file: 'file.sqlite', parent_id: 107 };
+    const questionSource = { file: 'file.sqlite', parent_id: [107] };
     const { getByTestId, getByText } = render(
       <TypeCascade
         onChange={mockedOnChange}
@@ -523,7 +523,7 @@ describe('TypeCascade', () => {
       values[fieldName] = value;
     });
 
-    const questionSource = { file: 'file.sqlite', parent_id: 107 };
+    const questionSource = { file: 'file.sqlite', parent_id: [107] };
     const { getByTestId, getByText, rerender } = render(
       <TypeCascade
         onChange={mockedOnChange}
@@ -562,7 +562,7 @@ describe('TypeCascade', () => {
       values[fieldName] = value;
     });
 
-    const questionSource = { file: 'file.sqlite', parent_id: 107 };
+    const questionSource = { file: 'file.sqlite', parent_id: [107] };
     const { getByTestId, getByText, rerender } = render(
       <TypeCascade
         onChange={mockedOnChange}
@@ -608,7 +608,7 @@ describe('TypeCascade', () => {
       });
     });
 
-    const questionSource = { file: 'file.sqlite', parent_id: 111 };
+    const questionSource = { file: 'file.sqlite', parent_id: [111] };
     const { getByTestId, getByText, debug } = render(
       <TypeCascade
         onChange={mockedOnChange}
@@ -659,7 +659,7 @@ describe('TypeCascade', () => {
 
     cascades.loadDataSource.mockReturnValue({ rows: { length: 0, _array: [] } });
 
-    const questionSource = { file: 'file.sqlite', parent_id: 0 };
+    const questionSource = { file: 'file.sqlite', parent_id: [] };
     const { getByTestId, getByText, debug } = render(
       <TypeCascade
         onChange={mockedOnChange}
