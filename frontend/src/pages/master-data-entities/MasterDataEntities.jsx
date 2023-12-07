@@ -12,16 +12,6 @@ import { CloseSquareOutlined, PlusSquareOutlined } from "@ant-design/icons";
 import { store, uiText } from "../../lib";
 import fakeDataApi from "../../placeholders/master-data-entities.json";
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Entities",
-  },
-];
-
 const MasterDataEntities = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
