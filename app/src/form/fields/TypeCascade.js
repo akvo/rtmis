@@ -71,15 +71,40 @@ const TypeCascade = ({
   };
 
   const initialDropdowns = useMemo(() => {
-    const parentID = source?.parent_id || 0;
+    const parentIDs = source?.parent_id?.length ? source.parent_id : [0];
     let filterDs = dataSource.filter(
       (ds) =>
-        ds?.parent === parentID || values[id]?.includes(ds?.id) || values[id]?.includes(ds?.parent),
+        parentIDs.includes(ds?.parent) ||
+        values[id]?.includes(ds?.id) ||
+        values[id]?.includes(ds?.parent),
     );
     if (filterDs.length === 0) {
-      filterDs = dataSource.filter((ds) => ds?.id === parentID);
+      filterDs = dataSource.filter((ds) => parentIDs.includes(ds?.id));
     }
     const groupedDs = groupBy(filterDs, 'parent');
+    if (parentIDs.length > 1 && Object.keys(groupedDs).length > 1) {
+      const parentOptions = Object.keys(groupedDs).map((keyID) =>
+        dataSource.find((d) => d?.id === parseInt(keyID, 10)),
+      );
+      return values[id]
+        ? values[id]?.map((val, vx) => {
+            const _options = dataSource?.filter((d) =>
+              vx === 0
+                ? parentIDs.includes(d?.id)
+                : d?.parent === parseInt(values[id]?.[vx - 1], 10),
+            );
+            return {
+              options: _options,
+              value: parseInt(val, 10),
+            };
+          })
+        : [
+            {
+              options: parentOptions,
+              value: values[id] ? values[id][ox] : null,
+            },
+          ];
+    }
     return Object.values(groupedDs).map((options, ox) => {
       return {
         options,
