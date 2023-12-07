@@ -165,6 +165,8 @@ Object {
     "loginTitle": "Welcome back",
     "lorem": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, assumenda quos? Quia deleniti sapiente aut! Ab consequatur cumque fugit ea. Dolore ex rerum quisquam inventore eum dicta doloribus harum cum.",
     "lorem2": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    "manageAdministrativeList": "Manage Administrative List",
+    "manageAttributes": "Manage Attributes",
     "manageDataButton": "Manage Data",
     "manageDataText": <React.Fragment>
       This is where you :
@@ -181,6 +183,8 @@ Object {
       </ul>
     </React.Fragment>,
     "manageDataTitle": "Manage Data",
+    "manageDataValidationSetup": "Manage Data Validation Setup",
+    "manageEntities": "Manage Entities",
     "manageOrganisations": "Manage Organizations",
     "manageQnApproval": "Manage Questionnaire Approval",
     "manageUserButton": "Manage Users",

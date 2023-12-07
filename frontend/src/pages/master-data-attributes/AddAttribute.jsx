@@ -12,7 +12,7 @@ import {
   Space,
   Tabs,
 } from "antd";
-import { Breadcrumbs } from "../../components";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
 import { MinusCircleOutlined } from "@ant-design/icons";
@@ -133,7 +133,7 @@ const AddAttribute = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          {/* <DescriptionPanel description={descriptionData} /> */}
+          <DescriptionPanel title={id ? "Edit Attribute" : "Add Attribute"} />
         </Col>
       </Row>
       <Divider />

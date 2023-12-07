@@ -120,6 +120,7 @@ const uiText = {
     // Charts
     showEmpty: "Show empty values",
     // User Management
+    manageDataValidationSetup: "Manage Data Validation Setup",
     manageUsers: "Manage Users",
     addUser: "Add User",
     editUser: "Edit User",
@@ -187,6 +188,9 @@ const uiText = {
         </ul>
       </Fragment>
     ),
+    manageAdministrativeList: "Manage Administrative List",
+    manageAttributes: "Manage Attributes",
+    manageEntities: "Manage Entities",
     ccDescriptionPanel:
       "Instant access to all the administration pages and overview panels for data approvals.",
     // Settings
