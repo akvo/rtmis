@@ -124,7 +124,10 @@ const MasterData = () => {
       <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={text.manageUserText} />
+          <DescriptionPanel
+            description={text.manageUserText}
+            title="Manage Administrative List"
+          />
         </Col>
       </Row>
       <ManageDataTab />

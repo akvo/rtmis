@@ -4,6 +4,7 @@ import {
   AdministrationDropdown,
   Breadcrumbs,
   InputAttributes,
+  DescriptionPanel,
 } from "../../components";
 import { useNavigate } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
@@ -123,7 +124,7 @@ const AddEntity = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          {/* <DescriptionPanel description={descriptionData} /> */}
+          <DescriptionPanel title={"Add Entity"} />
         </Col>
       </Row>
       <Divider />
