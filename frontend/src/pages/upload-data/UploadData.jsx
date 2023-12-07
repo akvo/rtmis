@@ -196,7 +196,10 @@ const UploadData = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={text.dataUploadText} />
+          <DescriptionPanel
+            description={text.dataUploadText}
+            title="Data Upload"
+          />
         </Col>
       </Row>
       <Divider />

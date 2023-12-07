@@ -184,7 +184,10 @@ const Organisations = () => {
       <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={descriptionData} />
+          <DescriptionPanel
+            description={descriptionData}
+            title="Manage Organizations"
+          />
         </Col>
       </Row>
       <ManageDataTab

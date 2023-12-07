@@ -113,7 +113,10 @@ const MobileAssignment = () => {
       <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={descriptionData} />
+          <DescriptionPanel
+            description={descriptionData}
+            title="Mobile Data Collectors"
+          />
         </Col>
         <Col>
           <Link to="/mobile-assignment/form">

@@ -200,7 +200,10 @@ const ExportData = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={descriptionData} />
+          <DescriptionPanel
+            description={descriptionData}
+            title="Data Download"
+          />
         </Col>
       </Row>
       <DataTab />

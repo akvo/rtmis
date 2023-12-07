@@ -41,7 +41,10 @@ const Settings = () => {
           ]}
         />
       </Row>
-      <DescriptionPanel description={text.settingsDescriptionPanel} />
+      <DescriptionPanel
+        description={text.settingsDescriptionPanel}
+        title="Settings"
+      />
       <Divider />
       <Row gutter={[16, 16]}>
         {selectedPanels.map((panel, index) => (

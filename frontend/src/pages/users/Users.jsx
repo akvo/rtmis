@@ -219,7 +219,10 @@ const Users = () => {
       <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={text.manageUserText} />
+          <DescriptionPanel
+            description={text.manageUserText}
+            title="Manage Users"
+          />
         </Col>
       </Row>
       <UserTab

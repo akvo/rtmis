@@ -50,7 +50,7 @@ const Profile = () => {
         <Breadcrumbs pagePath={pagePath} />
         <ProfileTour />
       </Row>
-      <DescriptionPanel description={descriptionData} />
+      <DescriptionPanel description={descriptionData} title="Profile" />
       <Divider />
       <Card style={{ padding: 0, marginBottom: 12 }}>
         <h1>My Profile</h1>
