@@ -274,7 +274,7 @@ const AddAdministration = () => {
             </Col>
             <Col span={6}>
               <div className="form-row">
-                <Form.Item name="level_id" label="Parent Level">
+                <Form.Item name="level_id" label="Level">
                   <Select
                     getPopupContainer={(trigger) => trigger.parentNode}
                     placeholder="Select level.."
