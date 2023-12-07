@@ -12,16 +12,6 @@ import { CloseSquareOutlined, PlusSquareOutlined } from "@ant-design/icons";
 import { store, uiText } from "../../lib";
 import fakeDataApi from "../../placeholders/master-data-entities.json";
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Entities",
-  },
-];
-
 const MasterDataEntities = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
@@ -35,6 +25,16 @@ const MasterDataEntities = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: "/control-center",
+    },
+    {
+      title: text.manageEntities,
+    },
+  ];
 
   const columns = [
     {
@@ -84,7 +84,10 @@ const MasterDataEntities = () => {
       <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={text.manageUserText} />
+          <DescriptionPanel
+            description={text.manageUserText}
+            title="Manage Entities"
+          />
         </Col>
       </Row>
       <ManageDataTab />

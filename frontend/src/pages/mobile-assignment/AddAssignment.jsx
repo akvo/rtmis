@@ -183,7 +183,7 @@ const AddAssignment = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={descriptionData} />
+          <DescriptionPanel description={descriptionData} title={pageTitle} />
         </Col>
       </Row>
       <Divider />
