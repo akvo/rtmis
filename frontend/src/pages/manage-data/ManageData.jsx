@@ -168,7 +168,10 @@ const ManageData = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={text.manageDataText} />
+          <DescriptionPanel
+            description={text.manageDataText}
+            title="Manage Data"
+          />
         </Col>
       </Row>
       <DataTab />
