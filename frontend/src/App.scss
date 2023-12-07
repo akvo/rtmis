@@ -137,6 +137,22 @@
     }
   }
 
+  .custom-select {
+    .ant-select-selector {
+      border-color: $neutral5;
+      .ant-select-selection-placeholder {
+        color: $title5;
+        padding-left: 18px;
+        padding-right: 0px;
+      }
+    }
+    .ant-select-arrow {
+      left: 11px;
+      svg {
+        fill: $title5;
+      }
+    }
+  }
   .ant-pagination {
     li,
     button {

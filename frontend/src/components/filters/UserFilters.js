@@ -64,6 +64,7 @@ const UserFilters = ({
                 s.filters.organisation = e;
               });
             }}
+            className="custom-select"
             allowClear
           >
             {organisations?.map((o, oi) => (
@@ -83,6 +84,7 @@ const UserFilters = ({
               });
             }}
             allowClear
+            className="custom-select"
           >
             {trainedStatus.map((t, ti) => (
               <Option key={ti} value={t.value}>
@@ -101,6 +103,7 @@ const UserFilters = ({
               });
             }}
             allowClear
+            className="custom-select"
           >
             {allowedRole.map((r, ri) => (
               <Option key={ri} value={r.id}>
