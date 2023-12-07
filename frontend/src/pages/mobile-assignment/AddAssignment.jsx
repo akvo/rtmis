@@ -207,7 +207,8 @@ const AddAssignment = () => {
               </Form.Item>
             </div>
           )}
-          {admIsRequired && (
+          {((admIsRequired && authUser?.role?.id !== IS_SUPER_ADMIN) ||
+            (level > 0 && authUser?.role?.id === IS_SUPER_ADMIN)) && (
             <div className="form-row">
               <Form.Item
                 name="administrations"
