@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Card, Button, Divider, Table, Modal, Tag } from "antd";
+import { Row, Col, Button, Divider, Table, Modal, Tag } from "antd";
 import { Link } from "react-router-dom";
-import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
+import {
+  PlusSquareOutlined,
+  CloseSquareOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import { api, store, uiText } from "../../lib";
 import UserDetail from "./UserDetail";
 import {
@@ -222,13 +226,7 @@ const Users = () => {
           <DescriptionPanel description={text.manageUserText} />
         </Col>
       </Row>
-      <UserTab
-        tabBarExtraContent={
-          <Link to="/user/add">
-            <Button type="primary">Add new user</Button>
-          </Link>
-        }
-      />
+      <UserTab />
       <div className="table-section">
         <div className="table-wrapper">
           <UserFilters
@@ -238,6 +236,13 @@ const Users = () => {
             pending={pending}
             setPending={setPending}
             loading={loading}
+            button={
+              <Link to="/user/add">
+                <Button type="primary" shape="round" icon={<PlusOutlined />}>
+                  Add new user
+                </Button>
+              </Link>
+            }
           />
           <Divider />
           <div
