@@ -90,10 +90,6 @@
       }
     }
 
-    tr:nth-child(2n) td {
-      background-color: #faf9fb;
-    }
-
     .ant-table-expanded-row {
       .ant-table-cell {
         .table-child {
@@ -144,26 +140,28 @@
   .ant-pagination {
     li,
     button {
-      border: none;
+      border-radius: 2px;
+      border-color: $neutral5;
 
       a {
         color: #898eab;
       }
 
       a:hover {
-        color: #595e7b;
+        background-color: $blue;
+        color: #fff;
       }
     }
 
     .ant-pagination-item-active {
-      border: none;
-      background-color: $blue;
+      border-color: $blue;
 
       a {
-        color: #fff;
+        color: $blue;
       }
 
       a:hover {
+        background-color: $blue;
         color: #fff;
       }
     }
@@ -176,11 +174,17 @@
       }
     }
   }
-}
 
-.ant-pagination-total-text {
-  position: absolute;
-  left: 15px;
+  // Navin new style update
+
+  .table-section {
+    background-color: $bg-page;
+    padding: 24px;
+    .table-wrapper {
+      background-color: white;
+      padding: 24px;
+    }
+  }
 }
 
 // .ant-checkbox-wrapper-checked span:nth-child(2) {
