@@ -6,7 +6,7 @@ function DescriptionPanel({ description, title }) {
   }
   return (
     <div className="description-panel">
-      <h2>{title}</h2>
+      {title && <h2>{title}</h2>}
       <div className="description-paragraph">{description}</div>
     </div>
   );
