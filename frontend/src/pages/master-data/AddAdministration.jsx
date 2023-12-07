@@ -167,7 +167,6 @@ const AddAdministration = () => {
       form.resetFields();
     }
     try {
-      console.log("fired!");
       const { data: _attributes } = await api.get("/administration-attributes");
       const attrFields = _attributes.map((attr) => {
         const findValue = initialValues?.attributes?.find(
