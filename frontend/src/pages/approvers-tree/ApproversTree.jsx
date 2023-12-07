@@ -318,6 +318,7 @@ const ApproversTree = () => {
                 </ul>
               </>
             }
+            title="Manage Data Validation Setup"
           />
         </Col>
       </Row>

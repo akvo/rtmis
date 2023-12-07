@@ -188,11 +188,17 @@
 //   border-radius: 5px;
 // }
 
-.description-paragraph {
-  margin-top: 4px;
-  padding: 4px;
-  background: transparent;
-  color: $color-default;
+.description-panel {
+  h2 {
+    padding-top: 10px;
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+  .description-paragraph {
+    margin-top: 4px;
+    background: transparent;
+    color: $color-default;
+  }
 }
 
 .text-muted {
