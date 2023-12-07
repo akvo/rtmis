@@ -207,7 +207,16 @@ const AddAssignment = () => {
           </Row>
           {authUser?.role?.id === IS_SUPER_ADMIN && (
             <div className="form-row">
-              <Form.Item name="level_id" label="Administration Level">
+              <Form.Item
+                name="level_id"
+                label="Administration Level"
+                rules={[
+                  {
+                    required: true,
+                    message: text.mobileLevelRequired,
+                  },
+                ]}
+              >
                 <Select
                   getPopupContainer={(trigger) => trigger.parentNode}
                   placeholder="Select level.."
