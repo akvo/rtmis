@@ -111,13 +111,6 @@ const Header = ({ className = "header", ...props }) => {
     </Menu>
   );
 
-  if (
-    location.pathname.includes("/login") ||
-    location.pathname.includes("/forgot-password")
-  ) {
-    return "";
-  }
-
   return (
     <Row
       className={className}
