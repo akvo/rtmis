@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Button,
   Card,
@@ -42,8 +42,9 @@ const AddAdministration = () => {
   const { notify } = useNotification();
   const { id } = useParams();
   const ADM_PERSIST = id ? true : false;
-  const levelIDs =
-    admLevels?.slice(1, admLevels.length - 1)?.map((l) => l.id) || [];
+  const levelIDs = useMemo(() => {
+    return admLevels?.slice(1, admLevels.length - 1)?.map((l) => l.id) || [];
+  }, [admLevels]);
   const showAdm = levelIDs.includes(level);
 
   const deleteAdministration = async (row) => {
@@ -166,6 +167,7 @@ const AddAdministration = () => {
       form.resetFields();
     }
     try {
+      console.log("fired!");
       const { data: _attributes } = await api.get("/administration-attributes");
       const attrFields = _attributes.map((attr) => {
         const findValue = initialValues?.attributes?.find(
@@ -215,10 +217,7 @@ const AddAdministration = () => {
             };
           });
         });
-        const level_id = admLevels
-          ?.slice(1, admLevels.length - 1)
-          ?.map((l) => l.id)
-          ?.includes(findLevel?.id)
+        const level_id = levelIDs?.includes(findLevel?.id)
           ? findLevel.id
           : null;
         form.setFieldsValue({
@@ -233,7 +232,7 @@ const AddAdministration = () => {
     } catch {
       setLoading(false);
     }
-  }, [form, id, initialValues, admLevels]);
+  }, [form, id, initialValues, admLevels, levelIDs]);
 
   useEffect(() => {
     fetchAttributes();
