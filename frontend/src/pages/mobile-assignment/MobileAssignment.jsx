@@ -8,16 +8,6 @@ import DetailAssignment from "./DetailAssignment";
 
 const { Search } = Input;
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Mobile Data Collectors",
-  },
-];
-
 const MobileAssignment = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState(null);
