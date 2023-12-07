@@ -79,21 +79,39 @@ const AddAdministration = () => {
   const onFinish = async (values) => {
     setSubmitting(true);
     try {
-      const payload = {
-        code: values.code,
-        name: values.name,
-        parent: values.parent,
-        attributes: values.attributes.map((attr) => {
+      const _attributes = values.attributes
+        .map((attr) => {
           const { id: attrId, aggregate, ...fieldValue } = attr;
           const attributeValue = aggregate?.[0]
-            ? aggregate?.[0]
-            : Object.values(fieldValue)?.[0] || "";
+            ? Object.fromEntries(
+                Object.entries(aggregate[0]).filter(
+                  (entries) => entries?.[1] !== null
+                )
+              )
+            : Object.values(fieldValue)?.[0] || null;
           return {
             attribute: attrId,
             value: attributeValue,
           };
-        }),
-      };
+        })
+        .filter(
+          (attr) =>
+            (!Array.isArray(attr.value) && attr.value) ||
+            (Array.isArray(attr.value) && attr.value.length)
+        );
+      const payload =
+        values.code === ""
+          ? {
+              name: values.name,
+              parent: values.parent,
+              attributes: _attributes,
+            }
+          : {
+              code: values.code,
+              name: values.name,
+              parent: values.parent,
+              attributes: _attributes,
+            };
       if (id) {
         await api.put(`/administrations/${id}`, payload);
         notify({
