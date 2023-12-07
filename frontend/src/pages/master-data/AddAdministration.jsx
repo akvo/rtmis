@@ -228,7 +228,7 @@ const AddAdministration = () => {
     } catch {
       setLoading(false);
     }
-  }, [form, id, initialValues, admLevels]);
+  }, [form, id, initialValues, admLevels, levelIDs]);
 
   useEffect(() => {
     fetchAttributes();
