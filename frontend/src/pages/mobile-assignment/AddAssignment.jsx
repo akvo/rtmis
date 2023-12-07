@@ -33,6 +33,7 @@ const AddAssignment = () => {
     user: authUser,
     language,
     levels,
+    administration: selectedAdm,
   } = store.useState((s) => s);
   const editAssignment = store.useState((s) => s.mobileAssignment);
   const userAdmLevel = authUser?.administration?.level;
@@ -45,6 +46,12 @@ const AddAssignment = () => {
     .slice(1, levels.length)
     .filter((l) => l?.level >= userAdmLevel)
     .sort((a, b) => a?.level - b?.level);
+  const admChildren = selectedAdm
+    ?.slice()
+    ?.sort((a, b) => a.level - b.level)
+    ?.slice(-1)
+    ?.flatMap((sa) => sa?.children);
+  const admIsRequired = admChildren.length ? true : false;
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -95,7 +102,8 @@ const AddAssignment = () => {
     try {
       const payload = {
         name: values.name,
-        administrations: values.administrations,
+        administrations:
+          values.administrations || selectedAdm.map((a) => a?.id),
         forms: values.forms,
       };
       if (id) {
@@ -199,7 +207,7 @@ const AddAssignment = () => {
               </Form.Item>
             </div>
           )}
-          {level > 0 && (
+          {admIsRequired && (
             <div className="form-row">
               <Form.Item
                 name="administrations"

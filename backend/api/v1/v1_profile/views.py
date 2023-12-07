@@ -9,9 +9,10 @@ from drf_spectacular.utils import (
         OpenApiParameter, extend_schema, inline_serializer)
 from rest_framework.viewsets import ModelViewSet
 from api.v1.v1_profile.models import (
-        Administration, AdministrationAttribute, Levels)
+        Administration, AdministrationAttribute, Entity, EntityData, Levels)
 from api.v1.v1_profile.serializers import (
-        AdministrationAttributeSerializer, AdministrationSerializer)
+        AdministrationAttributeSerializer, AdministrationSerializer,
+        EntityDataSerializer, EntitySerializer)
 from utils.default_serializers import DefaultResponseSerializer
 from utils.custom_pagination import Pagination
 from rest_framework.decorators import api_view
@@ -123,3 +124,19 @@ class AdministrationAttributeViewSet(ModelViewSet):
     serializer_class = AdministrationAttributeSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = None
+
+
+@extend_schema(tags=['Entities'])
+class EntityViewSet(ModelViewSet):
+    queryset = Entity.objects.order_by('id').all()
+    serializer_class = EntitySerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = Pagination
+
+
+@extend_schema(tags=['Entities'])
+class EntityDataViewSet(ModelViewSet):
+    queryset = EntityData.objects.order_by('id').all()
+    serializer_class = EntityDataSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = Pagination

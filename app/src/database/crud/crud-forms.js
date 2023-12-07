@@ -8,6 +8,7 @@ const formsQuery = () => {
       const latest = 1;
       const selectJoin = `SELECT
           f.id,
+          f.userId,
           f.formId,
           f.version,
           f.name,
@@ -51,8 +52,9 @@ const formsQuery = () => {
       }
       return rows._array[0];
     },
-    addForm: async ({ id: formId, version, formJSON }) => {
+    addForm: async ({ userId, id: formId, version, formJSON }) => {
       const insertQuery = query.insert('forms', {
+        userId: userId || 0,
         formId: formId,
         version: version,
         latest: 1,
