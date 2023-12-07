@@ -21,7 +21,7 @@ import {
 import { useNotification } from "../../util/hooks";
 import "./style.scss";
 
-const IS_SUPER_ADMIN = 1;
+const IS_SUPER_ADMIN = config.roles.find((x) => x.name === "Super Admin").id;
 
 const AddAssignment = () => {
   const { id } = useParams();
