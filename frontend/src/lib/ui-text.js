@@ -282,13 +282,7 @@ const uiText = {
     accountDisclaimer:
       "The user is accountable for his/her account and in case there are any changes (Transfers, retirement, any kind of leave, resignation etc) this should be communicated to the County Administrator or National Super Admin who might be able to assign the roles to the new officer.",
     // Log in
-    loginTitle: (
-      <Fragment>
-        Welcome back
-        <br />
-        <small>Please enter your account details</small>
-      </Fragment>
-    ),
+    loginTitle: "Welcome back",
     contactAdmin: "Please contact the administrator",
     formAssignmentError:
       "You don't have any form assignment, please contact the administrator",

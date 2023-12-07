@@ -162,13 +162,7 @@ Object {
     "invalidInviteDesc": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem provident voluptatum cum numquam, quidem vitae, qui quam beatae exercitationem ullam perferendis! Nobis in aut fuga voluptate harum, tempore distinctio optio.",
     "invalidInviteTitle": "Invalid Invite Code",
     "login": "Log in",
-    "loginTitle": <React.Fragment>
-      Welcome back
-      <br />
-      <small>
-        Please enter your account details
-      </small>
-    </React.Fragment>,
+    "loginTitle": "Welcome back",
     "lorem": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, assumenda quos? Quia deleniti sapiente aut! Ab consequatur cumque fugit ea. Dolore ex rerum quisquam inventore eum dicta doloribus harum cum.",
     "lorem2": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
     "manageDataButton": "Manage Data",
