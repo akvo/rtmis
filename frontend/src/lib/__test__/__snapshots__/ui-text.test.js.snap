@@ -224,7 +224,7 @@ Object {
     "mdPanelTitle": "Master Data",
     "minute": "Minute",
     "mobileAddText": "Add Assignment",
-    "mobileAdmRequired": "Please select one or more villages",
+    "mobileAdmRequired": "Please select one or more Administrative level name",
     "mobileButtonAdd": "Add new data collector",
     "mobileButtonSave": "Save",
     "mobileConfirmDeletion": "Are you sure?",
@@ -252,7 +252,7 @@ Object {
       </ul>
     </React.Fragment>,
     "mobilePanelTitle": "Mobile Data Collectors",
-    "mobileSelectAdm": "Select village...",
+    "mobileSelectAdm": "Select Administrative level name...",
     "mobileSelectForms": "Select forms...",
     "month": "Month",
     "myProfile": "My Profile",
