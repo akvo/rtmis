@@ -10,16 +10,6 @@ import {
 import { api, store, uiText } from "../../lib";
 import { useNavigate } from "react-router-dom";
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Attributes",
-  },
-];
-
 const { Text } = Typography;
 
 const MasterDataAttributes = () => {
@@ -33,6 +23,16 @@ const MasterDataAttributes = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: "/control-center",
+    },
+    {
+      title: text.manageAttributes,
+    },
+  ];
 
   const handleOnEdit = (record) => {
     store.update((s) => {

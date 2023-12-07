@@ -21,16 +21,6 @@ import { orderBy } from "lodash";
 const { Search } = Input;
 const { Option } = Select;
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Organizations",
-  },
-];
-
 const Organisations = () => {
   const { notify } = useNotification();
 
@@ -48,6 +38,16 @@ const Organisations = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: "/control-center",
+    },
+    {
+      title: text.manageOrganisations,
+    },
+  ];
 
   const descriptionData = <div>{text.orgPanelText}</div>;
 

@@ -36,6 +36,16 @@ const MasterDataEntities = () => {
     return uiText[activeLang];
   }, [activeLang]);
 
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: "/control-center",
+    },
+    {
+      title: text.manageEntities,
+    },
+  ];
+
   const columns = [
     {
       title: "Entity",

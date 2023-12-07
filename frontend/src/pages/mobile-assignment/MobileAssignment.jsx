@@ -33,6 +33,16 @@ const MobileAssignment = () => {
     return uiText[activeLang];
   }, [activeLang]);
 
+  const pagePath = [
+    {
+      title: "Control Center",
+      link: "/control-center",
+    },
+    {
+      title: text.mobilePanelTitle,
+    },
+  ];
+
   const handleOnEdit = (record) => {
     store.update((s) => {
       s.mobileAssignment = record;
