@@ -40,12 +40,12 @@ const MasterDataEntities = () => {
       ),
     },
     {
-      title: text.mobileLabelName,
+      title: text.nameField,
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Action",
+      title: text.actionColumn,
       dataIndex: "id",
       key: "action",
       width: "10%",
@@ -53,7 +53,7 @@ const MasterDataEntities = () => {
         return (
           <Space>
             <Link to={`/master-data/entities/${row}/edit`}>
-              <Button type="link">Edit</Button>
+              <Button type="link">{text.editButton}</Button>
             </Link>
           </Space>
         );
@@ -93,7 +93,7 @@ const MasterDataEntities = () => {
       <EntityTab
         tabBarExtraContent={
           <Link to="/master-data/entities/add">
-            <Button type="primary">Add new entity</Button>
+            <Button type="primary">{text.addEntity}</Button>
           </Link>
         }
       />

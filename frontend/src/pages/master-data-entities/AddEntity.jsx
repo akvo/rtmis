@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useMemo } from "react";
 import {
   Button,
   Card,
@@ -14,21 +14,7 @@ import { Breadcrumbs } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
 import "./style.scss";
-import { api } from "../../lib";
-
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Entities",
-    link: "/master-data/entities/",
-  },
-  {
-    title: "Add Entity",
-  },
-];
+import { api, store, uiText } from "../../lib";
 
 const AddEntity = () => {
   const [submitting, setSubmitting] = useState(false);
@@ -39,30 +25,45 @@ const AddEntity = () => {
   const [form] = Form.useForm();
   const { notify } = useNotification();
 
+  const { active: activeLang } = store.useState((s) => s.language);
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: text.controlCenter,
+      link: "/control-center",
+    },
+    {
+      title: text.manageEntities,
+      link: "/master-data/entities/",
+    },
+    {
+      title: id ? text.editEntity : text.addEntity,
+    },
+  ];
+
   const onDelete = () => {
     Modal.confirm({
-      title: `Delete ${entity?.name}`,
-      content: "Are you sure you want to delete this entity?",
+      title: `${text.deleteText} ${entity?.name}`,
+      content: text.confirmDeleteEntity,
       onOk: async () => {
         try {
           await api.delete(`/entities/${entity.id}`);
           notify({
             type: "success",
-            message: "Entity deleted",
+            message: text.successDeletedEntity,
           });
           navigate("/master-data/entities/");
         } catch (error) {
           Modal.error({
-            title: "Unable to delete the entity",
+            title: text.errDeleteEntityTitle,
             content: (
               <>
-                It is associated with other resources or has cascade
-                restrictions.
+                {text.errDeleteCascadeText1}
                 <br />
-                <em>
-                  Please review and resolve dependencies before attempting to
-                  delete.
-                </em>
+                <em>{text.errDeleteCascadeText2}</em>
               </>
             ),
           });
@@ -81,7 +82,7 @@ const AddEntity = () => {
       }
       notify({
         type: "success",
-        message: `Entity ${id ? "updated" : "added"}`,
+        message: id ? text.successUpdatedEntity : text.successAddedEntity,
       });
       setSubmitting(false);
       navigate("/master-data/entities/");
@@ -125,7 +126,7 @@ const AddEntity = () => {
             <Col span={24}>
               <Form.Item
                 name="name"
-                label="Entity Name"
+                label={text.nameField}
                 rules={[
                   {
                     required: true,
@@ -140,11 +141,11 @@ const AddEntity = () => {
         <Space>
           {id && (
             <Button type="danger" onClick={onDelete}>
-              Delete
+              {text.deleteText}
             </Button>
           )}
           <Button type="primary" htmlType="submit" loading={submitting}>
-            Save
+            {text.saveButton}
           </Button>
         </Space>
       </Form>
