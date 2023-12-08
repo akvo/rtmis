@@ -35,13 +35,16 @@ const Settings = () => {
         <Breadcrumbs
           pagePath={[
             {
-              title: "System Settings",
+              title: text.settings,
               link: "/settings",
             },
           ]}
         />
       </Row>
-      <DescriptionPanel description={text.settingsDescriptionPanel} />
+      <DescriptionPanel
+        description={text.settingsDescriptionPanel}
+        title={text.settings}
+      />
       <Divider />
       <Row gutter={[16, 16]}>
         {selectedPanels.map((panel, index) => (

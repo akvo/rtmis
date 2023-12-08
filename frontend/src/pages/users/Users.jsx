@@ -19,15 +19,6 @@ import { useNotification } from "../../util/hooks";
 import { reverse } from "lodash";
 import moment from "moment";
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Users",
-  },
-];
 const Users = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
@@ -43,6 +34,16 @@ const Users = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: text.controlCenter,
+      link: "/control-center",
+    },
+    {
+      title: text.manageUsers,
+    },
+  ];
 
   const { administration, filters, isLoggedIn } = store.useState(
     (state) => state
@@ -223,7 +224,10 @@ const Users = () => {
       <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={text.manageUserText} />
+          <DescriptionPanel
+            description={text.manageUserText}
+            title={text.manageUsers}
+          />
         </Col>
       </Row>
       <UserTab />
