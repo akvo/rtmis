@@ -117,7 +117,13 @@ class MobileAssignmentApiTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(
             list(response.data),
-            ['name', 'version', 'cascades', 'question_group'],
+            [
+                'name',
+                'version',
+                'cascades',
+                'question_group',
+                'approval_instructions'
+            ],
         )
 
     def test_assignment_token_no_access(self):
