@@ -42,6 +42,7 @@ const EntityData = () => {
       title: "#",
       dataIndex: "id",
       key: "number",
+      width: 100,
       render: (row, record, index) => (
         <div data-key={row} data-id={record?.id}>
           {index + 1}

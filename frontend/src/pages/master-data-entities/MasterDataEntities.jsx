@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { Button, Card, Col, Row, Space, Table } from "antd";
 import { Breadcrumbs, EntityTab, ManageDataTab } from "../../components";
 
-import { api } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import { Link } from "react-router-dom";
 
 const MasterDataEntities = () => {
@@ -11,11 +11,28 @@ const MasterDataEntities = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: text.controlCenter,
+      link: "/control-center",
+    },
+    {
+      title: text.manageEntities,
+    },
+  ];
+
   const columns = [
     {
       title: "#",
       dataIndex: "id",
       key: "number",
+      width: 100,
       render: (row, record, index) => (
         <div data-key={row} data-id={record?.id}>
           {index + 1}
