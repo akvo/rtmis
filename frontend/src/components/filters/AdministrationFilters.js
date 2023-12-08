@@ -4,6 +4,11 @@ import AdministrationDropdown from "./AdministrationDropdown";
 import { store } from "../../lib";
 import { Link } from "react-router-dom";
 import debounce from "lodash.debounce";
+import {
+  PlusOutlined,
+  DownloadOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 
 const { Search } = Input;
 
@@ -38,11 +43,17 @@ const AdministrationFilters = ({
         <Col>
           <Space>
             <Link to="/data/upload">
-              <Button type="primary">Bulk Upload</Button>
+              <Button icon={<UploadOutlined />} shape="round">
+                Bulk Upload
+              </Button>
             </Link>
-            <Button type="primary">Export</Button>
+            <Button icon={<DownloadOutlined />} shape="round">
+              Export
+            </Button>
             <Link to={addLink}>
-              <Button type="primary">Add New</Button>
+              <Button type="primary" icon={<PlusOutlined />} shape="round">
+                Add New
+              </Button>
             </Link>
           </Space>
         </Col>

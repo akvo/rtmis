@@ -100,6 +100,7 @@ const AdministrationDropdown = ({
                     filterOption={true}
                     optionFilterProp="children"
                     mode={selectMode}
+                    className="custom-select"
                   >
                     {region.children
                       .filter(
