@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Button, Card, Col, Divider, Row, Table } from "antd";
+import { Button, Col, Divider, Row, Table } from "antd";
 import { CloseSquareOutlined, PlusSquareOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import {
@@ -10,16 +10,6 @@ import {
 } from "../../components";
 import { api, store, uiText } from "../../lib";
 import DetailAdministration from "./DetailAdministration";
-
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Administrative List",
-  },
-];
 
 const MasterData = () => {
   const [loading, setLoading] = useState(true);
@@ -37,18 +27,28 @@ const MasterData = () => {
     return uiText[activeLang];
   }, [activeLang]);
 
+  const pagePath = [
+    {
+      title: text.controlCenter,
+      link: "/control-center",
+    },
+    {
+      title: text.manageAdministrativeList,
+    },
+  ];
+
   const columns = [
     {
-      title: "Code",
+      title: text.codeLabel,
       dataIndex: "code",
       width: "10%",
     },
     {
-      title: "Name",
+      title: text.nameLabel,
       dataIndex: "name",
     },
     {
-      title: "Level",
+      title: text.levelLabel,
       dataIndex: "level",
       render: (record) => record?.name || "",
     },
@@ -124,50 +124,58 @@ const MasterData = () => {
       <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={text.manageUserText} />
+          <DescriptionPanel
+            description={text.manageUserText}
+            title={text.manageAdministrativeList}
+          />
         </Col>
       </Row>
       <ManageDataTab />
-      <AdministrationFilters loading={loading} onSearchChange={setSearch} />
-      <Divider />
-      <Card
-        style={{ padding: 0, minHeight: "40vh" }}
-        bodyStyle={{ padding: 0 }}
-      >
-        <Table
-          columns={columns}
-          rowClassName={() => "editable-row"}
-          dataSource={dataset}
-          loading={loading}
-          onChange={handleChange}
-          pagination={{
-            showSizeChanger: false,
-            current: currentPage,
-            total: totalCount,
-            pageSize: 10,
-            showTotal: (total, range) =>
-              `Results: ${range[0]} - ${range[1]} of ${total} items`,
-          }}
-          rowKey="id"
-          expandable={{
-            expandedRowRender: (record) => {
-              return <DetailAdministration {...{ record, attributes }} />;
-            },
-            expandIcon: ({ expanded, onExpand, record }) =>
-              expanded ? (
-                <CloseSquareOutlined
-                  onClick={(e) => onExpand(record, e)}
-                  style={{ color: "#e94b4c" }}
-                />
-              ) : (
-                <PlusSquareOutlined
-                  onClick={(e) => onExpand(record, e)}
-                  style={{ color: "#7d7d7d" }}
-                />
-              ),
-          }}
-        />
-      </Card>
+
+      <div className="table-section">
+        <div className="table-wrapper">
+          <AdministrationFilters loading={loading} onSearchChange={setSearch} />
+          <Divider />
+          <div
+            style={{ padding: 0, minHeight: "40vh" }}
+            bodyStyle={{ padding: 0 }}
+          >
+            <Table
+              columns={columns}
+              rowClassName={() => "editable-row"}
+              dataSource={dataset}
+              loading={loading}
+              onChange={handleChange}
+              pagination={{
+                showSizeChanger: false,
+                current: currentPage,
+                total: totalCount,
+                pageSize: 10,
+                showTotal: (total, range) =>
+                  `Results: ${range[0]} - ${range[1]} of ${total} items`,
+              }}
+              rowKey="id"
+              expandable={{
+                expandedRowRender: (record) => {
+                  return <DetailAdministration {...{ record, attributes }} />;
+                },
+                expandIcon: ({ expanded, onExpand, record }) =>
+                  expanded ? (
+                    <CloseSquareOutlined
+                      onClick={(e) => onExpand(record, e)}
+                      style={{ color: "#e94b4c" }}
+                    />
+                  ) : (
+                    <PlusSquareOutlined
+                      onClick={(e) => onExpand(record, e)}
+                      style={{ color: "#7d7d7d" }}
+                    />
+                  ),
+              }}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

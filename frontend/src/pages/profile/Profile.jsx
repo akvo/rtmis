@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import "./style.scss";
 import { Space, Card, Divider, Row, Tag } from "antd";
-import { store } from "../../lib";
+import { store, uiText } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { ProfileTour } from "./components";
 import moment from "moment";
@@ -12,6 +12,13 @@ const descriptionData =
 const Profile = () => {
   const { forms, user: authUser } = store.useState((s) => s);
   const { trained } = authUser;
+
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   const trainedBadge = useMemo(() => {
     if (trained) {
@@ -25,7 +32,7 @@ const Profile = () => {
 
   const pagePath = [
     {
-      title: "Control Center",
+      title: text.controlCenter,
       link: "/control-center",
     },
     {
@@ -35,7 +42,7 @@ const Profile = () => {
             {authUser?.name}
             {trainedBadge}
           </Space>
-        ) || "Profile",
+        ) || text.profileLabel,
     },
   ];
 
@@ -50,7 +57,10 @@ const Profile = () => {
         <Breadcrumbs pagePath={pagePath} />
         <ProfileTour />
       </Row>
-      <DescriptionPanel description={descriptionData} />
+      <DescriptionPanel
+        description={descriptionData}
+        title={text.profileLabel}
+      />
       <Divider />
       <Card style={{ padding: 0, marginBottom: 12 }}>
         <h1>My Profile</h1>

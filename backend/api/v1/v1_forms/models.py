@@ -16,6 +16,7 @@ class Forms(models.Model):
     type = models.IntegerField(choices=FormTypes.FieldStr.items(),
                                default=None,
                                null=True)
+    approval_instructions = models.JSONField(default=None, null=True)
 
     def __str__(self):
         return self.name
@@ -93,6 +94,8 @@ class Questions(models.Model):
     dependency = models.JSONField(default=None, null=True)
     api = models.JSONField(default=None, null=True)
     extra = models.JSONField(default=None, null=True)
+    tooltip = models.JSONField(default=None, null=True)
+    fn = models.JSONField(default=None, null=True)
 
     def __str__(self):
         return self.text
@@ -112,7 +115,9 @@ class Questions(models.Model):
             "rule": self.rule,
             "dependency": self.dependency,
             "options": options,
-            "extra": self.extra
+            "extra": self.extra,
+            "tooltip": self.tooltip,
+            "fn": self.fn,
         }
 
     @property
@@ -131,6 +136,7 @@ class QuestionOptions(models.Model):
     code = models.CharField(max_length=255, default=None, null=True)
     name = models.TextField()
     other = models.BooleanField(default=False)
+    color = models.TextField(default=None, null=True)
 
     def __str__(self):
         return self.name

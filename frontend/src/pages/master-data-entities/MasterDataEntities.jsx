@@ -5,16 +5,6 @@ import { Breadcrumbs, EntityTab, ManageDataTab } from "../../components";
 import { api } from "../../lib";
 import { Link } from "react-router-dom";
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Entities",
-  },
-];
-
 const MasterDataEntities = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
@@ -33,7 +23,7 @@ const MasterDataEntities = () => {
       ),
     },
     {
-      title: "Name",
+      title: text.mobileLabelName,
       dataIndex: "name",
       key: "name",
     },

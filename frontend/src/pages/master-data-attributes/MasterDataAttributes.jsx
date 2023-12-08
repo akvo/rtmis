@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Button, Card, Col, Divider, Row, Table, Typography } from "antd";
+import { Button, Col, Divider, Row, Table, Typography } from "antd";
 import {
   AdministrationFilters,
   Breadcrumbs,
@@ -9,16 +9,6 @@ import {
 
 import { api, store, uiText } from "../../lib";
 import { useNavigate } from "react-router-dom";
-
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Attributes",
-  },
-];
 
 const { Text } = Typography;
 
@@ -33,6 +23,16 @@ const MasterDataAttributes = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: text.controlCenter,
+      link: "/control-center",
+    },
+    {
+      title: text.manageAttributes,
+    },
+  ];
 
   const handleOnEdit = (record) => {
     store.update((s) => {
@@ -106,24 +106,32 @@ const MasterDataAttributes = () => {
       <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={text.manageUserText} />
+          <DescriptionPanel
+            description={text.manageUserText}
+            title={text.manageAttributes}
+          />
         </Col>
       </Row>
       <ManageDataTab />
-      <AdministrationFilters addLink="/master-data/attributes/add" />
-      <Divider />
-      <Card
-        style={{ padding: 0, minHeight: "40vh" }}
-        bodyStyle={{ padding: 0 }}
-      >
-        <Table
-          columns={columns}
-          rowClassName={() => "editable-row"}
-          dataSource={dataset}
-          loading={loading}
-          rowKey="id"
-        />
-      </Card>
+
+      <div className="table-section">
+        <div className="table-wrapper">
+          <AdministrationFilters addLink="/master-data/attributes/add" />
+          <Divider />
+          <div
+            style={{ padding: 0, minHeight: "40vh" }}
+            bodyStyle={{ padding: 0 }}
+          >
+            <Table
+              columns={columns}
+              rowClassName={() => "editable-row"}
+              dataSource={dataset}
+              loading={loading}
+              rowKey="id"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
