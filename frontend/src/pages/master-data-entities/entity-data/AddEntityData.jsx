@@ -28,8 +28,8 @@ const { Option } = Select;
 const AddEntityData = () => {
   const [submitting, setSubmitting] = useState(false);
   const [level, setLevel] = useState(null);
-  const [entity, setEntity] = useState();
-  const [entities, setEntities] = useState();
+  const [entity, setEntity] = useState(null);
+  const [entities, setEntities] = useState([]);
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -64,33 +64,33 @@ const AddEntityData = () => {
       link: "/control-center",
     },
     {
-      title: "Manage Entities",
+      title: text.manageEntities,
       link: "/master-data/entities/",
     },
     {
-      title: "Entity Data",
+      title: text.entityDataTitle,
       link: "/master-data/entities/data",
     },
     {
-      title: id ? "Edit data" : "Add data",
+      title: id ? text.editEntityData : text.addEntityData,
     },
   ];
 
   const onDelete = () => {
     Modal.confirm({
-      title: `Delete ${entity?.name}`,
-      content: "Are you sure you want to delete this data?",
+      title: `${text.deleteText} ${entity?.name}`,
+      content: text.confirmDeleteEntityData,
       onOk: async () => {
         try {
           await api.delete(`/entity-data/${entity.id}`);
           notify({
             type: "success",
-            message: "Entity deleted",
+            message: text.successEntityDataDeleted,
           });
           navigate("/master-data/entities/data");
         } catch (error) {
           Modal.error({
-            title: "Unable to delete the data",
+            title: text.errDeleteEntityDataTitle,
           });
         }
       },
@@ -113,7 +113,9 @@ const AddEntityData = () => {
       }
       notify({
         type: "success",
-        message: `Entity data ${id ? "updated" : "added"}`,
+        message: id
+          ? text.successEntityDataUpdated
+          : text.successEntityDataAdded,
       });
       setSubmitting(false);
       navigate("/master-data/entities/data");
@@ -233,8 +235,10 @@ const AddEntityData = () => {
             <Col span={6}>
               <Form.Item
                 name="code"
-                label="Entity Code"
-                rules={[{ required: codeIsRequired }]}
+                label={text.codeField}
+                rules={[
+                  { required: codeIsRequired, message: text.codeFieldRequired },
+                ]}
               >
                 <Input />
               </Form.Item>
@@ -243,12 +247,12 @@ const AddEntityData = () => {
               <div className="form-row">
                 <Form.Item
                   name="level_id"
-                  label="Level"
-                  rules={[{ required: true }]}
+                  label={text.levelField}
+                  rules={[{ required: true, message: text.levelFieldRequired }]}
                 >
                   <Select
                     getPopupContainer={(trigger) => trigger.parentNode}
-                    placeholder="Select level.."
+                    placeholder={text.selectLevel}
                     value={level}
                     onChange={(val) => {
                       setLevel(val);
@@ -269,8 +273,8 @@ const AddEntityData = () => {
               {showAdm && (
                 <Form.Item
                   name="administration"
-                  label="Administration"
-                  rules={[{ required: true }]}
+                  label={text.administrationField}
+                  rules={[{ required: true, message: text.admFieldRequired }]}
                 >
                   <AdministrationDropdown
                     size="large"
@@ -286,12 +290,12 @@ const AddEntityData = () => {
           <div className="form-row">
             <Form.Item
               name="entity"
-              label="Entity"
-              rules={[{ required: true }]}
+              label={text.entityText}
+              rules={[{ required: true, message: text.entityIsRequired }]}
             >
               <Select
                 getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder="Select Entity..."
+                placeholder={text.selectEntity}
                 allowClear
               >
                 {entities?.map((e) => (
@@ -306,10 +310,11 @@ const AddEntityData = () => {
             <Col span={24}>
               <Form.Item
                 name="name"
-                label="Entity Name"
+                label={text.nameField}
                 rules={[
                   {
                     required: true,
+                    message: text.nameFieldRequired,
                   },
                 ]}
               >
@@ -321,11 +326,11 @@ const AddEntityData = () => {
         <Space>
           {id && (
             <Button type="danger" onClick={onDelete}>
-              Delete
+              {text.deleteText}
             </Button>
           )}
           <Button type="primary" htmlType="submit" loading={submitting}>
-            Save
+            {text.saveButton}
           </Button>
         </Space>
       </Form>

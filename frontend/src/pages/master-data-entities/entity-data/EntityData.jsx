@@ -10,32 +10,33 @@ import {
 } from "../../../components";
 import { api, store, uiText } from "../../../lib";
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Entities",
-    link: "/master-data/entities/",
-  },
-  {
-    title: "Entity Data",
-  },
-];
-
 const EntityData = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const authUser = store.useState((s) => s.user);
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
 
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: text.controlCenter,
+      link: "/control-center",
+    },
+    {
+      title: text.manageEntities,
+      link: "/master-data/entities/",
+    },
+    {
+      title: text.entityDataTitle,
+    },
+  ];
 
   const columns = [
     {
@@ -50,26 +51,26 @@ const EntityData = () => {
       ),
     },
     {
-      title: "Entity",
+      title: text.entityText,
       dataIndex: "entity",
       render: (row) => row?.name || "",
     },
     {
-      title: "Code",
+      title: text.codeField,
       dataIndex: "code",
       width: "10%",
     },
     {
-      title: "Name",
+      title: text.nameField,
       dataIndex: "name",
     },
     {
-      title: "Administration",
+      title: text.administrationField,
       dataIndex: "administration",
       render: (row) => row?.name || "",
     },
     {
-      title: "Action",
+      title: text.actionColumn,
       dataIndex: "id",
       key: "action",
       width: "10%",
@@ -77,7 +78,7 @@ const EntityData = () => {
         return (
           <Space>
             <Link to={`/master-data/entities/data/${row}/edit`}>
-              <Button type="link">Edit</Button>
+              <Button type="link">{text.editButton}</Button>
             </Link>
           </Space>
         );
@@ -117,13 +118,21 @@ const EntityData = () => {
         </Col>
       </Row>
       <ManageDataTab />
-      <EntityTab
-        tabBarExtraContent={
-          <Link to="/master-data/entities/data/add">
-            <Button type="primary">Add new data</Button>
-          </Link>
-        }
-      />
+      {["Super Admin"].includes(authUser?.role?.value) ? (
+        <EntityTab
+          tabBarExtraContent={
+            <Space>
+              <Button type="primary">{text.exportButton}</Button>
+              <Link to="/master-data/entities/data/add">
+                <Button type="primary">{text.addEntityData}</Button>
+              </Link>
+            </Space>
+          }
+        />
+      ) : (
+        <EntityTab />
+      )}
+
       <Card
         style={{ padding: 0, minHeight: "40vh" }}
         bodyStyle={{ padding: 0 }}
