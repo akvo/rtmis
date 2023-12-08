@@ -2,20 +2,13 @@
 
 #root {
   .ant-breadcrumb {
-    .ant-breadcrumb-separator {
-      margin: 0 16px;
-      color: $color-arrows;
-      font-weight: 300;
-      font-size: 24px;
-    }
-
     h2 {
       font-size: 28px;
     }
 
-    span:last-child span h2,
-    span:last-child span h3 {
-      color: $blue;
+    span:last-child span,
+    span:last-child span {
+      color: #262626;
     }
   }
 }

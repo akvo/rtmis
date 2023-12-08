@@ -11,16 +11,6 @@ import {
 import { api, store, uiText } from "../../lib";
 import DetailAdministration from "./DetailAdministration";
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Administrative List",
-  },
-];
-
 const MasterData = () => {
   const [loading, setLoading] = useState(true);
   const [attributes, setAttributes] = useState([]);
@@ -37,18 +27,28 @@ const MasterData = () => {
     return uiText[activeLang];
   }, [activeLang]);
 
+  const pagePath = [
+    {
+      title: text.controlCenter,
+      link: "/control-center",
+    },
+    {
+      title: text.manageAdministrativeList,
+    },
+  ];
+
   const columns = [
     {
-      title: "Code",
+      title: text.codeLabel,
       dataIndex: "code",
       width: "10%",
     },
     {
-      title: "Name",
+      title: text.nameLabel,
       dataIndex: "name",
     },
     {
-      title: "Level",
+      title: text.levelLabel,
       dataIndex: "level",
       render: (record) => record?.name || "",
     },
@@ -124,7 +124,10 @@ const MasterData = () => {
       <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={text.manageUserText} />
+          <DescriptionPanel
+            description={text.manageUserText}
+            title={text.manageAdministrativeList}
+          />
         </Col>
       </Row>
       <ManageDataTab />

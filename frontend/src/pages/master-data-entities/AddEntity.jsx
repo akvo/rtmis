@@ -1,30 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Button, Card, Col, Divider, Form, Input, Row, Select } from "antd";
 import {
   AdministrationDropdown,
   Breadcrumbs,
   InputAttributes,
+  DescriptionPanel,
 } from "../../components";
 import { useNavigate } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
 import fakeSchoolAttrs from "../../placeholders/attributes-school.json";
 import fakeHcfAttributes from "../../placeholders/attributes-hcf.json";
-import { store } from "../../lib";
+import { store, uiText } from "../../lib";
 import "./style.scss";
-
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Entities",
-    link: "/master-data",
-  },
-  {
-    title: "Add Entity",
-  },
-];
 
 const fakeAttributes = {
   1: fakeSchoolAttrs,
@@ -44,6 +31,27 @@ const AddEntity = () => {
   const { notify } = useNotification();
 
   const administration = store.useState((s) => s.administration);
+
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: text.controlCenter,
+      link: "/control-center",
+    },
+    {
+      title: text.manageEntities,
+      link: "/master-data",
+    },
+    {
+      title: text.addEntities,
+    },
+  ];
 
   const selectedAdministration =
     administration.length > 0
@@ -123,7 +131,7 @@ const AddEntity = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          {/* <DescriptionPanel description={descriptionData} /> */}
+          <DescriptionPanel title={text.addEntities} />
         </Col>
       </Row>
       <Divider />
