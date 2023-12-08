@@ -51,10 +51,10 @@ const InputType = ({ field, name, options, type }) => {
       )}
       {type === "aggregate" && (
         <Row className="form-row ant-form-item">
-          <Col span={8} className="ant-form-item-label">
+          <Col span={6} className="ant-form-item-label">
             <label>{name}</label>
           </Col>
-          <Col className="ant-form-item-control">
+          <Col span={18} className="ant-form-item-control">
             <Form.List name={[field.name, "aggregate"]}>
               {(items) => (
                 <>

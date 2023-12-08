@@ -268,8 +268,8 @@ const AddAdministration = () => {
             name="adm-form"
             form={form}
             onFinish={onFinish}
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 18 }}
           >
             <Row gutter={16}>
               <Col span={24}>
@@ -334,13 +334,22 @@ const AddAdministration = () => {
               </Col>
             </Row>
             <InputAttributes attributes={attributes} loading={loading} />
-            <Space direction="horizontal">
+            <Space
+              direction="horizontal"
+              justify="center"
+              style={{ justifyContent: "center", width: "100%" }}
+            >
               {id && (
-                <Button type="danger" onClick={handleOnDelete}>
+                <Button type="danger" shape="round" onClick={handleOnDelete}>
                   Delete
                 </Button>
               )}
-              <Button type="primary" htmlType="submit" loading={submitting}>
+              <Button
+                type="primary"
+                shape="round"
+                htmlType="submit"
+                loading={submitting}
+              >
                 Save administration
               </Button>
             </Space>
