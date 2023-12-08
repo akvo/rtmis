@@ -7,17 +7,36 @@ import "antd/dist/antd.min.css";
 import "./index.scss"; // Only for overriding antd
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { Alert } from "antd";
 
 const history = createBrowserHistory();
 
-ReactDOM.render(
-  <CookiesProvider>
-    <Router history={history}>
-      <App />
-    </Router>
-  </CookiesProvider>,
-  document.getElementById("root")
-);
+const isMobileDevice = () => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+};
+
+const Application = () => {
+  if (isMobileDevice()) {
+    return (
+      <Alert
+        message="This application is only available on desktop."
+        type="warning"
+      />
+    );
+  }
+
+  return (
+    <CookiesProvider>
+      <Router history={history}>
+        <App />
+      </Router>
+    </CookiesProvider>
+  );
+};
+
+ReactDOM.render(<Application />, document.getElementById("root"));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
