@@ -1,24 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  Divider,
-  Form,
-  Input,
-  Modal,
-  Row,
-  Select,
-  Space,
-} from "antd";
+import { Button, Col, Form, Input, Modal, Row, Select, Space } from "antd";
 import {
   AdministrationDropdown,
   Breadcrumbs,
+  DescriptionPanel,
   InputAttributes,
 } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
-import { api, config, store } from "../../lib";
+import { api, config, store, uiText } from "../../lib";
 import "./style.scss";
 
 const { Option } = Select;
@@ -46,6 +36,13 @@ const AddAdministration = () => {
     return admLevels?.slice(1, admLevels.length - 1)?.map((l) => l.id) || [];
   }, [admLevels]);
   const showAdm = levelIDs.includes(level);
+
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   const deleteAdministration = async (row) => {
     try {
@@ -243,15 +240,15 @@ const AddAdministration = () => {
 
   const pagePath = [
     {
-      title: "Control Center",
+      title: text.controlCenter,
       link: "/control-center",
     },
     {
-      title: "Manage Administrative List",
+      title: text.manageAdministrativeList,
       link: "/master-data",
     },
     {
-      title: id ? "Edit Administration" : "Add Administration",
+      title: id ? text.editAdministration : text.addAdministration,
     },
   ];
 
@@ -260,87 +257,96 @@ const AddAdministration = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          {/* <DescriptionPanel description={descriptionData} /> */}
+          <DescriptionPanel
+            title={id ? text.editAdministration : text.addAdministration}
+          />
         </Col>
       </Row>
-      <Divider />
-      <Form name="adm-form" form={form} layout="vertical" onFinish={onFinish}>
-        <Card bodyStyle={{ padding: 0 }}>
-          <Row gutter={16}>
-            <Col span={6}>
-              <Form.Item name="code" label="Administration Code">
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col span={6}>
-              <div className="form-row">
-                <Form.Item name="level_id" label="Level">
-                  <Select
-                    getPopupContainer={(trigger) => trigger.parentNode}
-                    placeholder="Select level.."
-                    value={level}
-                    onChange={(val) => {
-                      setLevel(val);
-                      form.setFieldsValue({ parent: null });
-                    }}
-                    allowClear
-                  >
-                    {admLevels
-                      ?.slice(1, admLevels.length - 1)
-                      ?.filter((l) => l?.id >= levelAccess[0])
-                      ?.sort((a, b) => a?.level - b?.level)
-                      ?.map((adm) => (
-                        <Option key={adm.id} value={adm.id}>
-                          {adm.name}
-                        </Option>
-                      ))}
-                  </Select>
+      <div className="table-section">
+        <div className="table-wrapper">
+          <Form
+            name="adm-form"
+            form={form}
+            onFinish={onFinish}
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+          >
+            <Row gutter={16}>
+              <Col span={24}>
+                <Form.Item name="code" label="Administration Code">
+                  <Input />
                 </Form.Item>
-              </div>
-            </Col>
-            <Col span={12}>
-              {showAdm && (
-                <Form.Item name="parent" label="Administration Parent">
-                  <AdministrationDropdown
-                    size="large"
-                    width="100%"
-                    maxLevel={level}
-                    persist={ADM_PERSIST}
-                    currentId={id}
-                  />
+              </Col>
+              <Col span={24}>
+                <div className="form-row">
+                  <Form.Item name="level_id" label="Level">
+                    <Select
+                      getPopupContainer={(trigger) => trigger.parentNode}
+                      placeholder="Select level.."
+                      value={level}
+                      onChange={(val) => {
+                        setLevel(val);
+                        form.setFieldsValue({ parent: null });
+                      }}
+                      allowClear
+                    >
+                      {admLevels
+                        ?.slice(1, admLevels.length - 1)
+                        ?.filter((l) => l?.id >= levelAccess[0])
+                        ?.sort((a, b) => a?.level - b?.level)
+                        ?.map((adm) => (
+                          <Option key={adm.id} value={adm.id}>
+                            {adm.name}
+                          </Option>
+                        ))}
+                    </Select>
+                  </Form.Item>
+                </div>
+              </Col>
+              <Col span={24}>
+                {showAdm && (
+                  <Form.Item name="parent" label="Administration Parent">
+                    <AdministrationDropdown
+                      size="large"
+                      width="100%"
+                      maxLevel={level}
+                      persist={ADM_PERSIST}
+                      currentId={id}
+                    />
+                  </Form.Item>
+                )}
+              </Col>
+            </Row>
+            <Row className="form-row">
+              <Col span={24}>
+                <Form.Item
+                  name="name"
+                  label="Administration Name"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Administration name is required",
+                    },
+                  ]}
+                >
+                  <Input />
                 </Form.Item>
+              </Col>
+            </Row>
+            <InputAttributes attributes={attributes} loading={loading} />
+            <Space direction="horizontal">
+              {id && (
+                <Button type="danger" onClick={handleOnDelete}>
+                  Delete
+                </Button>
               )}
-            </Col>
-          </Row>
-          <Row className="form-row">
-            <Col span={24}>
-              <Form.Item
-                name="name"
-                label="Administration Name"
-                rules={[
-                  {
-                    required: true,
-                    message: "Administration name is required",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-          <InputAttributes attributes={attributes} loading={loading} />
-        </Card>
-        <Space direction="horizontal">
-          {id && (
-            <Button type="danger" onClick={handleOnDelete}>
-              Delete
-            </Button>
-          )}
-          <Button type="primary" htmlType="submit" loading={submitting}>
-            Save administration
-          </Button>
-        </Space>
-      </Form>
+              <Button type="primary" htmlType="submit" loading={submitting}>
+                Save administration
+              </Button>
+            </Space>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 };
