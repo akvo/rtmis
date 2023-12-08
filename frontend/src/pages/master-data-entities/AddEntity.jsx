@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { Button, Card, Col, Divider, Form, Input, Row, Select } from "antd";
+import React, { useCallback, useEffect, useState } from "react";
 import {
-  AdministrationDropdown,
-  Breadcrumbs,
-  InputAttributes,
-} from "../../components";
-import { useNavigate } from "react-router-dom";
+  Button,
+  Card,
+  Col,
+  Divider,
+  Form,
+  Input,
+  Modal,
+  Row,
+  Space,
+} from "antd";
+import { Breadcrumbs } from "../../components";
+import { useNavigate, useParams } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
-import fakeSchoolAttrs from "../../placeholders/attributes-school.json";
-import fakeHcfAttributes from "../../placeholders/attributes-hcf.json";
-import { store } from "../../lib";
 import "./style.scss";
+import { api } from "../../lib";
 
 const pagePath = [
   {
@@ -19,111 +23,94 @@ const pagePath = [
   },
   {
     title: "Manage Entities",
-    link: "/master-data",
+    link: "/master-data/entities/",
   },
   {
     title: "Add Entity",
   },
 ];
 
-const fakeAttributes = {
-  1: fakeSchoolAttrs,
-  2: fakeHcfAttributes,
-};
-
-const { Option } = Select;
-
 const AddEntity = () => {
   const [submitting, setSubmitting] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [attributes, setAttributes] = useState(true);
-  const [entities, setEntities] = useState();
+  const [entity, setEntity] = useState(null);
+  const { id } = useParams();
 
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const { notify } = useNotification();
 
-  const administration = store.useState((s) => s.administration);
-
-  const selectedAdministration =
-    administration.length > 0
-      ? administration[administration.length - 1]
-      : null;
+  const onDelete = () => {
+    Modal.confirm({
+      title: `Delete ${entity?.name}`,
+      content: "Are you sure you want to delete this entity?",
+      onOk: async () => {
+        try {
+          await api.delete(`/entities/${entity.id}`);
+          notify({
+            type: "success",
+            message: "Entity deleted",
+          });
+          navigate("/master-data/entities/");
+        } catch (error) {
+          Modal.error({
+            title: "Unable to delete the entity",
+            content: (
+              <>
+                It is associated with other resources or has cascade
+                restrictions.
+                <br />
+                <em>
+                  Please review and resolve dependencies before attempting to
+                  delete.
+                </em>
+              </>
+            ),
+          });
+        }
+      },
+    });
+  };
 
   const onFinish = async (values) => {
     setSubmitting(true);
-
-    const attributesPayload = values.attributes.map((attr, ax) => {
-      const attrName = attributes?.[ax]?.name;
-      const fieldValue = attr?.[attrName];
-      // TODO
-      return {
-        administration_id: 1,
-        administration_attribute_id: attributes?.[ax]?.id,
-        attribute: attrName,
-        value: fieldValue,
-        options: attributes?.[ax]?.options ? [fieldValue] : [],
-      };
-    });
-    const payload = {
-      ...values,
-      administration_id: selectedAdministration?.id || null,
-      attributes: attributesPayload,
-    };
-    store.update((s) => {
-      const _md = {
-        ...s.masterData,
-        entity: { ...payload, id: 2011 },
-      };
-      s.masterData = _md;
-    });
-    await new Promise((r) => setTimeout(r, 2000));
-    notify({
-      type: "success",
-      message: `Entity added`,
-    });
-    setSubmitting(false);
-    navigate("/master-data/entities");
+    try {
+      if (id) {
+        await api.put(`/entities/${id}`, values);
+      } else {
+        await api.post("/entities", values);
+      }
+      notify({
+        type: "success",
+        message: `Entity ${id ? "updated" : "added"}`,
+      });
+      setSubmitting(false);
+      navigate("/master-data/entities/");
+    } catch (error) {
+      setSubmitting(false);
+    }
   };
 
-  const fetchAttributes = async (entityType = 1) => {
-    await new Promise((r) => setTimeout(r, 2000));
-    const _attributes = fakeAttributes?.[entityType];
-    const attrFields = _attributes.map((attr) => {
-      return {
-        [attr.name]: attr.options.length ? [] : "",
-      };
-    });
-    setAttributes(_attributes);
-    form.setFieldsValue({ attributes: attrFields });
-    setLoading(false);
-  };
-
-  const handleOnSelect = (value) => {
-    setLoading(true);
-    fetchAttributes(value);
-  };
+  const fetchData = useCallback(async () => {
+    if (!id) {
+      form.resetFields();
+      return;
+    }
+    if (id) {
+      const { data: apiData } = await api.get(`/entities/${id}`);
+      setEntity(apiData);
+      form.setFieldsValue({ name: apiData?.name });
+    }
+  }, [form, id]);
 
   useEffect(() => {
-    // TODO
-    setEntities([
-      {
-        id: 1,
-        name: "School",
-      },
-      {
-        id: 2,
-        name: "Health Facility",
-      },
-    ]);
-  }, []);
+    fetchData();
+  }, [fetchData]);
 
   return (
     <div id="add-entity">
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          {/* <DescriptionPanel description={descriptionData} /> */}
         </Col>
       </Row>
       <Divider />
@@ -131,42 +118,9 @@ const AddEntity = () => {
         name="entity-form"
         form={form}
         layout="vertical"
-        initialValues={{
-          entity_id: "",
-          administration_id: null,
-          name: "",
-          attributes: [],
-        }}
         onFinish={onFinish}
       >
         <Card bodyStyle={{ padding: 0 }}>
-          <AdministrationDropdown
-            direction="vertical"
-            withLabel={true}
-            persist={true}
-            size="large"
-            width="100%"
-          />
-          <div className="form-row">
-            <Form.Item
-              name="entity_id"
-              label="Entity Type"
-              rules={[{ required: true }]}
-            >
-              <Select
-                getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder="Select type.."
-                onChange={handleOnSelect}
-                allowClear
-              >
-                {entities?.map((e) => (
-                  <Option key={e.id} value={e.id}>
-                    {e.name}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </div>
           <Row className="form-row">
             <Col span={24}>
               <Form.Item
@@ -182,15 +136,17 @@ const AddEntity = () => {
               </Form.Item>
             </Col>
           </Row>
-          <InputAttributes attributes={attributes} loading={loading} />
         </Card>
-        <Row justify="end" align="middle">
-          <Col>
-            <Button type="primary" htmlType="submit" loading={submitting}>
-              Add entity
+        <Space>
+          {id && (
+            <Button type="danger" onClick={onDelete}>
+              Delete
             </Button>
-          </Col>
-        </Row>
+          )}
+          <Button type="primary" htmlType="submit" loading={submitting}>
+            Save
+          </Button>
+        </Space>
       </Form>
     </div>
   );
