@@ -30,3 +30,4 @@ export { default as AdministrationFilters } from "./filters/AdministrationFilter
 export { default as DetailTable } from "./DetailTable";
 export { default as InputAttributes } from "./InputAttributes";
 export { default as EntityFilters } from "./filters/EntityFilters";
+export { default as EntityTab } from "./tabs/EntityTab";

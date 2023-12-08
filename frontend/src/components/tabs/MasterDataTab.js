@@ -7,7 +7,12 @@ const { TabPane } = Tabs;
 const MasterDataTab = ({ tabBarExtraContent }) => {
   const pathname = window.location.pathname;
   const navigate = useNavigate();
-
+  const entityTab = [
+    "/master-data/entities/",
+    "/master-data/entities/data",
+  ].includes(pathname)
+    ? pathname
+    : "/master-data/entities/";
   return (
     <Tabs
       size="large"
@@ -21,7 +26,7 @@ const MasterDataTab = ({ tabBarExtraContent }) => {
       <TabPane tab="Attributes" key="/master-data/attributes">
         &nbsp;
       </TabPane>
-      <TabPane tab="Entities" key="/master-data/entities">
+      <TabPane tab="Entities" key={entityTab}>
         &nbsp;
       </TabPane>
       <TabPane tab="Organisations" key="/master-data/organisations">
