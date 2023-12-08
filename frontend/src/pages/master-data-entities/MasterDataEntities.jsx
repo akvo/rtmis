@@ -1,16 +1,9 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Card, Col, Divider, Row, Table } from "antd";
-import {
-  Breadcrumbs,
-  DescriptionPanel,
-  DetailTable,
-  EntityFilters,
-  ManageDataTab,
-} from "../../components";
-import { CloseSquareOutlined, PlusSquareOutlined } from "@ant-design/icons";
+import React, { useCallback, useEffect, useState } from "react";
+import { Button, Card, Col, Row, Space, Table } from "antd";
+import { Breadcrumbs, EntityTab, ManageDataTab } from "../../components";
 
-import { store, uiText } from "../../lib";
-import fakeDataApi from "../../placeholders/master-data-entities.json";
+import { api } from "../../lib";
+import { Link } from "react-router-dom";
 
 const pagePath = [
   {
@@ -28,52 +21,55 @@ const MasterDataEntities = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { language } = store.useState((s) => s);
-  const { active: activeLang } = language;
-  const newEntity = store.useState((s) => s.masterData.entity);
-
-  const text = useMemo(() => {
-    return uiText[activeLang];
-  }, [activeLang]);
-
   const columns = [
     {
-      title: "Entity",
-      dataIndex: "entity",
+      title: "#",
+      dataIndex: "id",
+      key: "number",
+      render: (row, record, index) => (
+        <div data-key={row} data-id={record?.id}>
+          {index + 1}
+        </div>
+      ),
     },
     {
       title: "Name",
       dataIndex: "name",
+      key: "name",
     },
     {
-      title: "Administration",
-      dataIndex: "administration",
+      title: "Action",
+      dataIndex: "id",
+      key: "action",
+      width: "10%",
+      render: (row) => {
+        return (
+          <Space>
+            <Link to={`/master-data/entities/${row}/edit`}>
+              <Button type="link">Edit</Button>
+            </Link>
+          </Space>
+        );
+      },
     },
-    Table.EXPAND_COLUMN,
   ];
 
   const handleChange = (e) => {
     setCurrentPage(e.current);
   };
 
-  const fetchData = useCallback(() => {
-    // TODO
-    setTimeout(() => {
-      const { data: _dataset, total } = fakeDataApi;
+  const fetchData = useCallback(async () => {
+    try {
+      const { data: apiData } = await api.get(`/entities?page=${currentPage}`);
+      const { total, current, data: _dataset } = apiData;
       setDataset(_dataset);
-      if (Object.keys(newEntity).length) {
-        setDataset([
-          {
-            ...newEntity,
-            entity: newEntity?.entity_id === 1 ? "School" : "Health Facility",
-          },
-          ..._dataset,
-        ]);
-      }
       setTotalCount(total);
+      setCurrentPage(current);
       setLoading(false);
-    }, 2000);
-  }, [newEntity]);
+    } catch (error) {
+      setLoading(false);
+    }
+  }, [currentPage]);
 
   useEffect(() => {
     fetchData();
@@ -84,12 +80,16 @@ const MasterDataEntities = () => {
       <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={text.manageUserText} />
         </Col>
       </Row>
       <ManageDataTab />
-      <EntityFilters />
-      <Divider />
+      <EntityTab
+        tabBarExtraContent={
+          <Link to="/master-data/entities/add">
+            <Button type="primary">Add new entity</Button>
+          </Link>
+        }
+      />
       <Card
         style={{ padding: 0, minHeight: "40vh" }}
         bodyStyle={{ padding: 0 }}
@@ -109,33 +109,6 @@ const MasterDataEntities = () => {
               `Results: ${range[0]} - ${range[1]} of ${total} items`,
           }}
           rowKey="id"
-          expandable={{
-            expandedRowRender: (record) => {
-              // TODO
-              // initialValues only for dummy to replace static json
-              const initialValues = record?.attributes?.length
-                ? record.attributes.map((a) => ({
-                    field: a.attribute,
-                    value: a.value,
-                  }))
-                : [];
-              return (
-                <DetailTable record={record} initialValues={initialValues} />
-              );
-            },
-            expandIcon: ({ expanded, onExpand, record }) =>
-              expanded ? (
-                <CloseSquareOutlined
-                  onClick={(e) => onExpand(record, e)}
-                  style={{ color: "#e94b4c" }}
-                />
-              ) : (
-                <PlusSquareOutlined
-                  onClick={(e) => onExpand(record, e)}
-                  style={{ color: "#7d7d7d" }}
-                />
-              ),
-          }}
         />
       </Card>
     </div>
