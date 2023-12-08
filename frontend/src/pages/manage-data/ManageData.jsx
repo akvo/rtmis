@@ -3,7 +3,6 @@ import "./style.scss";
 import {
   Row,
   Col,
-  Card,
   Divider,
   Table,
   ConfigProvider,
@@ -176,59 +175,64 @@ const ManageData = () => {
         </Col>
       </Row>
       <DataTab />
-      <DataFilters query={query} setQuery={setQuery} loading={loading} />
-      <Divider />
-      <Card
-        style={{ padding: 0, minHeight: "40vh" }}
-        bodyStyle={{ padding: 0 }}
-      >
-        <ConfigProvider
-          renderEmpty={() => (
-            <Empty
-              description={selectedForm ? "No data" : "No form selected"}
-            />
-          )}
-        >
-          <Table
-            columns={columns}
-            dataSource={dataset}
-            loading={loading}
-            onChange={handleChange}
-            pagination={{
-              current: currentPage,
-              total: totalCount,
-              pageSize: 10,
-              showSizeChanger: false,
-              showTotal: (total, range) =>
-                `Results: ${range[0]} - ${range[1]} of ${total} data`,
-            }}
-            rowKey="id"
-            expandable={{
-              expandedRowRender: (record) => (
-                <DataDetail
-                  questionGroups={questionGroups}
-                  record={record}
-                  updateRecord={updateRecord}
-                  updater={setUpdateRecord}
-                  setDeleteData={setDeleteData}
+
+      <div className="table-section">
+        <div className="table-wrapper">
+          <DataFilters query={query} setQuery={setQuery} loading={loading} />
+          <Divider />
+          <div
+            style={{ padding: 0, minHeight: "40vh" }}
+            bodyStyle={{ padding: 0 }}
+          >
+            <ConfigProvider
+              renderEmpty={() => (
+                <Empty
+                  description={selectedForm ? "No data" : "No form selected"}
                 />
-              ),
-              expandIcon: ({ expanded, onExpand, record }) =>
-                expanded ? (
-                  <CloseSquareOutlined
-                    onClick={(e) => onExpand(record, e)}
-                    style={{ color: "#e94b4c" }}
-                  />
-                ) : (
-                  <PlusSquareOutlined
-                    onClick={(e) => onExpand(record, e)}
-                    style={{ color: "#7d7d7d" }}
-                  />
-                ),
-            }}
-          />
-        </ConfigProvider>
-      </Card>
+              )}
+            >
+              <Table
+                columns={columns}
+                dataSource={dataset}
+                loading={loading}
+                onChange={handleChange}
+                pagination={{
+                  current: currentPage,
+                  total: totalCount,
+                  pageSize: 10,
+                  showSizeChanger: false,
+                  showTotal: (total, range) =>
+                    `Results: ${range[0]} - ${range[1]} of ${total} data`,
+                }}
+                rowKey="id"
+                expandable={{
+                  expandedRowRender: (record) => (
+                    <DataDetail
+                      questionGroups={questionGroups}
+                      record={record}
+                      updateRecord={updateRecord}
+                      updater={setUpdateRecord}
+                      setDeleteData={setDeleteData}
+                    />
+                  ),
+                  expandIcon: ({ expanded, onExpand, record }) =>
+                    expanded ? (
+                      <CloseSquareOutlined
+                        onClick={(e) => onExpand(record, e)}
+                        style={{ color: "#e94b4c" }}
+                      />
+                    ) : (
+                      <PlusSquareOutlined
+                        onClick={(e) => onExpand(record, e)}
+                        style={{ color: "#7d7d7d" }}
+                      />
+                    ),
+                }}
+              />
+            </ConfigProvider>
+          </div>
+        </div>
+      </div>
       <Modal
         visible={deleteData}
         onCancel={() => setDeleteData(null)}

@@ -1,6 +1,10 @@
 import React, { useMemo, useState, useEffect, useCallback } from "react";
-import { Row, Col, Card, Button, Divider, Table, Space, Input } from "antd";
-import { CloseSquareOutlined, PlusSquareOutlined } from "@ant-design/icons";
+import { Row, Col, Button, Divider, Table, Space, Input } from "antd";
+import {
+  CloseSquareOutlined,
+  PlusOutlined,
+  PlusSquareOutlined,
+} from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { api, store, uiText } from "../../lib";
@@ -118,69 +122,77 @@ const MobileAssignment = () => {
             title={text.mobilePanelTitle}
           />
         </Col>
-        <Col>
-          <Link to="/mobile-assignment/form">
-            <Button type="primary">{text.mobileButtonAdd}</Button>
-          </Link>
-        </Col>
       </Row>
       <Divider />
 
-      {/* Filter */}
-      <Row>
-        <Col span={20}>
-          <Space>
-            <Search
-              placeholder="Search..."
-              onChange={(e) => {
-                setSearch(e.target.value);
+      <div className="table-section">
+        <div className="table-wrapper">
+          {/* Filter */}
+          <Row>
+            <Col flex={1}>
+              <Space>
+                <Search
+                  placeholder="Search..."
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                  }}
+                  style={{ width: 425 }}
+                  value={search}
+                  allowClear
+                />
+              </Space>
+            </Col>
+            <Col>
+              <Link to="/mobile-assignment/form">
+                <Button icon={<PlusOutlined />} type="primary" shape="round">
+                  {text.mobileButtonAdd}
+                </Button>
+              </Link>
+            </Col>
+          </Row>
+          <Divider />
+
+          {/* Table start here */}
+          <div
+            style={{ padding: 0, minHeight: "40vh" }}
+            bodyStyle={{ padding: 0 }}
+          >
+            <Table
+              columns={columns}
+              rowClassName={() => "editable-row"}
+              dataSource={dataset}
+              loading={loading}
+              onChange={handleChange}
+              pagination={{
+                showSizeChanger: false,
+                current: currentPage,
+                total: totalCount,
+                pageSize: 10,
+                showTotal: (total, range) =>
+                  `Results: ${range[0]} - ${range[1]} of ${total} users`,
               }}
-              style={{ width: 225 }}
-              value={search}
-              allowClear
+              rowKey="id"
+              expandable={{
+                expandedRowRender: (record) => (
+                  <DetailAssignment record={record} />
+                ),
+                expandIcon: ({ expanded, onExpand, record }) =>
+                  expanded ? (
+                    <CloseSquareOutlined
+                      onClick={(e) => onExpand(record, e)}
+                      style={{ color: "#e94b4c" }}
+                    />
+                  ) : (
+                    <PlusSquareOutlined
+                      onClick={(e) => onExpand(record, e)}
+                      style={{ color: "#7d7d7d" }}
+                    />
+                  ),
+              }}
             />
-          </Space>
-        </Col>
-      </Row>
-      <Divider />
-
-      {/* Table start here */}
-      <Card
-        style={{ padding: 0, minHeight: "40vh" }}
-        bodyStyle={{ padding: 0 }}
-      >
-        <Table
-          columns={columns}
-          rowClassName={() => "editable-row"}
-          dataSource={dataset}
-          loading={loading}
-          onChange={handleChange}
-          pagination={{
-            showSizeChanger: false,
-            current: currentPage,
-            total: totalCount,
-            pageSize: 10,
-            showTotal: (total, range) =>
-              `Results: ${range[0]} - ${range[1]} of ${total} users`,
-          }}
-          rowKey="id"
-          expandable={{
-            expandedRowRender: (record) => <DetailAssignment record={record} />,
-            expandIcon: ({ expanded, onExpand, record }) =>
-              expanded ? (
-                <CloseSquareOutlined
-                  onClick={(e) => onExpand(record, e)}
-                  style={{ color: "#e94b4c" }}
-                />
-              ) : (
-                <PlusSquareOutlined
-                  onClick={(e) => onExpand(record, e)}
-                  style={{ color: "#7d7d7d" }}
-                />
-              ),
-          }}
-        />
-      </Card>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

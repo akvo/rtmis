@@ -36,6 +36,20 @@ class FormSeederTestCase(TestCase):
         )
         return out.getvalue()
 
+    def get_question_group(self, form, question_group_name):
+        return [
+            g for g in form['question_group']
+            if g['name'] == question_group_name
+        ][0]
+
+    def get_user_token(self):
+        user = {"email": "admin@rush.com", "password": "Test105*"}
+        user = self.client.post('/api/v1/login',
+                                user,
+                                content_type='application/json')
+        user = user.json()
+        return user.get("token")
+
     def test_call_command(self):
 
         self.maxDiff = None
@@ -76,12 +90,7 @@ class FormSeederTestCase(TestCase):
                               output)
             self.assertIn(form.name, json_forms)
 
-        user = {"email": "admin@rush.com", "password": "Test105*"}
-        user = self.client.post('/api/v1/login',
-                                user,
-                                content_type='application/json')
-        user = user.json()
-        token = user.get("token")
+        token = self.get_user_token()
         self.assertTrue(token)
         for id in form_ids:
             response = self.client.get(
@@ -124,13 +133,37 @@ class FormSeederTestCase(TestCase):
                                    content_type='application/json')
         self.assertEqual(200, response.status_code)
         response = response.json()
+        introduction = self.get_question_group(response, 'Introduction')
+        demographics = self.get_question_group(response, 'Demographics')
         self.assertEqual(
             ["chart", "aggregate", "table", "advanced_filter"],
-            response["question_group"][1]["question"][3]["attributes"])
-        self.assertEqual('Enumerator',
-                         response["question_group"][0]["question"][0]['name'])
+            demographics["question"][3]["attributes"])
+        self.assertEqual('Enumerator', introduction["question"][0]['name'])
         self.assertEqual('Name of the data collector (Enumerator)',
-                         response["question_group"][0]["question"][0]['text'])
-        self.assertIn(
-            "advanced_filter",
-            response["question_group"][1]["question"][3]["attributes"])
+                         introduction["question"][0]['text'])
+
+    def test_additional_attributes(self):
+        seed_administration_test()
+        self.call_command('--test')
+        token = self.get_user_token()
+        form_id = 2
+
+        response = self.client.get(
+            f"/api/v1/form/web/{form_id}",
+            follow=True,
+            content_type='application/json',
+            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+
+        data = response.json()
+        self.assertIn('approval_instructions', data)
+        gender = [
+            q for q in data['question_group'][0]['question']
+            if q['name'] == 'Gender'
+        ][0]
+        self.assertIn('tooltip', gender)
+        self.assertIn('color', gender['option'][0])
+        autofield = [
+            q for q in data['question_group'][0]['question']
+            if q['name'] == 'Autofield'
+        ][0]
+        self.assertIn('fn', autofield)

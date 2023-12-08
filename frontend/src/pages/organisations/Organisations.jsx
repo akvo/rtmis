@@ -3,7 +3,6 @@ import "./style.scss";
 import {
   Row,
   Col,
-  Card,
   Button,
   Divider,
   Table,
@@ -17,6 +16,7 @@ import { Breadcrumbs, DescriptionPanel, ManageDataTab } from "../../components";
 import { api, store, uiText, config } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { orderBy } from "lodash";
+import { PlusOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -190,62 +190,69 @@ const Organisations = () => {
           />
         </Col>
       </Row>
-      <ManageDataTab
-        tabBarExtraContent={
-          <Link to="/organisation/add">
-            <Button type="primary">Add new organization</Button>
-          </Link>
-        }
-      />
+      <ManageDataTab />
 
-      {/* Filter */}
-      <Row>
-        <Col span={20}>
-          <Space>
-            <Search
-              placeholder="Search..."
-              onChange={(e) => {
-                setSearch(e.target.value?.length >= 2 ? e.target.value : null);
+      <div className="table-section">
+        <div className="table-wrapper">
+          {/* Filter */}
+          <Row>
+            <Col flex={1}>
+              <Space>
+                <Search
+                  placeholder="Search..."
+                  onChange={(e) => {
+                    setSearch(
+                      e.target.value?.length >= 2 ? e.target.value : null
+                    );
+                  }}
+                  style={{ width: 225 }}
+                  allowClear
+                />
+                <Select
+                  placeholder="Attributes"
+                  getPopupContainer={(trigger) => trigger.parentNode}
+                  style={{ width: 225 }}
+                  onChange={setAttributes}
+                  allowClear
+                >
+                  {organisationAttributes?.map((o, oi) => (
+                    <Option key={`org-${oi}`} value={o.id}>
+                      {o.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Space>
+            </Col>
+            <Col>
+              <Link to="/organisation/add">
+                <Button type="primary" shape="round" icon={<PlusOutlined />}>
+                  Add new organization
+                </Button>
+              </Link>
+            </Col>
+          </Row>
+          <Divider />
+
+          {/* Table start here */}
+          <div
+            style={{ padding: 0, minHeight: "40vh" }}
+            bodyStyle={{ padding: 0 }}
+          >
+            <Table
+              columns={columns}
+              rowClassName={() => "editable-row"}
+              dataSource={dataset}
+              loading={loading}
+              pagination={{
+                showSizeChanger: false,
+                showTotal: (total, range) =>
+                  `Results: ${range[0]} - ${range[1]} of ${total} organisations`,
               }}
-              style={{ width: 225 }}
-              allowClear
+              rowKey="id"
             />
-            <Select
-              placeholder="Attributes"
-              getPopupContainer={(trigger) => trigger.parentNode}
-              style={{ width: 225 }}
-              onChange={setAttributes}
-              allowClear
-            >
-              {organisationAttributes?.map((o, oi) => (
-                <Option key={`org-${oi}`} value={o.id}>
-                  {o.name}
-                </Option>
-              ))}
-            </Select>
-          </Space>
-        </Col>
-      </Row>
-      <Divider />
-
-      {/* Table start here */}
-      <Card
-        style={{ padding: 0, minHeight: "40vh" }}
-        bodyStyle={{ padding: 0 }}
-      >
-        <Table
-          columns={columns}
-          rowClassName={() => "editable-row"}
-          dataSource={dataset}
-          loading={loading}
-          pagination={{
-            showSizeChanger: false,
-            showTotal: (total, range) =>
-              `Results: ${range[0]} - ${range[1]} of ${total} organisations`,
-          }}
-          rowKey="id"
-        />
-      </Card>
+          </div>
+        </div>
+      </div>
 
       {/* Modal */}
       <Modal

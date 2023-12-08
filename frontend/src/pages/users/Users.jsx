@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Card, Button, Divider, Table, Modal, Tag } from "antd";
+import { Row, Col, Button, Divider, Table, Modal, Tag } from "antd";
 import { Link } from "react-router-dom";
-import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
+import {
+  PlusSquareOutlined,
+  CloseSquareOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import { api, store, uiText } from "../../lib";
 import UserDetail from "./UserDetail";
 import {
@@ -226,64 +230,69 @@ const Users = () => {
           />
         </Col>
       </Row>
-      <UserTab
-        tabBarExtraContent={
-          <Link to="/user/add">
-            <Button type="primary">Add new user</Button>
-          </Link>
-        }
-      />
-      <UserFilters
-        query={query}
-        setQuery={setQuery}
-        fetchData={fetchData}
-        pending={pending}
-        setPending={setPending}
-        loading={loading}
-      />
-      <Divider />
-      <Card
-        style={{ padding: 0, minHeight: "40vh" }}
-        bodyStyle={{ padding: 0 }}
-      >
-        <Table
-          columns={columns}
-          rowClassName={() => "editable-row"}
-          dataSource={dataset}
-          loading={loading}
-          onChange={handleChange}
-          pagination={{
-            showSizeChanger: false,
-            current: currentPage,
-            total: totalCount,
-            pageSize: 10,
-            showTotal: (total, range) =>
-              `Results: ${range[0]} - ${range[1]} of ${total} users`,
-          }}
-          rowKey="id"
-          expandable={{
-            expandedRowRender: (record) => (
-              <UserDetail
-                record={record}
-                setDeleteUser={setDeleteUser}
-                deleting={deleting}
-              />
-            ),
-            expandIcon: ({ expanded, onExpand, record }) =>
-              expanded ? (
-                <CloseSquareOutlined
-                  onClick={(e) => onExpand(record, e)}
-                  style={{ color: "#e94b4c" }}
-                />
-              ) : (
-                <PlusSquareOutlined
-                  onClick={(e) => onExpand(record, e)}
-                  style={{ color: "#7d7d7d" }}
-                />
-              ),
-          }}
-        />
-      </Card>
+      <UserTab />
+      <div className="table-section">
+        <div className="table-wrapper">
+          <UserFilters
+            query={query}
+            setQuery={setQuery}
+            fetchData={fetchData}
+            pending={pending}
+            setPending={setPending}
+            loading={loading}
+            button={
+              <Link to="/user/add">
+                <Button type="primary" shape="round" icon={<PlusOutlined />}>
+                  Add new user
+                </Button>
+              </Link>
+            }
+          />
+          <Divider />
+          <div
+            style={{ padding: 0, minHeight: "40vh" }}
+            bodyStyle={{ padding: 0 }}
+          >
+            <Table
+              columns={columns}
+              rowClassName={() => "editable-row"}
+              dataSource={dataset}
+              loading={loading}
+              onChange={handleChange}
+              pagination={{
+                showSizeChanger: false,
+                current: currentPage,
+                total: totalCount,
+                pageSize: 10,
+                showTotal: (total, range) =>
+                  `Results: ${range[0]} - ${range[1]} of ${total} users`,
+              }}
+              rowKey="id"
+              expandable={{
+                expandedRowRender: (record) => (
+                  <UserDetail
+                    record={record}
+                    setDeleteUser={setDeleteUser}
+                    deleting={deleting}
+                  />
+                ),
+                expandIcon: ({ expanded, onExpand, record }) =>
+                  expanded ? (
+                    <CloseSquareOutlined
+                      onClick={(e) => onExpand(record, e)}
+                      style={{ color: "#e94b4c" }}
+                    />
+                  ) : (
+                    <PlusSquareOutlined
+                      onClick={(e) => onExpand(record, e)}
+                      style={{ color: "#7d7d7d" }}
+                    />
+                  ),
+              }}
+            />
+          </div>
+        </div>
+      </div>
       <Modal
         visible={deleteUser}
         onCancel={() => setDeleteUser(null)}

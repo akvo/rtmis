@@ -13,6 +13,7 @@ const AdministrationDropdown = ({
   hidden = false,
   maxLevel = null,
   allowMultiple = false,
+  currentId = null,
   onChange,
   ...props
 }) => {
@@ -99,12 +100,17 @@ const AdministrationDropdown = ({
                     filterOption={true}
                     optionFilterProp="children"
                     mode={selectMode}
+                    className="custom-select"
                   >
-                    {region.children.map((optionValue, optionIdx) => (
-                      <Select.Option key={optionIdx} value={optionValue.id}>
-                        {optionValue.name}
-                      </Select.Option>
-                    ))}
+                    {region.children
+                      .filter(
+                        (c) => !currentId || c?.id !== parseInt(currentId, 10)
+                      ) // prevents circular loops when primary ID has the same parent ID
+                      .map((optionValue, optionIdx) => (
+                        <Select.Option key={optionIdx} value={optionValue.id}>
+                          {optionValue.name}
+                        </Select.Option>
+                      ))}
                   </Select>
                 </div>
               );

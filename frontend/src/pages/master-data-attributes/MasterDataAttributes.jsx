@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Button, Card, Col, Divider, Row, Table, Typography } from "antd";
+import { Button, Col, Divider, Row, Table, Typography } from "antd";
 import {
   AdministrationFilters,
   Breadcrumbs,
@@ -113,20 +113,25 @@ const MasterDataAttributes = () => {
         </Col>
       </Row>
       <ManageDataTab />
-      <AdministrationFilters addLink="/master-data/attributes/add" />
-      <Divider />
-      <Card
-        style={{ padding: 0, minHeight: "40vh" }}
-        bodyStyle={{ padding: 0 }}
-      >
-        <Table
-          columns={columns}
-          rowClassName={() => "editable-row"}
-          dataSource={dataset}
-          loading={loading}
-          rowKey="id"
-        />
-      </Card>
+
+      <div className="table-section">
+        <div className="table-wrapper">
+          <AdministrationFilters addLink="/master-data/attributes/add" />
+          <Divider />
+          <div
+            style={{ padding: 0, minHeight: "40vh" }}
+            bodyStyle={{ padding: 0 }}
+          >
+            <Table
+              columns={columns}
+              rowClassName={() => "editable-row"}
+              dataSource={dataset}
+              loading={loading}
+              rowKey="id"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
