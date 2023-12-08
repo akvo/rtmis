@@ -26,7 +26,7 @@ const MasterDataAttributes = () => {
 
   const pagePath = [
     {
-      title: "Control Center",
+      title: text.controlCenter,
       link: "/control-center",
     },
     {
@@ -108,7 +108,7 @@ const MasterDataAttributes = () => {
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel
             description={text.manageUserText}
-            title="Manage Attributes"
+            title={text.manageAttributes}
           />
         </Col>
       </Row>

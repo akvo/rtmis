@@ -262,7 +262,10 @@ const AddUser = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={descriptionData} title="Add User" />
+          <DescriptionPanel
+            description={descriptionData}
+            title={text.addUser}
+          />
         </Col>
       </Row>
       <Divider />

@@ -29,7 +29,7 @@ const MasterData = () => {
 
   const pagePath = [
     {
-      title: "Control Center",
+      title: text.controlCenter,
       link: "/control-center",
     },
     {
@@ -39,16 +39,16 @@ const MasterData = () => {
 
   const columns = [
     {
-      title: "Code",
+      title: text.codeLabel,
       dataIndex: "code",
       width: "10%",
     },
     {
-      title: "Name",
+      title: text.nameLabel,
       dataIndex: "name",
     },
     {
-      title: "Level",
+      title: text.levelLabel,
       dataIndex: "level",
       render: (record) => record?.name || "",
     },
@@ -126,7 +126,7 @@ const MasterData = () => {
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel
             description={text.manageUserText}
-            title="Manage Administrative List"
+            title={text.manageAdministrativeList}
           />
         </Col>
       </Row>

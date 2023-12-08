@@ -190,7 +190,16 @@ const uiText = {
     ),
     manageAdministrativeList: "Manage Administrative List",
     manageAttributes: "Manage Attributes",
+    editAttributes: "Edit Attribute",
+    addAttributes: "Add Attribute",
     manageEntities: "Manage Entities",
+    addEntities: "Add Entities",
+    entityLabel: "Entity",
+    administrationLabel: "Administration",
+    codeLabel: "Code",
+    nameLabel: "Name",
+    levelLabel: "Level",
+    profileLabel: "Profile",
     ccDescriptionPanel:
       "Instant access to all the administration pages and overview panels for data approvals.",
     // Settings

@@ -41,7 +41,7 @@ const Organisations = () => {
 
   const pagePath = [
     {
-      title: "Control Center",
+      title: text.controlCenter,
       link: "/control-center",
     },
     {
@@ -186,7 +186,7 @@ const Organisations = () => {
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel
             description={descriptionData}
-            title="Manage Organizations"
+            title={text.manageOrganisations}
           />
         </Col>
       </Row>

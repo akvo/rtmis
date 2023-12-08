@@ -28,7 +28,7 @@ const MasterDataEntities = () => {
 
   const pagePath = [
     {
-      title: "Control Center",
+      title: text.controlCenter,
       link: "/control-center",
     },
     {
@@ -38,15 +38,15 @@ const MasterDataEntities = () => {
 
   const columns = [
     {
-      title: "Entity",
+      title: text.entityLabel,
       dataIndex: "entity",
     },
     {
-      title: "Name",
+      title: text.mobileLabelName,
       dataIndex: "name",
     },
     {
-      title: "Administration",
+      title: text.administrationLabel,
       dataIndex: "administration",
     },
     Table.EXPAND_COLUMN,
@@ -86,7 +86,7 @@ const MasterDataEntities = () => {
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel
             description={text.manageUserText}
-            title="Manage Entities"
+            title={text.manageEntities}
           />
         </Col>
       </Row>

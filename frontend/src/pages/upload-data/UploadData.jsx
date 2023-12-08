@@ -28,15 +28,6 @@ const allowedFiles = [
 const { Option } = Select;
 const { Dragger } = Upload;
 const regExpFilename = /filename="(?<filename>.*)"/;
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Data Upload",
-  },
-];
 const UploadData = () => {
   const { forms, user, administration } = store.useState((state) => state);
   const [formId, setFormId] = useState(null);
@@ -49,9 +40,21 @@ const UploadData = () => {
   const navigate = useNavigate();
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
+
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: text.controlCenter,
+      link: "/control-center",
+    },
+    {
+      title: text.dataUploadTitle,
+    },
+  ];
+
   const exportGenerate = () => {
     const adm_id = takeRight(administration, 1)[0]?.id;
     api
@@ -198,7 +201,7 @@ const UploadData = () => {
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel
             description={text.dataUploadText}
-            title="Data Upload"
+            title={text.dataUploadTitle}
           />
         </Col>
       </Row>

@@ -25,7 +25,7 @@ const MobileAssignment = () => {
 
   const pagePath = [
     {
-      title: "Control Center",
+      title: text.controlCenter,
       link: "/control-center",
     },
     {
@@ -115,7 +115,7 @@ const MobileAssignment = () => {
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel
             description={descriptionData}
-            title="Mobile Data Collectors"
+            title={text.mobilePanelTitle}
           />
         </Col>
         <Col>

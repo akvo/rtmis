@@ -44,7 +44,7 @@ const ExportData = () => {
 
   const pagePath = [
     {
-      title: "Control Center",
+      title: text.controlCenter,
       link: "/control-center",
     },
     {
@@ -203,7 +203,7 @@ const ExportData = () => {
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel
             description={descriptionData}
-            title="Data Download"
+            title={text.dataDownloadTitle}
           />
         </Col>
       </Row>

@@ -35,7 +35,7 @@ const Settings = () => {
         <Breadcrumbs
           pagePath={[
             {
-              title: "System Settings",
+              title: text.settings,
               link: "/settings",
             },
           ]}
@@ -43,7 +43,7 @@ const Settings = () => {
       </Row>
       <DescriptionPanel
         description={text.settingsDescriptionPanel}
-        title="Settings"
+        title={text.settings}
       />
       <Divider />
       <Row gutter={[16, 16]}>
