@@ -10,6 +10,11 @@ import { takeRight } from "lodash";
 import RemoveFiltersButton from "./RemoveFiltersButton";
 import AdvancedFiltersButton from "./AdvancedFiltersButton";
 import AdvancedFilters from "./AdvancedFilters";
+import {
+  PlusOutlined,
+  DownloadOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 
 const DataFilters = ({ loading }) => {
   const {
@@ -66,18 +71,23 @@ const DataFilters = ({ loading }) => {
             <Space>
               {pathname === "/data/manage" && (
                 <Button
-                  type="primary"
+                  shape="round"
                   onClick={exportGenerate}
                   loading={exporting}
+                  icon={<DownloadOutlined />}
                 >
                   Download Data
                 </Button>
               )}
               <Link to="/data/upload">
-                <Button type="primary">Bulk Upload</Button>
+                <Button shape="round" icon={<UploadOutlined />}>
+                  Bulk Upload
+                </Button>
               </Link>
               <Link to={`/form/${selectedForm}`}>
                 <Button
+                  shape="round"
+                  icon={<PlusOutlined />}
                   type="primary"
                   disabled={
                     !isUserHasForms && authUser?.role?.value !== "Super Admin"

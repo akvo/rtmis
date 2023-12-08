@@ -16,6 +16,7 @@ const UserFilters = ({
   pending,
   setPending,
   loading,
+  button,
 }) => {
   const { user: authUser, filters } = store.useState((state) => state);
   const { trained, role, organisation } = filters;
@@ -38,9 +39,9 @@ const UserFilters = ({
   }, [organisations, setOrganisations]);
 
   return (
-    <Row>
-      <Col span={20}>
-        <Space>
+    <>
+      <Row justify="space-between" style={{ paddingBottom: "10px" }}>
+        <Col>
           <Search
             placeholder="Search..."
             value={query}
@@ -50,84 +51,94 @@ const UserFilters = ({
             onSearch={(e) => {
               fetchData(e);
             }}
-            style={{ width: 160 }}
+            style={{ width: 260 }}
             loading={loading && !!query}
             allowClear
           />
-          <Select
-            placeholder="Organization"
-            getPopupContainer={(trigger) => trigger.parentNode}
-            style={{ width: 160 }}
-            value={organisation}
-            onChange={(e) => {
-              store.update((s) => {
-                s.filters.organisation = e;
-              });
+        </Col>
+        <Col>{button}</Col>
+      </Row>
+      <Row>
+        <Col span={20}>
+          <Space>
+            <Select
+              placeholder="Organization"
+              getPopupContainer={(trigger) => trigger.parentNode}
+              style={{ width: 160 }}
+              value={organisation}
+              onChange={(e) => {
+                store.update((s) => {
+                  s.filters.organisation = e;
+                });
+              }}
+              className="custom-select"
+              allowClear
+            >
+              {organisations?.map((o, oi) => (
+                <Option key={`org-${oi}`} value={o.id}>
+                  {o.name}
+                </Option>
+              ))}
+            </Select>
+            <Select
+              placeholder="Trained Status"
+              getPopupContainer={(trigger) => trigger.parentNode}
+              style={{ width: 160 }}
+              value={trained}
+              onChange={(e) => {
+                store.update((s) => {
+                  s.filters.trained = e;
+                });
+              }}
+              allowClear
+              className="custom-select"
+            >
+              {trainedStatus.map((t, ti) => (
+                <Option key={ti} value={t.value}>
+                  {t.label}
+                </Option>
+              ))}
+            </Select>
+            <Select
+              placeholder="Role"
+              getPopupContainer={(trigger) => trigger.parentNode}
+              style={{ width: 160 }}
+              value={role}
+              onChange={(e) => {
+                store.update((s) => {
+                  s.filters.role = e;
+                });
+              }}
+              allowClear
+              className="custom-select"
+            >
+              {allowedRole.map((r, ri) => (
+                <Option key={ri} value={r.id}>
+                  {r.name}
+                </Option>
+              ))}
+            </Select>
+            <AdministrationDropdown loading={loading} />
+            <RemoveFiltersButton
+              extra={(s) => {
+                s.filters = { trained: null, role: null, organisation: null };
+              }}
+            />
+          </Space>
+        </Col>
+        <Col span={4} align="right">
+          <Checkbox
+            onChange={() => {
+              setPending(!pending);
             }}
-            allowClear
+            disabled={loading}
+            checked={pending}
           >
-            {organisations?.map((o, oi) => (
-              <Option key={`org-${oi}`} value={o.id}>
-                {o.name}
-              </Option>
-            ))}
-          </Select>
-          <Select
-            placeholder="Trained Status"
-            getPopupContainer={(trigger) => trigger.parentNode}
-            style={{ width: 160 }}
-            value={trained}
-            onChange={(e) => {
-              store.update((s) => {
-                s.filters.trained = e;
-              });
-            }}
-            allowClear
-          >
-            {trainedStatus.map((t, ti) => (
-              <Option key={ti} value={t.value}>
-                {t.label}
-              </Option>
-            ))}
-          </Select>
-          <Select
-            placeholder="Role"
-            getPopupContainer={(trigger) => trigger.parentNode}
-            style={{ width: 160 }}
-            value={role}
-            onChange={(e) => {
-              store.update((s) => {
-                s.filters.role = e;
-              });
-            }}
-            allowClear
-          >
-            {allowedRole.map((r, ri) => (
-              <Option key={ri} value={r.id}>
-                {r.name}
-              </Option>
-            ))}
-          </Select>
-          <AdministrationDropdown loading={loading} />
-          <RemoveFiltersButton
-            extra={(s) => {
-              s.filters = { trained: null, role: null, organisation: null };
-            }}
-          />
-        </Space>
-      </Col>
-      <Col span={4} align="right">
-        <Checkbox
-          onChange={() => {
-            setPending(!pending);
-          }}
-          disabled={loading}
-          checked={pending}
-        >
-          Show Pending Users
-        </Checkbox>
-      </Col>
-    </Row>
+            Show Pending Users
+          </Checkbox>
+        </Col>
+      </Row>
+    </>
   );
 };
 
