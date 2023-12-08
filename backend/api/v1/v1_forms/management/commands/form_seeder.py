@@ -56,10 +56,15 @@ class Command(BaseCommand):
             form = Forms.objects.filter(id=json_form["id"]).first()
             QA.objects.filter(question__form=form).all().delete()
             if not form:
-                form = Forms.objects.create(id=json_form["id"],
-                                            name=json_form["form"],
-                                            version=1,
-                                            type=json_form["type"])
+                form = Forms.objects.create(
+                    id=json_form["id"],
+                    name=json_form["form"],
+                    version=1,
+                    type=json_form["type"],
+                    approval_instructions=json_form.get(
+                        'approval_instructions'
+                    )
+                )
                 if not TEST:
                     self.stdout.write(
                         f"Form Created | {form.name} V{form.version}")
@@ -99,6 +104,8 @@ class Command(BaseCommand):
                             dependency=q.get("dependency"),
                             api=q.get("api"),
                             type=getattr(QuestionTypes, q["type"]),
+                            tooltip=q.get("tooltip"),
+                            fn=q.get("fn"),
                         )
                     else:
                         question.name = q.get("name") or q.get("question")
@@ -111,6 +118,8 @@ class Command(BaseCommand):
                         question.type = getattr(QuestionTypes, q["type"])
                         question.api = q.get("api")
                         question.extra = q.get("extra")
+                        question.tooltip = q.get("tooltip")
+                        question.fn = q.get("fn")
                         question.save()
                     if q.get("options"):
                         QO.objects.filter(question=question).all().delete()
@@ -119,6 +128,7 @@ class Command(BaseCommand):
                                 name=o["name"].strip(),
                                 question=question,
                                 order=io + 1,
+                                color=o.get("color")
                             ) for io, o in enumerate(q.get("options"))
                         ])
                     if q.get("attributes"):
