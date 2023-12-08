@@ -2,6 +2,7 @@
   "id": 2,
   "form": "Test Form 2",
   "type": 2,
+  "approval_instructions": {"text": "test", "action": ["action #1"]},
   "question_groups": [
     {
       "question_group": "Question Group 01",
@@ -18,6 +19,7 @@
           "question": "Gender",
           "meta": false,
           "type": "option",
+          "tooltip": {"text": "test tooltip"},
           "required": true,
           "attributes": [
             "chart",
@@ -25,13 +27,16 @@
           ],
           "options": [
             {
-              "name": "Male"
+              "name": "Male",
+              "color": "#000000"
             },
             {
-              "name": "Female"
+              "name": "Female",
+              "color": "#111111"
             },
             {
-              "name": "Other"
+              "name": "Other",
+              "color": "#222222"
             }
           ]
         },
@@ -80,6 +85,18 @@
               "name": "Parent"
             }
           ]
+        },
+        {
+          "id": 207,
+          "question": "Autofield",
+          "type": "autofield",
+          "required": false,
+          "meta": false,
+          "fn": {
+            "fnColor": {},
+            "fnString": "function() {}",
+            "multiline": true
+          }
         }
       ]
     }
