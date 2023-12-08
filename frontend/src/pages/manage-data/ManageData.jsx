@@ -28,15 +28,6 @@ import {
 import { useNotification } from "../../util/hooks";
 import { generateAdvanceFilterURL } from "../../util/filter";
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Data",
-  },
-];
 const ManageData = () => {
   const { notify } = useNotification();
   const [loading, setLoading] = useState(false);
@@ -52,6 +43,16 @@ const ManageData = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: text.controlCenter,
+      link: "/control-center",
+    },
+    {
+      title: text.manageDataTitle,
+    },
+  ];
 
   const { administration, selectedForm, questionGroups } = store.useState(
     (state) => state
@@ -167,7 +168,10 @@ const ManageData = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={text.manageDataText} />
+          <DescriptionPanel
+            description={text.manageDataText}
+            title={text.manageDataTitle}
+          />
         </Col>
       </Row>
       <DataTab />

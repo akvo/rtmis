@@ -12,16 +12,6 @@ import DetailAssignment from "./DetailAssignment";
 
 const { Search } = Input;
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Mobile Data Collectors",
-  },
-];
-
 const MobileAssignment = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState(null);
@@ -36,6 +26,16 @@ const MobileAssignment = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: text.controlCenter,
+      link: "/control-center",
+    },
+    {
+      title: text.mobilePanelTitle,
+    },
+  ];
 
   const handleOnEdit = (record) => {
     store.update((s) => {
@@ -117,7 +117,10 @@ const MobileAssignment = () => {
       <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={descriptionData} />
+          <DescriptionPanel
+            description={descriptionData}
+            title={text.mobilePanelTitle}
+          />
         </Col>
       </Row>
       <Divider />

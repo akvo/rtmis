@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import {
   Button,
   Card,
@@ -12,12 +12,12 @@ import {
   Space,
   Tabs,
 } from "antd";
-import { Breadcrumbs } from "../../components";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
 import { MinusCircleOutlined } from "@ant-design/icons";
 import "./style.scss";
-import { api, store } from "../../lib";
+import { api, store, uiText } from "../../lib";
 
 const TYPES = [
   {
@@ -47,6 +47,13 @@ const AddAttribute = () => {
   const [activeTab, setActiveTab] = useState("administration");
   const [attrType, setAttrType] = useState(initialValues?.type || null);
 
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
+
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const { notify } = useNotification();
@@ -54,15 +61,15 @@ const AddAttribute = () => {
 
   const pagePath = [
     {
-      title: "Control Center",
+      title: text.controlCenter,
       link: "/control-center",
     },
     {
-      title: "Manage Attributes",
+      title: text.manageAttributes,
       link: "/master-data/attributes",
     },
     {
-      title: id ? "Edit Attribute" : "Add Attribute",
+      title: id ? text.editAttributes : text.addAttributes,
     },
   ];
 
@@ -133,7 +140,9 @@ const AddAttribute = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          {/* <DescriptionPanel description={descriptionData} /> */}
+          <DescriptionPanel
+            title={id ? text.editAttributes : text.addAttributes}
+          />
         </Col>
       </Row>
       <Divider />

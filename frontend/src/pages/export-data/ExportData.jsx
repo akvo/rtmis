@@ -20,15 +20,6 @@ import { Breadcrumbs, DescriptionPanel, DataTab } from "../../components";
 import { api, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Data Download",
-  },
-];
 const descriptionData = (
   <p>
     This page shows your list of data export requests.
@@ -50,6 +41,16 @@ const ExportData = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: text.controlCenter,
+      link: "/control-center",
+    },
+    {
+      title: text.dataDownloadTitle,
+    },
+  ];
 
   const columns = [
     {
@@ -200,7 +201,10 @@ const ExportData = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={descriptionData} />
+          <DescriptionPanel
+            description={descriptionData}
+            title={text.dataDownloadTitle}
+          />
         </Col>
       </Row>
       <DataTab />
