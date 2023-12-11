@@ -65,11 +65,7 @@ const AddEntityData = () => {
     },
     {
       title: text.manageEntities,
-      link: "/master-data/entities/",
-    },
-    {
-      title: text.entityDataTitle,
-      link: "/master-data/entities/data",
+      link: "/master-data/entities/data/",
     },
     {
       title: id ? text.editEntityData : text.addEntityData,
@@ -87,7 +83,7 @@ const AddEntityData = () => {
             type: "success",
             message: text.successEntityDataDeleted,
           });
-          navigate("/master-data/entities/data");
+          navigate("/master-data/entities/data/");
         } catch (error) {
           Modal.error({
             title: text.errDeleteEntityDataTitle,
@@ -118,7 +114,7 @@ const AddEntityData = () => {
           : text.successEntityDataAdded,
       });
       setSubmitting(false);
-      navigate("/master-data/entities/data");
+      navigate("/master-data/entities/data/");
     } catch {
       setSubmitting(false);
     }

@@ -1,18 +1,19 @@
+import React, { useMemo } from "react";
+import { Link } from "react-router-dom";
 import { Button, Col, Input, Row, Space } from "antd";
 import RemoveFiltersButton from "./RemoveFiltersButton";
 import AdministrationDropdown from "./AdministrationDropdown";
-import { store } from "../../lib";
-import { Link } from "react-router-dom";
-import {
-  PlusOutlined,
-  DownloadOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
+import { store, uiText } from "../../lib";
 
 const { Search } = Input;
 
 const EntityFilters = ({ loading }) => {
   const authUser = store.useState((s) => s.user);
+  const language = store.useState((s) => s.language);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   return (
     <Row>
@@ -42,18 +43,8 @@ const EntityFilters = ({ loading }) => {
       {["Super Admin"].includes(authUser?.role?.value) && (
         <Col>
           <Space>
-            <Link to="/data/upload">
-              <Button icon={<UploadOutlined />} shape="round">
-                Bulk Upload
-              </Button>
-            </Link>
-            <Button icon={<DownloadOutlined />} shape="round">
-              Export
-            </Button>
             <Link to="/master-data/entities/add">
-              <Button type="primary" icon={<PlusOutlined />} shape="round">
-                Add New
-              </Button>
+              <Button type="primary">{text.addEntity}</Button>
             </Link>
           </Space>
         </Col>
