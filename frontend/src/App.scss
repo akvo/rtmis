@@ -217,6 +217,72 @@
     .table-wrapper {
       background-color: white;
       padding: 24px;
+
+      .ant-form {
+        &.ant-form-horizontal {
+          .ant-form-item {
+            .ant-form-item-label {
+              label {
+                color: $blue-darker;
+                font-size: 14px;
+                font-weight: $font-weight-semi-bold;
+              }
+            }
+            .ant-input-affix-wrapper {
+              padding: 0px 10px 0px 0px;
+            }
+            input {
+              padding: 6px 12px;
+              border-color: $stroke-color;
+              color: $color-dark;
+              font-weight: $font-weight-semi-bold;
+            }
+
+            .ant-checkbox-wrapper {
+              color: $white;
+            }
+          }
+          .ant-select {
+            .ant-select-selector {
+              height: auto;
+              padding: 2px 12px;
+              input {
+                height: auto;
+              }
+              .ant-select-selection-item {
+                padding-right: 0px;
+                padding-left: 18px;
+              }
+              .ant-select-selection-placeholder {
+                padding-right: 0px;
+                padding-left: 18px;
+              }
+            }
+            .ant-select-arrow {
+              left: 11px;
+              svg {
+                fill: $title5;
+              }
+            }
+          }
+        }
+      }
+      #adm-form {
+        width: 75%;
+        margin: 0 auto;
+        padding: 20px 0px;
+        .ant-spin-container {
+          > .ant-row,
+          > .form-row {
+            position: relative;
+            margin-bottom: 20px !important;
+            padding-bottom: 20px;
+          }
+          .ant-form-item {
+            margin-bottom: 0px;
+          }
+        }
+      }
     }
   }
 }
