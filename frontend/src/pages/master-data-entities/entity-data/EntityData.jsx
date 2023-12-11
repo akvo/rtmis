@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Button, Card, Col, Row, Space, Table } from "antd";
+import { Button, Divider, Col, Row, Space, Table } from "antd";
 import { Link } from "react-router-dom";
 
 import {
   Breadcrumbs,
   DescriptionPanel,
+  EntityDataFilters,
   ManageDataTab,
 } from "../../../components";
 import { api, store, uiText } from "../../../lib";
@@ -15,7 +16,6 @@ const EntityData = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const authUser = store.useState((s) => s.user);
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
 
@@ -117,40 +117,32 @@ const EntityData = () => {
         </Col>
       </Row>
       <ManageDataTab />
-      <Row>
-        <Col span={16}></Col>
-        <Col span={8}>
-          {["Super Admin"].includes(authUser?.role?.value) && (
-            <Space>
-              <Button type="primary">{text.exportButton}</Button>
-              <Link to="/master-data/entities/data/add">
-                <Button type="primary">{text.addEntityData}</Button>
-              </Link>
-            </Space>
-          )}
-        </Col>
-      </Row>
-
-      <Card
-        style={{ padding: 0, minHeight: "40vh" }}
-        bodyStyle={{ padding: 0 }}
-      >
-        <Table
-          columns={columns}
-          rowClassName={() => "editable-row"}
-          dataSource={dataset}
-          loading={loading}
-          onChange={handleChange}
-          pagination={{
-            showSizeChanger: false,
-            current: currentPage,
-            total: totalCount,
-            pageSize: 10,
-            showTotal: (total, range) =>
-              `Results: ${range[0]} - ${range[1]} of ${total} items`,
-          }}
-        />
-      </Card>
+      <div className="table-section">
+        <div className="table-wrapper">
+          <EntityDataFilters />
+          <Divider />
+          <div
+            style={{ padding: 0, minHeight: "40vh" }}
+            bodyStyle={{ padding: 0 }}
+          >
+            <Table
+              columns={columns}
+              rowClassName={() => "editable-row"}
+              dataSource={dataset}
+              loading={loading}
+              onChange={handleChange}
+              pagination={{
+                showSizeChanger: false,
+                current: currentPage,
+                total: totalCount,
+                pageSize: 10,
+                showTotal: (total, range) =>
+                  `Results: ${range[0]} - ${range[1]} of ${total} items`,
+              }}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
