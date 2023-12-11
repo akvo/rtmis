@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { Button, Card, Col, Row, Space, Table } from "antd";
-import { Breadcrumbs, EntityTab, ManageDataTab } from "../../components";
+import { Breadcrumbs, ManageDataTab } from "../../components";
 
 import { api, store, uiText } from "../../lib";
 import { Link } from "react-router-dom";
@@ -11,7 +11,7 @@ const MasterDataEntities = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { language } = store.useState((s) => s);
+  const { language, user: authUser } = store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -90,13 +90,16 @@ const MasterDataEntities = () => {
         </Col>
       </Row>
       <ManageDataTab />
-      <EntityTab
-        tabBarExtraContent={
-          <Link to="/master-data/entities/add">
-            <Button type="primary">{text.addEntity}</Button>
-          </Link>
-        }
-      />
+      <Row>
+        <Col span={16}></Col>
+        <Col span={8}>
+          {["Super Admin"].includes(authUser?.role?.value) && (
+            <Link to="/master-data/entities/add">
+              <Button type="primary">{text.addEntity}</Button>
+            </Link>
+          )}
+        </Col>
+      </Row>
       <Card
         style={{ padding: 0, minHeight: "40vh" }}
         bodyStyle={{ padding: 0 }}

@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import {
   Breadcrumbs,
   DescriptionPanel,
-  EntityTab,
   ManageDataTab,
 } from "../../../components";
 import { api, store, uiText } from "../../../lib";
@@ -118,20 +117,19 @@ const EntityData = () => {
         </Col>
       </Row>
       <ManageDataTab />
-      {["Super Admin"].includes(authUser?.role?.value) ? (
-        <EntityTab
-          tabBarExtraContent={
+      <Row>
+        <Col span={16}></Col>
+        <Col span={8}>
+          {["Super Admin"].includes(authUser?.role?.value) && (
             <Space>
               <Button type="primary">{text.exportButton}</Button>
               <Link to="/master-data/entities/data/add">
                 <Button type="primary">{text.addEntityData}</Button>
               </Link>
             </Space>
-          }
-        />
-      ) : (
-        <EntityTab />
-      )}
+          )}
+        </Col>
+      </Row>
 
       <Card
         style={{ padding: 0, minHeight: "40vh" }}
