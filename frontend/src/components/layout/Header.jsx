@@ -194,7 +194,9 @@ const Header = ({ className = "header", ...props }) => {
               </Dropdown>
             ) : (
               <Link to={"/login"}>
-                <Button type="primary">{text?.login}</Button>
+                <Button type="primary" shape="round">
+                  {text?.login}
+                </Button>
               </Link>
             )}
           </div>

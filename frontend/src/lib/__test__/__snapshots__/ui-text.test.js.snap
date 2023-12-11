@@ -5,6 +5,7 @@ Object {
   "de": Object {},
   "en": Object {
     "accountDisclaimer": "The user is accountable for his/her account and in case there are any changes (Transfers, retirement, any kind of leave, resignation etc) this should be communicated to the County Administrator or National Super Admin who might be able to assign the roles to the new officer.",
+    "addAdministration": "Add Administration",
     "addAttributes": "Add Attribute",
     "addEntities": "Add Entities",
     "addOrganisation": "Add Organization",
@@ -66,6 +67,7 @@ Object {
     "deleteUserTitle": "You are about to delete the user",
     "download": "Download",
     "dropFile": "Drop your file here",
+    "editAdministration": "Edit Administration",
     "editAttributes": "Edit Attribute",
     "editOrganisation": "Edit Organization",
     "editUser": "Edit User",
