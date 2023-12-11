@@ -189,6 +189,8 @@ const uiText = {
       </Fragment>
     ),
     manageAdministrativeList: "Manage Administrative List",
+    editAdministration: "Edit Administration",
+    addAdministration: "Add Administration",
     manageAttributes: "Manage Attributes",
     editAttributes: "Edit Attribute",
     addAttributes: "Add Attribute",
