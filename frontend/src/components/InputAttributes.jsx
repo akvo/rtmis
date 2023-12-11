@@ -64,7 +64,7 @@ const InputType = ({ field, name, options, type }) => {
                             name={[aggName, opt]}
                             key={`${aggKey}-${opx}`}
                           >
-                            <Input type="number" placeholder={opt} />
+                            <Input addonBefore={opt} type="number" />
                           </Form.Item>
                         );
                       })}

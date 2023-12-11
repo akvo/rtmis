@@ -277,16 +277,6 @@
             position: relative;
             margin-bottom: 20px !important;
             padding-bottom: 20px;
-            &::after {
-              content: "";
-              position: absolute;
-              height: 1px;
-              width: 80%;
-              bottom: 0;
-              background: $neutral5;
-              left: 50%;
-              transform: translateX(-50%);
-            }
           }
           .ant-form-item {
             margin-bottom: 0px;

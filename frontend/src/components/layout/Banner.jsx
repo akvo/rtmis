@@ -118,11 +118,13 @@ const Banner = () => {
             type="primary"
             onClick={() => scrollToView()}
             className="btn-explore-national-data"
+            shape="round"
           >
             {text?.welcomeCta}
           </Button>
           <Dropdown overlay={DashboardMenu}>
             <Button
+              shape="round"
               icon={<PlusOutlined />}
               onClick={(e) => e.preventDefault()}
               className="btn-dashboard"

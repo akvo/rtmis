@@ -1,5 +1,15 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Button, Col, Form, Input, Modal, Row, Select, Space } from "antd";
+import {
+  Button,
+  Col,
+  Divider,
+  Form,
+  Input,
+  Modal,
+  Row,
+  Select,
+  Space,
+} from "antd";
 import {
   AdministrationDropdown,
   Breadcrumbs,
@@ -333,6 +343,7 @@ const AddAdministration = () => {
                 </Form.Item>
               </Col>
             </Row>
+            <Divider />
             <InputAttributes attributes={attributes} loading={loading} />
             <Space
               direction="horizontal"

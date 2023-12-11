@@ -159,7 +159,7 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
           >
             <button
               ant-click-animating-without-extra-node="false"
-              class="ant-btn ant-btn-primary"
+              class="ant-btn ant-btn-primary ant-btn-round"
               type="button"
             >
               <span>
@@ -348,7 +348,7 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
                         class="ant-form-item-control-input-content"
                       >
                         <button
-                          class="ant-btn ant-btn-primary"
+                          class="ant-btn ant-btn-primary ant-btn-round"
                           type="submit"
                         >
                           <span>
@@ -700,7 +700,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
             href="/login"
           >
             <button
-              class="ant-btn ant-btn-primary"
+              class="ant-btn ant-btn-primary ant-btn-round"
               type="button"
             >
               <span>
@@ -1008,7 +1008,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
                           class="ant-form-item-control-input-content"
                         >
                           <button
-                            class="ant-btn ant-btn-primary"
+                            class="ant-btn ant-btn-primary ant-btn-round"
                             type="submit"
                           >
                             <span>

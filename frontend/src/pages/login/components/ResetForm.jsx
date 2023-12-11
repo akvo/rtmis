@@ -64,7 +64,12 @@ const ResetForm = () => {
         <Input placeholder="Email" />
       </Form.Item>
       <Form.Item style={{ marginTop: 8 }}>
-        <Button type="primary" htmlType="submit" loading={loading}>
+        <Button
+          type="primary"
+          htmlType="submit"
+          shape="round"
+          loading={loading}
+        >
           {text.sendInstructions}
         </Button>
       </Form.Item>
