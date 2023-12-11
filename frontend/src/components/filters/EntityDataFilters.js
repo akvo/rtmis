@@ -7,7 +7,7 @@ import { store, uiText } from "../../lib";
 
 const { Search } = Input;
 
-const EntityFilters = ({ loading }) => {
+const EntityDataFilters = ({ loading }) => {
   const authUser = store.useState((s) => s.user);
   const language = store.useState((s) => s.language);
   const { active: activeLang } = language;
@@ -43,8 +43,9 @@ const EntityFilters = ({ loading }) => {
       {["Super Admin"].includes(authUser?.role?.value) && (
         <Col>
           <Space>
-            <Link to="/master-data/entities/add">
-              <Button type="primary">{text.addEntity}</Button>
+            <Button type="primary">{text.exportButton}</Button>
+            <Link to="/master-data/entities/data/add">
+              <Button type="primary">{text.addEntityData}</Button>
             </Link>
           </Space>
         </Col>
@@ -52,4 +53,4 @@ const EntityFilters = ({ loading }) => {
     </Row>
   );
 };
-export default EntityFilters;
+export default EntityDataFilters;
