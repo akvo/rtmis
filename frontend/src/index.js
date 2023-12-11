@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
@@ -7,7 +7,7 @@ import "antd/dist/antd.min.css";
 import "./index.scss"; // Only for overriding antd
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { Alert } from "antd";
+import { Modal } from "antd";
 
 const history = createBrowserHistory();
 
@@ -18,21 +18,47 @@ const isMobileDevice = () => {
 };
 
 const Application = () => {
-  if (isMobileDevice()) {
-    return (
-      <Alert
-        message="This application is only available on desktop."
-        type="warning"
-      />
-    );
-  }
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  useEffect(() => {
+    const mobileWarningShown = localStorage.getItem("mobileWarningShown");
+    if (isMobileDevice() && !mobileWarningShown) {
+      setIsModalVisible(true);
+    }
+  }, []);
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+    localStorage.setItem("mobileWarningShown", "true");
+  };
+
+  const handleClose = () => {
+    setIsModalVisible(false);
+  };
 
   return (
-    <CookiesProvider>
-      <Router history={history}>
-        <App />
-      </Router>
-    </CookiesProvider>
+    <>
+      <Modal
+        title="Mobile Device Disclaimer"
+        visible={isModalVisible}
+        onOk={handleOk}
+        cancelButtonProps={{ style: { display: "none" } }}
+        okText="Proceed"
+        onCancel={handleClose}
+      >
+        <p style={{ margin: "0px" }}>
+          This website is optimized for desktop and laptop devices. If you are
+          using a mobile device, you may experience performance issues and
+          limitations.
+        </p>
+      </Modal>
+
+      <CookiesProvider>
+        <Router history={history}>
+          <App />
+        </Router>
+      </CookiesProvider>
+    </>
   );
 };
 
