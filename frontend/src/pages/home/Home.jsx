@@ -135,7 +135,9 @@ const Home = () => {
                     <span>Report generation and visualizations.</span>
                   </li>
                 </ul>
-                <Button type="primary">{text.welcomeCta}</Button>
+                <Button type="primary" shape="round">
+                  {text.welcomeCta}
+                </Button>
               </div>
             </Col>
             <Col lg={14}>
@@ -177,6 +179,7 @@ const Home = () => {
           <Space direction="vertical" align="center">
             <h3>Get in touch with us for support or feedback.</h3>
             <Button
+              shape="round"
               type="primary"
               onClick={() => {
                 store.update((s) => {

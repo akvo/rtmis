@@ -1,7 +1,6 @@
-import { Row, Col, Form, Input, Select, Spin, Typography, Space } from "antd";
+import { Row, Col, Form, Input, Select, Spin, Space } from "antd";
 
 const { Option } = Select;
-const { Text } = Typography;
 
 const InputType = ({ field, name, options, type }) => {
   return (
@@ -16,21 +15,19 @@ const InputType = ({ field, name, options, type }) => {
         </Row>
       )}
       {type === "option" && (
-        <div className="form-row">
-          <Form.Item name={[field.name, name]} label={name}>
-            <Select
-              getPopupContainer={(trigger) => trigger.parentNode}
-              placeholder={`Select ${name}...`}
-              allowClear
-            >
-              {options?.map((opt, index) => (
-                <Option key={index} value={opt}>
-                  {opt}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-        </div>
+        <Form.Item name={[field.name, name]} label={name}>
+          <Select
+            getPopupContainer={(trigger) => trigger.parentNode}
+            placeholder={`Select ${name}...`}
+            allowClear
+          >
+            {options?.map((opt, index) => (
+              <Option key={index} value={opt}>
+                {opt}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
       )}
       {type === "multiple_option" && (
         <div className="form-row">
@@ -51,11 +48,11 @@ const InputType = ({ field, name, options, type }) => {
         </div>
       )}
       {type === "aggregate" && (
-        <Row className="form-row" align="middle">
-          <Col span={6}>
-            <Text>{name}</Text>
+        <Row className="form-row ant-form-item">
+          <Col span={6} className="ant-form-item-label">
+            <label>{name}</label>
           </Col>
-          <Col span={18}>
+          <Col span={18} className="ant-form-item-control">
             <Form.List name={[field.name, "aggregate"]}>
               {(items) => (
                 <>
@@ -64,11 +61,10 @@ const InputType = ({ field, name, options, type }) => {
                       {options.map((opt, opx) => {
                         return (
                           <Form.Item
-                            label={opt}
                             name={[aggName, opt]}
                             key={`${aggKey}-${opx}`}
                           >
-                            <Input type="number" placeholder={opt} />
+                            <Input addonBefore={opt} type="number" />
                           </Form.Item>
                         );
                       })}

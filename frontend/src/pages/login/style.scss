@@ -24,6 +24,8 @@
   #login {
     background-color: $bg-light;
     min-height: 100vh;
+    margin: -24px -50px;
+    padding: 40px;
     .loading-container {
       margin: 0 auto;
       display: flex;
@@ -113,6 +115,7 @@
           }
           button {
             margin: 0 auto;
+            display: block;
           }
         }
 
