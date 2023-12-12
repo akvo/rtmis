@@ -448,6 +448,8 @@ const uiText = {
     successEntityDataDeleted: "Entity data deleted",
     entityTypes: "Entity Types",
     entityType: "Entity Type",
+    searchEntityType: "Enter name...",
+    searchEntity: "Enter name...",
   },
 
   de: {},
