@@ -4,6 +4,7 @@ import { Button, Col, Input, Row, Space } from "antd";
 import RemoveFiltersButton from "./RemoveFiltersButton";
 import AdministrationDropdown from "./AdministrationDropdown";
 import { store, uiText } from "../../lib";
+import { DownloadOutlined, PlusOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 
@@ -43,9 +44,13 @@ const EntityDataFilters = ({ loading }) => {
       {["Super Admin"].includes(authUser?.role?.value) && (
         <Col>
           <Space>
-            <Button type="primary">{text.exportButton}</Button>
+            <Button icon={<DownloadOutlined />} shape="round">
+              {text.exportButton}
+            </Button>
             <Link to="/master-data/entities/add">
-              <Button type="primary">{text.addEntityData}</Button>
+              <Button type="primary" shape="round" icon={<PlusOutlined />}>
+                {text.addEntityData}
+              </Button>
             </Link>
           </Space>
         </Col>
