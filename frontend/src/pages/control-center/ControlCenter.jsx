@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Card, Button, Divider, Layout, Menu } from "antd";
-const { Header, Content, Sider } = Layout;
+import { Row, Col, Card, Button, Layout, Menu } from "antd";
+const { Sider } = Layout;
 import { store, config, uiText } from "../../lib";
 import { Link } from "react-router-dom";
 import { PanelApprovals, PanelSubmissions } from "../control-center/components";
