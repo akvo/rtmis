@@ -38,6 +38,8 @@ import {
   AddAdministration,
   AddAttribute,
   AddEntity,
+  EntityData,
+  AddEntityData,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -199,12 +201,28 @@ const RouteList = () => {
         element={<Private element={AddAttribute} alias="master-data" />}
       />
       <Route
-        path="/master-data/entities"
+        path="/master-data/entity-types"
         element={<Private element={MasterDataEntities} alias="master-data" />}
       />
       <Route
-        path="/master-data/entities/add"
+        path="/master-data/entity-types/add"
         element={<Private element={AddEntity} alias="master-data" />}
+      />
+      <Route
+        path="/master-data/entity-types/:id/edit"
+        element={<Private element={AddEntity} alias="master-data" />}
+      />
+      <Route
+        path="/master-data/entities"
+        element={<Private element={EntityData} alias="master-data" />}
+      />
+      <Route
+        path="/master-data/entities/add"
+        element={<Private element={AddEntityData} alias="master-data" />}
+      />
+      <Route
+        path="/master-data/entities/:id/edit"
+        element={<Private element={AddEntityData} alias="master-data" />}
       />
       <Route path="/news-events" element={<NewsEvents />} />
       <Route path="/how-we-work" element={<HowWeWork />} />
