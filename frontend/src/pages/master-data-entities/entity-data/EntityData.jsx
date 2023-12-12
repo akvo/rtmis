@@ -76,7 +76,7 @@ const EntityData = () => {
       render: (row) => {
         return (
           <Space>
-            <Link to={`/master-data/entities/data/${row}/edit`}>
+            <Link to={`/master-data/entities/${row}/edit`}>
               <Button type="link">{text.editButton}</Button>
             </Link>
           </Space>

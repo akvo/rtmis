@@ -65,7 +65,7 @@ const AddEntityData = () => {
     },
     {
       title: text.manageEntities,
-      link: "/master-data/entities/data/",
+      link: "/master-data/entities/",
     },
     {
       title: id ? text.editEntityData : text.addEntityData,
@@ -83,7 +83,7 @@ const AddEntityData = () => {
             type: "success",
             message: text.successEntityDataDeleted,
           });
-          navigate("/master-data/entities/data/");
+          navigate("/master-data/entities/");
         } catch (error) {
           Modal.error({
             title: text.errDeleteEntityDataTitle,
@@ -114,7 +114,7 @@ const AddEntityData = () => {
           : text.successEntityDataAdded,
       });
       setSubmitting(false);
-      navigate("/master-data/entities/data/");
+      navigate("/master-data/entities/");
     } catch {
       setSubmitting(false);
     }
@@ -210,7 +210,9 @@ const AddEntityData = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel title={text.addEntities} />
+          <DescriptionPanel
+            title={id ? text.editEntityData : text.addEntityData}
+          />
         </Col>
       </Row>
       <Divider />

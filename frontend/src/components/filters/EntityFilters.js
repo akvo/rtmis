@@ -43,7 +43,7 @@ const EntityFilters = ({ loading }) => {
       {["Super Admin"].includes(authUser?.role?.value) && (
         <Col>
           <Space>
-            <Link to="/master-data/entities/add">
+            <Link to="/master-data/entity-types/add">
               <Button type="primary">{text.addEntity}</Button>
             </Link>
           </Space>

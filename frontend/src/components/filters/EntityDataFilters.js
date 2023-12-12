@@ -44,7 +44,7 @@ const EntityDataFilters = ({ loading }) => {
         <Col>
           <Space>
             <Button type="primary">{text.exportButton}</Button>
-            <Link to="/master-data/entities/data/add">
+            <Link to="/master-data/entities/add">
               <Button type="primary">{text.addEntityData}</Button>
             </Link>
           </Space>

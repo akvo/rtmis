@@ -36,8 +36,8 @@ const AddEntity = () => {
       link: "/control-center",
     },
     {
-      title: text.manageEntities,
-      link: "/master-data/entities/",
+      title: text.entityTypes,
+      link: "/master-data/entity-types/",
     },
     {
       title: id ? text.editEntity : text.addEntity,
@@ -55,7 +55,7 @@ const AddEntity = () => {
             type: "success",
             message: text.successDeletedEntity,
           });
-          navigate("/master-data/entities/");
+          navigate("/master-data/entity-types/");
         } catch (error) {
           Modal.error({
             title: text.errDeleteEntityTitle,
@@ -85,7 +85,7 @@ const AddEntity = () => {
         message: id ? text.successUpdatedEntity : text.successAddedEntity,
       });
       setSubmitting(false);
-      navigate("/master-data/entities/");
+      navigate("/master-data/entity-types/");
     } catch (error) {
       setSubmitting(false);
     }

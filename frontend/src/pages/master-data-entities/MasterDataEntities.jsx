@@ -52,7 +52,7 @@ const MasterDataEntities = () => {
       render: (row) => {
         return (
           <Space>
-            <Link to={`/master-data/entities/${row}/edit`}>
+            <Link to={`/master-data/entity-types/${row}/edit`}>
               <Button type="link">{text.editButton}</Button>
             </Link>
           </Space>
