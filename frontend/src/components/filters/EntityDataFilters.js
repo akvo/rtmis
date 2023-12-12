@@ -1,11 +1,13 @@
 import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Button, Col, Input, Row, Space } from "antd";
+import RemoveFiltersButton from "./RemoveFiltersButton";
+import AdministrationDropdown from "./AdministrationDropdown";
 import { store, uiText } from "../../lib";
 
 const { Search } = Input;
 
-const EntityFilters = () => {
+const EntityDataFilters = ({ loading }) => {
   const authUser = store.useState((s) => s.user);
   const language = store.useState((s) => s.language);
   const { active: activeLang } = language;
@@ -18,7 +20,7 @@ const EntityFilters = () => {
       <Col flex={1}>
         <Space>
           <Search
-            placeholder={text.searchEntityType}
+            placeholder={text.searchEntity}
             // value={query}
             // onChange={(e) => {
             //   setQuery(e.target.value);
@@ -30,13 +32,20 @@ const EntityFilters = () => {
             // loading={loading && !!query}
             allowClear
           />
+          <AdministrationDropdown loading={loading} />
+          <RemoveFiltersButton
+            extra={(s) => {
+              s.filters = { trained: null, role: null, organisation: null };
+            }}
+          />
         </Space>
       </Col>
       {["Super Admin"].includes(authUser?.role?.value) && (
         <Col>
           <Space>
-            <Link to="/master-data/entity-types/add">
-              <Button type="primary">{text.addEntity}</Button>
+            <Button type="primary">{text.exportButton}</Button>
+            <Link to="/master-data/entities/add">
+              <Button type="primary">{text.addEntityData}</Button>
             </Link>
           </Space>
         </Col>
@@ -44,4 +53,4 @@ const EntityFilters = () => {
     </Row>
   );
 };
-export default EntityFilters;
+export default EntityDataFilters;
