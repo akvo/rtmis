@@ -99,7 +99,12 @@ const AddOrganisation = () => {
       <Form
         name="user-form"
         form={form}
-        layout="vertical"
+        labelCol={{
+          span: 8,
+        }}
+        wrapperCol={{
+          span: 16,
+        }}
         initialValues={{
           name: "",
           attributes: [],
@@ -107,8 +112,8 @@ const AddOrganisation = () => {
         onFinish={onFinish}
       >
         <Card bodyStyle={{ padding: 0 }}>
-          <Row className="form-row">
-            <Col span={24}>
+          <Row className="form-row" justify="center" align="middle">
+            <Col span={12}>
               <Form.Item
                 name="name"
                 label="Organization Name"
@@ -123,35 +128,42 @@ const AddOrganisation = () => {
               </Form.Item>
             </Col>
           </Row>
-          <div className="form-row">
-            <Form.Item
-              name="attributes"
-              label="Organization Attributes"
-              rules={[{ required: true, message: text.valOrgAttributes }]}
-            >
-              <Select
-                getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder="Select attributes.."
-                mode="multiple"
-                allowClear
-                loading={!organisationAttributes.length || loading}
+          <Row className="form-row" justify="center" align="middle">
+            <Col span={12}>
+              <Form.Item
+                name="attributes"
+                label="Organization Attributes"
+                rules={[{ required: true, message: text.valOrgAttributes }]}
               >
-                {organisationAttributes?.map((o, oi) => (
-                  <Option key={`org-attr-${oi}`} value={o.id}>
-                    {o.name}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </div>
+                <Select
+                  getPopupContainer={(trigger) => trigger.parentNode}
+                  placeholder="Select attributes.."
+                  mode="multiple"
+                  allowClear
+                  loading={!organisationAttributes.length || loading}
+                >
+                  {organisationAttributes?.map((o, oi) => (
+                    <Option key={`org-attr-${oi}`} value={o.id}>
+                      {o.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row className="form-row" justify="center" align="middle">
+            <Col span={12} offset={8}>
+              <Button
+                type="primary"
+                shape="round"
+                htmlType="submit"
+                loading={submitting}
+              >
+                {id ? text.updateOrganisation : text.addOrganisation}
+              </Button>
+            </Col>
+          </Row>
         </Card>
-        <Row justify="end" align="middle">
-          <Col>
-            <Button type="primary" htmlType="submit" loading={submitting}>
-              {id ? text.updateOrganisation : text.addOrganisation}
-            </Button>
-          </Col>
-        </Row>
       </Form>
     </div>
   );
