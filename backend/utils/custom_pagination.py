@@ -16,3 +16,23 @@ class Pagination(PageNumberPagination):
                 "data": data,
             }
         )
+
+    def get_paginated_response_schema(self, schema):
+        return {
+            'type': 'object',
+            'properties': {
+                'current': {
+                    'type': 'integer',
+                    'example': 123,
+                },
+                'total': {
+                    'type': 'integer',
+                    'example': 123,
+                },
+                'total_page': {
+                    'type': 'integer',
+                    'example': 123,
+                },
+                'data': schema,
+            },
+        }
