@@ -88,6 +88,7 @@ Object {
     "entityIsRequired": "Entity is required",
     "entityLabel": "Entity",
     "entityText": "Entity",
+    "entityType": "Entity Type",
     "entityTypes": "Entity Types",
     "errDeleteCascadeText1": "It is associated with other resources or has cascade restrictions.",
     "errDeleteCascadeText2": "Please review and resolve dependencies before attempting to delete.",
