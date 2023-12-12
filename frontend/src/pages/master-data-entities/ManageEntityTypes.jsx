@@ -5,7 +5,7 @@ import { Breadcrumbs, EntityFilters, ManageDataTab } from "../../components";
 import { api, store, uiText } from "../../lib";
 import { Link } from "react-router-dom";
 
-const MasterDataEntities = () => {
+const ManageEntityTypes = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
@@ -121,4 +121,4 @@ const MasterDataEntities = () => {
   );
 };
 
-export default MasterDataEntities;
+export default ManageEntityTypes;

@@ -1,16 +1,6 @@
 import React, { useCallback, useEffect, useState, useMemo } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  Divider,
-  Form,
-  Input,
-  Modal,
-  Row,
-  Space,
-} from "antd";
-import { Breadcrumbs } from "../../components";
+import { Button, Col, Divider, Form, Input, Modal, Row, Space } from "antd";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
 import "./style.scss";
@@ -112,43 +102,56 @@ const AddEntity = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel title={id ? text.editEntity : text.addEntity} />
         </Col>
       </Row>
       <Divider />
-      <Form
-        name="entity-form"
-        form={form}
-        layout="vertical"
-        onFinish={onFinish}
-      >
-        <Card bodyStyle={{ padding: 0 }}>
-          <Row className="form-row">
-            <Col span={24}>
-              <Form.Item
-                name="name"
-                label={text.nameField}
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-        </Card>
-        <Space>
-          {id && (
-            <Button type="danger" onClick={onDelete}>
-              {text.deleteText}
-            </Button>
-          )}
-          <Button type="primary" htmlType="submit" loading={submitting}>
-            {text.saveButton}
-          </Button>
-        </Space>
-      </Form>
+      <div className="table-section">
+        <div className="table-wrapper">
+          <Form
+            name="adm-form"
+            form={form}
+            labelCol={{
+              span: 8,
+            }}
+            wrapperCol={{
+              span: 16,
+            }}
+            onFinish={onFinish}
+          >
+            <Form.Item
+              name="name"
+              label={text.nameField}
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Row justify="center" align="middle">
+              <Col span={16} offset={8}>
+                <Space>
+                  {id && (
+                    <Button type="danger" shape="round" onClick={onDelete}>
+                      {text.deleteText}
+                    </Button>
+                  )}
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    shape="round"
+                    loading={submitting}
+                  >
+                    {text.saveButton}
+                  </Button>
+                </Space>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 };

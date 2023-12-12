@@ -345,25 +345,29 @@ const AddAdministration = () => {
             </Row>
             <Divider />
             <InputAttributes attributes={attributes} loading={loading} />
-            <Space
-              direction="horizontal"
-              justify="center"
-              style={{ justifyContent: "center", width: "100%" }}
-            >
-              {id && (
-                <Button type="danger" shape="round" onClick={handleOnDelete}>
-                  Delete
-                </Button>
-              )}
-              <Button
-                type="primary"
-                shape="round"
-                htmlType="submit"
-                loading={submitting}
-              >
-                Save administration
-              </Button>
-            </Space>
+            <Row className="form-row" justify="center" align="middle">
+              <Col span={18} offset={6}>
+                <Space direction="horizontal">
+                  {id && (
+                    <Button
+                      type="danger"
+                      shape="round"
+                      onClick={handleOnDelete}
+                    >
+                      Delete
+                    </Button>
+                  )}
+                  <Button
+                    type="primary"
+                    shape="round"
+                    htmlType="submit"
+                    loading={submitting}
+                  >
+                    Save administration
+                  </Button>
+                </Space>
+              </Col>
+            </Row>
           </Form>
         </div>
       </div>
