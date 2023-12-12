@@ -50,9 +50,8 @@ const EntityData = () => {
       ),
     },
     {
-      title: text.entityText,
-      dataIndex: "entity",
-      render: (row) => row?.name || "",
+      title: text.nameField,
+      dataIndex: "name",
     },
     {
       title: text.codeField,
@@ -60,12 +59,13 @@ const EntityData = () => {
       width: "10%",
     },
     {
-      title: text.nameField,
-      dataIndex: "name",
-    },
-    {
       title: text.administrationField,
       dataIndex: "administration",
+      render: (row) => row?.name || "",
+    },
+    {
+      title: text.entityType,
+      dataIndex: "entity",
       render: (row) => row?.name || "",
     },
     {
