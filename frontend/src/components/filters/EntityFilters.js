@@ -1,13 +1,11 @@
 import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Button, Col, Input, Row, Space } from "antd";
-import RemoveFiltersButton from "./RemoveFiltersButton";
-import AdministrationDropdown from "./AdministrationDropdown";
 import { store, uiText } from "../../lib";
 
 const { Search } = Input;
 
-const EntityFilters = ({ loading }) => {
+const EntityFilters = () => {
   const authUser = store.useState((s) => s.user);
   const language = store.useState((s) => s.language);
   const { active: activeLang } = language;
@@ -20,7 +18,7 @@ const EntityFilters = ({ loading }) => {
       <Col flex={1}>
         <Space>
           <Search
-            placeholder="Enter name..."
+            placeholder={text.searchEntityType}
             // value={query}
             // onChange={(e) => {
             //   setQuery(e.target.value);
@@ -31,12 +29,6 @@ const EntityFilters = ({ loading }) => {
             style={{ width: 240 }}
             // loading={loading && !!query}
             allowClear
-          />
-          <AdministrationDropdown loading={loading} />
-          <RemoveFiltersButton
-            extra={(s) => {
-              s.filters = { trained: null, role: null, organisation: null };
-            }}
           />
         </Space>
       </Col>
