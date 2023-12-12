@@ -2,7 +2,9 @@ from typing import cast
 from django.core.management import call_command
 from django.test import TestCase, override_settings
 from rest_framework.response import Response
-from api.v1.v1_profile.models import Administration, Entity, EntityData
+from api.v1.v1_profile.management.commands.administration_seeder import (
+        seed_levels)
+from api.v1.v1_profile.models import Administration, Entity, EntityData, Levels
 
 from api.v1.v1_profile.tests.mixins import ProfileTestHelperMixin
 
@@ -176,3 +178,156 @@ class EntityDataTestCase(TestCase, ProfileTestHelperMixin):
             HTTP_AUTHORIZATION=f'Bearer {self.token}'))
         self.assertEqual(response.status_code, 204)
         self.assertFalse(EntityData.objects.filter(id=data.id).exists())
+
+
+@override_settings(USE_TZ=False)
+class EntityDataFilterTestCase(TestCase, ProfileTestHelperMixin):
+    def make_objects(
+            self, name, entities=[], children=[], parent=None, depth=0):
+        level = Levels.objects.get(level=depth)
+        path = None
+        if parent:
+            path = f"{parent.path or ''}{parent.id}."
+        administration = Administration.objects.create(
+            name=name,
+            parent=parent,
+            level=level,
+            path=path
+        )
+        for data in entities:
+            entity, _ = Entity.objects.get_or_create(name=data['entity'])
+            EntityData.objects.create(
+                name=data['name'],
+                administration=administration,
+                entity=entity
+            )
+        for child in children:
+            self.make_objects(
+                name=child['name'],
+                entities=child.get('entities', []),
+                children=child.get('children', []),
+                parent=administration,
+                depth=depth+1
+            )
+
+    def populate_test_data(self):
+        data = {
+            'name': 'Indonesia',
+            'children': [{
+                'name': 'Jakarta',
+                'children': [{
+                    'name': 'Jakarta Selatan',
+                    'children': [
+                        {
+                            'name': 'Pasar Minggu',
+                            'entities': [
+                                {
+                                    'entity': 'Rumah Sakit',
+                                    'name': 'RSUD Jati Padang',
+                                },
+                                {
+                                    'entity': 'Sekolah',
+                                    'name': 'SD NEGERI CILANDAK TIMUR 01',
+                                }
+                            ],
+                        },
+                        {
+                            'name': 'Setiabudi',
+                            'entities': [
+                                {
+                                    'entity': 'Rumah Sakit',
+                                    'name': 'RS Agung',
+                                },
+                                {
+                                    'entity': 'Sekolah',
+                                    'name': 'SD MENTENG ATAS 21 PAGI',
+                                }
+                            ],
+                        }
+                    ],
+                }],
+            }],
+        }
+        seed_levels()
+        self.make_objects(
+            name=data['name'],
+            children=data.get('children'),
+        )
+
+    def setUp(self):
+        super().setUp()
+        self.populate_test_data()
+        self.user = self.create_user('test@akvo.org', self.ROLE_ADMIN)
+        self.token = self.get_auth_token(self.user.email)
+
+    def test_filter_by_administration_level_3(self):
+        administration = Administration.objects.get(name='Setiabudi')
+        response = cast(Response, self.client.get(
+            f"/api/v1/entity-data?administration={administration.id}",
+            content_type="application/json",
+            HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(len(body.get('data')), 2)
+        self.assertEqual(body.get('total'), 2)
+        self.assertEqual(body.get('current'), 1)
+        self.assertEqual(body.get('total_page'), 1)
+        self.assertEqual(
+            [it['name'] for it in body['data']],
+            ['RS Agung', 'SD MENTENG ATAS 21 PAGI']
+        )
+
+    def test_filter_by_administration_level_2(self):
+        administration = Administration.objects.get(name='Jakarta Selatan')
+        response = cast(Response, self.client.get(
+            f"/api/v1/entity-data?administration={administration.id}",
+            content_type="application/json",
+            HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(len(body.get('data')), 4)
+        self.assertEqual(body.get('total'), 4)
+        self.assertEqual(body.get('current'), 1)
+        self.assertEqual(body.get('total_page'), 1)
+        self.assertEqual(
+            [it['name'] for it in body['data']],
+            [
+                'RSUD Jati Padang',
+                'SD NEGERI CILANDAK TIMUR 01',
+                'RS Agung',
+                'SD MENTENG ATAS 21 PAGI'
+            ]
+        )
+
+    def test_filter_by_name(self):
+        response = cast(Response, self.client.get(
+            "/api/v1/entity-data?search=pa",
+            content_type="application/json",
+            HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(len(body.get('data')), 2)
+        self.assertEqual(body.get('total'), 2)
+        self.assertEqual(body.get('current'), 1)
+        self.assertEqual(body.get('total_page'), 1)
+        self.assertEqual(
+            [it['name'] for it in body['data']],
+            ['RSUD Jati Padang', 'SD MENTENG ATAS 21 PAGI']
+        )
+
+    def test_filter_by_entity(self):
+        entity = Entity.objects.get(name='Rumah Sakit')
+        response = cast(Response, self.client.get(
+            f"/api/v1/entity-data?entity={entity.id}",
+            content_type="application/json",
+            HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(len(body.get('data')), 2)
+        self.assertEqual(body.get('total'), 2)
+        self.assertEqual(body.get('current'), 1)
+        self.assertEqual(body.get('total_page'), 1)
+        self.assertEqual(
+            [it['name'] for it in body['data']],
+            ['RSUD Jati Padang', 'RS Agung']
+        )
