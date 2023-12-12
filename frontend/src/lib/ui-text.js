@@ -446,6 +446,7 @@ const uiText = {
     successEntityDataAdded: "Entity data added",
     successEntityDataUpdated: "Entity data updated",
     successEntityDataDeleted: "Entity data deleted",
+    entityTypes: "Entity Types",
   },
 
   de: {},
