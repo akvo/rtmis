@@ -1,0 +1,36 @@
+Arguments: 
+  /usr/local/bin/node /opt/homebrew/bin/yarn add antd@4.24.15
+
+PATH: 
+  /Users/navinshingote/.pyenv/shims:/usr/local/bin:/Users/navinshingote/.pyenv/bin:/opt/homebrew/opt/node@16/bin:/Users/navinshingote/flutter/bin/cache/dart-sdk/bin/:/Library/Frameworks/Python.framework/Versions/3.11/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin:/Users/navinshingote/flutter/bin/cache/dart-sdk/bin/:/Users/navinshingote/.pyenv/bin:/opt/homebrew/opt/node@16/bin:/Library/Frameworks/Python.framework/Versions/3.11/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/navinshingote/flutter/bin:/Users/navinshingote/.pub-cache/bin:/Users/navinshingote/flutter/bin:/Users/navinshingote/.pub-cache/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  16.19.1
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  Error: http://npm-registry.productsup.com:4873/antd: authorization required to access package antd
+      at Request.params.callback [as _callback] (/opt/homebrew/lib/node_modules/yarn/lib/cli.js:66145:18)
+      at Request.self.callback (/opt/homebrew/lib/node_modules/yarn/lib/cli.js:140890:22)
+      at Request.emit (node:events:513:28)
+      at Request.<anonymous> (/opt/homebrew/lib/node_modules/yarn/lib/cli.js:141862:10)
+      at Request.emit (node:events:513:28)
+      at IncomingMessage.<anonymous> (/opt/homebrew/lib/node_modules/yarn/lib/cli.js:141784:12)
+      at Object.onceWrapper (node:events:627:28)
+      at IncomingMessage.emit (node:events:525:35)
+      at endReadableNT (node:internal/streams/readable:1358:12)
+      at processTicksAndRejections (node:internal/process/task_queues:83:21)
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

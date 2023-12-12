@@ -1,11 +1,35 @@
 import React, { useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Card, Button, Divider } from "antd";
+import { Row, Col, Card, Button, Divider, Layout, Menu } from "antd";
+const { Header, Content, Sider } = Layout;
 import { store, config, uiText } from "../../lib";
 import { Link } from "react-router-dom";
 import { PanelApprovals, PanelSubmissions } from "../control-center/components";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { ControlCenterTour } from "./components";
+import {
+  LaptopOutlined,
+  NotificationOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+
+const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
+  (icon, index) => {
+    const key = String(index + 1);
+    return {
+      key: `sub${key}`,
+      icon: React.createElement(icon),
+      label: `subnav ${key}`,
+      children: new Array(4).fill(null).map((_, j) => {
+        const subKey = index * 4 + j + 1;
+        return {
+          key: subKey,
+          label: `option${subKey}`,
+        };
+      }),
+    };
+  }
+);
 
 const ControlCenter = () => {
   const { user: authUser } = store.useState((s) => s);
@@ -110,55 +134,76 @@ const ControlCenter = () => {
 
   return (
     <div id="control-center">
-      <Row justify="space-between">
-        <Breadcrumbs
-          pagePath={[
-            {
-              title: "Control Center",
-              link: "/control-center",
-            },
-          ]}
-        />
-        <ControlCenterTour />
-      </Row>
-      <DescriptionPanel description={text.ccDescriptionPanel} />
-      <Divider />
-      <Row gutter={[16, 16]}>
-        {selectedPanels.map((panel, index) => {
-          if (panel?.render) {
-            return panel.render;
-          }
-          const cardOnly = selectedPanels.filter((x) => !x?.render);
-          const isFullWidth =
-            cardOnly.length === 1 ||
-            (selectedPanels.length % 2 === 1 &&
-              selectedPanels.length - 1 === index);
-          return (
-            <Col
-              className="card-wrapper"
-              span={isFullWidth ? 24 : 12}
-              key={index}
-            >
-              <Card bordered={false} hoverable>
-                <div className="row">
-                  <div className="flex-1">
-                    <h2>{panel.title}</h2>
-                    <span>{panel.description}</span>
-                    <Link to={panel.link} className="explore">
-                      <Button type="primary" shape="round">
-                        {panel.buttonLabel}
-                      </Button>
-                    </Link>
-                  </div>
-                  <div>
-                    <img src={panel.image} width={100} height={100} />
-                  </div>
-                </div>
-              </Card>
-            </Col>
-          );
-        })}
-      </Row>
+      <Layout>
+        <Sider className="site-layout-background">
+          <Menu
+            mode="inline"
+            defaultSelectedKeys={["1"]}
+            defaultOpenKeys={["sub1"]}
+            style={{
+              height: "100%",
+              borderRight: 0,
+            }}
+            items={items2}
+          />
+        </Sider>
+        <Layout className="site-layout">
+          <div className="description-container">
+            <Row justify="space-between">
+              <Breadcrumbs
+                pagePath={[
+                  {
+                    title: "Control Center",
+                    link: "/control-center",
+                  },
+                ]}
+              />
+              <ControlCenterTour />
+            </Row>
+            <DescriptionPanel description={text.ccDescriptionPanel} />
+          </div>
+          <div className="table-section">
+            <div className="table-wrapper">
+              <Row gutter={[16, 16]}>
+                {selectedPanels.map((panel, index) => {
+                  if (panel?.render) {
+                    return panel.render;
+                  }
+                  const cardOnly = selectedPanels.filter((x) => !x?.render);
+                  const isFullWidth =
+                    cardOnly.length === 1 ||
+                    (selectedPanels.length % 2 === 1 &&
+                      selectedPanels.length - 1 === index);
+                  return (
+                    <Col
+                      className="card-wrapper"
+                      span={isFullWidth ? 24 : 12}
+                      key={index}
+                    >
+                      <Card bordered={false} hoverable>
+                        <div className="row">
+                          <div className="flex-1">
+                            <h2>{panel.title}</h2>
+                            <span>{panel.description}</span>
+                            <Link to={panel.link} className="explore">
+                              <Button type="primary" shape="round">
+                                {panel.buttonLabel}
+                              </Button>
+                            </Link>
+                          </div>
+                          <div>
+                            <img src={panel.image} width={100} height={100} />
+                          </div>
+                        </div>
+                      </Card>
+                    </Col>
+                  );
+                })}
+              </Row>
+            </div>
+          </div>
+        </Layout>
+      </Layout>
     </div>
   );
 };
