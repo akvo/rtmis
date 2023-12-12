@@ -1,18 +1,24 @@
-import React, { useCallback, useEffect, useState, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Divider, Col, Row, Space, Table } from "antd";
-import { Breadcrumbs, EntityFilters, ManageDataTab } from "../../components";
-
-import { api, store, uiText } from "../../lib";
 import { Link } from "react-router-dom";
 
-const MasterDataEntities = () => {
+import {
+  Breadcrumbs,
+  DescriptionPanel,
+  EntityDataFilters,
+  ManageDataTab,
+} from "../../../components";
+import { api, store, uiText } from "../../../lib";
+
+const EntityData = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const language = store.useState((s) => s.language);
+  const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
+
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
@@ -24,6 +30,10 @@ const MasterDataEntities = () => {
     },
     {
       title: text.manageEntities,
+      link: "/master-data/entities/",
+    },
+    {
+      title: text.entityDataTitle,
     },
   ];
 
@@ -40,9 +50,23 @@ const MasterDataEntities = () => {
       ),
     },
     {
+      title: text.entityText,
+      dataIndex: "entity",
+      render: (row) => row?.name || "",
+    },
+    {
+      title: text.codeField,
+      dataIndex: "code",
+      width: "10%",
+    },
+    {
       title: text.nameField,
       dataIndex: "name",
-      key: "name",
+    },
+    {
+      title: text.administrationField,
+      dataIndex: "administration",
+      render: (row) => row?.name || "",
     },
     {
       title: text.actionColumn,
@@ -52,7 +76,7 @@ const MasterDataEntities = () => {
       render: (row) => {
         return (
           <Space>
-            <Link to={`/master-data/entity-types/${row}/edit`}>
+            <Link to={`/master-data/entities/${row}/edit`}>
               <Button type="link">{text.editButton}</Button>
             </Link>
           </Space>
@@ -67,13 +91,15 @@ const MasterDataEntities = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      const { data: apiData } = await api.get(`/entities?page=${currentPage}`);
+      const { data: apiData } = await api.get(
+        `/entity-data?page=${currentPage}`
+      );
       const { total, current, data: _dataset } = apiData;
       setDataset(_dataset);
       setTotalCount(total);
       setCurrentPage(current);
       setLoading(false);
-    } catch (error) {
+    } catch {
       setLoading(false);
     }
   }, [currentPage]);
@@ -87,12 +113,13 @@ const MasterDataEntities = () => {
       <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel description={text.manageUserText} />
         </Col>
       </Row>
       <ManageDataTab />
       <div className="table-section">
         <div className="table-wrapper">
-          <EntityFilters />
+          <EntityDataFilters />
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}
@@ -112,7 +139,6 @@ const MasterDataEntities = () => {
                 showTotal: (total, range) =>
                   `Results: ${range[0]} - ${range[1]} of ${total} items`,
               }}
-              rowKey="id"
             />
           </div>
         </div>
@@ -121,4 +147,4 @@ const MasterDataEntities = () => {
   );
 };
 
-export default MasterDataEntities;
+export default EntityData;
