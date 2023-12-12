@@ -348,6 +348,8 @@ Object {
       Your password must include:
     </React.Fragment>,
     "saveButton": "Save",
+    "searchEntity": "Enter name...",
+    "searchEntityType": "Enter name...",
     "second": "Second",
     "selectEntity": "Select entity...",
     "selectForm": "Please select a form",

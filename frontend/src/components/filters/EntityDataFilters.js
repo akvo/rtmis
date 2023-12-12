@@ -20,7 +20,7 @@ const EntityDataFilters = ({ loading }) => {
       <Col flex={1}>
         <Space>
           <Search
-            placeholder="Enter name..."
+            placeholder={text.searchEntity}
             // value={query}
             // onChange={(e) => {
             //   setQuery(e.target.value);
