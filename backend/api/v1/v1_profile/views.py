@@ -140,3 +140,46 @@ class EntityDataViewSet(ModelViewSet):
     serializer_class = EntityDataSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = Pagination
+
+    def get_queryset(self):
+        queryset = EntityData.objects\
+                .select_related('administration', 'entity')\
+                .all()
+        search = self.request.query_params.get('search')
+        adm_id = self.request.query_params.get('administration')
+        entity_id = self.request.query_params.get('entity')
+        if search:
+            queryset = queryset.filter(
+                    Q(name__icontains=search) | Q(code__icontains=search))
+        if adm_id:
+            try:
+                adm_root = Administration.objects.get(id=adm_id)
+                adms = Administration.objects.filter(
+                    Q(path__startswith=f"{adm_root.path or ''}{adm_root.id}.")
+                    | Q(id=adm_root.id)
+                )
+                queryset = queryset.filter(administration__in=adms)
+            except Administration.DoesNotExist:
+                pass
+        if entity_id:
+            try:
+                entity = Entity.objects.get(id=entity_id)
+                queryset = queryset.filter(entity=entity)
+            except Entity.DoesNotExist:
+                pass
+
+        return queryset.order_by('id')
+
+    @extend_schema(parameters=[
+        OpenApiParameter(name='administration',
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='entity',
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='search',
+                         type=OpenApiTypes.STR,
+                         location=OpenApiParameter.QUERY)
+    ])
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
