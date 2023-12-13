@@ -71,6 +71,10 @@ const AddEntityData = () => {
     },
   ];
 
+  const descriptionData = (
+    <p>{id ? text.editEntityDesc : text.addEntityDesc}</p>
+  );
+
   const onDelete = () => {
     Modal.confirm({
       title: `${text.deleteText} ${entity?.name}`,
@@ -210,22 +214,18 @@ const AddEntityData = () => {
         <Col>
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel
+            description={descriptionData}
             title={id ? text.editEntityData : text.addEntityData}
           />
         </Col>
       </Row>
-      <Divider />
       <div className="table-section">
         <div className="table-wrapper">
           <Form
             name="adm-form"
             form={form}
-            labelCol={{
-              span: 6,
-            }}
-            wrapperCol={{
-              span: 18,
-            }}
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 18 }}
             onFinish={onFinish}
           >
             <Row gutter={16}>
@@ -323,11 +323,6 @@ const AddEntityData = () => {
             <Row justify="center" align="middle">
               <Col span={18} offset={6}>
                 <Space>
-                  {id && (
-                    <Button type="danger" shape="round" onClick={onDelete}>
-                      {text.deleteText}
-                    </Button>
-                  )}
                   <Button
                     type="primary"
                     htmlType="submit"
@@ -336,6 +331,11 @@ const AddEntityData = () => {
                   >
                     {text.saveButton}
                   </Button>
+                  {id && (
+                    <Button type="danger" shape="round" onClick={onDelete}>
+                      {text.deleteText}
+                    </Button>
+                  )}
                 </Space>
               </Col>
             </Row>
