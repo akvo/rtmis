@@ -48,11 +48,13 @@ import { Layout, PageLoader } from "./components";
 import { useNotification } from "./util/hooks";
 import { eraseCookieFromAllPaths } from "./util/date";
 import { reloadData } from "./util/form";
+import ControlCenterDefault from "./pages/control-center/ControlCenterDefault";
 
 const Private = ({ element: Element, alias }) => {
   const { user: authUser } = store.useState((state) => state);
   if (authUser) {
     const page_access = authUser?.role_detail?.page_access;
+    console.log(page_access, alias);
     return page_access.includes(alias) ? (
       <Element />
     ) : (
@@ -83,7 +85,6 @@ const RouteList = () => {
         path="/glaas-report-dashboard/:formId"
         element={<GlaasReportDashboard />}
       />
-      <Route path="/users" element={<Private element={Users} alias="user" />} />
       <Route
         path="/master-data/organisations"
         element={<Private element={Organisations} alias="organisation" />}
@@ -107,7 +108,22 @@ const RouteList = () => {
       <Route
         path="/control-center"
         element={<Private element={ControlCenter} alias="control-center" />}
-      />
+      >
+        <Route
+          index
+          element={
+            <Private element={ControlCenterDefault} alias="control-center" />
+          }
+        />
+        <Route
+          path="users"
+          element={<Private element={Users} alias="user" />}
+        />
+        <Route
+          path="approvers/tree"
+          element={<Private element={ApproversTree} alias="approvers" />}
+        />
+      </Route>
       <Route
         path="/settings"
         element={<Private element={Settings} alias="settings" />}
@@ -147,10 +163,6 @@ const RouteList = () => {
       <Route
         path="/data/submissions"
         element={<Private element={Submissions} alias="data" />}
-      />
-      <Route
-        path="/approvers/tree"
-        element={<Private element={ApproversTree} alias="approvers" />}
       />
       <Route
         path="/profile"

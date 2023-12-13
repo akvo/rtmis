@@ -9,12 +9,7 @@ import {
 } from "@ant-design/icons";
 import { api, store, uiText } from "../../lib";
 import UserDetail from "./UserDetail";
-import {
-  UserFilters,
-  Breadcrumbs,
-  DescriptionPanel,
-  UserTab,
-} from "../../components";
+import { UserFilters, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
 import { reverse } from "lodash";
 import moment from "moment";
@@ -221,16 +216,17 @@ const Users = () => {
 
   return (
     <div id="users">
-      <Row justify="space-between" align="bottom">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel
-            description={text.manageUserText}
-            title={text.manageUsers}
-          />
-        </Col>
-      </Row>
-      <UserTab />
+      <div className="description-container">
+        <Row justify="space-between" align="bottom">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={text.manageUserText}
+              title={text.manageUsers}
+            />
+          </Col>
+        </Row>
+      </div>
       <div className="table-section">
         <div className="table-wrapper">
           <UserFilters
