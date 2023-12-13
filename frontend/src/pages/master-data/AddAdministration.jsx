@@ -255,7 +255,7 @@ const AddAdministration = () => {
     },
     {
       title: text.manageAdministrativeList,
-      link: "/master-data",
+      link: "/control-center/master-data",
     },
     {
       title: id ? text.editAdministration : text.addAdministration,
@@ -264,14 +264,16 @@ const AddAdministration = () => {
 
   return (
     <div id="add-administration">
-      <Row justify="space-between">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel
-            title={id ? text.editAdministration : text.addAdministration}
-          />
-        </Col>
-      </Row>
+      <div className="description-container">
+        <Row justify="space-between">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              title={id ? text.editAdministration : text.addAdministration}
+            />
+          </Col>
+        </Row>
+      </div>
       <div className="table-section">
         <div className="table-wrapper">
           <Form

@@ -16,7 +16,7 @@ import {
   DownloadOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import { Breadcrumbs, DescriptionPanel, DataTab } from "../../components";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { api, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
 
@@ -198,33 +198,38 @@ const ExportData = () => {
 
   return (
     <div id="exportData">
-      <Row justify="space-between">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel
-            description={descriptionData}
-            title={text.dataDownloadTitle}
-          />
-        </Col>
-      </Row>
-      <DataTab />
-      <Card
-        style={{ padding: 0, minHeight: "40vh" }}
-        bodyStyle={{ padding: 0 }}
-      >
-        <ConfigProvider renderEmpty={() => <Empty description="No data" />}>
-          <Table
-            columns={columns}
-            dataSource={dataset}
-            showHeader={false}
-            rowClassName={(record) => (record.type === 1 ? "template" : "")}
-            rowKey="id"
-            loading={loading}
-            footer={loadMore}
-            pagination={false}
-          />
-        </ConfigProvider>
-      </Card>
+      <div className="description-container">
+        <Row justify="space-between">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={descriptionData}
+              title={text.dataDownloadTitle}
+            />
+          </Col>
+        </Row>
+      </div>
+      <div className="table-section">
+        <div className="table-wrapper">
+          <div
+            style={{ padding: 0, minHeight: "40vh" }}
+            bodyStyle={{ padding: 0 }}
+          >
+            <ConfigProvider renderEmpty={() => <Empty description="No data" />}>
+              <Table
+                columns={columns}
+                dataSource={dataset}
+                showHeader={false}
+                rowClassName={(record) => (record.type === 1 ? "template" : "")}
+                rowKey="id"
+                loading={loading}
+                footer={loadMore}
+                pagination={false}
+              />
+            </ConfigProvider>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

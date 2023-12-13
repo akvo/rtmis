@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { Button, Divider, Col, Row, Space, Table } from "antd";
-import { Breadcrumbs, EntityFilters, ManageDataTab } from "../../components";
+import { Breadcrumbs, EntityFilters } from "../../components";
 
 import { api, store, uiText } from "../../lib";
 import { Link } from "react-router-dom";
@@ -84,12 +84,13 @@ const MasterDataEntities = () => {
 
   return (
     <div id="users">
-      <Row justify="space-between" align="bottom">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-        </Col>
-      </Row>
-      <ManageDataTab />
+      <div className="description-container">
+        <Row justify="space-between" align="bottom">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+          </Col>
+        </Row>
+      </div>
       <div className="table-section">
         <div className="table-wrapper">
           <EntityFilters />

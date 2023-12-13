@@ -24,15 +24,21 @@ const ControlCenter = () => {
     },
     mobile: { label: "Manage Mobile Users", url: "/manage-mobile-users" },
     data: [
-      { label: "Manage Data", url: "/manage-data" },
-      { label: "Download Data", url: "/download-data" },
+      { label: "Manage Data", url: "/control-center/data/manage" },
+      { label: "Download Data", url: "/control-center/data/export" },
     ],
     "master-data": [
-      { label: "Administrative List", url: "/administrative-list" },
-      { label: "Attributes", url: "/attributes" },
-      { label: "Entities", url: "/entities" },
-      { label: "Entity Types", url: "/entity-types" },
-      { label: "Organisations", url: "/organisations" },
+      { label: "Administrative List", url: "/control-center/master-data" },
+      { label: "Attributes", url: "/control-center/master-data/attributes" },
+      { label: "Entities", url: "/control-center/master-data/entities" },
+      {
+        label: "Entity Types",
+        url: "/control-center/master-data/entity-types",
+      },
+      {
+        label: "Organisations",
+        url: "/control-center/master-data/organisations",
+      },
     ],
   };
 

@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import {
   Button,
-  Card,
   Col,
-  Divider,
   Form,
   Input,
   Modal,
@@ -66,7 +64,7 @@ const AddAttribute = () => {
     },
     {
       title: text.manageAttributes,
-      link: "/master-data/attributes",
+      link: "/control-center/master-data/attributes",
     },
     {
       title: id ? text.editAttributes : text.addAttributes,
@@ -104,7 +102,7 @@ const AddAttribute = () => {
         type: "success",
         message: `Attribute deleted`,
       });
-      navigate("/master-data/attributes");
+      navigate("/control-center/master-data/attributes");
     } catch {
       Modal.error({
         title: "Unable to delete the attribute",
@@ -137,97 +135,105 @@ const AddAttribute = () => {
 
   return (
     <div id="add-attribute">
-      <Row justify="space-between">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel
-            title={id ? text.editAttributes : text.addAttributes}
-          />
-        </Col>
-      </Row>
-      <Divider />
-      <Tabs size="large" activeKey={activeTab} onChange={setActiveTab}>
-        <TabPane tab="Administration" key="administration" />
-        <TabPane tab="Entity" key="entity" disabled />
-      </Tabs>
-      <Form
-        name="adm-form"
-        form={form}
-        layout="vertical"
-        initialValues={initialValues}
-        onFinish={onFinish}
-      >
-        <Card bodyStyle={{ padding: 0 }}>
-          <div className="form-row">
-            <Form.Item
-              name="type"
-              label="Attribute Type"
-              rules={[{ required: true }]}
-            >
-              <Select
-                getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder="Select type..."
-                onSelect={setAttrType}
-                allowClear
-                options={TYPES}
-              />
-            </Form.Item>
-          </div>
-          <Row className="form-row">
-            <Col span={24}>
-              <Form.Item
-                name="name"
-                label="Attribute Name"
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-          {OPTION_TYPES.includes(attrType) && (
-            <Row className="form-row">
-              <Col span={24}>
-                <Form.Item label="Options">
-                  <Form.List name="options">
-                    {(fields, { add, remove }) => (
-                      <div>
-                        {fields.map(({ key, name, ...restField }) => (
-                          <Space key={key}>
-                            <Form.Item name={[name, "name"]} {...restField}>
-                              <Input />
-                            </Form.Item>
-                            <Button
-                              icon={<MinusCircleOutlined />}
-                              onClick={() => remove(name)}
-                            >
-                              Remove
-                            </Button>
-                          </Space>
-                        ))}
-                        <Button onClick={() => add()}>Add option</Button>
-                      </div>
-                    )}
-                  </Form.List>
+      <div className="description-container">
+        <Row justify="space-between">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              title={id ? text.editAttributes : text.addAttributes}
+            />
+          </Col>
+        </Row>
+      </div>
+      <div className="table-section">
+        <div className="table-wrapper">
+          <Tabs size="large" activeKey={activeTab} onChange={setActiveTab}>
+            <TabPane tab="Administration" key="administration" />
+            <TabPane tab="Entity" key="entity" disabled />
+          </Tabs>
+          <Form
+            name="adm-form"
+            form={form}
+            layout="vertical"
+            initialValues={initialValues}
+            onFinish={onFinish}
+          >
+            <div bodyStyle={{ padding: 0 }}>
+              <div className="form-row">
+                <Form.Item
+                  name="type"
+                  label="Attribute Type"
+                  rules={[{ required: true }]}
+                >
+                  <Select
+                    getPopupContainer={(trigger) => trigger.parentNode}
+                    placeholder="Select type..."
+                    onSelect={setAttrType}
+                    allowClear
+                    options={TYPES}
+                  />
                 </Form.Item>
-              </Col>
-            </Row>
-          )}
-        </Card>
-        <Space direction="horizontal">
-          {initialValues?.id && (
-            <Button type="danger" onClick={() => handleOnDelete(initialValues)}>
-              Delete
-            </Button>
-          )}
-          <Button type="primary" htmlType="submit" loading={submitting}>
-            Save attribute
-          </Button>
-        </Space>
-      </Form>
+              </div>
+              <Row className="form-row">
+                <Col span={24}>
+                  <Form.Item
+                    name="name"
+                    label="Attribute Name"
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+              </Row>
+              {OPTION_TYPES.includes(attrType) && (
+                <Row className="form-row">
+                  <Col span={24}>
+                    <Form.Item label="Options">
+                      <Form.List name="options">
+                        {(fields, { add, remove }) => (
+                          <div>
+                            {fields.map(({ key, name, ...restField }) => (
+                              <Space key={key}>
+                                <Form.Item name={[name, "name"]} {...restField}>
+                                  <Input />
+                                </Form.Item>
+                                <Button
+                                  icon={<MinusCircleOutlined />}
+                                  onClick={() => remove(name)}
+                                >
+                                  Remove
+                                </Button>
+                              </Space>
+                            ))}
+                            <Button onClick={() => add()}>Add option</Button>
+                          </div>
+                        )}
+                      </Form.List>
+                    </Form.Item>
+                  </Col>
+                </Row>
+              )}
+            </div>
+            <Space direction="horizontal">
+              {initialValues?.id && (
+                <Button
+                  type="danger"
+                  onClick={() => handleOnDelete(initialValues)}
+                >
+                  Delete
+                </Button>
+              )}
+              <Button type="primary" htmlType="submit" loading={submitting}>
+                Save attribute
+              </Button>
+            </Space>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 };

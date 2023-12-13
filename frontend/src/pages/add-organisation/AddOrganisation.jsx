@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import "./style.scss";
-import { Row, Col, Card, Form, Button, Divider, Input, Select } from "antd";
+import { Row, Col, Form, Button, Input, Select } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { api, store, config, uiText } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
@@ -35,7 +35,7 @@ const AddOrganisation = () => {
     },
     {
       title: text.manageOrganisations,
-      link: "/master-data/organisations",
+      link: "/control-center/master-data/organisations",
     },
     {
       title: id ? text.editOrganisation : text.addOrganisation,
@@ -86,73 +86,83 @@ const AddOrganisation = () => {
 
   return (
     <div id="add-organisation">
-      <Row justify="space-between">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel
-            description={descriptionData}
-            title={id ? text.editOrganisation : text.addOrganisation}
-          />
-        </Col>
-      </Row>
-      <Divider />
-      <Form
-        name="user-form"
-        form={form}
-        layout="vertical"
-        initialValues={{
-          name: "",
-          attributes: [],
-        }}
-        onFinish={onFinish}
-      >
-        <Card bodyStyle={{ padding: 0 }}>
-          <Row className="form-row">
-            <Col span={24}>
-              <Form.Item
-                name="name"
-                label="Organization Name"
-                rules={[
-                  {
-                    required: true,
-                    message: text.valOrgName,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-          <div className="form-row">
-            <Form.Item
-              name="attributes"
-              label="Organization Attributes"
-              rules={[{ required: true, message: text.valOrgAttributes }]}
-            >
-              <Select
-                getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder="Select attributes.."
-                mode="multiple"
-                allowClear
-                loading={!organisationAttributes.length || loading}
-              >
-                {organisationAttributes?.map((o, oi) => (
-                  <Option key={`org-attr-${oi}`} value={o.id}>
-                    {o.name}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </div>
-        </Card>
-        <Row justify="end" align="middle">
+      <div className="description-container">
+        <Row justify="space-between">
           <Col>
-            <Button type="primary" htmlType="submit" loading={submitting}>
-              {id ? text.updateOrganisation : text.addOrganisation}
-            </Button>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={descriptionData}
+              title={id ? text.editOrganisation : text.addOrganisation}
+            />
           </Col>
         </Row>
-      </Form>
+      </div>
+      <div className="table-section">
+        <div className="table-wrapper">
+          <Form
+            name="user-form"
+            form={form}
+            layout="vertical"
+            initialValues={{
+              name: "",
+              attributes: [],
+            }}
+            onFinish={onFinish}
+          >
+            <div bodyStyle={{ padding: 0 }}>
+              <Row className="form-row">
+                <Col span={24}>
+                  <Form.Item
+                    name="name"
+                    label="Organization Name"
+                    rules={[
+                      {
+                        required: true,
+                        message: text.valOrgName,
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <div className="form-row">
+                <Form.Item
+                  name="attributes"
+                  label="Organization Attributes"
+                  rules={[{ required: true, message: text.valOrgAttributes }]}
+                >
+                  <Select
+                    getPopupContainer={(trigger) => trigger.parentNode}
+                    placeholder="Select attributes.."
+                    mode="multiple"
+                    allowClear
+                    loading={!organisationAttributes.length || loading}
+                  >
+                    {organisationAttributes?.map((o, oi) => (
+                      <Option key={`org-attr-${oi}`} value={o.id}>
+                        {o.name}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </div>
+            </div>
+            <Row justify="end" align="middle">
+              <Col>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  shape="round"
+                  loading={submitting}
+                >
+                  {id ? text.updateOrganisation : text.addOrganisation}
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 };

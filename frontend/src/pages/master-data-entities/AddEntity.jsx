@@ -1,15 +1,5 @@
 import React, { useCallback, useEffect, useState, useMemo } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  Divider,
-  Form,
-  Input,
-  Modal,
-  Row,
-  Space,
-} from "antd";
+import { Button, Col, Form, Input, Modal, Row, Space } from "antd";
 import { Breadcrumbs } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
@@ -37,7 +27,7 @@ const AddEntity = () => {
     },
     {
       title: text.entityTypes,
-      link: "/master-data/entity-types/",
+      link: "/control-center/master-data/entity-types/",
     },
     {
       title: id ? text.editEntity : text.addEntity,
@@ -109,46 +99,56 @@ const AddEntity = () => {
 
   return (
     <div id="add-entity">
-      <Row justify="space-between">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-        </Col>
-      </Row>
-      <Divider />
-      <Form
-        name="entity-form"
-        form={form}
-        layout="vertical"
-        onFinish={onFinish}
-      >
-        <Card bodyStyle={{ padding: 0 }}>
-          <Row className="form-row">
-            <Col span={24}>
-              <Form.Item
-                name="name"
-                label={text.nameField}
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
+      <div className="description-container">
+        <Row justify="space-between">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+          </Col>
+        </Row>
+      </div>
+      <div className="table-section">
+        <div className="table-wrapper">
+          <Form
+            name="entity-form"
+            form={form}
+            layout="vertical"
+            onFinish={onFinish}
+          >
+            <div bodyStyle={{ padding: 0 }}>
+              <Row className="form-row">
+                <Col span={24}>
+                  <Form.Item
+                    name="name"
+                    label={text.nameField}
+                    rules={[
+                      {
+                        required: true,
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+              </Row>
+            </div>
+            <Space>
+              {id && (
+                <Button type="danger" shape="round" onClick={onDelete}>
+                  {text.deleteText}
+                </Button>
+              )}
+              <Button
+                type="primary"
+                htmlType="submit"
+                shape="round"
+                loading={submitting}
               >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-        </Card>
-        <Space>
-          {id && (
-            <Button type="danger" onClick={onDelete}>
-              {text.deleteText}
-            </Button>
-          )}
-          <Button type="primary" htmlType="submit" loading={submitting}>
-            {text.saveButton}
-          </Button>
-        </Space>
-      </Form>
+                {text.saveButton}
+              </Button>
+            </Space>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 };
