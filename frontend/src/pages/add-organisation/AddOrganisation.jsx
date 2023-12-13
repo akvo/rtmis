@@ -26,8 +26,8 @@ const AddOrganisation = () => {
 
   const pagePath = [
     {
-      title: text.settings,
-      link: "/settings",
+      title: text.controlCenter,
+      link: "/control-center",
     },
     {
       title: text.manageOrganisations,
