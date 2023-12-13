@@ -1,15 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
-import {
-  Row,
-  Col,
-  Card,
-  Table,
-  ConfigProvider,
-  Empty,
-  Button,
-  Tag,
-} from "antd";
+import { Row, Col, Table, ConfigProvider, Empty, Button, Tag } from "antd";
 import {
   FileTextFilled,
   LoadingOutlined,

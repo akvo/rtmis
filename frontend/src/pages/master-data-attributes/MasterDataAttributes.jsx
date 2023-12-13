@@ -4,7 +4,6 @@ import {
   AdministrationFilters,
   Breadcrumbs,
   DescriptionPanel,
-  ManageDataTab,
 } from "../../components";
 
 import { api, store, uiText } from "../../lib";
