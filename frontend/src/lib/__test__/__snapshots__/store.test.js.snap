@@ -85,6 +85,9 @@ Object {
     "entity": Object {},
   },
   "mobileAssignment": Object {},
+  "options": Object {
+    "entityTypes": Array [],
+  },
   "questionGroups": Array [],
   "selectedAdministration": null,
   "selectedForm": null,

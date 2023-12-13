@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Col, Divider, Row, Table, Typography } from "antd";
 import {
-  AdministrationFilters,
+  AttributeFilters,
   Breadcrumbs,
   DescriptionPanel,
   ManageDataTab,
@@ -75,7 +75,7 @@ const MasterDataAttributes = () => {
         return (
           <>
             <Button type="link" onClick={() => handleOnEdit(record)}>
-              Edit
+              {text.editButton}
             </Button>
           </>
         );
@@ -107,7 +107,7 @@ const MasterDataAttributes = () => {
         <Col>
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel
-            description={text.manageUserText}
+            description={text.manageAttributeText}
             title={text.manageAttributes}
           />
         </Col>
@@ -116,7 +116,7 @@ const MasterDataAttributes = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          <AdministrationFilters addLink="/master-data/attributes/add" />
+          <AttributeFilters />
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}

@@ -188,6 +188,36 @@ const uiText = {
         </ul>
       </Fragment>
     ),
+    manageAttributeText: (
+      <Fragment>
+        This is where you manage attributes based on their fields. You can :
+        <ul>
+          <li>Add new attribute</li>
+          <li>Modify existing attribute</li>
+          <li>Delete existing attribute</li>
+        </ul>
+      </Fragment>
+    ),
+    manageEntitiesText: (
+      <Fragment>
+        This is where you manage entitys based on their fields. You can :
+        <ul>
+          <li>Add new entity</li>
+          <li>Modify existing entity</li>
+          <li>Delete existing entity</li>
+        </ul>
+      </Fragment>
+    ),
+    manageEntityTypesText: (
+      <Fragment>
+        This is where you manage entity types based on their fields. You can :
+        <ul>
+          <li>Add new entity type</li>
+          <li>Modify existing entity type</li>
+          <li>Delete existing entity type</li>
+        </ul>
+      </Fragment>
+    ),
     manageAdministrativeList: "Manage Administrative List",
     editAdministration: "Edit Administration",
     addAdministration: "Add Administration",
@@ -195,7 +225,9 @@ const uiText = {
     editAttributes: "Edit Attribute",
     addAttributes: "Add Attribute",
     manageEntities: "Manage Entities",
+    manageEntityTypes: "Manage Entity Types",
     addEntities: "Add Entities",
+    entityTabTitle: "Entities",
     entityLabel: "Entity",
     administrationLabel: "Administration",
     codeLabel: "Code",
@@ -205,6 +237,7 @@ const uiText = {
     ccDescriptionPanel:
       "Instant access to all the administration pages and overview panels for data approvals.",
     // Settings
+    orgTabTitle: "Organisations",
     orgPanelTitle: "Manage Organization",
     orgPanelButton: "Manage Organization",
     orgPanelText: (
@@ -396,6 +429,10 @@ const uiText = {
       "This page allows you to add mobile data collectors to the RUSH platform.",
     mobilePanelEditDesc:
       "This page allows you to edit mobile data collectors to the RUSH platform.",
+    mobileErrDelete: "Unable to delete assingment",
+    mobileConfirmDelete: "Are you sure you want to delete this assignment?",
+    mobileSuccessAdded: "Mobile assignment added",
+    mobileSuccessUpdated: "Mobile assignment update",
     mdPanelTitle: "Master Data",
     mdPanelButton: "Master Data",
     mdPanelText: (
@@ -410,6 +447,7 @@ const uiText = {
     ),
     formPasscode: "Form Passcode",
     actionColumn: "Action",
+    formColumn: "Form",
     nameField: "Name",
     codeField: "Code",
     levelField: "Level",
@@ -421,6 +459,9 @@ const uiText = {
     editButton: "Edit",
     saveButton: "Save",
     exportButton: "Export",
+    bulkUploadButton: "Bulk Upload",
+    addNewButton: "Add New",
+    cancelButton: "Cancel",
     deleteText: "Delete",
     errDeleteCascadeText1:
       "It is associated with other resources or has cascade restrictions.",
@@ -441,6 +482,9 @@ const uiText = {
     selectEntity: "Select entity...",
     entityIsRequired: "Entity is required",
     selectLevel: "Select level...",
+    selectType: "Select type...",
+    selectText: "Select...",
+    selectOne: "Select one...",
     confirmDeleteEntityData: "Are you sure you want to delete this data?",
     errDeleteEntityDataTitle: "Unable to delete the data",
     successEntityDataAdded: "Entity data added",
@@ -450,6 +494,66 @@ const uiText = {
     entityType: "Entity Type",
     searchEntityType: "Enter name...",
     searchEntity: "Enter name...",
+    addOrgDesc:
+      "This page allows you to add organisations to the RUSH platform.",
+    addEntityDesc: "This page allows you to add entity to the RUSH platform.",
+    addEntityTypeDesc:
+      "This page allows you to add entity type to the RUSH platform.",
+    addAttributeDesc:
+      "This page allows you to add attribute to the RUSH platform.",
+    addAdmDesc:
+      "This page allows you to add administration to the RUSH platform.",
+    editOrgDesc:
+      "This page allows you to edit organisations to the RUSH platform.",
+    editEntityDesc: "This page allows you to edit entity to the RUSH platform.",
+    editEntityTypeDesc:
+      "This page allows you to edit entity type to the RUSH platform.",
+    editAttributeDesc:
+      "This page allows you to edit attribute to the RUSH platform.",
+    editAdmDesc:
+      "This page allows you to edit administration to the RUSH platform.",
+    successAddedOrg: "Organisation added",
+    successUpdatedOrg: "Organisation updated",
+    successDeletedOrg: "Organisation deleted",
+    errAddOrg: "Organization could not be added",
+    errUpdateOrg: "Organization could not be updated",
+    orgLabelName: "Organization Name",
+    orgLabelAttr: "Organization Attributes",
+    selectAttributes: "Select attributes...",
+    admSuccessDeleted: "Administration deleted",
+    admSuccessUpdated: "Administration updated",
+    admSuccessAdded: "Administration added",
+    admErrDeleteTitle: "Unable to delete the administration",
+    admConfirmDelete: "Are you sure you want to delete this administration?",
+    admParent: "Administration Parent",
+    admName: "Administration Name",
+    admLevel: "Administration Level",
+    admNameRequired: "Administration name is required",
+    admTabTitle: "Administrative List",
+    attrSuccessDeleted: "Attribute deleted",
+    attrSuccessUpdated: "Attribute updated",
+    attrSuccessAdded: "Attribute added",
+    attrErrDeleteTitle: "Unable to delete the attribute",
+    attrConfirmDelete: "Are you sure you want to delete this attribute?",
+    attrType: "Attribute type",
+    attrName: "Attribute name",
+    attrTypeRequired: "Attribute type is required",
+    attrNameRequired: "Attribute name is required",
+    attrTabTitle: "Attributes",
+    addOptionButton: "Add option",
+    optionsField: "Options",
+    searchNameOrCode: "Enter name or code...",
+    userFirstName: "First name",
+    userLastName: "Last name",
+    userEmail: "Email Address",
+    userPhoneNumber: "Phone Number",
+    userOrganisation: "Organization",
+    userDesignation: "Designation",
+    userTrained: "Trained",
+    userSelectLevelRequired: "Please select an administration level",
+    userNationalApprover: "National Approver",
+    loadingText: "Loading...",
+    questionnairesLabel: "Questionnaires",
   },
 
   de: {},

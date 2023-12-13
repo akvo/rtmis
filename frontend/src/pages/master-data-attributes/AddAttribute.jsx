@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import {
   Button,
-  Card,
   Col,
-  Divider,
   Form,
   Input,
   Modal,
@@ -15,29 +13,9 @@ import {
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
-import { MinusCircleOutlined } from "@ant-design/icons";
-import "./style.scss";
-import { api, store, uiText } from "../../lib";
-
-const TYPES = [
-  {
-    value: "value",
-    label: "Value",
-  },
-  {
-    value: "option",
-    label: "Option",
-  },
-  {
-    value: "multiple_option",
-    label: "Multiple Option",
-  },
-  {
-    value: "aggregate",
-    label: "Aggregate",
-  },
-];
-const OPTION_TYPES = ["option", "multiple_option", "aggregate"];
+import { MinusCircleOutlined, PlusCircleFilled } from "@ant-design/icons";
+// import "./style.scss";
+import { api, config, store, uiText } from "../../lib";
 
 const { TabPane } = Tabs;
 
@@ -58,6 +36,8 @@ const AddAttribute = () => {
   const [form] = Form.useForm();
   const { notify } = useNotification();
   const { id } = useParams();
+  const TYPES = config.attribute.allTypes;
+  const OPTION_TYPES = config.attribute.optionTypes;
 
   const pagePath = [
     {
@@ -72,6 +52,10 @@ const AddAttribute = () => {
       title: id ? text.editAttributes : text.addAttributes,
     },
   ];
+
+  const descriptionData = (
+    <p>{id ? text.editAttributeDesc : text.addAttributeDesc}</p>
+  );
 
   const onFinish = async (values) => {
     try {
@@ -88,7 +72,7 @@ const AddAttribute = () => {
       }
       notify({
         type: "success",
-        message: `Attribute ${id ? "updated" : "added"}`,
+        message: id ? text.attrSuccessUpdated : text.attrSuccessAdded,
       });
       setSubmitting(false);
       navigate("/master-data/attributes");
@@ -102,20 +86,20 @@ const AddAttribute = () => {
       await api.delete(`/administration-attributes/${record?.id}`);
       notify({
         type: "success",
-        message: `Attribute deleted`,
+        message: text.attrSuccessDeleted,
       });
       navigate("/master-data/attributes");
     } catch {
       Modal.error({
-        title: "Unable to delete the attribute",
+        title: text.attrErrDeleteTitle,
       });
     }
   };
 
   const handleOnDelete = (record) => {
     Modal.confirm({
-      title: `Delete "${record?.name || "attribute"}"`,
-      content: "Are you sure you want to delete this attribute?",
+      title: `${text.deleteText} "${record?.name}"`,
+      content: text.attrConfirmDelete,
       onOk: () => {
         deleteAttribute(record);
       },
@@ -141,93 +125,114 @@ const AddAttribute = () => {
         <Col>
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel
+            description={descriptionData}
             title={id ? text.editAttributes : text.addAttributes}
           />
         </Col>
       </Row>
-      <Divider />
       <Tabs size="large" activeKey={activeTab} onChange={setActiveTab}>
         <TabPane tab="Administration" key="administration" />
         <TabPane tab="Entity" key="entity" disabled />
       </Tabs>
-      <Form
-        name="adm-form"
-        form={form}
-        layout="vertical"
-        initialValues={initialValues}
-        onFinish={onFinish}
-      >
-        <Card bodyStyle={{ padding: 0 }}>
-          <div className="form-row">
-            <Form.Item
-              name="type"
-              label="Attribute Type"
-              rules={[{ required: true }]}
-            >
-              <Select
-                getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder="Select type..."
-                onSelect={setAttrType}
-                allowClear
-                options={TYPES}
-              />
-            </Form.Item>
-          </div>
-          <Row className="form-row">
-            <Col span={24}>
-              <Form.Item
-                name="name"
-                label="Attribute Name"
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-          {OPTION_TYPES.includes(attrType) && (
+      <div className="table-section">
+        <div className="table-wrapper">
+          <Form
+            name="adm-form"
+            form={form}
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 18 }}
+            initialValues={initialValues}
+            onFinish={onFinish}
+          >
             <Row className="form-row">
               <Col span={24}>
-                <Form.Item label="Options">
-                  <Form.List name="options">
-                    {(fields, { add, remove }) => (
-                      <div>
-                        {fields.map(({ key, name, ...restField }) => (
-                          <Space key={key}>
-                            <Form.Item name={[name, "name"]} {...restField}>
-                              <Input />
-                            </Form.Item>
-                            <Button
-                              icon={<MinusCircleOutlined />}
-                              onClick={() => remove(name)}
-                            >
-                              Remove
-                            </Button>
-                          </Space>
-                        ))}
-                        <Button onClick={() => add()}>Add option</Button>
-                      </div>
-                    )}
-                  </Form.List>
+                <Form.Item
+                  name="name"
+                  label={text.attrName}
+                  rules={[
+                    {
+                      required: true,
+                      message: text.attrNameRequired,
+                    },
+                  ]}
+                >
+                  <Input />
                 </Form.Item>
               </Col>
             </Row>
-          )}
-        </Card>
-        <Space direction="horizontal">
-          {initialValues?.id && (
-            <Button type="danger" onClick={() => handleOnDelete(initialValues)}>
-              Delete
-            </Button>
-          )}
-          <Button type="primary" htmlType="submit" loading={submitting}>
-            Save attribute
-          </Button>
-        </Space>
-      </Form>
+            <div className="form-row">
+              <Form.Item
+                name="type"
+                label={text.attrType}
+                rules={[{ required: true, message: text.attrTypeRequired }]}
+              >
+                <Select
+                  getPopupContainer={(trigger) => trigger.parentNode}
+                  placeholder={text.selectType}
+                  onSelect={setAttrType}
+                  allowClear
+                  options={TYPES}
+                />
+              </Form.Item>
+            </div>
+            {OPTION_TYPES.includes(attrType) && (
+              <Row className="form-row">
+                <Col span={24}>
+                  <Form.Item label={text.optionsField}>
+                    <Form.List name="options">
+                      {(fields, { add, remove }) => (
+                        <Space align="baseline" wrap>
+                          {fields.map(({ key, name, ...restField }) => (
+                            <Space align="baseline" key={key}>
+                              <Form.Item name={[name, "name"]} {...restField}>
+                                <Input />
+                              </Form.Item>
+                              <Button
+                                icon={<MinusCircleOutlined />}
+                                onClick={() => remove(name)}
+                              />
+                            </Space>
+                          ))}
+                          <Button
+                            onClick={() => add()}
+                            shape="round"
+                            icon={<PlusCircleFilled />}
+                          >
+                            {text.addOptionButton}
+                          </Button>
+                        </Space>
+                      )}
+                    </Form.List>
+                  </Form.Item>
+                </Col>
+              </Row>
+            )}
+            <Row justify="center" align="middle">
+              <Col span={18} offset={6}>
+                <Space direction="horizontal">
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    shape="round"
+                    loading={submitting}
+                  >
+                    {text.saveButton}
+                  </Button>
+                  {initialValues?.id && (
+                    <Button
+                      shape="round"
+                      type="danger"
+                      onClick={() => handleOnDelete(initialValues)}
+                    >
+                      {text.deleteText}
+                    </Button>
+                  )}
+                </Space>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 };

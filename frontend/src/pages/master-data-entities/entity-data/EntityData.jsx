@@ -113,7 +113,10 @@ const EntityData = () => {
       <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={text.manageUserText} />
+          <DescriptionPanel
+            description={text.manageEntitiesText}
+            title={text.manageEntities}
+          />
         </Col>
       </Row>
       <ManageDataTab />
