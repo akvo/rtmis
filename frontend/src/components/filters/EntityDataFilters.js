@@ -1,20 +1,58 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Col, Input, Row, Space } from "antd";
+import { Button, Col, Input, Row, Select, Space } from "antd";
 import RemoveFiltersButton from "./RemoveFiltersButton";
 import AdministrationDropdown from "./AdministrationDropdown";
-import { store, uiText } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import { DownloadOutlined, PlusOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
+const { Option } = Select;
 
 const EntityDataFilters = ({ loading }) => {
+  const [preload, setPreload] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+  const [typeItems, setTypeItems] = useState([]);
+
+  const entityTypes = store.useState((s) => s.options.entityTypes);
   const authUser = store.useState((s) => s.user);
   const language = store.useState((s) => s.language);
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const fetchEntityTypes = useCallback(async () => {
+    if (entityTypes.length && preload) {
+      setPreload(false);
+      return;
+    }
+    if ((preload || page <= totalPage) && !entityTypes.length) {
+      setPreload(false);
+      try {
+        const { data: apiData } = await api.get(`/entities?page=${page}`);
+        const { data: _types, total_page: _totalPage, current } = apiData || {};
+        const allTypes = [...typeItems, ..._types];
+        setPage(current + 1);
+        setTotalPage(_totalPage);
+        setTypeItems(allTypes);
+        if (page === _totalPage) {
+          store.update((s) => {
+            s.options.entityTypes = allTypes;
+          });
+        }
+      } catch {
+        store.update((s) => {
+          s.options.entityTypes = [];
+        });
+      }
+    }
+  }, [preload, page, totalPage, entityTypes, typeItems]);
+
+  useEffect(() => {
+    fetchEntityTypes();
+  }, [fetchEntityTypes]);
 
   return (
     <Row>
@@ -33,6 +71,15 @@ const EntityDataFilters = ({ loading }) => {
             // loading={loading && !!query}
             allowClear
           />
+          <Select placeholder={text.entityTypes}>
+            {entityTypes.map((type, tx) => {
+              return (
+                <Option key={tx} value={type.id}>
+                  {type.name}
+                </Option>
+              );
+            })}
+          </Select>
           <AdministrationDropdown loading={loading} />
           <RemoveFiltersButton
             extra={(s) => {
