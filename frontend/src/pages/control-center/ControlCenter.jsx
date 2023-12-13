@@ -7,29 +7,7 @@ import { Link } from "react-router-dom";
 import { PanelApprovals, PanelSubmissions } from "../control-center/components";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { ControlCenterTour } from "./components";
-import {
-  LaptopOutlined,
-  NotificationOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-
-const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
-  (icon, index) => {
-    const key = String(index + 1);
-    return {
-      key: `sub${key}`,
-      icon: React.createElement(icon),
-      label: `subnav ${key}`,
-      children: new Array(4).fill(null).map((_, j) => {
-        const subKey = index * 4 + j + 1;
-        return {
-          key: subKey,
-          label: `option${subKey}`,
-        };
-      }),
-    };
-  }
-);
+import { UserOutlined, DatabaseOutlined } from "@ant-design/icons";
 
 const ControlCenter = () => {
   const { user: authUser } = store.useState((s) => s);
@@ -132,6 +110,64 @@ const ControlCenter = () => {
     return panelOrder.map((x) => panelByAccess.find((p) => p.key === x));
   }, [panels, roles, checkAccess, authUser]);
 
+  const pageAccessToLabelMapping = {
+    user: "Manage Users",
+    approvers: "Validation Tree",
+    data: ["Manage Data", "Download Data"],
+  };
+
+  const controlCenterToLabelMapping = {
+    "manage-user": {
+      label: "Users",
+      icon: UserOutlined,
+      childrenKeys: ["user", "approvers"],
+    },
+    "manage-data": {
+      label: "Data",
+      icon: DatabaseOutlined,
+      childrenKeys: ["data"],
+    },
+  };
+
+  const determineChildren = (key) => {
+    const labels = pageAccessToLabelMapping[key];
+    if (Array.isArray(labels)) {
+      return labels.map((label, index) => ({ key: key + index, label }));
+    }
+    return [{ key, label: labels }];
+  };
+
+  const createMenuItems = (controlCenterOrder, pageAccess) => {
+    return controlCenterOrder
+      .map((orderKey) => {
+        const controlCenterItem = controlCenterToLabelMapping[orderKey];
+
+        if (!controlCenterItem) {
+          return null;
+        }
+
+        const { label, icon, childrenKeys } = controlCenterItem;
+
+        const children = childrenKeys
+          .filter((key) => pageAccess.includes(key.split(/(\d+)/)[0]))
+          .flatMap((key) => determineChildren(key, pageAccess));
+
+        return {
+          key: orderKey,
+          icon: icon ? React.createElement(icon) : null,
+          label,
+          children: children.length ? children : undefined,
+        };
+      })
+      .filter(Boolean);
+  };
+
+  const superAdminRole = roles.find((r) => r.id === authUser?.role_detail?.id);
+  const usersMenuItem = createMenuItems(
+    superAdminRole.control_center_order,
+    superAdminRole.page_access
+  );
+
   return (
     <div id="control-center">
       <Layout>
@@ -144,7 +180,7 @@ const ControlCenter = () => {
               height: "100%",
               borderRight: 0,
             }}
-            items={items2}
+            items={usersMenuItem}
           />
         </Sider>
         <Layout className="site-layout">
