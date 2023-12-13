@@ -1,16 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-import {
-  Row,
-  Col,
-  Card,
-  Form,
-  Button,
-  Divider,
-  Input,
-  Select,
-  Space,
-  Modal,
-} from "antd";
+import { Row, Col, Form, Button, Input, Select, Space, Modal } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { api, config, store, uiText } from "../../lib";
 import {
@@ -80,17 +69,23 @@ const AddAssignment = () => {
       await api.delete(`/mobile-assignments/${id}`);
       navigate("/mobile-assignment");
     } catch {
-      notify({
-        type: "error",
-        message: "Oops, something went wrong.",
+      Modal.error({
+        title: text.mobileErrDelete,
+        content: (
+          <>
+            {text.errDeleteCascadeText1}
+            <br />
+            <em>{text.errDeleteCascadeText2}</em>
+          </>
+        ),
       });
     }
   };
 
   const onDelete = () => {
     Modal.confirm({
-      title: `Delete ${editAssignment?.name || "Assignment"}`,
-      content: "Are you sure you want to delete this assignment?",
+      title: `${text.deleteText} ${editAssignment?.name}`,
+      content: text.mobileConfirmDelete,
       onOk: () => {
         deleteAssginment();
       },
@@ -124,7 +119,7 @@ const AddAssignment = () => {
       }
       notify({
         type: "success",
-        message: id ? "Mobile assignment update" : "Mobile assignment added",
+        message: id ? text.mobileSuccessUpdated : text.mobileSuccessAdded,
       });
       setLoading(false);
       navigate("/mobile-assignment");
@@ -186,101 +181,117 @@ const AddAssignment = () => {
           <DescriptionPanel description={descriptionData} title={pageTitle} />
         </Col>
       </Row>
-      <Divider />
-      <Form name="user-form" form={form} layout="vertical" onFinish={onFinish}>
-        <Card bodyStyle={{ padding: 0 }}>
-          <Row className="form-row">
-            <Col span={24}>
-              <Form.Item
-                name="name"
-                label={text.mobileLabelName}
-                rules={[
-                  {
-                    required: true,
-                    message: text.mobileNameRequired,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-          {authUser?.role?.id === IS_SUPER_ADMIN && (
+      <div className="table-section">
+        <div className="table-wrapper">
+          <Form
+            name="adm-form"
+            form={form}
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 18 }}
+            onFinish={onFinish}
+          >
+            <Row className="form-row">
+              <Col span={24}>
+                <Form.Item
+                  name="name"
+                  label={text.mobileLabelName}
+                  rules={[
+                    {
+                      required: true,
+                      message: text.mobileNameRequired,
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+            </Row>
+            {authUser?.role?.id === IS_SUPER_ADMIN && (
+              <div className="form-row">
+                <Form.Item
+                  name="level_id"
+                  label="Administration Level"
+                  rules={[
+                    {
+                      required: true,
+                      message: text.mobileLevelRequired,
+                    },
+                  ]}
+                >
+                  <Select
+                    getPopupContainer={(trigger) => trigger.parentNode}
+                    placeholder={text.selectLevel}
+                    onChange={onSelectLevel}
+                    fieldNames={{ value: "id", label: "name" }}
+                    options={admLevels}
+                    allowClear
+                  />
+                </Form.Item>
+              </div>
+            )}
+            {((admIsRequired && authUser?.role?.id !== IS_SUPER_ADMIN) ||
+              (level > 0 && authUser?.role?.id === IS_SUPER_ADMIN)) && (
+              <div className="form-row">
+                <Form.Item
+                  name="administrations"
+                  label={text.mobileLabelAdm}
+                  rules={[{ required: true, message: text.mobileAdmRequired }]}
+                >
+                  <AdministrationDropdown
+                    size="large"
+                    width="100%"
+                    direction="vertical"
+                    maxLevel={level}
+                    onChange={(values) => {
+                      if (values) {
+                        form.setFieldsValue({ administrations: values });
+                      }
+                    }}
+                    persist={id ? true : false}
+                    allowMultiple
+                  />
+                </Form.Item>
+              </div>
+            )}
             <div className="form-row">
               <Form.Item
-                name="level_id"
-                label="Administration Level"
-                rules={[
-                  {
-                    required: true,
-                    message: text.mobileLevelRequired,
-                  },
-                ]}
+                name="forms"
+                label={text.mobileLabelForms}
+                rules={[{ required: true, message: text.mobileFormsRequired }]}
               >
                 <Select
                   getPopupContainer={(trigger) => trigger.parentNode}
-                  placeholder="Select level.."
-                  onChange={onSelectLevel}
-                  fieldNames={{ value: "id", label: "name" }}
-                  options={admLevels}
+                  placeholder={text.mobileSelectForms}
+                  mode="multiple"
                   allowClear
+                  loading={loading}
+                  fieldNames={{ value: "id", label: "name" }}
+                  options={userForms}
                 />
               </Form.Item>
             </div>
-          )}
-          {((admIsRequired && authUser?.role?.id !== IS_SUPER_ADMIN) ||
-            (level > 0 && authUser?.role?.id === IS_SUPER_ADMIN)) && (
-            <div className="form-row">
-              <Form.Item
-                name="administrations"
-                label={text.mobileLabelAdm}
-                rules={[{ required: true, message: text.mobileAdmRequired }]}
-              >
-                <AdministrationDropdown
-                  size="large"
-                  width="100%"
-                  direction="vertical"
-                  maxLevel={level}
-                  onChange={(values) => {
-                    if (values) {
-                      form.setFieldsValue({ administrations: values });
-                    }
-                  }}
-                  persist={id ? true : false}
-                  allowMultiple
-                />
-              </Form.Item>
-            </div>
-          )}
-          <div className="form-row">
-            <Form.Item
-              name="forms"
-              label={text.mobileLabelForms}
-              rules={[{ required: true, message: text.mobileFormsRequired }]}
-            >
-              <Select
-                getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder={text.mobileSelectForms}
-                mode="multiple"
-                allowClear
-                loading={loading}
-                fieldNames={{ value: "id", label: "name" }}
-                options={userForms}
-              />
-            </Form.Item>
-          </div>
-        </Card>
-        <Space>
-          {id && (
-            <Button type="danger" onClick={onDelete}>
-              Delete
-            </Button>
-          )}
-          <Button type="primary" htmlType="submit" loading={submitting}>
-            {text.mobileButtonSave}
-          </Button>
-        </Space>
-      </Form>
+            <Row justify="center" align="middle">
+              <Col span={18} offset={6}>
+                <Space>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    shape="round"
+                    loading={submitting}
+                  >
+                    {text.mobileButtonSave}
+                  </Button>
+                  {id && (
+                    <Button type="danger" shape="round" onClick={onDelete}>
+                      {text.deleteText}
+                    </Button>
+                  )}
+                </Space>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 };
