@@ -3,7 +3,7 @@ import "./style.scss";
 import { Row, Col, Card, Button, Layout, Menu } from "antd";
 const { Sider } = Layout;
 import { store, config, uiText } from "../../lib";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PanelApprovals, PanelSubmissions } from "../control-center/components";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { ControlCenterTour } from "./components";
@@ -16,6 +16,7 @@ import {
 const ControlCenter = () => {
   const { user: authUser } = store.useState((s) => s);
   const { language } = store.useState((s) => s);
+  const navigate = useNavigate();
 
   const { active: activeLang } = language;
   const text = useMemo(() => {
@@ -114,17 +115,20 @@ const ControlCenter = () => {
     return panelOrder.map((x) => panelByAccess.find((p) => p.key === x));
   }, [panels, roles, checkAccess, authUser]);
 
-  const pageAccessToLabelMapping = {
-    user: "Manage platform users",
-    approvers: "Validation Tree",
-    mobile: "Manage mobile users",
-    data: ["Manage Data", "Download Data"],
+  const pageAccessToLabelAndUrlMapping = {
+    user: { label: "Manage Platform Users", url: "/users" },
+    approvers: { label: "Validation Tree", url: "/validation-tree" },
+    mobile: { label: "Manage Mobile Users", url: "/manage-mobile-users" },
+    data: [
+      { label: "Manage Data", url: "/manage-data" },
+      { label: "Download Data", url: "/download-data" },
+    ],
     "master-data": [
-      "Administrative List",
-      "Attributes",
-      "Entities",
-      "Entity Types",
-      "Organisations",
+      { label: "Administrative List", url: "/administrative-list" },
+      { label: "Attributes", url: "/attributes" },
+      { label: "Entities", url: "/entities" },
+      { label: "Entity Types", url: "/entity-types" },
+      { label: "Organisations", url: "/organisations" },
     ],
   };
 
@@ -147,11 +151,14 @@ const ControlCenter = () => {
   };
 
   const determineChildren = (key) => {
-    const labels = pageAccessToLabelMapping[key];
-    if (Array.isArray(labels)) {
-      return labels.map((label, index) => ({ key: key + index, label }));
+    const mapping = pageAccessToLabelAndUrlMapping[key];
+    if (Array.isArray(mapping)) {
+      return mapping.map((item, index) => ({
+        key: key + "_" + index,
+        ...item,
+      }));
     }
-    return [{ key, label: labels }];
+    return [{ key, ...mapping }];
   };
 
   const createMenuItems = (controlCenterOrder, pageAccess) => {
@@ -185,7 +192,24 @@ const ControlCenter = () => {
     superAdminRole.page_access
   );
 
-  console.log(selectedPanels, roles);
+  const handleMenuClick = ({ key }) => {
+    const url = findUrlByKey(usersMenuItem, key);
+    navigate(url);
+  };
+
+  const findUrlByKey = (items, key) => {
+    for (const item of items) {
+      if (item.key === key) {
+        return item.url;
+      }
+      if (item.children) {
+        const url = findUrlByKey(item.children, key);
+        if (url) {
+          return url;
+        }
+      }
+    }
+  };
 
   return (
     <div id="control-center">
@@ -199,6 +223,7 @@ const ControlCenter = () => {
               height: "100%",
               borderRight: 0,
             }}
+            onClick={handleMenuClick}
             items={usersMenuItem}
           />
         </Sider>
