@@ -1,7 +1,8 @@
+import { useMemo } from "react";
 import { Button, Col, Input, Row, Space } from "antd";
 import RemoveFiltersButton from "./RemoveFiltersButton";
 import AdministrationDropdown from "./AdministrationDropdown";
-import { store } from "../../lib";
+import { store, uiText } from "../../lib";
 import { Link } from "react-router-dom";
 import debounce from "lodash.debounce";
 import {
@@ -18,6 +19,12 @@ const AdministrationFilters = ({
   addLink = "/master-data/add-administration",
 }) => {
   const authUser = store.useState((s) => s.user);
+  const language = store.useState((s) => s.language);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
+
   const handleChange = debounce(onSearchChange, 300);
 
   return (
@@ -25,7 +32,7 @@ const AdministrationFilters = ({
       <Col flex={1}>
         <Space>
           <Search
-            placeholder="Enter name or code..."
+            placeholder={text.searchNameOrCode}
             onChange={({ target }) => handleChange(target.value)}
             onSearch={(value) => onSearchChange(value)}
             style={{ width: 240 }}
@@ -44,15 +51,15 @@ const AdministrationFilters = ({
           <Space>
             <Link to="/data/upload">
               <Button icon={<UploadOutlined />} shape="round">
-                Bulk Upload
+                {text.bulkUploadButton}
               </Button>
             </Link>
             <Button icon={<DownloadOutlined />} shape="round">
-              Export
+              {text.exportButton}
             </Button>
             <Link to={addLink}>
               <Button type="primary" icon={<PlusOutlined />} shape="round">
-                Add New
+                {text.addNewButton}
               </Button>
             </Link>
           </Space>
