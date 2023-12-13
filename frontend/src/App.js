@@ -34,7 +34,7 @@ import {
   AddAssignment,
   MasterData,
   MasterDataAttributes,
-  MasterDataEntities,
+  ManageEntityTypes,
   AddAdministration,
   AddAttribute,
   AddEntity,
@@ -202,7 +202,7 @@ const RouteList = () => {
       />
       <Route
         path="/master-data/entity-types"
-        element={<Private element={MasterDataEntities} alias="master-data" />}
+        element={<Private element={ManageEntityTypes} alias="master-data" />}
       />
       <Route
         path="/master-data/entity-types/add"

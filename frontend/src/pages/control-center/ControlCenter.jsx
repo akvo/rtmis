@@ -73,6 +73,7 @@ const ControlCenter = () => {
         description: <div>{text.mobilePanelText}</div>,
         link: "/mobile-assignment",
         image: "/assets/personal-information.png",
+        span: 12,
       },
       {
         key: "approvals",
@@ -133,12 +134,10 @@ const ControlCenter = () => {
             cardOnly.length === 1 ||
             (selectedPanels.length % 2 === 1 &&
               selectedPanels.length - 1 === index);
+          const defaultSpan = isFullWidth ? 24 : 12;
+          const colSpan = panel?.span || defaultSpan;
           return (
-            <Col
-              className="card-wrapper"
-              span={isFullWidth ? 24 : 12}
-              key={index}
-            >
+            <Col className="card-wrapper" span={colSpan} key={index}>
               <Card bordered={false} hoverable>
                 <div className="row">
                   <div className="flex-1">

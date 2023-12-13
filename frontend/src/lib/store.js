@@ -32,6 +32,9 @@ const defaultUIState = {
     attribute: {},
     entity: {},
   },
+  options: {
+    entityTypes: [],
+  },
 };
 
 const store = new Store(defaultUIState);

@@ -1,16 +1,12 @@
 import React, { useState, useMemo, useEffect } from "react";
 import "./style.scss";
-import { Row, Col, Card, Form, Button, Divider, Input, Select } from "antd";
+import { Row, Col, Form, Button, Input, Select } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { api, store, config, uiText } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
 
 const { Option } = Select;
-
-const descriptionData = (
-  <p>This page allows you to add organisations to the RUSH platform.</p>
-);
 
 const AddOrganisation = () => {
   const { id } = useParams();
@@ -42,6 +38,8 @@ const AddOrganisation = () => {
     },
   ];
 
+  const descriptionData = <p>{id ? text.editOrgDesc : text.addOrgDesc}</p>;
+
   const onFinish = (values) => {
     setSubmitting(true);
     const payload = {
@@ -55,17 +53,16 @@ const AddOrganisation = () => {
       .then(() => {
         notify({
           type: "success",
-          message: `Organization ${id ? "updated" : "added"}`,
+          message: id ? text.successUpdatedOrg : text.successAddedOrg,
         });
         setSubmitting(false);
         navigate("/master-data/organisations");
       })
       .catch((err) => {
+        const errMessage = id ? text.errUpdateOrg : text.errAddOrg;
         notify({
           type: "error",
-          message:
-            err?.response?.data?.message ||
-            `Organization could not be ${id ? "updated" : "added"}`,
+          message: err?.response?.data?.message || errMessage,
         });
         setSubmitting(false);
       });
@@ -95,43 +92,39 @@ const AddOrganisation = () => {
           />
         </Col>
       </Row>
-      <Divider />
-      <Form
-        name="user-form"
-        form={form}
-        layout="vertical"
-        initialValues={{
-          name: "",
-          attributes: [],
-        }}
-        onFinish={onFinish}
-      >
-        <Card bodyStyle={{ padding: 0 }}>
-          <Row className="form-row">
-            <Col span={24}>
-              <Form.Item
-                name="name"
-                label="Organization Name"
-                rules={[
-                  {
-                    required: true,
-                    message: text.valOrgName,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-          <div className="form-row">
+      <div className="table-section">
+        <div className="table-wrapper">
+          <Form
+            name="adm-form"
+            form={form}
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 18 }}
+            initialValues={{
+              name: "",
+              attributes: [],
+            }}
+            onFinish={onFinish}
+          >
+            <Form.Item
+              name="name"
+              label={text.orgLabelName}
+              rules={[
+                {
+                  required: true,
+                  message: text.valOrgName,
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
             <Form.Item
               name="attributes"
-              label="Organization Attributes"
+              label={text.orgLabelAttr}
               rules={[{ required: true, message: text.valOrgAttributes }]}
             >
               <Select
                 getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder="Select attributes.."
+                placeholder={text.selectAttributes}
                 mode="multiple"
                 allowClear
                 loading={!organisationAttributes.length || loading}
@@ -143,16 +136,22 @@ const AddOrganisation = () => {
                 ))}
               </Select>
             </Form.Item>
-          </div>
-        </Card>
-        <Row justify="end" align="middle">
-          <Col>
-            <Button type="primary" htmlType="submit" loading={submitting}>
-              {id ? text.updateOrganisation : text.addOrganisation}
-            </Button>
-          </Col>
-        </Row>
-      </Form>
+
+            <Row className="form-row" justify="center" align="middle">
+              <Col span={18} offset={6}>
+                <Button
+                  type="primary"
+                  shape="round"
+                  htmlType="submit"
+                  loading={submitting}
+                >
+                  {id ? text.updateOrganisation : text.addOrganisation}
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 };
