@@ -4,6 +4,7 @@ echo "Seed Administration? [y/n]"
 read -r seed_administration
 if [[ "${seed_administration}" == 'y' || "${seed_administration}" == 'Y' ]]; then
     python manage.py administration_seeder
+    python manage.py resetsequence v1_profile
 fi
 
 echo "Add New Super Admin? [y/n]"
