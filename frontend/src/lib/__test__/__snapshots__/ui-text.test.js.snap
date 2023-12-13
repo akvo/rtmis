@@ -6,19 +6,46 @@ Object {
   "en": Object {
     "accountDisclaimer": "The user is accountable for his/her account and in case there are any changes (Transfers, retirement, any kind of leave, resignation etc) this should be communicated to the County Administrator or National Super Admin who might be able to assign the roles to the new officer.",
     "actionColumn": "Action",
+    "addAdmDesc": "This page allows you to add administration to the RUSH platform.",
     "addAdministration": "Add Administration",
+    "addAttributeDesc": "This page allows you to add attribute to the RUSH platform.",
     "addAttributes": "Add Attribute",
     "addEntities": "Add Entities",
     "addEntity": "Add Entity",
     "addEntityData": "Add new data",
+    "addEntityDesc": "This page allows you to add entity to the RUSH platform.",
+    "addEntityTypeDesc": "This page allows you to add entity type to the RUSH platform.",
+    "addNewButton": "Add New",
+    "addOptionButton": "Add option",
+    "addOrgDesc": "This page allows you to add organisations to the RUSH platform.",
     "addOrganisation": "Add Organization",
     "addUser": "Add User",
+    "admConfirmDelete": "Are you sure you want to delete this administration?",
+    "admErrDeleteTitle": "Unable to delete the administration",
     "admFieldRequired": "Administration is required",
+    "admLevel": "Administration Level",
+    "admName": "Administration Name",
+    "admNameRequired": "Administration name is required",
+    "admParent": "Administration Parent",
+    "admSuccessAdded": "Administration added",
+    "admSuccessDeleted": "Administration deleted",
+    "admSuccessUpdated": "Administration updated",
+    "admTabTitle": "Administrative List",
     "administrationField": "Administration",
     "administrationLabel": "Administration",
     "approvalsTab1": "My Pending",
     "approvalsTab2": "Subordinates Approvals",
     "approvalsTab3": "Approved",
+    "attrConfirmDelete": "Are you sure you want to delete this attribute?",
+    "attrErrDeleteTitle": "Unable to delete the attribute",
+    "attrName": "Attribute name",
+    "attrNameRequired": "Attribute name is required",
+    "attrSuccessAdded": "Attribute added",
+    "attrSuccessDeleted": "Attribute deleted",
+    "attrSuccessUpdated": "Attribute updated",
+    "attrTabTitle": "Attributes",
+    "attrType": "Attribute type",
+    "attrTypeRequired": "Attribute type is required",
     "backHome": "Back to Homepage",
     "batchDatasets": "Batch Datasets",
     "batchHintDesc": "The operation of merging datasets cannot be undone, and will Create a new batch that will require approval from you admin",
@@ -27,7 +54,9 @@ Object {
     "batchNoApproverMessage": "Can't create batch data, because there's no approver yet.",
     "batchSelectedDatasets": "Batch Selected Datasets",
     "browseComputer": "Browse your computer",
+    "bulkUploadButton": "Bulk Upload",
     "bulkUploadNoApproverMessage": "Can't upload data, because there's no approver yet.",
+    "cancelButton": "Cancel",
     "ccDescriptionPanel": "Instant access to all the administration pages and overview panels for data approvals.",
     "codeField": "Code",
     "codeFieldRequired": "Code is required",
@@ -77,23 +106,31 @@ Object {
     "deleteUserTitle": "You are about to delete the user",
     "download": "Download",
     "dropFile": "Drop your file here",
+    "editAdmDesc": "This page allows you to edit administration to the RUSH platform.",
     "editAdministration": "Edit Administration",
+    "editAttributeDesc": "This page allows you to edit attribute to the RUSH platform.",
     "editAttributes": "Edit Attribute",
     "editButton": "Edit",
     "editEntity": "Edit Entity",
     "editEntityData": "Edit data",
+    "editEntityDesc": "This page allows you to edit entity to the RUSH platform.",
+    "editEntityTypeDesc": "This page allows you to edit entity type to the RUSH platform.",
+    "editOrgDesc": "This page allows you to edit organisations to the RUSH platform.",
     "editOrganisation": "Edit Organization",
     "editUser": "Edit User",
     "entityDataTitle": "Entity Data",
     "entityIsRequired": "Entity is required",
     "entityLabel": "Entity",
+    "entityTabTitle": "Entities",
     "entityText": "Entity",
     "entityType": "Entity Type",
     "entityTypes": "Entity Types",
+    "errAddOrg": "Organization could not be added",
     "errDeleteCascadeText1": "It is associated with other resources or has cascade restrictions.",
     "errDeleteCascadeText2": "Please review and resolve dependencies before attempting to delete.",
     "errDeleteEntityDataTitle": "Unable to delete the data",
     "errDeleteEntityTitle": "Unable to delete the entity",
+    "errUpdateOrg": "Organization could not be updated",
     "error": "Error",
     "errorAuth": "You are not authorised to access this page",
     "errorDataLoad": "Could not load data",
@@ -177,6 +214,7 @@ Object {
     "forgotDesc": "Enter the email associated with your account and we&apos;ll Send an email with instructions to reset your password",
     "forgotTitle": "Reset your password",
     "formAssignmentError": "You don't have any form assignment, please contact the administrator",
+    "formColumn": "Form",
     "formDescription": <p>
       Please fill up the webform below with relevant responses. You will need to answer all mandatory questions before you can submit.
       <br />
@@ -195,11 +233,26 @@ Object {
     "levelField": "Level",
     "levelFieldRequired": "Level is required",
     "levelLabel": "Level",
+    "loadingText": "Loading...",
     "login": "Log in",
     "loginTitle": "Welcome back",
     "lorem": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, assumenda quos? Quia deleniti sapiente aut! Ab consequatur cumque fugit ea. Dolore ex rerum quisquam inventore eum dicta doloribus harum cum.",
     "lorem2": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
     "manageAdministrativeList": "Manage Administrative List",
+    "manageAttributeText": <React.Fragment>
+      This is where you manage attributes based on their fields. You can :
+      <ul>
+        <li>
+          Add new attribute
+        </li>
+        <li>
+          Modify existing attribute
+        </li>
+        <li>
+          Delete existing attribute
+        </li>
+      </ul>
+    </React.Fragment>,
     "manageAttributes": "Manage Attributes",
     "manageDataButton": "Manage Data",
     "manageDataText": <React.Fragment>
@@ -219,7 +272,36 @@ Object {
     "manageDataTitle": "Manage Data",
     "manageDataValidationSetup": "Manage Data Validation Setup",
     "manageEntities": "Manage Entities",
+    "manageEntitiesText": <React.Fragment>
+      This is where you manage entitys based on their fields. You can :
+      <ul>
+        <li>
+          Add new entity
+        </li>
+        <li>
+          Modify existing entity
+        </li>
+        <li>
+          Delete existing entity
+        </li>
+      </ul>
+    </React.Fragment>,
     "manageEntityTitle": "Manage Entities",
+    "manageEntityTypes": "Manage Entity Types",
+    "manageEntityTypesText": <React.Fragment>
+      This is where you manage entity types based on their fields. You can :
+      <ul>
+        <li>
+          Add new entity type
+        </li>
+        <li>
+          Modify existing entity type
+        </li>
+        <li>
+          Delete existing entity type
+        </li>
+      </ul>
+    </React.Fragment>,
     "manageOrganisations": "Manage Organizations",
     "manageQnApproval": "Manage Questionnaire Approval",
     "manageUserButton": "Manage Users",
@@ -260,8 +342,10 @@ Object {
     "mobileAdmRequired": "Administration is required: one or multiple",
     "mobileButtonAdd": "Add new data collector",
     "mobileButtonSave": "Save",
+    "mobileConfirmDelete": "Are you sure you want to delete this assignment?",
     "mobileConfirmDeletion": "Are you sure?",
     "mobileEditText": "Edit Assignment",
+    "mobileErrDelete": "Unable to delete assingment",
     "mobileFormsRequired": "Form is required: one or multiple",
     "mobileLabelAdm": "Administrations",
     "mobileLabelForms": "Forms",
@@ -288,6 +372,8 @@ Object {
     "mobilePanelTitle": "Mobile Data Collectors",
     "mobileSelectAdm": "Select administrations...",
     "mobileSelectForms": "Select forms...",
+    "mobileSuccessAdded": "Mobile assignment added",
+    "mobileSuccessUpdated": "Mobile assignment update",
     "month": "Month",
     "myProfile": "My Profile",
     "nameField": "Name",
@@ -297,6 +383,9 @@ Object {
     "next": "Next",
     "notAssigned": "Not assigned",
     "notesFeedback": "Notes & Feedback",
+    "optionsField": "Options",
+    "orgLabelAttr": "Organization Attributes",
+    "orgLabelName": "Organization Name",
     "orgPanelButton": "Manage Organization",
     "orgPanelText": <React.Fragment>
       This is where you :
@@ -313,6 +402,7 @@ Object {
       </ul>
     </React.Fragment>,
     "orgPanelTitle": "Manage Organization",
+    "orgTabTitle": "Organisations",
     "organisationDeleteFail": "Could not delete organization",
     "organisationsLoadFail": "Could not load organizations",
     "panelApprovalsDesc": <React.Fragment>
@@ -341,6 +431,7 @@ Object {
     "passwordUpdateSuccess": "Password updated successfully",
     "prev": "Prev",
     "profileLabel": "Profile",
+    "questionnairesLabel": "Questionnaires",
     "reports": "Reports",
     "resetHint": <React.Fragment>
       Please set your password for the platform.
@@ -350,10 +441,15 @@ Object {
     "saveButton": "Save",
     "searchEntity": "Enter name...",
     "searchEntityType": "Enter name...",
+    "searchNameOrCode": "Enter name or code...",
     "second": "Second",
+    "selectAttributes": "Select attributes...",
     "selectEntity": "Select entity...",
     "selectForm": "Please select a form",
     "selectLevel": "Select level...",
+    "selectOne": "Select one...",
+    "selectText": "Select...",
+    "selectType": "Select type...",
     "sendInstructions": "Send Instructions",
     "sendNewRequest": "Notify Approver",
     "settings": "System Settings",
@@ -362,11 +458,14 @@ Object {
     "signOut": "Sign Out",
     "submissionComment": "Submission comment",
     "successAddedEntity": "Entity added",
+    "successAddedOrg": "Organisation added",
     "successDeletedEntity": "Entity deleted",
+    "successDeletedOrg": "Organisation deleted",
     "successEntityDataAdded": "Entity data added",
     "successEntityDataDeleted": "Entity data deleted",
     "successEntityDataUpdated": "Entity data updated",
     "successUpdatedEntity": "Entity updated",
+    "successUpdatedOrg": "Organisation updated",
     "templateDownloadHint": "If you do not already have a template, please download it",
     "templateFetchFail": "Could not fetch template",
     "tourApprovals": "Placeat impedit iure quaerat neque sit quasi",
@@ -388,6 +487,15 @@ Object {
     "uploadsTab3": "Approved",
     "userAssociations": "This user has following data association(s)",
     "userDeleteFail": "Could not delete user",
+    "userDesignation": "Designation",
+    "userEmail": "Email Address",
+    "userFirstName": "First name",
+    "userLastName": "Last name",
+    "userNationalApprover": "National Approver",
+    "userOrganisation": "Organization",
+    "userPhoneNumber": "Phone Number",
+    "userSelectLevelRequired": "Please select an administration level",
+    "userTrained": "Trained",
     "usernameRequired": "Please input your Username!",
     "usersLoadFail": "Could not load users",
     "valDesignation": "Please select a Designation",

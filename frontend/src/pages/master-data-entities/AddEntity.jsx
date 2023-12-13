@@ -1,16 +1,6 @@
 import React, { useCallback, useEffect, useState, useMemo } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  Divider,
-  Form,
-  Input,
-  Modal,
-  Row,
-  Space,
-} from "antd";
-import { Breadcrumbs } from "../../components";
+import { Button, Col, Form, Input, Modal, Row, Space } from "antd";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
 import "./style.scss";
@@ -36,13 +26,17 @@ const AddEntity = () => {
       link: "/control-center",
     },
     {
-      title: text.entityTypes,
+      title: text.manageEntityTypes,
       link: "/master-data/entity-types/",
     },
     {
       title: id ? text.editEntity : text.addEntity,
     },
   ];
+
+  const descriptionData = (
+    <p>{id ? text.editEntityTypeDesc : text.addEntityTypeDesc}</p>
+  );
 
   const onDelete = () => {
     Modal.confirm({
@@ -54,6 +48,11 @@ const AddEntity = () => {
           notify({
             type: "success",
             message: text.successDeletedEntity,
+          });
+          store.update((s) => {
+            s.options.entityTypes = s.options.entityTypes.filter(
+              (t) => t?.id !== entity.id
+            );
           });
           navigate("/master-data/entity-types/");
         } catch (error) {
@@ -78,7 +77,10 @@ const AddEntity = () => {
       if (id) {
         await api.put(`/entities/${id}`, values);
       } else {
-        await api.post("/entities", values);
+        const { data: newEntity } = await api.post("/entities", values);
+        store.update((s) => {
+          s.options.entityTypes = [...s.options.entityTypes, newEntity];
+        });
       }
       notify({
         type: "success",
@@ -112,43 +114,55 @@ const AddEntity = () => {
       <Row justify="space-between">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel
+            description={descriptionData}
+            title={id ? text.editEntity : text.addEntity}
+          />
         </Col>
       </Row>
-      <Divider />
-      <Form
-        name="entity-form"
-        form={form}
-        layout="vertical"
-        onFinish={onFinish}
-      >
-        <Card bodyStyle={{ padding: 0 }}>
-          <Row className="form-row">
-            <Col span={24}>
-              <Form.Item
-                name="name"
-                label={text.nameField}
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-        </Card>
-        <Space>
-          {id && (
-            <Button type="danger" onClick={onDelete}>
-              {text.deleteText}
-            </Button>
-          )}
-          <Button type="primary" htmlType="submit" loading={submitting}>
-            {text.saveButton}
-          </Button>
-        </Space>
-      </Form>
+      <div className="table-section">
+        <div className="table-wrapper">
+          <Form
+            name="adm-form"
+            form={form}
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 18 }}
+            onFinish={onFinish}
+          >
+            <Form.Item
+              name="name"
+              label={text.nameField}
+              rules={[
+                {
+                  required: true,
+                  message: text.nameFieldRequired,
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Row justify="center" align="middle">
+              <Col span={18} offset={6}>
+                <Space>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    shape="round"
+                    loading={submitting}
+                  >
+                    {text.saveButton}
+                  </Button>
+                  {id && (
+                    <Button type="danger" shape="round" onClick={onDelete}>
+                      {text.deleteText}
+                    </Button>
+                  )}
+                </Space>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 };

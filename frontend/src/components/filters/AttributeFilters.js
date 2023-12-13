@@ -1,8 +1,6 @@
 import { useMemo } from "react";
-import { Button, Col, Input, Row, Space } from "antd";
-import RemoveFiltersButton from "./RemoveFiltersButton";
-import AdministrationDropdown from "./AdministrationDropdown";
-import { store, uiText } from "../../lib";
+import { Button, Col, Input, Row, Select, Space } from "antd";
+import { config, store, uiText } from "../../lib";
 import { Link } from "react-router-dom";
 import debounce from "lodash.debounce";
 import {
@@ -13,8 +11,7 @@ import {
 
 const { Search } = Input;
 
-const AdministrationFilters = ({
-  loading,
+const AttributeFilters = ({
   onSearchChange = () => {},
   addLink = "/master-data/add-administration",
 }) => {
@@ -26,6 +23,7 @@ const AdministrationFilters = ({
   }, [activeLang]);
 
   const handleChange = debounce(onSearchChange, 300);
+  const attributeTypes = config.attribute.allTypes;
 
   return (
     <Row>
@@ -38,11 +36,10 @@ const AdministrationFilters = ({
             style={{ width: 240 }}
             allowClear
           />
-          <AdministrationDropdown loading={loading} />
-          <RemoveFiltersButton
-            extra={(s) => {
-              s.filters = { trained: null, role: null, organisation: null };
-            }}
+          <Select
+            placeholder={text.attrType}
+            options={attributeTypes}
+            allowClear
           />
         </Space>
       </Col>
@@ -68,4 +65,5 @@ const AdministrationFilters = ({
     </Row>
   );
 };
-export default AdministrationFilters;
+
+export default AttributeFilters;
