@@ -1,6 +1,11 @@
 import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { Button, Divider, Col, Row, Space, Table } from "antd";
-import { Breadcrumbs, EntityFilters, ManageDataTab } from "../../components";
+import {
+  Breadcrumbs,
+  DescriptionPanel,
+  EntityFilters,
+  ManageDataTab,
+} from "../../components";
 
 import { api, store, uiText } from "../../lib";
 import { Link } from "react-router-dom";
@@ -23,7 +28,7 @@ const ManageEntityTypes = () => {
       link: "/control-center",
     },
     {
-      title: text.manageEntities,
+      title: text.manageEntityTypes,
     },
   ];
 
@@ -87,6 +92,10 @@ const ManageEntityTypes = () => {
       <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel
+            description={text.manageEntityTypesText}
+            title={text.manageEntityTypes}
+          />
         </Col>
       </Row>
       <ManageDataTab />
