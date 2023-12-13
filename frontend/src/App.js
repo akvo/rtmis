@@ -54,7 +54,6 @@ const Private = ({ element: Element, alias }) => {
   const { user: authUser } = store.useState((state) => state);
   if (authUser) {
     const page_access = authUser?.role_detail?.page_access;
-    console.log(page_access, alias);
     return page_access.includes(alias) ? (
       <Element />
     ) : (
