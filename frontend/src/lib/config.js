@@ -876,6 +876,27 @@ const config = {
       },
     },
   },
+  attribute: {
+    allTypes: [
+      {
+        value: "value",
+        label: "Value",
+      },
+      {
+        value: "option",
+        label: "Option",
+      },
+      {
+        value: "multiple_option",
+        label: "Multiple Option",
+      },
+      {
+        value: "aggregate",
+        label: "Aggregate",
+      },
+    ],
+    optionTypes: ["option", "multiple_option", "aggregate"],
+  },
 };
 
 export default config;
