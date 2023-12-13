@@ -1,11 +1,16 @@
 import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { Button, Divider, Col, Row, Space, Table } from "antd";
-import { Breadcrumbs, EntityFilters, ManageDataTab } from "../../components";
+import {
+  Breadcrumbs,
+  DescriptionPanel,
+  EntityFilters,
+  ManageDataTab,
+} from "../../components";
 
 import { api, store, uiText } from "../../lib";
 import { Link } from "react-router-dom";
 
-const MasterDataEntities = () => {
+const ManageEntityTypes = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
@@ -23,7 +28,7 @@ const MasterDataEntities = () => {
       link: "/control-center",
     },
     {
-      title: text.manageEntities,
+      title: text.manageEntityTypes,
     },
   ];
 
@@ -87,6 +92,10 @@ const MasterDataEntities = () => {
       <Row justify="space-between" align="bottom">
         <Col>
           <Breadcrumbs pagePath={pagePath} />
+          <DescriptionPanel
+            description={text.manageEntityTypesText}
+            title={text.manageEntityTypes}
+          />
         </Col>
       </Row>
       <ManageDataTab />
@@ -121,4 +130,4 @@ const MasterDataEntities = () => {
   );
 };
 
-export default MasterDataEntities;
+export default ManageEntityTypes;
