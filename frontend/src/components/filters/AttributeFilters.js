@@ -1,5 +1,6 @@
-import { Button, Col, Input, Row, Space } from "antd";
-import { store } from "../../lib";
+import { useMemo } from "react";
+import { Button, Col, Input, Row, Select, Space } from "antd";
+import { config, store, uiText } from "../../lib";
 import { Link } from "react-router-dom";
 import debounce from "lodash.debounce";
 import {
@@ -15,17 +16,29 @@ const AttributeFilters = ({
   addLink = "/master-data/add-administration",
 }) => {
   const authUser = store.useState((s) => s.user);
+  const language = store.useState((s) => s.language);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
+
   const handleChange = debounce(onSearchChange, 300);
+  const attributeTypes = config.attribute.allTypes;
 
   return (
     <Row>
       <Col flex={1}>
         <Space>
           <Search
-            placeholder="Enter name or code..."
+            placeholder={text.searchNameOrCode}
             onChange={({ target }) => handleChange(target.value)}
             onSearch={(value) => onSearchChange(value)}
             style={{ width: 240 }}
+            allowClear
+          />
+          <Select
+            placeholder={text.attrType}
+            options={attributeTypes}
             allowClear
           />
         </Space>
@@ -35,15 +48,15 @@ const AttributeFilters = ({
           <Space>
             <Link to="/data/upload">
               <Button icon={<UploadOutlined />} shape="round">
-                Bulk Upload
+                {text.bulkUploadButton}
               </Button>
             </Link>
             <Button icon={<DownloadOutlined />} shape="round">
-              Export
+              {text.exportButton}
             </Button>
             <Link to={addLink}>
               <Button type="primary" icon={<PlusOutlined />} shape="round">
-                Add New
+                {text.addNewButton}
               </Button>
             </Link>
           </Space>
