@@ -75,7 +75,7 @@ const MasterDataAttributes = () => {
         return (
           <>
             <Button type="link" onClick={() => handleOnEdit(record)}>
-              Edit
+              {text.editButton}
             </Button>
           </>
         );
@@ -107,7 +107,7 @@ const MasterDataAttributes = () => {
         <Col>
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel
-            description={text.manageUserText}
+            description={text.manageAttributeText}
             title={text.manageAttributes}
           />
         </Col>

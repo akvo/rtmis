@@ -2,7 +2,6 @@ import React, { useEffect, useState, useMemo } from "react";
 import {
   Button,
   Col,
-  Divider,
   Form,
   Input,
   Modal,
@@ -16,27 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
 import { MinusCircleOutlined, PlusCircleFilled } from "@ant-design/icons";
 // import "./style.scss";
-import { api, store, uiText } from "../../lib";
-
-const TYPES = [
-  {
-    value: "value",
-    label: "Value",
-  },
-  {
-    value: "option",
-    label: "Option",
-  },
-  {
-    value: "multiple_option",
-    label: "Multiple Option",
-  },
-  {
-    value: "aggregate",
-    label: "Aggregate",
-  },
-];
-const OPTION_TYPES = ["option", "multiple_option", "aggregate"];
+import { api, config, store, uiText } from "../../lib";
 
 const { TabPane } = Tabs;
 
@@ -57,6 +36,8 @@ const AddAttribute = () => {
   const [form] = Form.useForm();
   const { notify } = useNotification();
   const { id } = useParams();
+  const TYPES = config.attribute.allTypes;
+  const OPTION_TYPES = config.attribute.optionTypes;
 
   const pagePath = [
     {
@@ -71,6 +52,10 @@ const AddAttribute = () => {
       title: id ? text.editAttributes : text.addAttributes,
     },
   ];
+
+  const descriptionData = (
+    <p>{id ? text.editAttributeDesc : text.addAttributeDesc}</p>
+  );
 
   const onFinish = async (values) => {
     try {
@@ -87,7 +72,7 @@ const AddAttribute = () => {
       }
       notify({
         type: "success",
-        message: `Attribute ${id ? "updated" : "added"}`,
+        message: id ? text.attrSuccessUpdated : text.attrSuccessAdded,
       });
       setSubmitting(false);
       navigate("/master-data/attributes");
@@ -101,20 +86,20 @@ const AddAttribute = () => {
       await api.delete(`/administration-attributes/${record?.id}`);
       notify({
         type: "success",
-        message: `Attribute deleted`,
+        message: text.attrSuccessDeleted,
       });
       navigate("/master-data/attributes");
     } catch {
       Modal.error({
-        title: "Unable to delete the attribute",
+        title: text.attrErrDeleteTitle,
       });
     }
   };
 
   const handleOnDelete = (record) => {
     Modal.confirm({
-      title: `Delete "${record?.name || "attribute"}"`,
-      content: "Are you sure you want to delete this attribute?",
+      title: `${text.deleteText} "${record?.name}"`,
+      content: text.attrConfirmDelete,
       onOk: () => {
         deleteAttribute(record);
       },
@@ -140,11 +125,11 @@ const AddAttribute = () => {
         <Col>
           <Breadcrumbs pagePath={pagePath} />
           <DescriptionPanel
+            description={descriptionData}
             title={id ? text.editAttributes : text.addAttributes}
           />
         </Col>
       </Row>
-      <Divider />
       <Tabs size="large" activeKey={activeTab} onChange={setActiveTab}>
         <TabPane tab="Administration" key="administration" />
         <TabPane tab="Entity" key="entity" disabled />
@@ -154,12 +139,8 @@ const AddAttribute = () => {
           <Form
             name="adm-form"
             form={form}
-            labelCol={{
-              span: 8,
-            }}
-            wrapperCol={{
-              span: 16,
-            }}
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 18 }}
             initialValues={initialValues}
             onFinish={onFinish}
           >
@@ -167,10 +148,11 @@ const AddAttribute = () => {
               <Col span={24}>
                 <Form.Item
                   name="name"
-                  label="Attribute Name"
+                  label={text.attrName}
                   rules={[
                     {
                       required: true,
+                      message: text.attrNameRequired,
                     },
                   ]}
                 >
@@ -181,12 +163,12 @@ const AddAttribute = () => {
             <div className="form-row">
               <Form.Item
                 name="type"
-                label="Attribute Type"
-                rules={[{ required: true }]}
+                label={text.attrType}
+                rules={[{ required: true, message: text.attrTypeRequired }]}
               >
                 <Select
                   getPopupContainer={(trigger) => trigger.parentNode}
-                  placeholder="Select type..."
+                  placeholder={text.selectType}
                   onSelect={setAttrType}
                   allowClear
                   options={TYPES}
@@ -196,7 +178,7 @@ const AddAttribute = () => {
             {OPTION_TYPES.includes(attrType) && (
               <Row className="form-row">
                 <Col span={24}>
-                  <Form.Item label="Options">
+                  <Form.Item label={text.optionsField}>
                     <Form.List name="options">
                       {(fields, { add, remove }) => (
                         <Space align="baseline" wrap>
@@ -216,7 +198,7 @@ const AddAttribute = () => {
                             shape="round"
                             icon={<PlusCircleFilled />}
                           >
-                            Add option
+                            {text.addOptionButton}
                           </Button>
                         </Space>
                       )}
@@ -226,8 +208,16 @@ const AddAttribute = () => {
               </Row>
             )}
             <Row justify="center" align="middle">
-              <Col span={16} offset={8}>
+              <Col span={18} offset={6}>
                 <Space direction="horizontal">
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    shape="round"
+                    loading={submitting}
+                  >
+                    {text.saveButton}
+                  </Button>
                   {initialValues?.id && (
                     <Button
                       shape="round"
@@ -237,14 +227,6 @@ const AddAttribute = () => {
                       {text.deleteText}
                     </Button>
                   )}
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    shape="round"
-                    loading={submitting}
-                  >
-                    Save attribute
-                  </Button>
                 </Space>
               </Col>
             </Row>
