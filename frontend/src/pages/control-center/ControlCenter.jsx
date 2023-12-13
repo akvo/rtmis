@@ -7,7 +7,11 @@ import { Link } from "react-router-dom";
 import { PanelApprovals, PanelSubmissions } from "../control-center/components";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { ControlCenterTour } from "./components";
-import { UserOutlined, DatabaseOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  TableOutlined,
+  DatabaseOutlined,
+} from "@ant-design/icons";
 
 const ControlCenter = () => {
   const { user: authUser } = store.useState((s) => s);
@@ -111,21 +115,34 @@ const ControlCenter = () => {
   }, [panels, roles, checkAccess, authUser]);
 
   const pageAccessToLabelMapping = {
-    user: "Manage Users",
+    user: "Manage platform users",
     approvers: "Validation Tree",
+    mobile: "Manage mobile users",
     data: ["Manage Data", "Download Data"],
+    "master-data": [
+      "Administrative List",
+      "Attributes",
+      "Entities",
+      "Entity Types",
+      "Organisations",
+    ],
   };
 
   const controlCenterToLabelMapping = {
     "manage-user": {
       label: "Users",
       icon: UserOutlined,
-      childrenKeys: ["user", "approvers"],
+      childrenKeys: ["user", "approvers", "mobile"],
     },
     "manage-data": {
       label: "Data",
-      icon: DatabaseOutlined,
+      icon: TableOutlined,
       childrenKeys: ["data"],
+    },
+    "manage-master-data": {
+      label: "Master Data",
+      icon: DatabaseOutlined,
+      childrenKeys: ["master-data"],
     },
   };
 
@@ -156,7 +173,7 @@ const ControlCenter = () => {
           key: orderKey,
           icon: icon ? React.createElement(icon) : null,
           label,
-          children: children.length ? children : undefined,
+          children: children.length ? children : null,
         };
       })
       .filter(Boolean);
@@ -167,6 +184,8 @@ const ControlCenter = () => {
     superAdminRole.control_center_order,
     superAdminRole.page_access
   );
+
+  console.log(selectedPanels, roles);
 
   return (
     <div id="control-center">

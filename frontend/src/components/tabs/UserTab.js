@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 const { TabPane } = Tabs;
 
 const UserTab = ({ tabBarExtraContent }) => {
-  console.log(tabBarExtraContent, "tabBarExtraContent");
   const pathname = window.location.pathname;
   const navigate = useNavigate();
 
