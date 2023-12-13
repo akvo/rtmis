@@ -116,7 +116,7 @@ const MasterDataAttributes = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          <AttributeFilters addLink="/master-data/attributes/add" />
+          <AttributeFilters />
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}

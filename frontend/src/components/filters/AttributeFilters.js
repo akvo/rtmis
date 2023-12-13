@@ -11,10 +11,7 @@ import {
 
 const { Search } = Input;
 
-const AttributeFilters = ({
-  onSearchChange = () => {},
-  addLink = "/master-data/add-administration",
-}) => {
+const AttributeFilters = ({ onSearchChange = () => {} }) => {
   const authUser = store.useState((s) => s.user);
   const language = store.useState((s) => s.language);
   const { active: activeLang } = language;
@@ -54,7 +51,7 @@ const AttributeFilters = ({
             <Button icon={<DownloadOutlined />} shape="round">
               {text.exportButton}
             </Button>
-            <Link to={addLink}>
+            <Link to={"/master-data/attributes/add"}>
               <Button type="primary" icon={<PlusOutlined />} shape="round">
                 {text.addNewButton}
               </Button>
