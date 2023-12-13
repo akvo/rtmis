@@ -210,7 +210,7 @@ const AddAssignment = () => {
               <div className="form-row">
                 <Form.Item
                   name="level_id"
-                  label="Administration Level"
+                  label={text.admLevel}
                   rules={[
                     {
                       required: true,
