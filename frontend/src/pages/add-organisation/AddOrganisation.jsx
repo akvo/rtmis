@@ -1,16 +1,12 @@
 import React, { useState, useMemo, useEffect } from "react";
 import "./style.scss";
-import { Row, Col, Form, Button, Divider, Input, Select } from "antd";
+import { Row, Col, Form, Button, Input, Select } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { api, store, config, uiText } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
 
 const { Option } = Select;
-
-const descriptionData = (
-  <p>This page allows you to add organisations to the RUSH platform.</p>
-);
 
 const AddOrganisation = () => {
   const { id } = useParams();
@@ -42,6 +38,8 @@ const AddOrganisation = () => {
     },
   ];
 
+  const descriptionData = <p>{id ? text.editOrgDesc : text.addOrgDesc}</p>;
+
   const onFinish = (values) => {
     setSubmitting(true);
     const payload = {
@@ -55,17 +53,16 @@ const AddOrganisation = () => {
       .then(() => {
         notify({
           type: "success",
-          message: `Organization ${id ? "updated" : "added"}`,
+          message: id ? text.successUpdatedOrg : text.successAddedOrg,
         });
         setSubmitting(false);
         navigate("/master-data/organisations");
       })
       .catch((err) => {
+        const errMessage = id ? text.errUpdateOrg : text.errAddOrg;
         notify({
           type: "error",
-          message:
-            err?.response?.data?.message ||
-            `Organization could not be ${id ? "updated" : "added"}`,
+          message: err?.response?.data?.message || errMessage,
         });
         setSubmitting(false);
       });
@@ -95,70 +92,53 @@ const AddOrganisation = () => {
           />
         </Col>
       </Row>
-      <Divider />
       <div className="table-section">
         <div className="table-wrapper">
           <Form
-            name="user-form"
+            name="adm-form"
             form={form}
-            labelCol={{
-              span: 8,
-            }}
-            wrapperCol={{
-              span: 16,
-            }}
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 18 }}
             initialValues={{
               name: "",
               attributes: [],
             }}
             onFinish={onFinish}
           >
-            <Row
-              gutter={16}
-              className="form-row"
-              justify="center"
-              align="middle"
+            <Form.Item
+              name="name"
+              label={text.orgLabelName}
+              rules={[
+                {
+                  required: true,
+                  message: text.valOrgName,
+                },
+              ]}
             >
-              <Col span={12}>
-                <Form.Item
-                  name="name"
-                  label="Organization Name"
-                  rules={[
-                    {
-                      required: true,
-                      message: text.valOrgName,
-                    },
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="attributes"
+              label={text.orgLabelAttr}
+              rules={[{ required: true, message: text.valOrgAttributes }]}
+            >
+              <Select
+                getPopupContainer={(trigger) => trigger.parentNode}
+                placeholder={text.selectAttributes}
+                mode="multiple"
+                allowClear
+                loading={!organisationAttributes.length || loading}
+              >
+                {organisationAttributes?.map((o, oi) => (
+                  <Option key={`org-attr-${oi}`} value={o.id}>
+                    {o.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+
             <Row className="form-row" justify="center" align="middle">
-              <Col span={12}>
-                <Form.Item
-                  name="attributes"
-                  label="Organization Attributes"
-                  rules={[{ required: true, message: text.valOrgAttributes }]}
-                >
-                  <Select
-                    getPopupContainer={(trigger) => trigger.parentNode}
-                    placeholder="Select attributes.."
-                    mode="multiple"
-                    allowClear
-                    loading={!organisationAttributes.length || loading}
-                  >
-                    {organisationAttributes?.map((o, oi) => (
-                      <Option key={`org-attr-${oi}`} value={o.id}>
-                        {o.name}
-                      </Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row className="form-row" justify="center" align="middle">
-              <Col span={12} offset={8}>
+              <Col span={18} offset={6}>
                 <Button
                   type="primary"
                   shape="round"
