@@ -42,6 +42,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
     source = serializers.SerializerMethodField()
     tooltip = serializers.SerializerMethodField()
     fn = serializers.SerializerMethodField()
+    pre = serializers.SerializerMethodField()
 
     @extend_schema_field(ListOptionSerializer(many=True))
     def get_option(self, instance: Questions):
@@ -132,6 +133,15 @@ class ListQuestionSerializer(serializers.ModelSerializer):
     def get_fn(self, instance: Questions):
         return instance.fn
 
+    @extend_schema_field(
+        inline_serializer('QuestionPreFormat',
+                          fields={
+                              'answer': serializers.CharField(),
+                              'fill': serializers.JSONField(),
+                          }))
+    def get_pre(self, instance: Questions):
+        return instance.pre
+
     def to_representation(self, instance):
         result = super(ListQuestionSerializer,
                        self).to_representation(instance)
@@ -166,7 +176,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'name', 'order', 'type', 'required', 'dependency', 'option',
             'center', 'api', 'meta', 'rule', 'extra', 'source', 'tooltip',
-            'fn',
+            'fn', 'pre', 'hidden',
         ]
 
 

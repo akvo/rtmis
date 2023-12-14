@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Button, Col, Input, Row, Space } from "antd";
 import { store, uiText } from "../../lib";
+import { DownloadOutlined, PlusOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 

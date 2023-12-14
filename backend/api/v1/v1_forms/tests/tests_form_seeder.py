@@ -167,3 +167,27 @@ class FormSeederTestCase(TestCase):
             if q['name'] == 'Autofield'
         ][0]
         self.assertIn('fn', autofield)
+
+    def test_question_pre_and_hidden_field(self):
+        seed_administration_test()
+        self.call_command('--test')
+        token = self.get_user_token()
+        form_id = 2
+
+        response = self.client.get(
+            f"/api/v1/form/web/{form_id}",
+            follow=True,
+            content_type='application/json',
+            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+
+        data = response.json()
+        gender = [
+            q for q in data['question_group'][0]['question']
+            if q['name'] == 'Gender'
+        ][0]
+        self.assertIn('pre', gender)
+        hidden = [
+            q for q in data['question_group'][0]['question']
+            if q['name'] == 'Hidden'
+        ][0]
+        self.assertIn('hidden', hidden)

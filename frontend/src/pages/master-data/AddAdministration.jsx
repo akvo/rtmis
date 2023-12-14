@@ -54,25 +54,24 @@ const AddAdministration = () => {
     return uiText[activeLang];
   }, [activeLang]);
 
+  const descriptionData = <p>{id ? text.editAdmDesc : text.addAdmDesc}</p>;
+
   const deleteAdministration = async (row) => {
     try {
       await api.delete(`/administrations/${row.id}`);
       notify({
         type: "success",
-        message: `Administration deleted`,
+        message: text.admSuccessDeleted,
       });
       navigate("/master-data");
     } catch {
       Modal.error({
-        title: "Unable to delete the administration",
+        title: text.admErrDeleteTitle,
         content: (
           <>
-            It is associated with other resources or has cascade restrictions.
+            {text.errDeleteCascadeText1}
             <br />
-            <em>
-              Please review and resolve dependencies before attempting to
-              delete.
-            </em>
+            <em>{text.errDeleteCascadeText2}</em>
           </>
         ),
       });
@@ -82,8 +81,8 @@ const AddAdministration = () => {
 
   const handleOnDelete = () => {
     Modal.confirm({
-      title: `Delete ${initialValues.name}`,
-      content: "Are you sure you want to delete this administration?",
+      title: `${text.deleteText} ${initialValues.name}`,
+      content: text.admConfirmDelete,
       onOk: () => {
         store.update((s) => {
           s.masterData.administration = {};
@@ -134,13 +133,13 @@ const AddAdministration = () => {
         await api.put(`/administrations/${id}`, payload);
         notify({
           type: "success",
-          message: `Administration updated`,
+          message: text.admSuccessUpdated,
         });
       } else {
         await api.post("/administrations", payload);
         notify({
           type: "success",
-          message: `Administration added`,
+          message: text.admSuccessAdded,
         });
       }
       store.update((s) => {
@@ -269,6 +268,7 @@ const AddAdministration = () => {
           <Col>
             <Breadcrumbs pagePath={pagePath} />
             <DescriptionPanel
+              description={descriptionData}
               title={id ? text.editAdministration : text.addAdministration}
             />
           </Col>
@@ -285,16 +285,16 @@ const AddAdministration = () => {
           >
             <Row gutter={16}>
               <Col span={24}>
-                <Form.Item name="code" label="Administration Code">
+                <Form.Item name="code" label={text.codeLabel}>
                   <Input />
                 </Form.Item>
               </Col>
               <Col span={24}>
                 <div className="form-row">
-                  <Form.Item name="level_id" label="Level">
+                  <Form.Item name="level_id" label={text.levelLabel}>
                     <Select
                       getPopupContainer={(trigger) => trigger.parentNode}
-                      placeholder="Select level.."
+                      placeholder={text.selectLevel}
                       value={level}
                       onChange={(val) => {
                         setLevel(val);
@@ -317,7 +317,7 @@ const AddAdministration = () => {
               </Col>
               <Col span={24}>
                 {showAdm && (
-                  <Form.Item name="parent" label="Administration Parent">
+                  <Form.Item name="parent" label={text.admParent}>
                     <AdministrationDropdown
                       size="large"
                       width="100%"
@@ -333,11 +333,11 @@ const AddAdministration = () => {
               <Col span={24}>
                 <Form.Item
                   name="name"
-                  label="Administration Name"
+                  label={text.admName}
                   rules={[
                     {
                       required: true,
-                      message: "Administration name is required",
+                      message: text.admNameRequired,
                     },
                   ]}
                 >
@@ -347,25 +347,29 @@ const AddAdministration = () => {
             </Row>
             <Divider />
             <InputAttributes attributes={attributes} loading={loading} />
-            <Space
-              direction="horizontal"
-              justify="center"
-              style={{ justifyContent: "center", width: "100%" }}
-            >
-              {id && (
-                <Button type="danger" shape="round" onClick={handleOnDelete}>
-                  Delete
-                </Button>
-              )}
-              <Button
-                type="primary"
-                shape="round"
-                htmlType="submit"
-                loading={submitting}
-              >
-                Save administration
-              </Button>
-            </Space>
+            <Row className="form-row" justify="center" align="middle">
+              <Col span={18} offset={6}>
+                <Space direction="horizontal">
+                  <Button
+                    type="primary"
+                    shape="round"
+                    htmlType="submit"
+                    loading={submitting}
+                  >
+                    {text.saveButton}
+                  </Button>
+                  {id && (
+                    <Button
+                      type="danger"
+                      shape="round"
+                      onClick={handleOnDelete}
+                    >
+                      {text.deleteText}
+                    </Button>
+                  )}
+                </Space>
+              </Col>
+            </Row>
           </Form>
         </div>
       </div>

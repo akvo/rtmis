@@ -8,10 +8,6 @@ import { useNotification } from "../../util/hooks";
 
 const { Option } = Select;
 
-const descriptionData = (
-  <p>This page allows you to add organisations to the RUSH platform.</p>
-);
-
 const AddOrganisation = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -30,8 +26,8 @@ const AddOrganisation = () => {
 
   const pagePath = [
     {
-      title: text.settings,
-      link: "/settings",
+      title: text.controlCenter,
+      link: "/control-center",
     },
     {
       title: text.manageOrganisations,
@@ -41,6 +37,8 @@ const AddOrganisation = () => {
       title: id ? text.editOrganisation : text.addOrganisation,
     },
   ];
+
+  const descriptionData = <p>{id ? text.editOrgDesc : text.addOrgDesc}</p>;
 
   const onFinish = (values) => {
     setSubmitting(true);
@@ -55,17 +53,16 @@ const AddOrganisation = () => {
       .then(() => {
         notify({
           type: "success",
-          message: `Organization ${id ? "updated" : "added"}`,
+          message: id ? text.successUpdatedOrg : text.successAddedOrg,
         });
         setSubmitting(false);
         navigate("/master-data/organisations");
       })
       .catch((err) => {
+        const errMessage = id ? text.errUpdateOrg : text.errAddOrg;
         notify({
           type: "error",
-          message:
-            err?.response?.data?.message ||
-            `Organization could not be ${id ? "updated" : "added"}`,
+          message: err?.response?.data?.message || errMessage,
         });
         setSubmitting(false);
       });

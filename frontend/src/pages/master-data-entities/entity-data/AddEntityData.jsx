@@ -1,5 +1,15 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
-import { Button, Col, Form, Input, Row, Select, Space, Modal } from "antd";
+import {
+  Button,
+  Col,
+  Divider,
+  Form,
+  Input,
+  Row,
+  Select,
+  Space,
+  Modal,
+} from "antd";
 
 import {
   AdministrationDropdown,
@@ -60,6 +70,10 @@ const AddEntityData = () => {
       title: id ? text.editEntityData : text.addEntityData,
     },
   ];
+
+  const descriptionData = (
+    <p>{id ? text.editEntityDesc : text.addEntityDesc}</p>
+  );
 
   const onDelete = () => {
     Modal.confirm({
@@ -201,6 +215,7 @@ const AddEntityData = () => {
           <Col>
             <Breadcrumbs pagePath={pagePath} />
             <DescriptionPanel
+              description={descriptionData}
               title={id ? text.editEntityData : text.addEntityData}
             />
           </Col>
@@ -209,132 +224,123 @@ const AddEntityData = () => {
       <div className="table-section">
         <div className="table-wrapper">
           <Form
-            name="entity-form"
+            name="adm-form"
             form={form}
-            layout="vertical"
-            initialValues={{
-              entity_id: "",
-              administration_id: null,
-              name: "",
-              attributes: [],
-            }}
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 18 }}
             onFinish={onFinish}
           >
-            <div bodyStyle={{ padding: 0 }}>
-              <Row gutter={16}>
-                <Col span={6}>
-                  <Form.Item
-                    name="code"
-                    label={text.codeField}
-                    rules={[
-                      {
-                        required: codeIsRequired,
-                        message: text.codeFieldRequired,
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col span={6}>
-                  <div className="form-row">
-                    <Form.Item
-                      name="level_id"
-                      label={text.levelField}
-                      rules={[
-                        { required: true, message: text.levelFieldRequired },
-                      ]}
-                    >
-                      <Select
-                        getPopupContainer={(trigger) => trigger.parentNode}
-                        placeholder={text.selectLevel}
-                        value={level}
-                        onChange={(val) => {
-                          setLevel(val);
-                          form.setFieldsValue({ administration: null });
-                        }}
-                        allowClear
-                      >
-                        {validLevels?.map((adm) => (
-                          <Option key={adm.id} value={adm.id}>
-                            {adm.name}
-                          </Option>
-                        ))}
-                      </Select>
-                    </Form.Item>
-                  </div>
-                </Col>
-                <Col span={12}>
-                  {showAdm && (
-                    <Form.Item
-                      name="administration"
-                      label={text.administrationField}
-                      rules={[
-                        { required: true, message: text.admFieldRequired },
-                      ]}
-                    >
-                      <AdministrationDropdown
-                        size="large"
-                        width="100%"
-                        maxLevel={level}
-                        persist={ADM_PERSIST}
-                      />
-                    </Form.Item>
-                  )}
-                </Col>
-              </Row>
-
-              <div className="form-row">
+            <Row gutter={16}>
+              <Col span={24}>
                 <Form.Item
-                  name="entity"
-                  label={text.entityText}
-                  rules={[{ required: true, message: text.entityIsRequired }]}
+                  name="code"
+                  label={text.codeField}
+                  rules={[
+                    {
+                      required: codeIsRequired,
+                      message: text.codeFieldRequired,
+                    },
+                  ]}
                 >
-                  <Select
-                    getPopupContainer={(trigger) => trigger.parentNode}
-                    placeholder={text.selectEntity}
-                    allowClear
-                  >
-                    {entities?.map((e) => (
-                      <Option key={e.id} value={e.id}>
-                        {e.name}
-                      </Option>
-                    ))}
-                  </Select>
+                  <Input />
                 </Form.Item>
-              </div>
-              <Row className="form-row">
-                <Col span={24}>
-                  <Form.Item
-                    name="name"
-                    label={text.nameField}
-                    rules={[
-                      {
-                        required: true,
-                        message: text.nameFieldRequired,
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Col>
-              </Row>
-            </div>
-            <Space>
-              {id && (
-                <Button type="danger" shape="round" onClick={onDelete}>
-                  {text.deleteText}
-                </Button>
-              )}
-              <Button
-                type="primary"
-                htmlType="submit"
-                shape="round"
-                loading={submitting}
+              </Col>
+            </Row>
+            <div className="form-row">
+              <Form.Item
+                name="level_id"
+                label={text.levelField}
+                rules={[{ required: true, message: text.levelFieldRequired }]}
               >
-                {text.saveButton}
-              </Button>
-            </Space>
+                <Select
+                  getPopupContainer={(trigger) => trigger.parentNode}
+                  placeholder={text.selectLevel}
+                  value={level}
+                  onChange={(val) => {
+                    setLevel(val);
+                    form.setFieldsValue({ administration: null });
+                  }}
+                  allowClear
+                >
+                  {validLevels?.map((adm) => (
+                    <Option key={adm.id} value={adm.id}>
+                      {adm.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </div>
+            <div className="form-row">
+              {showAdm && (
+                <Form.Item
+                  name="administration"
+                  label={text.administrationField}
+                  rules={[{ required: true, message: text.admFieldRequired }]}
+                >
+                  <AdministrationDropdown
+                    size="large"
+                    width="100%"
+                    maxLevel={level}
+                    persist={ADM_PERSIST}
+                  />
+                </Form.Item>
+              )}
+            </div>
+            <Divider />
+            <div className="form-row">
+              <Form.Item
+                name="entity"
+                label={text.entityText}
+                rules={[{ required: true, message: text.entityIsRequired }]}
+              >
+                <Select
+                  getPopupContainer={(trigger) => trigger.parentNode}
+                  placeholder={text.selectEntity}
+                  allowClear
+                >
+                  {entities?.map((e) => (
+                    <Option key={e.id} value={e.id}>
+                      {e.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </div>
+            <Row className="form-row" justify="center" align="middle">
+              <Col span={24}>
+                <Form.Item
+                  name="name"
+                  label={text.nameField}
+                  rules={[
+                    {
+                      required: true,
+                      message: text.nameFieldRequired,
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row justify="center" align="middle">
+              <Col span={18} offset={6}>
+                <Space>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    shape="round"
+                    loading={submitting}
+                  >
+                    {text.saveButton}
+                  </Button>
+                  {id && (
+                    <Button type="danger" shape="round" onClick={onDelete}>
+                      {text.deleteText}
+                    </Button>
+                  )}
+                </Space>
+              </Col>
+            </Row>
           </Form>
         </div>
       </div>

@@ -13,29 +13,9 @@ import {
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
-import { MinusCircleOutlined } from "@ant-design/icons";
-import "./style.scss";
-import { api, store, uiText } from "../../lib";
-
-const TYPES = [
-  {
-    value: "value",
-    label: "Value",
-  },
-  {
-    value: "option",
-    label: "Option",
-  },
-  {
-    value: "multiple_option",
-    label: "Multiple Option",
-  },
-  {
-    value: "aggregate",
-    label: "Aggregate",
-  },
-];
-const OPTION_TYPES = ["option", "multiple_option", "aggregate"];
+import { MinusCircleOutlined, PlusCircleFilled } from "@ant-design/icons";
+// import "./style.scss";
+import { api, config, store, uiText } from "../../lib";
 
 const { TabPane } = Tabs;
 
@@ -56,6 +36,8 @@ const AddAttribute = () => {
   const [form] = Form.useForm();
   const { notify } = useNotification();
   const { id } = useParams();
+  const TYPES = config.attribute.allTypes;
+  const OPTION_TYPES = config.attribute.optionTypes;
 
   const pagePath = [
     {
@@ -70,6 +52,10 @@ const AddAttribute = () => {
       title: id ? text.editAttributes : text.addAttributes,
     },
   ];
+
+  const descriptionData = (
+    <p>{id ? text.editAttributeDesc : text.addAttributeDesc}</p>
+  );
 
   const onFinish = async (values) => {
     try {
@@ -86,7 +72,7 @@ const AddAttribute = () => {
       }
       notify({
         type: "success",
-        message: `Attribute ${id ? "updated" : "added"}`,
+        message: id ? text.attrSuccessUpdated : text.attrSuccessAdded,
       });
       setSubmitting(false);
       navigate("/master-data/attributes");
@@ -100,20 +86,20 @@ const AddAttribute = () => {
       await api.delete(`/administration-attributes/${record?.id}`);
       notify({
         type: "success",
-        message: `Attribute deleted`,
+        message: text.attrSuccessDeleted,
       });
       navigate("/control-center/master-data/attributes");
     } catch {
       Modal.error({
-        title: "Unable to delete the attribute",
+        title: text.attrErrDeleteTitle,
       });
     }
   };
 
   const handleOnDelete = (record) => {
     Modal.confirm({
-      title: `Delete "${record?.name || "attribute"}"`,
-      content: "Are you sure you want to delete this attribute?",
+      title: `${text.deleteText} "${record?.name}"`,
+      content: text.attrConfirmDelete,
       onOk: () => {
         deleteAttribute(record);
       },

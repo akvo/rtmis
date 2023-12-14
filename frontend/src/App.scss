@@ -18,7 +18,7 @@
   }
 
   .ant-btn {
-    &:hover {
+    &:not(.ant-btn-danger):hover {
       border-color: $blue;
       color: $blue;
     }
@@ -225,7 +225,7 @@
               label {
                 color: $blue-darker;
                 font-size: 14px;
-                font-weight: $font-weight-semi-bold;
+                font-weight: $font-weight-normal;
               }
             }
             .ant-input-affix-wrapper {
@@ -235,17 +235,19 @@
               padding: 6px 12px;
               border-color: $stroke-color;
               color: $color-dark;
-              font-weight: $font-weight-semi-bold;
+              font-weight: $font-weight-normal;
+              border-radius: 2px;
             }
 
-            .ant-checkbox-wrapper {
-              color: $white;
-            }
+            // .ant-checkbox-wrapper {
+            //   color: $white;
+            // }
           }
           .ant-select {
             .ant-select-selector {
               height: auto;
               padding: 2px 12px;
+              border-radius: 2px;
               input {
                 height: auto;
               }

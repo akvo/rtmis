@@ -92,13 +92,11 @@ const Organisations = () => {
       render: (record, rowValue) => (
         <Space>
           <Link to={`/organisation/${record.id}`}>
-            <Button type="secondary" size="small">
-              Edit
-            </Button>
+            <Button type="link">Edit</Button>
           </Link>
           <Button
+            shape="round"
             type="danger"
-            size="small"
             ghost
             loading={deleting === record.id}
             onClick={() =>
@@ -266,6 +264,7 @@ const Organisations = () => {
           <Row align="middle">
             <Col span={24} align="right">
               <Button
+                shape="round"
                 className="light"
                 disabled={deleting}
                 onClick={() => {
@@ -275,6 +274,7 @@ const Organisations = () => {
                 Cancel
               </Button>
               <Button
+                shape="round"
                 type="primary"
                 danger
                 loading={deleting}

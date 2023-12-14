@@ -34,7 +34,7 @@ import {
   AddAssignment,
   MasterData,
   MasterDataAttributes,
-  MasterDataEntities,
+  ManageEntityTypes,
   AddAdministration,
   AddAttribute,
   AddEntity,

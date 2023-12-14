@@ -1,8 +1,6 @@
 import { useMemo } from "react";
-import { Button, Col, Input, Row, Space } from "antd";
-import RemoveFiltersButton from "./RemoveFiltersButton";
-import AdministrationDropdown from "./AdministrationDropdown";
-import { store, uiText } from "../../lib";
+import { Button, Col, Input, Row, Select, Space } from "antd";
+import { config, store, uiText } from "../../lib";
 import { Link } from "react-router-dom";
 import debounce from "lodash.debounce";
 import {
@@ -13,11 +11,7 @@ import {
 
 const { Search } = Input;
 
-const AdministrationFilters = ({
-  loading,
-  onSearchChange = () => {},
-  addLink = "/control-center/master-data/add-administration",
-}) => {
+const AttributeFilters = ({ onSearchChange = () => {} }) => {
   const authUser = store.useState((s) => s.user);
   const language = store.useState((s) => s.language);
   const { active: activeLang } = language;
@@ -26,6 +20,7 @@ const AdministrationFilters = ({
   }, [activeLang]);
 
   const handleChange = debounce(onSearchChange, 300);
+  const attributeTypes = config.attribute.allTypes;
 
   return (
     <Row>
@@ -38,18 +33,17 @@ const AdministrationFilters = ({
             style={{ width: 240 }}
             allowClear
           />
-          <AdministrationDropdown loading={loading} />
-          <RemoveFiltersButton
-            extra={(s) => {
-              s.filters = { trained: null, role: null, organisation: null };
-            }}
+          <Select
+            placeholder={text.attrType}
+            options={attributeTypes}
+            allowClear
           />
         </Space>
       </Col>
       {["Super Admin"].includes(authUser?.role?.value) && (
         <Col>
           <Space>
-            <Link to="/control-center/data/upload">
+            <Link to="/data/upload">
               <Button icon={<UploadOutlined />} shape="round">
                 {text.bulkUploadButton}
               </Button>
@@ -57,7 +51,7 @@ const AdministrationFilters = ({
             <Button icon={<DownloadOutlined />} shape="round">
               {text.exportButton}
             </Button>
-            <Link to={addLink}>
+            <Link to={"/master-data/attributes/add"}>
               <Button type="primary" icon={<PlusOutlined />} shape="round">
                 {text.addNewButton}
               </Button>
@@ -68,4 +62,5 @@ const AdministrationFilters = ({
     </Row>
   );
 };
-export default AdministrationFilters;
+
+export default AttributeFilters;
