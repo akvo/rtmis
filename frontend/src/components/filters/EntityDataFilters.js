@@ -4,7 +4,6 @@ import { Button, Col, Input, Row, Select, Space } from "antd";
 import RemoveFiltersButton from "./RemoveFiltersButton";
 import AdministrationDropdown from "./AdministrationDropdown";
 import { api, store, uiText } from "../../lib";
-import { DownloadOutlined, PlusOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 const { Option } = Select;
