@@ -12,7 +12,7 @@ import {
   Input,
 } from "antd";
 import { Link } from "react-router-dom";
-import { Breadcrumbs, DescriptionPanel, ManageDataTab } from "../../components";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { api, store, uiText, config } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { orderBy } from "lodash";
@@ -179,16 +179,17 @@ const Organisations = () => {
 
   return (
     <div id="organisations">
-      <Row justify="space-between" align="bottom">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel
-            description={descriptionData}
-            title={text.manageOrganisations}
-          />
-        </Col>
-      </Row>
-      <ManageDataTab />
+      <div className="description-container">
+        <Row justify="space-between" align="bottom">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={descriptionData}
+              title={text.manageOrganisations}
+            />
+          </Col>
+        </Row>
+      </div>
 
       <div className="table-section">
         <div className="table-wrapper">
@@ -222,7 +223,7 @@ const Organisations = () => {
               </Space>
             </Col>
             <Col>
-              <Link to="/organisation/add">
+              <Link to="/control-center/organisation/add">
                 <Button type="primary" shape="round" icon={<PlusOutlined />}>
                   Add new organization
                 </Button>

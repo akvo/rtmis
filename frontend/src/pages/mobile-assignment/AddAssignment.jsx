@@ -57,7 +57,7 @@ const AddAssignment = () => {
     },
     {
       title: text.mobilePanelTitle,
-      link: "/mobile-assignment",
+      link: "/control-center/mobile-assignment",
     },
     {
       title: pageTitle,
@@ -175,12 +175,14 @@ const AddAssignment = () => {
 
   return (
     <div id="add-assignment">
-      <Row justify="space-between">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={descriptionData} title={pageTitle} />
-        </Col>
-      </Row>
+      <div className="description-container">
+        <Row justify="space-between">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel description={descriptionData} title={pageTitle} />
+          </Col>
+        </Row>
+      </div>
       <div className="table-section">
         <div className="table-wrapper">
           <Form

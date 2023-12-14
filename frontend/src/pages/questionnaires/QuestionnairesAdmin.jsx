@@ -3,8 +3,6 @@ import "./style.scss";
 import {
   Row,
   Col,
-  Card,
-  Divider,
   Table,
   ConfigProvider,
   Empty,
@@ -24,7 +22,7 @@ const pagePath = [
   },
   {
     title: "Approvals",
-    link: "/approvals",
+    link: "/control-center/approvals",
   },
   {
     title: "Manage Questionnaires Approvals",
@@ -136,53 +134,58 @@ const QuestionnairesAdmin = () => {
 
   return (
     <div id="questionnaires">
-      <Row justify="space-between">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-        </Col>
-        <Col>
-          <Space size={6}>
-            <Button
-              className="light"
-              disabled={isPristine || loading || saving}
-              onClick={() => {
-                const cloned = JSON.parse(dataOriginal);
-                setDataset(cloned);
-              }}
-            >
-              Reset
-            </Button>
-            <Button
-              type="primary"
-              disabled={isPristine || loading || saving}
-              onClick={handleSubmit}
-              loading={saving}
-            >
-              Save
-            </Button>
-          </Space>
-        </Col>
-      </Row>
-      <Divider />
-      <Card
-        style={{ padding: 0, minHeight: "40vh" }}
-        bodyStyle={{ padding: 30 }}
-      >
-        <ConfigProvider renderEmpty={() => <Empty description="No data" />}>
-          <Table
-            columns={columns}
-            dataSource={dataset}
-            loading={!dataset.length}
-            onChange={handleChange}
-            pagination={false}
-            // pagination={{
-            //   total: totalCount,
-            //   pageSize: 10,
-            // }}
-            rowKey="form_id"
-          />
-        </ConfigProvider>
-      </Card>
+      <div className="description-container">
+        <Row justify="space-between">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+          </Col>
+          <Col>
+            <Space size={6}>
+              <Button
+                className="light"
+                disabled={isPristine || loading || saving}
+                onClick={() => {
+                  const cloned = JSON.parse(dataOriginal);
+                  setDataset(cloned);
+                }}
+              >
+                Reset
+              </Button>
+              <Button
+                type="primary"
+                disabled={isPristine || loading || saving}
+                onClick={handleSubmit}
+                loading={saving}
+              >
+                Save
+              </Button>
+            </Space>
+          </Col>
+        </Row>
+      </div>
+      <div className="table-section">
+        <div className="table-wrapper">
+          <div
+            style={{ padding: 0, minHeight: "40vh" }}
+            bodyStyle={{ padding: 30 }}
+          >
+            <ConfigProvider renderEmpty={() => <Empty description="No data" />}>
+              <Table
+                columns={columns}
+                dataSource={dataset}
+                loading={!dataset.length}
+                onChange={handleChange}
+                pagination={false}
+                // pagination={{
+                //   total: totalCount,
+                //   pageSize: 10,
+                // }}
+                rowKey="form_id"
+              />
+            </ConfigProvider>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
