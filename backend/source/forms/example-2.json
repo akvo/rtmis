@@ -38,7 +38,16 @@
               "name": "Other",
               "color": "#222222"
             }
-          ]
+          ],
+          "pre": {
+            "answer": "string",
+            "fill": [
+              {
+                "id": "1235434",
+                "answer": "any"
+              }
+            ]
+          }
         },
         {
           "id": 203,
@@ -97,6 +106,14 @@
             "fnString": "function() {}",
             "multiline": true
           }
+        },
+        {
+          "id": 208,
+          "question": "Hidden",
+          "type": "text",
+          "meta": true,
+          "required": true,
+          "hidden": true
         }
       ]
     }
