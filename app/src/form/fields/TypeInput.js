@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import { FieldLabel } from '../support';
 import { styles } from '../styles';
 import { Input, Text } from '@rneui/themed';
-import { useEffect } from 'react';
 
 export const addPreffix = (addonBefore) => {
   if (!addonBefore) {
@@ -78,18 +77,9 @@ const TypeInput = ({
   tooltip,
   required,
   requiredSign,
-  pre: preFilled,
 }) => {
   const requiredValue = required ? requiredSign : null;
-  useEffect(() => {
-    const currentValue = values?.[id];
-    if (preFilled?.fill?.length && !currentValue) {
-      const findFill = preFilled.fill.find((f) => f?.id === id);
-      if (findFill && findFill.answer !== currentValue && onChange) {
-        onChange(id, findFill.answer);
-      }
-    }
-  }, [preFilled, values, id]);
+
   return (
     <View>
       <FieldLabel keyform={keyform} name={name} tooltip={tooltip} requiredSign={requiredValue} />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   TypeDate,
   TypeImage,
@@ -20,6 +20,9 @@ import { cascades } from '../../lib';
 const QuestionField = ({ keyform, field: questionField, setFieldValue, values, validate }) => {
   const [field, meta, helpers] = useField({ name: questionField.id, validate });
   const [cascadeData, setCascadeData] = useState([]);
+  const [preload, setPreload] = useState(true);
+  const preFilled = questionField?.pre;
+  const questionID = questionField?.id;
 
   useEffect(() => {
     if (meta.error && field.name) {
@@ -38,10 +41,10 @@ const QuestionField = ({ keyform, field: questionField, setFieldValue, values, v
 
   const handleOnChangeField = (id, value) => {
     helpers.setTouched({ [field.name]: true });
+    setFieldValue(id, value);
     FormState.update((s) => {
       s.currentValues = { ...s.currentValues, [id]: value };
     });
-    setFieldValue(id, value);
   };
 
   const loadCascadeDataSource = async (source) => {
@@ -49,12 +52,29 @@ const QuestionField = ({ keyform, field: questionField, setFieldValue, values, v
     setCascadeData(rows._array);
   };
 
+  const handleOnPrefilled = useCallback(() => {
+    if (preload && preFilled?.fill?.length && questionID) {
+      setPreload(false);
+      const findFill = preFilled.fill.find((f) => f?.id === questionID);
+      if (findFill) {
+        setFieldValue(questionID, findFill.answer);
+        FormState.update((s) => {
+          s.currentValues = { ...s.currentValues, [questionID]: findFill.answer };
+        });
+      }
+    }
+  }, [preload, preFilled, questionID]);
+
   useEffect(() => {
     if (questionField?.type === 'cascade' && questionField?.source?.file) {
       const cascadeSource = questionField.source;
       loadCascadeDataSource(cascadeSource);
     }
   }, []);
+
+  useEffect(() => {
+    handleOnPrefilled();
+  }, [handleOnPrefilled]);
 
   const renderField = () => {
     switch (questionField?.type) {
