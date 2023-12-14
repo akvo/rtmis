@@ -22,7 +22,10 @@ const ControlCenter = () => {
       label: "Validation Tree",
       url: "/control-center/approvers/tree",
     },
-    mobile: { label: "Manage Mobile Users", url: "/manage-mobile-users" },
+    mobile: {
+      label: "Manage Mobile Users",
+      url: "/control-center/mobile-assignment",
+    },
     data: [
       { label: "Manage Data", url: "/control-center/data/manage" },
       { label: "Download Data", url: "/control-center/data/export" },
