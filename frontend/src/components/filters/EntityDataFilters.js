@@ -91,11 +91,11 @@ const EntityDataFilters = ({ loading }) => {
       {["Super Admin"].includes(authUser?.role?.value) && (
         <Col>
           <Space>
-            <Button icon={<DownloadOutlined />} shape="round">
+            <Button type="primary" shape="round">
               {text.exportButton}
             </Button>
-            <Link to="/master-data/entities/add">
-              <Button type="primary" shape="round" icon={<PlusOutlined />}>
+            <Link to="/control-center/master-data/entities/add">
+              <Button type="primary" shape="round">
                 {text.addEntityData}
               </Button>
             </Link>

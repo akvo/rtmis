@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Card, Table, Tabs, Row, Button } from "antd";
+import { Table, Tabs, Row, Button } from "antd";
 import { api, store, config, uiText } from "../../../lib";
 import { Link } from "react-router-dom";
 import { columnsApproval } from "../../approvals";
@@ -44,7 +44,7 @@ const PanelApprovals = () => {
   }, [approvalTab]);
 
   return (
-    <Card bordered={false} id="panel-approvals">
+    <div bordered={false} id="panel-approvals">
       <div className="row">
         <div className="flex-1">
           <h2>{approvalsText}</h2>
@@ -71,16 +71,20 @@ const PanelApprovals = () => {
         scroll={{ y: 270 }}
       />
       <Row justify="space-between" className="approval-links">
-        <Link to="/approvals">
-          <Button type="primary">View All</Button>
+        <Link to="/control-center/approvals">
+          <Button type="primary" shape="round">
+            View All
+          </Button>
         </Link>
         {checkAccess(authUser?.role_detail, "approvers") && (
-          <Link to="/approvers/tree">
-            <Button type="primary">Manage Data Validation Setup</Button>
+          <Link to="/control-center/approvers/tree">
+            <Button type="primary" shape="round">
+              Manage Data Validation Setup
+            </Button>
           </Link>
         )}
       </Row>
-    </Card>
+    </div>
   );
 };
 
