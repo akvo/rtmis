@@ -101,11 +101,13 @@ class Command(BaseCommand):
                             question_group=question_group,
                             rule=q.get("rule"),
                             required=q.get("required"),
+                            hidden=q.get("hidden"),
                             dependency=q.get("dependency"),
                             api=q.get("api"),
                             type=getattr(QuestionTypes, q["type"]),
                             tooltip=q.get("tooltip"),
                             fn=q.get("fn"),
+                            pre=q.get("pre"),
                         )
                     else:
                         question.name = q.get("name") or q.get("question")
