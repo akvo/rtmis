@@ -154,9 +154,11 @@ const QuestionField = ({ keyform, field: questionField, setFieldValue, values, v
 
   return (
     <View>
-      {renderField()}
+      {!questionField?.hidden && renderField()}
       {meta.touched && meta.error ? (
-        <Text style={styles.validationErrorText}>{meta.error}</Text>
+        <Text style={styles.validationErrorText} testID="err-validation-text">
+          {meta.error}
+        </Text>
       ) : null}
     </View>
   );
