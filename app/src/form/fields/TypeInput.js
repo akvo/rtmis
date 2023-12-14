@@ -86,7 +86,6 @@ const TypeInput = ({
     if (preFilled?.fill?.length && !currentValue) {
       const findFill = preFilled.fill.find((f) => f?.id === id);
       if (findFill && findFill.answer !== currentValue && onChange) {
-        console.log('findFill', findFill);
         onChange(id, findFill.answer);
       }
     }
