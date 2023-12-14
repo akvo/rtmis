@@ -27,7 +27,7 @@ const AddEntity = () => {
     },
     {
       title: text.manageEntityTypes,
-      link: "/master-data/entity-types/",
+      link: "/control-center/master-data/entity-types/",
     },
     {
       title: id ? text.editEntity : text.addEntity,
@@ -111,15 +111,17 @@ const AddEntity = () => {
 
   return (
     <div id="add-entity">
-      <Row justify="space-between">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel
-            description={descriptionData}
-            title={id ? text.editEntity : text.addEntity}
-          />
-        </Col>
-      </Row>
+      <div className="description-container">
+        <Row justify="space-between">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={descriptionData}
+              title={id ? text.editEntity : text.addEntity}
+            />
+          </Col>
+        </Row>
+      </div>
       <div className="table-section">
         <div className="table-wrapper">
           <Form

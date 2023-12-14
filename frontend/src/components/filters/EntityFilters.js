@@ -2,7 +2,6 @@ import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Button, Col, Input, Row, Space } from "antd";
 import { store, uiText } from "../../lib";
-import { DownloadOutlined, PlusOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 
@@ -36,11 +35,8 @@ const EntityFilters = () => {
       {["Super Admin"].includes(authUser?.role?.value) && (
         <Col>
           <Space>
-            <Button icon={<DownloadOutlined />} shape="round">
-              {text.exportButton}
-            </Button>
-            <Link to="/master-data/entity-types/add">
-              <Button type="primary" shape="round" icon={<PlusOutlined />}>
+            <Link to="/control-center/master-data/entity-types/add">
+              <Button type="primary" shape="round">
                 {text.addEntity}
               </Button>
             </Link>

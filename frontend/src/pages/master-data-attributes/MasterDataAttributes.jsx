@@ -4,7 +4,6 @@ import {
   AttributeFilters,
   Breadcrumbs,
   DescriptionPanel,
-  ManageDataTab,
 } from "../../components";
 
 import { api, store, uiText } from "../../lib";
@@ -103,16 +102,17 @@ const MasterDataAttributes = () => {
 
   return (
     <div id="users">
-      <Row justify="space-between" align="bottom">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel
-            description={text.manageAttributeText}
-            title={text.manageAttributes}
-          />
-        </Col>
-      </Row>
-      <ManageDataTab />
+      <div className="description-container">
+        <Row justify="space-between" align="bottom">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={text.manageAttributeText}
+              title={text.manageAttributes}
+            />
+          </Col>
+        </Row>
+      </div>
 
       <div className="table-section">
         <div className="table-wrapper">

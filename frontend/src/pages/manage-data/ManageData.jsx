@@ -19,12 +19,7 @@ import {
 } from "@ant-design/icons";
 import { api, store, uiText } from "../../lib";
 import DataDetail from "./DataDetail";
-import {
-  DataFilters,
-  Breadcrumbs,
-  DescriptionPanel,
-  DataTab,
-} from "../../components";
+import { DataFilters, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
 import { generateAdvanceFilterURL } from "../../util/filter";
 
@@ -165,16 +160,17 @@ const ManageData = () => {
 
   return (
     <div id="manageData">
-      <Row justify="space-between">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel
-            description={text.manageDataText}
-            title={text.manageDataTitle}
-          />
-        </Col>
-      </Row>
-      <DataTab />
+      <div className="description-container">
+        <Row justify="space-between">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={text.manageDataText}
+              title={text.manageDataTitle}
+            />
+          </Col>
+        </Row>
+      </div>
 
       <div className="table-section">
         <div className="table-wrapper">
