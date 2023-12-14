@@ -79,7 +79,6 @@ const TypeInput = ({
   requiredSign,
 }) => {
   const requiredValue = required ? requiredSign : null;
-
   return (
     <View>
       <FieldLabel keyform={keyform} name={name} tooltip={tooltip} requiredSign={requiredValue} />
