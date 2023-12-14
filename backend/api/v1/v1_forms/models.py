@@ -96,6 +96,8 @@ class Questions(models.Model):
     extra = models.JSONField(default=None, null=True)
     tooltip = models.JSONField(default=None, null=True)
     fn = models.JSONField(default=None, null=True)
+    pre = models.JSONField(default=None, null=True)
+    hidden = models.BooleanField(default=False, null=True)
 
     def __str__(self):
         return self.text
@@ -108,16 +110,18 @@ class Questions(models.Model):
         return {
             "id": self.id,
             "qg_id": self.question_group.id,
-            "order": self.order + 1,
+            "order": (self.order or 0) + 1,
             "name": self.name,
             "type": QuestionTypes.FieldStr.get(self.type),
             "required": self.required,
+            "hidden": self.hidden,
             "rule": self.rule,
             "dependency": self.dependency,
             "options": options,
             "extra": self.extra,
             "tooltip": self.tooltip,
             "fn": self.fn,
+            "pre": self.pre,
         }
 
     @property
