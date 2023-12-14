@@ -71,7 +71,6 @@ const RouteList = () => {
       <Route exact path="/login/:invitationId" element={<Login />} />
       <Route exact path="/forgot-password" element={<Login />} />
       <Route exact path="/data" element={<Home />} />
-      <Route exact path="/form/:formId" element={<Forms />} />
       <Route exact path="/dashboard/:formId" element={<Dashboard />} />
       <Route exact path="/glaas/:formId" element={<Glaas />} />
       <Route
@@ -214,6 +213,7 @@ const RouteList = () => {
           path="mobile-assignment/form/:id"
           element={<Private element={AddAssignment} alias="mobile" />}
         />
+        <Route exact path="form/:formId" element={<Forms />} />
       </Route>
       <Route
         path="/settings"

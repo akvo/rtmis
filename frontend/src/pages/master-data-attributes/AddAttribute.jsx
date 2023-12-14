@@ -190,12 +190,15 @@ const AddAttribute = () => {
                                 <Button
                                   icon={<MinusCircleOutlined />}
                                   onClick={() => remove(name)}
+                                  shape="round"
                                 >
                                   Remove
                                 </Button>
                               </Space>
                             ))}
-                            <Button onClick={() => add()}>Add option</Button>
+                            <Button onClick={() => add()} shape="round">
+                              Add option
+                            </Button>
                           </div>
                         )}
                       </Form.List>
@@ -209,11 +212,17 @@ const AddAttribute = () => {
                 <Button
                   type="danger"
                   onClick={() => handleOnDelete(initialValues)}
+                  shape="round"
                 >
                   Delete
                 </Button>
               )}
-              <Button type="primary" htmlType="submit" loading={submitting}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                shape="round"
+                loading={submitting}
+              >
                 Save attribute
               </Button>
             </Space>

@@ -47,7 +47,7 @@ const Forms = () => {
       link:
         authUser?.role?.value === "Data Entry Staff"
           ? "/profile"
-          : "/data/manage",
+          : "/control-center/data/manage",
     },
     {
       title: forms.name,
@@ -176,15 +176,22 @@ const Forms = () => {
 
   return (
     <div id="form">
-      <Row justify="center" gutter={[16, 16]}>
-        <Col span={24} className="webform">
-          <Space>
-            <Breadcrumbs
-              pagePath={pagePath}
-              description={text.formDescription}
-            />
-          </Space>
-          <DescriptionPanel description={text.formDescription} />
+      <div className="description-container">
+        <Row justify="center" gutter={[16, 16]}>
+          <Col span={24} className="webform">
+            <Space>
+              <Breadcrumbs
+                pagePath={pagePath}
+                description={text.formDescription}
+              />
+            </Space>
+            <DescriptionPanel description={text.formDescription} />
+          </Col>
+        </Row>
+      </div>
+
+      <div className="table-section">
+        <div className="table-wrapper">
           {loading || !formId ? (
             <PageLoader message={text.fetchingForm} />
           ) : (
@@ -239,8 +246,8 @@ const Forms = () => {
               ]}
             />
           )}
-        </Col>
-      </Row>
+        </div>
+      </div>
     </div>
   );
 };

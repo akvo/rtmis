@@ -232,12 +232,14 @@ const UploadData = () => {
                     type="primary"
                     key="back-button"
                     onClick={() => setShowSuccess(false)}
+                    shape="round"
                   >
                     Upload Another File
                   </Button>,
                   <Button
                     key="page"
                     onClick={() => navigate("/control-center")}
+                    shape="round"
                   >
                     Back to Control Center
                   </Button>,
@@ -276,6 +278,7 @@ const UploadData = () => {
                     loading={loading}
                     type="primary"
                     onClick={downloadTemplate}
+                    shape="round"
                   >
                     Download
                   </Button>
@@ -308,7 +311,11 @@ const UploadData = () => {
                           : text.dropFile
                         : text.selectForm}
                     </p>
-                    <Button disabled={!allowBulkUpload} loading={uploading}>
+                    <Button
+                      disabled={!allowBulkUpload}
+                      shape="round"
+                      loading={uploading}
+                    >
                       {text.browseComputer}
                     </Button>
                   </Dragger>
