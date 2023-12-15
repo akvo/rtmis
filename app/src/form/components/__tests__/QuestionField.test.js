@@ -303,24 +303,32 @@ describe('QuestionField component', () => {
     });
   });
 
-  test('question not showing when hidden is true', () => {
+  test('question not showing when hidden is true but its defined', () => {
     const setFieldValue = jest.fn();
     const fakeValidate = jest.fn();
     const keyform = 1;
     const field = {
       id: 1,
-      name: 'Your Name',
+      name: 'Sanitation',
       order: 1,
       type: 'input',
       required: true,
       meta: true,
       translations: [
         {
-          name: 'Nama Anda',
+          name: 'Sanitasi',
           language: 'id',
         },
       ],
-      pre: {},
+      pre: {
+        answer: 'Basic',
+        fill: [
+          {
+            id: 1,
+            answer: 'Basic',
+          },
+        ],
+      },
       hidden: true,
     };
     const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
@@ -336,13 +344,15 @@ describe('QuestionField component', () => {
       />,
     );
 
-    const questionText = queryByText('Your Name', { exact: false });
+    const questionText = queryByText('Sanitation', { exact: false });
     const inputElement = queryByTestId('type-input');
-    expect(questionText).toBeNull();
-    expect(inputElement).toBeNull();
+    const questionElement = queryByTestId('question-view');
+    expect(questionText).not.toBeNull();
+    expect(inputElement).not.toBeNull();
+    expect(questionElement.props.style.opacity).toEqual(0);
   });
 
-  test('question should be able pass the validation when hidden is true', () => {
+  test('question should be able pass the validation when hidden is true and doesnt have prefilled', () => {
     const setFieldValue = jest.fn();
     const fakeValidate = jest.fn();
     const keyform = 1;
@@ -365,7 +375,7 @@ describe('QuestionField component', () => {
     const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
     const values = result.current;
 
-    const { queryByTestId, queryByText } = render(
+    const { queryByTestId } = render(
       <QuestionField
         keyform={keyform}
         field={field}
@@ -383,11 +393,7 @@ describe('QuestionField component', () => {
         { setTouched: jest.fn() },
       ]);
 
-    const questionText = queryByText('Your Name', { exact: false });
-    const inputElement = queryByTestId('type-input');
     const errorValidationEl = queryByTestId('err-validation-text');
-    expect(questionText).toBeNull();
-    expect(inputElement).toBeNull();
     expect(errorValidationEl).toBeNull();
   });
 
@@ -427,8 +433,10 @@ describe('QuestionField component', () => {
 
     const questionText = queryByText('Your Name', { exact: false });
     const inputElement = queryByTestId('type-input');
+    const questionElement = queryByTestId('question-view');
     expect(questionText).not.toBeNull();
     expect(inputElement).not.toBeNull();
+    expect(questionElement.props.style.opacity).toEqual(1);
   });
 
   test('questions should be able to be validated when hidden is false', () => {
@@ -479,5 +487,69 @@ describe('QuestionField component', () => {
     expect(questionText).not.toBeNull();
     expect(inputElement).not.toBeNull();
     expect(errorValidation).not.toBeNull();
+  });
+
+  test('questions should be able to be validated when hidden is true and have prefilled', async () => {
+    const setFieldValue = jest.fn();
+    const fakeValidate = jest.fn();
+    const keyform = 1;
+    const field = {
+      id: 1,
+      name: 'Sanitation',
+      order: 1,
+      type: 'input',
+      required: true,
+      meta: true,
+      translations: [
+        {
+          name: 'Sanitasi',
+          language: 'id',
+        },
+      ],
+      pre: {
+        answer: 'Basic',
+        fill: [
+          {
+            id: 1,
+            answer: 'Basic',
+          },
+        ],
+      },
+      hidden: true,
+    };
+    const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
+    const values = result.current;
+
+    const { queryByTestId, rerender, debug } = render(
+      <QuestionField
+        keyform={keyform}
+        field={field}
+        setFieldValue={setFieldValue}
+        values={values}
+        validate={fakeValidate}
+      />,
+    );
+
+    jest
+      .spyOn(Formik, 'useField')
+      .mockReturnValue([{}, { touched: true, error: null }, { setTouched: jest.fn() }]);
+
+    rerender(
+      <QuestionField
+        keyform={keyform}
+        field={field}
+        setFieldValue={setFieldValue}
+        values={result.current}
+        validate={fakeValidate}
+      />,
+    );
+
+    await waitFor(() => {
+      const inputElement = queryByTestId('type-input');
+      expect(inputElement.props.value).toEqual('Basic');
+      const errorValidationEl = queryByTestId('err-validation-text');
+      expect(Formik.useField).toHaveBeenCalled();
+      expect(errorValidationEl).toBeNull();
+    });
   });
 });
