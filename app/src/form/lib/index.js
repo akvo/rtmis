@@ -213,7 +213,7 @@ export const generateValidationSchema = (forms) => {
 }
 
 export const generateValidationSchemaFieldLevel = (currentValue, field) => {
-  const { name, type, required, rule } = field;
+  const { name, type, required, rule, hidden, pre: preFilled } = field;
   let yupType;
   switch (type) {
     case 'number':
@@ -250,7 +250,7 @@ export const generateValidationSchemaFieldLevel = (currentValue, field) => {
       yupType = Yup.string();
       break;
   }
-  if (required) {
+  if (required && ((hidden && preFilled?.fill?.length) || !hidden)) {
     const requiredError = `${name} is required.`;
     yupType = yupType.required(requiredError);
   }
