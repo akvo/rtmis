@@ -108,6 +108,8 @@ class Command(BaseCommand):
                             tooltip=q.get("tooltip"),
                             fn=q.get("fn"),
                             pre=q.get("pre"),
+                            display_only=q.get('displayOnly'),
+                            monitoring=q.get('monitoring'),
                         )
                     else:
                         question.name = q.get("name") or q.get("question")

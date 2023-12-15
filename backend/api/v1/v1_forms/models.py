@@ -98,6 +98,8 @@ class Questions(models.Model):
     fn = models.JSONField(default=None, null=True)
     pre = models.JSONField(default=None, null=True)
     hidden = models.BooleanField(default=False, null=True)
+    display_only = models.BooleanField(default=False, null=True)
+    monitoring = models.BooleanField(default=False, null=True)
 
     def __str__(self):
         return self.text
@@ -122,6 +124,8 @@ class Questions(models.Model):
             "tooltip": self.tooltip,
             "fn": self.fn,
             "pre": self.pre,
+            "display_only": self.display_only,
+            "monitoring": self.monitoring,
         }
 
     @property
