@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Card, Divider, Space } from "antd";
-import { Breadcrumbs, DescriptionPanel, UserTab } from "../../components";
+import { Row, Col, Divider, Space } from "antd";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { api, store, uiText } from "../../lib";
 import ApproverFilters from "../../components/filters/ApproverFilters";
 import { SteppedLineTo } from "react-lineto";
@@ -303,64 +303,69 @@ const ApproversTree = () => {
 
   return (
     <div id="approversTree">
-      <Row justify="space-between">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel
-            description={
-              <>
-                This is where you manage data validation for each Questionnaire.
-                You can:
-                <ul>
-                  <li>Add data validator</li>
-                  <li>Modify data validator</li>
-                  <li>Delete data validator</li>
-                </ul>
-              </>
-            }
-            title={text.manageDataValidationSetup}
-          />
-        </Col>
-      </Row>
-      <UserTab />
-      <ApproverFilters
-        loading={false}
-        disabled={isPristine || loading}
-        visible={false}
-      />
-      <Divider />
-      <Card style={{ padding: 0, minHeight: "40vh" }}>
-        <Row
-          wrap={false}
-          className={`tree-header ${loading ? "loading" : ""}`}
-          justify="left"
-        >
-          <Col span={6} align="center">
-            Questionnaire
+      <div className="description-container">
+        <Row justify="space-between">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={
+                <>
+                  This is where you manage data validation for each
+                  Questionnaire. You can:
+                  <ul>
+                    <li>Add data validator</li>
+                    <li>Modify data validator</li>
+                    <li>Delete data validator</li>
+                  </ul>
+                </>
+              }
+              title={text.manageDataValidationSetup}
+            />
           </Col>
-          {selectedForm &&
-            dataset.map(
-              (aN, anI) =>
-                !!aN?.children?.length && (
-                  <Col key={anI} span={6} align="center">
-                    {aN.childLevelName}
-                    <div
-                      className="shade"
-                      id={`shade-for-tree-col-${anI + 1}`}
-                    />
-                  </Col>
-                )
-            )}
         </Row>
-        <div className="tree-wrap" id="tree-wrap">
-          <Row wrap={false} justify="left">
-            {renderFormNodes}
-            {renderAdminNodes}
-            {renderFormLine}
-            {renderAdminLines}
-          </Row>
+      </div>
+      <div className="table-section">
+        <div className="table-wrapper">
+          <ApproverFilters
+            loading={false}
+            disabled={isPristine || loading}
+            visible={false}
+          />
+          <Divider />
+          <div style={{ padding: 0, minHeight: "40vh" }}>
+            <Row
+              wrap={false}
+              className={`tree-header ${loading ? "loading" : ""}`}
+              justify="left"
+            >
+              <Col span={6} align="center">
+                Questionnaire
+              </Col>
+              {selectedForm &&
+                dataset.map(
+                  (aN, anI) =>
+                    !!aN?.children?.length && (
+                      <Col key={anI} span={6} align="center">
+                        {aN.childLevelName}
+                        <div
+                          className="shade"
+                          id={`shade-for-tree-col-${anI + 1}`}
+                        />
+                      </Col>
+                    )
+                )}
+            </Row>
+            <div className="tree-wrap" id="tree-wrap">
+              <Row wrap={false} justify="left">
+                {renderFormNodes}
+                {renderAdminNodes}
+                {renderFormLine}
+                {renderAdminLines}
+              </Row>
+            </div>
+          </div>
         </div>
-      </Card>
+      </div>
     </div>
   );
 };

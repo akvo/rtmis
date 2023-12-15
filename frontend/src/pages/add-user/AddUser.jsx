@@ -76,7 +76,7 @@ const AddUser = () => {
     },
     {
       title: text.manageUsers,
-      link: "/users",
+      link: "/control-center/users",
     },
     {
       title: id ? text.editUser : text.addUser,
@@ -140,7 +140,7 @@ const AddUser = () => {
           message: `User ${id ? "updated" : "added"}`,
         });
         setSubmitting(false);
-        navigate("/users");
+        navigate("/control-center/users");
       })
       .catch((err) => {
         if (err?.response?.status === 403) {
