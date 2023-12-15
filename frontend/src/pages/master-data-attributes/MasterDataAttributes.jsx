@@ -40,7 +40,7 @@ const MasterDataAttributes = () => {
         options: record?.options?.map((opt) => ({ name: opt })),
       };
     });
-    navigate(`/master-data/attributes/${record.id}/edit`);
+    navigate(`/control-center/master-data/attributes/${record.id}/edit`);
   };
 
   const columns = [

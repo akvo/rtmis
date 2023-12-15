@@ -64,7 +64,9 @@ const MasterData = () => {
         return (
           <Button
             type="link"
-            onClick={() => navigate(`/master-data/${recordID}/edit`)}
+            onClick={() =>
+              navigate(`/control-center/master-data/${recordID}/edit`)
+            }
           >
             Edit
           </Button>

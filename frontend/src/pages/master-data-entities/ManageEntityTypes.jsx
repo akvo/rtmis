@@ -52,7 +52,7 @@ const ManageEntityTypes = () => {
       render: (row) => {
         return (
           <Space>
-            <Link to={`/master-data/entity-types/${row}/edit`}>
+            <Link to={`/control-center/master-data/entity-types/${row}/edit`}>
               <Button type="link">{text.editButton}</Button>
             </Link>
           </Space>

@@ -41,7 +41,7 @@ const MobileAssignment = () => {
     store.update((s) => {
       s.mobileAssignment = record;
     });
-    navigate(`/mobile-assignment/form/${record?.id}`);
+    navigate(`/control-center/mobile-assignment/form/${record?.id}`);
   };
 
   const descriptionData = <div>{text.mobilePanelText}</div>;

@@ -8,6 +8,7 @@ import {
   UserOutlined,
   TableOutlined,
   DatabaseOutlined,
+  DashboardOutlined,
 } from "@ant-design/icons";
 
 const ControlCenter = () => {
@@ -46,6 +47,10 @@ const ControlCenter = () => {
   };
 
   const controlCenterToLabelMapping = {
+    "control-center": {
+      label: "Control Center",
+      icon: DashboardOutlined,
+    },
     "manage-user": {
       label: "Users",
       icon: UserOutlined,
@@ -75,28 +80,43 @@ const ControlCenter = () => {
   };
 
   const createMenuItems = (controlCenterOrder, pageAccess) => {
-    return controlCenterOrder
-      .map((orderKey) => {
-        const controlCenterItem = controlCenterToLabelMapping[orderKey];
+    const menuItems = [];
+    const controlCenterItem = controlCenterToLabelMapping["control-center"];
+    if (controlCenterItem) {
+      menuItems.push({
+        key: "control-center",
+        icon: controlCenterItem.icon
+          ? React.createElement(controlCenterItem.icon)
+          : null,
+        label: controlCenterItem.label,
+        url: "/control-center",
+      });
+    }
 
-        if (!controlCenterItem) {
-          return null;
-        }
+    controlCenterOrder.forEach((orderKey) => {
+      if (orderKey === "control-center") {
+        return;
+      }
 
-        const { label, icon, childrenKeys } = controlCenterItem;
+      const item = controlCenterToLabelMapping[orderKey];
+      if (!item) {
+        return;
+      }
 
-        const children = childrenKeys
-          .filter((key) => pageAccess.includes(key.split(/(\d+)/)[0]))
-          .flatMap((key) => determineChildren(key, pageAccess));
+      const { label, icon, childrenKeys } = item;
+      const children = childrenKeys
+        .filter((key) => pageAccess.includes(key.split(/(\d+)/)[0]))
+        .flatMap((key) => determineChildren(key, pageAccess));
 
-        return {
-          key: orderKey,
-          icon: icon ? React.createElement(icon) : null,
-          label,
-          children: children.length ? children : null,
-        };
-      })
-      .filter(Boolean);
+      menuItems.push({
+        key: orderKey,
+        icon: icon ? React.createElement(icon) : null,
+        label,
+        children: children.length ? children : null,
+      });
+    });
+
+    return menuItems;
   };
 
   const superAdminRole = roles.find((r) => r.id === authUser?.role_detail?.id);

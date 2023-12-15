@@ -87,7 +87,7 @@ const AddEntity = () => {
         message: id ? text.successUpdatedEntity : text.successAddedEntity,
       });
       setSubmitting(false);
-      navigate("/master-data/entity-types/");
+      navigate("/control-center/master-data/entity-types/");
     } catch (error) {
       setSubmitting(false);
     }
