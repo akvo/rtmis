@@ -303,7 +303,7 @@ describe('QuestionField component', () => {
     });
   });
 
-  test('question not showing when hidden is true but its defined', () => {
+  test('question not showing when hidden is true but it only styling', () => {
     const setFieldValue = jest.fn();
     const fakeValidate = jest.fn();
     const keyform = 1;
@@ -334,7 +334,7 @@ describe('QuestionField component', () => {
     const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
     const values = result.current;
 
-    const { queryByTestId, queryByText } = render(
+    const { queryByTestId, queryByText, debug, getByA11yHint } = render(
       <QuestionField
         keyform={keyform}
         field={field}
@@ -346,10 +346,10 @@ describe('QuestionField component', () => {
 
     const questionText = queryByText('Sanitation', { exact: false });
     const inputElement = queryByTestId('type-input');
-    const questionElement = queryByTestId('question-view');
-    expect(questionText).not.toBeNull();
-    expect(inputElement).not.toBeNull();
-    expect(questionElement.props.style.opacity).toEqual(0);
+    const questionElement = queryByTestId('question-view', { includeHiddenElements: true });
+    expect(questionText).toBeNull();
+    expect(inputElement).toBeNull();
+    expect(questionElement.props.style.display).toEqual('none');
   });
 
   test('question should be able pass the validation when hidden is true and doesnt have prefilled', () => {
@@ -436,7 +436,7 @@ describe('QuestionField component', () => {
     const questionElement = queryByTestId('question-view');
     expect(questionText).not.toBeNull();
     expect(inputElement).not.toBeNull();
-    expect(questionElement.props.style.opacity).toEqual(1);
+    expect(questionElement.props.style.display).toEqual('flex');
   });
 
   test('questions should be able to be validated when hidden is false', () => {
@@ -545,9 +545,11 @@ describe('QuestionField component', () => {
     );
 
     await waitFor(() => {
-      const inputElement = queryByTestId('type-input');
+      const inputElement = queryByTestId('type-input', { includeHiddenElements: true });
       expect(inputElement.props.value).toEqual('Basic');
-      const errorValidationEl = queryByTestId('err-validation-text');
+      const errorValidationEl = queryByTestId('err-validation-text', {
+        includeHiddenElements: true,
+      });
       expect(Formik.useField).toHaveBeenCalled();
       expect(errorValidationEl).toBeNull();
     });
