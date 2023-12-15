@@ -43,7 +43,7 @@ const DataFilters = ({ loading }) => {
           message: `Data exported successfully`,
         });
         setExporting(false);
-        navigate("/data/export");
+        navigate("/control-center/data/export");
       })
       .catch(() => {
         notify({
