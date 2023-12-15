@@ -23,6 +23,7 @@ const QuestionField = ({ keyform, field: questionField, setFieldValue, values, v
   const [preload, setPreload] = useState(true);
   const preFilled = questionField?.pre;
   const questionID = questionField?.id;
+  const opacityValue = questionField?.hidden ? 0 : 1;
 
   useEffect(() => {
     if (meta.error && field.name) {
@@ -173,8 +174,8 @@ const QuestionField = ({ keyform, field: questionField, setFieldValue, values, v
   };
 
   return (
-    <View>
-      {!questionField?.hidden && renderField()}
+    <View testID="question-view" style={{ opacity: opacityValue }}>
+      {renderField()}
       {meta.touched && meta.error ? (
         <Text style={styles.validationErrorText} testID="err-validation-text">
           {meta.error}
