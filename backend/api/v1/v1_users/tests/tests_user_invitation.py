@@ -5,6 +5,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from django.test.utils import override_settings
 from api.v1.v1_profile.constants import UserRoleTypes
+from api.v1.v1_profile.management.commands.administration_seeder import (
+        geo_config)
 from api.v1.v1_users.models import SystemUser, Organisation
 from api.v1.v1_forms.models import FormApprovalAssignment
 from utils.email_helper import EmailTypes
@@ -547,7 +549,7 @@ class UserInvitationTestCase(TestCase):
                                    content_type='application/json')
         levels = response.json()
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.json()), 4)
+        self.assertEqual(len(response.json()), len(geo_config))
         self.assertEqual(list(levels[0]), ['id', 'name', 'level'])
 
     def test_get_email_template(self):
