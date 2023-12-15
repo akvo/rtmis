@@ -62,6 +62,9 @@ const Forms = () => {
     const answers = Object.keys(values)
       .map((v) => {
         const question = questions.find((q) => q.id === parseInt(v));
+        if (!question) {
+          return false;
+        }
         let val = values[v];
         if (val || val === 0) {
           val =
