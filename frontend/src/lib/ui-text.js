@@ -458,6 +458,7 @@ const uiText = {
     admFieldRequired: "Administration is required",
     editButton: "Edit",
     saveButton: "Save",
+    saveEditButton: "Save Edits",
     exportButton: "Export",
     bulkUploadButton: "Bulk Upload",
     addNewButton: "Add New",
@@ -554,6 +555,9 @@ const uiText = {
     userNationalApprover: "National Approver",
     loadingText: "Loading...",
     questionnairesLabel: "Questionnaires",
+    submissionsText: "Submissions",
+    notifyError: "An error occured",
+    successDataUpdated: "Data updated",
   },
 
   de: {},
