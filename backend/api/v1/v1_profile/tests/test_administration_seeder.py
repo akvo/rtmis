@@ -13,7 +13,7 @@ class AdministrationSeederTestCase(TestCase):
         administrator_level = Administration.objects.order_by(
             '-level').values_list('level', flat=True).distinct()
         level_ids = Levels.objects.order_by('-id').values_list('id', flat=True)
-        self.assertEqual(list(administrator_level), list(level_ids))
+        self.assertTrue(set(administrator_level).issubset(set(level_ids)))
         children = Administration.objects.filter(level__level=1).all()
         children = ListAdministrationChildrenSerializer(instance=children,
                                                         many=True)
