@@ -64,7 +64,7 @@ const AddEntityData = () => {
     },
     {
       title: text.manageEntities,
-      link: "/master-data/entities/",
+      link: "/control-center/master-data/entities/",
     },
     {
       title: id ? text.editEntityData : text.addEntityData,
@@ -210,15 +210,17 @@ const AddEntityData = () => {
 
   return (
     <div id="add-entity-data">
-      <Row justify="space-between">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel
-            description={descriptionData}
-            title={id ? text.editEntityData : text.addEntityData}
-          />
-        </Col>
-      </Row>
+      <div className="description-container">
+        <Row justify="space-between">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={descriptionData}
+              title={id ? text.editEntityData : text.addEntityData}
+            />
+          </Col>
+        </Row>
+      </div>
       <div className="table-section">
         <div className="table-wrapper">
           <Form

@@ -114,16 +114,17 @@ const MobileAssignment = () => {
 
   return (
     <div id="mobile-assignments">
-      <Row justify="space-between" align="bottom">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel
-            description={descriptionData}
-            title={text.mobilePanelTitle}
-          />
-        </Col>
-      </Row>
-      <Divider />
+      <div className="description-container">
+        <Row justify="space-between" align="bottom">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={descriptionData}
+              title={text.mobilePanelTitle}
+            />
+          </Col>
+        </Row>
+      </div>
 
       <div className="table-section">
         <div className="table-wrapper">
@@ -143,7 +144,7 @@ const MobileAssignment = () => {
               </Space>
             </Col>
             <Col>
-              <Link to="/mobile-assignment/form">
+              <Link to="/control-center/mobile-assignment/form">
                 <Button icon={<PlusOutlined />} type="primary" shape="round">
                   {text.mobileButtonAdd}
                 </Button>
