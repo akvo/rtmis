@@ -191,3 +191,29 @@ class FormSeederTestCase(TestCase):
             if q['name'] == 'Hidden'
         ][0]
         self.assertIn('hidden', hidden)
+
+    def test_display_only_and_monitoring_field(self):
+        seed_administration_test()
+        self.call_command('--test')
+        token = self.get_user_token()
+        form_id = 2
+
+        response = self.client.get(
+            f"/api/v1/form/web/{form_id}",
+            follow=True,
+            content_type='application/json',
+            **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+
+        data = response.json()
+        name = [
+            q for q in data['question_group'][0]['question']
+            if q['name'] == 'Name'
+        ][0]
+        self.assertIn('displayOnly', name)
+        self.assertTrue(name['displayOnly'])
+        phone = [
+            q for q in data['question_group'][0]['question']
+            if q['name'] == 'Phone Number'
+        ][0]
+        self.assertIn('monitoring', phone)
+        self.assertTrue(phone['monitoring'])

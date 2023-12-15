@@ -12,7 +12,8 @@
           "question": "Name",
           "meta": true,
           "type": "text",
-          "required": true
+          "required": true,
+          "displayOnly": true
         },
         {
           "id": 202,
@@ -57,7 +58,8 @@
           "attributes": [
             "chart"
           ],
-          "required": true
+          "required": true,
+          "monitoring": true
         },
         {
           "id": 204,
