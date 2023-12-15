@@ -65,7 +65,7 @@ const UploadData = () => {
           message: text.dataExportSuccess,
         });
         setLoading(false);
-        navigate("/data/export");
+        navigate("/control-center/data/export");
       })
       .catch(() => {
         notify({

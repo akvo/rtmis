@@ -56,7 +56,7 @@ const AddOrganisation = () => {
           message: id ? text.successUpdatedOrg : text.successAddedOrg,
         });
         setSubmitting(false);
-        navigate("/master-data/organisations");
+        navigate("/control-center/master-data/organisations");
       })
       .catch((err) => {
         const errMessage = id ? text.errUpdateOrg : text.errAddOrg;

@@ -86,7 +86,7 @@ const AddEntityData = () => {
             type: "success",
             message: text.successEntityDataDeleted,
           });
-          navigate("/master-data/entities/");
+          navigate("/control-center/master-data/entities/");
         } catch (error) {
           Modal.error({
             title: text.errDeleteEntityDataTitle,
@@ -117,7 +117,7 @@ const AddEntityData = () => {
           : text.successEntityDataAdded,
       });
       setSubmitting(false);
-      navigate("/master-data/entities/");
+      navigate("/control-center/master-data/entities/");
     } catch {
       setSubmitting(false);
     }

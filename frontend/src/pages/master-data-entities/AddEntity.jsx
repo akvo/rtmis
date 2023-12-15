@@ -54,7 +54,7 @@ const AddEntity = () => {
               (t) => t?.id !== entity.id
             );
           });
-          navigate("/master-data/entity-types/");
+          navigate("/control-center/master-data/entity-types/");
         } catch (error) {
           Modal.error({
             title: text.errDeleteEntityTitle,

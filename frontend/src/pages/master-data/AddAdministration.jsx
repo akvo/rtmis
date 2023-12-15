@@ -63,7 +63,7 @@ const AddAdministration = () => {
         type: "success",
         message: text.admSuccessDeleted,
       });
-      navigate("/master-data");
+      navigate("/control-center/master-data");
     } catch {
       Modal.error({
         title: text.admErrDeleteTitle,

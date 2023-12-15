@@ -231,14 +231,14 @@ const Forms = () => {
                 !redirectToBatch ? (
                   <Button
                     key="manage-button"
-                    onClick={() => navigate("/data/manage")}
+                    onClick={() => navigate("/control-center/data/manage")}
                   >
                     Finish and Go to Manage Data
                   </Button>
                 ) : (
                   <Button
                     key="batch-button"
-                    onClick={() => navigate("/data/submissions")}
+                    onClick={() => navigate("/control-center/data/submissions")}
                   >
                     Finish and Go to Batch
                   </Button>

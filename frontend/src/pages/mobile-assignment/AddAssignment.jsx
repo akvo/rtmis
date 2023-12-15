@@ -67,7 +67,7 @@ const AddAssignment = () => {
   const deleteAssginment = async () => {
     try {
       await api.delete(`/mobile-assignments/${id}`);
-      navigate("/mobile-assignment");
+      navigate("/control-center/mobile-assignment");
     } catch {
       Modal.error({
         title: text.mobileErrDelete,
@@ -122,7 +122,7 @@ const AddAssignment = () => {
         message: id ? text.mobileSuccessUpdated : text.mobileSuccessAdded,
       });
       setLoading(false);
-      navigate("/mobile-assignment");
+      navigate("/control-center/mobile-assignment");
     } catch {
       setSubmitting(false);
     }
