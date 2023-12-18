@@ -11,6 +11,7 @@ import { api, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { columnsPending, columnsBatch, columnsSelected } from "./";
 import UploadDetail from "./UploadDetail";
+import BatchDetail from "./BatchDetail";
 import FormDropdown from "../../components/filters/FormDropdown";
 import { isEmpty, without, union, xor } from "lodash";
 
@@ -37,13 +38,17 @@ const Submissions = () => {
   const { active: activeLang } = language;
   const { notify } = useNotification();
 
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
+
   const pagePath = [
     {
-      title: "Control Center",
+      title: text.controlCenter,
       link: "/control-center",
     },
     {
-      title: "Submissions",
+      title: text.submissionsText,
       link: "/control-center",
     },
     {
@@ -51,13 +56,11 @@ const Submissions = () => {
     },
   ];
 
-  const text = useMemo(() => {
-    return uiText[activeLang];
-  }, [activeLang]);
   useEffect(() => {
     if (selectedForm) {
       setLoading(true);
       let url;
+      setExpandedKeys([]);
       if (dataTab === "pending-submission") {
         url = `/form-pending-data/${selectedForm}/?page=${currentPage}`;
         setModalButton(true);
@@ -85,10 +88,11 @@ const Submissions = () => {
 
   useEffect(() => {
     if (selectedForm) {
+      setExpandedKeys([]);
       setSelectedRows([]);
       setSelectedRowKeys([]);
     }
-  }, [selectedForm]);
+  }, [selectedForm, dataTab]);
 
   useEffect(() => {
     if (dataset.length) {
@@ -183,7 +187,7 @@ const Submissions = () => {
       .catch(() => {
         notify({
           type: "error",
-          message: "An error occured",
+          message: text.notifyError,
         });
       })
       .finally(() => {
@@ -219,7 +223,7 @@ const Submissions = () => {
               onChange={handleChange}
               columns={
                 dataTab === "pending-submission"
-                  ? [...columnsPending]
+                  ? [...columnsPending, Table.EXPAND_COLUMN]
                   : [...columnsBatch, Table.EXPAND_COLUMN]
               }
               rowSelection={
@@ -244,40 +248,37 @@ const Submissions = () => {
                   `Results: ${range[0]} - ${range[1]} of ${total} users`,
               }}
               expandedRowKeys={expandedKeys}
-              expandable={
-                dataTab !== "pending-submission"
-                  ? {
-                      expandedRowRender: (record) => {
-                        return (
-                          <UploadDetail record={record} setReload={setReload} />
+              expandable={{
+                expandedRowRender: (record) => {
+                  if (dataTab === "pending-submission") {
+                    return (
+                      <BatchDetail expanded={record} setReload={setReload} />
+                    );
+                  }
+                  return <UploadDetail record={record} setReload={setReload} />;
+                },
+                expandIcon: ({ expanded, onExpand, record }) => {
+                  return expanded ? (
+                    <CloseSquareOutlined
+                      onClick={(e) => {
+                        setExpandedKeys(
+                          expandedKeys.filter((k) => k !== record.id)
                         );
-                      },
-                      expandIcon: ({ expanded, onExpand, record }) => {
-                        return dataTab === "pending-submission" ? (
-                          ""
-                        ) : expanded ? (
-                          <CloseSquareOutlined
-                            onClick={(e) => {
-                              setExpandedKeys(
-                                expandedKeys.filter((k) => k !== record.id)
-                              );
-                              onExpand(record, e);
-                            }}
-                            style={{ color: "#e94b4c" }}
-                          />
-                        ) : (
-                          <PlusSquareOutlined
-                            onClick={(e) => {
-                              setExpandedKeys([record.id]);
-                              onExpand(record, e);
-                            }}
-                            style={{ color: "#7d7d7d" }}
-                          />
-                        );
-                      },
-                    }
-                  : false
-              }
+                        onExpand(record, e);
+                      }}
+                      style={{ color: "#e94b4c" }}
+                    />
+                  ) : (
+                    <PlusSquareOutlined
+                      onClick={(e) => {
+                        setExpandedKeys([record.id]);
+                        onExpand(record, e);
+                      }}
+                      style={{ color: "#7d7d7d" }}
+                    />
+                  );
+                },
+              }}
               rowKey="id"
             />
           </div>
@@ -313,7 +314,7 @@ const Submissions = () => {
                   setModalVisible(false);
                 }}
               >
-                Cancel
+                {text.cancelButton}
               </Button>
               <Button
                 type="primary"

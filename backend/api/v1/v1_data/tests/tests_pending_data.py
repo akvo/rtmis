@@ -1,3 +1,4 @@
+from typing import Union
 from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import override_settings
@@ -9,6 +10,8 @@ from api.v1.v1_data.models import PendingFormData, PendingDataApproval, \
 from api.v1.v1_forms.constants import FormTypes, QuestionTypes
 from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.constants import UserRoleTypes
+from api.v1.v1_profile.management.commands.administration_seeder import (
+        MAX_LEVEL_IN_SOURCE_FILE)
 from api.v1.v1_users.models import SystemUser
 
 
@@ -125,8 +128,9 @@ class PendingDataTestCase(TestCase):
         call_command('fake_pending_data_seeder', '-r', 5, '-t', True, '-b', 5)
 
         # get the lowest level approver
-        approval: PendingDataApproval = PendingDataApproval.objects.filter(
-            level__level=3).first()
+        approval: Union[PendingDataApproval, None] = PendingDataApproval\
+            .objects.filter(level__level=MAX_LEVEL_IN_SOURCE_FILE)\
+            .first()
         if approval:
             t_child = RefreshToken.for_user(approval.user)
             header = {'HTTP_AUTHORIZATION': f'Bearer {t_child.access_token}'}

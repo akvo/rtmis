@@ -25,9 +25,16 @@ geo_config = [{
     "level": 3,
     "name": "NAME_3",
     "alias": "Ward"
+}, {
+    "id": 5,
+    "level": 4,
+    "name": "NAME_4",
+    "alias": "Village"
 }]
 
 source_file = './source/kenya.topojson'
+
+MAX_LEVEL_IN_SOURCE_FILE = 3
 
 
 def get_parent_id(df, x):
@@ -53,7 +60,8 @@ def seed_administration_test():
                                     parent=None,
                                     level=level)
     administration.save()
-    for index, name in enumerate(["Jakarta", "East Jakarta", "Kramat Jati"]):
+    for index, name in enumerate(
+            ["Jakarta", "East Jakarta", "Kramat Jati", "Cawang"]):
         id = index + 2
         level = Levels.objects.filter(level=index + 1).first()
         path = '{0}.'.format(administration.id)
@@ -85,7 +93,10 @@ def seed_administration_prod():
     geo = json.load(geo)
     ob = geo["objects"]
     ob_name = list(ob)[0]
-    levels = [c["name"] for c in geo_config]
+    levels = [
+        c["name"] for c in geo_config
+        if c['level'] <= MAX_LEVEL_IN_SOURCE_FILE
+    ]
     properties = [
         d for d in [p["properties"] for p in ob[ob_name]["geometries"]]
     ]

@@ -3,7 +3,7 @@ from django.core.management import call_command
 from django.http import HttpResponse
 from django.test import TestCase, override_settings
 from api.v1.v1_profile.management.commands.administration_seeder import (
-        seed_levels)
+        seed_levels, geo_config)
 
 from api.v1.v1_profile.models import (
         Administration, AdministrationAttribute, Levels)
@@ -30,8 +30,8 @@ class AdministrationTestCase(TestCase, ProfileTestHelperMixin):
 
         self.assertEqual(response.status_code, 200)
         body = response.json()
-        self.assertEqual(len(body.get('data')), 4)
-        self.assertEqual(body.get('total'), 4)
+        self.assertEqual(len(body.get('data')), len(geo_config))
+        self.assertEqual(body.get('total'), len(geo_config))
         self.assertEqual(body.get('current'), 1)
         self.assertEqual(body.get('total_page'), 1)
 
@@ -86,8 +86,8 @@ class AdministrationTestCase(TestCase, ProfileTestHelperMixin):
         self.assertIn('parent', body)
 
     def test_create_with_invalid_level(self):
-        adm_level_3 = Administration.objects.get(level__level=3)
-        payload = {'parent': adm_level_3.id, 'name': 'Test', 'code': 'T'}
+        lowest_level = Administration.objects.order_by('-level').first()
+        payload = {'parent': lowest_level.id, 'name': 'Test', 'code': 'T'}
 
         response = typing.cast(
                 HttpResponse,
