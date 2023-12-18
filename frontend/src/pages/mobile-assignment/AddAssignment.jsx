@@ -57,7 +57,7 @@ const AddAssignment = () => {
     },
     {
       title: text.mobilePanelTitle,
-      link: "/mobile-assignment",
+      link: "/control-center/mobile-assignment",
     },
     {
       title: pageTitle,
@@ -67,7 +67,7 @@ const AddAssignment = () => {
   const deleteAssginment = async () => {
     try {
       await api.delete(`/mobile-assignments/${id}`);
-      navigate("/mobile-assignment");
+      navigate("/control-center/mobile-assignment");
     } catch {
       Modal.error({
         title: text.mobileErrDelete,
@@ -122,7 +122,7 @@ const AddAssignment = () => {
         message: id ? text.mobileSuccessUpdated : text.mobileSuccessAdded,
       });
       setLoading(false);
-      navigate("/mobile-assignment");
+      navigate("/control-center/mobile-assignment");
     } catch {
       setSubmitting(false);
     }
@@ -175,12 +175,14 @@ const AddAssignment = () => {
 
   return (
     <div id="add-assignment">
-      <Row justify="space-between">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={descriptionData} title={pageTitle} />
-        </Col>
-      </Row>
+      <div className="description-container">
+        <Row justify="space-between">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel description={descriptionData} title={pageTitle} />
+          </Col>
+        </Row>
+      </div>
       <div className="table-section">
         <div className="table-wrapper">
           <Form

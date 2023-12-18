@@ -43,7 +43,7 @@ const AttributeFilters = ({ onSearchChange = () => {} }) => {
       {["Super Admin"].includes(authUser?.role?.value) && (
         <Col>
           <Space>
-            <Link to="/data/upload">
+            <Link to="/control-center/data/upload">
               <Button icon={<UploadOutlined />} shape="round">
                 {text.bulkUploadButton}
               </Button>
@@ -51,7 +51,7 @@ const AttributeFilters = ({ onSearchChange = () => {} }) => {
             <Button icon={<DownloadOutlined />} shape="round">
               {text.exportButton}
             </Button>
-            <Link to={"/master-data/attributes/add"}>
+            <Link to={"/control-center/master-data/attributes/add"}>
               <Button type="primary" icon={<PlusOutlined />} shape="round">
                 {text.addNewButton}
               </Button>

@@ -1,11 +1,6 @@
 import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { Button, Divider, Col, Row, Space, Table } from "antd";
-import {
-  Breadcrumbs,
-  DescriptionPanel,
-  EntityFilters,
-  ManageDataTab,
-} from "../../components";
+import { Breadcrumbs, DescriptionPanel, EntityFilters } from "../../components";
 
 import { api, store, uiText } from "../../lib";
 import { Link } from "react-router-dom";
@@ -57,7 +52,7 @@ const ManageEntityTypes = () => {
       render: (row) => {
         return (
           <Space>
-            <Link to={`/master-data/entity-types/${row}/edit`}>
+            <Link to={`/control-center/master-data/entity-types/${row}/edit`}>
               <Button type="link">{text.editButton}</Button>
             </Link>
           </Space>
@@ -89,16 +84,17 @@ const ManageEntityTypes = () => {
 
   return (
     <div id="users">
-      <Row justify="space-between" align="bottom">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel
-            description={text.manageEntityTypesText}
-            title={text.manageEntityTypes}
-          />
-        </Col>
-      </Row>
-      <ManageDataTab />
+      <div className="description-container">
+        <Row justify="space-between" align="bottom">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={text.manageEntityTypesText}
+              title={text.manageEntityTypes}
+            />
+          </Col>
+        </Row>
+      </div>
       <div className="table-section">
         <div className="table-wrapper">
           <EntityFilters />
