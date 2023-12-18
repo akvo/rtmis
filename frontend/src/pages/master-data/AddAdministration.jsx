@@ -63,7 +63,7 @@ const AddAdministration = () => {
         type: "success",
         message: text.admSuccessDeleted,
       });
-      navigate("/master-data");
+      navigate("/control-center/master-data");
     } catch {
       Modal.error({
         title: text.admErrDeleteTitle,
@@ -254,7 +254,7 @@ const AddAdministration = () => {
     },
     {
       title: text.manageAdministrativeList,
-      link: "/master-data",
+      link: "/control-center/master-data",
     },
     {
       title: id ? text.editAdministration : text.addAdministration,
@@ -263,15 +263,17 @@ const AddAdministration = () => {
 
   return (
     <div id="add-administration">
-      <Row justify="space-between">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel
-            description={descriptionData}
-            title={id ? text.editAdministration : text.addAdministration}
-          />
-        </Col>
-      </Row>
+      <div className="description-container">
+        <Row justify="space-between">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={descriptionData}
+              title={id ? text.editAdministration : text.addAdministration}
+            />
+          </Col>
+        </Row>
+      </div>
       <div className="table-section">
         <div className="table-wrapper">
           <Form

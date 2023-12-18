@@ -6,7 +6,6 @@ import {
   AdministrationFilters,
   Breadcrumbs,
   DescriptionPanel,
-  ManageDataTab,
 } from "../../components";
 import { api, store, uiText } from "../../lib";
 import DetailAdministration from "./DetailAdministration";
@@ -65,7 +64,9 @@ const MasterData = () => {
         return (
           <Button
             type="link"
-            onClick={() => navigate(`/master-data/${recordID}/edit`)}
+            onClick={() =>
+              navigate(`/control-center/master-data/${recordID}/edit`)
+            }
           >
             Edit
           </Button>
@@ -121,17 +122,17 @@ const MasterData = () => {
 
   return (
     <div id="users">
-      <Row justify="space-between" align="bottom">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel
-            description={text.manageUserText}
-            title={text.manageAdministrativeList}
-          />
-        </Col>
-      </Row>
-      <ManageDataTab />
-
+      <div className="description-container">
+        <Row justify="space-between" align="bottom">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={text.manageUserText}
+              title={text.manageAdministrativeList}
+            />
+          </Col>
+        </Row>
+      </div>
       <div className="table-section">
         <div className="table-wrapper">
           <AdministrationFilters loading={loading} onSearchChange={setSearch} />

@@ -1,163 +1,169 @@
-import React, { useMemo } from "react";
+import React from "react";
 import "./style.scss";
-import { Row, Col, Card, Button, Divider } from "antd";
-import { store, config, uiText } from "../../lib";
-import { Link } from "react-router-dom";
-import { PanelApprovals, PanelSubmissions } from "../control-center/components";
-import { Breadcrumbs, DescriptionPanel } from "../../components";
-import { ControlCenterTour } from "./components";
+import { Layout, Menu } from "antd";
+const { Sider } = Layout;
+import { store, config } from "../../lib";
+import { useNavigate, Outlet } from "react-router-dom";
+import {
+  UserOutlined,
+  TableOutlined,
+  DatabaseOutlined,
+  DashboardOutlined,
+} from "@ant-design/icons";
 
 const ControlCenter = () => {
   const { user: authUser } = store.useState((s) => s);
-  const { language } = store.useState((s) => s);
+  const navigate = useNavigate();
 
-  const { active: activeLang } = language;
-  const text = useMemo(() => {
-    return uiText[activeLang];
-  }, [activeLang]);
+  const { roles } = config;
 
-  const { roles, checkAccess } = config;
+  const pageAccessToLabelAndUrlMapping = {
+    user: { label: "Manage Platform Users", url: "/control-center/users" },
+    approvers: {
+      label: "Validation Tree",
+      url: "/control-center/approvers/tree",
+    },
+    mobile: {
+      label: "Manage Mobile Users",
+      url: "/control-center/mobile-assignment",
+    },
+    data: [
+      { label: "Manage Data", url: "/control-center/data/manage" },
+      { label: "Download Data", url: "/control-center/data/export" },
+    ],
+    "master-data": [
+      { label: "Administrative List", url: "/control-center/master-data" },
+      { label: "Attributes", url: "/control-center/master-data/attributes" },
+      { label: "Entities", url: "/control-center/master-data/entities" },
+      {
+        label: "Entity Types",
+        url: "/control-center/master-data/entity-types",
+      },
+      {
+        label: "Organisations",
+        url: "/control-center/master-data/organisations",
+      },
+    ],
+  };
 
-  const panels = useMemo(() => {
-    return [
-      {
-        key: "manage-data",
-        title: text.manageDataTitle,
-        buttonLabel: text.manageDataButton,
-        access: "data",
-        description: <div>{text.manageDataText}</div>,
-        link: "/data/manage",
-        image: "/assets/big-data.png",
-      },
-      {
-        key: "data-download",
-        title: text.dataDownloadTitle,
-        buttonLabel: text.dataDownloadButton,
-        access: "data",
-        description: <div>{text.dataDownloadText}</div>,
-        link: "/data/export",
-        image: "/assets/import.png",
-      },
-      {
-        key: "data-upload",
-        title: text.dataUploadTitle,
-        buttonLabel: text.dataUploadButton,
-        access: authUser?.role.id === 4 ? "" : "form",
-        description: <div>{text.dataUploadText}</div>,
-        link: "/data/upload",
-        image: "/assets/upload.png",
-      },
-      {
-        key: "manage-user",
-        title: text.manageUserTitle,
-        buttonLabel: text.manageUserButton,
-        access: "user",
-        description: <div>{text.manageUserText}</div>,
-        link: "/users",
-        image: "/assets/personal-information.png",
-      },
-      {
-        key: "manage-master-data",
-        title: text.mdPanelTitle,
-        buttonLabel: text.mdPanelButton,
-        access: "master-data",
-        description: <div>{text.mdPanelText}</div>,
-        link: "/master-data",
-        image: "/assets/organisation.svg",
-      },
-      {
-        key: "manage-mobile",
-        title: text.mobilePanelTitle,
-        buttonLabel: text.mobilePanelButton,
-        access: "mobile",
-        description: <div>{text.mobilePanelText}</div>,
-        link: "/mobile-assignment",
-        image: "/assets/personal-information.png",
-        span: 12,
-      },
-      {
-        key: "approvals",
-        access: "approvals",
-        render: (
-          <Col key="approvals-panel" span={24}>
-            <PanelApprovals />
-          </Col>
-        ),
-      },
-      {
-        key: "submission",
-        access: "form",
-        render: (
-          <Col key="submission-panel" span={24}>
-            <PanelSubmissions />
-          </Col>
-        ),
-      },
-    ];
-  }, [text, authUser?.role.id]);
+  const controlCenterToLabelMapping = {
+    "control-center": {
+      label: "Control Center",
+      icon: DashboardOutlined,
+    },
+    "manage-user": {
+      label: "Users",
+      icon: UserOutlined,
+      childrenKeys: ["user", "approvers", "mobile"],
+    },
+    "manage-data": {
+      label: "Data",
+      icon: TableOutlined,
+      childrenKeys: ["data"],
+    },
+    "manage-master-data": {
+      label: "Master Data",
+      icon: DatabaseOutlined,
+      childrenKeys: ["master-data"],
+    },
+  };
 
-  const selectedPanels = useMemo(() => {
-    if (!authUser?.role_detail) {
-      return [];
+  const determineChildren = (key) => {
+    const mapping = pageAccessToLabelAndUrlMapping[key];
+    if (Array.isArray(mapping)) {
+      return mapping.map((item, index) => ({
+        key: key + "_" + index,
+        ...item,
+      }));
     }
-    const panelOrder = roles.find(
-      (r) => r.id === authUser?.role_detail?.id
-    )?.control_center_order;
-    const panelByAccess = panels.filter((p) =>
-      checkAccess(authUser?.role_detail, p.access)
-    );
-    return panelOrder.map((x) => panelByAccess.find((p) => p.key === x));
-  }, [panels, roles, checkAccess, authUser]);
+    return [{ key, ...mapping }];
+  };
+
+  const createMenuItems = (controlCenterOrder, pageAccess) => {
+    const menuItems = [];
+    const controlCenterItem = controlCenterToLabelMapping["control-center"];
+    if (controlCenterItem) {
+      menuItems.push({
+        key: "control-center",
+        icon: controlCenterItem.icon
+          ? React.createElement(controlCenterItem.icon)
+          : null,
+        label: controlCenterItem.label,
+        url: "/control-center",
+      });
+    }
+
+    controlCenterOrder.forEach((orderKey) => {
+      if (orderKey === "control-center") {
+        return;
+      }
+
+      const item = controlCenterToLabelMapping[orderKey];
+      if (!item) {
+        return;
+      }
+
+      const { label, icon, childrenKeys } = item;
+      const children = childrenKeys
+        .filter((key) => pageAccess.includes(key.split(/(\d+)/)[0]))
+        .flatMap((key) => determineChildren(key, pageAccess));
+
+      menuItems.push({
+        key: orderKey,
+        icon: icon ? React.createElement(icon) : null,
+        label,
+        children: children.length ? children : null,
+      });
+    });
+
+    return menuItems;
+  };
+
+  const superAdminRole = roles.find((r) => r.id === authUser?.role_detail?.id);
+  const usersMenuItem = createMenuItems(
+    superAdminRole.control_center_order,
+    superAdminRole.page_access
+  );
+
+  const handleMenuClick = ({ key }) => {
+    const url = findUrlByKey(usersMenuItem, key);
+    navigate(url);
+  };
+
+  const findUrlByKey = (items, key) => {
+    for (const item of items) {
+      if (item.key === key) {
+        return item.url;
+      }
+      if (item.children) {
+        const url = findUrlByKey(item.children, key);
+        if (url) {
+          return url;
+        }
+      }
+    }
+  };
 
   return (
     <div id="control-center">
-      <Row justify="space-between">
-        <Breadcrumbs
-          pagePath={[
-            {
-              title: "Control Center",
-              link: "/control-center",
-            },
-          ]}
-        />
-        <ControlCenterTour />
-      </Row>
-      <DescriptionPanel description={text.ccDescriptionPanel} />
-      <Divider />
-      <Row gutter={[16, 16]}>
-        {selectedPanels.map((panel, index) => {
-          if (panel?.render) {
-            return panel.render;
-          }
-          const cardOnly = selectedPanels.filter((x) => !x?.render);
-          const isFullWidth =
-            cardOnly.length === 1 ||
-            (selectedPanels.length % 2 === 1 &&
-              selectedPanels.length - 1 === index);
-          const defaultSpan = isFullWidth ? 24 : 12;
-          const colSpan = panel?.span || defaultSpan;
-          return (
-            <Col className="card-wrapper" span={colSpan} key={index}>
-              <Card bordered={false} hoverable>
-                <div className="row">
-                  <div className="flex-1">
-                    <h2>{panel.title}</h2>
-                    <span>{panel.description}</span>
-                    <Link to={panel.link} className="explore">
-                      <Button type="primary" shape="round">
-                        {panel.buttonLabel}
-                      </Button>
-                    </Link>
-                  </div>
-                  <div>
-                    <img src={panel.image} width={100} height={100} />
-                  </div>
-                </div>
-              </Card>
-            </Col>
-          );
-        })}
-      </Row>
+      <Layout>
+        <Sider className="site-layout-background">
+          <Menu
+            mode="inline"
+            defaultSelectedKeys={["1"]}
+            defaultOpenKeys={["sub1"]}
+            style={{
+              height: "100%",
+              borderRight: 0,
+            }}
+            onClick={handleMenuClick}
+            items={usersMenuItem}
+          />
+        </Sider>
+        <Layout className="site-layout">
+          <Outlet />
+        </Layout>
+      </Layout>
     </div>
   );
 };

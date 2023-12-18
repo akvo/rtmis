@@ -43,7 +43,7 @@ const DataFilters = ({ loading }) => {
           message: `Data exported successfully`,
         });
         setExporting(false);
-        navigate("/data/export");
+        navigate("/control-center/data/export");
       })
       .catch(() => {
         notify({
@@ -69,7 +69,7 @@ const DataFilters = ({ loading }) => {
         ) && (
           <Col>
             <Space>
-              {pathname === "/data/manage" && (
+              {pathname === "/control-center/data/manage" && (
                 <Button
                   shape="round"
                   onClick={exportGenerate}
@@ -79,12 +79,12 @@ const DataFilters = ({ loading }) => {
                   Download Data
                 </Button>
               )}
-              <Link to="/data/upload">
+              <Link to="/control-center/data/upload">
                 <Button shape="round" icon={<UploadOutlined />}>
                   Bulk Upload
                 </Button>
               </Link>
-              <Link to={`/form/${selectedForm}`}>
+              <Link to={`/control-center/form/${selectedForm}`}>
                 <Button
                   shape="round"
                   icon={<PlusOutlined />}
