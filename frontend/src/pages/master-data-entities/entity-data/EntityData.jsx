@@ -6,7 +6,6 @@ import {
   Breadcrumbs,
   DescriptionPanel,
   EntityDataFilters,
-  ManageDataTab,
 } from "../../../components";
 import { api, store, uiText } from "../../../lib";
 
@@ -30,10 +29,6 @@ const EntityData = () => {
     },
     {
       title: text.manageEntities,
-      link: "/master-data/entities/",
-    },
-    {
-      title: text.entityDataTitle,
     },
   ];
 
@@ -76,7 +71,7 @@ const EntityData = () => {
       render: (row) => {
         return (
           <Space>
-            <Link to={`/master-data/entities/${row}/edit`}>
+            <Link to={`/control-center/master-data/entities/${row}/edit`}>
               <Button type="link">{text.editButton}</Button>
             </Link>
           </Space>
@@ -110,16 +105,17 @@ const EntityData = () => {
 
   return (
     <div id="users">
-      <Row justify="space-between" align="bottom">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel
-            description={text.manageEntitiesText}
-            title={text.manageEntities}
-          />
-        </Col>
-      </Row>
-      <ManageDataTab />
+      <div className="description-container">
+        <Row justify="space-between" align="bottom">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={text.manageEntitiesText}
+              title={text.manageEntities}
+            />
+          </Col>
+        </Row>
+      </div>
       <div className="table-section">
         <div className="table-wrapper">
           <EntityDataFilters />

@@ -31,7 +31,7 @@ const AddOrganisation = () => {
     },
     {
       title: text.manageOrganisations,
-      link: "/master-data/organisations",
+      link: "/control-center/master-data/organisations",
     },
     {
       title: id ? text.editOrganisation : text.addOrganisation,
@@ -56,7 +56,7 @@ const AddOrganisation = () => {
           message: id ? text.successUpdatedOrg : text.successAddedOrg,
         });
         setSubmitting(false);
-        navigate("/master-data/organisations");
+        navigate("/control-center/master-data/organisations");
       })
       .catch((err) => {
         const errMessage = id ? text.errUpdateOrg : text.errAddOrg;
@@ -83,66 +83,74 @@ const AddOrganisation = () => {
 
   return (
     <div id="add-organisation">
-      <Row justify="space-between">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel
-            description={descriptionData}
-            title={id ? text.editOrganisation : text.addOrganisation}
-          />
-        </Col>
-      </Row>
+      <div className="description-container">
+        <Row justify="space-between">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={descriptionData}
+              title={id ? text.editOrganisation : text.addOrganisation}
+            />
+          </Col>
+        </Row>
+      </div>
       <div className="table-section">
         <div className="table-wrapper">
           <Form
-            name="adm-form"
+            name="user-form"
             form={form}
-            labelCol={{ span: 6 }}
-            wrapperCol={{ span: 18 }}
+            layout="vertical"
             initialValues={{
               name: "",
               attributes: [],
             }}
             onFinish={onFinish}
           >
-            <Form.Item
-              name="name"
-              label={text.orgLabelName}
-              rules={[
-                {
-                  required: true,
-                  message: text.valOrgName,
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name="attributes"
-              label={text.orgLabelAttr}
-              rules={[{ required: true, message: text.valOrgAttributes }]}
-            >
-              <Select
-                getPopupContainer={(trigger) => trigger.parentNode}
-                placeholder={text.selectAttributes}
-                mode="multiple"
-                allowClear
-                loading={!organisationAttributes.length || loading}
-              >
-                {organisationAttributes?.map((o, oi) => (
-                  <Option key={`org-attr-${oi}`} value={o.id}>
-                    {o.name}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-
-            <Row className="form-row" justify="center" align="middle">
-              <Col span={18} offset={6}>
+            <div bodyStyle={{ padding: 0 }}>
+              <Row className="form-row">
+                <Col span={24}>
+                  <Form.Item
+                    name="name"
+                    label="Organization Name"
+                    rules={[
+                      {
+                        required: true,
+                        message: text.valOrgName,
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <div className="form-row">
+                <Form.Item
+                  name="attributes"
+                  label="Organization Attributes"
+                  rules={[{ required: true, message: text.valOrgAttributes }]}
+                >
+                  <Select
+                    getPopupContainer={(trigger) => trigger.parentNode}
+                    placeholder="Select attributes.."
+                    mode="multiple"
+                    allowClear
+                    loading={!organisationAttributes.length || loading}
+                  >
+                    {organisationAttributes?.map((o, oi) => (
+                      <Option key={`org-attr-${oi}`} value={o.id}>
+                        {o.name}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </div>
+            </div>
+            <Row justify="end" align="middle">
+              <Col>
                 <Button
                   type="primary"
-                  shape="round"
                   htmlType="submit"
+                  shape="round"
                   loading={submitting}
                 >
                   {id ? text.updateOrganisation : text.addOrganisation}
