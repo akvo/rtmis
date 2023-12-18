@@ -64,7 +64,7 @@ const AddEntityData = () => {
     },
     {
       title: text.manageEntities,
-      link: "/master-data/entities/",
+      link: "/control-center/master-data/entities/",
     },
     {
       title: id ? text.editEntityData : text.addEntityData,
@@ -86,7 +86,7 @@ const AddEntityData = () => {
             type: "success",
             message: text.successEntityDataDeleted,
           });
-          navigate("/master-data/entities/");
+          navigate("/control-center/master-data/entities/");
         } catch (error) {
           Modal.error({
             title: text.errDeleteEntityDataTitle,
@@ -117,7 +117,7 @@ const AddEntityData = () => {
           : text.successEntityDataAdded,
       });
       setSubmitting(false);
-      navigate("/master-data/entities/");
+      navigate("/control-center/master-data/entities/");
     } catch {
       setSubmitting(false);
     }
@@ -210,15 +210,17 @@ const AddEntityData = () => {
 
   return (
     <div id="add-entity-data">
-      <Row justify="space-between">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel
-            description={descriptionData}
-            title={id ? text.editEntityData : text.addEntityData}
-          />
-        </Col>
-      </Row>
+      <div className="description-container">
+        <Row justify="space-between">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={descriptionData}
+              title={id ? text.editEntityData : text.addEntityData}
+            />
+          </Col>
+        </Row>
+      </div>
       <div className="table-section">
         <div className="table-wrapper">
           <Form

@@ -6,7 +6,7 @@
     "@ant-design/icons": "^4.7.0",
     "@turf/turf": "^6.5.0",
     "akvo-react-form": "^2.2.3",
-    "antd": "^4.18.3",
+    "antd": "^4.24.15",
     "antd-table-saveas-excel": "^2.2.1",
     "axios": "^0.25.0",
     "axios-mock-adapter": "^1.21.1",
