@@ -93,7 +93,7 @@ const ControlCenter = () => {
       });
     }
 
-    controlCenterOrder.forEach((orderKey) => {
+    Object.keys(controlCenterToLabelMapping).forEach((orderKey) => {
       if (orderKey === "control-center") {
         return;
       }
@@ -104,16 +104,23 @@ const ControlCenter = () => {
       }
 
       const { label, icon, childrenKeys } = item;
-      const children = childrenKeys
-        .filter((key) => pageAccess.includes(key.split(/(\d+)/)[0]))
-        .flatMap((key) => determineChildren(key, pageAccess));
 
-      menuItems.push({
-        key: orderKey,
-        icon: icon ? React.createElement(icon) : null,
-        label,
-        children: children.length ? children : null,
-      });
+      const shouldIncludeItem =
+        controlCenterOrder.includes(orderKey) ||
+        childrenKeys.some((childKey) => pageAccess.includes(childKey));
+
+      if (shouldIncludeItem) {
+        const children = childrenKeys
+          .filter((key) => pageAccess.includes(key.split(/(\d+)/)[0]))
+          .flatMap((key) => determineChildren(key, pageAccess));
+
+        menuItems.push({
+          key: orderKey,
+          icon: icon ? React.createElement(icon) : null,
+          label,
+          children: children.length ? children : null,
+        });
+      }
     });
 
     return menuItems;
