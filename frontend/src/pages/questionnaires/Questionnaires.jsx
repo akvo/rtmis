@@ -3,9 +3,7 @@ import "./style.scss";
 import {
   Row,
   Col,
-  Card,
   Button,
-  Divider,
   Table,
   ConfigProvider,
   Checkbox,
@@ -24,7 +22,7 @@ const pagePath = [
   },
   {
     title: "Approvals",
-    link: "/approvals",
+    link: "/control-center/approvals",
   },
   {
     title: "Manage Questionnaires Approvals",
@@ -122,53 +120,60 @@ const Questionnaires = () => {
 
   return (
     <div id="questionnaires">
-      <Row justify="space-between">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-        </Col>
-        <Col>
-          <Space size={6}>
-            <Button
-              className="light"
-              disabled={isPristine}
-              onClick={() => {
-                const cloned = JSON.parse(JSON.stringify(forms));
-                setDataset(cloned);
-              }}
-            >
-              Reset
-            </Button>
-            <Button
-              type="primary"
-              disabled={isPristine}
-              onClick={handleSubmit}
-              loading={loading}
-            >
-              Save
-            </Button>
-          </Space>
-        </Col>
-      </Row>
-      <Divider />
-      <Card
-        style={{ padding: 0, minHeight: "40vh" }}
-        bodyStyle={{ padding: 30 }}
-      >
-        <ConfigProvider renderEmpty={() => <Empty description="No data" />}>
-          <Table
-            columns={columns}
-            dataSource={dataset}
-            loading={!dataset.length}
-            onChange={handleChange}
-            // pagination={{
-            //   total: totalCount,
-            //   pageSize: 10,
-            // }}
-            pagination={false}
-            rowKey="id"
-          />
-        </ConfigProvider>
-      </Card>
+      <div className="description-container">
+        <Row justify="space-between">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+          </Col>
+          <Col>
+            <Space size={6}>
+              <Button
+                className="light"
+                shape="round"
+                disabled={isPristine}
+                onClick={() => {
+                  const cloned = JSON.parse(JSON.stringify(forms));
+                  setDataset(cloned);
+                }}
+              >
+                Reset
+              </Button>
+              <Button
+                type="primary"
+                disabled={isPristine}
+                onClick={handleSubmit}
+                loading={loading}
+                shape="round"
+              >
+                Save
+              </Button>
+            </Space>
+          </Col>
+        </Row>
+      </div>
+      <div className="table-section">
+        <div className="table-wrapper">
+          <div
+            style={{ padding: 0, minHeight: "40vh" }}
+            bodyStyle={{ padding: 30 }}
+          >
+            <ConfigProvider renderEmpty={() => <Empty description="No data" />}>
+              <Table
+                columns={columns}
+                dataSource={dataset}
+                loading={!dataset.length}
+                onChange={handleChange}
+                // pagination={{
+                //   total: totalCount,
+                //   pageSize: 10,
+                // }}
+                pagination={false}
+                rowKey="id"
+              />
+            </ConfigProvider>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

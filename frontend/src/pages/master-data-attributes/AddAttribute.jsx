@@ -46,7 +46,7 @@ const AddAttribute = () => {
     },
     {
       title: text.manageAttributes,
-      link: "/master-data/attributes",
+      link: "/control-center/master-data/attributes",
     },
     {
       title: id ? text.editAttributes : text.addAttributes,
@@ -75,7 +75,7 @@ const AddAttribute = () => {
         message: id ? text.attrSuccessUpdated : text.attrSuccessAdded,
       });
       setSubmitting(false);
-      navigate("/master-data/attributes");
+      navigate("/control-center/master-data/attributes");
     } catch {
       setSubmitting(false);
     }
@@ -88,7 +88,7 @@ const AddAttribute = () => {
         type: "success",
         message: text.attrSuccessDeleted,
       });
-      navigate("/master-data/attributes");
+      navigate("/control-center/master-data/attributes");
     } catch {
       Modal.error({
         title: text.attrErrDeleteTitle,
@@ -121,21 +121,23 @@ const AddAttribute = () => {
 
   return (
     <div id="add-attribute">
-      <Row justify="space-between">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel
-            description={descriptionData}
-            title={id ? text.editAttributes : text.addAttributes}
-          />
-        </Col>
-      </Row>
-      <Tabs size="large" activeKey={activeTab} onChange={setActiveTab}>
-        <TabPane tab="Administration" key="administration" />
-        <TabPane tab="Entity" key="entity" disabled />
-      </Tabs>
+      <div className="description-container">
+        <Row justify="space-between">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={descriptionData}
+              title={id ? text.editAttributes : text.addAttributes}
+            />
+          </Col>
+        </Row>
+      </div>
       <div className="table-section">
         <div className="table-wrapper">
+          <Tabs size="large" activeKey={activeTab} onChange={setActiveTab}>
+            <TabPane tab="Administration" key="administration" />
+            <TabPane tab="Entity" key="entity" disabled />
+          </Tabs>
           <Form
             name="adm-form"
             form={form}
