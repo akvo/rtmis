@@ -129,20 +129,25 @@ const strToFunction = (fnString, values) => {
 
 const TypeAutofield = ({ onChange, values, keyform, id, name, tooltip, fn }) => {
   const [value, setValue] = useState(null);
-  const { fnString } = fn;
+  const [fieldColor, setFieldColor] = useState(null);
+  const { fnString, fnColor } = fn;
   const automateValue = strToFunction(fnString, values);
 
   useEffect(() => {
     try {
       if (automateValue) {
-        setValue(automateValue());
+        const _automateValue = automateValue();
+        if (fnColor?.[_automateValue]) {
+          setFieldColor(fnColor[_automateValue]);
+        }
+        setValue(_automateValue);
       } else {
         setValue(null);
       }
     } catch {
       setValue(null);
     }
-  }, [automateValue, fnString]);
+  }, [automateValue, fnString, fnColor]);
 
   useEffect(() => {
     if (onChange) {
@@ -151,10 +156,13 @@ const TypeAutofield = ({ onChange, values, keyform, id, name, tooltip, fn }) => 
   }, [value]);
 
   return (
-    <View>
+    <View testID="type-autofield-wrapper">
       <FieldLabel keyform={keyform} name={name} tooltip={tooltip} />
       <Input
-        inputContainerStyle={styles.autoFieldContainer}
+        inputContainerStyle={{
+          ...styles.autoFieldContainer,
+          backgroundColor: fieldColor || styles.autoFieldContainer.backgroundColor,
+        }}
         value={value ? (value === NaN ? null : value.toString()) : null}
         testID="type-autofield"
         disabled
