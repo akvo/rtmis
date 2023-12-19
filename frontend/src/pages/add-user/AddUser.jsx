@@ -76,7 +76,7 @@ const AddUser = () => {
     },
     {
       title: text.manageUsers,
-      link: "/users",
+      link: "/control-center/users",
     },
     {
       title: id ? text.editUser : text.addUser,
@@ -140,7 +140,7 @@ const AddUser = () => {
           message: `User ${id ? "updated" : "added"}`,
         });
         setSubmitting(false);
-        navigate("/users");
+        navigate("/control-center/users");
       })
       .catch((err) => {
         if (err?.response?.status === 403) {
@@ -258,12 +258,17 @@ const AddUser = () => {
 
   return (
     <div id="add-user">
-      <Row justify="space-between">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={descriptionData} title={panelTitle} />
-        </Col>
-      </Row>
+      <div className="description-container">
+        <Row justify="space-between">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={descriptionData}
+              title={panelTitle}
+            />
+          </Col>
+        </Row>
+      </div>
       <div className="table-section">
         <div className="table-wrapper">
           <Form

@@ -43,6 +43,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
     tooltip = serializers.SerializerMethodField()
     fn = serializers.SerializerMethodField()
     pre = serializers.SerializerMethodField()
+    displayOnly = serializers.BooleanField(source='display_only')
 
     @extend_schema_field(ListOptionSerializer(many=True))
     def get_option(self, instance: Questions):
@@ -176,7 +177,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'name', 'order', 'type', 'required', 'dependency', 'option',
             'center', 'api', 'meta', 'rule', 'extra', 'source', 'tooltip',
-            'fn', 'pre', 'hidden',
+            'fn', 'pre', 'hidden', 'displayOnly', 'monitoring',
         ]
 
 
