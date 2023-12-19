@@ -267,7 +267,11 @@ const UploadData = () => {
                 <Space align="center" size={32}>
                   <img src="/assets/data-download.svg" />
                   <p>{text.templateDownloadHint}</p>
-                  <Select placeholder="Select Form..." onChange={handleChange}>
+                  <Select
+                    placeholder="Select Form..."
+                    className="custom-select"
+                    onChange={handleChange}
+                  >
                     {forms.map((f, fI) => (
                       <Option key={fI} value={f.id}>
                         {f.name}
@@ -290,6 +294,7 @@ const UploadData = () => {
                     placeholder="Select Form..."
                     value={formId}
                     onChange={handleChange}
+                    className="custom-select"
                   >
                     {forms.map((f, fI) => (
                       <Option key={fI} value={f.id}>
