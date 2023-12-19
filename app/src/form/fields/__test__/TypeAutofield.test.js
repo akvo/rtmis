@@ -159,4 +159,26 @@ describe('TypeAutofield component', () => {
     expect(autoField).toBeDefined();
     expect(autoField.props.value).toBe('G0');
   });
+
+  test('it supports to generate UUID', () => {
+    const onChangeMock = jest.fn();
+    const values = {
+      517600060: [9.123673412317656, 40.50754409565747],
+      608880002: 'Village name',
+    };
+    const id = 3;
+    const name = 'Auto Field';
+    const fn = {
+      fnString:
+        "function(){ return #517600060 && #608880002 ? #608880002.replace(' ','-').replace(',','-') + '-' + #517600060.replace('-','') : null}",
+    };
+
+    const { getByTestId } = render(
+      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+    );
+
+    const autoField = getByTestId('type-autofield');
+    expect(autoField).toBeDefined();
+    expect(autoField.props.value).toBe('Village-name-9.123673412317656,40.50754409565747');
+  });
 });
