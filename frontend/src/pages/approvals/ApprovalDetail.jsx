@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Row,
   Col,
@@ -19,7 +19,7 @@ import {
   LoadingOutlined,
   HistoryOutlined,
 } from "@ant-design/icons";
-import { api, store, uiText, config } from "../../lib";
+import { api, store, config } from "../../lib";
 import { EditableCell } from "../../components";
 import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
@@ -110,14 +110,12 @@ const ApprovalDetail = ({
   const [comment, setComment] = useState("");
   const [questionGroups, setQuestionGroups] = useState([]);
   const { notify } = useNotification();
+  const [checkedState, setCheckedState] = useState(
+    new Array(record.form?.approval_instructions?.action.length).fill(false)
+  );
 
-  const { user: authUser, language } = store.useState((s) => s);
+  const { user: authUser } = store.useState((s) => s);
   const { approvalsLiteral } = config;
-  const { active: activeLang } = language;
-
-  const text = useMemo(() => {
-    return uiText[activeLang];
-  }, [activeLang]);
 
   const handleSave = (data) => {
     setSaving(data.id);
@@ -374,6 +372,14 @@ const ApprovalDetail = ({
     );
   };
 
+  const handleCheckboxChange = (position) => {
+    const updatedCheckedState = checkedState.map((item, index) =>
+      index === position ? !item : item
+    );
+
+    setCheckedState(updatedCheckedState);
+  };
+
   return (
     <div>
       <Tabs centered activeKey={selectedTab} onTabClick={handleTabSelect}>
@@ -541,26 +547,36 @@ const ApprovalDetail = ({
         disabled={!approve}
       />
       <Row justify="space-between">
-        <Col>
-          <Row>
-            <Checkbox className="dev" id="informUser" onChange={() => {}}>
-              {text.informUser}
-            </Checkbox>
-          </Row>
+        <Col style={{ marginTop: "20px" }} span={24}>
+          <p>{record.form?.approval_instructions?.text}</p>
+          <Space direction="vertical">
+            {record.form?.approval_instructions?.action?.map((item, index) => (
+              <div key={index}>
+                <Checkbox
+                  checked={checkedState[index]}
+                  onChange={() => handleCheckboxChange(index)}
+                >
+                  {item}
+                </Checkbox>
+              </div>
+            ))}
+          </Space>
         </Col>
-        <Col>
-          <Space>
+        <Col span={24}>
+          <Space style={{ marginTop: "20px", float: "right" }}>
             <Button
               type="danger"
               onClick={() => handleApprove(record.id, 3)}
               disabled={!approve}
+              shape="round"
             >
               Decline
             </Button>
             <Button
               type="primary"
               onClick={() => handleApprove(record.id, 2)}
-              disabled={!approve}
+              disabled={!approve || !checkedState.every(Boolean)}
+              shape="round"
             >
               {approvalsLiteral({ ...authUser, isButton: true })}
             </Button>
