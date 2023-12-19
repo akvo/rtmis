@@ -108,6 +108,8 @@ class Command(BaseCommand):
                             tooltip=q.get("tooltip"),
                             fn=q.get("fn"),
                             pre=q.get("pre"),
+                            display_only=q.get('displayOnly'),
+                            monitoring=q.get('monitoring'),
                         )
                     else:
                         question.name = q.get("name") or q.get("question")
@@ -122,6 +124,8 @@ class Command(BaseCommand):
                         question.extra = q.get("extra")
                         question.tooltip = q.get("tooltip")
                         question.fn = q.get("fn")
+                        question.hidden = q.get("hidden")
+                        question.pre = q.get("pre")
                         question.save()
                     if q.get("options"):
                         QO.objects.filter(question=question).all().delete()

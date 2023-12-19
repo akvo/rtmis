@@ -1,17 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "./style.scss";
-import {
-  Card,
-  Divider,
-  Table,
-  Tabs,
-  Checkbox,
-  Button,
-  Modal,
-  Row,
-  Col,
-  Input,
-} from "antd";
+import { Table, Tabs, Checkbox, Button, Modal, Row, Col, Input } from "antd";
 import { Breadcrumbs } from "../../components";
 import {
   PlusSquareOutlined,
@@ -22,6 +11,7 @@ import { api, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { columnsPending, columnsBatch, columnsSelected } from "./";
 import UploadDetail from "./UploadDetail";
+import BatchDetail from "./BatchDetail";
 import FormDropdown from "../../components/filters/FormDropdown";
 import { isEmpty, without, union, xor } from "lodash";
 
@@ -48,13 +38,17 @@ const Submissions = () => {
   const { active: activeLang } = language;
   const { notify } = useNotification();
 
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
+
   const pagePath = [
     {
-      title: "Control Center",
+      title: text.controlCenter,
       link: "/control-center",
     },
     {
-      title: "Submissions",
+      title: text.submissionsText,
       link: "/control-center",
     },
     {
@@ -62,13 +56,11 @@ const Submissions = () => {
     },
   ];
 
-  const text = useMemo(() => {
-    return uiText[activeLang];
-  }, [activeLang]);
   useEffect(() => {
     if (selectedForm) {
       setLoading(true);
       let url;
+      setExpandedKeys([]);
       if (dataTab === "pending-submission") {
         url = `/form-pending-data/${selectedForm}/?page=${currentPage}`;
         setModalButton(true);
@@ -96,10 +88,11 @@ const Submissions = () => {
 
   useEffect(() => {
     if (selectedForm) {
+      setExpandedKeys([]);
       setSelectedRows([]);
       setSelectedRowKeys([]);
     }
-  }, [selectedForm]);
+  }, [selectedForm, dataTab]);
 
   useEffect(() => {
     if (dataset.length) {
@@ -194,7 +187,7 @@ const Submissions = () => {
       .catch(() => {
         notify({
           type: "error",
-          message: "An error occured",
+          message: text.notifyError,
         });
       })
       .finally(() => {
@@ -204,88 +197,93 @@ const Submissions = () => {
   };
   return (
     <div id="submissions">
-      <Breadcrumbs pagePath={pagePath} />
-      <Divider />
-      <FormDropdown hidden={true} />
-      <Card style={{ padding: 0 }} bodyStyle={{ padding: 30 }}>
-        <Tabs
-          className="main-tab"
-          activeKey={dataTab}
-          onChange={setDataTab}
-          tabBarExtraContent={btnBatchSelected}
-        >
-          <TabPane tab={text.uploadsTab1} key="pending-submission"></TabPane>
-          <TabPane tab={text.uploadsTab2} key="pending-approval"></TabPane>
-          <TabPane tab={text.uploadsTab3} key="approved"></TabPane>
-        </Tabs>
-        <Table
-          className="main-table"
-          dataSource={dataset}
-          onChange={handleChange}
-          columns={
-            dataTab === "pending-submission"
-              ? [...columnsPending]
-              : [...columnsBatch, Table.EXPAND_COLUMN]
-          }
-          rowSelection={
-            dataTab === "pending-submission"
-              ? {
-                  selectedRowKeys: selectedRowKeys,
-                  onSelect: onSelectTableRow,
-                  onSelectAll: onSelectAllTableRow,
-                  getCheckboxProps: (record) => ({
-                    disabled: record?.disabled,
-                  }),
-                }
-              : false
-          }
-          loading={loading}
-          pagination={{
-            current: currentPage,
-            total: totalCount,
-            pageSize: 10,
-            showSizeChanger: false,
-            showTotal: (total, range) =>
-              `Results: ${range[0]} - ${range[1]} of ${total} users`,
-          }}
-          expandedRowKeys={expandedKeys}
-          expandable={
-            dataTab !== "pending-submission"
-              ? {
-                  expandedRowRender: (record) => {
+      <div className="description-container">
+        <Breadcrumbs pagePath={pagePath} />
+      </div>
+      <div className="table-section">
+        <div className="table-wrapper">
+          <FormDropdown hidden={true} />
+          <div style={{ padding: 0 }} bodyStyle={{ padding: 30 }}>
+            <Tabs
+              className="main-tab"
+              activeKey={dataTab}
+              onChange={setDataTab}
+              tabBarExtraContent={btnBatchSelected}
+            >
+              <TabPane
+                tab={text.uploadsTab1}
+                key="pending-submission"
+              ></TabPane>
+              <TabPane tab={text.uploadsTab2} key="pending-approval"></TabPane>
+              <TabPane tab={text.uploadsTab3} key="approved"></TabPane>
+            </Tabs>
+            <Table
+              className="main-table"
+              dataSource={dataset}
+              onChange={handleChange}
+              columns={
+                dataTab === "pending-submission"
+                  ? [...columnsPending, Table.EXPAND_COLUMN]
+                  : [...columnsBatch, Table.EXPAND_COLUMN]
+              }
+              rowSelection={
+                dataTab === "pending-submission"
+                  ? {
+                      selectedRowKeys: selectedRowKeys,
+                      onSelect: onSelectTableRow,
+                      onSelectAll: onSelectAllTableRow,
+                      getCheckboxProps: (record) => ({
+                        disabled: record?.disabled,
+                      }),
+                    }
+                  : false
+              }
+              loading={loading}
+              pagination={{
+                current: currentPage,
+                total: totalCount,
+                pageSize: 10,
+                showSizeChanger: false,
+                showTotal: (total, range) =>
+                  `Results: ${range[0]} - ${range[1]} of ${total} users`,
+              }}
+              expandedRowKeys={expandedKeys}
+              expandable={{
+                expandedRowRender: (record) => {
+                  if (dataTab === "pending-submission") {
                     return (
-                      <UploadDetail record={record} setReload={setReload} />
+                      <BatchDetail expanded={record} setReload={setReload} />
                     );
-                  },
-                  expandIcon: ({ expanded, onExpand, record }) => {
-                    return dataTab === "pending-submission" ? (
-                      ""
-                    ) : expanded ? (
-                      <CloseSquareOutlined
-                        onClick={(e) => {
-                          setExpandedKeys(
-                            expandedKeys.filter((k) => k !== record.id)
-                          );
-                          onExpand(record, e);
-                        }}
-                        style={{ color: "#e94b4c" }}
-                      />
-                    ) : (
-                      <PlusSquareOutlined
-                        onClick={(e) => {
-                          setExpandedKeys([record.id]);
-                          onExpand(record, e);
-                        }}
-                        style={{ color: "#7d7d7d" }}
-                      />
-                    );
-                  },
-                }
-              : false
-          }
-          rowKey="id"
-        />
-      </Card>
+                  }
+                  return <UploadDetail record={record} setReload={setReload} />;
+                },
+                expandIcon: ({ expanded, onExpand, record }) => {
+                  return expanded ? (
+                    <CloseSquareOutlined
+                      onClick={(e) => {
+                        setExpandedKeys(
+                          expandedKeys.filter((k) => k !== record.id)
+                        );
+                        onExpand(record, e);
+                      }}
+                      style={{ color: "#e94b4c" }}
+                    />
+                  ) : (
+                    <PlusSquareOutlined
+                      onClick={(e) => {
+                        setExpandedKeys([record.id]);
+                        onExpand(record, e);
+                      }}
+                      style={{ color: "#7d7d7d" }}
+                    />
+                  );
+                },
+              }}
+              rowKey="id"
+            />
+          </div>
+        </div>
+      </div>
       <Modal
         visible={modalVisible}
         onCancel={() => {
@@ -316,7 +314,7 @@ const Submissions = () => {
                   setModalVisible(false);
                 }}
               >
-                Cancel
+                {text.cancelButton}
               </Button>
               <Button
                 type="primary"

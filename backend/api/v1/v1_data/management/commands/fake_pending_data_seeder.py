@@ -13,6 +13,8 @@ from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import FormApprovalRule, FormApprovalAssignment
 from api.v1.v1_forms.models import Forms, UserForms
 from api.v1.v1_profile.constants import UserRoleTypes
+from api.v1.v1_profile.management.commands.administration_seeder import (
+        MAX_LEVEL_IN_SOURCE_FILE)
 from api.v1.v1_profile.models import Administration, Access, Levels
 from api.v1.v1_users.models import SystemUser, Organisation
 
@@ -95,7 +97,8 @@ def seed_data(form, fake_geo, repeat, created_by):
 
 def create_or_get_submitter(role):
     organisation = Organisation.objects.first()
-    level = Levels.objects.order_by('-level').first()
+    level = Levels.objects.filter(
+            level__lte=MAX_LEVEL_IN_SOURCE_FILE).order_by('-level').first()
     last_name = "User"
     email = "user"
     if role == UserRoleTypes.admin:

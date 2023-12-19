@@ -48,6 +48,7 @@ import { Layout, PageLoader } from "./components";
 import { useNotification } from "./util/hooks";
 import { eraseCookieFromAllPaths } from "./util/date";
 import { reloadData } from "./util/form";
+import ControlCenterDefault from "./pages/control-center/ControlCenterDefault";
 
 const Private = ({ element: Element, alias }) => {
   const { user: authUser } = store.useState((state) => state);
@@ -70,7 +71,6 @@ const RouteList = () => {
       <Route exact path="/login/:invitationId" element={<Login />} />
       <Route exact path="/forgot-password" element={<Login />} />
       <Route exact path="/data" element={<Home />} />
-      <Route exact path="/form/:formId" element={<Forms />} />
       <Route exact path="/dashboard/:formId" element={<Dashboard />} />
       <Route exact path="/glaas/:formId" element={<Glaas />} />
       <Route
@@ -83,74 +83,141 @@ const RouteList = () => {
         path="/glaas-report-dashboard/:formId"
         element={<GlaasReportDashboard />}
       />
-      <Route path="/users" element={<Private element={Users} alias="user" />} />
-      <Route
-        path="/master-data/organisations"
-        element={<Private element={Organisations} alias="organisation" />}
-      />
-      <Route
-        path="/user/add"
-        element={<Private element={AddUser} alias="user" />}
-      />
       <Route
         path="/user/:id"
         element={<Private element={AddUser} alias="user" />}
       />
       <Route
-        path="/organisation/add"
-        element={<Private element={AddOrganisation} alias="organisation" />}
-      />
-      <Route
-        path="/organisation/:id"
-        element={<Private element={AddOrganisation} alias="organisation" />}
-      />
-      <Route
         path="/control-center"
         element={<Private element={ControlCenter} alias="control-center" />}
-      />
+      >
+        <Route
+          path="user/add"
+          element={<Private element={AddUser} alias="user" />}
+        />
+        <Route
+          index
+          element={
+            <Private element={ControlCenterDefault} alias="control-center" />
+          }
+        />
+        <Route
+          path="users"
+          element={<Private element={Users} alias="user" />}
+        />
+        <Route
+          path="approvers/tree"
+          element={<Private element={ApproversTree} alias="approvers" />}
+        />
+        <Route
+          path="data/manage"
+          element={<Private element={ManageData} alias="data" />}
+        />
+        <Route
+          path="data/export"
+          element={<Private element={ExportData} alias="data" />}
+        />
+        <Route
+          path="master-data"
+          element={<Private element={MasterData} alias="master-data" />}
+        />
+        <Route
+          path="master-data/add-administration"
+          element={<Private element={AddAdministration} alias="master-data" />}
+        />
+        <Route
+          path="master-data/:id/edit"
+          element={<Private element={AddAdministration} alias="master-data" />}
+        />
+        <Route
+          path="master-data/attributes"
+          element={
+            <Private element={MasterDataAttributes} alias="master-data" />
+          }
+        />
+        <Route
+          path="master-data/attributes/add"
+          element={<Private element={AddAttribute} alias="master-data" />}
+        />
+        <Route
+          path="master-data/attributes/:id/edit"
+          element={<Private element={AddAttribute} alias="master-data" />}
+        />
+        <Route
+          path="master-data/entity-types"
+          element={<Private element={ManageEntityTypes} alias="master-data" />}
+        />
+        <Route
+          path="master-data/entity-types/add"
+          element={<Private element={AddEntity} alias="master-data" />}
+        />
+        <Route
+          path="master-data/entity-types/:id/edit"
+          element={<Private element={AddEntity} alias="master-data" />}
+        />
+        <Route
+          path="master-data/entities"
+          element={<Private element={EntityData} alias="master-data" />}
+        />
+        <Route
+          path="master-data/entities/add"
+          element={<Private element={AddEntityData} alias="master-data" />}
+        />
+        <Route
+          path="master-data/entities/:id/edit"
+          element={<Private element={AddEntityData} alias="master-data" />}
+        />
+        <Route
+          path="data/upload"
+          element={<Private element={UploadData} alias="data" />}
+        />
+        <Route
+          path="data/submissions"
+          element={<Private element={Submissions} alias="data" />}
+        />
+        <Route
+          path="approvals"
+          element={<Private element={Approvals} alias="approvals" />}
+        />
+        <Route
+          path="questionnaires"
+          element={<Private element={Questionnaires} alias="questionnaires" />}
+        />
+        <Route
+          path="questionnaires/admin"
+          element={
+            <Private element={QuestionnairesAdmin} alias="questionnaires" />
+          }
+        />
+        <Route
+          path="organisation/add"
+          element={<Private element={AddOrganisation} alias="organisation" />}
+        />
+        <Route
+          path="organisation/:id"
+          element={<Private element={AddOrganisation} alias="organisation" />}
+        />
+        <Route
+          path="master-data/organisations"
+          element={<Private element={Organisations} alias="organisation" />}
+        />
+        <Route
+          path="mobile-assignment"
+          element={<Private element={MobileAssignment} alias="mobile" />}
+        />
+        <Route
+          path="mobile-assignment/form"
+          element={<Private element={AddAssignment} alias="mobile" />}
+        />
+        <Route
+          path="mobile-assignment/form/:id"
+          element={<Private element={AddAssignment} alias="mobile" />}
+        />
+        <Route exact path="form/:formId" element={<Forms />} />
+      </Route>
       <Route
         path="/settings"
         element={<Private element={Settings} alias="settings" />}
-      />
-      <Route
-        path="/data/manage"
-        element={<Private element={ManageData} alias="data" />}
-      />
-      <Route
-        path="/data/export"
-        element={<Private element={ExportData} alias="data" />}
-      />
-      <Route
-        path="/data/upload"
-        element={<Private element={UploadData} alias="data" />}
-      />
-      {/*
-      <Route
-        path="/data/visualisation"
-        element={<Private element={Visualisation} alias="visualisation" />}
-      />
-                */}
-      <Route
-        path="/questionnaires"
-        element={<Private element={Questionnaires} alias="questionnaires" />}
-      />
-      <Route
-        path="/questionnaires/admin"
-        element={
-          <Private element={QuestionnairesAdmin} alias="questionnaires" />
-        }
-      />
-      <Route
-        path="/approvals"
-        element={<Private element={Approvals} alias="approvals" />}
-      />
-      <Route
-        path="/data/submissions"
-        element={<Private element={Submissions} alias="data" />}
-      />
-      <Route
-        path="/approvers/tree"
-        element={<Private element={ApproversTree} alias="approvers" />}
       />
       <Route
         path="/profile"
@@ -163,66 +230,6 @@ const RouteList = () => {
       <Route
         path="/report/:templateId"
         element={<Private element={Report} alias="reports" />}
-      />
-      <Route
-        path="/mobile-assignment"
-        element={<Private element={MobileAssignment} alias="mobile" />}
-      />
-      <Route
-        path="/mobile-assignment/form"
-        element={<Private element={AddAssignment} alias="mobile" />}
-      />
-      <Route
-        path="/mobile-assignment/form/:id"
-        element={<Private element={AddAssignment} alias="mobile" />}
-      />
-      <Route
-        path="/master-data"
-        element={<Private element={MasterData} alias="master-data" />}
-      />
-      <Route
-        path="/master-data/add-administration"
-        element={<Private element={AddAdministration} alias="master-data" />}
-      />
-      <Route
-        path="/master-data/:id/edit"
-        element={<Private element={AddAdministration} alias="master-data" />}
-      />
-      <Route
-        path="/master-data/attributes"
-        element={<Private element={MasterDataAttributes} alias="master-data" />}
-      />
-      <Route
-        path="/master-data/attributes/add"
-        element={<Private element={AddAttribute} alias="master-data" />}
-      />
-      <Route
-        path="/master-data/attributes/:id/edit"
-        element={<Private element={AddAttribute} alias="master-data" />}
-      />
-      <Route
-        path="/master-data/entity-types"
-        element={<Private element={ManageEntityTypes} alias="master-data" />}
-      />
-      <Route
-        path="/master-data/entity-types/add"
-        element={<Private element={AddEntity} alias="master-data" />}
-      />
-      <Route
-        path="/master-data/entity-types/:id/edit"
-        element={<Private element={AddEntity} alias="master-data" />}
-      />
-      <Route
-        path="/master-data/entities"
-        element={<Private element={EntityData} alias="master-data" />}
-      />
-      <Route
-        path="/master-data/entities/add"
-        element={<Private element={AddEntityData} alias="master-data" />}
-      />
-      <Route
-        path="/master-data/entities/:id/edit"
-        element={<Private element={AddEntityData} alias="master-data" />}
       />
       <Route path="/news-events" element={<NewsEvents />} />
       <Route path="/how-we-work" element={<HowWeWork />} />
