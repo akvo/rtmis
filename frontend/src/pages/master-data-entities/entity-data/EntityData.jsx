@@ -14,9 +14,10 @@ const EntityData = () => {
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-
-  const { language } = store.useState((s) => s);
+  const [search, setSearch] = useState("");
+  const { language, administration } = store.useState((s) => s);
   const { active: activeLang } = language;
+  const administrationFilter = administration.slice(-1)?.[0].id;
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -86,18 +87,23 @@ const EntityData = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      const { data: apiData } = await api.get(
-        `/entity-data?page=${currentPage}`
-      );
-      const { total, current, data: _dataset } = apiData;
-      setDataset(_dataset);
+      let url = `/entity-data?page=${currentPage}`;
+      if (administrationFilter && administrationFilter !== 1) {
+        url = url + `&administration=${administrationFilter}`;
+      }
+      if (search) {
+        url = url + `&search=${search}`;
+      }
+      const { data: apiData } = await api.get(url);
+      const { total, current, data } = apiData;
+      setDataset(data);
       setTotalCount(total);
       setCurrentPage(current);
       setLoading(false);
     } catch {
       setLoading(false);
     }
-  }, [currentPage]);
+  }, [currentPage, administrationFilter, search]);
 
   useEffect(() => {
     fetchData();
@@ -118,7 +124,7 @@ const EntityData = () => {
       </div>
       <div className="table-section">
         <div className="table-wrapper">
-          <EntityDataFilters />
+          <EntityDataFilters loading={loading} onSearchChange={setSearch} />
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}
