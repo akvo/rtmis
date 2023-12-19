@@ -146,7 +146,7 @@ const AddAdministration = () => {
         s.masterData.administration = {};
       });
       setSubmitting(false);
-      navigate("/master-data");
+      navigate("/control-center/master-data");
     } catch {
       setSubmitting(false);
     }
