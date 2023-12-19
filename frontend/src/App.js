@@ -4,7 +4,7 @@ import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import {
   Home,
   Login,
-  ControlCenter,
+  ControlCenterLayout,
   Users,
   AddUser,
   Forms,
@@ -40,6 +40,7 @@ import {
   AddEntity,
   EntityData,
   AddEntityData,
+  ControlCenter,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -48,7 +49,6 @@ import { Layout, PageLoader } from "./components";
 import { useNotification } from "./util/hooks";
 import { eraseCookieFromAllPaths } from "./util/date";
 import { reloadData } from "./util/form";
-import ControlCenterDefault from "./pages/control-center/ControlCenterDefault";
 
 const Private = ({ element: Element, alias }) => {
   const { user: authUser } = store.useState((state) => state);
@@ -89,7 +89,9 @@ const RouteList = () => {
       />
       <Route
         path="/control-center"
-        element={<Private element={ControlCenter} alias="control-center" />}
+        element={
+          <Private element={ControlCenterLayout} alias="control-center" />
+        }
       >
         <Route
           path="user/add"
@@ -97,9 +99,7 @@ const RouteList = () => {
         />
         <Route
           index
-          element={
-            <Private element={ControlCenterDefault} alias="control-center" />
-          }
+          element={<Private element={ControlCenter} alias="control-center" />}
         />
         <Route
           path="users"
