@@ -487,7 +487,7 @@ const PanelSubmissions = () => {
             <DataTable pane="approved-batch" />
           </TabPane>
         </Tabs>
-        <Link to="/data/submissions">
+        <Link to="/control-center/data/submissions">
           <Button className="view-all" type="primary">
             View All
           </Button>
