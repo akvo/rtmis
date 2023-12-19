@@ -75,6 +75,21 @@ class EntityTestCase(TestCase, ProfileTestHelperMixin):
         self.assertEqual(response.status_code, 204)
         self.assertFalse(Entity.objects.filter(id=entity.id).exists())
 
+    def test_search(self):
+        for e in ['Rumah Sakit', 'Sekolah']:
+            Entity.objects.create(name=e)
+        response = cast(Response, self.client.get(
+            "/api/v1/entities?search=sak",
+            content_type="application/json",
+            HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(len(body.get('data')), 1)
+        self.assertEqual(body.get('total'), 1)
+        self.assertEqual(body.get('current'), 1)
+        self.assertEqual(body.get('total_page'), 1)
+        self.assertEqual(body.get('data')[0]['name'], 'Rumah Sakit')
+
 
 @override_settings(USE_TZ=False)
 class EntityDataTestCase(TestCase, ProfileTestHelperMixin):
