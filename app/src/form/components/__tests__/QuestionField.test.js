@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, renderHook, waitFor } from '@testing-library/react-native';
+import { fireEvent, render, renderHook, waitFor } from '@testing-library/react-native';
 import * as Formik from 'formik';
 import { View } from 'react-native';
 import QuestionField from '../QuestionField';
@@ -552,6 +552,77 @@ describe('QuestionField component', () => {
       });
       expect(Formik.useField).toHaveBeenCalled();
       expect(errorValidationEl).toBeNull();
+    });
+  });
+
+  test('questions should be displayed but not part of the payload when displayOnly is true', async () => {
+    const setFieldValue = jest.fn();
+    const fakeValidate = jest.fn();
+    const keyform = 1;
+    const field = {
+      id: 7,
+      name: 'Total Payment',
+      order: 7,
+      type: 'autofield',
+      required: false,
+      meta: false,
+      translations: [
+        {
+          name: 'Total pembayaran',
+          language: 'id',
+        },
+      ],
+      displayOnly: true,
+      fn: {
+        fnString: '() => #5 * #6',
+      },
+    };
+
+    const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
+    const values = result.current;
+
+    const { queryByTestId, queryByText, rerender } = render(
+      <QuestionField
+        keyform={keyform}
+        field={field}
+        setFieldValue={setFieldValue}
+        values={values}
+        validate={fakeValidate}
+      />,
+    );
+
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = {
+          5: 10000,
+          6: 3,
+        };
+      });
+    });
+
+    rerender(
+      <QuestionField
+        keyform={keyform}
+        field={field}
+        setFieldValue={setFieldValue}
+        values={result.current}
+        validate={fakeValidate}
+      />,
+    );
+
+    const questionText = queryByText('Total Payment', { exact: false });
+    const inputElement = queryByTestId('type-autofield');
+    expect(questionText).not.toBeNull();
+    expect(inputElement).not.toBeNull();
+    expect(inputElement.props.value).toBe('30000');
+
+    act(() => {
+      fireEvent(inputElement, 'onChange');
+    });
+
+    await waitFor(() => {
+      const payload = result.current;
+      expect(payload).toEqual({ 5: 10000, 6: 3 });
     });
   });
 });

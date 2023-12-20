@@ -41,6 +41,9 @@ const QuestionField = ({ keyform, field: questionField, setFieldValue, values, v
   }, [meta.error, field.name, values]);
 
   const handleOnChangeField = (id, value) => {
+    if (questionField?.displayOnly) {
+      return;
+    }
     helpers.setTouched({ [field.name]: true });
     setFieldValue(id, value);
     FormState.update((s) => {
