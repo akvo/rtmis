@@ -1,6 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
 import {
-  Card,
   Table,
   Input,
   Tabs,
@@ -468,7 +467,7 @@ const PanelSubmissions = () => {
 
   return (
     <>
-      <Card id="panel-submission">
+      <div id="panel-submission">
         <h1 className="submission">Submissions</h1>
         <DataFilters />
         <Tabs
@@ -492,7 +491,7 @@ const PanelSubmissions = () => {
             View All
           </Button>
         </Link>
-      </Card>
+      </div>
       <Modal
         visible={modalVisible}
         onCancel={() => {

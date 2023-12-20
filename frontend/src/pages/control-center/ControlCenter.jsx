@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Card, Button } from "antd";
+import { Row, Col, Button } from "antd";
 import { store, config, uiText } from "../../lib";
 import { Link } from "react-router-dom";
 import { PanelApprovals, PanelSubmissions } from "./components";
