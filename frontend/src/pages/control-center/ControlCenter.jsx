@@ -75,7 +75,7 @@ const ControlCenter = () => {
           <Breadcrumbs
             pagePath={[
               {
-                title: "Control Center",
+                title: text.controlCenter,
                 link: "/control-center",
               },
             ]}

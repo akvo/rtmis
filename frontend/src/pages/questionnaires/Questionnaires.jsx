@@ -10,30 +10,37 @@ import {
   Empty,
   Space,
 } from "antd";
-import { api, store } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import { Breadcrumbs } from "../../components";
 import { reloadData } from "../../util/form";
 import { useNotification } from "../../util/hooks";
-
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Approvals",
-    link: "/control-center/approvals",
-  },
-  {
-    title: "Manage Questionnaires Approvals",
-  },
-];
 
 const Questionnaires = () => {
   const { forms, user } = store.useState((s) => s);
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(false);
   const { notify } = useNotification();
+
+  const { language } = store.useState((s) => s);
+
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: text.controlCenter,
+      link: "/control-center",
+    },
+    {
+      title: text.approvalsTitle,
+      link: "/control-center/approvals",
+    },
+    {
+      title: text.manageQnApproval,
+    },
+  ];
 
   useEffect(() => {
     if (forms.length) {
@@ -136,7 +143,7 @@ const Questionnaires = () => {
                   setDataset(cloned);
                 }}
               >
-                Reset
+                {text.resetText}
               </Button>
               <Button
                 type="primary"
@@ -145,7 +152,7 @@ const Questionnaires = () => {
                 loading={loading}
                 shape="round"
               >
-                Save
+                {text.saveButton}
               </Button>
             </Space>
           </Col>

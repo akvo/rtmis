@@ -218,15 +218,7 @@ const UploadData = () => {
                 status="success"
                 title={text?.formSuccessTitle}
                 extra={[
-                  <p key="phar">
-                    Thank you for uploading the data file. Do note that the data
-                    will be validated by the system . You will be notified via
-                    email if the data fails the validation tests . There will
-                    also be an attachment of the validation errors that needs to
-                    be corrected. If there are no validation errors , then the
-                    data will be forwarded for verification, approval, and
-                    certification
-                  </p>,
+                  <p key="phar">{text.uploadThankyouText}</p>,
                   <Divider key="divider" />,
                   <Button
                     type="primary"
@@ -234,14 +226,14 @@ const UploadData = () => {
                     onClick={() => setShowSuccess(false)}
                     shape="round"
                   >
-                    Upload Another File
+                    {text.uploadAnotherFileLabel}
                   </Button>,
                   <Button
                     key="page"
                     onClick={() => navigate("/control-center")}
                     shape="round"
                   >
-                    Back to Control Center
+                    {text.backToCenterLabel}
                   </Button>,
                 ]}
               />
@@ -284,12 +276,12 @@ const UploadData = () => {
                     onClick={downloadTemplate}
                     shape="round"
                   >
-                    Download
+                    {text.download}
                   </Button>
                 </Space>
                 <Space align="center" size={32}>
                   <img src="/assets/data-upload.svg" />
-                  <p>Upload your data</p>
+                  <p>{text.uploadDataLabel}</p>
                   <Select
                     placeholder="Select Form..."
                     value={formId}
