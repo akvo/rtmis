@@ -60,6 +60,7 @@ const Forms = () => {
       .map((x) => x.question)
       .flatMap((x) => x);
     const answers = Object.keys(values)
+      .filter((v) => !isNaN(v))
       .map((v) => {
         const question = questions.find((q) => q.id === parseInt(v));
         let val = values[v];
