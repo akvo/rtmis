@@ -36,14 +36,14 @@ const Forms = () => {
 
   const pagePath = [
     {
-      title: "Control Center",
+      title: text.controlCenter,
       link: "/control-center",
     },
     {
       title:
         authUser?.role?.value === "Data Entry Staff"
           ? authUser.name
-          : "Manage Data",
+          : text.manageDataTitle,
       link:
         authUser?.role?.value === "Data Entry Staff"
           ? "/profile"
@@ -227,21 +227,21 @@ const Forms = () => {
                   key="back-button"
                   onClick={() => setShowSuccess(false)}
                 >
-                  Add New Submission
+                  {text.newSubmissionBtn}
                 </Button>,
                 !redirectToBatch ? (
                   <Button
                     key="manage-button"
                     onClick={() => navigate("/control-center/data/manage")}
                   >
-                    Finish and Go to Manage Data
+                    {text.finishSubmissionBtn}
                   </Button>
                 ) : (
                   <Button
                     key="batch-button"
                     onClick={() => navigate("/control-center/data/submissions")}
                   >
-                    Finish and Go to Batch
+                    {text.finishSubmissionBatchBtn}
                   </Button>
                 ),
               ]}

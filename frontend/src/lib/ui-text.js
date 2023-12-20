@@ -33,6 +33,14 @@ const uiText = {
     contactText: "Contact Us",
     contactDesText: "Get in touch with us for support or feedback.",
     feedbackBtn: "Send Feedback",
+    // Login
+    loginLoadingTex: (
+      <Fragment>
+        Verifying
+        <br />
+        <small>Please wait..</small>
+      </Fragment>
+    ),
     // Error messages
     error: "Error",
     errorPageNA: "Oops, this page is not available",
@@ -122,6 +130,15 @@ const uiText = {
     reports: "Reports",
     newsEvents: "News & Events",
     login: "Log in",
+    // Reports
+    noTemplate: "No templates found",
+    chooseTemplate: "Choose a template",
+    backBtn: "Back",
+    printBtn: "Print",
+    //Events
+    upcomingEventText: "Upcoming Events",
+    eventTitle: "News & Events",
+    latestUpdateText: "Latest Updates",
     // Placeholder text
     lorem:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, assumenda quos? Quia deleniti sapiente aut! Ab consequatur cumque fugit ea. Dolore ex rerum quisquam inventore eum dicta doloribus harum cum.",
@@ -132,6 +149,7 @@ const uiText = {
     manageDataValidationSetup: "Manage Data Validation Setup",
     manageUsers: "Manage Users",
     addUser: "Add User",
+    addNewUser: "Add new user",
     editUser: "Edit User",
     updateUser: "Update User",
     // Organisation Management
@@ -152,6 +170,11 @@ const uiText = {
     // Control Center
     manageDataTitle: "Manage Data",
     manageDataButton: "Manage Data",
+    newSubmissionBtn: "Add New Submission",
+    finishSubmissionBtn: "Finish and Go to Manage Data",
+    finishSubmissionBatchBtn: "Finish and Go to Batch",
+    noFormText: "No data",
+    noFormSelectedText: "No form selected",
     manageDataText: (
       <Fragment>
         This is where you :
@@ -242,7 +265,10 @@ const uiText = {
     codeLabel: "Code",
     nameLabel: "Name",
     levelLabel: "Level",
+    roleLabel: "Role",
     profileLabel: "Profile",
+    profileDes:
+      "This page shows your current user setup. It also shows the most important activities for your current user setup",
     ccDescriptionPanel:
       "Instant access to all the administration pages and overview panels for data approvals.",
     // Settings
@@ -265,9 +291,22 @@ const uiText = {
     approvalsTab1: "My Pending",
     approvalsTab2: "Subordinates Approvals",
     approvalsTab3: "Approved",
+    approvalsTitle: "Approvals",
     manageQnApproval: "Manage Questionnaire Approval",
     // Approvers Tree
     notAssigned: "Not assigned",
+    questionnaireText: "Questionnaire",
+    approversDescription: (
+      <Fragment>
+        This is where you manage data validation for each Questionnaire. You
+        can:
+        <ul>
+          <li>Add data validator</li>
+          <li>Modify data validator</li>
+          <li>Delete data validator</li>
+        </ul>
+      </Fragment>
+    ),
     // Misc
     informUser: "Inform User for Changes",
     // Data Uploads
@@ -291,6 +330,29 @@ const uiText = {
     generating: "Generating",
     failed: "Failed",
     download: "Download",
+    uploadDataLabel: "Upload your data",
+    uploadAnotherFileLabel: "Upload Another File",
+    backToCenterLabel: "Back to Control Center",
+    uploadThankyouText: (
+      <Fragment>
+        Thank you for uploading the data file. Do note that the data will be
+        validated by the system . You will be notified via email if the data
+        fails the validation tests . There will also be an attachment of the
+        validation errors that needs to be corrected. If there are no validation
+        errors , then the data will be forwarded for verification, approval, and
+        certification
+      </Fragment>
+    ),
+    exportPanelText: (
+      <Fragment>
+        <p>
+          This page shows your list of data export requests.
+          <br />
+          For exports which are already generated, please click on the Download
+          button to download the data.
+        </p>
+      </Fragment>
+    ),
     // Webform
     formDescription: (
       <p>
@@ -309,6 +371,7 @@ const uiText = {
     fetchingForm: "Fetching form..",
     // Forgot Password
     forgotTitle: "Reset your password",
+    resetText: "Reset",
     forgotDesc:
       "Enter the email associated with your account and we&apos;ll Send an email with instructions to reset your password",
     instructionsMailed: "Instructions mailed successfully",
@@ -564,9 +627,14 @@ const uiText = {
     userNationalApprover: "National Approver",
     loadingText: "Loading...",
     questionnairesLabel: "Questionnaires",
+    lastLoginLabel: "Last login",
     submissionsText: "Submissions",
     notifyError: "An error occured",
     successDataUpdated: "Data updated",
+    loadMoreLable: "Load More",
+    endOfListLabel: "End of List",
+    addMewOrg: "Add new organization",
+    searchPlaceholder: "Search...",
   },
 
   de: {},
