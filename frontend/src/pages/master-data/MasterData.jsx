@@ -102,7 +102,6 @@ const MasterData = () => {
       }
       const { data: apiData } = await api.get(url);
       const { total, current, data } = apiData;
-      // const _dataset = data.filter((d) => d?.level?.id !== 1);
       setDataset(data);
       setTotalCount(total);
       setCurrentPage(current);
