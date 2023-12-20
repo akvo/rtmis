@@ -488,7 +488,7 @@ const PanelSubmissions = () => {
           </TabPane>
         </Tabs>
         <Link to="/control-center/data/submissions">
-          <Button className="view-all" type="primary">
+          <Button className="view-all" type="primary" shape="round">
             View All
           </Button>
         </Link>

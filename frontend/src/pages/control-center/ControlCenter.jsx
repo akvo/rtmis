@@ -95,6 +95,13 @@ const ControlCenter = () => {
                 {authUser.organisation?.name &&
                   `- ${authUser.organisation?.name}`}
               </p>
+              <p>
+                Last Login:{" "}
+                {new Date(authUser?.last_login * 1000)
+                  .toISOString()
+                  .replace("T", " ")
+                  .slice(0, 19)}
+              </p>
             </div>
           </div>
         </div>
@@ -117,7 +124,7 @@ const ControlCenter = () => {
                   span={isFullWidth ? 24 : 12}
                   key={index}
                 >
-                  <Card bordered={false} hoverable>
+                  <div bordered={false} hoverable>
                     <div className="row">
                       <div className="flex-1">
                         <h2>{panel?.title}</h2>
@@ -132,7 +139,7 @@ const ControlCenter = () => {
                         <img src={panel?.image} width={100} height={100} />
                       </div>
                     </div>
-                  </Card>
+                  </div>
                 </Col>
               );
             })}
