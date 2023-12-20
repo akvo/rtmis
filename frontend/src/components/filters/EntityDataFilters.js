@@ -4,11 +4,12 @@ import { Button, Col, Input, Row, Select, Space } from "antd";
 import RemoveFiltersButton from "./RemoveFiltersButton";
 import AdministrationDropdown from "./AdministrationDropdown";
 import { api, store, uiText } from "../../lib";
+import debounce from "lodash.debounce";
 
 const { Search } = Input;
 const { Option } = Select;
 
-const EntityDataFilters = ({ loading }) => {
+const EntityDataFilters = ({ loading, onSearchChange = () => {} }) => {
   const [preload, setPreload] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -21,6 +22,8 @@ const EntityDataFilters = ({ loading }) => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const handleChange = debounce(onSearchChange, 300);
 
   const fetchEntityTypes = useCallback(async () => {
     if (entityTypes.length && preload) {
@@ -59,15 +62,9 @@ const EntityDataFilters = ({ loading }) => {
         <Space>
           <Search
             placeholder={text.searchEntity}
-            // value={query}
-            // onChange={(e) => {
-            //   setQuery(e.target.value);
-            // }}
-            // onSearch={(e) => {
-            //   fetchData(e);
-            // }}
+            onChange={({ target }) => handleChange(target.value)}
+            onSearch={(value) => onSearchChange(value)}
             style={{ width: 240 }}
-            // loading={loading && !!query}
             allowClear
           />
           <Select placeholder={text.entityTypes} className="custom-select">
