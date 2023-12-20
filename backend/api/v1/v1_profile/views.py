@@ -128,10 +128,16 @@ class AdministrationAttributeViewSet(ModelViewSet):
 
 @extend_schema(tags=['Entities'])
 class EntityViewSet(ModelViewSet):
-    queryset = Entity.objects.order_by('id').all()
     serializer_class = EntitySerializer
     permission_classes = [IsAuthenticated]
     pagination_class = Pagination
+
+    def get_queryset(self):
+        queryset = Entity.objects.all()
+        search = self.request.query_params.get('search')
+        if search:
+            queryset = queryset.filter(name__icontains=search)
+        return queryset.order_by('id')
 
 
 @extend_schema(tags=['Entities'])
