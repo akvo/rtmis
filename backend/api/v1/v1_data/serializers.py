@@ -443,6 +443,7 @@ class ListPendingDataBatchSerializer(serializers.ModelSerializer):
         return {
             'id': instance.form.id,
             'name': instance.form.name,
+            'approval_instructions': instance.form.approval_instructions,
         }
 
     @extend_schema_field(CommonDataSerializer)
@@ -685,6 +686,7 @@ class ListBatchSerializer(serializers.ModelSerializer):
         return {
             'id': instance.form.id,
             'name': instance.form.name,
+            'approval_instructions': instance.form.approval_instructions,
         }
 
     @extend_schema_field(CommonDataSerializer)
