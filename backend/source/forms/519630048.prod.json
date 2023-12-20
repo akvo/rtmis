@@ -412,6 +412,17 @@
           "extra": {
             "allowOther": true
           }
+        },
+        {
+          "id": 519660053,
+          "question": "UUID",
+          "type": "autofield",
+          "required": false,
+          "meta": false,
+          "fn": {
+            "fnString": "function(){ return #517600060 && #608880002 ? #608880002.replace(' ','-') + '-' + #517600060.replace('-','').replace(',','.') : null}"
+          },
+          "hidden": false
         }
       ]
     },
