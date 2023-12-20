@@ -145,6 +145,9 @@ class PendingDataTestCase(TestCase):
             self.assertEqual(
                 response.json().get('batch')[0]['approver']['allow_approve'],
                 True)
+            self.assertIn(
+                'approval_instructions',
+                response.json().get('batch')[0]['form'])
             # subordinate = true
             response = self.client.get(
                 '/api/v1/form-pending-batch?page=1&subordinate=true',
