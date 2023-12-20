@@ -269,6 +269,7 @@ const AddAssignment = () => {
                   loading={loading}
                   fieldNames={{ value: "id", label: "name" }}
                   options={userForms}
+                  className="custom-select"
                 />
               </Form.Item>
             </div>

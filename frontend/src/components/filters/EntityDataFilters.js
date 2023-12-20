@@ -67,7 +67,7 @@ const EntityDataFilters = ({ loading, onSearchChange = () => {} }) => {
             style={{ width: 240 }}
             allowClear
           />
-          <Select placeholder={text.entityTypes}>
+          <Select placeholder={text.entityTypes} className="custom-select">
             {entityTypes.map((type, tx) => {
               return (
                 <Option key={tx} value={type.id}>

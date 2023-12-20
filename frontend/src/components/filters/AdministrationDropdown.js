@@ -56,7 +56,7 @@ const AdministrationDropdown = ({
 
   if (administration && !hidden) {
     return (
-      <Space {...props}>
+      <Space {...props} style={{ width: "100%" }}>
         {administration
           .filter((x) => x.children.length)
           .map((region, regionIdx) => {
