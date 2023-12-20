@@ -83,6 +83,21 @@ const ControlCenter = () => {
           <ControlCenterTour />
         </Row>
         <DescriptionPanel description={text.ccDescriptionPanel} />
+
+        <div className="profile-container">
+          <h2>RTMIS Control Center</h2>
+          <div className="profle-wrapper">
+            <img src="/assets/profile.png" />
+            <div>
+              <h2>Hello {authUser?.name || ""},</h2>
+              <p>
+                {authUser?.role?.value} | {authUser.designation?.name}
+                {authUser.organisation?.name &&
+                  `- ${authUser.organisation?.name}`}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="table-section">
         <div className="table-wrapper">
