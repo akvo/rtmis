@@ -35,7 +35,7 @@ const getFnMetadata = (fnString) => {
 
 // convert fn string to array
 const fnToArray = (fnString) => {
-  const regex = /\#\d+|[(),?;&.'":()+\-*/.]|&&|<=|<|>|>=|!=|==|[||]{2}|=>|\w+| /g;
+  const regex = /\#\d+|[(),?;&.'":()+\-*/.]|<=|<|>|>=|!=|==|[||]{2}|=>|\w+| /g;
   return fnString.match(regex);
 };
 
@@ -113,7 +113,7 @@ const generateFnBody = (fnMetadata, values) => {
       }
       return x;
     })
-    .join(' ');
+    .join('');
 };
 
 const strToFunction = (fnString, values) => {
