@@ -15,6 +15,7 @@ const EntityData = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [entityType, setEntityType] = useState();
   const { language, administration } = store.useState((s) => s);
   const { active: activeLang } = language;
   const administrationFilter = administration.slice(-1)?.[0].id;
@@ -91,6 +92,9 @@ const EntityData = () => {
       if (administrationFilter && administrationFilter !== 1) {
         url = url + `&administration=${administrationFilter}`;
       }
+      if (entityType) {
+        url = url + `&entity=${entityType}`;
+      }
       if (search) {
         url = url + `&search=${search}`;
       }
@@ -103,7 +107,7 @@ const EntityData = () => {
     } catch {
       setLoading(false);
     }
-  }, [currentPage, administrationFilter, search]);
+  }, [currentPage, administrationFilter, entityType, search]);
 
   useEffect(() => {
     fetchData();
@@ -124,7 +128,11 @@ const EntityData = () => {
       </div>
       <div className="table-section">
         <div className="table-wrapper">
-          <EntityDataFilters loading={loading} onSearchChange={setSearch} />
+          <EntityDataFilters
+            loading={loading}
+            onSearchChange={setSearch}
+            onEntityTypeChange={setEntityType}
+          />
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}
