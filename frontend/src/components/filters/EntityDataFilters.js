@@ -9,7 +9,11 @@ import debounce from "lodash.debounce";
 const { Search } = Input;
 const { Option } = Select;
 
-const EntityDataFilters = ({ loading, onSearchChange = () => {} }) => {
+const EntityDataFilters = ({
+  loading,
+  onSearchChange = () => {},
+  onEntityTypeChange = () => {},
+}) => {
   const [preload, setPreload] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -67,7 +71,12 @@ const EntityDataFilters = ({ loading, onSearchChange = () => {} }) => {
             style={{ width: 240 }}
             allowClear
           />
-          <Select placeholder={text.entityTypes} className="custom-select">
+          <Select
+            placeholder={text.entityTypes}
+            className="custom-select"
+            onChange={(value) => onEntityTypeChange(value)}
+            allowClear
+          >
             {entityTypes.map((type, tx) => {
               return (
                 <Option key={tx} value={type.id}>
