@@ -170,7 +170,7 @@ describe('TypeAutofield component', () => {
     const name = 'Auto Field';
     const fn = {
       fnString:
-        "function(){ return #517600060 && #608880002 ? #608880002.replace(' ','-').replace(',','-') + '-' + #517600060.replace('-','') : null}",
+        "function(){ return #517600060 && #608880002 ? #608880002.replace(' ','-').replace(',','-') + '-' + #517600060.replace('-','').replace(',','.').split('.').reduce((x, y) => parseInt(x) + parseInt(y), 0).toString(32).substring(3,7) : null}",
     };
 
     const { getByTestId } = render(
@@ -179,6 +179,6 @@ describe('TypeAutofield component', () => {
 
     const autoField = getByTestId('type-autofield');
     expect(autoField).toBeDefined();
-    expect(autoField.props.value).toBe('Village-name-9.123673412317656,40.50754409565747');
+    expect(autoField.props.value).toBe('Village-name-gi5p');
   });
 });
