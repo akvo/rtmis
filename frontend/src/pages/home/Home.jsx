@@ -85,17 +85,11 @@ const Home = () => {
       <div className="home-odd about">
         <Row>
           <Col span={10}>
-            <h1>About RUSH</h1>
+            <h1>{text.aboutRush}</h1>
           </Col>
           <Col span={14}>
-            <p>
-              The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform is a
-              real-time monitoring and information system owned by the Ministry
-              of Health. The platform aggregates quantitative and qualitative
-              data from county and national levels and facilitates data
-              analysis, report generation and visualizations.
-            </p>
-            <Button type="link">Learn more</Button>
+            <p>{text.aboutText}</p>
+            <Button type="link">{text.learnMoreButton}</Button>
             {/* <h1>Partners</h1>
             <Row align="middle" justify="center" style={{ marginTop: "24px" }}>
               <Space size={50} align="center">
@@ -119,20 +113,13 @@ const Home = () => {
             <Col lg={10}>
               <div className="report-wrapper">
                 <div className="description">
-                  <h1>Real Time Management Information System</h1>
-                  <p>
-                    The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform
-                    is a real-time monitoring and information system owned by
-                    the Ministry of Health. The platform aggregates quantitative
-                    and qualitative data from county and national levels and
-                    facilitates data analysis, report generation and
-                    visualizations.
-                  </p>
+                  <h2>{text.realTime}</h2>
+                  <p>{text.aboutText}</p>
                 </div>
                 <ul>
                   <li>
                     <FiCheckCircle />
-                    <span>Report generation and visualizations.</span>
+                    <span>{text.reportText}</span>
                   </li>
                 </ul>
                 <Button type="primary" shape="round">
@@ -174,10 +161,10 @@ const Home = () => {
         </div>
       </div>
       <div className="home-odd contact">
-        <h1>Contact Us</h1>
+        <h2>{text.contactText}</h2>
         <Row align="middle" justify="center">
           <Space direction="vertical" align="center">
-            <h3>Get in touch with us for support or feedback.</h3>
+            <h3>{text.contactDesText}</h3>
             <Button
               shape="round"
               type="primary"
@@ -187,7 +174,7 @@ const Home = () => {
                 });
               }}
             >
-              Send Feedback
+              {text.feedbackBtn}
             </Button>
           </Space>
         </Row>
