@@ -91,4 +91,28 @@ describe('FieldLabel component', () => {
     expect(requiredIcon).toBeTruthy();
     expect(requiredIcon.props.children).toEqual('**');
   });
+
+  it('should remove HTML tags in the tooltip text', () => {
+    const tooltip = {
+      text: '<b>First name and last name</b>',
+    };
+    const questionText = 'First Name';
+    const { getByTestId, queryByTestId, rerender } = render(
+      <FieldLabel name={questionText} tooltip={tooltip} />,
+    );
+
+    const labelElement = getByTestId('field-label');
+    expect(labelElement.props.children).toBe(`1. ${questionText}`);
+
+    const tooltipIcon = getByTestId('field-tooltip-icon');
+    expect(tooltipIcon).toBeDefined();
+    act(() => {
+      fireEvent.press(tooltipIcon);
+    });
+    rerender(<FieldLabel name={questionText} tooltip={tooltip} />);
+
+    const tooltipText = queryByTestId('field-tooltip-text');
+    expect(tooltipText).toBeDefined();
+    expect(tooltipText.props.children).toBe('First name and last name');
+  });
 });
