@@ -6,9 +6,6 @@ import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { ProfileTour } from "./components";
 import moment from "moment";
 
-const descriptionData =
-  "This page shows your current user setup. It also shows the most important activities for your current user setup";
-
 const Profile = () => {
   const { forms, user: authUser } = store.useState((s) => s);
   const { trained } = authUser;
@@ -19,6 +16,8 @@ const Profile = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const descriptionData = text.profileDes;
 
   const trainedBadge = useMemo(() => {
     if (trained) {
@@ -63,10 +62,10 @@ const Profile = () => {
       />
       <Divider />
       <Card style={{ padding: 0, marginBottom: 12 }}>
-        <h1>My Profile</h1>
+        <h1>{text.myProfile}</h1>
         <ul className="profile-detail">
           <li>
-            <h3>Name</h3>
+            <h3>{text.nameLabel}</h3>
             <Space size="large" align="center">
               <span>{authUser?.name}</span>
               <span style={{ fontStyle: "italic" }}>
@@ -75,35 +74,35 @@ const Profile = () => {
             </Space>
           </li>
           <li>
-            <h3>Phone Number</h3>
+            <h3>{text.userPhoneNumber}</h3>
             <Space size="large" align="center">
               <span>{authUser?.phone_number}</span>
             </Space>
           </li>
           <li>
-            <h3>Role</h3>
+            <h3>{text.roleLabel}</h3>
             <Space size="large" align="center">
               <span>{authUser?.role?.value}</span>
             </Space>
           </li>
           <li>
-            <h3>Organization</h3>
+            <h3>{text.userOrganisation}</h3>
             <Space size="large" align="center">
               <span>{authUser?.organisation?.name}</span>
             </Space>
           </li>
           <li>
-            <h3>Designation</h3>
+            <h3>{text.userDesignation}</h3>
             <Space size="large" align="center">
               <span>{authUser?.designation?.name}</span>
             </Space>
           </li>
           <li>
-            <h3>Administration</h3>
+            <h3>{text.administrationLabel}</h3>
             <p>{fullAdministrationName || authUser?.administration?.name}</p>
           </li>
           <li>
-            <h3>Questionnaires</h3>
+            <h3>{text.questionnairesLabel}</h3>
             <Space size="large" align="center">
               {forms.map((qi, qiI) => (
                 <span key={qiI}>{qi.name}</span>
@@ -111,7 +110,7 @@ const Profile = () => {
             </Space>
           </li>
           <li>
-            <h3>Last login</h3>
+            <h3>{text.lastLoginLabel}</h3>
             <Space size="large" align="center">
               <span>
                 {authUser?.last_login
