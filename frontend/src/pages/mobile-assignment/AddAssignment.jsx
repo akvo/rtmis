@@ -25,22 +25,22 @@ const AddAssignment = () => {
     administration: selectedAdm,
   } = store.useState((s) => s);
   const editAssignment = store.useState((s) => s.mobileAssignment);
-  const userAdmLevel = authUser?.administration?.level;
+  const userAdmLevel =
+    levels.find((l) => l?.level === authUser.administration.level)?.id || null;
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
   const [preload, setPreload] = useState(true);
   const [level, setLevel] = useState(userAdmLevel);
 
+  const isSuperAdmin = authUser.role.id === IS_SUPER_ADMIN;
+
   const admLevels = levels
-    .slice(1, levels.length)
-    .filter((l) => l?.level >= userAdmLevel)
+    .slice()
+    .filter((l) => l?.id > userAdmLevel)
     .sort((a, b) => a?.level - b?.level);
-  const admChildren = selectedAdm
-    ?.slice()
-    ?.sort((a, b) => a.level - b.level)
-    ?.slice(-1)
-    ?.flatMap((sa) => sa?.children);
-  const admIsRequired = admChildren.length ? true : false;
+  const admIsRequired =
+    (!isSuperAdmin && selectedAdm?.[0]?.children?.length) ||
+    admLevels.map((a) => a.id).includes(level);
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -208,7 +208,7 @@ const AddAssignment = () => {
                 </Form.Item>
               </Col>
             </Row>
-            {authUser?.role?.id === IS_SUPER_ADMIN && (
+            {isSuperAdmin && (
               <div className="form-row">
                 <Form.Item
                   name="level_id"
@@ -231,8 +231,7 @@ const AddAssignment = () => {
                 </Form.Item>
               </div>
             )}
-            {((admIsRequired && authUser?.role?.id !== IS_SUPER_ADMIN) ||
-              (level > 0 && authUser?.role?.id === IS_SUPER_ADMIN)) && (
+            {admIsRequired && (
               <div className="form-row">
                 <Form.Item
                   name="administrations"
@@ -243,7 +242,7 @@ const AddAssignment = () => {
                     size="large"
                     width="100%"
                     direction="vertical"
-                    maxLevel={level}
+                    maxLevel={isSuperAdmin ? level : null}
                     onChange={(values) => {
                       if (values) {
                         form.setFieldsValue({ administrations: values });

@@ -19,6 +19,7 @@ const AdministrationDropdown = ({
 }) => {
   const { pathname } = useLocation();
   const { user, administration, isLoggedIn } = store.useState((state) => state);
+  const [accessLevel] = user.role_detail.administration_level || [];
 
   const public_state = config.allowedGlobal
     .map((x) => pathname.includes(x))
@@ -61,10 +62,9 @@ const AdministrationDropdown = ({
           .filter((x) => x.children.length)
           .map((region, regionIdx) => {
             if (maxLevel === null || regionIdx + 1 < maxLevel) {
-              const isNotAdmin = user?.role?.id !== 1;
               const isLastItem =
-                (user?.administration?.level === region?.level && isNotAdmin) ||
-                maxLevel - 1 === regionIdx + 1;
+                (region.level === accessLevel && !maxLevel) ||
+                (maxLevel && maxLevel - 1 === regionIdx + 1);
               const selectMode =
                 allowMultiple && isLastItem ? "multiple" : null;
               const selectValues =
