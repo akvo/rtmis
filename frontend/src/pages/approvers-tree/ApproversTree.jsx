@@ -24,7 +24,7 @@ const ApproversTree = () => {
 
   const pagePath = [
     {
-      title: "Control Center",
+      title: text.controlCenter,
       link: "/control-center",
     },
     {
@@ -308,17 +308,7 @@ const ApproversTree = () => {
           <Col>
             <Breadcrumbs pagePath={pagePath} />
             <DescriptionPanel
-              description={
-                <>
-                  This is where you manage data validation for each
-                  Questionnaire. You can:
-                  <ul>
-                    <li>Add data validator</li>
-                    <li>Modify data validator</li>
-                    <li>Delete data validator</li>
-                  </ul>
-                </>
-              }
+              description={text.approversDescription}
               title={text.manageDataValidationSetup}
             />
           </Col>
@@ -339,7 +329,7 @@ const ApproversTree = () => {
               justify="left"
             >
               <Col span={6} align="center">
-                Questionnaire
+                {text.questionnaireText}
               </Col>
               {selectedForm &&
                 dataset.map(

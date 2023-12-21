@@ -1,178 +1,153 @@
-import React from "react";
+import React, { useMemo } from "react";
 import "./style.scss";
-import { Layout, Menu } from "antd";
-const { Sider } = Layout;
-import { store, config } from "../../lib";
-import { useNavigate, Outlet } from "react-router-dom";
-import {
-  UserOutlined,
-  TableOutlined,
-  DatabaseOutlined,
-  DashboardOutlined,
-} from "@ant-design/icons";
+import { Row, Col, Button } from "antd";
+import { store, config, uiText } from "../../lib";
+import { Link } from "react-router-dom";
+import { PanelApprovals, PanelSubmissions } from "./components";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
+import { ControlCenterTour } from "./components";
 
 const ControlCenter = () => {
   const { user: authUser } = store.useState((s) => s);
-  const navigate = useNavigate();
+  const { language } = store.useState((s) => s);
 
-  const { roles } = config;
+  const { active: activeLang } = language;
 
-  const pageAccessToLabelAndUrlMapping = {
-    user: { label: "Manage Platform Users", url: "/control-center/users" },
-    approvers: {
-      label: "Validation Tree",
-      url: "/control-center/approvers/tree",
-    },
-    mobile: {
-      label: "Manage Mobile Users",
-      url: "/control-center/mobile-assignment",
-    },
-    data: [
-      { label: "Manage Data", url: "/control-center/data/manage" },
-      { label: "Download Data", url: "/control-center/data/export" },
-    ],
-    "master-data": [
-      { label: "Administrative List", url: "/control-center/master-data" },
-      { label: "Attributes", url: "/control-center/master-data/attributes" },
-      { label: "Entities", url: "/control-center/master-data/entities" },
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
+
+  const { roles, checkAccess } = config;
+
+  const panels = useMemo(() => {
+    return [
       {
-        label: "Entity Types",
-        url: "/control-center/master-data/entity-types",
+        key: "approvals",
+        access: "approvals",
+        render: (
+          <Col key="approvals-panel" span={24}>
+            <PanelApprovals />
+          </Col>
+        ),
       },
       {
-        label: "Organisations",
-        url: "/control-center/master-data/organisations",
+        key: "submission",
+        access: "form",
+        render: (
+          <Col key="submission-panel" span={24}>
+            <PanelSubmissions />
+          </Col>
+        ),
       },
-    ],
-  };
+    ];
+  }, []);
 
-  const controlCenterToLabelMapping = {
-    "control-center": {
-      label: "Control Center",
-      icon: DashboardOutlined,
-    },
-    "manage-user": {
-      label: "Users",
-      icon: UserOutlined,
-      childrenKeys: ["user", "approvers", "mobile"],
-    },
-    "manage-data": {
-      label: "Data",
-      icon: TableOutlined,
-      childrenKeys: ["data"],
-    },
-    "manage-master-data": {
-      label: "Master Data",
-      icon: DatabaseOutlined,
-      childrenKeys: ["master-data"],
-    },
-  };
-
-  const determineChildren = (key) => {
-    const mapping = pageAccessToLabelAndUrlMapping[key];
-    if (Array.isArray(mapping)) {
-      return mapping.map((item, index) => ({
-        key: key + "_" + index,
-        ...item,
-      }));
-    }
-    return [{ key, ...mapping }];
-  };
-
-  const createMenuItems = (controlCenterOrder, pageAccess) => {
-    const menuItems = [];
-    const controlCenterItem = controlCenterToLabelMapping["control-center"];
-    if (controlCenterItem) {
-      menuItems.push({
-        key: "control-center",
-        icon: controlCenterItem.icon
-          ? React.createElement(controlCenterItem.icon)
-          : null,
-        label: controlCenterItem.label,
-        url: "/control-center",
-      });
+  const selectedPanels = useMemo(() => {
+    if (!authUser?.role_detail) {
+      return [];
     }
 
-    Object.keys(controlCenterToLabelMapping).forEach((orderKey) => {
-      if (orderKey === "control-center") {
-        return;
-      }
+    const panelOrder = roles.find(
+      (r) => r.id === authUser.role_detail.id
+    )?.control_center_order;
 
-      const item = controlCenterToLabelMapping[orderKey];
-      if (!item) {
-        return;
-      }
-
-      const { label, icon, childrenKeys } = item;
-
-      const shouldIncludeItem =
-        controlCenterOrder.includes(orderKey) ||
-        childrenKeys.some((childKey) => pageAccess.includes(childKey));
-
-      if (shouldIncludeItem) {
-        const children = childrenKeys
-          .filter((key) => pageAccess.includes(key.split(/(\d+)/)[0]))
-          .flatMap((key) => determineChildren(key, pageAccess));
-
-        menuItems.push({
-          key: orderKey,
-          icon: icon ? React.createElement(icon) : null,
-          label,
-          children: children.length ? children : null,
-        });
-      }
-    });
-
-    return menuItems;
-  };
-
-  const superAdminRole = roles.find((r) => r.id === authUser?.role_detail?.id);
-  const usersMenuItem = createMenuItems(
-    superAdminRole.control_center_order,
-    superAdminRole.page_access
-  );
-
-  const handleMenuClick = ({ key }) => {
-    const url = findUrlByKey(usersMenuItem, key);
-    navigate(url);
-  };
-
-  const findUrlByKey = (items, key) => {
-    for (const item of items) {
-      if (item.key === key) {
-        return item.url;
-      }
-      if (item.children) {
-        const url = findUrlByKey(item.children, key);
-        if (url) {
-          return url;
-        }
-      }
+    if (!panelOrder) {
+      return [];
     }
-  };
+
+    const filteredAndOrderedPanels = panelOrder
+      .map((orderKey) =>
+        panels.find(
+          (panel) =>
+            panel.key === orderKey &&
+            checkAccess(authUser.role_detail, panel.access)
+        )
+      )
+      .filter((panel) => panel);
+
+    return filteredAndOrderedPanels;
+  }, [panels, roles, checkAccess, authUser]);
 
   return (
-    <div id="control-center">
-      <Layout>
-        <Sider className="site-layout-background">
-          <Menu
-            mode="inline"
-            defaultSelectedKeys={["1"]}
-            defaultOpenKeys={["sub1"]}
-            style={{
-              height: "100%",
-              borderRight: 0,
-            }}
-            onClick={handleMenuClick}
-            items={usersMenuItem}
+    <>
+      <div className="description-container">
+        <Row justify="space-between">
+          <Breadcrumbs
+            pagePath={[
+              {
+                title: text.controlCenter,
+                link: "/control-center",
+              },
+            ]}
           />
-        </Sider>
-        <Layout className="site-layout">
-          <Outlet />
-        </Layout>
-      </Layout>
-    </div>
+          <ControlCenterTour />
+        </Row>
+        <DescriptionPanel description={text.ccDescriptionPanel} />
+
+        <div className="profile-container">
+          <h2>RTMIS Control Center</h2>
+          <div className="profle-wrapper">
+            <img src="/assets/profile.png" />
+            <div>
+              <h2>Hello {authUser?.name || ""},</h2>
+              <p>
+                {authUser?.role?.value} | {authUser.designation?.name}
+                {authUser.organisation?.name &&
+                  `- ${authUser.organisation?.name}`}
+              </p>
+              <p>
+                Last Login:{" "}
+                {new Date(authUser?.last_login * 1000)
+                  .toISOString()
+                  .replace("T", " ")
+                  .slice(0, 19)}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="table-section">
+        <div className="table-wrapper">
+          <Row gutter={[16, 16]}>
+            {selectedPanels.map((panel, index) => {
+              if (panel?.render) {
+                return panel.render;
+              }
+              const cardOnly = selectedPanels.filter((x) => !x?.render);
+              const isFullWidth =
+                cardOnly.length === 1 ||
+                (selectedPanels.length % 2 === 1 &&
+                  selectedPanels.length - 1 === index);
+              return (
+                <Col
+                  className="card-wrapper"
+                  span={isFullWidth ? 24 : 12}
+                  key={index}
+                >
+                  <div bordered={false} hoverable>
+                    <div className="row">
+                      <div className="flex-1">
+                        <h2>{panel?.title}</h2>
+                        <span>{panel?.description}</span>
+                        <Link to={panel?.link} className="explore">
+                          <Button type="primary" shape="round">
+                            {panel?.buttonLabel}
+                          </Button>
+                        </Link>
+                      </div>
+                      <div>
+                        <img src={panel?.image} width={100} height={100} />
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+              );
+            })}
+          </Row>
+        </div>
+      </div>
+    </>
   );
 };
 
-export default React.memo(ControlCenter);
+export default ControlCenter;
