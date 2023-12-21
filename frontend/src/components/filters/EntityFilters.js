@@ -2,10 +2,11 @@ import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Button, Col, Input, Row, Space } from "antd";
 import { store, uiText } from "../../lib";
+import debounce from "lodash.debounce";
 
 const { Search } = Input;
 
-const EntityFilters = () => {
+const EntityFilters = ({ onSearchChange = () => {} }) => {
   const authUser = store.useState((s) => s.user);
   const language = store.useState((s) => s.language);
   const { active: activeLang } = language;
@@ -13,21 +14,17 @@ const EntityFilters = () => {
     return uiText[activeLang];
   }, [activeLang]);
 
+  const handleChange = debounce(onSearchChange, 300);
+
   return (
     <Row>
       <Col flex={1}>
         <Space>
           <Search
             placeholder={text.searchEntityType}
-            // value={query}
-            // onChange={(e) => {
-            //   setQuery(e.target.value);
-            // }}
-            // onSearch={(e) => {
-            //   fetchData(e);
-            // }}
+            onChange={({ target }) => handleChange(target.value)}
+            onSearch={(value) => onSearchChange(value)}
             style={{ width: 240 }}
-            // loading={loading && !!query}
             allowClear
           />
         </Space>

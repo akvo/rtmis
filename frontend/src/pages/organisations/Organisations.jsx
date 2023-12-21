@@ -92,7 +92,7 @@ const Organisations = () => {
       render: (record, rowValue) => (
         <Space>
           <Link to={`/control-center/organisation/${record.id}`}>
-            <Button type="link">Edit</Button>
+            <Button type="link">{text.editButton}</Button>
           </Link>
           <Button
             shape="round"
@@ -103,7 +103,7 @@ const Organisations = () => {
               setDeleteOrganisation({ ...record, count: rowValue.users })
             }
           >
-            Delete
+            {text.deleteText}
           </Button>
         </Space>
       ),
@@ -198,7 +198,7 @@ const Organisations = () => {
             <Col flex={1}>
               <Space>
                 <Search
-                  placeholder="Search..."
+                  placeholder={text.searchPlaceholder}
                   onChange={(e) => {
                     setSearch(
                       e.target.value?.length >= 2 ? e.target.value : null
@@ -225,7 +225,7 @@ const Organisations = () => {
             <Col>
               <Link to="/control-center/organisation/add">
                 <Button type="primary" shape="round" icon={<PlusOutlined />}>
-                  Add new organization
+                  {text.addMewOrg}
                 </Button>
               </Link>
             </Col>
@@ -271,7 +271,7 @@ const Organisations = () => {
                   setDeleteOrganisation(null);
                 }}
               >
-                Cancel
+                {text.cancelButton}
               </Button>
               <Button
                 shape="round"
@@ -282,7 +282,7 @@ const Organisations = () => {
                   handleDelete();
                 }}
               >
-                Delete
+                {text.deleteText}
               </Button>
             </Col>
           </Row>
