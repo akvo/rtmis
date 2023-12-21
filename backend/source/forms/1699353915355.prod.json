@@ -3,7 +3,9 @@
     "form": "RTMIS Household Monitoring Form",
     "description": "HH Routine Monitoring",
     "version": 1,
-    "languages": "[\"en\"]",
+    "languages": [
+        "en"
+    ],
     "default_language": "en",
     "translations": null,
     "type": 1,
@@ -154,7 +156,7 @@
                     "extra": null,
                     "fn": {
                         "fnColor": {},
-                        "fnString": "function(){#1699354849382 && #1702914753957 ? #1699354849382.replace(\\\",\\\",\\\"-\\\") + \\\"-\\\" + #1702914753957.replace(\\\"-\\\",\\\"\\\").replace(\\\",\\\",\\\".\\\").split(\\\".\\\").reduce((x, y) => parseInt(x) + parseInt(y), 0).toString(32).substring(3,7) : null}",
+                        "fnString": "function(){#1699354849382 && #1702914753957 ? #1699354849382.replace(',','-') + '-' + #1702914753957.replace('-','').replace(',','.').split('.').reduce((x, y) => parseInt(x) + parseInt(y), 0).toString(32).substring(3,7) : null}",
                         "multiline": false
                     },
                     "form_id": 1699353915355,
