@@ -37,6 +37,23 @@
         }
       }
     }
+    .profile-container {
+      margin-top: 10px;
+      .profle-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        padding-top: 10px;
+        h2 {
+          margin-bottom: 0px;
+        }
+        p {
+          font-size: $font-size-regular;
+          color: $character-secondary-45;
+          margin-bottom: 0px;
+        }
+      }
+    }
 
     #panel-submission {
       &.ant-card {
