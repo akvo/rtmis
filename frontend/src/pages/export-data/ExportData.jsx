@@ -11,14 +11,6 @@ import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { api, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
 
-const descriptionData = (
-  <p>
-    This page shows your list of data export requests.
-    <br />
-    For exports which are already generated, please click on the Download button
-    to download the data.
-  </p>
-);
 const ExportData = () => {
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -180,10 +172,10 @@ const ExportData = () => {
   const loadMore = () => {
     return showLoadMore && dataset.length > 0 ? (
       <Button type="link" onClick={onLoadMore}>
-        Load More
+        {text.loadMoreLable}
       </Button>
     ) : !loading ? (
-      <span className="text-muted">End of List</span>
+      <span className="text-muted">{text.endOfListLabel}</span>
     ) : null;
   };
 
@@ -194,7 +186,7 @@ const ExportData = () => {
           <Col>
             <Breadcrumbs pagePath={pagePath} />
             <DescriptionPanel
-              description={descriptionData}
+              description={text.exportPanelText}
               title={text.dataDownloadTitle}
             />
           </Col>

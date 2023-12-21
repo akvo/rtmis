@@ -81,7 +81,7 @@ const MobileAssignment = () => {
       render: (_, record) => {
         return (
           <Button type="link" onClick={() => handleOnEdit(record)}>
-            Edit
+            {text.editButton}
           </Button>
         );
       },

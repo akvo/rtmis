@@ -68,7 +68,7 @@ const MasterData = () => {
               navigate(`/control-center/master-data/${recordID}/edit`)
             }
           >
-            Edit
+            {text.editButton}
           </Button>
         );
       },
