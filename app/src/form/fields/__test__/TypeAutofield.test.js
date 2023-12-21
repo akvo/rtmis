@@ -117,4 +117,46 @@ describe('TypeAutofield component', () => {
     expect(autoField).toBeDefined();
     expect(autoField.props.value).toBe(null);
   });
+
+  test('it supports the logical operator: AND', () => {
+    const onChangeMock = jest.fn();
+    const values = {
+      1: 'G1',
+      2: 'G0',
+    };
+    const id = 3;
+    const name = 'Auto Field';
+    const fn = {
+      fnString: 'function() { return #1.includes("G0") && #2.includes("G0") ? "G0" : "G1" }',
+    };
+
+    const { getByTestId } = render(
+      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+    );
+
+    const autoField = getByTestId('type-autofield');
+    expect(autoField).toBeDefined();
+    expect(autoField.props.value).toBe('G1');
+  });
+
+  test('it supports the logical operator: OR', () => {
+    const onChangeMock = jest.fn();
+    const values = {
+      1: 'G1',
+      2: 'G0',
+    };
+    const id = 3;
+    const name = 'Auto Field';
+    const fn = {
+      fnString: 'function() { return #1.includes("G0") || #2.includes("G0") ? "G0" : "G1" }',
+    };
+
+    const { getByTestId } = render(
+      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+    );
+
+    const autoField = getByTestId('type-autofield');
+    expect(autoField).toBeDefined();
+    expect(autoField.props.value).toBe('G0');
+  });
 });
