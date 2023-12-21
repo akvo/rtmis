@@ -6,7 +6,7 @@ import { styles } from '../styles';
 const FieldLabel = ({ keyform = 0, name, tooltip, requiredSign = null }) => {
   const [open, setOpen] = useState(false);
   const labelText = `${keyform + 1}. ${name}`;
-  const tooltipText = tooltip?.text;
+  const tooltipText = tooltip?.text?.replace(/(<([^>]+)>)/gi, '');
   return (
     <View style={styles.fieldLabelContainer}>
       {requiredSign && (
@@ -22,13 +22,19 @@ const FieldLabel = ({ keyform = 0, name, tooltip, requiredSign = null }) => {
             type="ionicon"
             size={18}
             testID="field-tooltip-icon"
-            onPress={() => setOpen(!open)}
+            onPress={() => setOpen(true)}
           />
         )}
         <Tooltip
           visible={open}
           onClose={() => {
             setOpen(false);
+          }}
+          containerStyle={{
+            width: '100%',
+            height: 'auto',
+            position: 'absolute',
+            left: 0,
           }}
           popover={<Text testID="field-tooltip-text">{tooltipText}</Text>}
           backgroundColor="#e5e5e5"
