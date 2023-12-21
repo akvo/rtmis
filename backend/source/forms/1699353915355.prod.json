@@ -834,7 +834,7 @@
                     "required": true,
                     "rule": null,
                     "tooltip": {
-                        "text": "<b>INTERVIEW<\/b>: is the household in any of the following at-risk household categories? Household may be in more than one category \n\n<b>At-risk household<\/b>: defined as a household at risk of not achieving or not sustaining the required sanitation and hygiene outcomes, or at risk from the public health hazards associated with unsafely managed sanitation and hygiene services\n<b>At-risk categories<\/b>: the county public health office should determine the at-risk categories to be flagged in this county. The following list includes a number of potential at-risk categories, but should be edited to match the priority at-risk categories identified by the county public health office"
+                        "text": "<b>INTERVIEW</b>: is the household in any of the following at-risk household categories? Household may be in more than one category \n\n<b>At-risk household</b>: defined as a household at risk of not achieving or not sustaining the required sanitation and hygiene outcomes, or at risk from the public health hazards associated with unsafely managed sanitation and hygiene services\n<b>At-risk categories</b>: the county public health office should determine the at-risk categories to be flagged in this county. The following list includes a number of potential at-risk categories, but should be edited to match the priority at-risk categories identified by the county public health office"
                     },
                     "translations": null,
                     "type": "option"
@@ -2951,7 +2951,7 @@
                         {
                             "id": 1699430708818,
                             "code": null,
-                            "name": "\"G0 Hands enter the water container (during collection and use) \"",
+                            "name": "G0 Hands enter the water container (during collection and use)",
                             "order": 1,
                             "color": null,
                             "translations": null,
