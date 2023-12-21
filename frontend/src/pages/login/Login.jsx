@@ -68,11 +68,7 @@ const Login = () => {
               {loading ? (
                 <div className="loading-container">
                   <Spin />
-                  <h2>
-                    Verifying
-                    <br />
-                    <small>Please wait..</small>
-                  </h2>
+                  <h2>{text.loginLoadingTex}</h2>
                 </div>
               ) : (
                 <>

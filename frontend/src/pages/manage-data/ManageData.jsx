@@ -183,7 +183,9 @@ const ManageData = () => {
             <ConfigProvider
               renderEmpty={() => (
                 <Empty
-                  description={selectedForm ? "No data" : "No form selected"}
+                  description={
+                    selectedForm ? text.noFormText : text.noFormSelectedText
+                  }
                 />
               )}
             >
@@ -245,7 +247,7 @@ const ManageData = () => {
                   setDeleteData(null);
                 }}
               >
-                Cancel
+                {text.cancelButton}
               </Button>
               <Button
                 type="primary"
@@ -253,7 +255,7 @@ const ManageData = () => {
                 loading={deleting}
                 onClick={handleDeleteData}
               >
-                Delete
+                {text.deleteText}
               </Button>
             </Col>
           </Row>
