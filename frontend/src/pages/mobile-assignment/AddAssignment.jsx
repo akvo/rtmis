@@ -10,8 +10,6 @@ import {
 import { useNotification } from "../../util/hooks";
 import "./style.scss";
 
-const IS_SUPER_ADMIN = config.roles.find((x) => x.name === "Super Admin").id;
-
 const AddAssignment = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -32,15 +30,27 @@ const AddAssignment = () => {
   const [preload, setPreload] = useState(true);
   const [level, setLevel] = useState(userAdmLevel);
 
-  const isSuperAdmin = authUser.role.id === IS_SUPER_ADMIN;
+  const lowestLevel = levels
+    .slice()
+    .sort((a, b) => a.level - b.level)
+    .slice(-1)?.[0];
 
   const admLevels = levels
     .slice()
     .filter((l) => l?.id > userAdmLevel)
     .sort((a, b) => a?.level - b?.level);
+  /**
+   * Administration is required when
+   * the level has been selected as valid `admLevels`
+   * AND
+   * the current selected administration have a children
+   */
   const admIsRequired =
-    (!isSuperAdmin && selectedAdm?.[0]?.children?.length) ||
-    admLevels.map((a) => a.id).includes(level);
+    admLevels.map((a) => a.id).includes(level) &&
+    selectedAdm?.[0]?.children?.length > 0;
+
+  const showLevel = userAdmLevel !== lowestLevel?.level;
+
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -208,7 +218,7 @@ const AddAssignment = () => {
                 </Form.Item>
               </Col>
             </Row>
-            {isSuperAdmin && (
+            {showLevel && (
               <div className="form-row">
                 <Form.Item
                   name="level_id"
@@ -242,7 +252,7 @@ const AddAssignment = () => {
                     size="large"
                     width="100%"
                     direction="vertical"
-                    maxLevel={isSuperAdmin ? level : null}
+                    maxLevel={level}
                     onChange={(values) => {
                       if (values) {
                         form.setFieldsValue({ administrations: values });
