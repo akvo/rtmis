@@ -239,7 +239,7 @@ const Users = () => {
             button={
               <Link to="/control-center/user/add">
                 <Button type="primary" shape="round" icon={<PlusOutlined />}>
-                  Add new user
+                  {text.addNewUser}
                 </Button>
               </Link>
             }
@@ -307,7 +307,7 @@ const Users = () => {
                   setDeleteUser(null);
                 }}
               >
-                Cancel
+                {text.cancelButton}
               </Button>
               <Button
                 type="primary"
@@ -317,7 +317,7 @@ const Users = () => {
                   handleDelete();
                 }}
               >
-                Delete
+                {text.deleteText}
               </Button>
             </Col>
           </Row>
