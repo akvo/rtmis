@@ -18,7 +18,19 @@ const AdministrationDropdown = ({
   ...props
 }) => {
   const { pathname } = useLocation();
-  const { user, administration, isLoggedIn } = store.useState((state) => state);
+  const { user, administration, isLoggedIn, levels } = store.useState(
+    (state) => state
+  );
+  /**
+   * Get lowest level administrator from maxLevel.
+   * otherwise, sort asc by level and get the last item from levels global state
+   */
+  const lowestLevel = maxLevel
+    ? levels.find((l) => l?.id === maxLevel)
+    : levels
+        .slice()
+        .sort((a, b) => a.level - b.level)
+        .slice(-1)?.[0];
 
   const public_state = config.allowedGlobal
     .map((x) => pathname.includes(x))
@@ -56,15 +68,24 @@ const AdministrationDropdown = ({
 
   if (administration && !hidden) {
     return (
-      <Space {...props}>
+      <Space {...props} style={{ width: "100%" }}>
         {administration
-          .filter((x) => x.children.length)
+          .filter(
+            (x) =>
+              (x.children.length && !maxLevel) ||
+              (maxLevel && x.level < maxLevel - 1 && x.children.length) // show children based on maxLevel
+          )
           .map((region, regionIdx) => {
             if (maxLevel === null || regionIdx + 1 < maxLevel) {
-              const isNotAdmin = user?.role?.id !== 1;
+              /**
+               * Find last item by checking:
+               * - regionIdx + 1 = next index is equal with parent maxLevel
+               * OR
+               * - region.level = current level is equal with parent lowest level
+               */
               const isLastItem =
-                (user?.administration?.level === region?.level && isNotAdmin) ||
-                maxLevel - 1 === regionIdx + 1;
+                (maxLevel && maxLevel - 1 === regionIdx + 1) ||
+                region.level === lowestLevel?.level - 1;
               const selectMode =
                 allowMultiple && isLastItem ? "multiple" : null;
               const selectValues =
