@@ -83,12 +83,14 @@ const config = {
         "approvers",
         "form",
         "reports",
+        "mobile",
       ],
       administration_level: [2],
       description:
         "Overall County administrator of the RUSH. Assigns roles to all sub county RUSH admins (approvers) in the county under jusridistion.",
       control_center_order: [
         "manage-user",
+        "manage-mobile",
         "manage-data",
         "approvals",
         "submission",
@@ -106,11 +108,12 @@ const config = {
         "approvals",
         "questionnaires",
         "reports",
+        "mobile",
       ],
       administration_level: [3, 4],
       description:
         "Gives final approval to data submitted from the area under jurisdiction. Can edit or return data for correction.",
-      control_center_order: ["approvals", "manage-data"],
+      control_center_order: ["approvals", "manage-data", "manage-mobile"],
     },
     {
       id: 4,
