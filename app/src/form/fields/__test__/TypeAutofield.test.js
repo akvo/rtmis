@@ -159,7 +159,6 @@ describe('TypeAutofield component', () => {
     expect(autoField).toBeDefined();
     expect(autoField.props.value).toBe('G0');
   });
-
   test('it gives background color when fnColor is defined and cover all possible outputs', () => {
     const onChangeMock = jest.fn();
     const values = {
