@@ -134,18 +134,17 @@ class SubmitFormSerializer(serializers.Serializer):
         data["created_by"] = self.context.get("user")
         data["updated_by"] = self.context.get("user")
         obj_data = self.fields.get("data").create(data)
-        """
-        Answer value based on Question type
-        -geo = 1 #option
-        -administration = 2 #value
-        -text = 3 #name
-        -number = 4 #value
-        -option = 5 #option
-        -multiple_option = 6 #option
-        -cascade = 7 #option
-        -photo = 8 #name
-        -date = 9 #name
-        """
+        # Answer value based on Question type
+        # - geo = 1 #option
+        # - administration = 2 #value
+        # - text = 3 #name
+        # - number = 4 #value
+        # - option = 5 #option
+        # - multiple_option = 6 #option
+        # - cascade = 7 #option
+        # - photo = 8 #name
+        # - date = 9 #name
+        # - autofield = 10 #name
 
         for answer in validated_data.get("answer"):
             name = None
