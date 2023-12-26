@@ -51,6 +51,13 @@
   .ant-divider {
     margin-top: 12px;
   }
+  .custom-select {
+    .ant-select-selection-overflow-item {
+      .ant-select-selection-item {
+        padding-right: 18px !important;
+      }
+    }
+  }
 }
 .ant-popover-inner-content {
   display: none;
