@@ -275,7 +275,7 @@ class ListFormDataSerializer(serializers.ModelSerializer):
         if pending_data:
             batch = PendingDataBatch.objects.filter(
                 pk=pending_data.batch_id).first()
-        if pending_data and batch and not batch.approved or pending_data and not batch:
+        if pending_data and (not batch or not batch.approved):
             return {
                 "id": pending_data.id,
                 "created_by": pending_data.created_by.get_full_name(),
