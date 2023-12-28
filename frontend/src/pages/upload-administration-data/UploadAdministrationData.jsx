@@ -5,8 +5,8 @@ import {
   Col,
   Card,
   Divider,
-  Checkbox,
   Button,
+  Checkbox,
   Space,
   Select,
   Upload,
@@ -241,6 +241,17 @@ const UploadAdministrationData = () => {
           )}
           {!showSuccess && (
             <>
+              <Row align="middle">
+                <Checkbox
+                  id="updateExisting"
+                  checked={updateExisting}
+                  onChange={() => {
+                    setUpdateExisting(!updateExisting);
+                  }}
+                >
+                  {text.updateExisting}
+                </Checkbox>
+              </Row>
               <Card
                 style={{ padding: 0, minHeight: "40vh" }}
                 bodyStyle={{ padding: 0 }}
