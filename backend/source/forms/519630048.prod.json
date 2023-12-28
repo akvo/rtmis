@@ -2,6 +2,13 @@
   "id": 519630048,
   "form": "Household",
   "type": 1,
+  "approval_instructions": {
+    "text": "Please check all of the checkbox below",
+    "action": [
+      "I have checked all of the data correctly",
+      "I approve this data for submission"
+    ]
+  },
   "question_groups": [
     {
       "question_group": "Introduction",
