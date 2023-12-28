@@ -31,12 +31,10 @@ const UserFilters = ({
   const [organisations, setOrganisations] = useState([]);
 
   useEffect(() => {
-    if (!organisations.length) {
-      api.get("organisations").then((res) => {
-        setOrganisations(res.data);
-      });
-    }
-  }, [organisations, setOrganisations]);
+    api.get("organisations").then((res) => {
+      setOrganisations(res.data);
+    });
+  }, [setOrganisations]);
 
   return (
     <>
