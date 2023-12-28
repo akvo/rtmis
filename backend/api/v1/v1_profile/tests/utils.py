@@ -17,14 +17,10 @@ class AdministrationEntitiesTestFactory:
     def make_objects(
             self, name, entities=[], children=[], parent=None, depth=0):
         level = Levels.objects.get(level=depth)
-        path = None
-        if parent:
-            path = f"{parent.path or ''}{parent.id}."
         administration = Administration.objects.create(
             name=name,
             parent=parent,
             level=level,
-            path=path
         )
         for data in entities:
             entity, _ = Entity.objects.get_or_create(name=data['entity'])
