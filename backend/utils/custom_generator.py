@@ -4,17 +4,28 @@ import pandas as pd
 from rtmis.settings import MASTER_DATA
 
 
-def generate_sqlite(objects):
-    objects = objects.objects.all()
-    table_name = objects.model._meta.db_table
+def generate_sqlite(model):
+    table_name = model._meta.db_table
+    field_names = [f.name for f in model._meta.fields]
+    objects = model.objects.all()
     file_name = f"{MASTER_DATA}/{table_name}.sqlite"
     if os.path.exists(file_name):
         os.remove(file_name)
-    data = pd.DataFrame(list(objects.values()))
-    if "parent_id" not in data.columns:
-        data["parent_id"] = 0
-    data["parent"] = data["parent_id"].apply(lambda x: int(x) if x == x else 0)
-    data = data[["id", "name", "parent"]]
+    data = pd.DataFrame(list(objects.values(*field_names)))
+    no_rows = data.shape[0]
+    if no_rows < 1:
+        return
+    if "parent" in field_names:
+        data["parent"] = data["parent"].apply(
+            lambda x: int(x) if x == x else 0
+        )
+    elif "administration" in field_names:
+        data["parent"] = data["administration"].apply(
+            lambda x: int(x) if x == x else 0
+        )
+    else:
+        data["parent"] = 0
     conn = sqlite3.connect(file_name)
-    data.to_sql('nodes', conn, if_exists='replace', index=False)
-    return conn, file_name
+    data.to_sql("nodes", conn, if_exists="replace", index=False)
+    conn.close()
+    return file_name
