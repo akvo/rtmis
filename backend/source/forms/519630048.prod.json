@@ -2,6 +2,13 @@
   "id": 519630048,
   "form": "Household",
   "type": 1,
+  "approval_instructions": {
+    "text": "Please check all of the checkbox below",
+    "action": [
+      "I have checked all of the data correctly",
+      "I approve this data for submission"
+    ]
+  },
   "question_groups": [
     {
       "question_group": "Introduction",
@@ -354,6 +361,17 @@
           "extra": {
             "allowOther": true
           }
+        },
+        {
+          "id": 519660053,
+          "question": "UUID",
+          "type": "autofield",
+          "required": false,
+          "meta": false,
+          "fn": {
+            "fnString": "function(){ return #517600060 && #608880002 ? #608880002.replace(' ','-').replace(',','-') + '-' + #517600060.replace('-','').replace(',','.').split('.').reduce((x, y) => parseInt(x) + parseInt(y), 0).toString(32).substring(3,7) : null}"
+          },
+          "hidden": true
         }
       ]
     },

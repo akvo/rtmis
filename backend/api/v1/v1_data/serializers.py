@@ -161,7 +161,7 @@ class SubmitFormSerializer(serializers.Serializer):
                     QuestionTypes.text,
                     QuestionTypes.photo,
                     QuestionTypes.date,
-                    QuestionTypes.autofield
+                    QuestionTypes.autofield,
             ]:
                 name = answer.get("value")
             elif answer.get("question").type == QuestionTypes.cascade:
@@ -1131,6 +1131,7 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                     QuestionTypes.text,
                     QuestionTypes.photo,
                     QuestionTypes.date,
+                    QuestionTypes.autofield,
             ]:
                 name = answer.get("value")
             elif answer.get("question").type == QuestionTypes.cascade:
