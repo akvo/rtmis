@@ -211,7 +211,7 @@ class EntityDataViewSet(ModelViewSet):
 def export_administrations_template(request: Request, version):
     attributes = clean_array_param(
             request.query_params.get('attributes', ''), maybe_int)
-    filepath = generate_excel(attributes, cast(SystemUser, request.user))
+    filepath = generate_excel(cast(SystemUser, request.user), attributes)
     filename = filepath.split("/")[-1].replace(" ", "-")
     with open(filepath, 'rb') as template_file:
         response = HttpResponse(
