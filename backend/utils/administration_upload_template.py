@@ -8,7 +8,7 @@ from api.v1.v1_profile.models import Levels, AdministrationAttribute
 from api.v1.v1_users.models import SystemUser
 
 
-def generate_excel(attributes: List[int], user: SystemUser):
+def generate_excel(user: SystemUser, attributes: List[int] = []):
     directory = 'tmp/administrations-template'
     os.makedirs(directory, exist_ok=True)
     filename = (
@@ -17,6 +17,11 @@ def generate_excel(attributes: List[int], user: SystemUser):
     filepath = f"./{directory}/{filename}"
     if os.path.exists(filepath):
         os.remove(filepath)
+    generate_template(filepath, attributes)
+    return filepath
+
+
+def generate_template(filepath, attributes: List[int] = []):
     level_header = [
             f'{lvl.id}|{lvl.name}' for lvl
             in Levels.objects.order_by('level').all()]
@@ -43,4 +48,3 @@ def generate_excel(attributes: List[int], user: SystemUser):
     for col_num, value in enumerate(data.columns.values):
         worksheet.write(0, col_num, value, header_format)
     writer.save()
-    return filepath

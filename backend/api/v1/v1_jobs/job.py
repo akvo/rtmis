@@ -1,8 +1,12 @@
+import logging
 import os
 
 import pandas as pd
 from django.utils import timezone
 from django_q.tasks import async_task
+from api.v1.v1_jobs.administrations_bulk_upload import (
+        seed_administration_data,
+        validate_administrations_bulk_upload)
 
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_forms.models import Forms
@@ -12,11 +16,14 @@ from api.v1.v1_jobs.models import Jobs
 from api.v1.v1_jobs.seed_data import seed_excel_data
 from api.v1.v1_jobs.validate_upload import validate
 from api.v1.v1_profile.models import Administration, Levels
+from api.v1.v1_users.models import SystemUser
 from utils import storage
 from utils.email_helper import send_email, EmailTypes
 from utils.export_form import generate_definition_sheet
 from utils.functions import update_date_time_format
 from utils.storage import upload
+
+logger = logging.getLogger(__name__)
 
 
 def download(form: Forms, administration_ids):
@@ -257,3 +264,20 @@ def validate_excel_result(task):
     else:
         job.status = JobStatus.failed
         job.save()
+
+
+def handle_administrations_bulk_upload(filename, user_id):
+    logger.warn(SystemUser.objects.get(id=user_id).email)
+    storage.download(f"upload/{filename}")
+    file_path = f"./tmp/{filename}"
+    # validate
+    errors = validate_administrations_bulk_upload(file_path)
+    # if not valid send error email and return
+    if len(errors):
+        logger.error(errors)
+        return
+    # else,
+    seed_administration_data(file_path)
+    # send success email
+
+    # hook to handle errors when seeding data
