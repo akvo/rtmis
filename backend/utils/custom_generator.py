@@ -14,10 +14,17 @@ def generate_sqlite(model):
     data = pd.DataFrame(list(objects.values(*field_names)))
     if "parent" in field_names:
         data["parent"] = data["parent"].apply(
-                lambda x: int(x) if x == x else 0)
+            lambda x: int(x) if x == x else 0
+        )
+    elif "administration" in field_names:
+        data["parent"] = data["administration"].apply(
+            lambda x: int(x) if x == x else 0
+        )
+    else:
+        data["parent"] = 0
     if objects.count() < 1:
         return
     conn = sqlite3.connect(file_name)
-    data.to_sql('nodes', conn, if_exists='replace', index=False)
+    data.to_sql("nodes", conn, if_exists="replace", index=False)
     conn.close()
     return file_name
