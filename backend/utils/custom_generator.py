@@ -12,6 +12,9 @@ def generate_sqlite(model):
     if os.path.exists(file_name):
         os.remove(file_name)
     data = pd.DataFrame(list(objects.values(*field_names)))
+    no_rows = data.shape[0]
+    if no_rows < 1:
+        return
     if "parent" in field_names:
         data["parent"] = data["parent"].apply(
             lambda x: int(x) if x == x else 0
@@ -22,8 +25,6 @@ def generate_sqlite(model):
         )
     else:
         data["parent"] = 0
-    if objects.count() < 1:
-        return
     conn = sqlite3.connect(file_name)
     data.to_sql("nodes", conn, if_exists="replace", index=False)
     conn.close()
