@@ -406,120 +406,120 @@ const ApprovalDetail = ({
         expandable={
           selectedTab === "raw-data"
             ? {
-              expandedRowKeys,
-              expandedRowRender: (record) => {
-                return (
-                  <div>
-                    {record.loading ? (
-                      <Space
-                        style={{ paddingTop: 18, color: "#9e9e9e" }}
-                        size="middle"
-                      >
-                        <Spin
-                          indicator={
-                            <LoadingOutlined
-                              style={{ color: "#1b91ff" }}
-                              spin
-                            />
-                          }
-                        />
-                        <span>Loading..</span>
-                      </Space>
-                    ) : (
-                      <>
-                        {record.data?.map((r, rI) => (
-                          <div className="pending-data-wrapper" key={rI}>
-                            <h3>{r.name}</h3>
-                            <Table
-                              pagination={false}
-                              dataSource={r.question}
-                              rowClassName={(record) =>
-                                (record.newValue || record.newValue === 0) &&
-                                  !isEqual(record.newValue, record.value)
-                                  ? "row-edited"
-                                  : "row-normal"
-                              }
-                              rowKey="id"
-                              columns={[
-                                {
-                                  title: "Question",
-                                  dataIndex: "name",
-                                },
-                                {
-                                  title: "Response",
-                                  render: (row) => (
-                                    <EditableCell
-                                      record={row}
-                                      parentId={record.id}
-                                      updateCell={updateCell}
-                                      resetCell={resetCell}
-                                      disabled={!!dataLoading}
-                                      readonly={readonly}
-                                    />
-                                  ),
-                                },
-                                Table.EXPAND_COLUMN,
-                              ]}
-                              expandable={{
-                                expandIcon: ({ onExpand, record }) => {
-                                  if (!record?.history) {
-                                    return "";
-                                  }
-                                  return (
-                                    <HistoryOutlined
-                                      className="expand-icon"
-                                      onClick={(e) => onExpand(record, e)}
-                                    />
-                                  );
-                                },
-                                expandedRowRender: (record) => (
-                                  <HistoryTable record={record} />
-                                ),
-                                rowExpandable: (record) => record?.history,
-                              }}
-                            />
-                          </div>
-                        ))}
-                        <Button
-                          onClick={() => handleSave(record)}
-                          type="primary"
-                          loading={record.id === saving}
-                          disabled={
-                            !approve ||
-                            selectedTab !== "raw-data" ||
-                            record.id === dataLoading ||
-                            isEdited(record.id) === false
-                          }
+                expandedRowKeys,
+                expandedRowRender: (record) => {
+                  return (
+                    <div>
+                      {record.loading ? (
+                        <Space
+                          style={{ paddingTop: 18, color: "#9e9e9e" }}
+                          size="middle"
                         >
-                          Save Edits
-                        </Button>
-                      </>
-                    )}
-                  </div>
-                );
-              },
-              expandIcon: ({ expanded, onExpand, record }) =>
-                expanded ? (
-                  <CloseSquareOutlined
-                    onClick={(e) => {
-                      setExpandedRowKeys([]);
-                      onExpand(record, e);
-                    }}
-                    style={{ color: "#e94b4c" }}
-                  />
-                ) : (
-                  <PlusSquareOutlined
-                    onClick={(e) => {
-                      setExpandedRowKeys([record.id]);
-                      if (!record.data?.length) {
-                        initData(record.id);
-                      }
-                      onExpand(record, e);
-                    }}
-                    style={{ color: "#7d7d7d" }}
-                  />
-                ),
-            }
+                          <Spin
+                            indicator={
+                              <LoadingOutlined
+                                style={{ color: "#1b91ff" }}
+                                spin
+                              />
+                            }
+                          />
+                          <span>Loading..</span>
+                        </Space>
+                      ) : (
+                        <>
+                          {record.data?.map((r, rI) => (
+                            <div className="pending-data-wrapper" key={rI}>
+                              <h3>{r.name}</h3>
+                              <Table
+                                pagination={false}
+                                dataSource={r.question}
+                                rowClassName={(record) =>
+                                  (record.newValue || record.newValue === 0) &&
+                                  !isEqual(record.newValue, record.value)
+                                    ? "row-edited"
+                                    : "row-normal"
+                                }
+                                rowKey="id"
+                                columns={[
+                                  {
+                                    title: "Question",
+                                    dataIndex: "name",
+                                  },
+                                  {
+                                    title: "Response",
+                                    render: (row) => (
+                                      <EditableCell
+                                        record={row}
+                                        parentId={record.id}
+                                        updateCell={updateCell}
+                                        resetCell={resetCell}
+                                        disabled={!!dataLoading}
+                                        readonly={readonly}
+                                      />
+                                    ),
+                                  },
+                                  Table.EXPAND_COLUMN,
+                                ]}
+                                expandable={{
+                                  expandIcon: ({ onExpand, record }) => {
+                                    if (!record?.history) {
+                                      return "";
+                                    }
+                                    return (
+                                      <HistoryOutlined
+                                        className="expand-icon"
+                                        onClick={(e) => onExpand(record, e)}
+                                      />
+                                    );
+                                  },
+                                  expandedRowRender: (record) => (
+                                    <HistoryTable record={record} />
+                                  ),
+                                  rowExpandable: (record) => record?.history,
+                                }}
+                              />
+                            </div>
+                          ))}
+                          <Button
+                            onClick={() => handleSave(record)}
+                            type="primary"
+                            loading={record.id === saving}
+                            disabled={
+                              !approve ||
+                              selectedTab !== "raw-data" ||
+                              record.id === dataLoading ||
+                              isEdited(record.id) === false
+                            }
+                          >
+                            Save Edits
+                          </Button>
+                        </>
+                      )}
+                    </div>
+                  );
+                },
+                expandIcon: ({ expanded, onExpand, record }) =>
+                  expanded ? (
+                    <CloseSquareOutlined
+                      onClick={(e) => {
+                        setExpandedRowKeys([]);
+                        onExpand(record, e);
+                      }}
+                      style={{ color: "#e94b4c" }}
+                    />
+                  ) : (
+                    <PlusSquareOutlined
+                      onClick={(e) => {
+                        setExpandedRowKeys([record.id]);
+                        if (!record.data?.length) {
+                          initData(record.id);
+                        }
+                        onExpand(record, e);
+                      }}
+                      style={{ color: "#7d7d7d" }}
+                    />
+                  ),
+              }
             : false
         }
       />

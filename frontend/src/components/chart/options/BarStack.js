@@ -92,8 +92,8 @@ const BarStack = (
               ? "insideRight"
               : "left"
             : horizontal
-            ? "insideRight"
-            : "right",
+              ? "insideRight"
+              : "right",
         show: false,
         padding: 5,
         formatter: (e) => e?.data?.value + "%" || "-",

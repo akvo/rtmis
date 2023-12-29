@@ -69,8 +69,8 @@ const Forms = () => {
             question.type === "option"
               ? [val]
               : question.type === "geo"
-              ? [val.lat, val.lng]
-              : val;
+                ? [val.lat, val.lng]
+                : val;
           return {
             question: parseInt(v),
             type: question.type,
