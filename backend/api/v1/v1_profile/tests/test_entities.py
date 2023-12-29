@@ -2,11 +2,9 @@ from typing import cast
 from django.core.management import call_command
 from django.test import TestCase, override_settings
 from rest_framework.response import Response
-from api.v1.v1_profile.management.commands.administration_seeder import (
-        seed_levels)
-from api.v1.v1_profile.models import Administration, Entity, EntityData, Levels
-
+from api.v1.v1_profile.models import Administration, Entity, EntityData
 from api.v1.v1_profile.tests.mixins import ProfileTestHelperMixin
+from api.v1.v1_profile.tests.utils import AdministrationEntitiesTestFactory
 
 
 @override_settings(USE_TZ=False)
@@ -197,36 +195,8 @@ class EntityDataTestCase(TestCase, ProfileTestHelperMixin):
 
 @override_settings(USE_TZ=False)
 class EntityDataFilterTestCase(TestCase, ProfileTestHelperMixin):
-    def make_objects(
-            self, name, entities=[], children=[], parent=None, depth=0):
-        level = Levels.objects.get(level=depth)
-        path = None
-        if parent:
-            path = f"{parent.path or ''}{parent.id}."
-        administration = Administration.objects.create(
-            name=name,
-            parent=parent,
-            level=level,
-            path=path
-        )
-        for data in entities:
-            entity, _ = Entity.objects.get_or_create(name=data['entity'])
-            EntityData.objects.create(
-                name=data['name'],
-                administration=administration,
-                entity=entity
-            )
-        for child in children:
-            self.make_objects(
-                name=child['name'],
-                entities=child.get('entities', []),
-                children=child.get('children', []),
-                parent=administration,
-                depth=depth+1
-            )
-
     def populate_test_data(self):
-        data = {
+        AdministrationEntitiesTestFactory({
             'name': 'Indonesia',
             'children': [{
                 'name': 'Jakarta',
@@ -262,12 +232,7 @@ class EntityDataFilterTestCase(TestCase, ProfileTestHelperMixin):
                     ],
                 }],
             }],
-        }
-        seed_levels()
-        self.make_objects(
-            name=data['name'],
-            children=data.get('children'),
-        )
+        }).populate()
 
     def setUp(self):
         super().setUp()
