@@ -1,21 +1,27 @@
 # Create your views here.
-import typing
+from typing import cast
+from wsgiref.util import FileWrapper
 from django.contrib.admin.sites import site
 from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import ProtectedError, Q
 from django.contrib.admin.utils import get_deleted_objects
+from django.http.response import HttpResponse
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
         OpenApiParameter, extend_schema, inline_serializer)
+from rest_framework.request import Request
 from rest_framework.viewsets import ModelViewSet
 from api.v1.v1_profile.models import (
         Administration, AdministrationAttribute, Entity, EntityData, Levels)
 from api.v1.v1_profile.serializers import (
         AdministrationAttributeSerializer, AdministrationSerializer,
         EntityDataSerializer, EntitySerializer)
+from api.v1.v1_users.models import SystemUser
+from utils.administration_upload_template import generate_excel
+from utils.custom_helper import clean_array_param, maybe_int
 from utils.default_serializers import DefaultResponseSerializer
 from utils.custom_pagination import Pagination
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -107,7 +113,7 @@ class AdministrationViewSet(ModelViewSet):
             instance.delete()
         except ProtectedError:
             _, _, _, protected = get_deleted_objects(
-                    [instance], typing.cast(WSGIRequest, request), site)
+                    [instance], cast(WSGIRequest, request), site)
             error = (
                 f'Cannot delete "Administration: {instance}" because it is '
                 'referenced by other data'
@@ -188,3 +194,30 @@ class EntityDataViewSet(ModelViewSet):
     ])
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
+
+
+@extend_schema(tags=['File'],
+               summary='Export template for Administration bulk upload',
+               parameters=[
+                   OpenApiParameter(name='attributes',
+                                    type={
+                                        'type': 'array',
+                                        'items': {'type': 'number'}},
+                                    location=OpenApiParameter.QUERY,
+                                    explode=False)
+                   ])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def export_administrations_template(request: Request, version):
+    attributes = clean_array_param(
+            request.query_params.get('attributes', ''), maybe_int)
+    filepath = generate_excel(cast(SystemUser, request.user), attributes)
+    filename = filepath.split("/")[-1].replace(" ", "-")
+    with open(filepath, 'rb') as template_file:
+        response = HttpResponse(
+                FileWrapper(template_file),
+                content_type=(
+                    'application/vnd.openxmlformats-officedocument'
+                    '.spreadsheetml.sheet'))
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
+        return response

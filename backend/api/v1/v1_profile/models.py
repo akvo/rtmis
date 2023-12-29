@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 # Create your models here.
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -59,6 +61,16 @@ class Administration(models.Model):
 
     class Meta:
         db_table = 'administrator'
+
+
+@receiver(pre_save, sender=Administration)
+def set_administration_path(sender, instance: Administration, **_):
+    if not instance.parent:
+        return
+    if instance.path:
+        return
+    parent = instance.parent
+    instance.path = f"{parent.path or ''}{parent.id}."
 
 
 class Access(models.Model):

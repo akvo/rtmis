@@ -2,10 +2,12 @@ from django.urls import re_path
 
 from api.v1.v1_profile.views import (
     AdministrationAttributeViewSet, AdministrationViewSet, EntityDataViewSet,
-    EntityViewSet, send_feedback
+    EntityViewSet, export_administrations_template, send_feedback
 )
 
 urlpatterns = [
+    re_path(r'^(?P<version>(v1))/export/administrations-template',
+            export_administrations_template),
     re_path(
         r'^(?P<version>(v1))/administration-attributes/(?P<pk>[0-9]+)',
         AdministrationAttributeViewSet.as_view({
