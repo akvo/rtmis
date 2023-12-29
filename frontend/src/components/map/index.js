@@ -134,8 +134,8 @@ const Map = ({ current, style }) => {
         selectedAdmin === sc?.name
           ? higlightColor
           : sc
-          ? getFillColor(sc.values || 0)
-          : "#e6e8f4";
+            ? getFillColor(sc.values || 0)
+            : "#e6e8f4";
       const opacity = sc ? 0.8 : 0.3;
       return {
         fillColor: fillColor,
