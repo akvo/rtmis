@@ -59,10 +59,10 @@ const EditableCell = ({
     return record.type === "multiple_option"
       ? value?.join(", ")
       : record.type === "option"
-      ? value
-        ? value[0]
-        : "-"
-      : value;
+        ? value
+          ? value[0]
+          : "-"
+        : value;
   };
   const renderAnswerInput = () => {
     return record.type === "option" ? (

@@ -96,7 +96,9 @@
                 }
               }
 
-              .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input)
+              .ant-select-focused:not(.ant-select-disabled).ant-select:not(
+                  .ant-select-customize-input
+                )
                 .ant-select-selector {
                 border: 0 none;
                 box-shadow: none;
