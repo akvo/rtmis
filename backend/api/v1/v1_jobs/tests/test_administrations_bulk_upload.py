@@ -149,6 +149,37 @@ class SeedDataTestCase(TestCase, ProfileTestHelperMixin):
                 {'opt #1': '1', 'opt #2': '2'},
                 aggregate_att.value.get('value'))
 
+    def test_set_attributes_on_upper_level(self):
+        df = generate_inmemory_template([
+            self.value_att.id,
+            self.option_att.id])
+        df.loc[len(df)] = [
+                'Indonesia',
+                'Jakarta',
+                'South Jakarta',
+                'Pasar Minggu',
+                'Lenteng Agung',
+                'y',
+                'opt #1'
+                ]
+        df.loc[len(df)] = [
+                'Indonesia',
+                'Jakarta',
+                'South Jakarta',
+                '',
+                '',
+                'y',
+                ''
+                ]
+        upload_file = write_inmemory_excel_file(df)
+        seed_administration_data(upload_file)
+
+        level5 = Administration.objects.get(name='Lenteng Agung')
+        self.assertEqual(2, level5.attributes.count())
+
+        level3 = Administration.objects.get(name='South Jakarta')
+        self.assertEqual(1, level3.attributes.count())
+
 
 class ValidateBulkUploadTestCase(TestCase, ProfileTestHelperMixin):
     def setUp(self):

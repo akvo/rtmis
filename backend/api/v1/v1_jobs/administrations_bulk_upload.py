@@ -24,6 +24,8 @@ def seed_administration_data(io_file):
     for row in data:
         last: Union[Administration, None] = None
         for key, level in level_map.items():
+            if bool(pd.isnull(row[key])):
+                break
             obj, _ = Administration.objects.get_or_create(
                      name=row[key], level=level, parent=last)
             last = obj
