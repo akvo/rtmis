@@ -24,6 +24,7 @@ class EmailTypes:
     new_request = 'new_request'
     unchanged_data = 'unchanged_data'
     feedback = 'feedback'
+    administration_upload = 'administration_upload'
 
     FieldStr = {
         user_register: 'user_register',
@@ -40,7 +41,8 @@ class EmailTypes:
         upload_error: 'upload_error',
         new_request: 'new_request',
         unchanged_data: 'unchanged_data',
-        feedback: 'feedback'
+        feedback: 'feedback',
+        administration_upload: 'administration_upload',
     }
 
 
@@ -251,6 +253,16 @@ def email_context(context: dict, type: str):
         context.update({
             "image": None,
             "explore_button": False
+        })
+    if type == EmailTypes.administration_upload:
+        context.update({
+            "subject": "Administration Data Submitted",
+            "image": f"{webdomain}/email-icons/info-circle.png",
+            "info_text": """
+            The spreadsheet that you uploaded has been successfully
+            validated and submitted.
+            """,
+            "explore_button": True
         })
     # prevent multiline if inside html template
     show_content = context.get('message_list') \
