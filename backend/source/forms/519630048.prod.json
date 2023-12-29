@@ -2,6 +2,13 @@
   "id": 519630048,
   "form": "Household",
   "type": 1,
+  "approval_instructions": {
+    "text": "Please check all of the checkbox below",
+    "action": [
+      "I have checked all of the data correctly",
+      "I approve this data for submission"
+    ]
+  },
   "question_groups": [
     {
       "question_group": "Introduction",
@@ -14,9 +21,7 @@
           "order": 1,
           "required": true,
           "type": "text",
-          "attributes": [
-            "table"
-          ],
+          "attributes": ["table"],
           "options": null
         },
         {
@@ -39,9 +44,7 @@
           "order": 3,
           "required": true,
           "type": "text",
-          "attributes": [
-            "table"
-          ],
+          "attributes": ["table"],
           "options": null
         },
         {
@@ -75,9 +78,7 @@
           "order": 1,
           "required": false,
           "type": "geo",
-          "attributes": [
-            "table"
-          ],
+          "attributes": ["table"],
           "options": null
         },
         {
@@ -88,10 +89,7 @@
           "order": 2,
           "required": true,
           "type": "administration",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null
         },
         {
@@ -113,12 +111,7 @@
           "order": 4,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "aggregate",
-            "table",
-            "chart"
-          ],
+          "attributes": ["advanced_filter", "aggregate", "table", "chart"],
           "options": [
             {
               "name": "Rural"
@@ -139,9 +132,7 @@
           "order": 5,
           "required": true,
           "type": "text",
-          "attributes": [
-            "table"
-          ],
+          "attributes": ["table"],
           "options": null
         },
         {
@@ -152,12 +143,7 @@
           "order": 6,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "aggregate",
-            "chart"
-          ],
+          "attributes": ["advanced_filter", "table", "aggregate", "chart"],
           "options": [
             {
               "name": "Male"
@@ -202,10 +188,7 @@
           "order": 8,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "Male"
@@ -223,10 +206,7 @@
           "order": 9,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null
         },
         {
@@ -237,10 +217,7 @@
           "order": 10,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null
         },
         {
@@ -251,9 +228,7 @@
           "order": 11,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "advanced_filter"
-          ],
+          "attributes": ["advanced_filter"],
           "options": [
             {
               "name": "0-5"
@@ -280,17 +255,12 @@
           "order": 12,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null,
           "dependency": [
             {
               "id": 608890003,
-              "options": [
-                "0-5"
-              ]
+              "options": ["0-5"]
             }
           ]
         },
@@ -302,17 +272,12 @@
           "order": 13,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null,
           "dependency": [
             {
               "id": 608890003,
-              "options": [
-                "6-12"
-              ]
+              "options": ["6-12"]
             }
           ]
         },
@@ -324,17 +289,12 @@
           "order": 14,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null,
           "dependency": [
             {
               "id": 608890003,
-              "options": [
-                "13-24"
-              ]
+              "options": ["13-24"]
             }
           ]
         },
@@ -351,9 +311,7 @@
           "dependency": [
             {
               "id": 608890003,
-              "options": [
-                "25-59"
-              ]
+              "options": ["25-59"]
             }
           ]
         },
@@ -365,17 +323,12 @@
           "order": 16,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null,
           "dependency": [
             {
               "id": 608890003,
-              "options": [
-                "60+"
-              ]
+              "options": ["60+"]
             }
           ]
         },
@@ -387,11 +340,7 @@
           "order": 17,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart"
-          ],
+          "attributes": ["advanced_filter", "table", "chart"],
           "options": [
             {
               "name": "Permanent"
@@ -412,6 +361,17 @@
           "extra": {
             "allowOther": true
           }
+        },
+        {
+          "id": 519660053,
+          "question": "UUID",
+          "type": "autofield",
+          "required": false,
+          "meta": false,
+          "fn": {
+            "fnString": "function(){ return #517600060 && #608880002 ? #608880002.replace(' ','-').replace(',','-') + '-' + #517600060.replace('-','').replace(',','.').split('.').reduce((x, y) => parseInt(x) + parseInt(y), 0).toString(32).substring(3,7) : null}"
+          },
+          "hidden": true
         }
       ]
     },
@@ -426,11 +386,7 @@
           "order": 1,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart",
-            "advanced_filter"
-          ],
+          "attributes": ["table", "chart", "advanced_filter"],
           "options": [
             {
               "name": "Yes"
@@ -442,9 +398,7 @@
           "dependency": [
             {
               "id": 444670046,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -456,11 +410,7 @@
           "order": 2,
           "required": false,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart"
-          ],
+          "attributes": ["advanced_filter", "table", "chart"],
           "options": [
             {
               "name": "Flush or pour flush toilet"
@@ -481,9 +431,7 @@
           "dependency": [
             {
               "id": 513690068,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -516,9 +464,7 @@
           "dependency": [
             {
               "id": 492490054,
-              "options": [
-                "Flush or pour flush toilet"
-              ]
+              "options": ["Flush or pour flush toilet"]
             }
           ]
         },
@@ -530,10 +476,7 @@
           "order": 4,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "Yes"
@@ -545,9 +488,7 @@
           "dependency": [
             {
               "id": 513690068,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -658,10 +599,7 @@
           "dependency": [
             {
               "id": 492490054,
-              "options": [
-                "Pit latrine",
-                "VIP latrine"
-              ]
+              "options": ["Pit latrine", "VIP latrine"]
             }
           ]
         },
@@ -673,11 +611,7 @@
           "order": 9,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart"
-          ],
+          "attributes": ["advanced_filter", "table", "chart"],
           "options": [
             {
               "name": "Yes"
@@ -689,9 +623,7 @@
           "dependency": [
             {
               "id": 513690068,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -703,10 +635,7 @@
           "order": 10,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "Shared with 10-15 people (or less) including other households"
@@ -718,9 +647,7 @@
           "dependency": [
             {
               "id": 513690062,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -732,10 +659,7 @@
           "order": 11,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "Inside the house"
@@ -750,9 +674,7 @@
           "dependency": [
             {
               "id": 513690068,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -764,10 +686,7 @@
           "order": 12,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "No, never"
@@ -785,9 +704,7 @@
           "dependency": [
             {
               "id": 513690068,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -799,10 +716,7 @@
           "order": 13,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "Yes"
@@ -814,9 +728,7 @@
           "dependency": [
             {
               "id": 513690068,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -849,9 +761,7 @@
           "dependency": [
             {
               "id": 513690059,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -863,10 +773,7 @@
           "order": 15,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "To a treatment plant"
@@ -890,9 +797,7 @@
           "dependency": [
             {
               "id": 513690059,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -904,11 +809,7 @@
           "order": 16,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart"
-          ],
+          "attributes": ["advanced_filter", "table", "chart"],
           "options": [
             {
               "name": "Yes"
@@ -920,9 +821,7 @@
           "dependency": [
             {
               "id": 513690068,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -934,10 +833,7 @@
           "order": 17,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "Limited mobility"
@@ -958,9 +854,7 @@
           "dependency": [
             {
               "id": 496550059,
-              "options": [
-                "No"
-              ]
+              "options": ["No"]
             }
           ]
         },
@@ -993,9 +887,7 @@
           "dependency": [
             {
               "id": 608890003,
-              "options": [
-                "0-5"
-              ]
+              "options": ["0-5"]
             }
           ]
         },
@@ -1007,10 +899,7 @@
           "order": 19,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "Child used toilet/latrine"
@@ -1074,9 +963,7 @@
           "dependency": [
             {
               "id": 601270072,
-              "options": [
-                "on washable clothes or napkin"
-              ]
+              "options": ["on washable clothes or napkin"]
             }
           ]
         },
@@ -1100,9 +987,7 @@
           "dependency": [
             {
               "id": 601270072,
-              "options": [
-                "On the diaper"
-              ]
+              "options": ["On the diaper"]
             }
           ]
         },
@@ -1126,9 +1011,7 @@
           "dependency": [
             {
               "id": 513690068,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         }
@@ -1145,10 +1028,7 @@
           "order": 1,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "Before, during, and after preparing food"
@@ -1205,10 +1085,7 @@
           "order": 3,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "Sink"
@@ -1229,9 +1106,7 @@
           "dependency": [
             {
               "id": 599400071,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1258,11 +1133,7 @@
           "dependency": [
             {
               "id": 466680043,
-              "options": [
-                "Sink",
-                "Tap",
-                "Tippy tap"
-              ]
+              "options": ["Sink", "Tap", "Tippy tap"]
             }
           ]
         },
@@ -1274,10 +1145,7 @@
           "order": 5,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "Yes"
@@ -1289,9 +1157,7 @@
           "dependency": [
             {
               "id": 599400071,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1315,9 +1181,7 @@
           "dependency": [
             {
               "id": 466680045,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1341,9 +1205,7 @@
           "dependency": [
             {
               "id": 466680045,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1355,10 +1217,7 @@
           "order": 8,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "Yes"
@@ -1370,9 +1229,7 @@
           "dependency": [
             {
               "id": 599400071,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1384,11 +1241,7 @@
           "order": 9,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart"
-          ],
+          "attributes": ["advanced_filter", "table", "chart"],
           "options": [
             {
               "name": "Every morning"
@@ -1409,9 +1262,7 @@
           "dependency": [
             {
               "id": 608890003,
-              "options": [
-                "0-5"
-              ]
+              "options": ["0-5"]
             }
           ]
         },
@@ -1435,9 +1286,7 @@
           "dependency": [
             {
               "id": 599400071,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1449,16 +1298,12 @@
           "order": 11,
           "required": true,
           "type": "geo",
-          "attributes": [
-            "table"
-          ],
+          "attributes": ["table"],
           "options": null,
           "dependency": [
             {
               "id": 466680039,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         }
@@ -1475,10 +1320,7 @@
           "order": 1,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "Collected by the municipal council"
@@ -1532,10 +1374,7 @@
           "order": 3,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "Sink"
@@ -1586,9 +1425,7 @@
           "dependency": [
             {
               "id": 466690043,
-              "options": [
-                "Sink"
-              ]
+              "options": ["Sink"]
             }
           ]
         },
@@ -1612,9 +1449,7 @@
           "dependency": [
             {
               "id": 618810012,
-              "options": [
-                "Soak pit"
-              ]
+              "options": ["Soak pit"]
             }
           ]
         }
@@ -1649,11 +1484,7 @@
           "order": 2,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart"
-          ],
+          "attributes": ["advanced_filter", "table", "chart"],
           "options": [
             {
               "name": "Yes"
@@ -1665,9 +1496,7 @@
           "dependency": [
             {
               "id": 600370068,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1679,11 +1508,7 @@
           "order": 3,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart"
-          ],
+          "attributes": ["advanced_filter", "table", "chart"],
           "options": [
             {
               "name": "Yes"
@@ -1695,9 +1520,7 @@
           "dependency": [
             {
               "id": 600370068,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1709,11 +1532,7 @@
           "order": 4,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart"
-          ],
+          "attributes": ["advanced_filter", "table", "chart"],
           "options": [
             {
               "name": "Private room"
@@ -1734,9 +1553,7 @@
           "dependency": [
             {
               "id": 600370068,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1748,10 +1565,7 @@
           "order": 5,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "Cloth/reusable sanitary pads"
@@ -1778,9 +1592,7 @@
           "dependency": [
             {
               "id": 600370068,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1792,10 +1604,7 @@
           "order": 6,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "Yes"
@@ -1824,10 +1633,7 @@
           "order": 7,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "Make it myself"
@@ -1860,10 +1666,7 @@
           "order": 8,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "Yes"
@@ -1875,9 +1678,7 @@
           "dependency": [
             {
               "id": 600370068,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1889,10 +1690,7 @@
           "order": 9,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "Yes"
@@ -1904,9 +1702,7 @@
           "dependency": [
             {
               "id": 600370068,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1930,9 +1726,7 @@
           "dependency": [
             {
               "id": 600370068,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1944,11 +1738,7 @@
           "order": 11,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart"
-          ],
+          "attributes": ["advanced_filter", "table", "chart"],
           "options": [
             {
               "name": "Throw it in the pit latrine"
@@ -1972,9 +1762,7 @@
           "dependency": [
             {
               "id": 600370068,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         }
@@ -2180,9 +1968,7 @@
           "dependency": [
             {
               "id": 608890003,
-              "options": [
-                "0-5"
-              ]
+              "options": ["0-5"]
             }
           ]
         },
@@ -2206,9 +1992,7 @@
           "dependency": [
             {
               "id": 608890003,
-              "options": [
-                "0-5"
-              ]
+              "options": ["0-5"]
             }
           ]
         },
@@ -2232,9 +2016,7 @@
           "dependency": [
             {
               "id": 608890003,
-              "options": [
-                "0-5"
-              ]
+              "options": ["0-5"]
             }
           ]
         },
@@ -2273,9 +2055,7 @@
           "dependency": [
             {
               "id": 608890003,
-              "options": [
-                "0-5"
-              ]
+              "options": ["0-5"]
             }
           ]
         }
@@ -2381,9 +2161,7 @@
           "dependency": [
             {
               "id": 600370070,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -2407,9 +2185,7 @@
           "dependency": [
             {
               "id": 600370070,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -2433,9 +2209,7 @@
           "dependency": [
             {
               "id": 600370070,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         }
@@ -2452,9 +2226,7 @@
           "order": 1,
           "required": false,
           "type": "text",
-          "attributes": [
-            "table"
-          ],
+          "attributes": ["table"],
           "options": null
         },
         {

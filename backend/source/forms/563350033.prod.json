@@ -2,6 +2,13 @@
   "id": 563350033,
   "form": "WASH in Schools",
   "type": 1,
+  "approval_instructions": {
+    "text": "Please check all of the checkbox below",
+    "action": [
+      "I have checked all of the data correctly",
+      "I approve this data for submission"
+    ]
+  },
   "question_groups": [
     {
       "question_group": "Demographics",
@@ -37,9 +44,7 @@
           "order": 3,
           "required": false,
           "type": "geo",
-          "attributes": [
-            "table"
-          ],
+          "attributes": ["table"],
           "options": null
         },
         {
@@ -50,10 +55,7 @@
           "order": 4,
           "required": true,
           "type": "administration",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null
         },
         {
@@ -64,9 +66,7 @@
           "order": 5,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter"
-          ],
+          "attributes": ["advanced_filter"],
           "options": [
             {
               "name": "Urban"
@@ -87,9 +87,7 @@
           "order": 6,
           "required": true,
           "type": "text",
-          "attributes": [
-            "table"
-          ],
+          "attributes": ["table"],
           "options": null
         },
         {
@@ -100,9 +98,7 @@
           "order": 7,
           "required": true,
           "type": "text",
-          "attributes": [
-            "table"
-          ],
+          "attributes": ["table"],
           "options": null
         },
         {
@@ -113,12 +109,7 @@
           "order": 8,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "table", "chart", "aggregate"],
           "options": [
             {
               "name": "Pre-primary"
@@ -184,10 +175,7 @@
           "order": 11,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null,
           "rule": {
             "max": 5000
@@ -201,10 +189,7 @@
           "order": 12,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null,
           "rule": {
             "max": 5000
@@ -218,10 +203,7 @@
           "order": 13,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null
         },
         {
@@ -232,10 +214,7 @@
           "order": 14,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null
         }
       ]
@@ -269,11 +248,7 @@
           "order": 2,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["table", "chart", "aggregate"],
           "options": [
             {
               "name": "Piped water supply"
@@ -303,9 +278,7 @@
           "dependency": [
             {
               "id": 597580048,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -317,11 +290,7 @@
           "order": 3,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart"
-          ],
+          "attributes": ["advanced_filter", "table", "chart"],
           "options": [
             {
               "name": "Improved water source is too far"
@@ -381,9 +350,7 @@
           "dependency": [
             {
               "id": 597580048,
-              "options": [
-                "No"
-              ]
+              "options": ["No"]
             }
           ]
         },
@@ -395,11 +362,7 @@
           "order": 5,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["table", "chart", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -417,11 +380,7 @@
           "order": 6,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["table", "chart", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -439,10 +398,7 @@
           "order": 7,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "The water is not clean"
@@ -460,9 +416,7 @@
           "dependency": [
             {
               "id": 551660013,
-              "options": [
-                "No"
-              ]
+              "options": ["No"]
             }
           ]
         },
@@ -474,12 +428,7 @@
           "order": 8,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "table", "chart", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -497,11 +446,7 @@
           "order": 9,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["table", "chart", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -519,10 +464,7 @@
           "order": 10,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null
         },
         {
@@ -533,11 +475,7 @@
           "order": 11,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["table", "chart", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -555,12 +493,7 @@
           "order": 12,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "table", "chart", "aggregate"],
           "options": [
             {
               "name": "Filtration"
@@ -584,9 +517,7 @@
           "dependency": [
             {
               "id": 551660012,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -598,11 +529,7 @@
           "order": 13,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["table", "chart", "aggregate"],
           "options": [
             {
               "name": "Students don't miss class for searching drinking water"
@@ -658,11 +585,7 @@
           "order": 2,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["table", "chart", "aggregate"],
           "options": [
             {
               "name": "Flush / Pour-flush toilets"
@@ -689,9 +612,7 @@
           "dependency": [
             {
               "id": 601780052,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -703,12 +624,7 @@
           "order": 3,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "table", "chart", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -739,17 +655,12 @@
           "order": 4,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null,
           "dependency": [
             {
               "id": 601780052,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -761,10 +672,7 @@
           "order": 5,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null,
           "dependency": [
             {
@@ -786,17 +694,12 @@
           "order": 6,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null,
           "dependency": [
             {
               "id": 551660029,
-              "options": [
-                "No toilets or latrines"
-              ]
+              "options": ["No toilets or latrines"]
             }
           ]
         },
@@ -808,17 +711,12 @@
           "order": 7,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null,
           "dependency": [
             {
               "id": 551660029,
-              "options": [
-                "No toilets or latrines"
-              ]
+              "options": ["No toilets or latrines"]
             }
           ]
         },
@@ -830,17 +728,12 @@
           "order": 8,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null,
           "dependency": [
             {
               "id": 551660029,
-              "options": [
-                "No toilets or latrines"
-              ]
+              "options": ["No toilets or latrines"]
             }
           ]
         },
@@ -852,17 +745,12 @@
           "order": 9,
           "required": true,
           "type": "number",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": null,
           "dependency": [
             {
               "id": 551660029,
-              "options": [
-                "No toilets or latrines"
-              ]
+              "options": ["No toilets or latrines"]
             }
           ]
         },
@@ -874,10 +762,7 @@
           "order": 10,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "No problem"
@@ -901,9 +786,7 @@
           "dependency": [
             {
               "id": 551660029,
-              "options": [
-                "No toilets or latrines"
-              ]
+              "options": ["No toilets or latrines"]
             }
           ]
         },
@@ -915,10 +798,7 @@
           "order": 11,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart"
-          ],
+          "attributes": ["table", "chart"],
           "options": [
             {
               "name": "At all times during the school day"
@@ -936,9 +816,7 @@
           "dependency": [
             {
               "id": 551660029,
-              "options": [
-                "No toilets or latrines"
-              ]
+              "options": ["No toilets or latrines"]
             }
           ]
         },
@@ -950,11 +828,7 @@
           "order": 12,
           "required": true,
           "type": "option",
-          "attributes": [
-            "table",
-            "chart",
-            "aggregate"
-          ],
+          "attributes": ["table", "chart", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -999,9 +873,7 @@
           "dependency": [
             {
               "id": 555460003,
-              "options": [
-                "No"
-              ]
+              "options": ["No"]
             }
           ]
         },
@@ -1013,11 +885,7 @@
           "order": 14,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Offers privacy"
@@ -1041,9 +909,7 @@
           "dependency": [
             {
               "id": 551660029,
-              "options": [
-                "No toilets or latrines"
-              ]
+              "options": ["No toilets or latrines"]
             }
           ]
         },
@@ -1055,11 +921,7 @@
           "order": 15,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1074,9 +936,7 @@
           "dependency": [
             {
               "id": 601780052,
-              "options": [
-                "No"
-              ]
+              "options": ["No"]
             }
           ]
         },
@@ -1088,10 +948,7 @@
           "order": 16,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table"
-          ],
+          "attributes": ["chart", "table"],
           "options": [
             {
               "name": "Students missed class to go home for defecation or urine"
@@ -1112,9 +969,7 @@
           "dependency": [
             {
               "id": 539710045,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1126,10 +981,7 @@
           "order": 17,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table"
-          ],
+          "attributes": ["chart", "table"],
           "options": [
             {
               "name": "Yes"
@@ -1153,10 +1005,7 @@
           "order": 18,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table"
-          ],
+          "attributes": ["chart", "table"],
           "options": [
             {
               "name": "Yes"
@@ -1177,10 +1026,7 @@
           "order": 19,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table"
-          ],
+          "attributes": ["chart", "table"],
           "options": [
             {
               "name": "Girls don't feel comfortable to use common latrine"
@@ -1201,9 +1047,7 @@
           "dependency": [
             {
               "id": 551660027,
-              "options": [
-                "No"
-              ]
+              "options": ["No"]
             }
           ]
         },
@@ -1215,11 +1059,7 @@
           "order": 20,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "At least once per day"
@@ -1237,9 +1077,7 @@
           "dependency": [
             {
               "id": 601780052,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1251,11 +1089,7 @@
           "order": 21,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Clean"
@@ -1276,11 +1110,7 @@
           "order": 22,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1298,12 +1128,7 @@
           "order": 23,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1315,9 +1140,7 @@
           "dependency": [
             {
               "id": 601780052,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1350,9 +1173,7 @@
           "dependency": [
             {
               "id": 539710039,
-              "options": [
-                "No"
-              ]
+              "options": ["No"]
             }
           ]
         },
@@ -1364,11 +1185,7 @@
           "order": 25,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1386,11 +1203,7 @@
           "order": 26,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1408,11 +1221,7 @@
           "order": 27,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1424,9 +1233,7 @@
           "dependency": [
             {
               "id": 601780052,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1453,9 +1260,7 @@
           "dependency": [
             {
               "id": 539710038,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         }
@@ -1472,12 +1277,7 @@
           "order": 1,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1495,12 +1295,7 @@
           "order": 2,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes, water and soap"
@@ -1518,9 +1313,7 @@
           "dependency": [
             {
               "id": 539710052,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1532,11 +1325,7 @@
           "order": 3,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Toilets"
@@ -1557,9 +1346,7 @@
           "dependency": [
             {
               "id": 539710052,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1571,17 +1358,12 @@
           "order": 4,
           "required": true,
           "type": "number",
-          "attributes": [
-            "chart",
-            "table"
-          ],
+          "attributes": ["chart", "table"],
           "options": null,
           "dependency": [
             {
               "id": 539710052,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1593,11 +1375,7 @@
           "order": 5,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1615,11 +1393,7 @@
           "order": 6,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "With water only"
@@ -1637,9 +1411,7 @@
           "dependency": [
             {
               "id": 539710056,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1651,10 +1423,7 @@
           "order": 7,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "advanced_filter",
-            "chart"
-          ],
+          "attributes": ["advanced_filter", "chart"],
           "options": [
             {
               "name": "After I wake up from my sleep"
@@ -1687,12 +1456,7 @@
           "order": 8,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1704,9 +1468,7 @@
           "dependency": [
             {
               "id": 539710052,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -1718,11 +1480,7 @@
           "order": 9,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1763,12 +1521,7 @@
           "order": 2,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "advanced_filter",
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "chart", "table", "aggregate"],
           "options": [
             {
               "name": "Private place / latrine"
@@ -1825,11 +1578,7 @@
           "order": 4,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "There is no private place (latrine) for changing used sanitary pads or cloth"
@@ -1862,11 +1611,7 @@
           "order": 5,
           "required": false,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1884,11 +1629,7 @@
           "order": 6,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1914,9 +1655,7 @@
           "dependency": [
             {
               "id": 538000049,
-              "options": [
-                "No"
-              ]
+              "options": ["No"]
             }
           ]
         },
@@ -1928,11 +1667,7 @@
           "order": 8,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -1950,12 +1685,7 @@
           "order": 9,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes, water and soap"
@@ -1981,11 +1711,7 @@
           "order": 1,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -2006,11 +1732,7 @@
           "order": 2,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -2031,11 +1753,7 @@
           "order": 3,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Daily"
@@ -2065,11 +1783,7 @@
           "order": 4,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -2090,11 +1804,7 @@
           "order": 5,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "The waste contaminates the water"
@@ -2124,11 +1834,7 @@
           "order": 6,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["chart", "table", "aggregate"],
           "options": [
             {
               "name": "Buried in a pit within school compound"
@@ -2161,10 +1867,7 @@
           "order": 7,
           "required": true,
           "type": "multiple_option",
-          "attributes": [
-            "chart",
-            "table"
-          ],
+          "attributes": ["chart", "table"],
           "options": [
             {
               "name": "Make latrine available for students"
@@ -2197,12 +1900,7 @@
           "order": 8,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter",
-            "chart",
-            "table",
-            "aggregate"
-          ],
+          "attributes": ["advanced_filter", "chart", "table", "aggregate"],
           "options": [
             {
               "name": "Yes"
@@ -2220,10 +1918,7 @@
           "order": 9,
           "required": true,
           "type": "option",
-          "attributes": [
-            "chart",
-            "table"
-          ],
+          "attributes": ["chart", "table"],
           "options": [
             {
               "name": "Yes, all have been trained"
@@ -2252,9 +1947,7 @@
           "order": 1,
           "required": false,
           "type": "text",
-          "attributes": [
-            "table"
-          ],
+          "attributes": ["table"],
           "options": null
         }
       ]
