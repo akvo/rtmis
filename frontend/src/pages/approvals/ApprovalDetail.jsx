@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Row,
   Col,
@@ -116,6 +116,14 @@ const ApprovalDetail = ({
 
   const { user: authUser } = store.useState((s) => s);
   const { approvalsLiteral } = config;
+
+  //for checking the null value
+  const approveButtonEnable = useMemo(() => {
+    if (record.form?.approval_instructions === null) {
+      return false;
+    }
+    return !checkedState.every(Boolean);
+  }, [record, checkedState]);
 
   const handleSave = (data) => {
     setSaving(data.id);
@@ -575,7 +583,7 @@ const ApprovalDetail = ({
             <Button
               type="primary"
               onClick={() => handleApprove(record.id, 2)}
-              disabled={!approve || !checkedState.every(Boolean)}
+              disabled={!approve || approveButtonEnable}
               shape="round"
             >
               {approvalsLiteral({ ...authUser, isButton: true })}
