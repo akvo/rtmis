@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import "./style.scss";
 import {
   Row,
@@ -36,6 +36,7 @@ const UploadAdministrationData = () => {
   const [uploading, setUploading] = useState(false);
   const [updateExisting, setUpdateExisting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [attributes, setAttributes] = useState([]);
   const { notify } = useNotification();
   const navigate = useNavigate();
   const { language } = store.useState((s) => s);
@@ -54,6 +55,19 @@ const UploadAdministrationData = () => {
       title: "Administration Data Upload",
     },
   ];
+
+  const fetchAttributes = useCallback(async () => {
+    try {
+      const { data: _attributes } = await api.get("/administration-attributes");
+      setAttributes(_attributes);
+    } catch {
+      setAttributes([]);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchAttributes();
+  }, [fetchAttributes]);
 
   const exportGenerate = () => {
     const adm_id = takeRight(administration, 1)[0]?.id;
@@ -266,7 +280,7 @@ const UploadAdministrationData = () => {
                     mode="multiple"
                     allowClear
                   >
-                    {forms.map((f, fI) => (
+                    {attributes.map((f, fI) => (
                       <Option key={fI} value={f.id}>
                         {f.name}
                       </Option>
