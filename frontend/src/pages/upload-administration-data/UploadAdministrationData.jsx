@@ -102,6 +102,7 @@ const UploadAdministrationData = () => {
     onChange: onChange,
   };
 
+  //handling attribute multiple select
   const handleAttributeChange = (e) => {
     setSelectedAttributes(e);
   };
