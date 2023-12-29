@@ -72,6 +72,12 @@ class Command(BaseCommand):
                 form.name = json_form["form"]
                 form.version += 1
                 form.type = json_form["type"]
+                if json_form.get("approval_instructions"):
+                    form.approval_instructions = json_form.get(
+                        "approval_instructions"
+                    )
+                else:
+                    form.approval_instructions = None
                 form.save()
                 if not TEST:
                     self.stdout.write(
