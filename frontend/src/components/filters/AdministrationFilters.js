@@ -49,7 +49,7 @@ const AdministrationFilters = ({
       {["Super Admin"].includes(authUser?.role?.value) && (
         <Col>
           <Space>
-            <Link to="/control-center/data/upload">
+            <Link to="/control-center/data/upload-administration-data">
               <Button icon={<UploadOutlined />} shape="round">
                 {text.bulkUploadButton}
               </Button>
