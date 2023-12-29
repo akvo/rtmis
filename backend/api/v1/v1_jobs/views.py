@@ -7,6 +7,7 @@ from uuid import uuid4
 from django.core.files.storage import FileSystemStorage
 from django.core.management import call_command
 from django.http import HttpResponse
+from django.utils import timezone
 from django_q.tasks import async_task
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter, \
@@ -220,5 +221,9 @@ def upload_bulk_administrators(request, version):
             'api.v1.v1_jobs.job.handle_administrations_bulk_upload',
             filename,
             request.user.id,
-            task_name='administrator_bulk_upload')
+            timezone.now(),
+            task_name='administrator_bulk_upload',
+            hook=(
+                'api.v1.v1_jobs.job.'
+                'handle_administrations_bulk_upload_failure'))
     return Response({'task_id': task_id}, status=status.HTTP_200_OK)

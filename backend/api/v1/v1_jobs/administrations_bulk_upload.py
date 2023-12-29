@@ -1,5 +1,6 @@
 from collections import OrderedDict
 import logging
+from django.db import transaction
 import pandas as pd
 from typing import Type, Union
 from django.db.models import Model
@@ -13,6 +14,7 @@ from api.v1.v1_profile.models import (
 logger = logging.getLogger(__name__)
 
 
+@transaction.atomic
 def seed_administration_data(io_file):
     df = pd.read_excel(io_file, sheet_name='data')
     columns = list(df)

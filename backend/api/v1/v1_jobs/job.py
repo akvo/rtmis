@@ -1,5 +1,6 @@
 import logging
 import os
+from django_q.models import Task
 
 import pandas as pd
 from django.utils import timezone
@@ -266,18 +267,56 @@ def validate_excel_result(task):
         job.save()
 
 
-def handle_administrations_bulk_upload(filename, user_id):
-    logger.warn(SystemUser.objects.get(id=user_id).email)
+def handle_administrations_bulk_upload(filename, user_id, upload_time):
+    user = SystemUser.objects.get(id=user_id)
     storage.download(f"upload/{filename}")
     file_path = f"./tmp/{filename}"
-    # validate
     errors = validate_administrations_bulk_upload(file_path)
-    # if not valid send error email and return
+    df = pd.read_excel(file_path, sheet_name='data')
+    email_context = {
+        'send_to': [user.email],
+        'listing': [
+            {
+                'name': 'Upload Date',
+                'value': upload_time.strftime('%m-%d-%Y, %H:%M:%S'),
+            },
+            {
+                'name': 'Questionnaire',
+                'value': 'Administrative List',
+            },
+            {
+                'name': "Number of Records",
+                'value': df.shape[0]
+            },
+        ]
+    }
     if len(errors):
         logger.error(errors)
+        error_file = (
+            "./tmp/administration-error-"
+            f"{upload_time.strftime('%Y%m%d%H%M%S')}-{user.id}.csv"
+        )
+        error_list = pd.DataFrame(errors)
+        error_list.to_csv(error_file, index=False)
+        send_email(context=email_context,
+                   type=EmailTypes.upload_error,
+                   path=error_file,
+                   content_type='text/csv')
         return
-    # else,
     seed_administration_data(file_path)
-    # send success email
+    send_email(context=email_context, type=EmailTypes.administration_upload)
 
-    # hook to handle errors when seeding data
+
+def handle_administrations_bulk_upload_failure(task: Task):
+    if task.success:
+        return
+    logger.error({
+        'error': 'Failed running background job',
+        'id': task.id,
+        'name': task.name,
+        'started': task.started,
+        'stopped': task.stopped,
+        'args': task.args,
+        'kwargs': task.kwargs,
+        'body': task.result,
+    })
