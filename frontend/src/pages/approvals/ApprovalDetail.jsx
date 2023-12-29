@@ -121,10 +121,9 @@ const ApprovalDetail = ({
   const approveButtonEnable = useMemo(() => {
     if (record.form?.approval_instructions === null) {
       return false;
-    } else {
-      return !checkedState.every(Boolean);
     }
-  }, [record.form?.approval_instruction, checkedState]);
+    return !checkedState.every(Boolean);
+  }, [record, checkedState]);
 
   const handleSave = (data) => {
     setSaving(data.id);
