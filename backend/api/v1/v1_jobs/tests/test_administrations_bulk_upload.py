@@ -269,3 +269,50 @@ class ValidateBulkUploadTestCase(TestCase, ProfileTestHelperMixin):
             'error_message': ValidationText.header_invalid_attribute.value,
             'cell': 'I1'
         })
+
+    def test_invalid_attribute_values(self):
+        df = generate_inmemory_template([
+            self.value_att.id,
+            self.option_att.id,
+            self.multiple_option_att.id,
+            self.aggregate_att.id])
+        df.loc[len(df)] = [
+                'Indonesia',
+                'Jakarta',
+                'South Jakarta',
+                'Pasar Minggu',
+                'Lenteng Agung',
+                '1',
+                'invalid',
+                'opt #1 | invalid',
+                'invalid = 1 | opt #2 = 2',
+                ]
+        upload_file = write_inmemory_excel_file(df)
+
+        result = validate_administrations_bulk_upload(upload_file)
+
+        self.assertEqual(3, len(result))
+        self.assertEqual(result[0], {
+            'error': ExcelError.value,
+            'error_message':
+                ValidationText.invalid_attribute_options.value.format(
+                    'invalid', str(self.option_att.options)
+                ),
+            'cell': 'G2'
+        })
+        self.assertEqual(result[1], {
+            'error': ExcelError.value,
+            'error_message':
+                ValidationText.invalid_attribute_options.value.format(
+                    'invalid', str(self.multiple_option_att.options)
+                ),
+            'cell': 'H2'
+        })
+        self.assertEqual(result[2], {
+            'error': ExcelError.value,
+            'error_message':
+                ValidationText.invalid_attribute_options.value.format(
+                    'invalid', str(self.multiple_option_att.options)
+                ),
+            'cell': 'I2'
+        })

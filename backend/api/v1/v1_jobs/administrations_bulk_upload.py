@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import logging
 import pandas as pd
 from typing import Type, Union
@@ -85,11 +86,72 @@ def validate_administrations_bulk_upload(io_file):
     errors = []
     errors = errors + validate_level_headers(
             levels, headers[:level_count], excel_cols[:level_count])
-    errors = errors + validate_attribute_headers(
+    attribute_errors, attribute_results = validate_attribute_headers(
             attributes, headers[level_count:], excel_cols[level_count:])
-    if errors:
-        return errors
-    return []
+    errors = errors + attribute_errors
+    return errors if errors \
+        else validate_administration_attribute_values(df, attribute_results)
+
+
+def validate_administration_attribute_values(df, attribute_column_map):
+    type_validations = {
+        AdministrationAttribute.Type.OPTION:
+            validate_attribute_option_value,
+        AdministrationAttribute.Type.MULTIPLE_OPTION:
+            validate_attribute_multioption_value,
+        AdministrationAttribute.Type.AGGREGATE:
+            validate_attribute_aggregate_value,
+    }
+    filtered_attributes = OrderedDict([
+        (header, item) for header, item in attribute_column_map.items()
+        if item['attribute'].type in type_validations.keys()
+    ])
+    errors = []
+    for header, item in filtered_attributes.items():
+        values = list(df[header])
+        attribute = item['attribute']
+        options = attribute.options
+        for row, value in enumerate(values):
+            validate = type_validations[attribute.type]
+            invalids = validate(value, options)
+            if not invalids:
+                continue
+            errors.append({
+                'error': ExcelError.value,
+                'error_message':
+                    ValidationText.invalid_attribute_options.value.format(
+                        ', '.join(map(str, invalids)), str(options)
+                    ),
+                'cell': f"{item['col']}{row+2}",
+            })
+    return errors
+
+
+def validate_attribute_option_value(data, options):
+    if data in options:
+        return
+    return [data]
+
+
+def validate_attribute_multioption_value(data, options):
+    values = [it.strip() for it in data.split('|')]
+    invalids = []
+    for value in values:
+        if value in options:
+            continue
+        invalids.append(value)
+    return invalids
+
+
+def validate_attribute_aggregate_value(data, options):
+    values = [it.strip() for it in data.split('|')]
+    invalids = []
+    for value in values:
+        opt = value.split('=')[0].strip()
+        if opt in options:
+            continue
+        invalids.append(opt)
+    return invalids
 
 
 def get_selected_attributes(columns):
@@ -100,9 +162,9 @@ def get_selected_attributes(columns):
 
 
 def validate_level_headers(levels, headers, excel_cols):
-    level_id_map = [(lvl.id, lvl.name) for lvl in levels]
+    level_keys = [(lvl.id, lvl.name) for lvl in levels]
     errors = []
-    for idx, key in enumerate(level_id_map):
+    for idx, key in enumerate(level_keys):
         default_error = {
                 'error': ExcelError.header, 'cell': f"{excel_cols[idx]}1"}
         try:
@@ -131,9 +193,10 @@ def validate_level_headers(levels, headers, excel_cols):
 
 def validate_attribute_headers(attributes, headers, excel_cols):
     if not headers:
-        return []
-    attribute_id_map = [(att.id, att.name) for att in attributes]
+        return [], {}
+    attribute_key_map = {(att.id, att.name): att for att in attributes}
     errors = []
+    results = OrderedDict()
     for idx, col in enumerate(excel_cols):
         default_error = {'error': ExcelError.header, 'cell': f"{col}1"}
         header = headers[idx]
@@ -144,10 +207,12 @@ def validate_attribute_headers(attributes, headers, excel_cols):
             errors.append(default_error)
             continue
         header_id, header_name = (v for v in header.split('|'))
-        if (int(header_id), header_name) in attribute_id_map:
+        key = (int(header_id), header_name)
+        if key not in attribute_key_map.keys():
+            default_error.update({
+                'error_message': ValidationText.header_invalid_attribute.value
+            })
+            errors.append(default_error)
             continue
-        default_error.update({
-            'error_message': ValidationText.header_invalid_attribute.value
-        })
-        errors.append(default_error)
-    return errors
+        results[header] = {'attribute': attribute_key_map[key], 'col': col}
+    return errors, results

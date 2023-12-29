@@ -40,3 +40,5 @@ class ValidationText(enum.Enum):
     error_validation = "VALIDATION ERROR"
     invalid_data_id = "--data_id-- is not a valid data id"
     duplicated_data_id = "--data_id-- is a duplicate data id"
+    invalid_attribute_options = (
+            "invalid attribute options: {}, available options: {}")
