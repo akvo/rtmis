@@ -83,8 +83,8 @@ export const columnsBatch = [
                 status_text === "Pending"
                   ? "default"
                   : status_text === "Rejected"
-                    ? "error"
-                    : "success"
+                  ? "error"
+                  : "success"
               }
             >
               {status_text}
@@ -200,8 +200,8 @@ export const columnsApprover = [
             status_text === "Pending"
               ? "default"
               : status_text === "Rejected"
-                ? "error"
-                : "success"
+              ? "error"
+              : "success"
           }
         >
           {status_text}

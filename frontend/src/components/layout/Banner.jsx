@@ -148,15 +148,15 @@ const Banner = () => {
               (status === 404
                 ? text?.errorPageNA
                 : status === 401
-                  ? text?.errorAuth
-                  : text?.errorUnknown)}
+                ? text?.errorAuth
+                : text?.errorUnknown)}
             <br />
             {description ||
               (status === 404
                 ? text?.errorURL
                 : status === 401
-                  ? text?.errorVerifyCreds
-                  : "")}
+                ? text?.errorVerifyCreds
+                : "")}
           </small>
         </h1>
         <Link to="/">

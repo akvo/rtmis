@@ -101,8 +101,8 @@ const DataDetail = ({
           updateRecord === record.id
             ? false
             : updateRecord === null
-              ? false
-              : record.id
+            ? false
+            : record.id
         );
         fetchData(record.id);
       })

@@ -71,8 +71,8 @@ export const columnsApproval = [
             status_text === "Pending"
               ? "default"
               : status_text === "Rejected"
-                ? "error"
-                : "success"
+              ? "error"
+              : "success"
           }
         >
           {status_text}

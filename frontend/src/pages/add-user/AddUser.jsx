@@ -226,8 +226,8 @@ const AddUser = () => {
             inform_user: !id
               ? true
               : authUser?.email === res.data?.email
-                ? false
-                : true,
+              ? false
+              : true,
           });
           setRole(res.data?.role);
           setLoading(false);
@@ -534,8 +534,8 @@ const AddUser = () => {
                       !id
                         ? true
                         : authUser?.email === form.getFieldValue("email")
-                          ? true
-                          : false
+                        ? true
+                        : false
                     }
                   >
                     {text.informUser}

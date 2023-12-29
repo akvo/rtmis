@@ -85,8 +85,8 @@ const ExportData = () => {
             {row.status === "on_progress"
               ? text.generating
               : row.status === "failed"
-                ? text.failed
-                : text.download}
+              ? text.failed
+              : text.download}
           </Button>
           <Button ghost className="dev">
             Delete

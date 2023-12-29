@@ -224,8 +224,8 @@ export const downloadToExcel = (
   const title = excelFile.length
     ? excelFile
     : option.title?.[0]?.text.length
-      ? option.title[0].text
-      : "unknown-title";
+    ? option.title[0].text
+    : "unknown-title";
 
   const { columns, data } =
     chartType === "LINE"

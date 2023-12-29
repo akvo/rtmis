@@ -105,8 +105,8 @@ const UserDetail = ({ record, setDeleteUser, deleting }) => {
                   record.forms.length !== 0
                     ? record.forms.map((item) => item.name)
                     : record.forms.length === 1
-                      ? record.forms.map((item) => item.name) + ", "
-                      : "-"
+                    ? record.forms.map((item) => item.name) + ", "
+                    : "-"
                 }`,
               },
             ]}
