@@ -117,6 +117,7 @@ const ApprovalDetail = ({
   const { user: authUser } = store.useState((s) => s);
   const { approvalsLiteral } = config;
 
+  //for checking the null value
   const approveButtonEnable = useMemo(() => {
     if (record.form?.approval_instructions === null) {
       return false;
