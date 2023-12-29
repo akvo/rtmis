@@ -123,7 +123,7 @@ const RouteList = () => {
           element={<Private element={MasterData} alias="master-data" />}
         />
         <Route
-          path="data/upload-administration-data"
+          path="master-data/upload-administration-data"
           element={
             <Private element={UploadAdministrationData} alias="master-data" />
           }

@@ -196,6 +196,7 @@ const uiText = {
       </Fragment>
     ),
     dataUploadTitle: "Data Upload",
+    AdministrationDataUpload: "Administration Data Upload",
     dataUploadButton: "Data Upload",
     dataUploadText: (
       <Fragment>
@@ -204,6 +205,15 @@ const uiText = {
           <li>Download upload template</li>
           <li>Bulk upload new data</li>
           <li>Bulk update existing data</li>
+        </ul>
+      </Fragment>
+    ),
+    dataAdministrationUploadText: (
+      <Fragment>
+        This is where you :
+        <ul>
+          <li>Download upload template</li>
+          <li>Bulk upload new data</li>
         </ul>
       </Fragment>
     ),
@@ -331,6 +341,7 @@ const uiText = {
     failed: "Failed",
     download: "Download",
     uploadDataLabel: "Upload your data",
+    uploadMasterDataLabel: "Upload your data",
     uploadAnotherFileLabel: "Upload Another File",
     backToCenterLabel: "Back to Control Center",
     uploadThankyouText: (
