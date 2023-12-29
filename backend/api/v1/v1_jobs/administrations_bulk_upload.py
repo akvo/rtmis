@@ -59,14 +59,6 @@ def map_column_model(columns, model: Type[Model]):
     return map
 
 
-def map_column_names(columns):
-    map = {}
-    for column in columns:
-        id, name = (v for v in column.split('|'))
-        map[id] = name
-    return map
-
-
 def validate_administrations_bulk_upload(io_file):
     excel_file = pd.ExcelFile(io_file)
     sheet_names = ['data']
@@ -82,21 +74,33 @@ def validate_administrations_bulk_upload(io_file):
             "error": ExcelError.sheet,
             "error_message": ValidationText.file_empty_validation.value,
         }]
-    errors = []
     headers = list(df)
-    level_count = Levels.objects.count()
-    errors = errors + validate_level_headers(headers[:level_count])
+    header_count = len(headers)
+    levels = list(Levels.objects.all())
+    level_count = len(levels)
+    excel_cols = list(itertools.islice(
+        generate_excel_columns(),
+        header_count if header_count > level_count else level_count))
+    attributes = get_selected_attributes(headers[level_count:])
+    errors = []
+    errors = errors + validate_level_headers(
+            levels, headers[:level_count], excel_cols[:level_count])
     errors = errors + validate_attribute_headers(
-        headers[level_count:], level_count)
-    return errors
+            attributes, headers[level_count:], excel_cols[level_count:])
+    if errors:
+        return errors
+    return []
 
 
-def validate_level_headers(headers):
-    levels = {
-            lvl.id: lvl.name for lvl in
-            Levels.objects.order_by('level').all()}
-    excel_cols = list(itertools.islice(generate_excel_columns(), len(levels)))
-    level_id_map = [(id, name) for id, name in levels.items()]
+def get_selected_attributes(columns):
+    if not columns:
+        return []
+    column_ids = [int(c.split('|')[0]) for c in columns if '|' in c]
+    return list(AdministrationAttribute.objects.filter(id__in=column_ids))
+
+
+def validate_level_headers(levels, headers, excel_cols):
+    level_id_map = [(lvl.id, lvl.name) for lvl in levels]
     errors = []
     for idx, key in enumerate(level_id_map):
         default_error = {
@@ -125,14 +129,10 @@ def validate_level_headers(headers):
     return errors
 
 
-def validate_attribute_headers(headers, offset):
+def validate_attribute_headers(attributes, headers, excel_cols):
     if not headers:
         return []
-    excel_cols = list(itertools.islice(
-        generate_excel_columns(),
-        len(headers) + offset
-    ))[offset:]
-    attribute_id_map = get_available_attributes(headers)
+    attribute_id_map = [(att.id, att.name) for att in attributes]
     errors = []
     for idx, col in enumerate(excel_cols):
         default_error = {'error': ExcelError.header, 'cell': f"{col}1"}
@@ -151,11 +151,3 @@ def validate_attribute_headers(headers, offset):
         })
         errors.append(default_error)
     return errors
-
-
-def get_available_attributes(columns):
-    column_ids = [int(c.split('|')[0]) for c in columns if '|' in c]
-    attributes = AdministrationAttribute.objects\
-        .filter(id__in=column_ids)\
-        .values('id', 'name')
-    return [(a['id'], a['name']) for a in attributes]
