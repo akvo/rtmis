@@ -27,7 +27,8 @@ def generate_template(filepath, attributes: List[int] = []):
             in Levels.objects.order_by('level').all()]
     attribute_header = [
             f'{att.id}|{att.name}' for att
-            in AdministrationAttribute.objects.filter(id__in=attributes)]
+            in AdministrationAttribute.objects.filter(
+                id__in=attributes).order_by('id')]
     columns = level_header + attribute_header
     data = pd.DataFrame(columns=columns, index=[0])
     writer = pd.ExcelWriter(filepath, engine='xlsxwriter')
