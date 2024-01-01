@@ -1,0 +1,43 @@
+@import "../../variables";
+
+#root {
+  #uploadMasterData {
+    .ant-card {
+      margin-top: 16px;
+      .ant-space {
+        padding: 26px 48px;
+        width: 100%;
+        img {
+          width: 48px;
+          height: 48px;
+        }
+        .ant-space-item:nth-child(2) {
+          font-weight: $font-weight-semi-bold;
+          color: #707070;
+        }
+      }
+      .ant-card-body > .ant-space:first-child {
+        border-bottom: solid #d7dbec 1px;
+      }
+      .ant-card-body
+        > .ant-space:nth-child(2)
+        > .ant-space-item:last-child
+        > .ant-space {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+      .ant-upload.ant-upload-drag .ant-upload {
+        padding: 32px 0;
+      }
+      .upload-wrap {
+        padding: 0 32px 32px;
+        .ant-upload-text {
+          margin-bottom: 16px;
+        }
+      }
+      .multiple-select-box {
+        width: 13rem;
+      }
+    }
+  }
+}

@@ -22,6 +22,8 @@ class ValidationText(enum.Enum):
     header_name_missing = "Header name is missing"
     header_no_question_id = "doesn't have question id"
     header_invalid_id = "has invalid id"
+    header_invalid_level = "has invalid administration level header"
+    header_invalid_attribute = "has invalid administration attribute header"
     numeric_validation = "Value should be numeric"
     numeric_max_rule = "Maximum value for --question-- is --rule--"
     numeric_min_rule = "Minimum value for --question-- is --rule--"
@@ -38,3 +40,5 @@ class ValidationText(enum.Enum):
     error_validation = "VALIDATION ERROR"
     invalid_data_id = "--data_id-- is not a valid data id"
     duplicated_data_id = "--data_id-- is a duplicate data id"
+    invalid_attribute_options = (
+            "invalid attribute options: {}, available options: {}")
