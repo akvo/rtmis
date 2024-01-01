@@ -1,8 +1,13 @@
+import logging
 import os
+from django_q.models import Task
 
 import pandas as pd
 from django.utils import timezone
 from django_q.tasks import async_task
+from api.v1.v1_jobs.administrations_bulk_upload import (
+        seed_administration_data,
+        validate_administrations_bulk_upload)
 
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_forms.models import Forms
@@ -12,11 +17,14 @@ from api.v1.v1_jobs.models import Jobs
 from api.v1.v1_jobs.seed_data import seed_excel_data
 from api.v1.v1_jobs.validate_upload import validate
 from api.v1.v1_profile.models import Administration, Levels
+from api.v1.v1_users.models import SystemUser
 from utils import storage
 from utils.email_helper import send_email, EmailTypes
 from utils.export_form import generate_definition_sheet
 from utils.functions import update_date_time_format
 from utils.storage import upload
+
+logger = logging.getLogger(__name__)
 
 
 def download(form: Forms, administration_ids):
@@ -257,3 +265,58 @@ def validate_excel_result(task):
     else:
         job.status = JobStatus.failed
         job.save()
+
+
+def handle_administrations_bulk_upload(filename, user_id, upload_time):
+    user = SystemUser.objects.get(id=user_id)
+    storage.download(f"upload/{filename}")
+    file_path = f"./tmp/{filename}"
+    errors = validate_administrations_bulk_upload(file_path)
+    df = pd.read_excel(file_path, sheet_name='data')
+    email_context = {
+        'send_to': [user.email],
+        'listing': [
+            {
+                'name': 'Upload Date',
+                'value': upload_time.strftime('%m-%d-%Y, %H:%M:%S'),
+            },
+            {
+                'name': 'Questionnaire',
+                'value': 'Administrative List',
+            },
+            {
+                'name': "Number of Records",
+                'value': df.shape[0]
+            },
+        ]
+    }
+    if len(errors):
+        logger.error(errors)
+        error_file = (
+            "./tmp/administration-error-"
+            f"{upload_time.strftime('%Y%m%d%H%M%S')}-{user.id}.csv"
+        )
+        error_list = pd.DataFrame(errors)
+        error_list.to_csv(error_file, index=False)
+        send_email(context=email_context,
+                   type=EmailTypes.upload_error,
+                   path=error_file,
+                   content_type='text/csv')
+        return
+    seed_administration_data(file_path)
+    send_email(context=email_context, type=EmailTypes.administration_upload)
+
+
+def handle_administrations_bulk_upload_failure(task: Task):
+    if task.success:
+        return
+    logger.error({
+        'error': 'Failed running background job',
+        'id': task.id,
+        'name': task.name,
+        'started': task.started,
+        'stopped': task.stopped,
+        'args': task.args,
+        'kwargs': task.kwargs,
+        'body': task.result,
+    })

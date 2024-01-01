@@ -7,6 +7,7 @@ from uuid import uuid4
 from django.core.files.storage import FileSystemStorage
 from django.core.management import call_command
 from django.http import HttpResponse
+from django.utils import timezone
 from django_q.tasks import async_task
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter, \
@@ -187,4 +188,42 @@ def upload_excel(request, form_id, version):
     job.task_id = task_id
     job.save()
 
+    return Response({'task_id': task_id}, status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    tags=['Job'],
+    summary='Bulk Upload Administrations',
+    request=UploadExcelSerializer,
+    responses={
+        (200, 'application/json'):
+        inline_serializer("UploadExcel",
+                          fields={"task_id": serializers.CharField()})
+    },
+)
+@api_view(['POST'])
+@parser_classes([MultiPartParser])
+@permission_classes([IsAuthenticated])
+def upload_bulk_administrators(request, version):
+    serializer = UploadExcelSerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST)
+    fs = FileSystemStorage()
+    file = fs.save(f"./tmp/{serializer.validated_data.get('file').name}",
+                   serializer.validated_data.get('file'))
+    file_path = fs.path(file)
+    uuid = "_".join(str(uuid4()).split("-")[:-1])
+    filename = f"administration-bulk-upload-{request.user.id}-{uuid}.xlsx"
+    storage.upload(file=file_path, filename=filename, folder='upload')
+    task_id = async_task(
+            'api.v1.v1_jobs.job.handle_administrations_bulk_upload',
+            filename,
+            request.user.id,
+            timezone.now(),
+            task_name='administrator_bulk_upload',
+            hook=(
+                'api.v1.v1_jobs.job.'
+                'handle_administrations_bulk_upload_failure'))
     return Response({'task_id': task_id}, status=status.HTTP_200_OK)

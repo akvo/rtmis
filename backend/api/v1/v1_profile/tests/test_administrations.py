@@ -402,15 +402,11 @@ class AdministrationListFiltersTestCase(TestCase, ProfileTestHelperMixin):
     def make_administration(
             self, name, code, children=[], parent=None, depth=0):
         level = Levels.objects.get(level=depth)
-        path = None
-        if parent:
-            path = f"{parent.path or ''}{parent.id}."
         administration = Administration.objects.create(
             name=name,
             code=code,
             parent=parent,
-            level=level,
-            path=path
+            level=level
         )
         for child in children:
             self.make_administration(
