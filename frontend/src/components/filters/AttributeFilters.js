@@ -12,7 +12,7 @@ import {
 const { Search } = Input;
 
 const AttributeFilters = ({
-  onSearchChange = () => {},
+  onSearchChange,
   handleAttributeFilter,
   handleAttributeClearFilter,
   isBulkUplodNotRequired = false,

@@ -14,7 +14,7 @@ const { Text } = Typography;
 const MasterDataAttributes = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
-  const [attributeType, setAttributeType] = useState(null);
+  const [datasetBackup, setdatasetBackup] = useState([]);
   const navigate = useNavigate();
 
   const { language } = store.useState((s) => s);
@@ -91,27 +91,50 @@ const MasterDataAttributes = () => {
         attribute_for: "administration",
       }));
       setDataset(_dataset);
+      setdatasetBackup(_dataset);
       setLoading(false);
     } catch {
       setLoading(false);
     }
   }, []);
 
-  const handleAttributeFilter = (value) => {
-    setAttributeType(value);
-  };
+  const handleAttributeFilter = useCallback(
+    (value) => {
+      const filteredDataset = datasetBackup.filter(
+        (data) => data.type === value
+      );
+      setDataset(filteredDataset);
+    },
+    [datasetBackup, setDataset]
+  );
 
   const handleAttributeClearFilter = () => {
-    setAttributeType(null);
+    fetchData();
   };
+
+  const onSearchChange = useCallback(
+    (value) => {
+      const filterDataset = () => {
+        const filtered = dataset.filter((data) => {
+          const nameMatch = data.name
+            .toLowerCase()
+            .includes(value.toLowerCase());
+          return nameMatch;
+        });
+        setDataset(filtered);
+      };
+      if (value !== "") {
+        filterDataset();
+      } else if (value === "") {
+        setDataset(datasetBackup);
+      }
+    },
+    [dataset, setDataset, datasetBackup]
+  );
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
-  const filteredDataset = attributeType
-    ? dataset.filter((data) => data.type === attributeType)
-    : dataset;
 
   return (
     <div id="users">
@@ -133,6 +156,7 @@ const MasterDataAttributes = () => {
             isBulkUplodNotRequired={true}
             handleAttributeFilter={handleAttributeFilter}
             handleAttributeClearFilter={handleAttributeClearFilter}
+            onSearchChange={onSearchChange}
           />
           <Divider />
           <div
@@ -142,7 +166,7 @@ const MasterDataAttributes = () => {
             <Table
               columns={columns}
               rowClassName={() => "editable-row"}
-              dataSource={filteredDataset}
+              dataSource={dataset}
               loading={loading}
               rowKey="id"
             />
