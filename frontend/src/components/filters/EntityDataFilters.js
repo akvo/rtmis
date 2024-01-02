@@ -5,6 +5,7 @@ import RemoveFiltersButton from "./RemoveFiltersButton";
 import AdministrationDropdown from "./AdministrationDropdown";
 import { api, store, uiText } from "../../lib";
 import debounce from "lodash.debounce";
+import { DownloadOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -96,7 +97,7 @@ const EntityDataFilters = ({
       {["Super Admin"].includes(authUser?.role?.value) && (
         <Col>
           <Space>
-            <Button type="primary" shape="round">
+            <Button icon={<DownloadOutlined />} shape="round">
               {text.exportButton}
             </Button>
             <Link to="/control-center/master-data/entities/add">

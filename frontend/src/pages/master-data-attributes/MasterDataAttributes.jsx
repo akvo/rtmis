@@ -14,6 +14,7 @@ const { Text } = Typography;
 const MasterDataAttributes = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
+  const [attributeType, setAttributeType] = useState(null);
   const navigate = useNavigate();
 
   const { language } = store.useState((s) => s);
@@ -96,9 +97,21 @@ const MasterDataAttributes = () => {
     }
   }, []);
 
+  const handleAttributeFilter = (value) => {
+    setAttributeType(value);
+  };
+
+  const handleAttributeClearFilter = () => {
+    setAttributeType(null);
+  };
+
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  const filteredDataset = attributeType
+    ? dataset.filter((data) => data.type === attributeType)
+    : dataset;
 
   return (
     <div id="users">
@@ -116,7 +129,11 @@ const MasterDataAttributes = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          <AttributeFilters />
+          <AttributeFilters
+            isBulkUplodNotRequired={true}
+            handleAttributeFilter={handleAttributeFilter}
+            handleAttributeClearFilter={handleAttributeClearFilter}
+          />
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}
@@ -125,7 +142,7 @@ const MasterDataAttributes = () => {
             <Table
               columns={columns}
               rowClassName={() => "editable-row"}
-              dataSource={dataset}
+              dataSource={filteredDataset}
               loading={loading}
               rowKey="id"
             />

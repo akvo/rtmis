@@ -11,7 +11,12 @@ import {
 
 const { Search } = Input;
 
-const AttributeFilters = ({ onSearchChange = () => {} }) => {
+const AttributeFilters = ({
+  onSearchChange = () => {},
+  handleAttributeFilter,
+  handleAttributeClearFilter,
+  isBulkUplodNotRequired = false,
+}) => {
   const authUser = store.useState((s) => s.user);
   const language = store.useState((s) => s.language);
   const { active: activeLang } = language;
@@ -36,6 +41,8 @@ const AttributeFilters = ({ onSearchChange = () => {} }) => {
           <Select
             placeholder={text.attrType}
             options={attributeTypes}
+            onChange={handleAttributeFilter}
+            onClear={handleAttributeClearFilter}
             allowClear
           />
         </Space>
@@ -43,11 +50,13 @@ const AttributeFilters = ({ onSearchChange = () => {} }) => {
       {["Super Admin"].includes(authUser?.role?.value) && (
         <Col>
           <Space>
-            <Link to="/control-center/data/upload">
-              <Button icon={<UploadOutlined />} shape="round">
-                {text.bulkUploadButton}
-              </Button>
-            </Link>
+            {isBulkUplodNotRequired ? null : (
+              <Link to="/control-center/data/upload">
+                <Button icon={<UploadOutlined />} shape="round">
+                  {text.bulkUploadButton}
+                </Button>
+              </Link>
+            )}
             <Button icon={<DownloadOutlined />} shape="round">
               {text.exportButton}
             </Button>
