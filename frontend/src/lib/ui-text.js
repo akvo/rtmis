@@ -375,6 +375,8 @@ const uiText = {
       </p>
     ),
     formSuccessTitle: "Thank you for the submission",
+    administrationUploadSuccessTitle:
+      "Administration Data has been Successfully Uploaded",
     formSuccessSubTitle:
       "Do note that this data has NOT been sent for approval. If you are ready to send the submissions for approval, please create a batch and send to the approver",
     formSuccessSubTitleForAdmin:
