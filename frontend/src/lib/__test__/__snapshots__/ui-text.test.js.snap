@@ -38,6 +38,7 @@ Object {
     "admTabTitle": "Administrative List",
     "administrationField": "Administration",
     "administrationLabel": "Administration",
+    "administrationUploadSuccessTitle": "Administration Data has been Successfully Uploaded",
     "approvalsTab1": "My Pending",
     "approvalsTab2": "Subordinates Approvals",
     "approvalsTab3": "Approved",

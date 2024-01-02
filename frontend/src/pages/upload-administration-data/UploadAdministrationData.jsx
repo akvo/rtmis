@@ -189,9 +189,8 @@ const UploadAdministrationData = () => {
             >
               <Result
                 status="success"
-                title={text?.formSuccessTitle}
+                title={text?.administrationUploadSuccessTitle}
                 extra={[
-                  <p key="phar">{text.uploadThankyouText}</p>,
                   <Divider key="divider" />,
                   <Button
                     type="primary"
