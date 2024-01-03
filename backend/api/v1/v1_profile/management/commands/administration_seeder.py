@@ -101,7 +101,9 @@ def seed_administration_prod():
     res = []
     for i, r in enumerate(rec):
         for iv, v in enumerate(levels):
-            lv = list(filter(lambda x: x["alias"] == v, geo_config))[0]["level"]
+            lv = list(filter(
+                lambda x: x["alias"] == v, geo_config
+            ))[0]["level"]
             parent_id = None
             if lv > 0:
                 plv = levels[iv - 1]
@@ -141,7 +143,8 @@ def seed_administration_prod():
             administration = Administration(
                 id=r.get("id"),
                 name=r.get("name"),
-                parent=Administration.objects.filter(id=r.get("parent")).first(),
+                parent=Administration.objects.filter(
+                    id=r.get("parent")).first(),
                 level=Levels.objects.filter(level=r.get("level")).first(),
                 path=r.get("path"))
             administration.save()
