@@ -35,9 +35,10 @@ const UploadAdministrationData = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [attributes, setAttributes] = useState([]);
   const [selectedAttributes, setSelectedAttributes] = useState([]);
+  const [level, setLevel] = useState(null);
   const { notify } = useNotification();
   const navigate = useNavigate();
-  const { language } = store.useState((s) => s);
+  const { language, levels } = store.useState((s) => s);
   const { active: activeLang } = language;
 
   const text = useMemo(() => {
@@ -128,15 +129,14 @@ const UploadAdministrationData = () => {
 
   const downloadTemplate = () => {
     setLoading(true);
+    const attributeStr = selectedAttributes.join(",");
+    const apiURL = level
+      ? `export/administrations-template?attributes=${attributeStr}&level=${level}`
+      : `export/administrations-template?attributes=${attributeStr}`;
     api
-      .get(
-        `export/administrations-template?attributes=${selectedAttributes.join(
-          ","
-        )}`,
-        {
-          responseType: "blob",
-        }
-      )
+      .get(apiURL, {
+        responseType: "blob",
+      })
       .then((res) => {
         const contentDispositionHeader = res.headers["content-disposition"];
         const filename = regExpFilename.exec(contentDispositionHeader)?.groups
@@ -220,6 +220,13 @@ const UploadAdministrationData = () => {
                 <Space align="center" size={32}>
                   <img src="/assets/data-download.svg" />
                   <p>{text.templateDownloadHint}</p>
+                  <Select
+                    placeholder={text.selectLevel}
+                    onChange={setLevel}
+                    fieldNames={{ value: "id", label: "name" }}
+                    options={levels}
+                    allowClear
+                  />
                   <Select
                     placeholder="Select Attributes..."
                     className="multiple-select-box"
