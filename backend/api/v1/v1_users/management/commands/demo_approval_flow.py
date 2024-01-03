@@ -14,7 +14,7 @@ class Command(BaseCommand):
         form = Forms.objects.filter(
             type=FormTypes.county).order_by('?').first()
         print(f"\nForm Name: {form.name}\n\n")
-        last_level = Levels.objects.order_by('-level').first()
+        last_level = Levels.objects.order_by('-level')[1:2].first()
         organisation = Organisation.objects.first()
         administration = Administration.objects.filter(
             level=last_level).order_by('?').first()
@@ -29,7 +29,8 @@ class Command(BaseCommand):
         # union the current administration also
         ancestors |= Administration.objects.filter(id=administration.id)
         print("Approvers:")
-        for ancestor in ancestors.filter(level__level__gte=1):
+        for ancestor in ancestors.filter(level__level__gte=1,
+                                         level__level__lt=4):
             # check if approval assignment for the path is not available
             assignment = FormApprovalAssignment.objects.filter(
                 form=form, administration=ancestor).first()
