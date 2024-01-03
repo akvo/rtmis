@@ -15,7 +15,7 @@ const AttributeFilters = ({
   onSearchChange,
   handleAttributeFilter,
   handleAttributeClearFilter,
-  isBulkUplodNotRequired = false,
+  bulkUploadButton = false,
 }) => {
   const authUser = store.useState((s) => s.user);
   const language = store.useState((s) => s.language);
@@ -50,13 +50,13 @@ const AttributeFilters = ({
       {["Super Admin"].includes(authUser?.role?.value) && (
         <Col>
           <Space>
-            {isBulkUplodNotRequired ? null : (
+            {bulkUploadButton ? (
               <Link to="/control-center/data/upload">
                 <Button icon={<UploadOutlined />} shape="round">
                   {text.bulkUploadButton}
                 </Button>
               </Link>
-            )}
+            ) : null}
             <Button icon={<DownloadOutlined />} shape="round">
               {text.exportButton}
             </Button>

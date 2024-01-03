@@ -153,7 +153,6 @@ const MasterDataAttributes = () => {
       <div className="table-section">
         <div className="table-wrapper">
           <AttributeFilters
-            isBulkUplodNotRequired={true}
             handleAttributeFilter={handleAttributeFilter}
             handleAttributeClearFilter={handleAttributeClearFilter}
             onSearchChange={onSearchChange}
