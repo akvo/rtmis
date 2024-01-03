@@ -31,7 +31,7 @@ def generate_excel(
 
 
 def generate_template(filepath, attributes: List[int] = [], level: int = None):
-    level_header = [
+    level_headers = [
             f'{lvl.id}|{lvl.name}' for lvl
             in Levels.objects.order_by('level').all()]
     attribute_headers = generate_attribute_headers(
@@ -63,7 +63,7 @@ def generate_template(filepath, attributes: List[int] = [], level: int = None):
     administrations = administrations.all()
     for adx, adm in enumerate(administrations):
         find_col = next((
-            lx for lx, lvl in enumerate(level_header)
+            lx for lx, lvl in enumerate(level_headers)
             if str(adm.level_id) in lvl
         ), -1)
         if find_col >= 0:
