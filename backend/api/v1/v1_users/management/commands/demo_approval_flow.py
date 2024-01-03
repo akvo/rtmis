@@ -25,7 +25,8 @@ class Command(BaseCommand):
             form=form, administration=first_level)
         if created:
             approval_rule.save()
-            approval_rule.levels.set(Levels.objects.filter(level__gte=1))
+            approval_rule.levels.set(Levels.objects.filter(
+                level__gte=1, level__lt=4))
         # union the current administration also
         ancestors |= Administration.objects.filter(id=administration.id)
         print("Approvers:")
