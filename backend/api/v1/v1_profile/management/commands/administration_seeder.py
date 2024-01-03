@@ -86,8 +86,8 @@ def get_path(df, parent, current=[]):
 
 
 def seed_administration_prod():
-    Levels.objects.all().delete()
     Administration.objects.all().delete()
+    Levels.objects.all().delete()
     seed_levels()
     levels = [
         c["alias"] for c in geo_config
@@ -95,6 +95,8 @@ def seed_administration_prod():
     ]
     properties = pd.read_csv(source_file).to_dict('records')
     df = pd.DataFrame(properties)
+    # remove duplicates
+    df = df.drop_duplicates()
     rec = df.to_dict("records")
     res = []
     for i, r in enumerate(rec):
@@ -124,7 +126,8 @@ def seed_administration_prod():
         ["ids", "parent", "name", "level"]
     ].reset_index()
     res['id'] = res.apply(
-        lambda x: x["ids"] if x["ids"] == x["ids"] else x["index"], axis=1
+        lambda x: x["ids"] if x["ids"] == x["ids"] else x["index"] + 50000,
+        axis=1
     ).astype(int)
     res = res[["id", "parent", "name", "level"]]
     res["path"] = res["parent"].apply(lambda x: get_path(res, x))
@@ -132,16 +135,16 @@ def seed_administration_prod():
         ["id", "parent", "name", "level"]
     ].reset_index()
     res = res.replace({np.nan: None})
-    res = res.to_dict('records')
-    pd.DataFrame(res).to_csv('./source/kenya-test.csv', index=False)
-    for r in res:
-        administration = Administration(
-            id=r.get("id"),
-            name=r.get("name"),
-            parent=Administration.objects.filter(id=r.get("parent")).first(),
-            level=Levels.objects.filter(level=r.get("level")).first(),
-            path=r.get("path"))
-        administration.save()
+    for iv, v in enumerate(levels):
+        filtered_res = res[res["level"] == iv]
+        for i, r in enumerate(filtered_res.to_dict('records')):
+            administration = Administration(
+                id=r.get("id"),
+                name=r.get("name"),
+                parent=Administration.objects.filter(id=r.get("parent")).first(),
+                level=Levels.objects.filter(level=r.get("level")).first(),
+                path=r.get("path"))
+            administration.save()
 
 
 class Command(BaseCommand):
