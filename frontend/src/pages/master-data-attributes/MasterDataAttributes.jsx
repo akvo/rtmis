@@ -14,6 +14,7 @@ const { Text } = Typography;
 const MasterDataAttributes = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
+  const [datasetBackup, setdatasetBackup] = useState([]);
   const navigate = useNavigate();
 
   const { language } = store.useState((s) => s);
@@ -90,11 +91,46 @@ const MasterDataAttributes = () => {
         attribute_for: "administration",
       }));
       setDataset(_dataset);
+      setdatasetBackup(_dataset);
       setLoading(false);
     } catch {
       setLoading(false);
     }
   }, []);
+
+  const handleAttributeFilter = useCallback(
+    (value) => {
+      const filteredDataset = datasetBackup.filter(
+        (data) => data.type === value
+      );
+      setDataset(filteredDataset);
+    },
+    [datasetBackup, setDataset]
+  );
+
+  const handleAttributeClearFilter = () => {
+    fetchData();
+  };
+
+  const onSearchChange = useCallback(
+    (value) => {
+      const filterDataset = () => {
+        const filtered = dataset.filter((data) => {
+          const nameMatch = data.name
+            .toLowerCase()
+            .includes(value.toLowerCase());
+          return nameMatch;
+        });
+        setDataset(filtered);
+      };
+      if (value !== "") {
+        filterDataset();
+      } else if (value === "") {
+        setDataset(datasetBackup);
+      }
+    },
+    [dataset, setDataset, datasetBackup]
+  );
 
   useEffect(() => {
     fetchData();
@@ -116,7 +152,11 @@ const MasterDataAttributes = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          <AttributeFilters />
+          <AttributeFilters
+            handleAttributeFilter={handleAttributeFilter}
+            handleAttributeClearFilter={handleAttributeClearFilter}
+            onSearchChange={onSearchChange}
+          />
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}
