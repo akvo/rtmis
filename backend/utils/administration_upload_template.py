@@ -1,5 +1,6 @@
 import os
 from typing import List
+from django.db.models import QuerySet
 from django.utils import timezone
 
 import pandas as pd
@@ -33,11 +34,10 @@ def generate_template(filepath, attributes: List[int] = [], level: int = None):
     level_header = [
             f'{lvl.id}|{lvl.name}' for lvl
             in Levels.objects.order_by('level').all()]
-    attribute_header = [
-            f'{att.id}|{att.name}' for att
-            in AdministrationAttribute.objects.filter(
-                id__in=attributes).order_by('id')]
-    columns = level_header + attribute_header
+    attribute_headers = generate_attribute_headers(
+        AdministrationAttribute.objects.filter(
+            id__in=attributes).order_by('id'))
+    columns = level_headers + attribute_headers
     data = pd.DataFrame(columns=columns, index=[0])
     writer = pd.ExcelWriter(filepath, engine='xlsxwriter')
     data.to_excel(
@@ -79,3 +79,22 @@ def generate_template(filepath, attributes: List[int] = [], level: int = None):
                 [parent] = pl
                 worksheet.write(adx + 1, parent_col, parent.name)
     writer.save()
+
+
+def generate_attribute_headers(
+        attributes: QuerySet[AdministrationAttribute]) -> List[str]:
+    headers = []
+    for attribute in attributes:
+        if attribute.type == AdministrationAttribute.Type.AGGREGATE:
+            headers = headers + generate_aggregate_attribute_headers(attribute)
+        else:
+            headers.append(f'{attribute.id}|{attribute.name}')
+    return headers
+
+
+def generate_aggregate_attribute_headers(
+        attribute: AdministrationAttribute) -> List[str]:
+    return [
+        f'{attribute.id}|{attribute.name}|{opt}'
+        for opt in attribute.options
+    ]
