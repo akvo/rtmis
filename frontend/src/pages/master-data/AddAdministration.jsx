@@ -45,7 +45,8 @@ const AddAdministration = () => {
   const levelIDs = useMemo(() => {
     return admLevels?.slice(1, admLevels.length - 1)?.map((l) => l.id) || [];
   }, [admLevels]);
-  const showAdm = levelIDs.includes(level);
+
+  const showAdm = levelIDs.includes(level - 1);
 
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
@@ -53,7 +54,6 @@ const AddAdministration = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
-
   const descriptionData = <p>{id ? text.editAdmDesc : text.addAdmDesc}</p>;
 
   const deleteAdministration = async (row) => {
@@ -201,7 +201,9 @@ const AddAdministration = () => {
         (adm) => adm?.id === initialValues?.parent?.id
       );
       if (findParent && id) {
-        const findLevel = admLevels.find((l) => l?.level === findParent.level);
+        const findLevel = admLevels.find(
+          (l) => l?.level === findParent.level + 1
+        );
         setLevel(findLevel?.id);
         const ancestors =
           findParent?.path
@@ -321,7 +323,7 @@ const AddAdministration = () => {
                     <AdministrationDropdown
                       size="large"
                       width="100%"
-                      maxLevel={level}
+                      maxLevel={level - 1}
                       persist={ADM_PERSIST}
                       currentId={id}
                     />
