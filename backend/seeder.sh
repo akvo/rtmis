@@ -25,7 +25,7 @@ if [[ "${fake_user}" == 'y' || "${fake_user}" == 'Y' ]]; then
     python manage.py createsuperuser \
         --email admin@akvo.org --first_name Admin --last_name One
     python manage.py assign_access admin@akvo.org --admin
-    python manage.py fake_user_seeder --repeat 50
+    # python manage.py fake_user_seeder --repeat 50
 fi
 
 echo "Seed Form? [y/n]"
