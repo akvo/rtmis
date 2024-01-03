@@ -50,6 +50,10 @@ const UploadAdministrationData = () => {
       link: "/control-center",
     },
     {
+      title: text.manageAdministrativeList,
+      link: "/control-center/master-data",
+    },
+    {
       title: text.AdministrationDataUpload,
     },
   ];
