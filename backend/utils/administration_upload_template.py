@@ -56,28 +56,29 @@ def generate_template(filepath, attributes: List[int] = [], level: int = None):
     })
     for col_num, value in enumerate(data.columns.values):
         worksheet.write(0, col_num, value, header_format)
-    # get administrations list
-    administrations = Administration.objects
+    # get administrations list when level is exists
     if level:
-        administrations = administrations.filter(level_id__lte=level)
-    administrations = administrations.all()
-    for adx, adm in enumerate(administrations):
-        find_col = next((
-            lx for lx, lvl in enumerate(level_headers)
-            if str(adm.level_id) in lvl
-        ), -1)
-        if find_col >= 0:
-            worksheet.write(adx + 1, find_col, adm.name)
-        if adm.path:
-            adm_parents = [
-                list(filter(lambda item: item.id == int(p), administrations))
-                for p in list(filter(
-                    lambda path: path, adm.path.split(".")
-                ))
-            ]
-            for parent_col, pl in enumerate(adm_parents):
-                [parent] = pl
-                worksheet.write(adx + 1, parent_col, parent.name)
+        administrations = Administration.objects\
+            .filter(level_id__lte=level).all()
+        for adx, adm in enumerate(administrations):
+            find_col = next((
+                lx for lx, lvl in enumerate(level_headers)
+                if str(adm.level_id) in lvl
+            ), -1)
+            if find_col >= 0:
+                worksheet.write(adx + 1, find_col, adm.name)
+            if adm.path:
+                adm_parents = [
+                    list(
+                        filter(lambda item: item.id == int(p), administrations)
+                    )
+                    for p in list(filter(
+                        lambda path: path, adm.path.split(".")
+                    ))
+                ]
+                for parent_col, pl in enumerate(adm_parents):
+                    [parent] = pl
+                    worksheet.write(adx + 1, parent_col, parent.name)
     writer.save()
 
 
