@@ -53,7 +53,7 @@ const AddAdministration = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
-
+  console.log(initialValues, "initialValues");
   const descriptionData = <p>{id ? text.editAdmDesc : text.addAdmDesc}</p>;
 
   const deleteAdministration = async (row) => {
@@ -156,6 +156,7 @@ const AddAdministration = () => {
     if (id && preload) {
       setPreload(false);
       const { data: apiData } = await api.get(`/administrations/${id}`);
+      console.log(apiData, "apiData");
       store.update((s) => {
         s.masterData.administration = apiData;
       });
@@ -197,11 +198,15 @@ const AddAdministration = () => {
         };
       });
       setAttributes(_attributes);
+      console.log(window.dbadm, "window.dbadm");
       const findParent = window.dbadm.find(
         (adm) => adm?.id === initialValues?.parent?.id
       );
+      console.log(findParent, "findParent");
       if (findParent && id) {
+        console.log(admLevels, "admLevels");
         const findLevel = admLevels.find((l) => l?.level === findParent.level);
+        console.log(findLevel, "findLevel");
         setLevel(findLevel?.id);
         const ancestors =
           findParent?.path
