@@ -5,7 +5,7 @@ import RemoveFiltersButton from "./RemoveFiltersButton";
 import AdministrationDropdown from "./AdministrationDropdown";
 import { api, store, uiText } from "../../lib";
 import debounce from "lodash.debounce";
-import { DownloadOutlined } from "@ant-design/icons";
+import { DownloadOutlined, PlusOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -101,7 +101,7 @@ const EntityDataFilters = ({
               {text.exportButton}
             </Button>
             <Link to="/control-center/master-data/entities/add">
-              <Button type="primary" shape="round">
+              <Button type="primary" icon={<PlusOutlined />} shape="round">
                 {text.addEntityData}
               </Button>
             </Link>

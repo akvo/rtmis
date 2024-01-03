@@ -552,7 +552,7 @@ const uiText = {
     errDeleteCascadeText2:
       "Please review and resolve dependencies before attempting to delete.",
     manageEntityTitle: "Manage Entities",
-    addEntity: "Add Entity",
+    addEntity: "Add new",
     editEntity: "Edit Entity",
     confirmDeleteEntity: "Are you sure you want to delete this entity?",
     errDeleteEntityTitle: "Unable to delete the entity",
@@ -561,7 +561,7 @@ const uiText = {
     successDeletedEntity: "Entity deleted",
     entityText: "Entity",
     entityDataTitle: "Entity Data",
-    addEntityData: "Add new data",
+    addEntityData: "Add new",
     editEntityData: "Edit data",
     selectEntity: "Select entity...",
     entityIsRequired: "Entity is required",
