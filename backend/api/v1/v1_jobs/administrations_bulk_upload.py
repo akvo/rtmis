@@ -2,7 +2,7 @@ from collections import OrderedDict
 import logging
 from django.db import transaction
 import pandas as pd
-from typing import Type, Union
+from typing import Any, Dict, List, Tuple, Type, Union
 from django.db.models import Model
 from pandas.core.frame import itertools
 from api.v1.v1_jobs.functions import ValidationText
@@ -14,6 +14,8 @@ from api.v1.v1_profile.models import (
 logger = logging.getLogger(__name__)
 
 
+# [[ SEEDER ]]
+
 @transaction.atomic
 def seed_administration_data(io_file):
     df = pd.read_excel(io_file, sheet_name='data')
@@ -22,37 +24,65 @@ def seed_administration_data(io_file):
     level_map = map_column_model(columns[:level_count], Levels)
     attribute_map = map_column_model(
             columns[level_count:], AdministrationAttribute)
-    data = df.to_dict('records')
-    for row in data:
-        last: Union[Administration, None] = None
-        for key, level in level_map.items():
-            if bool(pd.isnull(row[key])):
+    records = df.to_dict('records')
+    for row in records:
+        administration_data = []
+        for col, level in level_map.items():
+            if bool(pd.isnull(row[col])):
                 break
-            obj, _ = Administration.objects.get_or_create(
-                     name=row[key], level=level, parent=last)
-            last = obj
-        for key, attribute in attribute_map.items():
-            if bool(pd.isnull(row[key])):
+            administration_data.append((level, row[col]))
+        target_administration = seed_administrations(administration_data)
+        if not target_administration:
+            break
+        attribute_data = []
+        for col, attribute in attribute_map.items():
+            if bool(pd.isnull(row[col])):
                 continue
-            value = parse_attribute_value(attribute, row[key])
-            obj, created = last.attributes.get_or_create(
-                    attribute=attribute, defaults={'value': value})
-            if not created:
-                obj.value = value
-                obj.save(update_fields=['value'])
+            attribute_data.append((attribute, row[col], col))
+        seed_attributes(target_administration, attribute_data)
 
 
-def parse_attribute_value(attribute: AdministrationAttribute, data: str):
-    if attribute.type == AdministrationAttribute.Type.MULTIPLE_OPTION:
-        return {'value': [v.strip() for v in data.split('|')]}
-    if attribute.type == AdministrationAttribute.Type.AGGREGATE:
-        value = {}
-        rows = [v.strip() for v in data.split('|')]
-        for row in rows:
-            key, val = (it.strip() for it in row.split('='))
-            value[key] = val
-        return {'value': value}
-    return {'value': str(data).strip()}
+def seed_administrations(
+        data: List[Tuple[Levels, str]]) -> Union[Administration, None]:
+    last_obj = None
+    for item in data:
+        level, name = item
+        obj, _ = Administration.objects.get_or_create(
+            name=name, level=level, parent=last_obj)
+        last_obj = obj
+    return last_obj
+
+
+def seed_attributes(
+        administration: Administration,
+        data: List[Tuple[AdministrationAttribute, str, str]]):
+    grouped = group_attributes(data)
+    for attribute, val in grouped.items():
+        value = {'value': val}
+        obj, created = administration.attributes.get_or_create(
+            attribute=attribute, defaults={'value': value}
+        )
+        if not created:
+            obj.value = value
+            obj.save(update_fields=['value'])
+
+
+def group_attributes(
+    data: List[Tuple[AdministrationAttribute, str, str]]
+) -> Dict[AdministrationAttribute, Any]:
+    grouped = OrderedDict()
+    for item in data:
+        attribute, val, col = item
+        if attribute.type == AdministrationAttribute.Type.MULTIPLE_OPTION:
+            grouped[attribute] = [v.strip() for v in val.split('|')]
+            continue
+        if attribute.type == AdministrationAttribute.Type.AGGREGATE:
+            opt = [v.strip() for v in col.split('|')][-1]
+            grouped.setdefault(attribute, {})
+            grouped[attribute][opt] = str(val).strip()
+            continue
+        grouped[attribute] = str(val).strip()
+    return grouped
 
 
 def map_column_model(columns, model: Type[Model]):
@@ -63,6 +93,8 @@ def map_column_model(columns, model: Type[Model]):
         map[column] = obj
     return map
 
+
+# [[ VALIDATOR ]]
 
 def validate_administrations_bulk_upload(io_file):
     excel_file = pd.ExcelFile(io_file)
@@ -103,8 +135,6 @@ def validate_administration_attribute_values(df, attribute_column_map):
             validate_attribute_option_value,
         AdministrationAttribute.Type.MULTIPLE_OPTION:
             validate_attribute_multioption_value,
-        AdministrationAttribute.Type.AGGREGATE:
-            validate_attribute_aggregate_value,
     }
     filtered_attributes = OrderedDict([
         (header, item) for header, item in attribute_column_map.items()
@@ -144,17 +174,6 @@ def validate_attribute_multioption_value(data, options):
         if value in options:
             continue
         invalids.append(value)
-    return invalids
-
-
-def validate_attribute_aggregate_value(data, options):
-    values = [it.strip() for it in data.split('|')]
-    invalids = []
-    for value in values:
-        opt = value.split('=')[0].strip()
-        if opt in options:
-            continue
-        invalids.append(opt)
     return invalids
 
 
@@ -210,7 +229,7 @@ def validate_attribute_headers(attributes, headers, excel_cols):
             })
             errors.append(default_error)
             continue
-        header_id, header_name = (v for v in header.split('|'))
+        header_id, header_name = header.split('|')[:2]
         key = (int(header_id), header_name)
         if key not in attribute_key_map.keys():
             default_error.update({
@@ -218,5 +237,23 @@ def validate_attribute_headers(attributes, headers, excel_cols):
             })
             errors.append(default_error)
             continue
+        attribute = attribute_key_map[key]
+        if attribute.type == AdministrationAttribute.Type.AGGREGATE:
+            splits = header.split('|')
+            if len(splits) != 3:
+                default_error.update({
+                    'error_message':
+                        ValidationText.header_invalid_attribute.value
+                })
+                errors.append(default_error)
+                continue
+            opt = splits[-1]
+            if opt not in attribute.options:
+                default_error.update({
+                    'error_message':
+                        ValidationText.header_invalid_attribute.value
+                })
+                errors.append(default_error)
+                continue
         results[header] = {'attribute': attribute_key_map[key], 'col': col}
     return errors, results
