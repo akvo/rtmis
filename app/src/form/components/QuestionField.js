@@ -40,16 +40,19 @@ const QuestionField = memo(({ keyform, field: questionField, setFieldValue, valu
     }
   }, [meta.error, field.name, values]);
 
-  const handleOnChangeField = (id, value) => {
-    if (questionField?.displayOnly) {
-      return;
-    }
-    helpers.setTouched({ [field.name]: true });
-    setFieldValue(id, value);
-    FormState.update((s) => {
-      s.currentValues = { ...s.currentValues, [id]: value };
-    });
-  };
+  const handleOnChangeField = useCallback(
+    (id, value) => {
+      if (questionField?.displayOnly) {
+        return;
+      }
+      helpers.setTouched({ [field.name]: true });
+      setFieldValue(id, value);
+      FormState.update((s) => {
+        s.currentValues = { ...s.currentValues, [id]: value };
+      });
+    },
+    [setFieldValue, questionField?.displayOnly, field.name],
+  );
 
   const loadCascadeDataSource = useCallback(async (source) => {
     const { rows } = await cascades.loadDataSource(source);
@@ -80,7 +83,7 @@ const QuestionField = memo(({ keyform, field: questionField, setFieldValue, valu
     handleOnPrefilled();
   }, [handleOnPrefilled]);
 
-  const renderField = () => {
+  const renderField = useCallback(() => {
     switch (questionField?.type) {
       case 'date':
         return (
@@ -174,7 +177,7 @@ const QuestionField = memo(({ keyform, field: questionField, setFieldValue, valu
           />
         );
     }
-  };
+  }, [questionField, keyform, handleOnChangeField, values, cascadeData]);
 
   return (
     <View testID="question-view" style={{ display: displayValue }}>
