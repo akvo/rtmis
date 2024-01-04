@@ -49,7 +49,7 @@ const AddAssignment = () => {
     admLevels.map((a) => a.id).includes(level) &&
     selectedAdm?.[0]?.children?.length > 0;
 
-  const showLevel = userAdmLevel !== lowestLevel?.level;
+  const showLevel = userAdmLevel !== lowestLevel?.id;
 
   const { active: activeLang } = language;
   const text = useMemo(() => {
