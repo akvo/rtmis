@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { BaseLayout } from '../components';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, FlatList } from 'react-native';
 import { Formik } from 'formik';
 import { styles } from './styles';
 import { FormNavigation, QuestionGroupList } from './support';
@@ -31,6 +31,10 @@ const checkValuesBeforeCallback = (values) =>
     })
     .filter((v) => v)
     .reduce((res, current) => ({ ...res, ...current }), {});
+
+const style = {
+  flex: 1,
+};
 
 const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDialogMenu }) => {
   const formRef = useRef();
@@ -77,8 +81,8 @@ const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDia
 
   return (
     <>
-      <ScrollView>
-        <BaseLayout.Content>
+      <BaseLayout.Content>
+        <View style={style}>
           {!showQuestionGroupList ? (
             <Formik
               innerRef={formRef}
@@ -88,8 +92,11 @@ const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDia
               validateOnChange={true}
             >
               {({ setFieldValue, values }) => (
-                <View style={styles.formContainer}>
-                  {formDefinition?.question_group?.map((group) => {
+                <FlatList
+                  scrollEnabled={true}
+                  data={formDefinition?.question_group}
+                  keyExtractor={(item) => `group-${item.id}`}
+                  renderItem={({ item: group }) => {
                     if (activeGroup !== group.id) {
                       return '';
                     }
@@ -102,8 +109,9 @@ const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDia
                         values={values}
                       />
                     );
-                  })}
-                </View>
+                  }}
+                  extraData={activeGroup}
+                />
               )}
             </Formik>
           ) : (
@@ -115,8 +123,8 @@ const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDia
               setShowQuestionGroupList={setShowQuestionGroupList}
             />
           )}
-        </BaseLayout.Content>
-      </ScrollView>
+        </View>
+      </BaseLayout.Content>
       <View>
         <FormNavigation
           currentGroup={currentGroup}
