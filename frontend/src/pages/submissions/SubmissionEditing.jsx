@@ -100,6 +100,18 @@ const SubmissionEditing = ({
           >
             {text.saveEditButton}
           </Button>
+          <Button
+            type="danger"
+            shape="round"
+            style={{ marginLeft: "10px" }}
+            //onClick={() => handleSave(expanded)}
+            loading={expanded.id === saving}
+            disabled={
+              expanded.id === dataLoading || isEdited(expanded.id) === false
+            }
+          >
+            {text.deleteText}
+          </Button>
         </div>
       )}
     </>
