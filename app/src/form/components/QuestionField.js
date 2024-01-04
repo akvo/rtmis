@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, memo } from 'react';
 import {
   TypeDate,
   TypeImage,
@@ -17,7 +17,7 @@ import { styles } from '../styles';
 import { FormState } from '../../store';
 import { cascades } from '../../lib';
 
-const QuestionField = ({ keyform, field: questionField, setFieldValue, values, validate }) => {
+const QuestionField = memo(({ keyform, field: questionField, setFieldValue, values, validate }) => {
   const [field, meta, helpers] = useField({ name: questionField.id, validate });
   const [cascadeData, setCascadeData] = useState([]);
   const [preload, setPreload] = useState(true);
@@ -51,10 +51,10 @@ const QuestionField = ({ keyform, field: questionField, setFieldValue, values, v
     });
   };
 
-  const loadCascadeDataSource = async (source) => {
+  const loadCascadeDataSource = useCallback(async (source) => {
     const { rows } = await cascades.loadDataSource(source);
     setCascadeData(rows._array);
-  };
+  }, []);
 
   const handleOnPrefilled = useCallback(() => {
     if (preload && preFilled?.fill?.length && questionID) {
@@ -186,6 +186,6 @@ const QuestionField = ({ keyform, field: questionField, setFieldValue, values, v
       ) : null}
     </View>
   );
-};
+});
 
 export default QuestionField;

@@ -32,6 +32,10 @@ const checkValuesBeforeCallback = (values) =>
     .filter((v) => v)
     .reduce((res, current) => ({ ...res, ...current }), {});
 
+const style = {
+  flex: 1,
+};
+
 const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDialogMenu }) => {
   const formRef = useRef();
   const [activeGroup, setActiveGroup] = useState(0);
@@ -73,10 +77,6 @@ const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDia
       const { dpName, dpGeo } = generateDataPointName(forms, currentValues, cascades);
       onSubmit({ name: dpName, geo: dpGeo, answers: results });
     }
-  };
-
-  const style = {
-    flex: 1,
   };
 
   return (
