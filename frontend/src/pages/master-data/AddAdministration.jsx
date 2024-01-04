@@ -43,7 +43,7 @@ const AddAdministration = () => {
   const { id } = useParams();
   const ADM_PERSIST = id ? true : false;
   const levelIDs = useMemo(() => {
-    return admLevels?.slice(1, admLevels.length - 1)?.map((l) => l.id) || [];
+    return admLevels?.slice(1, admLevels.length)?.map((l) => l.id) || [];
   }, [admLevels]);
 
   const showAdm = levelIDs.includes(level - 1);
@@ -305,7 +305,7 @@ const AddAdministration = () => {
                       allowClear
                     >
                       {admLevels
-                        ?.slice(1, admLevels.length - 1)
+                        ?.slice(1, admLevels.length)
                         ?.filter((l) => l?.id >= levelAccess[0])
                         ?.sort((a, b) => a?.level - b?.level)
                         ?.map((adm) => (
