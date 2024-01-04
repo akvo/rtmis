@@ -4,7 +4,7 @@ import { api, store, uiText } from "../../lib";
 import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
 
-const BatchDetail = ({ expanded, setReload }) => {
+const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
   const [dataLoading, setDataLoading] = useState(null);
   const [saving, setSaving] = useState(null);
   const [rawValue, setRawValue] = useState(null);
@@ -173,10 +173,12 @@ const BatchDetail = ({ expanded, setReload }) => {
       updateCell={updateCell}
       resetCell={resetCell}
       handleSave={handleSave}
+      handleDelete={handleDelete}
       saving={saving}
       dataLoading={dataLoading}
       isEdited={isEdited}
       isEditable={true}
+      deleting={deleting}
     />
   );
 };
