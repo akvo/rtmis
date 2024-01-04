@@ -229,15 +229,15 @@
       background-color: $bg-dark;
       color: $color-light;
       font-weight: $font-weight-normal;
-      font-size: $font-size-regular;
-      padding-top: 78px;
+      font-size: $font-size-small;
+      //padding-top: 78px;
       position: relative;
 
       h2,
       h3 {
         color: $color-light;
         font-weight: $font-weight-semi-bold;
-        margin-bottom: $padding-default;
+        // margin-bottom: $padding-default;
       }
 
       h3 {
@@ -302,11 +302,11 @@
       .about-wrapper {
         img.small-logo {
           width: 67px;
-          margin-bottom: 32px;
+          margin-bottom: 18px;
         }
         p {
           width: 100%;
-          margin-bottom: 32px;
+          //margin-bottom: 32px;
         }
       }
     }

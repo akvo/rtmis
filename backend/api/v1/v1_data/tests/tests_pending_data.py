@@ -12,6 +12,7 @@ from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.management.commands.administration_seeder import (
         MAX_LEVEL_IN_SOURCE_FILE)
+from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import SystemUser
 
 
@@ -289,3 +290,134 @@ class PendingDataTestCase(TestCase):
                                  list(summary.get('value')[0]))
             else:
                 self.assertIn(type(summary.get('value')), [float, int])
+
+
+@override_settings(USE_TZ=False)
+class SoftDeletesPendingDataTestCase(TestCase):
+    def setUp(self):
+        super().setUp()
+        call_command("administration_seeder", "--test")
+        self.administration = Administration.objects.last()
+        self.user = SystemUser.objects.create(
+            email='test@akvo.org', first_name='test', last_name='user')
+        self.form = Forms.objects.create(name='test')
+
+    def create_pending_data(self, name):
+        return PendingFormData.objects.create(
+            name=name,
+            administration=self.administration,
+            created_by=self.user,
+            form=self.form)
+
+    def test_initial_state(self):
+        pending_data = self.create_pending_data('test')
+        self.assertIsNone(pending_data.deleted)
+        self.assertEqual(1, PendingFormData.objects.count())
+        self.assertEqual(0, PendingFormData.objects_deleted.count())
+        self.assertEqual(1, PendingFormData.objects_with_deleted.count())
+
+    def test_soft_delete(self):
+        pending_data = self.create_pending_data('test')
+        pending_data.delete()
+        self.assertIsNotNone(pending_data.deleted)
+        self.assertEqual(0, PendingFormData.objects.count())
+        self.assertEqual(1, PendingFormData.objects_deleted.count())
+        self.assertEqual(1, PendingFormData.objects_with_deleted.count())
+
+    def test_soft_delete_2(self):
+        pending_data = self.create_pending_data('test')
+        pending_data.soft_delete()
+        self.assertIsNotNone(pending_data.deleted)
+        self.assertEqual(0, PendingFormData.objects.count())
+        self.assertEqual(1, PendingFormData.objects_deleted.count())
+        self.assertEqual(1, PendingFormData.objects_with_deleted.count())
+
+    def test_hard_delete(self):
+        pending_data = self.create_pending_data('test')
+        pending_data.delete(hard=True)
+        self.assertEqual(0, PendingFormData.objects.count())
+        self.assertEqual(0, PendingFormData.objects_deleted.count())
+        self.assertEqual(0, PendingFormData.objects_with_deleted.count())
+
+    def test_hard_delete_2(self):
+        pending_data = self.create_pending_data('test')
+        pending_data.hard_delete()
+        self.assertEqual(0, PendingFormData.objects.count())
+        self.assertEqual(0, PendingFormData.objects_deleted.count())
+        self.assertEqual(0, PendingFormData.objects_with_deleted.count())
+
+    def test_restore(self):
+        pending_data = self.create_pending_data('test')
+        pending_data.delete()
+
+        self.assertEqual(1, PendingFormData.objects_deleted.count())
+
+        tobe_restored = PendingFormData.objects_deleted.first()
+        self.assertIsNotNone(tobe_restored.deleted)
+
+        tobe_restored.restore()
+        self.assertEqual(1, PendingFormData.objects.count())
+        self.assertEqual(0, PendingFormData.objects_deleted.count())
+        self.assertEqual(1, PendingFormData.objects_with_deleted.count())
+
+    def test_bulk_soft_delete(self):
+        self.create_pending_data('test #1')
+        self.create_pending_data('test #2')
+        self.create_pending_data('example')
+
+        self.assertEqual(3, PendingFormData.objects.count())
+
+        PendingFormData.objects.filter(name__startswith='test').delete()
+        self.assertEqual(1, PendingFormData.objects.count())
+        self.assertEqual(2, PendingFormData.objects_deleted.count())
+        self.assertEqual(3, PendingFormData.objects_with_deleted.count())
+
+    def test_bulk_soft_delete_2(self):
+        self.create_pending_data('test #1')
+        self.create_pending_data('test #2')
+        self.create_pending_data('example')
+
+        self.assertEqual(3, PendingFormData.objects.count())
+
+        PendingFormData.objects.filter(name__startswith='test').soft_delete()
+        self.assertEqual(1, PendingFormData.objects.count())
+        self.assertEqual(2, PendingFormData.objects_deleted.count())
+        self.assertEqual(3, PendingFormData.objects_with_deleted.count())
+
+    def test_bulk_hard_delete(self):
+        self.create_pending_data('test #1')
+        self.create_pending_data('test #2')
+        self.create_pending_data('example')
+
+        PendingFormData.objects.filter(
+            name__startswith='test').delete(hard=True)
+        self.assertEqual(1, PendingFormData.objects.count())
+        self.assertEqual(0, PendingFormData.objects_deleted.count())
+        self.assertEqual(1, PendingFormData.objects_with_deleted.count())
+
+    def test_bulk_hard_delete_2(self):
+        self.create_pending_data('test #1')
+        self.create_pending_data('test #2')
+        self.create_pending_data('example')
+
+        PendingFormData.objects.filter(
+            name__startswith='test').hard_delete()
+        self.assertEqual(1, PendingFormData.objects.count())
+        self.assertEqual(0, PendingFormData.objects_deleted.count())
+        self.assertEqual(1, PendingFormData.objects_with_deleted.count())
+
+    def test_bulk_restore(self):
+        self.create_pending_data('test #1')
+        self.create_pending_data('test #2')
+        self.create_pending_data('example')
+
+        PendingFormData.objects.delete()
+        self.assertEqual(0, PendingFormData.objects.count())
+        self.assertEqual(3, PendingFormData.objects_deleted.count())
+        self.assertEqual(3, PendingFormData.objects_with_deleted.count())
+
+        PendingFormData.objects_with_deleted.filter(
+            name__startswith='test').restore()
+        self.assertEqual(2, PendingFormData.objects.count())
+        self.assertEqual(1, PendingFormData.objects_deleted.count())
+        self.assertEqual(3, PendingFormData.objects_with_deleted.count())
