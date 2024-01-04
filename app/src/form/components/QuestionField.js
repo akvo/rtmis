@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, memo } from 'react';
 import {
   TypeDate,
   TypeImage,
@@ -17,7 +17,7 @@ import { styles } from '../styles';
 import { FormState } from '../../store';
 import { cascades } from '../../lib';
 
-const QuestionField = ({ keyform, field: questionField, setFieldValue, values, validate }) => {
+const QuestionField = memo(({ keyform, field: questionField, setFieldValue, values, validate }) => {
   const [field, meta, helpers] = useField({ name: questionField.id, validate });
   const [cascadeData, setCascadeData] = useState([]);
   const [preload, setPreload] = useState(true);
@@ -40,21 +40,24 @@ const QuestionField = ({ keyform, field: questionField, setFieldValue, values, v
     }
   }, [meta.error, field.name, values]);
 
-  const handleOnChangeField = (id, value) => {
-    if (questionField?.displayOnly) {
-      return;
-    }
-    helpers.setTouched({ [field.name]: true });
-    setFieldValue(id, value);
-    FormState.update((s) => {
-      s.currentValues = { ...s.currentValues, [id]: value };
-    });
-  };
+  const handleOnChangeField = useCallback(
+    (id, value) => {
+      if (questionField?.displayOnly) {
+        return;
+      }
+      helpers.setTouched({ [field.name]: true });
+      setFieldValue(id, value);
+      FormState.update((s) => {
+        s.currentValues = { ...s.currentValues, [id]: value };
+      });
+    },
+    [setFieldValue, questionField?.displayOnly, field.name],
+  );
 
-  const loadCascadeDataSource = async (source) => {
+  const loadCascadeDataSource = useCallback(async (source) => {
     const { rows } = await cascades.loadDataSource(source);
     setCascadeData(rows._array);
-  };
+  }, []);
 
   const handleOnPrefilled = useCallback(() => {
     if (preload && preFilled?.fill?.length && questionID) {
@@ -80,7 +83,7 @@ const QuestionField = ({ keyform, field: questionField, setFieldValue, values, v
     handleOnPrefilled();
   }, [handleOnPrefilled]);
 
-  const renderField = () => {
+  const renderField = useCallback(() => {
     switch (questionField?.type) {
       case 'date':
         return (
@@ -174,7 +177,7 @@ const QuestionField = ({ keyform, field: questionField, setFieldValue, values, v
           />
         );
     }
-  };
+  }, [questionField, keyform, handleOnChangeField, values, cascadeData]);
 
   return (
     <View testID="question-view" style={{ display: displayValue }}>
@@ -186,6 +189,6 @@ const QuestionField = ({ keyform, field: questionField, setFieldValue, values, v
       ) : null}
     </View>
   );
-};
+});
 
 export default QuestionField;
