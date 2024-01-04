@@ -114,61 +114,6 @@ export const columnsBatch = [
   },
 ];
 
-export const columnsPending = [
-  {
-    title: "",
-    dataIndex: "id",
-    key: "id",
-    render: () => "",
-    width: 50,
-  },
-  {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-    render: (name, row) => (
-      <Row align="middle">
-        <Col>
-          <FileTextFilled style={{ color: "#666666", fontSize: 28 }} />
-        </Col>
-        <Col>
-          <div>{name}</div>
-          <div>{row.created}</div>
-        </Col>
-      </Row>
-    ),
-  },
-  {
-    title: "Administration",
-    dataIndex: "administration",
-    key: "administration",
-  },
-  {
-    title: "Submitted Date",
-    dataIndex: "created",
-    key: "created",
-    render: (created) => created || "",
-    align: "center",
-    width: 200,
-  },
-  {
-    title: "Submitter Name",
-    dataIndex: "submitter",
-    key: "submitter",
-    render: (submitter, dt) => {
-      return submitter || dt.created_by;
-    },
-  },
-  {
-    title: "Duration",
-    dataIndex: "duration",
-    key: "duration",
-    render: (duration) => duration || "",
-    align: "center",
-    width: 100,
-  },
-];
-
 export const columnsApprover = [
   {
     title: "Approver",
