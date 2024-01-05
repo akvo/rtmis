@@ -16,7 +16,8 @@ from api.v1.v1_users.models import SystemUser
 def generate_excel(
     user: SystemUser,
     attributes: List[int] = [],
-    level: int = None
+    level: int = None,
+    prefilled: bool = False,
 ):
     directory = 'tmp/administrations-template'
     os.makedirs(directory, exist_ok=True)
@@ -26,11 +27,16 @@ def generate_excel(
     filepath = f"./{directory}/{filename}"
     if os.path.exists(filepath):
         os.remove(filepath)
-    generate_template(filepath, attributes, level)
+    generate_template(filepath, attributes, level, prefilled)
     return filepath
 
 
-def generate_template(filepath, attributes: List[int] = [], level: int = None):
+def generate_template(
+        filepath,
+        attributes: List[int] = [],
+        level: int = None,
+        prefilled: bool = False
+):
     level_headers = [
             f'{lvl.id}|{lvl.name}' for lvl
             in Levels.objects.order_by('level').all()]
@@ -57,7 +63,7 @@ def generate_template(filepath, attributes: List[int] = [], level: int = None):
     for col_num, value in enumerate(data.columns.values):
         worksheet.write(0, col_num, value, header_format)
     # get administrations list when level is exists
-    if level:
+    if level and prefilled:
         administrations = Administration.objects\
             .filter(level_id__lte=level).all()
         for adx, adm in enumerate(administrations):
