@@ -65,7 +65,6 @@ const Home = ({ navigation, route }) => {
           .filter((r) => r?.userId === currentUserId);
         setData(forms);
       } catch {
-        console.log('errrr');
         if (Platform.OS === 'android') {
           ToastAndroid.show(trans.errorFormsNotLoaded, ToastAndroid.SHORT);
         }
