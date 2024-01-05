@@ -10,6 +10,8 @@ import {
   Select,
   Upload,
   Result,
+  Form,
+  Checkbox,
 } from "antd";
 import { FileTextFilled } from "@ant-design/icons";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
@@ -35,7 +37,6 @@ const UploadAdministrationData = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [attributes, setAttributes] = useState([]);
   const [selectedAttributes, setSelectedAttributes] = useState([]);
-  const [level, setLevel] = useState(null);
   const { notify } = useNotification();
   const navigate = useNavigate();
   const { language, levels } = store.useState((s) => s);
@@ -131,12 +132,15 @@ const UploadAdministrationData = () => {
     setSelectedAttributes(e);
   };
 
-  const downloadTemplate = () => {
+  const downloadTemplate = ({ level, prefilled }) => {
     setLoading(true);
-    const attributeStr = selectedAttributes.join(",");
-    const apiURL = level
-      ? `export/administrations-template?attributes=${attributeStr}&level=${level}`
-      : `export/administrations-template?attributes=${attributeStr}`;
+    const query = {
+      attributes: selectedAttributes,
+      level,
+      prefilled,
+    };
+    const queryURL = "?" + new URLSearchParams(query).toString();
+    const apiURL = `export/administrations-template${queryURL}`;
     api
       .get(apiURL, {
         responseType: "blob",
@@ -221,37 +225,59 @@ const UploadAdministrationData = () => {
                 style={{ padding: 0, minHeight: "40vh" }}
                 bodyStyle={{ padding: 0 }}
               >
-                <Space align="center" size={32}>
-                  <img src="/assets/data-download.svg" />
-                  <p>{text.templateDownloadHint}</p>
-                  <Select
-                    placeholder={text.selectLevel}
-                    onChange={setLevel}
-                    fieldNames={{ value: "id", label: "name" }}
-                    options={levels}
-                    allowClear
-                  />
-                  <Select
-                    placeholder="Select Attributes..."
-                    className="multiple-select-box"
-                    onChange={handleAttributeChange}
-                    mode="multiple"
-                    allowClear
+                <Space direction="vertical">
+                  <Space align="center" size={32}>
+                    <img src="/assets/data-download.svg" />
+                    <p>{text.templateDownloadHint}</p>
+                  </Space>
+                  <Form
+                    labelCol={{ span: 6 }}
+                    wrapperCol={{ span: 18 }}
+                    onFinish={downloadTemplate}
                   >
-                    {attributes.map((f, fI) => (
-                      <Option key={fI} value={f.id}>
-                        {f.name}
-                      </Option>
-                    ))}
-                  </Select>
-                  <Button
-                    loading={loading}
-                    type="primary"
-                    onClick={downloadTemplate}
-                    shape="round"
-                  >
-                    {text.download}
-                  </Button>
+                    <Form.Item label={text.admLevel} name="level">
+                      <Select
+                        placeholder={text.selectLevel}
+                        fieldNames={{ value: "id", label: "name" }}
+                        options={levels}
+                        allowClear
+                      />
+                    </Form.Item>
+                    <Form.Item label={text.bulkUploadAttr} name="attributes">
+                      <Select
+                        placeholder={text.bulkUploadAttrPlaceholder}
+                        className="multiple-select-box"
+                        onChange={handleAttributeChange}
+                        mode="multiple"
+                        allowClear
+                      >
+                        {attributes.map((f, fI) => (
+                          <Option key={fI} value={f.id}>
+                            {f.name}
+                          </Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                    <Form.Item
+                      name="prefilled"
+                      valuePropName="checked"
+                      wrapperCol={{ offset: 6, span: 18 }}
+                    >
+                      <Checkbox>{text.bulkUploadCheckboxPrefilled}</Checkbox>
+                    </Form.Item>
+                    <Row justify="center" align="middle">
+                      <Col span={18} offset={6}>
+                        <Button
+                          loading={loading}
+                          type="primary"
+                          htmlType="submit"
+                          shape="round"
+                        >
+                          {text.download}
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Form>
                 </Space>
                 <Space align="center" size={32}>
                   <img src="/assets/data-upload.svg" />
