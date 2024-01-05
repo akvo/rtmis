@@ -45,6 +45,12 @@ if [[ "${seed_fake_data}" == 'y' || "${seed_fake_data}" == 'Y' ]]; then
     python manage.py fake_data_seeder
 fi
 
+echo "Seed Organisation? [y/n]"
+read -r seed_organization
+if [[ "${seed_organization}" == 'y' || "${seed_organization}" == 'Y' ]]; then
+    python manage.py organisation_seeder
+fi
+
 # python manage.py fake_approver_seeder
 # python manage.py form_approval_seeder
 # python manage.py form_approval_assignment_seeder
