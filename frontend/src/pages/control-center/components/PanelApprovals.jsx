@@ -14,7 +14,7 @@ const PanelApprovals = () => {
   const [loading, setLoading] = useState(true);
   const { user: authUser } = store.useState((s) => s);
 
-  const { checkAccess, approvalsLiteral } = config;
+  const { approvalsLiteral } = config;
 
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
