@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Button } from '@rneui/themed';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { Platform, ToastAndroid } from 'react-native';
 import { BaseLayout } from '../components';
 import { FormState, UserState, UIState } from '../store';
 import { crudForms } from '../database/crud';
@@ -31,14 +32,26 @@ const Home = ({ navigation, route }) => {
     navigation.navigate('Users');
   };
 
-  useEffect(() => {
+  const getUserForms = useCallback(async () => {
+    /**
+     * The Form List will be refreshed when:
+     * - parameter change
+     * - current user id exists
+     * - active language change
+     * - manual synced change as True
+     */
     if (params || currentUserId || activeLang !== appLang || isManualSynced) {
-      setData([]);
-      setAppLang(activeLang);
-      UIState.update((s) => {
-        s.isManualSynced = false;
-      });
-      crudForms.selectLatestFormVersion({ user: currentUserId }).then((results) => {
+      if (activeLang !== appLang) {
+        setAppLang(activeLang);
+      }
+
+      if (isManualSynced) {
+        UIState.update((s) => {
+          s.isManualSynced = false;
+        });
+      }
+      try {
+        const results = await crudForms.selectLatestFormVersion({ user: currentUserId });
         const forms = results
           .map((r) => ({
             ...r,
@@ -51,9 +64,18 @@ const Home = ({ navigation, route }) => {
           }))
           .filter((r) => r?.userId === currentUserId);
         setData(forms);
-      });
+      } catch {
+        console.log('errrr');
+        if (Platform.OS === 'android') {
+          ToastAndroid.show(trans.errorFormsNotLoaded, ToastAndroid.SHORT);
+        }
+      }
     }
   }, [currentUserId, params, appLang, activeLang, isManualSynced]);
+
+  useEffect(() => {
+    getUserForms();
+  }, [getUserForms]);
 
   const filteredData = useMemo(() => {
     return data.filter(
