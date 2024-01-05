@@ -1,6 +1,6 @@
 {
   "authenticationType": ["code_assignment", "username", "password"],
-  "serverURL": null,
+  "serverURL": "https://rtmis.akvotest.org/api/device",
   "debugMode": false,
   "dataSyncInterval": 1,
   "errorHandling": true,

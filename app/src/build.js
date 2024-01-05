@@ -3,7 +3,7 @@ import build_json from './build.json';
 
 const defaultBuildParams = {
   ...build_json,
-  serverURL: SERVER_URL,
+  serverURL: 'https://rtmis.akvotest.org/api/v1/device',
 };
 
 export default defaultBuildParams;
