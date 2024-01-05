@@ -18,6 +18,11 @@
       }
       .ant-card-body > .ant-space:first-child {
         border-bottom: solid #d7dbec 1px;
+        padding-left: 0;
+        .ant-form {
+          width: 50%;
+          margin: 0 auto;
+        }
       }
       .ant-card-body
         > .ant-space:nth-child(2)
@@ -34,9 +39,6 @@
         .ant-upload-text {
           margin-bottom: 16px;
         }
-      }
-      .multiple-select-box {
-        width: 13rem;
       }
     }
   }

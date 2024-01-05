@@ -648,6 +648,9 @@ const uiText = {
     endOfListLabel: "End of List",
     addMewOrg: "Add new organization",
     searchPlaceholder: "Search...",
+    bulkUploadAttr: "Attributes",
+    bulkUploadAttrPlaceholder: "Select Attributes...",
+    bulkUploadCheckboxPrefilled: "Prefilled administrative list",
   },
 
   de: {},
