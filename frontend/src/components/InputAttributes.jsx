@@ -15,19 +15,21 @@ const InputType = ({ field, name, options, type }) => {
         </Row>
       )}
       {type === "option" && (
-        <Form.Item name={[field.name, name]} label={name}>
-          <Select
-            getPopupContainer={(trigger) => trigger.parentNode}
-            placeholder={`Select ${name}...`}
-            allowClear
-          >
-            {options?.map((opt, index) => (
-              <Option key={index} value={opt}>
-                {opt}
-              </Option>
-            ))}
-          </Select>
-        </Form.Item>
+        <div className="form-row">
+          <Form.Item name={[field.name, name]} label={name}>
+            <Select
+              getPopupContainer={(trigger) => trigger.parentNode}
+              placeholder={`Select ${name}...`}
+              allowClear
+            >
+              {options?.map((opt, index) => (
+                <Option key={index} value={opt}>
+                  {opt}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </div>
       )}
       {type === "multiple_option" && (
         <div className="form-row">

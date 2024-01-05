@@ -50,6 +50,10 @@ const UploadAdministrationData = () => {
       link: "/control-center",
     },
     {
+      title: text.manageAdministrativeList,
+      link: "/control-center/master-data",
+    },
+    {
       title: text.AdministrationDataUpload,
     },
   ];
@@ -81,7 +85,6 @@ const UploadAdministrationData = () => {
         message: text.fileUploadSuccess,
       });
       setUploading(false);
-      // navigate("/data/submissions");
       setShowSuccess(true);
     } else if (info.file?.status === "error") {
       notify({
@@ -92,6 +95,25 @@ const UploadAdministrationData = () => {
     }
   };
 
+  const uploadRequest = ({ file, onSuccess }) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("is_update", false);
+    setUploading(true);
+    api
+      .post(`upload/bulk-administrations`, formData)
+      .then((res) => {
+        onSuccess(res.data);
+      })
+      .catch(() => {
+        notify({
+          type: "error",
+          message: text.fileUploadFail,
+        });
+        setUploading(false);
+      });
+  };
+
   const props = {
     name: fileName,
     multiple: false,
@@ -100,6 +122,7 @@ const UploadAdministrationData = () => {
     accept: allowedFiles.join(","),
     disabled: !fileName || uploading,
     onChange: onChange,
+    customRequest: uploadRequest,
   };
 
   //handling attribute multiple select
@@ -170,9 +193,8 @@ const UploadAdministrationData = () => {
             >
               <Result
                 status="success"
-                title={text?.formSuccessTitle}
+                title={text?.administrationUploadSuccessTitle}
                 extra={[
-                  <p key="phar">{text.uploadThankyouText}</p>,
                   <Divider key="divider" />,
                   <Button
                     type="primary"

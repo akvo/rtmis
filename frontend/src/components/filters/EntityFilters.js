@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button, Col, Input, Row, Space } from "antd";
 import { store, uiText } from "../../lib";
 import debounce from "lodash.debounce";
+import { PlusOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 
@@ -33,7 +34,7 @@ const EntityFilters = ({ onSearchChange = () => {} }) => {
         <Col>
           <Space>
             <Link to="/control-center/master-data/entity-types/add">
-              <Button type="primary" shape="round">
+              <Button type="primary" icon={<PlusOutlined />} shape="round">
                 {text.addEntity}
               </Button>
             </Link>

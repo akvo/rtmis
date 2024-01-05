@@ -22,9 +22,11 @@ class AdministrationBulkUploadTemplateExportTestCase(
         self.user = self.create_user('test@akvo.org', self.ROLE_ADMIN)
         self.token = self.get_auth_token(self.user.email)
         self.attribute1 = AdministrationAttribute.objects.create(
-                name='attribute #1')
+            name='attribute #1')
         self.attribute2 = AdministrationAttribute.objects.create(
-                name='attribute #2')
+            name='attribute #2',
+            type=AdministrationAttribute.Type.AGGREGATE,
+            options=['opt #1', 'opt #2'])
 
     def test_export_template(self):
         response = cast(
@@ -45,7 +47,7 @@ class AdministrationBulkUploadTemplateExportTestCase(
                 Response,
                 self.client.get(
                     ('/api/v1/export/administrations-template'
-                     f'?attributes={self.attribute2.id}'),
+                     f'?attributes={self.attribute1.id},{self.attribute2.id}'),
                     content_type="application/json",
                     HTTP_AUTHORIZATION=f'Bearer {self.token}'))
         self.assertEqual(response.status_code, 200)
@@ -53,9 +55,10 @@ class AdministrationBulkUploadTemplateExportTestCase(
         df = pd.read_excel(response.content, sheet_name='data')
         levels = [f'{lvl.id}|{lvl.name}' for lvl in Levels.objects.all()]
         attributes = [
-                f'{att.id}|{att.name}' for att
-                in AdministrationAttribute.objects.filter(
-                    id=self.attribute2.id)]
+            f'{self.attribute1.id}|{self.attribute1.name}',
+            f'{self.attribute2.id}|{self.attribute2.name}|opt #1',
+            f'{self.attribute2.id}|{self.attribute2.name}|opt #2',
+        ]
         expected = levels + attributes
         actual = [val for val in list(df)]
         self.assertEqual(expected, actual)
