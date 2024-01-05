@@ -76,13 +76,6 @@ const PanelApprovals = () => {
             View All
           </Button>
         </Link>
-        {checkAccess(authUser?.role_detail, "approvers") && (
-          <Link to="/control-center/approvers/tree">
-            <Button type="primary" shape="round">
-              Manage Data Validation Setup
-            </Button>
-          </Link>
-        )}
       </Row>
     </div>
   );
