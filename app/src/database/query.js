@@ -7,6 +7,16 @@ const insert = (table, data = {}) => {
   return `INSERT INTO ${table}(${fieldsString}) VALUES (${valuesString});`;
 };
 
+const insertPrepared = (table, data = {}) => {
+  const fields = Object.keys(data);
+  const valuePlaceholders = fields.map((_, index) => `$${index + 1}`).join(', ');
+  const fieldsString = fields.join(', ');
+  const values = fields.map((key) => data[key]);
+
+  const query = `INSERT INTO ${table}(${fieldsString}) VALUES (${valuePlaceholders});`;
+  return { query, values };
+};
+
 const update = (table, where = {}, data = {}) => {
   const fieldString = Object.keys(data)
     .map((key) => (isNaN(data[key]) ? `${key} = '${data[key]}'` : `${key} = ${data[key]}`))
@@ -55,4 +65,5 @@ export const query = {
   drop,
   count,
   initialQuery,
+  insertPrepared,
 };
