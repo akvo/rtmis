@@ -220,6 +220,7 @@ const Submissions = () => {
       dataTab === "pending-submission" && (
         <Button
           type="primary"
+          shape="round"
           onClick={handleOnClickBatchSelectedDataset}
           disabled={!selectedRows.length && modalButton}
         >
@@ -439,6 +440,7 @@ const Submissions = () => {
             <Col xs={12}>
               <Button
                 className="light"
+                shape="round"
                 onClick={() => {
                   setModalVisible(false);
                 }}
@@ -447,6 +449,7 @@ const Submissions = () => {
               </Button>
               <Button
                 type="primary"
+                shape="round"
                 onClick={sendBatch}
                 disabled={!batchName.length}
               >
