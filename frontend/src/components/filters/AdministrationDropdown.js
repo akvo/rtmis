@@ -65,7 +65,8 @@ const AdministrationDropdown = ({
       s.administration.length = index + 1;
     });
   };
-
+  console.log(administration, "administration");
+  console.log(maxLevel, "maxLevel");
   if (administration && !hidden) {
     return (
       <Space {...props} style={{ width: "100%" }}>
