@@ -96,6 +96,17 @@ describe('AuthFormPage', () => {
 
     fireEvent.changeText(passcodeInput, '123456');
     fireEvent.press(loginButton);
+    api.getConfig.mockReturnValue({ baseURL: 'http://api.example.com' });
+    api.get.mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          name: 'Form 1',
+          version: 1,
+          cascades: ['administrations.sqlite'],
+          question_group: [],
+        },
+      }),
+    );
 
     await waitFor(() => {
       const { id: userIdState, name: userNameState } = userStateRef.current;
