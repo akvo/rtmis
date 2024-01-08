@@ -40,3 +40,4 @@ export { default as AddEntity } from "./master-data-entities/AddEntity";
 export { default as EntityData } from "./master-data-entities/entity-data/EntityData";
 export { default as AddEntityData } from "./master-data-entities/entity-data/AddEntityData";
 export { default as UploadAdministrationData } from "./upload-administration-data/UploadAdministrationData";
+export { default as BIDashboard } from "./bi/BIDashboard";
