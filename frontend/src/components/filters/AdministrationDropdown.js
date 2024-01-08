@@ -3,7 +3,9 @@ import "./style.scss";
 import { Select, Space } from "antd";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-import { store, config } from "../../lib";
+import { store, config, api } from "../../lib";
+import { useState } from "react";
+import { useCallback } from "react";
 
 const AdministrationDropdown = ({
   loading = false,
@@ -18,6 +20,7 @@ const AdministrationDropdown = ({
   ...props
 }) => {
   const { pathname } = useLocation();
+  const [useradm, setUseradm] = useState(null);
   const { user, administration, isLoggedIn, levels } = store.useState(
     (state) => state
   );
@@ -36,13 +39,39 @@ const AdministrationDropdown = ({
     .map((x) => pathname.includes(x))
     .filter((x) => x)?.length;
 
+  const fetchUserAdmin = useCallback(async () => {
+    try {
+      console.log(user.administration.id, "user.administration.id");
+      const { data: _userAdm } = await api.get(
+        `administration/${user.administration.id}`
+      );
+      console.log(_userAdm, "_userAdm");
+      setUseradm(_userAdm);
+    } catch (error) {
+      console.warn(error, "ERROR");
+    }
+  }, [user]);
+
   useEffect(() => {
-    if (isLoggedIn && !persist && !public_state) {
+    if (isLoggedIn && !persist && !public_state && useradm) {
+      console.log(
+        config.fn.administration(user.administration.id, useradm),
+        "administration DATA"
+      );
       store.update((s) => {
-        s.administration = [config.fn.administration(user.administration.id)];
+        s.administration = [
+          config.fn.administration(user.administration.id, useradm),
+        ];
       });
     }
-  }, [user, isLoggedIn, persist, public_state]);
+  }, [user, isLoggedIn, persist, public_state, useradm]);
+
+  useEffect(() => {
+    console.log("INSIDE USEEFFECT");
+    fetchUserAdmin();
+  }, [fetchUserAdmin]);
+
+  console.log(isLoggedIn, "isLoggedIn");
 
   const handleChange = (e, index) => {
     if (!e) {
@@ -65,15 +94,15 @@ const AdministrationDropdown = ({
       s.administration.length = index + 1;
     });
   };
-
+  console.log(administration, "administration");
   if (administration && !hidden) {
     return (
       <Space {...props} style={{ width: "100%" }}>
         {administration
           .filter(
             (x) =>
-              (x.children.length && !maxLevel) ||
-              (maxLevel && x.level < maxLevel - 1 && x.children.length) // show children based on maxLevel
+              (x?.children?.length && !maxLevel) ||
+              (maxLevel && x.level < maxLevel - 1 && x?.children?.length) // show children based on maxLevel
           )
           .map((region, regionIdx) => {
             if (maxLevel === null || regionIdx + 1 < maxLevel) {

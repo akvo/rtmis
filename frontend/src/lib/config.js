@@ -1,12 +1,23 @@
 import { orderBy } from "lodash";
+import api from "./api";
 
-const mapChildren = (useradm) => {
-  const children = window.dbadm.filter((i) => i.parent === useradm.id);
+const mapChildren = (useradm, children) => {
+  console.log("inside map childresn function");
+  console.log(
+    {
+      ...useradm,
+      levelName: window.levels.find((l) => l?.level === useradm?.level)?.name,
+      childLevelName:
+        window.levels.find((l) => l?.level === useradm?.level)?.name || null,
+      children: orderBy(children, "name"),
+    },
+    "OBJ"
+  );
   return {
     ...useradm,
-    levelName: window.levels.find((l) => l.level === useradm.level)?.name,
+    levelName: window.levels.find((l) => l?.level === useradm?.level)?.name,
     childLevelName:
-      window.levels.find((l) => l.level === useradm.level + 1)?.name || null,
+      window.levels.find((l) => l?.level === useradm?.level)?.name || null,
     children: orderBy(children, "name"),
   };
 };
@@ -855,17 +866,22 @@ const config = {
   ],
   allowedGlobal: ["/dashboard/", "/glaas/"],
   fn: {
-    administration: (id, withchildren = true) => {
-      if (Array.isArray(id)) {
-        return window.dbadm
-          .filter((i) => id.includes(i.id))
-          .map((useradm) => mapChildren(useradm));
-      }
-      const useradm = window.dbadm.find((i) => i.id === id);
-      if (!withchildren) {
-        return useradm;
-      }
-      return mapChildren(useradm);
+    administration: (id, useradm, withchildren = true) => {
+      let paramId = Array.isArray(id) ? id.join(",") : id;
+      console.log(paramId, "paramId");
+      console.log(useradm, "userAdm");
+      api
+        .get(`administrations?parent=${paramId}`)
+        .then((res) => {
+          if (!withchildren) {
+            return useradm;
+          }
+          console.log(res.data.data, "response");
+          return mapChildren(useradm, res.data.data);
+        })
+        .catch((error) => {
+          console.warn(error, "ERROR");
+        });
     },
     ls: {
       set: (name, data) => {
