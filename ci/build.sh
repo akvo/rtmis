@@ -55,7 +55,7 @@ dci () {
 }
 
 documentation_build() {
-    docker run -it --rm -v "$(pwd)/docs:/docs" \
+    docker run -i --rm -v "$(pwd)/docs:/docs" \
         akvo/akvo-sphinx:20220525.082728.594558b make html
     cp -r docs/build/html frontend/public/documentation
 }
