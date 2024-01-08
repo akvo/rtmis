@@ -5,7 +5,7 @@ set -exuo pipefail
 [[ "${CI_PULL_REQUEST}" ==  "true" ]] && { echo "Pull request. Skip deploy"; exit 0; }
 
 auth () {
-    gcloud auth activate-service-account --key-file=/home/runner/work/test-rtmis/credentials/gcp.json
+    gcloud auth activate-service-account --key-file=/home/runner/work/rtmis/credentials/gcp.json
     gcloud config set project akvo-lumen
     gcloud config set container/cluster europe-west1-d
     gcloud config set compute/zone europe-west1-d
