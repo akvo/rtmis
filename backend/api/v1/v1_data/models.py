@@ -7,6 +7,7 @@ from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from utils.soft_deletes_model import SoftDeletes
+import uuid
 
 
 class FormData(models.Model):
@@ -18,6 +19,7 @@ class FormData(models.Model):
                                        on_delete=models.PROTECT,
                                        related_name='administration_form_data')
     geo = models.JSONField(null=True, default=None)
+    uuid = models.CharField(max_length=255, default=uuid.uuid4, null=True)
     created_by = models.ForeignKey(to=SystemUser,
                                    on_delete=models.CASCADE,
                                    related_name='form_data_created')
@@ -38,6 +40,7 @@ class FormData(models.Model):
             "id": self.id,
             "datapoint_name": self.name,
             "administration": self.administration.administration_column,
+            "uuid": self.uuid,
             "geolocation":
             f"{self.geo[0]}, {self.geo[1]}" if self.geo else None,
             "created_by":
@@ -120,6 +123,7 @@ class PendingFormData(SoftDeletes):
         on_delete=models.PROTECT,
         related_name='administration_pending_form_data')  # noqa
     geo = models.JSONField(null=True, default=None)
+    uuid = models.CharField(max_length=255, default=uuid.uuid4, null=True)
     batch = models.ForeignKey(to=PendingDataBatch,
                               on_delete=models.SET_NULL,
                               default=None,
