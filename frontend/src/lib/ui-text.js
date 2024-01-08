@@ -651,9 +651,10 @@ const uiText = {
     bulkUploadAttr: "Attributes",
     bulkUploadAttrPlaceholder: "Select Attributes...",
     bulkUploadCheckboxPrefilled: "Prefilled administrative list",
-    prefilledAdmModalTitle: "Prefilled Administration Template Ready",
+    prefilledAdmModalTitle: "Prefilled Administration requested",
     prefilledAdmModalContent:
-      "We're processing your request. Once complete, the prefilled administration template will be sent to your email shortly.",
+      "We're processing your request. Once complete, the prefilled administration template will be sent to your email shortly.  Please keep a close eye on your email, Thank you. ",
+    prefilledAdmUploadLabel: "Upload the data",
   },
 
   de: {},
