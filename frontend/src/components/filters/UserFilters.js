@@ -118,7 +118,7 @@ const UserFilters = ({
       <Row>
         <Col span={20}>
           <Space>
-            <AdministrationDropdown loading={loading} />
+            <AdministrationDropdown loading={loading} maxLevel={4} />
             <RemoveFiltersButton
               extra={(s) => {
                 s.filters = { trained: null, role: null, organisation: null };
