@@ -47,7 +47,7 @@ jobs:
         env:
           CI_COMMIT: ${{ env.COMMIT_SHORT_SHA }}
           CI_BRANCH: ${{ github.ref_name }}
-          CI_TAG: ${{ github.ref_name }}
+          CI_TAG: ""
           CI_PULL_REQUEST: true
           CI_COMMIT_RANGE: ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1
@@ -63,7 +63,7 @@ jobs:
         env:
           CI_COMMIT: ${{ env.COMMIT_SHORT_SHA }}
           CI_BRANCH: ${{ github.ref_name }}
-          CI_TAG: ${{ github.ref_name }}
+          CI_TAG: ""
           CI_PULL_REQUEST: true
           CI_COMMIT_RANGE: ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1

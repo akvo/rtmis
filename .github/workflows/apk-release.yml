@@ -1,0 +1,40 @@
+name: RTMIS APK build
+
+on:
+  push:
+    branch:
+      "main"
+    paths:
+      - app/**
+
+jobs:
+  release:
+    name: apk build
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🗄️  Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🧰 Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: 🏗  Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📦 Install dependencies
+        run: |
+          cd ./app/
+          npm install
+
+      - name: 🚀 Release to Expo Dev
+        id: eas_release
+        working-directory: ./app
+        run: |
+          npm run eas:release > output.txt
+          cat output.txt
+          echo "APK_URL=$(tail -n 1 output.txt)" >> $GITHUB_ENV
