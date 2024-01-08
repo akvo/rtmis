@@ -55,12 +55,10 @@ const DataFilters = ({ loading }) => {
   };
   return (
     <>
-      <Row>
+      <Row style={{ marginBottom: "16px" }}>
         <Col flex={1}>
           <Space>
             <FormDropdown loading={loading} />
-            <AdministrationDropdown loading={loading || loadingForm} />
-            <RemoveFiltersButton />
             <AdvancedFiltersButton />
           </Space>
         </Col>
@@ -99,6 +97,14 @@ const DataFilters = ({ loading }) => {
             </Space>
           </Col>
         )}
+      </Row>
+      <Row>
+        <Col>
+          <Space>
+            <AdministrationDropdown loading={loading || loadingForm} />
+            <RemoveFiltersButton />
+          </Space>
+        </Col>
       </Row>
       {showAdvancedFilters && <AdvancedFilters />}
     </>

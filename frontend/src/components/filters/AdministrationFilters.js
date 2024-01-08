@@ -10,6 +10,7 @@ import {
   DownloadOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
+import { Fragment } from "react";
 
 const { Search } = Input;
 
@@ -28,44 +29,52 @@ const AdministrationFilters = ({
   const handleChange = debounce(onSearchChange, 300);
 
   return (
-    <Row>
-      <Col flex={1}>
-        <Space>
-          <Search
-            placeholder={text.searchNameOrCode}
-            onChange={({ target }) => handleChange(target.value)}
-            onSearch={(value) => onSearchChange(value)}
-            style={{ width: 240 }}
-            allowClear
-          />
-          <AdministrationDropdown loading={loading} />
-          <RemoveFiltersButton
-            extra={(s) => {
-              s.filters = { trained: null, role: null, organisation: null };
-            }}
-          />
-        </Space>
-      </Col>
-      {["Super Admin"].includes(authUser?.role?.value) && (
-        <Col>
+    <Fragment>
+      <Row style={{ marginBottom: "16px" }}>
+        <Col flex={1}>
           <Space>
-            <Link to="/control-center/master-data/upload-administration-data">
-              <Button icon={<UploadOutlined />} shape="round">
-                {text.bulkUploadButton}
-              </Button>
-            </Link>
-            <Button icon={<DownloadOutlined />} shape="round">
-              {text.exportButton}
-            </Button>
-            <Link to={addLink}>
-              <Button type="primary" icon={<PlusOutlined />} shape="round">
-                {text.addNewButton}
-              </Button>
-            </Link>
+            <Search
+              placeholder={text.searchNameOrCode}
+              onChange={({ target }) => handleChange(target.value)}
+              onSearch={(value) => onSearchChange(value)}
+              style={{ width: 240 }}
+              allowClear
+            />
           </Space>
         </Col>
-      )}
-    </Row>
+        {["Super Admin"].includes(authUser?.role?.value) && (
+          <Col>
+            <Space>
+              <Link to="/control-center/master-data/upload-administration-data">
+                <Button icon={<UploadOutlined />} shape="round">
+                  {text.bulkUploadButton}
+                </Button>
+              </Link>
+              <Button icon={<DownloadOutlined />} shape="round">
+                {text.exportButton}
+              </Button>
+              <Link to={addLink}>
+                <Button type="primary" icon={<PlusOutlined />} shape="round">
+                  {text.addNewButton}
+                </Button>
+              </Link>
+            </Space>
+          </Col>
+        )}
+      </Row>
+      <Row>
+        <Col>
+          <div style={{ display: "flex", justifyContent: "flex-start" }}>
+            <AdministrationDropdown loading={loading} />
+            <RemoveFiltersButton
+              extra={(s) => {
+                s.filters = { trained: null, role: null, organisation: null };
+              }}
+            />
+          </div>
+        </Col>
+      </Row>
+    </Fragment>
   );
 };
 export default AdministrationFilters;
