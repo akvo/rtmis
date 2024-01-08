@@ -7,6 +7,7 @@ def seed_approved_data(data):
     if data.data:
         form_data: FormData = data.data
         form_data.name = data.name
+        form_data.uuid = data.uuid
         form_data.form = data.form
         form_data.administration = data.administration
         form_data.geo = data.geo

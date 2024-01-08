@@ -286,6 +286,7 @@ class ListFormDataSerializer(serializers.ModelSerializer):
         model = FormData
         fields = [
             "id",
+            "uuid",
             "name",
             "form",
             "administration",
@@ -587,6 +588,7 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
         model = PendingFormData
         fields = [
             "id",
+            "uuid",
             "data_id",
             "name",
             "form",
