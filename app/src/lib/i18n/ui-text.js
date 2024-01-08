@@ -91,6 +91,7 @@ const uiText = {
     settingAddFormTitle: 'Add Form',
     settingAddFormDesc: 'Add/download more forms to apps',
     settingAddNewFormPageTitle: 'Add New Form',
+    errorFormsNotLoaded: 'Unable to load forms',
   },
   fr: {
     latitude: 'Latitude',
@@ -122,7 +123,7 @@ const uiText = {
     errorUserNameRequired: "Le code d'accès est requis",
     addUserPageTitle: 'Ajouter un nouveau mot de passe',
     addUserInputName: "Nom d'utilisateur",
-    addUserPasscode: "Mot de passe",
+    addUserPasscode: 'Mot de passe',
     buttonSaving: 'Sauvegarder...',
     buttonSave: 'Enregistrer',
     buttonReset: 'Réinitialiser',
@@ -185,6 +186,7 @@ const uiText = {
     settingAddFormTitle: 'Ajouter un formulaire',
     settingAddFormDesc: "Ajouter/télécharger plus de formulaires dans l'application",
     settingAddNewFormPageTitle: 'Ajouter un nouveau formulaire',
+    errorFormsNotLoaded: 'Impossible de charger les formulaires',
   },
 };
 

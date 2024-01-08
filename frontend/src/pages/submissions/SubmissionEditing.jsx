@@ -96,7 +96,7 @@ const SubmissionEditing = ({
         ))}
       </div>
       {isEditable && !expanded.loading && (
-        <div className="pending-data-actions">
+        <div className="pending-data-actions" style={{ padding: "1rem" }}>
           <Button
             type="primary"
             shape="round"

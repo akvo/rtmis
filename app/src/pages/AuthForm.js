@@ -56,22 +56,25 @@ const AuthForm = ({ navigation }) => {
   };
 
   const handleGetAllForms = async (formsUrl, userID) => {
-    formsUrl.forEach(async (form) => {
-      // Fetch form detail
-      const formRes = await api.get(form.url);
-      const savedForm = await crudForms.addForm({
-        ...form,
-        userId: userID,
-        formJSON: formRes?.data,
-      });
-      console.info('Saved Forms...', form.id, savedForm);
-
-      // download cascades files
-      if (formRes?.data?.cascades?.length) {
-        formRes.data.cascades.forEach((cascadeFile) => {
+    const formsReq = formsUrl?.map((f) => api.get(f.url));
+    const formsRes = await Promise.allSettled(formsReq);
+    formsRes.forEach(async ({ value, status }, index) => {
+      if (status === 'fulfilled') {
+        const { data: apiData } = value;
+        // download cascades files
+        apiData.cascades.forEach((cascadeFile) => {
           const downloadUrl = api.getConfig().baseURL + cascadeFile;
+          console.info('Downloading...', downloadUrl);
           cascades.download(downloadUrl, cascadeFile);
         });
+        // insert all forms to database
+        const form = formsUrl?.[index];
+        const savedForm = await crudForms.addForm({
+          ...form,
+          userId: userID,
+          formJSON: apiData,
+        });
+        console.info('Saved Forms...', form.id, savedForm);
       }
     });
   };
