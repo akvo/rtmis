@@ -18,7 +18,6 @@ import {
   Result,
   Form,
   Checkbox,
-  Modal,
 } from "antd";
 import { FileTextFilled } from "@ant-design/icons";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
@@ -53,6 +52,11 @@ const UploadAdministrationData = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+  const [sucessMessage, setSuccessMessage] = useState({
+    title: text.administrationUploadSuccessTitle,
+    content: null,
+    uploadButton: text.uploadAnotherFileLabel,
+  });
 
   const pagePath = [
     {
@@ -191,12 +195,12 @@ const UploadAdministrationData = () => {
         .get(apiURL)
         .then(() => {
           setLoading(false);
-          Modal.info({
+          formRef.current.resetFields();
+          setShowSuccess(true);
+          setSuccessMessage({
             title: text.prefilledAdmModalTitle,
             content: text.prefilledAdmModalContent,
-            onOk: () => {
-              formRef.current.resetFields();
-            },
+            uploadButton: text.prefilledAdmUploadLabel,
           });
         })
         .catch((e) => {
@@ -210,6 +214,15 @@ const UploadAdministrationData = () => {
     } else {
       downloadTemplate(values);
     }
+  };
+
+  const handleOnResetSuccess = () => {
+    setShowSuccess(false);
+    setSuccessMessage({
+      title: text.administrationUploadSuccessTitle,
+      content: null,
+      uploadButton: text.uploadAnotherFileLabel,
+    });
   };
 
   return (
@@ -234,16 +247,17 @@ const UploadAdministrationData = () => {
             >
               <Result
                 status="success"
-                title={text?.administrationUploadSuccessTitle}
+                title={sucessMessage.title}
+                subTitle={sucessMessage.content}
                 extra={[
                   <Divider key="divider" />,
                   <Button
                     type="primary"
                     key="back-button"
-                    onClick={() => setShowSuccess(false)}
+                    onClick={handleOnResetSuccess}
                     shape="round"
                   >
-                    {text.uploadAnotherFileLabel}
+                    {sucessMessage.uploadButton}
                   </Button>,
                   <Button
                     key="page"
