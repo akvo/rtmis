@@ -1,0 +1,141 @@
+name: RTMIS CI
+
+on:
+  push:
+    branch:
+      "*"
+  pull_request:
+    types: [synchronize]
+
+jobs:
+  build_pull_request_action:
+    if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
+    name: RTMIS pipeline for pull request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Install GKE auth plugin
+        uses: ./.github/actions/install-google-cloud-sdk
+
+      - name: Set short git commit SHA
+        id: vars
+        run: |
+          shortSha=$(git rev-parse --short ${{ github.sha }})
+          echo "COMMIT_SHORT_SHA=$shortSha" >> $GITHUB_ENV
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Create credentials folder
+        run: mkdir /home/runner/work/rtmis/credentials
+        shell: bash
+
+      - name: Write gcp deployment secret to file
+        run: echo "${{ secrets.GCLOUD_SERVICE_ACCOUNT }}" | base64 --decode > /home/runner/work/rtmis/credentials/gcp.json
+        shell: bash
+
+      - name: Write gcp deployment secret to file
+        run: echo "${{ secrets.RTMIS_SERVICE_ACCOUNT }}" | base64 --decode > /home/runner/work/rtmis/credentials/rtmis-service-account.json
+        shell: bash
+
+      - name: Build and test
+        env:
+          CI_COMMIT: ${{ env.COMMIT_SHORT_SHA }}
+          CI_BRANCH: ${{ github.ref_name }}
+          CI_TAG: ${{ github.ref_name }}
+          CI_PULL_REQUEST: true
+          CI_COMMIT_RANGE: ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}
+          CLOUDSDK_CORE_DISABLE_PROMPTS: 1
+          COMPOSE_INTERACTIVE_NO_CLI: 1
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_RTMIS_TOKEN }}
+          SERVICE_ACCOUNT: "/home/runner/work/rtmis/credentials"
+          DBDOCS_TOKEN: ${{ secrets.DBDOCS_TOKEN }}
+        shell: bash
+        run: |
+          ./ci/build.sh
+
+      - name: Deploy
+        env:
+          CI_COMMIT: ${{ env.COMMIT_SHORT_SHA }}
+          CI_BRANCH: ${{ github.ref_name }}
+          CI_TAG: ${{ github.ref_name }}
+          CI_PULL_REQUEST: true
+          CI_COMMIT_RANGE: ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}
+          CLOUDSDK_CORE_DISABLE_PROMPTS: 1
+          COMPOSE_INTERACTIVE_NO_CLI: 1
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_RTMIS_TOKEN }}
+          SERVICE_ACCOUNT: "/home/runner/work/rtmis/credentials"
+        shell: bash
+        run: |
+          ./ci/deploy.sh
+
+  build_push_action:
+    if: github.event_name == 'push' && !contains(github.event.before, '0000000000000000000000000000000000000000')
+    name: RTMIS pipeline for push action
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Install GKE auth plugin
+        uses: ./.github/actions/install-google-cloud-sdk
+
+      - name: Set short git commit SHA
+        id: vars
+        run: |
+          shortSha=$(git rev-parse --short ${{ github.sha }})
+          echo "COMMIT_SHORT_SHA=$shortSha" >> $GITHUB_ENV
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Create credentials folder
+        run: mkdir /home/runner/work/rtmis/credentials
+        shell: bash
+
+      - name: Write gcp deployment secret to file
+        run: echo "${{ secrets.GCLOUD_SERVICE_ACCOUNT }}" | base64 --decode > /home/runner/work/rtmis/credentials/gcp.json
+        shell: bash
+
+      - name: Write gcp deployment secret to file
+        run: echo "${{ secrets.RTMIS_SERVICE_ACCOUNT }}" | base64 --decode > /home/runner/work/rtmis/credentials/rtmis-service-account.json
+        shell: bash
+
+      - name: Build and test
+        env:
+          CI_COMMIT: ${{ env.COMMIT_SHORT_SHA }}
+          CI_BRANCH: ${{ github.ref_name }}
+          CI_TAG: ""
+          CI_PULL_REQUEST: false
+          CI_COMMIT_RANGE: ${{ github.event.before }}..${{ github.sha }}
+          CLOUDSDK_CORE_DISABLE_PROMPTS: 1
+          COMPOSE_INTERACTIVE_NO_CLI: 1
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_RTMIS_TOKEN }}
+          SERVICE_ACCOUNT: "/home/runner/work/rtmis/credentials"
+          DBDOCS_TOKEN: ${{ secrets.DBDOCS_TOKEN }}
+        shell: bash
+        run: |
+          ./ci/build.sh
+
+      - name: Deploy
+        env:
+          CI_COMMIT: ${{ env.COMMIT_SHORT_SHA }}
+          CI_BRANCH: ${{ github.ref_name }}
+          CI_TAG: ""
+          CI_PULL_REQUEST: false
+          CI_COMMIT_RANGE: ${{ github.event.before }}..${{ github.sha }}
+          CLOUDSDK_CORE_DISABLE_PROMPTS: 1
+          COMPOSE_INTERACTIVE_NO_CLI: 1
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_RTMIS_TOKEN }}
+          SERVICE_ACCOUNT: "/home/runner/work/rtmis/credentials"
+        shell: bash
+        run: |
+          ./ci/deploy.sh
