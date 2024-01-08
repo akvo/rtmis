@@ -49,15 +49,10 @@ const UserFilters = ({
             onSearch={(e) => {
               fetchData(e);
             }}
-            style={{ width: 260 }}
+            style={{ width: 260, marginRight: "1rem" }}
             loading={loading && !!query}
             allowClear
           />
-        </Col>
-        <Col>{button}</Col>
-      </Row>
-      <Row>
-        <Col span={20}>
           <Space>
             <Select
               placeholder="Organization"
@@ -116,6 +111,13 @@ const UserFilters = ({
                 </Option>
               ))}
             </Select>
+          </Space>
+        </Col>
+        <Col>{button}</Col>
+      </Row>
+      <Row>
+        <Col span={20}>
+          <Space>
             <AdministrationDropdown loading={loading} maxLevel={4} />
             <RemoveFiltersButton
               extra={(s) => {
