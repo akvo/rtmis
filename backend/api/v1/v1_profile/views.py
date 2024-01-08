@@ -6,6 +6,7 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import ProtectedError, Q
 from django.contrib.admin.utils import get_deleted_objects
 from django.http.response import HttpResponse
+from django_q.tasks import async_task
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
         OpenApiParameter, extend_schema, inline_serializer)
@@ -26,6 +27,8 @@ from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from utils.email_helper import send_email, EmailTypes
+from api.v1.v1_jobs.constants import JobStatus, JobTypes
+from api.v1.v1_jobs.models import Jobs
 
 
 @extend_schema(
@@ -211,11 +214,7 @@ class EntityDataViewSet(ModelViewSet):
 def export_administrations_template(request: Request, version):
     attributes = clean_array_param(
             request.query_params.get('attributes', ''), maybe_int)
-    level = request.query_params.get('level', None)
-    prefilled = request.query_params.get('prefilled', False)
-    filepath = generate_excel(
-        cast(SystemUser, request.user), attributes, level, prefilled
-    )
+    filepath = generate_excel(cast(SystemUser, request.user), attributes)
     filename = filepath.split("/")[-1].replace(" ", "-")
     with open(filepath, 'rb') as template_file:
         response = HttpResponse(
@@ -225,3 +224,39 @@ def export_administrations_template(request: Request, version):
                     '.spreadsheetml.sheet'))
         response['Content-Disposition'] = f'attachment; filename="{filename}"'
         return response
+
+
+@extend_schema(tags=['File'],
+               summary=(
+                   'Export prefilled template for Administration bulk upload'
+                ),
+               parameters=[
+                   OpenApiParameter(name='attributes',
+                                    type={
+                                        'type': 'array',
+                                        'items': {'type': 'number'}},
+                                    location=OpenApiParameter.QUERY,
+                                    explode=False)
+                   ])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def export_prefilled_administrations_template(request: Request, version):
+    attributes = clean_array_param(
+            request.query_params.get('attributes', ''), maybe_int)
+    level = request.query_params.get('level', None)
+    job = Jobs.objects.create(
+        type=JobTypes.seed_data,
+        status=JobStatus.on_progress,
+        user=request.user,
+        info={
+            'attributes': attributes,
+            'level': level
+        }
+    )
+    task_id = async_task(
+        'api.v1.v1_profile.job.download_prefilled_administrations', job.id,
+        hook='api.v1.v1_profile.job.download_prefilled_result')
+    job.task_id = task_id
+    job.save()
+
+    return Response({'task_id': task_id}, status=status.HTTP_200_OK)
