@@ -1,2 +1,3 @@
 kenya_with_admin_id.topojson
+*.ipynb_checkpoints
 *.sqlite

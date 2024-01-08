@@ -18,6 +18,7 @@ const AdministrationFilters = ({
   loading,
   onSearchChange = () => {},
   addLink = "/control-center/master-data/add-administration",
+  maxLevel = null,
 }) => {
   const authUser = store.useState((s) => s.user);
   const language = store.useState((s) => s.language);
