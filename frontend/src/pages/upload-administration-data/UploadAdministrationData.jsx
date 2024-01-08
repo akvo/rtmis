@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+} from "react";
 import "./style.scss";
 import {
   Row,
@@ -12,6 +18,7 @@ import {
   Result,
   Form,
   Checkbox,
+  Modal,
 } from "antd";
 import { FileTextFilled } from "@ant-design/icons";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
@@ -37,6 +44,7 @@ const UploadAdministrationData = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [attributes, setAttributes] = useState([]);
   const [selectedAttributes, setSelectedAttributes] = useState([]);
+  const formRef = useRef();
   const { notify } = useNotification();
   const navigate = useNavigate();
   const { language, levels } = store.useState((s) => s);
@@ -132,12 +140,11 @@ const UploadAdministrationData = () => {
     setSelectedAttributes(e);
   };
 
-  const downloadTemplate = ({ level, prefilled }) => {
+  const downloadTemplate = ({ level }) => {
     setLoading(true);
     const query = {
       attributes: selectedAttributes,
       level,
-      prefilled,
     };
     const queryURL = "?" + new URLSearchParams(query).toString();
     const apiURL = `export/administrations-template${queryURL}`;
@@ -173,6 +180,36 @@ const UploadAdministrationData = () => {
         });
         setLoading(false);
       });
+  };
+
+  const handleOnDownload = ({ prefilled, ...values }) => {
+    if (prefilled) {
+      setLoading(true);
+      const queryURL = "?" + new URLSearchParams(values).toString();
+      const apiURL = `export/prefilled-administrations-template${queryURL}`;
+      api
+        .get(apiURL)
+        .then(() => {
+          setLoading(false);
+          Modal.info({
+            title: text.prefilledAdmModalTitle,
+            content: text.prefilledAdmModalContent,
+            onOk: () => {
+              formRef.current.resetFields();
+            },
+          });
+        })
+        .catch((e) => {
+          console.error(e);
+          notify({
+            type: "error",
+            message: text.templateFetchFail,
+          });
+          setLoading(false);
+        });
+    } else {
+      downloadTemplate(values);
+    }
   };
 
   return (
@@ -233,7 +270,8 @@ const UploadAdministrationData = () => {
                   <Form
                     labelCol={{ span: 6 }}
                     wrapperCol={{ span: 18 }}
-                    onFinish={downloadTemplate}
+                    onFinish={handleOnDownload}
+                    ref={formRef}
                   >
                     <Form.Item label={text.admLevel} name="level">
                       <Select
