@@ -130,6 +130,13 @@ class MobileAssignmentApiSyncTest(TestCase, AssignmentTokenTestHelperMixin):
                 pending_data[0].submitter, self.mobile_assignment.name)
         self.assertEqual(pending_data[0].duration, 3000)
 
+        administration = Access.objects.filter(user=self.user)\
+            .first().administration
+        self.assertNotEqual(
+            pending_data[0].administration.id,
+            administration.id
+        )
+
         # Submit with invalid token
         response = self.client.post(
             '/api/v1/device/sync',

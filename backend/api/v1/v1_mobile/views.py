@@ -29,7 +29,7 @@ from .serializers import (
     MobileAssignmentSerializer,
 )
 from .models import MobileAssignment, MobileApk
-from api.v1.v1_forms.models import Forms
+from api.v1.v1_forms.models import Forms, Questions, QuestionTypes
 from api.v1.v1_profile.models import Access
 from api.v1.v1_forms.serializers import WebFormDetailSerializer
 from api.v1.v1_data.serializers import SubmitPendingFormSerializer
@@ -148,11 +148,18 @@ def sync_pending_form_data(request, version):
         )
     answers = []
     qna = request.data.get('answers')
+    adm_id = administration.id
+    adm_qs = Questions.objects.filter(
+        type=QuestionTypes.administration
+    ).first()
+    adm_key = str(adm_qs.id) if adm_qs else None
+    if adm_key and adm_key in qna:
+        adm_id = qna[adm_key]
     for q in list(qna):
         answers.append({'question': q, 'value': qna[q]})
     data = {
         'data': {
-            'administration': administration.id,
+            'administration': adm_id,
             'name': request.data.get('name'),
             'geo': request.data.get('geo'),
             'submitter': assignment.name,
