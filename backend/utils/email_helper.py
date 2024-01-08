@@ -25,6 +25,7 @@ class EmailTypes:
     unchanged_data = 'unchanged_data'
     feedback = 'feedback'
     administration_upload = 'administration_upload'
+    administration_prefilled = 'administration_prefilled'
 
     FieldStr = {
         user_register: 'user_register',
@@ -43,6 +44,7 @@ class EmailTypes:
         unchanged_data: 'unchanged_data',
         feedback: 'feedback',
         administration_upload: 'administration_upload',
+        administration_prefilled: 'administration_prefilled',
     }
 
 
@@ -264,6 +266,15 @@ def email_context(context: dict, type: str):
             """,
             "explore_button": True
         })
+    if type == EmailTypes.administration_prefilled:
+        context.update({
+            "subject": "Prefilled Administration ready to download",
+            "image": f"{webdomain}/email-icons/info-circle.png",
+            "info_text": """
+            The spreadsheet that you requested has been successfully
+            validated and ready to download.
+            """,
+        })
     # prevent multiline if inside html template
     show_content = context.get('message_list') \
         or context.get('user_credentials') \
@@ -273,7 +284,7 @@ def email_context(context: dict, type: str):
 
 
 def send_email(context: dict, type: str, path=None,
-               content_type=None, send=True):
+               content_type=None, send=True, excel=None):
     context = email_context(context=context, type=type)
     try:
 
@@ -288,6 +299,12 @@ def send_email(context: dict, type: str, path=None,
         if path:
             msg.attach(Path(path).name, open(path).read(),
                        content_type)
+        if excel:
+            msg.attach(
+                excel['name'],
+                excel['file'],
+                'application/vnd.ms-excel'
+            )
         if send:
             msg.send()
         if not send:
