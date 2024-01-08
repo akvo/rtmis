@@ -151,6 +151,10 @@ class SubmitFormSerializer(serializers.Serializer):
             value = None
             option = None
 
+            if answer.get("question").meta_uuid:
+                obj_data.uuid = answer.get("value")
+                obj_data.save()
+
             if answer.get("question").type in [
                     QuestionTypes.geo,
                     QuestionTypes.option,
@@ -286,6 +290,7 @@ class ListFormDataSerializer(serializers.ModelSerializer):
         model = FormData
         fields = [
             "id",
+            "uuid",
             "name",
             "form",
             "administration",
@@ -587,6 +592,7 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
         model = PendingFormData
         fields = [
             "id",
+            "uuid",
             "data_id",
             "name",
             "form",
@@ -1120,6 +1126,10 @@ class SubmitPendingFormSerializer(serializers.Serializer):
             name = None
             value = None
             option = None
+
+            if answer.get("question").meta_uuid:
+                obj_data.uuid = answer.get("value")
+                obj_data.save()
 
             if answer.get("question").type in [
                     QuestionTypes.geo,

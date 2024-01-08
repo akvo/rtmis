@@ -28,9 +28,10 @@ class DataTestCase(TestCase):
         self.assertEqual(list(result),
                          ['current', 'total', 'total_page', 'data'])
         self.assertEqual(list(result['data'][0]), [
-            'id', 'name', 'form', 'administration', 'geo', 'created_by',
-            'updated_by', 'created', 'updated', 'pending_data'
+            'id', 'uuid', 'name', 'form', 'administration', 'geo',
+            'created_by', 'updated_by', 'created', 'updated', 'pending_data'
         ])
+        self.assertIsNotNone(result['data'][0]['uuid'])
 
         # PUBLIC ACCESS WITHOUT HEADER TOKEN
         data = self.client.get("/api/v1/form-data/1?page=1",
@@ -88,6 +89,8 @@ class DataTestCase(TestCase):
         call_command("form_seeder", "--test")
         form = Forms.objects.first()
         self.assertEqual(form.id, 1)
+        # Answer for UUID flag in question
+        random_uuid = "xxxxx-xxxx-example-uuid"
         # Add data to edit
         payload = {
             "data": {
@@ -113,6 +116,9 @@ class DataTestCase(TestCase):
             }, {
                 "question": 106,
                 "value": ["Parent", "Children"]
+            }, {
+                "question": 110,
+                "value": random_uuid
             }]
         }
         data = self.client.post('/api/v1/form-data/1/',
@@ -124,6 +130,8 @@ class DataTestCase(TestCase):
         self.assertEqual(data, {"message": "ok"})
         # update data to test deletion with history
         data_id = FormData.objects.first().id
+        meta_uuid = FormData.objects.first().uuid
+        self.assertEqual(meta_uuid, random_uuid)
         payload = [{
             "question": 101,
             "value": "Jane Doe"
