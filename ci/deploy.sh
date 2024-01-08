@@ -5,7 +5,7 @@ set -exuo pipefail
 [[ "${CI_PULL_REQUEST}" ==  "true" ]] && { echo "Pull request. Skip deploy"; exit 0; }
 
 auth () {
-    gcloud auth activate-service-account --key-file=/home/semaphore/.secrets/gcp.json
+    gcloud auth activate-service-account --key-file=/home/runner/work/test-rtmis/credentials/gcp.json
     gcloud config set project akvo-lumen
     gcloud config set container/cluster europe-west1-d
     gcloud config set compute/zone europe-west1-d
@@ -49,4 +49,3 @@ prepare_deployment
 apply_deployment
 
 ci/k8s/wait-for-k8s-deployment-to-be-ready.sh
-
