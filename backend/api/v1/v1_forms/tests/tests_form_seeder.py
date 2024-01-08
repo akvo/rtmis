@@ -63,13 +63,16 @@ class FormSeederTestCase(TestCase):
             "CLTS",
             "WASH in Schools",
             "Water System",
+            "RTMIS Community Monitoring Form",
+            "RTMIS School WASH Form",
+            "RTMIS Household Monitoring Form",
         ]
 
         # RUN SEED NEW FORM
         output = self.call_command()
         output = list(filter(lambda x: len(x), output.split("\n")))
         forms = Forms.objects.all()
-        self.assertEqual(forms.count(), 7)
+        self.assertEqual(forms.count(), len(json_forms))
         for form in forms:
             self.assertIn(f"Form Created | {form.name} V{form.version}",
                           output)

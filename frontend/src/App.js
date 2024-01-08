@@ -41,6 +41,8 @@ import {
   EntityData,
   AddEntityData,
   ControlCenter,
+  UploadAdministrationData,
+  BIDashboard,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -120,6 +122,12 @@ const RouteList = () => {
         <Route
           path="master-data"
           element={<Private element={MasterData} alias="master-data" />}
+        />
+        <Route
+          path="master-data/upload-administration-data"
+          element={
+            <Private element={UploadAdministrationData} alias="master-data" />
+          }
         />
         <Route
           path="master-data/add-administration"
@@ -231,6 +239,7 @@ const RouteList = () => {
         path="/report/:templateId"
         element={<Private element={Report} alias="reports" />}
       />
+      <Route path="/bi/:formId" element={<BIDashboard />} />
       <Route path="/news-events" element={<NewsEvents />} />
       <Route path="/how-we-work" element={<HowWeWork />} />
       <Route path="/terms" element={<Terms />} />

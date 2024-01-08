@@ -6,10 +6,12 @@ import {
   PlusSquareOutlined,
   CloseSquareOutlined,
   FileTextFilled,
+  DeleteOutlined,
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { api, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
-import { columnsPending, columnsBatch, columnsSelected } from "./";
+import { columnsBatch, columnsSelected } from "./";
 import UploadDetail from "./UploadDetail";
 import BatchDetail from "./BatchDetail";
 import FormDropdown from "../../components/filters/FormDropdown";
@@ -18,6 +20,7 @@ import { isEmpty, without, union, xor } from "lodash";
 const { TextArea } = Input;
 
 const { TabPane } = Tabs;
+const { confirm } = Modal;
 
 const Submissions = () => {
   const [dataset, setDataset] = useState([]);
@@ -31,6 +34,7 @@ const Submissions = () => {
   const [reload, setReload] = useState(0);
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [deleting, setDeleting] = useState(false);
   const { selectedForm, user } = store.useState((state) => state);
   const [batchName, setBatchName] = useState("");
   const [comment, setComment] = useState("");
@@ -53,6 +57,92 @@ const Submissions = () => {
     },
     {
       title: window.forms?.find((x) => x.id === selectedForm)?.name,
+    },
+  ];
+
+  const columnsPending = [
+    {
+      title: "",
+      dataIndex: "id",
+      key: "id",
+      render: () => "",
+      width: 50,
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (name, row) => (
+        <Row align="middle">
+          <Col>
+            <FileTextFilled style={{ color: "#666666", fontSize: 28 }} />
+          </Col>
+          <Col>
+            <div>{name}</div>
+            <div>{row.created}</div>
+          </Col>
+        </Row>
+      ),
+    },
+    {
+      title: "Administration",
+      dataIndex: "administration",
+      key: "administration",
+    },
+    {
+      title: "Submitted Date",
+      dataIndex: "created",
+      key: "created",
+      render: (created) => created || "",
+      align: "center",
+      width: 200,
+    },
+    {
+      title: "Submitter Name",
+      dataIndex: "submitter",
+      key: "submitter",
+      render: (submitter, dt) => {
+        return submitter || dt.created_by;
+      },
+    },
+    {
+      title: "Duration",
+      dataIndex: "duration",
+      key: "duration",
+      render: (duration) => duration || "",
+      align: "center",
+      width: 100,
+    },
+    {
+      title: "Action",
+      dataIndex: "#",
+      key: "duration",
+      render: (_, row) => (
+        <div
+          onClick={() => {
+            confirm({
+              title: "Are you sure to delete this batch?",
+              icon: <ExclamationCircleOutlined />,
+              content: "Once you have deleted you can't get it back",
+              okText: "Yes",
+              okType: "danger",
+              cancelText: "No",
+              onOk() {
+                handleDelete(row);
+              },
+              onCancel() {
+                return;
+              },
+            });
+          }}
+        >
+          <DeleteOutlined
+            style={{ color: "red", fontSize: "17px", cursor: "pointer" }}
+          />
+        </div>
+      ),
+      align: "center",
+      width: 100,
     },
   ];
 
@@ -130,6 +220,7 @@ const Submissions = () => {
       dataTab === "pending-submission" && (
         <Button
           type="primary"
+          shape="round"
           onClick={handleOnClickBatchSelectedDataset}
           disabled={!selectedRows.length && modalButton}
         >
@@ -195,6 +286,37 @@ const Submissions = () => {
         setModalVisible(false);
       });
   };
+
+  const handleDelete = (rowInfo) => {
+    setDeleting(true);
+    api
+      .delete(`pending-data/${rowInfo.id}`, { pending_data_id: rowInfo.id })
+      .then(() => {
+        setDataset(dataset.filter((d) => d.id !== rowInfo.id));
+        setDeleting(false);
+        notify({
+          type: "success",
+          message: "Batch deleted",
+        });
+      })
+      .catch((err) => {
+        const { status, data } = err.response;
+        if (status === 409) {
+          notify({
+            type: "error",
+            message: data?.message || text.userDeleteFail,
+          });
+        } else {
+          notify({
+            type: "error",
+            message: text.userDeleteFail,
+          });
+        }
+        setDeleting(false);
+        console.error(err.response);
+      });
+  };
+
   return (
     <div id="submissions">
       <div className="description-container">
@@ -232,6 +354,7 @@ const Submissions = () => {
                       selectedRowKeys: selectedRowKeys,
                       onSelect: onSelectTableRow,
                       onSelectAll: onSelectAllTableRow,
+                      handleDelete: handleDelete,
                       getCheckboxProps: (record) => ({
                         disabled: record?.disabled,
                       }),
@@ -252,7 +375,14 @@ const Submissions = () => {
                 expandedRowRender: (record) => {
                   if (dataTab === "pending-submission") {
                     return (
-                      <BatchDetail expanded={record} setReload={setReload} />
+                      <BatchDetail
+                        expanded={record}
+                        setReload={setReload}
+                        setDataset={setDataset}
+                        dataset={dataset}
+                        handleDelete={handleDelete}
+                        deleting={deleting}
+                      />
                     );
                   }
                   return <UploadDetail record={record} setReload={setReload} />;
@@ -310,6 +440,7 @@ const Submissions = () => {
             <Col xs={12}>
               <Button
                 className="light"
+                shape="round"
                 onClick={() => {
                   setModalVisible(false);
                 }}
@@ -318,6 +449,7 @@ const Submissions = () => {
               </Button>
               <Button
                 type="primary"
+                shape="round"
                 onClick={sendBatch}
                 disabled={!batchName.length}
               >

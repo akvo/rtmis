@@ -25,7 +25,7 @@ describe('TypeAutofield component', () => {
     const autoField = getByTestId('type-autofield');
     expect(autoField).toBeDefined();
     expect(autoField.props.value).toBe('6');
-    expect(onChangeMock).toHaveBeenCalledTimes(2);
+    expect(onChangeMock).toHaveBeenCalledTimes(1);
   });
 
   test('it gives null value', () => {

@@ -31,12 +31,10 @@ const UserFilters = ({
   const [organisations, setOrganisations] = useState([]);
 
   useEffect(() => {
-    if (!organisations.length) {
-      api.get("organisations").then((res) => {
-        setOrganisations(res.data);
-      });
-    }
-  }, [organisations, setOrganisations]);
+    api.get("organisations").then((res) => {
+      setOrganisations(res.data);
+    });
+  }, [setOrganisations]);
 
   return (
     <>
@@ -118,7 +116,7 @@ const UserFilters = ({
                 </Option>
               ))}
             </Select>
-            <AdministrationDropdown loading={loading} />
+            <AdministrationDropdown loading={loading} maxLevel={4} />
             <RemoveFiltersButton
               extra={(s) => {
                 s.filters = { trained: null, role: null, organisation: null };

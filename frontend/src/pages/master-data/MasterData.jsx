@@ -68,7 +68,7 @@ const MasterData = () => {
               navigate(`/control-center/master-data/${recordID}/edit`)
             }
           >
-            Edit
+            {text.editButton}
           </Button>
         );
       },
@@ -134,7 +134,11 @@ const MasterData = () => {
       </div>
       <div className="table-section">
         <div className="table-wrapper">
-          <AdministrationFilters loading={loading} onSearchChange={setSearch} />
+          <AdministrationFilters
+            loading={loading}
+            onSearchChange={setSearch}
+            maxLevel={4}
+          />
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}

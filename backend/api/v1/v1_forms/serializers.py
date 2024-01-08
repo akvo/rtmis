@@ -161,7 +161,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
         if instance.type == QuestionTypes.cascade:
             return {
                 "file": "organisation.sqlite",
-                "parent_id": []
+                "parent_id": [0]
             }
         if instance.type == QuestionTypes.administration:
             return {

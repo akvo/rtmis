@@ -14,7 +14,7 @@ const PanelApprovals = () => {
   const [loading, setLoading] = useState(true);
   const { user: authUser } = store.useState((s) => s);
 
-  const { checkAccess, approvalsLiteral } = config;
+  const { approvalsLiteral } = config;
 
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
@@ -76,13 +76,6 @@ const PanelApprovals = () => {
             View All
           </Button>
         </Link>
-        {checkAccess(authUser?.role_detail, "approvers") && (
-          <Link to="/control-center/approvers/tree">
-            <Button type="primary" shape="round">
-              Manage Data Validation Setup
-            </Button>
-          </Link>
-        )}
       </Row>
     </div>
   );

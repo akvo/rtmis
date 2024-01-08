@@ -357,6 +357,13 @@ const AddUser = () => {
                   getPopupContainer={(trigger) => trigger.parentNode}
                   placeholder={text.selectOne}
                   allowClear
+                  showSearch
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
                 >
                   {organisations?.map((o, oi) => (
                     <Option key={`org-${oi}`} value={o.id}>
@@ -375,6 +382,13 @@ const AddUser = () => {
                 <Select
                   placeholder={text.selectOne}
                   getPopupContainer={(trigger) => trigger.parentNode}
+                  showSearch
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
                 >
                   {config?.designations?.map((d, di) => (
                     <Option key={di} value={d.id}>

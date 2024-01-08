@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Card, Button } from "antd";
+import { Row, Col, Button } from "antd";
 import { store, config, uiText } from "../../lib";
 import { Link } from "react-router-dom";
 import { PanelApprovals, PanelSubmissions } from "./components";
@@ -75,7 +75,7 @@ const ControlCenter = () => {
           <Breadcrumbs
             pagePath={[
               {
-                title: "Control Center",
+                title: text.controlCenter,
                 link: "/control-center",
               },
             ]}
@@ -83,6 +83,28 @@ const ControlCenter = () => {
           <ControlCenterTour />
         </Row>
         <DescriptionPanel description={text.ccDescriptionPanel} />
+
+        <div className="profile-container">
+          <h2>RTMIS Control Center</h2>
+          <div className="profle-wrapper">
+            <img src="/assets/profile.png" />
+            <div>
+              <h2>Hello {authUser?.name || ""},</h2>
+              <p>
+                {authUser?.role?.value} | {authUser.designation?.name}
+                {authUser.organisation?.name &&
+                  `- ${authUser.organisation?.name}`}
+              </p>
+              <p>
+                Last Login:{" "}
+                {new Date(authUser?.last_login * 1000)
+                  .toISOString()
+                  .replace("T", " ")
+                  .slice(0, 19)}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="table-section">
         <div className="table-wrapper">
@@ -102,7 +124,7 @@ const ControlCenter = () => {
                   span={isFullWidth ? 24 : 12}
                   key={index}
                 >
-                  <Card bordered={false} hoverable>
+                  <div bordered={false} hoverable>
                     <div className="row">
                       <div className="flex-1">
                         <h2>{panel?.title}</h2>
@@ -117,7 +139,7 @@ const ControlCenter = () => {
                         <img src={panel?.image} width={100} height={100} />
                       </div>
                     </div>
-                  </Card>
+                  </div>
                 </Col>
               );
             })}

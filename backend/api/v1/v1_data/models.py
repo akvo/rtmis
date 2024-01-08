@@ -6,6 +6,7 @@ from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
+from utils.soft_deletes_model import SoftDeletes
 
 
 class FormData(models.Model):
@@ -104,7 +105,7 @@ class PendingDataBatchComments(models.Model):
         db_table = 'batch_comment'
 
 
-class PendingFormData(models.Model):
+class PendingFormData(SoftDeletes):
     name = models.TextField()
     form = models.ForeignKey(to=Forms,
                              on_delete=models.CASCADE,

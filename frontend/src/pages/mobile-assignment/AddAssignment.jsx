@@ -10,8 +10,6 @@ import {
 import { useNotification } from "../../util/hooks";
 import "./style.scss";
 
-const IS_SUPER_ADMIN = config.roles.find((x) => x.name === "Super Admin").id;
-
 const AddAssignment = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -25,22 +23,34 @@ const AddAssignment = () => {
     administration: selectedAdm,
   } = store.useState((s) => s);
   const editAssignment = store.useState((s) => s.mobileAssignment);
-  const userAdmLevel = authUser?.administration?.level;
+  const userAdmLevel =
+    levels.find((l) => l?.level === authUser.administration.level)?.id || null;
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
   const [preload, setPreload] = useState(true);
   const [level, setLevel] = useState(userAdmLevel);
 
+  const lowestLevel = levels
+    .slice()
+    .sort((a, b) => a.level - b.level)
+    .slice(-1)?.[0];
+
   const admLevels = levels
-    .slice(1, levels.length)
-    .filter((l) => l?.level >= userAdmLevel)
+    .slice()
+    .filter((l) => l?.id > userAdmLevel)
     .sort((a, b) => a?.level - b?.level);
-  const admChildren = selectedAdm
-    ?.slice()
-    ?.sort((a, b) => a.level - b.level)
-    ?.slice(-1)
-    ?.flatMap((sa) => sa?.children);
-  const admIsRequired = admChildren.length ? true : false;
+  /**
+   * Administration is required when
+   * the level has been selected as valid `admLevels`
+   * AND
+   * the current selected administration have a children
+   */
+  const admIsRequired =
+    admLevels.map((a) => a.id).includes(level) &&
+    selectedAdm?.[0]?.children?.length > 0;
+
+  const showLevel = userAdmLevel !== lowestLevel?.id;
+
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -208,7 +218,7 @@ const AddAssignment = () => {
                 </Form.Item>
               </Col>
             </Row>
-            {authUser?.role?.id === IS_SUPER_ADMIN && (
+            {showLevel && (
               <div className="form-row">
                 <Form.Item
                   name="level_id"
@@ -231,8 +241,7 @@ const AddAssignment = () => {
                 </Form.Item>
               </div>
             )}
-            {((admIsRequired && authUser?.role?.id !== IS_SUPER_ADMIN) ||
-              (level > 0 && authUser?.role?.id === IS_SUPER_ADMIN)) && (
+            {admIsRequired && (
               <div className="form-row">
                 <Form.Item
                   name="administrations"

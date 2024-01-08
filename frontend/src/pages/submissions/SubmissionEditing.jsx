@@ -1,9 +1,15 @@
 import React, { useMemo } from "react";
-import { Table, Button, Space, Spin } from "antd";
-import { LoadingOutlined, HistoryOutlined } from "@ant-design/icons";
+import { Table, Button, Space, Spin, Modal } from "antd";
+import {
+  LoadingOutlined,
+  HistoryOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
 import { isEqual } from "lodash";
 import { EditableCell, HistoryTable } from "../../components";
 import { store, uiText } from "../../lib";
+
+const { confirm } = Modal;
 
 const SubmissionEditing = ({
   expanded,
@@ -14,6 +20,8 @@ const SubmissionEditing = ({
   dataLoading,
   isEdited,
   isEditable,
+  handleDelete,
+  deleting,
 }) => {
   const language = store.useState((s) => s.language);
   const { active: activeLang } = language;
@@ -88,7 +96,7 @@ const SubmissionEditing = ({
         ))}
       </div>
       {isEditable && !expanded.loading && (
-        <div className="pending-data-actions">
+        <div className="pending-data-actions" style={{ padding: "1rem" }}>
           <Button
             type="primary"
             shape="round"
@@ -99,6 +107,30 @@ const SubmissionEditing = ({
             }
           >
             {text.saveEditButton}
+          </Button>
+          <Button
+            danger
+            shape="round"
+            style={{ marginLeft: "10px" }}
+            disabled={deleting}
+            onClick={() => {
+              confirm({
+                title: "Are you sure to delete this batch?",
+                icon: <ExclamationCircleOutlined />,
+                content: "Once you have deleted you can't get it back",
+                okText: "Yes",
+                okType: "danger",
+                cancelText: "No",
+                onOk() {
+                  handleDelete(expanded);
+                },
+                onCancel() {
+                  return;
+                },
+              });
+            }}
+          >
+            {text.deleteText}
           </Button>
         </div>
       )}

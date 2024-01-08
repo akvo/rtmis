@@ -150,7 +150,7 @@ const TypeAutofield = ({ onChange, values, keyform, id, name, tooltip, fn }) => 
   }, [automateValue, fnString, fnColor]);
 
   useEffect(() => {
-    if (onChange) {
+    if (value) {
       onChange(id, value);
     }
   }, [value]);
