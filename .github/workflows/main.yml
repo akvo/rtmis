@@ -26,15 +26,15 @@ jobs:
           echo "COMMIT_SHORT_SHA=$shortSha" >> $GITHUB_ENV
 
       - name: Create credentials folder
-        run: mkdir /home/runner/work/test-rtmis/credentials
+        run: mkdir /home/runner/work/rtmis/credentials
         shell: bash
 
       - name: Write gcp deployment secret to file
-        run: echo "${{ secrets.GCLOUD_SERVICE_ACCOUNT }}" | base64 --decode > /home/runner/work/test-rtmis/credentials/gcp.json
+        run: echo "${{ secrets.GCLOUD_SERVICE_ACCOUNT }}" | base64 --decode > /home/runner/work/rtmis/credentials/gcp.json
         shell: bash
 
       - name: Write gcp deployment secret to file
-        run: echo "${{ secrets.RTMIS_SERVICE_ACCOUNT }}" | base64 --decode > /home/runner/work/test-rtmis/credentials/rtmis-service-account.json
+        run: echo "${{ secrets.RTMIS_SERVICE_ACCOUNT }}" | base64 --decode > /home/runner/work/rtmis/credentials/rtmis-service-account.json
         shell: bash
 
       - name: Build and test
@@ -47,7 +47,7 @@ jobs:
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1
           COMPOSE_INTERACTIVE_NO_CLI: 1
           COVERALLS_REPO_TOKEN: "${COVERALLS_RTMIS_TOKEN}"
-          SERVICE_ACCOUNT: "/home/runner/work/test-rtmis/credentials"
+          SERVICE_ACCOUNT: "/home/runner/work/rtmis/credentials"
         run: |
           ./ci/build.sh
 
@@ -61,7 +61,7 @@ jobs:
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1
           COMPOSE_INTERACTIVE_NO_CLI: 1
           COVERALLS_REPO_TOKEN: "${COVERALLS_RTMIS_TOKEN}"
-          SERVICE_ACCOUNT: "/home/runner/work/test-rtmis/credentials"
+          SERVICE_ACCOUNT: "/home/runner/work/rtmis/credentials"
         run: |
           ./ci/deploy.sh
 
@@ -83,15 +83,15 @@ jobs:
           echo "COMMIT_SHORT_SHA=$shortSha" >> $GITHUB_ENV
 
       - name: Create credentials folder
-        run: mkdir /home/runner/work/test-rtmis/credentials
+        run: mkdir /home/runner/work/rtmis/credentials
         shell: bash
 
       - name: Write gcp deployment secret to file
-        run: echo "${{ secrets.GCLOUD_SERVICE_ACCOUNT }}" | base64 --decode > /home/runner/work/test-rtmis/credentials/gcp.json
+        run: echo "${{ secrets.GCLOUD_SERVICE_ACCOUNT }}" | base64 --decode > /home/runner/work/rtmis/credentials/gcp.json
         shell: bash
 
       - name: Write gcp deployment secret to file
-        run: echo "${{ secrets.RTMIS_SERVICE_ACCOUNT }}" | base64 --decode > /home/runner/work/test-rtmis/credentials/rtmis-service-account.json
+        run: echo "${{ secrets.RTMIS_SERVICE_ACCOUNT }}" | base64 --decode > /home/runner/work/rtmis/credentials/rtmis-service-account.json
         shell: bash
 
       - name: Build and test
@@ -104,7 +104,7 @@ jobs:
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1
           COMPOSE_INTERACTIVE_NO_CLI: 1
           COVERALLS_REPO_TOKEN: "${secrets.COVERALLS_RTMIS_TOKEN}"
-          SERVICE_ACCOUNT: "/home/runner/work/test-rtmis/credentials"
+          SERVICE_ACCOUNT: "/home/runner/work/rtmis/credentials"
         run: |
           ./ci/build.sh
 
@@ -118,6 +118,6 @@ jobs:
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1
           COMPOSE_INTERACTIVE_NO_CLI: 1
           COVERALLS_REPO_TOKEN: "${COVERALLS_RTMIS_TOKEN}"
-          SERVICE_ACCOUNT: "/home/runner/work/test-rtmis/credentials"
+          SERVICE_ACCOUNT: "/home/runner/work/rtmis/credentials"
         run: |
           ./ci/deploy.sh
