@@ -17,6 +17,7 @@ const AdministrationFilters = ({
   loading,
   onSearchChange = () => {},
   addLink = "/control-center/master-data/add-administration",
+  maxLevel = null,
 }) => {
   const authUser = store.useState((s) => s.user);
   const language = store.useState((s) => s.language);
@@ -38,7 +39,7 @@ const AdministrationFilters = ({
             style={{ width: 240 }}
             allowClear
           />
-          <AdministrationDropdown loading={loading} />
+          <AdministrationDropdown loading={loading} maxLevel={maxLevel} />
           <RemoveFiltersButton
             extra={(s) => {
               s.filters = { trained: null, role: null, organisation: null };
