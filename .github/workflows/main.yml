@@ -46,7 +46,7 @@ jobs:
           CI_COMMIT_RANGE: ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1
           COMPOSE_INTERACTIVE_NO_CLI: 1
-          COVERALLS_REPO_TOKEN: "${COVERALLS_RTMIS_TOKEN}"
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_RTMIS_TOKEN }}
           SERVICE_ACCOUNT: "/home/runner/work/rtmis/credentials"
         run: |
           ./ci/build.sh
@@ -60,7 +60,7 @@ jobs:
           CI_COMMIT_RANGE: ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1
           COMPOSE_INTERACTIVE_NO_CLI: 1
-          COVERALLS_REPO_TOKEN: "${COVERALLS_RTMIS_TOKEN}"
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_RTMIS_TOKEN }}
           SERVICE_ACCOUNT: "/home/runner/work/rtmis/credentials"
         run: |
           ./ci/deploy.sh
@@ -103,7 +103,7 @@ jobs:
           CI_COMMIT_RANGE: ${{ github.event.before }}..${{ github.sha }}
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1
           COMPOSE_INTERACTIVE_NO_CLI: 1
-          COVERALLS_REPO_TOKEN: "${secrets.COVERALLS_RTMIS_TOKEN}"
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_RTMIS_TOKEN }}
           SERVICE_ACCOUNT: "/home/runner/work/rtmis/credentials"
         run: |
           ./ci/build.sh
@@ -117,7 +117,7 @@ jobs:
           CI_COMMIT_RANGE: ${{ github.event.before }}..${{ github.sha }}
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1
           COMPOSE_INTERACTIVE_NO_CLI: 1
-          COVERALLS_REPO_TOKEN: "${COVERALLS_RTMIS_TOKEN}"
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_RTMIS_TOKEN }}
           SERVICE_ACCOUNT: "/home/runner/work/rtmis/credentials"
         run: |
           ./ci/deploy.sh
