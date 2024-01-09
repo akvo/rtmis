@@ -82,16 +82,21 @@ const generateFnBody = (fnMetadata, values) => {
       }
       return val;
     }
-    const n = f.match(/(^[0-9]*$)/);
-    if (n) {
-      return Number(n[1]);
-    }
     return f;
   });
 
   // all fn conditions meet, return generated fnBody
   if (!fnBody.filter((x) => !x).length) {
-    return fnBody.join('');
+    return fnBody
+      .map((fb) => {
+        const regex = /^"\d+"$|^\d+$/;
+        const isNumeric = regex.test(fb);
+        if (isNumeric) {
+          return String(fb).trim().replace(/['"]/g, '');
+        }
+        return fb;
+      })
+      .join('');
   }
 
   // return false if generated fnBody contains null align with fnBodyTemp
