@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
-import { ListItem, Divider } from '@rneui/themed';
+import { View, StyleSheet } from 'react-native';
+import { ListItem, Divider, Button } from '@rneui/themed';
 
 import { BaseLayout, LogoutButton } from '../components';
 import DialogForm from './Settings/DialogForm';
@@ -89,9 +89,20 @@ const Settings = ({ navigation }) => {
             initValue={activeLang}
           />
         </View>
+        <View style={styles.buttonContainer}>
+          <Button title="Sync Datapoint" type="outline" />
+        </View>
       </BaseLayout.Content>
     </BaseLayout>
   );
 };
+
+const styles = StyleSheet.create({
+  buttonContainer: {
+    width: '100%',
+    paddingHorizontal: 16,
+    marginVertical: 20,
+  },
+});
 
 export default Settings;
