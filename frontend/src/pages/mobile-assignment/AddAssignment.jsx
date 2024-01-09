@@ -149,8 +149,8 @@ const AddAssignment = () => {
       setSubmitting(false);
     }
   };
-
-  const fetchData = useCallback(() => {
+  console.log(level, "LEVEL");
+  const fetchData = useCallback(async () => {
     if (id && preload && editAssignment?.id) {
       setPreload(false);
       console.log(editAssignment, "editAssignment");
@@ -159,14 +159,23 @@ const AddAssignment = () => {
         administrations: editAssignment.administrations.map((a) => a?.id),
         forms: editAssignment.forms.map((f) => f?.id),
       });
+
+      const { data: selectedAdm } = await api.get(
+        `administration/${editAssignment.administrations
+          .map((a) => a?.id)
+          .join(",")}`
+      );
+      console.log(selectedAdm, "selectedAdm");
       const editAdm = editAssignment?.administrations?.map((a) =>
         window.dbadm.find((dba) => dba.id === a?.id)
       );
       const findLvl = levels.find((l) => l?.level === editAdm?.[0]?.level);
-      if (findLvl) {
-        setLevel(findLvl.id);
-        form.setFieldsValue({ level_id: findLvl.id });
+      if (selectedAdm) {
+        console.log(selectedAdm.level, "selectedAdm.level");
+        setLevel(selectedAdm.level + 1);
+        form.setFieldsValue({ level_id: selectedAdm.level + 1 });
       }
+      console.log(editAdm, "editAdm");
       const parentAdm =
         editAdm[0]?.path
           ?.split(".")
@@ -174,7 +183,7 @@ const AddAssignment = () => {
           ?.map((pID) =>
             window.dbadm.find((dba) => dba?.id === parseInt(pID, 10))
           ) || [];
-
+      console.log(parentAdm, "parentAdm");
       store.update((s) => {
         s.administration = [...parentAdm, ...editAdm]?.map((a, ax) => {
           const childLevel = levels.find((l) => l?.level === ax + 1);
