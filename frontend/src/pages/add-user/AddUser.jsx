@@ -90,7 +90,7 @@ const AddUser = () => {
 
   const allowedRoles = useMemo(() => {
     const lookUp = authUser.role?.id === 2 ? 3 : authUser.role?.id || 4;
-    return config.roles.filter((r) => r.id >= lookUp);
+    return config.roles.filter((r) => r.id >= lookUp && r.id !== 5);
   }, [authUser]);
 
   const onFinish = (values) => {
