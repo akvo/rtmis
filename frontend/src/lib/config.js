@@ -867,21 +867,23 @@ const config = {
   allowedGlobal: ["/dashboard/", "/glaas/"],
   fn: {
     administration: (id, useradm, withchildren = true) => {
-      let paramId = Array.isArray(id) ? id.join(",") : id;
-      console.log(paramId, "paramId");
-      console.log(useradm, "userAdm");
-      api
-        .get(`administrations?parent=${paramId}`)
-        .then((res) => {
-          if (!withchildren) {
-            return useradm;
-          }
-          console.log(res.data.data, "response");
-          return mapChildren(useradm, res.data.data);
-        })
-        .catch((error) => {
-          console.warn(error, "ERROR");
-        });
+      return new Promise((resolve, reject) => {
+        let paramId = Array.isArray(id) ? id.join(",") : id;
+        console.log(paramId, "paramId");
+        console.log(useradm, "userAdm");
+        api
+          .get(`administrations?parent=${paramId}`)
+          .then((res) => {
+            if (!withchildren) {
+              resolve(useradm);
+            } else {
+              resolve(mapChildren(useradm, res.data.data));
+            }
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
     },
     ls: {
       set: (name, data) => {

@@ -38,7 +38,7 @@ const AdministrationDropdown = ({
   const public_state = config.allowedGlobal
     .map((x) => pathname.includes(x))
     .filter((x) => x)?.length;
-
+  console.log(useradm, "useradm in useState");
   const fetchUserAdmin = useCallback(async () => {
     try {
       console.log(user.administration.id, "user.administration.id");
@@ -54,35 +54,44 @@ const AdministrationDropdown = ({
 
   useEffect(() => {
     if (isLoggedIn && !persist && !public_state && useradm) {
-      console.log(
-        config.fn.administration(user.administration.id, useradm),
-        "administration DATA"
-      );
-      store.update((s) => {
-        s.administration = [
-          config.fn.administration(user.administration.id, useradm),
-        ];
-      });
+      config.fn
+        .administration(user.administration.id, useradm)
+        .then((res) => {
+          store.update((s) => {
+            s.administration = [res];
+          });
+          console.log(res, "PROMISE RESPONSE");
+        })
+        .catch((error) => {
+          console.error(error, "PROMISE ERROR");
+        });
     }
   }, [user, isLoggedIn, persist, public_state, useradm]);
 
   useEffect(() => {
-    console.log("INSIDE USEEFFECT");
     fetchUserAdmin();
   }, [fetchUserAdmin]);
-
-  console.log(isLoggedIn, "isLoggedIn");
 
   const handleChange = (e, index) => {
     if (!e) {
       return;
     }
-    store.update((s) => {
-      s.administration.length = index + 1;
-      const findAdm = config.fn.administration(e);
-      const admItems = Array.isArray(findAdm) ? findAdm : [findAdm];
-      s.administration = [...s.administration, ...admItems];
-    });
+    console.log(e, "EVENT FROM SELECT BOX");
+    config.fn
+      .administration(e, useradm)
+      .then((res) => {
+        console.log(res, "onchange response from promise");
+        store.update((s) => {
+          s.administration.length = index + 1;
+          const findAdm = res;
+          const admItems = Array.isArray(findAdm) ? findAdm : [findAdm];
+          s.administration = [...s.administration, ...admItems];
+        });
+        console.log(res, "PROMISE RESPONSE");
+      })
+      .catch((error) => {
+        console.error(error, "PROMISE ERROR");
+      });
     if (onChange) {
       const _values = allowMultiple && Array.isArray(e) ? e : null;
       onChange(_values);
@@ -102,7 +111,7 @@ const AdministrationDropdown = ({
           .filter(
             (x) =>
               (x?.children?.length && !maxLevel) ||
-              (maxLevel && x.level < maxLevel - 1 && x?.children?.length) // show children based on maxLevel
+              (maxLevel && x?.level < maxLevel - 1 && x?.children?.length) // show children based on maxLevel
           )
           .map((region, regionIdx) => {
             if (maxLevel === null || regionIdx + 1 < maxLevel) {
