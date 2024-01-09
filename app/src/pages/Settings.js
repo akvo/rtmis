@@ -35,6 +35,10 @@ const Settings = ({ navigation }) => {
     navigation.navigate('AddNewForm', {});
   };
 
+  const goToFormSelection = () => {
+    navigation.navigate('FormSelection');
+  };
+
   return (
     <BaseLayout title={trans.settingsPageTitle} rightComponent={false}>
       <BaseLayout.Content>
@@ -90,7 +94,7 @@ const Settings = ({ navigation }) => {
           />
         </View>
         <View style={styles.buttonContainer}>
-          <Button title="Sync Datapoint" type="outline" />
+          <Button title="Sync Datapoint" type="outline" onPress={goToFormSelection} />
         </View>
       </BaseLayout.Content>
     </BaseLayout>
