@@ -29,6 +29,7 @@ const AddAssignment = () => {
   const [loading, setLoading] = useState(false);
   const [preload, setPreload] = useState(true);
   const [level, setLevel] = useState(userAdmLevel);
+  const [userAdm, setUseradm] = useState(null);
 
   const lowestLevel = levels
     .slice()
@@ -74,6 +75,24 @@ const AddAssignment = () => {
     },
   ];
 
+  const fetchUserAdmin = useCallback(async () => {
+    try {
+      const { data: _userAdm } = await api.get(
+        `administration/${authUser.administration.id}`
+      );
+      setUseradm(_userAdm);
+      store.update((s) => {
+        s.administration = [_userAdm];
+      });
+    } catch (error) {
+      console.warn(error, "ERROR");
+    }
+  }, [authUser]);
+
+  useEffect(() => {
+    fetchUserAdmin();
+  }, [fetchUserAdmin]);
+
   const deleteAssginment = async () => {
     try {
       await api.delete(`/mobile-assignments/${id}`);
@@ -102,15 +121,8 @@ const AddAssignment = () => {
     });
   };
 
-  const onSelectLevel = (val) => {
+  const onSelectLevel = async (val) => {
     setLevel(val);
-    if (selectedAdm.length > 1) {
-      store.update((s) => {
-        s.administration = [
-          config.fn.administration(authUser.administration.id),
-        ];
-      });
-    }
   };
 
   const onFinish = async (values) => {
@@ -141,6 +153,7 @@ const AddAssignment = () => {
   const fetchData = useCallback(() => {
     if (id && preload && editAssignment?.id) {
       setPreload(false);
+      console.log(editAssignment, "editAssignment");
       form.setFieldsValue({
         ...editAssignment,
         administrations: editAssignment.administrations.map((a) => a?.id),
@@ -173,7 +186,8 @@ const AddAssignment = () => {
         });
       });
     }
-
+    console.log(window.dbadm, "window.dbadm");
+    console.log(userAdm, "userAdm");
     if (!id && preload) {
       setPreload(false);
     }

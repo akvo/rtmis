@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import "./style.scss";
 import { Select, Space } from "antd";
-import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-import { store, config, api } from "../../lib";
+import { store, api } from "../../lib";
 import { useState } from "react";
 import { useCallback } from "react";
 
@@ -19,11 +18,7 @@ const AdministrationDropdown = ({
   onChange,
   ...props
 }) => {
-  const { pathname } = useLocation();
-  const [useradm, setUseradm] = useState(null);
-  const { user, administration, isLoggedIn, levels } = store.useState(
-    (state) => state
-  );
+  const { user, administration, levels } = store.useState((state) => state);
   /**
    * Get lowest level administrator from maxLevel.
    * otherwise, sort asc by level and get the last item from levels global state
@@ -35,18 +30,11 @@ const AdministrationDropdown = ({
         .sort((a, b) => a.level - b.level)
         .slice(-1)?.[0];
 
-  const public_state = config.allowedGlobal
-    .map((x) => pathname.includes(x))
-    .filter((x) => x)?.length;
-  console.log(useradm, "useradm in useState");
   const fetchUserAdmin = useCallback(async () => {
     try {
-      console.log(user.administration.id, "user.administration.id");
       const { data: _userAdm } = await api.get(
         `administration/${user.administration.id}`
       );
-      console.log(_userAdm, "_userAdm");
-      setUseradm(_userAdm);
       store.update((s) => {
         s.administration = [_userAdm];
       });
@@ -55,50 +43,18 @@ const AdministrationDropdown = ({
     }
   }, [user]);
 
-  // useEffect(() => {
-  //   if (isLoggedIn && !persist && !public_state && useradm) {
-  //     config.fn
-  //       .administration(user.administration.id, useradm)
-  //       .then((res) => {
-  //         store.update((s) => {
-  //           s.administration = [res];
-  //         });
-  //         console.log(res, "PROMISE RESPONSE");
-  //       })
-  //       .catch((error) => {
-  //         console.error(error, "PROMISE ERROR");
-  //       });
-  //   }
-  // }, [user, isLoggedIn, persist, public_state, useradm]);
-
   useEffect(() => {
     fetchUserAdmin();
   }, [fetchUserAdmin]);
 
-  const handleChange = async (e, index) => {
+  const handleChange = async (e) => {
     if (!e) {
       return;
     }
-    console.log(e, "EVENT FROM SELECT BOX");
-    const { data: _selectedAdm } = await api.get(`administration/${e}`);
+    const { data: selectedAdm } = await api.get(`administration/${e}`);
     store.update((s) => {
-      s.administration = s.administration.concat(_selectedAdm);
+      s.administration = s.administration.concat(selectedAdm);
     });
-    // config.fn
-    //   .administration(e, useradm)
-    //   .then((res) => {
-    //     console.log(res, "onchange response from promise");
-    //     store.update((s) => {
-    //       s.administration.length = index + 1;
-    //       const findAdm = res;
-    //       const admItems = Array.isArray(findAdm) ? findAdm : [findAdm];
-    //       s.administration = [...s.administration, ...admItems];
-    //     });
-    //     console.log(res, "PROMISE RESPONSE");
-    //   })
-    //   .catch((error) => {
-    //     console.error(error, "PROMISE ERROR");
-    //   });
     if (onChange) {
       const _values = allowMultiple && Array.isArray(e) ? e : null;
       onChange(_values);

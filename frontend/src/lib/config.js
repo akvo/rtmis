@@ -1,23 +1,12 @@
 import { orderBy } from "lodash";
-import api from "./api";
 
-const mapChildren = (useradm, children) => {
-  console.log("inside map childresn function");
-  console.log(
-    {
-      ...useradm,
-      levelName: window.levels.find((l) => l?.level === useradm?.level)?.name,
-      childLevelName:
-        window.levels.find((l) => l?.level === useradm?.level)?.name || null,
-      children: orderBy(children, "name"),
-    },
-    "OBJ"
-  );
+const mapChildren = (useradm) => {
+  const children = window.dbadm.filter((i) => i.parent === useradm.id);
   return {
     ...useradm,
-    levelName: window.levels.find((l) => l?.level === useradm?.level)?.name,
+    levelName: window.levels.find((l) => l.level === useradm.level)?.name,
     childLevelName:
-      window.levels.find((l) => l?.level === useradm?.level)?.name || null,
+      window.levels.find((l) => l.level === useradm.level + 1)?.name || null,
     children: orderBy(children, "name"),
   };
 };
@@ -866,24 +855,17 @@ const config = {
   ],
   allowedGlobal: ["/dashboard/", "/glaas/"],
   fn: {
-    administration: (id, useradm, withchildren = true) => {
-      return new Promise((resolve, reject) => {
-        let paramId = Array.isArray(id) ? id.join(",") : id;
-        console.log(paramId, "paramId");
-        console.log(useradm, "userAdm");
-        api
-          .get(`administrations?parent=${paramId}`)
-          .then((res) => {
-            if (!withchildren) {
-              resolve(useradm);
-            } else {
-              resolve(mapChildren(useradm, res.data.data));
-            }
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
+    administration: (id, withchildren = true) => {
+      if (Array.isArray(id)) {
+        return window.dbadm
+          .filter((i) => id.includes(i.id))
+          .map((useradm) => mapChildren(useradm));
+      }
+      const useradm = window.dbadm.find((i) => i.id === id);
+      if (!withchildren) {
+        return useradm;
+      }
+      return mapChildren(useradm);
     },
     ls: {
       set: (name, data) => {
