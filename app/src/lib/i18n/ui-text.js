@@ -55,6 +55,7 @@ const uiText = {
     homePageTitle: 'Form Lists',
     settingsPageTitle: 'Settings',
     formSelectionPageTitle: 'Select Form',
+    administrationListPageTitle: 'Administration List',
     searchPlaceholder: 'Search...',
     formDataSearch: 'Search datapoint',
     untitled: 'Untitled',
