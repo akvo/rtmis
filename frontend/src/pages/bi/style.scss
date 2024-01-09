@@ -1,0 +1,16 @@
+#root {
+  .layout {
+    .body-bi {
+      padding: 0px;
+      background-color: #fff;
+      #powerbi-dashboard {
+        .page-title-wrapper {
+          background-color: #fff;
+          padding-top: 24px;
+          padding-left: 50px;
+          padding-right: 50px;
+        }
+      }
+    }
+  }
+}

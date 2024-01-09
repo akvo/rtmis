@@ -19,10 +19,7 @@
           "meta": false,
           "type": "option",
           "required": true,
-          "attributes": [
-            "chart",
-            "table"
-          ],
+          "attributes": ["chart", "table"],
           "options": [
             {
               "name": "Male"
@@ -40,9 +37,7 @@
           "question": "Phone Number",
           "meta": true,
           "type": "number",
-          "attributes": [
-            "chart"
-          ],
+          "attributes": ["chart"],
           "required": true
         },
         {
@@ -64,9 +59,7 @@
           "question": "Available Family Members",
           "meta": true,
           "type": "multiple_option",
-          "attributes": [
-            "chart"
-          ],
+          "attributes": ["chart"],
           "required": true,
           "options": [
             {
@@ -100,6 +93,14 @@
           "meta": false,
           "type": "number",
           "required": false
+        },
+        {
+          "id": 110,
+          "question": "Meta UUID",
+          "meta": false,
+          "type": "text",
+          "required": true,
+          "meta_uuid": true
         }
       ]
     }

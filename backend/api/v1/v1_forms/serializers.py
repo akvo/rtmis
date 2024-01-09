@@ -177,7 +177,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'name', 'order', 'type', 'required', 'dependency', 'option',
             'center', 'api', 'meta', 'rule', 'extra', 'source', 'tooltip',
-            'fn', 'pre', 'hidden', 'displayOnly', 'monitoring',
+            'fn', 'pre', 'hidden', 'displayOnly', 'monitoring', 'meta_uuid'
         ]
 
 
