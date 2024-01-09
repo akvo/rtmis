@@ -6,6 +6,7 @@ import { BaseLayout } from '../components';
 import { FormState, UserState, UIState } from '../store';
 import { crudForms } from '../database/crud';
 import { i18n } from '../lib';
+import * as Notifications from 'expo-notifications';
 
 const Home = ({ navigation, route }) => {
   const params = route?.params || null;
@@ -81,6 +82,14 @@ const Home = ({ navigation, route }) => {
       (d) => (search && d?.name?.toLowerCase().includes(search.toLowerCase())) || !search,
     );
   }, [data, search]);
+
+  useEffect(() => {
+    const subscription = Notifications.addNotificationReceivedListener((notification) => {
+      getUserForms();
+    });
+
+    return () => subscription.remove();
+  }, []);
 
   return (
     <BaseLayout
