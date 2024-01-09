@@ -268,4 +268,50 @@ describe('TypeAutofield component', () => {
       defaultColor,
     );
   });
+
+  test('it should be sum all values', () => {
+    const onChangeMock = jest.fn();
+    const values = {
+      1: '1',
+      2: '2',
+      3: '1',
+      4: '4',
+    };
+    const id = 4;
+    const name = 'Total family members';
+    const fn = {
+      fnString: 'function(){return #1 + #2 + #3 + #4}',
+    };
+
+    const { getByTestId } = render(
+      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+    );
+
+    const autoField = getByTestId('type-autofield');
+    expect(autoField).toBeDefined();
+    expect(autoField.props.value).toBe('8');
+  });
+
+  test('it should be able to handle other arithmetic operations', () => {
+    const onChangeMock = jest.fn();
+    const values = {
+      1: '100',
+      2: '2.5',
+      3: '50',
+      4: '2',
+    };
+    const id = 5;
+    const name = 'Total Payment';
+    const fn = {
+      fnString: 'function(){return ((#1 * #2) + #3) / #4}',
+    };
+
+    const { getByTestId } = render(
+      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+    );
+
+    const autoField = getByTestId('type-autofield');
+    expect(autoField).toBeDefined();
+    expect(autoField.props.value).toBe('150');
+  });
 });
