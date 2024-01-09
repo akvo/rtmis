@@ -2,7 +2,8 @@ name: RTMIS APK build
 
 on:
   push:
-    branch: "main"
+    branch:
+      "main"
     paths:
       - app/**
 
