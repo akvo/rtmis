@@ -494,12 +494,7 @@
                     "required": true,
                     "meta": false,
                     "options": [
-                        {
-                            "id": 1702915144068,
-                            "name": "OTHER household (NOT in at-risk category)",
-                            "order": 1,
-                            "color": "#96f2a2"
-                        },
+                        
                         {
                             "id": 1702915144069,
                             "name": "AT RISK: Disabled household member (mentally or physically)",
@@ -601,6 +596,12 @@
                             "name": "AT RISK: households with previously collapsed or flooded toilets",
                             "order": 18,
                             "color": "#fbbece"
+                        },
+                        {
+                            "id": 1702915144068,
+                            "name": "OTHER household (NOT in at-risk category)",
+                            "order": 1,
+                            "color": "#96f2a2"
                         }
                     ],
                     "rule": null,
