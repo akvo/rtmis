@@ -143,13 +143,13 @@ const AdministrationDropdown = ({
                 <div key={regionIdx}>
                   {withLabel ? (
                     <label className="ant-form-item-label">
-                      {region?.childLevelName}
+                      {region?.children_level_name}
                     </label>
                   ) : (
                     ""
                   )}
                   <Select
-                    placeholder={`Select ${region?.childLevelName || ""}`}
+                    placeholder={`Select ${region?.children_level_name || ""}`}
                     style={{ width: width }}
                     onChange={(e) => {
                       handleChange(e, regionIdx);
