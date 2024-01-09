@@ -47,51 +47,58 @@ const AdministrationDropdown = ({
       );
       console.log(_userAdm, "_userAdm");
       setUseradm(_userAdm);
+      store.update((s) => {
+        s.administration = [_userAdm];
+      });
     } catch (error) {
       console.warn(error, "ERROR");
     }
   }, [user]);
 
-  useEffect(() => {
-    if (isLoggedIn && !persist && !public_state && useradm) {
-      config.fn
-        .administration(user.administration.id, useradm)
-        .then((res) => {
-          store.update((s) => {
-            s.administration = [res];
-          });
-          console.log(res, "PROMISE RESPONSE");
-        })
-        .catch((error) => {
-          console.error(error, "PROMISE ERROR");
-        });
-    }
-  }, [user, isLoggedIn, persist, public_state, useradm]);
+  // useEffect(() => {
+  //   if (isLoggedIn && !persist && !public_state && useradm) {
+  //     config.fn
+  //       .administration(user.administration.id, useradm)
+  //       .then((res) => {
+  //         store.update((s) => {
+  //           s.administration = [res];
+  //         });
+  //         console.log(res, "PROMISE RESPONSE");
+  //       })
+  //       .catch((error) => {
+  //         console.error(error, "PROMISE ERROR");
+  //       });
+  //   }
+  // }, [user, isLoggedIn, persist, public_state, useradm]);
 
   useEffect(() => {
     fetchUserAdmin();
   }, [fetchUserAdmin]);
 
-  const handleChange = (e, index) => {
+  const handleChange = async (e, index) => {
     if (!e) {
       return;
     }
     console.log(e, "EVENT FROM SELECT BOX");
-    config.fn
-      .administration(e, useradm)
-      .then((res) => {
-        console.log(res, "onchange response from promise");
-        store.update((s) => {
-          s.administration.length = index + 1;
-          const findAdm = res;
-          const admItems = Array.isArray(findAdm) ? findAdm : [findAdm];
-          s.administration = [...s.administration, ...admItems];
-        });
-        console.log(res, "PROMISE RESPONSE");
-      })
-      .catch((error) => {
-        console.error(error, "PROMISE ERROR");
-      });
+    const { data: _selectedAdm } = await api.get(`administration/${e}`);
+    store.update((s) => {
+      s.administration = s.administration.concat(_selectedAdm);
+    });
+    // config.fn
+    //   .administration(e, useradm)
+    //   .then((res) => {
+    //     console.log(res, "onchange response from promise");
+    //     store.update((s) => {
+    //       s.administration.length = index + 1;
+    //       const findAdm = res;
+    //       const admItems = Array.isArray(findAdm) ? findAdm : [findAdm];
+    //       s.administration = [...s.administration, ...admItems];
+    //     });
+    //     console.log(res, "PROMISE RESPONSE");
+    //   })
+    //   .catch((error) => {
+    //     console.error(error, "PROMISE ERROR");
+    //   });
     if (onChange) {
       const _values = allowMultiple && Array.isArray(e) ? e : null;
       onChange(_values);
