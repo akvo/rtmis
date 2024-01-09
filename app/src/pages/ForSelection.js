@@ -1,24 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScrollView, View } from 'react-native';
 import { ListItem } from '@rneui/themed';
 import { BaseLayout } from '../components';
-import { UIState } from '../store';
+import { UIState, UserState } from '../store';
 import { i18n } from '../lib';
+import { crudForms } from '../database/crud';
 
 const FormSelection = ({ navigation, route }) => {
+  const [forms, setForms] = useState([]);
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
+
+  const { id: currentUserId } = UserState.useState((s) => s);
+
+  useEffect(() => {
+    const fetchForms = async () => {
+      try {
+        const formsData = await crudForms.getMyForms({ id: currentUserId });
+        setForms(formsData);
+      } catch (error) {
+        console.error('Error fetching forms:', error);
+      }
+    };
+
+    fetchForms();
+  }, []);
+
+  console.log(forms, 'forms');
 
   return (
     <BaseLayout title={trans.formSelectionPageTitle} rightComponent={false}>
       <ScrollView>
         <View>
-          <ListItem bottomDivider>
-            <ListItem.Content>
-              <ListItem.Title>Wash</ListItem.Title>
-            </ListItem.Content>
-            <ListItem.Chevron />
-          </ListItem>
+          {forms.map((form) => (
+            <ListItem
+              key={form.id}
+              bottomDivider
+              onPress={() => console.log('Form Selected:', form)}
+            >
+              <ListItem.Content>
+                <ListItem.Title>{form.name}</ListItem.Title>
+              </ListItem.Content>
+              <ListItem.Chevron />
+            </ListItem>
+          ))}
         </View>
       </ScrollView>
     </BaseLayout>
