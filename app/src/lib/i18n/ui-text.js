@@ -95,6 +95,7 @@ const uiText = {
     settingAddFormDesc: 'Add/download more forms to apps',
     settingAddNewFormPageTitle: 'Add New Form',
     errorFormsNotLoaded: 'Unable to load forms',
+    downloadingData: 'Downloading data',
   },
   fr: {
     latitude: 'Latitude',
