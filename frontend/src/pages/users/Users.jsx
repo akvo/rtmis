@@ -85,6 +85,7 @@ const Users = () => {
       title: "Region",
       dataIndex: "administration",
       render: (administration) => {
+        console.log(administration, "administration inside colum");
         const adm = administration?.id
           ? window.dbadm.find((d) => d.id === administration.id)?.full_name
           : false;

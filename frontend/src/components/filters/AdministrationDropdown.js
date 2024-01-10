@@ -12,6 +12,7 @@ const AdministrationDropdown = ({
   hidden = false,
   maxLevel = null,
   allowMultiple = false,
+  persist = false,
   currentId = null,
   onChange,
   ...props
@@ -29,21 +30,23 @@ const AdministrationDropdown = ({
         .slice(-1)?.[0];
 
   const fetchUserAdmin = useCallback(async () => {
-    try {
-      const { data: _userAdm } = await api.get(
-        `administration/${user.administration.id}`
-      );
-      store.update((s) => {
-        s.administration = [_userAdm];
-      });
-    } catch (error) {
-      console.error(error);
+    if (user && !persist) {
+      try {
+        const { data: _userAdm } = await api.get(
+          `administration/${user.administration.id}`
+        );
+        store.update((s) => {
+          s.administration = [_userAdm];
+        });
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }, [user]);
+  }, [user, persist]);
 
   useEffect(() => {
     fetchUserAdmin();
-  }, [fetchUserAdmin]);
+  }, [fetchUserAdmin, persist]);
 
   const handleChange = async (e) => {
     if (!e) {

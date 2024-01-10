@@ -125,6 +125,7 @@ const AddEntityData = () => {
 
   const onSetAdministration = useCallback(
     (admID) => {
+      console.log("INSIDE onSetAdministration");
       const findAdm = window.dbadm.find((adm) => adm?.id === admID);
       if (findAdm) {
         const findLevel = validLevels.find((l) => l?.level === findAdm.level);
@@ -155,12 +156,12 @@ const AddEntityData = () => {
     },
     [form, validLevels]
   );
-
+  console.log(administration, "administration from store");
   const onUpdateAdministration = useCallback(() => {
     const selectedAdm = administration?.slice(-1)?.[0];
     const findLevel = validLevels.find((l) => l?.level === selectedAdm?.level);
     const admID = findLevel?.id === level ? selectedAdm.id : null;
-
+    console.log(admID, "admID");
     form.setFieldsValue({ administration: admID });
   }, [form, level, validLevels, administration]);
 
