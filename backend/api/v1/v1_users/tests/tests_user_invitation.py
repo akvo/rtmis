@@ -35,7 +35,8 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(users['data'][0]['administration'], {
             'id': 1,
             'name': 'Indonesia',
-            'level': 0
+            'level': 0,
+            'full_name': 'Indonesia'
         })
         self.assertEqual(users['data'][0]['role'], {
             'id': 1,
