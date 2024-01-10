@@ -133,8 +133,7 @@ class DataTestCase(TestCase):
         data_id = FormData.objects.first().id
         meta_uuid = FormData.objects.first().uuid
 
-        # test generate datapoint json file
-        FormData.objects.first().save_to_file
+        # test if datapoint file is generated
         self.assertTrue(storage.check(f'datapoints/{meta_uuid}.json'))
 
         # update data to test deletion with history
