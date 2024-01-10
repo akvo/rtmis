@@ -258,9 +258,10 @@ class AddEditUserSerializer(serializers.ModelSerializer):
                     [UserRoleTypes.approver, UserRoleTypes.user]:
                 raise ValidationError(
                     'You do not have permission to edit this user')
-        if attrs.get('role') not in [
-                UserRoleTypes.super_admin, UserRoleTypes.read_only
-        ] and attrs.get('administration').level.level == 0:
+        if (
+            attrs.get('role') != UserRoleTypes.super_admin and
+            attrs.get('administration').level.level == 0
+        ):
             raise ValidationError({
                 'administration':
                 'administration level is not valid with selected role'

@@ -289,13 +289,6 @@ def add_user(request, version):
             request.data.update({
                 "forms": []
             })
-    if request.data.get("role") == UserRoleTypes.read_only:
-        request.data.update({"forms": []})
-        if not request.data.get("administration"):
-            request.data.update({
-                "administration":
-                Administration.objects.filter(level__level=0).first().id
-            })
     serializer = AddEditUserSerializer(data=request.data,
                                        context={'user': request.user})
     if not serializer.is_valid():

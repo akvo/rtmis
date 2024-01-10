@@ -489,7 +489,7 @@ class UserInvitationTestCase(TestCase):
             content_type='application/json',
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(5, len(response.json()))
+        self.assertEqual(4, len(response.json()))
         self.assertEqual(['id', 'value'], list(response.json()[0].keys()))
 
     #
