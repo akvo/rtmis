@@ -329,10 +329,14 @@ class AddEditUserSerializer(serializers.ModelSerializer):
 
 class UserAdministrationSerializer(serializers.ModelSerializer):
     level = serializers.ReadOnlyField(source='level.level')
+    full_name = serializers.SerializerMethodField()
+
+    def get_full_name(self, instance: Administration):
+        return instance.full_name
 
     class Meta:
         model = Administration
-        fields = ['id', 'name', 'level']
+        fields = ['id', 'name', 'level', 'full_name']
 
 
 class UserFormSerializer(serializers.ModelSerializer):
