@@ -7,6 +7,7 @@ def seed_approved_data(data):
     if data.data:
         form_data: FormData = data.data
         form_data.name = data.name
+        form_data.uuid = data.uuid
         form_data.form = data.form
         form_data.administration = data.administration
         form_data.geo = data.geo
@@ -25,10 +26,10 @@ def seed_approved_data(data):
                                          options=form_answer.options,
                                          created_by=form_answer.created_by)
             form_answer.delete()
-
     else:
         form_data = FormData.objects.create(
             name=data.name,
+            uuid=data.uuid,
             form=data.form,
             administration=data.administration,
             geo=data.geo,
@@ -48,3 +49,5 @@ def seed_approved_data(data):
             options=answer.options,
             created_by=answer.created_by,
         )
+
+    form_data.save_to_file

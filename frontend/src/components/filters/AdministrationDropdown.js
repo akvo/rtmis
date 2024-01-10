@@ -1,26 +1,23 @@
 import React, { useEffect } from "react";
 import "./style.scss";
 import { Select, Space } from "antd";
-import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-import { store, config } from "../../lib";
+import { store, api } from "../../lib";
+import { useCallback } from "react";
 
 const AdministrationDropdown = ({
   loading = false,
   withLabel = false,
   width = 160,
-  persist = false,
   hidden = false,
   maxLevel = null,
   allowMultiple = false,
+  persist = false,
   currentId = null,
   onChange,
   ...props
 }) => {
-  const { pathname } = useLocation();
-  const { user, administration, isLoggedIn, levels } = store.useState(
-    (state) => state
-  );
+  const { user, administration, levels } = store.useState((state) => state);
   /**
    * Get lowest level administrator from maxLevel.
    * otherwise, sort asc by level and get the last item from levels global state
@@ -32,27 +29,32 @@ const AdministrationDropdown = ({
         .sort((a, b) => a.level - b.level)
         .slice(-1)?.[0];
 
-  const public_state = config.allowedGlobal
-    .map((x) => pathname.includes(x))
-    .filter((x) => x)?.length;
+  const fetchUserAdmin = useCallback(async () => {
+    if (user && !persist) {
+      try {
+        const { data: _userAdm } = await api.get(
+          `administration/${user.administration.id}`
+        );
+        store.update((s) => {
+          s.administration = [_userAdm];
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }, [user, persist]);
 
   useEffect(() => {
-    if (isLoggedIn && !persist && !public_state) {
-      store.update((s) => {
-        s.administration = [config.fn.administration(user.administration.id)];
-      });
-    }
-  }, [user, isLoggedIn, persist, public_state]);
+    fetchUserAdmin();
+  }, [fetchUserAdmin, persist]);
 
-  const handleChange = (e, index) => {
+  const handleChange = async (e) => {
     if (!e) {
       return;
     }
+    const { data: selectedAdm } = await api.get(`administration/${e}`);
     store.update((s) => {
-      s.administration.length = index + 1;
-      const findAdm = config.fn.administration(e);
-      const admItems = Array.isArray(findAdm) ? findAdm : [findAdm];
-      s.administration = [...s.administration, ...admItems];
+      s.administration = s.administration.concat(selectedAdm);
     });
     if (onChange) {
       const _values = allowMultiple && Array.isArray(e) ? e : null;
@@ -72,8 +74,8 @@ const AdministrationDropdown = ({
         {administration
           .filter(
             (x) =>
-              (x.children.length && !maxLevel) ||
-              (maxLevel && x.level < maxLevel - 1 && x.children.length) // show children based on maxLevel
+              (x?.children?.length && !maxLevel) ||
+              (maxLevel && x?.level < maxLevel - 1 && x?.children?.length) // show children based on maxLevel
           )
           .map((region, regionIdx) => {
             if (maxLevel === null || regionIdx + 1 < maxLevel) {
@@ -98,13 +100,13 @@ const AdministrationDropdown = ({
                 <div key={regionIdx}>
                   {withLabel ? (
                     <label className="ant-form-item-label">
-                      {region?.childLevelName}
+                      {region?.children_level_name}
                     </label>
                   ) : (
                     ""
                   )}
                   <Select
-                    placeholder={`Select ${region?.childLevelName || ""}`}
+                    placeholder={`Select ${region?.children_level_name || ""}`}
                     style={{ width: width }}
                     onChange={(e) => {
                       handleChange(e, regionIdx);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { Row, Col, Form, Button, Input, Select, Space, Modal } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import { api, config, store, uiText } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import {
   AdministrationDropdown,
   Breadcrumbs,
@@ -74,6 +74,23 @@ const AddAssignment = () => {
     },
   ];
 
+  const fetchUserAdmin = useCallback(async () => {
+    try {
+      const { data: _userAdm } = await api.get(
+        `administration/${authUser.administration.id}`
+      );
+      store.update((s) => {
+        s.administration = [_userAdm];
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }, [authUser]);
+
+  useEffect(() => {
+    fetchUserAdmin();
+  }, [fetchUserAdmin]);
+
   const deleteAssginment = async () => {
     try {
       await api.delete(`/mobile-assignments/${id}`);
@@ -102,15 +119,8 @@ const AddAssignment = () => {
     });
   };
 
-  const onSelectLevel = (val) => {
+  const onSelectLevel = async (val) => {
     setLevel(val);
-    if (selectedAdm.length > 1) {
-      store.update((s) => {
-        s.administration = [
-          config.fn.administration(authUser.administration.id),
-        ];
-      });
-    }
   };
 
   const onFinish = async (values) => {
@@ -138,7 +148,7 @@ const AddAssignment = () => {
     }
   };
 
-  const fetchData = useCallback(() => {
+  const fetchData = useCallback(async () => {
     if (id && preload && editAssignment?.id) {
       setPreload(false);
       form.setFieldsValue({
@@ -146,34 +156,34 @@ const AddAssignment = () => {
         administrations: editAssignment.administrations.map((a) => a?.id),
         forms: editAssignment.forms.map((f) => f?.id),
       });
-      const editAdm = editAssignment?.administrations?.map((a) =>
-        window.dbadm.find((dba) => dba.id === a?.id)
-      );
-      const findLvl = levels.find((l) => l?.level === editAdm?.[0]?.level);
-      if (findLvl) {
-        setLevel(findLvl.id);
-        form.setFieldsValue({ level_id: findLvl.id });
-      }
-      const parentAdm =
-        editAdm[0]?.path
-          ?.split(".")
-          ?.filter((p) => p)
-          ?.map((pID) =>
-            window.dbadm.find((dba) => dba?.id === parseInt(pID, 10))
-          ) || [];
 
+      const { data: selectedAdm } = await api.get(
+        `administration/${editAssignment.administrations
+          .map((a) => a?.id)
+          .join(",")}`
+      );
+      if (selectedAdm) {
+        setLevel(selectedAdm.level + 1);
+        form.setFieldsValue({ level_id: selectedAdm.level + 1 });
+      }
+      const parentAdm = await Promise.all(
+        (selectedAdm?.path?.split(".") ?? [])
+          .filter((p) => p)
+          .map(async (pID) => {
+            const apiResponse = await api.get(`administration/${pID}`);
+            return apiResponse.data;
+          })
+      );
       store.update((s) => {
-        s.administration = [...parentAdm, ...editAdm]?.map((a, ax) => {
+        s.administration = [...parentAdm, selectedAdm]?.map((a, ax) => {
           const childLevel = levels.find((l) => l?.level === ax + 1);
           return {
             ...a,
             childLevelName: childLevel?.name || null,
-            children: window.dbadm.filter((sa) => sa?.parent === a?.id),
           };
         });
       });
     }
-
     if (!id && preload) {
       setPreload(false);
     }

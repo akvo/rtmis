@@ -12,7 +12,7 @@ const TypeText = ({ onChange, values, keyform, id, name, tooltip, required, requ
       <Input
         inputContainerStyle={styles.inputFieldContainer}
         multiline={true}
-        numberOfLines={4}
+        numberOfLines={1}
         onChangeText={(val) => {
           if (onChange) {
             onChange(id, val);

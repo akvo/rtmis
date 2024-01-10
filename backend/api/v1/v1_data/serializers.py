@@ -151,6 +151,10 @@ class SubmitFormSerializer(serializers.Serializer):
             value = None
             option = None
 
+            if answer.get("question").meta_uuid:
+                obj_data.uuid = answer.get("value")
+                obj_data.save()
+
             if answer.get("question").type in [
                     QuestionTypes.geo,
                     QuestionTypes.option,
@@ -189,6 +193,8 @@ class SubmitFormSerializer(serializers.Serializer):
                 options=option,
                 created_by=self.context.get("user"),
             )
+        obj_data.save_to_file
+
         return object
 
 
@@ -286,6 +292,7 @@ class ListFormDataSerializer(serializers.ModelSerializer):
         model = FormData
         fields = [
             "id",
+            "uuid",
             "name",
             "form",
             "administration",
@@ -587,6 +594,7 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
         model = PendingFormData
         fields = [
             "id",
+            "uuid",
             "data_id",
             "name",
             "form",
@@ -992,7 +1000,7 @@ class SubmitPendingFormDataSerializer(serializers.ModelSerializer):
     administration = CustomPrimaryKeyRelatedField(
         queryset=Administration.objects.none())
     name = CustomCharField()
-    geo = CustomListField(required=False)
+    geo = CustomListField(required=False, allow_null=True)
     submitter = CustomCharField(required=False)
     duration = CustomIntegerField(required=False)
 
@@ -1121,6 +1129,10 @@ class SubmitPendingFormSerializer(serializers.Serializer):
             value = None
             option = None
 
+            if answer.get("question").meta_uuid:
+                obj_data.uuid = answer.get("value")
+                obj_data.save()
+
             if answer.get("question").type in [
                     QuestionTypes.geo,
                     QuestionTypes.option,
@@ -1172,6 +1184,11 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                     options=option,
                     created_by=self.context.get("user"),
                 )
+
+        if direct_to_data:
+            obj_data.save()
+            obj_data.save_to_file
+
         async_task("api.v1.v1_data.functions.refresh_materialized_data")
 
         return obj_data

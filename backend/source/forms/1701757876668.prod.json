@@ -1,102 +1,100 @@
 {
-    "id": 1701757876668,
-    "form": "RTMIS School WASH Form",
-    "description": "School WASH",
-    "defaultLanguage": "en",
-    "languages": [
-        "en"
-    ],
-    "version": 1,
-    "translations": null,
-    "question_groups": [
+  "id": 1701757876668,
+  "form": "RTMIS School WASH Form",
+  "description": "School WASH",
+  "defaultLanguage": "en",
+  "languages": ["en"],
+  "version": 1,
+  "translations": null,
+  "question_groups": [
+    {
+      "id": 1701757914032,
+      "question_group": "School WASH: Data",
+      "description": null,
+      "order": 1,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
         {
-            "id": 1701757914032,
-            "question_group": "School WASH: Data",
-            "description": null,
-            "order": 1,
-            "repeatable": false,
-            "translations": null,
-            "questions": [
-                {
-                    "id": 1701757914033,
-                    "question": "New school registration or monitoring update?",
-                    "order": 1,
-                    "type": "option",
-                    "tooltip": {
-                        "text": "Entry of school data in RTMIS (first time) or update of monitoring data (existing school)"
-                    },
-                    "required": false,
-                    "meta": false,
-                    "options": [
-                        {
-                            "id": 1701758035213,
-                            "name": "New",
-                            "order": 1
-                        },
-                        {
-                            "id": 1701758035214,
-                            "name": "Update",
-                            "order": 2
-                        }
-                    ]
-                }
-            ]
+          "id": 1701757914033,
+          "question": "New school registration or monitoring update?",
+          "order": 1,
+          "type": "option",
+          "tooltip": {
+            "text": "Entry of school data in RTMIS (first time) or update of monitoring data (existing school)"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701758035213,
+              "name": "New",
+              "order": 1
+            },
+            {
+              "id": 1701758035214,
+              "name": "Update",
+              "order": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1701757876669,
+      "question_group": "School: Location",
+      "description": "This question contains a list of possible school locations, starting with the government area or district, down to the community.",
+      "order": 2,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 1701757876670,
+          "question": "What is the location of the school?",
+          "order": 1,
+          "type": "option",
+          "tooltip": {
+            "text": "This question contains a list of possible school locations, starting with the government area or district, down to the community."
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701758210537,
+              "name": "County",
+              "order": 1
+            },
+            {
+              "id": 1701758210538,
+              "name": "Sub-County",
+              "order": 2
+            },
+            {
+              "id": 1701758237378,
+              "name": "Ward",
+              "order": 3
+            },
+            {
+              "id": 1701758245246,
+              "name": "New Option",
+              "order": 4
+            }
+          ]
         },
         {
-            "id": 1701757876669,
-            "question_group": "School: Location",
-            "description": "This question contains a list of possible school locations, starting with the government area or district, down to the community.",
-            "order": 2,
-            "repeatable": false,
-            "translations": null,
-            "questions": [
-                {
-                    "id": 1701757876670,
-                    "question": "What is the location of the school?",
-                    "order": 1,
-                    "type": "option",
-                    "tooltip": {
-                        "text": "This question contains a list of possible school locations, starting with the government area or district, down to the community."
-                    },
-                    "required": false,
-                    "meta": false,
-                    "options": [
-                        {
-                            "id": 1701758210537,
-                            "name": "County",
-                            "order": 1
-                        },
-                        {
-                            "id": 1701758210538,
-                            "name": "Sub-County",
-                            "order": 2
-                        },
-                        {
-                            "id": 1701758237378,
-                            "name": "Ward",
-                            "order": 3
-                        },
-                        {
-                            "id": 1701758245246,
-                            "name": "New Option",
-                            "order": 4
-                        }
-                    ]
-                },
-                {
-                    "id": 1701758383853,
-                    "question": "Geolocation of the school",
-                    "order": 2,
-                    "type": "geo",
-                    "tooltip": {
-                        "text": "Record GPS coordinates of a central place in the school (e.g. outside main classroom block)"
-                    },
-                    "required": false,
-                    "meta": false,
-                    "options": null
-                }
-            ]
+          "id": 1701758383853,
+          "question": "Geolocation of the school",
+          "order": 2,
+          "type": "geo",
+          "tooltip": {
+            "text": "Record GPS coordinates of a central place in the school (e.g. outside main classroom block)"
+          },
+          "required": false,
+          "meta": false,
+          "options": null
         }
-    ],
-    "type": 1
+      ]
+    }
+  ],
+  "type": 1
 }

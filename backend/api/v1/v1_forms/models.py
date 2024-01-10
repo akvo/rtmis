@@ -100,6 +100,7 @@ class Questions(models.Model):
     hidden = models.BooleanField(default=False, null=True)
     display_only = models.BooleanField(default=False, null=True)
     monitoring = models.BooleanField(default=False, null=True)
+    meta_uuid = models.BooleanField(default=False, null=True)
 
     def __str__(self):
         return self.text
@@ -126,6 +127,7 @@ class Questions(models.Model):
             "pre": self.pre,
             "display_only": self.display_only,
             "monitoring": self.monitoring,
+            "meta_uuid": self.meta_uuid,
         }
 
     @property
