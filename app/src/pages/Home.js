@@ -84,7 +84,7 @@ const Home = ({ navigation, route }) => {
         ToastAndroid.show(trans.downloadingData, ToastAndroid.SHORT);
       }
     }
-  }, [loading])
+  }, [loading]);
 
   const filteredData = useMemo(() => {
     return data.filter(

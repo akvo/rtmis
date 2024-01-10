@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   guidanceText: {
     textAlign: 'center',
     fontStyle: 'italic',
-    color: '#CCCCCC'
+    color: '#CCCCCC',
   },
 });
 
