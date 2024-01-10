@@ -29,6 +29,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Create credentials folder
+        run: mkdir /home/runner/work/rtmis/credentials
+        shell: bash
+
+      - name: Write gcp deployment secret to file
+        run: echo "${{ secrets.GCLOUD_SERVICE_ACCOUNT }}" | base64 --decode > /home/runner/work/rtmis/credentials/gcp.json
+        shell: bash
+
+      - name: Write gcp deployment secret to file
+        run: echo "${{ secrets.RTMIS_SERVICE_ACCOUNT }}" | base64 --decode > /home/runner/work/rtmis/credentials/rtmis-service-account.json
+        shell: bash
+
 
       - name: Get changed files
         id: changed-files
