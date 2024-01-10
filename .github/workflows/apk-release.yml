@@ -38,3 +38,46 @@ jobs:
           npm run eas:release > output.txt
           cat output.txt
           echo "APK_URL=$(tail -n 1 output.txt)" >> $GITHUB_ENV
+
+      - name: Send custom JSON data to Slack workflow
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+         payload: |
+           {
+            "blocks": [
+                {
+                    "type": "header",
+                    "text": {
+                        "type": "plain_text",
+                        "text": ":iphone: New APK build just released",
+                        "emoji": true
+                    }
+                },
+                {
+                    "type": "section",
+                    "fields": [
+                        {
+                            "type": "mrkdwn",
+                            "text": "*URL:*\n<${{ env.APK_URL }}>"
+                        }
+                    ]
+                },
+                {
+                    "type": "section",
+                    "fields": [
+                        {
+                            "type": "mrkdwn",
+                            "text": "*Commit Message:*\n<${{ github.event.pull_request.html_url || github.event.head_commit.url }}|${{ github.event.head_commit.message }}>"
+                        },
+                        {
+                            "type": "mrkdwn",
+                            "text": "*Created by:*\n${{ github.actor }}"
+                        }
+                    ]
+                }
+            ]
+           }
+        env:
+         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+         SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
