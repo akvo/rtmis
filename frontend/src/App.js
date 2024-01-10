@@ -342,6 +342,7 @@ const App = () => {
 
   useEffect(() => {
     if (isLoggedIn && !public_state) {
+      console.log(config.fn.administration(authUser.administration.id), "abcd");
       store.update((s) => {
         s.administration = [
           config.fn.administration(authUser.administration.id),

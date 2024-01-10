@@ -42,6 +42,10 @@ const GlassReportDashboard = () => {
     try {
       const { data: countyAdm } = await api.get(`administration/${1}`);
       setCountiesAdm(countyAdm.children);
+      store.update((s) => {
+        s.administration = [countyAdm];
+      });
+      setWait(false);
     } catch (error) {
       console.error(error);
     }
@@ -50,13 +54,6 @@ const GlassReportDashboard = () => {
   useEffect(() => {
     fetchUserAdmin();
   }, [fetchUserAdmin]);
-
-  useEffect(() => {
-    store.update((s) => {
-      s.administration = [config.fn.administration(1)];
-    });
-    setWait(false);
-  }, []);
 
   useEffect(() => {
     if (selectedForm?.id) {

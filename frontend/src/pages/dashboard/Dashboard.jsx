@@ -14,6 +14,7 @@ import {
   ReportVisual,
 } from "./components";
 import { generateAdvanceFilterURL } from "../../util/filter";
+import { useCallback } from "react";
 
 const { TabPane } = Tabs;
 
@@ -59,12 +60,21 @@ const Dashboard = () => {
     return name;
   }, [currentAdministration]);
 
-  useEffect(() => {
-    store.update((s) => {
-      s.administration = [config.fn.administration(1)];
-    });
-    setWait(false);
+  const fetchUserAdmin = useCallback(async () => {
+    try {
+      const { data: countyAdm } = await api.get(`administration/${1}`);
+      store.update((s) => {
+        s.administration = [countyAdm];
+      });
+      setWait(false);
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchUserAdmin();
+  }, [fetchUserAdmin]);
 
   useEffect(() => {
     if (selectedForm?.id) {
