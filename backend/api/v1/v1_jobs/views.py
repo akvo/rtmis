@@ -119,16 +119,29 @@ def download_file(request, version, file_name):
                summary='Download list',
                responses=DownloadListSerializer(many=True),
                parameters=[
-                   OpenApiParameter(name='page',
-                                    required=True,
-                                    type=OpenApiTypes.NUMBER,
-                                    location=OpenApiParameter.QUERY)
+                    OpenApiParameter(
+                        name="page",
+                        required=True,
+                        type=OpenApiTypes.NUMBER,
+                        location=OpenApiParameter.QUERY,
+                    ),
+                    OpenApiParameter(
+                        name="type",
+                        required=True,
+                        enum=JobTypes.FieldStr.values(),
+                        type=OpenApiTypes.STR,
+                        location=OpenApiParameter.QUERY,
+                    ),
                ])
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def download_list(request, version):
+    job_type = getattr(
+        JobTypes, request.GET.get('type')
+        if request.GET.get('type') else 'download'
+    )
     queryset = request.user.user_jobs.filter(
-        type=JobTypes.download).order_by('-created')
+        type=job_type).order_by('-created')
     paginator = PageNumberPagination()
     paginator.page_size = 5
     try:
