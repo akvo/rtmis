@@ -26,10 +26,10 @@ def seed_approved_data(data):
                                          options=form_answer.options,
                                          created_by=form_answer.created_by)
             form_answer.delete()
-
     else:
         form_data = FormData.objects.create(
             name=data.name,
+            uuid=data.uuid,
             form=data.form,
             administration=data.administration,
             geo=data.geo,
@@ -49,3 +49,5 @@ def seed_approved_data(data):
             options=answer.options,
             created_by=answer.created_by,
         )
+
+    form_data.save_to_file

@@ -255,6 +255,7 @@ class FormDataAddListView(APIView):
             data.updated = timezone.now()
             data.updated_by = user
             data.save()
+            data.save_to_file
             async_task('api.v1.v1_data.functions.refresh_materialized_data')
             return Response({'message': 'direct update success'},
                             status=status.HTTP_200_OK)
@@ -994,10 +995,10 @@ class PendingFormDataView(APIView):
                    summary='Submit pending form data')
     def post(self, request, form_id, version):
         form = get_object_or_404(Forms, pk=form_id)
-        serializer = SubmitPendingFormSerializer(data=request.data,
-                                                 context={
-                                                     'user': request.user,
-                                                     'form': form})
+        serializer = SubmitPendingFormSerializer(
+            data=request.data,
+            context={'user': request.user, 'form': form}
+        )
         if not serializer.is_valid():
             return Response(
                 {'message': validate_serializers_message(
