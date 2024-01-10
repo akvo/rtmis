@@ -30,6 +30,7 @@ def seed_approved_data(data):
     else:
         form_data = FormData.objects.create(
             name=data.name,
+            uuid=data.uuid,
             form=data.form,
             administration=data.administration,
             geo=data.geo,
@@ -49,3 +50,6 @@ def seed_approved_data(data):
             options=answer.options,
             created_by=answer.created_by,
         )
+
+    # save the data to json file in storage
+    data.save_to_file

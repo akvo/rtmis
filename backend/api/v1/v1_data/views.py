@@ -994,10 +994,10 @@ class PendingFormDataView(APIView):
                    summary='Submit pending form data')
     def post(self, request, form_id, version):
         form = get_object_or_404(Forms, pk=form_id)
-        serializer = SubmitPendingFormSerializer(data=request.data,
-                                                 context={
-                                                     'user': request.user,
-                                                     'form': form})
+        serializer = SubmitPendingFormSerializer(
+            data=request.data,
+            context={'user': request.user, 'form': form}
+        )
         if not serializer.is_valid():
             return Response(
                 {'message': validate_serializers_message(
