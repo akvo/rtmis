@@ -28,6 +28,8 @@ class AdministrationSeederTestCase(TestCase):
                 "parent": None,
                 "children": children.data,
                 "children_level_name": "County",
+                "full_name": "Kenya",
+                "path": None
             }, response.json())
 
     def test_administration_seeder_test(self):
@@ -41,14 +43,19 @@ class AdministrationSeederTestCase(TestCase):
         self.assertEqual(
             {
                 "id": 1,
+                "path": None,
                 "level": 0,
                 "level_name": "National",
                 "name": "Indonesia",
+                "full_name": "Indonesia",
                 "parent": None,
                 "children": [{
                     "id": 2,
+                    "level": 2,
                     "name": "Jakarta",
-                    "parent": 1
+                    "full_name": "Indonesia|Jakarta",
+                    "parent": 1,
+                    "path": "1."
                 }],
                 "children_level_name": "County",
             }, response.json())

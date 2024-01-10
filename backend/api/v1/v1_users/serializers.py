@@ -155,12 +155,19 @@ class SetUserPasswordSerializer(serializers.Serializer):
 
 
 class ListAdministrationChildrenSerializer(serializers.ModelSerializer):
+    full_name = serializers.SerializerMethodField()
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_full_name(self, instance: Administration):
+        return instance.full_path_name
+
     class Meta:
         model = Administration
-        fields = ['id', 'parent', 'name']
+        fields = ['id', 'parent', 'path', 'level', 'name', 'full_name']
 
 
 class ListAdministrationSerializer(serializers.ModelSerializer):
+    full_name = serializers.SerializerMethodField()
     children = serializers.SerializerMethodField()
     level_name = serializers.ReadOnlyField(source='level.name')
     level = serializers.ReadOnlyField(source='level.level')
@@ -184,10 +191,15 @@ class ListAdministrationSerializer(serializers.ModelSerializer):
             return child.level.name
         return None
 
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_full_name(self, instance: Administration):
+        return instance.full_path_name
+
     class Meta:
         model = Administration
         fields = [
-            'id', 'parent', 'name', 'level_name', 'level', 'children',
+            'id', 'full_name', 'path', 'parent', 'name',
+            'level_name', 'level', 'children',
             'children_level_name'
         ]
 
