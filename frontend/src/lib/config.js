@@ -1,15 +1,4 @@
-import { orderBy } from "lodash";
-
-const mapChildren = (useradm) => {
-  const children = window.dbadm.filter((i) => i.parent === useradm.id);
-  return {
-    ...useradm,
-    levelName: window.levels.find((l) => l.level === useradm.level)?.name,
-    childLevelName:
-      window.levels.find((l) => l.level === useradm.level + 1)?.name || null,
-    children: orderBy(children, "name"),
-  };
-};
+import api from "./api";
 
 const config = {
   siteTitle: "RUSH",
@@ -847,16 +836,21 @@ const config = {
   allowedGlobal: ["/dashboard/", "/glaas/"],
   fn: {
     administration: (id, withchildren = true) => {
-      if (Array.isArray(id)) {
-        return window.dbadm
-          .filter((i) => id.includes(i.id))
-          .map((useradm) => mapChildren(useradm));
-      }
-      const useradm = window.dbadm.find((i) => i.id === id);
-      if (!withchildren) {
-        return useradm;
-      }
-      return mapChildren(useradm);
+      return new Promise((resolve, reject) => {
+        api
+          .get(`administration/${id}`)
+          .then((res) => {
+            if (!withchildren) {
+              delete res.data.children;
+              resolve(res.data);
+            } else {
+              resolve(res.data);
+            }
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
     },
     ls: {
       set: (name, data) => {
