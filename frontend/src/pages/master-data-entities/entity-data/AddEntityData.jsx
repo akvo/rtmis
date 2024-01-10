@@ -124,30 +124,27 @@ const AddEntityData = () => {
   };
 
   const onSetAdministration = useCallback(
-    (admID) => {
-      const findAdm = window.dbadm.find((adm) => adm?.id === admID);
+    async (admID) => {
+      const { data: findAdm } = await api.get(`administration/${admID}`);
       if (findAdm) {
         const findLevel = validLevels.find((l) => l?.level === findAdm.level);
         setLevel(findLevel?.id);
         form.setFieldsValue({ level_id: findLevel?.id });
 
-        const parents =
-          findAdm?.path
-            ?.split(".")
-            ?.filter((p) => p)
-            ?.map((pID) =>
-              window.dbadm.find((dba) => dba?.id === parseInt(pID, 10))
-            ) || [];
-
+        const parents = await Promise.all(
+          (findAdm?.path?.split(".") ?? [])
+            .filter((p) => p)
+            .map(async (pID) => {
+              const apiResponse = await api.get(`administration/${pID}`);
+              return apiResponse.data;
+            })
+        );
         store.update((s) => {
           s.administration = [...parents, findAdm]?.map((a, ax) => {
             const childLevel = validLevels.find((l) => l?.level === ax + 1);
             return {
               ...a,
               childLevelName: childLevel?.name || null,
-              children:
-                a?.children ||
-                window.dbadm.filter((sa) => sa?.parent === a?.id),
             };
           });
         });
@@ -160,7 +157,6 @@ const AddEntityData = () => {
     const selectedAdm = administration?.slice(-1)?.[0];
     const findLevel = validLevels.find((l) => l?.level === selectedAdm?.level);
     const admID = findLevel?.id === level ? selectedAdm.id : null;
-
     form.setFieldsValue({ administration: admID });
   }, [form, level, validLevels, administration]);
 
