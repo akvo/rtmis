@@ -2,8 +2,6 @@ name: RTMIS CI
 
 on:
   push:
-    branch:
-      "*"
   pull_request:
     types: [synchronize]
 
