@@ -128,9 +128,11 @@ class DataTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         self.assertEqual(data, {"message": "ok"})
-        # update data to test deletion with history
+
         data_id = FormData.objects.first().id
         meta_uuid = FormData.objects.first().uuid
+
+        # update data to test deletion with history
         self.assertEqual(meta_uuid, random_uuid)
         payload = [{
             "question": 101,
@@ -146,6 +148,10 @@ class DataTestCase(TestCase):
         self.assertEqual(res.status_code, 200)
         res = res.json()
         self.assertEqual(res, {"message": "direct update success"})
+
+        # Test if meta uuid is not changed
+        new_meta_uuid = FormData.objects.first().uuid
+        self.assertEqual(new_meta_uuid, meta_uuid)
 
         # Get answer from data with history
         res = self.client.get(f'/api/v1/data/{data_id}',
