@@ -44,34 +44,12 @@
           "id": 1699354849382,
           "question": "What is the location of the household?",
           "order": 2,
-          "type": "option",
+          "type": "administration",
           "tooltip": {
             "text": "This question contains a list of possible household locations, starting with government area or district, down to the village."
           },
           "required": true,
           "meta": false,
-          "options": [
-            {
-              "id": 1699354934531,
-              "name": "Sub-county",
-              "order": 2
-            },
-            {
-              "id": 1699354934530,
-              "name": "County",
-              "order": 1
-            },
-            {
-              "id": 1699355008671,
-              "name": "Ward",
-              "order": 3
-            },
-            {
-              "id": 1699355012244,
-              "name": "Village",
-              "order": 4
-            }
-          ],
           "dependency": [
             {
               "id": 1699354220734,
@@ -387,7 +365,7 @@
         },
         {
           "id": 1703265705460,
-          "question": " Total number of males who live permanently in this house",
+          "question": "Total number of males who live permanently in this house",
           "order": 16,
           "type": "autofield",
           "tooltip": null,
@@ -404,7 +382,7 @@
         },
         {
           "id": 1703265879204,
-          "question": " Total number of females who live permanently in this house",
+          "question": "Total number of females who live permanently in this house",
           "order": 17,
           "type": "autofield",
           "tooltip": null,
@@ -3903,7 +3881,7 @@
       "questions": [
         {
           "id": 1703086270254,
-          "question": " Outcome result - Functional toilet with privacy",
+          "question": "Outcome result - Functional toilet with privacy",
           "order": 1,
           "type": "autofield",
           "required": false,
@@ -3917,7 +3895,7 @@
         },
         {
           "id": 1703262568954,
-          "question": " Outcome result - Flyproof toilet type",
+          "question": "Outcome result - Flyproof toilet type",
           "order": 2,
           "type": "autofield",
           "required": false,
@@ -3931,7 +3909,7 @@
         },
         {
           "id": 1703262631146,
-          "question": " Outcome result - Clean toilet",
+          "question": "Outcome result - Clean toilet",
           "order": 3,
           "type": "autofield",
           "required": false,
@@ -3945,7 +3923,7 @@
         },
         {
           "id": 1703262690080,
-          "question": " Outcome result - Durable toilet",
+          "question": "Outcome result - Durable toilet",
           "order": 4,
           "type": "autofield",
           "required": false,
@@ -3959,7 +3937,7 @@
         },
         {
           "id": 1703262742831,
-          "question": " Outcome result - Toilet with safe containment",
+          "question": "Outcome result - Toilet with safe containment",
           "order": 5,
           "type": "autofield",
           "required": false,
@@ -3973,7 +3951,7 @@
         },
         {
           "id": 1703262807516,
-          "question": " Outcome result - Toilet with safe containment",
+          "question": "Outcome result - Toilet with safe containment",
           "order": 6,
           "type": "autofield",
           "required": false,
@@ -3987,7 +3965,7 @@
         },
         {
           "id": 1703262938134,
-          "question": " Outcome result - Toilet use by all household members",
+          "question": "Outcome result - Toilet use by all household members",
           "order": 7,
           "type": "autofield",
           "required": false,
@@ -4001,7 +3979,7 @@
         },
         {
           "id": 1703263007787,
-          "question": " Outcome result - Individual use of own household toilet",
+          "question": "Outcome result - Individual use of own household toilet",
           "order": 8,
           "type": "autofield",
           "required": false,
@@ -4015,7 +3993,7 @@
         },
         {
           "id": 1703263086485,
-          "question": " Outcome result - Use of safely managed sanitation services",
+          "question": "Outcome result - Use of safely managed sanitation services",
           "order": 9,
           "type": "autofield",
           "required": false,
@@ -4043,7 +4021,7 @@
         },
         {
           "id": 1703263286187,
-          "question": " Outcome result - Permanent hand washing station",
+          "question": "Outcome result - Permanent hand washing station",
           "order": 11,
           "type": "autofield",
           "required": false,
@@ -4085,7 +4063,7 @@
         },
         {
           "id": 1703264089420,
-          "question": " Outcome result - Safe management of child excreta and diapers",
+          "question": "Outcome result - Safe management of child excreta and diapers",
           "order": 14,
           "type": "autofield",
           "required": false,
@@ -4099,7 +4077,7 @@
         },
         {
           "id": 1703264129557,
-          "question": " Outcome result - Clean and safely stored food",
+          "question": "Outcome result - Clean and safely stored food",
           "order": 15,
           "type": "autofield",
           "required": false,
@@ -4113,7 +4091,7 @@
         },
         {
           "id": 1703264188321,
-          "question": " Outcome result - Clean and safely stored kitchen utensils",
+          "question": "Outcome result - Clean and safely stored kitchen utensils",
           "order": 16,
           "type": "autofield",
           "required": false,
@@ -4127,7 +4105,7 @@
         },
         {
           "id": 1703264236741,
-          "question": " Outcome result - Clean and safely stored milk containers",
+          "question": "Outcome result - Clean and safely stored milk containers",
           "order": 17,
           "type": "autofield",
           "required": false,
@@ -4141,7 +4119,7 @@
         },
         {
           "id": 1703264309057,
-          "question": " Outcome result - Safe management of drinking water",
+          "question": "Outcome result - Safe management of drinking water",
           "order": 18,
           "type": "autofield",
           "required": false,
@@ -4155,7 +4133,7 @@
         },
         {
           "id": 1703264361208,
-          "question": " Outcome result - Safe management of water sources",
+          "question": "Outcome result - Safe management of water sources",
           "order": 19,
           "type": "autofield",
           "required": false,
@@ -4169,7 +4147,7 @@
         },
         {
           "id": 1703264422368,
-          "question": " Outcome result - No visible animal wastes in house or compound",
+          "question": "Outcome result - No visible animal wastes in house or compound",
           "order": 20,
           "type": "autofield",
           "required": false,
@@ -4183,7 +4161,7 @@
         },
         {
           "id": 1703264464860,
-          "question": " Outcome result - Safe management of animal wastes in compound",
+          "question": "Outcome result - Safe management of animal wastes in compound",
           "order": 21,
           "type": "autofield",
           "required": false,
@@ -4197,7 +4175,7 @@
         },
         {
           "id": 1703264507441,
-          "question": " Outcome result - Safe separation of animals from under-5 children",
+          "question": "Outcome result - Safe separation of animals from under-5 children",
           "order": 22,
           "type": "autofield",
           "required": false,
@@ -4211,7 +4189,7 @@
         },
         {
           "id": 1703264558047,
-          "question": " Outcome result - Safe management of liquid wastes",
+          "question": "Outcome result - Safe management of liquid wastes",
           "order": 23,
           "type": "autofield",
           "required": false,
@@ -4225,7 +4203,7 @@
         },
         {
           "id": 1703264629697,
-          "question": " Outcome result - Safe management of solid wastes",
+          "question": "Outcome result - Safe management of solid wastes",
           "order": 24,
           "type": "autofield",
           "required": false,
@@ -4239,7 +4217,7 @@
         },
         {
           "id": 1703264663615,
-          "question": " Outcome result - Good vector control in compound",
+          "question": "Outcome result - Good vector control in compound",
           "order": 25,
           "type": "autofield",
           "required": false,
@@ -4253,7 +4231,7 @@
         },
         {
           "id": 1703264715860,
-          "question": " Outcome result - Clean face and hands",
+          "question": "Outcome result - Clean face and hands",
           "order": 26,
           "type": "autofield",
           "required": false,
@@ -4267,7 +4245,7 @@
         },
         {
           "id": 1703264761300,
-          "question": " Outcome result - Good menstrual health",
+          "question": "Outcome result - Good menstrual health",
           "order": 27,
           "type": "autofield",
           "required": false,
@@ -4281,7 +4259,7 @@
         },
         {
           "id": 1703264824044,
-          "question": " Outcome result - Fully immunized children",
+          "question": "Outcome result - Fully immunized children",
           "order": 28,
           "type": "autofield",
           "required": false,
@@ -4295,7 +4273,7 @@
         },
         {
           "id": 1703264893135,
-          "question": " Outcome result - Vitamin A supplements",
+          "question": "Outcome result - Vitamin A supplements",
           "order": 29,
           "type": "autofield",
           "required": false,
@@ -4309,7 +4287,7 @@
         },
         {
           "id": 1703264949388,
-          "question": " Outcome result - Exclusive breastfeeding",
+          "question": "Outcome result - Exclusive breastfeeding",
           "order": 30,
           "type": "autofield",
           "required": false,
@@ -4323,7 +4301,7 @@
         },
         {
           "id": 1703264997220,
-          "question": " Outcome result - Nutritious diet",
+          "question": "Outcome result - Nutritious diet",
           "order": 31,
           "type": "autofield",
           "required": false,
@@ -4337,7 +4315,7 @@
         },
         {
           "id": 1703265056470,
-          "question": " Outcome result - Malaria-endemic counties: Malaria-safe homes",
+          "question": "Outcome result - Malaria-endemic counties: Malaria-safe homes",
           "order": 32,
           "type": "autofield",
           "required": false,
@@ -4351,7 +4329,7 @@
         },
         {
           "id": 1703265101191,
-          "question": " Outcome result - STH-endemic counties: Dewormed homes",
+          "question": "Outcome result - STH-endemic counties: Dewormed homes",
           "order": 33,
           "type": "autofield",
           "required": false,
