@@ -84,7 +84,7 @@ class FormData(models.Model):
             f.write(json_file)
         storage.upload(file=file_name, folder="datapoints")
         # delete file
-        # os.remove(file_name)
+        os.remove(file_name)
         return data
 
     @property
