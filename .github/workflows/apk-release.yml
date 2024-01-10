@@ -2,8 +2,8 @@ name: RTMIS APK build
 
 on:
   push:
-    branch:
-      "main"
+    branches:
+      - main
     paths:
       - app/**
 
@@ -29,7 +29,6 @@ jobs:
       - name: 📦 Install dependencies
         run: |
           cd ./app/
-          cp ./src/build.prod.js ./src/build.js
           npm install
 
       - name: 🚀 Release to Expo Dev
