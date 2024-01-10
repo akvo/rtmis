@@ -3,6 +3,7 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from api.v1.v1_data.models import FormData, Forms, Answers, AnswerHistory
 from utils import storage
+import json
 
 
 @override_settings(USE_TZ=False)
@@ -135,6 +136,11 @@ class DataTestCase(TestCase):
 
         # test if datapoint file is generated
         self.assertTrue(storage.check(f'datapoints/{meta_uuid}.json'))
+        downloaded_json = storage.download(
+            f'datapoints/{meta_uuid}.json'
+        )
+        with open(downloaded_json, 'r') as f:
+            downloaded_json = json.load(f)
 
         # update data to test deletion with history
         self.assertEqual(meta_uuid, random_uuid)
@@ -156,6 +162,14 @@ class DataTestCase(TestCase):
         # Test if meta uuid is not changed
         new_meta_uuid = FormData.objects.first().uuid
         self.assertEqual(new_meta_uuid, meta_uuid)
+
+        # Test if downloaded json is updated
+        new_downloaded_json = storage.download(
+            f'datapoints/{meta_uuid}.json'
+        )
+        with open(new_downloaded_json, 'r') as f:
+            new_downloaded_json = json.load(f)
+        self.assertNotEqual(downloaded_json, new_downloaded_json)
 
         # Get answer from data with history
         res = self.client.get(f'/api/v1/data/{data_id}',
