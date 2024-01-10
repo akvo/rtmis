@@ -68,8 +68,7 @@ class FormData(models.Model):
             "datapoint_name": self.name,
             "administration": self.administration.id,
             "uuid": str(self.uuid),
-            "geolocation":
-            f"{self.geo[0]}, {self.geo[1]}" if self.geo else None
+            "geolocation": self.geo
         }
         answers = {}
         for a in self.data_answer.order_by(
