@@ -193,6 +193,8 @@ class SubmitFormSerializer(serializers.Serializer):
                 options=option,
                 created_by=self.context.get("user"),
             )
+        obj_data.save_to_file
+
         return object
 
 
@@ -998,7 +1000,7 @@ class SubmitPendingFormDataSerializer(serializers.ModelSerializer):
     administration = CustomPrimaryKeyRelatedField(
         queryset=Administration.objects.none())
     name = CustomCharField()
-    geo = CustomListField(required=False)
+    geo = CustomListField(required=False, allow_null=True)
     submitter = CustomCharField(required=False)
     duration = CustomIntegerField(required=False)
 
@@ -1182,6 +1184,11 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                     options=option,
                     created_by=self.context.get("user"),
                 )
+
+        if direct_to_data:
+            obj_data.save()
+            obj_data.save_to_file
+
         async_task("api.v1.v1_data.functions.refresh_materialized_data")
 
         return obj_data

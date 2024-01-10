@@ -105,11 +105,6 @@ const TypeGeo = ({ onChange, values, keyform, id, name, tooltip, required, requi
           <Button onPress={() => handleGetCurrLocation(false)} testID="button-curr-location">
             {loading.current ? trans.fetchingLocation : trans.buttonCurrLocation}
           </Button>
-          {isOnline && (
-            <Button type="outline" onPress={handleOpenMap} testID="button-open-map">
-              {loading.map ? trans.loadingText : trans.buttonOpenMap}
-            </Button>
-          )}
         </View>
       </View>
     </View>
