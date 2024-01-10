@@ -245,7 +245,7 @@ def export_prefilled_administrations_template(request: Request, version):
             request.query_params.get('attributes', ''), maybe_int)
     level = request.query_params.get('level', None)
     job = Jobs.objects.create(
-        type=JobTypes.seed_data,
+        type=JobTypes.download_administration,
         status=JobStatus.on_progress,
         user=request.user,
         info={
