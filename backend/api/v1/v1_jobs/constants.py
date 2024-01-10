@@ -3,12 +3,14 @@ class JobTypes:
     validate_data = 2
     seed_data = 3
     download = 4
+    download_administration = 5
 
     FieldStr = {
         send_email: 'send_email',
         validate_data: 'validate_data',
         seed_data: 'seed_data',
         download: 'download',
+        download_administration: 'download_administration'
     }
 
 
