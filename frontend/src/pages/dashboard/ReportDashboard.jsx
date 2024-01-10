@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Row, Col, Tabs, Affix } from "antd";
 import { VisualisationFilters } from "../../components";
 import { useNotification } from "../../util/hooks";
-import { api, uiText, store, config } from "../../lib";
+import { api, uiText, store } from "../../lib";
 import { capitalize, takeRight } from "lodash";
 import { TableVisual } from "./components";
 import { generateAdvanceFilterURL } from "../../util/filter";

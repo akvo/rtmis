@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { useParams } from "react-router-dom";
 import { Row, Col, Tabs, Affix, Select, Space } from "antd";
-import { uiText, store, config, api } from "../../lib";
+import { uiText, store, api } from "../../lib";
 import { capitalize } from "lodash";
 import { TableVisual } from "./components";
 import {

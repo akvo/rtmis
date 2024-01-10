@@ -88,8 +88,8 @@ const Map = ({ current, style }) => {
         Object.values(selectedAdministration),
         1
       )[0];
-      const fetchData = (adminId, acc) => {
-        const adm = config.fn.administration(adminId);
+      const fetchData = async (adminId, acc) => {
+        const adm = await config.fn.administration(adminId);
         acc.unshift(adm);
         if (adm.level > 0) {
           fetchData(adm.parent, acc);

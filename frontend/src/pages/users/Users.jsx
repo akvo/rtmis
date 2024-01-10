@@ -11,7 +11,6 @@ import { api, store, uiText } from "../../lib";
 import UserDetail from "./UserDetail";
 import { UserFilters, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
-import { reverse } from "lodash";
 import moment from "moment";
 
 const Users = () => {
@@ -85,13 +84,7 @@ const Users = () => {
       title: "Region",
       dataIndex: "administration",
       render: (administration) => {
-        const adm = administration?.id
-          ? window.dbadm.find((d) => d.id === administration.id)?.full_name
-          : false;
-        if (adm) {
-          return reverse(adm.split("|")).join(", ");
-        }
-        return adm;
+        return administration?.full_name;
       },
     },
     {
