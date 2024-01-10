@@ -60,7 +60,7 @@ jobs:
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1
           COMPOSE_INTERACTIVE_NO_CLI: 1
           COVERALLS_REPO_TOKEN: "${COVERALLS_RTMIS_TOKEN}"
-          SERVICE_ACCOUNT: "/home/runner/work/test-rtmis/credentials"
+          SERVICE_ACCOUNT: "/home/runner/work/rtmis/credentials"
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
           ./ci/build.sh
@@ -74,6 +74,6 @@ jobs:
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1
           COMPOSE_INTERACTIVE_NO_CLI: 1
           COVERALLS_REPO_TOKEN: "${COVERALLS_RTMIS_TOKEN}"
-          SERVICE_ACCOUNT: "/home/runner/work/test-rtmis/credentials"
+          SERVICE_ACCOUNT: "/home/runner/work/rtmis/credentials"
         run: |
           ./ci/deploy.sh
