@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { Row, Col, Form, Button, Input, Select, Space, Modal } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import { api, config, store, uiText } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import {
   AdministrationDropdown,
   Breadcrumbs,
@@ -29,7 +29,6 @@ const AddAssignment = () => {
   const [loading, setLoading] = useState(false);
   const [preload, setPreload] = useState(true);
   const [level, setLevel] = useState(userAdmLevel);
-  const [userAdm, setUseradm] = useState(null);
 
   const lowestLevel = levels
     .slice()
@@ -80,12 +79,11 @@ const AddAssignment = () => {
       const { data: _userAdm } = await api.get(
         `administration/${authUser.administration.id}`
       );
-      setUseradm(_userAdm);
       store.update((s) => {
         s.administration = [_userAdm];
       });
     } catch (error) {
-      console.warn(error, "ERROR");
+      console.error(error);
     }
   }, [authUser]);
 
@@ -149,11 +147,10 @@ const AddAssignment = () => {
       setSubmitting(false);
     }
   };
-  console.log(level, "LEVEL");
+
   const fetchData = useCallback(async () => {
     if (id && preload && editAssignment?.id) {
       setPreload(false);
-      console.log(editAssignment, "editAssignment");
       form.setFieldsValue({
         ...editAssignment,
         administrations: editAssignment.administrations.map((a) => a?.id),
@@ -165,38 +162,28 @@ const AddAssignment = () => {
           .map((a) => a?.id)
           .join(",")}`
       );
-      console.log(selectedAdm, "selectedAdm");
-      const editAdm = editAssignment?.administrations?.map((a) =>
-        window.dbadm.find((dba) => dba.id === a?.id)
-      );
-      const findLvl = levels.find((l) => l?.level === editAdm?.[0]?.level);
       if (selectedAdm) {
-        console.log(selectedAdm.level, "selectedAdm.level");
         setLevel(selectedAdm.level + 1);
         form.setFieldsValue({ level_id: selectedAdm.level + 1 });
       }
-      console.log(editAdm, "editAdm");
-      const parentAdm =
-        editAdm[0]?.path
-          ?.split(".")
-          ?.filter((p) => p)
-          ?.map((pID) =>
-            window.dbadm.find((dba) => dba?.id === parseInt(pID, 10))
-          ) || [];
-      console.log(parentAdm, "parentAdm");
+      const parentAdm = await Promise.all(
+        (selectedAdm?.path?.split(".") ?? [])
+          .filter((p) => p)
+          .map(async (pID) => {
+            const apiResponse = await api.get(`administration/${pID}`);
+            return apiResponse.data;
+          })
+      );
       store.update((s) => {
-        s.administration = [...parentAdm, ...editAdm]?.map((a, ax) => {
+        s.administration = [...parentAdm, selectedAdm]?.map((a, ax) => {
           const childLevel = levels.find((l) => l?.level === ax + 1);
           return {
             ...a,
             childLevelName: childLevel?.name || null,
-            children: window.dbadm.filter((sa) => sa?.parent === a?.id),
           };
         });
       });
     }
-    console.log(window.dbadm, "window.dbadm");
-    console.log(userAdm, "userAdm");
     if (!id && preload) {
       setPreload(false);
     }

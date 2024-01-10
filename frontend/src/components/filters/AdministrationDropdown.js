@@ -3,14 +3,12 @@ import "./style.scss";
 import { Select, Space } from "antd";
 import PropTypes from "prop-types";
 import { store, api } from "../../lib";
-import { useState } from "react";
 import { useCallback } from "react";
 
 const AdministrationDropdown = ({
   loading = false,
   withLabel = false,
   width = 160,
-  persist = false,
   hidden = false,
   maxLevel = null,
   allowMultiple = false,
@@ -39,7 +37,7 @@ const AdministrationDropdown = ({
         s.administration = [_userAdm];
       });
     } catch (error) {
-      console.warn(error, "ERROR");
+      console.error(error);
     }
   }, [user]);
 
@@ -66,7 +64,7 @@ const AdministrationDropdown = ({
       s.administration.length = index + 1;
     });
   };
-  console.log(administration, "administration");
+
   if (administration && !hidden) {
     return (
       <Space {...props} style={{ width: "100%" }}>
