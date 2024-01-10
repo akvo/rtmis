@@ -7,7 +7,10 @@ from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from utils.soft_deletes_model import SoftDeletes
+import os
 import uuid
+import json
+from utils import storage
 
 
 class FormData(models.Model):
@@ -56,6 +59,31 @@ class FormData(models.Model):
                 'question__question_group_id',
                 'question__order').all():
             data.update(a.to_data_frame)
+        return data
+
+    @property
+    def save_to_file(self):
+        data = {
+            "id": self.id,
+            "datapoint_name": self.name,
+            "administration": self.administration.id,
+            "uuid": str(self.uuid),
+            "geolocation": self.geo
+        }
+        answers = {}
+        for a in self.data_answer.order_by(
+                'question__question_group_id',
+                'question__order').all():
+            answers.update(a.to_key)
+        data.update({"answers": answers})
+        json_data = json.dumps(data)
+        file_name = f"./{str(self.uuid)}.json"
+        # write to json file
+        with open(file_name, 'w') as f:
+            f.write(json_data)
+        storage.upload(file=file_name, folder="datapoints")
+        # delete file
+        os.remove(file_name)
         return data
 
     @property
@@ -256,6 +284,22 @@ class Answers(models.Model):
         else:
             answer = self.value
         return {qname: answer}
+
+    @property
+    def to_key(self) -> dict:
+        q = self.question
+        if q.type in [
+            QuestionTypes.geo, QuestionTypes.option,
+            QuestionTypes.multiple_option
+        ]:
+            answer = self.options
+        elif q.type in [
+            QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+        ]:
+            answer = self.name
+        else:
+            answer = self.value
+        return {q.id: answer}
 
     class Meta:
         db_table = 'answer'
