@@ -73,6 +73,7 @@ jobs:
           COMPOSE_INTERACTIVE_NO_CLI: 1
           COVERALLS_REPO_TOKEN: "${COVERALLS_RTMIS_TOKEN}"
           SERVICE_ACCOUNT: "/home/runner/work/rtmis/credentials"
+          DBDOCS_TOKEN: ${{ secrets.DBDOCS_TOKEN }}
           ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
           ./ci/build.sh
