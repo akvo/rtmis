@@ -54,6 +54,9 @@ const uiText = {
     homeSearch: 'Search form',
     homePageTitle: 'Form Lists',
     settingsPageTitle: 'Settings',
+    formSelectionPageTitle: 'Select Form',
+    administrationListPageTitle: 'Administration List',
+    administrationSearch: 'Search',
     searchPlaceholder: 'Search...',
     formDataSearch: 'Search datapoint',
     untitled: 'Untitled',
@@ -92,6 +95,7 @@ const uiText = {
     settingAddFormDesc: 'Add/download more forms to apps',
     settingAddNewFormPageTitle: 'Add New Form',
     errorFormsNotLoaded: 'Unable to load forms',
+    downloadingData: 'Downloading data',
   },
   fr: {
     latitude: 'Latitude',

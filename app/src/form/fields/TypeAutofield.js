@@ -39,7 +39,29 @@ const fnToArray = (fnString) => {
   return fnString.match(regex);
 };
 
+const handeNumericValue = (val) => {
+  const regex = /^"\d+"$|^\d+$/;
+  const isNumeric = regex.test(val);
+  if (isNumeric) {
+    return String(val).trim().replace(/['"]/g, '');
+  }
+  return val;
+};
+
+const fixLastOperator = (expression) => {
+  if (expression) {
+    // Use a regular expression to remove operators at the end
+    const cleanedStr = expression.replace(/\s*[\+\-\*\/]+\s*$/, '');
+    return cleanedStr;
+  }
+  return expression;
+};
+
 const generateFnBody = (fnMetadata, values) => {
+  if (Object.keys(values).length === 1) {
+    const firstValue = Object.values(values)[0];
+    return `return ${firstValue}`;
+  }
   if (!fnMetadata) {
     return false;
   }
@@ -82,16 +104,12 @@ const generateFnBody = (fnMetadata, values) => {
       }
       return val;
     }
-    const n = f.match(/(^[0-9]*$)/);
-    if (n) {
-      return Number(n[1]);
-    }
     return f;
   });
 
   // all fn conditions meet, return generated fnBody
   if (!fnBody.filter((x) => !x).length) {
-    return fnBody.join('');
+    return fnBody.map(handeNumericValue).join('');
   }
 
   // return false if generated fnBody contains null align with fnBodyTemp
@@ -102,24 +120,15 @@ const generateFnBody = (fnMetadata, values) => {
 
   // remap fnBody if only one fnBody meet the requirements
   return fnBody
-    .map((x, xi) => {
-      if (!x) {
-        const f = fnMetadataTemp[xi];
-        const splitF = f.split('.');
-        if (splitF.length) {
-          splitF[0] = `"${splitF[0]}"`;
-        }
-        return splitF.join('.');
-      }
-      return x;
-    })
+    .filter((x) => x)
+    .map(handeNumericValue)
     .join('');
 };
 
 const strToFunction = (fnString, values) => {
   fnString = checkDirty(fnString);
   const fnMetadata = getFnMetadata(fnString);
-  const fnBody = generateFnBody(fnMetadata, values);
+  const fnBody = fixLastOperator(generateFnBody(fnMetadata, values));
   try {
     return new Function(fnBody);
   } catch (error) {

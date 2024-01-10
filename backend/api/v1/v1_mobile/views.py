@@ -150,7 +150,8 @@ def sync_pending_form_data(request, version):
     qna = request.data.get('answers')
     adm_id = administration.id
     adm_qs = Questions.objects.filter(
-        type=QuestionTypes.administration
+        type=QuestionTypes.administration,
+        form_id=form.id
     ).first()
     adm_key = str(adm_qs.id) if adm_qs else None
     if adm_key and adm_key in qna:
@@ -208,7 +209,7 @@ def download_sqlite_file(request, version, file_name):
 
 
 @extend_schema(
-    tags=['Mobile Device Forms'],
+    tags=['Mobile Device Form'],
     summary='Upload Images from Device',
     request=UploadImagesSerializer,
     responses={

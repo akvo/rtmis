@@ -13,6 +13,7 @@ const Home = ({ navigation, route }) => {
   const [search, setSearch] = useState(null);
   const [data, setData] = useState([]);
   const [appLang, setAppLang] = useState('en');
+  const [loading, setloading] = useState(true);
 
   const isManualSynced = UIState.useState((s) => s.isManualSynced);
   const activeLang = UIState.useState((s) => s.lang);
@@ -65,6 +66,7 @@ const Home = ({ navigation, route }) => {
           }))
           .filter((r) => r?.userId === currentUserId);
         setData(forms);
+        setloading(false);
       } catch {
         if (Platform.OS === 'android') {
           ToastAndroid.show(trans.errorFormsNotLoaded, ToastAndroid.SHORT);
@@ -76,6 +78,14 @@ const Home = ({ navigation, route }) => {
   useEffect(() => {
     getUserForms();
   }, [getUserForms]);
+
+  useEffect(() => {
+    if (loading) {
+      if (Platform.OS === 'android') {
+        ToastAndroid.show(trans.downloadingData, ToastAndroid.SHORT);
+      }
+    }
+  }, [loading]);
 
   const filteredData = useMemo(() => {
     return data.filter(

@@ -151,6 +151,9 @@ const AuthForm = ({ navigation }) => {
             {error}
           </Text>
         )}
+        <View>
+          <Text style={styles.guidanceText}>The passcode is case sensitive</Text>
+        </View>
       </View>
       <Button
         title="primary"
@@ -187,6 +190,11 @@ const styles = StyleSheet.create({
   dialogLoadingText: {
     textAlign: 'center',
     fontStyle: 'italic',
+  },
+  guidanceText: {
+    textAlign: 'center',
+    fontStyle: 'italic',
+    color: '#CCCCCC',
   },
 });
 
