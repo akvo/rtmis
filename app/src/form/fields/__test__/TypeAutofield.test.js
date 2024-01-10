@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import React from 'react';
+import { render } from '@testing-library/react-native';
 import TypeAutofield from '../TypeAutofield';
 
 describe('TypeAutofield component', () => {
@@ -160,7 +160,7 @@ describe('TypeAutofield component', () => {
     expect(autoField.props.value).toBe('G0');
   });
 
-  test('it supports to generate UUID', () => {
+  test('it supports generating UUID by combining village name with the geo value', () => {
     const onChangeMock = jest.fn();
     const values = {
       517600060: [9.123673412317656, 40.50754409565747],
@@ -180,6 +180,28 @@ describe('TypeAutofield component', () => {
     const autoField = getByTestId('type-autofield');
     expect(autoField).toBeDefined();
     expect(autoField.props.value).toBe('Village-name-gi5p');
+  });
+
+  test('it supports generating UUID by combining the administration ID with the geo value', () => {
+    const onChangeMock = jest.fn();
+    const values = {
+      1702914753957: [9.123673412317656, 40.50754409565747],
+      1699354849382: '123',
+    };
+    const id = 3;
+    const name = 'Auto Field';
+    const fn = {
+      fnString:
+        'function(){#1699354849382 && #1702914753957 ? String(#1699354849382).replace(\\",\\",\\"-\\") + \\"-\\" + #1702914753957.replace(\\"-\\",\\"\\").replace(\\",\\",\\".\\").split(\\".\\").reduce((x, y) => parseInt(x) + parseInt(y), 0).toString(32).substring(3,7) : null}',
+    };
+
+    const { getByTestId } = render(
+      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+    );
+
+    const autoField = getByTestId('type-autofield');
+    expect(autoField).toBeDefined();
+    expect(autoField.props.value).toBe('123-gi5p');
   });
 
   test('it gives background color when fnColor is defined and cover all possible outputs', () => {
@@ -313,5 +335,68 @@ describe('TypeAutofield component', () => {
     const autoField = getByTestId('type-autofield');
     expect(autoField).toBeDefined();
     expect(autoField.props.value).toBe('150');
+  });
+
+  test('it should not show question id when some values are empty', () => {
+    const onChangeMock = jest.fn();
+    const values = {
+      1: '1',
+      2: '2',
+      3: '1',
+    };
+    const id = 4;
+    const name = 'Total family members';
+    const fn = {
+      fnString: 'function(){return #1 + #2 + #3 + #4}',
+    };
+
+    const { getByTestId } = render(
+      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+    );
+
+    const autoField = getByTestId('type-autofield');
+    expect(autoField).toBeDefined();
+    expect(autoField.props.value).toBe('4');
+  });
+
+  test("it should have a result even some values doesn't have value", () => {
+    const onChangeMock = jest.fn();
+    const values = {
+      1: '1',
+      3: '1',
+    };
+    const id = 4;
+    const name = 'Total family members';
+    const fn = {
+      fnString: 'function(){return #1 + #2 + #3 + #4}',
+    };
+
+    const { getByTestId } = render(
+      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+    );
+
+    const autoField = getByTestId('type-autofield');
+    expect(autoField).toBeDefined();
+    expect(autoField.props.value).toBe('2');
+  });
+
+  test('it should produce a result when there is only one value', () => {
+    const onChangeMock = jest.fn();
+    const values = {
+      2: '1',
+    };
+    const id = 4;
+    const name = 'Total family members';
+    const fn = {
+      fnString: 'function(){return #1 + #2 + #3 + #4}',
+    };
+
+    const { getByTestId } = render(
+      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+    );
+
+    const autoField = getByTestId('type-autofield');
+    expect(autoField).toBeDefined();
+    expect(autoField.props.value).toBe('1');
   });
 });
