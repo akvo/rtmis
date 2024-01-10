@@ -1,10 +1,34 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
+import * as Crypto from 'expo-crypto';
 import QuestionField from './QuestionField';
 import { styles } from '../styles';
 import { modifyDependency, validateDependency, generateValidationSchemaFieldLevel } from '../lib';
 
 const Question = ({ group, setFieldValue, values }) => {
+  const [preload, setPreload] = useState(true);
+
+  const handleOnGenerateUUID = useCallback(() => {
+    if (preload) {
+      setPreload(false);
+    }
+    if (!preload) {
+      return;
+    }
+    group?.question
+      ?.filter((q) => q?.meta_uuid)
+      ?.forEach((q) => {
+        if (!values?.[q.id] && typeof setFieldValue === 'function') {
+          const UUID = Crypto.randomUUID();
+          setFieldValue(q.id, UUID);
+        }
+      });
+  }, [preload, group, values]);
+
+  useEffect(() => {
+    handleOnGenerateUUID();
+  }, [handleOnGenerateUUID]);
+
   const fields = group?.question || [];
   return fields.map((field, keyform) => {
     if (field?.dependency) {
@@ -19,7 +43,7 @@ const Question = ({ group, setFieldValue, values }) => {
         // delete hidden field value
         if (values?.[field.id]) {
           delete values[field.id];
-          setFieldValue(field.id, '');
+          // setFieldValue(field.id, '');
         }
         return null;
       }
