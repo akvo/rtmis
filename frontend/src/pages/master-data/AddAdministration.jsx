@@ -197,30 +197,28 @@ const AddAdministration = () => {
         };
       });
       setAttributes(_attributes);
-      const findParent = window.dbadm.find(
-        (adm) => adm?.id === initialValues?.parent?.id
+      const { data: findParent } = await api.get(
+        `administration/${initialValues?.parent?.id}`
       );
       if (findParent && id) {
         const findLevel = admLevels.find(
           (l) => l?.level === findParent.level + 1
         );
         setLevel(findLevel?.id);
-        const ancestors =
-          findParent?.path
-            ?.split(".")
-            ?.filter((p) => p)
-            ?.map((pID) =>
-              window.dbadm.find((dba) => dba?.id === parseInt(pID, 10))
-            ) || [];
+        const ancestors = await Promise.all(
+          (findParent?.path?.split(".") ?? [])
+            .filter((p) => p)
+            .map(async (pID) => {
+              const apiResponse = await api.get(`administration/${pID}`);
+              return apiResponse.data;
+            })
+        );
         store.update((s) => {
           s.administration = [...ancestors, findParent]?.map((a, ax) => {
             const childLevel = admLevels.find((l) => l?.level === ax + 1);
             return {
               ...a,
               childLevelName: childLevel?.name || null,
-              children:
-                a?.children ||
-                window.dbadm.filter((sa) => sa?.parent === a?.id),
             };
           });
         });

@@ -14,6 +14,7 @@ services:
     network_mode: service:mainnetwork
     volumes:
       - ${STORAGE_PATH}/images:/app/public/images:delegated
+      - ${STORAGE_PATH}/datapoints:/app/public/datapoints:delegated
   worker:
     volumes:
       - ../akvo-config/k8s-secrets/test/rtmis:/credentials/:ro

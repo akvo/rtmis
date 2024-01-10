@@ -209,7 +209,7 @@ def download_sqlite_file(request, version, file_name):
 
 
 @extend_schema(
-    tags=['Mobile Device Forms'],
+    tags=['Mobile Device Form'],
     summary='Upload Images from Device',
     request=UploadImagesSerializer,
     responses={

@@ -1,10 +1,13 @@
 import React, { useMemo } from "react";
 import "./style.scss";
 import { Space, Card, Divider, Row, Tag } from "antd";
-import { store, uiText } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { ProfileTour } from "./components";
 import moment from "moment";
+import { useCallback } from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const Profile = () => {
   const { forms, user: authUser } = store.useState((s) => s);
@@ -12,6 +15,8 @@ const Profile = () => {
 
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
+
+  const [userAdminstration, setUserAdminstration] = useState(null);
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -45,9 +50,23 @@ const Profile = () => {
     },
   ];
 
-  const fullAdministrationName = window.dbadm
-    .find((x) => x.id === authUser.administration.id)
-    ?.full_name?.split("|")
+  const fetchUserAdmin = useCallback(async () => {
+    try {
+      const { data: _userAdm } = await api.get(
+        `administration/${authUser.administration.id}`
+      );
+      setUserAdminstration(_userAdm);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [authUser]);
+
+  useEffect(() => {
+    fetchUserAdmin();
+  }, [fetchUserAdmin]);
+
+  const fullAdministrationName = userAdminstration?.full_name
+    ?.split("|")
     .join(" - ");
 
   return (

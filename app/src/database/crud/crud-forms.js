@@ -69,6 +69,15 @@ const formsQuery = () => {
       const updateQuery = query.update('forms', { formId }, { latest: latest });
       return await conn.tx(db, updateQuery, [formId]);
     },
+    getMyForms: async ({ id }) => {
+      const sqlQuery = 'SELECT id, name FROM forms WHERE id = $1';
+      const { rows } = await conn.tx(db, sqlQuery, [id]);
+
+      if (!rows.length) {
+        return {};
+      }
+      return rows._array;
+    },
   };
 };
 
