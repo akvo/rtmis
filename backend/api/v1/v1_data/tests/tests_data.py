@@ -2,6 +2,7 @@ from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import override_settings
 from api.v1.v1_data.models import FormData, Forms, Answers, AnswerHistory
+from utils import storage
 
 
 @override_settings(USE_TZ=False)
@@ -131,6 +132,10 @@ class DataTestCase(TestCase):
 
         data_id = FormData.objects.first().id
         meta_uuid = FormData.objects.first().uuid
+
+        # test generate datapoint json file
+        FormData.objects.first().save_to_file
+        self.assertTrue(storage.check(f'datapoints/{meta_uuid}.json'))
 
         # update data to test deletion with history
         self.assertEqual(meta_uuid, random_uuid)

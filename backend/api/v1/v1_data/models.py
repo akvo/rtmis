@@ -75,13 +75,13 @@ class FormData(models.Model):
         for a in self.data_answer.order_by(
                 'question__question_group_id',
                 'question__order').all():
-            answers.update(a.to_data_frame)
+            answers.update(a.to_key)
         data.update({"answers": answers})
-        json_file = json.dumps(data)
+        json_data = json.dumps(data)
         file_name = f"./{self.uuid}.json"
         # write to json file
         with open(file_name, 'w') as f:
-            f.write(json_file)
+            f.write(json_data)
         storage.upload(file=file_name, folder="datapoints")
         # delete file
         os.remove(file_name)
@@ -285,6 +285,22 @@ class Answers(models.Model):
         else:
             answer = self.value
         return {qname: answer}
+
+    @property
+    def to_key(self) -> dict:
+        q = self.question
+        if q.type in [
+            QuestionTypes.geo, QuestionTypes.option,
+            QuestionTypes.multiple_option
+        ]:
+            answer = self.options
+        elif q.type in [
+            QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+        ]:
+            answer = self.name
+        else:
+            answer = self.value
+        return {q.id: answer}
 
     class Meta:
         db_table = 'answer'
