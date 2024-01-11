@@ -212,7 +212,7 @@ const UploadData = () => {
           {!loading && showSuccess && (
             <div
               style={{ padding: 0, minHeight: "40vh" }}
-              bodyStyle={{ padding: 0 }}
+              bodystyle={{ padding: 0 }}
             >
               <Result
                 status="success"
@@ -254,7 +254,7 @@ const UploadData = () => {
               </Row>
               <Card
                 style={{ padding: 0, minHeight: "40vh" }}
-                bodyStyle={{ padding: 0 }}
+                bodystyle={{ padding: 0 }}
               >
                 <Space align="center" size={32}>
                   <img src="/assets/data-download.svg" />

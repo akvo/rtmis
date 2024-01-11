@@ -79,7 +79,7 @@ const ContactForm = () => {
     <Modal
       className="contact-form-modal"
       title="Please use this form for registering your feedback / issues."
-      visible={showContactFormModal}
+      open={showContactFormModal}
       width={600}
       centered
       destroyOnClose

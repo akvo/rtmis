@@ -575,7 +575,7 @@ const AddUser = () => {
 
       {/* Notification modal */}
       <Modal
-        visible={isModalVisible}
+        open={isModalVisible}
         onCancel={onCloseModal}
         centered
         width="575px"
@@ -588,7 +588,7 @@ const AddUser = () => {
             </Col>
           </Row>
         }
-        bodyStyle={{ textAlign: "center" }}
+        bodystyle={{ textAlign: "center" }}
       >
         <img src="/assets/user.svg" height="80" />
         <br />

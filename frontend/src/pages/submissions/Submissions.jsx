@@ -325,7 +325,7 @@ const Submissions = () => {
       <div className="table-section">
         <div className="table-wrapper">
           <FormDropdown hidden={true} />
-          <div style={{ padding: 0 }} bodyStyle={{ padding: 30 }}>
+          <div style={{ padding: 0 }} bodystyle={{ padding: 30 }}>
             <Tabs
               className="main-tab"
               activeKey={dataTab}
@@ -415,7 +415,7 @@ const Submissions = () => {
         </div>
       </div>
       <Modal
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => {
           setModalVisible(false);
         }}

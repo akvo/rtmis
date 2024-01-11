@@ -39,6 +39,28 @@ const Approvals = () => {
     },
   ];
 
+  const items = [
+    {
+      key: "my-pending",
+      label: text.approvalsTab1,
+    },
+    {
+      key: "subordinate",
+      label: text.approvalsTab2,
+    },
+    {
+      key: "approved",
+      label: text.approvalsTab3,
+    },
+  ];
+
+  const panelItems = useMemo(() => {
+    if (user.role_detail.name === "Super Admin") {
+      return items.filter((item) => item.key !== "subordinate");
+    }
+    return items;
+  }, [items, user]);
+
   useEffect(() => {
     setRole(user?.role?.id);
   }, [user]);
@@ -97,15 +119,13 @@ const Approvals = () => {
         <div className="table-wrapper">
           <div
             style={{ padding: 0, minHeight: "40vh" }}
-            bodyStyle={{ padding: 30 }}
+            bodystyle={{ padding: 30 }}
           >
-            <Tabs defaultActiveKey={approvalTab} onChange={setApprovalTab}>
-              <TabPane tab={text.approvalsTab1} key="my-pending"></TabPane>
-              {user.role_detail.name !== "Super Admin" && (
-                <TabPane tab={text.approvalsTab2} key="subordinate"></TabPane>
-              )}
-              <TabPane tab={text.approvalsTab3} key="approved"></TabPane>
-            </Tabs>
+            <Tabs
+              defaultActiveKey={approvalTab}
+              items={panelItems}
+              onChange={setApprovalTab}
+            />
             <Table
               dataSource={batches}
               onChange={handleChange}
