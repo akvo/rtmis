@@ -1,6 +1,7 @@
 import React from 'react';
-import { act, render, renderHook, waitFor } from '@testing-library/react-native';
+import { act, render, renderHook, waitFor, fireEvent } from '@testing-library/react-native';
 import * as Crypto from 'expo-crypto';
+import { View } from 'react-native';
 import Question from '../Question';
 import { FormState } from '../../../store';
 
