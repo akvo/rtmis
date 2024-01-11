@@ -4,6 +4,7 @@ import * as Crypto from 'expo-crypto';
 import QuestionField from './QuestionField';
 import { styles } from '../styles';
 import { modifyDependency, validateDependency, generateValidationSchemaFieldLevel } from '../lib';
+import { FormState } from '../../store';
 
 const Question = ({ group, setFieldValue, values }) => {
   const [preload, setPreload] = useState(true);
@@ -21,6 +22,9 @@ const Question = ({ group, setFieldValue, values }) => {
         if (!values?.[q.id] && typeof setFieldValue === 'function') {
           const UUID = Crypto.randomUUID();
           setFieldValue(q.id, UUID);
+          FormState.update((s) => {
+            s.currentValues = { ...s.currentValues, [q.id]: UUID };
+          });
         }
       });
   }, [preload, group, values]);

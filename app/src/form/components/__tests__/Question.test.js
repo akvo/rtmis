@@ -1,6 +1,6 @@
 import React from 'react';
-import { act, fireEvent, render, renderHook, waitFor } from '@testing-library/react-native';
-import * as Formik from 'formik';
+import { act, render, renderHook, waitFor, fireEvent } from '@testing-library/react-native';
+import * as Crypto from 'expo-crypto';
 import { View } from 'react-native';
 import Question from '../Question';
 import { FormState } from '../../../store';
@@ -14,7 +14,11 @@ jest.mock('formik', () => ({
   useField: jest.fn().mockReturnValue([{}, {}, { setTouched: jest.fn() }]),
 }));
 const uuidv4 = '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed';
-jest.mock('expo-crypto', () => ({ randomUUID: () => uuidv4 }));
+// Mock the entire 'expo-crypto' module
+jest.mock('expo-crypto', () => ({
+  ...jest.requireActual('expo-crypto'), // Use the actual module for all other exports
+  randomUUID: jest.fn(),
+}));
 
 const isValidUUIDv4 = (str) => {
   // UUIDv4 pattern
@@ -25,6 +29,12 @@ const isValidUUIDv4 = (str) => {
 };
 
 describe('Question component', () => {
+  beforeAll(() => {
+    /**
+     * Set default UUID value
+     */
+    Crypto.randomUUID.mockImplementation(() => uuidv4);
+  });
   beforeEach(() => {
     FormState.update((s) => {
       s.currentValues = {};
@@ -190,6 +200,55 @@ describe('Question component', () => {
       const inputVal = inputElement.props.value;
       const isValid = isValidUUIDv4(inputVal);
       expect(isValid).toBeTruthy();
+    });
+  });
+
+  it('should store existing generated UUID', async () => {
+    const mockGroupQuestions = {
+      name: 'Register',
+      question: [
+        {
+          id: 1,
+          name: 'UUID',
+          order: 1,
+          type: 'input',
+          required: true,
+          meta: false,
+          translations: [],
+          meta_uuid: true,
+        },
+      ],
+    };
+
+    const setFieldValue = jest.fn();
+    const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
+
+    const { getByTestId, rerender } = render(
+      <Question group={mockGroupQuestions} setFieldValue={setFieldValue} values={result.current} />,
+    );
+
+    rerender(
+      <Question group={mockGroupQuestions} setFieldValue={setFieldValue} values={result.current} />,
+    );
+    /**
+     * Generate new one
+     */
+    const newUUID = '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d';
+    Crypto.randomUUID.mockImplementation(() => newUUID);
+
+    await waitFor(() => {
+      expect(Crypto.randomUUID()).toEqual(newUUID);
+
+      expect(setFieldValue).toHaveBeenCalledTimes(1);
+
+      const inputElement = getByTestId('type-input');
+      expect(inputElement.props.value).not.toEqual(newUUID);
+      /**
+       * Equal with the previous one
+       */
+      expect(inputElement.props.value).toEqual(uuidv4);
+
+      expect(result.current).toEqual({ 1: uuidv4 });
     });
   });
 
