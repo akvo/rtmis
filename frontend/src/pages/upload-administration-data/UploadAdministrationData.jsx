@@ -52,11 +52,6 @@ const UploadAdministrationData = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
-  const [sucessMessage, setSuccessMessage] = useState({
-    title: text.administrationUploadSuccessTitle,
-    content: null,
-    uploadButton: text.uploadAnotherFileLabel,
-  });
 
   const pagePath = [
     {
@@ -196,12 +191,7 @@ const UploadAdministrationData = () => {
         .then(() => {
           setLoading(false);
           formRef.current.resetFields();
-          setShowSuccess(true);
-          setSuccessMessage({
-            title: text.prefilledAdmModalTitle,
-            content: text.prefilledAdmModalContent,
-            uploadButton: text.prefilledAdmUploadLabel,
-          });
+          navigate("/control-center/master-data/download-administration-data");
         })
         .catch((e) => {
           console.error(e);
@@ -214,15 +204,6 @@ const UploadAdministrationData = () => {
     } else {
       downloadTemplate(values);
     }
-  };
-
-  const handleOnResetSuccess = () => {
-    setShowSuccess(false);
-    setSuccessMessage({
-      title: text.administrationUploadSuccessTitle,
-      content: null,
-      uploadButton: text.uploadAnotherFileLabel,
-    });
   };
 
   return (
@@ -247,17 +228,16 @@ const UploadAdministrationData = () => {
             >
               <Result
                 status="success"
-                title={sucessMessage.title}
-                subTitle={sucessMessage.content}
+                title={text.administrationUploadSuccessTitle}
                 extra={[
                   <Divider key="divider" />,
                   <Button
                     type="primary"
                     key="back-button"
-                    onClick={handleOnResetSuccess}
+                    onClick={() => setShowSuccess(false)}
                     shape="round"
                   >
-                    {sucessMessage.uploadButton}
+                    {text.uploadAnotherFileLabel}
                   </Button>,
                   <Button
                     key="page"
