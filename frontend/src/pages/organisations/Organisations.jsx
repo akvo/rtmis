@@ -235,7 +235,7 @@ const Organisations = () => {
           {/* Table start here */}
           <div
             style={{ padding: 0, minHeight: "40vh" }}
-            bodyStyle={{ padding: 0 }}
+            bodystyle={{ padding: 0 }}
           >
             <Table
               columns={columns}
@@ -255,7 +255,7 @@ const Organisations = () => {
 
       {/* Modal */}
       <Modal
-        visible={deleteOrganisation}
+        open={deleteOrganisation}
         onCancel={() => setDeleteOrganisation(null)}
         centered
         className="organisation-modal"
@@ -287,7 +287,7 @@ const Organisations = () => {
             </Col>
           </Row>
         }
-        bodyStyle={{ textAlign: "center" }}
+        bodystyle={{ textAlign: "center" }}
       >
         <h3>{text.deleteOrganisationTitle}</h3>
         <br />

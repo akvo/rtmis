@@ -167,7 +167,7 @@ const QuestionnairesAdmin = () => {
         <div className="table-wrapper">
           <div
             style={{ padding: 0, minHeight: "40vh" }}
-            bodyStyle={{ padding: 30 }}
+            bodystyle={{ padding: 30 }}
           >
             <ConfigProvider renderEmpty={() => <Empty description="No data" />}>
               <Table

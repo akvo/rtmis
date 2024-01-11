@@ -493,7 +493,7 @@ const PanelSubmissions = () => {
         </Link>
       </div>
       <Modal
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => {
           setModalVisible(false);
         }}

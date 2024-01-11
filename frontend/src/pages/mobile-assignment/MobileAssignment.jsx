@@ -156,7 +156,7 @@ const MobileAssignment = () => {
           {/* Table start here */}
           <div
             style={{ padding: 0, minHeight: "40vh" }}
-            bodyStyle={{ padding: 0 }}
+            bodystyle={{ padding: 0 }}
           >
             <Table
               columns={columns}

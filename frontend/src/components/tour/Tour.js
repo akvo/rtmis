@@ -46,7 +46,7 @@ const Tour = ({ steps, title = "Help" }) => {
       />
       <Modal
         title={title}
-        visible={isVisible}
+        open={isVisible}
         onCancel={handleCancel}
         destroyOnClose={true}
         footer={

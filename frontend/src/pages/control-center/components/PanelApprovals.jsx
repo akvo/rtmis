@@ -6,8 +6,6 @@ import { columnsApproval } from "../../approvals";
 import "./style.scss";
 import { DescriptionPanel } from "../../../components";
 
-const { TabPane } = Tabs;
-
 const PanelApprovals = () => {
   const [approvalsPending, setApprovalsPending] = useState([]);
   const [approvalTab, setApprovalTab] = useState("my-pending");
@@ -24,6 +22,23 @@ const PanelApprovals = () => {
   }, [activeLang]);
 
   const approvalsText = approvalsLiteral(authUser);
+
+  const panelItems = useMemo(() => {
+    const items = [
+      {
+        key: "my-pending",
+        label: `${text.approvalsTab1} ${approvalsText}`,
+      },
+      {
+        key: "subordinate",
+        label: text.approvalsTab2,
+      },
+    ];
+    if (authUser.role_detail.name === "Super Admin") {
+      return items.filter((item) => item.key !== "subordinate");
+    }
+    return items;
+  }, [authUser, text, approvalsText]);
 
   useEffect(() => {
     setLoading(true);
@@ -44,7 +59,7 @@ const PanelApprovals = () => {
   }, [approvalTab]);
 
   return (
-    <div bordered={false} id="panel-approvals">
+    <div id="panel-approvals">
       <div className="row">
         <div className="flex-1">
           <h2>{approvalsText}</h2>
@@ -54,15 +69,11 @@ const PanelApprovals = () => {
         </div>
       </div>
       <DescriptionPanel description={<div>{text.panelApprovalsDesc}</div>} />
-      <Tabs defaultActiveKey={approvalTab} onChange={setApprovalTab}>
-        <TabPane
-          tab={`${text.approvalsTab1} ${approvalsText}`}
-          key="my-pending"
-        ></TabPane>
-        {authUser.role_detail.name !== "Super Admin" && (
-          <TabPane tab={text.approvalsTab2} key="subordinate"></TabPane>
-        )}
-      </Tabs>
+      <Tabs
+        defaultActiveKey={approvalTab}
+        items={panelItems}
+        onChange={setApprovalTab}
+      />
       <Table
         dataSource={approvalsPending}
         loading={loading}

@@ -240,7 +240,7 @@ const Users = () => {
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}
-            bodyStyle={{ padding: 0 }}
+            bodystyle={{ padding: 0 }}
           >
             <Table
               columns={columns}
@@ -283,7 +283,7 @@ const Users = () => {
         </div>
       </div>
       <Modal
-        visible={deleteUser}
+        open={deleteUser}
         onCancel={() => setDeleteUser(null)}
         centered
         width="575px"
@@ -315,7 +315,7 @@ const Users = () => {
             </Col>
           </Row>
         }
-        bodyStyle={{ textAlign: "center" }}
+        bodystyle={{ textAlign: "center" }}
       >
         <p>{text.deleteUserTitle}</p>
         <br />
