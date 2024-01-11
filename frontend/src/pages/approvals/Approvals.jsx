@@ -10,8 +10,6 @@ import ApprovalDetails from "./ApprovalDetail";
 
 const columns = [...columnsApproval, Table.EXPAND_COLUMN];
 
-const { TabPane } = Tabs;
-
 const Approvals = () => {
   const [batches, setBatches] = useState([]);
   const [approvalTab, setApprovalTab] = useState("my-pending");
@@ -39,27 +37,28 @@ const Approvals = () => {
     },
   ];
 
-  const items = [
-    {
-      key: "my-pending",
-      label: text.approvalsTab1,
-    },
-    {
-      key: "subordinate",
-      label: text.approvalsTab2,
-    },
-    {
-      key: "approved",
-      label: text.approvalsTab3,
-    },
-  ];
-
   const panelItems = useMemo(() => {
+    const items = [
+      {
+        key: "my-pending",
+        label: text.approvalsTab1,
+      },
+      {
+        key: "subordinate",
+        label: text.approvalsTab2,
+      },
+      {
+        key: "approved",
+        label: text.approvalsTab3,
+      },
+    ];
+
     if (user.role_detail.name === "Super Admin") {
       return items.filter((item) => item.key !== "subordinate");
     }
+
     return items;
-  }, [items, user]);
+  }, [text, user]);
 
   useEffect(() => {
     setRole(user?.role?.id);

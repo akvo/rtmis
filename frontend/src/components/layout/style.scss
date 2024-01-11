@@ -319,3 +319,17 @@
     color: $white;
   }
 }
+
+.dropdown-menu-item a {
+  color: $color-dark;
+  &:hover {
+    color: $white;
+  }
+}
+
+.usermenu-menu-item a {
+  color: $color-dark;
+  &:hover {
+    color: $color-dark;
+  }
+}

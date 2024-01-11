@@ -23,23 +23,22 @@ const PanelApprovals = () => {
 
   const approvalsText = approvalsLiteral(authUser);
 
-  const items = [
-    {
-      key: "my-pending",
-      label: `${text.approvalsTab1} ${approvalsText}`,
-    },
-    {
-      key: "subordinate",
-      label: text.approvalsTab2,
-    },
-  ];
-
   const panelItems = useMemo(() => {
+    const items = [
+      {
+        key: "my-pending",
+        label: `${text.approvalsTab1} ${approvalsText}`,
+      },
+      {
+        key: "subordinate",
+        label: text.approvalsTab2,
+      },
+    ];
     if (authUser.role_detail.name === "Super Admin") {
       return items.filter((item) => item.key !== "subordinate");
     }
     return items;
-  }, [items, authUser]);
+  }, [authUser, text, approvalsText]);
 
   useEffect(() => {
     setLoading(true);

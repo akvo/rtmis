@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
-import { Row, Col, Space, Button, Menu, Dropdown } from "antd";
+import { Row, Col, Space, Button, Dropdown } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaChevronDown } from "react-icons/fa";
@@ -60,56 +60,80 @@ const Header = ({ className = "header", ...props }) => {
   const dashboards = window?.dashboard;
   const reports = window?.reports;
 
-  const signOut = async () => {
+  const signOut = useCallback(async () => {
     eraseCookieFromAllPaths("AUTH_TOKEN");
     store.update((s) => {
       s.isLoggedIn = false;
       s.user = null;
     });
     navigate("login");
-  };
+  }, [navigate]);
 
-  const userMenu = (
-    <Menu>
-      {config.checkAccess(user?.role_detail, "control-center") && (
-        <Menu.Item key="controlCenter">
-          <Link to="/control-center">{text?.controlCenter}</Link>
-        </Menu.Item>
-      )}
-      <Menu.Item key="profile">
-        <Link to="/profile">{text?.myProfile}</Link>
-      </Menu.Item>
-      <Menu.Item key="signOut" danger>
-        <a
-          onClick={() => {
-            signOut();
-          }}
-        >
-          {text?.signOut}
-        </a>
-      </Menu.Item>
-    </Menu>
-  );
+  const accessUserMenu = useMemo(() => {
+    const userMenu = [
+      {
+        key: "controlCenter",
+        label: (
+          <div key="controlCenter" className="usermenu-menu-item">
+            <Link to="/control-center">{text?.controlCenter}</Link>
+          </div>
+        ),
+      },
+      {
+        key: "profile",
+        label: (
+          <div key="profile" className="usermenu-menu-item">
+            <Link to="/profile">{text?.myProfile}</Link>
+          </div>
+        ),
+      },
+      {
+        key: "signOut",
+        danger: true,
+        label: (
+          <div
+            key="signOut"
+            className="usermenu-menu-item"
+            onClick={() => {
+              signOut();
+            }}
+          >
+            <a>{text?.signOut}</a>
+          </div>
+        ),
+      },
+    ];
+    if (!config.checkAccess(user?.role_detail, "control-center")) {
+      return userMenu.filter((menu) => menu.key !== "controlCenter");
+    }
+    return userMenu;
+  }, [text, user, signOut]);
 
-  const DashboardMenu = (
-    <Menu>
-      {dashboards?.map((d) => (
-        <Menu.Item key={`${d.name}`} className="dashboard-menu-item">
-          <Link to={`/${d.page}/${d.form_id}`}>{d.name}</Link>
-        </Menu.Item>
-      ))}
-    </Menu>
-  );
+  const DashboardMenu = useMemo(() => {
+    return dashboards.map((d) => {
+      return {
+        key: d.name,
+        label: (
+          <div key={`${d.name}`} className="dropdown-menu-item">
+            <Link to={`/${d.page}/${d.form_id}`}>{d.name}</Link>
+          </div>
+        ),
+      };
+    });
+  }, [dashboards]);
 
-  const ReportsMenu = (
-    <Menu>
-      {reports?.map((d) => (
-        <Menu.Item key={`${d.name}`} className="dashboard-menu-item">
-          <Link to={`/${d.page}/${d.form_id}`}>{d.name}</Link>
-        </Menu.Item>
-      ))}
-    </Menu>
-  );
+  const ReportsMenu = useMemo(() => {
+    return reports.map((d) => {
+      return {
+        key: d.name,
+        label: (
+          <div key={`${d.name}`} className="dropdown-menu-item">
+            <Link to={`/${d.page}/${d.form_id}`}>{d.name}</Link>
+          </div>
+        ),
+      };
+    });
+  }, [reports]);
 
   return (
     <Row
@@ -145,7 +169,7 @@ const Header = ({ className = "header", ...props }) => {
               <Link className="dev" to="/reports">
                 {text?.reports}
               </Link>
-              <Dropdown overlay={DashboardMenu}>
+              <Dropdown menu={{ items: DashboardMenu }}>
                 <a
                   className="ant-dropdown-link"
                   onClick={(e) => {
@@ -156,7 +180,7 @@ const Header = ({ className = "header", ...props }) => {
                   <FaChevronDown />
                 </a>
               </Dropdown>
-              <Dropdown overlay={ReportsMenu}>
+              <Dropdown menu={{ items: ReportsMenu }}>
                 <a
                   className="ant-dropdown-link"
                   onClick={(e) => {
@@ -178,7 +202,7 @@ const Header = ({ className = "header", ...props }) => {
           </div>
           <div className="account">
             {isLoggedIn ? (
-              <Dropdown overlay={userMenu}>
+              <Dropdown menu={{ items: accessUserMenu }}>
                 <a
                   className="ant-dropdown-link"
                   onClick={(e) => {
