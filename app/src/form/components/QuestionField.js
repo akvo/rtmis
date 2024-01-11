@@ -20,9 +20,9 @@ import { cascades } from '../../lib';
 const QuestionField = memo(({ keyform, field: questionField, setFieldValue, values, validate }) => {
   const [field, meta, helpers] = useField({ name: questionField.id, validate });
   const [cascadeData, setCascadeData] = useState([]);
-  const [preload, setPreload] = useState(true);
   const preFilled = questionField?.pre;
-  const questionID = questionField?.id;
+  const questionType = questionField?.type;
+  const displayOnly = questionField?.displayOnly;
   const displayValue = questionField?.hidden ? 'none' : 'flex';
 
   useEffect(() => {
@@ -42,35 +42,34 @@ const QuestionField = memo(({ keyform, field: questionField, setFieldValue, valu
 
   const handleOnChangeField = useCallback(
     (id, value) => {
-      if (questionField?.displayOnly) {
+      if (displayOnly) {
         return;
       }
       helpers.setTouched({ [field.name]: true });
       setFieldValue(id, value);
+      const fieldValues = { ...values, [id]: value };
+      if (preFilled?.answer) {
+        const isMatchAnswer =
+          JSON.stringify(preFilled?.answer) === JSON.stringify(value) ||
+          String(preFilled?.answer) === String(value);
+        if (isMatchAnswer) {
+          preFilled?.fill?.forEach((f) => {
+            setFieldValue(f?.id, f?.answer);
+            fieldValues[f?.id] = f?.answer;
+          });
+        }
+      }
       FormState.update((s) => {
-        s.currentValues = { ...s.currentValues, [id]: value };
+        s.currentValues = fieldValues;
       });
     },
-    [setFieldValue, questionField?.displayOnly, field.name],
+    [setFieldValue, displayOnly, preFilled, field.name, values],
   );
 
   const loadCascadeDataSource = useCallback(async (source) => {
     const { rows } = await cascades.loadDataSource(source);
     setCascadeData(rows._array);
   }, []);
-
-  const handleOnPrefilled = useCallback(() => {
-    if (preload && preFilled?.fill?.length && questionID) {
-      setPreload(false);
-      const findFill = preFilled.fill.find((f) => f?.id === questionID);
-      if (findFill) {
-        setFieldValue(questionID, findFill.answer);
-        FormState.update((s) => {
-          s.currentValues = { ...s.currentValues, [questionID]: findFill.answer };
-        });
-      }
-    }
-  }, [preload, preFilled, questionID]);
 
   useEffect(() => {
     if (questionField?.type === 'cascade' && questionField?.source?.file) {
@@ -79,12 +78,8 @@ const QuestionField = memo(({ keyform, field: questionField, setFieldValue, valu
     }
   }, []);
 
-  useEffect(() => {
-    handleOnPrefilled();
-  }, [handleOnPrefilled]);
-
   const renderField = useCallback(() => {
-    switch (questionField?.type) {
+    switch (questionType) {
       case 'date':
         return (
           <TypeDate
