@@ -12,7 +12,7 @@ class DownloadFormsAFSTestCase(TestCase):
         out = StringIO()
         call_command(
             "download_forms_from_afs",
-            *args,
+            "--test",
             stdout=out,
             stderr=StringIO(),
             **kwargs,

@@ -11,9 +11,10 @@ if grep -q .yml .gitignore; then
     exit 1
 fi
 
+
 BACKEND_CHANGES=0
 FRONTEND_CHANGES=0
-COMMIT_CONTENT=$(git diff --name-only "${CI_COMMIT_RANGE}")
+COMMIT_CONTENT="${ALL_CHANGED_FILES}"
 
 if grep -q "backend" <<< "${COMMIT_CONTENT}"
 then

@@ -50,8 +50,10 @@ const EditableCell = ({
 
   useEffect(() => {
     if (record && record.type === "cascade" && !record?.api && !locationName) {
-      const locName = config.fn.administration(record.value, false);
-      setLocationName(locName?.full_name);
+      config.fn.administration(record.value, false).then((res) => {
+        const locName = res;
+        setLocationName(locName?.full_name);
+      });
     }
   }, [record, locationName]);
 

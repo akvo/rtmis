@@ -347,10 +347,10 @@ const App = () => {
 
   useEffect(() => {
     if (isLoggedIn && !public_state) {
-      store.update((s) => {
-        s.administration = [
-          config.fn.administration(authUser.administration.id),
-        ];
+      config.fn.administration(authUser.administration.id).then((res) => {
+        store.update((s) => {
+          s.administration = [res];
+        });
       });
     }
   }, [authUser, isLoggedIn, public_state]);
