@@ -190,8 +190,8 @@ const AddUser = () => {
   };
 
   useEffect(() => {
-    const fetchData = (adminId, acc, roleRes) => {
-      const adm = config.fn.administration(adminId);
+    const fetchData = async (adminId, acc, roleRes) => {
+      const adm = await config.fn.administration(adminId);
       acc.unshift(adm);
       if (adm.level > 0) {
         fetchData(adm.parent, acc, roleRes);

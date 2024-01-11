@@ -37,7 +37,7 @@ def question_mapping(row):
     return qs
 
 
-def generate_form(form_id: int, data: list):
+def generate_form(form_id: int, data: list, test: bool = False):
     df = pd.json_normalize(data)
     df['type'] = 1
     df = df.rename(columns={
@@ -54,17 +54,27 @@ def generate_form(form_id: int, data: list):
     qg = df2.to_dict('records')
     df['question_groups'] = df['question_groups'].apply(lambda x: qg)
     j = df.to_dict('records')[0]
-    with open(f"./source/forms/{form_id}.prod.json", 'w') as f:
-        json.dump(j, f)
+    if not test:
+        with open(f"./source/forms/{form_id}.prod.json", 'w') as f:
+            json.dump(j, f)
 
 
 class Command(BaseCommand):
+    def add_arguments(self, parser):
+        parser.add_argument("-t",
+                            "--test",
+                            nargs="?",
+                            const=1,
+                            default=False,
+                            type=int)
+
     def handle(self, *args, **options):
+        TEST = options.get("test")
         for form in forms:
             form_id = form['id']
             form_name = form['name']
             req = r.get(f"{base_url}{form_id}")
-            generate_form(form_id=form_id, data=req.json())
+            generate_form(form_id=form_id, data=req.json(), test=TEST)
             self.stdout.write(
                 f"Form Downloaded | {form_id} {form_name}"
             )
