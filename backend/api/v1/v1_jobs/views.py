@@ -98,12 +98,22 @@ def download_status(request, version, task_id):
 @extend_schema(
     tags=['Job'],
     summary='Download file',
+    parameters=[
+        OpenApiParameter(
+            name="type",
+            required=True,
+            enum=JobTypes.FieldStr.values(),
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+        ),
+    ]
 )
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def download_file(request, version, file_name):
     job = get_object_or_404(Jobs, result=file_name)
-    url = f"download/{job.result}"
+    type = request.GET.get('type') if request.GET.get('type') else 'download'
+    url = f"{type}/{job.result}"
     filepath = download(url)
     filename = job.result
     zip_file = open(filepath, 'rb')
