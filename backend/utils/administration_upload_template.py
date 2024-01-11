@@ -1,5 +1,4 @@
 import os
-from io import BytesIO
 from typing import List
 from django.db.models import QuerySet
 from django.utils import timezone
@@ -12,6 +11,7 @@ from api.v1.v1_profile.models import (
 )
 
 from api.v1.v1_users.models import SystemUser
+from utils.storage import upload
 
 
 def generate_excel(
@@ -63,10 +63,13 @@ def generate_template(
 
 
 def generate_prefilled_template(
+    job_result: str,
     attributes: List[int] = [],
     level: int = None
 ):
-    excel_file = BytesIO()
+    file_path = './tmp/{0}'.format(job_result)
+    if os.path.exists(file_path):
+        os.remove(file_path)
     level_headers = [
             f'{lvl.id}|{lvl.name}' for lvl
             in Levels.objects.order_by('level').all()]
@@ -75,7 +78,7 @@ def generate_prefilled_template(
             id__in=attributes).order_by('id'))
     columns = level_headers + attribute_headers
     data = pd.DataFrame(columns=columns, index=[0])
-    writer = pd.ExcelWriter(excel_file, engine='xlsxwriter')
+    writer = pd.ExcelWriter(file_path, engine='xlsxwriter')
     data.to_excel(
             writer,
             sheet_name='data',
@@ -116,7 +119,8 @@ def generate_prefilled_template(
                 [parent] = pl
                 worksheet.write(adx + 1, parent_col, parent.name)
     writer.save()
-    return excel_file.getvalue()
+    url = upload(file=file_path, folder='download_administration')
+    return url
 
 
 def generate_attribute_headers(
