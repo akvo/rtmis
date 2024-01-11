@@ -30,7 +30,10 @@ const FieldLabel = ({ keyform = 0, name, tooltip, requiredSign = null }) => {
           onClose={() => {
             setOpen(false);
           }}
-          popover={<Text testID="field-tooltip-text">{tooltipText}</Text>}
+          containerStyle={{ width: 205, height: 150 }}
+          popover={<View>
+            <Text testID="field-tooltip-text">{tooltipText}</Text>
+          </View>}
           backgroundColor="#e5e5e5"
           testID="field-tooltip"
         />
