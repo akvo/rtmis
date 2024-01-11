@@ -124,7 +124,7 @@ const ControlCenter = () => {
                   span={isFullWidth ? 24 : 12}
                   key={index}
                 >
-                  <div bordered={false} hoverable>
+                  <div hoverable>
                     <div className="row">
                       <div className="flex-1">
                         <h2>{panel?.title}</h2>
