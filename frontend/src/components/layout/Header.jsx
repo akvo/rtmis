@@ -110,7 +110,7 @@ const Header = ({ className = "header", ...props }) => {
   }, [text, user, signOut]);
 
   const DashboardMenu = useMemo(() => {
-    return dashboards.map((d) => {
+    return dashboards?.map((d) => {
       return {
         key: d.name,
         label: (
@@ -123,7 +123,7 @@ const Header = ({ className = "header", ...props }) => {
   }, [dashboards]);
 
   const ReportsMenu = useMemo(() => {
-    return reports.map((d) => {
+    return reports?.map((d) => {
       return {
         key: d.name,
         label: (
