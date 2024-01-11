@@ -39,7 +39,7 @@ const DownloadTable = ({ type = "download", infoCallback }) => {
         });
         console.error(e);
       });
-  }, [notify, text.errorFileList]);
+  }, [notify, text.errorFileList, type]);
 
   const pending = dataset.filter((d) => d.status === "on_progress");
 
