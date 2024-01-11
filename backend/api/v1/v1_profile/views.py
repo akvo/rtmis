@@ -6,7 +6,7 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import ProtectedError, Q
 from django.contrib.admin.utils import get_deleted_objects
 from django.http.response import HttpResponse
-from django_q.tasks import async_task
+from django.core.management import call_command
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
         OpenApiParameter, extend_schema, inline_serializer)
@@ -15,9 +15,14 @@ from rest_framework.viewsets import ModelViewSet
 from api.v1.v1_profile.models import (
         Administration, AdministrationAttribute, Entity, EntityData, Levels)
 from api.v1.v1_profile.serializers import (
-        AdministrationAttributeSerializer, AdministrationSerializer,
-        EntityDataSerializer, EntitySerializer)
+        AdministrationAttributeSerializer,
+        AdministrationSerializer,
+        EntityDataSerializer,
+        EntitySerializer,
+        GenerateDownloadRequestSerializer
+    )
 from api.v1.v1_users.models import SystemUser
+from api.v1.v1_jobs.models import Jobs
 from utils.administration_upload_template import generate_excel
 from utils.custom_helper import clean_array_param, maybe_int
 from utils.default_serializers import DefaultResponseSerializer
@@ -27,8 +32,7 @@ from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from utils.email_helper import send_email, EmailTypes
-from api.v1.v1_jobs.constants import JobStatus, JobTypes
-from api.v1.v1_jobs.models import Jobs
+from utils.custom_serializer_fields import validate_serializers_message
 
 
 @extend_schema(
@@ -231,32 +235,42 @@ def export_administrations_template(request: Request, version):
                    'Export prefilled template for Administration bulk upload'
                 ),
                parameters=[
-                   OpenApiParameter(name='attributes',
-                                    type={
-                                        'type': 'array',
-                                        'items': {'type': 'number'}},
-                                    location=OpenApiParameter.QUERY,
-                                    explode=False)
-                   ])
+                    OpenApiParameter(
+                        name='attributes',
+                        type={
+                            'type': 'array',
+                            'items': {'type': 'number'}},
+                        location=OpenApiParameter.QUERY,
+                        explode=False
+                    ),
+                    OpenApiParameter(
+                        name='level',
+                        required=False,
+                        type=OpenApiTypes.NUMBER,
+                        location=OpenApiParameter.QUERY
+                    )
+                ])
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def export_prefilled_administrations_template(request: Request, version):
+    serializer = GenerateDownloadRequestSerializer(data=request.GET)
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST)
     attributes = clean_array_param(
             request.query_params.get('attributes', ''), maybe_int)
     level = request.query_params.get('level', None)
-    job = Jobs.objects.create(
-        type=JobTypes.download_administration,
-        status=JobStatus.on_progress,
-        user=request.user,
-        info={
-            'attributes': attributes,
-            'level': level
-        }
+    result = call_command(
+        'job_download_adm',
+        level,
+        request.user.id,
+        attributes=attributes
     )
-    task_id = async_task(
-        'api.v1.v1_profile.job.download_prefilled_administrations', job.id,
-        hook='api.v1.v1_profile.job.download_prefilled_result')
-    job.task_id = task_id
-    job.save()
-
-    return Response({'task_id': task_id}, status=status.HTTP_200_OK)
+    job = Jobs.objects.get(pk=result)
+    file_url = f"/download/file/{job.result}?type=download_administration"
+    data = {
+        'task_id': job.task_id,
+        'file_url': file_url,
+    }
+    return Response(data, status=status.HTTP_200_OK)
