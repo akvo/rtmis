@@ -500,6 +500,14 @@ Object {
     "prefilledAdmModalContent": "We're processing your request. Once complete, the prefilled administration template will be sent to your email shortly.  Please keep a close eye on your email, Thank you. ",
     "prefilledAdmModalTitle": "Prefilled Administration requested",
     "prefilledAdmUploadLabel": "Upload the data",
+    "prefilledDownloadTitle": "Administrative Download",
+    "prefilledPanelText": <React.Fragment>
+      <p>
+        This page shows your pre-filled administrative data export requests.
+        <br />
+        For exports which are already generated, please click on the Download button to download the data.
+      </p>
+    </React.Fragment>,
     "prev": "Prev",
     "printBtn": "Print",
     "profileDes": "This page shows your current user setup. It also shows the most important activities for your current user setup",
