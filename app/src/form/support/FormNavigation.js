@@ -15,6 +15,7 @@ const FormNavigation = ({
   showQuestionGroupList,
   setShowQuestionGroupList,
   setShowDialogMenu,
+  submitting,
 }) => {
   const visitedQuestionGroup = FormState.useState((s) => s.visitedQuestionGroup);
   const activeLang = UIState.useState((s) => s.lang);
@@ -74,6 +75,9 @@ const FormNavigation = ({
       .catch((err) => console.error(err));
   };
 
+  const submitText = submitting?.text || trans.buttonSubmit;
+  const submitDisabled = submitting?.status || false;
+
   return (
     <Tab
       buttonStyle={styles.formNavigationButton}
@@ -109,12 +113,13 @@ const FormNavigation = ({
         />
       ) : (
         <Tab.Item
-          title={trans.buttonSubmit}
+          title={submitText}
           icon={{ name: 'paper-plane-outline', type: 'ionicon', color: 'grey', size: 20 }}
           iconPosition="right"
           iconContainerStyle={styles.formNavigationIcon}
           titleStyle={styles.formNavigationTitle}
           testID="form-btn-submit"
+          disabled={submitDisabled}
         />
       )}
     </Tab>

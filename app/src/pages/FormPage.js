@@ -9,13 +9,14 @@ import {
 } from 'react-native';
 import { Button, Dialog, Text } from '@rneui/themed';
 import Icon from 'react-native-vector-icons/Ionicons';
+import axios from 'axios';
 import { FormContainer } from '../form';
 import { SaveDialogMenu, SaveDropdownMenu } from '../form/support';
 import { BaseLayout } from '../components';
 import { crudDataPoints } from '../database/crud';
 import { UserState, UIState, FormState } from '../store';
 import { getDurationInMinutes } from '../form/lib';
-import { i18n } from '../lib';
+import { i18n, api } from '../lib';
 
 const FormPage = ({ navigation, route }) => {
   const selectedForm = FormState.useState((s) => s.form);
@@ -27,6 +28,7 @@ const FormPage = ({ navigation, route }) => {
   const [showDialogMenu, setShowDialogMenu] = useState(false);
   const [showDropdownMenu, setShowDropdownMenu] = useState(false);
   const [showExitConfirmationDialog, setShowExitConfirmationDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
 
@@ -35,7 +37,10 @@ const FormPage = ({ navigation, route }) => {
   const savedDataPointId = route?.params?.dataPointId;
   const isNewSubmission = route?.params?.newSubmission;
   const [currentDataPoint, setCurrentDataPoint] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState({
+    text: null,
+    status: false,
+  });
 
   const refreshForm = () => {
     FormState.update((s) => {
@@ -145,25 +150,8 @@ const FormPage = ({ navigation, route }) => {
     return navigation.navigate('Home');
   };
 
-  const handleOnSubmitForm = async (values) => {
+  const handleOnStoreSubmission = async (values, answers) => {
     try {
-      const answers = {};
-      formJSON.question_group
-        .flatMap((qg) => qg.question)
-        .forEach((q) => {
-          let val = values.answers?.[q.id];
-          if (!val && val !== 0) {
-            return;
-          }
-          if (q.type === 'cascade') {
-            val = val.slice(-1)[0];
-          }
-          if (q.type === 'number') {
-            val = parseFloat(val);
-          }
-          answers[q.id] = val;
-        });
-      // TODO:: submittedAt still null
       const submitData = {
         form: currentFormId,
         user: userId,
@@ -190,8 +178,76 @@ const FormPage = ({ navigation, route }) => {
     } catch (err) {
       console.error(err);
       if (Platform.OS === 'android') {
-        ToastAndroid.show(trans.errorSubmitted, ToastAndroid.LONG);
+        ToastAndroid.show(trans.errorSaveDatapoint, ToastAndroid.LONG);
       }
+    }
+  };
+
+  const handleOnSubmitForm = async (values) => {
+    setSubmitting({
+      text: trans.loadingText,
+      status: true,
+    });
+    const answers = {};
+    const photos = [];
+    formJSON.question_group
+      .flatMap((qg) => qg.question)
+      .forEach((q) => {
+        let val = values.answers?.[q.id];
+        if (!val && val !== 0) {
+          return;
+        }
+        if (q.type === 'cascade') {
+          val = val.slice(-1)[0];
+        }
+        if (q.type === 'number') {
+          val = parseFloat(val);
+        }
+        if (q.type === 'photo' && val) {
+          photos.push({ id: q.id, value: val });
+        }
+        answers[q.id] = val;
+      });
+    if (photos.length) {
+      const uploads = photos.map((p) => {
+        const fileType = p.value.split('.').slice(-1)[0];
+        const formData = new FormData();
+        formData.append('file', {
+          uri: p.value,
+          name: `photo_${currentFormId}_${p.id}.${fileType}`,
+          type: `image/${fileType}`,
+        });
+        return api.post('/images', formData, {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      });
+
+      axios
+        .all(uploads)
+        .then(async (responses) => {
+          const files = responses.forEach(({ data: dataFile }) => {
+            const findPhoto = photos.find((p) => dataFile?.file?.includes(`${p.id}`));
+            if (findPhoto) {
+              answers[findPhoto.id] = dataFile.file;
+            }
+          });
+          await handleOnStoreSubmission(values, answers);
+        })
+        .catch(() => {
+          setSubmitting({
+            text: null,
+            status: false,
+          });
+
+          if (Platform.OS === 'android') {
+            ToastAndroid.show(trans.errorSubmitted, ToastAndroid.LONG);
+          }
+        });
+    } else {
+      await handleOnStoreSubmission(values, answers);
     }
   };
 
@@ -222,6 +278,7 @@ const FormPage = ({ navigation, route }) => {
         />
       }
     >
+      {submitting.status && <Text>{submitting.text}</Text>}
       {!loading ? (
         <FormContainer
           forms={formJSON}
@@ -229,6 +286,7 @@ const FormPage = ({ navigation, route }) => {
           onSubmit={handleOnSubmitForm}
           onSave={onSaveCallback}
           setShowDialogMenu={setShowDialogMenu}
+          submitting={submitting}
         />
       ) : (
         <View style={styles.loadingContainer}>
