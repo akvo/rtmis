@@ -29,7 +29,7 @@ jobs:
       - name: 📦 Install dependencies
         run: |
           cd ./app/
-          cp ./src/build.prod.js ./src/build.js
+          cp ./src/build.test.js ./src/build.js
           npm install
 
       - name: 🚀 Release to Expo Dev
@@ -57,7 +57,7 @@ jobs:
                     "type": "header",
                     "text": {
                         "type": "plain_text",
-                        "text": ":iphone: TEST New APK build just released",
+                        "text": ":iphone: [TEST] New APK build just released",
                         "emoji": true
                     }
                 },
