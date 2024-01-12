@@ -66,6 +66,7 @@ class FormSeederTestCase(TestCase):
             "RTMIS Community Monitoring Form",
             "RTMIS School WASH Form",
             "RTMIS Household Monitoring Form",
+            "Short HH"
         ]
 
         # RUN SEED NEW FORM
