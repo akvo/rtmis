@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import * as Crypto from 'expo-crypto';
 import QuestionField from './QuestionField';
@@ -29,11 +29,36 @@ const Question = ({ group, setFieldValue, values }) => {
       });
   }, [preload, group, values]);
 
+  const handleOnChange = (id, value, field) => {
+    setFieldValue(id, value);
+
+    const fieldValues = { ...values, [id]: value };
+
+    const preFilled = field?.pre;
+    if (preFilled?.answer) {
+      const isMatchAnswer =
+        JSON.stringify(preFilled?.answer) === JSON.stringify(value) ||
+        String(preFilled?.answer) === String(value);
+      if (isMatchAnswer) {
+        preFilled?.fill?.forEach((f) => {
+          setFieldValue(f?.id, f?.answer);
+          fieldValues[f?.id] = f?.answer;
+        });
+      }
+    }
+    FormState.update((s) => {
+      s.currentValues = fieldValues;
+    });
+  };
+
   useEffect(() => {
     handleOnGenerateUUID();
   }, [handleOnGenerateUUID]);
 
-  const fields = group?.question || [];
+  const fields = useMemo(() => {
+    return group?.question || [];
+  }, [group]);
+
   return fields.map((field, keyform) => {
     if (field?.dependency) {
       const repeat = 0;
@@ -57,8 +82,8 @@ const Question = ({ group, setFieldValue, values }) => {
         <QuestionField
           keyform={keyform}
           field={field}
-          setFieldValue={setFieldValue}
-          values={values}
+          onChange={handleOnChange}
+          value={values?.[field.id]}
           validate={(currentValue) => generateValidationSchemaFieldLevel(currentValue, field)}
         />
       </View>
