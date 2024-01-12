@@ -4,8 +4,8 @@ import FormContainer from '../FormContainer';
 import { FormState } from '../../store';
 
 jest.useFakeTimers();
-jest.mock("expo-font");
-jest.mock("expo-asset");
+jest.mock('expo-font');
+jest.mock('expo-asset');
 
 const exampleTestForm = {
   name: 'Testing Form',
