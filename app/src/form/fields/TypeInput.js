@@ -77,6 +77,7 @@ const TypeInput = ({
   tooltip,
   required,
   requiredSign,
+  meta_uuid,
 }) => {
   const requiredValue = required ? requiredSign : null;
   return (
@@ -93,6 +94,7 @@ const TypeInput = ({
         testID="type-input"
         {...addPreffix(addonBefore)}
         {...addSuffix(addonAfter)}
+        disabled={meta_uuid}
       />
     </View>
   );
