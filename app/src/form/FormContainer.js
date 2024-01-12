@@ -36,14 +36,7 @@ const style = {
   flex: 1,
 };
 
-const FormContainer = ({
-  forms,
-  initialValues = {},
-  onSubmit,
-  onSave,
-  setShowDialogMenu,
-  submitting,
-}) => {
+const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDialogMenu }) => {
   const formRef = useRef();
   const [activeGroup, setActiveGroup] = useState(0);
   const [showQuestionGroupList, setShowQuestionGroupList] = useState(false);
@@ -147,7 +140,6 @@ const FormContainer = ({
           showQuestionGroupList={showQuestionGroupList}
           setShowQuestionGroupList={setShowQuestionGroupList}
           setShowDialogMenu={setShowDialogMenu}
-          submitting={submitting}
         />
       </View>
     </>
