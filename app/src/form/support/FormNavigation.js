@@ -20,12 +20,12 @@ const FormNavigation = ({
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
 
-  useEffect(() => {
-    const updateVisitedQuestionGroup = [...visitedQuestionGroup, ...[activeGroup]];
+  const handleOnUpdateState = (activeValue) => {
+    const updateVisitedQuestionGroup = [...visitedQuestionGroup, ...[activeValue]];
     FormState.update((s) => {
       s.visitedQuestionGroup = [...new Set(updateVisitedQuestionGroup)];
     });
-  }, [activeGroup]);
+  };
 
   const validateOnFormNavigation = async () => {
     let errors = false;
@@ -49,7 +49,9 @@ const FormNavigation = ({
       if (!activeGroup) {
         setShowDialogMenu(true);
       } else {
-        setActiveGroup(activeGroup - 1);
+        const activeValue = activeGroup - 1;
+        setActiveGroup(activeValue);
+        handleOnUpdateState(activeValue);
       }
       return;
     }
@@ -68,7 +70,9 @@ const FormNavigation = ({
         }
         if (!errors && activeGroup <= totalGroup - 1) {
           const newValue = index === 0 ? activeGroup - 1 : activeGroup + 1;
-          return setActiveGroup(newValue < 0 ? 0 : newValue);
+          const activeValue = newValue < 0 ? 0 : newValue;
+          handleOnUpdateState(activeValue);
+          return setActiveGroup(activeValue);
         }
       })
       .catch((err) => console.error(err));
