@@ -166,3 +166,19 @@ jobs:
         env:
          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+
+      - name: 🌟 Send APK
+        env:
+          APK_VERSION: ${{ github.ref_name }}
+          SECRET: ${{ secrets.APK_UPLOAD_SECRET }}
+        run: |
+          curl -X 'POST' \
+            'https://rtmis.akvo.org/api/v1/device/apk/upload' \
+            -H 'accept: */*' \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "apk_url": "'"$APK_URL"'",
+              "apk_version": "'"$APK_VERSION"'",
+              "secret": "'"$SECRET"'"
+            }'
