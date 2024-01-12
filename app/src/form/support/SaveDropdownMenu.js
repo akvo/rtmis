@@ -68,7 +68,7 @@ const SaveDropdownMenu = ({ anchor, visible, setVisible, handleOnSaveAndExit, ha
           {trans.buttonExitWoSaving}
         </MenuItem>
         <MenuDivider />
-        <MenuItem
+        {/* <MenuItem
           testID="language-selection-menu-item"
           onPress={() => {
             setShowLanguageSelectionDialog(true);
@@ -76,7 +76,7 @@ const SaveDropdownMenu = ({ anchor, visible, setVisible, handleOnSaveAndExit, ha
           }}
         >
           {trans.langSelection}
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
       <DialogForm
         onOk={handleOnOk}

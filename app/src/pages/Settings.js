@@ -43,13 +43,13 @@ const Settings = ({ navigation }) => {
     <BaseLayout title={trans.settingsPageTitle} rightComponent={false}>
       <BaseLayout.Content>
         <View>
-          <ListItem onPress={() => setShowLang(true)} testID="settings-lang" bottomDivider>
+          {/* <ListItem onPress={() => setShowLang(true)} testID="settings-lang" bottomDivider>
             <ListItem.Content>
               <ListItem.Title>{trans.langTitle}</ListItem.Title>
               <ListItem.Subtitle>{activeLangText?.label}</ListItem.Subtitle>
             </ListItem.Content>
             <ListItem.Chevron />
-          </ListItem>
+          </ListItem> */}
           <Divider width={8} color="#f9fafb" />
           {config.map((c, i) => {
             const itemTitle = nonEnglish ? i18n.transform(activeLang, c)?.name : c.name;
