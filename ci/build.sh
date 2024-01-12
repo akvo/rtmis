@@ -38,7 +38,7 @@ then
     FRONTEND_CHANGES=1
 fi
 
-if [[ "${CI_BRANCH}" =~ $tag_pattern || "${CI_BRANCH}" ==  "main" || "${CI_BRANCH}" ==  "develop" && "${CI_PULL_REQUEST}" !=  "true" ]];
+if [[ "${CI_TAG}" =~ $tag_pattern || "${CI_BRANCH}" ==  "main" || "${CI_BRANCH}" ==  "develop" && "${CI_PULL_REQUEST}" !=  "true" ]];
 then
     BACKEND_CHANGES=1
     FRONTEND_CHANGES=1
