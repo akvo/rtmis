@@ -92,11 +92,7 @@ const Users = ({ navigation, route }) => {
           <Icon name="arrow-back" size={18} />
         </Button>
       }
-      rightComponent={
-        <Button type="clear" testID="button-add-user" onPress={goToCreate}>
-          <Icon name="add" size={18} />
-        </Button>
-      }
+      rightComponent={false}
     >
       <ScrollView>
         {loading && <Skeleton animation="wave" testID="loading-users" />}
