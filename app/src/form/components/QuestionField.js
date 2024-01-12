@@ -25,21 +25,6 @@ const QuestionField = memo(({ keyform, field: questionField, setFieldValue, valu
   const displayOnly = questionField?.displayOnly;
   const displayValue = questionField?.hidden ? 'none' : 'flex';
 
-  useEffect(() => {
-    if (meta.error && field.name) {
-      FormState.update((s) => {
-        const removedErrorValues = Object.keys(s.questionGroupListCurrentValues)
-          .filter((key) => key.toString() !== field.name.toString())
-          .reduce((acc, curr) => ({ ...acc, [curr]: s.questionGroupListCurrentValues[curr] }), {});
-        s.questionGroupListCurrentValues = removedErrorValues;
-      });
-    } else {
-      FormState.update((s) => {
-        s.questionGroupListCurrentValues = { ...s.questionGroupListCurrentValues, ...values };
-      });
-    }
-  }, [meta.error, field.name, values]);
-
   const handleOnChangeField = useCallback(
     (id, value) => {
       if (displayOnly) {
