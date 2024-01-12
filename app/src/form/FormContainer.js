@@ -41,9 +41,6 @@ const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDia
   const [activeGroup, setActiveGroup] = useState(0);
   const [showQuestionGroupList, setShowQuestionGroupList] = useState(false);
   const currentValues = FormState.useState((s) => s.currentValues);
-  const questionGroupListCurrentValues = FormState.useState(
-    (s) => s.questionGroupListCurrentValues,
-  );
   const cascades = FormState.useState((s) => s.cascades);
   const activeLang = FormState.useState((s) => s.lang);
 
@@ -117,7 +114,6 @@ const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDia
           ) : (
             <QuestionGroupList
               form={formDefinition}
-              values={questionGroupListCurrentValues}
               activeQuestionGroup={activeGroup}
               setActiveQuestionGroup={setActiveGroup}
               setShowQuestionGroupList={setShowQuestionGroupList}

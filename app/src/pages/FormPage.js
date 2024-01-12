@@ -40,7 +40,6 @@ const FormPage = ({ navigation, route }) => {
   const refreshForm = () => {
     FormState.update((s) => {
       s.currentValues = {};
-      s.questionGroupListCurrentValues = {};
       s.visitedQuestionGroup = [];
       s.cascades = {};
       s.surveyDuration = 0;
@@ -73,7 +72,6 @@ const FormPage = ({ navigation, route }) => {
     if (dpValue?.json && Object.keys(dpValue.json)?.length) {
       FormState.update((s) => {
         s.currentValues = dpValue.json;
-        s.questionGroupListCurrentValues = dpValue.json;
       });
     }
     setLoading(false);
