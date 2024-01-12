@@ -16,7 +16,7 @@ describe('TypeMultipleOption', () => {
     const { getByText, getByTestId } = render(
       <TypeMultipleOption
         onChange={onChange}
-        values={{}}
+        value={[]}
         id="multipleOptionId"
         name="Multiple Option"
         option={option}
@@ -91,7 +91,7 @@ describe('TypeMultipleOption', () => {
     const { getByText, getByTestId } = render(
       <TypeMultipleOption
         onChange={onChange}
-        values={{}}
+        value={[]}
         id="multipleOptionId"
         name="Multiple Option"
         option={option}

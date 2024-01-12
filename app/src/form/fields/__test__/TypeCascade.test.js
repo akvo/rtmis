@@ -56,7 +56,12 @@ describe('TypeCascade', () => {
     });
 
     const { queryByTestId } = render(
-      <TypeCascade onChange={mockedOnChange} id={fieldID} name={fieldName} values={values} />,
+      <TypeCascade
+        onChange={mockedOnChange}
+        id={fieldID}
+        name={fieldName}
+        value={values[fieldID]}
+      />,
     );
 
     const firstDropdown = queryByTestId('dropdown-cascade-0');
@@ -80,7 +85,7 @@ describe('TypeCascade', () => {
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
-        values={values}
+        value={values[fieldID]}
         dataSource={dataSource}
       />,
     );
@@ -105,7 +110,7 @@ describe('TypeCascade', () => {
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
-        values={values}
+        value={values[fieldID]}
         dataSource={dummyLocations}
         source={questionSource}
       />,
@@ -134,7 +139,7 @@ describe('TypeCascade', () => {
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
-        values={values}
+        value={values[fieldID]}
         dataSource={dummyLocations}
       />,
     );
@@ -164,7 +169,7 @@ describe('TypeCascade', () => {
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
-        values={values}
+        value={values[fieldID]}
         dataSource={dummyLocations}
       />,
     );
@@ -205,7 +210,7 @@ describe('TypeCascade', () => {
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
-        values={values}
+        value={values[fieldID]}
         dataSource={dummyLocations}
       />,
     );
@@ -297,7 +302,7 @@ describe('TypeCascade', () => {
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
-        values={values}
+        value={values[fieldID]}
         dataSource={dataSource}
       />,
     );
@@ -334,7 +339,7 @@ describe('TypeCascade', () => {
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
-        values={values}
+        value={values[fieldID]}
         dataSource={dataSource}
         required={false}
       />,
@@ -364,7 +369,7 @@ describe('TypeCascade', () => {
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
-        values={values}
+        value={values[fieldID]}
         dataSource={dataSource}
         required={false}
         requiredSign="*"
@@ -395,7 +400,7 @@ describe('TypeCascade', () => {
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
-        values={values}
+        value={values[fieldID]}
         dataSource={dataSource}
         required={true}
         requiredSign="*"
@@ -426,7 +431,7 @@ describe('TypeCascade', () => {
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
-        values={values}
+        value={values[fieldID]}
         dataSource={dataSource}
         required={true}
         requiredSign="**"
@@ -452,7 +457,7 @@ describe('TypeCascade', () => {
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
-        values={values}
+        value={values[fieldID]}
         dataSource={dummyLocations}
         source={questionSource}
       />,
@@ -486,7 +491,7 @@ describe('TypeCascade', () => {
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
-        values={values}
+        value={values[fieldID]}
         dataSource={dummyLocations}
         source={questionSource}
       />,
@@ -529,7 +534,7 @@ describe('TypeCascade', () => {
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
-        values={values}
+        value={values[fieldID]}
         dataSource={dummyLocations}
         source={questionSource}
       />,
@@ -568,7 +573,7 @@ describe('TypeCascade', () => {
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
-        values={values}
+        value={values[fieldID]}
         dataSource={dummyLocations}
         source={questionSource}
       />,
@@ -614,7 +619,7 @@ describe('TypeCascade', () => {
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
-        values={values}
+        value={values[fieldID]}
         dataSource={dummyLocations}
         source={questionSource}
       />,
@@ -665,7 +670,7 @@ describe('TypeCascade', () => {
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
-        values={values}
+        value={values[fieldID]}
         dataSource={dummyLocations}
         source={questionSource}
       />,

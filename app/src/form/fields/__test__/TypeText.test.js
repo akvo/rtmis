@@ -12,7 +12,7 @@ describe('TypeText component', () => {
     const name = 'Text Field';
 
     const { getByText, getByTestId } = render(
-      <TypeText onChange={onChangeMock} values={values} id={id} name={name} />,
+      <TypeText onChange={onChangeMock} value={values.textValue} id={id} name={name} />,
     );
 
     const textAreaFieldLabel = getByText(`1. ${name}`);
