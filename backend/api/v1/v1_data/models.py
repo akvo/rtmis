@@ -80,7 +80,7 @@ class FormData(models.Model):
             answers.update(a.to_key)
         data.update({"answers": answers})
         json_data = json.dumps(data)
-        file_name = f"./{str(self.uuid)}.json"
+        file_name = f"{str(self.uuid)}.json"
         # write to json file
         with open(file_name, 'w') as f:
             f.write(json_data)
