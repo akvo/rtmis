@@ -8,7 +8,7 @@ import { i18n } from '../../lib';
 
 const TypeOption = ({
   onChange,
-  values,
+  value,
   keyform,
   id,
   name,
@@ -23,7 +23,6 @@ const TypeOption = ({
   const activeLang = FormState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const requiredValue = required ? requiredSign : null;
-
   return (
     <View style={styles.optionContainer}>
       <FieldLabel keyform={keyform} name={name} tooltip={tooltip} requiredSign={requiredValue} />
@@ -35,7 +34,7 @@ const TypeOption = ({
         labelField="label"
         valueField="name"
         searchPlaceholder={trans.searchPlaceholder}
-        value={values?.[id]?.[0] || []}
+        value={value?.[0] || ''}
         onChange={({ name: value }) => {
           if (onChange) {
             onChange(id, [value]);

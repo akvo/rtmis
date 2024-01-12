@@ -68,7 +68,7 @@ export const addSuffix = (addonAfter) => {
 
 const TypeInput = ({
   onChange,
-  values,
+  value,
   keyform,
   id,
   name,
@@ -89,7 +89,7 @@ const TypeInput = ({
             onChange(id, val);
           }
         }}
-        value={values?.[id]}
+        value={value}
         testID="type-input"
         {...addPreffix(addonBefore)}
         {...addSuffix(addonAfter)}

@@ -4,7 +4,7 @@ import { FieldLabel } from '../support';
 import { styles } from '../styles';
 import { Input } from '@rneui/themed';
 
-const TypeText = ({ onChange, values, keyform, id, name, tooltip, required, requiredSign }) => {
+const TypeText = ({ onChange, value, keyform, id, name, tooltip, required, requiredSign }) => {
   const requiredValue = required ? requiredSign : null;
   return (
     <View>
@@ -18,7 +18,7 @@ const TypeText = ({ onChange, values, keyform, id, name, tooltip, required, requ
             onChange(id, val);
           }
         }}
-        value={values?.[id]}
+        value={value}
         testID="type-text"
       />
     </View>

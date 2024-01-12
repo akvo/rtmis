@@ -8,7 +8,7 @@ import { i18n } from '../../lib';
 
 const TypeMultipleOption = ({
   onChange,
-  values,
+  value,
   keyform,
   id,
   name,
@@ -37,7 +37,7 @@ const TypeMultipleOption = ({
         valueField="name"
         searchPlaceholder={trans.searchPlaceholder}
         placeholder={trans.selectMultiItem}
-        value={values?.[id] || []}
+        value={value || []}
         onChange={(value) => {
           if (onChange) {
             onChange(id, value);
