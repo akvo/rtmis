@@ -14,42 +14,21 @@ import {
 import { useField } from 'formik';
 import { View, Text } from 'react-native';
 import { styles } from '../styles';
-import { FormState } from '../../store';
 import { cascades } from '../../lib';
 
-const QuestionField = memo(({ keyform, field: questionField, setFieldValue, values, validate }) => {
-  const [field, meta, helpers] = useField({ name: questionField.id, validate });
+const QuestionField = memo(({ keyform, field: questionField, onChange, value, validate }) => {
+  const [_, meta, helpers] = useField({ name: questionField.id, validate });
   const [cascadeData, setCascadeData] = useState([]);
-  const preFilled = questionField?.pre;
   const questionType = questionField?.type;
-  const displayOnly = questionField?.displayOnly;
   const displayValue = questionField?.hidden ? 'none' : 'flex';
 
-  const handleOnChangeField = useCallback(
-    (id, value) => {
-      if (displayOnly) {
-        return;
-      }
-      helpers.setTouched({ [field.name]: true });
-      setFieldValue(id, value);
-      const fieldValues = { ...values, [id]: value };
-      if (preFilled?.answer) {
-        const isMatchAnswer =
-          JSON.stringify(preFilled?.answer) === JSON.stringify(value) ||
-          String(preFilled?.answer) === String(value);
-        if (isMatchAnswer) {
-          preFilled?.fill?.forEach((f) => {
-            setFieldValue(f?.id, f?.answer);
-            fieldValues[f?.id] = f?.answer;
-          });
-        }
-      }
-      FormState.update((s) => {
-        s.currentValues = fieldValues;
-      });
-    },
-    [setFieldValue, displayOnly, preFilled, field.name, values],
-  );
+  const handleOnChangeField = (id, val) => {
+    helpers.setTouched({ [questionField?.id]: true });
+    if (questionField?.displayOnly) {
+      return;
+    }
+    onChange(id, val, questionField);
+  };
 
   const loadCascadeDataSource = useCallback(async (source) => {
     const { rows } = await cascades.loadDataSource(source);
@@ -70,7 +49,7 @@ const QuestionField = memo(({ keyform, field: questionField, setFieldValue, valu
           <TypeDate
             keyform={keyform}
             onChange={handleOnChangeField}
-            values={values}
+            value={value}
             {...questionField}
           />
         );
@@ -79,7 +58,7 @@ const QuestionField = memo(({ keyform, field: questionField, setFieldValue, valu
           <TypeImage
             keyform={keyform}
             onChange={handleOnChangeField}
-            values={values}
+            value={value}
             {...questionField}
           />
         );
@@ -88,7 +67,7 @@ const QuestionField = memo(({ keyform, field: questionField, setFieldValue, valu
           <TypeMultipleOption
             keyform={keyform}
             onChange={handleOnChangeField}
-            values={values}
+            value={value}
             {...questionField}
           />
         );
@@ -97,7 +76,7 @@ const QuestionField = memo(({ keyform, field: questionField, setFieldValue, valu
           <TypeOption
             keyform={keyform}
             onChange={handleOnChangeField}
-            values={values}
+            value={value}
             {...questionField}
           />
         );
@@ -106,7 +85,7 @@ const QuestionField = memo(({ keyform, field: questionField, setFieldValue, valu
           <TypeText
             keyform={keyform}
             onChange={handleOnChangeField}
-            values={values}
+            value={value}
             {...questionField}
           />
         );
@@ -115,49 +94,37 @@ const QuestionField = memo(({ keyform, field: questionField, setFieldValue, valu
           <TypeNumber
             keyform={keyform}
             onChange={handleOnChangeField}
-            values={values}
+            value={value}
             {...questionField}
           />
         );
       case 'geo':
-        return (
-          <TypeGeo
-            keyform={keyform}
-            onChange={handleOnChangeField}
-            values={values}
-            {...questionField}
-          />
-        );
+        return <TypeGeo keyform={keyform} onChange={handleOnChangeField} {...questionField} />;
       case 'cascade':
         return (
           <TypeCascade
             keyform={keyform}
             onChange={handleOnChangeField}
-            values={values}
+            value={value}
             {...questionField}
             dataSource={cascadeData}
           />
         );
       case 'autofield':
         return (
-          <TypeAutofield
-            keyform={keyform}
-            onChange={handleOnChangeField}
-            values={values}
-            {...questionField}
-          />
+          <TypeAutofield keyform={keyform} onChange={handleOnChangeField} {...questionField} />
         );
       default:
         return (
           <TypeInput
             keyform={keyform}
             onChange={handleOnChangeField}
-            values={values}
+            value={value}
             {...questionField}
           />
         );
     }
-  }, [questionField, keyform, handleOnChangeField, values, cascadeData]);
+  }, [questionField, keyform, handleOnChangeField, value, cascadeData]);
 
   return (
     <View testID="question-view" style={{ display: displayValue }}>
