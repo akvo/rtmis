@@ -8,7 +8,7 @@ import { FieldLabel } from '../support';
 import { styles } from '../styles';
 import { loc, i18n } from '../../lib';
 
-const TypeGeo = ({ onChange, values, keyform, id, name, tooltip, required, requiredSign }) => {
+const TypeGeo = ({ onChange, keyform, id, name, tooltip, required, requiredSign }) => {
   const [errorMsg, setErrorMsg] = useState(null);
   const [gpsAccuracy, setGpsAccuracy] = useState(null);
   const [currLocation, setCurrLocation] = useState({ lat: null, lng: null });
