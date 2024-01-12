@@ -57,7 +57,7 @@ jobs:
                     "type": "header",
                     "text": {
                         "type": "plain_text",
-                        "text": ":iphone: New APK build just released",
+                        "text": ":iphone: TEST New APK build just released",
                         "emoji": true
                     }
                 },
