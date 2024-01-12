@@ -71,8 +71,8 @@ describe('QuestionField component', () => {
       <QuestionField
         keyform={keyform}
         field={field}
-        setFieldValue={setFieldValue}
-        values={values}
+        onChange={setFieldValue}
+        value={values[1]}
         validate={fakeValidate}
       />,
     );
@@ -117,8 +117,8 @@ describe('QuestionField component', () => {
       <QuestionField
         keyform={keyform}
         field={field}
-        setFieldValue={setFieldValue}
-        values={values}
+        onChange={setFieldValue}
+        value={values[keyform]}
         validate={fakeValidate}
       />,
     );
@@ -158,8 +158,8 @@ describe('QuestionField component', () => {
       <QuestionField
         keyform={keyform}
         field={field}
-        setFieldValue={setFieldValue}
-        values={values}
+        onChange={setFieldValue}
+        value={values[keyform]}
         validate={fakeValidate}
       />,
     );
@@ -204,8 +204,8 @@ describe('QuestionField component', () => {
       <QuestionField
         keyform={keyform}
         field={field}
-        setFieldValue={setFieldValue}
-        values={values}
+        onChange={setFieldValue}
+        value={values[keyform]}
         validate={fakeValidate}
       />,
     );
@@ -254,8 +254,8 @@ describe('QuestionField component', () => {
       <QuestionField
         keyform={keyform}
         field={field}
-        setFieldValue={setFieldValue}
-        values={values}
+        onChange={setFieldValue}
+        value={values[keyform]}
         validate={fakeValidate}
       />,
     );
@@ -271,7 +271,7 @@ describe('QuestionField component', () => {
   test('questions should be displayed but not part of the payload when displayOnly is true', async () => {
     const setFieldValue = jest.fn();
     const fakeValidate = jest.fn();
-    const keyform = 1;
+    const keyform = 7;
     const field = {
       id: 7,
       name: 'Total Payment',
@@ -298,8 +298,8 @@ describe('QuestionField component', () => {
       <QuestionField
         keyform={keyform}
         field={field}
-        setFieldValue={setFieldValue}
-        values={values}
+        onChange={setFieldValue}
+        value={values[keyform]}
         validate={fakeValidate}
       />,
     );
@@ -317,8 +317,8 @@ describe('QuestionField component', () => {
       <QuestionField
         keyform={keyform}
         field={field}
-        setFieldValue={setFieldValue}
-        values={result.current}
+        onChange={setFieldValue}
+        value={result.current[keyform]}
         validate={fakeValidate}
       />,
     );
