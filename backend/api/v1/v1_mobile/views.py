@@ -38,6 +38,7 @@ from api.v1.v1_files.functions import process_image
 from utils.custom_helper import CustomPasscode
 from utils.default_serializers import DefaultResponseSerializer
 from utils.custom_serializer_fields import validate_serializers_message
+from utils import storage
 
 apk_path = os.path.join(BASE_DIR, MASTER_DATA)
 
@@ -321,6 +322,7 @@ def upload_apk_file(request, version):
     file_cache = open(cache_file_name, 'wb')
     file_cache.write(download.content)
     file_cache.close()
+    storage.upload(cache_file_name, folder="apk", filename=f'{APP_NAME}.apk')
     serializer.save()
     return Response({'message': 'ok'}, status=status.HTTP_201_CREATED)
 

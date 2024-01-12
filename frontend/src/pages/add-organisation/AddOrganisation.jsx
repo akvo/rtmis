@@ -106,7 +106,7 @@ const AddOrganisation = () => {
             }}
             onFinish={onFinish}
           >
-            <div bodyStyle={{ padding: 0 }}>
+            <div bodystyle={{ padding: 0 }}>
               <Row className="form-row">
                 <Col span={24}>
                   <Form.Item

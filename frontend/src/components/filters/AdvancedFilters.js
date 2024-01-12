@@ -143,7 +143,7 @@ const AdvancedFilters = () => {
   return (
     showAdvancedFilters && (
       <div className="advanced-filters">
-        <Card bodyStyle={{ padding: 12 }} style={{ padding: 0 }}>
+        <Card bodystyle={{ padding: 12 }} style={{ padding: 0 }}>
           <div>
             <Select
               style={{ width: "100%" }}
