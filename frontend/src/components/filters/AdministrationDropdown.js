@@ -25,9 +25,9 @@ const AdministrationDropdown = ({
   const lowestLevel = maxLevel
     ? levels.find((l) => l?.id === maxLevel)
     : levels
-        .slice()
-        .sort((a, b) => a.level - b.level)
-        .slice(-1)?.[0];
+      .slice()
+      .sort((a, b) => a.level - b.level)
+      .slice(-1)?.[0];
 
   const fetchUserAdmin = useCallback(async () => {
     if (user && !persist) {
@@ -53,13 +53,16 @@ const AdministrationDropdown = ({
       return;
     }
     const { data: selectedAdm } = await api.get(`administration/${e}`);
+    const admItems = Array.isArray(selectedAdm) ? selectedAdm : [selectedAdm];
     store.update((s) => {
       s.administration.length = index + 1;
-      s.administration = s.administration.concat(selectedAdm);
+      s.administration = s.administration.concat(admItems);
     });
     if (onChange) {
-      const _values = allowMultiple && Array.isArray(e) ? e : null;
-      onChange(_values);
+      // console.log(allowMultiple, "allowMultiple");
+      // const _values = allowMultiple && Array.isArray(e) ? e : [e];
+      console.log(e, "_values");
+      onChange(e);
     }
   };
 
@@ -94,8 +97,8 @@ const AdministrationDropdown = ({
               const selectValues =
                 selectMode === "multiple"
                   ? administration
-                      ?.slice(regionIdx + 1, administration.length)
-                      ?.map((a) => a?.id)
+                    ?.slice(regionIdx + 1, administration.length)
+                    ?.map((a) => a?.id)
                   : administration[regionIdx + 1]?.id || null;
               return (
                 <div key={regionIdx}>

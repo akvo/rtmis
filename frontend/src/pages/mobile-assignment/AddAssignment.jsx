@@ -29,6 +29,7 @@ const AddAssignment = () => {
   const [loading, setLoading] = useState(false);
   const [preload, setPreload] = useState(true);
   const [level, setLevel] = useState(userAdmLevel);
+  const [selectedAdministrations, setSelectedAdministrations] = useState([]);
 
   const lowestLevel = levels
     .slice()
@@ -55,7 +56,7 @@ const AddAssignment = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
-
+  console.log(selectedAdm, "selectedAdm in ass assignment page");
   const pageTitle = id ? text.mobileEditText : text.mobileAddText;
   const descriptionData = (
     <p>{id ? text.mobilePanelEditDesc : text.mobilePanelAddDesc}</p>
@@ -129,20 +130,21 @@ const AddAssignment = () => {
       const payload = {
         name: values.name,
         administrations:
-          values.administrations || selectedAdm.map((a) => a?.id),
+          selectedAdministrations || selectedAdm.map((a) => a?.id),
         forms: values.forms,
       };
-      if (id) {
-        await api.put(`/mobile-assignments/${id}`, payload);
-      } else {
-        await api.post("/mobile-assignments", payload);
-      }
-      notify({
-        type: "success",
-        message: id ? text.mobileSuccessUpdated : text.mobileSuccessAdded,
-      });
-      setLoading(false);
-      navigate("/control-center/mobile-assignment");
+      console.log(payload, "payload");
+      // if (id) {
+      //   await api.put(`/mobile-assignments/${id}`, payload);
+      // } else {
+      //   await api.post("/mobile-assignments", payload);
+      // }
+      // notify({
+      //   type: "success",
+      //   message: id ? text.mobileSuccessUpdated : text.mobileSuccessAdded,
+      // });
+      // setLoading(false);
+      // navigate("/control-center/mobile-assignment");
     } catch {
       setSubmitting(false);
     }
@@ -265,7 +267,7 @@ const AddAssignment = () => {
                     maxLevel={level}
                     onChange={(values) => {
                       if (values) {
-                        form.setFieldsValue({ administrations: values });
+                        setSelectedAdministrations(values);
                       }
                     }}
                     persist={id ? true : false}
