@@ -76,6 +76,11 @@ const SettingsForm = ({ route }) => {
       const updateQuery = query.update('config', { id }, { [field]: value });
       conn.tx(db, updateQuery, [id]);
     }
+    if (configFields.includes('syncInterval')) {
+      BuildParamsState.update((s) => {
+        s.dataSyncInterval = value;
+      });
+    }
     if (field === 'name') {
       const updateQuery = query.update('users', { id }, { name: value });
       conn.tx(db, updateQuery, [id]).catch((err) => {

@@ -46,7 +46,7 @@ const syncFormVersion = async ({
   }
 };
 
-const registerBackgroundTask = async (TASK_NAME, minimumInterval = 86400) => {
+const registerBackgroundTask = async (TASK_NAME, minimumInterval = 3600) => {
   try {
     await BackgroundFetch.registerTaskAsync(TASK_NAME, {
       minimumInterval: minimumInterval,
@@ -66,7 +66,7 @@ const unregisterBackgroundTask = async (TASK_NAME) => {
   }
 };
 
-const backgroundTaskStatus = async (TASK_NAME, minimumInterval = 86400) => {
+const backgroundTaskStatus = async (TASK_NAME, minimumInterval = 3600) => {
   const status = await BackgroundFetch.getStatusAsync();
   const isRegistered = await TaskManager.isTaskRegisteredAsync(TASK_NAME);
   if (BackgroundFetch.BackgroundFetchStatus?.[status] === 'Available' && !isRegistered) {

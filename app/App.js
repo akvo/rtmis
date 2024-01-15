@@ -13,6 +13,7 @@ const db = conn.init;
 
 const App = () => {
   const serverURLState = BuildParamsState.useState((s) => s.serverURL);
+  const syncValue = BuildParamsState.useState((s) => s.dataSyncInterval);
 
   const handleCheckSession = () => {
     // check users exist
@@ -44,8 +45,14 @@ const App = () => {
   const handleInitConfig = async () => {
     const configExist = await crudConfig.getConfig();
     const serverURL = configExist?.serverURL || serverURLState;
+    const syncInterval = configExist?.syncInterval || syncValue;
     if (!configExist) {
       await crudConfig.addConfig({ serverURL });
+    }
+    if (syncInterval) {
+      BuildParamsState.update((s) => {
+        s.dataSyncInterval = syncInterval;
+      });
     }
     if (serverURL) {
       BuildParamsState.update((s) => {
