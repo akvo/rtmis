@@ -117,7 +117,7 @@ const UserDetail = ({ record, setDeleteUser, deleting }) => {
       </Row>
       <div>
         <Space>
-          <Link to={`/user/${record.id}`}>
+          <Link to={`/control-center/user/${record.id}`}>
             <Button type="primary" shape="round">
               Edit
             </Button>
