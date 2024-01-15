@@ -56,7 +56,6 @@ const AddAssignment = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
-  console.log(selectedAdm, "selectedAdm in ass assignment page");
   const pageTitle = id ? text.mobileEditText : text.mobileAddText;
   const descriptionData = (
     <p>{id ? text.mobilePanelEditDesc : text.mobilePanelAddDesc}</p>
@@ -133,18 +132,17 @@ const AddAssignment = () => {
           selectedAdministrations || selectedAdm.map((a) => a?.id),
         forms: values.forms,
       };
-      console.log(payload, "payload");
-      // if (id) {
-      //   await api.put(`/mobile-assignments/${id}`, payload);
-      // } else {
-      //   await api.post("/mobile-assignments", payload);
-      // }
-      // notify({
-      //   type: "success",
-      //   message: id ? text.mobileSuccessUpdated : text.mobileSuccessAdded,
-      // });
-      // setLoading(false);
-      // navigate("/control-center/mobile-assignment");
+      if (id) {
+        await api.put(`/mobile-assignments/${id}`, payload);
+      } else {
+        await api.post("/mobile-assignments", payload);
+      }
+      notify({
+        type: "success",
+        message: id ? text.mobileSuccessUpdated : text.mobileSuccessAdded,
+      });
+      setLoading(false);
+      navigate("/control-center/mobile-assignment");
     } catch {
       setSubmitting(false);
     }
