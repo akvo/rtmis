@@ -86,10 +86,6 @@ const RouteList = () => {
         element={<GlaasReportDashboard />}
       />
       <Route
-        path="/user/:id"
-        element={<Private element={AddUser} alias="user" />}
-      />
-      <Route
         path="/control-center"
         element={
           <Private element={ControlCenterLayout} alias="control-center" />
@@ -97,6 +93,10 @@ const RouteList = () => {
       >
         <Route
           path="user/add"
+          element={<Private element={AddUser} alias="user" />}
+        />
+        <Route
+          path="user/:id"
           element={<Private element={AddUser} alias="user" />}
         />
         <Route
