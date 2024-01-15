@@ -1,12 +1,11 @@
 import json
-import os
 
 from django.core.management import BaseCommand
 from jsmin import jsmin
 
 from api.v1.v1_forms.constants import FormTypes
 from api.v1.v1_forms.models import Forms
-from api.v1.v1_profile.models import Levels, Administration
+from api.v1.v1_profile.models import Levels
 from api.v1.v1_forms.serializers import FormDataSerializer
 from django_q.tasks import async_task
 
