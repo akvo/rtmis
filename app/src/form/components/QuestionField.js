@@ -11,19 +11,22 @@ import {
   TypeCascade,
   TypeAutofield,
 } from '../fields';
-import { useField } from 'formik';
 import { View, Text } from 'react-native';
 import { styles } from '../styles';
 import { cascades } from '../../lib';
+import { FormState } from '../../store';
 
-const QuestionField = memo(({ keyform, field: questionField, onChange, value, validate }) => {
-  const [_, meta, helpers] = useField({ name: questionField.id, validate });
+const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
   const [cascadeData, setCascadeData] = useState([]);
   const questionType = questionField?.type;
   const displayValue = questionField?.hidden ? 'none' : 'flex';
+  const formFeedback = FormState.useState((s) => s.feedback);
+  const fieldMeta = formFeedback?.find((fb) => {
+    const [fieldID] = Object.keys(fb) || [];
+    return String(fieldID) === String(questionField?.id);
+  });
 
   const handleOnChangeField = (id, val) => {
-    helpers.setTouched({ [questionField?.id]: true });
     if (questionField?.displayOnly) {
       return;
     }
@@ -129,13 +132,13 @@ const QuestionField = memo(({ keyform, field: questionField, onChange, value, va
   return (
     <View testID="question-view" style={{ display: displayValue }}>
       {renderField()}
-      {meta.touched && meta.error ? (
+      {fieldMeta && fieldMeta?.[questionField?.id] !== true && (
         <Text style={styles.validationErrorText} testID="err-validation-text">
-          {meta.error}
+          {fieldMeta[questionField.id]}
         </Text>
-      ) : null}
+      )}
     </View>
   );
-});
+};
 
 export default QuestionField;
