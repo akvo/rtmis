@@ -503,7 +503,7 @@
           "order": 8,
           "type": "autofield",
           "tooltip": null,
-          "required": true,
+          "required": false,
           "meta": false,
           "options": null,
           "dependency": null,
