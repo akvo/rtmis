@@ -48,12 +48,13 @@ const AdministrationDropdown = ({
     fetchUserAdmin();
   }, [fetchUserAdmin, persist]);
 
-  const handleChange = async (e) => {
+  const handleChange = async (e, index) => {
     if (!e) {
       return;
     }
     const { data: selectedAdm } = await api.get(`administration/${e}`);
     store.update((s) => {
+      s.administration.length = index + 1;
       s.administration = s.administration.concat(selectedAdm);
     });
     if (onChange) {
