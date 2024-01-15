@@ -212,7 +212,7 @@ export const generateValidationSchema = (forms) => {
 */
 }
 
-export const generateValidationSchemaFieldLevel = (currentValue, field) => {
+export const generateValidationSchemaFieldLevel = async (currentValue, field) => {
   const { name, type, required, rule, hidden, pre: preFilled } = field;
   let yupType;
   switch (type) {
@@ -250,14 +250,19 @@ export const generateValidationSchemaFieldLevel = (currentValue, field) => {
       yupType = Yup.string();
       break;
   }
-  if (required && ((hidden && preFilled?.fill?.length) || !hidden)) {
+  if (required && !hidden) {
     const requiredError = `${name} is required.`;
     yupType = yupType.required(requiredError);
   }
   try {
-    yupType.validateSync(currentValue);
+    await yupType.validateSync(currentValue);
+    return {
+      [field?.id]: true,
+    };
   } catch (error) {
-    return error.message;
+    return {
+      [field?.id]: error.message,
+    };
   }
 };
 
