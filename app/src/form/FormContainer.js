@@ -1,8 +1,6 @@
-import React, { useState, useRef, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { BaseLayout } from '../components';
-import { ScrollView, View, FlatList } from 'react-native';
-import { Formik } from 'formik';
-import { styles } from './styles';
+import { View } from 'react-native';
 import { FormNavigation, QuestionGroupList } from './support';
 import QuestionGroup from './components/QuestionGroup';
 import { transformForm, generateDataPointName } from './lib';
@@ -36,33 +34,14 @@ const style = {
   flex: 1,
 };
 
-const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDialogMenu }) => {
-  const formRef = useRef();
+const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   const [activeGroup, setActiveGroup] = useState(0);
   const [showQuestionGroupList, setShowQuestionGroupList] = useState(false);
   const currentValues = FormState.useState((s) => s.currentValues);
   const cascades = FormState.useState((s) => s.cascades);
   const activeLang = FormState.useState((s) => s.lang);
 
-  useEffect(() => {
-    if (onSave) {
-      const results = checkValuesBeforeCallback(currentValues);
-      if (!Object.keys(results).length) {
-        return onSave(null);
-      }
-      const { dpName, dpGeo } = generateDataPointName(forms, currentValues, cascades);
-      const values = { name: dpName, geo: dpGeo, answers: results };
-      return onSave(values);
-    }
-  }, [currentValues, onSave]);
-
-  const formDefinition = useMemo(() => {
-    const transformedForm = transformForm(forms, activeLang);
-    FormState.update((s) => {
-      s.visitedQuestionGroup = [transformedForm.question_group[0].id];
-    });
-    return transformedForm;
-  }, [forms, activeLang]);
+  const formDefinition = transformForm(forms, activeLang);
 
   const currentGroup = useMemo(() => {
     return formDefinition.question_group.find((qg) => qg.id === activeGroup);
@@ -76,41 +55,19 @@ const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDia
     }
   };
 
+  const setFieldValue = (id, value) => {
+    const _values = { ...currentValues, [id]: value };
+    FormState.update((s) => {
+      s.currentValues = _values;
+    });
+  };
+
   return (
     <>
       <BaseLayout.Content>
         <View style={style}>
           {!showQuestionGroupList ? (
-            <Formik
-              innerRef={formRef}
-              initialValues={initialValues}
-              onSubmit={handleOnSubmitForm}
-              validateOnBlur={true}
-              validateOnChange={true}
-            >
-              {({ setFieldValue, values }) => (
-                <FlatList
-                  scrollEnabled={true}
-                  data={formDefinition?.question_group}
-                  keyExtractor={(item) => `group-${item.id}`}
-                  renderItem={({ item: group }) => {
-                    if (activeGroup !== group.id) {
-                      return '';
-                    }
-                    return (
-                      <QuestionGroup
-                        key={`group-${group.id}`}
-                        index={group.id}
-                        group={group}
-                        setFieldValue={setFieldValue}
-                        values={values}
-                      />
-                    );
-                  }}
-                  extraData={activeGroup}
-                />
-              )}
-            </Formik>
+            <QuestionGroup index={activeGroup} group={currentGroup} setFieldValue={setFieldValue} />
           ) : (
             <QuestionGroupList
               form={formDefinition}
@@ -124,12 +81,8 @@ const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDia
       <View>
         <FormNavigation
           currentGroup={currentGroup}
-          formRef={formRef}
-          onSubmit={() => {
-            if (formRef.current) {
-              formRef.current.handleSubmit();
-            }
-          }}
+          // formRef={formRef}
+          onSubmit={handleOnSubmitForm}
           activeGroup={activeGroup}
           setActiveGroup={setActiveGroup}
           totalGroup={formDefinition?.question_group?.length || 0}
