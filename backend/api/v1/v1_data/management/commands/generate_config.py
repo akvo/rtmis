@@ -18,7 +18,9 @@ class Command(BaseCommand):
         # adm = []
         # administrations = Administration.objects.all()
         # for a in administrations:
-        #     all_administrations.update({a.name: {"id": a.id, "path": a.path}})
+        #     all_administrations.update(
+        #       {a.name: {"id": a.id, "path": a.path}}
+        #     )
         #     adm.append(
         #         {
         #             "id": a.id,
