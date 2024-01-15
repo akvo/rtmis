@@ -28,17 +28,20 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
           const data = questionGroups.map((qg) => {
             return {
               ...qg,
-              question: qg.question.map((q) => {
-                const findValue = res.data.find(
-                  (d) => d.question === q.id
-                )?.value;
-                return {
-                  ...q,
-                  value: findValue || findValue === 0 ? findValue : null,
-                  history:
-                    res.data.find((d) => d.question === q.id)?.history || false,
-                };
-              }),
+              question: qg.question
+                .filter((item) => !item.displayOnly)
+                .map((q) => {
+                  const findValue = res.data.find(
+                    (d) => d.question === q.id
+                  )?.value;
+                  return {
+                    ...q,
+                    value: findValue || findValue === 0 ? findValue : null,
+                    history:
+                      res.data.find((d) => d.question === q.id)?.history ||
+                      false,
+                  };
+                }),
             };
           });
           setRawValue({ ...expanded, data, loading: false });
