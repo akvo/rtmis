@@ -49,20 +49,7 @@ const handeNumericValue = (val) => {
   return val;
 };
 
-const fixLastOperator = (expression) => {
-  if (expression) {
-    // Use a regular expression to remove operators at the end
-    const cleanedStr = expression.replace(/\s*[\+\-\*\/]+\s*$/, '');
-    return cleanedStr;
-  }
-  return expression;
-};
-
 const generateFnBody = (fnMetadata, values) => {
-  if (Object.keys(values).length === 1) {
-    const firstValue = Object.values(values)[0];
-    return `return ${firstValue}`;
-  }
   if (!fnMetadata) {
     return false;
   }
@@ -126,10 +113,28 @@ const generateFnBody = (fnMetadata, values) => {
     .join('');
 };
 
+const fixIncompleteMathOperation = (expression) => {
+  // Regular expression to match incomplete math operations
+  const incompleteMathRegex = /[+\-*/]\s*$/;
+
+  // Check if the input ends with an incomplete math operation
+  if (incompleteMathRegex.test(expression)) {
+    // Add a default number (0 in this case) to complete the operation
+    const mathExpression = expression?.slice(6)?.trim();
+    if (mathExpression?.endsWith('+') || mathExpression?.endsWith('-')) {
+      expression += '0';
+    }
+    if (['*', '/'].includes(mathExpression.slice(-1))) {
+      return `return ${mathExpression.slice(0, -1)}`;
+    }
+  }
+  return expression;
+};
+
 const strToFunction = (fnString, values) => {
   fnString = checkDirty(fnString);
   const fnMetadata = getFnMetadata(fnString);
-  const fnBody = fixLastOperator(generateFnBody(fnMetadata, values));
+  const fnBody = fixIncompleteMathOperation(generateFnBody(fnMetadata, values));
   try {
     return new Function(fnBody);
   } catch (error) {

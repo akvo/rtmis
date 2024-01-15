@@ -491,4 +491,46 @@ describe('TypeAutofield component', () => {
     expect(autoField).toBeDefined();
     expect(autoField.props.value).toBe('1');
   });
+
+  test('it should not add zero when incomplete operations end with times', () => {
+    const onChangeMock = jest.fn();
+    const values = {
+      1: '3',
+      2: '1',
+    };
+    const id = 4;
+    const name = 'Total payment';
+    const fn = {
+      fnString: 'function(){return #1 + #2 * #3}',
+    };
+
+    const { getByTestId } = render(
+      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+    );
+
+    const autoField = getByTestId('type-autofield');
+    expect(autoField).toBeDefined();
+    expect(autoField.props.value).toBe('4');
+  });
+
+  test('it should not add zero when incomplete operations end with divider', () => {
+    const onChangeMock = jest.fn();
+    const values = {
+      1: '15',
+      2: '3',
+    };
+    const id = 4;
+    const name = 'Split bill amount';
+    const fn = {
+      fnString: 'function(){return #1 * #2 / #3}',
+    };
+
+    const { getByTestId } = render(
+      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+    );
+
+    const autoField = getByTestId('type-autofield');
+    expect(autoField).toBeDefined();
+    expect(autoField.props.value).toBe('45');
+  });
 });
