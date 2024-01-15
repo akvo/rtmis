@@ -125,17 +125,19 @@ const DataDetail = ({
         .get(`data/${id}`)
         .then((res) => {
           const data = questionGroups.map((qg) => {
-            const question = qg.question.map((q) => {
-              const findData = res.data.find((d) => d.question === q.id);
-              return {
-                ...q,
-                value:
-                  findData?.value || findData?.value === 0
-                    ? findData.value
-                    : null,
-                history: findData?.history || false,
-              };
-            });
+            const question = qg.question
+              .filter((item) => !item.displayOnly)
+              .map((q) => {
+                const findData = res.data.find((d) => d.question === q.id);
+                return {
+                  ...q,
+                  value:
+                    findData?.value || findData?.value === 0
+                      ? findData.value
+                      : null,
+                  history: findData?.history || false,
+                };
+              });
             return {
               ...qg,
               question: question,
