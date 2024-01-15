@@ -4,10 +4,10 @@ import { Tab } from '@rneui/themed';
 import { styles } from '../styles';
 import { UIState, FormState } from '../../store';
 import { i18n } from '../../lib';
+import { generateValidationSchemaFieldLevel } from '../lib';
 
 const FormNavigation = ({
   currentGroup,
-  formRef,
   onSubmit,
   activeGroup,
   setActiveGroup,
@@ -17,6 +17,7 @@ const FormNavigation = ({
   setShowDialogMenu,
 }) => {
   const visitedQuestionGroup = FormState.useState((s) => s.visitedQuestionGroup);
+  const currentValues = FormState.useState((s) => s.currentValues);
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
 
@@ -27,25 +28,33 @@ const FormNavigation = ({
     });
   };
 
-  const validateOnFormNavigation = async () => {
-    let errors = false;
-    if (formRef?.current) {
-      const touched = currentGroup?.question?.reduce(
-        (res, currentQ) => ({ ...res, [currentQ?.id]: true }),
-        {},
-      );
-      formRef.current.setTouched(touched);
-      await formRef.current.validateForm();
-      errors = Object.keys(formRef.current.errors)?.length > 0;
-    }
-    return errors;
-  };
-
-  const handleFormNavigation = (index) => {
+  const handleFormNavigation = async (index) => {
     // index 0 = prev group
     // index 1 = show question group list
     // index 2 = next group
+    const validateSync = currentGroup?.question?.map((q) =>
+      generateValidationSchemaFieldLevel(currentValues?.[q?.id] || null, q),
+    );
+    const validations = await Promise.allSettled(validateSync);
+    const feedbackValues = validations
+      ?.filter(({ status }) => status === 'fulfilled')
+      .map(({ value }) => value);
+    const errors = feedbackValues.filter((fb) => Object.values(fb)?.[0] !== true);
+    console.log('feedbackValues', feedbackValues);
+    FormState.update((s) => {
+      s.feedback = feedbackValues;
+    });
+
+    if (index === 2 && errors.length) {
+      return;
+    }
+    // FormState.update((s) => {
+    //   s.visitedQuestionGroup = [transformedForm.question_group[0].id];
+    // });
     if (index === 0) {
+      if (activeGroup > 0) {
+        setActiveGroup(activeGroup - 1);
+      }
       if (!activeGroup) {
         setShowDialogMenu(true);
       } else {
@@ -59,23 +68,12 @@ const FormNavigation = ({
       setShowQuestionGroupList(!showQuestionGroupList);
       return;
     }
-    validateOnFormNavigation()
-      .then((errors) => {
-        if (errors && Platform.OS === 'android') {
-          ToastAndroid.show(trans.formMandatoryAlert, ToastAndroid.SHORT);
-          return;
-        }
-        if (!errors && index === 2 && activeGroup === totalGroup - 1) {
-          return onSubmit();
-        }
-        if (!errors && activeGroup <= totalGroup - 1) {
-          const newValue = index === 0 ? activeGroup - 1 : activeGroup + 1;
-          const activeValue = newValue < 0 ? 0 : newValue;
-          handleOnUpdateState(activeValue);
-          return setActiveGroup(activeValue);
-        }
-      })
-      .catch((err) => console.error(err));
+    if (index === 2 && activeGroup < totalGroup - 1) {
+      setActiveGroup(activeGroup + 1);
+    }
+    if (index === 2 && !errors.length && activeGroup === totalGroup - 1) {
+      onSubmit();
+    }
   };
 
   return (
