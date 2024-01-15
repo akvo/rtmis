@@ -1,13 +1,32 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { View } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FlatList, View } from 'react-native';
 import * as Crypto from 'expo-crypto';
 import QuestionField from './QuestionField';
 import { styles } from '../styles';
-import { modifyDependency, validateDependency, generateValidationSchemaFieldLevel } from '../lib';
+import { modifyDependency, validateDependency } from '../lib';
 import { FormState } from '../../store';
 
-const Question = ({ group, setFieldValue, values }) => {
+const Question = ({ group, setFieldValue }) => {
+  /**
+   * TODO: handle reset FormState.feedback based on dependency
+   */
   const [preload, setPreload] = useState(true);
+  const values = FormState.useState((s) => s.currentValues);
+  const questions = group?.question?.filter((field) => {
+    if (field?.dependency) {
+      const repeat = 0;
+      const modifiedDependency = modifyDependency(group, field, repeat);
+      const unmatches = modifiedDependency
+        .map((x) => {
+          return validateDependency(x, values?.[x.id]);
+        })
+        .filter((x) => x === false);
+      if (unmatches.length) {
+        return false;
+      }
+    }
+    return field;
+  });
 
   const handleOnGenerateUUID = useCallback(() => {
     if (preload) {
@@ -55,40 +74,26 @@ const Question = ({ group, setFieldValue, values }) => {
     handleOnGenerateUUID();
   }, [handleOnGenerateUUID]);
 
-  const fields = useMemo(() => {
-    return group?.question || [];
-  }, [group]);
-
-  return fields.map((field, keyform) => {
-    if (field?.dependency) {
-      const repeat = 0;
-      const modifiedDependency = modifyDependency(group, field, repeat);
-      const unmatches = modifiedDependency
-        .map((x) => {
-          return validateDependency(x, values?.[x.id]);
-        })
-        .filter((x) => x === false);
-      if (unmatches.length) {
-        // delete hidden field value
-        if (values?.[field.id]) {
-          delete values[field.id];
-          // setFieldValue(field.id, '');
-        }
-        return null;
-      }
-    }
-    return (
-      <View key={`question-${field.id}`} style={styles.questionContainer}>
-        <QuestionField
-          keyform={keyform}
-          field={field}
-          onChange={handleOnChange}
-          value={values?.[field.id]}
-          validate={(currentValue) => generateValidationSchemaFieldLevel(currentValue, field)}
-        />
-      </View>
-    );
-  });
+  return (
+    <FlatList
+      scrollEnabled={true}
+      data={questions}
+      keyExtractor={(item) => `question-${item.id}`}
+      renderItem={({ item: field, index }) => {
+        return (
+          <View key={`question-${field.id}`} style={styles.questionContainer}>
+            <QuestionField
+              keyform={index}
+              field={field}
+              onChange={handleOnChange}
+              value={values?.[field.id]}
+            />
+          </View>
+        );
+      }}
+      extraData={group}
+    />
+  );
 };
 
 export default Question;
