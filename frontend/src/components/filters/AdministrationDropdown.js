@@ -52,13 +52,25 @@ const AdministrationDropdown = ({
     if (!e) {
       return;
     }
-    const { data: selectedAdm } = await api.get(`administration/${e}`);
+    let admItems = null;
+    if (Array.isArray(e)) {
+      const multiadministration = await Promise.all(
+        e.map(async (ID) => {
+          const apiResponse = await api.get(`administration/${ID}`);
+          return apiResponse.data;
+        })
+      );
+      admItems = multiadministration;
+    } else {
+      const { data: selectedAdm } = await api.get(`administration/${e}`);
+      admItems = [selectedAdm];
+    }
     store.update((s) => {
       s.administration.length = index + 1;
-      s.administration = s.administration.concat(selectedAdm);
+      s.administration = s.administration.concat(admItems);
     });
     if (onChange) {
-      const _values = allowMultiple && Array.isArray(e) ? e : null;
+      const _values = allowMultiple && Array.isArray(e) ? e : [e];
       onChange(_values);
     }
   };
