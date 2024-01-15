@@ -84,7 +84,7 @@
           "type": "geo",
           "tooltip": null,
           "required": true,
-          "meta": false,
+          "meta": true,
           "options": null,
           "dependency": [
             {
