@@ -201,8 +201,9 @@ const AddUser = () => {
         });
         if ([3, 5].includes(roleRes)) {
           setLevel(
-            window.levels.find((l) => l.name === takeRight(acc, 1)[0].levelName)
-              .level + 1
+            window.levels.find(
+              (l) => l.name === takeRight(acc, 1)[0].level_name
+            ).level + 1
           );
         }
       }
