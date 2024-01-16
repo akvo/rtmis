@@ -58,9 +58,12 @@ const FormNavigation = ({
     if (index === 2 && errors.length) {
       return;
     }
-    // FormState.update((s) => {
-    //   s.visitedQuestionGroup = [transformedForm.question_group[0].id];
-    // });
+    if (!visitedQuestionGroup.includes(currentGroup?.id)) {
+      FormState.update((s) => {
+        s.visitedQuestionGroup = [...visitedQuestionGroup, currentGroup.id];
+      });
+    }
+
     if (index === 0) {
       if (activeGroup > 0) {
         setActiveGroup(activeGroup - 1);
