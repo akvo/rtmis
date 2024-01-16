@@ -84,7 +84,7 @@
           "type": "geo",
           "tooltip": null,
           "required": true,
-          "meta": false,
+          "meta": true,
           "options": null,
           "dependency": [
             {
@@ -503,7 +503,7 @@
           "order": 8,
           "type": "autofield",
           "tooltip": null,
-          "required": true,
+          "required": false,
           "meta": false,
           "options": null,
           "dependency": null,
@@ -744,7 +744,10 @@
           "options": null,
           "dependency": null,
           "fn": {
-            "fnColor": {},
+            "fnColor": {
+              "G0 Toilet NOT flyproof": "#ff0000",
+              "G1 Flyproof toilet": "#00ff00"
+            },
             "fnString": "function() {\n  return (\n    #16994236967201.includes(\"G1\") &&\n    #16994239461701.includes(\"G1\") &&\n    #16994243759681.includes(\"G1\")\n  )\n  ? \"G1 Flyproof toilet\"\n  : \"G0 Toilet NOT flyproof\"\n}",
             "multiline": false
           }

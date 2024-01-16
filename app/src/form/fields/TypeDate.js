@@ -7,14 +7,14 @@ import { styles } from '../styles';
 import { Input } from '@rneui/themed';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const TypeDate = ({ onChange, values, keyform, id, name, tooltip, required, requiredSign }) => {
+const TypeDate = ({ onChange, value, keyform, id, name, tooltip, required, requiredSign }) => {
   const [showDatepicker, setShowDatePicker] = useState(false);
 
   const getDate = (value) => {
     return typeof value === 'string' ? moment(value, 'YYYY-MM-DD').toDate() : value || new Date();
   };
 
-  const datePickerValue = getDate(values?.[id]);
+  const datePickerValue = getDate(value);
   const requiredValue = required ? requiredSign : null;
   return (
     <View>

@@ -1,9 +1,12 @@
 import React from 'react';
 import { render, act, waitFor } from '@testing-library/react-native';
-jest.useFakeTimers();
 import QuestionGroupList, { checkCompleteQuestionGroup } from '../QuestionGroupList';
 import QuestionGroupListItem from '../QuestionGroupListItem';
 import { FormState } from '../../../store';
+
+jest.useFakeTimers();
+jest.mock('expo-font');
+jest.mock('expo-asset');
 
 const example = {
   name: 'Testing Form',
@@ -322,7 +325,8 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
       <QuestionGroupListItem name="Group 1" active={active} completedQuestionGroup={completed} />,
     );
     const iconEl = wrapper.getByTestId('icon-mark');
-    const iconElProps = iconEl.props.children.props.children.props;
+    const iconElProps = iconEl.props.children.props.children.props.children.props;
+    expect(iconEl).toBeDefined();
     expect(iconElProps.color).toBe('#2884bd');
     // Drop the check mark (this can be implemented later after discussion with the design team )
     expect(iconElProps.name).toBe('circle'); // check-circle
@@ -335,7 +339,8 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
       <QuestionGroupListItem name="Group 1" active={active} completedQuestionGroup={completed} />,
     );
     const iconEl = wrapper.getByTestId('icon-mark');
-    const iconElProps = iconEl.props.children.props.children.props;
+    const iconElProps = iconEl.props.children.props.children.props.children.props;
+    expect(iconEl).toBeDefined();
     expect(iconElProps.color).toBe('#d4d4d4');
     expect(iconElProps.name).toBe('circle');
   });

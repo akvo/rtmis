@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Table, Tabs, Button, Space, Tag, List, Avatar, Spin } from "antd";
+import { Table, Tabs, Button, Space, Tag, List, Spin } from "antd";
 import {
   PlusSquareOutlined,
   CloseSquareOutlined,
@@ -493,13 +493,10 @@ const UploadDetail = ({ record, setReload }) => {
           <List
             itemLayout="horizontal"
             dataSource={comments}
-            renderItem={(item, index) => (
+            renderItem={(item) => (
               <List.Item>
                 {/* TODO: Change Avatar */}
                 <List.Item.Meta
-                  avatar={
-                    <Avatar src={`https://i.pravatar.cc/150?img=${index}`} />
-                  }
                   title={
                     <div>
                       <Tag>{item.created}</Tag>

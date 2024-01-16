@@ -4,6 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import TypeImage from '../TypeImage';
 import { PermissionsAndroid } from 'react-native';
 import { FormState } from '../../../store/';
+import { renderHook } from '@testing-library/react-native';
 
 jest.mock('react-native/Libraries/PermissionsAndroid/PermissionsAndroid', () => {
   return {
@@ -28,6 +29,8 @@ jest.mock('expo-image-picker', () => ({
     Promise.resolve({ assets: [{ uri: 'file://captured.jpeg', base64: 'dummyCamerabase64' }] }),
   ),
 }));
+jest.mock('expo-font');
+jest.mock('expo-asset');
 
 const mockImagePickerResult = {
   canceled: false,
@@ -59,7 +62,7 @@ describe('TypeImage component', () => {
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
-        values={mockValues}
+        value={mockValues[fieldID]}
         id={fieldID}
         name="Latrine photo"
       />,
@@ -84,7 +87,7 @@ describe('TypeImage component', () => {
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
-        values={mockValues}
+        value={mockValues[fieldID]}
         id={fieldID}
         name="Latrine photo"
         useGallery
@@ -105,15 +108,14 @@ describe('TypeImage component', () => {
 
   it('should not ask read storage permission when get image from gallery', async () => {
     const fieldID = 'imageField';
-    const mockValues = { [fieldID]: null };
-    const mockOnChange = jest.fn(() => (fieldID, value) => {
-      mockValues[fieldID] = value;
-    });
-    const { getByTestId, queryByText, queryByTestId } = render(
+    const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
+    const mockValues = result.current;
+    const mockOnChange = jest.fn();
+    const { getByTestId, queryByTestId, rerender } = render(
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
-        values={mockValues}
+        value={mockValues[fieldID]}
         id={fieldID}
         name="Latrine photo"
         useGallery
@@ -121,11 +123,26 @@ describe('TypeImage component', () => {
     );
 
     const buttonFromGallery = getByTestId('btn-from-gallery');
-    fireEvent.press(buttonFromGallery);
+    act(() => {
+      fireEvent.press(buttonFromGallery);
+      FormState.update((s) => {
+        s.currentValues = { [fieldID]: 'file://example.jpg' };
+      });
+    });
+    rerender(
+      <TypeImage
+        onChange={mockOnChange}
+        value={result.current?.[fieldID]}
+        keyform={1}
+        id={fieldID}
+        name="Latrine photo"
+        useGallery
+      />,
+    );
 
     await waitFor(() => {
       expect(PermissionsAndroid.request).not.toHaveBeenCalled();
-
+      expect(mockOnChange).toHaveBeenCalledWith(fieldID, 'file://example.jpg');
       const imagePreview = queryByTestId('image-preview');
       expect(imagePreview).toBeDefined();
       expect(imagePreview.props.source.uri).toBe('file://example.jpg');
@@ -146,7 +163,7 @@ describe('TypeImage component', () => {
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
-        values={mockValues}
+        value={mockValues[fieldID]}
         id={fieldID}
         name="Latrine photo"
         useGallery
@@ -178,7 +195,7 @@ describe('TypeImage component', () => {
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
-        values={mockValues}
+        value={mockValues[fieldID]}
         id={fieldID}
         name="Latrine photo"
       />,
@@ -209,26 +226,38 @@ describe('TypeImage component', () => {
   it('should not ask camera permission when its granted ', async () => {
     const fieldID = 'imageField';
     const mockValues = { [fieldID]: null };
-    const mockOnChange = jest.fn(() => (fieldID, value) => {
-      mockValues[fieldID] = value;
-    });
-    const { getByTestId, queryByText, queryByTestId } = render(
+    const mockOnChange = jest.fn();
+    const { getByTestId, queryByTestId, rerender } = render(
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
-        values={mockValues}
+        value={mockValues[fieldID]}
         id={fieldID}
         name="Latrine photo"
       />,
     );
 
     const buttonUseCamera = getByTestId('btn-use-camera');
-    fireEvent.press(buttonUseCamera);
+
+    act(() => {
+      fireEvent.press(buttonUseCamera);
+    });
+
+    rerender(
+      <TypeImage
+        onChange={mockOnChange}
+        keyform={1}
+        value={'file://captured.jpeg'}
+        id={fieldID}
+        name="Latrine photo"
+      />,
+    );
 
     await waitFor(() => {
       expect(PermissionsAndroid.request).not.toHaveBeenCalled();
       expect(PermissionsAndroid.check).toHaveBeenCalledWith(PermissionsAndroid.PERMISSIONS.CAMERA);
       expect(PermissionsAndroid.check).toBeTruthy();
+      expect(mockOnChange).toHaveBeenCalledWith(fieldID, 'file://captured.jpeg');
 
       const imagePreview = queryByTestId('image-preview');
       expect(imagePreview).toBeDefined();
@@ -251,7 +280,7 @@ describe('TypeImage component', () => {
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
-        values={mockValues}
+        value={mockValues[fieldID]}
         id={fieldID}
         name="Latrine photo"
       />,
@@ -293,7 +322,7 @@ describe('TypeImage component', () => {
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
-        values={mockValues}
+        value={mockValues[fieldID]}
         id={fieldID}
         name="Latrine photo"
       />,
@@ -325,7 +354,7 @@ describe('TypeImage component', () => {
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
-        values={mockValues}
+        value={mockValues[fieldID]}
         id={fieldID}
         name="Latrine photo"
       />,
@@ -341,7 +370,7 @@ describe('TypeImage component', () => {
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
-        values={mockValues}
+        value={null}
         id={fieldID}
         name="Latrine photo"
       />,
@@ -360,7 +389,7 @@ describe('TypeImage component', () => {
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
-        values={mockValues}
+        value={mockValues[fieldID]}
         id={fieldID}
         name="Latrine photo"
         required={false}
@@ -381,7 +410,7 @@ describe('TypeImage component', () => {
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
-        values={mockValues}
+        value={mockValues[fieldID]}
         id={fieldID}
         name="Latrine photo"
         required={false}
@@ -403,7 +432,7 @@ describe('TypeImage component', () => {
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
-        values={mockValues}
+        value={mockValues[fieldID]}
         id={fieldID}
         name="Latrine photo"
         required={true}
@@ -425,7 +454,7 @@ describe('TypeImage component', () => {
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
-        values={mockValues}
+        value={mockValues[fieldID]}
         id={fieldID}
         name="Latrine photo"
         required={true}

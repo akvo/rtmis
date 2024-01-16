@@ -14,7 +14,7 @@ describe('TypeDate component', () => {
     const { getByText, getByTestId, queryByTestId } = render(
       <Formik initialValues={initValues} onSubmit={() => {}}>
         {({ setFieldValue, values }) => (
-          <TypeDate onChange={setFieldValue} values={values} id="dateField" name="Date Field" />
+          <TypeDate onChange={setFieldValue} value={values} id="dateField" name="Date Field" />
         )}
       </Formik>,
     );
@@ -33,7 +33,12 @@ describe('TypeDate component', () => {
     const { getByTestId } = render(
       <Formik initialValues={initValues} onSubmit={() => {}}>
         {({ setFieldValue, values }) => (
-          <TypeDate onChange={setFieldValue} values={values} id="dateField" name="Date Field" />
+          <TypeDate
+            onChange={setFieldValue}
+            value={values[dateField]}
+            id="dateField"
+            name="Date Field"
+          />
         )}
       </Formik>,
     );
@@ -49,7 +54,12 @@ describe('TypeDate component', () => {
     const { getByTestId } = render(
       <Formik initialValues={initValues} onSubmit={() => {}}>
         {({ setFieldValue, values }) => (
-          <TypeDate onChange={setFieldValue} values={values} id="dateField" name="Date Field" />
+          <TypeDate
+            onChange={setFieldValue}
+            value={values[dateField]}
+            id="dateField"
+            name="Date Field"
+          />
         )}
       </Formik>,
     );
@@ -70,7 +80,7 @@ describe('TypeDate component', () => {
     const { getByTestId } = render(
       <Formik initialValues={initValues} onSubmit={() => {}}>
         {({ setFieldValue, values }) => (
-          <TypeDate onChange={setFieldValue} values={values} id="dateField" name="Date Field" />
+          <TypeDate onChange={setFieldValue} value={values} id="dateField" name="Date Field" />
         )}
       </Formik>,
     );
@@ -86,7 +96,7 @@ describe('TypeDate component', () => {
         {({ setFieldValue, values }) => (
           <TypeDate
             onChange={setFieldValue}
-            values={values}
+            value={values}
             id="dateField"
             name="Date Field"
             required={false}
@@ -106,7 +116,7 @@ describe('TypeDate component', () => {
         {({ setFieldValue, values }) => (
           <TypeDate
             onChange={setFieldValue}
-            values={values}
+            value={values}
             id="dateField"
             name="Date Field"
             required={false}
@@ -127,7 +137,7 @@ describe('TypeDate component', () => {
         {({ setFieldValue, values }) => (
           <TypeDate
             onChange={setFieldValue}
-            values={values}
+            value={values}
             id="dateField"
             name="Date Field"
             required={true}
@@ -148,7 +158,7 @@ describe('TypeDate component', () => {
         {({ setFieldValue, values }) => (
           <TypeDate
             onChange={setFieldValue}
-            values={values}
+            value={values}
             id="dateField"
             name="Date Field"
             required
@@ -179,7 +189,7 @@ describe('TypeDate component', () => {
           <Form testID="mock-formik">
             <TypeDate
               onChange={setFieldValue}
-              values={values}
+              value={values}
               id="dateField"
               name="Date Field"
               required
@@ -202,7 +212,7 @@ describe('TypeDate component', () => {
     const { getByTestId } = render(
       <Formik initialValues={initValues} onSubmit={() => {}}>
         {({ setFieldValue, values }) => (
-          <TypeDate onChange={setFieldValue} values={values} id="dateField" name="Date Field" />
+          <TypeDate onChange={setFieldValue} value={values} id="dateField" name="Date Field" />
         )}
       </Formik>,
     );

@@ -153,7 +153,6 @@ const Navigation = (props) => {
       // reset form values
       FormState.update((s) => {
         s.currentValues = {};
-        s.questionGroupListCurrentValues = {};
         s.visitedQuestionGroup = [];
         s.surveyDuration = 0;
       });
