@@ -52,32 +52,16 @@
           "id": 1699951210638,
           "question": "What is the location of the community?",
           "order": 1,
-          "type": "option",
+          "type": "administration",
           "tooltip": {
             "text": "This question contains a list of possible household locations, starting with the government area or district, down to the village."
           },
           "required": false,
           "meta": false,
-          "options": [
+          "dependency": [
             {
-              "id": 1699951356878,
-              "name": "County",
-              "order": 1
-            },
-            {
-              "id": 1699951356879,
-              "name": "Sub-County",
-              "order": 2
-            },
-            {
-              "id": 1699951384555,
-              "name": "Ward",
-              "order": 3
-            },
-            {
-              "id": 1699951392211,
-              "name": "Community: Village or other urban unit",
-              "order": 4
+              "id": 1699354220734,
+              "options": ["New"]
             }
           ]
         },
