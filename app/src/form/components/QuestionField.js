@@ -21,10 +21,6 @@ const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
   const questionType = questionField?.type;
   const displayValue = questionField?.hidden ? 'none' : 'flex';
   const formFeedback = FormState.useState((s) => s.feedback);
-  const fieldMeta = formFeedback?.find((fb) => {
-    const [fieldID] = Object.keys(fb) || [];
-    return String(fieldID) === String(questionField?.id);
-  });
 
   const handleOnChangeField = (id, val) => {
     if (questionField?.displayOnly) {
@@ -132,9 +128,9 @@ const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
   return (
     <View testID="question-view" style={{ display: displayValue }}>
       {renderField()}
-      {fieldMeta && fieldMeta?.[questionField?.id] !== true && (
+      {formFeedback?.[questionField?.id] && formFeedback?.[questionField?.id] !== true && (
         <Text style={styles.validationErrorText} testID="err-validation-text">
-          {fieldMeta[questionField.id]}
+          {formFeedback[questionField.id]}
         </Text>
       )}
     </View>
