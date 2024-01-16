@@ -9,7 +9,7 @@ import { i18n } from '../../lib';
 
 const TypeOption = ({
   onChange,
-  values,
+  value,
   keyform,
   id,
   name,
@@ -25,7 +25,7 @@ const TypeOption = ({
   const trans = i18n.text(activeLang);
   const requiredValue = required ? requiredSign : null;
   const selectedStyle = React.useMemo(() => {
-    const currentValue = values?.[id]?.[0];
+    const currentValue = value?.[0];
     const color = option.find((x) => x.name === currentValue)?.color;
     if (color) {
       return {
@@ -43,7 +43,7 @@ const TypeOption = ({
       };
     }
     return {};
-  }, [values, id, option]);
+  }, [value, id, option]);
 
   return (
     <View style={styles.optionContainer}>
@@ -57,10 +57,10 @@ const TypeOption = ({
         labelField="label"
         valueField="name"
         searchPlaceholder={trans.searchPlaceholder}
-        value={values?.[id]?.[0] || []}
-        onChange={({ name: value }) => {
+        value={value?.[0] || ''}
+        onChange={({ name: optValue }) => {
           if (onChange) {
-            onChange(id, [value]);
+            onChange(id, [optValue]);
           }
         }}
         renderItem={(item) => {

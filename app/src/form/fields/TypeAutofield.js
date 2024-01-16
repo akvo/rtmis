@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { FieldLabel } from '../support';
 import { styles } from '../styles';
 import { Input } from '@rneui/themed';
+import { FormState } from '../../store';
 
 const fnRegex = /^function(?:.+)?(?:\s+)?\((.+)?\)(?:\s+|\n+)?\{(?:\s+|\n+)?((?:.|\n)+)\}$/m;
 const fnEcmaRegex = /^\((.+)?\)(?:\s+|\n+)?=>(?:\s+|\n+)?((?:.|\n)+)$/m;
@@ -141,10 +142,11 @@ const strToFunction = (fnString, values) => {
   }
 };
 
-const TypeAutofield = ({ onChange, values, keyform, id, name, tooltip, fn }) => {
+const TypeAutofield = ({ onChange, keyform, id, name, tooltip, fn }) => {
   const [value, setValue] = useState(null);
   const [fieldColor, setFieldColor] = useState(null);
   const { fnString, fnColor } = fn;
+  const values = FormState.useState((s) => s.currentValues);
   const automateValue = strToFunction(fnString, values);
 
   useEffect(() => {

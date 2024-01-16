@@ -68,7 +68,7 @@ export const addSuffix = (addonAfter) => {
 
 const TypeInput = ({
   onChange,
-  values,
+  value,
   keyform,
   id,
   name,
@@ -77,6 +77,7 @@ const TypeInput = ({
   tooltip,
   required,
   requiredSign,
+  meta_uuid,
 }) => {
   const requiredValue = required ? requiredSign : null;
   return (
@@ -89,10 +90,11 @@ const TypeInput = ({
             onChange(id, val);
           }
         }}
-        value={values?.[id]}
+        value={value}
         testID="type-input"
         {...addPreffix(addonBefore)}
         {...addSuffix(addonAfter)}
+        disabled={meta_uuid}
       />
     </View>
   );

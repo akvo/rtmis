@@ -11,14 +11,13 @@ const TypeImage = ({
   onChange,
   keyform,
   id,
-  values,
+  value,
   name,
   tooltip,
   required,
   requiredSign,
   useGallery = false,
 }) => {
-  const [selectedImage, setSelectedImage] = useState(values?.[id]);
   const activeLang = FormState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const requiredValue = required ? requiredSign : null;
@@ -30,7 +29,6 @@ const TypeImage = ({
      * docs: https://docs.expo.dev/versions/latest/sdk/imagepicker/#imagepickerasset
      */
     onChange(id, imageUri);
-    setSelectedImage(imageUri);
   };
 
   const selectFile = async () => {
@@ -90,10 +88,10 @@ const TypeImage = ({
             {` ${trans.buttonFromGallery}`}
           </Button>
         )}
-        {selectedImage && typeof selectedImage === 'string' && (
+        {value && typeof value === 'string' && (
           <View>
             <Image
-              source={{ uri: selectedImage }}
+              source={{ uri: value }}
               style={styles.imagePreview}
               PlaceholderContent={<ActivityIndicator />}
               testID="image-preview"
@@ -102,8 +100,10 @@ const TypeImage = ({
               containerStyle={styles.buttonRemoveFile}
               title={trans.buttonRemove}
               color="secondary"
-              onPress={() => setSelectedImage(null)}
-              disabled={!selectedImage}
+              onPress={() => {
+                onChange(id, null);
+              }}
+              disabled={!value}
               testID="btn-remove"
             />
           </View>

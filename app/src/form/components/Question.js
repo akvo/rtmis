@@ -1,13 +1,29 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { View } from 'react-native';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { FlatList, View } from 'react-native';
 import * as Crypto from 'expo-crypto';
 import QuestionField from './QuestionField';
 import { styles } from '../styles';
-import { modifyDependency, validateDependency, generateValidationSchemaFieldLevel } from '../lib';
+import { onFilterDependency } from '../lib';
 import { FormState } from '../../store';
 
-const Question = ({ group, setFieldValue, values }) => {
+const Question = memo(({ group }) => {
+  /**
+   * Optimizing flatlist with memo
+   * https://reactnative.dev/docs/optimizing-flatlist-configuration#use-memo
+   */
   const [preload, setPreload] = useState(true);
+  const values = FormState.useState((s) => s.currentValues);
+
+  const questions = useMemo(() => {
+    try {
+      if (group?.question?.length) {
+        return group.question.filter((q) => onFilterDependency(group, values, q));
+      }
+      return [];
+    } catch {
+      return [];
+    }
+  }, [group, values]);
 
   const handleOnGenerateUUID = useCallback(() => {
     if (preload) {
@@ -19,9 +35,8 @@ const Question = ({ group, setFieldValue, values }) => {
     group?.question
       ?.filter((q) => q?.meta_uuid)
       ?.forEach((q) => {
-        if (!values?.[q.id] && typeof setFieldValue === 'function') {
+        if (!values?.[q.id]) {
           const UUID = Crypto.randomUUID();
-          setFieldValue(q.id, UUID);
           FormState.update((s) => {
             s.currentValues = { ...s.currentValues, [q.id]: UUID };
           });
@@ -29,41 +44,60 @@ const Question = ({ group, setFieldValue, values }) => {
       });
   }, [preload, group, values]);
 
+  const handleOnChange = (id, value, field) => {
+    const fieldValues = { ...values, [id]: value };
+    const isEmpty = Array.isArray(value) ? value.length === 0 : String(value)?.trim()?.length === 0;
+
+    if (!isEmpty) {
+      FormState.update((s) => {
+        s.feedback = { ...s.feedback, [id]: true };
+      });
+    }
+
+    const preFilled = field?.pre;
+    if (preFilled?.answer) {
+      const isMatchAnswer =
+        JSON.stringify(preFilled?.answer) === JSON.stringify(value) ||
+        String(preFilled?.answer) === String(value);
+      if (isMatchAnswer) {
+        FormState.update((s) => {
+          s.loading = true;
+        });
+        preFilled?.fill?.forEach((f) => {
+          fieldValues[f?.id] = f?.answer;
+        });
+      }
+    }
+    FormState.update((s) => {
+      s.currentValues = fieldValues;
+    });
+  };
+
   useEffect(() => {
     handleOnGenerateUUID();
   }, [handleOnGenerateUUID]);
 
-  const fields = group?.question || [];
-  return fields.map((field, keyform) => {
-    if (field?.dependency) {
-      const repeat = 0;
-      const modifiedDependency = modifyDependency(group, field, repeat);
-      const unmatches = modifiedDependency
-        .map((x) => {
-          return validateDependency(x, values?.[x.id]);
-        })
-        .filter((x) => x === false);
-      if (unmatches.length) {
-        // delete hidden field value
-        if (values?.[field.id]) {
-          delete values[field.id];
-          // setFieldValue(field.id, '');
-        }
-        return null;
-      }
-    }
-    return (
-      <View key={`question-${field.id}`} style={styles.questionContainer}>
-        <QuestionField
-          keyform={keyform}
-          field={field}
-          setFieldValue={setFieldValue}
-          values={values}
-          validate={(currentValue) => generateValidationSchemaFieldLevel(currentValue, field)}
-        />
-      </View>
-    );
-  });
-};
+  return (
+    <FlatList
+      scrollEnabled={true}
+      data={questions}
+      keyExtractor={(item) => `question-${item.id}`}
+      renderItem={({ item: field, index }) => {
+        return (
+          <View key={`question-${field.id}`} style={styles.questionContainer}>
+            <QuestionField
+              keyform={index}
+              field={field}
+              onChange={handleOnChange}
+              value={values?.[field.id]}
+            />
+          </View>
+        );
+      }}
+      extraData={group}
+      removeClippedSubviews={false}
+    />
+  );
+});
 
 export default Question;

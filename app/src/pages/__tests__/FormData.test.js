@@ -1,3 +1,4 @@
+global.FormData = require('react-native/Libraries/Network/FormData');
 import React, { useState } from 'react';
 import { render, waitFor, fireEvent, act, renderHook } from '@testing-library/react-native';
 import axios from 'axios';
@@ -16,6 +17,8 @@ jest.mock('../../lib/api');
 jest.mock('axios', () => ({
   all: jest.fn(() => Promise.resolve([{ data: { file: '/images/photo_111_123_xyz.jpeg' } }])),
 }));
+jest.mock('expo-font');
+jest.mock('expo-asset');
 
 describe('FormDataPage', () => {
   beforeAll(() => {
@@ -80,9 +83,9 @@ describe('FormDataPage', () => {
       expect(wrapper.getByText('Form Name')).toBeTruthy();
       const list0 = wrapper.getByTestId('card-touchable-0');
       expect(list0.props.children[0].props.title).toEqual('Datapoint 1');
-      expect(list0.props.children[0].props.subTitles[0]).toEqual('Created: 18/07/2023 12:34 PM');
+      expect(list0.props.children[0].props.subTitles[0]).toEqual('Created: 18/07/2023 07:34 PM');
       expect(list0.props.children[0].props.subTitles[1]).toEqual('Survey duration: 02h 25m');
-      expect(list0.props.children[0].props.subTitles[2]).toEqual('Synced: 18/07/2023 01:00 PM');
+      expect(list0.props.children[0].props.subTitles[2]).toEqual('Synced: 18/07/2023 08:00 PM');
     });
   });
 
@@ -114,7 +117,7 @@ describe('FormDataPage', () => {
       expect(wrapper.getByText('Form Name')).toBeTruthy();
       const list0 = wrapper.getByTestId('card-touchable-0');
       expect(list0.props.children[0].props.title).toEqual('Datapoint 1');
-      expect(list0.props.children[0].props.subTitles[0]).toEqual('Created: 18/07/2023 12:34 PM');
+      expect(list0.props.children[0].props.subTitles[0]).toEqual('Created: 18/07/2023 07:34 PM');
       expect(list0.props.children[0].props.subTitles[1]).toEqual('Survey duration: 02h 25m');
       expect(list0.props.children[0].props.subTitles[2]).toEqual(undefined);
     });
