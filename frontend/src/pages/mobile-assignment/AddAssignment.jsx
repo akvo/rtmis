@@ -120,6 +120,9 @@ const AddAssignment = () => {
   };
 
   const onSelectLevel = async (val) => {
+    store.update((s) => {
+      s.administration.length = val;
+    });
     setLevel(val);
   };
 
