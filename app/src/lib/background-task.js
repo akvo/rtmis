@@ -1,13 +1,18 @@
-import { crudForms, crudDataPoints, crudUsers } from '../database/crud';
+import { crudForms, crudDataPoints, crudUsers, crudConfig } from '../database/crud';
 import api from './api';
 import * as BackgroundFetch from 'expo-background-fetch';
 import * as TaskManager from 'expo-task-manager';
+import * as Network from 'expo-network';
 import notification from './notification';
 
 const syncFormVersion = async ({
   showNotificationOnly = true,
   sendPushNotification = () => {},
 }) => {
+  const { isConnected } = await Network.getNetworkStateAsync();
+  if (!isConnected) {
+    return;
+  }
   try {
     // find last session
     const session = await crudUsers.getActiveUser();
@@ -69,13 +74,20 @@ const unregisterBackgroundTask = async (TASK_NAME) => {
 const backgroundTaskStatus = async (TASK_NAME, minimumInterval = 3600) => {
   const status = await BackgroundFetch.getStatusAsync();
   const isRegistered = await TaskManager.isTaskRegisteredAsync(TASK_NAME);
+  const config = await crudConfig.getConfig();
+  const intervalValue = config?.syncInterval || minimumInterval;
+
   if (BackgroundFetch.BackgroundFetchStatus?.[status] === 'Available' && !isRegistered) {
-    await registerBackgroundTask(TASK_NAME, minimumInterval);
+    await registerBackgroundTask(TASK_NAME, intervalValue);
   }
   console.log(`[${TASK_NAME}] Status`, status, isRegistered, minimumInterval);
 };
 
 const syncFormSubmission = async (photos = []) => {
+  const { isConnected } = await Network.getNetworkStateAsync();
+  if (!isConnected) {
+    return;
+  }
   try {
     let sendNotification = false;
     console.info('[syncFormSubmision] SyncData started => ', new Date());
