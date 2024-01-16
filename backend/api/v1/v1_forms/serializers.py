@@ -342,7 +342,9 @@ class FormDataSerializer(serializers.ModelSerializer):
     @extend_schema_field(FormDataQuestionGroupSerializer(many=True))
     def get_question_group(self, instance: Forms):
         return FormDataQuestionGroupSerializer(
-            instance=instance.form_question_group.all(), many=True).data
+            instance=instance.form_question_group.all().order_by('order'),
+            many=True
+        ).data
 
     class Meta:
         model = Forms

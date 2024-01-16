@@ -7,6 +7,8 @@ import { FormNavigation, QuestionGroupList } from './support';
 import QuestionGroup from './components/QuestionGroup';
 import { transformForm, generateDataPointName } from './lib';
 import { FormState } from '../store';
+import { Dialog } from '@rneui/themed';
+import { i18n } from '../lib';
 
 // TODO:: Allow other not supported yet
 // TODO:: Repeat group not supported yet
@@ -43,6 +45,8 @@ const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDia
   const currentValues = FormState.useState((s) => s.currentValues);
   const cascades = FormState.useState((s) => s.cascades);
   const activeLang = FormState.useState((s) => s.lang);
+  const trans = i18n.text(activeLang);
+  const formLoading = FormState.useState((s) => s.loading);
 
   useEffect(() => {
     if (onSave) {
@@ -63,6 +67,8 @@ const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDia
     });
     return transformedForm;
   }, [forms, activeLang]);
+  const numberOfQuestion =
+    formDefinition?.question_group?.flatMap((qg) => qg?.question)?.length || 0;
 
   const currentGroup = useMemo(() => {
     return formDefinition.question_group.find((qg) => qg.id === activeGroup);
@@ -75,6 +81,32 @@ const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDia
       onSubmit({ name: dpName, geo: dpGeo, answers: results });
     }
   };
+
+  useEffect(() => {
+    if (numberOfQuestion === 0) {
+      return;
+    }
+    if (formLoading) {
+      /**
+       Based on Formik's behavior, each onChange will trigger a rerender for each field.
+       Therefore, we can use the number of questions as a timeout.
+       */
+      setTimeout(() => {
+        FormState.update((s) => {
+          s.loading = false;
+        });
+      }, numberOfQuestion);
+    }
+  }, [numberOfQuestion, formLoading]);
+
+  if (formLoading) {
+    return (
+      <Dialog isVisible>
+        <Dialog.Title title={`${trans.loadingPrefilledAnswer}...`} />
+        <Dialog.Loading />
+      </Dialog>
+    );
+  }
 
   return (
     <>

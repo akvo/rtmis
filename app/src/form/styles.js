@@ -46,7 +46,7 @@ export const styles = StyleSheet.create({
   },
   fieldLabel: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     paddingHorizontal: 10,
     marginBottom: 8,
     fontWeight: 600,
