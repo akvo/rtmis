@@ -30,6 +30,7 @@ const config = {
       id: 1,
       name: "Super Admin",
       filter_form: false,
+      delete_data: true,
       page_access: [
         "profile",
         "user",
@@ -61,6 +62,7 @@ const config = {
       id: 2,
       name: "County Admin",
       filter_form: false,
+      delete_data: true,
       page_access: [
         "profile",
         "user",
@@ -89,6 +91,7 @@ const config = {
       id: 3,
       name: "Data Approver",
       filter_form: 1,
+      delete_data: false,
       page_access: [
         "profile",
         "control-center",
@@ -108,6 +111,7 @@ const config = {
       id: 4,
       name: "Data Entry Staff",
       filter_form: 1,
+      delete_data: false,
       page_access: [
         "profile",
         "form",
