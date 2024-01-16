@@ -48,7 +48,7 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   const formDefinition = transformForm(forms, activeLang);
 
   const currentGroup = useMemo(() => {
-    return formDefinition.question_group.find((qg) => qg.id === activeGroup);
+    return formDefinition?.question_group?.[activeGroup] || {};
   }, [formDefinition, activeGroup]);
   const numberOfQuestion = currentGroup?.question?.length || 0;
 
