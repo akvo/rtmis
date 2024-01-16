@@ -1,10 +1,12 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { BaseLayout } from '../components';
 import { View } from 'react-native';
 import { FormNavigation, QuestionGroupList } from './support';
 import QuestionGroup from './components/QuestionGroup';
 import { transformForm, generateDataPointName } from './lib';
 import { FormState } from '../store';
+import { Dialog } from '@rneui/themed';
+import { i18n } from '../lib';
 
 // TODO:: Allow other not supported yet
 // TODO:: Repeat group not supported yet
@@ -40,12 +42,15 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   const currentValues = FormState.useState((s) => s.currentValues);
   const cascades = FormState.useState((s) => s.cascades);
   const activeLang = FormState.useState((s) => s.lang);
+  const trans = i18n.text(activeLang);
+  const formLoading = FormState.useState((s) => s.loading);
 
   const formDefinition = transformForm(forms, activeLang);
 
   const currentGroup = useMemo(() => {
     return formDefinition.question_group.find((qg) => qg.id === activeGroup);
   }, [formDefinition, activeGroup]);
+  const numberOfQuestion = currentGroup?.question?.length || 0;
 
   const handleOnSubmitForm = () => {
     const results = checkValuesBeforeCallback(currentValues);
@@ -54,6 +59,28 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
       onSubmit({ name: dpName, geo: dpGeo, answers: results });
     }
   };
+
+  useEffect(() => {
+    if (numberOfQuestion === 0) {
+      return;
+    }
+    if (formLoading) {
+      setTimeout(() => {
+        FormState.update((s) => {
+          s.loading = false;
+        });
+      }, numberOfQuestion);
+    }
+  }, [numberOfQuestion, formLoading]);
+
+  if (formLoading) {
+    return (
+      <Dialog isVisible>
+        <Dialog.Title title={`${trans.loadingPrefilledAnswer}...`} />
+        <Dialog.Loading />
+      </Dialog>
+    );
+  }
 
   return (
     <>
