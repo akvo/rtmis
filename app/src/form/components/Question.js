@@ -40,6 +40,9 @@ const Question = ({ group, setFieldValue, values }) => {
         JSON.stringify(preFilled?.answer) === JSON.stringify(value) ||
         String(preFilled?.answer) === String(value);
       if (isMatchAnswer) {
+        FormState.update((s) => {
+          s.loading = true;
+        });
         preFilled?.fill?.forEach((f) => {
           setFieldValue(f?.id, f?.answer);
           fieldValues[f?.id] = f?.answer;
