@@ -98,7 +98,7 @@ const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
           />
         );
       case 'geo':
-        return <TypeGeo keyform={keyform} onChange={handleOnChangeField} {...questionField} />;
+        return <TypeGeo keyform={keyform} value={value} {...questionField} />;
       case 'cascade':
         return (
           <TypeCascade
