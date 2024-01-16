@@ -181,6 +181,8 @@ const TypeAutofield = ({ onChange, keyform, id, name, tooltip, fn }) => {
         }}
         value={value ? (value === NaN ? null : value.toString()) : null}
         testID="type-autofield"
+        multiline={true}
+        numberOfLines={2}
         disabled
       />
     </View>
