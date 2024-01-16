@@ -54,12 +54,9 @@ const AdministrationDropdown = ({
     }
     let admItems = null;
     if (Array.isArray(e)) {
-      const multiadministration = await Promise.all(
-        e.map(async (ID) => {
-          const apiResponse = await api.get(`administration/${ID}`);
-          return apiResponse.data;
-        })
-      );
+      const multiadministration = administration
+        ?.find((admLevel) => admLevel.level === lowestLevel.level - 1)
+        ?.children.filter((admItem) => e.includes(admItem.id));
       admItems = multiadministration;
     } else {
       const { data: selectedAdm } = await api.get(`administration/${e}`);
