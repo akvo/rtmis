@@ -149,9 +149,9 @@ export const styles = StyleSheet.create({
     marginBottom: 4,
   },
   questionGroupListItemWrapper: {
-    flex: 1,
-    flexWrap: 'wrap',
+    display: 'flex',
     flexDirection: 'row',
+    width: '100%',
     paddingVertical: 5,
     alignItems: 'center',
     paddingHorizontal: 10,

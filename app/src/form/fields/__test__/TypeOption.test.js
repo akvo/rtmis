@@ -27,7 +27,7 @@ describe('TypeOption component', () => {
     const { getByTestId } = render(
       <TypeOption
         onChange={onChangeMock}
-        values={values}
+        value={values}
         id="dropdown"
         name="Dropdown Field"
         option={option}
@@ -107,7 +107,7 @@ describe('TypeOption component', () => {
       <TypeOption
         lang={activeLang}
         onChange={onChangeMock}
-        values={values}
+        value={values}
         option={option}
         setFieldValue={setFieldValueMock}
         id="maindrinking"
