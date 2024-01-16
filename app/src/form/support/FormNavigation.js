@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
-import { Platform, ToastAndroid } from 'react-native';
+import React from 'react';
 import { Tab } from '@rneui/themed';
 import { styles } from '../styles';
 import { UIState, FormState } from '../../store';
 import { i18n } from '../../lib';
-import { generateValidationSchemaFieldLevel } from '../lib';
+import { generateValidationSchemaFieldLevel, onFilterDependency } from '../lib';
 
 const FormNavigation = ({
   currentGroup,
@@ -32,15 +31,26 @@ const FormNavigation = ({
     // index 0 = prev group
     // index 1 = show question group list
     // index 2 = next group
-    const validateSync = currentGroup?.question?.map((q) =>
-      generateValidationSchemaFieldLevel(currentValues?.[q?.id] || null, q),
-    );
+    const validateSync = currentGroup?.question
+      ?.filter((q) => onFilterDependency(currentGroup, currentValues, q))
+      ?.map((q) => {
+        const defaultVal = ['cascade', 'multiple_option', 'option', 'geo'].includes(q?.type)
+          ? null
+          : '';
+        const fieldValue = currentValues?.[q?.id] || defaultVal;
+        return generateValidationSchemaFieldLevel(fieldValue, q);
+      });
     const validations = await Promise.allSettled(validateSync);
-    const feedbackValues = validations
+    const feedbackList = validations
       ?.filter(({ status }) => status === 'fulfilled')
       .map(({ value }) => value);
-    const errors = feedbackValues.filter((fb) => Object.values(fb)?.[0] !== true);
-    console.log('feedbackValues', feedbackValues);
+    const feedbackValues = feedbackList.reduce((acc, obj) => {
+      const key = Object.keys(obj)[0];
+      const value = obj[key];
+      acc[key] = value;
+      return acc;
+    }, {});
+    const errors = Object.values(feedbackValues).filter((val) => val !== true);
     FormState.update((s) => {
       s.feedback = feedbackValues;
     });
