@@ -10,7 +10,6 @@ import {
   Space,
   Tag,
   List,
-  Avatar,
   Spin,
 } from "antd";
 import {
@@ -531,7 +530,7 @@ const ApprovalDetail = ({
           <List
             itemLayout="horizontal"
             dataSource={comments}
-            renderItem={(item, index) => (
+            renderItem={(item) => (
               <List.Item>
                 {/* TODO: Change Avatar */}
                 <List.Item.Meta
