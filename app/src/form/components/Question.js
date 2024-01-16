@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import * as Crypto from 'expo-crypto';
 import QuestionField from './QuestionField';
@@ -6,7 +6,11 @@ import { styles } from '../styles';
 import { onFilterDependency } from '../lib';
 import { FormState } from '../../store';
 
-const Question = ({ group }) => {
+const Question = memo(({ group }) => {
+  /**
+   * Optimizing flatlist with memo
+   * https://reactnative.dev/docs/optimizing-flatlist-configuration#use-memo
+   */
   const [preload, setPreload] = useState(true);
   const values = FormState.useState((s) => s.currentValues);
 
@@ -94,6 +98,6 @@ const Question = ({ group }) => {
       removeClippedSubviews={false}
     />
   );
-};
+});
 
 export default Question;
