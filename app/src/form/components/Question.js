@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import * as Crypto from 'expo-crypto';
 import QuestionField from './QuestionField';
@@ -9,7 +9,17 @@ import { FormState } from '../../store';
 const Question = ({ group }) => {
   const [preload, setPreload] = useState(true);
   const values = FormState.useState((s) => s.currentValues);
-  const questions = group?.question?.filter((q) => onFilterDependency(group, values, q));
+
+  const questions = useMemo(() => {
+    try {
+      if (group?.question?.length) {
+        return group.question.filter((q) => onFilterDependency(group, values, q));
+      }
+      return [];
+    } catch {
+      return [];
+    }
+  }, [group, values]);
 
   const handleOnGenerateUUID = useCallback(() => {
     if (preload) {
@@ -32,6 +42,13 @@ const Question = ({ group }) => {
 
   const handleOnChange = (id, value, field) => {
     const fieldValues = { ...values, [id]: value };
+    const isEmpty = Array.isArray(value) ? value.length === 0 : String(value)?.trim()?.length === 0;
+
+    if (!isEmpty) {
+      FormState.update((s) => {
+        s.feedback = { ...s.feedback, [id]: true };
+      });
+    }
 
     const preFilled = field?.pre;
     if (preFilled?.answer) {
@@ -39,6 +56,9 @@ const Question = ({ group }) => {
         JSON.stringify(preFilled?.answer) === JSON.stringify(value) ||
         String(preFilled?.answer) === String(value);
       if (isMatchAnswer) {
+        FormState.update((s) => {
+          s.loading = true;
+        });
         preFilled?.fill?.forEach((f) => {
           fieldValues[f?.id] = f?.answer;
         });
@@ -71,6 +91,7 @@ const Question = ({ group }) => {
         );
       }}
       extraData={group}
+      removeClippedSubviews={false}
     />
   );
 };
