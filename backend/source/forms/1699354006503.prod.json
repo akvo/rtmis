@@ -328,18 +328,24 @@
         },
         {
           "id": 1702364544574,
-          "question": "Outcome result - Ground water contamination",
+          "question": "COMMUNITY LEVEL ASSESSMENT: Low risk of groundwater contamination",
           "order": 10,
-          "type": "autofield",
+          "type": "option",
           "tooltip": null,
           "required": false,
           "meta": false,
-          "options": null,
-          "fn": {
-            "fnColor": {},
-            "fnString": "function () {\n  return (\n    #1699951986776.includes(\"High\") ||\n    (#1699951986776.includes(\"Medium\") && #1699952153243.includes(\"Less\")) ||\n    (#1699951986776.includes(\"Medium\") && #1699952153243.includes(\"Between\")) ||\n    (#1699951986776.includes(\"Low\") && #1699952153243.includes(\"Less\"))\n  ) ? \"High\" : \"Low\"\n}",
-            "multiline": true
-          }
+          "options": [
+            {
+              "id": 16999524328041,
+              "name": "G0 High risk of groundwater contamination",
+              "order": 1
+            },
+            {
+              "id": 16999524328052,
+              "name": "G2 Low risk of groundwater contamination",
+              "order": 2
+            }
+          ]
         },
         {
           "id": 1699958188283,
