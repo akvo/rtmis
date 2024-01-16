@@ -535,9 +535,6 @@ const ApprovalDetail = ({
               <List.Item>
                 {/* TODO: Change Avatar */}
                 <List.Item.Meta
-                  avatar={
-                    <Avatar src={`https://i.pravatar.cc/150?img=${index}`} />
-                  }
                   title={
                     <div>
                       <Tag>{item.created}</Tag>
