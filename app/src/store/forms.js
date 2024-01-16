@@ -8,6 +8,7 @@ const FormState = new Store({
   surveyStart: null,
   cascades: {},
   lang: 'en',
+  feedback: {},
   loading: false,
 });
 

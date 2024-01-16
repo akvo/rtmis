@@ -1,8 +1,6 @@
-import React, { useState, useRef, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { BaseLayout } from '../components';
-import { ScrollView, View, FlatList } from 'react-native';
-import { Formik } from 'formik';
-import { styles } from './styles';
+import { View } from 'react-native';
 import { FormNavigation, QuestionGroupList } from './support';
 import QuestionGroup from './components/QuestionGroup';
 import { transformForm, generateDataPointName } from './lib';
@@ -38,8 +36,7 @@ const style = {
   flex: 1,
 };
 
-const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDialogMenu }) => {
-  const formRef = useRef();
+const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   const [activeGroup, setActiveGroup] = useState(0);
   const [showQuestionGroupList, setShowQuestionGroupList] = useState(false);
   const currentValues = FormState.useState((s) => s.currentValues);
@@ -48,34 +45,15 @@ const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDia
   const trans = i18n.text(activeLang);
   const formLoading = FormState.useState((s) => s.loading);
 
-  useEffect(() => {
-    if (onSave) {
-      const results = checkValuesBeforeCallback(currentValues);
-      if (!Object.keys(results).length) {
-        return onSave(null);
-      }
-      const { dpName, dpGeo } = generateDataPointName(forms, currentValues, cascades);
-      const values = { name: dpName, geo: dpGeo, answers: results };
-      return onSave(values);
-    }
-  }, [currentValues, onSave]);
-
-  const formDefinition = useMemo(() => {
-    const transformedForm = transformForm(forms, activeLang);
-    FormState.update((s) => {
-      s.visitedQuestionGroup = [transformedForm.question_group[0].id];
-    });
-    return transformedForm;
-  }, [forms, activeLang]);
-  const numberOfQuestion =
-    formDefinition?.question_group?.flatMap((qg) => qg?.question)?.length || 0;
+  const formDefinition = transformForm(forms, activeLang);
 
   const currentGroup = useMemo(() => {
-    return formDefinition.question_group.find((qg) => qg.id === activeGroup);
+    return formDefinition?.question_group?.[activeGroup] || {};
   }, [formDefinition, activeGroup]);
+  const numberOfQuestion = currentGroup?.question?.length || 0;
 
-  const handleOnSubmitForm = (values) => {
-    const results = checkValuesBeforeCallback(values);
+  const handleOnSubmitForm = () => {
+    const results = checkValuesBeforeCallback(currentValues);
     if (onSubmit) {
       const { dpName, dpGeo } = generateDataPointName(forms, currentValues, cascades);
       onSubmit({ name: dpName, geo: dpGeo, answers: results });
@@ -87,10 +65,6 @@ const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDia
       return;
     }
     if (formLoading) {
-      /**
-       Based on Formik's behavior, each onChange will trigger a rerender for each field.
-       Therefore, we can use the number of questions as a timeout.
-       */
       setTimeout(() => {
         FormState.update((s) => {
           s.loading = false;
@@ -113,36 +87,7 @@ const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDia
       <BaseLayout.Content>
         <View style={style}>
           {!showQuestionGroupList ? (
-            <Formik
-              innerRef={formRef}
-              initialValues={initialValues}
-              onSubmit={handleOnSubmitForm}
-              validateOnBlur={true}
-              validateOnChange={true}
-            >
-              {({ setFieldValue, values }) => (
-                <FlatList
-                  scrollEnabled={true}
-                  data={formDefinition?.question_group}
-                  keyExtractor={(item) => `group-${item.id}`}
-                  renderItem={({ item: group }) => {
-                    if (activeGroup !== group.id) {
-                      return '';
-                    }
-                    return (
-                      <QuestionGroup
-                        key={`group-${group.id}`}
-                        index={group.id}
-                        group={group}
-                        setFieldValue={setFieldValue}
-                        values={values}
-                      />
-                    );
-                  }}
-                  extraData={activeGroup}
-                />
-              )}
-            </Formik>
+            <QuestionGroup index={activeGroup} group={currentGroup} />
           ) : (
             <QuestionGroupList
               form={formDefinition}
@@ -156,12 +101,7 @@ const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDia
       <View>
         <FormNavigation
           currentGroup={currentGroup}
-          formRef={formRef}
-          onSubmit={() => {
-            if (formRef.current) {
-              formRef.current.handleSubmit();
-            }
-          }}
+          onSubmit={handleOnSubmitForm}
           activeGroup={activeGroup}
           setActiveGroup={setActiveGroup}
           totalGroup={formDefinition?.question_group?.length || 0}

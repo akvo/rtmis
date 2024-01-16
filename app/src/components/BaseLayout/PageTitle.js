@@ -33,15 +33,13 @@ const PageTitle = ({
   const currentValues = FormState.useState((s) => s.currentValues);
   const cascades = FormState.useState((s) => s.cascades);
   const forms = selectedForm?.json ? JSON.parse(selectedForm.json) : {};
+  const { dpName } = generateDataPointName(forms, currentValues, cascades);
 
   const handleSettingsPress = () => {
     navigation.navigate('Settings');
   };
 
-  subTitle =
-    subTitle === 'formPage'
-      ? generateDataPointName(forms, currentValues, cascades)?.dpName
-      : subTitle;
+  subTitle = subTitle === 'formPage' ? dpName : subTitle;
 
   return (
     <Header

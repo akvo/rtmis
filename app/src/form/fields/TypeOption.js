@@ -58,9 +58,9 @@ const TypeOption = ({
         valueField="name"
         searchPlaceholder={trans.searchPlaceholder}
         value={value?.[0] || ''}
-        onChange={({ name: value }) => {
+        onChange={({ name: optValue }) => {
           if (onChange) {
-            onChange(id, [value]);
+            onChange(id, [optValue]);
           }
         }}
         renderItem={(item) => {

@@ -8,13 +8,12 @@ import { FieldLabel } from '../support';
 import { styles } from '../styles';
 import { loc, i18n } from '../../lib';
 
-const TypeGeo = ({ onChange, keyform, id, name, tooltip, required, requiredSign }) => {
+const TypeGeo = ({ keyform, id, name, value, tooltip, required, requiredSign }) => {
   const [errorMsg, setErrorMsg] = useState(null);
   const [gpsAccuracy, setGpsAccuracy] = useState(null);
   const [currLocation, setCurrLocation] = useState({ lat: null, lng: null });
   const [loading, setLoading] = useState({ current: false, map: false });
-  const currentValues = FormState.useState((s) => s.currentValues);
-  const [latitude, longitude] = currentValues?.[id] || [];
+  const [latitude, longitude] = value || [];
 
   const gpsThreshold = BuildParamsState.useState((s) => s.gpsThreshold);
   const isOnline = UIState.useState((s) => s.online);
@@ -55,7 +54,9 @@ const TypeGeo = ({ onChange, keyform, id, name, tooltip, required, requiredSign 
               lat,
               lng,
             });
-            onChange(id, [lat, lng]);
+            FormState.update((s) => {
+              s.currentValues = { ...s.currentValues, [id]: [lat, lng] };
+            });
             setLoading({
               ...loading,
               [loadingKey]: false,

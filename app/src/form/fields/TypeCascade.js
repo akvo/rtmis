@@ -35,19 +35,19 @@ const TypeCascade = ({
         return groups;
       }, {});
     const groupedData = {};
-    Object.entries(gd).forEach(([key, value]) => {
-      groupedData[key] = value;
+    Object.entries(gd).forEach(([key, val]) => {
+      groupedData[key] = val;
     });
     return groupedData;
   };
 
-  const handleOnChange = (index, value) => {
+  const handleOnChange = (index, val) => {
     const nextIndex = index + 1;
     const updatedItems = dropdownItems
       .slice(0, nextIndex)
-      .map((d, dx) => (dx === index ? { ...d, value } : d));
+      .map((d, dx) => (dx === index ? { ...d, value: val } : d));
 
-    const options = dataSource?.filter((d) => d?.parent === value);
+    const options = dataSource?.filter((d) => d?.parent === val);
 
     if (options.length) {
       updatedItems.push({
@@ -104,7 +104,7 @@ const TypeCascade = ({
     return Object.values(groupedDs).map((options, ox) => {
       return {
         options,
-        value: value ? value[ox] : null,
+        value: value?.[ox] || null,
       };
     });
   }, [dataSource, source, value, id]);
