@@ -29,6 +29,7 @@ const AddAssignment = () => {
   const [loading, setLoading] = useState(false);
   const [preload, setPreload] = useState(true);
   const [level, setLevel] = useState(userAdmLevel);
+  const [selectedAdministrations, setSelectedAdministrations] = useState([]);
 
   const lowestLevel = levels
     .slice()
@@ -55,7 +56,6 @@ const AddAssignment = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
-
   const pageTitle = id ? text.mobileEditText : text.mobileAddText;
   const descriptionData = (
     <p>{id ? text.mobilePanelEditDesc : text.mobilePanelAddDesc}</p>
@@ -129,7 +129,7 @@ const AddAssignment = () => {
       const payload = {
         name: values.name,
         administrations:
-          values.administrations || selectedAdm.map((a) => a?.id),
+          selectedAdministrations || selectedAdm.map((a) => a?.id),
         forms: values.forms,
       };
       if (id) {
@@ -265,7 +265,7 @@ const AddAssignment = () => {
                     maxLevel={level}
                     onChange={(values) => {
                       if (values) {
-                        form.setFieldsValue({ administrations: values });
+                        setSelectedAdministrations(values);
                       }
                     }}
                     persist={id ? true : false}

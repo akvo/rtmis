@@ -5,6 +5,8 @@ import { FormNavigation, QuestionGroupList } from './support';
 import QuestionGroup from './components/QuestionGroup';
 import { transformForm, generateDataPointName } from './lib';
 import { FormState } from '../store';
+import { Dialog } from '@rneui/themed';
+import { i18n } from '../lib';
 
 // TODO:: Allow other not supported yet
 // TODO:: Repeat group not supported yet
@@ -40,6 +42,8 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   const currentValues = FormState.useState((s) => s.currentValues);
   const cascades = FormState.useState((s) => s.cascades);
   const activeLang = FormState.useState((s) => s.lang);
+  const trans = i18n.text(activeLang);
+  const formLoading = FormState.useState((s) => s.loading);
 
   const formDefinition = transformForm(forms, activeLang);
 

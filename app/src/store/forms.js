@@ -9,6 +9,7 @@ const FormState = new Store({
   cascades: {},
   lang: 'en',
   feedback: [],
+  loading: false,
 });
 
 export default FormState;
