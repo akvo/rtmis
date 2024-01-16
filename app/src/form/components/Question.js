@@ -3,30 +3,13 @@ import { FlatList, View } from 'react-native';
 import * as Crypto from 'expo-crypto';
 import QuestionField from './QuestionField';
 import { styles } from '../styles';
-import { modifyDependency, validateDependency } from '../lib';
+import { onFilterDependency } from '../lib';
 import { FormState } from '../../store';
 
-const Question = ({ group, setFieldValue }) => {
-  /**
-   * TODO: handle reset FormState.feedback based on dependency
-   */
+const Question = ({ group }) => {
   const [preload, setPreload] = useState(true);
   const values = FormState.useState((s) => s.currentValues);
-  const questions = group?.question?.filter((field) => {
-    if (field?.dependency) {
-      const repeat = 0;
-      const modifiedDependency = modifyDependency(group, field, repeat);
-      const unmatches = modifiedDependency
-        .map((x) => {
-          return validateDependency(x, values?.[x.id]);
-        })
-        .filter((x) => x === false);
-      if (unmatches.length) {
-        return false;
-      }
-    }
-    return field;
-  });
+  const questions = group?.question?.filter((q) => onFilterDependency(group, values, q));
 
   const handleOnGenerateUUID = useCallback(() => {
     if (preload) {
@@ -38,9 +21,8 @@ const Question = ({ group, setFieldValue }) => {
     group?.question
       ?.filter((q) => q?.meta_uuid)
       ?.forEach((q) => {
-        if (!values?.[q.id] && typeof setFieldValue === 'function') {
+        if (!values?.[q.id]) {
           const UUID = Crypto.randomUUID();
-          setFieldValue(q.id, UUID);
           FormState.update((s) => {
             s.currentValues = { ...s.currentValues, [q.id]: UUID };
           });
@@ -49,8 +31,6 @@ const Question = ({ group, setFieldValue }) => {
   }, [preload, group, values]);
 
   const handleOnChange = (id, value, field) => {
-    setFieldValue(id, value);
-
     const fieldValues = { ...values, [id]: value };
 
     const preFilled = field?.pre;
@@ -59,11 +39,7 @@ const Question = ({ group, setFieldValue }) => {
         JSON.stringify(preFilled?.answer) === JSON.stringify(value) ||
         String(preFilled?.answer) === String(value);
       if (isMatchAnswer) {
-        FormState.update((s) => {
-          s.loading = true;
-        });
         preFilled?.fill?.forEach((f) => {
-          setFieldValue(f?.id, f?.answer);
           fieldValues[f?.id] = f?.answer;
         });
       }
