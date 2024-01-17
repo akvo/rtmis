@@ -16,6 +16,7 @@ const uiText = {
     successSubmitted: 'Data point submitted',
     errorSubmitted: 'Error! failed to submit data point',
     errorSaveDatapoint: 'Error! failed to save data point',
+    mandatoryQuestions: 'Please answer all mandatory questions',
     usersSwitchTo: 'Switch to ',
     getStartedSubTitle: 'Gather Information Anywhere, Anytime',
     getStartedTitle1: 'Get Started',
