@@ -27,7 +27,7 @@ const BIDashboard = () => {
             );
           default:
             return (
-              <Affix key={componentKey} className="sticky-wrapper">
+              <Affix key={componentKey} className="wrapper">
                 <div className="page-title-wrapper">
                   <h1 style={c?.style ? c.style : {}}>{c.text}</h1>
                 </div>
