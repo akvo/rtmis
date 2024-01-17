@@ -57,7 +57,7 @@ const Header = ({ className = "header", ...props }) => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
-  const dashboards = window?.dashboard;
+  const dashboards = window?.powerBIDashboard;
   const reports = window?.reports;
 
   const signOut = useCallback(async () => {
@@ -114,9 +114,13 @@ const Header = ({ className = "header", ...props }) => {
       return {
         key: d.name,
         label: (
-          <div key={`${d.name}`} className="dropdown-menu-item">
-            <Link to={`/${d.page}/${d.form_id}`}>{d.name}</Link>
-          </div>
+          <Link
+            key={`${d.name}`}
+            to={`/${d.page}/${d.path}`}
+            className="dropdown-menu-item"
+          >
+            {d.name}
+          </Link>
         ),
       };
     });
@@ -180,24 +184,13 @@ const Header = ({ className = "header", ...props }) => {
                   <FaChevronDown />
                 </a>
               </Dropdown>
-              <Dropdown menu={{ items: ReportsMenu }}>
-                <a
-                  className="ant-dropdown-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                  }}
-                >
-                  {text?.reports}
-                  <FaChevronDown />
-                </a>
-              </Dropdown>
               {/* <a className="dev">Monitoring</a> */}
               {/* <Link className="dev" to="/how-we-work">
               How We Work
             </Link> */}
-              <Link className="dev" to="/news-events">
+              {/* <Link className="dev" to="/news-events">
                 {text?.newsEvents}
-              </Link>
+              </Link> */}
             </Space>
           </div>
           <div className="account">

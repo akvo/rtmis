@@ -5,9 +5,9 @@ import { useParams } from "react-router-dom";
 import "./style.scss";
 
 const BIDashboard = () => {
-  const { formId } = useParams();
+  const { path } = useParams();
   const powerBIDashboard = window?.powerBIDashboard;
-  const current = powerBIDashboard?.find((x) => x.form_id === parseInt(formId));
+  const current = powerBIDashboard?.find((x) => x.path === path);
 
   return (
     <div id="powerbi-dashboard">

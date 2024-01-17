@@ -239,7 +239,7 @@ const RouteList = () => {
         path="/report/:templateId"
         element={<Private element={Report} alias="reports" />}
       />
-      <Route path="/bi/:formId" element={<BIDashboard />} />
+      <Route path="/bi/:path" element={<BIDashboard />} />
       <Route path="/news-events" element={<NewsEvents />} />
       <Route path="/how-we-work" element={<HowWeWork />} />
       <Route path="/terms" element={<Terms />} />
