@@ -3,8 +3,9 @@
   "form": "RTMIS Community Monitoring Form",
   "description": "Community monitoring",
   "defaultLanguage": "en",
-  "languages": ["en", "fr"],
+  "languages": ["en"],
   "version": 1,
+  "type": 1,
   "translations": null,
   "question_groups": [
     {
@@ -36,7 +37,145 @@
               "name": "Update",
               "order": 2
             }
-          ]
+          ],
+          "pre": {
+            "answer": ["New"],
+            "fill": [
+              { "id": 1699354006535, "answer": ["New"] },
+              {
+                "id": 1699951538608,
+                "answer": ["Village chief/Community head"]
+              },
+              {
+                "id": 1699951986776,
+                "answer": ["Medium drainage soil (medium sand, weathered rock)"]
+              },
+              { "id": 1699952153243, "answer": ["Less than 5m"] },
+              {
+                "id": 1699952219561,
+                "answer": [
+                  "Protected groundwater sources (protected boreholes, protected dug wells or protected springs)"
+                ]
+              },
+              { "id": 1699952295823, "answer": ["More than 25%"] },
+              { "id": 1699952355848, "answer": ["More than 25%"] },
+              { "id": 1699952418978, "answer": ["More than 25%"] },
+              {
+                "id": 1702364544574,
+                "answer": ["G0 High risk of groundwater contamination"]
+              },
+              {
+                "id": 1699958670124,
+                "answer": [
+                  "G0 Action plan for G2: not available, not approved or not in use"
+                ]
+              },
+              {
+                "id": 1699958822791,
+                "answer": [
+                  "G0 Action plan for G3: not available, not approved or not in use"
+                ]
+              },
+              {
+                "id": 1699959649782,
+                "answer": [
+                  "G0 Child or adult excreta observed in communal areas"
+                ]
+              },
+              {
+                "id": 1699959743410,
+                "answer": ["G0 Used diapers visible in communal areas"]
+              },
+              {
+                "id": 1699959861479,
+                "answer": ["G0 Visible dirt or contamination"]
+              },
+              {
+                "id": 1699960025562,
+                "answer": ["G0 No protection of water points"]
+              },
+              {
+                "id": 1699960104326,
+                "answer": ["G0 Standing water visible around water point"]
+              },
+              {
+                "id": 1699960255414,
+                "answer": [
+                  "G0 Unsafe disposal: to open pit, open space, open drain or water body in communal areas"
+                ]
+              },
+              {
+                "id": 1699960354498,
+                "answer": ["G0 Significant erosion in communal areas"]
+              },
+              {
+                "id": 1699960411329,
+                "answer": [
+                  "G0 Significant visible solid wastes in communal areas"
+                ]
+              },
+              {
+                "id": 1699960488230,
+                "answer": ["G0 Significant standing water in communal areas"]
+              },
+              {
+                "id": 1699960542156,
+                "answer": ["G0 No treatment or management in communal areas"]
+              },
+              { "id": 1699960591715, "answer": ["School"] },
+              {
+                "id": 1699960963586,
+                "answer": ["G0 Non-functional toilets in institutions"]
+              },
+              {
+                "id": 1699961175102,
+                "answer": ["G0 Toilets NOT flyproof in institutions"]
+              },
+              {
+                "id": 1699961260729,
+                "answer": ["G0 Toilets NOT clean in institutions"]
+              },
+              {
+                "id": 1699961309670,
+                "answer": ["G0 Toilet slabs NOT durable in institutions"]
+              },
+              {
+                "id": 1699961394874,
+                "answer": ["G0 Toilet pits NOT durable in institutions"]
+              },
+              {
+                "id": 1699961577575,
+                "answer": ["G0 Visible surface outflows from containment"]
+              },
+              {
+                "id": 1699961683357,
+                "answer": [
+                  "G0 Unsafe containment: overflow to open space, open drain, water body"
+                ]
+              },
+              {
+                "id": 1699961882642,
+                "answer": ["G0 No toilet, or no containment/collection system"]
+              },
+              { "id": 1699962081417, "answer": ["G0 No handwashing facility"] },
+              { "id": 1699962192648, "answer": ["G0 No water available"] },
+              {
+                "id": 1699962251539,
+                "answer": ["G0 No soap or other cleanser available"]
+              },
+              { "id": 1699962342866, "answer": ["G0 No handwashing facility"] },
+              {
+                "id": 1699962446974,
+                "answer": [
+                  "\"G0 Hands enter the water container (during collection and use) \""
+                ]
+              },
+              {
+                "id": 1699962527375,
+                "answer": ["\"G0 No collection or disposal of washing water \""]
+              }
+            ]
+          }
         }
       ]
     },
@@ -1565,6 +1704,5 @@
         }
       ]
     }
-  ],
-  "type": 1
+  ]
 }
