@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Table, Button, Space, Spin, Alert } from "antd";
 import { LoadingOutlined, HistoryOutlined } from "@ant-design/icons";
 import { EditableCell } from "../../components";
-import { api, store } from "../../lib";
+import { api, config, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { flatten, isEqual } from "lodash";
 import { HistoryTable } from "../../components";
@@ -169,6 +169,13 @@ const DataDetail = ({
       : false;
   }, [dataset]);
 
+  const deleteData = useMemo(() => {
+    const currentUser = config.roles.find(
+      (role) => role.name === authUser?.role_detail?.name
+    );
+    return currentUser?.delete_data;
+  }, [authUser]);
+
   return loading ? (
     <Space style={{ paddingTop: 18, color: "#9e9e9e" }} size="middle">
       <Spin indicator={<LoadingOutlined style={{ color: "#1b91ff" }} spin />} />
@@ -246,9 +253,11 @@ const DataDetail = ({
             >
               Save Edits
             </Button>
-            <Button type="danger" onClick={() => setDeleteData(record)}>
-              Delete
-            </Button>
+            {deleteData && (
+              <Button type="danger" onClick={() => setDeleteData(record)}>
+                Delete
+              </Button>
+            )}
           </Space>
         </div>
       )}
