@@ -24,7 +24,7 @@
           "tooltip": {
             "text": "Entry of institution data in RTMIS (first time) or update of monitoring data (existing institution)"
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
@@ -127,7 +127,7 @@
           "tooltip": {
             "text": "This question contains a list of possible household locations, starting with government area or district, down to the village."
           },
-          "required": false,
+          "required": true,
           "meta": true
         },
         {
@@ -138,7 +138,7 @@
           "tooltip": {
             "text": "Record GPS coordinates of a central place in the institution (e.g. in front of entrance)"
           },
-          "required": false,
+          "required": true,
           "meta": true,
           "options": null
         }
@@ -157,7 +157,7 @@
           "question": "Institution respondent: role in institution",
           "order": 1,
           "type": "text",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": null,
           "options": null
@@ -167,7 +167,7 @@
           "question": "Type of institution",
           "order": 2,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: type of institution (located within community), Institution: any public building with open access to the communal toilets and handwashing facilities"
@@ -235,7 +235,7 @@
           "question": "Functional institutional toilet",
           "order": 3,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: functional toilets observed in institution?, Functional toilet: the household toilet is functioning as intended, and can be used (that is, it is not blocked, abandoned or collapsed), Number of toilets: count the number of separate toilet stances or separate toilet seats (each of which can be used privately and separately)"
@@ -263,7 +263,7 @@
           "question": "Flyproof institutional toilet",
           "order": 4,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: flyproof toilets observed in institution?"
@@ -286,7 +286,7 @@
           "question": "Clean institutional toilet",
           "order": 5,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: clean toilets observed in institution?"
@@ -309,7 +309,7 @@
           "question": "Durable institutional toilet slab",
           "order": 6,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: durable toilet slabs observed in institution?"
@@ -332,7 +332,7 @@
           "question": "Durable institutional toilet pits",
           "order": 7,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: durable toilet pits observed in institution?"
@@ -355,7 +355,7 @@
           "question": "Safely managed containment: wastewater contained",
           "order": 8,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: any evidence of surface outflows from containment systems (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows), Surface outflows from containment: EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks)."
@@ -383,7 +383,7 @@
           "question": "Safely managed containment: faecal sludge contained",
           "order": 9,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "INTERVIEW: has the institutional toilet containment (pit, tank or other) ever been emptied?, INTERVIEW: has the institutional toilet containment (pit, tank or other) ever filled up?, INTERVIEW: what happened when the institutional toilet containment (pit, tank or other) last filled up?"
@@ -411,7 +411,7 @@
           "question": "Safely managed sanitation services: emptying, treatment & disposal",
           "order": 10,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?, INTERVIEW: the last time it was emptied, who emptied the toilet containment?, INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied): what will happen when the toilet containment is full?, Licensed service provider: paid emptier that is approved and regulated by local authority to empty and transport toilet wastes, Unlicensed service provider: paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers) \nOff-site location: site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.\nSewer connection to licensed and functional treatment site: the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site."
@@ -499,7 +499,7 @@
           "question": "Handwashing facility observed in institution",
           "order": 11,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: presence and location of handwashing facility\nINTERVIEW: is there only one handwashing facility, or are other facilities available?"
@@ -542,7 +542,7 @@
           "question": "Water available at institutional HWF",
           "order": 12,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: is water available at the handwashing facility?\nOBSERVE: where an empty water container is observed at the handwashing facility, visible wet ground (or wet materials) under the handwashing facility can be accepted as proof of the recent presence of water."
@@ -570,7 +570,7 @@
           "question": "Soap available at institutional HWF",
           "order": 13,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: is soap available at the handwashing facility?, INTERVIEW: is soap or detergent available for washing hands? , Soap: solid, liquid or powder soap or detergent "
@@ -603,7 +603,7 @@
           "question": "Institutional handwashing facility type",
           "order": 14,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: is a permanent handwashing station available?\nPermanent handwashing station: facility made from durable materials, with a piped water connection or adequate water storage, and located in a fixed place that is appropriate for handwashing at critical times\nMarket handwashing station: manufactured handwashing station from durable materails (bought from market or market trader)\nPortable basin: open container that can be easily picked up and moved"
@@ -651,7 +651,7 @@
           "question": "Hands-free operation of institutional handwashing facility",
           "order": 15,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: mechanism to collect water or trigger water flow \nHands-free operation: the handwashing station is operated by tap, or other hands-free mechanism that minimises contact with the water collection device and the water container"
@@ -689,7 +689,7 @@
           "question": "Adequate drainage of washing water",
           "order": 16,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: facility to collect washing water, and facility to drain and dispose of the washing water\nCollection of washing water: container to collect dirty washing water (for example, a basin or other container)\nDrainage and disposal of washing water: drainage pipe or other facility to direct the washing water to an appropriate disposal point (for example, a soakpit or drain)"
