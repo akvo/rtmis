@@ -765,11 +765,12 @@
       "questions": [
         {
           "id": 17030862702541,
-          "question": "(Display Only) Outcome result - Functional toilet with privacy",
+          "question": "Outcome result - Functional toilet with privacy",
           "order": 1,
           "type": "autofield",
           "required": false,
           "meta": false,
+          "displayOnly": true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #17018105790911}",
@@ -778,11 +779,12 @@
         },
         {
           "id": 17032625689541,
-          "question": "(Display Only) Outcome result - Flyproof toilet type",
+          "question": "Outcome result - Flyproof toilet type",
           "order": 2,
           "type": "autofield",
           "required": false,
           "meta": false,
+          "displayOnly": true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #17022810847861}",
