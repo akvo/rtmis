@@ -35,7 +35,7 @@
       "jobs": [
         {
           "jobName": "sync-form-version",
-          "minimumInterval": 86400,
+          "minimumInterval": 3600,
           "enabled": true
         },
         {
