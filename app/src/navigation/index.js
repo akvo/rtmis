@@ -54,16 +54,23 @@ export const defineSyncFormVersionTask = () =>
   });
 defineSyncFormVersionTask();
 
-export const defineSyncFormSubmissionTask = () =>
-  TaskManager.defineTask(SYNC_FORM_SUBMISSION_TASK_NAME, async () => {
-    try {
-      await backgroundTask.syncFormSubmission();
-      return BackgroundFetch.BackgroundFetchResult.NewData;
-    } catch (err) {
-      console.error(`[${SYNC_FORM_SUBMISSION_TASK_NAME}] Define task manager failed`, err);
-      return BackgroundFetch.Result.Failed;
-    }
-  });
+let isSyncFormSubmissionTaskDefined = false;
+export const defineSyncFormSubmissionTask = () => {
+  if (!isSyncFormSubmissionTaskDefined) {
+    TaskManager.defineTask(SYNC_FORM_SUBMISSION_TASK_NAME, async () => {
+      try {
+        await backgroundTask.syncFormSubmission();
+        return BackgroundFetch.BackgroundFetchResult.NewData;
+      } catch (err) {
+        console.error(`[${SYNC_FORM_SUBMISSION_TASK_NAME}] Define task manager failed`, err);
+        return BackgroundFetch.Result.Failed;
+      }
+    });  
+    isSyncFormSubmissionTaskDefined = true; 
+  }
+}
+
+  
 defineSyncFormSubmissionTask();
 
 const Stack = createNativeStackNavigator();
