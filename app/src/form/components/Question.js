@@ -64,9 +64,15 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
         FormState.update((s) => {
           s.loading = true;
         });
-        preFilled?.fill?.forEach((f) => {
-          fieldValues[f?.id] = f?.answer;
-        });
+        preFilled?.fill
+          ?.filter(
+            (f) =>
+              !activeQuestions.length ||
+              (activeQuestions.length && activeQuestions?.map((q) => q?.id).includes(f.id)),
+          )
+          ?.forEach((f) => {
+            fieldValues[f?.id] = f?.answer;
+          });
       }
     }
     FormState.update((s) => {

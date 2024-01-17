@@ -41,11 +41,11 @@ const Forms = () => {
     },
     {
       title:
-        authUser?.role?.value === "Data Entry Staff"
+        authUser?.role?.value === "Data Entry Supervisor"
           ? authUser.name
           : text.manageDataTitle,
       link:
-        authUser?.role?.value === "Data Entry Staff"
+        authUser?.role?.value === "Data Entry Supervisor"
           ? "/profile"
           : "/control-center/data/manage",
     },

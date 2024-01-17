@@ -1,4 +1,5 @@
 import React from 'react';
+import { ToastAndroid } from 'react-native';
 import { Tab } from '@rneui/themed';
 import { styles } from '../styles';
 import { UIState, FormState } from '../../store';
@@ -51,6 +52,9 @@ const FormNavigation = ({
       return acc;
     }, {});
     const errors = Object.values(feedbackValues).filter((val) => val !== true);
+    if(errors.length > 0){
+      ToastAndroid.show(trans.mandatoryQuestions, ToastAndroid.LONG);
+    }
     FormState.update((s) => {
       s.feedback = feedbackValues;
     });

@@ -54,16 +54,23 @@ export const defineSyncFormVersionTask = () =>
   });
 defineSyncFormVersionTask();
 
-export const defineSyncFormSubmissionTask = () =>
-  TaskManager.defineTask(SYNC_FORM_SUBMISSION_TASK_NAME, async () => {
-    try {
-      await backgroundTask.syncFormSubmission();
-      return BackgroundFetch.BackgroundFetchResult.NewData;
-    } catch (err) {
-      console.error(`[${SYNC_FORM_SUBMISSION_TASK_NAME}] Define task manager failed`, err);
-      return BackgroundFetch.Result.Failed;
-    }
-  });
+let isSyncFormSubmissionTaskDefined = false;
+export const defineSyncFormSubmissionTask = () => {
+  if (!isSyncFormSubmissionTaskDefined) {
+    TaskManager.defineTask(SYNC_FORM_SUBMISSION_TASK_NAME, async () => {
+      try {
+        await backgroundTask.syncFormSubmission();
+        return BackgroundFetch.BackgroundFetchResult.NewData;
+      } catch (err) {
+        console.error(`[${SYNC_FORM_SUBMISSION_TASK_NAME}] Define task manager failed`, err);
+        return BackgroundFetch.Result.Failed;
+      }
+    });  
+    isSyncFormSubmissionTaskDefined = true; 
+  }
+}
+
+  
 defineSyncFormSubmissionTask();
 
 const Stack = createNativeStackNavigator();
@@ -88,7 +95,6 @@ const RootNavigator = () => {
 
   React.useEffect(() => {
     backgroundTask.backgroundTaskStatus(SYNC_FORM_VERSION_TASK_NAME);
-    backgroundTask.backgroundTaskStatus(SYNC_FORM_SUBMISSION_TASK_NAME, syncInterval);
 
     notification.registerForPushNotificationsAsync();
     const notificationListener = Notifications.addNotificationReceivedListener((notification) => {
@@ -110,6 +116,10 @@ const RootNavigator = () => {
       Notifications.removeNotificationSubscription(responseListener);
     };
   }, []);
+
+  React.useEffect(() => {
+    backgroundTask.backgroundTaskStatus(SYNC_FORM_SUBMISSION_TASK_NAME, syncInterval);
+  }, [syncInterval]);
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={currentPage}>

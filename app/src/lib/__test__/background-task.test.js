@@ -15,7 +15,7 @@ jest.mock('expo-task-manager');
 describe('backgroundTask', () => {
   const mockTaskName = 'taskName';
   const mockTaskOption = {
-    minimumInterval: 86400,
+    minimumInterval: 3600,
     startOnBoot: true,
     stopOnTerminate: false,
   };

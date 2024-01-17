@@ -48,7 +48,8 @@
     "react-native-screens": "~3.20.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-webview": "11.26.0",
-    "yup": "^1.2.0"
+    "yup": "^1.2.0",
+    "expo-network": "~5.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

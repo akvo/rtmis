@@ -1,14 +1,16 @@
 #root {
   .layout {
-    .body-bi {
-      padding: 0px;
-      background-color: #fff;
+    .body {
+      .wrapper {
+        background-color: #f5faff;
+      }
       #powerbi-dashboard {
+        margin-top: -24px;
+        margin-left: -50px;
+        margin-right: -50px;
         .page-title-wrapper {
-          background-color: #fff;
-          padding-top: 24px;
-          padding-left: 50px;
-          padding-right: 50px;
+          padding: 40px 0px;
+          text-align: center;
         }
       }
     }
