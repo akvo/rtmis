@@ -57,7 +57,7 @@
             "text": "This question contains a list of possible household locations, starting with the government area or district, down to the village."
           },
           "required": false,
-          "meta": false,
+          "meta": true,
           "dependency": [
             {
               "id": 1699354220734,
@@ -74,7 +74,7 @@
             "text": "Record GPS coordinates of a central place in the community (e.g. community meeting place)"
           },
           "required": false,
-          "meta": false,
+          "meta": true,
           "options": null
         }
       ]
