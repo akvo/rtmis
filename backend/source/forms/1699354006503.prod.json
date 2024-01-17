@@ -281,7 +281,7 @@
           "order": 2,
           "type": "number",
           "tooltip": {
-            "text": "INTERVIEW: how many households currently live in this community (village or urban neighbourhood), including temporary, migrant and seasonal visitors?\nHousehold: defined as a person or group of persons who: a) Are related or unrelated; b) live together in the same dwelling/housing unit (at least 4 nights a week); c) acknowledge one adult male or female as the head of household; d) share the same living arrangements; and e) are considered as one unit."
+            "text": "<b>INTERVIEW:</b> how many households currently live in this community (village or urban neighbourhood), including temporary, migrant and seasonal visitors?\n<b>Household:</b> defined as a person or group of persons who: a) Are related or unrelated; b) live together in the same dwelling/housing unit (at least 4 nights a week); c) acknowledge one adult male or female as the head of household; d) share the same living arrangements; and e) are considered as one unit."
           },
           "required": true,
           "meta": false,
@@ -300,7 +300,7 @@
             "min": 0
           },
           "tooltip": {
-            "text": "INTERVIEW: how many at-risk households have been identified in the community?\nAt-risk households: households that meet the at-risk criteria determined by the County Public Health Office"
+            "text": "<b>INTERVIEW:</b> how many at-risk households have been identified in the community?\n<b>At-risk households:</b> households that meet the at-risk criteria determined by the County Public Health Office"
           },
           "required": true,
           "meta": false,
@@ -313,7 +313,7 @@
           "order": 4,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: what is the main soil type in this community?\nSoil type: what type of soil makes up the top 6 feet of the soil profile (only one type can be selected)\nSoil drainage: ask whether water soaks into the soil? If water soaks in quickly and easily, then it is likely to be a high drainage soil; if it soaks in at a normal rate, it is a medium drainage soil; and if water soaks in very slowly (or not at all) then it is a low drainage soil"
+            "text": "<b>INTERVIEW:</b> what is the main soil type in this community?\n<b>Soil type:</b> what type of soil makes up the top 6 feet of the soil profile (only one type can be selected)\n<b>Soil drainage:</b> ask whether water soaks into the soil? If water soaks in quickly and easily, then it is likely to be a high drainage soil; if it soaks in at a normal rate, it is a medium drainage soil; and if water soaks in very slowly (or not at all) then it is a low drainage soil"
           },
           "required": true,
           "meta": false,
@@ -342,7 +342,7 @@
           "order": 5,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: what is the average depth to the groundwater table in this community?\nDepth to groundwater: how many metres below ground is water found (e.g. depth from ground level to water in wells and boreholes)?"
+            "text": "<b>INTERVIEW:</b> what is the average depth to the groundwater table in this community?\n<b>Depth to groundwater:</b> how many metres below ground is water found (e.g. depth from ground level to water in wells and boreholes)?"
           },
           "required": true,
           "meta": false,
@@ -371,7 +371,7 @@
           "order": 6,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: what is the main water supply technology used in this community?\nWater supply technology: main system or facilities used to supply drinking water"
+            "text": "<b>INTERVIEW:</b> what is the main water supply technology used in this community?\n<b>Water supply technology:</b> main system or facilities used to supply drinking water"
           },
           "required": true,
           "meta": false,
@@ -400,7 +400,7 @@
           "order": 7,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: what percentage of households obtain drinking water from groundwater sources in this community?\nObtained from groundwater sources: drinking water is collected from water supplies or water points that produce water from below ground (boreholes, dug wells or springs)"
+            "text": "<b>INTERVIEW:</b> what percentage of households obtain drinking water from groundwater sources in this community?\n<b>Obtained from groundwater sources:</b> drinking water is collected from water supplies or water points that produce water from below ground (boreholes, dug wells or springs)"
           },
           "required": true,
           "meta": false,

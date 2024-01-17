@@ -836,7 +836,7 @@
           "order": 1,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: Is a toilet facility visible in the house or household compound?"
+            "text": "<b>OBSERVE: Is a toilet facility visible in the house or household compound?</b>"
           },
           "required": true,
           "meta": false,
@@ -931,7 +931,7 @@
           "order": 6,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: is the toilet facility functional? \nFunctional: the household toilet is functioning as intended and can be used (that is, it is not blocked, abandoned, or collapsed)"
+            "text": "<b>OBSERVE: is the toilet facility functional?</b> \n <b>Functional toilet</b>: the household toilet is functioning as intended and can be used (that is, it is not blocked, abandoned, or collapsed)"
           },
           "required": true,
           "meta": false,
@@ -969,7 +969,7 @@
           "order": 7,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: does the toilet superstructure meet local criteria for privacy? \nOBSERVE: are animals prevented from entering the toilet?\nPrivacy: toilet superstructure has walls and a door that allow use of the toilet without observation by people outside the toilet (NOTE: variations in privacy criteria may be agreed by County Public Health Office to reflect local practices).\nPrivacy from animals: the toilet superstructure should also prevent animals from entering the toilet, to limit contact between animals and human excreta."
+            "text": "<b>OBSERVE: does the toilet superstructure meet local criteria for privacy? </b>\n <b>OBSERVE: are animals prevented from entering the toilet? </b> \n <b>Privacy:</b> toilet superstructure has walls and a door that allow use of the toilet without observation by people outside the toilet (NOTE: variations in privacy criteria may be agreed by County Public Health Office to reflect local practices).\n <b>Privacy from animals:<b/> the toilet superstructure should also prevent animals from entering the toilet, to limit contact between animals and human excreta."
           },
           "required": true,
           "meta": false,
@@ -1023,7 +1023,7 @@
           "order": 9,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: type of toilet interface\nToilet interface: part of the toilet through which the excreta pass into the containment system\nExamples: 1. Drophole, 2. Pour-flush pan, 3. SATO pan."
+            "text": "<b>OBSERVE: type of toilet interface</b> \n <b>Toilet interface:</b> part of the toilet through which the excreta pass into the containment system\n <b>Examples:</b> 1. Drophole, 2. Pour-flush pan, 3. SATO pan."
           },
           "required": true,
           "meta": false,
@@ -1086,7 +1086,7 @@
           "order": 10,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: type of excreta containment or collection system\nContainment system: pit or tank (or other) that contains and stores excreta\nCollection system: connection through which excreta and wastewater are collected\nExamples: 1. Latrine pit; 2. Septic tank; 3. Sewer connection.\nFlush to don't know: household does not know where the toilet flushes to, but no surface outlets or open discharges are visible (in this case, likely to be a buried pit or tank)"
+            "text": "<b>OBSERVE: type of excreta containment or collection system</b> \n<b>Containment system:</b> pit or tank (or other) that contains and stores excreta\n<b>Collection system:</b> connection through which excreta and wastewater are collected\n<b>Examples:</b> 1. Latrine pit; 2. Septic tank; 3. Sewer connection.\n<b>Flush to don't know:</b> household does not know where the toilet flushes to, but no surface outlets or open discharges are visible (in this case, likely to be a buried pit or tank)"
           },
           "required": true,
           "meta": false,
@@ -1184,7 +1184,7 @@
           "order": 11,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: is the toilet flyproof?\nFlyproof: toilet design prevents flies from reaching the excreta in the pit (or other containment system)\nVIP vent pipe with insect screen: vent pipes should be covered with insect screen to prevent insect entry into the pit or tank.\nExamples: 1. Pour-flush pit latrine with a functional water-seal pan; 2. VIP latrine with a screened vent pipe; 3. Dry pit latrine with a tight-fitting drophole cover."
+            "text": "<b>OBSERVE: is the toilet flyproof?</b>\n<b>Flyproof:</b> toilet design prevents flies from reaching the excreta in the pit (or other containment system)\n<b>VIP vent pipe with insect screen:</b> vent pipes should be covered with insect screen to prevent insect entry into the pit or tank.\n<b>Examples:</b> 1. Pour-flush pit latrine with a functional water-seal pan; 2. VIP latrine with a screened vent pipe; 3. Dry pit latrine with a tight-fitting drophole cover."
           },
           "required": true,
           "meta": false,
@@ -1292,7 +1292,7 @@
           "order": 13,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: is the toilet interface clean?\nClean: interface of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials).\nEasily cleaned: minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if a child forgot to flush the toilet; or if the traces are not yet dry and difficult to clean)"
+            "text": "<b>OBSERVE: is the toilet interface clean?</b>\n<b>Clean:</b> interface of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials).\n<b>Easily cleaned:</b> minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if a child forgot to flush the toilet; or if the traces are not yet dry and difficult to clean)"
           },
           "required": true,
           "meta": false,
@@ -1331,7 +1331,7 @@
           "order": 14,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: is the toilet floor clean?\nClean: floor of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials).\nEasily cleaned: minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if the traces are not yet dry and difficult to clean)"
+            "text": "<b>OBSERVE: is the toilet floor clean?</b>\n<b>Clean:</b> floor of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials).\n<b>Easily cleaned:</b> minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if the traces are not yet dry and difficult to clean)"
           },
           "required": true,
           "meta": false,
@@ -1370,7 +1370,7 @@
           "order": 15,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: are the toilet walls clean?\nClean: walls of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials).\nEasily cleaned: minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if the traces are not yet dry and difficult to clean)"
+            "text": "<b>OBSERVE: are the toilet walls clean?</b>\n<b>Clean:</b> walls of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials).\n<b>Easily cleaned:</b> minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if the traces are not yet dry and difficult to clean)"
           },
           "required": true,
           "meta": false,
@@ -1425,7 +1425,7 @@
           "order": 17,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: is the toilet slab made from durable materials?\nDurable toilet slab: the range of materials considered durable will depend on local contexts. The County Public Health Office should approve the use of resilient local materials that will not degrade rapidly under local conditions, and which provide similar lifespans, functionality and cleanliness to toilet slabs made from durable materials.\nExamples: 1. Concrete toilet slab; 2. Concrete toilet slab covered with ceramic tiles; 3. Structural plastic slab."
+            "text": "<b>OBSERVE: is the toilet slab made from durable materials?</b>\n<b>Durable toilet slab:</b> the range of materials considered durable will depend on local contexts. The County Public Health Office should approve the use of resilient local materials that will not degrade rapidly under local conditions, and which provide similar lifespans, functionality and cleanliness to toilet slabs made from durable materials.\n<b>Examples:</b> 1. Concrete toilet slab; 2. Concrete toilet slab covered with ceramic tiles; 3. Structural plastic slab."
           },
           "required": true,
           "meta": false,
@@ -1507,7 +1507,7 @@
           "order": 18,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: is the toilet containment or collection system durable?\nOBSERVE: are there any signs of collapse or damage to the toilet containment or collection system?\nINTERVIEW (where containment not visible): were any materials used to support the sides of the containment system? \nINTERVIEW (where containment not visible): does the soil collapse without support?\nINTERVIEW (where containment not visible): has the toilet pit collapsed in the last 12 months?\nDurable toilet containment (in stable soils): unlined pits may be assessed as durable in areas where other unlined pits are known to be stable and long-lasting.\nDurable toilet containment (in UNSTABLE soils): the pit or tank should either be lined with durable materials, or lined with resilient local materials that will not degrade rapidly under local conditions, and which provide similar lifespans and support to linings made from durable materials. "
+            "text": "<b>OBSERVE: is the toilet containment or collection system durable?</b>\n<b>OBSERVE:</b> are there any signs of collapse or damage to the toilet containment or collection system?\n<b>INTERVIEW (where containment not visible):</b> were any materials used to support the sides of the containment system? \n<b>INTERVIEW (where containment not visible):</b> does the soil collapse without support?\n<b>INTERVIEW (where containment not visible):</b> has the toilet pit collapsed in the last 12 months?\n<b>Durable toilet containment (in stable soils):</b> unlined pits may be assessed as durable in areas where other unlined pits are known to be stable and long-lasting.\n<b>Durable toilet containment (in UNSTABLE soils):</b> the pit or tank should either be lined with durable materials, or lined with resilient local materials that will not degrade rapidly under local conditions, and which provide similar lifespans and support to linings made from durable materials. "
           },
           "required": true,
           "meta": false,
@@ -1603,7 +1603,7 @@
           "order": 20,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: any evidence of surface outflows from the containment system (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows)\nSurface outflows from containment: EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks).\nExamples of surface outflows: 1. Septic tank with overflow pipe to the surface (open space, open drain, water body); 2. Latrine pit with signs of wastewater or sludge overflow or leakage."
+            "text": "<b>OBSERVE: any evidence of surface outflows from the containment system (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows)</b>\n<b>Surface outflows from containment:</b> EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks).\n<b>Examples of surface outflows:</b> 1. Septic tank with overflow pipe to the surface (open space, open drain, water body); 2. Latrine pit with signs of wastewater or sludge overflow or leakage."
           },
           "required": true,
           "meta": false,
@@ -1661,7 +1661,7 @@
           "order": 21,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: are surface outflows from the containment system ever visible?\nINTERVIEW: how often are surface outflows from the containment system visible?"
+            "text": "<b>INTERVIEW: are surface outflows from the containment system ever visible?</b>\n<b>INTERVIEW: how often are surface outflows from the containment system visible?</b>"
           },
           "required": true,
           "meta": false,
@@ -1749,7 +1749,7 @@
           "order": 1,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: Do members of your household defecate in the open or use a toilet?\nOwn toilet: a toilet owned by the household (usually located nearby the home)\nOther household toilet: a toilet owned by another household (often on somone else's property)"
+            "text": "<b>INTERVIEW: Do members of your household defecate in the open or use a toilet?</b>\n<b>Own toilet:</b> a toilet owned by the household (usually located nearby the home)\n<b>Other household toilet:</b> a toilet owned by another household (often on somone else's property)"
           },
           "required": true,
           "meta": false,
@@ -1781,7 +1781,7 @@
           "order": 2,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: are any members of your household unable to use the toilet?\nINTERVIEW (for those unable to use): are they able to use the toilet with assistance?\nAll members use toilet: household respondent confirms that everyone EITHER uses the toilet, OR is assisted to use the toilet"
+            "text": "<b>INTERVIEW: are any members of your household unable to use the toilet?</b>\n<b>INTERVIEW (for those unable to use):</b> are they able to use the toilet with assistance?\n<b>All members use toilet:</b> household respondent confirms that everyone EITHER uses the toilet, OR is assisted to use the toilet"
           },
           "required": true,
           "meta": false,
@@ -1813,7 +1813,7 @@
           "order": 3,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: do you share this toilet with others who are not members of your household?\nShared toilet use: shared use of a toilet is acceptable, providing that no more than 10-15 people use the toilet. The County Public Health Office should agree on the maximum number of people sharing a toilet based on local practices and evidence of hygienic outcomes in shared toilets."
+            "text": "<b>INTERVIEW:</b> do you share this toilet with others who are not members of your household?\n<b>Shared toilet use:</b> shared use of a toilet is acceptable, providing that no more than 10-15 people use the toilet. The County Public Health Office should agree on the maximum number of people sharing a toilet based on local practices and evidence of hygienic outcomes in shared toilets."
           },
           "required": true,
           "meta": false,
@@ -1866,7 +1866,7 @@
           "order": 5,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? \nINTERVIEW: do any members of the household require assistance to the the toilet? What sort of assistance?\nPROBE: do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is G0 No toilet, practice OD\nREPEAT for other household members\nNOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
+            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b>\n<b>INTERVIEW:</b> do any members of the household require assistance to the the toilet? What sort of assistance?\n<b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b>\nREPEAT for other household members\nNOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
           },
           "required": true,
           "meta": false,
@@ -1915,7 +1915,7 @@
           "order": 7,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: has the toilet containment (pit, tank or other) ever been emptied?\nINTERVIEW: has the toilet containment (pit, tank or other) ever filled up?\nINTERVIEW: what happened when the toilet containment (pit, tank or other) last filled up?\nExamples: 1. Covered the full pit and dug a new pit; 2. Emptied the full pit and re-used it; 3. Connected a second pit and disconnected the full pit. 4. Emptied faecal sludge from septic tank then continued to use."
+            "text": "<b>INTERVIEW: has the toilet containment (pit, tank or other) ever been emptied?</b>\n<b>INTERVIEW:</b> has the toilet containment (pit, tank or other) ever filled up?\n<b>INTERVIEW:</b> what happened when the toilet containment (pit, tank or other) last filled up?\n<b>Examples:</b> 1. Covered the full pit and dug a new pit; 2. Emptied the full pit and re-used it; 3. Connected a second pit and disconnected the full pit. 4. Emptied faecal sludge from septic tank then continued to use."
           },
           "required": true,
           "meta": false,
@@ -1962,7 +1962,7 @@
           "order": 8,
           "type": "multiple_option",
           "tooltip": {
-            "text": "INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?\nINTERVIEW: the last time it was emptied, who emptied the toilet containment?\nINTERVIEW (if the containment system is a lined pit or tank, which has never been emptied): what will happen when the toilet containment is full?\nINTERVIEW: How long were the contents stored (without any fresh excreta entering the toilet containment) before emptying?\nIntention to empty: household is planning to empty toilet containment (pit or tank) when full, or when required.\nStorage time: length of time that contents of containment were stored without any fresh excreta entering the containment (for example, alternating twin pit latrine where full pit is disconncted and contents are stored for 2 years before emptying)\nLicensed service provider: paid emptier that is approved and regulated by local authority to empty and transport toilet wastes\nUnlicensed service provider: paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers) \nOff-site location: site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.\nSewer connection to licensed and functional treatment site: the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site.\nOpen container: bucket or other open container used to collect excreta (usually regularly collected and emptied)."
+            "text": "<b>INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?</b>\n<b>INTERVIEW:</b> the last time it was emptied, who emptied the toilet containment?\n<b>INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied):</b> what will happen when the toilet containment is full?\n<b>INTERVIEW:</b> How long were the contents stored (without any fresh excreta entering the toilet containment) before emptying?\n<b>Intention to empty:</b> household is planning to empty toilet containment (pit or tank) when full, or when required.\n<b>Storage time:</b> length of time that contents of containment were stored without any fresh excreta entering the containment (for example, alternating twin pit latrine where full pit is disconncted and contents are stored for 2 years before emptying)\n<b>Licensed service provider:</b> paid emptier that is approved and regulated by local authority to empty and transport toilet wastes\n<b>Unlicensed service provider:</b> paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers) \n<b>Off-site location:</b> site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.\n<b>Sewer connection to licensed and functional treatment site:</b> the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site.\n<b>Open container:</b> bucket or other open container used to collect excreta (usually regularly collected and emptied)."
           },
           "required": true,
           "meta": false,
@@ -2081,7 +2081,7 @@
           "order": 1,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: presence and location of handwashing facility\nINTERVIEW: where do you and other members of your household most often wash your hands?\nINTERVIEW: is there only one handwashing facility, or are other facilities available?"
+            "text": "<b>OBSERVE: presence and location of handwashing facility</b>\n<b>INTERVIEW:</b> where do you and other members of your household most often wash your hands?\n<b>INTERVIEW:</b> is there only one handwashing facility, or are other facilities available?"
           },
           "required": true,
           "meta": false,
@@ -2131,7 +2131,7 @@
           "order": 2,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: is water available at the handwashing facility?\nOBSERVE: where an empty water container is observed at the handwashing facility, visible wet ground (or wet materials) under the handwashing facility can be accepted as proof of the recent presence of water."
+            "text": "<b>OBSERVE: is water available at the handwashing facility?</b>\n<b>OBSERVE:</b> where an empty water container is observed at the handwashing facility, visible wet ground (or wet materials) under the handwashing facility can be accepted as proof of the recent presence of water."
           },
           "required": true,
           "meta": false,
@@ -2163,7 +2163,7 @@
           "order": 3,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: is soap available at the handwashing facility?\nINTERVIEW: is soap or detergent available in your household for washing hands? \nSoap: solid, liquid or powder soap or detergent "
+            "text": "<b>OBSERVE: is soap available at the handwashing facility?</b>\n<b>INTERVIEW:</b> is soap or detergent available in your household for washing hands? \n<b>Soap:</b> solid, liquid or powder soap or detergent "
           },
           "required": true,
           "meta": false,
@@ -2216,7 +2216,7 @@
           "order": 5,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: is the household using a permanent handwashing station?\nPermanent handwashing station: facility made from durable materials, with a piped water connection or adequate water storage, and located in a fixed place that is appropriate for handwashing at critical times\nMarket handwashing station: manufactured handwashing station from durable materails (bought from market or market trader)\nPortable basin: open container that can be easily picked up and moved"
+            "text": "<b>OBSERVE: is the household using a permanent handwashing station?</b>\n<b>Permanent handwashing station: facility made from durable materials, with a piped water connection or adequate water storage, and located in a fixed place that is appropriate for handwashing at critical times</b>\n<b>Market handwashing station:</b> manufactured handwashing station from durable materails (bought from market or market trader)\n<b>Portable basin:</b> open container that can be easily picked up and moved"
           },
           "required": true,
           "meta": false,
@@ -2269,7 +2269,7 @@
           "order": 6,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: mechanism to collect water or trigger water flow \nHands-free operation: the handwashing station is operated by tap, or other hands-free mechanism that minimises contact with the water collection device and the water container"
+            "text": "<b>OBSERVE: mechanism to collect water or trigger water flow </b>\n<b>Hands-free operation:</b> the handwashing station is operated by tap, or other hands-free mechanism that minimises contact with the water collection device and the water container"
           },
           "required": true,
           "meta": false,
@@ -2310,7 +2310,7 @@
           "order": 7,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: facility to collect washing water, and facility to drain and dispose of the washing water\nCollection of washing water: container to collect dirty washing water (for example, a basin or other container)\nDrainage and disposal of washing water: drainage pipe or other facility to direct the washing water to an appropriate disposal point (for example, a soakpit or drain)"
+            "text": "<b>OBSERVE: facility to collect washing water, and facility to drain and dispose of the washing water</b>\n<b>Collection of washing water:</b> container to collect dirty washing water (for example, a basin or other container)\n<b>Drainage and disposal of washing water:</b> drainage pipe or other facility to direct the washing water to an appropriate disposal point (for example, a soakpit or drain)"
           },
           "required": true,
           "meta": false,
@@ -2356,7 +2356,7 @@
           "order": 9,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: when do you usually wash your hands?\nINTERVIEW: what do you usually use to wash your hands?\nCritical TOILET times: washing of hands with soap and water AFTER toilet use and AFTER anal cleansing.\nNOTE: households should mention critical handwashing times without being prompted by the monitor"
+            "text": "<b>INTERVIEW: when do you usually wash your hands?</b>\n<b>INTERVIEW:</b> what do you usually use to wash your hands?\n<b>Critical TOILET times:</b> washing of hands with soap and water AFTER toilet use and AFTER anal cleansing.\n<b>NOTE:</b> households should mention critical handwashing times without being prompted by the monitor"
           },
           "required": true,
           "meta": false,
@@ -2405,7 +2405,7 @@
           "order": 10,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: when do you usually wash your hands?\nINTERVIEW: what do you usually use to wash your hands?\nCritical FOOD times: washing of hands with soap and water BEFORE food preparation or cooking; BEFORE feeding infants or young children; and BEFORE eating.\nNOTE: households should mention critical handwashing times without being prompted by the monitor"
+            "text": "<b>INTERVIEW: when do you usually wash your hands?</b>\n<b>INTERVIEW:</b> what do you usually use to wash your hands?\n<b>Critical FOOD times:</b> washing of hands with soap and water BEFORE food preparation or cooking; BEFORE feeding infants or young children; and BEFORE eating.\n<b>NOTE:</b> households should mention critical handwashing times without being prompted by the monitor"
           },
           "required": true,
           "meta": false,
@@ -2454,7 +2454,7 @@
           "order": 11,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: when do you usually wash your hands?\nINTERVIEW: what do you usually use to wash your hands?\nCritical INFANT times: washing of hands with soap and water by caregivers AFTER cleaning an infant of excreta, AFTER handling child faeces, or AFTER washing or disposing of a used diaper\nNOTE: households should mention critical handwashing times without being prompted by the monitor"
+            "text": "<b>INTERVIEW: when do you usually wash your hands?</b>\n<b>INTERVIEW:</b> what do you usually use to wash your hands?\n<b>Critical INFANT times:</b> washing of hands with soap and water by caregivers AFTER cleaning an infant of excreta, AFTER handling child faeces, or AFTER washing or disposing of a used diaper\n<b>NOTE:</b> households should mention critical handwashing times without being prompted by the monitor"
           },
           "required": true,
           "meta": false,
@@ -2497,7 +2497,7 @@
           "order": 12,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: when do you usually wash your hands?\nINTERVIEW: what do you usually use to wash your hands?\nCritical ANIMAL times: washing of hands with soap and water AFTER contact with animals, animal products or animal wastes; and both BEFORE and AFTER milking (in households that milk animals)\nNOTE: households should mention critical handwashing times without being prompted by the monitor\nAnimal products: including meat, milk, eggs, blood, other animal tissues (e.g. organs and offal), animal skins and other animal parts (for example, feathers bones etc)\nAnimal wastes: animal excreta mixed with a wide variety of materials including bedding (for example, straw and other materials), washing water, spilled feed and water, animal parts, blood, skin, feathers, and other contaminated wastes and residues"
+            "text": "<b>INTERVIEW: when do you usually wash your hands?</b>\n<b>INTERVIEW:</b> what do you usually use to wash your hands?\n<b>Critical ANIMAL times:</b> washing of hands with soap and water AFTER contact with animals, animal products or animal wastes; and both BEFORE and AFTER milking (in households that milk animals)\n<b>NOTE:</b> households should mention critical handwashing times without being prompted by the monitor\n<b>Animal products:</b> including meat, milk, eggs, blood, other animal tissues (e.g. organs and offal), animal skins and other animal parts (for example, feathers bones etc)\n<b>Animal wastes:</b> animal excreta mixed with a wide variety of materials including bedding (for example, straw and other materials), washing water, spilled feed and water, animal parts, blood, skin, feathers, and other contaminated wastes and residues"
           },
           "required": true,
           "meta": false,
@@ -2565,7 +2565,7 @@
           "order": 1,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: visible human faeces in the compound, house, toilet or in any other household buildings or facilities.\nOpen defecation in water bodies: where groups or communities may practice open defecation in nearby water bodies (for example, people living near beaches, lakes and rivers), human excreta may not be visible in and around household compounds or communal areas. In these cases, household interviews should be undertaken to assess whether people practice open defecation or use a toilet, in combination of observation of the presence of a functional toilet (to verify claims of toilet use)."
+            "text": "<b>OBSERVE: visible human faeces in the compound, house, toilet or in any other household buildings or facilities.</b>\n<b>Open defecation in water bodies:</b> where groups or communities may practice open defecation in nearby water bodies (for example, people living near beaches, lakes and rivers), human excreta may not be visible in and around household compounds or communal areas. In these cases, household interviews should be undertaken to assess whether people practice open defecation or use a toilet, in combination of observation of the presence of a functional toilet (to verify claims of toilet use)."
           },
           "required": true,
           "meta": false,
@@ -2606,7 +2606,7 @@
           "order": 3,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: the last time [name of youngest child] defecated, where did they defecate?\nINTERVIEW: how were the child faeces collected and disposed?\nINTERVIEW: Where was the excreta collection tool cleaned?\nUnsafely washed: washing of child excreta collection tool (for example, potty) in compound, or at water point, without safe disposal of the contaminated washing water\nUnsafely disposed: child faeces disposed to open space, field, open drain, water body\nChild excreta: faeces or urine of children who are too young to use a toilet"
+            "text": "<b>INTERVIEW: the last time [name of youngest child] defecated, where did they defecate?</b>\n<b>INTERVIEW:</b> how were the child faeces collected and disposed?\n<b>INTERVIEW:</b> Where was the excreta collection tool cleaned?\n<b>Unsafely washed:</b> washing of child excreta collection tool (for example, potty) in compound, or at water point, without safe disposal of the contaminated washing water\n<b>Unsafely disposed:</b> child faeces disposed to open space, field, open drain, water body\n<b>Child excreta:</b> faeces or urine of children who are too young to use a toilet"
           },
           "required": true,
           "meta": false,
@@ -2662,7 +2662,7 @@
           "order": 4,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: no used diapers visible in the compound\nSafe management of washable cloths: where washable cloths are used to contain child excreta, the cloths should be cleaned and washed in a safe place (for example, so that the child excreta do not contaminate the compound or a water point) and any faeces contained in the cloth should be safely disposed (for example, put or rinsed into the toilet, or buried).\nSafe management of disposable diapers: where disposable diapers are used to contain child excreta, the diapers should be properly closed and EITHER disposed to a covered waste pit, OR buried, OR collected for disposal at a safely managed communal disposal site. "
+            "text": "<b>OBSERVE: no used diapers visible in the compound</b>\n<b>Safe management of washable cloths: </b> where washable cloths are used to contain child excreta, the cloths should be cleaned and washed in a safe place (for example, so that the child excreta do not contaminate the compound or a water point) and any faeces contained in the cloth should be safely disposed (for example, put or rinsed into the toilet, or buried).\n<b>Safe management of disposable diapers:</b> where disposable diapers are used to contain child excreta, the diapers should be properly closed and EITHER disposed to a covered waste pit, OR buried, OR collected for disposal at a safely managed communal disposal site. "
           },
           "required": true,
           "meta": false,
@@ -2727,7 +2727,7 @@
           "order": 6,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: cleanliness of raw food, produce and cooked food\nClean food: raw food (for example, fruit and vegetables) should be washed to remove dirt or other contamination before preparing, cooking or storing"
+            "text": "<b>OBSERVE: cleanliness of raw food, produce and cooked food</b>\n<b>Clean food:</b> raw food (for example, fruit and vegetables) should be washed to remove dirt or other contamination before preparing, cooking or storing"
           },
           "required": true,
           "meta": false,
@@ -2787,7 +2787,7 @@
           "order": 8,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: raised storage of raw food, produce and cooked food\nRaised food storage: food should be stored off the ground, inside the house (or kitchen), and protected from animal contact in raised storage (for example, cupboards, shelves, boxes and containers)"
+            "text": "<b>OBSERVE: raised storage of raw food, produce and cooked food</b>\n<b>Raised food storage:</b> food should be stored off the ground, inside the house (or kitchen), and protected from animal contact in raised storage (for example, cupboards, shelves, boxes and containers)"
           },
           "required": true,
           "meta": false,
@@ -2833,7 +2833,7 @@
           "order": 10,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: cleanliness of kitchen utensils\nClean kitchen utensils: kitchen utensils (for example, pots, pans, plates, cutlery, cups, glasses and any cutting, stirring or serving utensils) are washed and clean before storage or re-use"
+            "text": "<b>OBSERVE: cleanliness of kitchen utensils</b>\n<b>Clean kitchen utensils:</b> kitchen utensils (for example, pots, pans, plates, cutlery, cups, glasses and any cutting, stirring or serving utensils) are washed and clean before storage or re-use"
           },
           "required": true,
           "meta": false,
@@ -2864,7 +2864,7 @@
           "order": 11,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: covered storage of kitchen utensils\nCovered kitchen utensil storage: kitchen utensils should be stored in covered storage (for example, cupboards, shelves, boxes and containers) inside the house (or kitchen), and protected from animal contact"
+            "text": "<b>OBSERVE: covered storage of kitchen utensils</b>\n<b>Covered kitchen utensil storage: </b>kitchen utensils should be stored in covered storage (for example, cupboards, shelves, boxes and containers) inside the house (or kitchen), and protected from animal contact"
           },
           "required": true,
           "meta": false,
@@ -2895,7 +2895,7 @@
           "order": 12,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: raised storage of kitchen utensils\nRaised kitchen utensil storage: kitchen utensils should be stored off the ground, inside the house (or kitchen), and protected from animal contact in raised storage (for example, cupboards, shelves, boxes and containers)"
+            "text": "<b>OBSERVE: raised storage of kitchen utensils</b>\n<b>Raised kitchen utensil storage:</b> kitchen utensils should be stored off the ground, inside the house (or kitchen), and protected from animal contact in raised storage (for example, cupboards, shelves, boxes and containers)"
           },
           "required": true,
           "meta": false,
@@ -2941,7 +2941,7 @@
           "order": 14,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: cleanliness of empty milk containers\nClean milk containers: the containers used to collect and store milk should be thoroughly washed before each milking, so that they are free of dirt and other contamination"
+            "text": "<b>OBSERVE: cleanliness of empty milk containers</b>\n<b>Clean milk containers:</b> the containers used to collect and store milk should be thoroughly washed before each milking, so that they are free of dirt and other contamination"
           },
           "required": true,
           "meta": false,
@@ -2972,7 +2972,7 @@
           "order": 15,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: covered storage of empty milk containers\nCovered milk container storage: empty milk containers should be stored in covered storage (for example, cupboards, shelves, boxes and containers) inside the house (or kitchen), and protected from animal contact"
+            "text": "<b>OBSERVE: covered storage of empty milk containers</b>\n<b>Covered milk container storage:</b> empty milk containers should be stored in covered storage (for example, cupboards, shelves, boxes and containers) inside the house (or kitchen), and protected from animal contact"
           },
           "required": true,
           "meta": false,
@@ -3003,7 +3003,7 @@
           "order": 16,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: raised storage of empty milk containers\nRaised milk container storage: empty milk containers should be stored off the ground, inside the house (or kitchen), and protected from animal contact in raised storage (for example, cupboards, shelves, boxes and containers)"
+            "text": "<b>OBSERVE: raised storage of empty milk containers</b>\n<b>Raised milk container storage:</b> empty milk containers should be stored off the ground, inside the house (or kitchen), and protected from animal contact in raised storage (for example, cupboards, shelves, boxes and containers)"
           },
           "required": true,
           "meta": false,
@@ -3049,7 +3049,7 @@
           "order": 18,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: cleanliness of empty water containers\nClean water containers: the containers used to collect water should be thoroughly washed before each water collection, so that they are free of dirt and other contamination"
+            "text": "<b>OBSERVE: cleanliness of empty water containers</b>\n<b>Clean water containers:</b> the containers used to collect water should be thoroughly washed before each water collection, so that they are free of dirt and other contamination"
           },
           "required": true,
           "meta": false,
@@ -3080,7 +3080,7 @@
           "order": 19,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: quality of drinking water\nINTERVIEW: is the water supplied by your main source usually of acceptable quality?\nINTERVIEW: what do you usually do to the water to make it safe to drink? [Options: boil, add chlorine, stain through cloth, use water filter, solar disinfection, settlement, other, NOT required]\nAdequate quality at collection point: water is collected from protected groundwater sources (for example, covered wells, protected boreholes, or protected water points); OR is treated surface water (e.g. treated by use of chlorine dispensers)\nHousehold water treatment: water is settled, filtered, boiled, solar disinfected, or chemically treated (for example, by use of chlorine solution or tablets) by the household"
+            "text": "<b>OBSERVE: quality of drinking water</b>\n<b>INTERVIEW:</b> is the water supplied by your main source usually of acceptable quality?\n<b>INTERVIEW:</b> what do you usually do to the water to make it safe to drink? [Options: boil, add chlorine, stain through cloth, use water filter, solar disinfection, settlement, other, NOT required]\n<b>Adequate quality at collection point:</b> water is collected from protected groundwater sources (for example, covered wells, protected boreholes, or protected water points); OR is treated surface water (e.g. treated by use of chlorine dispensers)\n<b>Household water treatment:</b> water is settled, filtered, boiled, solar disinfected, or chemically treated (for example, by use of chlorine solution or tablets) by the household"
           },
           "required": true,
           "meta": false,
@@ -3116,7 +3116,7 @@
           "order": 20,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: safe storage of drinking water\nSafe drinking water storage: drinking water is stored in clean, covered containers, separate from the water used for other purposes, and away from animals"
+            "text": "<b>OBSERVE: safe storage of drinking water</b>\n<b>Safe drinking water storage:</b> drinking water is stored in clean, covered containers, separate from the water used for other purposes, and away from animals"
           },
           "required": true,
           "meta": false,
@@ -3147,7 +3147,7 @@
           "order": 21,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: safe use of drinking water\nSafe drinking water use: drinking water is collected and used from containers with spigots and taps, or from narrow-mouthed containers, or using a clean utensil that is only used for water collection"
+            "text": "<b>OBSERVE: safe use of drinking water</b>\n<b>Safe drinking water use: </b>drinking water is collected and used from containers with spigots and taps, or from narrow-mouthed containers, or using a clean utensil that is only used for water collection"
           },
           "required": true,
           "meta": false,
@@ -3203,7 +3203,7 @@
           "order": 23,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: cleanliness of water points in compound\nClean water points: free from debris, solid waste, human or animal faeces, and any other potential sources of contamination"
+            "text": "<b>OBSERVE: cleanliness of water points in compound</b>\n<b>Clean water points:</b> free from debris, solid waste, human or animal faeces, and any other potential sources of contamination"
           },
           "required": true,
           "meta": false,
@@ -3234,7 +3234,7 @@
           "order": 24,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: protection of water points in compound\nProtected surface water sources (pans, dams, lakes, rivers): fenced to prevent animal access\nProtected water supply source catchments: protected from wastes and pollutants, including human excreta and animal wastes (for example, by excluding animals and prohibiting unsafe activities, such as the use of manure or chemical fertilisers in areas around water supply sources).\nProtected water points: provide separate water troughs for animal watering\nProtected groundwater sources (springs, wells, handpumps, boreholes): protected from contamination, wastes and pollutants (for example, by the construction of a spring box, raised parapet wall and cover, wellhead protection and sealed borehole casing)."
+            "text": "<b>OBSERVE: protection of water points in compound</b>\n<b>Protected surface water sources (pans, dams, lakes, rivers):</b> fenced to prevent animal access\n<b>Protected water supply source catchments:</b> protected from wastes and pollutants, including human excreta and animal wastes (for example, by excluding animals and prohibiting unsafe activities, such as the use of manure or chemical fertilisers in areas around water supply sources).\n<b>Protected water points:</b> provide separate water troughs for animal watering\n<b>Protected groundwater sources (springs, wells, handpumps, boreholes):</b> protected from contamination, wastes and pollutants (for example, by the construction of a spring box, raised parapet wall and cover, wellhead protection and sealed borehole casing)."
           },
           "required": true,
           "meta": false,
@@ -3265,7 +3265,7 @@
           "order": 25,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: drainage of water points in compound\nWell drained water points: no standing water visible at or around the water source (provision of drainage and soakpits may be required in slow-draining soils)"
+            "text": "<b>OBSERVE: drainage of water points in compound</b>\n<b>Well drained water points:</b> no standing water visible at or around the water source (provision of drainage and soakpits may be required in slow-draining soils)"
           },
           "required": true,
           "meta": false,
@@ -3311,7 +3311,7 @@
           "order": 27,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: presence of unsafely managed animal wastes inside house or kitchen\nAnimal wastes: include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.\nSafely managed animal wastes: the house and household compound should be free of animal wastes, except in areas where manure is properly stored and managed. Regular collection of animal wastes (for example, daily collection of animal faeces and other wastes) should be evident from observation of the house and household compound"
+            "text": "<b>OBSERVE: presence of unsafely managed animal wastes inside house or kitchen</b>\n<b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.\n<b>Safely managed animal wastes:</b> the house and household compound should be free of animal wastes, except in areas where manure is properly stored and managed. Regular collection of animal wastes (for example, daily collection of animal faeces and other wastes) should be evident from observation of the house and household compound"
           },
           "required": true,
           "meta": false,
@@ -3342,7 +3342,7 @@
           "order": 28,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: presence of unsafely managed animal wastes in compound (outside specific areas for safe management of animal wastes)\nAnimal wastes: include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.\nSafely managed animal wastes: the house and household compound should be free of animal wastes, except in areas where manure is properly stored and managed. Regular collection of animal wastes (for example, daily collection of animal faeces and other wastes) should be evident from observation of the house and household compound"
+            "text": "<b>OBSERVE: presence of unsafely managed animal wastes in compound (outside specific areas for safe management of animal wastes)</b>\n<b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.\n<b>Safely managed animal wastes:</b> the house and household compound should be free of animal wastes, except in areas where manure is properly stored and managed. Regular collection of animal wastes (for example, daily collection of animal faeces and other wastes) should be evident from observation of the house and household compound"
           },
           "required": true,
           "meta": false,
@@ -3388,7 +3388,7 @@
           "order": 30,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: storage of animal wastes in the compound\nAnimal wastes: include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.\nAnimal wastes not accessible by animals or children: any animal waste facility should prevent animal and child access to the wastes."
+            "text": "<b>OBSERVE: storage of animal wastes in the compound</b>\n<b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.\n<b>Animal wastes not accessible by animals or children:</b> any animal waste facility should prevent animal and child access to the wastes."
           },
           "required": true,
           "meta": false,
@@ -3424,7 +3424,7 @@
           "order": 31,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: location of animal waste storage in the compound\nAnimal wastes: include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.\nAnimal waste storage: animal wastes should be collected and stored in an appropriate facility located away from the house, and away from child play areas."
+            "text": "<b>OBSERVE: location of animal waste storage in the compound</b>\n<b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.\nAnimal waste storage: animal wastes should be collected and stored in an appropriate facility located away from the house, and away from child play areas."
           },
           "required": true,
           "meta": false,
@@ -3460,7 +3460,7 @@
           "order": 32,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: leakage or discharge of solid or liquid animal wastes into the area around the animal waste storage facility\nAnimal wastes: include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices."
+            "text": "<b>OBSERVE: leakage or discharge of solid or liquid animal wastes into the area around the animal waste storage facility</b>\n<b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices."
           },
           "required": true,
           "meta": false,
@@ -3511,7 +3511,7 @@
           "order": 34,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: location of animals and animal pens\nLocation of animal pens: facility to confine animals, which should be located away from the house and away from child play areas (in small compounds, animals should be penned as far away as possible from the house)"
+            "text": "<b>OBSERVE: location of animals and animal pens</b>\n<b>Location of animal pens: </b>facility to confine animals, which should be located away from the house and away from child play areas (in small compounds, animals should be penned as far away as possible from the house)"
           },
           "required": true,
           "meta": false,
@@ -3547,7 +3547,7 @@
           "order": 35,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: confinement of animals within pens\nConfinement in animal pens: facility to confine animals, which should prevent animals from entering the home or other parts of the compound. The animal pens should limit the contamination of other parts of the compound with animal wastes, and limit contact between infants and animals.\nInadequate animal pens: do not adequately limit the movement of animals or animal wastes within the compound"
+            "text": "<b>OBSERVE: confinement of animals within pens</b>\n<b>Confinement in animal pens:</b> facility to confine animals, which should prevent animals from entering the home or other parts of the compound. The animal pens should limit the contamination of other parts of the compound with animal wastes, and limit contact between infants and animals.\n<b>Inadequate animal pens:</b> do not adequately limit the movement of animals or animal wastes within the compound"
           },
           "required": true,
           "meta": false,
@@ -3598,7 +3598,7 @@
           "order": 37,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: use of soakpits or drainage to manage liquid wastes and wastewater\nLiquid wastes: wastewater including washing water and other liquid wastes from household activities such as food preparation, washing and bathing. Wastewater from toilets should generally be kept separate from other household liquid wastes (as it presents a higher public health hazard)."
+            "text": "<b>OBSERVE: use of soakpits or drainage to manage liquid wastes and wastewater</b>\n<b>Liquid wastes:</b> wastewater including washing water and other liquid wastes from household activities such as food preparation, washing and bathing. Wastewater from toilets should generally be kept separate from other household liquid wastes (as it presents a higher public health hazard)."
           },
           "required": true,
           "meta": false,
@@ -3629,7 +3629,7 @@
           "order": 38,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: erosion or other damage caused by stormwater flows\nStormwater: surface water from rainfall or storms.\nAdequate stormwater drainage: drains or other services that limit or prevent erosion from stormwater flows (for example, EITHER by transporting flows away from the compound, OR by encouraging infiltration into the soil)"
+            "text": "<b>OBSERVE: erosion or other damage caused by stormwater flows</b>\n<b>Stormwater:</b> surface water from rainfall or storms.\n<b>Adequate stormwater drainage:</b> drains or other services that limit or prevent erosion from stormwater flows (for example, EITHER by transporting flows away from the compound, OR by encouraging infiltration into the soil)"
           },
           "required": true,
           "meta": false,
@@ -3680,7 +3680,7 @@
           "order": 40,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: visible solid wastes in compound\nSolid wastes: food wastes, paper, plastic, rags, metal, glass and other solid materials discarded by the household"
+            "text": "<b>OBSERVE: visible solid wastes in compound</b>\n<b>Solid wastes:</b> food wastes, paper, plastic, rags, metal, glass and other solid materials discarded by the household"
           },
           "required": true,
           "meta": false,
@@ -3711,7 +3711,7 @@
           "order": 41,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: facility (or service) for solid waste collection, management and disposal\nSolid wastes: food wastes, paper, plastic, rags, metal, glass and other solid materials discarded by the household\nSolid waste facility or service: covered waste pits in compound, central waste disposal site, or other waste collection service"
+            "text": "<b>OBSERVE:</b> facility (or service) for solid waste collection, management and disposal\n<b>Solid wastes:</b> food wastes, paper, plastic, rags, metal, glass and other solid materials discarded by the household\n<b>Solid waste facility or service:</b> covered waste pits in compound, central waste disposal site, or other waste collection service"
           },
           "required": true,
           "meta": false,
@@ -3757,7 +3757,7 @@
           "order": 43,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: visible standing water in compound\nStanding water: accumulation of wastewater (or stormwater) in compound, which does NOT immediately drain away"
+            "text": "<b>OBSERVE: visible standing water in compound </b>\n<b>Standing water:</b> accumulation of wastewater (or stormwater) in compound, which does NOT immediately drain away"
           },
           "required": true,
           "meta": false,
@@ -3788,7 +3788,7 @@
           "order": 44,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: where standing water provides larval breeding sites, are treatment or other vector control activities used to limit mosquito breeding?\nLarval breeding sites: mosquitoes lay eggs directly in or near water, soil and at the base of plants in places that may fill with water.\nVector control activities: draining of standing water; covering of water storage containers; filling of depressions that hold water; filling of cracks in water tank and septic tank covers; cover open vents or plumbing pipes (with insect screen).\nTreatment activities: use of larvicides to treat bodies of water that will not be used for drinking, and which cannot be covered, emptied or removed; use of fogging or surface applications to control adult mosquitoes"
+            "text": "<b>INTERVIEW: where standing water provides larval breeding sites, are treatment or other vector control activities used to limit mosquito breeding?</b>\n<b>Larval breeding sites:</b> mosquitoes lay eggs directly in or near water, soil and at the base of plants in places that may fill with water.\n<b>Vector control activities:</b> draining of standing water; covering of water storage containers; filling of depressions that hold water; filling of cracks in water tank and septic tank covers; cover open vents or plumbing pipes (with insect screen).\n<b>Treatment activities:</b> use of larvicides to treat bodies of water that will not be used for drinking, and which cannot be covered, emptied or removed; use of fogging or surface applications to control adult mosquitoes"
           },
           "required": true,
           "meta": false,
@@ -3839,7 +3839,7 @@
           "order": 46,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: cleanliness of faces in all under-5 children\nOBSERVE: cleanliness of face of main caregiver\nClean hands: no visible dirt on hands\nClean face: no visible dirt on the face\nClean face and hands: assessed by observation of the faces and hands of all under-5 children in the household, and the main caregiver. If one of the under-5 children of the main caregiver does not have a clean face and hands, the outcome is not achieved."
+            "text": "<b>OBSERVE: cleanliness of faces in all under-5 children</b>\n<b>OBSERVE: cleanliness of face of main caregiver</b>\n<b>Clean hands:</b> no visible dirt on hands\n<b>Clean face:</b> no visible dirt on the face\n<b>Clean face and hands:</b> assessed by observation of the faces and hands of all under-5 children in the household, and the main caregiver. If one of the under-5 children of the main caregiver does not have a clean face and hands, the outcome is not achieved."
           },
           "required": true,
           "meta": false,
@@ -3869,7 +3869,7 @@
           "order": 47,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: cleanliness of hands in all under-5 children\nOBSERVE: cleanliness of hands of main caregiver\nClean hands: no visible dirt on hands\nClean face and hands: assessed by observation of the faces and hands of all under-5 children in the household, and the main caregiver. If one of the under-5 children of the main caregiver does not have a clean face and hands, the outcome is not achieved."
+            "text": "<b>OBSERVE: cleanliness of hands in all under-5 children</b>\n<b>OBSERVE: cleanliness of hands of main caregiver</b>\n<b>Clean hands:</b> no visible dirt on hands\n<b>Clean face and hands:</b> assessed by observation of the faces and hands of all under-5 children in the household, and the main caregiver. If one of the under-5 children of the main caregiver does not have a clean face and hands, the outcome is not achieved."
           },
           "required": true,
           "meta": false,
@@ -3914,7 +3914,7 @@
           "order": 49,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: washing place adequate for menstrual hygiene\nAdequate washing place: private and clean place for washing and menstrual hygiene, with water and soap available"
+            "text": "<b>OBSERVE: washing place adequate for menstrual hygiene</b>\n</b>Adequate washing place:</b> private and clean place for washing and menstrual hygiene, with water and soap available"
           },
           "required": true,
           "meta": false,
@@ -3944,7 +3944,7 @@
           "order": 50,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: disposal site for menstrual hygiene wastes\nDisposal site: appropriate facility for the safe disposal of menstrual hygiene wastes (for example, covered bins)"
+            "text": "<b>OBSERVE: disposal site for menstrual hygiene wastes</b>\n<b>Disposal site:</b> appropriate facility for the safe disposal of menstrual hygiene wastes (for example, covered bins)"
           },
           "required": true,
           "meta": false,
@@ -3974,7 +3974,7 @@
           "order": 51,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: are menstrual hygiene materials available?\nMenstrual hygiene materials and products: disposable and reusable sanitary pads, tampons, and resuable menstrual cups, clean piece of cotton cloth or cotton wool, that are safe and hygienic, and absorb or collect blood during menstrual periods.\nAvailable: menstrual hygiene materials are currently available on premises (in the home or household compound)"
+            "text": "<b>INTERVIEW: are menstrual hygiene materials available?</b>\n<b>Menstrual hygiene materials and products:</b> disposable and reusable sanitary pads, tampons, and resuable menstrual cups, clean piece of cotton cloth or cotton wool, that are safe and hygienic, and absorb or collect blood during menstrual periods.\n<b>Available:</b> menstrual hygiene materials are currently available on premises (in the home or household compound)"
           },
           "required": true,
           "meta": false,
@@ -4019,7 +4019,7 @@
           "order": 53,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: vaccination records or certificates\nFully immunized children: all under-5 children in the household have received the relevant vaccinations"
+            "text": "<b>OBSERVE: vaccination records or certificates</b>\n<b>Fully immunized children:</b> all under-5 children in the household have received the relevant vaccinations"
           },
           "required": true,
           "meta": false,
@@ -4069,7 +4069,7 @@
           "order": 55,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: Vitamin A supplement records\nVitamin A supplements: all under-5 children should receive Vitamin A supplements every 6 months, and mothers should receive Vitamin A supplements within 6 weeks of delivery to pass the vitamin on to the child through breast milk.\nVitamin A supplements received: confirm that all under-5 children in the household have received a Vitamin A supplement in the last 6 months"
+            "text": "<b>OBSERVE: Vitamin A supplement records</b>\n<b>Vitamin A supplements:</b> all under-5 children should receive Vitamin A supplements every 6 months, and mothers should receive Vitamin A supplements within 6 weeks of delivery to pass the vitamin on to the child through breast milk.\n<b>Vitamin A supplements received:</b> confirm that all under-5 children in the household have received a Vitamin A supplement in the last 6 months"
           },
           "required": true,
           "meta": false,
@@ -4119,7 +4119,7 @@
           "order": 57,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW (to mothers of under 6 month old babies): how are you feeding your baby? [Options: Exclusive breastfeeding, breastfeeding and milk substitutes; milk substitutes only; other]\nINTERVIEW (to mothers of under 6 month old babies): Has your baby been given anything other than breast milk since it was born\nExclusive breastfeeding: infants should receive only breast milk until 6 months old. No other food or water should be given to the infant during the first 6-month period, because of the risk that this food or water may be contaminated and cause illness.\nExclusive breastfeeding for under 6-month children: assess by interview, supported by observation of the foods available in the house to confirm the reported diet of the under-2 children"
+            "text": "<b>INTERVIEW (to mothers of under 6 month old babies): how are you feeding your baby? [Options: Exclusive breastfeeding, breastfeeding and milk substitutes; milk substitutes only; other]</b>\n<b>INTERVIEW (to mothers of under 6 month old babies):</b> Has your baby been given anything other than breast milk since it was born\n<b>Exclusive breastfeeding:</b> infants should receive only breast milk until 6 months old. No other food or water should be given to the infant during the first 6-month period, because of the risk that this food or water may be contaminated and cause illness.\n<b>Exclusive breastfeeding for under 6-month children:</b> assess by interview, supported by observation of the foods available in the house to confirm the reported diet of the under-2 children"
           },
           "required": true,
           "meta": false,
@@ -4169,7 +4169,7 @@
           "order": 59,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: what food types/groups are present in the home?\nINTERVIEW (to mothers of under 2 year children): which of these foods have been fed to your under-2 children in the last 7 days?\nNutritious diet: all 6-month to under-2 children received foods from 5 or more food groups during the previous day\nNutritious diet assessment: by household interview, supported by observation of the foods available in the house (to confirm reported diet of under-2 children)\nNutritious food groups: 1. Breast milk 2. Grains, white roots, tubers and plaintains 3. Legumes and nuts 4. Dairy 5. Flesh foods (meat, fish, poultry, liver and organ meats) 6. Eggs 7. Vitamin A rich fruits and vegetables (for example, sweet potato, kale, carrot, red pepper, mango, pink grapefruit, watermelon) 8. Other fruits and vegetables."
+            "text": "<b>OBSERVE: what food types/groups are present in the home?</b>\n<b>INTERVIEW (to mothers of under 2 year children):</b> which of these foods have been fed to your under-2 children in the last 7 days?\n<b>Nutritious diet: </b>all 6-month to under-2 children received foods from 5 or more food groups during the previous day\n<b>Nutritious diet assessment:</b> by household interview, supported by observation of the foods available in the house (to confirm reported diet of under-2 children)\n<b>Nutritious food groups:</b> 1. Breast milk 2. Grains, white roots, tubers and plaintains 3. Legumes and nuts 4. Dairy 5. Flesh foods (meat, fish, poultry, liver and organ meats) 6. Eggs 7. Vitamin A rich fruits and vegetables (for example, sweet potato, kale, carrot, red pepper, mango, pink grapefruit, watermelon) 8. Other fruits and vegetables."
           },
           "required": true,
           "meta": false,
@@ -4219,7 +4219,7 @@
           "order": 61,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: insecticide-treated bed nets on all beds\nOBSERVE: insect screen on windows, doors and other openings\nMalaria-safe home: EITHER all household members sleep under an insecticide-treated bed net, OR the house has insect screen on all windows, doors and other openings."
+            "text": "<b>OBSERVE: insecticide-treated bed nets on all beds</b>\n<b>OBSERVE:</b> insect screen on windows, doors and other openings\n<b>Malaria-safe home:</b> EITHER all household members sleep under an insecticide-treated bed net, OR the house has insect screen on all windows, doors and other openings."
           },
           "required": true,
           "meta": false,
@@ -4269,7 +4269,7 @@
           "order": 63,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: deworming treatment records\nDewormed home: all children and all at-risk adults have received deworming treatment in the last 12 months"
+            "text": "<b>OBSERVE: deworming treatment records</b>\n<b>Dewormed home:</b> all children and all at-risk adults have received deworming treatment in the last 12 months"
           },
           "required": true,
           "meta": false,
