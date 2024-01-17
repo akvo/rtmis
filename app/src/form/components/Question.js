@@ -6,7 +6,7 @@ import { styles } from '../styles';
 import { onFilterDependency } from '../lib';
 import { FormState } from '../../store';
 
-const Question = memo(({ group }) => {
+const Question = memo(({ group, activeQuestions = [] }) => {
   /**
    * Optimizing flatlist with memo
    * https://reactnative.dev/docs/optimizing-flatlist-configuration#use-memo
@@ -65,7 +65,11 @@ const Question = memo(({ group }) => {
           s.loading = true;
         });
         preFilled?.fill
-          ?.filter((f) => questions?.map((q) => q?.id)?.includes(f.id))
+          ?.filter(
+            (f) =>
+              !activeQuestions.length ||
+              (activeQuestions.length && activeQuestions?.map((q) => q?.id).includes(f.id)),
+          )
           ?.forEach((f) => {
             fieldValues[f?.id] = f?.answer;
           });
