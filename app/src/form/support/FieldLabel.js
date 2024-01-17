@@ -20,16 +20,21 @@ const FieldLabel = ({ keyform = 0, name, tooltip, requiredSign = null }) => {
       )}
       <View style={styles.fieldLabel}>
         <View style={{ flexDirection: 'row' }}>
-          <Text testID="field-label">{labelText}</Text>
-          {tooltipText && (
-            <Icon
-              name="information-circle"
-              type="ionicon"
-              size={18}
-              testID="field-tooltip-icon"
-              onPress={() => setOpen(!open)}
-            />
-          )}
+          <Text testID="field-label">
+            {labelText}
+            {tooltipText && (
+              <Text>
+                {' '}
+                <Icon
+                  name="information-circle"
+                  type="ionicon"
+                  size={18}
+                  testID="field-tooltip-icon"
+                  onPress={() => setOpen(!open)}
+                />
+              </Text>
+            )}
+          </Text>
         </View>
         <AnimatedTooltip visible={open} content={tooltipText} style={{ width: '100%' }} />
       </View>
