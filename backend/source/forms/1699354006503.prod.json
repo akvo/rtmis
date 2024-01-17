@@ -285,6 +285,9 @@
           },
           "required": true,
           "meta": false,
+          "rule": {
+            "min": 0
+          },
           "options": null,
           "fn": null
         },
@@ -293,6 +296,9 @@
           "question": "Number of at-risk households",
           "order": 3,
           "type": "number",
+          "rule": {
+            "min": 0
+          },
           "tooltip": {
             "text": "INTERVIEW: how many at-risk households have been identified in the community?\nAt-risk households: households that meet the at-risk criteria determined by the County Public Health Office"
           },
@@ -493,6 +499,9 @@
           "question": "G1: Number of households who own a toilet",
           "order": 11,
           "type": "number",
+          "rule": {
+            "min": 0
+          },
           "tooltip": {
             "text": "INTERVIEW: how many households in the community currently own a toilet?\nHouseholds who own a toilet: current information based on latest community monitoring information (for households who have their own toilet)"
           },
@@ -506,6 +515,9 @@
           "question": "G2: Number of households using durable toilets with safe containment",
           "order": 12,
           "type": "number",
+          "rule": {
+            "min": 0
+          },
           "tooltip": {
             "text": "INTERVIEW: how many households in the community currently use a durable toilet with safe containment?\nHouseholds who use a durable toilet with safe containment: current information based on latest community monitoring information (for households who have durable toilets with safe containment)"
           },
@@ -519,6 +531,9 @@
           "question": "G3: Number of households with permanent handwashing stations",
           "order": 13,
           "type": "number",
+          "rule": {
+            "min": 0
+          },
           "tooltip": {
             "text": "INTERVIEW: how many households in the community own permanent handwashing stations?\nHouseholds with permanent handwashing stations: current information based on latest community monitoring information (for households with permanent handwashing stations)"
           },
@@ -532,6 +547,9 @@
           "question": "G1: Number of at-risk households who own a toilet",
           "order": 14,
           "type": "number",
+          "rule": {
+            "min": 0
+          },
           "tooltip": {
             "text": "INTERVIEW: how many at-risk households in the community currently own a toilet?"
           },
@@ -545,6 +563,9 @@
           "question": "G2: Number of at-risk households using durable toilets with safe containment",
           "order": 15,
           "type": "number",
+          "rule": {
+            "min": 0
+          },
           "tooltip": {
             "text": "INTERVIEW: how many at-risk households in the community currently use durable toilets with safe containment?"
           },
@@ -558,6 +579,9 @@
           "question": "G3: Number of at-risk households with permanent handwashing stations",
           "order": 16,
           "type": "number",
+          "rule": {
+            "min": 0
+          },
           "tooltip": {
             "text": "INTERVIEW: how many at-risk households in the community currently own a permanent handwashing facility?"
           },

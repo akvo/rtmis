@@ -465,7 +465,7 @@
           "options": null,
           "rule": {
             "max": 200,
-            "min": 0
+            "min": 1
           },
           "fn": null
         },
