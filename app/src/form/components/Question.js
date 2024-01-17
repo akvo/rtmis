@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import { FlatList, View } from 'react-native';
 import * as Crypto from 'expo-crypto';
 import QuestionField from './QuestionField';
@@ -13,6 +13,7 @@ const Question = memo(({ group, activeQuestions = [] }) => {
    */
   const [preload, setPreload] = useState(true);
   const values = FormState.useState((s) => s.currentValues);
+  const flatListRef = useRef(null);
 
   const questions = useMemo(() => {
     try {
@@ -83,8 +84,16 @@ const Question = memo(({ group, activeQuestions = [] }) => {
     handleOnGenerateUUID();
   }, [handleOnGenerateUUID]);
 
+
+  useEffect(() => {
+    if (flatListRef.current) {
+      flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
+    }
+  }, [questions]);
+
   return (
     <FlatList
+      ref={flatListRef}
       scrollEnabled={true}
       data={questions}
       keyExtractor={(item) => `question-${item.id}`}
