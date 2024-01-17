@@ -26,13 +26,7 @@ const BIDashboard = () => {
               </div>
             );
           default:
-            return (
-              <Affix key={componentKey} className="wrapper">
-                <div className="page-title-wrapper">
-                  <h1 style={c?.style ? c.style : {}}>{c.text}</h1>
-                </div>
-              </Affix>
-            );
+            return null;
         }
       })}
     </div>
