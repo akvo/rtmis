@@ -83,7 +83,54 @@ const backgroundTaskStatus = async (TASK_NAME, minimumInterval = 3600) => {
   console.log(`[${TASK_NAME}] Status`, status, isRegistered, minimumInterval);
 };
 
-const syncFormSubmission = async (photos = []) => {
+const handleOnUploadPhotos = async (data) => {
+  const AllPhotos = data?.flatMap((d) => {
+    const answers = JSON.parse(d.json);
+    const questions = JSON.parse(d.json_form)?.question_group?.flatMap((qg) => qg.question) || [];
+    const photos = questions
+      .filter((q) => q.type === 'photo')
+      .map((q) => ({ id: q.id, value: answers?.[q.id], dataID: d.id }))
+      .filter((p) => p.value);
+    return photos;
+  });
+
+  if (AllPhotos?.length) {
+    const uploads = AllPhotos.map((p) => {
+      const fileType = p.value.split('.').slice(-1)?.[0];
+      const formData = new FormData();
+      formData.append('file', {
+        uri: p.value,
+        name: `photo_${p.id}_${p.dataID}.${fileType}`,
+        type: `image/${fileType}`,
+      });
+      return api.post('/images', formData, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+    });
+
+    const responses = await Promise.allSettled(uploads);
+    const results = responses
+      .filter(({ status }) => status === 'fulfilled')
+      .map(({ value: resValue }) => {
+        const { data: fileData } = resValue;
+        const findPhoto =
+          AllPhotos.find((ap) => fileData?.file?.includes(`${ap.id}_${ap.dataID}`)) || {};
+        return {
+          ...fileData,
+          ...findPhoto,
+        };
+      })
+      .filter((d) => d);
+    return results;
+  } else {
+    return [];
+  }
+};
+
+const syncFormSubmission = async () => {
   const { isConnected } = await Network.getNetworkStateAsync();
   if (!isConnected) {
     return;
@@ -97,9 +144,12 @@ const syncFormSubmission = async (photos = []) => {
     api.setToken(session.token);
     // get all datapoints to sync
     const data = await crudDataPoints.selectSubmissionToSync();
+    /**
+     * Upload all photo of questions first
+     */
+    const photos = await handleOnUploadPhotos(data);
     console.info('[syncFormSubmision] data point to sync:', data.length);
     const syncProcess = data.map(async (d) => {
-      const form = await crudForms.selectFormById({ id: d.form });
       const geo = d.geo ? d.geo.split('|')?.map((x) => parseFloat(x)) : [];
 
       const answerValues = JSON.parse(d.json.replace(/''/g, "'"));
@@ -109,7 +159,7 @@ const syncFormSubmission = async (photos = []) => {
           answerValues[pt?.id] = pt?.file;
         });
       const syncData = {
-        formId: form.formId,
+        formId: d.formId,
         name: d.name,
         duration: Math.round(d.duration),
         submittedAt: d.submittedAt,
@@ -135,17 +185,13 @@ const syncFormSubmission = async (photos = []) => {
         status: res.status,
       };
     });
-    return Promise.all(syncProcess)
-      .then(async (res) => {
-        return res;
-      })
-      .then(() => {
-        console.info('[syncFormSubmision] Finish: ', new Date());
-        if (sendNotification) {
-          notification.sendPushNotification('sync-form-submission');
-        }
-        sendNotification = false;
-      });
+    const res = await Promise.all(syncProcess);
+    console.info('[syncFormSubmision] Finish: ', new Date());
+    if (sendNotification) {
+      notification.sendPushNotification('sync-form-submission');
+    }
+    sendNotification = false;
+    return res;
   } catch (err) {
     console.error('[syncFormSubmission] Error: ', err);
   }
