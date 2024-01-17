@@ -62,7 +62,7 @@ const DataFilters = ({ loading }) => {
             <AdvancedFiltersButton />
           </Space>
         </Col>
-        {["Super Admin", "County Admin", "Data Entry Staff"].includes(
+        {["Super Admin", "County Admin", "Data Entry Supervisor"].includes(
           authUser?.role?.value
         ) && (
           <Col>

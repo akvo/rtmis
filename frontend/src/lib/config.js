@@ -44,7 +44,6 @@ const config = {
         "reports",
         "settings",
         "organisation",
-        "mobile",
         "master-data",
       ],
       administration_level: [1],
@@ -74,7 +73,6 @@ const config = {
         "approvers",
         "form",
         "reports",
-        "mobile",
       ],
       administration_level: [2],
       description:
@@ -109,7 +107,7 @@ const config = {
     },
     {
       id: 4,
-      name: "Data Entry Staff",
+      name: "Data Entry Supervisor",
       filter_form: 1,
       delete_data: false,
       page_access: [
