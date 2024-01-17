@@ -595,13 +595,14 @@
         },
         {
           "id": 1703265705460,
-          "question": "(Display Only) Total number of males who live permanently in this house",
+          "question": "Total number of males who live permanently in this house",
           "order": 16,
           "type": "autofield",
           "tooltip": null,
           "required": true,
           "meta": false,
           "options": null,
+          "displayOnly":true,
           "rule": null,
           "fn": {
             "fnColor": {},
@@ -611,7 +612,7 @@
         },
         {
           "id": 1703265879204,
-          "question": "(Display Only) Total number of females who live permanently in this house",
+          "question": "Total number of females who live permanently in this house",
           "order": 17,
           "type": "autofield",
           "tooltip": null,
@@ -619,6 +620,7 @@
           "meta": false,
           "options": null,
           "rule": null,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1699419951523 + #1699420051321 + #1699420103720 + #1699420137191}",
@@ -4325,11 +4327,12 @@
       "questions": [
         {
           "id": 1703086270254,
-          "question": "(Display Only) Outcome result - Functional toilet with privacy",
+          "question": "Outcome result - Functional toilet with privacy",
           "order": 1,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1701810579091}",
@@ -4338,11 +4341,12 @@
         },
         {
           "id": 1703262568954,
-          "question": "(Display Only) Outcome result - Flyproof toilet type",
+          "question": "Outcome result - Flyproof toilet type",
           "order": 2,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702281084786}",
@@ -4351,11 +4355,12 @@
         },
         {
           "id": 1703262631146,
-          "question": "(Display Only) Outcome result - Clean toilet",
+          "question": "Outcome result - Clean toilet",
           "order": 3,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702282119933}",
@@ -4364,11 +4369,12 @@
         },
         {
           "id": 1703262690080,
-          "question": "(Display Only) Outcome result - Durable toilet",
+          "question": "Outcome result - Durable toilet",
           "order": 4,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702283171680}",
@@ -4377,11 +4383,12 @@
         },
         {
           "id": 1703262742831,
-          "question": "(Display Only) Outcome result - Toilet with safe containment",
+          "question": "Outcome result - Toilet with safe containment",
           "order": 5,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702283955461}",
@@ -4390,11 +4397,12 @@
         },
         {
           "id": 1703262807516,
-          "question": "(Display Only) Outcome result - Toilet with safe containment",
+          "question": "Outcome result - Toilet with safe containment",
           "order": 6,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702283955461}",
@@ -4403,11 +4411,12 @@
         },
         {
           "id": 1703262938134,
-          "question": "(Display Only) Outcome result - Toilet use by all household members",
+          "question": "Outcome result - Toilet use by all household members",
           "order": 7,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702284734752}",
@@ -4416,11 +4425,12 @@
         },
         {
           "id": 1703263007787,
-          "question": "(Display Only) Outcome result - Individual use of own household toilet",
+          "question": "Outcome result - Individual use of own household toilet",
           "order": 8,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702285101196}",
@@ -4429,11 +4439,12 @@
         },
         {
           "id": 1703263086485,
-          "question": "(Display Only) Outcome result - Use of safely managed sanitation services",
+          "question": "Outcome result - Use of safely managed sanitation services",
           "order": 9,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702285668136}",
@@ -4442,11 +4453,12 @@
         },
         {
           "id": 1703263138794,
-          "question": "(Display Only)Outcome result - Hand-washing facility with water and soap",
+          "question": "Outcome result - Hand-washing facility with water and soap",
           "order": 10,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702287053503}",
@@ -4455,11 +4467,12 @@
         },
         {
           "id": 1703263286187,
-          "question": "(Display Only) Outcome result - Permanent hand washing station",
+          "question": "Outcome result - Permanent hand washing station",
           "order": 11,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702287685048}",
@@ -4468,11 +4481,12 @@
         },
         {
           "id": 1703263344743,
-          "question": "(Display Only)Outcome result - Hand washing with soap at critical times",
+          "question": "Outcome result - Hand washing with soap at critical times",
           "order": 12,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702288599133}",
@@ -4481,11 +4495,12 @@
         },
         {
           "id": 1703264020920,
-          "question": "(Display Only)Outcome result - No exposed human excreta",
+          "question": "Outcome result - No exposed human excreta",
           "order": 13,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702289546185}",
@@ -4494,11 +4509,12 @@
         },
         {
           "id": 1703264089420,
-          "question": "(Display Only) Outcome result - Safe management of child excreta and diapers",
+          "question": "Outcome result - Safe management of child excreta and diapers",
           "order": 14,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702289725502}",
@@ -4507,11 +4523,12 @@
         },
         {
           "id": 1703264129557,
-          "question": "(Display Only) Outcome result - Clean and safely stored food",
+          "question": "Outcome result - Clean and safely stored food",
           "order": 15,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702295289084}",
@@ -4520,11 +4537,12 @@
         },
         {
           "id": 1703264188321,
-          "question": "(Display Only) Outcome result - Clean and safely stored kitchen utensils",
+          "question": "Outcome result - Clean and safely stored kitchen utensils",
           "order": 16,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702295769122}",
@@ -4533,11 +4551,12 @@
         },
         {
           "id": 1703264236741,
-          "question": "(Display Only) Outcome result - Clean and safely stored milk containers",
+          "question": "Outcome result - Clean and safely stored milk containers",
           "order": 17,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702296110410}",
@@ -4546,11 +4565,12 @@
         },
         {
           "id": 1703264309057,
-          "question": "(Display Only) Outcome result - Safe management of drinking water",
+          "question": "Outcome result - Safe management of drinking water",
           "order": 18,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702296406679}",
@@ -4559,11 +4579,12 @@
         },
         {
           "id": 1703264361208,
-          "question": "(Display Only) Outcome result - Safe management of water sources",
+          "question": "Outcome result - Safe management of water sources",
           "order": 19,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702296839468}",
@@ -4572,11 +4593,12 @@
         },
         {
           "id": 1703264422368,
-          "question": "(Display Only) Outcome result - No visible animal wastes in house or compound",
+          "question": "Outcome result - No visible animal wastes in house or compound",
           "order": 20,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702297046194}",
@@ -4585,11 +4607,12 @@
         },
         {
           "id": 1703264464860,
-          "question": "(Display Only) Outcome result - Safe management of animal wastes in compound",
+          "question": "Outcome result - Safe management of animal wastes in compound",
           "order": 21,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702297533085}",
@@ -4598,11 +4621,12 @@
         },
         {
           "id": 1703264507441,
-          "question": "(Display Only) Outcome result - Safe separation of animals from under-5 children",
+          "question": "Outcome result - Safe separation of animals from under-5 children",
           "order": 22,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702297797962}",
@@ -4611,11 +4635,12 @@
         },
         {
           "id": 1703264558047,
-          "question": "(Display Only) Outcome result - Safe management of liquid wastes",
+          "question": "Outcome result - Safe management of liquid wastes",
           "order": 23,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702298080560}",
@@ -4624,11 +4649,12 @@
         },
         {
           "id": 1703264629697,
-          "question": "(Display Only) Outcome result - Safe management of solid wastes",
+          "question": "Outcome result - Safe management of solid wastes",
           "order": 24,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702298318702}",
@@ -4637,11 +4663,12 @@
         },
         {
           "id": 1703264663615,
-          "question": "(Display Only) Outcome result - Good vector control in compound",
+          "question": "Outcome result - Good vector control in compound",
           "order": 25,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702298602672}",
@@ -4650,11 +4677,12 @@
         },
         {
           "id": 1703264715860,
-          "question": "(Display Only) Outcome result - Clean face and hands",
+          "question": "Outcome result - Clean face and hands",
           "order": 26,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702298863458}",
@@ -4663,11 +4691,12 @@
         },
         {
           "id": 1703264761300,
-          "question": "(Display Only) Outcome result - Good menstrual health",
+          "question": "Outcome result - Good menstrual health",
           "order": 27,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702301820095}",
@@ -4676,11 +4705,12 @@
         },
         {
           "id": 1703264824044,
-          "question": "(Display Only) Outcome result - Fully immunized children",
+          "question": "Outcome result - Fully immunized children",
           "order": 28,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702302041022}",
@@ -4689,11 +4719,12 @@
         },
         {
           "id": 1703264893135,
-          "question": "(Display Only) Outcome result - Vitamin A supplements",
+          "question": "Outcome result - Vitamin A supplements",
           "order": 29,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702302232732}",
@@ -4702,11 +4733,12 @@
         },
         {
           "id": 1703264949388,
-          "question": "(Display Only) Outcome result - Exclusive breastfeeding",
+          "question": "Outcome result - Exclusive breastfeeding",
           "order": 30,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702302427536}",
@@ -4715,11 +4747,12 @@
         },
         {
           "id": 1703264997220,
-          "question": "(Display Only) Outcome result - Nutritious diet",
+          "question": "Outcome result - Nutritious diet",
           "order": 31,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702302507816}",
@@ -4728,11 +4761,12 @@
         },
         {
           "id": 1703265056470,
-          "question": "(Display Only) Outcome result - Malaria-endemic counties: Malaria-safe homes",
+          "question": "Outcome result - Malaria-endemic counties: Malaria-safe homes",
           "order": 32,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702299714872}",
@@ -4741,11 +4775,12 @@
         },
         {
           "id": 1703265101191,
-          "question": "(Display Only) Outcome result - STH-endemic counties: Dewormed homes",
+          "question": "Outcome result - STH-endemic counties: Dewormed homes",
           "order": 33,
           "type": "autofield",
           "required": true,
           "meta": false,
+          "displayOnly":true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1702299918738}",

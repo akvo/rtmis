@@ -168,7 +168,7 @@
           "order": 2,
           "type": "option",
           "required": true,
-          "meta": false,
+          "meta": true,
           "tooltip": {
             "text": "OBSERVE: type of institution (located within community), Institution: any public building with open access to the communal toilets and handwashing facilities"
           },
@@ -231,9 +231,21 @@
           ]
         },
         {
+          "id": 1699419048095232,
+          "question": "Institution ID",
+          "order": 3,
+          "type": "text",
+          "tooltip": null,
+          "required": true,
+          "meta": true,
+          "options": null,
+          "rule": null,
+          "fn": null
+        },
+        {
           "id": 1701329515408,
           "question": "Functional institutional toilet",
-          "order": 3,
+          "order": 4,
           "type": "option",
           "required": true,
           "meta": false,
@@ -264,7 +276,7 @@
         {
           "id": 1701331306965,
           "question": "Flyproof institutional toilet",
-          "order": 4,
+          "order": 5,
           "type": "option",
           "required": true,
           "meta": false,
@@ -289,7 +301,7 @@
         {
           "id": 1701331373050,
           "question": "Clean institutional toilet",
-          "order": 5,
+          "order": 6,
           "type": "option",
           "required": true,
           "meta": false,
@@ -314,7 +326,7 @@
         {
           "id": 1701331438759,
           "question": "Durable institutional toilet slab",
-          "order": 6,
+          "order": 7,
           "type": "option",
           "required": true,
           "meta": false,
@@ -339,7 +351,7 @@
         {
           "id": 1701331908015,
           "question": "Durable institutional toilet pits",
-          "order": 7,
+          "order": 8,
           "type": "option",
           "required": true,
           "meta": false,
@@ -364,7 +376,7 @@
         {
           "id": 1701332234354,
           "question": "Safely managed containment: wastewater contained",
-          "order": 8,
+          "order": 9,
           "type": "option",
           "required": true,
           "meta": false,
@@ -395,7 +407,7 @@
         {
           "id": 1701332496414,
           "question": "Safely managed containment: faecal sludge contained",
-          "order": 9,
+          "order": 10,
           "type": "option",
           "required": true,
           "meta": false,
@@ -426,7 +438,7 @@
         {
           "id": 1701334423738,
           "question": "Safely managed sanitation services: emptying, treatment & disposal",
-          "order": 10,
+          "order": 11,
           "type": "option",
           "required": true,
           "meta": false,
@@ -529,7 +541,7 @@
         {
           "id": 1701334833791,
           "question": "Handwashing facility observed in institution",
-          "order": 11,
+          "order": 12,
           "type": "option",
           "required": true,
           "meta": false,
@@ -578,7 +590,7 @@
         {
           "id": 1701334972999,
           "question": "Water available at institutional HWF",
-          "order": 12,
+          "order": 13,
           "type": "option",
           "required": true,
           "meta": false,
@@ -609,7 +621,7 @@
         {
           "id": 1701335557029,
           "question": "Soap available at institutional HWF",
-          "order": 13,
+          "order": 14,
           "type": "option",
           "required": true,
           "meta": false,
@@ -646,7 +658,7 @@
         {
           "id": 1701358601048,
           "question": "Institutional handwashing facility type",
-          "order": 14,
+          "order": 15,
           "type": "option",
           "required": true,
           "meta": false,
@@ -700,7 +712,7 @@
         {
           "id": 1701359046016,
           "question": "Hands-free operation of institutional handwashing facility",
-          "order": 15,
+          "order": 16,
           "type": "option",
           "required": true,
           "meta": false,
@@ -743,7 +755,7 @@
         {
           "id": 1701359231461,
           "question": "Adequate drainage of washing water",
-          "order": 16,
+          "order": 17,
           "type": "option",
           "required": true,
           "meta": false,
