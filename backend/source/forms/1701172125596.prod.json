@@ -170,7 +170,7 @@
           "required": true,
           "meta": true,
           "tooltip": {
-            "text": "OBSERVE: type of institution (located within community), Institution: any public building with open access to the communal toilets and handwashing facilities"
+            "text": "<b>OBSERVE: type of institution (located within community), Institution: any public building with open access to the communal toilets and handwashing facilities</b>"
           },
           "options": [
             {
@@ -250,7 +250,7 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "OBSERVE: functional toilets observed in institution?, Functional toilet: the household toilet is functioning as intended, and can be used (that is, it is not blocked, abandoned or collapsed), Number of toilets: count the number of separate toilet stances or separate toilet seats (each of which can be used privately and separately)"
+            "text": "<b>OBSERVE: functional toilets observed in institution?, Functional toilet: the household toilet is functioning as intended, and can be used (that is, it is not blocked, abandoned or collapsed), Number of toilets: count the number of separate toilet stances or separate toilet seats (each of which can be used privately and separately)</b>"
           },
           "options": [
             {
@@ -281,7 +281,7 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "OBSERVE: flyproof toilets observed in institution?"
+            "text": "<b>OBSERVE: flyproof toilets observed in institution?</b>"
           },
           "options": [
             {
@@ -306,7 +306,7 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "OBSERVE: clean toilets observed in institution?"
+            "text": "<b>OBSERVE: clean toilets observed in institution?</b>"
           },
           "options": [
             {
@@ -331,7 +331,7 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "OBSERVE: durable toilet slabs observed in institution?"
+            "text": "<b>OBSERVE: durable toilet slabs observed in institution?</b>"
           },
           "options": [
             {
@@ -356,7 +356,7 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "OBSERVE: durable toilet pits observed in institution?"
+            "text": "<b>OBSERVE: durable toilet pits observed in institution?</b>"
           },
           "options": [
             {
@@ -381,7 +381,7 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "OBSERVE: any evidence of surface outflows from containment systems (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows), Surface outflows from containment: EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks)."
+            "text": "<b>OBSERVE: any evidence of surface outflows from containment systems (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows),\n <b>Surface outflows from containment: </b> EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks).</b>"
           },
           "options": [
             {
@@ -412,7 +412,7 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "INTERVIEW: has the institutional toilet containment (pit, tank or other) ever been emptied?, INTERVIEW: has the institutional toilet containment (pit, tank or other) ever filled up?, INTERVIEW: what happened when the institutional toilet containment (pit, tank or other) last filled up?"
+            "text": "<b>INTERVIEW: has the institutional toilet containment (pit, tank or other) ever been emptied?,</b> <b>INTERVIEW:</b> has the institutional toilet containment (pit, tank or other) ever filled up?, <b>INTERVIEW:</b> what happened when the institutional toilet containment (pit, tank or other) last filled up?"
           },
           "options": [
             {
@@ -443,7 +443,7 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?, INTERVIEW: the last time it was emptied, who emptied the toilet containment?, INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied): what will happen when the toilet containment is full?, Licensed service provider: paid emptier that is approved and regulated by local authority to empty and transport toilet wastes, Unlicensed service provider: paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers) \nOff-site location: site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.\nSewer connection to licensed and functional treatment site: the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site."
+            "text": "<b>INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?,</b>\n<b> INTERVIEW: the last time it was emptied, who emptied the toilet containment?,</b>\n<b> INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied):</b> what will happen when the toilet containment is full?,</b>\n<b> Licensed service provider:</b> paid emptier that is approved and regulated by local authority to empty and transport toilet wastes,</b>\n<b> Unlicensed service provider:</b> paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers)</b> \n<b>Off-site location:</b> site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.\n<b>Sewer connection to licensed and functional treatment site: </b>the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site."
           },
           "options": [
             {
