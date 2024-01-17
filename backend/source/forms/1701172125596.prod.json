@@ -24,7 +24,7 @@
           "tooltip": {
             "text": "Entry of institution data in RTMIS (first time) or update of monitoring data (existing institution)"
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
@@ -127,7 +127,7 @@
           "tooltip": {
             "text": "This question contains a list of possible household locations, starting with government area or district, down to the village."
           },
-          "required": false,
+          "required": true,
           "meta": true
         },
         {
@@ -138,7 +138,7 @@
           "tooltip": {
             "text": "Record GPS coordinates of a central place in the institution (e.g. in front of entrance)"
           },
-          "required": false,
+          "required": true,
           "meta": true,
           "options": null
         }
@@ -157,7 +157,7 @@
           "question": "Institution respondent: role in institution",
           "order": 1,
           "type": "text",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": null,
           "options": null
@@ -167,8 +167,8 @@
           "question": "Type of institution",
           "order": 2,
           "type": "option",
-          "required": false,
-          "meta": false,
+          "required": true,
+          "meta": true,
           "tooltip": {
             "text": "OBSERVE: type of institution (located within community), Institution: any public building with open access to the communal toilets and handwashing facilities"
           },
@@ -231,11 +231,23 @@
           ]
         },
         {
+          "id": 1699419048095232,
+          "question": "Institution ID",
+          "order": 3,
+          "type": "text",
+          "tooltip": null,
+          "required": true,
+          "meta": true,
+          "options": null,
+          "rule": null,
+          "fn": null
+        },
+        {
           "id": 1701329515408,
           "question": "Functional institutional toilet",
-          "order": 3,
+          "order": 4,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: functional toilets observed in institution?, Functional toilet: the household toilet is functioning as intended, and can be used (that is, it is not blocked, abandoned or collapsed), Number of toilets: count the number of separate toilet stances or separate toilet seats (each of which can be used privately and separately)"
@@ -244,26 +256,29 @@
             {
               "id": 1701331266939,
               "name": "G0 All toilets in the institution are NON-functional (specify number of non-functional toilets)",
-              "order": 1
+              "order": 1,
+              "color": "#db3b3b"
             },
             {
               "id": 1701331266940,
               "name": "G1 Some toilets in the institution are non-functional (specify number of functional toilets + number of non-functional toilets)",
-              "order": 2
+              "order": 2,
+              "color": "#ffc677"
             },
             {
               "id": 1701331278390,
               "name": "G3 All toilets in the institution are functional (specify number of functional toilets)",
-              "order": 3
+              "order": 3,
+              "color": "#2D9BF0"
             }
           ]
         },
         {
           "id": 1701331306965,
           "question": "Flyproof institutional toilet",
-          "order": 4,
+          "order": 5,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: flyproof toilets observed in institution?"
@@ -272,21 +287,23 @@
             {
               "id": 1701331313074,
               "name": "G0 Toilets NOT flyproof in institutions",
-              "order": 1
+              "order": 1,
+              "color": "#db3b3b"
             },
             {
               "id": 1701331313075,
               "name": "G3 Flyproof toilets in all institutions",
-              "order": 2
+              "order": 2,
+              "color": "#2D9BF0"
             }
           ]
         },
         {
           "id": 1701331373050,
           "question": "Clean institutional toilet",
-          "order": 5,
+          "order": 6,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: clean toilets observed in institution?"
@@ -295,21 +312,23 @@
             {
               "id": 1701331399847,
               "name": "G0 Toilets NOT clean in institutions",
-              "order": 1
+              "order": 1,
+              "color": "#db3b3b"
             },
             {
               "id": 1701331399848,
               "name": "G3 Clean toilets in all institutions",
-              "order": 2
+              "order": 2,
+              "color": "#2D9BF0"
             }
           ]
         },
         {
           "id": 1701331438759,
           "question": "Durable institutional toilet slab",
-          "order": 6,
+          "order": 7,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: durable toilet slabs observed in institution?"
@@ -318,21 +337,23 @@
             {
               "id": 1701331448374,
               "name": "G0 Toilet slabs NOT durable in institutions",
-              "order": 1
+              "order": 1,
+              "color": "#db3b3b"
             },
             {
               "id": 1701331448375,
               "name": "G3 Durable toilet slabs in all institutions",
-              "order": 2
+              "order": 2,
+              "color": "#2D9BF0"
             }
           ]
         },
         {
           "id": 1701331908015,
           "question": "Durable institutional toilet pits",
-          "order": 7,
+          "order": 8,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: durable toilet pits observed in institution?"
@@ -341,21 +362,23 @@
             {
               "id": 1701332195341,
               "name": "G0 Toilet pits NOT durable in institutions",
-              "order": 1
+              "order": 1,
+              "color": "#db3b3b"
             },
             {
               "id": 1701332195342,
               "name": "G3 Durable toilet pits in all institutions",
-              "order": 2
+              "order": 2,
+              "color": "#2D9BF0"
             }
           ]
         },
         {
           "id": 1701332234354,
           "question": "Safely managed containment: wastewater contained",
-          "order": 8,
+          "order": 9,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: any evidence of surface outflows from containment systems (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows), Surface outflows from containment: EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks)."
@@ -364,26 +387,29 @@
             {
               "id": 1701332463584,
               "name": "G0 Visible surface outflows from containment",
-              "order": 1
+              "order": 1,
+              "color": "#db3b3b"
             },
             {
               "id": 1701332463585,
               "name": "G1 Evidence of previous surface outflows from containment",
-              "order": 2
+              "order": 2,
+              "color": "#ffc677"
             },
             {
               "id": 1701332482749,
               "name": "G3 Safely managed containment in all institutions: no surface outflows",
-              "order": 3
+              "order": 3,
+              "color": "#2D9BF0"
             }
           ]
         },
         {
           "id": 1701332496414,
           "question": "Safely managed containment: faecal sludge contained",
-          "order": 9,
+          "order": 10,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "INTERVIEW: has the institutional toilet containment (pit, tank or other) ever been emptied?, INTERVIEW: has the institutional toilet containment (pit, tank or other) ever filled up?, INTERVIEW: what happened when the institutional toilet containment (pit, tank or other) last filled up?"
@@ -392,26 +418,29 @@
             {
               "id": 1701332582354,
               "name": "G0 Unsafe containment: overflow to open space, open drain, water body",
-              "order": 1
+              "order": 1,
+              "color": "#db3b3b"
             },
             {
               "id": 1701332582355,
               "name": "G3 Never emptied, not yet full (first toilet)",
-              "order": 2
+              "order": 2,
+              "color": "#2D9BF0"
             },
             {
               "id": 1701332605264,
               "name": "G3 Never emptied, previous pit or tank replaced when full",
-              "order": 3
+              "order": 3,
+              "color": "#2D9BF0"
             }
           ]
         },
         {
           "id": 1701334423738,
           "question": "Safely managed sanitation services: emptying, treatment & disposal",
-          "order": 10,
+          "order": 11,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?, INTERVIEW: the last time it was emptied, who emptied the toilet containment?, INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied): what will happen when the toilet containment is full?, Licensed service provider: paid emptier that is approved and regulated by local authority to empty and transport toilet wastes, Unlicensed service provider: paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers) \nOff-site location: site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.\nSewer connection to licensed and functional treatment site: the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site."
@@ -420,86 +449,101 @@
             {
               "id": 1701334450221,
               "name": "G0 No toilet, or no containment/collection system",
-              "order": 1
+              "order": 1,
+              "color": "#db3b3b"
             },
             {
               "id": 1701334450222,
               "name": "G0 Unsafe containment: open container",
-              "order": 2
+              "order": 2,
+              "color": "#db3b3b"
             },
             {
               "id": 1701334491522,
               "name": "G0 Unsafe disposal: to open pit, open space, open drain or water body (within 500m)",
-              "order": 3
+              "order": 3,
+              "color": "#db3b3b"
             },
             {
               "id": 1701334492574,
               "name": "G0 Unsafe disposal: to open space, open drain or water body (MORE than 500m)",
-              "order": 4
+              "order": 4,
+              "color": "#db3b3b"
             },
             {
               "id": 1701334493522,
               "name": "G0 Unsafe treatment or disposal: emptied by UNLICENSED service provider to off-site location",
-              "order": 5
+              "order": 5,
+              "color": "#db3b3b"
             },
             {
               "id": 1701334494489,
               "name": "G0 Unsafe treatment or disposal: closed container removed by UNLICENSED service provider to off-site location",
-              "order": 6
+              "order": 6,
+              "color": "#db3b3b"
             },
             {
               "id": 1701334496165,
               "name": "G0 Unsafe treatment or disposal: sewer connection to open discharge",
-              "order": 7
+              "order": 7,
+              "color": "#db3b3b"
             },
             {
               "id": 1701334497272,
               "name": "G1 Risk of unsafe services: never emptied (intention to empty when full)",
-              "order": 8
+              "order": 8,
+              "color": "#ffc677"
             },
             {
               "id": 1701334548218,
               "name": "G1 Unsafe storage: stored for less than 2 years before use of stored waste",
-              "order": 9
+              "order": 9,
+              "color": "#ffc677"
             },
             {
               "id": 1701334550089,
               "name": "G1 Unsafe treatment or disposal: sewer connection to UNLICENSED or NON-FUNCTIONAL treatment site",
-              "order": 10
+              "order": 10,
+              "color": "#ffc677"
             },
             {
               "id": 1701334551055,
               "name": "G3 Safely managed: emptied to covered pit",
-              "order": 11
+              "order": 11,
+              "color": "#2D9BF0"
             },
             {
               "id": 1701334586422,
               "name": "G3 Safely managed: stored for MORE than 2 years before use of stored waste",
-              "order": 12
+              "order": 12,
+              "color": "#2D9BF0"
             },
             {
               "id": 1701334595239,
               "name": "G3 Safely managed: emptied by LICENSED service provider to off-site location",
-              "order": 13
+              "order": 13,
+              "color": "#2D9BF0"
             },
             {
               "id": 1701334626772,
               "name": "G3 Safely managed: closed container removed by LICENSED service provider to off-site location",
-              "order": 14
+              "order": 14,
+              "color": "#2D9BF0"
             },
             {
               "id": 1701334641373,
               "name": "G3 Safely managed: sewer connection to LICENSED and FUNCTIONAL treatment site",
-              "order": 15
+              "order": 15,
+              "color": "#2D9BF0"
             }
           ]
         },
         {
           "id": 1701334833791,
           "question": "Handwashing facility observed in institution",
-          "order": 11,
+          "order": 12,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: presence and location of handwashing facility\nINTERVIEW: is there only one handwashing facility, or are other facilities available?"
@@ -508,41 +552,47 @@
             {
               "id": 1701334867481,
               "name": "G0 No handwashing facility",
-              "order": 1
+              "order": 1,
+              "color": "#db3b3b"
             },
             {
               "id": 1701334867482,
               "name": "G1 Handwashing facility by toilet",
-              "order": 2
+              "order": 2,
+              "color": "#ffc677"
             },
             {
               "id": 1701334902650,
               "name": "G1 Handwashing facility in kitchen",
-              "order": 3
+              "order": 3,
+              "color": "#ffc677"
             },
             {
               "id": 1701334913417,
               "name": "G1 Portable handwashing facility (basin, jug, jerrycan, container)",
-              "order": 4
+              "order": 4,
+              "color": "#ffc677"
             },
             {
               "id": 1701334921833,
               "name": "G1 Two handwashing facilities",
-              "order": 5
+              "order": 5,
+              "color": "#ffc677"
             },
             {
               "id": 1701334930550,
               "name": "G1 More than two handwashing facilities",
-              "order": 6
+              "order": 6,
+              "color": "#ffc677"
             }
           ]
         },
         {
           "id": 1701334972999,
           "question": "Water available at institutional HWF",
-          "order": 12,
+          "order": 13,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: is water available at the handwashing facility?\nOBSERVE: where an empty water container is observed at the handwashing facility, visible wet ground (or wet materials) under the handwashing facility can be accepted as proof of the recent presence of water."
@@ -551,26 +601,29 @@
             {
               "id": 1701334998750,
               "name": "G0 No water available",
-              "order": 1
+              "order": 1,
+              "color": "#db3b3b"
             },
             {
               "id": 1701334998751,
               "name": "G1 Water available",
-              "order": 2
+              "order": 2,
+              "color": "#ffc677"
             },
             {
               "id": 1701335022266,
               "name": "G1 Water container empty (evidence of washing)",
-              "order": 3
+              "order": 3,
+              "color": "#ffc677"
             }
           ]
         },
         {
           "id": 1701335557029,
           "question": "Soap available at institutional HWF",
-          "order": 13,
+          "order": 14,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: is soap available at the handwashing facility?, INTERVIEW: is soap or detergent available for washing hands? , Soap: solid, liquid or powder soap or detergent "
@@ -579,31 +632,35 @@
             {
               "id": 1701335571049,
               "name": "G0 No soap or other cleanser available",
-              "order": 1
+              "order": 1,
+              "color": "#db3b3b"
             },
             {
               "id": 1701335571050,
               "name": "G0 Ash, mud or sand available",
-              "order": 2
+              "order": 2,
+              "color": "#db3b3b"
             },
             {
               "id": 1701335595072,
               "name": "G0+ Soap available, NOT at handwashing facility",
-              "order": 3
+              "order": 3,
+              "color": "#ffa57d"
             },
             {
               "id": 1701335713812,
               "name": "G1 Solid, liquid or powder soap available",
-              "order": 4
+              "order": 4,
+              "color": "#ffc677"
             }
           ]
         },
         {
           "id": 1701358601048,
           "question": "Institutional handwashing facility type",
-          "order": 14,
+          "order": 15,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: is a permanent handwashing station available?\nPermanent handwashing station: facility made from durable materials, with a piped water connection or adequate water storage, and located in a fixed place that is appropriate for handwashing at critical times\nMarket handwashing station: manufactured handwashing station from durable materails (bought from market or market trader)\nPortable basin: open container that can be easily picked up and moved"
@@ -612,32 +669,38 @@
             {
               "id": 1701358615412,
               "name": "G1 Jerrycan or other closed container",
-              "order": 2
+              "order": 2,
+              "color": "#ffc677"
             },
             {
               "id": 1701358722331,
               "name": "G1 Portable basin or other open container",
-              "order": 3
+              "order": 3,
+              "color": "#ffc677"
             },
             {
               "id": 1701358730369,
               "name": "G1 Other temporary handwashing facility",
-              "order": 4
+              "order": 4,
+              "color": "#ffc677"
             },
             {
               "id": 1701358615411,
               "name": "G0 No handwashing facility",
-              "order": 1
+              "order": 1,
+              "color": "#db3b3b"
             },
             {
               "id": 1701358760052,
               "name": "G3 Other permanent handwashing station",
-              "order": 7
+              "order": 7,
+              "color": "#2D9BF0"
             },
             {
               "id": 1701358738247,
               "name": "G3 Piped water tap with basin",
-              "order": 5
+              "order": 5,
+              "color": "#2D9BF0"
             },
             {
               "id": 1701358750298,
@@ -649,9 +712,9 @@
         {
           "id": 1701359046016,
           "question": "Hands-free operation of institutional handwashing facility",
-          "order": 15,
+          "order": 16,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: mechanism to collect water or trigger water flow \nHands-free operation: the handwashing station is operated by tap, or other hands-free mechanism that minimises contact with the water collection device and the water container"
@@ -660,36 +723,41 @@
             {
               "id": 1701359132626,
               "name": "G0 Hands enter the water container (during collection and use)",
-              "order": 1
+              "order": 1,
+              "color": "#db3b3b"
             },
             {
               "id": 1701359132627,
               "name": "G1 Water collected by hand (using ladle, cup, other)",
-              "order": 2
+              "order": 2,
+              "color": "#ffc677"
             },
             {
               "id": 1701359173371,
               "name": "G3 Closed water storage container with tap",
-              "order": 3
+              "order": 3,
+              "color": "#2D9BF0"
             },
             {
               "id": 1701359182211,
               "name": "G3 Piped water tap",
-              "order": 4
+              "order": 4,
+              "color": "#2D9BF0"
             },
             {
               "id": 1701359190662,
               "name": "G3 Other hands-free operation",
-              "order": 5
+              "order": 5,
+              "color": "#2D9BF0"
             }
           ]
         },
         {
           "id": 1701359231461,
           "question": "Adequate drainage of washing water",
-          "order": 16,
+          "order": 17,
           "type": "option",
-          "required": false,
+          "required": true,
           "meta": false,
           "tooltip": {
             "text": "OBSERVE: facility to collect washing water, and facility to drain and dispose of the washing water\nCollection of washing water: container to collect dirty washing water (for example, a basin or other container)\nDrainage and disposal of washing water: drainage pipe or other facility to direct the washing water to an appropriate disposal point (for example, a soakpit or drain)"
@@ -698,17 +766,20 @@
             {
               "id": 1701359238005,
               "name": "G0 No collection or disposal of washing water",
-              "order": 1
+              "order": 1,
+              "color": "#db3b3b"
             },
             {
               "id": 1701359238006,
               "name": "G1 Collection of washing water without drainage or disposal",
-              "order": 2
+              "order": 2,
+              "color": "#ffc677"
             },
             {
               "id": 1701359351504,
               "name": "G3 Safe collection and disposal of washing water",
-              "order": 3
+              "order": 3,
+              "color": "#2D9BF0"
             }
           ]
         }
