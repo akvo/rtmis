@@ -42,7 +42,6 @@ export const styles = StyleSheet.create({
   },
   fieldRequiredIcon: {
     color: 'red',
-    paddingLeft: 10,
   },
   fieldLabel: {
     display: 'flex',
