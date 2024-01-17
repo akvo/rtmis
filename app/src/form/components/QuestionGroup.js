@@ -7,7 +7,7 @@ const QuestionGroup = ({ index, group }) => {
   return (
     <View style={{ paddingBottom: 48 }}>
       <FieldGroupHeader index={index} {...group} />
-      <Question group={group} />
+      <Question {...{ group, activeQuestions, index }} />
     </View>
   );
 };

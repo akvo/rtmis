@@ -6,7 +6,7 @@ import { styles } from '../styles';
 import { onFilterDependency } from '../lib';
 import { FormState } from '../../store';
 
-const Question = memo(({ group }) => {
+const Question = memo(({ group, activeQuestions = [], index }) => {
   /**
    * Optimizing flatlist with memo
    * https://reactnative.dev/docs/optimizing-flatlist-configuration#use-memo
@@ -83,7 +83,7 @@ const Question = memo(({ group }) => {
     if (flatListRef.current) {
       flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
     }
-  }, [questions]);
+  }, [index]);
 
   return (
     <FlatList
