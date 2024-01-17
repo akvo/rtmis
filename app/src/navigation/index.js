@@ -95,7 +95,6 @@ const RootNavigator = () => {
 
   React.useEffect(() => {
     backgroundTask.backgroundTaskStatus(SYNC_FORM_VERSION_TASK_NAME);
-    backgroundTask.backgroundTaskStatus(SYNC_FORM_SUBMISSION_TASK_NAME, syncInterval);
 
     notification.registerForPushNotificationsAsync();
     const notificationListener = Notifications.addNotificationReceivedListener((notification) => {
@@ -117,6 +116,10 @@ const RootNavigator = () => {
       Notifications.removeNotificationSubscription(responseListener);
     };
   }, []);
+
+  React.useEffect(() => {
+    backgroundTask.backgroundTaskStatus(SYNC_FORM_SUBMISSION_TASK_NAME, syncInterval);
+  }, [syncInterval]);
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={currentPage}>
