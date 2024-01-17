@@ -524,7 +524,7 @@ const ApprovalDetail = ({
             : false
         }
       />
-      <h3>Notes {"&"} Feedback</h3>
+      <h3 style={{ paddingTop: "1rem" }}>Notes {"&"} Feedback</h3>
       {!!comments.length && (
         <div className="comments">
           <List
