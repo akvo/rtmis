@@ -3,7 +3,7 @@ import { BaseLayout } from '../components';
 import { View } from 'react-native';
 import { FormNavigation, QuestionGroupList } from './support';
 import QuestionGroup from './components/QuestionGroup';
-import { transformForm, generateDataPointName } from './lib';
+import { transformForm, generateDataPointName, onFilterDependency } from './lib';
 import { FormState } from '../store';
 import { Dialog } from '@rneui/themed';
 import { i18n } from '../lib';
@@ -46,6 +46,9 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   const formLoading = FormState.useState((s) => s.loading);
 
   const formDefinition = transformForm(forms, activeLang);
+  const activeQuestions = formDefinition?.question_group?.flatMap((qg) =>
+    qg?.question?.filter((q) => onFilterDependency(qg, currentValues, q)),
+  );
 
   const currentGroup = useMemo(() => {
     return formDefinition?.question_group?.[activeGroup] || {};
@@ -87,7 +90,11 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
       <BaseLayout.Content>
         <View style={style}>
           {!showQuestionGroupList ? (
-            <QuestionGroup index={activeGroup} group={currentGroup} />
+            <QuestionGroup
+              index={activeGroup}
+              group={currentGroup}
+              activeQuestions={activeQuestions}
+            />
           ) : (
             <QuestionGroupList
               form={formDefinition}
