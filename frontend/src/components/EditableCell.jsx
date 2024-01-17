@@ -136,6 +136,7 @@ const EditableCell = ({
       <Col flex={1}>{renderAnswerInput()}</Col>
       <Button
         type="primary"
+        shape="round"
         onClick={() => {
           updateCell(record.id, parentId, value);
           setEditing(false);
@@ -168,6 +169,7 @@ const EditableCell = ({
       </Col>
       {edited && (
         <Button
+          shape="round"
           onClick={() => {
             resetCell(record.id, parentId);
           }}

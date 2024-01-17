@@ -250,11 +250,16 @@ const DataDetail = ({
               onClick={handleSave}
               disabled={!edited || saving}
               loading={saving}
+              shape="round"
             >
               Save Edits
             </Button>
             {deleteData && (
-              <Button type="danger" onClick={() => setDeleteData(record)}>
+              <Button
+                type="danger"
+                onClick={() => setDeleteData(record)}
+                shape="round"
+              >
                 Delete
               </Button>
             )}

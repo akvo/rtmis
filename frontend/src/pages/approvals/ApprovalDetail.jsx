@@ -484,6 +484,7 @@ const ApprovalDetail = ({
                           <Button
                             onClick={() => handleSave(record)}
                             type="primary"
+                            shape="round"
                             loading={record.id === saving}
                             disabled={
                               !approve ||
