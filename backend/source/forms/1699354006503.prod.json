@@ -226,7 +226,7 @@
           "meta": true,
           "dependency": [
             {
-              "id": 1699354220734,
+              "id": 1699354006535,
               "options": ["New"]
             }
           ]
@@ -241,13 +241,19 @@
           },
           "required": true,
           "meta": true,
-          "options": null
+          "options": null,
+          "dependency": [
+            {
+              "id": 1699354006535,
+              "options": ["New"]
+            }
+          ]
         }
       ]
     },
     {
       "id": 1699951538607,
-      "question_group": "INTERVIEW: Community data (first time)",
+      "question_group": "INTERVIEW: Community data",
       "description": null,
       "order": 3,
       "repeatable": false,
@@ -452,7 +458,7 @@
         },
         {
           "id": 1699952355848,
-          "question": "Distance of toilets from groundwater sources",
+          "question": "% of toilets less than 10m from groundwater sources",
           "order": 8,
           "type": "option",
           "tooltip": {
@@ -520,11 +526,21 @@
               "color": "#90D14F"
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "id": 1699951538601,
+      "question_group": "INTERVIEW: Community toilet data",
+      "description": null,
+      "order": 3,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
         {
           "id": 1699958188283,
           "question": "G1: Number of households who own a toilet",
-          "order": 11,
+          "order": 1,
           "type": "number",
           "rule": {
             "min": 0
@@ -540,7 +556,7 @@
         {
           "id": 1699958382023,
           "question": "G2: Number of households using durable toilets with safe containment",
-          "order": 12,
+          "order": 2,
           "type": "number",
           "rule": {
             "min": 0
@@ -556,7 +572,7 @@
         {
           "id": 1699958427807,
           "question": "G3: Number of households with permanent handwashing stations",
-          "order": 13,
+          "order": 3,
           "type": "number",
           "rule": {
             "min": 0
@@ -572,7 +588,7 @@
         {
           "id": 1699958464968,
           "question": "G1: Number of at-risk households who own a toilet",
-          "order": 14,
+          "order": 4,
           "type": "number",
           "rule": {
             "min": 0
@@ -588,7 +604,7 @@
         {
           "id": 1699958555723,
           "question": "G2: Number of at-risk households using durable toilets with safe containment",
-          "order": 15,
+          "order": 5,
           "type": "number",
           "rule": {
             "min": 0
@@ -604,7 +620,7 @@
         {
           "id": 1699958568410,
           "question": "G3: Number of at-risk households with permanent handwashing stations",
-          "order": 16,
+          "order": 6,
           "type": "number",
           "rule": {
             "min": 0
@@ -620,7 +636,7 @@
         {
           "id": 1699958670124,
           "question": "Action plan for G2 status",
-          "order": 17,
+          "order": 7,
           "type": "option",
           "tooltip": {
             "text": "<b>INTERVIEW:</b> has an action plan for G2 status been approved?\n<b>INTERVIEW: is the action plan for G2 status in use?"
@@ -646,7 +662,7 @@
         {
           "id": 1699958822791,
           "question": "Action plan for G3 status",
-          "order": 18,
+          "order": 8,
           "type": "option",
           "tooltip": {
             "text": "<b>INTERVIEW:</b> has an action plan for G3 status been approved?\n<b>INTERVIEW:</b> is the action plan for G3 status in use?"
@@ -908,7 +924,7 @@
         },
         {
           "id": 1699960255414,
-          "question": "Safely managed sanitation services",
+          "question": "Faecal sludge disposal in communal areas",
           "order": 9,
           "type": "option",
           "tooltip": {
