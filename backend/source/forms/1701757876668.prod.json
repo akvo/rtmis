@@ -3,7 +3,9 @@
   "form": "RTMIS School WASH Form",
   "description": "School WASH",
   "defaultLanguage": "en",
-  "languages": ["en"],
+  "languages": [
+    "en"
+  ],
   "version": 1,
   "type": 1,
   "translations": null,
@@ -37,7 +39,20 @@
               "name": "Update",
               "order": 2
             }
-          ]
+          ],
+          "pre": {
+            "answer": [
+              "New"
+            ],
+            "fill": [
+              {
+                "id": 1701757914033,
+                "answer": [
+                  "New"
+                ]
+              }
+            ]
+          }
         }
       ]
     },

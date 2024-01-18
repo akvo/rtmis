@@ -3,7 +3,9 @@
   "form": "RTMIS Community Monitoring Form",
   "description": "Community monitoring",
   "defaultLanguage": "en",
-  "languages": ["en"],
+  "languages": [
+    "en"
+  ],
   "version": 1,
   "type": 1,
   "translations": null,
@@ -39,30 +41,63 @@
             }
           ],
           "pre": {
-            "answer": ["New"],
+            "answer": [
+              "New"
+            ],
             "fill": [
-              { "id": 1699354006535, "answer": ["New"] },
+              {
+                "id": 1699354006535,
+                "answer": [
+                  "New"
+                ]
+              },
               {
                 "id": 1699951538608,
-                "answer": ["Village chief/Community head"]
+                "answer": [
+                  "Village chief/Community head"
+                ]
               },
               {
                 "id": 1699951986776,
-                "answer": ["Medium drainage soil (medium sand, weathered rock)"]
+                "answer": [
+                  "Medium drainage soil (medium sand, weathered rock)"
+                ]
               },
-              { "id": 1699952153243, "answer": ["Less than 5m"] },
+              {
+                "id": 1699952153243,
+                "answer": [
+                  "Less than 5m"
+                ]
+              },
               {
                 "id": 1699952219561,
                 "answer": [
                   "Protected groundwater sources (protected boreholes, protected dug wells or protected springs)"
                 ]
               },
-              { "id": 1699952295823, "answer": ["More than 25%"] },
-              { "id": 1699952355848, "answer": ["More than 25%"] },
-              { "id": 1699952418978, "answer": ["More than 25%"] },
+              {
+                "id": 1699952295823,
+                "answer": [
+                  "More than 25%"
+                ]
+              },
+              {
+                "id": 1699952355848,
+                "answer": [
+                  "More than 25%"
+                ]
+              },
+              {
+                "id": 1699952418978,
+                "answer": [
+                  "More than 25%"
+                ]
+              },
               {
                 "id": 1702364544574,
-                "answer": ["G0 High risk of groundwater contamination"]
+                "answer": [
+                  "G0 High risk of groundwater contamination"
+                ]
               },
               {
                 "id": 1699958670124,
@@ -84,19 +119,27 @@
               },
               {
                 "id": 1699959743410,
-                "answer": ["G0 Used diapers visible in communal areas"]
+                "answer": [
+                  "G0 Used diapers visible in communal areas"
+                ]
               },
               {
                 "id": 1699959861479,
-                "answer": ["G0 Visible dirt or contamination"]
+                "answer": [
+                  "G0 Visible dirt or contamination"
+                ]
               },
               {
                 "id": 1699960025562,
-                "answer": ["G0 No protection of water points"]
+                "answer": [
+                  "G0 No protection of water points"
+                ]
               },
               {
                 "id": 1699960104326,
-                "answer": ["G0 Standing water visible around water point"]
+                "answer": [
+                  "G0 Standing water visible around water point"
+                ]
               },
               {
                 "id": 1699960255414,
@@ -106,7 +149,9 @@
               },
               {
                 "id": 1699960354498,
-                "answer": ["G0 Significant erosion in communal areas"]
+                "answer": [
+                  "G0 Significant erosion in communal areas"
+                ]
               },
               {
                 "id": 1699960411329,
@@ -116,36 +161,57 @@
               },
               {
                 "id": 1699960488230,
-                "answer": ["G0 Significant standing water in communal areas"]
+                "answer": [
+                  "G0 Significant standing water in communal areas"
+                ]
               },
               {
                 "id": 1699960542156,
-                "answer": ["G0 No treatment or management in communal areas"]
+                "answer": [
+                  "G0 No treatment or management in communal areas"
+                ]
               },
-              { "id": 1699960591715, "answer": ["School"] },
+              {
+                "id": 1699960591715,
+                "answer": [
+                  "School"
+                ]
+              },
               {
                 "id": 1699960963586,
-                "answer": ["G0 Non-functional toilets in institutions"]
+                "answer": [
+                  "G0 Non-functional toilets in institutions"
+                ]
               },
               {
                 "id": 1699961175102,
-                "answer": ["G0 Toilets NOT flyproof in institutions"]
+                "answer": [
+                  "G0 Toilets NOT flyproof in institutions"
+                ]
               },
               {
                 "id": 1699961260729,
-                "answer": ["G0 Toilets NOT clean in institutions"]
+                "answer": [
+                  "G0 Toilets NOT clean in institutions"
+                ]
               },
               {
                 "id": 1699961309670,
-                "answer": ["G0 Toilet slabs NOT durable in institutions"]
+                "answer": [
+                  "G0 Toilet slabs NOT durable in institutions"
+                ]
               },
               {
                 "id": 1699961394874,
-                "answer": ["G0 Toilet pits NOT durable in institutions"]
+                "answer": [
+                  "G0 Toilet pits NOT durable in institutions"
+                ]
               },
               {
                 "id": 1699961577575,
-                "answer": ["G0 Visible surface outflows from containment"]
+                "answer": [
+                  "G0 Visible surface outflows from containment"
+                ]
               },
               {
                 "id": 1699961683357,
@@ -155,15 +221,34 @@
               },
               {
                 "id": 1699961882642,
-                "answer": ["G0 No toilet, or no containment/collection system"]
+                "answer": [
+                  "G0 No toilet, or no containment/collection system"
+                ]
               },
-              { "id": 1699962081417, "answer": ["G0 No handwashing facility"] },
-              { "id": 1699962192648, "answer": ["G0 No water available"] },
+              {
+                "id": 1699962081417,
+                "answer": [
+                  "G0 No handwashing facility"
+                ]
+              },
+              {
+                "id": 1699962192648,
+                "answer": [
+                  "G0 No water available"
+                ]
+              },
               {
                 "id": 1699962251539,
-                "answer": ["G0 No soap or other cleanser available"]
+                "answer": [
+                  "G0 No soap or other cleanser available"
+                ]
               },
-              { "id": 1699962342866, "answer": ["G0 No handwashing facility"] },
+              {
+                "id": 1699962342866,
+                "answer": [
+                  "G0 No handwashing facility"
+                ]
+              },
               {
                 "id": 1699962446974,
                 "answer": [
@@ -172,7 +257,9 @@
               },
               {
                 "id": 1699962527375,
-                "answer": ["\"G0 No collection or disposal of washing water \""]
+                "answer": [
+                  "\"G0 No collection or disposal of washing water \""
+                ]
               }
             ]
           }
@@ -200,7 +287,9 @@
           "dependency": [
             {
               "id": 1699354220734,
-              "options": ["New"]
+              "options": [
+                "New"
+              ]
             }
           ]
         },
@@ -688,7 +777,10 @@
           "meta": false,
           "options": null,
           "fn": {
-            "fnColor": {},
+            "fnColor": {
+              "G0 Child or adult excreta observed in compound": "#FD3F31",
+              "G1 No exposed human excreta in compound": "#93D371"
+            },
             "fnString": "function(){ return (#1699959649782.includes(\"G1\")) ? \"G1 No exposed human excreta in compound\" : \"G0 Child or adult excreta observed in compound\" }",
             "multiline": false
           }
@@ -753,7 +845,10 @@
           "meta": false,
           "options": null,
           "fn": {
-            "fnColor": {},
+            "fnColor": {
+              "G1 Safely managed diapers": "#93D371",
+              "G0 Diapers UNSAFELY managed": "#FD3F31"
+            },
             "fnString": "function(){ return (#1699959743410.includes(\"G1\")) ? \"G1 Safely managed diapers\" : \"G0 Diapers UNSAFELY managed\" }",
             "multiline": false
           }
@@ -864,7 +959,11 @@
           "meta": false,
           "options": null,
           "fn": {
-            "fnColor": {},
+            "fnColor": {
+              "G0 Communal water points are UNSAFELY managed": "#FD3F31",
+              "G1 Communal water points are NOT adequately managed": "#93D371",
+              "G2 Safe management of communal water points": "#FDC74B"
+            },
             "fnString": "function(){ return (#1699959861479.includes(\"G0\") && #1699960025562.includes(\"G0\") && #1699960104326.includes(\"G0\"))\n<b>? \"G0 Communal water points are UNSAFELY managed\"\n<b>: (#1699959861479.includes(\"G2\") && #1699960025562.includes(\"G2\") && #1699960104326.includes(\"G2\") ? \"G2 Safe management of communal water points\" : \"G1 Communal water points are NOT adequately managed\");\n<b>}",
             "multiline": false
           }
@@ -917,7 +1016,11 @@
           "meta": false,
           "options": null,
           "fn": {
-            "fnColor": {},
+            "fnColor": {
+              "G0 Sanitation services UNSAFELY managed in communal areas": "#FD3F31",
+              "G1 Inadequate sanitation services in communal areas": "#93D371",
+              "G3 Use of safely managed sanitation services in communal areas": "#4088F4"
+            },
             "fnString": "function(){ return (#1699960255414.includes(\"G0\")) ? \"G0 Sanitation services UNSAFELY managed in communal areas\" : (#1699960255414.includes(\"G3\") ? \"G3 Use of safely managed sanitation services in communal areas\" : \"G1 Inadequate sanitation services in communal areas\") }",
             "multiline": false
           }
@@ -970,7 +1073,11 @@
           "meta": false,
           "options": null,
           "fn": {
-            "fnColor": {},
+            "fnColor": {
+              "G1 Liquid wastes UNSAFELY managed in communal areas": "#93D371",
+              "G2 Inadequate management of liquid wastes in communal areas": "#FDC74B",
+              "G3 Safe management of liquid wastes in communal areas": "#4088F4"
+            },
             "fnString": "function(){ return (#1699960354498.includes(\"G0\")) ? \"G1 Liquid wastes UNSAFELY managed in communal areas\" : (#1699960354498.includes(\"G3\") ? \"G3 Safe management of liquid wastes in communal areas\" : \"G2 Inadequate management of liquid wastes in communal areas\") }",
             "multiline": false
           }
@@ -1017,7 +1124,11 @@
           "meta": false,
           "options": null,
           "fn": {
-            "fnColor": {},
+            "fnColor": {
+              "G1 Liquid wastes UNSAFELY managed in communal areas": "#93D371",
+              "G2 Inadequate management of liquid wastes in communal areas": "#FDC74B",
+              "G3 Safe management of liquid wastes in communal areas": "#4088F4"
+            },
             "fnString": "function(){ return (#1699960411329.includes(\"G0\")) ? \"G1 Liquid wastes UNSAFELY managed in communal areas\" : (#1699960411329.includes(\"G3\") ? \"G3 Safe management of liquid wastes in communal areas\" : \"G2 Inadequate management of liquid wastes in communal areas\") }",
             "multiline": false
           }
@@ -1102,7 +1213,11 @@
           "meta": false,
           "options": null,
           "fn": {
-            "fnColor": {},
+            "fnColor": {
+              "G1 Lack of vector control in communal areas": "#93D371",
+              "G2 Inadequate vector control in communal areas": "#FDC74B",
+              "G3 Good vector control in communal areas": "#4088F4"
+            },
             "fnString": "function(){ return (#1699960488230.includes(\"G0\") && #1699960542156.includes(\"G0\")) ? \"G1 Lack of vector control in communal areas\" : ((#1699960488230.includes(\"G3\") && #1699960542156.includes(\"G3\")) ? \"G3 Good vector control in communal areas\" : \"G2 Inadequate vector control in communal areas\") }",
             "multiline": false
           }
