@@ -591,13 +591,13 @@ Object {
     "valPhone": "Phone number is required",
     "valRole": "Please select a Role",
     "welcome": <React.Fragment>
-      Rural Urban Sanitation and Hygiene
+      Rural and Urban Sanitation and Hygiene
       <br />
       Real Time Monitoring Information System
     </React.Fragment>,
     "welcomeCta": "Explore National Data",
     "welcomeDesc": <React.Fragment>
-      Rural Urban Sanitation and Hygiene
+      Rural and Urban Sanitation and Hygiene
       <br />
       Real Time Monitoring Information System
     </React.Fragment>,

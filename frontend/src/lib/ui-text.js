@@ -5,14 +5,14 @@ const uiText = {
     // Home page
     welcome: (
       <Fragment>
-        Rural Urban Sanitation and Hygiene
+        Rural and Urban Sanitation and Hygiene
         <br />
         Real Time Monitoring Information System
       </Fragment>
     ),
     welcomeDesc: (
       <Fragment>
-        Rural Urban Sanitation and Hygiene
+        Rural and Urban Sanitation and Hygiene
         <br />
         Real Time Monitoring Information System
       </Fragment>
