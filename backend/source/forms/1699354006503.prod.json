@@ -194,12 +194,12 @@
               {
                 "id": 1699962446974,
                 "answer": [
-                  "\"G0 Hands enter the water container (during collection and use) \""
+                  "G0 Hands enter the water container (during collection and use)"
                 ]
               },
               {
                 "id": 1699962527375,
-                "answer": ["\"G0 No collection or disposal of washing water \""]
+                "answer": ["G0 No collection or disposal of washing water"]
               }
             ]
           }
@@ -1732,7 +1732,7 @@
           "options": [
             {
               "id": 1699962453974,
-              "name": "\"G0 Hands enter the water container (during collection and use) \"",
+              "name": "G0 Hands enter the water container (during collection and use)",
               "order": 1,
               "color": "#db3b3b"
             },
@@ -1776,7 +1776,7 @@
           "options": [
             {
               "id": 1699962534217,
-              "name": "\"G0 No collection or disposal of washing water \"",
+              "name": "G0 No collection or disposal of washing water",
               "order": 1,
               "color": "#db3b3b"
             },
