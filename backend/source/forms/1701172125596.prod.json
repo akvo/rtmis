@@ -60,31 +60,31 @@
               {
                 "id": 1701329515408,
                 "answer": [
-                  "G0 All toilets in the institution are NON-functional (specify number of non-functional toilets)"
+                  "G0 All institution toilets  are NON-functional"
                 ]
               },
               {
                 "id": 1701331306965,
                 "answer": [
-                  "G0 Toilets NOT flyproof in institutions"
+                  "G0 All institution toilets are NOT flyproof"
                 ]
               },
               {
                 "id": 1701331373050,
                 "answer": [
-                  "G0 Toilets NOT clean in institutions"
+                  "G0 All institution toilets are NOT clean"
                 ]
               },
               {
                 "id": 1701331438759,
                 "answer": [
-                  "G0 Toilet slabs NOT durable in institutions"
+                  "G0 All institution toilet slabs are NOT durable"
                 ]
               },
               {
                 "id": 1701331908015,
                 "answer": [
-                  "G0 Toilet pits NOT durable in institutions"
+                  "G0 All institution toilet pits are NOT durable"
                 ]
               },
               {
@@ -157,7 +157,9 @@
           "dependency": [
             {
               "id": 1701172125598,
-              "options": ["New"]
+              "options": [
+                "New"
+              ]
             }
           ]
         },
@@ -175,7 +177,9 @@
           "dependency": [
             {
               "id": 1701172125598,
-              "options": ["New"]
+              "options": [
+                "New"
+              ]
             }
           ]
         },
@@ -279,7 +283,6 @@
       "repeatable": false,
       "translations": null,
       "questions": [
-        
         {
           "id": 1701329515408,
           "question": "Functional institutional toilet",
