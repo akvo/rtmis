@@ -31,6 +31,7 @@ const TypeMultipleOption = ({
       <MultiSelect
         style={[styles.dropdownField]}
         selectedStyle={styles.dropdownSelectedList}
+        activeColor="#ddd"
         data={option}
         search={showSearch}
         maxHeight={300}
@@ -46,22 +47,10 @@ const TypeMultipleOption = ({
         }}
         renderItem={OptionItem}
         renderSelectedItem={({ color, label, name }) => {
+          const renderStyle = color ? { backgroundColor: color, fontWeight: 'bold' } : {};
           return (
-            <View style={[styles.optionSelectedList]}>
-              <Text>
-                {color ? (
-                  <Text
-                    style={[
-                      {
-                        color: color,
-                      },
-                    ]}
-                  >
-                    ●{'  '}
-                  </Text>
-                ) : null}
-                {label || name}
-              </Text>
+            <View style={{ ...styles.optionSelectedList, ...renderStyle }}>
+              <Text style={{ color: color ? '#fff' : '#000' }}>{label || name}</Text>
             </View>
           );
         }}
