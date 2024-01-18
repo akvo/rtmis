@@ -41,10 +41,9 @@
           "pre": {
             "answer": ["New"],
             "fill": [
-              { "id": 1701172125598, "answer": ["New"] },
               {
-                "id": 1701329787633,
-                "answer": ["Community: Village or other urban unit"]
+                "id": 1701172125598,
+                "answer": ["New"]
               },
               {
                 "id": 1701174317250,
@@ -52,25 +51,23 @@
               },
               {
                 "id": 1701329515408,
-                "answer": [
-                  "G0 All toilets in the institution are NON-functional (specify number of non-functional toilets)"
-                ]
+                "answer": ["G0 All institution toilets  are NON-functional"]
               },
               {
                 "id": 1701331306965,
-                "answer": ["G0 Toilets NOT flyproof in institutions"]
+                "answer": ["G0 All institution toilets are NOT flyproof"]
               },
               {
                 "id": 1701331373050,
-                "answer": ["G0 Toilets NOT clean in institutions"]
+                "answer": ["G0 All institution toilets are NOT clean"]
               },
               {
                 "id": 1701331438759,
-                "answer": ["G0 Toilet slabs NOT durable in institutions"]
+                "answer": ["G0 All institution toilet slabs are NOT durable"]
               },
               {
                 "id": 1701331908015,
-                "answer": ["G0 Toilet pits NOT durable in institutions"]
+                "answer": ["G0 All institution toilet pits are NOT durable"]
               },
               {
                 "id": 1701332234354,
@@ -86,8 +83,14 @@
                 "id": 1701334423738,
                 "answer": ["G0 No toilet, or no containment/collection system"]
               },
-              { "id": 1701334833791, "answer": ["G0 No handwashing facility"] },
-              { "id": 1701334972999, "answer": ["G0 No water available"] },
+              {
+                "id": 1701334833791,
+                "answer": ["G0 No handwashing facility"]
+              },
+              {
+                "id": 1701334972999,
+                "answer": ["G0 No water available"]
+              },
               {
                 "id": 1701335557029,
                 "answer": ["G0 No soap or other cleanser available"]
@@ -108,64 +111,46 @@
               }
             ]
           }
-        }
-      ]
-    },
-    {
-      "id": 1701173656312,
-      "question_group": "Community: Location",
-      "description": null,
-      "order": 2,
-      "repeatable": false,
-      "translations": null,
-      "questions": [
+        },
         {
           "id": 1701329787633,
-          "question": "What is the location of the institution?",
-          "order": 1,
+          "question": "What is the village of the institution?",
+          "order": 2,
           "type": "administration",
           "tooltip": {
             "text": "This question contains a list of possible household locations, starting with government area or district, down to the village."
           },
           "required": true,
-          "meta": true
+          "meta": true,
+          "dependency": [
+            {
+              "id": 1701172125598,
+              "options": ["New"]
+            }
+          ]
         },
         {
           "id": 1701173656314,
           "question": "Geo-location of the institution",
-          "order": 2,
+          "order": 3,
           "type": "geo",
           "tooltip": {
             "text": "Record GPS coordinates of a central place in the institution (e.g. in front of entrance)"
           },
           "required": true,
           "meta": true,
-          "options": null
-        }
-      ]
-    },
-    {
-      "id": 1701174317249,
-      "question_group": "INTERVIEW: Institution data (first time)",
-      "description": null,
-      "order": 3,
-      "repeatable": false,
-      "translations": null,
-      "questions": [
-        {
-          "id": 1701373837500,
-          "question": "Institution respondent: role in institution",
-          "order": 1,
-          "type": "text",
-          "required": true,
-          "meta": false,
-          "tooltip": null,
-          "options": null
+          "options": null,
+          "dependency": [
+            {
+              "id": 1701172125598,
+              "options": ["New"]
+            }
+          ]
         },
         {
           "id": 1701174317250,
           "question": "Type of institution",
-          "order": 2,
+          "order": 4,
           "type": "option",
           "required": true,
           "meta": true,
@@ -233,7 +218,7 @@
         {
           "id": 1699419048095232,
           "question": "Institution ID",
-          "order": 3,
+          "order": 5,
           "type": "text",
           "tooltip": null,
           "required": true,
@@ -242,6 +227,26 @@
           "rule": null,
           "fn": null
         },
+        {
+          "id": 1701373837500,
+          "question": "Institution respondent: role in institution",
+          "order": 6,
+          "type": "text",
+          "required": true,
+          "meta": false,
+          "tooltip": null,
+          "options": null
+        }
+      ]
+    },
+    {
+      "id": 1701174317249,
+      "question_group": "INTERVIEW: Institution data",
+      "description": null,
+      "order": 3,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
         {
           "id": 1701329515408,
           "question": "Functional institutional toilet",
@@ -255,28 +260,58 @@
           "options": [
             {
               "id": 1701331266939,
-              "name": "G0 All toilets in the institution are NON-functional (specify number of non-functional toilets)",
+              "name": "G0 All institution toilets  are NON-functional",
               "order": 1,
               "color": "#db3b3b"
             },
             {
               "id": 1701331266940,
-              "name": "G1 Some toilets in the institution are non-functional (specify number of functional toilets + number of non-functional toilets)",
+              "name": "G1 Some institution toilets  are non-functional ",
               "order": 2,
               "color": "#ffc677"
             },
             {
               "id": 1701331278390,
-              "name": "G3 All toilets in the institution are functional (specify number of functional toilets)",
+              "name": "G3 All toilets in the institution are functional",
               "order": 3,
               "color": "#2D9BF0"
             }
           ]
         },
         {
+          "id": 16994198156601,
+          "question": "Number of functional toilets",
+          "order": 5,
+          "type": "number",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "rule": {
+            "max": 100,
+            "min": 1
+          },
+          "fn": null
+        },
+        {
+          "id": 16994198156602,
+          "question": "Number of non-functional toilets",
+          "order": 6,
+          "type": "number",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "rule": {
+            "max": 100,
+            "min": 1
+          },
+          "fn": null
+        },
+        {
           "id": 1701331306965,
           "question": "Flyproof institutional toilet",
-          "order": 5,
+          "order": 7,
           "type": "option",
           "required": true,
           "meta": false,
@@ -286,22 +321,28 @@
           "options": [
             {
               "id": 1701331313074,
-              "name": "G0 Toilets NOT flyproof in institutions",
+              "name": "G0 All institution toilets are NOT flyproof",
               "order": 1,
-              "color": "#db3b3b"
+              "color": "#ffc7ce"
+            },
+            {
+              "id": 1701331313076,
+              "name": "G1 Some institution toilets  are NOT flyproof",
+              "order": 2,
+              "color": "#ffeb9c"
             },
             {
               "id": 1701331313075,
-              "name": "G3 Flyproof toilets in all institutions",
-              "order": 2,
-              "color": "#2D9BF0"
+              "name": "G3 All functional toilets are flyproof",
+              "order": 3,
+              "color": "#c6efce"
             }
           ]
         },
         {
           "id": 1701331373050,
           "question": "Clean institutional toilet",
-          "order": 6,
+          "order": 8,
           "type": "option",
           "required": true,
           "meta": false,
@@ -310,23 +351,29 @@
           },
           "options": [
             {
-              "id": 1701331399847,
-              "name": "G0 Toilets NOT clean in institutions",
+              "id": 17013313130741,
+              "name": "G0 All institution toilets are NOT clean",
               "order": 1,
-              "color": "#db3b3b"
+              "color": "#ffc7ce"
             },
             {
-              "id": 1701331399848,
-              "name": "G3 Clean toilets in all institutions",
+              "id": 17013313130761,
+              "name": "G1 Some institution toilets  are NOT clean",
               "order": 2,
-              "color": "#2D9BF0"
+              "color": "#ffeb9c"
+            },
+            {
+              "id": 17013313130751,
+              "name": "G3 All functional toilets are clean",
+              "order": 3,
+              "color": "#c6efce"
             }
           ]
         },
         {
           "id": 1701331438759,
           "question": "Durable institutional toilet slab",
-          "order": 7,
+          "order": 9,
           "type": "option",
           "required": true,
           "meta": false,
@@ -335,23 +382,29 @@
           },
           "options": [
             {
-              "id": 1701331448374,
-              "name": "G0 Toilet slabs NOT durable in institutions",
+              "id": 17013313130749,
+              "name": "G0 All institution toilet slabs are NOT durable",
               "order": 1,
-              "color": "#db3b3b"
+              "color": "#ffc7ce"
             },
             {
-              "id": 1701331448375,
-              "name": "G3 Durable toilet slabs in all institutions",
+              "id": 17013313130769,
+              "name": "G1 Some institution toilet slabs are NOT durable",
               "order": 2,
-              "color": "#2D9BF0"
+              "color": "#ffeb9c"
+            },
+            {
+              "id": 17013313130759,
+              "name": "G3 All institution functional toilet slabs are durable",
+              "order": 3,
+              "color": "#c6efce"
             }
           ]
         },
         {
           "id": 1701331908015,
           "question": "Durable institutional toilet pits",
-          "order": 8,
+          "order": 10,
           "type": "option",
           "required": true,
           "meta": false,
@@ -360,23 +413,29 @@
           },
           "options": [
             {
-              "id": 1701332195341,
-              "name": "G0 Toilet pits NOT durable in institutions",
+              "id": 17013313130748,
+              "name": "G0 All institution toilet pits are NOT durable",
               "order": 1,
-              "color": "#db3b3b"
+              "color": "#ffc7ce"
             },
             {
-              "id": 1701332195342,
-              "name": "G3 Durable toilet pits in all institutions",
+              "id": 17013313130768,
+              "name": "G1 Some institution toilet pits are NOT durable",
               "order": 2,
-              "color": "#2D9BF0"
+              "color": "#ffeb9c"
+            },
+            {
+              "id": 17013313130758,
+              "name": "G3 All institution functional toilet pits are durable",
+              "order": 3,
+              "color": "#c6efce"
             }
           ]
         },
         {
           "id": 1701332234354,
           "question": "Safely managed containment: wastewater contained",
-          "order": 9,
+          "order": 11,
           "type": "option",
           "required": true,
           "meta": false,
@@ -407,7 +466,7 @@
         {
           "id": 1701332496414,
           "question": "Safely managed containment: faecal sludge contained",
-          "order": 10,
+          "order": 12,
           "type": "option",
           "required": true,
           "meta": false,
@@ -438,7 +497,7 @@
         {
           "id": 1701334423738,
           "question": "Safely managed sanitation services: emptying, treatment & disposal",
-          "order": 11,
+          "order": 13,
           "type": "option",
           "required": true,
           "meta": false,
@@ -541,7 +600,7 @@
         {
           "id": 1701334833791,
           "question": "Handwashing facility observed in institution",
-          "order": 12,
+          "order": 14,
           "type": "option",
           "required": true,
           "meta": false,
@@ -590,7 +649,7 @@
         {
           "id": 1701334972999,
           "question": "Water available at institutional HWF",
-          "order": 13,
+          "order": 15,
           "type": "option",
           "required": true,
           "meta": false,
@@ -621,7 +680,7 @@
         {
           "id": 1701335557029,
           "question": "Soap available at institutional HWF",
-          "order": 14,
+          "order": 16,
           "type": "option",
           "required": true,
           "meta": false,
@@ -658,7 +717,7 @@
         {
           "id": 1701358601048,
           "question": "Institutional handwashing facility type",
-          "order": 15,
+          "order": 17,
           "type": "option",
           "required": true,
           "meta": false,
@@ -712,7 +771,7 @@
         {
           "id": 1701359046016,
           "question": "Hands-free operation of institutional handwashing facility",
-          "order": 16,
+          "order": 18,
           "type": "option",
           "required": true,
           "meta": false,
@@ -755,7 +814,7 @@
         {
           "id": 1701359231461,
           "question": "Adequate drainage of washing water",
-          "order": 17,
+          "order": 19,
           "type": "option",
           "required": true,
           "meta": false,
