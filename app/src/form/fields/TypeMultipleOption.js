@@ -45,31 +45,22 @@ const TypeMultipleOption = ({
           }
         }}
         renderItem={OptionItem}
-        renderSelectedItem={(item) => {
+        renderSelectedItem={({ color, label, name }) => {
           return (
-            <View
-              style={[
-                {
-                  backgroundColor: item?.color || '#CCC',
-                  padding: 10,
-                  marginLeft: 10,
-                  marginTop: 5,
-                  borderRadius: 5,
-                  borderWidth: 0,
-                },
-              ]}
-            >
-              <Text
-                style={[
-                  {
-                    color: item?.color ? '#FFF' : '#000',
-                    fontWeight: item?.color ? 'bold' : 'normal',
-                    fontSize: 14,
-                  },
-                ]}
-              >
-                ⨂{'  '}
-                {item?.label || item?.name}
+            <View style={[styles.optionSelectedList]}>
+              <Text>
+                {color ? (
+                  <Text
+                    style={[
+                      {
+                        color: color,
+                      },
+                    ]}
+                  >
+                    ●{'  '}
+                  </Text>
+                ) : null}
+                {label || name}
               </Text>
             </View>
           );
