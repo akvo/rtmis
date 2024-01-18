@@ -1,5 +1,4 @@
 import React from "react";
-import { Affix } from "antd";
 import ResponsiveEmbed from "react-responsive-embed";
 import { useParams } from "react-router-dom";
 import "./style.scss";
