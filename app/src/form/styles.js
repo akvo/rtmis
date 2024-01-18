@@ -78,6 +78,15 @@ export const styles = StyleSheet.create({
   optionContainer: {
     marginBottom: 25,
   },
+  optionSelectedList: {
+    backgroundColor: '#f2f2f2',
+    padding: 10,
+    marginLeft: 10,
+    marginTop: 5,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+  },
   multipleOptionContainer: {
     marginBottom: 25,
   },

@@ -131,8 +131,7 @@ const AddAssignment = () => {
     try {
       const payload = {
         name: values.name,
-        administrations:
-          selectedAdministrations || selectedAdm.map((a) => a?.id),
+        administrations: selectedAdministrations,
         forms: values.forms,
       };
       if (id) {
@@ -170,6 +169,7 @@ const AddAssignment = () => {
       if (selectedAdministration) {
         setLevel(selectedAdministration[0].level + 1);
         form.setFieldsValue({ level_id: selectedAdministration[0].level + 1 });
+        setSelectedAdministrations(selectedAdministration.map((adm) => adm.id));
       }
       const parentAdm = await Promise.all(
         (selectedAdministration?.[0]?.path?.split(".") ?? [])

@@ -1,9 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
-import { FieldLabel } from '../support';
+import { FieldLabel, OptionItem } from '../support';
 import { styles } from '../styles';
 import { Dropdown } from 'react-native-element-dropdown';
-import { Text } from 'react-native';
 import { FormState } from '../../store';
 import { i18n } from '../../lib';
 
@@ -24,25 +23,28 @@ const TypeOption = ({
   const activeLang = FormState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const requiredValue = required ? requiredSign : null;
+  const color = React.useMemo(() => {
+    const currentValue = value?.[0];
+    return option.find((x) => x.name === currentValue)?.color;
+  }, [value, id, option]);
+
   const selectedStyle = React.useMemo(() => {
     const currentValue = value?.[0];
     const color = option.find((x) => x.name === currentValue)?.color;
-    if (color) {
-      return {
-        marginLeft: -10,
-        marginRight: -30,
-        marginTop: -5,
-        marginBottom: -5,
-        borderRadius: 5,
-        paddingTop: 10,
-        paddingLeft: 10,
-        paddingBottom: 10,
-        fontWeight: 'bold',
-        color: '#FFF',
-        backgroundColor: color,
-      };
+    if (!color) {
+      return {};
     }
-    return {};
+    return {
+      marginLeft: -8,
+      marginRight: -27,
+      borderRadius: 5,
+      paddingTop: 8,
+      paddingLeft: 8,
+      paddingBottom: 8,
+      fontWeight: 'bold',
+      color: '#FFF',
+      backgroundColor: color,
+    };
   }, [value, id, option]);
 
   return (
@@ -50,8 +52,8 @@ const TypeOption = ({
       <FieldLabel keyform={keyform} name={name} tooltip={tooltip} requiredSign={requiredValue} />
       <Dropdown
         style={[styles.dropdownField]}
-        data={option}
         selectedTextStyle={selectedStyle}
+        data={option}
         search={showSearch}
         maxHeight={300}
         labelField="label"
@@ -63,22 +65,7 @@ const TypeOption = ({
             onChange(id, [optValue]);
           }
         }}
-        renderItem={(item) => {
-          return (
-            <View style={[{ backgroundColor: item?.color || '#FFF', padding: 15 }]}>
-              <Text
-                style={[
-                  {
-                    color: item?.color ? '#FFF' : '#000',
-                    fontWeight: item?.color ? 'bold' : 'normal',
-                  },
-                ]}
-              >
-                {item?.label || item?.name}
-              </Text>
-            </View>
-          );
-        }}
+        renderItem={OptionItem}
         testID="type-option-dropdown"
         placeholder={trans.selectItem}
       />

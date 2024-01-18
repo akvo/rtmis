@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { FieldLabel } from '../support';
+import { FieldLabel, OptionItem } from '../support';
 import { styles } from '../styles';
 import { MultiSelect } from 'react-native-element-dropdown';
 import { FormState } from '../../store';
@@ -31,6 +31,7 @@ const TypeMultipleOption = ({
       <MultiSelect
         style={[styles.dropdownField]}
         selectedStyle={styles.dropdownSelectedList}
+        activeColor="#ddd"
         data={option}
         search={showSearch}
         maxHeight={300}
@@ -44,48 +45,12 @@ const TypeMultipleOption = ({
             onChange(id, value);
           }
         }}
-        renderItem={({ label, color, name }, active) => {
+        renderItem={OptionItem}
+        renderSelectedItem={({ color, label, name }) => {
+          const renderStyle = color ? { backgroundColor: color, fontWeight: 'bold' } : {};
           return (
-            <View style={[{ backgroundColor: active ? '#0047AB' : color || '#FFF', padding: 15 }]}>
-              <Text
-                style={[
-                  {
-                    color: color ? '#FFF' : '#000',
-                    fontWeight: color ? 'bold' : 'normal',
-                  },
-                ]}
-              >
-                {label || name}
-              </Text>
-            </View>
-          );
-        }}
-        renderSelectedItem={(item) => {
-          return (
-            <View
-              style={[
-                {
-                  backgroundColor: item?.color || '#CCC',
-                  padding: 10,
-                  marginLeft: 10,
-                  marginTop: 5,
-                  borderRadius: 5,
-                  borderWidth: 0,
-                },
-              ]}
-            >
-              <Text
-                style={[
-                  {
-                    color: item?.color ? '#FFF' : '#000',
-                    fontWeight: item?.color ? 'bold' : 'normal',
-                    fontSize: 14,
-                  },
-                ]}
-              >
-                {item?.label || item?.name}
-                {'  '} ✖
-              </Text>
+            <View style={{ ...styles.optionSelectedList, ...renderStyle }}>
+              <Text style={{ color: color ? '#fff' : '#000' }}>{label || name}</Text>
             </View>
           );
         }}
