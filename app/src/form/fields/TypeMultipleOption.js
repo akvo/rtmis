@@ -5,7 +5,6 @@ import { styles } from '../styles';
 import { MultiSelect } from 'react-native-element-dropdown';
 import { FormState } from '../../store';
 import { Text } from 'react-native';
-import { Icon } from '@rneui/themed';
 import { i18n } from '../../lib';
 
 const TypeMultipleOption = ({
@@ -45,18 +44,18 @@ const TypeMultipleOption = ({
             onChange(id, value);
           }
         }}
-        renderItem={(item) => {
+        renderItem={({ label, color, name }, active) => {
           return (
-            <View style={[{ backgroundColor: item?.color || '#FFF', padding: 15 }]}>
+            <View style={[{ backgroundColor: active ? '#0047AB' : color || '#FFF', padding: 15 }]}>
               <Text
                 style={[
                   {
-                    color: item?.color ? '#FFF' : '#000',
-                    fontWeight: item?.color ? 'bold' : 'normal',
+                    color: color ? '#FFF' : '#000',
+                    fontWeight: color ? 'bold' : 'normal',
                   },
                 ]}
               >
-                {item?.label || item?.name}
+                {label || name}
               </Text>
             </View>
           );
