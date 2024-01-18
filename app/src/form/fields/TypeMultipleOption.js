@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { FieldLabel } from '../support';
+import { FieldLabel, OptionItem } from '../support';
 import { styles } from '../styles';
 import { MultiSelect } from 'react-native-element-dropdown';
 import { FormState } from '../../store';
@@ -44,22 +44,7 @@ const TypeMultipleOption = ({
             onChange(id, value);
           }
         }}
-        renderItem={({ label, color, name }, active) => {
-          return (
-            <View style={[{ backgroundColor: active ? '#0047AB' : color || '#FFF', padding: 15 }]}>
-              <Text
-                style={[
-                  {
-                    color: color ? '#FFF' : '#000',
-                    fontWeight: color ? 'bold' : 'normal',
-                  },
-                ]}
-              >
-                {label || name}
-              </Text>
-            </View>
-          );
-        }}
+        renderItem={OptionItem}
         renderSelectedItem={(item) => {
           return (
             <View
@@ -83,8 +68,8 @@ const TypeMultipleOption = ({
                   },
                 ]}
               >
+                ⨂{'  '}
                 {item?.label || item?.name}
-                {'  '} ✖
               </Text>
             </View>
           );

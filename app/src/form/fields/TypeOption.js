@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { FieldLabel } from '../support';
+import { FieldLabel, OptionItem } from '../support';
 import { styles } from '../styles';
 import { Dropdown } from 'react-native-element-dropdown';
 import { Text } from 'react-native';
@@ -24,25 +24,9 @@ const TypeOption = ({
   const activeLang = FormState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const requiredValue = required ? requiredSign : null;
-  const selectedStyle = React.useMemo(() => {
+  const color = React.useMemo(() => {
     const currentValue = value?.[0];
-    const color = option.find((x) => x.name === currentValue)?.color;
-    if (color) {
-      return {
-        marginLeft: -10,
-        marginRight: -30,
-        marginTop: -5,
-        marginBottom: -5,
-        borderRadius: 5,
-        paddingTop: 10,
-        paddingLeft: 10,
-        paddingBottom: 10,
-        fontWeight: 'bold',
-        color: '#FFF',
-        backgroundColor: color,
-      };
-    }
-    return {};
+    return option.find((x) => x.name === currentValue)?.color;
   }, [value, id, option]);
 
   return (
@@ -51,7 +35,13 @@ const TypeOption = ({
       <Dropdown
         style={[styles.dropdownField]}
         data={option}
-        selectedTextStyle={selectedStyle}
+        renderLeftIcon={() =>
+          color ? (
+            <View>
+              <Text style={[{ color: color }]}>● </Text>
+            </View>
+          ) : null
+        }
         search={showSearch}
         maxHeight={300}
         labelField="label"
@@ -63,22 +53,7 @@ const TypeOption = ({
             onChange(id, [optValue]);
           }
         }}
-        renderItem={(item) => {
-          return (
-            <View style={[{ backgroundColor: item?.color || '#FFF', padding: 15 }]}>
-              <Text
-                style={[
-                  {
-                    color: item?.color ? '#FFF' : '#000',
-                    fontWeight: item?.color ? 'bold' : 'normal',
-                  },
-                ]}
-              >
-                {item?.label || item?.name}
-              </Text>
-            </View>
-          );
-        }}
+        renderItem={OptionItem}
         testID="type-option-dropdown"
         placeholder={trans.selectItem}
       />
