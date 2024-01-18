@@ -5,15 +5,16 @@ const uiText = {
     // Home page
     welcome: (
       <Fragment>
-        Real Time Management Information System (RTMIS) for Monitoring
-        Sanitation and Hygiene Indicators across Kenya
+        Rural Urban Sanitation and Hygiene
+        <br />
+        Real Time Monitoring Information System
       </Fragment>
     ),
     welcomeDesc: (
       <Fragment>
-        Real Time Management Information System (RTMIS)
+        Rural Urban Sanitation and Hygiene
         <br />
-        Updated sanitation and hygiene estimates across Kenya
+        Real Time Monitoring Information System
       </Fragment>
     ),
     countdownTitle: "Time remaining to achieve national RUSH targets:",

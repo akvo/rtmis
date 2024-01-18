@@ -591,13 +591,15 @@ Object {
     "valPhone": "Phone number is required",
     "valRole": "Please select a Role",
     "welcome": <React.Fragment>
-      Real Time Management Information System (RTMIS) for Monitoring Sanitation and Hygiene Indicators across Kenya
+      Rural Urban Sanitation and Hygiene
+      <br />
+      Real Time Monitoring Information System
     </React.Fragment>,
     "welcomeCta": "Explore National Data",
     "welcomeDesc": <React.Fragment>
-      Real Time Management Information System (RTMIS)
+      Rural Urban Sanitation and Hygiene
       <br />
-      Updated sanitation and hygiene estimates across Kenya
+      Real Time Monitoring Information System
     </React.Fragment>,
     "welcomeShort": "Welcome to RUSH",
     "year": "Year",
