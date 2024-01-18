@@ -99,11 +99,17 @@ const config = {
         "questionnaires",
         "reports",
         "mobile",
+        "form",
       ],
       administration_level: [3, 4],
       description:
         "Gives final approval to data submitted from the area under jurisdiction. Can edit or return data for correction.",
-      control_center_order: ["approvals", "manage-data", "manage-mobile"],
+      control_center_order: [
+        "approvals",
+        "submission",
+        "manage-data",
+        "manage-mobile",
+      ],
     },
     {
       id: 4,

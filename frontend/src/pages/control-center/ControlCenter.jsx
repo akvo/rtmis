@@ -108,7 +108,7 @@ const ControlCenter = () => {
       </div>
       <div className="table-section">
         <div className="table-wrapper">
-          <Row gutter={[16, 16]}>
+          <Row gutter={[16, 32]}>
             {selectedPanels.map((panel, index) => {
               if (panel?.render) {
                 return panel.render;
