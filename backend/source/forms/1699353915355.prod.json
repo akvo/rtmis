@@ -1117,7 +1117,7 @@
           "dependency": null,
           "fn": {
             "fnColor": {
-              "G1 Functional toilet with privacy": "#93D371",
+              "G1 Functional toilet with privacy": "#FDC74B",
               "G0 Toilet non-functional or not private": "#FD3F31"
             },
             "fnString": "function() { return (#1699422286091.includes(\"G1\") && #1699423357200.includes(\"G1\") && #1699423571454.includes(\"G1\"))\n? \"G1 Functional toilet with privacy\" : \"G0 Toilet non-functional or not private\"}",
@@ -1389,7 +1389,7 @@
           "dependency": null,
           "fn": {
             "fnColor": {
-              "G1 Flyproof toilet": "#93D371",
+              "G1 Flyproof toilet": "#FDC74B",
               "G0 Toilet NOT flyproof": "#FD3F31"
             },
             "fnString": "function() {\n  return (\n    #1699423696720.includes(\"G1\") &&\n    #1699423946170.includes(\"G1\") &&\n    #1699424375968.includes(\"G1\")\n  )\n  ? \"G1 Flyproof toilet\"\n  : \"G0 Toilet NOT flyproof\"\n}",
@@ -1525,7 +1525,7 @@
           "dependency": null,
           "fn": {
             "fnColor": {
-              "G1 Clean toilet": "#93D371",
+              "G1 Clean toilet": "#FDC74B",
               "G0 Toilet NOT clean": "#FD3F31"
             },
             "fnString": "function() { return (#1699425852809.includes(\"G1\") && #1699425943159.includes(\"G1\") && #1699426059842.includes(\"G1\")) ? \"G1 Clean toilet\" : \"G0 Toilet NOT clean\"}",
@@ -1706,7 +1706,7 @@
           "dependency": null,
           "fn": {
             "fnColor": {
-              "G2 Durable toilet": " #FDC74B",
+              "G2 Durable toilet": " #93D371",
               "G0 Toilet NOT durable": "#FD3F31"
             },
             "fnString": "function() { return (#1699427405024.includes(\"G2\") && #1699427574765.includes(\"G2\")) ? \"G2 Durable toilet\" : \"G0 Toilet NOT durable\"}",
@@ -1845,7 +1845,7 @@
           "dependency": null,
           "fn": {
             "fnColor": {
-              "G2 Toilet with safe containment": "#FDC74B",
+              "G2 Toilet with safe containment": "#93D371",
               "G0 Unsafe toilet containment": "#FD3F31"
             },
             "fnString": "function() { return (#1699427743413.includes(\"G2\") && #1699427885744.includes(\"G2\") && #1702282796765.includes(\"G2\")) ? \"G2 Toilet with safe containment\" : \"G0 Unsafe toilet containment\"}",
@@ -1975,7 +1975,7 @@
           "options": null,
           "fn": {
             "fnColor": {
-              "G1 Toilet use by all household members": "#93D371",
+              "G1 Toilet use by all household members": "#FDC74B",
               "G0 Toilet NOT used (or used by too many)": "#FD3F31"
             },
             "fnString": "function() {\n  return (\n    #1699428072669.includes(\"G1\") &&\n    #1699428351326.includes(\"G1\") &&\n    #1699428400205.includes(\"G1\")\n  )\n  ? \"G1 Toilet use by all household members\"\n  : \"G0 Toilet NOT used (or used by too many)\"\n}",
@@ -2027,8 +2027,8 @@
           "options": null,
           "fn": {
             "fnColor": {
-              "G1 Some household members do not use their own toilet": "#93D371",
-              "G2 All household members use own toilet at all times": "#FDC74B",
+              "G1 Some household members do not use their own toilet": "#FDC74B",
+              "G2 All household members use own toilet at all times": "#93D371",
               "G0 All household members defecate in the open": "#FD3F31"
             },
             "fnString": "function(){ return (#1699428535663.includes(\"G2\")) ? \"G2 All household members use own toilet at all times\" : (#1699428535663.includes(\"G0\") ? \"G0 All household members defecate in the open\" : \"G1 Some household members do not use their own toilet\") }",
@@ -2188,7 +2188,7 @@
           "fn": {
             "fnColor": {
               "G3 Use of safely managed sanitation services": "#4088F4",
-              "G1 Inadequate sanitation services": "#93D371",
+              "G1 Inadequate sanitation services": "#FDC74B",
               "G0 Sanitation services UNSAFELY managed": "#FD3F31"
             },
             "fnString": "function(){ return (#1699428661689.includes(\"G3\") && #1699428820338.includes(\"G3\")) ? \"G3 Use of safely managed sanitation services\" : ((#1699428661689.includes(\"G0\") && #1699428820338.includes(\"G0\")) ? \"G0 Sanitation services UNSAFELY managed\" : \"G1 Inadequate sanitation services\") }",
@@ -2336,7 +2336,7 @@
           "options": null,
           "fn": {
             "fnColor": {
-              "G1 Handwashing facility with soap and water": "#93D371",
+              "G1 Handwashing facility with soap and water": "#FDC74B",
               "G0 Inadequate or no handwashing facility": "#FD3F31"
             },
             "fnString": "function() { return (#1699429162796.includes(\"G1\") && #1699430427692.includes(\"G1\") && #1699430472221.includes(\"G1\")) ? \"G1 Handwashing facility with soap and water\" : \"G0 Inadequate or no handwashing facility\"}",
@@ -2481,7 +2481,7 @@
             "fnColor": {
               "G0 No or inadequate handwashing services": "#FD3F31",
               "G3 Permanent handwashing services": "#4088F4",
-              "G1 Non-durable handwashing services": "#93D371"
+              "G1 Non-durable handwashing services": "#FDC74B"
             },
             "fnString": "function(){\n  return (\n    #1699430580239.includes(\"G0\") &&\n    #1699430671868.includes(\"G0\") &&\n    #1699430761393.includes(\"G0\")\n  )\n  ?  \"G0 No or inadequate handwashing services\"\n  :  (\n    #1699430580239.includes(\"G3\") &&\n    #1699430671868.includes(\"G3\") &&\n    #1699430761393.includes(\"G3\"))\n    ? \"G3 Permanent handwashing services\"\n    : \"G1 Non-durable handwashing services\"\n}",
             "multiline": false
@@ -2682,8 +2682,8 @@
           "options": null,
           "fn": {
             "fnColor": {
-              "G1 Some critical handwashing times NOT mentioned": "#93D371",
-              "G2 Handwashing with soap at ALL critical times": "#FDC74B",
+              "G1 Some critical handwashing times NOT mentioned": "#FDC74B",
+              "G2 Handwashing with soap at ALL critical times": "#93D371",
               "G0 No or inadequate handwashing services": "#FD3F31"
             },
             "fnString": "function(){ return (#1699430839676.includes(\"G0\") && #1699431035188.includes(\"G0\") && #1699431983680.includes(\"G0\") && #1699432052966.includes(\"G0\")) ? \"G0 No or inadequate handwashing services\" : ((#1699430839676.includes(\"G2\") && #1699431035188.includes(\"G2\") && #1699431983680.includes(\"G2\") && #1699432052966.includes(\"G2\")) ? \"G2 Handwashing with soap at ALL critical times\" : \"G1 Some critical handwashing times NOT mentioned\") }",
@@ -2737,7 +2737,7 @@
           "options": null,
           "fn": {
             "fnColor": {
-              "G1 No exposed human excreta in compound": "#93D371",
+              "G1 No exposed human excreta in compound": "#FDC74B",
               "G0 Child or adult excreta observed in compound": "#FD3F31"
             },
             "fnString": "function() {return (#1699432663952 ?? \"\").includes(\"G1\") ? \"G1 No exposed human excreta in compound\" : \"G0 Child or adult excreta observed in compound\"}",
@@ -2862,7 +2862,7 @@
           "fn": {
             "fnColor": {
               "G1 Safely managed child excreta and diapers": "#FD3F31",
-              "G0 Child excreta and diapers UNSAFELY managed": "#93D371"
+              "G0 Child excreta and diapers UNSAFELY managed": "#FDC74B"
             },
             "fnString": "function() { return (#1699432130951.includes(\"G1\") && #1699432802923.includes(\"G1\")) ? \"G1 Safely managed child excreta and diapers\" : \"G0 Child excreta and diapers UNSAFELY managed\"}",
             "multiline": false
@@ -2971,8 +2971,8 @@
           "fn": {
             "fnColor": {
               "G0 Food not clean and not safely stored": "#FD3F31",
-              "G2 Clean and safely stored food": "#FDC74B",
-              "G1 Food not adequately washed, or not safely stored": "#93D371"
+              "G2 Clean and safely stored food": "#93D371",
+              "G1 Food not adequately washed, or not safely stored": "#FDC74B"
             },
             "fnString": "function() {\n  return (\n    #1699432887212.includes(\"G0\") &&\n    #1699433027913.includes(\"G0\") &&\n    #1699433058652.includes(\"G0\")\n  )\n  ? \"G0 Food not clean and not safely stored\"\n  : ((\n    #1699432887212.includes(\"G2\") &&\n    #1699433027913.includes(\"G2\") &&\n    #1699433058652.includes(\"G2\"))\n    ? \"G2 Clean and safely stored food\"\n    : \"G1 Food not adequately washed, or not safely stored\"\n  )\n}",
             "multiline": false
@@ -3083,8 +3083,8 @@
           "fn": {
             "fnColor": {
               "G0 Kitchen utensils not clean and not safely stored": "#FD3F31",
-              "G2 Clean and safely stored kitchen utensils": "#FDC74B",
-              "G1 Kitchen utensils not adequately washed, or not safely stored": "#93D371"
+              "G2 Clean and safely stored kitchen utensils": "#93D371",
+              "G1 Kitchen utensils not adequately washed, or not safely stored": "#FDC74B"
             },
             "fnString": "function() {\n  return (\n    #1699433108344.includes(\"G0\") &&\n    #1699433162828.includes(\"G0\") &&\n    #1699433205793.includes(\"G0\")\n  )\n  ? \"G0 Kitchen utensils not clean and not safely stored\"\n  : ((\n    #1699433108344.includes(\"G2\") &&\n    #1699433162828.includes(\"G2\") &&\n    #1699433205793.includes(\"G2\"))\n    ? \"G2 Clean and safely stored kitchen utensils\"\n    : \"G1 Kitchen utensils not adequately washed, or not safely stored\"\n  )\n}",
             "multiline": false
@@ -3195,8 +3195,8 @@
           "fn": {
             "fnColor": {
               "G0 Milk containers not clean and not safely stored": "#FD3F31",
-              "G2 Clean and safely stored milk containers": "#FDC74B",
-              "G1 Milk containers not adequately washed, or not safely stored": "#93D371"
+              "G2 Clean and safely stored milk containers": "#93D371",
+              "G1 Milk containers not adequately washed, or not safely stored": "#FDC74B"
             },
             "fnString": "function() {\n  return (\n    #1699433286697.includes(\"G0\") &&\n    #1699433337417.includes(\"G0\") &&\n    #1699433394633.includes(\"G0\")\n  )\n  ? \"G0 Milk containers not clean and not safely stored\"\n  : ((\n    #1699433286697.includes(\"G2\") &&\n    #1699433337417.includes(\"G2\") &&\n    #1699433394633.includes(\"G2\"))\n    ? \"G2 Clean and safely stored milk containers\"\n    : \"G1 Milk containers not adequately washed, or not safely stored\"\n  )\n}",
             "multiline": false
@@ -3353,8 +3353,8 @@
           "fn": {
             "fnColor": {
               "G0 Drinking water is UNSAFELY managed": "#FD3F31",
-              "G2 Safe management of drinking water": "#FDC74B",
-              "G1 Drinking water is NOT adequately managed": "#93D371"
+              "G2 Safe management of drinking water": "#93D371",
+              "G1 Drinking water is NOT adequately managed": "#FDC74B"
             },
             "fnString": "function() {\n  return (\n    #1699433455365.includes(\"G0\") &&\n    #1699433503692.includes(\"G0\") &&\n    #1699433564057.includes(\"G0\") &&\n    #1699433637971.includes(\"G0\")\n  )\n  ? \"G0 Drinking water is UNSAFELY managed\"\n  : ((\n    #1699433455365.includes(\"G2\") &&\n    #1699433503692.includes(\"G2\") &&\n    #1699433564057.includes(\"G2\") &&\n    #1699433637971.includes(\"G2\"))\n    ? \"G2 Safe management of drinking water\"\n    : \"G1 Drinking water is NOT adequately managed\"\n  )\n}",
             "multiline": false
@@ -3465,8 +3465,8 @@
           "fn": {
             "fnColor": {
               "G0 Water points are UNSAFELY managed": "#FD3F31",
-              "G2 Safe management of water points": "#FDC74B",
-              "G1 Water points are NOT adequately managed": "#93D371"
+              "G2 Safe management of water points": "#93D371",
+              "G1 Water points are NOT adequately managed": "#FDC74B"
             },
             "fnString": "function() {\n  return (\n    #1699433719018.includes(\"G0\") &&\n    #1699433765217.includes(\"G0\") &&\n    #1699433833227.includes(\"G0\")\n  )\n  ? \"G0 Water points are UNSAFELY managed\"\n  : ((\n    #1699433719018.includes(\"G2\") &&\n    #1699433765217.includes(\"G2\") &&\n    #1699433833227.includes(\"G2\"))\n    ? \"G2 Safe management of water points\"\n    : \"G1 Water points are NOT adequately managed\"\n  )\n}",
             "multiline": false
@@ -3546,8 +3546,8 @@
           "fn": {
             "fnColor": {
               "G0 Widespread presence of animal wastes": "#FD3F31",
-              "G1 Some animal wastes visible": "#93D371",
-              "G2 No visible animal wastes": "#FDC74B"
+              "G1 Some animal wastes visible": "#FDC74B",
+              "G2 No visible animal wastes": "#93D371"
             },
             "fnString": "function() {\n  return (\n    #1699433937138.includes(\"G0\") &&\n    #1699433983369.includes(\"G0\")\n  )\n  ? \"G0 Widespread presence of animal wastes\"\n  : ((\n    #1699433937138.includes(\"G2\") &&\n    #1699433983369.includes(\"G2\"))\n    ? \"G2 No visible animal wastes\"\n    : \"G1 Some animal wastes visible\"\n  )\n}",
             "multiline": false
@@ -3673,8 +3673,8 @@
           "fn": {
             "fnColor": {
               "G0 Animal wastes UNSAFELY managed": "#FD3F31",
-              "G2 Safely managed animal wastes": "#FDC74B",
-              "G1 Inadequate management of animal wastes": "#93D371"
+              "G2 Safely managed animal wastes": "#93D371",
+              "G1 Inadequate management of animal wastes": "#FDC74B"
             },
             "fnString": "function() {\n  return (\n    #1699434044707.includes(\"G0\") &&\n    #1699434136823.includes(\"G0\") &&\n    #1699434209933.includes(\"G0\")\n  )\n  ? \"G0 Animal wastes UNSAFELY managed\"\n  : ((\n    #1699434044707.includes(\"G2\") &&\n    #1699434136823.includes(\"G2\") &&\n    #1699434209933.includes(\"G0\"))\n    ? \"G2 Safely managed animal wastes\"\n    : \"G1 Inadequate management of animal wastes\"\n  )\n}",
             "multiline": false
@@ -3764,8 +3764,8 @@
           "fn": {
             "fnColor": {
               "G0 Animals NOT separated from under-5 children": "#FD3F31",
-              "G2 Safe separation of animals from under-5 children": "#FDC74B",
-              "G1 Inadequate separation of animals from under-5 children": "#93D371"
+              "G2 Safe separation of animals from under-5 children": "#93D371",
+              "G1 Inadequate separation of animals from under-5 children": "#FDC74B"
             },
             "fnString": "function() {\n  return (\n    #1699434269372.includes(\"G0\") &&\n    #1699434327613.includes(\"G0\")\n  )\n  ? \"G0 Animals NOT separated from under-5 children\"\n  : ((\n    #1699434269372.includes(\"G2\") &&\n    #1699434327613.includes(\"G2\"))\n    ? \"G2 Safe separation of animals from under-5 children\"\n    : \"G1 Inadequate separation of animals from under-5 children\"\n  )\n}",
             "multiline": false
@@ -3851,7 +3851,7 @@
             "fnColor": {
               "G0 Liquid wastes UNSAFELY managed": "#FD3F31",
               "G3 Safe management of liquid wastes": "#4088F4",
-              "G2 Inadequate management of liquid wastes": "#FDC74B"
+              "G2 Inadequate management of liquid wastes": "#93D371"
             },
             "fnString": "function() {\n  return (\n    #1699434438966.includes(\"G0\") &&\n    #1699434488410.includes(\"G0\")\n  )\n  ? \"G0 Liquid wastes UNSAFELY managed\"\n  : ((\n      #1699434438966.includes(\"G3\") &&\n      #1699434488410.includes(\"G3\"))\n    ? \"G3 Safe management of liquid wastes\"\n    : \"G2 Inadequate management of liquid wastes\"\n  )\n}",
             "multiline": false
@@ -3930,8 +3930,8 @@
           "options": null,
           "fn": {
             "fnColor": {
-              "G1 Liquid wastes UNSAFELY managed": "#93D371",
-              "G2 Inadequate management of solid wastes": "#FDC74B",
+              "G1 Liquid wastes UNSAFELY managed": "#FDC74B",
+              "G2 Inadequate management of solid wastes": "#93D371",
               "G3 Safe management of solid wastes": "#4088F4"
             },
             "fnString": "function() {\n  return (\n    #1699434553677.includes(\"G0\") &&\n    #1699434636655.includes(\"G0\")\n  )\n  ? \"G1 Liquid wastes UNSAFELY managed\"\n  : ((\n    #1699434553677.includes(\"G3\") &&\n    #1699434636655.includes(\"G3\"))\n    ? \"G3 Safe management of solid wastes\"\n    : \"G2 Inadequate management of solid wastes\"\n  )\n}",
@@ -4016,8 +4016,8 @@
           "options": null,
           "fn": {
             "fnColor": {
-              "G1 Lack of vector control": "#93D371",
-              "G2 Inadequate vector control": "#FDC74B",
+              "G1 Lack of vector control": "#FDC74B",
+              "G2 Inadequate vector control": "#93D371",
               "G3 Good vector control": "#4088F4"
             },
             "fnString": "function() {\n  return (\n    #1699434694439.includes(\"G0\") &&\n    #1699434771449.includes(\"G0\")\n  )\n  ? \"G1 Lack of vector control\"\n  : ((\n    #1699434694439.includes(\"G3\") &&\n    #1699434771449.includes(\"G3\"))\n    ? \"G3 Good vector control\"\n    : \"G2 Inadequate vector control\"\n  )\n}",
@@ -4095,8 +4095,8 @@
           "options": null,
           "fn": {
             "fnColor": {
-              "G1 No personal hygiene": "#93D371",
-              "G2 Inadequate personal hygiene": "#FDC74B",
+              "G1 No personal hygiene": "#FDC74B",
+              "G2 Inadequate personal hygiene": "#93D371",
               "G3 Good personal hygiene": "#4088F4"
             },
             "fnString": "function() {\n  return (\n    #1699434939105.includes(\"G0\") &&\n    #1699434983278.includes(\"G0\")\n  )\n  ? \"G1 No personal hygiene\"\n  : ((\n    #1699434939105.includes(\"G3\") &&\n    #1699434983278.includes(\"G3\"))\n    ? \"G3 Good personal hygiene\"\n    : \"G2 Inadequate personal hygiene\"\n  )\n}",
@@ -4204,8 +4204,8 @@
           "options": null,
           "fn": {
             "fnColor": {
-              "G1 No personal hygiene": "#93D371",
-              "G2 Inadequate personal hygiene": "#FDC74B",
+              "G1 No personal hygiene": "#FDC74B",
+              "G2 Inadequate personal hygiene": "#93D371",
               "G3 Good personal hygiene": "#4088F4"
             },
             "fnString": "function() {\n  return (\n    #1699435026311.includes(\"G0\") &&\n    #1699435088758.includes(\"G0\") &&\n    #1699435154797.includes(\"G0\")\n  )\n  ? \"G1 No personal hygiene\"\n  : ((\n    #1699435026311.includes(\"G3\") &&\n    #1699435088758.includes(\"G3\") &&\n    #1699435154797.includes(\"G3\"))\n    ? \"G3 Good personal hygiene\"\n    : \"G2 Inadequate personal hygiene\"\n  )\n}",
@@ -4258,8 +4258,8 @@
           "options": null,
           "fn": {
             "fnColor": {
-              "G1 Low nutrition or protection": "#93D371",
-              "G2 Inadequate nutrition or protection": "#FDC74B",
+              "G1 Low nutrition or protection": "#FDC74B",
+              "G2 Inadequate nutrition or protection": "#93D371",
               "G3 Good nutrition and protection": "#4088F4"
             },
             "fnString": "function() {\n  return (#1699435207476.includes(\"G1\"))\n  ? \"G1 Low nutrition or protection\"\n  : (\n    #1699435207476.includes(\"G3\")\n    ? \"G3 Good nutrition and protection\"\n    : \"G2 Inadequate nutrition or protection\"\n  )\n}",
@@ -4312,8 +4312,8 @@
           "options": null,
           "fn": {
             "fnColor": {
-              "G1 Low nutrition or protection": "#93D371",
-              "G2 Inadequate nutrition or protection": "#FDC74B",
+              "G1 Low nutrition or protection": "#FDC74B",
+              "G2 Inadequate nutrition or protection": "#93D371",
               "G3 Good nutrition and protection": "#4088F4"
             },
             "fnString": "function() {\n  return #1699435265962.includes(\"G1\")\n  ? \"G1 Low nutrition or protection\"\n  : (\n    #1699435265962.includes(\"G3\")\n    ? \"G3 Good nutrition and protection\"\n    : \"G2 Inadequate nutrition or protection\"\n  )\n}",
@@ -4366,8 +4366,8 @@
           "options": null,
           "fn": {
             "fnColor": {
-              "G1 Low nutrition or protection": "#93D371",
-              "G2 Inadequate nutrition or protection": "#FDC74B",
+              "G1 Low nutrition or protection": "#FDC74B",
+              "G2 Inadequate nutrition or protection": "#93D371",
               "G3 Good nutrition and protection": "#4088F4"
             },
             "fnString": "function() {\n  return #1699435329279.includes(\"G1\")\n  ? \"G1 Low nutrition or protection\"\n  : (\n    #1699435329279.includes(\"G3\")\n    ? \"G3 Good nutrition and protection\"\n    : \"G2 Inadequate nutrition or protection\"\n  )\n}",
@@ -4420,8 +4420,8 @@
           "options": null,
           "fn": {
             "fnColor": {
-              "G1 Low nutrition or protection": "#93D371",
-              "G2 Inadequate nutrition or protection": "#FDC74B",
+              "G1 Low nutrition or protection": "#FDC74B",
+              "G2 Inadequate nutrition or protection": "#93D371",
               "G3 Good nutrition and protection": "#4088F4"
             },
             "fnString": "function() {\n  return #1699435397728.includes(\"G1\")\n  ? \"G1 Low nutrition or protection\"\n  : (\n    #1699435397728.includes(\"G3\")\n    ? \"G3 Good nutrition and protection\"\n    : \"G2 Inadequate nutrition or protection\"\n  )\n}",
@@ -4474,8 +4474,8 @@
           "options": null,
           "fn": {
             "fnColor": {
-              "G1 No malaria protection": "#93D371",
-              "G2 Inadequate malaria protection": "#FDC74B",
+              "G1 No malaria protection": "#FDC74B",
+              "G2 Inadequate malaria protection": "#93D371",
               "G3 Malaria-safe home": "#4088F4"
             },
             "fnString": "function() {\n  return #1699435455818.includes(\"G0\")\n  ? \"G1 No malaria protection\"\n  : (\n    #1699435455818.includes(\"G3\")\n    ? \"G3 Malaria-safe home\"\n    : \"G2 Inadequate malaria protection\"\n  )\n}",
@@ -4531,8 +4531,8 @@
           "options": null,
           "fn": {
             "fnColor": {
-              "G1 No deworming": "#93D371",
-              "G2 Inadequate deworming": "#FDC74B",
+              "G1 No deworming": "#FDC74B",
+              "G2 Inadequate deworming": "#93D371",
               "G3 Dewormed home": "#4088F4"
             },
             "fnString": "function() {\n  return #1699435526190.includes(\"G0\")\n  ? \"G1 No deworming\"\n  : (\n    #1699435526190.includes(\"G3\")\n    ? \"G3 Dewormed home\"\n    : \"G2 Inadequate deworming\"\n  )\n}",
