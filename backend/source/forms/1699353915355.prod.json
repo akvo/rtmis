@@ -111,7 +111,7 @@
                 "id": 16994260598422,
                 "answer": ["No"]
               },
-              
+
               {
                 "id": 1699427405024,
                 "answer": ["G1 Not-durable slab, cement covered"]
@@ -214,7 +214,6 @@
                 "id": 1699432802923,
                 "answer": ["G0 Used diapers visible in the compound"]
               }
-              
             ]
           }
         },
@@ -1117,7 +1116,7 @@
               "color": "#c6efce"
             }
           ],
-         
+
           "fn": null
         },
         {
@@ -1204,7 +1203,7 @@
               "color": "#c6efce"
             }
           ],
-          
+
           "fn": null
         },
         {
@@ -1969,8 +1968,14 @@
           "dependency": [
             {
               "id": 1699428661689,
-              "options": ["G3 Yes, containment emptied","G3 Yes, closed container removed","G3 Piped sewer connection","G3 Other removal of faecal sludge or wastewater"]
-            }],
+              "options": [
+                "G3 Yes, containment emptied",
+                "G3 Yes, closed container removed",
+                "G3 Piped sewer connection",
+                "G3 Other removal of faecal sludge or wastewater"
+              ]
+            }
+          ],
           "tooltip": {
             "text": "<b>INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?</b><br/><b>INTERVIEW:</b> the last time it was emptied, who emptied the toilet containment?<br/><b>INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied):</b> what will happen when the toilet containment is full?<br/><b>INTERVIEW:</b> How long were the contents stored (without any fresh excreta entering the toilet containment) before emptying?<br/><b>Intention to empty:</b> household is planning to empty toilet containment (pit or tank) when full, or when required.<br/><b>Storage time:</b> length of time that contents of containment were stored without any fresh excreta entering the containment (for example, alternating twin pit latrine where full pit is disconncted and contents are stored for 2 years before emptying)<br/><b>Licensed service provider:</b> paid emptier that is approved and regulated by local authority to empty and transport toilet wastes<br/><b>Unlicensed service provider:</b> paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers) <br/><b>Off-site location:</b> site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.<br/><b>Sewer connection to licensed and functional treatment site:</b> the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site.<br/><b>Open container:</b> bucket or other open container used to collect excreta (usually regularly collected and emptied)."
           },
@@ -2569,7 +2574,7 @@
           "question": "Outcome result - Handwashing with soap at critical times",
           "order": 13,
           "type": "autofield",
-          
+
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -2783,13 +2788,12 @@
               "order": 2,
               "color": ""
             }
-            
           ],
           "dependency": null,
           "fn": null,
-          "pre":{
-            "answer":["Yes"],
-            "fill" : [
+          "pre": {
+            "answer": ["Yes"],
+            "fill": [
               {
                 "id": 1699432887212,
                 "answer": ["G0 Visible dirt or contamination"]
@@ -2898,7 +2902,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: cleanliness of raw food, produce and cooked food</b><br/><b>Clean food:</b> raw food (for example, fruit and vegetables) should be washed to remove dirt or other contamination before preparing, cooking or storing"
           },
@@ -2938,7 +2943,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "options": [
             {
               "id": 1699433035000,
@@ -2970,7 +2976,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: raised storage of raw food, produce and cooked food</b><br/><b>Raised food storage:</b> food should be stored off the ground, inside the house (or kitchen), and protected from animal contact in raised storage (for example, cupboards, shelves, boxes and containers)"
           },
@@ -3011,7 +3018,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G0 Food not clean and not safely stored": "#FD3F31",
@@ -3031,7 +3039,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: cleanliness of kitchen utensils</b><b>Clean kitchen utensils:</b> kitchen utensils (for example, pots, pans, plates, cutlery, cups, glasses and any cutting, stirring or serving utensils) are washed and clean before storage or re-use"
           },
@@ -3068,7 +3077,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: covered storage of kitchen utensils</b><b>Covered kitchen utensil storage: </b>kitchen utensils should be stored in covered storage (for example, cupboards, shelves, boxes and containers) inside the house (or kitchen), and protected from animal contact"
           },
@@ -3105,7 +3115,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: raised storage of kitchen utensils</b><b>Raised kitchen utensil storage:</b> kitchen utensils should be stored off the ground, inside the house (or kitchen), and protected from animal contact in raised storage (for example, cupboards, shelves, boxes and containers)"
           },
@@ -3146,7 +3157,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G0 Kitchen utensils not clean and not safely stored": "#FD3F31",
@@ -3166,7 +3178,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: cleanliness of empty milk containers</b><br/><b>Clean milk containers:</b> the containers used to collect and store milk should be thoroughly washed before each milking, so that they are free of dirt and other contamination"
           },
@@ -3203,7 +3216,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: covered storage of empty milk containers</b><br/><b>Covered milk container storage:</b> empty milk containers should be stored in covered storage (for example, cupboards, shelves, boxes and containers) inside the house (or kitchen), and protected from animal contact"
           },
@@ -3240,7 +3254,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: raised storage of empty milk containers</b><br/><b>Raised milk container storage:</b> empty milk containers should be stored off the ground, inside the house (or kitchen), and protected from animal contact in raised storage (for example, cupboards, shelves, boxes and containers)"
           },
@@ -3281,7 +3296,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G0 Milk containers not clean and not safely stored": "#FD3F31",
@@ -3301,7 +3317,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: cleanliness of empty water containers</b><br/><b>Clean water containers:</b> the containers used to collect water should be thoroughly washed before each water collection, so that they are free of dirt and other contamination"
           },
@@ -3338,7 +3355,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: quality of drinking water</b><br/><b>INTERVIEW:</b> is the water supplied by your main source usually of acceptable quality?<br/><b>INTERVIEW:</b> what do you usually do to the water to make it safe to drink? [Options: boil, add chlorine, stain through cloth, use water filter, solar disinfection, settlement, other, NOT required]<br/><b>Adequate quality at collection point:</b> water is collected from protected groundwater sources (for example, covered wells, protected boreholes, or protected water points); OR is treated surface water (e.g. treated by use of chlorine dispensers)<br/><b>Household water treatment:</b> water is settled, filtered, boiled, solar disinfected, or chemically treated (for example, by use of chlorine solution or tablets) by the household"
           },
@@ -3381,7 +3399,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: safe storage of drinking water</b><br/><b>Safe drinking water storage:</b> drinking water is stored in clean, covered containers, separate from the water used for other purposes, and away from animals"
           },
@@ -3418,7 +3437,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: safe use of drinking water</b><br/><b>Safe drinking water use: </b>drinking water is collected and used from containers with spigots and taps, or from narrow-mouthed containers, or using a clean utensil that is only used for water collection"
           },
@@ -3471,7 +3491,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G0 Drinking water is UNSAFELY managed": "#FD3F31",
@@ -3491,7 +3512,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: cleanliness of water points in compound</b><br/><b>Clean water points:</b> free from debris, solid waste, human or animal faeces, and any other potential sources of contamination"
           },
@@ -3528,7 +3550,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: protection of water points in compound</b><br/><b>Protected surface water sources (pans, dams, lakes, rivers):</b> fenced to prevent animal access<br/><b>Protected water supply source catchments:</b> protected from wastes and pollutants, including human excreta and animal wastes (for example, by excluding animals and prohibiting unsafe activities, such as the use of manure or chemical fertilisers in areas around water supply sources).<br/><b>Protected water points:</b> provide separate water troughs for animal watering<br/><b>Protected groundwater sources (springs, wells, handpumps, boreholes):</b> protected from contamination, wastes and pollutants (for example, by the construction of a spring box, raised parapet wall and cover, wellhead protection and sealed borehole casing)."
           },
@@ -3565,7 +3588,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: drainage of water points in compound</b><br/><b>Well drained water points:</b> no standing water visible at or around the water source (provision of drainage and soakpits may be required in slow-draining soils)"
           },
@@ -3606,7 +3630,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G0 Water points are UNSAFELY managed": "#FD3F31",
@@ -3626,7 +3651,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: presence of unsafely managed animal wastes inside house or kitchen</b><br/><b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.<br/><b>Safely managed animal wastes:</b> the house and household compound should be free of animal wastes, except in areas where manure is properly stored and managed. Regular collection of animal wastes (for example, daily collection of animal faeces and other wastes) should be evident from observation of the house and household compound"
           },
@@ -3663,7 +3689,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: presence of unsafely managed animal wastes in compound (outside specific areas for safe management of animal wastes)</b><br/><b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.<br/><b>Safely managed animal wastes:</b> the house and household compound should be free of animal wastes, except in areas where manure is properly stored and managed. Regular collection of animal wastes (for example, daily collection of animal faeces and other wastes) should be evident from observation of the house and household compound"
           },
@@ -3704,7 +3731,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G0 Widespread presence of animal wastes": "#FD3F31",
@@ -3724,7 +3752,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: storage of animal wastes in the compound</b><br/><b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.<br/><b>Animal wastes not accessible by animals or children:</b> any animal waste facility should prevent animal and child access to the wastes."
           },
@@ -3767,7 +3796,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: location of animal waste storage in the compound</b><br/><b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.<br/>Animal waste storage: animal wastes should be collected and stored in an appropriate facility located away from the house, and away from child play areas."
           },
@@ -3810,7 +3840,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: leakage or discharge of solid or liquid animal wastes into the area around the animal waste storage facility</b><br/><b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices."
           },
@@ -3857,7 +3888,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G0 Animal wastes UNSAFELY managed": "#FD3F31",
@@ -3877,7 +3909,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: location of animals and animal pens</b><br/><b>Location of animal pens: </b>facility to confine animals, which should be located away from the house and away from child play areas (in small compounds, animals should be penned as far away as possible from the house)"
           },
@@ -3920,7 +3953,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: confinement of animals within pens</b><br/><b>Confinement in animal pens:</b> facility to confine animals, which should prevent animals from entering the home or other parts of the compound. The animal pens should limit the contamination of other parts of the compound with animal wastes, and limit contact between infants and animals.<br/><b>Inadequate animal pens:</b> do not adequately limit the movement of animals or animal wastes within the compound"
           },
@@ -3967,7 +4001,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G0 Animals NOT separated from under-5 children": "#FD3F31",
@@ -3989,7 +4024,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "options": [
             {
               "id": 16994260864133,
@@ -4003,11 +4039,10 @@
               "order": 2,
               "color": ""
             }
-            
           ],
           "fn": null,
-          "pre":{
-            "answer" : ["Yes"],
+          "pre": {
+            "answer": ["Yes"],
             "fill": [
               {
                 "id": 1699434438966,
@@ -4093,7 +4128,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: use of soakpits or drainage to manage liquid wastes and wastewater</b><br/><b>Liquid wastes:</b> wastewater including washing water and other liquid wastes from household activities such as food preparation, washing and bathing. Wastewater from toilets should generally be kept separate from other household liquid wastes (as it presents a higher public health hazard)."
           },
@@ -4130,7 +4166,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: erosion or other damage caused by stormwater flows</b><br/><b>Stormwater:</b> surface water from rainfall or storms.<br/><b>Adequate stormwater drainage:</b> drains or other services that limit or prevent erosion from stormwater flows (for example, EITHER by transporting flows away from the compound, OR by encouraging infiltration into the soil)"
           },
@@ -4177,7 +4214,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G0 Liquid wastes UNSAFELY managed": "#FD3F31",
@@ -4197,7 +4235,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: visible solid wastes in compound</b><br/><b>Solid wastes:</b> food wastes, paper, plastic, rags, metal, glass and other solid materials discarded by the household"
           },
@@ -4234,7 +4273,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE:</b> facility (or service) for solid waste collection, management and disposal<br/><b>Solid wastes:</b> food wastes, paper, plastic, rags, metal, glass and other solid materials discarded by the household<br/><b>Solid waste facility or service:</b> covered waste pits in compound, central waste disposal site, or other waste collection service"
           },
@@ -4275,7 +4315,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 Liquid wastes UNSAFELY managed": "#FDC74B",
@@ -4294,7 +4335,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "type": "option",
           "tooltip": {
             "text": "<b>OBSERVE: visible standing water in compound </b><br/><b>Standing water:</b> accumulation of wastewater (or stormwater) in compound, which does NOT immediately drain away"
@@ -4330,7 +4372,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "order": 46,
           "type": "option",
           "tooltip": {
@@ -4379,7 +4422,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 Lack of vector control": "#FDC74B",
@@ -4398,7 +4442,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "type": "option",
           "tooltip": {
             "text": "<b>OBSERVE: cleanliness of faces in all under-5 children</b><br/><b>OBSERVE: cleanliness of face of main caregiver</b><br/><b>Clean hands:</b> no visible dirt on hands<br/><b>Clean face:</b> no visible dirt on the face<br/><b>Clean face and hands:</b> assessed by observation of the faces and hands of all under-5 children in the household, and the main caregiver. If one of the under-5 children of the main caregiver does not have a clean face and hands, the outcome is not achieved."
@@ -4434,7 +4479,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "order": 49,
           "type": "option",
           "tooltip": {
@@ -4477,7 +4523,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 No personal hygiene": "#FDC74B",
@@ -4497,7 +4544,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: washing place adequate for menstrual hygiene</b><br/></b>Adequate washing place:</b> private and clean place for washing and menstrual hygiene, with water and soap available"
           },
@@ -4533,7 +4581,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "type": "option",
           "tooltip": {
             "text": "<b>OBSERVE: disposal site for menstrual hygiene wastes</b><br/><b>Disposal site:</b> appropriate facility for the safe disposal of menstrual hygiene wastes (for example, covered bins)"
@@ -4570,7 +4619,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "type": "option",
           "tooltip": {
             "text": "<b>INTERVIEW: are menstrual hygiene materials available?</b><br/><b>Menstrual hygiene materials and products:</b> disposable and reusable sanitary pads, tampons, and resuable menstrual cups, clean piece of cotton cloth or cotton wool, that are safe and hygienic, and absorb or collect blood during menstrual periods.<br/><b>Available:</b> menstrual hygiene materials are currently available on premises (in the home or household compound)"
@@ -4612,7 +4662,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 No personal hygiene": "#FDC74B",
@@ -4632,7 +4683,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>OBSERVE: vaccination records or certificates</b><br/><b>Fully immunized children:</b> all under-5 children in the household have received the relevant vaccinations"
           },
@@ -4679,7 +4731,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 Low nutrition or protection": "#FDC74B",
@@ -4698,7 +4751,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "type": "option",
           "tooltip": {
             "text": "<b>OBSERVE: Vitamin A supplement records</b><br/><b>Vitamin A supplements:</b> all under-5 children should receive Vitamin A supplements every 6 months, and mothers should receive Vitamin A supplements within 6 weeks of delivery to pass the vitamin on to the child through breast milk.<br/><b>Vitamin A supplements received:</b> confirm that all under-5 children in the household have received a Vitamin A supplement in the last 6 months"
@@ -4746,7 +4800,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 Low nutrition or protection": "#FDC74B",
@@ -4766,7 +4821,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "tooltip": {
             "text": "<b>INTERVIEW (to mothers of under 6 month old babies): how are you feeding your baby? [Options: Exclusive breastfeeding, breastfeeding and milk substitutes; milk substitutes only; other]</b><br/><b>INTERVIEW (to mothers of under 6 month old babies):</b> Has your baby been given anything other than breast milk since it was born<br/><b>Exclusive breastfeeding:</b> infants should receive only breast milk until 6 months old. No other food or water should be given to the infant during the first 6-month period, because of the risk that this food or water may be contaminated and cause illness.<br/><b>Exclusive breastfeeding for under 6-month children:</b> assess by interview, supported by observation of the foods available in the house to confirm the reported diet of the under-2 children"
           },
@@ -4813,7 +4869,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 Low nutrition or protection": "#FDC74B",
@@ -4832,7 +4889,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "type": "option",
           "tooltip": {
             "text": "<b>OBSERVE: what food types/groups are present in the home?</b><br/><b>INTERVIEW (to mothers of under 2 year children):</b> which of these foods have been fed to your under-2 children in the last 7 days?<br/><b>Nutritious diet: </b>all 6-month to under-2 children received foods from 5 or more food groups during the previous day<br/><b>Nutritious diet assessment:</b> by household interview, supported by observation of the foods available in the house (to confirm reported diet of under-2 children)<br/><b>Nutritious food groups:</b> 1. Breast milk 2. Grains, white roots, tubers and plaintains 3. Legumes and nuts 4. Dairy 5. Flesh foods (meat, fish, poultry, liver and organ meats) 6. Eggs 7. Vitamin A rich fruits and vegetables (for example, sweet potato, kale, carrot, red pepper, mango, pink grapefruit, watermelon) 8. Other fruits and vegetables."
@@ -4880,7 +4938,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 Low nutrition or protection": "#FDC74B",
@@ -4899,7 +4958,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "type": "option",
           "tooltip": {
             "text": "<b>OBSERVE: insecticide-treated bed nets on all beds</b><br/><b>OBSERVE:</b> insect screen on windows, doors and other openings<br/><b>Malaria-safe home:</b> EITHER all household members sleep under an insecticide-treated bed net, OR the house has insect screen on all windows, doors and other openings."
@@ -4947,7 +5007,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 No malaria protection": "#FDC74B",
@@ -4966,7 +5027,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "type": "option",
           "tooltip": {
             "text": "<b>OBSERVE: deworming treatment records</b><br/><b>Dewormed home:</b> all children and all at-risk adults have received deworming treatment in the last 12 months"
@@ -5014,7 +5076,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 No deworming": "#FDC74B",
@@ -5079,9 +5142,9 @@
           "displayOnly": true,
           "fn": {
             "fnColor": {
-            "G1 Clean toilet": "#FDC74B",
-            "G0 Toilet NOT clean": "#FD3F31"
-          },
+              "G1 Clean toilet": "#FDC74B",
+              "G0 Toilet NOT clean": "#FD3F31"
+            },
             "fnString": "function(){return #1702282119933}",
             "multiline": false
           }
@@ -5272,7 +5335,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G0 Food not clean and not safely stored": "#FD3F31",
@@ -5295,7 +5359,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G0 Kitchen utensils not clean and not safely stored": "#FD3F31",
@@ -5318,7 +5383,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G0 Milk containers not clean and not safely stored": "#FD3F31",
@@ -5341,7 +5407,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G0 Drinking water is UNSAFELY managed": "#FD3F31",
@@ -5364,7 +5431,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G0 Water points are UNSAFELY managed": "#FD3F31",
@@ -5387,7 +5455,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G0 Widespread presence of animal wastes": "#FD3F31",
@@ -5410,7 +5479,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G0 Animal wastes UNSAFELY managed": "#FD3F31",
@@ -5433,7 +5503,8 @@
             {
               "id": 16994260598422,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G0 Animals NOT separated from under-5 children": "#FD3F31",
@@ -5456,7 +5527,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G0 Liquid wastes UNSAFELY managed": "#FD3F31",
@@ -5479,7 +5551,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 Liquid wastes UNSAFELY managed": "#FDC74B",
@@ -5502,7 +5575,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 Lack of vector control": "#FDC74B",
@@ -5525,7 +5599,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 No personal hygiene": "#FDC74B",
@@ -5548,7 +5623,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 No personal hygiene": "#FDC74B",
@@ -5571,7 +5647,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 Low nutrition or protection": "#FDC74B",
@@ -5594,7 +5671,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 Low nutrition or protection": "#FDC74B",
@@ -5617,7 +5695,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 Low nutrition or protection": "#FDC74B",
@@ -5640,7 +5719,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 Low nutrition or protection": "#FDC74B",
@@ -5663,7 +5743,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 No malaria protection": "#FDC74B",
@@ -5686,7 +5767,8 @@
             {
               "id": 16994260598423,
               "options": ["Yes"]
-            }],
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 No deworming": "#FDC74B",
