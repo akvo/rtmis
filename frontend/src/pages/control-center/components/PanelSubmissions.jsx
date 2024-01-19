@@ -469,7 +469,7 @@ const PanelSubmissions = () => {
     <>
       <div id="panel-submission">
         <h1 className="submission">Submissions</h1>
-        <DataFilters />
+        <DataFilters showAdm={false} />
         <Tabs
           activeKey={selectedTab}
           defaultActiveKey={selectedTab}

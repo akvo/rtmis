@@ -591,15 +591,15 @@ Object {
     "valPhone": "Phone number is required",
     "valRole": "Please select a Role",
     "welcome": <React.Fragment>
-      RUSH Real Time Monitoring
+      Rural and Urban Sanitation and Hygiene (RUSH)
       <br />
-      Information System
+      Real-Time Monitoring and Information System (RTMIS)
     </React.Fragment>,
     "welcomeCta": "Explore National Data",
     "welcomeDesc": <React.Fragment>
-      RUSH Real Time Monitoring
+      Rural and Urban Sanitation and Hygiene (RUSH)
       <br />
-      Information System
+      Real-Time Monitoring and Information System (RTMIS)
     </React.Fragment>,
     "welcomeShort": "Welcome to RUSH",
     "year": "Year",
