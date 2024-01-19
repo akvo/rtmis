@@ -15,7 +15,7 @@ import { columnsBatch, columnsSelected } from "./";
 import UploadDetail from "./UploadDetail";
 import BatchDetail from "./BatchDetail";
 import FormDropdown from "../../components/filters/FormDropdown";
-import { isEmpty, without, union, xor } from "lodash";
+import { isEmpty, union, xor } from "lodash";
 
 const { TextArea } = Input;
 
@@ -241,10 +241,7 @@ const Submissions = () => {
 
   const hasSelected = !isEmpty(selectedRowKeys);
   const onSelectTableRow = (val) => {
-    const { id } = val;
-    selectedRowKeys.includes(id)
-      ? setSelectedRowKeys(without(selectedRowKeys, id))
-      : setSelectedRowKeys([...selectedRowKeys, id]);
+    setSelectedRowKeys(val);
   };
 
   const onSelectAllTableRow = (isSelected) => {
@@ -352,7 +349,7 @@ const Submissions = () => {
                 dataTab === "pending-submission"
                   ? {
                       selectedRowKeys: selectedRowKeys,
-                      onSelect: onSelectTableRow,
+                      onChange: onSelectTableRow,
                       onSelectAll: onSelectAllTableRow,
                       handleDelete: handleDelete,
                       getCheckboxProps: (record) => ({
