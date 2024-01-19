@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import json
 
 form_path = "./../../backend/source/forms/"
@@ -28,15 +30,12 @@ def autofill(form):
                     "id": q["id"],
                     "answer": [q['options'][0]["name"]]
                 })
+            if q.get("displayOnly") and q.get("required"):
+                q.update({"required": False})
     for qg in data["question_groups"]:
         for q in qg["questions"]:
             if q["id"] == form["qid"]:
-                q.update({
-                    "pre": {
-                        "answer": ["New"],
-                        "fill": options
-                        }
-                    })
+                q.update({"pre": {"answer": ["New"], "fill": options}})
     with open(form_path + form["file"], "w") as file:
         json.dump(data, file, indent=2)
     print("UPDATE", form["file"])
