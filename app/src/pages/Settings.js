@@ -124,16 +124,13 @@ const Settings = ({ navigation }) => {
         <View style={styles.buttonContainer}>
           <Button title="Sync Datapoint" type="outline" onPress={goToFormSelection} />
         </View>
-        <View style={styles.buttonContainer}>
-          <Button title="S" onPress={goToFormSelection} />
-        </View>
-        <ListItem bottomDivider>
+        {/* <ListItem bottomDivider>
           <ListItem.Content>
             <ListItem.Title>Auto sync</ListItem.Title>
             <ListItem.Subtitle>This will be running in the background</ListItem.Subtitle>
           </ListItem.Content>
           <Switch onValueChange={handleOnBackgroundTask} />
-        </ListItem>
+        </ListItem> */}
       </BaseLayout.Content>
     </BaseLayout>
   );
