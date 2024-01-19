@@ -5,7 +5,7 @@ import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
 
 const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
-  const [dataLoading, setDataLoading] = useState(null);
+  const [dataLoading, setDataLoading] = useState(true);
   const [saving, setSaving] = useState(null);
   const [rawValue, setRawValue] = useState(null);
   const { notify } = useNotification();
@@ -25,8 +25,7 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
     );
 
   useEffect(() => {
-    if (questionGroups) {
-      setDataLoading(expanded.id);
+    if (questionGroups && dataLoading) {
       api
         .get(`pending-data/${expanded.id}`)
         .then((res) => {
@@ -56,10 +55,10 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
           setRawValue({ ...expanded, data: [], loading: false });
         })
         .finally(() => {
-          setDataLoading(null);
+          setDataLoading(false);
         });
     }
-  }, [expanded, questionGroups]);
+  }, [expanded, questionGroups, dataLoading]);
 
   const handleSave = (data) => {
     setSaving(data.id);
