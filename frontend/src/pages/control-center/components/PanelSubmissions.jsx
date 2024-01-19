@@ -392,7 +392,11 @@ const PanelSubmissions = () => {
     };
     if (!!selectedRows.length && modalButton) {
       return (
-        <Button type="primary" onClick={handleOnClickBatchSelectedDataset}>
+        <Button
+          type="primary"
+          shape="round"
+          onClick={handleOnClickBatchSelectedDataset}
+        >
           {text.batchSelectedDatasets}
         </Button>
       );
