@@ -84,7 +84,6 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
     handleOnGenerateUUID();
   }, [handleOnGenerateUUID]);
 
-
   useEffect(() => {
     if (flatListRef.current) {
       flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
