@@ -16,7 +16,7 @@ const createSqliteDir = async () => {
 
 const download = (downloadUrl, fileUrl) => {
   const fileSql = fileUrl?.split('/')?.pop(); // get last segment as filename
-  const pathSql = `${DIR_NAME}/${fileSql}`;
+  const pathSql = `${DIR_NAME}/${fileSql}`.replace('.sqlite', '.db');
   FileSystem.getInfoAsync(FileSystem.documentDirectory + pathSql).then(({ exists }) => {
     if (!exists) {
       FileSystem.downloadAsync(downloadUrl, FileSystem.documentDirectory + pathSql);
@@ -25,12 +25,17 @@ const download = (downloadUrl, fileUrl) => {
 };
 
 const loadDataSource = async (source, id = null) => {
-  const { file: cascadeName } = source;
-  const db = SQLite.openDatabase(cascadeName);
-  const readQuery = id ? query.read('nodes', { id }) : query.read('nodes');
-  const readParam = id ? [id] : [];
-  const result = await conn.tx(db, readQuery, readParam);
-  return result;
+  try {
+    const { file: cascadeName } = source;
+    const db = SQLite.openDatabase(cascadeName?.replace('.sqlite', '.db'));
+    const readQuery = id ? query.read('nodes', { id }) : query.read('nodes');
+    const readParam = id ? [id] : [];
+    const result = await conn.tx(db, readQuery, readParam);
+    return result;
+  } catch (error) {
+    console.error('[SQLITE]', error);
+    return [];
+  }
 };
 
 const dropFiles = async () => {
