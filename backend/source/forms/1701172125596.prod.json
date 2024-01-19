@@ -10,7 +10,7 @@
   "question_groups": [
     {
       "id": 1701172125597,
-      "question_group": "Institution: data",
+      "question_group": "Institution: Primary Data",
       "description": null,
       "order": 1,
       "repeatable": false,
@@ -241,7 +241,7 @@
     },
     {
       "id": 1701174317249,
-      "question_group": "INTERVIEW: Institution data",
+      "question_group": "INTERVIEW: Institution WaSH Data",
       "description": null,
       "order": 3,
       "repeatable": false,
