@@ -304,7 +304,7 @@
           "order": 2,
           "type": "number",
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> how many households currently live in this community (village or urban neighbourhood), including temporary, migrant and seasonal visitors?\n<b>Household:</b> defined as a person or group of persons who: a) Are related or unrelated; b) live together in the same dwelling/housing unit (at least 4 nights a week); c) acknowledge one adult male or female as the head of household; d) share the same living arrangements; and e) are considered as one unit."
+            "text": "<b>INTERVIEW:</b> how many households currently live in this community (village or urban neighbourhood), including temporary, migrant and seasonal visitors?<br><b>Household:</b> defined as a person or group of persons who: a) Are related or unrelated; b) live together in the same dwelling/housing unit (at least 4 nights a week); c) acknowledge one adult male or female as the head of household; d) share the same living arrangements; and e) are considered as one unit."
           },
           "required": true,
           "meta": false,
@@ -323,7 +323,7 @@
             "min": 0
           },
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> how many at-risk households have been identified in the community?\n<b>At-risk households:</b> households that meet the at-risk criteria determined by the County Public Health Office"
+            "text": "<b>INTERVIEW:</b> how many at-risk households have been identified in the community?<br><b>At-risk households:</b> households that meet the at-risk criteria determined by the County Public Health Office"
           },
           "required": true,
           "meta": false,
@@ -336,7 +336,7 @@
           "order": 4,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> what is the main soil type in this community?\n<b>Soil type:</b> what type of soil makes up the top 6 feet of the soil profile (only one type can be selected)\n<b>Soil drainage:</b> ask whether water soaks into the soil? If water soaks in quickly and easily, then it is likely to be a high drainage soil; if it soaks in at a normal rate, it is a medium drainage soil; and if water soaks in very slowly (or not at all) then it is a low drainage soil"
+            "text": "<b>INTERVIEW:</b> what is the main soil type in this community?<br><b>Soil type:</b> what type of soil makes up the top 6 feet of the soil profile (only one type can be selected)<br><b>Soil drainage:</b> ask whether water soaks into the soil? If water soaks in quickly and easily, then it is likely to be a high drainage soil; if it soaks in at a normal rate, it is a medium drainage soil; and if water soaks in very slowly (or not at all) then it is a low drainage soil"
           },
           "required": true,
           "meta": false,
@@ -365,7 +365,7 @@
           "order": 5,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> what is the average depth to the groundwater table in this community?\n<b>Depth to groundwater:</b> how many metres below ground is water found (e.g. depth from ground level to water in wells and boreholes)?"
+            "text": "<b>INTERVIEW:</b> what is the average depth to the groundwater table in this community?<br><b>Depth to groundwater:</b> how many metres below ground is water found (e.g. depth from ground level to water in wells and boreholes)?"
           },
           "required": true,
           "meta": false,
@@ -394,7 +394,7 @@
           "order": 6,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> what is the main water supply technology used in this community?\n<b>Water supply technology:</b> main system or facilities used to supply drinking water"
+            "text": "<b>INTERVIEW:</b> what is the main water supply technology used in this community?<br><b>Water supply technology:</b> main system or facilities used to supply drinking water"
           },
           "required": true,
           "meta": false,
@@ -423,7 +423,7 @@
           "order": 7,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> what percentage of households obtain drinking water from groundwater sources in this community?\n<b>Obtained from groundwater sources:</b> drinking water is collected from water supplies or water points that produce water from below ground (boreholes, dug wells or springs)"
+            "text": "<b>INTERVIEW:</b> what percentage of households obtain drinking water from groundwater sources in this community?<br><b>Obtained from groundwater sources:</b> drinking water is collected from water supplies or water points that produce water from below ground (boreholes, dug wells or springs)"
           },
           "required": true,
           "meta": false,
@@ -452,7 +452,7 @@
           "order": 8,
           "type": "option",
           "tooltip": {
-            "text": "</b>INTERVIEW:</b> what percentage of household toilets are located less than 10m from groundwater sources?\n<b>Toilet distance from groundwater source:</b>the horizontal distance (along the ground) between the toilet and the nearest groundwater source (borehole, dug well or spring)"
+            "text": "</b>INTERVIEW:</b> what percentage of household toilets are located less than 10m from groundwater sources?<br><b>Toilet distance from groundwater source:</b>the horizontal distance (along the ground) between the toilet and the nearest groundwater source (borehole, dug well or spring)"
           },
           "required": true,
           "meta": false,
@@ -476,7 +476,7 @@
           "order": 9,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> what percentage of household toilets are located uphill from (above) the nearest groundwater sources?\n<b>Toilet uphill of groundwater source:</b> the toilet is located at a higher point than (above) the groundwater source (borehole, dug well or spring)"
+            "text": "<b>INTERVIEW:</b> what percentage of household toilets are located uphill from (above) the nearest groundwater sources?<br><b>Toilet uphill of groundwater source:</b> the toilet is located at a higher point than (above) the groundwater source (borehole, dug well or spring)"
           },
           "required": true,
           "meta": false,
@@ -536,7 +536,7 @@
             "min": 0
           },
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> how many households in the community currently own a toilet?\n<b>Households who own a toilet:</b> current information based on latest community monitoring information (for households who have their own toilet)"
+            "text": "<b>INTERVIEW:</b> how many households in the community currently own a toilet?<br><b>Households who own a toilet:</b> current information based on latest community monitoring information (for households who have their own toilet)"
           },
           "required": true,
           "meta": false,
@@ -552,7 +552,7 @@
             "min": 0
           },
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> how many households in the community currently use a durable toilet with safe containment?\n<b>Households who use a durable toilet with safe containment:</b> current information based on latest community monitoring information (for households who have durable toilets with safe containment)"
+            "text": "<b>INTERVIEW:</b> how many households in the community currently use a durable toilet with safe containment?<br><b>Households who use a durable toilet with safe containment:</b> current information based on latest community monitoring information (for households who have durable toilets with safe containment)"
           },
           "required": true,
           "meta": false,
@@ -568,7 +568,7 @@
             "min": 0
           },
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> how many households in the community own permanent handwashing stations?\n<b>Households with permanent handwashing stations:</b> current information based on latest community monitoring information (for households with permanent handwashing stations)"
+            "text": "<b>INTERVIEW:</b> how many households in the community own permanent handwashing stations?<br><b>Households with permanent handwashing stations:</b> current information based on latest community monitoring information (for households with permanent handwashing stations)"
           },
           "required": true,
           "meta": false,
@@ -629,7 +629,7 @@
           "order": 7,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> has an action plan for G2 status been approved?\n<b>INTERVIEW: is the action plan for G2 status in use?"
+            "text": "<b>INTERVIEW:</b> has an action plan for G2 status been approved?<br><b>INTERVIEW: is the action plan for G2 status in use?"
           },
           "required": true,
           "meta": false,
@@ -655,7 +655,7 @@
           "order": 8,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> has an action plan for G3 status been approved?\n<b>INTERVIEW:</b> is the action plan for G3 status in use?"
+            "text": "<b>INTERVIEW:</b> has an action plan for G3 status been approved?<br><b>INTERVIEW:</b> is the action plan for G3 status in use?"
           },
           "required": true,
           "meta": false,
@@ -691,7 +691,7 @@
           "order": 1,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: visible human faeces in communal areas</b>\n<b>Open defecation in water bodies:</b> where groups or communities may practice open defecation in nearby water bodies (for example, people living near beaches, lakes and rivers), human excreta may not be visible in communal areas. In these cases, household interviews should be undertaken to assess whether people practice open defecation (including in water bodies) or use a toilet, in combination of observation of the presence of a functional toilet (to verify claims of toilet use).\n<b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
+            "text": "<b>OBSERVE: visible human faeces in communal areas</b><br><b>Open defecation in water bodies:</b> where groups or communities may practice open defecation in nearby water bodies (for example, people living near beaches, lakes and rivers), human excreta may not be visible in communal areas. In these cases, household interviews should be undertaken to assess whether people practice open defecation (including in water bodies) or use a toilet, in combination of observation of the presence of a functional toilet (to verify claims of toilet use).<br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
           },
           "required": true,
           "meta": false,
@@ -735,7 +735,7 @@
           "order": 3,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: no used diapers visible in communal areas</b>\n<b>Safe management of washable cloths:</b> where washable cloths are used to contain child excreta, the cloths should be cleaned and washed in a safe place (for example, so that the child excreta do not contaminate the compound or a water point) and any faeces contained in the cloth should be safely disposed (for example, put or rinsed into the toilet, or buried).\n<b>Safe management of disposable diapers:</b> where disposable diapers are used to contain child excreta, the diapers should be properly closed and EITHER disposed to a covered waste pit, OR buried, OR collected for disposal at a safely managed communal disposal site. \n<b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
+            "text": "<b>OBSERVE: no used diapers visible in communal areas</b><br><b>Safe management of washable cloths:</b> where washable cloths are used to contain child excreta, the cloths should be cleaned and washed in a safe place (for example, so that the child excreta do not contaminate the compound or a water point) and any faeces contained in the cloth should be safely disposed (for example, put or rinsed into the toilet, or buried).<br><b>Safe management of disposable diapers:</b> where disposable diapers are used to contain child excreta, the diapers should be properly closed and EITHER disposed to a covered waste pit, OR buried, OR collected for disposal at a safely managed communal disposal site. <br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
           },
           "required": true,
           "meta": false,
@@ -803,7 +803,7 @@
           "order": 5,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: cleanliness of water points in communal areas</b>\n<b>Clean water points:</b> free from debris, solid waste, human or animal faeces, and any other potential sources of contamination\n<b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
+            "text": "<b>OBSERVE: cleanliness of water points in communal areas</b><br><b>Clean water points:</b> free from debris, solid waste, human or animal faeces, and any other potential sources of contamination<br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
           },
           "required": true,
           "meta": false,
@@ -835,7 +835,7 @@
           "order": 6,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: protection of water points in communal areas</b>\n<b>Protected surface water sources (pans, dams, lakes, rivers):</b> fenced to prevent animal access\n<b>Protected water supply source catchments: protected from wastes and pollutants, including human excreta and animal wastes (for example, by excluding animals and prohibiting unsafe activities, such as the use of manure or chemical fertilisers in areas around water supply sources).\n<b>Protected water points:</b> provide separate water troughs for animal watering\n<b>Protected groundwater sources (springs, wells, handpumps, boreholes): protected from contamination, wastes and pollutants (for example, by the construction of a spring box, raised parapet wall and cover, wellhead protection and sealed borehole casing)."
+            "text": "<b>OBSERVE: protection of water points in communal areas</b><br><b>Protected surface water sources (pans, dams, lakes, rivers):</b> fenced to prevent animal access<br><b>Protected water supply source catchments: protected from wastes and pollutants, including human excreta and animal wastes (for example, by excluding animals and prohibiting unsafe activities, such as the use of manure or chemical fertilisers in areas around water supply sources).<br><b>Protected water points:</b> provide separate water troughs for animal watering<br><b>Protected groundwater sources (springs, wells, handpumps, boreholes): protected from contamination, wastes and pollutants (for example, by the construction of a spring box, raised parapet wall and cover, wellhead protection and sealed borehole casing)."
           },
           "required": true,
           "meta": false,
@@ -867,7 +867,7 @@
           "order": 7,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: drainage of water points in communal areas</b>\n<b>Well drained water points:</b> no standing water visible at or around the water source (provision of drainage and soakpits may be required in slow-draining soils)"
+            "text": "<b>OBSERVE: drainage of water points in communal areas</b><br><b>Well drained water points:</b> no standing water visible at or around the water source (provision of drainage and soakpits may be required in slow-draining soils)"
           },
           "required": true,
           "meta": false,
@@ -908,7 +908,7 @@
               "G1 Communal water points are NOT adequately managed": "#FDC74B",
               "G2 Safe management of communal water points": "#93D371"
             },
-            "fnString": "function(){ return (#1699959861479.includes(\"G0\") && #1699960025562.includes(\"G0\") && #1699960104326.includes(\"G0\"))\n<b>? \"G0 Communal water points are UNSAFELY managed\"\n<b>: (#1699959861479.includes(\"G2\") && #1699960025562.includes(\"G2\") && #1699960104326.includes(\"G2\") ? \"G2 Safe management of communal water points\" : \"G1 Communal water points are NOT adequately managed\");\n<b>}",
+            "fnString": "function(){ return (#1699959861479.includes(\"G0\") && #1699960025562.includes(\"G0\") && #1699960104326.includes(\"G0\")) ? \"G0 Communal water points are UNSAFELY managed\" : (#1699959861479.includes(\"G2\") && #1699960025562.includes(\"G2\") && #1699960104326.includes(\"G2\") ? \"G2 Safe management of communal water points\" : \"G1 Communal water points are NOT adequately managed\");}",
             "multiline": false
           }
         },
@@ -918,7 +918,7 @@
           "order": 9,
           "type": "option",
           "tooltip": {
-            "text": "</b>OBSERVE: evidence of unsafe faecal sludge disposal in communal areas?</b>\n<b>INTERVIEW:</b> is any faecal sludge disposed to communal areas?\n<b>INTERVIEW:</b> is any faecal sludge buried in communal areas?\n<b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
+            "text": "</b>OBSERVE: evidence of unsafe faecal sludge disposal in communal areas?</b><br><b>INTERVIEW:</b> is any faecal sludge disposed to communal areas?<br><b>INTERVIEW:</b> is any faecal sludge buried in communal areas?<br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
           },
           "required": true,
           "meta": false,
@@ -975,7 +975,7 @@
           "order": 11,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: erosion or other damage caused by stormwater flows in communal areas</b>\n<b>Stormwater:</b> surface water from rainfall or storms.\n<b>Adequate stormwater drainage:</b> drains or other services that limit or prevent erosion from stormwater flows (for example, EITHER by transporting flows away from communal areas, OR by encouraging infiltration into the soil)\n<b>Communal areas: areas within the community that are not part of household compounds, and which are accessible to all."
+            "text": "<b>OBSERVE: erosion or other damage caused by stormwater flows in communal areas</b><br><b>Stormwater:</b> surface water from rainfall or storms.<br><b>Adequate stormwater drainage:</b> drains or other services that limit or prevent erosion from stormwater flows (for example, EITHER by transporting flows away from communal areas, OR by encouraging infiltration into the soil)<br><b>Communal areas: areas within the community that are not part of household compounds, and which are accessible to all."
           },
           "required": true,
           "meta": false,
@@ -1032,7 +1032,7 @@
           "order": 13,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: visible solid wastes in communal areas</b>\n<b>Solid wastes:</b> food wastes, paper, plastic, rags, metal, glass and other solid materials discarded by the household\n<b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
+            "text": "<b>OBSERVE: visible solid wastes in communal areas</b><br><b>Solid wastes:</b> food wastes, paper, plastic, rags, metal, glass and other solid materials discarded by the household<br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
           },
           "required": true,
           "meta": false,
@@ -1083,7 +1083,7 @@
           "order": 15,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: visible standing water in communal areas</b>\n<b>Standing water:</b> accumulation of wastewater (or stormwater) in communal area, which does NOT immediately drain away\n<b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
+            "text": "<b>OBSERVE: visible standing water in communal areas</b><br><b>Standing water:</b> accumulation of wastewater (or stormwater) in communal area, which does NOT immediately drain away<br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
           },
           "required": true,
           "meta": false,
@@ -1115,7 +1115,7 @@
           "order": 16,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW: where standing water provides larval breeding sites in communal areas, are treatment or other vector control activities used to limit mosquito breeding?</b>\n<b>Larval breeding sites: </b>mosquitoes lay eggs directly in or near water, soil and at the base of plants in places that may fill with water.\n<b>Vector control activities:</b> draining of standing water; covering of water storage containers; filling of depressions that hold water; filling of cracks in water tank and septic tank covers; cover open vents or plumbing pipes (with insect screen).\n<b>Treatment activities:</b> use of larvicides to treat bodies of water that will not be used for drinking, and which cannot be covered, emptied or removed; use of fogging or surface applications to control adult mosquitoes"
+            "text": "<b>INTERVIEW: where standing water provides larval breeding sites in communal areas, are treatment or other vector control activities used to limit mosquito breeding?</b><br><b>Larval breeding sites: </b>mosquitoes lay eggs directly in or near water, soil and at the base of plants in places that may fill with water.<br><b>Vector control activities:</b> draining of standing water; covering of water storage containers; filling of depressions that hold water; filling of cracks in water tank and septic tank covers; cover open vents or plumbing pipes (with insect screen).<br><b>Treatment activities:</b> use of larvicides to treat bodies of water that will not be used for drinking, and which cannot be covered, emptied or removed; use of fogging or surface applications to control adult mosquitoes"
           },
           "required": true,
           "meta": false,
@@ -1172,7 +1172,7 @@
           "order": 18,
           "type": "option",
           "tooltip": {
-            "text": "</b>OBSERVE: type of institution (located within community)</b>\n<b>Institution:</b> any public building with open access to the communal toilets and handwashing facilities"
+            "text": "</b>OBSERVE: type of institution (located within community)</b><br><b>Institution:</b> any public building with open access to the communal toilets and handwashing facilities"
           },
           "required": true,
           "meta": false,
@@ -1371,7 +1371,7 @@
           "order": 24,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: any evidence of surface outflows from containment systems (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows)\nface outflows from containment: EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks)."
+            "text": "OBSERVE: any evidence of surface outflows from containment systems (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows)<br>face outflows from containment: EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks)."
           },
           "required": true,
           "meta": false,
@@ -1403,7 +1403,7 @@
           "order": 25,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: has the institutional toilet containment (pit, tank or other) ever been emptied?\nINTERVIEW: has the institutional toilet containment (pit, tank or other) ever filled up?\nINTERVIEW: what happened when the institutional toilet containment (pit, tank or other) last filled up?"
+            "text": "INTERVIEW: has the institutional toilet containment (pit, tank or other) ever been emptied?<br>INTERVIEW: has the institutional toilet containment (pit, tank or other) ever filled up?<br>INTERVIEW: what happened when the institutional toilet containment (pit, tank or other) last filled up?"
           },
           "required": true,
           "meta": false,
@@ -1435,7 +1435,7 @@
           "order": 26,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?\nINTERVIEW: the last time it was emptied, who emptied the toilet containment?\nINTERVIEW (if the containment system is a lined pit or tank, which has never been emptied): what will happen when the toilet containment is full?\nLicensed service provider: paid emptier that is approved and regulated by local authority to empty and transport toilet wastes\nUnlicensed service provider: paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers) \nOff-site location: site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.\nSewer connection to licensed and functional treatment site: the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site."
+            "text": "INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?<br>INTERVIEW: the last time it was emptied, who emptied the toilet containment?<br>INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied): what will happen when the toilet containment is full?<br>Licensed service provider: paid emptier that is approved and regulated by local authority to empty and transport toilet wastes<br>Unlicensed service provider: paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers) <br>Off-site location: site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.<br>Sewer connection to licensed and functional treatment site: the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site."
           },
           "required": true,
           "meta": false,
@@ -1539,7 +1539,7 @@
           "order": 27,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: presence and location of handwashing facility\nINTERVIEW: is there only one handwashing facility, or are other facilities available?"
+            "text": "OBSERVE: presence and location of handwashing facility<br>INTERVIEW: is there only one handwashing facility, or are other facilities available?"
           },
           "required": true,
           "meta": false,
@@ -1589,7 +1589,7 @@
           "order": 28,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: is water available at the handwashing facility?\nOBSERVE: where an empty water container is observed at the handwashing facility, visible wet ground (or wet materials) under the handwashing facility can be accepted as proof of the recent presence of water."
+            "text": "OBSERVE: is water available at the handwashing facility?<br>OBSERVE: where an empty water container is observed at the handwashing facility, visible wet ground (or wet materials) under the handwashing facility can be accepted as proof of the recent presence of water."
           },
           "required": true,
           "meta": false,
@@ -1621,7 +1621,7 @@
           "order": 29,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: is soap available at the handwashing facility?\nINTERVIEW: is soap or detergent available for washing hands? \nSoap: solid, liquid or powder soap or detergent "
+            "text": "OBSERVE: is soap available at the handwashing facility?<br>INTERVIEW: is soap or detergent available for washing hands? <br>Soap: solid, liquid or powder soap or detergent "
           },
           "required": true,
           "meta": false,
@@ -1659,7 +1659,7 @@
           "order": 30,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: is a permanent handwashing station available?\nPermanent handwashing station: facility made from durable materials, with a piped water connection or adequate water storage, and located in a fixed place that is appropriate for handwashing at critical times\nMarket handwashing station: manufactured handwashing station from durable materails (bought from market or market trader)\nPortable basin: open container that can be easily picked up and moved"
+            "text": "OBSERVE: is a permanent handwashing station available?<br>Permanent handwashing station: facility made from durable materials, with a piped water connection or adequate water storage, and located in a fixed place that is appropriate for handwashing at critical times<br>Market handwashing station: manufactured handwashing station from durable materails (bought from market or market trader)<br>Portable basin: open container that can be easily picked up and moved"
           },
           "required": true,
           "meta": false,
@@ -1715,7 +1715,7 @@
           "order": 31,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: mechanism to collect water or trigger water flow \nHands-free operation: the handwashing station is operated by tap, or other hands-free mechanism that minimises contact with the water collection device and the water container"
+            "text": "OBSERVE: mechanism to collect water or trigger water flow <br>Hands-free operation: the handwashing station is operated by tap, or other hands-free mechanism that minimises contact with the water collection device and the water container"
           },
           "required": true,
           "meta": false,
@@ -1759,7 +1759,7 @@
           "order": 32,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: facility to collect washing water, and facility to drain and dispose of the washing water\nCollection of washing water: container to collect dirty washing water (for example, a basin or other container)\nDrainage and disposal of washing water: drainage pipe or other facility to direct the washing water to an appropriate disposal point (for example, a soakpit or drain)"
+            "text": "OBSERVE: facility to collect washing water, and facility to drain and dispose of the washing water<br>Collection of washing water: container to collect dirty washing water (for example, a basin or other container)<br>Drainage and disposal of washing water: drainage pipe or other facility to direct the washing water to an appropriate disposal point (for example, a soakpit or drain)"
           },
           "required": true,
           "meta": false,
