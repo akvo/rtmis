@@ -340,7 +340,7 @@ const ApprovalDetail = ({
           return {
             ...qg,
             question: qg.question
-              .filter((item) => !item.displayOnly)
+              .filter((item) => !item?.display_only)
               .map((q) => {
                 const findValue = res.data.find(
                   (d) => d.question === q.id

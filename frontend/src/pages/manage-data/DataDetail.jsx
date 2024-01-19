@@ -126,7 +126,7 @@ const DataDetail = ({
         .then((res) => {
           const data = questionGroups.map((qg) => {
             const question = qg.question
-              .filter((item) => !item.displayOnly)
+              .filter((item) => !item?.display_only)
               .map((q) => {
                 const findData = res.data.find((d) => d.question === q.id);
                 return {

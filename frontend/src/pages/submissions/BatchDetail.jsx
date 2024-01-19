@@ -16,8 +16,13 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
     return uiText[activeLang];
   }, [activeLang]);
 
-  const questionGroups = window.forms.find((f) => f.id === expanded.form)
-    ?.content?.question_group;
+  const questionGroups = window.forms
+    .find((f) => f.id === expanded.form)
+    ?.content?.question_group?.filter(
+      (qg) =>
+        qg.question?.length ===
+        qg.question.filter((q) => !q?.display_only).length
+    );
 
   useEffect(() => {
     if (questionGroups) {
@@ -29,7 +34,7 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
             return {
               ...qg,
               question: qg.question
-                .filter((item) => !item.displayOnly)
+                .filter((item) => !item?.display_only)
                 .map((q) => {
                   const findValue = res.data.find(
                     (d) => d.question === q.id
