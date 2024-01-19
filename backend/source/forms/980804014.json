@@ -4,6 +4,8 @@
   "type": 2,
   "question_groups": [
     {
+      "id": 5710700711,
+      "order": 1,
       "question_group": "Location Demographics",
       "questions": [
         {
@@ -35,6 +37,8 @@
       ]
     },
     {
+      "id": 5710700712,
+      "order": 2,
       "question_group": "Water System Information",
       "questions": [
         {
