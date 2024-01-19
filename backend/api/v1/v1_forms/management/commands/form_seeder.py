@@ -132,6 +132,7 @@ class Command(BaseCommand):
                         question.tooltip = q.get("tooltip")
                         question.fn = q.get("fn")
                         question.hidden = q.get("hidden")
+                        question.display_only = q.get("displayOnly")
                         question.pre = q.get("pre")
                         question.meta_uuid = q.get("meta_uuid")
                         question.save()
