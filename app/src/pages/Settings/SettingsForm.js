@@ -82,6 +82,7 @@ const SettingsForm = ({ route }) => {
     }
     if (configFields.includes('syncInterval')) {
       await backgroundTask.unregisterBackgroundTask('sync-form-submission');
+      await backgroundTask.registerBackgroundTask('sync-form-submission', parseInt(value));
       BuildParamsState.update((s) => {
         s.dataSyncInterval = value;
       });
