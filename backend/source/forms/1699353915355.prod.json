@@ -113,7 +113,7 @@
               },
               {
                 "id": 1699427574765,
-                "answer": ["G2 Durable removable container"]
+                "answer": ["G0 No toilet"]
               },
               {
                 "id": 1699427743413,
@@ -157,7 +157,7 @@
               },
               {
                 "id": 1699429162796,
-                "answer": ["G1 Handwashing facility in kitchen"]
+                "answer": ["G0 No handwashing facility"]
               },
               {
                 "id": 1699430427692,
@@ -267,7 +267,7 @@
               },
               {
                 "id": 1699433765217,
-                "answer": ["G1 Inadequate protection of water points"]
+                "answer": ["G0 No protection of water points"]
               },
               {
                 "id": 1699433833227,
@@ -367,7 +367,7 @@
               },
               {
                 "id": 1699435455818,
-                "answer": ["G3 NOT in Malaria-Endemic area"]
+                "answer": ["G1 No protection: no bed nets and no insect screen"]
               },
               {
                 "id": 1699435526190,
