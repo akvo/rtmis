@@ -89,8 +89,9 @@ const Home = () => {
           </Col>
           <Col span={14}>
             <p>{text.aboutText}</p>
+            {/*
             <Button type="link">{text.learnMoreButton}</Button>
-            {/* <h1>Partners</h1>
+            <h1>Partners</h1>
             <Row align="middle" justify="center" style={{ marginTop: "24px" }}>
               <Space size={50} align="center">
                 {partners.map((p) => (
@@ -122,9 +123,11 @@ const Home = () => {
                     <span>{text.reportText}</span>
                   </li>
                 </ul>
+                {/*
                 <Button type="primary" shape="round">
                   {text.welcomeCta}
                 </Button>
+                */}
               </div>
             </Col>
             <Col lg={14}>
