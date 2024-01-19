@@ -73,11 +73,11 @@
               },
               {
                 "id": 1699423357200,
-                "answer": ["G0 Non-functional toilet"]
+                "answer": ["G0 No toilet"]
               },
               {
                 "id": 1699423571454,
-                "answer": ["G0 No toilet privacy"]
+                "answer": ["G0 No toilet"]
               },
               {
                 "id": 1699423696720,
@@ -89,7 +89,7 @@
               },
               {
                 "id": 1699424375968,
-                "answer": ["G0 VIP vent pipe without insect screen"]
+                "answer": ["G0 No toilet"]
               },
               {
                 "id": 1699425852809,
@@ -111,10 +111,7 @@
                 "id": 16994260598422,
                 "answer": ["No"]
               },
-              {
-                "id": 16994260598423,
-                "answer": ["No"]
-              },
+              
               {
                 "id": 1699427405024,
                 "answer": ["G1 Not-durable slab, cement covered"]
@@ -216,171 +213,8 @@
               {
                 "id": 1699432802923,
                 "answer": ["G0 Used diapers visible in the compound"]
-              },
-              {
-                "id": 1699432887212,
-                "answer": ["G0 Visible dirt or contamination"]
-              },
-              {
-                "id": 1699433027913,
-                "answer": ["G0 No storage"]
-              },
-              {
-                "id": 1699433058652,
-                "answer": ["G0 On ground"]
-              },
-              {
-                "id": 1699433108344,
-                "answer": ["G0 Visible dirt or contamination"]
-              },
-              {
-                "id": 1699433162828,
-                "answer": ["G0 No storage"]
-              },
-              {
-                "id": 1699433205793,
-                "answer": ["G0 On ground"]
-              },
-              {
-                "id": 1699433286697,
-                "answer": ["G0 Visible dirt or contamination"]
-              },
-              {
-                "id": 1699433337417,
-                "answer": ["G0 No storage"]
-              },
-              {
-                "id": 1699433394633,
-                "answer": ["G0 On ground"]
-              },
-              {
-                "id": 1699433455365,
-                "answer": ["G0 Visible dirt or contamination"]
-              },
-              {
-                "id": 1699433503692,
-                "answer": ["G0 No treatment and low quality"]
-              },
-              {
-                "id": 1699433564057,
-                "answer": ["G0 Unsafe drinking water storage"]
-              },
-              {
-                "id": 1699433637971,
-                "answer": ["G0 Unsafe water use"]
-              },
-              {
-                "id": 1699433719018,
-                "answer": ["G0 Visible dirt or contamination"]
-              },
-              {
-                "id": 1699433765217,
-                "answer": ["G0 No protection of water points"]
-              },
-              {
-                "id": 1699433833227,
-                "answer": ["G0 Standing water visible around water point"]
-              },
-              {
-                "id": 1699433937138,
-                "answer": ["G0 Widespread animal wastes"]
-              },
-              {
-                "id": 1699433983369,
-                "answer": ["G0 Widespread animal wastes"]
-              },
-              {
-                "id": 1699434044707,
-                "answer": ["G0 Unsafe location of animal waste storage"]
-              },
-              {
-                "id": 1699434136823,
-                "answer": ["G0 Unsafe animal waste storage location"]
-              },
-              {
-                "id": 1699434209933,
-                "answer": ["G0 Animal waste storage is UNSAFELY managed"]
-              },
-              {
-                "id": 1699434269372,
-                "answer": ["G0 No animal pens"]
-              },
-              {
-                "id": 1699434327613,
-                "answer": ["G0 No animal pens"]
-              },
-              {
-                "id": 1699434438966,
-                "answer": ["G0 Visible wastewater"]
-              },
-              {
-                "id": 1699434488410,
-                "answer": ["G0 Significant erosion"]
-              },
-              {
-                "id": 1699434553677,
-                "answer": ["G0 Significant visible solid wastes"]
-              },
-              {
-                "id": 1699434636655,
-                "answer": ["G0 No solid waste management"]
-              },
-              {
-                "id": 1699434694439,
-                "answer": ["G0 Significant standing water"]
-              },
-              {
-                "id": 1699434771449,
-                "answer": ["G0 No treatment or management"]
-              },
-              {
-                "id": 1699434939105,
-                "answer": ["G1 All with dirty faces"]
-              },
-              {
-                "id": 1699434983278,
-                "answer": ["G1 All with dirty hands"]
-              },
-              {
-                "id": 1699435026311,
-                "answer": ["G1 No washing place"]
-              },
-              {
-                "id": 1699435088758,
-                "answer": ["G1 No disposal site"]
-              },
-              {
-                "id": 1699435154797,
-                "answer": ["G1 Materials are NOT available or NOT appropriate"]
-              },
-              {
-                "id": 1699435207476,
-                "answer": ["G1 No children vaccinated"]
-              },
-              {
-                "id": 1699435265962,
-                "answer": ["G1 No children received supplements"]
-              },
-              {
-                "id": 1699435329279,
-                "answer": [
-                  "G1 Under 6-month children regularly receive water or other food"
-                ]
-              },
-              {
-                "id": 1699435397728,
-                "answer": [
-                  "G1 Low nutrition diet: some or all children eat from only 1-2 food groups"
-                ]
-              },
-              {
-                "id": 1699435455818,
-                "answer": ["G1 No protection: no bed nets and no insect screen"]
-              },
-              {
-                "id": 1699435526190,
-                "answer": ["G1 No deworming: no children or adults treated"]
               }
+              
             ]
           }
         },
@@ -799,7 +633,7 @@
           "order": 20,
           "type": "multiple_option",
           "tooltip": {
-            "text": "<b>INTERVIEW</b>: is the household in any of the following at-risk household categories? Household may be in more than one category \n\n<b>At-risk household</b>: defined as a household at risk of not achieving or not sustaining the required sanitation and hygiene outcomes, or at risk from the public health hazards associated with unsafely managed sanitation and hygiene services\n<b>At-risk categories</b>: the county public health office should determine the at-risk categories to be flagged in this county. The following list includes a number of potential at-risk categories, but should be edited to match the priority at-risk categories identified by the county public health office"
+            "text": "<b>INTERVIEW</b>: is the household in any of the following at-risk household categories? Household may be in more than one category <br/><b>At-risk household</b>: defined as a household at risk of not achieving or not sustaining the required sanitation and hygiene outcomes, or at risk from the public health hazards associated with unsafely managed sanitation and hygiene services<br/><b>At-risk categories</b>: the county public health office should determine the at-risk categories to be flagged in this county. The following list includes a number of potential at-risk categories, but should be edited to match the priority at-risk categories identified by the county public health office"
           },
           "required": true,
           "meta": false,
@@ -922,7 +756,7 @@
           "order": 21,
           "type": "text",
           "tooltip": {
-            "text": "Urban : Enter house number and street name\nRural : Enter any characteristic which helps distinguish this household from other similar households in the community "
+            "text": "Urban : Enter house number and street name<br/>Rural : Enter any characteristic which helps distinguish this household from other similar households in the community "
           },
           "required": true,
           "meta": true,
@@ -1041,34 +875,34 @@
           "order": 6,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: is the toilet facility functional?</b> \n <b>Functional toilet</b>: the household toilet is functioning as intended and can be used (that is, it is not blocked, abandoned, or collapsed)"
+            "text": "<b>OBSERVE: is the toilet facility functional?</b> <br/> <b>Functional toilet</b>: the household toilet is functioning as intended and can be used (that is, it is not blocked, abandoned, or collapsed)"
           },
           "required": true,
           "meta": false,
           "options": [
             {
+              "id": 16994239628191,
+              "name": "G0 No toilet",
+              "order": 1,
+              "color": "#ffc7ce"
+            },
+            {
               "id": 1699423434694,
               "name": "G0 Non-functional toilet",
-              "order": 1,
+              "order": 2,
               "color": "#ffc7ce"
             },
             {
               "id": 1699423434695,
               "name": "G0+ Partly functional toilet",
-              "order": 2,
+              "order": 3,
               "color": "#ffeb9c"
             },
             {
               "id": 1699423473150,
               "name": "G1 Fully functional toilet",
-              "order": 3,
+              "order": 4,
               "color": "#c6efce"
-            }
-          ],
-          "dependency": [
-            {
-              "id": 1699422286091,
-              "options": ["G1 Toilet observed"]
             }
           ],
           "fn": null
@@ -1079,34 +913,34 @@
           "order": 7,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: does the toilet superstructure meet local criteria for privacy? </b>\n <b>OBSERVE: are animals prevented from entering the toilet? </b> \n <b>Privacy:</b> toilet superstructure has walls and a door that allow use of the toilet without observation by people outside the toilet (NOTE: variations in privacy criteria may be agreed by County Public Health Office to reflect local practices).\n <b>Privacy from animals:<b/> the toilet superstructure should also prevent animals from entering the toilet, to limit contact between animals and human excreta."
+            "text": "<b>OBSERVE: does the toilet superstructure meet local criteria for privacy? </b><br/> <b>OBSERVE: are animals prevented from entering the toilet? </b> <br/> <b>Privacy:</b> toilet superstructure has walls and a door that allow use of the toilet without observation by people outside the toilet (NOTE: variations in privacy criteria may be agreed by County Public Health Office to reflect local practices).<br/> <b>Privacy from animals:<b/> the toilet superstructure should also prevent animals from entering the toilet, to limit contact between animals and human excreta."
           },
           "required": true,
           "meta": false,
           "options": [
             {
+              "id": 16994239628192,
+              "name": "G0 No toilet",
+              "order": 1,
+              "color": "#ffc7ce"
+            },
+            {
               "id": 1699423579622,
               "name": "G0 No toilet privacy",
-              "order": 1,
+              "order": 2,
               "color": "#ffc7ce"
             },
             {
               "id": 1699423579623,
               "name": "G0+ Inadequate toilet privacy",
-              "order": 2,
+              "order": 3,
               "color": "#ffeb9c"
             },
             {
               "id": 1699423654846,
               "name": "G1 Good toilet privacy",
-              "order": 3,
+              "order": 4,
               "color": "#c6efce"
-            }
-          ],
-          "dependency": [
-            {
-              "id": 1699422286091,
-              "options": ["G1 Toilet observed"]
             }
           ],
           "fn": null
@@ -1136,7 +970,7 @@
           "order": 9,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: type of toilet interface</b> \n <b>Toilet interface:</b> part of the toilet through which the excreta pass into the containment system\n <b>Examples:</b> 1. Drophole, 2. Pour-flush pan, 3. SATO pan."
+            "text": "<b>OBSERVE: type of toilet interface</b> <br/> <b>Toilet interface:</b> part of the toilet through which the excreta pass into the containment system<br/> <b>Examples:</b> 1. Drophole, 2. Pour-flush pan, 3. SATO pan."
           },
           "required": true,
           "meta": false,
@@ -1199,7 +1033,7 @@
           "order": 10,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: type of excreta containment or collection system</b> \n<b>Containment system:</b> pit or tank (or other) that contains and stores excreta\n<b>Collection system:</b> connection through which excreta and wastewater are collected\n<b>Examples:</b> 1. Latrine pit; 2. Septic tank; 3. Sewer connection.\n<b>Flush to don't know:</b> household does not know where the toilet flushes to, but no surface outlets or open discharges are visible (in this case, likely to be a buried pit or tank)"
+            "text": "<b>OBSERVE: type of excreta containment or collection system</b> <br/><b>Containment system:</b> pit or tank (or other) that contains and stores excreta<br/><b>Collection system:</b> connection through which excreta and wastewater are collected<br/><b>Examples:</b> 1. Latrine pit; 2. Septic tank; 3. Sewer connection.<br/><b>Flush to don't know:</b> household does not know where the toilet flushes to, but no surface outlets or open discharges are visible (in this case, likely to be a buried pit or tank)"
           },
           "required": true,
           "meta": false,
@@ -1283,12 +1117,7 @@
               "color": "#c6efce"
             }
           ],
-          "dependency": [
-            {
-              "id": 1699422286091,
-              "options": ["G1 Toilet observed"]
-            }
-          ],
+         
           "fn": null
         },
         {
@@ -1297,7 +1126,7 @@
           "order": 11,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: is the toilet flyproof?</b>\n<b>Flyproof:</b> toilet design prevents flies from reaching the excreta in the pit (or other containment system)\n<b>VIP vent pipe with insect screen:</b> vent pipes should be covered with insect screen to prevent insect entry into the pit or tank.\n<b>Examples:</b> 1. Pour-flush pit latrine with a functional water-seal pan; 2. VIP latrine with a screened vent pipe; 3. Dry pit latrine with a tight-fitting drophole cover."
+            "text": "<b>OBSERVE: is the toilet flyproof?</b><br/><b>Flyproof:</b> toilet design prevents flies from reaching the excreta in the pit (or other containment system)<br/><b>VIP vent pipe with insect screen:</b> vent pipes should be covered with insect screen to prevent insect entry into the pit or tank.<br/><b>Examples:</b> 1. Pour-flush pit latrine with a functional water-seal pan; 2. VIP latrine with a screened vent pipe; 3. Dry pit latrine with a tight-fitting drophole cover."
           },
           "required": true,
           "meta": false,
@@ -1375,12 +1204,7 @@
               "color": "#c6efce"
             }
           ],
-          "dependency": [
-            {
-              "id": 1699422286091,
-              "options": ["G1 Toilet observed"]
-            }
-          ],
+          
           "fn": null
         },
         {
@@ -1408,7 +1232,7 @@
           "order": 13,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: is the toilet interface clean?</b>\n<b>Clean:</b> interface of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials).\n<b>Easily cleaned:</b> minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if a child forgot to flush the toilet; or if the traces are not yet dry and difficult to clean)"
+            "text": "<b>OBSERVE: is the toilet interface clean?</b><br/><b>Clean:</b> interface of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials).<br/><b>Easily cleaned:</b> minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if a child forgot to flush the toilet; or if the traces are not yet dry and difficult to clean)"
           },
           "required": true,
           "meta": false,
@@ -1447,7 +1271,7 @@
           "order": 14,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: is the toilet floor clean?</b>\n<b>Clean:</b> floor of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials).\n<b>Easily cleaned:</b> minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if the traces are not yet dry and difficult to clean)"
+            "text": "<b>OBSERVE: is the toilet floor clean?</b><br/><b>Clean:</b> floor of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials).<br/><b>Easily cleaned:</b> minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if the traces are not yet dry and difficult to clean)"
           },
           "required": true,
           "meta": false,
@@ -1486,7 +1310,7 @@
           "order": 15,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: are the toilet walls clean?</b>\n<b>Clean:</b> walls of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials).\n<b>Easily cleaned:</b> minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if the traces are not yet dry and difficult to clean)"
+            "text": "<b>OBSERVE: are the toilet walls clean?</b><br/><b>Clean:</b> walls of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials).<br/><b>Easily cleaned:</b> minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if the traces are not yet dry and difficult to clean)"
           },
           "required": true,
           "meta": false,
@@ -1539,66 +1363,12 @@
           }
         },
         {
-          "id": 16994260598422,
-          "question": "Would you also like to monitor G2 outcomes",
-          "order": 17,
-          "type": "option",
-          "required": true,
-          "meta": false,
-          "options": [
-            {
-              "id": 16994260864132,
-              "name": "Yes",
-              "order": 1,
-              "color": ""
-            },
-            {
-              "id": 16994260864142,
-              "name": "No",
-              "order": 2,
-              "color": ""
-            }
-            
-          ],
-          "dependency": null,
-          "fn": null
-        },
-        {
-          "id": 16994260598423,
-          "question": "Would you also like to monitor G3 outcomes",
-          "order": 18,
-          "type": "option",
-          "required": true,
-          "meta": false,
-          "options": [
-            {
-              "id": 16994260864133,
-              "name": "Yes",
-              "order": 1,
-              "color": ""
-            },
-            {
-              "id": 16994260864143,
-              "name": "No",
-              "order": 2,
-              "color": ""
-            }
-            
-          ],
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["Yes"]
-            }],
-          "fn": null
-        },
-        {
           "id": 1699427405024,
           "question": "Durable toilet slab",
-          "order": 19,
+          "order": 17,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: is the toilet slab made from durable materials?</b>\n<b>Durable toilet slab:</b> the range of materials considered durable will depend on local contexts. The County Public Health Office should approve the use of resilient local materials that will not degrade rapidly under local conditions, and which provide similar lifespans, functionality and cleanliness to toilet slabs made from durable materials.\n<b>Examples:</b> 1. Concrete toilet slab; 2. Concrete toilet slab covered with ceramic tiles; 3. Structural plastic slab."
+            "text": "<b>OBSERVE: is the toilet slab made from durable materials?</b><br/><b>Durable toilet slab:</b> the range of materials considered durable will depend on local contexts. The County Public Health Office should approve the use of resilient local materials that will not degrade rapidly under local conditions, and which provide similar lifespans, functionality and cleanliness to toilet slabs made from durable materials.<br/><b>Examples:</b> 1. Concrete toilet slab; 2. Concrete toilet slab covered with ceramic tiles; 3. Structural plastic slab."
           },
           "required": true,
           "meta": false,
@@ -1676,20 +1446,15 @@
               "color": "#c6efce"
             }
           ],
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["Yes"]
-            }],
           "fn": null
         },
         {
           "id": 1699427574765,
           "question": "Durable toilet containment or collection system",
-          "order": 20,
+          "order": 18,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: is the toilet containment or collection system durable?</b>\n<b>OBSERVE:</b> are there any signs of collapse or damage to the toilet containment or collection system?\n<b>INTERVIEW (where containment not visible):</b> were any materials used to support the sides of the containment system? \n<b>INTERVIEW (where containment not visible):</b> does the soil collapse without support?\n<b>INTERVIEW (where containment not visible):</b> has the toilet pit collapsed in the last 12 months?\n<b>Durable toilet containment (in stable soils):</b> unlined pits may be assessed as durable in areas where other unlined pits are known to be stable and long-lasting.\n<b>Durable toilet containment (in UNSTABLE soils):</b> the pit or tank should either be lined with durable materials, or lined with resilient local materials that will not degrade rapidly under local conditions, and which provide similar lifespans and support to linings made from durable materials. "
+            "text": "<b>OBSERVE: is the toilet containment or collection system durable?</b><br/><b>OBSERVE:</b> are there any signs of collapse or damage to the toilet containment or collection system?<br/><b>INTERVIEW (where containment not visible):</b> were any materials used to support the sides of the containment system? <br/><b>INTERVIEW (where containment not visible):</b> does the soil collapse without support?<br/><b>INTERVIEW (where containment not visible):</b> has the toilet pit collapsed in the last 12 months?<br/><b>Durable toilet containment (in stable soils):</b> unlined pits may be assessed as durable in areas where other unlined pits are known to be stable and long-lasting.<br/><b>Durable toilet containment (in UNSTABLE soils):</b> the pit or tank should either be lined with durable materials, or lined with resilient local materials that will not degrade rapidly under local conditions, and which provide similar lifespans and support to linings made from durable materials. "
           },
           "required": true,
           "meta": false,
@@ -1767,27 +1532,17 @@
               "color": "#c6efce"
             }
           ],
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["Yes"]
-            }],
           "fn": null
         },
         {
           "id": 1702283171680,
           "question": "Outcome result - Durable toilet",
-          "order": 21,
+          "order": 19,
           "type": "autofield",
           "tooltip": null,
           "required": true,
           "meta": false,
           "options": null,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["Yes"]
-            }],
           "fn": {
             "fnColor": {
               "G2 Durable toilet": " #93D371",
@@ -1800,10 +1555,10 @@
         {
           "id": 1699427743413,
           "question": "OBSERVE: Safely managed containment",
-          "order": 22,
+          "order": 20,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: any evidence of surface outflows from the containment system (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows)</b>\n<b>Surface outflows from containment:</b> EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks).\n<b>Examples of surface outflows:</b> 1. Septic tank with overflow pipe to the surface (open space, open drain, water body); 2. Latrine pit with signs of wastewater or sludge overflow or leakage."
+            "text": "<b>OBSERVE: any evidence of surface outflows from the containment system (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows)</b><br/><b>Surface outflows from containment:</b> EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks).<br/><b>Examples of surface outflows:</b> 1. Septic tank with overflow pipe to the surface (open space, open drain, water body); 2. Latrine pit with signs of wastewater or sludge overflow or leakage."
           },
           "required": true,
           "meta": false,
@@ -1857,20 +1612,15 @@
               "color": "#c6efce"
             }
           ],
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["Yes"]
-            }],
           "fn": null
         },
         {
           "id": 1699427885744,
           "question": "INTERVIEW: Visible surface outflows",
-          "order": 23,
+          "order": 21,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW: are surface outflows from the containment system ever visible?</b>\n<b>INTERVIEW: how often are surface outflows from the containment system visible?</b>"
+            "text": "<b>INTERVIEW: are surface outflows from the containment system ever visible?</b><br/><b>INTERVIEW: how often are surface outflows from the containment system visible?</b>"
           },
           "required": true,
           "meta": false,
@@ -1900,17 +1650,12 @@
               "color": "#ffc7ce"
             }
           ],
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["Yes"]
-            }],
           "fn": null
         },
         {
           "id": 1702282796765,
           "question": "COMMUNITY LEVEL ASSESSMENT: Low risk of groundwater contamination",
-          "order": 24,
+          "order": 22,
           "type": "option",
           "tooltip": null,
           "required": true,
@@ -1929,27 +1674,17 @@
               "color": "#c6efce"
             }
           ],
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["Yes"]
-            }],
           "fn": null
         },
         {
           "id": 1702283955461,
           "question": "Outcome result - Toilet with safe containment",
-          "order": 25,
+          "order": 23,
           "type": "autofield",
           "tooltip": null,
           "required": true,
           "meta": false,
           "options": null,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["Yes"]
-            }],
           "fn": {
             "fnColor": {
               "G2 Toilet with safe containment": "#93D371",
@@ -1975,7 +1710,7 @@
           "order": 1,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW: Do members of your household defecate in the open or use a toilet?</b>\n<b>Own toilet:</b> a toilet owned by the household (usually located nearby the home)\n<b>Other household toilet:</b> a toilet owned by another household (often on somone else's property)"
+            "text": "<b>INTERVIEW: Do members of your household defecate in the open or use a toilet?</b><br/><b>Own toilet:</b> a toilet owned by the household (usually located nearby the home)<br/><b>Other household toilet:</b> a toilet owned by another household (often on somone else's property)"
           },
           "required": true,
           "meta": false,
@@ -2007,7 +1742,7 @@
           "order": 2,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW: are any members of your household unable to use the toilet?</b>\n<b>INTERVIEW (for those unable to use):</b> are they able to use the toilet with assistance?\n<b>All members use toilet:</b> household respondent confirms that everyone EITHER uses the toilet, OR is assisted to use the toilet"
+            "text": "<b>INTERVIEW: are any members of your household unable to use the toilet?</b><br/><b>INTERVIEW (for those unable to use):</b> are they able to use the toilet with assistance?<br/><b>All members use toilet:</b> household respondent confirms that everyone EITHER uses the toilet, OR is assisted to use the toilet"
           },
           "required": true,
           "meta": false,
@@ -2039,7 +1774,7 @@
           "order": 3,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> do you share this toilet with others who are not members of your household?\n<b>Shared toilet use:</b> shared use of a toilet is acceptable, providing that no more than 10-15 people use the toilet. The County Public Health Office should agree on the maximum number of people sharing a toilet based on local practices and evidence of hygienic outcomes in shared toilets."
+            "text": "<b>INTERVIEW:</b> do you share this toilet with others who are not members of your household?<br/><b>Shared toilet use:</b> shared use of a toilet is acceptable, providing that no more than 10-15 people use the toilet. The County Public Health Office should agree on the maximum number of people sharing a toilet based on local practices and evidence of hygienic outcomes in shared toilets."
           },
           "required": true,
           "meta": false,
@@ -2085,7 +1820,7 @@
               "G1 Toilet use by all household members": "#FDC74B",
               "G0 Toilet NOT used (or used by too many)": "#FD3F31"
             },
-            "fnString": "function() {\n  return (\n    #1699428072669.includes(\"G1\") &&\n    #1699428351326.includes(\"G1\") &&\n    #1699428400205.includes(\"G1\")\n  )\n  ? \"G1 Toilet use by all household members\"\n  : \"G0 Toilet NOT used (or used by too many)\"\n}",
+            "fnString": "function() {  return (    #1699428072669.includes(\"G1\") &&    #1699428351326.includes(\"G1\") &&    #1699428400205.includes(\"G1\")  )  ? \"G1 Toilet use by all household members\"  : \"G0 Toilet NOT used (or used by too many)\"}",
             "multiline": false
           }
         },
@@ -2095,7 +1830,7 @@
           "order": 5,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b>\n<b>INTERVIEW:</b> do any members of the household require assistance to the the toilet? What sort of assistance?\n<b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b>\nREPEAT for other household members\nNOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
+            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
           },
           "required": true,
           "meta": false,
@@ -2125,11 +1860,6 @@
               "color": "#c6efce"
             }
           ],
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["Yes"]
-            }],
           "fn": null
         },
         {
@@ -2141,11 +1871,6 @@
           "required": true,
           "meta": false,
           "options": null,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["Yes"]
-            }],
           "fn": {
             "fnColor": {
               "G1 Some household members do not use their own toilet": "#FDC74B",
@@ -2161,13 +1886,8 @@
           "question": "Safely managed on-site containment",
           "order": 7,
           "type": "option",
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["Yes"]
-            }],
           "tooltip": {
-            "text": "<b>INTERVIEW: has the toilet containment (pit, tank or other) ever been emptied?</b>\n<b>INTERVIEW:</b> has the toilet containment (pit, tank or other) ever filled up?\n<b>INTERVIEW:</b> what happened when the toilet containment (pit, tank or other) last filled up?\n<b>Examples:</b> 1. Covered the full pit and dug a new pit; 2. Emptied the full pit and re-used it; 3. Connected a second pit and disconnected the full pit. 4. Emptied faecal sludge from septic tank then continued to use."
+            "text": "<b>INTERVIEW: has the toilet containment (pit, tank or other) ever been emptied?</b><br/><b>INTERVIEW:</b> has the toilet containment (pit, tank or other) ever filled up?<br/><b>INTERVIEW:</b> what happened when the toilet containment (pit, tank or other) last filled up?<br/><b>Examples:</b> 1. Covered the full pit and dug a new pit; 2. Emptied the full pit and re-used it; 3. Connected a second pit and disconnected the full pit. 4. Emptied faecal sludge from septic tank then continued to use."
           },
           "required": true,
           "meta": false,
@@ -2213,6 +1933,30 @@
               "name": "G3 Never emptied, using second pit (first pit full)",
               "order": 7,
               "color": "#c6efce"
+            },
+            {
+              "id": 16994287702567,
+              "name": "G3 Yes, containment emptied",
+              "order": 8,
+              "color": "#c6efce"
+            },
+            {
+              "id": 16994287702568,
+              "name": "G3 Yes, closed container removed",
+              "order": 9,
+              "color": "#c6efce"
+            },
+            {
+              "id": 16994287702569,
+              "name": "G3 Piped sewer connection",
+              "order": 10,
+              "color": "#c6efce"
+            },
+            {
+              "id": 16994287702561,
+              "name": "G3 Other removal of faecal sludge or wastewater",
+              "order": 11,
+              "color": "#c6efce"
             }
           ],
           "fn": null
@@ -2224,11 +1968,11 @@
           "type": "option",
           "dependency": [
             {
-              "id": 16994260598423,
-              "options": ["Yes"]
+              "id": 1699428661689,
+              "options": ["G3 Yes, containment emptied","G3 Yes, closed container removed","G3 Piped sewer connection","G3 Other removal of faecal sludge or wastewater"]
             }],
           "tooltip": {
-            "text": "<b>INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?</b>\n<b>INTERVIEW:</b> the last time it was emptied, who emptied the toilet containment?\n<b>INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied):</b> what will happen when the toilet containment is full?\n<b>INTERVIEW:</b> How long were the contents stored (without any fresh excreta entering the toilet containment) before emptying?\n<b>Intention to empty:</b> household is planning to empty toilet containment (pit or tank) when full, or when required.\n<b>Storage time:</b> length of time that contents of containment were stored without any fresh excreta entering the containment (for example, alternating twin pit latrine where full pit is disconncted and contents are stored for 2 years before emptying)\n<b>Licensed service provider:</b> paid emptier that is approved and regulated by local authority to empty and transport toilet wastes\n<b>Unlicensed service provider:</b> paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers) \n<b>Off-site location:</b> site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.\n<b>Sewer connection to licensed and functional treatment site:</b> the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site.\n<b>Open container:</b> bucket or other open container used to collect excreta (usually regularly collected and emptied)."
+            "text": "<b>INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?</b><br/><b>INTERVIEW:</b> the last time it was emptied, who emptied the toilet containment?<br/><b>INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied):</b> what will happen when the toilet containment is full?<br/><b>INTERVIEW:</b> How long were the contents stored (without any fresh excreta entering the toilet containment) before emptying?<br/><b>Intention to empty:</b> household is planning to empty toilet containment (pit or tank) when full, or when required.<br/><b>Storage time:</b> length of time that contents of containment were stored without any fresh excreta entering the containment (for example, alternating twin pit latrine where full pit is disconncted and contents are stored for 2 years before emptying)<br/><b>Licensed service provider:</b> paid emptier that is approved and regulated by local authority to empty and transport toilet wastes<br/><b>Unlicensed service provider:</b> paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers) <br/><b>Off-site location:</b> site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.<br/><b>Sewer connection to licensed and functional treatment site:</b> the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site.<br/><b>Open container:</b> bucket or other open container used to collect excreta (usually regularly collected and emptied)."
           },
           "required": true,
           "meta": false,
@@ -2321,11 +2065,6 @@
           "type": "autofield",
           "tooltip": null,
           "required": true,
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["Yes"]
-            }],
           "meta": false,
           "options": null,
           "fn": {
@@ -2354,7 +2093,7 @@
           "order": 1,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: presence and location of handwashing facility</b>\n<b>INTERVIEW:</b> where do you and other members of your household most often wash your hands?\n<b>INTERVIEW:</b> is there only one handwashing facility, or are other facilities available?"
+            "text": "<b>OBSERVE: presence and location of handwashing facility</b><br/><b>INTERVIEW:</b> where do you and other members of your household most often wash your hands?<br/><b>INTERVIEW:</b> is there only one handwashing facility, or are other facilities available?"
           },
           "required": true,
           "meta": false,
@@ -2404,7 +2143,7 @@
           "order": 2,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: is water available at the handwashing facility?</b>\n<b>OBSERVE:</b> where an empty water container is observed at the handwashing facility, visible wet ground (or wet materials) under the handwashing facility can be accepted as proof of the recent presence of water."
+            "text": "<b>OBSERVE: is water available at the handwashing facility?</b><br/><b>OBSERVE:</b> where an empty water container is observed at the handwashing facility, visible wet ground (or wet materials) under the handwashing facility can be accepted as proof of the recent presence of water."
           },
           "required": true,
           "meta": false,
@@ -2436,7 +2175,7 @@
           "order": 3,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: is soap available at the handwashing facility?</b>\n<b>INTERVIEW:</b> is soap or detergent available in your household for washing hands? \n<b>Soap:</b> solid, liquid or powder soap or detergent "
+            "text": "<b>OBSERVE: is soap available at the handwashing facility?</b><br/><b>INTERVIEW:</b> is soap or detergent available in your household for washing hands? <br/><b>Soap:</b> solid, liquid or powder soap or detergent "
           },
           "required": true,
           "meta": false,
@@ -2492,7 +2231,7 @@
           "order": 5,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: is the household using a permanent handwashing station?</b>\n<b>Permanent handwashing station: facility made from durable materials, with a piped water connection or adequate water storage, and located in a fixed place that is appropriate for handwashing at critical times</b>\n<b>Market handwashing station:</b> manufactured handwashing station from durable materails (bought from market or market trader)\n<b>Portable basin:</b> open container that can be easily picked up and moved"
+            "text": "<b>OBSERVE: is the household using a permanent handwashing station?</b><br/><b>Permanent handwashing station: facility made from durable materials, with a piped water connection or adequate water storage, and located in a fixed place that is appropriate for handwashing at critical times</b><br/><b>Market handwashing station:</b> manufactured handwashing station from durable materails (bought from market or market trader)<br/><b>Portable basin:</b> open container that can be easily picked up and moved"
           },
           "required": true,
           "meta": false,
@@ -2540,11 +2279,6 @@
               "color": "#c6efce"
             }
           ],
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["Yes"]
-            }],
           "fn": null
         },
         {
@@ -2553,7 +2287,7 @@
           "order": 6,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: mechanism to collect water or trigger water flow </b>\n<b>Hands-free operation:</b> the handwashing station is operated by tap, or other hands-free mechanism that minimises contact with the water collection device and the water container"
+            "text": "<b>OBSERVE: mechanism to collect water or trigger water flow </b><br/><b>Hands-free operation:</b> the handwashing station is operated by tap, or other hands-free mechanism that minimises contact with the water collection device and the water container"
           },
           "required": true,
           "meta": false,
@@ -2589,11 +2323,6 @@
               "color": "#c6efce"
             }
           ],
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["Yes"]
-            }],
           "fn": null
         },
         {
@@ -2601,13 +2330,8 @@
           "question": "Adequate drainage of washing water",
           "order": 7,
           "type": "option",
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["Yes"]
-            }],
           "tooltip": {
-            "text": "<b>OBSERVE: facility to collect washing water, and facility to drain and dispose of the washing water</b>\n<b>Collection of washing water:</b> container to collect dirty washing water (for example, a basin or other container)\n<b>Drainage and disposal of washing water:</b> drainage pipe or other facility to direct the washing water to an appropriate disposal point (for example, a soakpit or drain)"
+            "text": "<b>OBSERVE: facility to collect washing water, and facility to drain and dispose of the washing water</b><br/><b>Collection of washing water:</b> container to collect dirty washing water (for example, a basin or other container)<br/><b>Drainage and disposal of washing water:</b> drainage pipe or other facility to direct the washing water to an appropriate disposal point (for example, a soakpit or drain)"
           },
           "required": true,
           "meta": false,
@@ -2642,18 +2366,13 @@
           "required": true,
           "meta": false,
           "options": null,
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["Yes"]
-            }],
           "fn": {
             "fnColor": {
               "G0 No or inadequate handwashing services": "#FD3F31",
               "G3 Permanent handwashing services": "#4088F4",
               "G1 Non-durable handwashing services": "#FDC74B"
             },
-            "fnString": "function(){\n  return (\n    #1699430580239.includes(\"G0\") &&\n    #1699430671868.includes(\"G0\") &&\n    #1699430761393.includes(\"G0\")\n  )\n  ?  \"G0 No or inadequate handwashing services\"\n  :  (\n    #1699430580239.includes(\"G3\") &&\n    #1699430671868.includes(\"G3\") &&\n    #1699430761393.includes(\"G3\"))\n    ? \"G3 Permanent handwashing services\"\n    : \"G1 Non-durable handwashing services\"\n}",
+            "fnString": "function(){  return (#1699430580239.includes(\"G0\") &&    #1699430671868.includes(\"G0\") &&    #1699430761393.includes(\"G0\")  )  ?  \"G0 No or inadequate handwashing services\"  :  (    #1699430580239.includes(\"G3\") &&    #1699430671868.includes(\"G3\") &&    #1699430761393.includes(\"G3\"))    ? \"G3 Permanent handwashing services\"    : \"G1 Non-durable handwashing services\"}",
             "multiline": false
           }
         },
@@ -2662,13 +2381,8 @@
           "question": "Handwashing: Critical toilet times",
           "order": 9,
           "type": "option",
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["Yes"]
-            }],
           "tooltip": {
-            "text": "<b>INTERVIEW: when do you usually wash your hands?</b>\n<b>INTERVIEW:</b> what do you usually use to wash your hands?\n<b>Critical TOILET times:</b> washing of hands with soap and water AFTER toilet use and AFTER anal cleansing.\n<b>NOTE:</b> households should mention critical handwashing times without being prompted by the monitor"
+            "text": "<b>INTERVIEW: when do you usually wash your hands?</b><br/><b>INTERVIEW:</b> what do you usually use to wash your hands?<br/><b>Critical TOILET times:</b> washing of hands with soap and water AFTER toilet use and AFTER anal cleansing.<br/><b>NOTE:</b> households should mention critical handwashing times without being prompted by the monitor"
           },
           "required": true,
           "meta": false,
@@ -2717,13 +2431,8 @@
           "question": "Handwashing: Critical food times",
           "order": 10,
           "type": "option",
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["Yes"]
-            }],
           "tooltip": {
-            "text": "<b>INTERVIEW: when do you usually wash your hands?</b>\n<b>INTERVIEW:</b> what do you usually use to wash your hands?\n<b>Critical FOOD times:</b> washing of hands with soap and water BEFORE food preparation or cooking; BEFORE feeding infants or young children; and BEFORE eating.\n<b>NOTE:</b> households should mention critical handwashing times without being prompted by the monitor"
+            "text": "<b>INTERVIEW: when do you usually wash your hands?</b><br/><b>INTERVIEW:</b> what do you usually use to wash your hands?<br/><b>Critical FOOD times:</b> washing of hands with soap and water BEFORE food preparation or cooking; BEFORE feeding infants or young children; and BEFORE eating.<br/><b>NOTE:</b> households should mention critical handwashing times without being prompted by the monitor"
           },
           "required": true,
           "meta": false,
@@ -2772,13 +2481,8 @@
           "question": "Handwashing: Critical infant times",
           "order": 11,
           "type": "option",
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["Yes"]
-            }],
           "tooltip": {
-            "text": "<b>INTERVIEW: when do you usually wash your hands?</b>\n<b>INTERVIEW:</b> what do you usually use to wash your hands?\n<b>Critical INFANT times:</b> washing of hands with soap and water by caregivers AFTER cleaning an infant of excreta, AFTER handling child faeces, or AFTER washing or disposing of a used diaper\n<b>NOTE:</b> households should mention critical handwashing times without being prompted by the monitor"
+            "text": "<b>INTERVIEW: when do you usually wash your hands?</b><br/><b>INTERVIEW:</b> what do you usually use to wash your hands?<br/><b>Critical INFANT times:</b> washing of hands with soap and water by caregivers AFTER cleaning an infant of excreta, AFTER handling child faeces, or AFTER washing or disposing of a used diaper<br/><b>NOTE:</b> households should mention critical handwashing times without being prompted by the monitor"
           },
           "required": true,
           "meta": false,
@@ -2821,13 +2525,8 @@
           "question": "Handwashing: Critical animal times",
           "order": 12,
           "type": "option",
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["Yes"]
-            }],
           "tooltip": {
-            "text": "<b>INTERVIEW: when do you usually wash your hands?</b>\n<b>INTERVIEW:</b> what do you usually use to wash your hands?\n<b>Critical ANIMAL times:</b> washing of hands with soap and water AFTER contact with animals, animal products or animal wastes; and both BEFORE and AFTER milking (in households that milk animals)\n<b>NOTE:</b> households should mention critical handwashing times without being prompted by the monitor\n<b>Animal products:</b> including meat, milk, eggs, blood, other animal tissues (e.g. organs and offal), animal skins and other animal parts (for example, feathers bones etc)\n<b>Animal wastes:</b> animal excreta mixed with a wide variety of materials including bedding (for example, straw and other materials), washing water, spilled feed and water, animal parts, blood, skin, feathers, and other contaminated wastes and residues"
+            "text": "<b>INTERVIEW: when do you usually wash your hands?</b><br/><b>INTERVIEW:</b> what do you usually use to wash your hands?<br/><b>Critical ANIMAL times:</b> washing of hands with soap and water AFTER contact with animals, animal products or animal wastes; and both BEFORE and AFTER milking (in households that milk animals)<br/><b>NOTE:</b> households should mention critical handwashing times without being prompted by the monitor<br/><b>Animal products:</b> including meat, milk, eggs, blood, other animal tissues (e.g. organs and offal), animal skins and other animal parts (for example, feathers bones etc)<br/><b>Animal wastes:</b> animal excreta mixed with a wide variety of materials including bedding (for example, straw and other materials), washing water, spilled feed and water, animal parts, blood, skin, feathers, and other contaminated wastes and residues"
           },
           "required": true,
           "meta": false,
@@ -2875,11 +2574,6 @@
           "required": true,
           "meta": false,
           "options": null,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["Yes"]
-            }],
           "fn": {
             "fnColor": {
               "G1 Some critical handwashing times NOT mentioned": "#FDC74B",
@@ -2906,7 +2600,7 @@
           "order": 1,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: visible human faeces in the compound, house, toilet or in any other household buildings or facilities.</b>\n<b>Open defecation in water bodies:</b> where groups or communities may practice open defecation in nearby water bodies (for example, people living near beaches, lakes and rivers), human excreta may not be visible in and around household compounds or communal areas. In these cases, household interviews should be undertaken to assess whether people practice open defecation or use a toilet, in combination of observation of the presence of a functional toilet (to verify claims of toilet use)."
+            "text": "<b>OBSERVE: visible human faeces in the compound, house, toilet or in any other household buildings or facilities.</b><br/><b>Open defecation in water bodies:</b> where groups or communities may practice open defecation in nearby water bodies (for example, people living near beaches, lakes and rivers), human excreta may not be visible in and around household compounds or communal areas. In these cases, household interviews should be undertaken to assess whether people practice open defecation or use a toilet, in combination of observation of the presence of a functional toilet (to verify claims of toilet use)."
           },
           "required": true,
           "meta": false,
@@ -2950,7 +2644,7 @@
           "order": 3,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW: the last time [name of youngest child] defecated, where did they defecate?</b>\n<b>INTERVIEW:</b> how were the child faeces collected and disposed?\n<b>INTERVIEW:</b> Where was the excreta collection tool cleaned?\n<b>Unsafely washed:</b> washing of child excreta collection tool (for example, potty) in compound, or at water point, without safe disposal of the contaminated washing water\n<b>Unsafely disposed:</b> child faeces disposed to open space, field, open drain, water body\n<b>Child excreta:</b> faeces or urine of children who are too young to use a toilet"
+            "text": "<b>INTERVIEW: the last time [name of youngest child] defecated, where did they defecate?</b><br/><b>INTERVIEW:</b> how were the child faeces collected and disposed?<br/><b>INTERVIEW:</b> Where was the excreta collection tool cleaned?<br/><b>Unsafely washed:</b> washing of child excreta collection tool (for example, potty) in compound, or at water point, without safe disposal of the contaminated washing water<br/><b>Unsafely disposed:</b> child faeces disposed to open space, field, open drain, water body<br/><b>Child excreta:</b> faeces or urine of children who are too young to use a toilet"
           },
           "required": true,
           "meta": false,
@@ -3006,7 +2700,7 @@
           "order": 4,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: no used diapers visible in the compound</b>\n<b>Safe management of washable cloths: </b> where washable cloths are used to contain child excreta, the cloths should be cleaned and washed in a safe place (for example, so that the child excreta do not contaminate the compound or a water point) and any faeces contained in the cloth should be safely disposed (for example, put or rinsed into the toilet, or buried).\n<b>Safe management of disposable diapers:</b> where disposable diapers are used to contain child excreta, the diapers should be properly closed and EITHER disposed to a covered waste pit, OR buried, OR collected for disposal at a safely managed communal disposal site. "
+            "text": "<b>OBSERVE: no used diapers visible in the compound</b><br/><b>Safe management of washable cloths: </b> where washable cloths are used to contain child excreta, the cloths should be cleaned and washed in a safe place (for example, so that the child excreta do not contaminate the compound or a water point) and any faeces contained in the cloth should be safely disposed (for example, put or rinsed into the toilet, or buried).<br/><b>Safe management of disposable diapers:</b> where disposable diapers are used to contain child excreta, the diapers should be properly closed and EITHER disposed to a covered waste pit, OR buried, OR collected for disposal at a safely managed communal disposal site. "
           },
           "required": true,
           "meta": false,
@@ -3070,9 +2764,135 @@
           }
         },
         {
+          "id": 16994260598422,
+          "question": "Would you also like to monitor G2 outcomes",
+          "order": 6,
+          "type": "option",
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 16994260864132,
+              "name": "Yes",
+              "order": 1,
+              "color": ""
+            },
+            {
+              "id": 16994260864142,
+              "name": "No",
+              "order": 2,
+              "color": ""
+            }
+            
+          ],
+          "dependency": null,
+          "fn": null,
+          "pre":{
+            "answer":["Yes"],
+            "fill" : [
+              {
+                "id": 1699432887212,
+                "answer": ["G0 Visible dirt or contamination"]
+              },
+              {
+                "id": 1699433027913,
+                "answer": ["G0 No storage"]
+              },
+              {
+                "id": 1699433058652,
+                "answer": ["G0 On ground"]
+              },
+              {
+                "id": 1699433108344,
+                "answer": ["G0 Visible dirt or contamination"]
+              },
+              {
+                "id": 1699433162828,
+                "answer": ["G0 No storage"]
+              },
+              {
+                "id": 1699433205793,
+                "answer": ["G0 On ground"]
+              },
+              {
+                "id": 1699433286697,
+                "answer": ["G0 Visible dirt or contamination"]
+              },
+              {
+                "id": 1699433337417,
+                "answer": ["G0 No storage"]
+              },
+              {
+                "id": 1699433394633,
+                "answer": ["G0 On ground"]
+              },
+              {
+                "id": 1699433455365,
+                "answer": ["G0 Visible dirt or contamination"]
+              },
+              {
+                "id": 1699433503692,
+                "answer": ["G0 No treatment and low quality"]
+              },
+              {
+                "id": 1699433564057,
+                "answer": ["G0 Unsafe drinking water storage"]
+              },
+              {
+                "id": 1699433637971,
+                "answer": ["G0 Unsafe water use"]
+              },
+              {
+                "id": 1699433719018,
+                "answer": ["G0 Visible dirt or contamination"]
+              },
+              {
+                "id": 1699433765217,
+                "answer": ["G0 No protection of water points"]
+              },
+              {
+                "id": 1699433833227,
+                "answer": ["G0 Standing water visible around water point"]
+              },
+              {
+                "id": 1699433937138,
+                "answer": ["G0 Widespread animal wastes"]
+              },
+              {
+                "id": 1699433983369,
+                "answer": ["G0 Widespread animal wastes"]
+              },
+              {
+                "id": 1699434044707,
+                "answer": ["G0 Unsafe location of animal waste storage"]
+              },
+              {
+                "id": 1699434136823,
+                "answer": ["G0 Unsafe animal waste storage location"]
+              },
+              {
+                "id": 1699434209933,
+                "answer": ["G0 Animal waste storage is UNSAFELY managed"]
+              },
+              {
+                "id": 1699434269372,
+                "answer": ["G0 No animal pens"]
+              },
+              {
+                "id": 1699434327613,
+                "answer": ["G0 No animal pens"]
+              },
+              {
+                "id": 16994260598423,
+                "answer": ["No"]
+              }
+            ]
+          }
+        },
+        {
           "id": 1699432887212,
           "question": "Clean food",
-          "order": 6,
+          "order": 7,
           "type": "option",
           "dependency": [
             {
@@ -3080,7 +2900,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: cleanliness of raw food, produce and cooked food</b>\n<b>Clean food:</b> raw food (for example, fruit and vegetables) should be washed to remove dirt or other contamination before preparing, cooking or storing"
+            "text": "<b>OBSERVE: cleanliness of raw food, produce and cooked food</b><br/><b>Clean food:</b> raw food (for example, fruit and vegetables) should be washed to remove dirt or other contamination before preparing, cooking or storing"
           },
           "required": true,
           "meta": false,
@@ -3109,7 +2929,7 @@
         {
           "id": 1699433027913,
           "question": "Covered food storage",
-          "order": 7,
+          "order": 8,
           "type": "option",
           "tooltip": null,
           "required": true,
@@ -3144,7 +2964,7 @@
         {
           "id": 1699433058652,
           "question": "Raised food storage",
-          "order": 8,
+          "order": 9,
           "type": "option",
           "dependency": [
             {
@@ -3152,7 +2972,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: raised storage of raw food, produce and cooked food</b>\n<b>Raised food storage:</b> food should be stored off the ground, inside the house (or kitchen), and protected from animal contact in raised storage (for example, cupboards, shelves, boxes and containers)"
+            "text": "<b>OBSERVE: raised storage of raw food, produce and cooked food</b><br/><b>Raised food storage:</b> food should be stored off the ground, inside the house (or kitchen), and protected from animal contact in raised storage (for example, cupboards, shelves, boxes and containers)"
           },
           "required": true,
           "meta": false,
@@ -3181,7 +3001,7 @@
         {
           "id": 1702295289084,
           "question": "Outcome result - Clean and safely stored food",
-          "order": 9,
+          "order": 10,
           "type": "autofield",
           "tooltip": null,
           "required": true,
@@ -3198,14 +3018,14 @@
               "G2 Clean and safely stored food": "#93D371",
               "G1 Food not adequately washed, or not safely stored": "#FDC74B"
             },
-            "fnString": "function() {\n  return (\n    #1699432887212.includes(\"G0\") &&\n    #1699433027913.includes(\"G0\") &&\n    #1699433058652.includes(\"G0\")\n  )\n  ? \"G0 Food not clean and not safely stored\"\n  : ((\n    #1699432887212.includes(\"G2\") &&\n    #1699433027913.includes(\"G2\") &&\n    #1699433058652.includes(\"G2\"))\n    ? \"G2 Clean and safely stored food\"\n    : \"G1 Food not adequately washed, or not safely stored\"\n  )\n}",
+            "fnString": "function() {  return (    #1699432887212.includes(\"G0\") &&    #1699433027913.includes(\"G0\") &&    #1699433058652.includes(\"G0\")  )  ? \"G0 Food not clean and not safely stored\"  : ((    #1699432887212.includes(\"G2\") &&    #1699433027913.includes(\"G2\") &&    #1699433058652.includes(\"G2\"))    ? \"G2 Clean and safely stored food\"    : \"G1 Food not adequately washed, or not safely stored\"  )}",
             "multiline": false
           }
         },
         {
           "id": 1699433108344,
           "question": "Clean kitchen utensils",
-          "order": 10,
+          "order": 11,
           "type": "option",
           "dependency": [
             {
@@ -3213,7 +3033,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: cleanliness of kitchen utensils</b>\n<b>Clean kitchen utensils:</b> kitchen utensils (for example, pots, pans, plates, cutlery, cups, glasses and any cutting, stirring or serving utensils) are washed and clean before storage or re-use"
+            "text": "<b>OBSERVE: cleanliness of kitchen utensils</b><b>Clean kitchen utensils:</b> kitchen utensils (for example, pots, pans, plates, cutlery, cups, glasses and any cutting, stirring or serving utensils) are washed and clean before storage or re-use"
           },
           "required": true,
           "meta": false,
@@ -3242,7 +3062,7 @@
         {
           "id": 1699433162828,
           "question": "Covered utensil storage",
-          "order": 11,
+          "order": 12,
           "type": "option",
           "dependency": [
             {
@@ -3250,7 +3070,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: covered storage of kitchen utensils</b>\n<b>Covered kitchen utensil storage: </b>kitchen utensils should be stored in covered storage (for example, cupboards, shelves, boxes and containers) inside the house (or kitchen), and protected from animal contact"
+            "text": "<b>OBSERVE: covered storage of kitchen utensils</b><b>Covered kitchen utensil storage: </b>kitchen utensils should be stored in covered storage (for example, cupboards, shelves, boxes and containers) inside the house (or kitchen), and protected from animal contact"
           },
           "required": true,
           "meta": false,
@@ -3279,7 +3099,7 @@
         {
           "id": 1699433205793,
           "question": "Raised utensil storage",
-          "order": 12,
+          "order": 13,
           "type": "option",
           "dependency": [
             {
@@ -3287,7 +3107,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: raised storage of kitchen utensils</b>\n<b>Raised kitchen utensil storage:</b> kitchen utensils should be stored off the ground, inside the house (or kitchen), and protected from animal contact in raised storage (for example, cupboards, shelves, boxes and containers)"
+            "text": "<b>OBSERVE: raised storage of kitchen utensils</b><b>Raised kitchen utensil storage:</b> kitchen utensils should be stored off the ground, inside the house (or kitchen), and protected from animal contact in raised storage (for example, cupboards, shelves, boxes and containers)"
           },
           "required": true,
           "meta": false,
@@ -3316,7 +3136,7 @@
         {
           "id": 1702295769122,
           "question": "Outcome result - Clean and safely stored kitchen utensils",
-          "order": 13,
+          "order": 14,
           "type": "autofield",
           "tooltip": null,
           "required": true,
@@ -3333,14 +3153,14 @@
               "G2 Clean and safely stored kitchen utensils": "#93D371",
               "G1 Kitchen utensils not adequately washed, or not safely stored": "#FDC74B"
             },
-            "fnString": "function() {\n  return (\n    #1699433108344.includes(\"G0\") &&\n    #1699433162828.includes(\"G0\") &&\n    #1699433205793.includes(\"G0\")\n  )\n  ? \"G0 Kitchen utensils not clean and not safely stored\"\n  : ((\n    #1699433108344.includes(\"G2\") &&\n    #1699433162828.includes(\"G2\") &&\n    #1699433205793.includes(\"G2\"))\n    ? \"G2 Clean and safely stored kitchen utensils\"\n    : \"G1 Kitchen utensils not adequately washed, or not safely stored\"\n  )\n}",
+            "fnString": "function() {  return (    #1699433108344.includes(\"G0\") &&    #1699433162828.includes(\"G0\") &&    #1699433205793.includes(\"G0\")  )  ? \"G0 Kitchen utensils not clean and not safely stored\"  : ((    #1699433108344.includes(\"G2\") &&    #1699433162828.includes(\"G2\") &&    #1699433205793.includes(\"G2\"))    ? \"G2 Clean and safely stored kitchen utensils\"    : \"G1 Kitchen utensils not adequately washed, or not safely stored\"  )}",
             "multiline": false
           }
         },
         {
           "id": 1699433286697,
           "question": "Clean milk containers",
-          "order": 14,
+          "order": 15,
           "type": "option",
           "dependency": [
             {
@@ -3348,7 +3168,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: cleanliness of empty milk containers</b>\n<b>Clean milk containers:</b> the containers used to collect and store milk should be thoroughly washed before each milking, so that they are free of dirt and other contamination"
+            "text": "<b>OBSERVE: cleanliness of empty milk containers</b><br/><b>Clean milk containers:</b> the containers used to collect and store milk should be thoroughly washed before each milking, so that they are free of dirt and other contamination"
           },
           "required": true,
           "meta": false,
@@ -3377,7 +3197,7 @@
         {
           "id": 1699433337417,
           "question": "Covered container storage",
-          "order": 15,
+          "order": 16,
           "type": "option",
           "dependency": [
             {
@@ -3385,7 +3205,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: covered storage of empty milk containers</b>\n<b>Covered milk container storage:</b> empty milk containers should be stored in covered storage (for example, cupboards, shelves, boxes and containers) inside the house (or kitchen), and protected from animal contact"
+            "text": "<b>OBSERVE: covered storage of empty milk containers</b><br/><b>Covered milk container storage:</b> empty milk containers should be stored in covered storage (for example, cupboards, shelves, boxes and containers) inside the house (or kitchen), and protected from animal contact"
           },
           "required": true,
           "meta": false,
@@ -3414,7 +3234,7 @@
         {
           "id": 1699433394633,
           "question": "Raised container storage",
-          "order": 16,
+          "order": 17,
           "type": "option",
           "dependency": [
             {
@@ -3422,7 +3242,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: raised storage of empty milk containers</b>\n<b>Raised milk container storage:</b> empty milk containers should be stored off the ground, inside the house (or kitchen), and protected from animal contact in raised storage (for example, cupboards, shelves, boxes and containers)"
+            "text": "<b>OBSERVE: raised storage of empty milk containers</b><br/><b>Raised milk container storage:</b> empty milk containers should be stored off the ground, inside the house (or kitchen), and protected from animal contact in raised storage (for example, cupboards, shelves, boxes and containers)"
           },
           "required": true,
           "meta": false,
@@ -3451,7 +3271,7 @@
         {
           "id": 1702296110410,
           "question": "Outcome result - Clean and safely stored milk containers",
-          "order": 17,
+          "order": 18,
           "type": "autofield",
           "tooltip": null,
           "required": true,
@@ -3468,14 +3288,14 @@
               "G2 Clean and safely stored milk containers": "#93D371",
               "G1 Milk containers not adequately washed, or not safely stored": "#FDC74B"
             },
-            "fnString": "function() {\n  return (\n    #1699433286697.includes(\"G0\") &&\n    #1699433337417.includes(\"G0\") &&\n    #1699433394633.includes(\"G0\")\n  )\n  ? \"G0 Milk containers not clean and not safely stored\"\n  : ((\n    #1699433286697.includes(\"G2\") &&\n    #1699433337417.includes(\"G2\") &&\n    #1699433394633.includes(\"G2\"))\n    ? \"G2 Clean and safely stored milk containers\"\n    : \"G1 Milk containers not adequately washed, or not safely stored\"\n  )\n}",
+            "fnString": "function() {  return (    #1699433286697.includes(\"G0\") &&    #1699433337417.includes(\"G0\") &&    #1699433394633.includes(\"G0\")  )  ? \"G0 Milk containers not clean and not safely stored\"  : ((    #1699433286697.includes(\"G2\") &&    #1699433337417.includes(\"G2\") &&    #1699433394633.includes(\"G2\"))    ? \"G2 Clean and safely stored milk containers\"    : \"G1 Milk containers not adequately washed, or not safely stored\"  )}",
             "multiline": false
           }
         },
         {
           "id": 1699433455365,
           "question": "Clean water containers",
-          "order": 18,
+          "order": 19,
           "type": "option",
           "dependency": [
             {
@@ -3483,7 +3303,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: cleanliness of empty water containers</b>\n<b>Clean water containers:</b> the containers used to collect water should be thoroughly washed before each water collection, so that they are free of dirt and other contamination"
+            "text": "<b>OBSERVE: cleanliness of empty water containers</b><br/><b>Clean water containers:</b> the containers used to collect water should be thoroughly washed before each water collection, so that they are free of dirt and other contamination"
           },
           "required": true,
           "meta": false,
@@ -3512,7 +3332,7 @@
         {
           "id": 1699433503692,
           "question": "Adequate water quality",
-          "order": 19,
+          "order": 20,
           "type": "option",
           "dependency": [
             {
@@ -3520,7 +3340,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: quality of drinking water</b>\n<b>INTERVIEW:</b> is the water supplied by your main source usually of acceptable quality?\n<b>INTERVIEW:</b> what do you usually do to the water to make it safe to drink? [Options: boil, add chlorine, stain through cloth, use water filter, solar disinfection, settlement, other, NOT required]\n<b>Adequate quality at collection point:</b> water is collected from protected groundwater sources (for example, covered wells, protected boreholes, or protected water points); OR is treated surface water (e.g. treated by use of chlorine dispensers)\n<b>Household water treatment:</b> water is settled, filtered, boiled, solar disinfected, or chemically treated (for example, by use of chlorine solution or tablets) by the household"
+            "text": "<b>OBSERVE: quality of drinking water</b><br/><b>INTERVIEW:</b> is the water supplied by your main source usually of acceptable quality?<br/><b>INTERVIEW:</b> what do you usually do to the water to make it safe to drink? [Options: boil, add chlorine, stain through cloth, use water filter, solar disinfection, settlement, other, NOT required]<br/><b>Adequate quality at collection point:</b> water is collected from protected groundwater sources (for example, covered wells, protected boreholes, or protected water points); OR is treated surface water (e.g. treated by use of chlorine dispensers)<br/><b>Household water treatment:</b> water is settled, filtered, boiled, solar disinfected, or chemically treated (for example, by use of chlorine solution or tablets) by the household"
           },
           "required": true,
           "meta": false,
@@ -3555,7 +3375,7 @@
         {
           "id": 1699433564057,
           "question": "Safely stored drinking water",
-          "order": 20,
+          "order": 21,
           "type": "option",
           "dependency": [
             {
@@ -3563,7 +3383,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: safe storage of drinking water</b>\n<b>Safe drinking water storage:</b> drinking water is stored in clean, covered containers, separate from the water used for other purposes, and away from animals"
+            "text": "<b>OBSERVE: safe storage of drinking water</b><br/><b>Safe drinking water storage:</b> drinking water is stored in clean, covered containers, separate from the water used for other purposes, and away from animals"
           },
           "required": true,
           "meta": false,
@@ -3592,7 +3412,7 @@
         {
           "id": 1699433637971,
           "question": "Safely used water",
-          "order": 21,
+          "order": 22,
           "type": "option",
           "dependency": [
             {
@@ -3600,7 +3420,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: safe use of drinking water</b>\n<b>Safe drinking water use: </b>drinking water is collected and used from containers with spigots and taps, or from narrow-mouthed containers, or using a clean utensil that is only used for water collection"
+            "text": "<b>OBSERVE: safe use of drinking water</b><br/><b>Safe drinking water use: </b>drinking water is collected and used from containers with spigots and taps, or from narrow-mouthed containers, or using a clean utensil that is only used for water collection"
           },
           "required": true,
           "meta": false,
@@ -3641,7 +3461,7 @@
         {
           "id": 1702296406679,
           "question": "Outcome result - Safe management of drinking water",
-          "order": 22,
+          "order": 23,
           "type": "autofield",
           "tooltip": null,
           "required": true,
@@ -3658,14 +3478,14 @@
               "G2 Safe management of drinking water": "#93D371",
               "G1 Drinking water is NOT adequately managed": "#FDC74B"
             },
-            "fnString": "function() {\n  return (\n    #1699433455365.includes(\"G0\") &&\n    #1699433503692.includes(\"G0\") &&\n    #1699433564057.includes(\"G0\") &&\n    #1699433637971.includes(\"G0\")\n  )\n  ? \"G0 Drinking water is UNSAFELY managed\"\n  : ((\n    #1699433455365.includes(\"G2\") &&\n    #1699433503692.includes(\"G2\") &&\n    #1699433564057.includes(\"G2\") &&\n    #1699433637971.includes(\"G2\"))\n    ? \"G2 Safe management of drinking water\"\n    : \"G1 Drinking water is NOT adequately managed\"\n  )\n}",
+            "fnString": "function() {  return (    #1699433455365.includes(\"G0\") &&    #1699433503692.includes(\"G0\") &&    #1699433564057.includes(\"G0\") &&    #1699433637971.includes(\"G0\")  )  ? \"G0 Drinking water is UNSAFELY managed\"  : ((    #1699433455365.includes(\"G2\") &&    #1699433503692.includes(\"G2\") &&    #1699433564057.includes(\"G2\") &&    #1699433637971.includes(\"G2\"))    ? \"G2 Safe management of drinking water\"    : \"G1 Drinking water is NOT adequately managed\"  )}",
             "multiline": false
           }
         },
         {
           "id": 1699433719018,
           "question": "Clean water points",
-          "order": 23,
+          "order": 24,
           "type": "option",
           "dependency": [
             {
@@ -3673,7 +3493,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: cleanliness of water points in compound</b>\n<b>Clean water points:</b> free from debris, solid waste, human or animal faeces, and any other potential sources of contamination"
+            "text": "<b>OBSERVE: cleanliness of water points in compound</b><br/><b>Clean water points:</b> free from debris, solid waste, human or animal faeces, and any other potential sources of contamination"
           },
           "required": true,
           "meta": false,
@@ -3702,7 +3522,7 @@
         {
           "id": 1699433765217,
           "question": "Protected water points",
-          "order": 24,
+          "order": 25,
           "type": "option",
           "dependency": [
             {
@@ -3710,7 +3530,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: protection of water points in compound</b>\n<b>Protected surface water sources (pans, dams, lakes, rivers):</b> fenced to prevent animal access\n<b>Protected water supply source catchments:</b> protected from wastes and pollutants, including human excreta and animal wastes (for example, by excluding animals and prohibiting unsafe activities, such as the use of manure or chemical fertilisers in areas around water supply sources).\n<b>Protected water points:</b> provide separate water troughs for animal watering\n<b>Protected groundwater sources (springs, wells, handpumps, boreholes):</b> protected from contamination, wastes and pollutants (for example, by the construction of a spring box, raised parapet wall and cover, wellhead protection and sealed borehole casing)."
+            "text": "<b>OBSERVE: protection of water points in compound</b><br/><b>Protected surface water sources (pans, dams, lakes, rivers):</b> fenced to prevent animal access<br/><b>Protected water supply source catchments:</b> protected from wastes and pollutants, including human excreta and animal wastes (for example, by excluding animals and prohibiting unsafe activities, such as the use of manure or chemical fertilisers in areas around water supply sources).<br/><b>Protected water points:</b> provide separate water troughs for animal watering<br/><b>Protected groundwater sources (springs, wells, handpumps, boreholes):</b> protected from contamination, wastes and pollutants (for example, by the construction of a spring box, raised parapet wall and cover, wellhead protection and sealed borehole casing)."
           },
           "required": true,
           "meta": false,
@@ -3739,7 +3559,7 @@
         {
           "id": 1699433833227,
           "question": "Well drained water points",
-          "order": 25,
+          "order": 26,
           "type": "option",
           "dependency": [
             {
@@ -3747,7 +3567,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: drainage of water points in compound</b>\n<b>Well drained water points:</b> no standing water visible at or around the water source (provision of drainage and soakpits may be required in slow-draining soils)"
+            "text": "<b>OBSERVE: drainage of water points in compound</b><br/><b>Well drained water points:</b> no standing water visible at or around the water source (provision of drainage and soakpits may be required in slow-draining soils)"
           },
           "required": true,
           "meta": false,
@@ -3776,7 +3596,7 @@
         {
           "id": 1702296839468,
           "question": "Outcome result - Safe management of water sources",
-          "order": 26,
+          "order": 27,
           "type": "autofield",
           "tooltip": null,
           "required": true,
@@ -3793,14 +3613,14 @@
               "G2 Safe management of water points": "#93D371",
               "G1 Water points are NOT adequately managed": "#FDC74B"
             },
-            "fnString": "function() {\n  return (\n    #1699433719018.includes(\"G0\") &&\n    #1699433765217.includes(\"G0\") &&\n    #1699433833227.includes(\"G0\")\n  )\n  ? \"G0 Water points are UNSAFELY managed\"\n  : ((\n    #1699433719018.includes(\"G2\") &&\n    #1699433765217.includes(\"G2\") &&\n    #1699433833227.includes(\"G2\"))\n    ? \"G2 Safe management of water points\"\n    : \"G1 Water points are NOT adequately managed\"\n  )\n}",
+            "fnString": "function() {  return (    #1699433719018.includes(\"G0\") &&    #1699433765217.includes(\"G0\") &&    #1699433833227.includes(\"G0\")  )  ? \"G0 Water points are UNSAFELY managed\"  : ((    #1699433719018.includes(\"G2\") &&    #1699433765217.includes(\"G2\") &&    #1699433833227.includes(\"G2\"))    ? \"G2 Safe management of water points\"    : \"G1 Water points are NOT adequately managed\"  )}",
             "multiline": false
           }
         },
         {
           "id": 1699433937138,
           "question": "No animal wastes in house",
-          "order": 27,
+          "order": 28,
           "type": "option",
           "dependency": [
             {
@@ -3808,7 +3628,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: presence of unsafely managed animal wastes inside house or kitchen</b>\n<b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.\n<b>Safely managed animal wastes:</b> the house and household compound should be free of animal wastes, except in areas where manure is properly stored and managed. Regular collection of animal wastes (for example, daily collection of animal faeces and other wastes) should be evident from observation of the house and household compound"
+            "text": "<b>OBSERVE: presence of unsafely managed animal wastes inside house or kitchen</b><br/><b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.<br/><b>Safely managed animal wastes:</b> the house and household compound should be free of animal wastes, except in areas where manure is properly stored and managed. Regular collection of animal wastes (for example, daily collection of animal faeces and other wastes) should be evident from observation of the house and household compound"
           },
           "required": true,
           "meta": false,
@@ -3837,7 +3657,7 @@
         {
           "id": 1699433983369,
           "question": "No animal wastes in compound",
-          "order": 28,
+          "order": 29,
           "type": "option",
           "dependency": [
             {
@@ -3845,7 +3665,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: presence of unsafely managed animal wastes in compound (outside specific areas for safe management of animal wastes)</b>\n<b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.\n<b>Safely managed animal wastes:</b> the house and household compound should be free of animal wastes, except in areas where manure is properly stored and managed. Regular collection of animal wastes (for example, daily collection of animal faeces and other wastes) should be evident from observation of the house and household compound"
+            "text": "<b>OBSERVE: presence of unsafely managed animal wastes in compound (outside specific areas for safe management of animal wastes)</b><br/><b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.<br/><b>Safely managed animal wastes:</b> the house and household compound should be free of animal wastes, except in areas where manure is properly stored and managed. Regular collection of animal wastes (for example, daily collection of animal faeces and other wastes) should be evident from observation of the house and household compound"
           },
           "required": true,
           "meta": false,
@@ -3874,7 +3694,7 @@
         {
           "id": 1702297046194,
           "question": "Outcome result - No visible animal wastes in house or compound",
-          "order": 29,
+          "order": 30,
           "type": "autofield",
           "tooltip": null,
           "required": true,
@@ -3891,14 +3711,14 @@
               "G1 Some animal wastes visible": "#FDC74B",
               "G2 No visible animal wastes": "#93D371"
             },
-            "fnString": "function() {\n  return (\n    #1699433937138.includes(\"G0\") &&\n    #1699433983369.includes(\"G0\")\n  )\n  ? \"G0 Widespread presence of animal wastes\"\n  : ((\n    #1699433937138.includes(\"G2\") &&\n    #1699433983369.includes(\"G2\"))\n    ? \"G2 No visible animal wastes\"\n    : \"G1 Some animal wastes visible\"\n  )\n}",
+            "fnString": "function() {  return (    #1699433937138.includes(\"G0\") &&    #1699433983369.includes(\"G0\")  )  ? \"G0 Widespread presence of animal wastes\"  : ((    #1699433937138.includes(\"G2\") &&    #1699433983369.includes(\"G2\"))    ? \"G2 No visible animal wastes\"    : \"G1 Some animal wastes visible\"  )}",
             "multiline": false
           }
         },
         {
           "id": 1699434044707,
           "question": "Safely managed animal waste storage",
-          "order": 30,
+          "order": 31,
           "type": "option",
           "dependency": [
             {
@@ -3906,7 +3726,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: storage of animal wastes in the compound</b>\n<b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.\n<b>Animal wastes not accessible by animals or children:</b> any animal waste facility should prevent animal and child access to the wastes."
+            "text": "<b>OBSERVE: storage of animal wastes in the compound</b><br/><b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.<br/><b>Animal wastes not accessible by animals or children:</b> any animal waste facility should prevent animal and child access to the wastes."
           },
           "required": true,
           "meta": false,
@@ -3941,7 +3761,7 @@
         {
           "id": 1699434136823,
           "question": "Safe location of animal waste storage",
-          "order": 31,
+          "order": 32,
           "type": "option",
           "dependency": [
             {
@@ -3949,7 +3769,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: location of animal waste storage in the compound</b>\n<b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.\nAnimal waste storage: animal wastes should be collected and stored in an appropriate facility located away from the house, and away from child play areas."
+            "text": "<b>OBSERVE: location of animal waste storage in the compound</b><br/><b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.<br/>Animal waste storage: animal wastes should be collected and stored in an appropriate facility located away from the house, and away from child play areas."
           },
           "required": true,
           "meta": false,
@@ -3984,7 +3804,7 @@
         {
           "id": 1699434209933,
           "question": "Safe management of animal waste storage",
-          "order": 32,
+          "order": 33,
           "type": "option",
           "dependency": [
             {
@@ -3992,7 +3812,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: leakage or discharge of solid or liquid animal wastes into the area around the animal waste storage facility</b>\n<b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices."
+            "text": "<b>OBSERVE: leakage or discharge of solid or liquid animal wastes into the area around the animal waste storage facility</b><br/><b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices."
           },
           "required": true,
           "meta": false,
@@ -4027,7 +3847,7 @@
         {
           "id": 1702297533085,
           "question": "Outcome result - Safe management of animal wastes in compound",
-          "order": 33,
+          "order": 34,
           "type": "autofield",
           "tooltip": null,
           "required": true,
@@ -4044,14 +3864,14 @@
               "G2 Safely managed animal wastes": "#93D371",
               "G1 Inadequate management of animal wastes": "#FDC74B"
             },
-            "fnString": "function() {\n  return (\n    #1699434044707.includes(\"G0\") &&\n    #1699434136823.includes(\"G0\") &&\n    #1699434209933.includes(\"G0\")\n  )\n  ? \"G0 Animal wastes UNSAFELY managed\"\n  : ((\n    #1699434044707.includes(\"G2\") &&\n    #1699434136823.includes(\"G2\") &&\n    #1699434209933.includes(\"G0\"))\n    ? \"G2 Safely managed animal wastes\"\n    : \"G1 Inadequate management of animal wastes\"\n  )\n}",
+            "fnString": "function() {  return (    #1699434044707.includes(\"G0\") &&    #1699434136823.includes(\"G0\") &&    #1699434209933.includes(\"G0\")  )  ? \"G0 Animal wastes UNSAFELY managed\"  : ((    #1699434044707.includes(\"G2\") &&    #1699434136823.includes(\"G2\") &&    #1699434209933.includes(\"G0\"))    ? \"G2 Safely managed animal wastes\"    : \"G1 Inadequate management of animal wastes\"  )}",
             "multiline": false
           }
         },
         {
           "id": 1699434269372,
           "question": "Location of animals in compound",
-          "order": 34,
+          "order": 35,
           "type": "option",
           "dependency": [
             {
@@ -4059,7 +3879,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: location of animals and animal pens</b>\n<b>Location of animal pens: </b>facility to confine animals, which should be located away from the house and away from child play areas (in small compounds, animals should be penned as far away as possible from the house)"
+            "text": "<b>OBSERVE: location of animals and animal pens</b><br/><b>Location of animal pens: </b>facility to confine animals, which should be located away from the house and away from child play areas (in small compounds, animals should be penned as far away as possible from the house)"
           },
           "required": true,
           "meta": false,
@@ -4094,7 +3914,7 @@
         {
           "id": 1699434327613,
           "question": "Safe confinement of animals",
-          "order": 35,
+          "order": 36,
           "type": "option",
           "dependency": [
             {
@@ -4102,7 +3922,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: confinement of animals within pens</b>\n<b>Confinement in animal pens:</b> facility to confine animals, which should prevent animals from entering the home or other parts of the compound. The animal pens should limit the contamination of other parts of the compound with animal wastes, and limit contact between infants and animals.\n<b>Inadequate animal pens:</b> do not adequately limit the movement of animals or animal wastes within the compound"
+            "text": "<b>OBSERVE: confinement of animals within pens</b><br/><b>Confinement in animal pens:</b> facility to confine animals, which should prevent animals from entering the home or other parts of the compound. The animal pens should limit the contamination of other parts of the compound with animal wastes, and limit contact between infants and animals.<br/><b>Inadequate animal pens:</b> do not adequately limit the movement of animals or animal wastes within the compound"
           },
           "required": true,
           "meta": false,
@@ -4137,7 +3957,7 @@
         {
           "id": 1702297797962,
           "question": "Outcome result - Safe separation of animals from under-5 children",
-          "order": 36,
+          "order": 37,
           "type": "autofield",
           "tooltip": null,
           "required": true,
@@ -4154,14 +3974,120 @@
               "G2 Safe separation of animals from under-5 children": "#93D371",
               "G1 Inadequate separation of animals from under-5 children": "#FDC74B"
             },
-            "fnString": "function() {\n  return (\n    #1699434269372.includes(\"G0\") &&\n    #1699434327613.includes(\"G0\")\n  )\n  ? \"G0 Animals NOT separated from under-5 children\"\n  : ((\n    #1699434269372.includes(\"G2\") &&\n    #1699434327613.includes(\"G2\"))\n    ? \"G2 Safe separation of animals from under-5 children\"\n    : \"G1 Inadequate separation of animals from under-5 children\"\n  )\n}",
+            "fnString": "function() {  return (    #1699434269372.includes(\"G0\") &&    #1699434327613.includes(\"G0\")  )  ? \"G0 Animals NOT separated from under-5 children\"  : ((    #1699434269372.includes(\"G2\") &&    #1699434327613.includes(\"G2\"))    ? \"G2 Safe separation of animals from under-5 children\"    : \"G1 Inadequate separation of animals from under-5 children\"  )}",
             "multiline": false
+          }
+        },
+        {
+          "id": 16994260598423,
+          "question": "Would you also like to monitor G3 outcomes",
+          "order": 38,
+          "type": "option",
+          "required": true,
+          "meta": false,
+          "dependency": [
+            {
+              "id": 16994260598422,
+              "options": ["Yes"]
+            }],
+          "options": [
+            {
+              "id": 16994260864133,
+              "name": "Yes",
+              "order": 1,
+              "color": ""
+            },
+            {
+              "id": 16994260864143,
+              "name": "No",
+              "order": 2,
+              "color": ""
+            }
+            
+          ],
+          "fn": null,
+          "pre":{
+            "answer" : ["Yes"],
+            "fill": [
+              {
+                "id": 1699434438966,
+                "answer": ["G0 Visible wastewater"]
+              },
+              {
+                "id": 1699434488410,
+                "answer": ["G0 Significant erosion"]
+              },
+              {
+                "id": 1699434553677,
+                "answer": ["G0 Significant visible solid wastes"]
+              },
+              {
+                "id": 1699434636655,
+                "answer": ["G0 No solid waste management"]
+              },
+              {
+                "id": 1699434694439,
+                "answer": ["G0 Significant standing water"]
+              },
+              {
+                "id": 1699434771449,
+                "answer": ["G0 No treatment or management"]
+              },
+              {
+                "id": 1699434939105,
+                "answer": ["G1 All with dirty faces"]
+              },
+              {
+                "id": 1699434983278,
+                "answer": ["G1 All with dirty hands"]
+              },
+              {
+                "id": 1699435026311,
+                "answer": ["G1 No washing place"]
+              },
+              {
+                "id": 1699435088758,
+                "answer": ["G1 No disposal site"]
+              },
+              {
+                "id": 1699435154797,
+                "answer": ["G1 Materials are NOT available or NOT appropriate"]
+              },
+              {
+                "id": 1699435207476,
+                "answer": ["G1 No children vaccinated"]
+              },
+              {
+                "id": 1699435265962,
+                "answer": ["G1 No children received supplements"]
+              },
+              {
+                "id": 1699435329279,
+                "answer": [
+                  "G1 Under 6-month children regularly receive water or other food"
+                ]
+              },
+              {
+                "id": 1699435397728,
+                "answer": [
+                  "G1 Low nutrition diet: some or all children eat from only 1-2 food groups"
+                ]
+              },
+              {
+                "id": 1699435455818,
+                "answer": ["G1 No protection: no bed nets and no insect screen"]
+              },
+              {
+                "id": 1699435526190,
+                "answer": ["G1 No deworming: no children or adults treated"]
+              }
+            ]
           }
         },
         {
           "id": 1699434438966,
           "question": "Soakpit for liquid wastes",
-          "order": 37,
+          "order": 39,
           "type": "option",
           "dependency": [
             {
@@ -4169,7 +4095,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: use of soakpits or drainage to manage liquid wastes and wastewater</b>\n<b>Liquid wastes:</b> wastewater including washing water and other liquid wastes from household activities such as food preparation, washing and bathing. Wastewater from toilets should generally be kept separate from other household liquid wastes (as it presents a higher public health hazard)."
+            "text": "<b>OBSERVE: use of soakpits or drainage to manage liquid wastes and wastewater</b><br/><b>Liquid wastes:</b> wastewater including washing water and other liquid wastes from household activities such as food preparation, washing and bathing. Wastewater from toilets should generally be kept separate from other household liquid wastes (as it presents a higher public health hazard)."
           },
           "required": true,
           "meta": false,
@@ -4198,7 +4124,7 @@
         {
           "id": 1699434488410,
           "question": "Drainage for stormwater",
-          "order": 38,
+          "order": 40,
           "type": "option",
           "dependency": [
             {
@@ -4206,7 +4132,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: erosion or other damage caused by stormwater flows</b>\n<b>Stormwater:</b> surface water from rainfall or storms.\n<b>Adequate stormwater drainage:</b> drains or other services that limit or prevent erosion from stormwater flows (for example, EITHER by transporting flows away from the compound, OR by encouraging infiltration into the soil)"
+            "text": "<b>OBSERVE: erosion or other damage caused by stormwater flows</b><br/><b>Stormwater:</b> surface water from rainfall or storms.<br/><b>Adequate stormwater drainage:</b> drains or other services that limit or prevent erosion from stormwater flows (for example, EITHER by transporting flows away from the compound, OR by encouraging infiltration into the soil)"
           },
           "required": true,
           "meta": false,
@@ -4241,7 +4167,7 @@
         {
           "id": 1702298080560,
           "question": "Outcome result - Safe management of liquid wastes",
-          "order": 39,
+          "order": 41,
           "type": "autofield",
           "tooltip": null,
           "required": true,
@@ -4258,14 +4184,14 @@
               "G3 Safe management of liquid wastes": "#4088F4",
               "G2 Inadequate management of liquid wastes": "#93D371"
             },
-            "fnString": "function() {\n  return (\n    #1699434438966.includes(\"G0\") &&\n    #1699434488410.includes(\"G0\")\n  )\n  ? \"G0 Liquid wastes UNSAFELY managed\"\n  : ((\n      #1699434438966.includes(\"G3\") &&\n      #1699434488410.includes(\"G3\"))\n    ? \"G3 Safe management of liquid wastes\"\n    : \"G2 Inadequate management of liquid wastes\"\n  )\n}",
+            "fnString": "function() {  return (    #1699434438966.includes(\"G0\") &&    #1699434488410.includes(\"G0\")  )  ? \"G0 Liquid wastes UNSAFELY managed\"  : ((      #1699434438966.includes(\"G3\") &&      #1699434488410.includes(\"G3\"))    ? \"G3 Safe management of liquid wastes\"    : \"G2 Inadequate management of liquid wastes\"  )}",
             "multiline": false
           }
         },
         {
           "id": 1699434553677,
           "question": "No visible solid wastes",
-          "order": 40,
+          "order": 42,
           "type": "option",
           "dependency": [
             {
@@ -4273,7 +4199,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: visible solid wastes in compound</b>\n<b>Solid wastes:</b> food wastes, paper, plastic, rags, metal, glass and other solid materials discarded by the household"
+            "text": "<b>OBSERVE: visible solid wastes in compound</b><br/><b>Solid wastes:</b> food wastes, paper, plastic, rags, metal, glass and other solid materials discarded by the household"
           },
           "required": true,
           "meta": false,
@@ -4302,7 +4228,7 @@
         {
           "id": 1699434636655,
           "question": "Solid waste facility or service",
-          "order": 41,
+          "order": 43,
           "type": "option",
           "dependency": [
             {
@@ -4310,7 +4236,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE:</b> facility (or service) for solid waste collection, management and disposal\n<b>Solid wastes:</b> food wastes, paper, plastic, rags, metal, glass and other solid materials discarded by the household\n<b>Solid waste facility or service:</b> covered waste pits in compound, central waste disposal site, or other waste collection service"
+            "text": "<b>OBSERVE:</b> facility (or service) for solid waste collection, management and disposal<br/><b>Solid wastes:</b> food wastes, paper, plastic, rags, metal, glass and other solid materials discarded by the household<br/><b>Solid waste facility or service:</b> covered waste pits in compound, central waste disposal site, or other waste collection service"
           },
           "required": true,
           "meta": false,
@@ -4339,7 +4265,7 @@
         {
           "id": 1702298318702,
           "question": "Outcome result - Safe management of solid wastes",
-          "order": 42,
+          "order": 44,
           "type": "autofield",
           "tooltip": null,
           "required": true,
@@ -4356,14 +4282,14 @@
               "G2 Inadequate management of solid wastes": "#93D371",
               "G3 Safe management of solid wastes": "#4088F4"
             },
-            "fnString": "function() {\n  return (\n    #1699434553677.includes(\"G0\") &&\n    #1699434636655.includes(\"G0\")\n  )\n  ? \"G1 Liquid wastes UNSAFELY managed\"\n  : ((\n    #1699434553677.includes(\"G3\") &&\n    #1699434636655.includes(\"G3\"))\n    ? \"G3 Safe management of solid wastes\"\n    : \"G2 Inadequate management of solid wastes\"\n  )\n}",
+            "fnString": "function() {  return (    #1699434553677.includes(\"G0\") &&    #1699434636655.includes(\"G0\")  )  ? \"G1 Liquid wastes UNSAFELY managed\"  : ((    #1699434553677.includes(\"G3\") &&    #1699434636655.includes(\"G3\"))    ? \"G3 Safe management of solid wastes\"    : \"G2 Inadequate management of solid wastes\"  )}",
             "multiline": false
           }
         },
         {
           "id": 1699434694439,
           "question": "No standing water",
-          "order": 43,
+          "order": 45,
           "dependency": [
             {
               "id": 16994260598423,
@@ -4371,7 +4297,7 @@
             }],
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: visible standing water in compound </b>\n<b>Standing water:</b> accumulation of wastewater (or stormwater) in compound, which does NOT immediately drain away"
+            "text": "<b>OBSERVE: visible standing water in compound </b><br/><b>Standing water:</b> accumulation of wastewater (or stormwater) in compound, which does NOT immediately drain away"
           },
           "required": true,
           "meta": false,
@@ -4405,10 +4331,10 @@
               "id": 16994260598423,
               "options": ["Yes"]
             }],
-          "order": 44,
+          "order": 46,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW: where standing water provides larval breeding sites, are treatment or other vector control activities used to limit mosquito breeding?</b>\n<b>Larval breeding sites:</b> mosquitoes lay eggs directly in or near water, soil and at the base of plants in places that may fill with water.\n<b>Vector control activities:</b> draining of standing water; covering of water storage containers; filling of depressions that hold water; filling of cracks in water tank and septic tank covers; cover open vents or plumbing pipes (with insect screen).\n<b>Treatment activities:</b> use of larvicides to treat bodies of water that will not be used for drinking, and which cannot be covered, emptied or removed; use of fogging or surface applications to control adult mosquitoes"
+            "text": "<b>INTERVIEW: where standing water provides larval breeding sites, are treatment or other vector control activities used to limit mosquito breeding?</b><br/><b>Larval breeding sites:</b> mosquitoes lay eggs directly in or near water, soil and at the base of plants in places that may fill with water.<br/><b>Vector control activities:</b> draining of standing water; covering of water storage containers; filling of depressions that hold water; filling of cracks in water tank and septic tank covers; cover open vents or plumbing pipes (with insect screen).<br/><b>Treatment activities:</b> use of larvicides to treat bodies of water that will not be used for drinking, and which cannot be covered, emptied or removed; use of fogging or surface applications to control adult mosquitoes"
           },
           "required": true,
           "meta": false,
@@ -4443,7 +4369,7 @@
         {
           "id": 1702298602672,
           "question": "Outcome result - Good vector control in compound",
-          "order": 45,
+          "order": 47,
           "type": "autofield",
           "tooltip": null,
           "required": true,
@@ -4460,7 +4386,7 @@
               "G2 Inadequate vector control": "#93D371",
               "G3 Good vector control": "#4088F4"
             },
-            "fnString": "function() {\n  return (\n    #1699434694439.includes(\"G0\") &&\n    #1699434771449.includes(\"G0\")\n  )\n  ? \"G1 Lack of vector control\"\n  : ((\n    #1699434694439.includes(\"G3\") &&\n    #1699434771449.includes(\"G3\"))\n    ? \"G3 Good vector control\"\n    : \"G2 Inadequate vector control\"\n  )\n}",
+            "fnString": "function() {  return (    #1699434694439.includes(\"G0\") &&    #1699434771449.includes(\"G0\")  )  ? \"G1 Lack of vector control\"  : ((    #1699434694439.includes(\"G3\") &&    #1699434771449.includes(\"G3\"))    ? \"G3 Good vector control\"    : \"G2 Inadequate vector control\"  )}",
             "multiline": false
           }
         },
@@ -4475,7 +4401,7 @@
             }],
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: cleanliness of faces in all under-5 children</b>\n<b>OBSERVE: cleanliness of face of main caregiver</b>\n<b>Clean hands:</b> no visible dirt on hands\n<b>Clean face:</b> no visible dirt on the face\n<b>Clean face and hands:</b> assessed by observation of the faces and hands of all under-5 children in the household, and the main caregiver. If one of the under-5 children of the main caregiver does not have a clean face and hands, the outcome is not achieved."
+            "text": "<b>OBSERVE: cleanliness of faces in all under-5 children</b><br/><b>OBSERVE: cleanliness of face of main caregiver</b><br/><b>Clean hands:</b> no visible dirt on hands<br/><b>Clean face:</b> no visible dirt on the face<br/><b>Clean face and hands:</b> assessed by observation of the faces and hands of all under-5 children in the household, and the main caregiver. If one of the under-5 children of the main caregiver does not have a clean face and hands, the outcome is not achieved."
           },
           "required": true,
           "meta": false,
@@ -4509,10 +4435,10 @@
               "id": 16994260598423,
               "options": ["Yes"]
             }],
-          "order": 47,
+          "order": 49,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: cleanliness of hands in all under-5 children</b>\n<b>OBSERVE: cleanliness of hands of main caregiver</b>\n<b>Clean hands:</b> no visible dirt on hands\n<b>Clean face and hands:</b> assessed by observation of the faces and hands of all under-5 children in the household, and the main caregiver. If one of the under-5 children of the main caregiver does not have a clean face and hands, the outcome is not achieved."
+            "text": "<b>OBSERVE: cleanliness of hands in all under-5 children</b><br/><b>OBSERVE: cleanliness of hands of main caregiver</b><br/><b>Clean hands:</b> no visible dirt on hands<br/><b>Clean face and hands:</b> assessed by observation of the faces and hands of all under-5 children in the household, and the main caregiver. If one of the under-5 children of the main caregiver does not have a clean face and hands, the outcome is not achieved."
           },
           "required": true,
           "meta": false,
@@ -4541,7 +4467,7 @@
         {
           "id": 1702298863458,
           "question": "Outcome result - Clean face and hands",
-          "order": 48,
+          "order": 50,
           "type": "autofield",
           "tooltip": null,
           "required": true,
@@ -4558,14 +4484,14 @@
               "G2 Inadequate personal hygiene": "#93D371",
               "G3 Good personal hygiene": "#4088F4"
             },
-            "fnString": "function() {\n  return (\n    #1699434939105.includes(\"G0\") &&\n    #1699434983278.includes(\"G0\")\n  )\n  ? \"G1 No personal hygiene\"\n  : ((\n    #1699434939105.includes(\"G3\") &&\n    #1699434983278.includes(\"G3\"))\n    ? \"G3 Good personal hygiene\"\n    : \"G2 Inadequate personal hygiene\"\n  )\n}",
+            "fnString": "function() {  return (    #1699434939105.includes(\"G0\") &&    #1699434983278.includes(\"G0\")  )  ? \"G1 No personal hygiene\"  : ((    #1699434939105.includes(\"G3\") &&    #1699434983278.includes(\"G3\"))    ? \"G3 Good personal hygiene\"    : \"G2 Inadequate personal hygiene\"  )}",
             "multiline": false
           }
         },
         {
           "id": 1699435026311,
           "question": "Adequate washing place",
-          "order": 49,
+          "order": 51,
           "type": "option",
           "dependency": [
             {
@@ -4573,7 +4499,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: washing place adequate for menstrual hygiene</b>\n</b>Adequate washing place:</b> private and clean place for washing and menstrual hygiene, with water and soap available"
+            "text": "<b>OBSERVE: washing place adequate for menstrual hygiene</b><br/></b>Adequate washing place:</b> private and clean place for washing and menstrual hygiene, with water and soap available"
           },
           "required": true,
           "meta": false,
@@ -4602,7 +4528,7 @@
         {
           "id": 1699435088758,
           "question": "Safe disposal site for menstrual hygiene wastes",
-          "order": 50,
+          "order": 52,
           "dependency": [
             {
               "id": 16994260598423,
@@ -4610,7 +4536,7 @@
             }],
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: disposal site for menstrual hygiene wastes</b>\n<b>Disposal site:</b> appropriate facility for the safe disposal of menstrual hygiene wastes (for example, covered bins)"
+            "text": "<b>OBSERVE: disposal site for menstrual hygiene wastes</b><br/><b>Disposal site:</b> appropriate facility for the safe disposal of menstrual hygiene wastes (for example, covered bins)"
           },
           "required": true,
           "meta": false,
@@ -4639,7 +4565,7 @@
         {
           "id": 1699435154797,
           "question": "Availability of menstrual hygiene materials",
-          "order": 51,
+          "order": 53,
           "dependency": [
             {
               "id": 16994260598423,
@@ -4647,7 +4573,7 @@
             }],
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW: are menstrual hygiene materials available?</b>\n<b>Menstrual hygiene materials and products:</b> disposable and reusable sanitary pads, tampons, and resuable menstrual cups, clean piece of cotton cloth or cotton wool, that are safe and hygienic, and absorb or collect blood during menstrual periods.\n<b>Available:</b> menstrual hygiene materials are currently available on premises (in the home or household compound)"
+            "text": "<b>INTERVIEW: are menstrual hygiene materials available?</b><br/><b>Menstrual hygiene materials and products:</b> disposable and reusable sanitary pads, tampons, and resuable menstrual cups, clean piece of cotton cloth or cotton wool, that are safe and hygienic, and absorb or collect blood during menstrual periods.<br/><b>Available:</b> menstrual hygiene materials are currently available on premises (in the home or household compound)"
           },
           "required": true,
           "meta": false,
@@ -4676,7 +4602,7 @@
         {
           "id": 1702301820095,
           "question": "Outcome result - Good menstrual health",
-          "order": 52,
+          "order": 54,
           "type": "autofield",
           "tooltip": null,
           "required": true,
@@ -4693,14 +4619,14 @@
               "G2 Inadequate personal hygiene": "#93D371",
               "G3 Good personal hygiene": "#4088F4"
             },
-            "fnString": "function() {\n  return (\n    #1699435026311.includes(\"G0\") &&\n    #1699435088758.includes(\"G0\") &&\n    #1699435154797.includes(\"G0\")\n  )\n  ? \"G1 No personal hygiene\"\n  : ((\n    #1699435026311.includes(\"G3\") &&\n    #1699435088758.includes(\"G3\") &&\n    #1699435154797.includes(\"G3\"))\n    ? \"G3 Good personal hygiene\"\n    : \"G2 Inadequate personal hygiene\"\n  )\n}",
+            "fnString": "function() {  return (    #1699435026311.includes(\"G0\") &&    #1699435088758.includes(\"G0\") &&    #1699435154797.includes(\"G0\")  )  ? \"G1 No personal hygiene\"  : ((    #1699435026311.includes(\"G3\") &&    #1699435088758.includes(\"G3\") &&    #1699435154797.includes(\"G3\"))    ? \"G3 Good personal hygiene\"    : \"G2 Inadequate personal hygiene\"  )}",
             "multiline": false
           }
         },
         {
           "id": 1699435207476,
           "question": "Fully immunized children",
-          "order": 53,
+          "order": 55,
           "type": "option",
           "dependency": [
             {
@@ -4708,7 +4634,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>OBSERVE: vaccination records or certificates</b>\n<b>Fully immunized children:</b> all under-5 children in the household have received the relevant vaccinations"
+            "text": "<b>OBSERVE: vaccination records or certificates</b><br/><b>Fully immunized children:</b> all under-5 children in the household have received the relevant vaccinations"
           },
           "required": true,
           "meta": false,
@@ -4743,7 +4669,7 @@
         {
           "id": 1702302041022,
           "question": "Outcome result - Fully immunized children",
-          "order": 54,
+          "order": 56,
           "type": "autofield",
           "tooltip": null,
           "required": true,
@@ -4760,7 +4686,7 @@
               "G2 Inadequate nutrition or protection": "#93D371",
               "G3 Good nutrition and protection": "#4088F4"
             },
-            "fnString": "function() {\n  return (#1699435207476.includes(\"G1\"))\n  ? \"G1 Low nutrition or protection\"\n  : (\n    #1699435207476.includes(\"G3\")\n    ? \"G3 Good nutrition and protection\"\n    : \"G2 Inadequate nutrition or protection\"\n  )\n}",
+            "fnString": "function() {  return (#1699435207476.includes(\"G1\"))  ? \"G1 Low nutrition or protection\"  : (    #1699435207476.includes(\"G3\")    ? \"G3 Good nutrition and protection\"    : \"G2 Inadequate nutrition or protection\"  )}",
             "multiline": false
           }
         },
@@ -4775,7 +4701,7 @@
             }],
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: Vitamin A supplement records</b>\n<b>Vitamin A supplements:</b> all under-5 children should receive Vitamin A supplements every 6 months, and mothers should receive Vitamin A supplements within 6 weeks of delivery to pass the vitamin on to the child through breast milk.\n<b>Vitamin A supplements received:</b> confirm that all under-5 children in the household have received a Vitamin A supplement in the last 6 months"
+            "text": "<b>OBSERVE: Vitamin A supplement records</b><br/><b>Vitamin A supplements:</b> all under-5 children should receive Vitamin A supplements every 6 months, and mothers should receive Vitamin A supplements within 6 weeks of delivery to pass the vitamin on to the child through breast milk.<br/><b>Vitamin A supplements received:</b> confirm that all under-5 children in the household have received a Vitamin A supplement in the last 6 months"
           },
           "required": true,
           "meta": false,
@@ -4810,7 +4736,7 @@
         {
           "id": 1702302232732,
           "question": "Outcome result - Vitamin A supplements",
-          "order": 56,
+          "order": 57,
           "type": "autofield",
           "tooltip": null,
           "required": true,
@@ -4827,14 +4753,14 @@
               "G2 Inadequate nutrition or protection": "#93D371",
               "G3 Good nutrition and protection": "#4088F4"
             },
-            "fnString": "function() {\n  return #1699435265962.includes(\"G1\")\n  ? \"G1 Low nutrition or protection\"\n  : (\n    #1699435265962.includes(\"G3\")\n    ? \"G3 Good nutrition and protection\"\n    : \"G2 Inadequate nutrition or protection\"\n  )\n}",
+            "fnString": "function() {  return #1699435265962.includes(\"G1\")  ? \"G1 Low nutrition or protection\"  : (    #1699435265962.includes(\"G3\")    ? \"G3 Good nutrition and protection\"    : \"G2 Inadequate nutrition or protection\"  )}",
             "multiline": false
           }
         },
         {
           "id": 1699435329279,
           "question": "Exclusive breastfeeding for under 6-month children",
-          "order": 57,
+          "order": 59,
           "type": "option",
           "dependency": [
             {
@@ -4842,7 +4768,7 @@
               "options": ["Yes"]
             }],
           "tooltip": {
-            "text": "<b>INTERVIEW (to mothers of under 6 month old babies): how are you feeding your baby? [Options: Exclusive breastfeeding, breastfeeding and milk substitutes; milk substitutes only; other]</b>\n<b>INTERVIEW (to mothers of under 6 month old babies):</b> Has your baby been given anything other than breast milk since it was born\n<b>Exclusive breastfeeding:</b> infants should receive only breast milk until 6 months old. No other food or water should be given to the infant during the first 6-month period, because of the risk that this food or water may be contaminated and cause illness.\n<b>Exclusive breastfeeding for under 6-month children:</b> assess by interview, supported by observation of the foods available in the house to confirm the reported diet of the under-2 children"
+            "text": "<b>INTERVIEW (to mothers of under 6 month old babies): how are you feeding your baby? [Options: Exclusive breastfeeding, breastfeeding and milk substitutes; milk substitutes only; other]</b><br/><b>INTERVIEW (to mothers of under 6 month old babies):</b> Has your baby been given anything other than breast milk since it was born<br/><b>Exclusive breastfeeding:</b> infants should receive only breast milk until 6 months old. No other food or water should be given to the infant during the first 6-month period, because of the risk that this food or water may be contaminated and cause illness.<br/><b>Exclusive breastfeeding for under 6-month children:</b> assess by interview, supported by observation of the foods available in the house to confirm the reported diet of the under-2 children"
           },
           "required": true,
           "meta": false,
@@ -4877,7 +4803,7 @@
         {
           "id": 1702302427536,
           "question": "Outcome result - Exclusive breastfeeding",
-          "order": 58,
+          "order": 60,
           "type": "autofield",
           "tooltip": null,
           "required": true,
@@ -4894,14 +4820,14 @@
               "G2 Inadequate nutrition or protection": "#93D371",
               "G3 Good nutrition and protection": "#4088F4"
             },
-            "fnString": "function() {\n  return #1699435329279.includes(\"G1\")\n  ? \"G1 Low nutrition or protection\"\n  : (\n    #1699435329279.includes(\"G3\")\n    ? \"G3 Good nutrition and protection\"\n    : \"G2 Inadequate nutrition or protection\"\n  )\n}",
+            "fnString": "function() {  return #1699435329279.includes(\"G1\")  ? \"G1 Low nutrition or protection\"  : (    #1699435329279.includes(\"G3\")    ? \"G3 Good nutrition and protection\"    : \"G2 Inadequate nutrition or protection\"  )}",
             "multiline": false
           }
         },
         {
           "id": 1699435397728,
           "question": "Nutritious diet for 6-month to 2-year old children",
-          "order": 59,
+          "order": 61,
           "dependency": [
             {
               "id": 16994260598423,
@@ -4909,7 +4835,7 @@
             }],
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: what food types/groups are present in the home?</b>\n<b>INTERVIEW (to mothers of under 2 year children):</b> which of these foods have been fed to your under-2 children in the last 7 days?\n<b>Nutritious diet: </b>all 6-month to under-2 children received foods from 5 or more food groups during the previous day\n<b>Nutritious diet assessment:</b> by household interview, supported by observation of the foods available in the house (to confirm reported diet of under-2 children)\n<b>Nutritious food groups:</b> 1. Breast milk 2. Grains, white roots, tubers and plaintains 3. Legumes and nuts 4. Dairy 5. Flesh foods (meat, fish, poultry, liver and organ meats) 6. Eggs 7. Vitamin A rich fruits and vegetables (for example, sweet potato, kale, carrot, red pepper, mango, pink grapefruit, watermelon) 8. Other fruits and vegetables."
+            "text": "<b>OBSERVE: what food types/groups are present in the home?</b><br/><b>INTERVIEW (to mothers of under 2 year children):</b> which of these foods have been fed to your under-2 children in the last 7 days?<br/><b>Nutritious diet: </b>all 6-month to under-2 children received foods from 5 or more food groups during the previous day<br/><b>Nutritious diet assessment:</b> by household interview, supported by observation of the foods available in the house (to confirm reported diet of under-2 children)<br/><b>Nutritious food groups:</b> 1. Breast milk 2. Grains, white roots, tubers and plaintains 3. Legumes and nuts 4. Dairy 5. Flesh foods (meat, fish, poultry, liver and organ meats) 6. Eggs 7. Vitamin A rich fruits and vegetables (for example, sweet potato, kale, carrot, red pepper, mango, pink grapefruit, watermelon) 8. Other fruits and vegetables."
           },
           "required": true,
           "meta": false,
@@ -4944,7 +4870,7 @@
         {
           "id": 1702302507816,
           "question": "Outcome result - Nutritious diet",
-          "order": 60,
+          "order": 62,
           "type": "autofield",
           "tooltip": null,
           "required": true,
@@ -4961,14 +4887,14 @@
               "G2 Inadequate nutrition or protection": "#93D371",
               "G3 Good nutrition and protection": "#4088F4"
             },
-            "fnString": "function() {\n  return #1699435397728.includes(\"G1\")\n  ? \"G1 Low nutrition or protection\"\n  : (\n    #1699435397728.includes(\"G3\")\n    ? \"G3 Good nutrition and protection\"\n    : \"G2 Inadequate nutrition or protection\"\n  )\n}",
+            "fnString": "function() {  return #1699435397728.includes(\"G1\")  ? \"G1 Low nutrition or protection\"  : (    #1699435397728.includes(\"G3\")    ? \"G3 Good nutrition and protection\"    : \"G2 Inadequate nutrition or protection\"  )}",
             "multiline": false
           }
         },
         {
           "id": 1699435455818,
           "question": "Malaria-safe home",
-          "order": 61,
+          "order": 63,
           "dependency": [
             {
               "id": 16994260598423,
@@ -4976,7 +4902,7 @@
             }],
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: insecticide-treated bed nets on all beds</b>\n<b>OBSERVE:</b> insect screen on windows, doors and other openings\n<b>Malaria-safe home:</b> EITHER all household members sleep under an insecticide-treated bed net, OR the house has insect screen on all windows, doors and other openings."
+            "text": "<b>OBSERVE: insecticide-treated bed nets on all beds</b><br/><b>OBSERVE:</b> insect screen on windows, doors and other openings<br/><b>Malaria-safe home:</b> EITHER all household members sleep under an insecticide-treated bed net, OR the house has insect screen on all windows, doors and other openings."
           },
           "required": true,
           "meta": false,
@@ -5011,7 +4937,7 @@
         {
           "id": 1702299714872,
           "question": "Outcome result - Malaria-endemic counties: Malaria-safe homes",
-          "order": 62,
+          "order": 64,
           "type": "autofield",
           "tooltip": null,
           "required": true,
@@ -5028,14 +4954,14 @@
               "G2 Inadequate malaria protection": "#93D371",
               "G3 Malaria-safe home": "#4088F4"
             },
-            "fnString": "function() {\n  return #1699435455818.includes(\"G0\")\n  ? \"G1 No malaria protection\"\n  : (\n    #1699435455818.includes(\"G3\")\n    ? \"G3 Malaria-safe home\"\n    : \"G2 Inadequate malaria protection\"\n  )\n}",
+            "fnString": "function() {  return #1699435455818.includes(\"G0\")  ? \"G1 No malaria protection\"  : (    #1699435455818.includes(\"G3\")    ? \"G3 Malaria-safe home\"    : \"G2 Inadequate malaria protection\"  )}",
             "multiline": false
           }
         },
         {
           "id": 1699435526190,
           "question": "Dewormed home",
-          "order": 63,
+          "order": 65,
           "dependency": [
             {
               "id": 16994260598423,
@@ -5043,7 +4969,7 @@
             }],
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: deworming treatment records</b>\n<b>Dewormed home:</b> all children and all at-risk adults have received deworming treatment in the last 12 months"
+            "text": "<b>OBSERVE: deworming treatment records</b><br/><b>Dewormed home:</b> all children and all at-risk adults have received deworming treatment in the last 12 months"
           },
           "required": true,
           "meta": false,
@@ -5078,7 +5004,7 @@
         {
           "id": 1702299918738,
           "question": "Outcome result - STH-endemic counties: Dewormed homes",
-          "order": 64,
+          "order": 66,
           "type": "autofield",
           "tooltip": null,
           "required": true,
@@ -5095,7 +5021,7 @@
               "G2 Inadequate deworming": "#93D371",
               "G3 Dewormed home": "#4088F4"
             },
-            "fnString": "function() {\n  return #1699435526190.includes(\"G0\")\n  ? \"G1 No deworming\"\n  : (\n    #1699435526190.includes(\"G3\")\n    ? \"G3 Dewormed home\"\n    : \"G2 Inadequate deworming\"\n  )\n}",
+            "fnString": "function() {  return #1699435526190.includes(\"G0\")  ? \"G1 No deworming\"  : (    #1699435526190.includes(\"G3\")    ? \"G3 Dewormed home\"    : \"G2 Inadequate deworming\"  )}",
             "multiline": false
           }
         }
@@ -5168,11 +5094,6 @@
           "required": false,
           "meta": false,
           "displayOnly": true,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["Yes"]
-            }],
           "fn": {
             "fnColor": {
               "G2 Durable toilet": " #93D371",
@@ -5190,11 +5111,6 @@
           "required": false,
           "meta": false,
           "displayOnly": true,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["Yes"]
-            }],
           "fn": {
             "fnColor": {
               "G2 Toilet with safe containment": "#93D371",
@@ -5229,11 +5145,6 @@
           "required": false,
           "meta": false,
           "displayOnly": true,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["Yes"]
-            }],
           "fn": {
             "fnColor": {
               "G1 Some household members do not use their own toilet": "#FDC74B",
@@ -5252,11 +5163,6 @@
           "required": false,
           "meta": false,
           "displayOnly": true,
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["Yes"]
-            }],
           "fn": {
             "fnColor": {
               "G3 Use of safely managed sanitation services": "#4088F4",
@@ -5292,11 +5198,6 @@
           "required": false,
           "meta": false,
           "displayOnly": true,
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["Yes"]
-            }],
           "fn": {
             "fnColor": {
               "G0 No or inadequate handwashing services": "#FD3F31",
@@ -5315,11 +5216,6 @@
           "required": false,
           "meta": false,
           "displayOnly": true,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["Yes"]
-            }],
           "fn": {
             "fnColor": {
               "G1 Some critical handwashing times NOT mentioned": "#FDC74B",
