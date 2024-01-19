@@ -142,7 +142,7 @@ const strToFunction = (fnString, values) => {
   }
 };
 
-const TypeAutofield = ({ onChange, keyform, id, name, tooltip, fn }) => {
+const TypeAutofield = ({ onChange, keyform, id, name, tooltip, fn, displayOnly }) => {
   const [value, setValue] = useState(null);
   const [fieldColor, setFieldColor] = useState(null);
   const { fnString, fnColor } = fn;
@@ -157,19 +157,23 @@ const TypeAutofield = ({ onChange, keyform, id, name, tooltip, fn }) => {
           setFieldColor(fnColor[_automateValue]);
         }
         setValue(_automateValue);
+        if (!displayOnly && _automateValue) {
+          FormState.update((s) => {
+            s.currentValues[id] = _automateValue;
+          });
+        }
       } else {
         setValue(null);
+        if (!displayOnly) {
+          FormState.update((s) => {
+            s.currentValues[id] = null;
+          });
+        }
       }
     } catch {
       setValue(null);
     }
-  }, [automateValue, fnString, fnColor]);
-
-  useEffect(() => {
-    if (value) {
-      onChange(id, value);
-    }
-  }, [value]);
+  }, [automateValue, fnString, fnColor, displayOnly]);
 
   return (
     <View testID="type-autofield-wrapper">
