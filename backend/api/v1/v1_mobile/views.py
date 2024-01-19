@@ -7,7 +7,13 @@ from rest_framework.request import Request
 from rest_framework.viewsets import ModelViewSet
 from api.v1.v1_mobile.authentication import (
         IsMobileAssignment, MobileAssignmentToken)
-from rtmis.settings import MASTER_DATA, BASE_DIR, APP_NAME, APK_UPLOAD_SECRET
+from rtmis.settings import (
+    MASTER_DATA,
+    BASE_DIR,
+    APP_NAME,
+    APK_UPLOAD_SECRET,
+    WEBDOMAIN
+)
 from drf_spectacular.utils import extend_schema
 from django.http import HttpResponse
 from rest_framework import status, serializers
@@ -234,7 +240,7 @@ def upload_image_form_device(request, version):
     return Response(
         {
             'message': 'File uploaded successfully',
-            'file': f'/images/{filename}',
+            'file': f'{WEBDOMAIN}/images/{filename}',
         },
         status=status.HTTP_200_OK,
     )
