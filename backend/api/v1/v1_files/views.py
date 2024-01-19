@@ -1,3 +1,4 @@
+from rtmis.settings import WEBDOMAIN
 from .serializers import UploadImagesSerializer
 from rest_framework import serializers
 from drf_spectacular.utils import extend_schema, inline_serializer
@@ -36,7 +37,7 @@ def upload_images(request, version):
     return Response(
         {
             "message": "File uploaded successfully",
-            "file": f"/images/{filename}"
+            "file": f"{WEBDOMAIN}/images/{filename}"
         },
         status=status.HTTP_200_OK,
     )
