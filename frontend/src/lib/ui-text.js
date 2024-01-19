@@ -5,16 +5,16 @@ const uiText = {
     // Home page
     welcome: (
       <Fragment>
-        RUSH Real Time Monitoring
+        Rural and Urban Sanitation and Hygiene (RUSH)
         <br />
-        Information System
+        Real-Time Monitoring and Information System (RTMIS)
       </Fragment>
     ),
     welcomeDesc: (
       <Fragment>
-        RUSH Real Time Monitoring
+        Rural and Urban Sanitation and Hygiene (RUSH)
         <br />
-        Information System
+        Real-Time Monitoring and Information System (RTMIS)
       </Fragment>
     ),
     countdownTitle: "Time remaining to achieve national RUSH targets:",

@@ -114,6 +114,7 @@ const Banner = () => {
           <Countdown date="2025-12-31T09:00:00" renderer={renderer} />
         </div>
         <Row>
+          {/*
           <Button
             type="primary"
             onClick={() => scrollToView()}
@@ -122,6 +123,7 @@ const Banner = () => {
           >
             {text?.welcomeCta}
           </Button>
+          */}
           <Dropdown overlay={DashboardMenu}>
             <Button
               shape="round"
