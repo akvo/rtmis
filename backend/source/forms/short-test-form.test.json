@@ -224,11 +224,10 @@
           "order": 16,
           "type": "autofield",
           "tooltip": null,
-          "required": false,
+          "required": true,
           "meta": false,
           "options": null,
           "rule": null,
-          "displayOnly": true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #169941986117211 + #169941995152311 }",

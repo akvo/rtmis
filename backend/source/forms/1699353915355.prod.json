@@ -704,7 +704,6 @@
           "required": true,
           "meta": false,
           "options": null,
-          "displayOnly": true,
           "rule": null,
           "fn": {
             "fnColor": {},
@@ -722,7 +721,6 @@
           "meta": false,
           "options": null,
           "rule": null,
-          "displayOnly": true,
           "fn": {
             "fnColor": {},
             "fnString": "function(){return #1699419951523 + #1699420051321 + #1699420103720 + #1699420137191}",
@@ -4554,7 +4552,7 @@
           "question": "Outcome result - Functional toilet with privacy",
           "order": 1,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4568,7 +4566,7 @@
           "question": "Outcome result - Flyproof toilet type",
           "order": 2,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4582,7 +4580,7 @@
           "question": "Outcome result - Clean toilet",
           "order": 3,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4596,7 +4594,7 @@
           "question": "Outcome result - Durable toilet",
           "order": 4,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4610,7 +4608,7 @@
           "question": "Outcome result - Toilet with safe containment",
           "order": 5,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4624,7 +4622,7 @@
           "question": "Outcome result - Toilet with safe containment",
           "order": 6,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4638,7 +4636,7 @@
           "question": "Outcome result - Toilet use by all household members",
           "order": 7,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4652,7 +4650,7 @@
           "question": "Outcome result - Individual use of own household toilet",
           "order": 8,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4666,7 +4664,7 @@
           "question": "Outcome result - Use of safely managed sanitation services",
           "order": 9,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4680,7 +4678,7 @@
           "question": "Outcome result - Hand-washing facility with water and soap",
           "order": 10,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4694,7 +4692,7 @@
           "question": "Outcome result - Permanent hand washing station",
           "order": 11,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4708,7 +4706,7 @@
           "question": "Outcome result - Hand washing with soap at critical times",
           "order": 12,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4722,7 +4720,7 @@
           "question": "Outcome result - No exposed human excreta",
           "order": 13,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4736,7 +4734,7 @@
           "question": "Outcome result - Safe management of child excreta and diapers",
           "order": 14,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4750,7 +4748,7 @@
           "question": "Outcome result - Clean and safely stored food",
           "order": 15,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4764,7 +4762,7 @@
           "question": "Outcome result - Clean and safely stored kitchen utensils",
           "order": 16,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4778,7 +4776,7 @@
           "question": "Outcome result - Clean and safely stored milk containers",
           "order": 17,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4792,7 +4790,7 @@
           "question": "Outcome result - Safe management of drinking water",
           "order": 18,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4806,7 +4804,7 @@
           "question": "Outcome result - Safe management of water sources",
           "order": 19,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4820,7 +4818,7 @@
           "question": "Outcome result - No visible animal wastes in house or compound",
           "order": 20,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4834,7 +4832,7 @@
           "question": "Outcome result - Safe management of animal wastes in compound",
           "order": 21,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4848,7 +4846,7 @@
           "question": "Outcome result - Safe separation of animals from under-5 children",
           "order": 22,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4862,7 +4860,7 @@
           "question": "Outcome result - Safe management of liquid wastes",
           "order": 23,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4876,7 +4874,7 @@
           "question": "Outcome result - Safe management of solid wastes",
           "order": 24,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4890,7 +4888,7 @@
           "question": "Outcome result - Good vector control in compound",
           "order": 25,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4904,7 +4902,7 @@
           "question": "Outcome result - Clean face and hands",
           "order": 26,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4918,7 +4916,7 @@
           "question": "Outcome result - Good menstrual health",
           "order": 27,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4932,7 +4930,7 @@
           "question": "Outcome result - Fully immunized children",
           "order": 28,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4946,7 +4944,7 @@
           "question": "Outcome result - Vitamin A supplements",
           "order": 29,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4960,7 +4958,7 @@
           "question": "Outcome result - Exclusive breastfeeding",
           "order": 30,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4974,7 +4972,7 @@
           "question": "Outcome result - Nutritious diet",
           "order": 31,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -4988,7 +4986,7 @@
           "question": "Outcome result - Malaria-endemic counties: Malaria-safe homes",
           "order": 32,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -5002,7 +5000,7 @@
           "question": "Outcome result - STH-endemic counties: Dewormed homes",
           "order": 33,
           "type": "autofield",
-          "required": true,
+          "required": false,
           "meta": false,
           "displayOnly": true,
           "fn": {
