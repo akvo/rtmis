@@ -10,7 +10,7 @@
   "question_groups": [
     {
       "id": 1699354006534,
-      "question_group": "COMMUNITY: data",
+      "question_group": "COMMUNITY Primary data",
       "description": "COMMUNITY: data",
       "order": 1,
       "repeatable": false,
@@ -203,21 +203,11 @@
               }
             ]
           }
-        }
-      ]
-    },
-    {
-      "id": 1699951210637,
-      "question_group": "Community: location",
-      "description": null,
-      "order": 2,
-      "repeatable": false,
-      "translations": null,
-      "questions": [
+        },
         {
           "id": 1699951210638,
           "question": "What is the location of the community?",
-          "order": 1,
+          "order": 2,
           "type": "administration",
           "tooltip": {
             "text": "This question contains a list of possible household locations, starting with the government area or district, down to the village."
@@ -234,7 +224,7 @@
         {
           "id": 1699951425330,
           "question": "Geolocation of the community",
-          "order": 2,
+          "order": 3,
           "type": "geo",
           "tooltip": {
             "text": "Record GPS coordinates of a central place in the community (e.g. community meeting place)"
