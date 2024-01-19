@@ -645,7 +645,7 @@
           "meta": false,
           "options": [
             {
-              "id": 16999524328041,
+              "id": 16999223328041,
               "name": "G0 At-risk household monitoring: no disaggregated data available from community",
               "order": 1,
               "color": "#ffc7ce"
@@ -657,7 +657,7 @@
               "color": "#ffc7ce"
             },
             {
-              "id": 16999524328052,
+              "id": 16999524328852,
               "name": "G1/G2/G3 At-risk household monitoring system functional: Less than 5% difference in monitoring data",
               "order": 3,
               "color": "#c6efce"
