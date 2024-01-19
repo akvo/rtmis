@@ -96,12 +96,12 @@ const Banner = () => {
     };
     const DashboardMenu = (
       <Menu>
-        {window?.dashboard?.map((d) => (
+        {window?.powerBIDashboard?.map((d) => (
           <Menu.Item
             key={`${d.name}`}
             style={{ fontSize: 16, fontStyle: "italic", padding: 10 }}
           >
-            <Link to={`/${d.page}/${d.form_id}`}>{d.name}</Link>
+            <Link to={`/${d.page}/${d.path}`}>{d.name}</Link>
           </Menu.Item>
         ))}
       </Menu>
