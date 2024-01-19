@@ -186,7 +186,7 @@ const App = () => {
     <SafeAreaProvider>
       <Navigation testID="navigation-element" />
       <NetworkStatusBar />
-      {/* <SyncService /> */}
+      <SyncService />
     </SafeAreaProvider>
   );
 };
