@@ -90,10 +90,12 @@ const Banner = () => {
   };
 
   const HomeBanner = () => {
+    /*
     const scrollToView = () => {
       const section = document.querySelector("#home-visualisation");
       section.scrollIntoView({ behavior: "smooth", block: "start" });
     };
+    */
     const DashboardMenu = (
       <Menu>
         {window?.powerBIDashboard?.map((d) => (
