@@ -800,109 +800,109 @@
               "id": 1702915144068,
               "name": "OTHER household (NOT in at-risk category)",
               "order": 1,
-              "color": "#96f2a2"
+              "color": "#c6efce"
             },
             {
               "id": 1702915144069,
               "name": "AT RISK: Disabled household member (mentally or physically)",
               "order": 2,
-              "color": "#fbbece"
+              "color": "#ffc7ce"
             },
             {
               "id": 1702916149557,
               "name": "AT RISK: Elderly-headed households (without support)",
               "order": 3,
-              "color": "#fbbece"
+              "color": "#ffc7ce"
             },
             {
               "id": 1702916163485,
               "name": "AT RISK: Orphans and vulnerable children",
               "order": 4,
-              "color": "#fbbece"
+              "color": "#ffc7ce"
             },
             {
               "id": 1702916204384,
               "name": "AT RISK: Female-headed household (single mothers, divorcees, widows)",
               "order": 5,
-              "color": "#fbbece"
+              "color": "#ffc7ce"
             },
             {
               "id": 1702916223734,
               "name": "AT RISK: Internally displaced people",
               "order": 6,
-              "color": "#fbbece"
+              "color": "#ffc7ce"
             },
             {
               "id": 1702916231272,
               "name": "AT RISK: Returning refugees",
               "order": 7,
-              "color": "#fbbece"
+              "color": "#ffc7ce"
             },
             {
               "id": 1702916243750,
               "name": "AT RISK: HIV/AIDS affected (or other serious illness)",
               "order": 8,
-              "color": "#fbbece"
+              "color": "#ffc7ce"
             },
             {
               "id": 1702916252967,
               "name": "AT RISK: Religious minorities",
               "order": 9,
-              "color": "#fbbece"
+              "color": "#ffc7ce"
             },
             {
               "id": 1702916262350,
               "name": "AT RISK: Ethnic minorities",
               "order": 10,
-              "color": "#fbbece"
+              "color": "#ffc7ce"
             },
             {
               "id": 1702916282717,
               "name": "AT RISK: Nomadic or semi-nomadic",
               "order": 11,
-              "color": "#fbbece"
+              "color": "#ffc7ce"
             },
             {
               "id": 1702916285517,
               "name": "AT RISK: Seasonal fishing group",
               "order": 12,
-              "color": "#fbbece"
+              "color": "#ffc7ce"
             },
             {
               "id": 1702916302450,
               "name": "AT RISK: Long-term poor",
               "order": 13,
-              "color": "#fbbece"
+              "color": "#ffc7ce"
             },
             {
               "id": 1702916311400,
               "name": "AT RISK: Landless/tenants",
               "order": 14,
-              "color": "#fbbece"
+              "color": "#ffc7ce"
             },
             {
               "id": 1702916320701,
               "name": "AT RISK: Shared use of someone else's toilet/public toilet (don't have a toilet)",
               "order": 15,
-              "color": "#fbbece"
+              "color": "#ffc7ce"
             },
             {
               "id": 1702916333235,
               "name": "AT RISK: In-migrants (new households in last 12 months)",
               "order": 16,
-              "color": "#fbbece"
+              "color": "#ffc7ce"
             },
             {
               "id": 1702916341267,
               "name": "AT RISK: New adult households (newly formed household)",
               "order": 17,
-              "color": "#fbbece"
+              "color": "#ffc7ce"
             },
             {
               "id": 1702916350017,
               "name": "AT RISK: households with previously collapsed or flooded toilets",
               "order": 18,
-              "color": "#fbbece"
+              "color": "#ffc7ce"
             }
           ],
           "rule": null,
