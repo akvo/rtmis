@@ -1734,13 +1734,13 @@
               "id": 1699428304300,
               "name": "G1 Use own toilet",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#c6efce"
             },
             {
               "id": 1699428314314,
               "name": "G1 Use other household toilet",
               "order": 3,
-              "color": "#ffeb9c"
+              "color": "#c6efce"
             }
           ],
           "fn": null
