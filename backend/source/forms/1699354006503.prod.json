@@ -442,17 +442,17 @@
           "options": [
             {
               "id": 1699952315820,
-              "name": "More than 25%",
+              "name": "More than 25 percent",
               "order": 1
             },
             {
               "id": 1699952315821,
-              "name": "Between 1% and 25%",
+              "name": "Between 1 percent  and 25 percent",
               "order": 2
             },
             {
               "id": 1699952343092,
-              "name": "0% (zero percent)",
+              "name": "Zero Percent",
               "order": 3
             }
           ],
@@ -460,7 +460,7 @@
         },
         {
           "id": 1699952355848,
-          "question": "% of toilets less than 10m from groundwater sources",
+          "question": "Percentage of toilets less than 10m from groundwater sources",
           "order": 9,
           "type": "option",
           "tooltip": {
