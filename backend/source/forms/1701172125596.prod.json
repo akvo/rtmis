@@ -160,12 +160,12 @@
           "options": [
             {
               "id": 1701329110965,
-              "name": "School (select school from list of schools)",
+              "name": "School",
               "order": 1
             },
             {
               "id": 1701329110966,
-              "name": "Healthcare facility (select healthcare facility from list of HCFs)",
+              "name": "Healthcare facility",
               "order": 2
             },
             {
@@ -288,8 +288,8 @@
           "meta": false,
           "options": null,
           "rule": {
-            "max": 100,
-            "min": 1
+            "max": 99,
+            "min": 0
           },
           "fn": null
         },
@@ -303,8 +303,8 @@
           "meta": false,
           "options": null,
           "rule": {
-            "max": 100,
-            "min": 1
+            "max": 99,
+            "min": 0
           },
           "fn": null
         },
