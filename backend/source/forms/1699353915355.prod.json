@@ -18,7 +18,7 @@
       "questions": [
         {
           "id": 1699354220734,
-          "question": "New household registration or Monitoring upate?",
+          "question": "New household registration or Monitoring update?",
           "order": 1,
           "type": "option",
           "tooltip": {
@@ -378,6 +378,16 @@
           "meta": false,
           "options": [
             {
+              "id": 1699419380102,
+              "name": "Female",
+              "order": 1
+            },
+            {
+              "id": 1699419380101,
+              "name": "Male",
+              "order": 2
+            },
+            {
               "id": 1699419417084,
               "name": "Other gender",
               "order": 3
@@ -386,16 +396,6 @@
               "id": 1699419420456,
               "name": "I prefer not to say",
               "order": 4
-            },
-            {
-              "id": 1699419380101,
-              "name": "Male",
-              "order": 1
-            },
-            {
-              "id": 1699419380102,
-              "name": "Female",
-              "order": 2
             }
           ],
           "rule": null,
