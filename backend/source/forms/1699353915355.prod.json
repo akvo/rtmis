@@ -1554,7 +1554,7 @@
           "options": null,
           "fn": {
             "fnColor": {
-              "G2 Durable toilet": " #93D371",
+              "G2 Durable toilet": "#93D371",
               "G0 Toilet NOT durable": "#FD3F31"
             },
             "fnString": "function() { return (#1699427405024.includes(\"G2\") && #1699427574765.includes(\"G2\")) ? \"G2 Durable toilet\" : \"G0 Toilet NOT durable\"}",
@@ -5158,7 +5158,7 @@
           "displayOnly": true,
           "fn": {
             "fnColor": {
-              "G2 Durable toilet": " #93D371",
+              "G2 Durable toilet": "#93D371",
               "G0 Toilet NOT durable": "#FD3F31"
             },
             "fnString": "function(){return #1702283171680}",
