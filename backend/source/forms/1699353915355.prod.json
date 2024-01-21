@@ -5592,7 +5592,7 @@
           ],
           "fn": {
             "fnColor": {
-              "G1 Liquid wastes UNSAFELY managed": "#FDC74B",
+              "G1 Solid wastes UNSAFELY managed": "#FDC74B",
               "G2 Inadequate management of solid wastes": "#93D371",
               "G3 Safe management of solid wastes": "#4088F4"
             },
