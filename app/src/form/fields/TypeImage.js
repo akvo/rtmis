@@ -37,7 +37,6 @@ const TypeImage = ({
      * Docs: https://docs.expo.dev/versions/latest/sdk/imagepicker/#usage
      */
     const result = await ImagePicker.launchImageLibraryAsync({
-      quality: 1,
       base64: true,
     });
     if (!result?.canceled) {
@@ -65,7 +64,6 @@ const TypeImage = ({
     }
     if (accessGranted) {
       const result = await ImagePicker.launchCameraAsync({
-        quality: 1,
         base64: true,
       });
       if (!result?.canceled) {
