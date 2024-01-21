@@ -332,7 +332,7 @@
         },
         {
           "id": 1699419165632,
-          "question": "Household head: given family name",
+          "question": "Household head: family name",
           "order": 3,
           "type": "text",
           "tooltip": null,
@@ -356,7 +356,7 @@
         },
         {
           "id": 1699419228644,
-          "question": "Second household member: given family name",
+          "question": "Second household member: family name",
           "order": 5,
           "type": "text",
           "tooltip": null,
@@ -1554,7 +1554,7 @@
           "options": null,
           "fn": {
             "fnColor": {
-              "G2 Durable toilet": " #93D371",
+              "G2 Durable toilet": "#93D371",
               "G0 Toilet NOT durable": "#FD3F31"
             },
             "fnString": "function() { return (#1699427405024.includes(\"G2\") && #1699427574765.includes(\"G2\")) ? \"G2 Durable toilet\" : \"G0 Toilet NOT durable\"}",
@@ -2592,7 +2592,7 @@
     },
     {
       "id": 1699432130950,
-      "question_group": "OBSERVATION: OTHER OUTCOMES",
+      "question_group": "OBSERVATION:  Environmental Health outcomes",
       "description": null,
       "order": 6,
       "repeatable": false,
@@ -5158,7 +5158,7 @@
           "displayOnly": true,
           "fn": {
             "fnColor": {
-              "G2 Durable toilet": " #93D371",
+              "G2 Durable toilet": "#93D371",
               "G0 Toilet NOT durable": "#FD3F31"
             },
             "fnString": "function(){return #1702283171680}",
