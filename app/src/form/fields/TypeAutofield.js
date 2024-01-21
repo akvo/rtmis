@@ -190,7 +190,6 @@ const TypeAutofield = ({ onChange, keyform, id, name, tooltip, fn, displayOnly }
         disabled
         style={{
           fontWeight: 'bold',
-          // color: 'white',
           opacity: 1,
         }}
       />
