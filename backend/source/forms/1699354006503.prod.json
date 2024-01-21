@@ -65,15 +65,15 @@
               },
               {
                 "id": 1699952295823,
-                "answer": ["More than 25%"]
+                "answer": ["More than 25 percent"]
               },
               {
                 "id": 1699952355848,
-                "answer": ["More than 25%"]
+                "answer": ["More than 25 percent"]
               },
               {
                 "id": 1699952418978,
-                "answer": ["More than 25%"]
+                "answer": ["More than 25 percent"]
               },
               {
                 "id": 1702364544574,
@@ -411,12 +411,12 @@
           "options": [
             {
               "id": 1699952385488,
-              "name": "More than 25%",
+              "name": "More than 25 percent",
               "order": 1
             },
             {
               "id": 1699952385489,
-              "name": "Less than 25%",
+              "name": "Less than 25 percent",
               "order": 2
             }
           ],
@@ -435,12 +435,12 @@
           "options": [
             {
               "id": 1699952432804,
-              "name": "More than 25%",
+              "name": "More than 25 percent",
               "order": 1
             },
             {
               "id": 1699952432805,
-              "name": "Less than 25%",
+              "name": "Less than 25 percent",
               "order": 2
             }
           ],
