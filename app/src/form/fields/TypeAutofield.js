@@ -188,6 +188,11 @@ const TypeAutofield = ({ onChange, keyform, id, name, tooltip, fn, displayOnly }
         multiline={true}
         numberOfLines={2}
         disabled
+        style={{
+          fontWeight: 'bold',
+          // color: 'white',
+          opacity: 1,
+        }}
       />
     </View>
   );
