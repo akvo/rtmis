@@ -38,7 +38,10 @@ const FormNavigation = ({
         const defaultVal = ['cascade', 'multiple_option', 'option', 'geo'].includes(q?.type)
           ? null
           : '';
-        const fieldValue = currentValues?.[q?.id] || defaultVal;
+        /**
+         * Set default value when the answer is undefined
+         */
+        const fieldValue = currentValues?.[q?.id] === undefined ? defaultVal : currentValues[q.id];
         return generateValidationSchemaFieldLevel(fieldValue, q);
       });
     const validations = await Promise.allSettled(validateSync);
