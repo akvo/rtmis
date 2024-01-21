@@ -57,7 +57,7 @@
               },
               {
                 "id": 1699420160003,
-                "answer": ["Yes, more than one person"]
+                "answer": ["No"]
               },
               {
                 "id": 1699420491508,
@@ -114,7 +114,7 @@
 
               {
                 "id": 1699427405024,
-                "answer": ["G1 Not-durable slab, cement covered"]
+                "answer": ["G0 No toilet"]
               },
               {
                 "id": 1699427574765,
@@ -159,6 +159,10 @@
               {
                 "id": 1699428820338,
                 "answer": ["G0 No toilet, or no containment/collection system"]
+              },
+              {
+                "id": 1702285668136,
+                "answer": ["G0 Sanitation services UNSAFELY managed"]
               },
               {
                 "id": 1699429162796,
@@ -641,109 +645,109 @@
               "id": 1702915144068,
               "name": "OTHER household (NOT in at-risk category)",
               "order": 1,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1702915144069,
               "name": "AT RISK: Disabled household member (mentally or physically)",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1702916149557,
               "name": "AT RISK: Elderly-headed households (without support)",
               "order": 3,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1702916163485,
               "name": "AT RISK: Orphans and vulnerable children",
               "order": 4,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1702916204384,
               "name": "AT RISK: Female-headed household (single mothers, divorcees, widows)",
               "order": 5,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1702916223734,
               "name": "AT RISK: Internally displaced people",
               "order": 6,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1702916231272,
               "name": "AT RISK: Returning refugees",
               "order": 7,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1702916243750,
               "name": "AT RISK: HIV/AIDS affected (or other serious illness)",
               "order": 8,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1702916252967,
               "name": "AT RISK: Religious minorities",
               "order": 9,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1702916262350,
               "name": "AT RISK: Ethnic minorities",
               "order": 10,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1702916282717,
               "name": "AT RISK: Nomadic or semi-nomadic",
               "order": 11,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1702916285517,
               "name": "AT RISK: Seasonal fishing group",
               "order": 12,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1702916302450,
               "name": "AT RISK: Long-term poor",
               "order": 13,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1702916311400,
               "name": "AT RISK: Landless/tenants",
               "order": 14,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1702916320701,
               "name": "AT RISK: Shared use of someone else's toilet/public toilet (don't have a toilet)",
               "order": 15,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1702916333235,
               "name": "AT RISK: In-migrants (new households in last 12 months)",
               "order": 16,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1702916341267,
               "name": "AT RISK: New adult households (newly formed household)",
               "order": 17,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1702916350017,
               "name": "AT RISK: households with previously collapsed or flooded toilets",
               "order": 18,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             }
           ],
           "rule": null,
@@ -788,13 +792,13 @@
               "id": 1699422978623,
               "name": "G0 No toilet",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699422978624,
               "name": "G1 Toilet observed",
               "order": 2,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "dependency": null,
@@ -883,25 +887,25 @@
               "id": 16994239628191,
               "name": "G0 No toilet",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699423434694,
               "name": "G0 Non-functional toilet",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699423434695,
               "name": "G0+ Partly functional toilet",
               "order": 3,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699423473150,
               "name": "G1 Fully functional toilet",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -921,25 +925,25 @@
               "id": 16994239628192,
               "name": "G0 No toilet",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699423579622,
               "name": "G0 No toilet privacy",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699423579623,
               "name": "G0+ Inadequate toilet privacy",
               "order": 3,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699423654846,
               "name": "G1 Good toilet privacy",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -978,49 +982,55 @@
               "id": 1699423714719,
               "name": "G0 No toilet",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 16994237147199,
+              "name": "G0 No interface: open pit",
+              "order": 1,
+              "color": "#DB3B3B"
             },
             {
               "id": 1699423714720,
               "name": "G1 Dry latrine with drophole",
               "order": 2,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699423862307,
               "name": "G1 VIP drophole with vent pipe",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699423880083,
               "name": "G1 SATO pan",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699423892200,
               "name": "G1 Flush or pour-flush pan with water seal",
               "order": 5,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699423903600,
               "name": "G1 Dry toilet with urine-diverting drophole",
               "order": 6,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699423916078,
               "name": "G1 Open pipe (no water seal)",
               "order": 7,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699423918866,
               "name": "G1 Other toilet interface",
               "order": 8,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "dependency": null,
@@ -1041,79 +1051,79 @@
               "id": 1699423962819,
               "name": "G0 No toilet",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699423962820,
               "name": "G0 No pit or tank (discharge to open: field, open drain, water body, elsewhere)",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699424042855,
               "name": "G0 Open pit (uncovered or large openings)",
               "order": 3,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699424050793,
               "name": "G0 Single toilet vault (above ground)",
               "order": 4,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699424058516,
               "name": "G0 Removable open container (e.g. bucket)",
               "order": 5,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699424067066,
               "name": "G1 Single latrine pit",
               "order": 6,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699424076000,
               "name": "G1 Double latrine pit",
               "order": 7,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699424087945,
               "name": "G1 Double toilet vault (above ground)",
               "order": 8,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699424096549,
               "name": "G1 Septic tank",
               "order": 9,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699424104883,
               "name": "G1 Removable closed container",
               "order": 10,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699424113501,
               "name": "G1 Piped sewer connection",
               "order": 11,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699424121866,
               "name": "G1 Other pit or tank",
               "order": 12,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699424135551,
               "name": "G1 Flush to don't know",
               "order": 13,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
 
@@ -1134,73 +1144,73 @@
               "id": 1699424390166,
               "name": "G0 No toilet",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699424390167,
               "name": "G0 Inadequate or missing drophole cover",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699424431487,
               "name": "G0 VIP vent pipe without insect screen",
               "order": 3,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699424438922,
               "name": "G0 Broken SATO flap",
               "order": 4,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699424446583,
               "name": "G0 Broken or empty water seal (no water)",
               "order": 5,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699424454824,
               "name": "G0 Open pipe (to pit or tank)",
               "order": 6,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699424462574,
               "name": "G0 Other non-flyproof toilet",
               "order": 7,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699424470753,
               "name": "G1 Tight-fitting drophole cover (in place)",
               "order": 8,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699424481108,
               "name": "G1 VIP vent pipe with insect screen",
               "order": 9,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699424487776,
               "name": "G1 Functional SATO flap",
               "order": 10,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699424505975,
               "name": "G1 Functional water seal (with water)",
               "order": 11,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699424513523,
               "name": "G1 Other flyproof toilet",
               "order": 12,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
 
@@ -1240,25 +1250,25 @@
               "id": 1699425865885,
               "name": "G0 NOT clean: heavy traces of faeces or soiled cleaning materials",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699425865886,
               "name": "G0 NOT clean: some faeces and soiled cleaning materials",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699425897473,
               "name": "G1 Clean: minor traces of faeces or soiled materials (easily cleaned)",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699425908023,
               "name": "G1 Clean: no visible faeces or soiled cleansing materials",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "dependency": null,
@@ -1279,25 +1289,25 @@
               "id": 1699425951606,
               "name": "G0 NOT clean: heavy traces of faeces or soiled cleaning materials",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699425951607,
               "name": "G0 NOT clean: some faeces and soiled cleaning materials",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699425996920,
               "name": "G1 Clean: minor traces of faeces or soiled materials (easily cleaned)",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699426014393,
               "name": "G1 Clean: no visible faeces or soiled cleansing materials",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "dependency": null,
@@ -1318,25 +1328,25 @@
               "id": 1699426086413,
               "name": "G0 NOT clean: heavy traces of faeces",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699426086414,
               "name": "G0 NOT clean: some faeces",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699426150422,
               "name": "G1 Clean: minor traces of faeces (easily cleaned)",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699426158098,
               "name": "G1 Clean: no visible faeces",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "dependency": null,
@@ -1376,73 +1386,73 @@
               "id": 1699427428373,
               "name": "G0 No toilet",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699427428374,
               "name": "G0 No slab (open pit, faeces not contained)",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699427462525,
               "name": "G0 Partial slab (openings, faeces not fully contained)",
               "order": 3,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699427473237,
               "name": "G1 Not-durable slab, mud covered",
               "order": 4,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699427491544,
               "name": "G1 Not-durable slab, cement covered",
               "order": 5,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699427499528,
               "name": "G1 Not-durable slab, wooden",
               "order": 6,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699427507678,
               "name": "G1 Other not-durable slab materials",
               "order": 7,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699427515662,
               "name": "G2 Concrete slab",
               "order": 8,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699427523778,
               "name": "G2 Tiled concrete slab",
               "order": 9,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699427532195,
               "name": "G2 Resilient slab (local materials)",
               "order": 10,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699427539979,
               "name": "G2 Structural plastic slab",
               "order": 11,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699427547887,
               "name": "G2 Other durable slab materials",
               "order": 12,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -1462,73 +1472,73 @@
               "id": 1699427608150,
               "name": "G0 No toilet",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699427608151,
               "name": "G0 No containment (discharge to open, open container)",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699427632214,
               "name": "G0 Not durable containment (collapse, problems)",
               "order": 3,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699427638947,
               "name": "G1 Unlined pit (unstable soil, but not collapsed)",
               "order": 4,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699427646049,
               "name": "G1 Containment lined with inadequate local materials",
               "order": 5,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699427653231,
               "name": "G2 Containment unlined (in stable soil)",
               "order": 6,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699427660666,
               "name": "G2 Containment lined with blocks or bricks",
               "order": 7,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699427675915,
               "name": "G2 Containment lined with concrete",
               "order": 9,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699427667581,
               "name": "G2 Containment lined with resilient local materials",
               "order": 8,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699427683917,
               "name": "G2 Containment lined with other durable materials",
               "order": 10,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699427693452,
               "name": "G2 Durable removable container",
               "order": 11,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699427701268,
               "name": "G2 Durable sewer connection",
               "order": 12,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -1566,49 +1576,49 @@
               "id": 1699427749991,
               "name": "G0 No toilet, or no containment or collection system",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699427749992,
               "name": "G0 Visible surface outflows",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699427805971,
               "name": "G1 Evidence of previous surface outflows",
               "order": 3,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699427817604,
               "name": "G2 Single pit: not yet full (no surface outflows)",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699427826621,
               "name": "G2 Double pits (no surface outflows)",
               "order": 5,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699427834988,
               "name": "G2 Septic tank with soakpit (no surface outflows)",
               "order": 6,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699427843089,
               "name": "G2 Sewer connection (no surface outflows)",
               "order": 7,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699427851456,
               "name": "G2 Other containment (no surface outflows)",
               "order": 8,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -1628,25 +1638,25 @@
               "id": 1699427918024,
               "name": "G0 No toilet, or no containment or collection system",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699427918025,
               "name": "G0 Regularly or continuously",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699427957175,
               "name": "G1 Only once, rarely",
               "order": 3,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699427964024,
               "name": "G2 Never",
               "order": 4,
-              "color": "#ffc7ce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -1664,13 +1674,13 @@
               "id": 1702282914707,
               "name": "G0 High risk of groundwater contamination",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1702282914708,
               "name": "G2 Low risk of groundwater contamination",
               "order": 2,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -1718,19 +1728,19 @@
               "id": 1699428304299,
               "name": "G0 No toilet, practice OD",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699428304300,
               "name": "G1 Use own toilet",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#38A15A"
             },
             {
               "id": 1699428314314,
               "name": "G1 Use other household toilet",
               "order": 3,
-              "color": "#ffeb9c"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -1750,19 +1760,19 @@
               "id": 1699428357900,
               "name": "G0 No members use toilet",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699428357901,
               "name": "G0+ Some members do NOT use toilet",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699428387760,
               "name": "G1 All members use toilet",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -1782,25 +1792,25 @@
               "id": 1700037304277,
               "name": "G0 Toilet SHARED: MORE than 10-15 users",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1700037304278,
               "name": "G0 Toilet NOT-shared: MORE than 10-15 users",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1700037326498,
               "name": "G1 Toilet NOT-shared: Less than 10-15 users",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1700037338454,
               "name": "G1 Toilet SHARED: Less than 10-15 users",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -1838,25 +1848,25 @@
               "id": 1699428581174,
               "name": "Household member #1: G0 No toilet use, practice OD",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699428581175,
               "name": "Household member #1: G1 Use other household toilet (shared)",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699428642804,
               "name": "Household member #1: G1 Use own toilet (shared)",
               "order": 3,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699428651604,
               "name": "Household member #1: G2 Use own toilet (not shared)",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -1895,67 +1905,67 @@
               "id": 1699428734675,
               "name": "G0 No toilet, or no containment/collection system",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699428734676,
               "name": "G0 Unsafe containment: open container",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699428752420,
               "name": "G0 Unsafe containment: overflow to open space, open drain, water body",
               "order": 3,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699428939544,
               "name": "G1 Risk of unsafe services: never emptied (intention to empty when full)",
               "order": 4,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699428755154,
               "name": "G3 Never emptied, not yet full (first toilet)",
               "order": 5,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699428767471,
               "name": "G3 Never emptied, previous pit or tank replaced when full",
               "order": 6,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699428770256,
               "name": "G3 Never emptied, using second pit (first pit full)",
               "order": 7,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 16994287702567,
               "name": "G3 Yes, containment emptied",
               "order": 8,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 16994287702568,
               "name": "G3 Yes, closed container removed",
               "order": 9,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 16994287702569,
               "name": "G3 Piped sewer connection",
               "order": 10,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 16994287702561,
               "name": "G3 Other removal of faecal sludge or wastewater",
               "order": 11,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -1965,17 +1975,6 @@
           "question": "Safely managed sanitation services",
           "order": 8,
           "type": "option",
-          "dependency": [
-            {
-              "id": 1699428661689,
-              "options": [
-                "G3 Yes, containment emptied",
-                "G3 Yes, closed container removed",
-                "G3 Piped sewer connection",
-                "G3 Other removal of faecal sludge or wastewater"
-              ]
-            }
-          ],
           "tooltip": {
             "text": "<b>INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?</b><br/><b>INTERVIEW:</b> the last time it was emptied, who emptied the toilet containment?<br/><b>INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied):</b> what will happen when the toilet containment is full?<br/><b>INTERVIEW:</b> How long were the contents stored (without any fresh excreta entering the toilet containment) before emptying?<br/><b>Intention to empty:</b> household is planning to empty toilet containment (pit or tank) when full, or when required.<br/><b>Storage time:</b> length of time that contents of containment were stored without any fresh excreta entering the containment (for example, alternating twin pit latrine where full pit is disconncted and contents are stored for 2 years before emptying)<br/><b>Licensed service provider:</b> paid emptier that is approved and regulated by local authority to empty and transport toilet wastes<br/><b>Unlicensed service provider:</b> paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers) <br/><b>Off-site location:</b> site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.<br/><b>Sewer connection to licensed and functional treatment site:</b> the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site.<br/><b>Open container:</b> bucket or other open container used to collect excreta (usually regularly collected and emptied)."
           },
@@ -1986,79 +1985,79 @@
               "id": 1699428827812,
               "name": "G0 No toilet, or no containment/collection system",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699428827813,
               "name": "G0 Unsafe containment: open container",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699428900390,
               "name": "G0 Unsafe disposal: to open pit, open space, open drain or water body (within 500m of household)",
               "order": 3,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699428903041,
               "name": "G0 Unsafe disposal: to open space, open drain or water body (MORE than 500m from household)",
               "order": 4,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699428912825,
               "name": "G0 Unsafe treatment or disposal: emptied by UNLICENSED service provider to off-site location",
               "order": 5,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699428921060,
               "name": "G0 Unsafe treatment or disposal: closed container removed by UNLICENSED service provider to off-site location",
               "order": 6,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699428931576,
               "name": "G0 Unsafe treatment or disposal: sewer connection to open discharge",
               "order": 7,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699428950010,
               "name": "G1 Unsafe storage: stored for less than 2 years before use of stored waste",
               "order": 8,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699428957723,
               "name": "G1 Unsafe treatment or disposal: sewer connection to UNLICENSED or NON-FUNCTIONAL treatment site",
               "order": 9,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699428967861,
               "name": "G3 Safely managed: never emptied (NO intention to empty)",
               "order": 10,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699428977247,
               "name": "G3 Safely managed: emptied to covered pit",
               "order": 11,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699428991810,
               "name": "G3 Safely managed: stored for MORE than 2 years before use of stored waste",
               "order": 12,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699429000331,
               "name": "G3 Safely managed: emptied by LICENSED service provider to off-site location",
               "order": 13,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -2069,7 +2068,7 @@
           "order": 9,
           "type": "autofield",
           "tooltip": null,
-          "required": true,
+          "required": false,
           "meta": false,
           "options": null,
           "fn": {
@@ -2107,37 +2106,37 @@
               "id": 1699429377787,
               "name": "G0 No handwashing facility",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699429377788,
               "name": "G1 Handwashing facility by toilet",
               "order": 2,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699429386933,
               "name": "G1 Handwashing facility in kitchen",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699429393518,
               "name": "G1 Portable handwashing facility (basin, jug, jerrycan, container)",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699429401584,
               "name": "G1 Two handwashing facilities",
               "order": 5,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699429411017,
               "name": "G1 More than two handwashing facilities",
               "order": 6,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -2157,19 +2156,19 @@
               "id": 1699430444403,
               "name": "G0 No water available",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699430444404,
               "name": "G1 Water available",
               "order": 2,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699430460966,
               "name": "G1 Water container empty (evidence of washing)",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -2189,25 +2188,25 @@
               "id": 1699430537952,
               "name": "G0 No soap or other cleanser available",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699430537953,
               "name": "G0 Ash, mud or sand available",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699430550935,
               "name": "G0+ Soap in house, NOT at handwashing facility",
               "order": 3,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699430561373,
               "name": "G1 Solid, liquid or powder soap available",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -2245,43 +2244,43 @@
               "id": 1699430587796,
               "name": "G0 No handwashing facility",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699430587797,
               "name": "G1 Jerrycan or other closed container",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699430616653,
               "name": "G1 Portable basin or other open container",
               "order": 3,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699430627524,
               "name": "G1 Other temporary handwashing facility",
               "order": 4,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699430637426,
               "name": "G3 Piped water tap with basin",
               "order": 5,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699430645941,
               "name": "G3 Market handwashing station with adequate water storage",
               "order": 6,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699430655691,
               "name": "G3 Other permanent handwashing station",
               "order": 7,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -2301,31 +2300,31 @@
               "id": 1699430708818,
               "name": "G0 Hands enter the water container (during collection and use)",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699430708819,
               "name": "G1 Water collected by hand (using ladle, cup, other)",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699430719684,
               "name": "G3 Closed water storage container with tap",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699430726294,
               "name": "G3 Piped water tap",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699430734229,
               "name": "G3 Other hands-free operation",
               "order": 5,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -2345,19 +2344,19 @@
               "id": 1699430769018,
               "name": "G0 No collection or disposal of washing water",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699430769019,
               "name": "G1 Collection of washing water without drainage or disposal",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699430803259,
               "name": "G3 Safe collection and disposal of washing water",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -2396,37 +2395,37 @@
               "id": 1699430973814,
               "name": "G0 No handwashing facility",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699430973816,
               "name": "G0 Do NOT wash hands",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699430995185,
               "name": "G0 Do NOT use soap and water",
               "order": 3,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699430997807,
               "name": "G1 No mention of critical TOILET times",
               "order": 4,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699431011291,
               "name": "G1 Before toilet use",
               "order": 5,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699431014052,
               "name": "G2 After toilet use",
               "order": 6,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -2446,37 +2445,37 @@
               "id": 1699431891671,
               "name": "G0 No handwashing facility",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699431891672,
               "name": "G0 Do NOT wash hands",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699431938066,
               "name": "G0 Do NOT use soap and water",
               "order": 3,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699431945132,
               "name": "G1 No mention of critical FOOD times",
               "order": 4,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699431952483,
               "name": "G1 After eating",
               "order": 5,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699431959741,
               "name": "G2 Before eating, food preparation and feeding children",
               "order": 6,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -2496,31 +2495,31 @@
               "id": 1699431991247,
               "name": "G0 No handwashing facility",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699431991248,
               "name": "G0 Do NOT wash hands",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699432016381,
               "name": "G0 Do NOT use soap and water",
               "order": 3,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699432024918,
               "name": "G1 No mention of critical INFANT times",
               "order": 4,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699432033801,
               "name": "G2 After cleaning or handling infant faeces, OR after washing or disposal of diapers",
               "order": 5,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -2540,31 +2539,31 @@
               "id": 1699432059735,
               "name": "G0 No handwashing facility",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699432059736,
               "name": "G0 Do NOT wash hands",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699432088984,
               "name": "G0 Do NOT use soap and water",
               "order": 3,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699432096352,
               "name": "G1 No mention of critical ANIMAL times",
               "order": 4,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699432105018,
               "name": "G2 After contact with animals, animal products or animal wastes",
               "order": 5,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -2614,13 +2613,13 @@
               "id": 1699432699760,
               "name": "G0 Child or adult excreta observed in the compound",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699432699761,
               "name": "G1 No visible OD or human excreta (child or adult) in compound",
               "order": 2,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -2658,43 +2657,43 @@
               "id": 1699432375410,
               "name": "G0 Soiled potty or collection tool unsafely washed",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699432375411,
               "name": "G0 Child faeces unsafely disposed",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699432390302,
               "name": "G0 Child faeces disposed with solid waste",
               "order": 3,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699432397135,
               "name": "G1 Safely managed: Child faeces buried",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699432404537,
               "name": "G1 Safely managed: child faeces put or rinsed into toilet",
               "order": 5,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699432412881,
               "name": "G1 Safely managed: child uses toilet with assistance",
               "order": 6,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699432419984,
               "name": "G1 Safely managed: child uses toilet WITHOUT assistance",
               "order": 7,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -2714,37 +2713,37 @@
               "id": 1699432820055,
               "name": "G0 Used diapers visible in the compound",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699432820056,
               "name": "G0 Used diapers unsafely disposed or unsafely washed",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699432844768,
               "name": "G1 Washable cloth safely emptied and safely washed",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699432854246,
               "name": "G1 Disposable diaper put into covered waste pit",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699432861018,
               "name": "G1 Disposable diaper buried in compound",
               "order": 5,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699432868642,
               "name": "G1 Disposable diaper collected for disposal at communal site",
               "order": 6,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -2761,8 +2760,8 @@
           "dependency": null,
           "fn": {
             "fnColor": {
-              "G1 Safely managed child excreta and diapers": "#FD3F31",
-              "G0 Child excreta and diapers UNSAFELY managed": "#FDC74B"
+              "G1 Safely managed child excreta and diapers": "#FDC74B",
+              "G0 Child excreta and diapers UNSAFELY managed": "#FD3F31"
             },
             "fnString": "function() { return (#1699432130951.includes(\"G1\") && #1699432802923.includes(\"G1\")) ? \"G1 Safely managed child excreta and diapers\" : \"G0 Child excreta and diapers UNSAFELY managed\"}",
             "multiline": false
@@ -2914,7 +2913,7 @@
               "id": 1699432904231,
               "name": "G0 Visible dirt or contamination",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699432904232,
@@ -2926,7 +2925,7 @@
               "id": 1699433013634,
               "name": "G2 Clean/washed (produce, raw and cooked food)",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -2950,19 +2949,19 @@
               "id": 1699433035000,
               "name": "G0 No storage",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699433035001,
               "name": "G1 Open storage",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699433050599,
               "name": "G2 Covered food storage",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -2988,19 +2987,19 @@
               "id": 1699433072223,
               "name": "G0 On ground",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699433072224,
               "name": "G1 Storage close to ground (risk of contact with animals)",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699433097933,
               "name": "G2 Storage off ground",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3051,19 +3050,19 @@
               "id": 1699433121812,
               "name": "G0 Visible dirt or contamination",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699433121813,
               "name": "G1 Not adequately washed",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699433147831,
               "name": "G2 Clean/washed utensils",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3089,19 +3088,19 @@
               "id": 1699433169850,
               "name": "G0 No storage",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699433169851,
               "name": "G1 Open storage",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699433195385,
               "name": "G2 Covered utensil storage",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3127,19 +3126,19 @@
               "id": 1699433245793,
               "name": "G0 On ground",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699433245794,
               "name": "G1 Storage close to ground (risk of contact with animals)",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699433264971,
               "name": "G2 Storage off ground",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3190,19 +3189,19 @@
               "id": 1699433292786,
               "name": "G0 Visible dirt or contamination",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699433292787,
               "name": "G1 Not adequately washed",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699433319040,
               "name": "G2 Clean/washed milk containers",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3228,19 +3227,19 @@
               "id": 1699433345333,
               "name": "G0 No storage",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699433345334,
               "name": "G1 Open storage",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699433372041,
               "name": "G2 Covered container storage",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3266,19 +3265,19 @@
               "id": 1699433401151,
               "name": "G0 On ground",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699433401152,
               "name": "G1 Storage close to ground (risk of contact with animals)",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699433451209,
               "name": "G2 Storage off ground",
               "order": 3,
-              "color": "#ffeb9c"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3329,19 +3328,19 @@
               "id": 1699433470838,
               "name": "G0 Visible dirt or contamination",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699433470839,
               "name": "G1 Not adequately washed",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699433493907,
               "name": "G2 Clean/washed water containers",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3367,25 +3366,25 @@
               "id": 1699433520609,
               "name": "G0 No treatment and low quality",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699433520610,
               "name": "G1 Inadequate quality",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699433546285,
               "name": "G2 Adequate quality at collection point",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699433554050,
               "name": "G2 Household water treatment",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3411,19 +3410,19 @@
               "id": 1699433583298,
               "name": "G0 Unsafe drinking water storage",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699433583299,
               "name": "G1 Inadequate drinking water storage",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699433613002,
               "name": "G2 Clean, covered drinking water storage",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3449,31 +3448,31 @@
               "id": 1699433645221,
               "name": "G0 Unsafe water use",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699433645222,
               "name": "G1 Inadequate water use",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699433676316,
               "name": "G2 Water containers with spigots or taps",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699433685152,
               "name": "G2 Narrow-mouthed water containers",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699433692930,
               "name": "G2 Clean utensil for water use",
               "order": 5,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3524,19 +3523,19 @@
               "id": 1699433735643,
               "name": "G0 Visible dirt or contamination",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699433735644,
               "name": "G1 Not adequately clean",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699433753252,
               "name": "G2 Clean water points",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3562,19 +3561,19 @@
               "id": 1699433781736,
               "name": "G0 No protection of water points",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699433781737,
               "name": "G1 Inadequate protection of water points",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699433812250,
               "name": "G2 Well protected water points",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3600,19 +3599,19 @@
               "id": 1699433840068,
               "name": "G0 Standing water visible around water point",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699433840069,
               "name": "G1 Inadequately drained water points",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699433864520,
               "name": "G2 Well drained water points",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3663,19 +3662,19 @@
               "id": 1699433944786,
               "name": "G0 Widespread animal wastes",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699433944787,
               "name": "G1 Small amounts of animal wastes present",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699433970914,
               "name": "G2 No animal wastes visible in house or in kitchen",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3701,19 +3700,19 @@
               "id": 1699434005924,
               "name": "G0 Widespread animal wastes",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699434005925,
               "name": "G1 Small amounts of animal wastes present",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699434034410,
               "name": "G2 No animal wastes visible in compound",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3764,25 +3763,25 @@
               "id": 1699434062766,
               "name": "G0 Unsafe location of animal waste storage",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699434062767,
               "name": "G1 Inadequate location of animal waste storage",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699434115385,
               "name": "G2 Good location for animal waste storage",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699434124054,
               "name": "G2 No animal wastes",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3808,25 +3807,25 @@
               "id": 1699434150271,
               "name": "G0 Unsafe animal waste storage location",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699434150272,
               "name": "G1 Animal waste storage too close to house",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699434172399,
               "name": "G2 Animal waste storage away from house and play areas",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699434179715,
               "name": "G2 No animal waste storage",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3852,25 +3851,25 @@
               "id": 1699434228312,
               "name": "G0 Animal waste storage is UNSAFELY managed",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699434228313,
               "name": "G1 Some leaks or discharges",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699434245690,
               "name": "G2 No leaks or discharge from animal waste storage",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699434259523,
               "name": "G2 No animal waste storage",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3921,25 +3920,25 @@
               "id": 1699434284185,
               "name": "G0 No animal pens",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699434284186,
               "name": "G1 Animals penned close to house or play areas",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699434318735,
               "name": "G2 No animals",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699434311373,
               "name": "G2 Animals penned away from house and play areas",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3965,25 +3964,25 @@
               "id": 1699434366773,
               "name": "G0 No animal pens",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699434366774,
               "name": "G1 Inadequate animal pens",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699434379857,
               "name": "G2 Safe confinement in animal pens",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699434396549,
               "name": "G2 No animals",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -4140,19 +4139,19 @@
               "id": 1699434453392,
               "name": "G0 Visible wastewater",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699434453393,
               "name": "G1 Inadequate soakpit",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699434478997,
               "name": "G3 Adequate wastewater soakpit or drainage",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -4178,25 +4177,25 @@
               "id": 1699434515366,
               "name": "G0 Significant erosion",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699434515367,
               "name": "G1 Some visible erosion",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699434530222,
               "name": "G3 Adequate stormwater drainage",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699434541607,
               "name": "G3 No signs of stormwater erosion",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -4247,19 +4246,19 @@
               "id": 1699434616508,
               "name": "G0 Significant visible solid wastes",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699434616509,
               "name": "G1 Some solid wastes visible",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699434627989,
               "name": "G3 Clean compound with no visible solid wastes",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -4285,19 +4284,19 @@
               "id": 1699434659601,
               "name": "G0 No solid waste management",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699434659602,
               "name": "G1 Inadequate solid waste management",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699434679765,
               "name": "G3 Solid waste storage or disposal system",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -4348,19 +4347,19 @@
               "id": 1699434718602,
               "name": "G0 Significant standing water",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699434718603,
               "name": "G1 Some standing water",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699434760991,
               "name": "G3 No visible standing water",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -4386,25 +4385,25 @@
               "id": 1699434786692,
               "name": "G0 No treatment or management",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699434786693,
               "name": "G1 Inadequate treatment or management",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699434814599,
               "name": "G3 Treated or managed larval breeding sites",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699434821235,
               "name": "G3 No visible standing water",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -4455,19 +4454,19 @@
               "id": 1699434958492,
               "name": "G1 All with dirty faces",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699434958493,
               "name": "G2 Some with dirty faces",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699434973481,
               "name": "G3 Clean faces",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -4493,19 +4492,19 @@
               "id": 1699434994917,
               "name": "G1 All with dirty hands",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699434994918,
               "name": "G2 Some with dirty hands",
               "order": 2,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699435018297,
               "name": "G3 Clean hands",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -4531,7 +4530,7 @@
               "G2 Inadequate personal hygiene": "#93D371",
               "G3 Good personal hygiene": "#4088F4"
             },
-            "fnString": "function() {  return (    #1699434939105.includes(\"G0\") &&    #1699434983278.includes(\"G0\")  )  ? \"G1 No personal hygiene\"  : ((    #1699434939105.includes(\"G3\") &&    #1699434983278.includes(\"G3\"))    ? \"G3 Good personal hygiene\"    : \"G2 Inadequate personal hygiene\"  )}",
+            "fnString": "function() {  return (    #1699434939105.includes(\"G1\") &&    #1699434983278.includes(\"G1\")  )  ? \"G1 No personal hygiene\"  : ((    #1699434939105.includes(\"G3\") &&    #1699434983278.includes(\"G3\"))    ? \"G3 Good personal hygiene\"    : \"G2 Inadequate personal hygiene\"  )}",
             "multiline": false
           }
         },
@@ -4556,19 +4555,19 @@
               "id": 1699435045593,
               "name": "G1 No washing place",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699435045594,
               "name": "G2 Inadequate washing place",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699435073964,
               "name": "G3 Clean and private washing place",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -4594,19 +4593,19 @@
               "id": 1699435115909,
               "name": "G1 No disposal site",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699435115910,
               "name": "G2 Inadequate disposal site",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699435146147,
               "name": "G3 Safe disposal site",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -4632,19 +4631,19 @@
               "id": 1699435167330,
               "name": "G1 Materials are NOT available or NOT appropriate",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699435167331,
               "name": "G2 Materials are not always available or appropriate",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699435199530,
               "name": "G3 Appropriate materials are available",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -4670,7 +4669,7 @@
               "G2 Inadequate personal hygiene": "#93D371",
               "G3 Good personal hygiene": "#4088F4"
             },
-            "fnString": "function() {  return (    #1699435026311.includes(\"G0\") &&    #1699435088758.includes(\"G0\") &&    #1699435154797.includes(\"G0\")  )  ? \"G1 No personal hygiene\"  : ((    #1699435026311.includes(\"G3\") &&    #1699435088758.includes(\"G3\") &&    #1699435154797.includes(\"G3\"))    ? \"G3 Good personal hygiene\"    : \"G2 Inadequate personal hygiene\"  )}",
+            "fnString": "function() {  return (    #1699435026311.includes(\"G1\") &&    #1699435088758.includes(\"G1\") &&    #1699435154797.includes(\"G0\")  )  ? \"G1 No personal hygiene\"  : ((    #1699435026311.includes(\"G3\") &&    #1699435088758.includes(\"G3\") &&    #1699435154797.includes(\"G3\"))    ? \"G3 Good personal hygiene\"    : \"G2 Inadequate personal hygiene\"  )}",
             "multiline": false
           }
         },
@@ -4695,25 +4694,25 @@
               "id": 1699435221069,
               "name": "G1 No children vaccinated",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699435221070,
               "name": "G2 Some children vaccinated",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699435248383,
               "name": "G3 All children fully immunized",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699435257202,
               "name": "G3 No under-5 children",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -4764,25 +4763,25 @@
               "id": 1699435287173,
               "name": "G1 No children received supplements",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699435287174,
               "name": "G2 Some Vitamin A supplements not received (in last 6 months)",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699435312904,
               "name": "G3 All Vitamin A supplements received in last 6 months",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699435319480,
               "name": "G3 No under-5 children",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -4833,25 +4832,25 @@
               "id": 1699435353061,
               "name": "G1 Under 6-month children regularly receive water or other food",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699435353062,
               "name": "G2 Some water and other food received on a few occasions",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699435379590,
               "name": "G3 Exclusive breastfeeding for under 6-month children",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699435387772,
               "name": "G3 No under-6 month old children",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -4902,25 +4901,25 @@
               "id": 1699435413253,
               "name": "G1 Low nutrition diet: some or all children eat from only 1-2 food groups",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699435413254,
               "name": "G2 Inadequate diet: some or all children eat from 3-4 food groups",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699435438408,
               "name": "G3 Nutritious diet for all 6 month to 2 year children",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699435446243,
               "name": "G3 No 6 month to 2-year old children",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -4971,25 +4970,25 @@
               "id": 1699435481500,
               "name": "G1 No protection: no bed nets and no insect screen",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699435481501,
               "name": "G2 Inadequate protection: some beds without nets, or some openings unprotected",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699435508225,
               "name": "G3 Malaria-safe home",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699435516094,
               "name": "G3 NOT in Malaria-Endemic area",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -5015,7 +5014,7 @@
               "G2 Inadequate malaria protection": "#93D371",
               "G3 Malaria-safe home": "#4088F4"
             },
-            "fnString": "function() {  return #1699435455818.includes(\"G0\")  ? \"G1 No malaria protection\"  : (    #1699435455818.includes(\"G3\")    ? \"G3 Malaria-safe home\"    : \"G2 Inadequate malaria protection\"  )}",
+            "fnString": "function() {  return #1699435455818.includes(\"G1\")  ? \"G1 No malaria protection\"  : (    #1699435455818.includes(\"G3\")    ? \"G3 Malaria-safe home\"    : \"G2 Inadequate malaria protection\"  )}",
             "multiline": false
           }
         },
@@ -5040,25 +5039,25 @@
               "id": 1699435540083,
               "name": "G1 No deworming: no children or adults treated",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699435540084,
               "name": "G2 Inadequate deworming: some children or adults not treated",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699435565694,
               "name": "G3 Dewormed home (all treated in last 12 months)",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699435572940,
               "name": "G3 NOT in STH-Endemic area",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -5084,7 +5083,7 @@
               "G2 Inadequate deworming": "#93D371",
               "G3 Dewormed home": "#4088F4"
             },
-            "fnString": "function() {  return #1699435526190.includes(\"G0\")  ? \"G1 No deworming\"  : (    #1699435526190.includes(\"G3\")    ? \"G3 Dewormed home\"    : \"G2 Inadequate deworming\"  )}",
+            "fnString": "function() {  return #1699435526190.includes(\"G1\") ? \"G1 No deworming\"  : (#1699435526190.includes(\"G3\") ? \"G3 Dewormed home\" : \"G2 Inadequate deworming\"  )}",
             "multiline": false
           }
         }
@@ -5316,8 +5315,8 @@
           "displayOnly": true,
           "fn": {
             "fnColor": {
-              "G1 Safely managed child excreta and diapers": "#FD3F31",
-              "G0 Child excreta and diapers UNSAFELY managed": "#FDC74B"
+              "G1 Safely managed child excreta and diapers": "#FDC74B",
+              "G0 Child excreta and diapers UNSAFELY managed": "#FD3F31"
             },
             "fnString": "function(){return #1702289725502}",
             "multiline": false

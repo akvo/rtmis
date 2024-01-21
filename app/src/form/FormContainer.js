@@ -56,9 +56,14 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   const numberOfQuestion = currentGroup?.question?.length || 0;
 
   const handleOnSubmitForm = () => {
-    const results = checkValuesBeforeCallback(currentValues);
+    const validValues = Object.keys(currentValues)
+      .filter((qkey) => activeQuestions.map((q) => `${q.id}`).includes(qkey))
+      .reduce((prev, current) => {
+        return { [current]: currentValues[current], ...prev };
+      }, {});
+    const results = checkValuesBeforeCallback(validValues);
     if (onSubmit) {
-      const { dpName, dpGeo } = generateDataPointName(forms, currentValues, cascades);
+      const { dpName, dpGeo } = generateDataPointName(forms, validValues, cascades);
       onSubmit({ name: dpName, geo: dpGeo, answers: results });
     }
   };
