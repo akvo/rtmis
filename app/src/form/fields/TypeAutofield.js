@@ -142,7 +142,7 @@ const strToFunction = (fnString, values) => {
   }
 };
 
-const TypeAutofield = ({ onChange, keyform, id, name, tooltip, fn, displayOnly }) => {
+const TypeAutofield = ({ keyform, id, name, tooltip, fn, displayOnly }) => {
   const [value, setValue] = useState(null);
   const [fieldColor, setFieldColor] = useState(null);
   const { fnString, fnColor } = fn;
