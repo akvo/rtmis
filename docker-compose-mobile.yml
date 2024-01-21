@@ -15,6 +15,7 @@ services:
     working_dir: /app
     environment:
       - BACKEND_IP_ADDRESS=${IP_ADDRESS}
+      - EXPO_TOKEN
     network_mode: service:mainnetwork
 volumes:
   rtmis-docker-mobile-sync:
