@@ -108,6 +108,10 @@
               {
                 "id": 1701359231461,
                 "answer": ["G0 No collection or disposal of washing water"]
+              },
+              {
+                "id": 1702282914707,
+                "answer": ["G0 High risk of groundwater contamination"]
               }
             ]
           }
@@ -604,9 +608,52 @@
           ]
         },
         {
+          "id": 1702282796765,
+          "question": "COMMUNITY LEVEL ASSESSMENT: Low risk of groundwater contamination",
+          "order": 14,
+          "type": "option",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702282914707,
+              "name": "G0 High risk of groundwater contamination",
+              "order": 1,
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702282914708,
+              "name": "G2 Low risk of groundwater contamination",
+              "order": 2,
+              "color": "#38A15A"
+            }
+          ],
+          "fn": null
+        },
+        {
+          "id": 1702283955461,
+          "question": "Outcome result - Safely managed and usable institutional toilets",
+          "order": 15,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "fn": {
+            "fnColor": {
+              "G0 Institutional sanitation services UNSAFELY managed": "#FD3F31",
+              "G1 Inadequate institutional sanitation services": "#FDC74B",
+              "G3 Use of safely managed institutional sanitation services": "#4088F4"
+            },
+            "fnString": "function(){ return (#1701329515408.includes(\"G0\") && #1701331306965.includes(\"G0\") && #1701331373050.includes(\"G0\")  && #1701331438759.includes(\"G0\")  && #1701331908015.includes(\"G0\") && #1701332234354.includes(\"G0\") && #1701332496414.includes(\"G0\")  && #1701334423738.includes(\"G0\")) ? \"G0 Institutional sanitation services UNSAFELY managed\" : ((#1701329515408.includes(\"G3\") && #1701331306965.includes(\"G3\") && #1701331373050.includes(\"G3\")  && #1701331438759.includes(\"G3\")  && #1701331908015.includes(\"G3\") && #1701332234354.includes(\"G3\") && #1701332496414.includes(\"G3\")  && #1701334423738.includes(\"G3\")) ? \"G3 Use of safely managed institutional sanitation services\" : \"G1 Inadequate institutional sanitation services\") }",
+            "multiline": false
+          }
+        },
+        {
           "id": 1701334833791,
           "question": "Handwashing facility observed in institution",
-          "order": 14,
+          "order": 16,
           "type": "option",
           "required": true,
           "meta": false,
@@ -655,7 +702,7 @@
         {
           "id": 1701334972999,
           "question": "Water available at institutional HWF",
-          "order": 15,
+          "order": 17,
           "type": "option",
           "required": true,
           "meta": false,
@@ -686,7 +733,7 @@
         {
           "id": 1701335557029,
           "question": "Soap available at institutional HWF",
-          "order": 16,
+          "order": 18,
           "type": "option",
           "required": true,
           "meta": false,
@@ -723,7 +770,7 @@
         {
           "id": 1701358601048,
           "question": "Institutional handwashing facility type",
-          "order": 17,
+          "order": 19,
           "type": "option",
           "required": true,
           "meta": false,
@@ -778,7 +825,7 @@
         {
           "id": 1701359046016,
           "question": "Hands-free operation of institutional handwashing facility",
-          "order": 18,
+          "order": 20,
           "type": "option",
           "required": true,
           "meta": false,
@@ -821,7 +868,7 @@
         {
           "id": 1701359231461,
           "question": "Adequate drainage of washing water",
-          "order": 19,
+          "order": 21,
           "type": "option",
           "required": true,
           "meta": false,
@@ -848,6 +895,25 @@
               "color": "#38A15A"
             }
           ]
+        },
+        {
+          "id": 1701358131461,
+          "question": "Outcome result - Permanent handwashing stations in institution",
+          "order": 22,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "fn": {
+            "fnColor": {
+              "G0 No or inadequate handwashing services": "#FD3F31",
+              "G1 Non-durable handwashing services": "#FDC74B",
+              "G3 Permanent handwashing services": "#4088F4"
+            },
+            "fnString": "function(){ return (#1701334833791.includes(\"G0\") && #1701334972999.includes(\"G0\") && #1701335557029.includes(\"G0\") && #1701358601048.includes(\"G0\") && #1701359046016.includes(\"G0\") && #1701359231461.includes(\"G0\")) ? \"G0 No or inadequate handwashing services\" : ((#1701358601048.includes(\"G3\") && #1701359046016.includes(\"G3\") && #1701359231461.includes(\"G3\")) ? \"G3 Permanent handwashing services\" : \"G1 Non-durable handwashing services\") }",
+            "multiline": false
+          }
         }
       ]
     }
