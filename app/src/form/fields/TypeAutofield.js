@@ -183,7 +183,7 @@ const TypeAutofield = ({ onChange, keyform, id, name, tooltip, fn, displayOnly }
           ...styles.autoFieldContainer,
           backgroundColor: fieldColor || styles.autoFieldContainer.backgroundColor,
         }}
-        value={(value || value === 0) && value !== NaN ? value.toString() : null}
+        value={(value || value === 0) && value !== NaN ? String(value) : null}
         testID="type-autofield"
         multiline={true}
         numberOfLines={2}
