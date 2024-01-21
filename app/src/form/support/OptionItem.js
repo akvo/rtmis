@@ -9,7 +9,7 @@ const OptionItem = ({ label, color, name }, active) => {
         style={[
           {
             padding: 8,
-            backgroundColor: color ? color : active ? '#bcbcbc' : '#FFF',
+            backgroundColor: active ? '#0047AB' : color || '#FFF',
             borderRadius: color ? 5 : 0,
           },
         ]}
