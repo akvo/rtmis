@@ -1508,6 +1508,24 @@
           },
           "options": null,
           "fn": null
+        },
+        {
+          "id": 169995172789123,
+          "question": "Total number of institutions",
+          "order": 31,
+          "type": "autofield",
+          "displayOnly": true,
+          "required": false,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
+          "fn": {
+            "fnColor": {},
+            "fnString": "function(){return #169995172789111 + #169995172789112 + #169995172789113+ #169995172789114+ #169995172789115+ #169995172789116+ #169995172789117+ #169995172789118+ #169995172789119+ #169995172789120+ #169995172789121+ #169995172789122}",
+            "multiline": false
+          }
         }
         
       ]
