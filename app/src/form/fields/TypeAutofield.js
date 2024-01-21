@@ -156,8 +156,8 @@ const TypeAutofield = ({ onChange, keyform, id, name, tooltip, fn, displayOnly }
         if (fnColor?.[_automateValue]) {
           setFieldColor(fnColor[_automateValue]);
         }
-        setValue(_automateValue);
-        if (!displayOnly && _automateValue) {
+        if (!displayOnly && (_automateValue || _automateValue === 0)) {
+          setValue(_automateValue);
           FormState.update((s) => {
             s.currentValues[id] = _automateValue;
           });
@@ -183,7 +183,7 @@ const TypeAutofield = ({ onChange, keyform, id, name, tooltip, fn, displayOnly }
           ...styles.autoFieldContainer,
           backgroundColor: fieldColor || styles.autoFieldContainer.backgroundColor,
         }}
-        value={value ? (value === NaN ? null : value.toString()) : null}
+        value={(value || value === 0) && value !== NaN ? value.toString() : null}
         testID="type-autofield"
         multiline={true}
         numberOfLines={2}
