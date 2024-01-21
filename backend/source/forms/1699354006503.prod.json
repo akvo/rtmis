@@ -519,13 +519,13 @@
               "id": 16999524328041,
               "name": "G0 High risk of groundwater contamination",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 16999524328052,
               "name": "G2 Low risk of groundwater contamination",
               "order": 2,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ]
         }
@@ -648,19 +648,19 @@
               "id": 16999223328041,
               "name": "G0 At-risk household monitoring: no disaggregated data available from community",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 16999524328042,
               "name": "G0 At-risk household monitoring not reliable: More than 5% difference in monitoring data",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 16999524328852,
               "name": "G1/G2/G3 At-risk household monitoring system functional: Less than 5% difference in monitoring data",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ]
         },
@@ -679,13 +679,13 @@
               "id": 1699958682490,
               "name": "G0 Action plan for G2: not available, not approved or not in use",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699958682491,
               "name": "G1 Action plan for G2: available and in use",
               "order": 2,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -705,13 +705,13 @@
               "id": 1699958837025,
               "name": "G0 Action plan for G3: not available, not approved or not in use",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699958837026,
               "name": "G1 Action plan for G3: available and in use",
               "order": 2,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -741,13 +741,13 @@
               "id": 1699959708165,
               "name": "G0 Child or adult excreta observed in communal areas",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699959708166,
               "name": "G1 No visible OD or human excreta (child or adult) in communal areas",
               "order": 2,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -785,37 +785,37 @@
               "id": 1699959793320,
               "name": "G0 Used diapers visible in communal areas",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699959793321,
               "name": "G0 Used diapers unsafely disposed or unsafely washed",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699959809374,
               "name": "G1 Washable cloths safely emptied and safely washed",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699959816980,
               "name": "G1 Disposable diapers put into covered waste pits",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699959825380,
               "name": "G1 Disposable diapers buried",
               "order": 5,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699959832147,
               "name": "G1 Disposable diapers collected for disposal at communal site",
               "order": 6,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -853,19 +853,19 @@
               "id": 1699959885703,
               "name": "G0 Visible dirt or contamination",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699959885704,
               "name": "G1 Not adequately clean",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699959904493,
               "name": "G2 Clean communal water points",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -885,19 +885,19 @@
               "id": 1699960039749,
               "name": "G0 No protection of water points",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699960039750,
               "name": "G1 Inadequate protection of water points",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699960068576,
               "name": "G2 Well protected communal water points",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -917,19 +917,19 @@
               "id": 1699960149726,
               "name": "G0 Standing water visible around water point",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699960149727,
               "name": "G1 Inadequately drained water points",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699960194331,
               "name": "G2 Well drained communal water points",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -968,25 +968,25 @@
               "id": 1699960314911,
               "name": "G0 Unsafe disposal: to open pit, open space, open drain or water body in communal areas",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699960314912,
               "name": "G0 Unsafe treatment or disposal: sewer connection to open discharge in communal area",
               "order": 2,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699960335049,
               "name": "G3 Safely managed: emptied to covered pit or trench in communal area",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699960344606,
               "name": "G3 Safely managed: communal disposal of faecal sludge is safely managed",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -1025,25 +1025,25 @@
               "id": 1699960368823,
               "name": "G0 Significant erosion in communal areas",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699960368824,
               "name": "G1 Some visible erosion in communal areas",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699960393600,
               "name": "G3 Adequate stormwater drainage in communal areas",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699960400486,
               "name": "G3 No signs of stormwater erosion",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -1082,19 +1082,19 @@
               "id": 1699960447922,
               "name": "G0 Significant visible solid wastes in communal areas",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699960447923,
               "name": "G1 Some solid wastes visible in communal areas",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699960457906,
               "name": "G3 Clean compound with no visible solid wastes in communal areas",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -1133,19 +1133,19 @@
               "id": 1699960496310,
               "name": "G0 Significant standing water in communal areas",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699960524045,
               "name": "G3 No visible standing water in communal areas",
               "order": 3,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699960496311,
               "name": "G1 Some standing water in communal areas",
               "order": 2,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -1165,25 +1165,25 @@
               "id": 1699960550615,
               "name": "G0 No treatment or management in communal areas",
               "order": 1,
-              "color": "#ffc7ce"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699960550616,
               "name": "G1 Inadequate treatment or management in communal areas",
               "order": 2,
-              "color": "#ffeb9c"
+              "color": "#ffa57d"
             },
             {
               "id": 1699960576151,
               "name": "G3 Treated or managed larval breeding sites in communal areas",
               "order": 3,
-              "color": "#c6efce"
+              "color": "#38A15A"
             },
             {
               "id": 1699960583286,
               "name": "G3 No visible standing water in communal areas",
               "order": 4,
-              "color": "#c6efce"
+              "color": "#38A15A"
             }
           ],
           "fn": null
