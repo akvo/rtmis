@@ -332,7 +332,7 @@
         },
         {
           "id": 1699419165632,
-          "question": "Household head: given family name",
+          "question": "Household head: family name",
           "order": 3,
           "type": "text",
           "tooltip": null,
@@ -356,7 +356,7 @@
         },
         {
           "id": 1699419228644,
-          "question": "Second household member: given family name",
+          "question": "Second household member: family name",
           "order": 5,
           "type": "text",
           "tooltip": null,
