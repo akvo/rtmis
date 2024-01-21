@@ -2919,7 +2919,7 @@
               "id": 1699432904232,
               "name": "G1 Not adequately washed",
               "order": 2,
-              "color": "#ffc677"
+              "color": "#ffa57d"
             },
             {
               "id": 1699433013634,
@@ -3895,7 +3895,7 @@
               "G2 Safely managed animal wastes": "#93D371",
               "G1 Inadequate management of animal wastes": "#FDC74B"
             },
-            "fnString": "function() {  return (    #1699434044707.includes(\"G0\") &&    #1699434136823.includes(\"G0\") &&    #1699434209933.includes(\"G0\")  )  ? \"G0 Animal wastes UNSAFELY managed\"  : ((    #1699434044707.includes(\"G2\") &&    #1699434136823.includes(\"G2\") &&    #1699434209933.includes(\"G0\"))    ? \"G2 Safely managed animal wastes\"    : \"G1 Inadequate management of animal wastes\"  )}",
+            "fnString": "function() {  return (    #1699434044707.includes(\"G0\") &&    #1699434136823.includes(\"G0\") &&    #1699434209933.includes(\"G0\")  )  ? \"G0 Animal wastes UNSAFELY managed\"  : ((    #1699434044707.includes(\"G2\") &&    #1699434136823.includes(\"G2\") &&    #1699434209933.includes(\"G2\"))    ? \"G2 Safely managed animal wastes\"    : \"G1 Inadequate management of animal wastes\"  )}",
             "multiline": false
           }
         },
