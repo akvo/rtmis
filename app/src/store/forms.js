@@ -10,6 +10,7 @@ const FormState = new Store({
   lang: 'en',
   feedback: {},
   loading: false,
+  prefilled: false,
 });
 
 export default FormState;

@@ -41,7 +41,6 @@ const TypeOption = ({
       paddingTop: 8,
       paddingLeft: 8,
       paddingBottom: 8,
-      fontWeight: 'bold',
       color: '#FFF',
       backgroundColor: color,
     };
