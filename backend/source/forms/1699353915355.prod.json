@@ -4318,11 +4318,11 @@
           ],
           "fn": {
             "fnColor": {
-              "G1 Liquid wastes UNSAFELY managed": "#FDC74B",
+              "G1 Solid wastes UNSAFELY managed": "#FDC74B",
               "G2 Inadequate management of solid wastes": "#93D371",
               "G3 Safe management of solid wastes": "#4088F4"
             },
-            "fnString": "function() {  return (    #1699434553677.includes(\"G0\") &&    #1699434636655.includes(\"G0\")  )  ? \"G1 Liquid wastes UNSAFELY managed\"  : ((    #1699434553677.includes(\"G3\") &&    #1699434636655.includes(\"G3\"))    ? \"G3 Safe management of solid wastes\"    : \"G2 Inadequate management of solid wastes\"  )}",
+            "fnString": "function() {  return (    #1699434553677.includes(\"G0\") &&    #1699434636655.includes(\"G0\")  )  ? \"G1 Solid wastes UNSAFELY managed\"  : ((    #1699434553677.includes(\"G3\") &&    #1699434636655.includes(\"G3\"))    ? \"G3 Safe management of solid wastes\"    : \"G2 Inadequate management of solid wastes\"  )}",
             "multiline": false
           }
         },
@@ -4436,7 +4436,7 @@
         {
           "id": 1699434939105,
           "question": "Clean faces",
-          "order": 46,
+          "order": 48,
           "dependency": [
             {
               "id": 16994260598423,
@@ -4745,7 +4745,7 @@
         {
           "id": 1699435265962,
           "question": "Vitamin A supplements received",
-          "order": 55,
+          "order": 57,
           "dependency": [
             {
               "id": 16994260598423,
@@ -4789,7 +4789,7 @@
         {
           "id": 1702302232732,
           "question": "Outcome result - Vitamin A supplements",
-          "order": 57,
+          "order": 58,
           "type": "autofield",
           "tooltip": null,
           "required": true,
