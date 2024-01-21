@@ -5099,7 +5099,7 @@
       "questions": [
         {
           "id": 1703299101191,
-          "question": "Overvall toilet outcome",
+          "question": "Overall toilet outcome",
           "order": 1,
           "type": "autofield",
           "required": false,
@@ -5107,18 +5107,18 @@
           "displayOnly": true,
           "fn": {
             "fnColor": {
-              "G0": "#FD3F31",
-              "G1": "#FDC74B",
-              "G2": "#93D371",
-              "G3": "#4088F4"
+              "G0 Open Defecation": "#FD3F31",
+              "G1 Open Defecation Free": "#FDC74B",
+              "G2 Safe and Sustainable": "#93D371",
+              "G3 Clean and Healthy": "#4088F4"
             },
             "multiline": false,
-            "fnString": "function(){ return #1701810579091.includes('G1') && #1702281084786.includes('G1') && #1702282119933.includes('G1') && #1702284734752.includes('G1') ? #1702283171680.includes('G2') && #1702283955461.includes('G2') && #1702285101196.includes('G2') ? #1702285668136.includes('G3') ? 'G3' : 'G2' : 'G1' : 'G0'}"
+            "fnString": "function(){ return #1701810579091.includes('G1') && #1702281084786.includes('G1') && #1702282119933.includes('G1') && #1702284734752.includes('G1') ? #1702283171680.includes('G2') && #1702283955461.includes('G2') && #1702285101196.includes('G2') ? #1702285668136.includes('G3') ? 'G3 Clean and Healthy' : 'G2 Safe and Sustainable' : 'G1 Open Defecation Free' : 'G0 Open Defecation'}"
           }
         },
         {
           "id": 1703299101192,
-          "question": "Overvall hygiene outcome",
+          "question": "Overall hygiene outcome",
           "order": 2,
           "type": "autofield",
           "required": false,
@@ -5126,13 +5126,13 @@
           "displayOnly": true,
           "fn": {
             "fnColor": {
-              "G0": "#FD3F31",
-              "G1": "#FDC74B",
-              "G2": "#93D371",
-              "G3": "#4088F4"
+              "G0 Inadequate or no handwashing facility": "#FD3F31",
+              "G1 Handwashing facility with soap and water": "#FDC74B",
+              "G2 Safe and Sustainable": "#93D371",
+              "G3 Clean and Healthy": "#4088F4"
             },
             "multiline": false,
-            "fnString": "function(){ return #1702287053503.includes('G1') ? #1702288599133.includes('G2') ? #1702287685048.includes('G3') ? 'G3' : 'G2' : 'G1' : 'G0'}"
+            "fnString": "function(){ return #1702287053503.includes('G1') ? #1702288599133.includes('G2') ? #1702287685048.includes('G3') ? 'G3 Clean and Healthy' : 'G2 Safe and Sustainable' : 'G1 Handwashing facility with soap and water' : 'G0 Inadequate or no handwashing facility'}"
           }
         },
         {
