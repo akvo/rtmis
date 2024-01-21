@@ -71,6 +71,10 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
           }, {});
           s.prefilled = preValues;
         });
+      } else {
+        FormState.update((s) => {
+          s.prefilled = false;
+        });
       }
     }
     FormState.update((s) => {
@@ -94,10 +98,11 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
      */
     if (currentPreFilled) {
       FormState.update((s) => {
-        s.currentValues = {
+        const activeValues = {
           ...s.currentValues,
           ...currentPreFilled,
         };
+        s.currentValues = activeValues;
         s.prefilled = false;
       });
     }
