@@ -13,6 +13,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
    */
   const [preload, setPreload] = useState(true);
   const values = FormState.useState((s) => s.currentValues);
+  const currentPreFilled = FormState.useState((s) => s.prefilled);
   const flatListRef = useRef(null);
 
   const questions = useMemo(() => {
@@ -64,15 +65,16 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
         FormState.update((s) => {
           s.loading = true;
         });
-        preFilled?.fill
-          ?.filter(
-            (f) =>
-              !activeQuestions.length ||
-              (activeQuestions.length && activeQuestions?.map((q) => q?.id).includes(f.id)),
-          )
-          ?.forEach((f) => {
-            fieldValues[f?.id] = f?.answer;
-          });
+        FormState.update((s) => {
+          const preValues = preFilled?.fill?.reduce((prev, current) => {
+            return { [current['id']]: current['answer'], ...prev };
+          }, {});
+          s.prefilled = preValues;
+        });
+      } else {
+        FormState.update((s) => {
+          s.prefilled = false;
+        });
       }
     }
     FormState.update((s) => {
@@ -89,6 +91,26 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
       flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
     }
   }, [index]);
+
+  const handleOnPrefilled = useCallback(() => {
+    /**
+     * Prefilled
+     */
+    if (currentPreFilled) {
+      FormState.update((s) => {
+        const activeValues = {
+          ...s.currentValues,
+          ...currentPreFilled,
+        };
+        s.currentValues = activeValues;
+        s.prefilled = false;
+      });
+    }
+  }, [currentPreFilled, questions]);
+
+  useEffect(() => {
+    handleOnPrefilled();
+  }, [handleOnPrefilled]);
 
   return (
     <FlatList
