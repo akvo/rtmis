@@ -80,6 +80,12 @@
                 "answer": ["G0 High risk of groundwater contamination"]
               },
               {
+                "id": 1702324544574,
+                "answer": [
+                  "G0 At-risk household monitoring: no disaggregated data available from community"
+                ]
+              },
+              {
                 "id": 1699958670124,
                 "answer": [
                   "G0 Action plan for G2: not available, not approved or not in use"
@@ -1267,7 +1273,9 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Transport station (bus, train, airport, fuel, other)"]
+              "options": [
+                "Transport station (bus, train, airport, fuel, other)"
+              ]
             }
           ],
           "required": true,
@@ -1362,7 +1370,9 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Worship centres (churches, cathedrals, mosques, temples, other)"]
+              "options": [
+                "Worship centres (churches, cathedrals, mosques, temples, other)"
+              ]
             }
           ],
           "required": true,
@@ -1467,7 +1477,6 @@
             "multiline": false
           }
         }
-        
       ]
     }
   ]
