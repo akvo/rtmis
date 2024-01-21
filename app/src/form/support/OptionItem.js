@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Text } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const OptionItem = ({ label, color, name }, active) => {
   return (
@@ -17,9 +18,11 @@ const OptionItem = ({ label, color, name }, active) => {
         <Text
           style={{
             color: color || active ? 'white' : 'black',
+            flexDirection: 'row',
+            alignItems: 'center',
           }}
         >
-          {active && '✔'} {label || name}
+          {active && <Icon name="check" size={20} color="#000" />} {label || name}
         </Text>
       </View>
     </View>
