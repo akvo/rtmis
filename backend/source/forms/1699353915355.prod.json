@@ -157,12 +157,12 @@
                 "answer": ["G0 No toilet, or no containment/collection system"]
               },
               {
-                "id": 1702285668136,
-                "answer": ["G0 Sanitation services UNSAFELY managed"]
-              },
-              {
                 "id": 1699428820338,
                 "answer": ["G0 No toilet, or no containment/collection system"]
+              },
+              {
+                "id": 1702285668136,
+                "answer": ["G0 Sanitation services UNSAFELY managed"]
               },
               {
                 "id": 1699429162796,
@@ -1898,17 +1898,6 @@
           "tooltip": {
             "text": "<b>INTERVIEW: has the toilet containment (pit, tank or other) ever been emptied?</b><br/><b>INTERVIEW:</b> has the toilet containment (pit, tank or other) ever filled up?<br/><b>INTERVIEW:</b> what happened when the toilet containment (pit, tank or other) last filled up?<br/><b>Examples:</b> 1. Covered the full pit and dug a new pit; 2. Emptied the full pit and re-used it; 3. Connected a second pit and disconnected the full pit. 4. Emptied faecal sludge from septic tank then continued to use."
           },
-          "pre":{
-            "answer":["G3 Yes, containment emptied",
-            "G3 Yes, closed container removed",
-            "G3 Piped sewer connection",
-            "G3 Other removal of faecal sludge or wastewater"],
-            "fill":[
-            {"id":1699428820338,
-            "answer": "G0 No toilet, or no containment/collection system"
-            }
-          ]
-          },
           "required": true,
           "meta": false,
           "options": [
@@ -1986,17 +1975,6 @@
           "question": "Safely managed sanitation services",
           "order": 8,
           "type": "option",
-          "dependency": [
-            {
-              "id": 1699428661689,
-              "options": [
-                "G3 Yes, containment emptied",
-                "G3 Yes, closed container removed",
-                "G3 Piped sewer connection",
-                "G3 Other removal of faecal sludge or wastewater"
-              ]
-            }
-          ],
           "tooltip": {
             "text": "<b>INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?</b><br/><b>INTERVIEW:</b> the last time it was emptied, who emptied the toilet containment?<br/><b>INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied):</b> what will happen when the toilet containment is full?<br/><b>INTERVIEW:</b> How long were the contents stored (without any fresh excreta entering the toilet containment) before emptying?<br/><b>Intention to empty:</b> household is planning to empty toilet containment (pit or tank) when full, or when required.<br/><b>Storage time:</b> length of time that contents of containment were stored without any fresh excreta entering the containment (for example, alternating twin pit latrine where full pit is disconncted and contents are stored for 2 years before emptying)<br/><b>Licensed service provider:</b> paid emptier that is approved and regulated by local authority to empty and transport toilet wastes<br/><b>Unlicensed service provider:</b> paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers) <br/><b>Off-site location:</b> site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.<br/><b>Sewer connection to licensed and functional treatment site:</b> the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site.<br/><b>Open container:</b> bucket or other open container used to collect excreta (usually regularly collected and emptied)."
           },
@@ -4552,7 +4530,7 @@
               "G2 Inadequate personal hygiene": "#93D371",
               "G3 Good personal hygiene": "#4088F4"
             },
-            "fnString": "function() {  return (    #1699434939105.includes(\"G0\") &&    #1699434983278.includes(\"G0\")  )  ? \"G1 No personal hygiene\"  : ((    #1699434939105.includes(\"G3\") &&    #1699434983278.includes(\"G3\"))    ? \"G3 Good personal hygiene\"    : \"G2 Inadequate personal hygiene\"  )}",
+            "fnString": "function() {  return (    #1699434939105.includes(\"G1\") &&    #1699434983278.includes(\"G1\")  )  ? \"G1 No personal hygiene\"  : ((    #1699434939105.includes(\"G3\") &&    #1699434983278.includes(\"G3\"))    ? \"G3 Good personal hygiene\"    : \"G2 Inadequate personal hygiene\"  )}",
             "multiline": false
           }
         },
@@ -4691,7 +4669,7 @@
               "G2 Inadequate personal hygiene": "#93D371",
               "G3 Good personal hygiene": "#4088F4"
             },
-            "fnString": "function() {  return (    #1699435026311.includes(\"G0\") &&    #1699435088758.includes(\"G0\") &&    #1699435154797.includes(\"G0\")  )  ? \"G1 No personal hygiene\"  : ((    #1699435026311.includes(\"G3\") &&    #1699435088758.includes(\"G3\") &&    #1699435154797.includes(\"G3\"))    ? \"G3 Good personal hygiene\"    : \"G2 Inadequate personal hygiene\"  )}",
+            "fnString": "function() {  return (    #1699435026311.includes(\"G1\") &&    #1699435088758.includes(\"G1\") &&    #1699435154797.includes(\"G0\")  )  ? \"G1 No personal hygiene\"  : ((    #1699435026311.includes(\"G3\") &&    #1699435088758.includes(\"G3\") &&    #1699435154797.includes(\"G3\"))    ? \"G3 Good personal hygiene\"    : \"G2 Inadequate personal hygiene\"  )}",
             "multiline": false
           }
         },
@@ -5036,7 +5014,7 @@
               "G2 Inadequate malaria protection": "#93D371",
               "G3 Malaria-safe home": "#4088F4"
             },
-            "fnString": "function() {  return #1699435455818.includes(\"G0\")  ? \"G1 No malaria protection\"  : (    #1699435455818.includes(\"G3\")    ? \"G3 Malaria-safe home\"    : \"G2 Inadequate malaria protection\"  )}",
+            "fnString": "function() {  return #1699435455818.includes(\"G1\")  ? \"G1 No malaria protection\"  : (    #1699435455818.includes(\"G3\")    ? \"G3 Malaria-safe home\"    : \"G2 Inadequate malaria protection\"  )}",
             "multiline": false
           }
         },
@@ -5105,7 +5083,7 @@
               "G2 Inadequate deworming": "#93D371",
               "G3 Dewormed home": "#4088F4"
             },
-            "fnString": "function() {  return #1699435526190.includes(\"G0\")  ? \"G1 No deworming\"  : (    #1699435526190.includes(\"G3\")    ? \"G3 Dewormed home\"    : \"G2 Inadequate deworming\"  )}",
+            "fnString": "function() {  return #1699435526190.includes(\"G1\") ? \"G1 No deworming\"  : (#1699435526190.includes(\"G3\") ? \"G3 Dewormed home\" : \"G2 Inadequate deworming\"  )}",
             "multiline": false
           }
         }
