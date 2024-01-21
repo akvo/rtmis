@@ -3,7 +3,9 @@
   "form": "Short HH",
   "description": "short HH",
   "defaultLanguage": "en",
-  "languages": ["en"],
+  "languages": [
+    "en"
+  ],
   "version": 1,
   "translations": null,
   "question_groups": [
@@ -40,21 +42,57 @@
           "dependency": null,
           "fn": null,
           "pre": {
-            "answer": ["New"],
+            "answer": [
+              "New"
+            ],
             "fill": [
-              { "id": 16994179587481, "answer": ["Household head"] },
+              {
+                "id": 16994179587481,
+                "answer": [
+                  "Household head"
+                ]
+              },
               {
                 "id": 16994206218401,
-                "answer": ["OTHER household (NOT in at-risk category)"]
+                "answer": [
+                  "OTHER household (NOT in at-risk category)"
+                ]
               },
-              { "id": 16994222860911, "answer": ["G0 No toilet"] },
-              { "id": 16994233572001, "answer": ["G0 Non-functional toilet"] },
-              { "id": 16994235714541, "answer": ["G0 No toilet privacy"] },
-              { "id": 16994236967201, "answer": ["G0 No toilet"] },
-              { "id": 16994239461701, "answer": ["G0 No toilet"] },
+              {
+                "id": 16994222860911,
+                "answer": [
+                  "G0 No toilet"
+                ]
+              },
+              {
+                "id": 16994233572001,
+                "answer": [
+                  "G0 Non-functional toilet"
+                ]
+              },
+              {
+                "id": 16994235714541,
+                "answer": [
+                  "G0 No toilet privacy"
+                ]
+              },
+              {
+                "id": 16994236967201,
+                "answer": [
+                  "G0 No toilet"
+                ]
+              },
+              {
+                "id": 16994239461701,
+                "answer": [
+                  "G0 No toilet"
+                ]
+              },
               {
                 "id": 16994243759681,
-                "answer": ["G0 VIP vent pipe without insect screen"]
+                "answer": [
+                  "G0 VIP vent pipe without insect screen"
+                ]
               }
             ]
           }
@@ -72,7 +110,9 @@
           "dependency": [
             {
               "id": 16993542207341,
-              "options": ["New"]
+              "options": [
+                "New"
+              ]
             }
           ],
           "fn": null
@@ -89,7 +129,9 @@
           "dependency": [
             {
               "id": 16993542207341,
-              "options": ["New"]
+              "options": [
+                "New"
+              ]
             }
           ],
           "fn": null
@@ -168,7 +210,6 @@
           "rule": null,
           "fn": null
         },
-
         {
           "id": 16994198156601,
           "question": "Household head: age",
@@ -420,12 +461,13 @@
           "dependency": [
             {
               "id": 16994222860911,
-              "options": ["G1 Toilet observed"]
+              "options": [
+                "G1 Toilet observed"
+              ]
             }
           ],
           "fn": null
         },
-
         {
           "id": 16994233572001,
           "question": "Functional toilet",
@@ -456,7 +498,9 @@
           "dependency": [
             {
               "id": 16994222860911,
-              "options": ["G1 Toilet observed"]
+              "options": [
+                "G1 Toilet observed"
+              ]
             }
           ],
           "fn": null
@@ -491,7 +535,9 @@
           "dependency": [
             {
               "id": 16994222860911,
-              "options": ["G1 Toilet observed"]
+              "options": [
+                "G1 Toilet observed"
+              ]
             }
           ],
           "fn": null
@@ -647,7 +693,9 @@
           "dependency": [
             {
               "id": 16994222860911,
-              "options": ["G1 Toilet observed"]
+              "options": [
+                "G1 Toilet observed"
+              ]
             }
           ],
           "fn": null
@@ -727,7 +775,9 @@
           "dependency": [
             {
               "id": 16994222860911,
-              "options": ["G1 Toilet observed"]
+              "options": [
+                "G1 Toilet observed"
+              ]
             }
           ],
           "fn": null
@@ -753,7 +803,6 @@
         }
       ]
     },
-
     {
       "id": 17030862702531,
       "question_group": "Summary of Outcomes",
@@ -762,6 +811,100 @@
       "repeatable": false,
       "translations": null,
       "questions": [
+        {
+          "id": 17030862702501,
+          "question": "New autofield",
+          "order": 1,
+          "meta": false,
+          "required": true,
+          "dependency": null,
+          "type": "option",
+          "options": [
+            {
+              "id": 170308627025011,
+              "name": "Yes"
+            },
+            {
+              "id": 170308627025012,
+              "name": "No"
+            }
+          ],
+          "pre": {
+            "answer": [
+              "Yes"
+            ],
+            "fill": [
+              {
+                "id": 17030862702502,
+                "answer": [
+                  "B"
+                ]
+              },
+              {
+                "id": 17030862702503,
+                "answer": [
+                  "B"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 17030862702502,
+          "question": "Question #1",
+          "order": 2,
+          "meta": false,
+          "required": false,
+          "dependency": [
+            {
+              "id": 17030862702501,
+              "options": [
+                "Yes"
+              ]
+            }
+          ],
+          "type": "option",
+          "options": [
+            {
+              "id": 170308627025021,
+              "name": "A",
+              "color": "red"
+            },
+            {
+              "id": 170308627025022,
+              "name": "B",
+              "color": "blue"
+            }
+          ]
+        },
+        {
+          "id": 17030862702503,
+          "order": 3,
+          "question": "Question #2",
+          "meta": false,
+          "required": false,
+          "dependency": [
+            {
+              "id": 17030862702502,
+              "options": [
+                "B"
+              ]
+            }
+          ],
+          "type": "option",
+          "options": [
+            {
+              "id": 170308627025031,
+              "name": "A",
+              "color": "red"
+            },
+            {
+              "id": 170308627025032,
+              "name": "B",
+              "color": "blue"
+            }
+          ]
+        },
         {
           "id": 17030862702541,
           "question": "Outcome result - Functional toilet with privacy",

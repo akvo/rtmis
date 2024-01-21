@@ -34,7 +34,11 @@ const syncFormVersion = async ({
         // update previous form latest value to 0
         await crudForms.updateForm({ ...form });
         console.info('[syncForm]Updated Forms...', form.id);
-        const savedForm = await crudForms.addForm({ ...form, formJSON: formRes?.data });
+        const savedForm = await crudForms.addForm({
+          ...form,
+          userId: session?.id,
+          formJSON: formRes?.data,
+        });
         console.info('[syncForm]Saved Forms...', form.id);
         return savedForm;
       });
@@ -51,10 +55,13 @@ const syncFormVersion = async ({
   }
 };
 
-const registerBackgroundTask = async (TASK_NAME, minimumInterval = 3600) => {
+const registerBackgroundTask = async (TASK_NAME, settingsValue = null) => {
   try {
+    const config = await crudConfig.getConfig();
+    const syncInterval = settingsValue || parseInt(config?.syncInterval) || 3600;
+    console.log('syncInterval', syncInterval);
     await BackgroundFetch.registerTaskAsync(TASK_NAME, {
-      minimumInterval: minimumInterval,
+      minimumInterval: syncInterval,
       stopOnTerminate: false, // android only,
       startOnBoot: true, // android only
     });
@@ -71,16 +78,10 @@ const unregisterBackgroundTask = async (TASK_NAME) => {
   }
 };
 
-const backgroundTaskStatus = async (TASK_NAME, minimumInterval = 3600) => {
+const backgroundTaskStatus = async (TASK_NAME) => {
   const status = await BackgroundFetch.getStatusAsync();
   const isRegistered = await TaskManager.isTaskRegisteredAsync(TASK_NAME);
-  const config = await crudConfig.getConfig();
-  const intervalValue = config?.syncInterval || minimumInterval;
-
-  if (BackgroundFetch.BackgroundFetchStatus?.[status] === 'Available' && !isRegistered) {
-    await registerBackgroundTask(TASK_NAME, intervalValue);
-  }
-  console.log(`[${TASK_NAME}] Status`, status, isRegistered, minimumInterval);
+  console.info(`[${TASK_NAME}] Status`, status, isRegistered);
 };
 
 const handleOnUploadPhotos = async (data) => {
@@ -208,4 +209,35 @@ const backgroundTaskHandler = () => {
 };
 
 const backgroundTask = backgroundTaskHandler();
+
+export const SYNC_FORM_VERSION_TASK_NAME = 'sync-form-version';
+
+export const SYNC_FORM_SUBMISSION_TASK_NAME = 'sync-form-submission';
+
+export const defineSyncFormVersionTask = () =>
+  TaskManager.defineTask(SYNC_FORM_VERSION_TASK_NAME, async () => {
+    try {
+      await syncFormVersion({
+        sendPushNotification: notification.sendPushNotification,
+        showNotificationOnly: true,
+      });
+      return BackgroundFetch.BackgroundFetchResult.NewData;
+    } catch (err) {
+      console.error(`[${SYNC_FORM_VERSION_TASK_NAME}] Define task manager failed`, err);
+      return BackgroundFetch.Result.Failed;
+    }
+  });
+
+export const defineSyncFormSubmissionTask = () => {
+  TaskManager.defineTask(SYNC_FORM_SUBMISSION_TASK_NAME, async () => {
+    try {
+      await syncFormSubmission();
+      return BackgroundFetch.BackgroundFetchResult.NewData;
+    } catch (err) {
+      console.error(`[${SYNC_FORM_SUBMISSION_TASK_NAME}] Define task manager failed`, err);
+      return BackgroundFetch.Result.Failed;
+    }
+  });
+};
+
 export default backgroundTask;

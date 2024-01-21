@@ -52,7 +52,7 @@ const FormNavigation = ({
       return acc;
     }, {});
     const errors = Object.values(feedbackValues).filter((val) => val !== true);
-    if (errors.length > 0) {
+    if (errors.length > 0 && index === 2) {
       ToastAndroid.show(trans.mandatoryQuestions, ToastAndroid.LONG);
     }
     FormState.update((s) => {

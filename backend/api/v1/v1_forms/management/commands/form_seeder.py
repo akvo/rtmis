@@ -104,7 +104,7 @@ class Command(BaseCommand):
                             name=q.get("name") or q.get("question"),
                             text=q["question"],
                             form=form,
-                            order=qi + 1,
+                            order=q.get("order") or qi + 1,
                             meta=q.get("meta"),
                             question_group=question_group,
                             rule=q.get("rule"),
@@ -121,9 +121,10 @@ class Command(BaseCommand):
                             meta_uuid=q.get("meta_uuid"),
                         )
                     else:
+                        question.question_group = question_group
                         question.name = q.get("name") or q.get("question")
                         question.text = q["question"]
-                        question.order = qi + 1
+                        question.order = q.get("order") or qi + 1
                         question.meta = q.get("meta")
                         question.rule = q.get("rule")
                         question.required = q.get("required")

@@ -16,7 +16,6 @@ const OptionItem = ({ label, color, name }, active) => {
       >
         <Text
           style={{
-            fontWeight: color ? 'bold' : 'normal',
             color: color || active ? 'white' : 'black',
           }}
         >
