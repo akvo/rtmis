@@ -156,8 +156,8 @@ const TypeAutofield = ({ onChange, keyform, id, name, tooltip, fn, displayOnly }
         if (fnColor?.[_automateValue]) {
           setFieldColor(fnColor[_automateValue]);
         }
+        setValue(_automateValue);
         if (!displayOnly && (_automateValue || _automateValue === 0)) {
-          setValue(_automateValue);
           FormState.update((s) => {
             s.currentValues[id] = _automateValue;
           });
