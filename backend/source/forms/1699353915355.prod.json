@@ -4667,9 +4667,9 @@
             "fnColor": {
               "G1 No menstrual hygiene": "#FDC74B",
               "G2 Inadequate menstrual hygiene": "#93D371",
-              "G3 Good menstral hygiene": "#4088F4"
+              "G3 Good menstrual hygiene": "#4088F4"
             },
-            "fnString": "function() {  return (    #1699435026311.includes(\"G1\") &&    #1699435088758.includes(\"G1\") &&    #1699435154797.includes(\"G1\")  )  ? \"G1 No menstrual hygiene\"  : ((    #1699435026311.includes(\"G3\") &&    #1699435088758.includes(\"G3\") &&    #1699435154797.includes(\"G3\"))    ? \"G3 Good menstral hygiene\"    : \"G2 Inadequate menstrual hygiene\"  )}",
+            "fnString": "function() {  return (    #1699435026311.includes(\"G1\") &&    #1699435088758.includes(\"G1\") &&    #1699435154797.includes(\"G1\")  )  ? \"G1 No menstrual hygiene\"  : ((    #1699435026311.includes(\"G3\") &&    #1699435088758.includes(\"G3\") &&    #1699435154797.includes(\"G3\"))    ? \"G3 Good menstrual hygiene\"    : \"G2 Inadequate menstrual hygiene\"  )}",
             "multiline": false
           }
         },
@@ -5664,9 +5664,9 @@
           ],
           "fn": {
             "fnColor": {
-              "G1 No personal hygiene": "#FDC74B",
-              "G2 Inadequate personal hygiene": "#93D371",
-              "G3 Good personal hygiene": "#4088F4"
+              "G1 No menstrual hygiene": "#FDC74B",
+              "G2 Inadequate menstrual hygiene": "#93D371",
+              "G3 Good menstrual hygiene": "#4088F4"
             },
             "fnString": "function(){return #1702301820095}",
             "multiline": false
