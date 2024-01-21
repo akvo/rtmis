@@ -9,7 +9,7 @@ const OptionItem = ({ label, color, name }, active) => {
         style={[
           {
             padding: 8,
-            backgroundColor: active ? '#0047AB' : color || '#FFF',
+            backgroundColor: color ? color : active ? '#bcbcbc' : 'white',
             borderRadius: color ? 5 : 0,
           },
         ]}
@@ -19,7 +19,7 @@ const OptionItem = ({ label, color, name }, active) => {
             color: color || active ? 'white' : 'black',
           }}
         >
-          {label || name}
+          {active && '✔'} {label || name}
         </Text>
       </View>
     </View>
