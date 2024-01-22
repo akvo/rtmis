@@ -81,17 +81,29 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
     }
   }, [numberOfQuestion, formLoading]);
 
-  if (formLoading) {
-    return (
+  const LoadingOverlay = () => (
+    <View
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      }}
+    >
       <Dialog isVisible>
         <Dialog.Title title={`${trans.loadingPrefilledAnswer}...`} />
         <Dialog.Loading />
       </Dialog>
-    );
-  }
+    </View>
+  );
 
   return (
     <>
+      {formLoading && <LoadingOverlay />}
       <BaseLayout.Content>
         <View style={style}>
           {!showQuestionGroupList ? (

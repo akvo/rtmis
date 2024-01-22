@@ -67,6 +67,8 @@ const ExportData = () => {
       render: (row) => (
         <Row>
           <Button
+            shape="round"
+            type="primary"
             icon={
               row.status === "on_progress" || row.result === downloading ? (
                 <LoadingOutlined />
