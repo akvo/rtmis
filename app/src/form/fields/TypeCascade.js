@@ -151,6 +151,8 @@ const TypeCascade = ({
               valueField="id"
               testID={`dropdown-cascade-${index}`}
               data={item?.options}
+              search={item?.options.length > 3}
+              searchPlaceholder={trans.searchPlaceholder}
               onChange={({ id: selectedID }) => handleOnChange(index, selectedID)}
               value={item.value}
               style={[styles.dropdownField]}
