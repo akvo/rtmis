@@ -8,15 +8,15 @@ import * as BackgroundFetch from 'expo-background-fetch';
 import Navigation from './src/navigation';
 import { conn, query, tables } from './src/database';
 import { UIState, AuthState, UserState, BuildParamsState } from './src/store';
-import { crudUsers, crudConfig } from './src/database/crud';
+import { crudUsers, crudConfig, crudDataPoints } from './src/database/crud';
 import { api } from './src/lib';
 import { NetworkStatusBar, SyncService } from './src/components';
 import backgroundTask, {
   SYNC_FORM_SUBMISSION_TASK_NAME,
   SYNC_FORM_VERSION_TASK_NAME,
-  defineSyncFormSubmissionTask,
   defineSyncFormVersionTask,
 } from './src/lib/background-task';
+import crudJobs, { jobStatus, MAX_ATTEMPT } from './src/database/crud/crud-jobs';
 
 const db = conn.init;
 
@@ -34,7 +34,51 @@ defineSyncFormVersionTask();
 
 TaskManager.defineTask(SYNC_FORM_SUBMISSION_TASK_NAME, async () => {
   try {
-    await backgroundTask.syncFormSubmission();
+    const pendingToSync = await crudDataPoints.selectSubmissionToSync();
+    const activeJob = await crudJobs.getActiveJob(SYNC_FORM_SUBMISSION_TASK_NAME);
+    console.info('[BACKGROUND ACTIVE JOB]', activeJob);
+
+    if (activeJob?.status === jobStatus.ON_PROGRESS) {
+      if (activeJob.attempt < MAX_ATTEMPT && pendingToSync.length) {
+        /**
+         * Job is still in progress,
+         * but we still have pending items; then increase the attempt value.
+         */
+        await crudJobs.updateJob(activeJob.id, {
+          attempt: activeJob.attempt + 1,
+        });
+      }
+
+      if (activeJob.attempt === MAX_ATTEMPT) {
+        /**
+         * If the status is still IN PROGRESS and has reached the maximum attempts,
+         * set it to PENDING when there are still pending sync items,
+         * set it to FINISH when there are no pending items.
+         */
+
+        if (pendingToSync.length) {
+          await crudJobs.updateJob(activeJob.id, {
+            status: jobStatus.PENDING,
+          });
+        } else {
+          await crudJobs.updateJob(activeJob.id, {
+            status: jobStatus.FINISH,
+            active: 0,
+            info: 'EMPTY DATA POINTS',
+          });
+        }
+      }
+    }
+
+    if (
+      activeJob?.status === jobStatus.PENDING ||
+      (activeJob?.jobStatus === jobStatus.FAILED && activeJob?.attempt < MAX_ATTEMPT)
+    ) {
+      await crudJobs.updateJob(activeJob.id, {
+        status: jobStatus.ON_PROGRESS,
+      });
+      await backgroundTask.syncFormSubmission(activeJob);
+    }
     return BackgroundFetch.BackgroundFetchResult.NewData;
   } catch (err) {
     console.error(`[${SYNC_FORM_SUBMISSION_TASK_NAME}] Define task manager failed`, err);
