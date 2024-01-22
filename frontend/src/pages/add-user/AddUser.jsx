@@ -43,7 +43,7 @@ const AddUser = () => {
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
   const [role, setRole] = useState(null);
-  const [level, setLevel] = useState(null);
+  const [selectedLevel, setSelectedLevel] = useState(null);
   const [adminError, setAdminError] = useState(null);
   const [levelError, setLevelError] = useState(false);
   const [form] = Form.useForm();
@@ -54,6 +54,7 @@ const AddUser = () => {
   const [nationalApprover, setNationalApprover] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState([]);
+  const maxLevel = max(authUser?.role_detail?.administration_level || 0);
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -95,13 +96,16 @@ const AddUser = () => {
 
   const onFinish = (values) => {
     if ([3, 5].includes(values.role)) {
-      if (level === null) {
+      if (selectedLevel === null) {
         setLevelError(true);
         return;
       }
-      if (administration.length !== level) {
+      const admLevel = administration.length;
+      if (selectedLevel < maxLevel && admLevel !== selectedLevel) {
         setAdminError(
-          `Please select a ${window.levels.find((l) => l.id === level)?.name}`
+          `Please select a ${
+            window.levels.find((l) => l.id === selectedLevel)?.name
+          }`
         );
         return;
       }
@@ -160,7 +164,7 @@ const AddUser = () => {
 
   const onRoleChange = (r) => {
     setRole(r);
-    setLevel(null);
+    setSelectedLevel(null);
     setLevelError(false);
     setAdminError(null);
     form.setFieldsValue({
@@ -174,7 +178,7 @@ const AddUser = () => {
   };
 
   const onLevelChange = (l) => {
-    setLevel(l);
+    setSelectedLevel(l);
     setLevelError(false);
     setAdminError(null);
     if (administration.length >= l) {
@@ -200,7 +204,7 @@ const AddUser = () => {
           s.administration = acc;
         });
         if ([3, 5].includes(roleRes)) {
-          setLevel(
+          setSelectedLevel(
             window.levels.find(
               (l) => l.name === takeRight(acc, 1)[0].level_name
             ).level + 1
@@ -437,7 +441,7 @@ const AddUser = () => {
             {(role === 3 || role === 5) && (
               <Form.Item label={text.admLevel}>
                 <Select
-                  value={level}
+                  value={selectedLevel}
                   getPopupContainer={(trigger) => trigger.parentNode}
                   placeholder={text.selectOne}
                   onChange={onLevelChange}
@@ -456,7 +460,7 @@ const AddUser = () => {
               </Form.Item>
             )}
             {([2, 4].includes(role) ||
-              ([3, 5].includes(role) && level > 1)) && (
+              ([3, 5].includes(role) && selectedLevel > 1)) && (
               <Row className="form-row">
                 <Col span={6} className=" ant-form-item-label">
                   <label htmlFor="administration">
@@ -472,7 +476,7 @@ const AddUser = () => {
                     onChange={onAdminChange}
                     maxLevel={
                       [3, 5].includes(role)
-                        ? level
+                        ? selectedLevel
                         : max(
                             allowedRoles?.find((r) => r.id === role)
                               ?.administration_level
