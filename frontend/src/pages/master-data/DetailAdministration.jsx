@@ -1,14 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Col, Row, Table } from "antd";
-import snakeCase from "lodash/snakeCase";
 
 import { api } from "../../lib";
 
-const DetailAdministration = ({
-  record = {},
-  initialValues = [],
-  attributes = [],
-}) => {
+const DetailAdministration = ({ record = {}, initialValues = [] }) => {
   const [records, setRecords] = useState(initialValues);
   const [preload, setPreload] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -22,24 +17,10 @@ const DetailAdministration = ({
     if (preload && !initialValues.length) {
       setPreload(false);
       const { data: apiData } = await api.get(`/administrations/${record?.id}`);
-      const { attributes: attrValues } = apiData || {};
-
-      const _records = attributes.map((a) => {
-        const findValue = attrValues.find((av) => av?.attribute === a.id);
-        return {
-          id: a.id,
-          key: snakeCase(a.name),
-          field: a.name,
-          attribute: a.id,
-          value: findValue?.value || "",
-          type: a.type,
-          option: a.options.map((opt) => ({ name: opt })),
-        };
-      });
-      setRecords(_records);
+      setRecords(apiData);
       setLoading(false);
     }
-  }, [record, preload, attributes, initialValues]);
+  }, [record, preload, initialValues]);
 
   useEffect(() => {
     fetchData();
@@ -56,30 +37,9 @@ const DetailAdministration = ({
       title: "Value",
       dataIndex: "value",
       key: "value",
-      render: (dataValue, record) => {
-        return (
-          <>
-            {["value", "option"].includes(record.type) && <>{dataValue}</>}
-            {record.type === "multiple_option" && (
-              <>{dataValue?.length ? dataValue?.join(" | ") : ""}</>
-            )}
-            {record.type === "aggregate" && dataValue && (
-              <ul style={{ paddingLeft: "12px" }}>
-                {Object.keys(dataValue).map((dataKey, index) => {
-                  return (
-                    <li key={index}>
-                      <strong>{`${dataKey}: `}</strong>
-                      {dataValue[dataKey]}
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </>
-        );
-      },
     },
   ];
+
   return (
     <>
       <Row justify="center" key="top">
@@ -88,7 +48,28 @@ const DetailAdministration = ({
             loading={loading}
             columns={columns}
             className="table-child"
-            dataSource={records}
+            dataSource={[
+              {
+                key: "code",
+                field: "Code",
+                value: records?.code || "-",
+              },
+              {
+                key: "name",
+                field: "Name",
+                value: records?.name || "",
+              },
+              {
+                key: "parent",
+                field: "Parent",
+                value: records?.parent?.name || "",
+              },
+              {
+                key: "level",
+                field: "Level",
+                value: records?.level?.name || "",
+              },
+            ]}
             pagination={false}
           />
         </Col>
