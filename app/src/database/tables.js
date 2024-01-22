@@ -59,4 +59,17 @@ export const tables = [
       passcode: 'TEXT',
     },
   },
+  {
+    name: 'jobs',
+    fields: {
+      id: 'INTEGER PRIMARY KEY NOT NULL',
+      uuid: 'TEXT type UNIQUE',
+      type: 'VARCHAR(191)',
+      status: 'INTEGER NOT NULL',
+      attempt: 'INTEGER DEFAULT "0" NOT NULL',
+      active: 'TINYINT',
+      info: 'TEXT',
+      createdAt: 'DATETIME',
+    },
+  },
 ];
