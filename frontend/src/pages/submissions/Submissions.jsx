@@ -6,7 +6,6 @@ import {
   PlusSquareOutlined,
   CloseSquareOutlined,
   FileTextFilled,
-  DeleteOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { api, store, uiText } from "../../lib";
@@ -73,9 +72,11 @@ const Submissions = () => {
       dataIndex: "name",
       key: "name",
       render: (name, row) => (
-        <Row align="middle">
+        <Row align="middle" gutter={16}>
           <Col>
-            <FileTextFilled style={{ color: "#666666", fontSize: 28 }} />
+            <FileTextFilled
+              style={{ color: "#666666", fontSize: 28, paddingRight: "1rem" }}
+            />
           </Col>
           <Col>
             <div>{name}</div>
@@ -136,9 +137,9 @@ const Submissions = () => {
             });
           }}
         >
-          <DeleteOutlined
-            style={{ color: "red", fontSize: "17px", cursor: "pointer" }}
-          />
+          <Button shape="round" type="danger" ghost>
+            {text.deleteText}
+          </Button>
         </div>
       ),
       align: "center",

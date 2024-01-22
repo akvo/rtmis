@@ -38,7 +38,9 @@ export const columnsBatch = [
     render: (name, row) => (
       <Row align="middle">
         <Col>
-          <FileTextFilled style={{ color: "#666666", fontSize: 28 }} />
+          <FileTextFilled
+            style={{ color: "#666666", fontSize: 28, paddingRight: "1rem" }}
+          />
         </Col>
         <Col>
           <div>{name}</div>
