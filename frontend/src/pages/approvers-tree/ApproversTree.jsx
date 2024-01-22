@@ -9,7 +9,16 @@ import { take, takeRight } from "lodash";
 import { useNotification } from "../../util/hooks";
 
 const ApproversTree = () => {
-  const { administration, forms, selectedForm } = store.useState((s) => s);
+  const {
+    administration: filterOption,
+    forms,
+    selectedForm,
+  } = store.useState((s) => s);
+
+  const administration = useMemo(() => {
+    return filterOption.filter((item) => item.level !== 3);
+  }, [filterOption]);
+
   const [nodes, setNodes] = useState([]);
   const [dataset, setDataset] = useState([]);
   const [datasetJson, setDatasetJson] = useState("[]");
@@ -148,6 +157,7 @@ const ApproversTree = () => {
                 parent: res.data.parent,
                 children: res.data.children,
                 childLevelName: res.data.children_level_name,
+                level: res.data.level,
               },
             ];
           });
