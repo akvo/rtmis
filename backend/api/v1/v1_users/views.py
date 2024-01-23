@@ -24,6 +24,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from api.v1.v1_forms.models import FormApprovalAssignment
+from api.v1.v1_data.models import PendingDataApproval
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Access, Administration, Levels
 from api.v1.v1_users.models import SystemUser, Organisation, \
@@ -493,6 +495,8 @@ class UserEditDeleteView(APIView):
         if login_user.id == instance.id:
             return Response({'message': "Could not do self deletion"},
                             status=status.HTTP_409_CONFLICT)
+        FormApprovalAssignment.objects.filter(user=instance).delete()
+        PendingDataApproval.objects.filter(user=instance).delete()
         instance.deleted_at = timezone.now()
         instance.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -506,6 +510,8 @@ class UserEditDeleteView(APIView):
         summary='To update user')
     def put(self, request, user_id, version):
         if request.data.get("role") == UserRoleTypes.super_admin:
+            FormApprovalAssignment.objects.filter(user_id=user_id).delete()
+            PendingDataApproval.objects.filter(user_id=user_id).delete()
             request.data.update({
                 "administration":
                 Administration.objects.filter(level__level=0).first().id
