@@ -8,7 +8,6 @@ export const jobStatus = {
   ON_PROGRESS: 2,
   SUCCESS: 3,
   FAILED: 4,
-  FINISH: 5,
 };
 
 export const MAX_ATTEMPT = 3;
@@ -44,6 +43,14 @@ const jobsQuery = () => {
       try {
         const updateQuery = query.update(tableName, { id }, { ...data });
         return await conn.tx(db, updateQuery, [id]);
+      } catch {
+        return null;
+      }
+    },
+    deleteJob: async (id) => {
+      try {
+        const deleteQuery = `DELETE FROM ${tableName} WHERE id = ?`;
+        return await conn.tx(db, deleteQuery, [id]);
       } catch {
         return null;
       }
