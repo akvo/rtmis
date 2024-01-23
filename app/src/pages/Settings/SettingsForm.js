@@ -81,8 +81,12 @@ const SettingsForm = ({ route }) => {
       await conn.tx(db, updateQuery, [id]);
     }
     if (configFields.includes('syncInterval')) {
-      await backgroundTask.unregisterBackgroundTask('sync-form-submission');
-      await backgroundTask.registerBackgroundTask('sync-form-submission', parseInt(value));
+      try {
+        await backgroundTask.unregisterBackgroundTask('sync-form-submission');
+        await backgroundTask.registerBackgroundTask('sync-form-submission', parseInt(value));
+      } catch (error) {
+        console.error('[ERROR RESTART TASK]', error);
+      }
       BuildParamsState.update((s) => {
         s.dataSyncInterval = value;
       });

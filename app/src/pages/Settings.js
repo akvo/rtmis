@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { ListItem, Divider, Button, Switch } from '@rneui/themed';
-import BackgroundService from 'react-native-background-actions';
+import { ListItem, Divider, Button } from '@rneui/themed';
 
 import { BaseLayout, LogoutButton } from '../components';
 import DialogForm from './Settings/DialogForm';
 import { config, langConfig } from './Settings/config';
 import { UIState, FormState, BuildParamsState } from '../store';
-import { backgroundTask, i18n } from '../lib';
+import { i18n } from '../lib';
 
 const Settings = ({ navigation }) => {
   const [showLang, setShowLang] = useState(false);
@@ -38,33 +37,6 @@ const Settings = ({ navigation }) => {
 
   const goToFormSelection = () => {
     navigation.navigate('FormSelection');
-  };
-
-  const handleOnBackgroundTask = async (isActive = true) => {
-    try {
-      if (isActive) {
-        const taskDesc = 'Sync data submission';
-        const options = {
-          taskName: SYNC_FORM_SUBMISSION_TASK_NAME,
-          taskTitle: SYNC_FORM_SUBMISSION_TASK_NAME,
-          taskDesc,
-          taskIcon: {
-            name: 'ic_launcher',
-            type: 'mipmap',
-          },
-          parameters: {
-            delay: 3000,
-          },
-        };
-        const res = await BackgroundService.start(backgroundTask.syncFormSubmission, options);
-        console.log('ress', res);
-        await BackgroundService.updateNotification({ taskDesc });
-      } else {
-        await BackgroundService.stop();
-      }
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   return (
@@ -124,13 +96,6 @@ const Settings = ({ navigation }) => {
         <View style={styles.buttonContainer}>
           <Button title="Sync Datapoint" type="outline" onPress={goToFormSelection} />
         </View>
-        {/* <ListItem bottomDivider>
-          <ListItem.Content>
-            <ListItem.Title>Auto sync</ListItem.Title>
-            <ListItem.Subtitle>This will be running in the background</ListItem.Subtitle>
-          </ListItem.Content>
-          <Switch onValueChange={handleOnBackgroundTask} />
-        </ListItem> */}
       </BaseLayout.Content>
     </BaseLayout>
   );
