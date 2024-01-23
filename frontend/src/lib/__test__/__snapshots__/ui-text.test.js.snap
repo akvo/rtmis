@@ -44,7 +44,7 @@ Object {
     "approvalsTab3": "Approved",
     "approvalsTitle": "Approvals",
     "approversDescription": <React.Fragment>
-      This is where you manage data validation for each Questionnaire. You can:
+      This is where you can see the approvers for each submitted form across different administrative areas:
       <ul>
         <li>
           Add data validator
@@ -330,7 +330,7 @@ Object {
       </ul>
     </React.Fragment>,
     "manageDataTitle": "Manage Data",
-    "manageDataValidationSetup": "Manage Data Validation Setup",
+    "manageDataValidationSetup": "Validation Tree",
     "manageEntities": "Manage Entities",
     "manageEntitiesText": <React.Fragment>
       This is where you manage entitys based on their fields. You can :
