@@ -87,7 +87,7 @@ const Settings = ({ navigation }) => {
           <Divider width={8} color="#f9fafb" />
           <LogoutButton />
           <Divider width={8} color="#f9fafb" />
-          <ListItem>
+          <ListItem onPress={() => navigation.navigate('About')}>
             <ListItem.Content>
               <ListItem.Title>{trans.about}</ListItem.Title>
             </ListItem.Content>

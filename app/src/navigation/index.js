@@ -18,6 +18,7 @@ import {
   AddNewForm,
   ForSelection,
   AdministrationList,
+  AboutPage,
 } from '../pages';
 import { UIState, AuthState, UserState, FormState, BuildParamsState } from '../store';
 import { BackHandler } from 'react-native';
@@ -87,6 +88,7 @@ const RootNavigator = () => {
           <Stack.Screen name="ManageForm" component={ManageFormPage} />
           <Stack.Screen name="FormData" component={FormDataPage} />
           <Stack.Screen name="Settings" component={SettingsPage} />
+          <Stack.Screen name="About" component={AboutPage} />
           <Stack.Screen name="SettingsForm" component={SettingsFormPage} />
           <Stack.Screen name="FormPage" component={FormPage} />
           <Stack.Screen name="MapView" component={MapViewPage} />
