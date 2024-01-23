@@ -92,7 +92,9 @@ const Organisations = () => {
       render: (record, rowValue) => (
         <Space>
           <Link to={`/control-center/organisation/${record.id}`}>
-            <Button type="link">{text.editButton}</Button>
+            <Button shape="round" type="primary">
+              {text.editButton}
+            </Button>
           </Link>
           <Button
             shape="round"

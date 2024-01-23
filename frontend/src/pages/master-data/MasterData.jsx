@@ -63,7 +63,8 @@ const MasterData = () => {
       render: (recordID) => {
         return (
           <Button
-            type="link"
+            shape="round"
+            type="primary"
             onClick={() =>
               navigate(`/control-center/master-data/${recordID}/edit`)
             }

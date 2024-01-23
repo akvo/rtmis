@@ -9,7 +9,17 @@ import { take, takeRight } from "lodash";
 import { useNotification } from "../../util/hooks";
 
 const ApproversTree = () => {
-  const { administration, forms, selectedForm } = store.useState((s) => s);
+  const {
+    administration: filterOption,
+    user: authUser,
+    forms,
+    selectedForm,
+  } = store.useState((s) => s);
+
+  const administration = useMemo(() => {
+    return filterOption.filter((item) => item.level !== 3);
+  }, [filterOption]);
+
   const [nodes, setNodes] = useState([]);
   const [dataset, setDataset] = useState([]);
   const [datasetJson, setDatasetJson] = useState("[]");
@@ -31,6 +41,10 @@ const ApproversTree = () => {
       title: text.manageDataValidationSetup,
     },
   ];
+
+  const startingLevel = window.levels.find(
+    (l) => l.level === authUser?.administration?.level + 1
+  );
 
   useEffect(() => {
     setNodes([
@@ -64,7 +78,8 @@ const ApproversTree = () => {
               ...adminClone,
               {
                 id: selectedAdministration.id,
-                childLevelName: selectedAdministration.childLevelName,
+                childLevelName:
+                  selectedAdministration.childLevelName || startingLevel?.name,
                 children: res.data.map((cI) => ({
                   ...cI,
                   user: cI.user,
@@ -84,7 +99,7 @@ const ApproversTree = () => {
           setLoading(false);
         });
     }
-  }, [administration, selectedForm, notify]);
+  }, [administration, selectedForm, notify, startingLevel]);
 
   const isPristine = useMemo(() => {
     return JSON.stringify(dataset) === datasetJson;
@@ -148,6 +163,7 @@ const ApproversTree = () => {
                 parent: res.data.parent,
                 children: res.data.children,
                 childLevelName: res.data.children_level_name,
+                level: res.data.level,
               },
             ];
           });
