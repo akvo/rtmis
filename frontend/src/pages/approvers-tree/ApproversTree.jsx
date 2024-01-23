@@ -11,6 +11,7 @@ import { useNotification } from "../../util/hooks";
 const ApproversTree = () => {
   const {
     administration: filterOption,
+    user: authUser,
     forms,
     selectedForm,
   } = store.useState((s) => s);
@@ -40,6 +41,10 @@ const ApproversTree = () => {
       title: text.manageDataValidationSetup,
     },
   ];
+
+  const startingLevel = window.levels.find(
+    (l) => l.level === authUser?.administration?.level + 1
+  );
 
   useEffect(() => {
     setNodes([
@@ -73,7 +78,8 @@ const ApproversTree = () => {
               ...adminClone,
               {
                 id: selectedAdministration.id,
-                childLevelName: selectedAdministration.childLevelName,
+                childLevelName:
+                  selectedAdministration.childLevelName || startingLevel?.name,
                 children: res.data.map((cI) => ({
                   ...cI,
                   user: cI.user,
@@ -93,7 +99,7 @@ const ApproversTree = () => {
           setLoading(false);
         });
     }
-  }, [administration, selectedForm, notify]);
+  }, [administration, selectedForm, notify, startingLevel]);
 
   const isPristine = useMemo(() => {
     return JSON.stringify(dataset) === datasetJson;
