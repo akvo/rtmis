@@ -4,6 +4,15 @@ import * as BackgroundFetch from 'expo-background-fetch';
 import * as TaskManager from 'expo-task-manager';
 import * as Network from 'expo-network';
 import notification from './notification';
+import crudJobs, { jobStatus, MAX_ATTEMPT } from '../database/crud/crud-jobs';
+import { UIState } from '../store';
+
+export const syncStatus = {
+  ON_PROGRESS: 1,
+  RE_SYNC: 2,
+  SUCCESS: 3,
+  FAILED: 4,
+};
 
 const syncFormVersion = async ({
   showNotificationOnly = true,
@@ -59,7 +68,6 @@ const registerBackgroundTask = async (TASK_NAME, settingsValue = null) => {
   try {
     const config = await crudConfig.getConfig();
     const syncInterval = settingsValue || parseInt(config?.syncInterval) || 3600;
-    console.log('syncInterval', syncInterval);
     await BackgroundFetch.registerTaskAsync(TASK_NAME, {
       minimumInterval: syncInterval,
       stopOnTerminate: false, // android only,
@@ -131,7 +139,7 @@ const handleOnUploadPhotos = async (data) => {
   }
 };
 
-const syncFormSubmission = async () => {
+const syncFormSubmission = async (activeJob = {}) => {
   const { isConnected } = await Network.getNetworkStateAsync();
   if (!isConnected) {
     return;
@@ -188,12 +196,42 @@ const syncFormSubmission = async () => {
     });
     const res = await Promise.all(syncProcess);
     console.info('[syncFormSubmision] Finish: ', new Date());
+
+    UIState.update((s) => {
+      // TODO: rename isManualSynced w/ isSynced to refresh the Homepage stats
+      s.isManualSynced = true;
+      s.statusBar = {
+        type: syncStatus.SUCCESS,
+        bgColor: '#16a34a',
+        icon: 'checkmark-done',
+      };
+    });
+
     if (sendNotification) {
       notification.sendPushNotification('sync-form-submission');
     }
     sendNotification = false;
+    if (activeJob?.id) {
+      // delete the job when it's succeed
+      await crudJobs.deleteJob(activeJob.id);
+    }
     return res;
   } catch (err) {
+    if (activeJob?.id) {
+      const updatePayload =
+        activeJob.attempt < MAX_ATTEMPT
+          ? { status: jobStatus.FAILED, attempt: activeJob.attempt + 1 }
+          : { status: jobStatus.FAILED, active: 0, info: String(err) };
+      crudJobs.updateJob(activeJob.id, updatePayload);
+
+      const statusBar =
+        activeJob.attempt < MAX_ATTEMPT
+          ? { type: syncStatus.RE_SYNC, bgColor: '#d97706', icon: 'repeat' }
+          : { type: syncStatus.FAILED, bgColor: '#dc2626', icon: 'alert' };
+      UIState.update((s) => {
+        s.statusBar = statusBar;
+      });
+    }
     console.error('[syncFormSubmission] Error: ', err);
   }
 };

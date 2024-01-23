@@ -1,27 +1,64 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { UIState } from '../store';
 import { i18n } from '../lib';
 
-const NetworkStatusBar = () => {
-  const { online: isOnline, lang: activeLang } = UIState.useState((s) => s);
-  const trans = i18n.text(activeLang);
+const TIMEOUT = 3000; // 3second
 
-  return isOnline ? null : (
-    <View style={styles.container}>
-      <Icon name="cloud-offline" testID="offline-icon" style={styles.icon} />
-      <Text style={styles.text} testID="offline-text">
-        {trans.offlineText}
-      </Text>
-    </View>
-  );
+const NetworkStatusBar = () => {
+  const isOnline = UIState.useState((s) => s.online);
+  const activeLang = UIState.useState((s) => s.lang);
+  const statusBar = UIState.useState((s) => s.statusBar);
+  const trans = i18n.text(activeLang);
+  const statusBg = statusBar?.bgColor || '#ef4444';
+  const statusIc = statusBar?.icon || 'cloud-offline';
+  const syncStatus = {
+    1: trans.syncingText,
+    2: trans.reSyncingText,
+    3: trans.doneText,
+    4: trans.syncFailed,
+  };
+
+  const handleOnResetStatusBar = useCallback(() => {
+    /**
+     * Check only for final result
+     */
+    if ([3, 4].includes(statusBar?.type)) {
+      setTimeout(() => {
+        UIState.update((s) => {
+          s.statusBar = null;
+        });
+      }, TIMEOUT);
+    }
+  }, [statusBar]);
+
+  useEffect(() => {
+    handleOnResetStatusBar();
+  }, [handleOnResetStatusBar]);
+
+  if (!isOnline || (isOnline && statusBar !== null)) {
+    return (
+      <View
+        style={{
+          ...styles.container,
+          backgroundColor: statusBg,
+        }}
+      >
+        <Icon name={statusIc} testID="offline-icon" style={styles.icon} />
+        <Text style={styles.text} testID="offline-text">
+          {syncStatus?.[statusBar?.type] || trans.offlineText}
+        </Text>
+      </View>
+    );
+  }
+
+  return null;
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ef4444',
     paddingHorizontal: 4,
     paddingVertical: 10,
     display: 'flex',
