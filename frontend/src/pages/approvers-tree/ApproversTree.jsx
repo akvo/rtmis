@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Divider, Space } from "antd";
+import { Row, Col, Divider, Space, Popover } from "antd";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { api, store, uiText } from "../../lib";
 import ApproverFilters from "../../components/filters/ApproverFilters";
 import { SteppedLineTo } from "react-lineto";
 import { take, takeRight } from "lodash";
 import { useNotification } from "../../util/hooks";
+import { InfoCircleOutlined } from "@ant-design/icons";
 
 const ApproversTree = () => {
   const {
@@ -218,6 +219,13 @@ const ApproversTree = () => {
                         }
                       }}
                     >
+                      {approver && (
+                        <div className="info-icon">
+                          <Popover title={`Email: ${approver?.email}`}>
+                            <InfoCircleOutlined />
+                          </Popover>
+                        </div>
+                      )}
                       <Space direction="vertical">
                         <div>{childItem.name}</div>
                         <h3 className={approver ? "" : "not-assigned"}>

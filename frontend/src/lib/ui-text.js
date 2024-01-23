@@ -147,7 +147,7 @@ const uiText = {
     // Charts
     showEmpty: "Show empty values",
     // User Management
-    manageDataValidationSetup: "Manage Data Validation Setup",
+    manageDataValidationSetup: "Validation Tree",
     manageUsers: "Manage Users",
     addUser: "Add User",
     addNewUser: "Add new user",
@@ -309,8 +309,8 @@ const uiText = {
     questionnaireText: "Questionnaire",
     approversDescription: (
       <Fragment>
-        This is where you manage data validation for each Questionnaire. You
-        can:
+        This is where you can see the approvers for each submitted form across
+        different administrative areas:
         <ul>
           <li>Add data validator</li>
           <li>Modify data validator</li>
