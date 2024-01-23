@@ -84,7 +84,15 @@ const Settings = ({ navigation }) => {
               </ListItem>
             </>
           )}
+          <Divider width={8} color="#f9fafb" />
           <LogoutButton />
+          <Divider width={8} color="#f9fafb" />
+          <ListItem>
+            <ListItem.Content>
+              <ListItem.Title>{trans.about}</ListItem.Title>
+            </ListItem.Content>
+            <ListItem.Chevron />
+          </ListItem>
           <DialogForm
             onOk={handleSaveLang}
             onCancel={() => setShowLang(false)}

@@ -102,6 +102,7 @@ const uiText = {
     reSyncingText: 'Re-syncing...',
     doneText: 'Done!',
     syncFailed: 'Unable to sync the data',
+    about: 'About',
   },
   fr: {
     latitude: 'Latitude',
