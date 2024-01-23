@@ -311,11 +311,6 @@ const uiText = {
       <Fragment>
         This is where you can see the approvers for each submitted form across
         different administrative areas:
-        <ul>
-          <li>Add data validator</li>
-          <li>Modify data validator</li>
-          <li>Delete data validator</li>
-        </ul>
       </Fragment>
     ),
     // Misc
