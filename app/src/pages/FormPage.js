@@ -16,6 +16,8 @@ import { crudDataPoints } from '../database/crud';
 import { UserState, UIState, FormState } from '../store';
 import { generateDataPointName, getDurationInMinutes } from '../form/lib';
 import { i18n } from '../lib';
+import crudJobs, { jobStatus } from '../database/crud/crud-jobs';
+import { SYNC_FORM_SUBMISSION_TASK_NAME } from '../lib/background-task';
 
 const FormPage = ({ navigation, route }) => {
   const selectedForm = FormState.useState((s) => s.form);
@@ -154,11 +156,12 @@ const FormPage = ({ navigation, route }) => {
           }
           answers[q.id] = val;
         });
-      // TODO:: submittedAt still null
+
+      const datapoitName = values?.name || trans.untitled;
       const submitData = {
         form: currentFormId,
         user: userId,
-        name: values?.name || trans.untitled,
+        name: datapoitName,
         geo: values.geo,
         submitted: 1,
         duration: surveyDuration,
@@ -172,6 +175,16 @@ const FormPage = ({ navigation, route }) => {
         ...currentDataPoint,
         ...submitData,
         duration: duration === 0 ? 1 : duration,
+      });
+      /**
+       * Create a new job for syncing form submissions.
+       */
+      await crudJobs.addJob({
+        user: userId,
+        type: SYNC_FORM_SUBMISSION_TASK_NAME,
+        active: 1,
+        status: jobStatus.PENDING,
+        info: `${currentFormId} | ${datapoitName}`,
       });
       if (Platform.OS === 'android') {
         ToastAndroid.show(trans.successSubmitted, ToastAndroid.LONG);

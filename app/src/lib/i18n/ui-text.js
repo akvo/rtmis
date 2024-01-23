@@ -98,6 +98,10 @@ const uiText = {
     settingAddNewFormPageTitle: 'Add New Form',
     errorFormsNotLoaded: 'Unable to load forms',
     downloadingData: 'Downloading data',
+    syncingText: 'Syncing...',
+    reSyncingText: 'Re-syncing...',
+    doneText: 'Done!',
+    syncFailed: 'Unable to sync the data',
   },
   fr: {
     latitude: 'Latitude',
@@ -194,6 +198,10 @@ const uiText = {
     settingAddFormDesc: "Ajouter/télécharger plus de formulaires dans l'application",
     settingAddNewFormPageTitle: 'Ajouter un nouveau formulaire',
     errorFormsNotLoaded: 'Impossible de charger les formulaires',
+    syncingText: 'Synchronisation...',
+    reSyncingText: 'Resynchronisation...',
+    doneText: 'Fait!',
+    syncFailed: 'Impossible de synchroniser les données',
   },
 };
 

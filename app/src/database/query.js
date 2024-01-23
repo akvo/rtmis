@@ -26,7 +26,7 @@ const update = (table, where = {}, data = {}) => {
   return `UPDATE ${table} SET ${fieldString} ${conditionString};`;
 };
 
-const read = (table, where = {}, nocase = false) => {
+const read = (table, where = {}, nocase = false, order_by = null, order_type = 'ASC') => {
   const conditions = Object.keys(where).map((key) => {
     return where[key] === null ? `${key} IS NULL` : `${key} = ?`;
   });
@@ -37,7 +37,11 @@ const read = (table, where = {}, nocase = false) => {
       conditionString += ' COLLATE NOCASE';
     }
   }
-  return `SELECT * FROM ${table} ${conditionString};`;
+  let orderQueryString = '';
+  if (order_by) {
+    orderQueryString += `ORDER BY ${order_by} ${order_type}`;
+  }
+  return `SELECT * FROM ${table} ${conditionString} ${orderQueryString};`;
 };
 
 const clear = (tables = []) => {
