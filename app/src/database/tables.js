@@ -64,6 +64,7 @@ export const tables = [
     fields: {
       id: 'INTEGER PRIMARY KEY NOT NULL',
       uuid: 'TEXT type UNIQUE',
+      user: 'INTEGER NOT NULL',
       type: 'VARCHAR(191)',
       status: 'INTEGER NOT NULL',
       attempt: 'INTEGER DEFAULT "0" NOT NULL',
