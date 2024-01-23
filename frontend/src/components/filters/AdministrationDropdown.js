@@ -15,7 +15,7 @@ const AdministrationDropdown = ({
   persist = false,
   currentId = null,
   onChange,
-  filter = false,
+  limitLevel = false,
   ...props
 }) => {
   const { user, administration, levels } = store.useState((state) => state);
@@ -88,7 +88,7 @@ const AdministrationDropdown = ({
               (x?.children?.length && !maxLevel) ||
               (maxLevel && x?.level < maxLevel - 1 && x?.children?.length) // show children based on maxLevel
           )
-          .filter((l) => !filter || l?.level !== 3)
+          .filter((l) => !limitLevel || l?.level !== limitLevel)
           .map((region, regionIdx) => {
             if (maxLevel === null || regionIdx + 1 < maxLevel) {
               /**
@@ -112,7 +112,7 @@ const AdministrationDropdown = ({
                 <div key={regionIdx}>
                   {withLabel ? (
                     <label className="ant-form-item-label">
-                      {region?.children_level_name}
+                      {region?.children_level_name || ""}
                     </label>
                   ) : (
                     ""

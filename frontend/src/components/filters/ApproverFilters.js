@@ -9,7 +9,7 @@ const ApproverFilters = ({ loading, disabled, visible, reset, save }) => {
     <Row>
       <Col flex={1}>
         <Space>
-          <AdministrationDropdown loading={loading} filter={true} />
+          <AdministrationDropdown loading={loading} limitLevel={3} />
           <RemoveFiltersButton />
         </Space>
       </Col>
