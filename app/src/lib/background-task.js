@@ -212,11 +212,8 @@ const syncFormSubmission = async (activeJob = {}) => {
     }
     sendNotification = false;
     if (activeJob?.id) {
-      await crudJobs.updateJob(activeJob.id, {
-        status: jobStatus.SUCCESS,
-        active: 0,
-        info: `datapoint synced: ${data.length}`,
-      });
+      // delete the job when it's succeed
+      await crudJobs.deleteJob(activeJob.id);
     }
     return res;
   } catch (err) {

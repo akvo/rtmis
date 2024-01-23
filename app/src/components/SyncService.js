@@ -43,7 +43,7 @@ const SyncService = () => {
         /**
          * If the status is still IN PROGRESS and has reached the maximum attempts,
          * set it to PENDING when there are still pending sync items,
-         * set it to FINISH when there are no pending items.
+         * delete the job when it's finish and there are no pending items.
          */
         if (pendingToSync) {
           UIState.update((s) => {
@@ -64,10 +64,7 @@ const SyncService = () => {
               icon: 'checkmark-done',
             };
           });
-          await crudJobs.updateJob(activeJob.id, {
-            active: 0,
-            info: 'EMPTY DATA POINTS',
-          });
+          await crudJobs.deleteJob(activeJob.id);
         }
       }
     }
