@@ -65,7 +65,7 @@
         .ant-col {
           stroke-dashoffset: 2px;
           height: 100%;
-          overflow: scroll;
+          overflow-y: scroll;
           position: relative;
 
           .tree-block {
