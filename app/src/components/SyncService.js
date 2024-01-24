@@ -55,6 +55,7 @@ const SyncService = () => {
           });
           await crudJobs.updateJob(activeJob.id, {
             status: jobStatus.PENDING,
+            attempt: 0, // RESET attempt to 0
           });
         } else {
           UIState.update((s) => {
