@@ -96,9 +96,28 @@
           "fn": null
         },
         {
+          "id": 17030862702533,
+          "order": 3,
+          "question": "Entity Cascade",
+          "meta": false,
+          "required": false,
+          "type": "cascade",
+          "dependency": [
+            {
+              "id": 16993542207341,
+              "options": [
+                "New"
+              ]
+            }
+          ],
+          "extra": {
+            "type": "entity"
+          }
+        },
+        {
           "id": 17029147539571,
           "question": "Geolocation of the household",
-          "order": 3,
+          "order": 4,
           "type": "geo",
           "tooltip": null,
           "required": true,
@@ -115,7 +134,7 @@
         {
           "id": 17029148037321,
           "question": "Household Code",
-          "order": 4,
+          "order": 5,
           "type": "text",
           "tooltip": null,
           "required": false,
