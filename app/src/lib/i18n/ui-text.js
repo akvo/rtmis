@@ -50,6 +50,7 @@ const uiText = {
     authTitle3: 'by the administrator',
     authErrorNoConn: 'No connection',
     manageNewBlank: 'Start New',
+    manageUpdate: 'Update form',
     manageEditSavedForm: 'Edit Saved',
     manageViewSubmitted: 'View Submitted',
     homeSearch: 'Search form',
