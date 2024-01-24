@@ -53,10 +53,17 @@ const EditableCell = ({
 
   useEffect(() => {
     if (record && record.type === "cascade" && !record?.api && !locationName) {
-      config.fn.administration(record.value, false).then((res) => {
-        const locName = res;
-        setLocationName(locName?.full_name);
-      });
+      /**
+       * TODO: Handle recognizing entity cascade clearly
+       */
+      if (typeof record.value === "string") {
+        setLocationName(record.value);
+      } else {
+        config.fn.administration(record.value, false).then((res) => {
+          const locName = res;
+          setLocationName(locName?.full_name);
+        });
+      }
     }
   }, [record, locationName]);
 
