@@ -128,8 +128,6 @@ export const styles = StyleSheet.create({
     backgroundColor: '#2089dc',
     fontWeight: 'normal',
     fontSize: 14,
-    marginRight: -10,
-    marginLeft: -10,
   },
   formNavigationGroupCount: {
     paddingTop: 13,
