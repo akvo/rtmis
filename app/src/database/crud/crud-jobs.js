@@ -27,7 +27,7 @@ const jobsQuery = () => {
           const nocase = false;
           const order_by = 'createdAt';
           const readQuery = query.read(tableName, where, nocase, order_by);
-          const { rows } = await conn.tx(db, readQuery, [1, type]);
+          const { rows } = await conn.tx(db, readQuery, [1, type, session.id]);
           if (!rows.length) {
             return null;
           }
