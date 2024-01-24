@@ -11,6 +11,7 @@ const FormState = new Store({
   feedback: {},
   loading: false,
   prefilled: false,
+  administration: null,
 });
 
 export default FormState;
