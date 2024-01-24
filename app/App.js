@@ -18,8 +18,6 @@ import backgroundTask, {
 } from './src/lib/background-task';
 import crudJobs, { jobStatus, MAX_ATTEMPT } from './src/database/crud/crud-jobs';
 
-const db = conn.init;
-
 export const setNotificationHandler = () =>
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -136,19 +134,25 @@ const App = () => {
     console.info('[CONFIG] Server URL', serverURL);
   };
 
-  useEffect(() => {
+  const handleInitDB = useCallback(async () => {
+    await conn.reset();
+    const db = conn.init;
     const queries = tables.map((t) => {
       const queryString = query.initialQuery(t.name, t.fields);
       return conn.tx(db, queryString);
     });
-    Promise.all(queries)
-      .then(() => {
-        handleInitConfig();
-      })
-      .then(() => {
-        handleCheckSession();
-      });
-  }, []);
+    try {
+      await Promise.all(queries);
+      await handleInitConfig();
+      handleCheckSession();
+    } catch (error) {
+      console.error('[INITIAL DB]', error);
+    }
+  }, [handleInitConfig, handleCheckSession]);
+
+  useEffect(() => {
+    handleInitDB();
+  }, [handleInitDB]);
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
