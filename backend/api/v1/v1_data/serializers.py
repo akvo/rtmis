@@ -27,7 +27,7 @@ from api.v1.v1_forms.models import (
     FormApprovalAssignment,
 )
 from api.v1.v1_profile.constants import UserRoleTypes
-from api.v1.v1_profile.models import Administration
+from api.v1.v1_profile.models import Administration, EntityData
 from api.v1.v1_users.models import SystemUser, Organisation
 from utils.custom_serializer_fields import (
     CustomPrimaryKeyRelatedField,
@@ -1148,16 +1148,23 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                 name = answer.get("value")
             elif answer.get("question").type == QuestionTypes.cascade:
                 id = answer.get("value")
-                ep = answer.get("question").api.get("endpoint")
                 val = None
-                if "organisation" in ep:
-                    val = Organisation.objects.filter(pk=id).first()
-                    val = val.name
-                else:
-                    ep = ep.split("?")[0]
-                    ep = f"{ep}?id={id}"
-                    val = requests.get(ep).json()
-                    val = val[0].get("name")
+                if answer.get("question").api:
+                    ep = answer.get("question").api.get("endpoint")
+                    if "organisation" in ep:
+                        val = Organisation.objects.filter(pk=id).first()
+                        val = val.name
+                    else:
+                        ep = ep.split("?")[0]
+                        ep = f"{ep}?id={id}"
+                        val = requests.get(ep).json()
+                        val = val[0].get("name")
+
+                if answer.get("question").extra:
+                    cs_type = answer.get("question").extra.get("type")
+                    if cs_type == "entity":
+                        val = EntityData.objects.filter(pk=id).first()
+                        val = val.name
                 name = val
             else:
                 # for administration,number question type
