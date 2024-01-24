@@ -5,7 +5,7 @@ import { View, StyleSheet, Platform, ToastAndroid } from 'react-native';
 import { Input, Button, Text, Dialog } from '@rneui/themed';
 import { CenterLayout, Image } from '../components';
 import { api, cascades, i18n } from '../lib';
-import { AuthState, UserState, UIState } from '../store';
+import { AuthState, UserState, UIState, BuildParamsState } from '../store';
 import { crudForms, crudUsers, crudConfig } from '../database/crud';
 
 const ToggleEye = ({ hidden, onPress }) => {
@@ -20,6 +20,7 @@ const ToggleEye = ({ hidden, onPress }) => {
 const AuthForm = ({ navigation }) => {
   const logo = Asset.fromModule(require('../assets/icon.png')).uri;
   const { online: isNetworkAvailable, lang: activeLang } = UIState.useState((s) => s);
+  const { appVersion } = BuildParamsState.useState((s) => s);
   const [passcode, setPasscode] = React.useState(null);
   const [hidden, setHidden] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
@@ -163,6 +164,7 @@ const AuthForm = ({ navigation }) => {
       >
         {trans.buttonLogin}
       </Button>
+      <Text>App version - {appVersion}</Text>
       {/* Loading dialog */}
       <Dialog isVisible={loading} style={styles.dialogLoadingContainer}>
         <Dialog.Loading />
