@@ -121,6 +121,16 @@ export const styles = StyleSheet.create({
     marginRight: -10,
     marginLeft: -10,
   },
+  formNavigationSubmit: {
+    paddingTop: 9,
+    paddingBottom: 10,
+    color: '#FFFFFF',
+    backgroundColor: '#2089dc',
+    fontWeight: 'normal',
+    fontSize: 14,
+    marginRight: -10,
+    marginLeft: -10,
+  },
   formNavigationGroupCount: {
     paddingTop: 13,
     paddingBottom: 10,
