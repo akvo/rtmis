@@ -10,6 +10,22 @@ from api.v1.v1_mobile.models import MobileAssignment, MobileApk
 from utils.custom_helper import CustomPasscode, generate_random_string
 
 
+class MobileAssignmentAdministrationSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    children = serializers.SerializerMethodField()
+
+    def get_children(self, obj):
+        childs = Administration.objects.filter(parent=obj)
+        return MobileAssignmentAdministrationSerializer(
+            childs.all(), many=True
+        ).data
+
+    class Meta:
+        model = Administration
+        fields = ["id", "name", "children"]
+
+
 class MobileFormSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField()
     version = serializers.CharField()
@@ -29,10 +45,17 @@ class MobileAssignmentFormsSerializer(serializers.Serializer):
     name = serializers.CharField(read_only=True)
     syncToken = serializers.SerializerMethodField()
     formsUrl = serializers.SerializerMethodField()
+    administrations = serializers.SerializerMethodField()
 
     @extend_schema_field(MobileFormSerializer(many=True))
     def get_formsUrl(self, obj):
         return MobileFormSerializer(obj.forms.all(), many=True).data
+
+    @extend_schema_field(MobileAssignmentAdministrationSerializer(many=True))
+    def get_administrations(self, obj):
+        return MobileAssignmentAdministrationSerializer(
+            obj.administrations.all(), many=True
+        ).data
 
     def get_syncToken(self, obj):
         return str(MobileAssignmentToken.for_assignment(obj))
@@ -44,7 +67,7 @@ class MobileAssignmentFormsSerializer(serializers.Serializer):
         return value
 
     class Meta:
-        fields = ["name", "syncToken", "formsUrl", "code"]
+        fields = ["name", "syncToken", "formsUrl", "code", "administrations"]
 
 
 class IdAndNameRelatedField(serializers.PrimaryKeyRelatedField):
