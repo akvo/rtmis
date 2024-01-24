@@ -13,11 +13,9 @@ import {
 } from '../fields';
 import { View, Text } from 'react-native';
 import { styles } from '../styles';
-import { cascades } from '../../lib';
 import { FormState } from '../../store';
 
 const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
-  const [cascadeData, setCascadeData] = useState([]);
   const questionType = questionField?.type;
   const displayValue = questionField?.hidden ? 'none' : 'flex';
   const formFeedback = FormState.useState((s) => s.feedback);
@@ -28,18 +26,6 @@ const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
     }
     onChange(id, val, questionField);
   };
-
-  const loadCascadeDataSource = useCallback(async (source) => {
-    const { rows } = await cascades.loadDataSource(source);
-    setCascadeData(rows._array);
-  }, []);
-
-  useEffect(() => {
-    if (questionField?.type === 'cascade' && questionField?.source?.file) {
-      const cascadeSource = questionField.source;
-      loadCascadeDataSource(cascadeSource);
-    }
-  }, []);
 
   const renderField = useCallback(() => {
     switch (questionType) {
@@ -106,7 +92,6 @@ const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
             onChange={handleOnChangeField}
             value={value}
             {...questionField}
-            dataSource={cascadeData}
           />
         );
       case 'autofield':
@@ -123,7 +108,7 @@ const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
           />
         );
     }
-  }, [questionField, keyform, handleOnChangeField, value, cascadeData]);
+  }, [questionField, keyform, handleOnChangeField, value]);
 
   return (
     <View testID="question-view" style={{ display: displayValue }}>
