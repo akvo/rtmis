@@ -13,8 +13,8 @@ const NetworkStatusBar = () => {
   const activeLang = UIState.useState((s) => s.lang);
   const statusBar = UIState.useState((s) => s.statusBar);
   const trans = i18n.text(activeLang);
-  const statusBg = statusBar?.bgColor || '#ef4444';
-  const statusIc = statusBar?.icon || 'cloud-offline';
+  const statusBg = isOnline ? statusBar?.bgColor || '#ef4444' : '#ef4444';
+  const statusIc = isOnline ? statusBar?.icon || 'cloud-offline' : 'cloud-offline';
   const statusText = {
     1: trans.syncingText,
     2: trans.reSyncingText,
@@ -48,7 +48,7 @@ const NetworkStatusBar = () => {
       >
         <Icon name={statusIc} testID="offline-icon" style={styles.icon} />
         <Text style={styles.text} testID="offline-text">
-          {statusText?.[statusBar?.type] || trans.offlineText}
+          {isOnline ? statusText?.[statusBar?.type] || trans.offlineText : trans.offlineText}
         </Text>
       </View>
     );
