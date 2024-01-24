@@ -57,6 +57,7 @@ TaskManager.defineTask(SYNC_FORM_SUBMISSION_TASK_NAME, async () => {
         if (pendingToSync.length) {
           await crudJobs.updateJob(activeJob.id, {
             status: jobStatus.PENDING,
+            attempt: 0, // RESET attempt to 0
           });
         } else {
           await crudJobs.deleteJob(activeJob.id);
@@ -66,7 +67,7 @@ TaskManager.defineTask(SYNC_FORM_SUBMISSION_TASK_NAME, async () => {
 
     if (
       activeJob?.status === jobStatus.PENDING ||
-      (activeJob?.jobStatus === jobStatus.FAILED && activeJob?.attempt < MAX_ATTEMPT)
+      (activeJob?.status === jobStatus.FAILED && activeJob?.attempt <= MAX_ATTEMPT)
     ) {
       await crudJobs.updateJob(activeJob.id, {
         status: jobStatus.ON_PROGRESS,

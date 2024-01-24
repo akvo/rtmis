@@ -101,8 +101,8 @@ const uiText = {
     syncingText: 'Syncing...',
     reSyncingText: 'Re-syncing...',
     doneText: 'Done!',
-    syncFailed: 'Unable to sync the data',
     about: 'About',
+    autoSyncInProgress: 'Auto sync is in progress',
   },
   fr: {
     latitude: 'Latitude',
@@ -202,7 +202,7 @@ const uiText = {
     syncingText: 'Synchronisation...',
     reSyncingText: 'Resynchronisation...',
     doneText: 'Fait!',
-    syncFailed: 'Impossible de synchroniser les données',
+    autoSyncInProgress: 'La synchronisation automatique est en cours',
   },
 };
 
