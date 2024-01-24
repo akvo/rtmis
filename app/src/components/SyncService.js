@@ -20,15 +20,6 @@ const SyncService = () => {
     console.info('[ACTIVE JOB]', activeJob);
 
     if (activeJob?.status === jobStatus.ON_PROGRESS) {
-      if (statusBar === null) {
-        UIState.update((s) => {
-          s.statusBar = {
-            type: syncStatus.ON_PROGRESS,
-            bgColor: '#2563eb',
-            icon: 'sync',
-          };
-        });
-      }
       if (activeJob.attempt < MAX_ATTEMPT) {
         /**
          * Job is still in progress,
@@ -72,8 +63,15 @@ const SyncService = () => {
 
     if (
       activeJob?.status === jobStatus.PENDING ||
-      (activeJob?.jobStatus === jobStatus.FAILED && activeJob?.attempt < MAX_ATTEMPT)
+      (activeJob?.status === jobStatus.FAILED && activeJob?.attempt <= MAX_ATTEMPT)
     ) {
+      UIState.update((s) => {
+        s.statusBar = {
+          type: syncStatus.ON_PROGRESS,
+          bgColor: '#2563eb',
+          icon: 'sync',
+        };
+      });
       await crudJobs.updateJob(activeJob.id, {
         status: jobStatus.ON_PROGRESS,
       });
