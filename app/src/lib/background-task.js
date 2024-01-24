@@ -220,13 +220,8 @@ const syncFormSubmission = async (activeJob = {}) => {
       const updatePayload =
         activeJob.attempt < MAX_ATTEMPT
           ? { status: jobStatus.FAILED, attempt: activeJob.attempt + 1 }
-          : { status: jobStatus.FAILED, active: 0, info: String(err) };
+          : { status: jobStatus.ON_PROGRESS, info: String(err) };
       crudJobs.updateJob(activeJob.id, updatePayload);
-
-      const statusBar = { type: syncStatus.RE_SYNC, bgColor: '#d97706', icon: 'repeat' };
-      UIState.update((s) => {
-        s.statusBar = statusBar;
-      });
     }
     console.error('[syncFormSubmission] Error: ', err);
   }
