@@ -46,6 +46,12 @@ jest.mock('../../../lib', () => ({
 }));
 
 describe('TypeCascade', () => {
+  beforeEach(() => {
+    cascades.loadDataSource.mockReturnValue({
+      rows: { length: dummyLocations.length, _array: dummyLocations },
+    });
+  });
+
   it('Should not show options when the data source is not set.', () => {
     const fieldID = 'location';
     const fieldName = 'Location';
@@ -94,7 +100,7 @@ describe('TypeCascade', () => {
     expect(dropdownEl).toBeNull();
   });
 
-  it('Should have a specific parent dropdown when source is defined.', () => {
+  it('Should have a specific parent dropdown when source is defined.', async () => {
     const fieldID = 'location';
     const fieldName = 'Location';
     const initialValue = [107, 110];
@@ -116,16 +122,18 @@ describe('TypeCascade', () => {
       />,
     );
 
-    const parentDropdown = getByTestId('dropdown-cascade-0');
-    expect(parentDropdown).toBeDefined();
-    const invalidOption = queryByText('DI YOGYAKARTA');
-    expect(invalidOption).toBeNull();
+    await waitFor(() => {
+      const parentDropdown = getByTestId('dropdown-cascade-0');
+      expect(parentDropdown).toBeDefined();
+      const invalidOption = queryByText('DI YOGYAKARTA');
+      expect(invalidOption).toBeNull();
 
-    const validOption = queryByText('Bantul');
-    expect(validOption).toBeDefined();
+      const validOption = queryByText('Bantul');
+      expect(validOption).toBeDefined();
+    });
   });
 
-  it('Should have one or more child dropdowns.', () => {
+  it('Should have one or more child dropdowns.', async () => {
     const fieldID = 'location';
     const fieldName = 'Location';
     const initialValue = [111, 112];
@@ -134,28 +142,36 @@ describe('TypeCascade', () => {
     const mockedOnChange = jest.fn((fieldName, value) => {
       values[fieldName] = value;
     });
+
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues[fieldID] = initialValue;
+      });
+    });
+
     const { getByTestId, getByText, rerender } = render(
       <TypeCascade
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
         value={values[fieldID]}
-        dataSource={dummyLocations}
       />,
     );
 
-    const parentDropdown = getByTestId('dropdown-cascade-0');
-    expect(parentDropdown).toBeDefined();
-    const childDropdown = getByTestId('dropdown-cascade-1');
-    expect(childDropdown).toBeDefined();
+    await waitFor(() => {
+      const parentDropdown = getByTestId('dropdown-cascade-0');
+      expect(parentDropdown).toBeDefined();
+      const childDropdown = getByTestId('dropdown-cascade-1');
+      expect(childDropdown).toBeDefined();
 
-    fireEvent.press(childDropdown);
+      fireEvent.press(childDropdown);
 
-    const option1 = getByText('KAB. BANYUMAS');
-    expect(option1).toBeDefined();
+      const option1 = getByText('KAB. BANYUMAS');
+      expect(option1).toBeDefined();
+    });
   });
 
-  it('Should depend on the selected option in the parent dropdown.', () => {
+  it('Should depend on the selected option in the parent dropdown.', async () => {
     const fieldID = 'location';
     const fieldName = 'Location';
     const selectedOption = [106, 107];
@@ -174,28 +190,30 @@ describe('TypeCascade', () => {
       />,
     );
 
-    const firstDropdown = getByTestId('dropdown-cascade-0');
-    expect(firstDropdown).toBeDefined();
-    const firstOption = getByText('DI YOGYAKARTA');
-    expect(firstOption).toBeDefined();
+    await waitFor(() => {
+      const firstDropdown = getByTestId('dropdown-cascade-0');
+      expect(firstDropdown).toBeDefined();
+      const firstOption = getByText('DI YOGYAKARTA');
+      expect(firstOption).toBeDefined();
 
-    const secondDropdown = getByTestId('dropdown-cascade-1');
-    expect(secondDropdown).toBeDefined();
+      const secondDropdown = getByTestId('dropdown-cascade-1');
+      expect(secondDropdown).toBeDefined();
 
-    const secondOption = getByText('KAB. BANTUL');
-    expect(secondOption).toBeDefined();
+      const secondOption = getByText('KAB. BANTUL');
+      expect(secondOption).toBeDefined();
 
-    // change first dropdown
-    fireEvent.press(firstDropdown);
+      // change first dropdown
+      fireEvent.press(firstDropdown);
 
-    const selectedParent = getByText('JAWA TENGAH');
-    fireEvent.press(selectedParent);
+      const selectedParent = getByText('JAWA TENGAH');
+      fireEvent.press(selectedParent);
 
-    // second dropdown is empty
-    expect(queryByText('KAB. BANTUL')).toBeNull();
+      // second dropdown is empty
+      expect(queryByText('KAB. BANTUL')).toBeNull();
+    });
   });
 
-  it('should set values based on the required level', () => {
+  it('should set values based on the required level', async () => {
     const fieldID = 'location';
     const fieldName = 'Location';
     const initialValue = null;
@@ -253,35 +271,37 @@ describe('TypeCascade', () => {
       }
     });
 
-    const dropdown1 = getByTestId('dropdown-cascade-0');
-    expect(dropdown1).toBeDefined();
+    await waitFor(() => {
+      const dropdown1 = getByTestId('dropdown-cascade-0');
+      expect(dropdown1).toBeDefined();
 
-    fireEvent.press(dropdown1);
+      fireEvent.press(dropdown1);
 
-    const dropdown1Selected = getByText('DI YOGYAKARTA');
-    fireEvent.press(dropdown1Selected);
+      const dropdown1Selected = getByText('DI YOGYAKARTA');
+      fireEvent.press(dropdown1Selected);
 
-    const dropdown2 = getByTestId('dropdown-cascade-1');
-    expect(dropdown2).toBeDefined();
+      const dropdown2 = getByTestId('dropdown-cascade-1');
+      expect(dropdown2).toBeDefined();
 
-    fireEvent.press(dropdown2);
-    const dropdown2Selected = getByText('KAB. BANTUL');
-    fireEvent.press(dropdown2Selected);
+      fireEvent.press(dropdown2);
+      const dropdown2Selected = getByText('KAB. BANTUL');
+      fireEvent.press(dropdown2Selected);
 
-    // it should still null
-    expect(values[fieldID]).toBeNull();
+      // it should still null
+      expect(values[fieldID]).toBeNull();
 
-    const dropdown3 = getByTestId('dropdown-cascade-2');
-    expect(dropdown3).toBeDefined();
+      const dropdown3 = getByTestId('dropdown-cascade-2');
+      expect(dropdown3).toBeDefined();
 
-    fireEvent.press(dropdown3);
-    const dropdown3Selected = getByText('Sabdodadi');
-    fireEvent.press(dropdown3Selected);
+      fireEvent.press(dropdown3);
+      const dropdown3Selected = getByText('Sabdodadi');
+      fireEvent.press(dropdown3Selected);
 
-    expect(values[fieldID]).toEqual([106, 107, 109]);
+      expect(values[fieldID]).toEqual([106, 107, 109]);
+    });
   });
 
-  it('should sorted items correctly', () => {
+  it('should sorted items correctly', async () => {
     const fieldID = 'location';
     const fieldName = 'Location';
     const initialValue = null;
@@ -296,6 +316,10 @@ describe('TypeCascade', () => {
       { id: 2, name: 'SNV', parent: 0 },
       { id: 3, name: 'Akvo', parent: 0 },
     ];
+
+    cascades.loadDataSource.mockReturnValue({
+      rows: { length: dataSource.length, _array: dataSource },
+    });
 
     const { getByTestId, getByText } = render(
       <TypeCascade
@@ -303,22 +327,23 @@ describe('TypeCascade', () => {
         id={fieldID}
         name={fieldName}
         value={values[fieldID]}
-        dataSource={dataSource}
       />,
     );
 
-    const dropdown1 = getByTestId('dropdown-cascade-0');
-    fireEvent.press(dropdown1);
+    await waitFor(() => {
+      const dropdown1 = getByTestId('dropdown-cascade-0');
+      fireEvent.press(dropdown1);
 
-    const option1 = getByText('Akvo');
-    expect(option1).toBeDefined();
-    const option2 = getByText('Nuffic');
-    expect(option2).toBeDefined();
-    const option3 = getByText('SNV');
-    expect(option3).toBeDefined();
+      const option1 = getByText('Akvo');
+      expect(option1).toBeDefined();
+      const option2 = getByText('Nuffic');
+      expect(option2).toBeDefined();
+      const option3 = getByText('SNV');
+      expect(option3).toBeDefined();
+    });
   });
 
-  it('should not show required sign if required param is false and requiredSign is not defined', () => {
+  it('should not show required sign if required param is false and requiredSign is not defined', async () => {
     const fieldID = 'location';
     const fieldName = 'Location';
     const initialValue = null;
@@ -334,21 +359,26 @@ describe('TypeCascade', () => {
       { id: 3, name: 'Akvo', parent: 0 },
     ];
 
+    cascades.loadDataSource.mockReturnValue({
+      rows: { length: dataSource.length, _array: dataSource },
+    });
+
     const wrapper = render(
       <TypeCascade
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
         value={values[fieldID]}
-        dataSource={dataSource}
         required={false}
       />,
     );
-    const requiredIcon = wrapper.queryByTestId('field-required-icon');
-    expect(requiredIcon).toBeFalsy();
+    await waitFor(() => {
+      const requiredIcon = wrapper.queryByTestId('field-required-icon');
+      expect(requiredIcon).toBeFalsy();
+    });
   });
 
-  it('should not show required sign if required param is false but requiredSign is defined', () => {
+  it('should not show required sign if required param is false but requiredSign is defined', async () => {
     const fieldID = 'location';
     const fieldName = 'Location';
     const initialValue = null;
@@ -364,22 +394,28 @@ describe('TypeCascade', () => {
       { id: 3, name: 'Akvo', parent: 0 },
     ];
 
+    cascades.loadDataSource.mockReturnValue({
+      rows: { length: dataSource.length, _array: dataSource },
+    });
+
     const wrapper = render(
       <TypeCascade
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
         value={values[fieldID]}
-        dataSource={dataSource}
         required={false}
         requiredSign="*"
       />,
     );
-    const requiredIcon = wrapper.queryByTestId('field-required-icon');
-    expect(requiredIcon).toBeFalsy();
+
+    await waitFor(() => {
+      const requiredIcon = wrapper.queryByTestId('field-required-icon');
+      expect(requiredIcon).toBeFalsy();
+    });
   });
 
-  it('should not show required sign if required param is true and requiredSign defined', () => {
+  it('should not show required sign if required param is true and requiredSign defined', async () => {
     const fieldID = 'location';
     const fieldName = 'Location';
     const initialValue = null;
@@ -406,11 +442,14 @@ describe('TypeCascade', () => {
         requiredSign="*"
       />,
     );
-    const requiredIcon = wrapper.queryByTestId('field-required-icon');
-    expect(requiredIcon).toBeTruthy();
+
+    await waitFor(() => {
+      const requiredIcon = wrapper.queryByTestId('field-required-icon');
+      expect(requiredIcon).toBeTruthy();
+    });
   });
 
-  it('should show required sign with custom requiredSign', () => {
+  it('should show required sign with custom requiredSign', async () => {
     const fieldID = 'location';
     const fieldName = 'Location';
     const initialValue = null;
@@ -437,39 +476,41 @@ describe('TypeCascade', () => {
         requiredSign="**"
       />,
     );
-    const requiredIcon = wrapper.getByText('**');
-    expect(requiredIcon).toBeTruthy();
+
+    await waitFor(() => {
+      const requiredIcon = wrapper.getByText('**');
+      expect(requiredIcon).toBeTruthy();
+    });
   });
 
-  it('should use id when parent id not found', () => {
+  it('should use id when parent id not found', async () => {
     const fieldID = 'location';
     const fieldName = 'Location';
     const initialValue = null;
     const values = { [fieldID]: initialValue };
 
-    const mockedOnChange = jest.fn((fieldName, value) => {
-      values[fieldName] = value;
-    });
+    const mockedOnChange = jest.fn();
 
     const questionSource = { file: 'file.sqlite', parent_id: [114] };
-    const { getByTestId, getByText } = render(
+    const { getByTestId, getByText, debug } = render(
       <TypeCascade
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
         value={values[fieldID]}
-        dataSource={dummyLocations}
         source={questionSource}
       />,
     );
 
-    const parentDropdown = getByTestId('dropdown-cascade-0');
-    expect(parentDropdown).toBeDefined();
+    await waitFor(() => {
+      const parentDropdown = getByTestId('dropdown-cascade-0');
+      expect(parentDropdown).toBeDefined();
 
-    fireEvent.press(parentDropdown);
+      fireEvent.press(parentDropdown);
 
-    const validOption = getByText('Kembaran');
-    expect(validOption).toBeDefined();
+      const validOption = getByText('Kembaran');
+      expect(validOption).toBeDefined();
+    });
   });
 
   it('Should get cascade name as datapoint name', async () => {
@@ -687,4 +728,25 @@ describe('TypeCascade', () => {
       expect(datapoint.dpName).toBe('');
     });
   });
+});
+
+const mockEntities = [
+  { id: 'RS Umum Daerah Wates ', code: '3401015', entity: 2, administration: 115, parent: 115 },
+  { id: 'RS Khusus Ibu Anak Sadewa', code: '3404187', entity: 2, administration: 116, parent: 116 },
+  { id: 'RS Ibu dan Anak Allaudya', code: '3403026', entity: 2, administration: 116, parent: 116 },
+  { id: 'SD NEGERI DEPOK I', code: '20401672', entity: 1, administration: 116, parent: 116 },
+  { id: 'SD NEGERI JETISHARJO', code: '20401724', entity: 1, administration: 117, parent: 117 },
+];
+
+describe('TypeCascade | Entity', () => {
+  beforeAll(() => {
+    cascades.loadDataSource.mockReturnValue({
+      rows: { length: mockEntities.length, _array: mockEntities },
+    });
+  });
+
+  it.todo('it should be able to load entity_data.sqlite');
+  it.todo('it should be able to get the selected administration ID as the parent value');
+  it.todo('It should be triggered by the selected administration ID and show a valid list');
+  it.todo('it should be empty when the administration has not selected');
 });
