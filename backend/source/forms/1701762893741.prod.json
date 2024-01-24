@@ -1,0 +1,863 @@
+{
+  "id": 1701762893741,
+  "form": "RTMIS Healthcare Facility WASH Form",
+  "description": "Healthcare Facility Form",
+  "defaultLanguage": "en",
+  "languages": [
+    "en"
+  ],
+  "version": 1,
+  "translations": null,
+  "question_groups": [
+    {
+      "id": 1701762893742,
+      "question_group": "HCF WASH: data",
+      "description": null,
+      "order": 1,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 1701762893743,
+          "question": "New HCF or Monitoring upate?",
+          "order": 1,
+          "type": "option",
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701770299704,
+              "name": "New",
+              "order": 1
+            },
+            {
+              "id": 1701770299705,
+              "name": "Update",
+              "order": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1701770366285,
+      "question_group": "HCF: Location",
+      "description": null,
+      "order": 2,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 1701770366286,
+          "question": "What is the location of the hcf?",
+          "order": 1,
+          "type": "option",
+          "tooltip": {
+            "text": "This question contains a list of possible school locations, starting with government area or district, down to the community."
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701770406953,
+              "name": "County",
+              "order": 1
+            },
+            {
+              "id": 1701770406954,
+              "name": "Sub-County",
+              "order": 2
+            },
+            {
+              "id": 1701770430241,
+              "name": "Ward",
+              "order": 3
+            },
+            {
+              "id": 1701770438957,
+              "name": "Community: Village or other urban unit",
+              "order": 4
+            },
+            {
+              "id": 1701770446524,
+              "name": "HCF name",
+              "order": 5
+            }
+          ]
+        },
+        {
+          "id": 1701770462034,
+          "question": "Geolocation of the household",
+          "order": 2,
+          "type": "geo",
+          "tooltip": {
+            "text": "Record GPS coordinates of a central place in the HCF (e.g. outside main entrance)"
+          },
+          "required": false,
+          "meta": false,
+          "options": null
+        }
+      ]
+    },
+    {
+      "id": 1701772767993,
+      "question_group": "INTERVIEW: HCF data (first time)",
+      "description": null,
+      "order": 3,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 1701772767994,
+          "question": "HCF respondent: role/position",
+          "order": 1,
+          "type": "option",
+          "tooltip": {
+            "text": "List of HCF positions/roles"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701772879093,
+              "name": "Nurse",
+              "order": 1
+            },
+            {
+              "id": 1701772879094,
+              "name": "Doctor",
+              "order": 2
+            },
+            {
+              "id": 1701772892891,
+              "name": "Public Health Officer",
+              "order": 3
+            },
+            {
+              "id": 1701772899770,
+              "name": "Clinical/Medical Officer",
+              "order": 4
+            },
+            {
+              "id": 1701772908095,
+              "name": "Medical Lab Technician",
+              "order": 5
+            },
+            {
+              "id": 1701772914771,
+              "name": "Pharmacist",
+              "order": 6
+            },
+            {
+              "id": 1701772921512,
+              "name": "Medical Superintendent",
+              "order": 7
+            },
+            {
+              "id": 1701772931461,
+              "name": "Director",
+              "order": 8
+            }
+          ]
+        },
+        {
+          "id": 1701772988782,
+          "question": "Total number of beds/inpatients in HCF",
+          "order": 2,
+          "type": "number",
+          "tooltip": {
+            "text": "INTERVIEW: what is the total number of beds/inpatients in this healthcare facility?"
+          },
+          "required": false,
+          "meta": false,
+          "options": null
+        },
+        {
+          "id": 1701773124035,
+          "question": "Maximum number of outpatients in HCF",
+          "order": 3,
+          "type": "number",
+          "tooltip": {
+            "text": "INTERVIEW: what is the maximum number of outpatients in this healthcare facility?"
+          },
+          "required": false,
+          "meta": false,
+          "options": null
+        }
+      ]
+    },
+    {
+      "id": 1701773180227,
+      "question_group": "INTERVIEW: Update HCF information",
+      "description": null,
+      "order": 4,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 1701773180228,
+          "question": "Change in number of patients attending the HCF?",
+          "order": 1,
+          "type": "option",
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701773225595,
+              "name": "Yes",
+              "order": 1
+            },
+            {
+              "id": 1701773225596,
+              "name": "No",
+              "order": 2
+            }
+          ],
+          "tooltip": null
+        },
+        {
+          "id": 1701773239332,
+          "question": "Update: total number of beds/inpatients in HCF",
+          "order": 2,
+          "type": "number",
+          "required": false,
+          "meta": false,
+          "options": null,
+          "tooltip": {
+            "text": "INTERVIEW: what is the total number of beds/inpatients in this health care facility?"
+          }
+        },
+        {
+          "id": 1701773283024,
+          "question": "Update: maximum number of outpatients in HCF",
+          "order": 3,
+          "type": "number",
+          "required": false,
+          "meta": false,
+          "options": null,
+          "tooltip": {
+            "text": "INTERVIEW: what is the maximum number of outpatients in this health care facility?"
+          }
+        }
+      ]
+    },
+    {
+      "id": 1701773373078,
+      "question_group": "INTERVIEW: HEALTHCARE FACILITY WASH OUTCOMES",
+      "description": null,
+      "order": 5,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 1701773373079,
+          "question": "Main source of water supply for facility",
+          "order": 1,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE & INTERVIEW: what is the main source of water supply for the facility?\nMain source: if there is more than one water source, select the one used most frequently for drinking water"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701773508880,
+              "name": "Packaged water (bottles)",
+              "order": 9
+            },
+            {
+              "id": 1701773516714,
+              "name": "Tanker truck or cart",
+              "order": 10
+            },
+            {
+              "id": 1701773444067,
+              "name": "Surface water (lake, river, stream, dam)",
+              "order": 2
+            },
+            {
+              "id": 1701773479730,
+              "name": "Protected well/spring/borehole",
+              "order": 6
+            },
+            {
+              "id": 1701773487913,
+              "name": "Rainwater tank",
+              "order": 7
+            },
+            {
+              "id": 1701773523797,
+              "name": "Other improved - specify",
+              "order": 11
+            },
+            {
+              "id": 1701773495679,
+              "name": "Unprotected well/spring",
+              "order": 8
+            },
+            {
+              "id": 1701773444066,
+              "name": "No water source",
+              "order": 1
+            },
+            {
+              "id": 1701773460159,
+              "name": "Children bring water from home",
+              "order": 3
+            },
+            {
+              "id": 1701773466456,
+              "name": "Piped water supply inside the building",
+              "order": 4
+            },
+            {
+              "id": 1701773472788,
+              "name": "Piped water supply outside the building",
+              "order": 5
+            }
+          ]
+        },
+        {
+          "id": 1701774004571,
+          "question": "Water supply availability",
+          "order": 2,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE & INTERVIEW: is water from the main water source currently available at the facility?\nCurrently available: drinking water is available at the time of the interview, either from the main source directly or stored water originally from the main source"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701774035997,
+              "name": "Yes",
+              "order": 1
+            },
+            {
+              "id": 1701774035998,
+              "name": "No",
+              "order": 2
+            }
+          ]
+        },
+        {
+          "id": 1701774054865,
+          "question": "Water supply quantity",
+          "order": 3,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE & INTERVIEW: is water available in sufficient quantity for all facility uses?\nSufficient quantity: water is available for handwashing, drinking, personal hygiene, medical activities, sterilization, decontamination, cleaning and laundry"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701774083411,
+              "name": "No, insufficient water quantity (<75% uses)",
+              "order": 1
+            },
+            {
+              "id": 1701774083412,
+              "name": "No, water quantity only sufficient for 75% uses",
+              "order": 2
+            },
+            {
+              "id": 1701774099088,
+              "name": "Yes, sufficient water quantity for all uses",
+              "order": 3
+            }
+          ]
+        },
+        {
+          "id": 1701774110056,
+          "question": "Number of toilets for inpatients",
+          "order": 4,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: count the number of toilets for inpatients\nOBSERVE: assess whether the inpatient toilets are usable (available, functional, and private). \nAvailable: toilet doors are unlocked or a key is available at all times; Functional: toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required); Private: there are closable doors that lock from the inside and no large gaps in the toilet enclosure. If any of the three criteria are not met, the toilet is not counted as usable"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701774140627,
+              "name": "All inpatient toilets are NOT usable (enter number)",
+              "order": 1
+            },
+            {
+              "id": 1701774140628,
+              "name": "Some inpatient toilets are NOT usable (enter number non-usable, and number usable)",
+              "order": 2
+            },
+            {
+              "id": 1701774189035,
+              "name": "All inpatient toilets are usable (enter number)",
+              "order": 3
+            }
+          ]
+        },
+        {
+          "id": 1701774221650,
+          "question": "Number of toilets for outpatients",
+          "order": 5,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: count the number of toilets for outpatients\nOBSERVE: assess whether the outpatient toilets are usable (available, functional, and private)\nAvailable: toilet doors are unlocked or a key is available at all times; Functional: toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required); Private: there are closable doors that lock from the inside and no large gaps in the toilet enclosure"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701774250537,
+              "name": "All outpatient toilets are NOT usable (enter number)",
+              "order": 1
+            },
+            {
+              "id": 1701774250538,
+              "name": "Some outpatient toilets are NOT usable (enter number non-usable, and number usable)",
+              "order": 2
+            },
+            {
+              "id": 1701774268058,
+              "name": "All outpatient toilets are usable (enter number)",
+              "order": 3
+            }
+          ]
+        },
+        {
+          "id": 1701774299250,
+          "question": "Type of facility toilet",
+          "order": 6,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: What type of toilets are used by patients at the facility?\nToilet type: select the main type of toilet used\nPit latrine without slab: a dry toilet that does not have a squatting slab, platform or seat; or an open pit (or pit with large openings) where excreta are collected.\nPit latrine with slab: a dry toilet that collects excreta in a pit in the ground covered with a squatting slab or platform that is constructed from materials that are durable and easy to clean (e.g. concrete, bricks, stone, fibreglass, ceramic, metal, wooden planks or durable plastic)"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701774356981,
+              "name": "Flush or pour-flush toilets to open (field, open drain, water body)",
+              "order": 5
+            },
+            {
+              "id": 1701774377864,
+              "name": "Flush or pour-flush toilets to pit or tank",
+              "order": 7
+            },
+            {
+              "id": 1701774384832,
+              "name": "Flush or pour-flush toilets to sewer connection",
+              "order": 8
+            },
+            {
+              "id": 1701774398054,
+              "name": "Flush or pour-flush toilets to pit or tank",
+              "order": 9
+            },
+            {
+              "id": 1701774409798,
+              "name": "Composting toilets",
+              "order": 10
+            },
+            {
+              "id": 1701774412617,
+              "name": "Other improved toilet - specify",
+              "order": 11
+            },
+            {
+              "id": 1701774326363,
+              "name": "No toilets",
+              "order": 1
+            },
+            {
+              "id": 1701774326364,
+              "name": "Open container toilets (e.g. bucket latrines)",
+              "order": 2
+            },
+            {
+              "id": 1701774341343,
+              "name": "Hanging latrines",
+              "order": 3
+            },
+            {
+              "id": 1701774348564,
+              "name": "Pit latrines without slab (open pit)",
+              "order": 4
+            },
+            {
+              "id": 1701774365682,
+              "name": "Pit latrines with slab",
+              "order": 6
+            }
+          ]
+        },
+        {
+          "id": 1701774431012,
+          "question": "Dedicated toilets for facility staff",
+          "order": 7,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: are separate toilets provided for use by facility staff?"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701774458310,
+              "name": "No separate toilet exists for staff use, or toilets are unimproved",
+              "order": 1
+            },
+            {
+              "id": 1701774458311,
+              "name": "Toilet exists for staff use, but is not clearly designated or not functional",
+              "order": 2
+            },
+            {
+              "id": 1701774474959,
+              "name": "Yes, at least one functional toilet is clearly designated for staff",
+              "order": 3
+            }
+          ]
+        },
+        {
+          "id": 1701774484635,
+          "question": "Toilets in sex-separated rooms",
+          "order": 8,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: are sex-separated or gender-neutral toilets available?\nSex-separated toilets: rooms with multiple toilet stalls, or a private room with a single toilet, that are dedicated for use by either women or men\nGender-neutral toilet: a private room with a single toilet that allows women and men to use the toilet separately."
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701774512898,
+              "name": "No records, or toilets cleaned less than once per day",
+              "order": 1
+            },
+            {
+              "id": 1701774512899,
+              "name": "Toilets cleaned less than twice a day",
+              "order": 2
+            },
+            {
+              "id": 1701774540650,
+              "name": "Yes, all toilets cleaned at least twice a day",
+              "order": 3
+            }
+          ]
+        },
+        {
+          "id": 1701774586397,
+          "question": "Toilets with menstrual hygiene facilities",
+          "order": 9,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: is a toilet available with menstrual hygiene facilities?\nMenstrual hygiene facilities: including water and soap available in a private space for washing, and a disposal bin for disposal of used menstrual hygiene products"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702282168919,
+              "name": "No appropriate facilities are available or functional for menstrual hygiene",
+              "order": 1
+            },
+            {
+              "id": 1702282168920,
+              "name": "Space is available to wash, but with inadequate facilities",
+              "order": 2
+            },
+            {
+              "id": 1702282330299,
+              "name": "Yes, usable toilet is available with menstrual hygiene facilities",
+              "order": 3
+            }
+          ]
+        },
+        {
+          "id": 1701774631031,
+          "question": "Toilets accessible for people with reduced mobility",
+          "order": 10,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: is a toilet accessible for people with reduced mobility?\nAccessible for people with reduced mobility: can be accessed without stairs or steps; handrails provided for support; door is at least 80cm wide; and door handle and toilet seat are within reach of people using wheelchairs, crutches or walking sticks"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702282406348,
+              "name": "No appropriate toilets available for people with reduced mobility",
+              "order": 1
+            },
+            {
+              "id": 1702282406349,
+              "name": "Toilet is inadequate for people with reduced mobility",
+              "order": 2
+            },
+            {
+              "id": 1702286438460,
+              "name": "Yes, at least one usable toilet is available for people with reduced mobility",
+              "order": 3
+            }
+          ]
+        },
+        {
+          "id": 1701775062688,
+          "question": "Availability of handwashing facilities at points of care",
+          "order": 11,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: is there a functional hand hygiene facility at all points of care?\nFunctional hand hygiene facility: any device that enables staff, patients and visitors to clean their hands effectively, including a basin/pan with soap and water, or alcohol-based hand rub (ABHR).\nPoints of care: any location in the health care facility where care or treatment is delivered (e.g. consultation or exam room)."
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702286448768,
+              "name": "Less than 75% of Points of Care have functional hand hygiene facilities",
+              "order": 1
+            },
+            {
+              "id": 1702286448769,
+              "name": "75% or more Points of Care have functional hand hygiene facilities",
+              "order": 2
+            },
+            {
+              "id": 1702286487475,
+              "name": "Yes, all Points of Care have functional hand hygiene facilities",
+              "order": 3
+            }
+          ]
+        },
+        {
+          "id": 1701775201634,
+          "question": "Availability of handwashing facilities at facility toilets",
+          "order": 12,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: do all facility toilets have a functional hand hygiene facility within 5m?\nFunctional hand hygiene facility for toilets: must be working, must include soap and water (NOT ABHR, as ABHR does not remove faecal matter), and must be within 5m of the toilet"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702286506552,
+              "name": "Less than 50% of toilets have hand hygiene facilities within 5 metres",
+              "order": 1
+            },
+            {
+              "id": 1702286506553,
+              "name": "50% or more of toilets have functioning hand hygiene facilities within 5 metres",
+              "order": 2
+            },
+            {
+              "id": 1702286534909,
+              "name": "All toilets have functional hand hygiene facilities within 5 metres",
+              "order": 3
+            }
+          ]
+        },
+        {
+          "id": 1701775273809,
+          "question": "Regular audit of availability of hand hygiene materials",
+          "order": 13,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: are audit records (of hand hygiene materials) available dated less than three months ago?\nRegular audit: audits are undertaken every three months\nAvailability of hand hygiene materials: all hand hygiene facilities in the ward have hand rub, soap, single-use towels and other hand hygiene resources available"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702286543863,
+              "name": "No audit records available, or no materials available",
+              "order": 1
+            },
+            {
+              "id": 1702286543864,
+              "name": "Ward-based audits are incomplete or irregular",
+              "order": 2
+            },
+            {
+              "id": 1702286580715,
+              "name": "Records available of regular ward-based audits reporting sufficient materials",
+              "order": 3
+            }
+          ]
+        },
+        {
+          "id": 1701775490261,
+          "question": "Segregation of waste",
+          "order": 14,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: are separate, functional waste collection containers available in close proximity to waste generation points for non-infectious (general) waste, infectious waste and sharps waste?\nSeparate functional waste collection containers: \"3-bin\" system with at least three containers that are leak-proof, covered with a lid, and clearly labelled (by colour/label or symbol). Bins should not be more than three-quarters full."
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702286589725,
+              "name": "No waste collection containers or no segregation",
+              "order": 1
+            },
+            {
+              "id": 1702286589726,
+              "name": "Not all waste generation points have functional waste collection containers",
+              "order": 2
+            },
+            {
+              "id": 1702286611113,
+              "name": "All waste generation points have functional waste collection containers separated by waste type",
+              "order": 3
+            }
+          ]
+        },
+        {
+          "id": 1701775575661,
+          "question": "Management of non-infectious/general waste",
+          "order": 15,
+          "type": "option",
+          "tooltip": {
+            "text": "INTERVIEW: is there a functional disposal site for non-infectious waste?\nFunctional disposal site: operational burial pit, fenced waste dump or municipal pickup point\nInadequate disposal site: Open dumping, open burning, no waste collection or segregation"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702286622640,
+              "name": "No disposal site",
+              "order": 1
+            },
+            {
+              "id": 1702286622641,
+              "name": "Disposal site is inadequate or non-functional",
+              "order": 2
+            },
+            {
+              "id": 1702286641395,
+              "name": "Yes, functional disposal site",
+              "order": 3
+            }
+          ]
+        },
+        {
+          "id": 1701775635195,
+          "question": "Management of infectious waste and sharps",
+          "order": 16,
+          "type": "option",
+          "tooltip": {
+            "text": "INTERVIEW: is there a functional disposal site for infectious waste and sharps waste?\nFunctional disposal site: operational incinerator or autoclave on-site, or licensed waste management service for off-site disposal\nInadequate disposal site: Open dumping, open burning, added to general waste (without treatment)"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702286652304,
+              "name": "No disposal site",
+              "order": 1
+            },
+            {
+              "id": 1702286652305,
+              "name": "Disposal site is inadequate or non-functional",
+              "order": 2
+            },
+            {
+              "id": 1702286682933,
+              "name": "Yes, functional disposal site",
+              "order": 3
+            }
+          ]
+        },
+        {
+          "id": 1701775723946,
+          "question": "Materials for cleaning",
+          "order": 17,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: are appropriate materials available for cleaning?\nAppropriate cleaning materials: detergent, mops, buckets etc"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702286692356,
+              "name": "No cleaning materials",
+              "order": 1
+            },
+            {
+              "id": 1702286692357,
+              "name": "Inadequate cleaning materials",
+              "order": 2
+            },
+            {
+              "id": 1702286712365,
+              "name": "Yes, cleaning materials available",
+              "order": 3
+            }
+          ]
+        },
+        {
+          "id": 1701775784630,
+          "question": "Cleaning records",
+          "order": 18,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: is a record of cleaning activities (by day) available in the facility?\nDaily cleaning record: details of cleaning activities undertaken on each day, signed by cleaners and counter-signed by supervisors"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702286723817,
+              "name": "No cleaning records",
+              "order": 1
+            },
+            {
+              "id": 1702286723818,
+              "name": "Inadequate cleaning records",
+              "order": 2
+            },
+            {
+              "id": 1702286746346,
+              "name": "Yes, daily cleaning records available for all areas",
+              "order": 3
+            }
+          ]
+        },
+        {
+          "id": 1701775883414,
+          "question": "Toilet cleaning frequency",
+          "order": 19,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: do the cleaning roster and cleaning records confirm that toilets are cleaned twice a day?\nCleaning roster: schedule specifying responsibility for cleaning tasks, frequency of cleaning, and step-by-step protocol for specific cleaning tasks\nDaily cleaning record: details of cleaning activities undertaken on each day, signed by cleaners and counter-signed by supervisors"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702286755559,
+              "name": "No records, or toilets cleaned less than once per day",
+              "order": 1
+            },
+            {
+              "id": 1702286755560,
+              "name": "Toilets cleaned less than twice a day",
+              "order": 2
+            },
+            {
+              "id": 1702286778572,
+              "name": "Yes, all toilets cleaned at least twice a day",
+              "order": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "type": 1
+}
