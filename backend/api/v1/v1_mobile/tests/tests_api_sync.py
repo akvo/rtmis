@@ -37,9 +37,11 @@ class MobileAssignmentApiSyncTest(TestCase, AssignmentTokenTestHelperMixin):
             user=self.user, name='test assignment', passcode=self.passcode
         )
         self.mobile_assignment = MobileAssignment.objects.get(user=self.user)
+        self.administration_children = Administration.objects.filter(
+            parent=self.administration
+        ).all()
         self.mobile_assignment.administrations.add(
-            self.administration,
-            self.administration2
+            *self.administration_children
         )
         self.mobile_assignment.forms.add(self.form)
 
@@ -59,7 +61,7 @@ class MobileAssignmentApiSyncTest(TestCase, AssignmentTokenTestHelperMixin):
         ]
         self.assertEqual(
             cascades[0]['source']['parent_id'],
-            [self.administration.id, self.administration2.id]
+            [adm.id for adm in self.administration_children]
         )
 
     def test_mobile_sync_to_pending_datapoint(self):
