@@ -16,9 +16,12 @@ const TypeCascade = ({
   required,
   requiredSign,
   source,
-  dataSource = [],
 }) => {
+  const [dataSource, setDataSource] = useState([]);
   const [dropdownItems, setDropdownItems] = useState([]);
+  const [dropdownTypes, setDropdownTypes] = useState([]);
+  const [filterEntity, setFilterEntity] = useState(null);
+  const administration = FormState.useState((s) => s.administration);
   const activeLang = FormState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const requiredValue = required ? requiredSign : null;
@@ -65,21 +68,35 @@ const TypeCascade = ({
       const cascadeName = findSelected?.name;
       FormState.update((s) => {
         s.cascades = { ...s.cascades, [id]: cascadeName };
+        s.administration = source?.file === 'administrator.sqlite' ? finalValues : s.administration;
       });
     }
     setDropdownItems(updatedItems);
   };
 
   const initialDropdowns = useMemo(() => {
-    const parentIDs = source?.parent_id?.length ? source.parent_id : [0];
-    let filterDs = dataSource.filter(
-      (ds) =>
-        parentIDs.includes(ds?.parent) || value?.includes(ds?.id) || value?.includes(ds?.parent),
-    );
-    if (filterDs.length === 0) {
-      filterDs = dataSource.filter((ds) => parentIDs.includes(ds?.id));
-    }
-    const groupedDs = groupBy(filterDs, 'parent');
+    const { cascade_parent, parent_id } = source || {};
+    const parentIDs = cascade_parent ? administration || [] : parent_id || [0];
+    const filterDs = dataSource
+      ?.filter((ds) => {
+        if (cascade_parent) {
+          return parentIDs.includes(ds?.parent);
+        }
+        return (
+          parentIDs.includes(ds?.parent) ||
+          parentIDs.includes(ds?.id) ||
+          value?.includes(ds?.id) ||
+          value?.includes(ds?.parent)
+        );
+      })
+      ?.filter((ds) => {
+        if (filterEntity && ds?.entity) {
+          return ds.entity === filterEntity;
+        }
+        return ds;
+      });
+
+    const groupedDs = groupBy(filterDs, value, 'parent');
     if (parentIDs.length > 1 && Object.keys(groupedDs).length > 1) {
       const parentOptions = Object.keys(groupedDs).map((keyID) =>
         dataSource.find((d) => d?.id === parseInt(keyID, 10)),
@@ -107,7 +124,7 @@ const TypeCascade = ({
         value: value?.[ox] || null,
       };
     });
-  }, [dataSource, source, value, id]);
+  }, [dataSource, source, value, id, administration, filterEntity]);
 
   const fetchCascade = useCallback(async () => {
     if (source && value?.length) {
@@ -136,6 +153,26 @@ const TypeCascade = ({
     }
   }, [dropdownItems, initialDropdowns]);
 
+  const loadDataSource = useCallback(async () => {
+    const { rows } = await cascades.loadDataSource(source);
+    setDataSource(rows._array);
+
+    const { cascade_type } = source || {};
+    if (cascade_type) {
+      const { rows: typeRows } = await cascades.loadDataSource({ file: cascade_type });
+      setDropdownTypes(typeRows._array);
+
+      const findData = rows._array?.find((r) => value?.includes(r?.id));
+      if (!filterEntity && findData) {
+        setFilterEntity(findData.entity);
+      }
+    }
+  }, [source, value, filterEntity]);
+
+  useEffect(() => {
+    loadDataSource();
+  }, [loadDataSource]);
+
   return (
     <View testID="view-type-cascade">
       <FieldLabel keyform={keyform} name={name} tooltip={tooltip} requiredSign={requiredValue} />
@@ -143,7 +180,23 @@ const TypeCascade = ({
         {value}
       </Text>
       <View style={styles.cascadeContainer}>
+        {dropdownTypes.length > 0 && (
+          <Dropdown
+            labelField="name"
+            valueField="id"
+            testID="dropdown-cascade-type"
+            data={dropdownTypes}
+            search={false}
+            onChange={({ id: typeValue }) => {
+              setDropdownItems([]);
+              setFilterEntity(typeValue);
+            }}
+            value={filterEntity}
+            style={[styles.dropdownField]}
+          />
+        )}
         {dropdownItems.map((item, index) => {
+          const hasSearch = item?.options.length > 3;
           return (
             <Dropdown
               key={index}
@@ -151,7 +204,7 @@ const TypeCascade = ({
               valueField="id"
               testID={`dropdown-cascade-${index}`}
               data={item?.options}
-              search={item?.options.length > 3}
+              search={hasSearch}
               searchPlaceholder={trans.searchPlaceholder}
               onChange={({ id: selectedID }) => handleOnChange(index, selectedID)}
               value={item.value}
