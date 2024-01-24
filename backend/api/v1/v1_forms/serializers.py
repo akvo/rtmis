@@ -159,6 +159,14 @@ class ListQuestionSerializer(serializers.ModelSerializer):
         user = self.context.get('user')
         assignment = self.context.get('mobile_assignment')
         if instance.type == QuestionTypes.cascade:
+            cascade_type = instance.extra.get("type") \
+                if instance.extra else None
+            if cascade_type == 'entity':
+                return {
+                    "file": "entity_data.sqlite",
+                    "cascade_type": "entities.sqlite",
+                    "cascade_parent": "administrator.sqlite"
+                }
             return {
                 "file": "organisation.sqlite",
                 "parent_id": [0]
@@ -239,6 +247,13 @@ class WebFormDetailSerializer(serializers.ModelSerializer):
         for cascade_question in cascade_questions:
             if cascade_question.type == QuestionTypes.administration:
                 source.append("/sqlite/administrator.sqlite")
+            if (
+                cascade_question.extra and
+                cascade_question.extra.get('type') == 'entity'
+            ):
+                source.extend([
+                    "/sqlite/entities.sqlite", "/sqlite/entity_data.sqlite"
+                ])
             else:
                 source.append("/sqlite/organisation.sqlite")
         return source
