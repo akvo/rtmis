@@ -414,9 +414,53 @@
           ]
         },
         {
+          "id": 168885172789111,
+          "question": "Total number of usable inpatient toilets",
+          "order": 5,
+          "type": "number",
+          "dependency": [
+            {
+              "id": 1701774110056,
+              "options": [
+                "All inpatient toilets are usable (enter number)",
+                "Some inpatient toilets are NOT usable (enter number non-usable, and number usable)"
+              ]
+            }
+          ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
+          "fn": null
+        },
+        {
+          "id": 168885127879111,
+          "question": "Total number of not usable toilets inpatient toilets",
+          "order": 6,
+          "type": "number",
+          "dependency": [
+            {
+              "id": 1701774110056,
+              "options": [
+                "All inpatient toilets are NOT usable (enter number)",
+                "Some inpatient toilets are NOT usable (enter number non-usable, and number usable)"
+              ]
+            }
+          ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
+          "fn": null
+        },
+        {
           "id": 1701774221650,
           "question": "Number of toilets for outpatients",
-          "order": 5,
+          "order": 7,
           "type": "option",
           "tooltip": {
             "text": "OBSERVE: count the number of toilets for outpatients\nOBSERVE: assess whether the outpatient toilets are usable (available, functional, and private)\nAvailable: toilet doors are unlocked or a key is available at all times; Functional: toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required); Private: there are closable doors that lock from the inside and no large gaps in the toilet enclosure"
@@ -445,9 +489,89 @@
           ]
         },
         {
+          "id": 168885172789333,
+          "question": "Total number of usable outpatient toilets",
+          "order": 8,
+          "type": "number",
+          "dependency": [
+            {
+              "id": 1701774221650,
+              "options": [
+                "All outpatient toilets are usable (enter number)",
+                "Some outpatient toilets are NOT usable (enter number non-usable, and number usable)"
+              ]
+            }
+          ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
+          "fn": null
+        },
+        {
+          "id": 168885127879441,
+          "question": "Total number of not usable outpatient toilets",
+          "order": 9,
+          "type": "number",
+          "dependency": [
+            {
+              "id": 1701774221650,
+              "options": [
+                "All outpatient toilets are NOT usable (enter number)",
+                "Some outpatient toilets are NOT usable (enter number non-usable, and number usable)"
+              ]
+            }
+          ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
+          "fn": null
+        },
+        {
+          "id": 1702312769667,
+          "question": "Inpatient-toilet ratio",
+          "order": 10,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "fn": {
+            "fnColor": {
+              "Inpatient: More than 20 inpatients to each USABLE inpatient toilet": "#DB3B3B",
+              "Inpatient: 20 or less inpatients to each USABLE inpatient toilet": "#38A15A"
+            },
+            "fnString": "function(){ return ((#1701772988782 / #168885172789111) <= 20) ? \"Inpatient: 20 or less inpatients to each USABLE inpatient toilet\" : \"Inpatient: More than 20 inpatients to each USABLE inpatient toilet\" }",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702312767767,
+          "question": "Number of usable outpatient toilets",
+          "order": 11,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "fn": {
+            "fnColor": {
+              "Outpatient: Less than 2 USABLE outpatient toilets": "#DB3B3B",
+              "Outpatient: 2 or more USABLE outpatient toilets": "#38A15A"
+            },
+            "fnString": "function(){ return (#168885172789333 > 2) ? \"Outpatient: 2 or more USABLE outpatient toilets\" : \"Outpatient: Less than 2 USABLE outpatient toilets\" }",
+            "multiline": false
+          }
+        },
+        {
           "id": 1701774299250,
           "question": "Type of facility toilet",
-          "order": 6,
+          "order": 12,
           "type": "option",
           "tooltip": {
             "text": "OBSERVE: What type of toilets are used by patients at the facility?\nToilet type: select the main type of toilet used\nPit latrine without slab: a dry toilet that does not have a squatting slab, platform or seat; or an open pit (or pit with large openings) where excreta are collected.\nPit latrine with slab: a dry toilet that collects excreta in a pit in the ground covered with a squatting slab or platform that is constructed from materials that are durable and easy to clean (e.g. concrete, bricks, stone, fibreglass, ceramic, metal, wooden planks or durable plastic)"
@@ -526,7 +650,7 @@
         {
           "id": 1701774431012,
           "question": "Dedicated toilets for facility staff",
-          "order": 7,
+          "order": 13,
           "type": "option",
           "tooltip": {
             "text": "OBSERVE: are separate toilets provided for use by facility staff?"
@@ -557,7 +681,7 @@
         {
           "id": 1701774484635,
           "question": "Toilets in sex-separated rooms",
-          "order": 8,
+          "order": 14,
           "type": "option",
           "tooltip": {
             "text": "OBSERVE: are sex-separated or gender-neutral toilets available?\nSex-separated toilets: rooms with multiple toilet stalls, or a private room with a single toilet, that are dedicated for use by either women or men\nGender-neutral toilet: a private room with a single toilet that allows women and men to use the toilet separately."
@@ -588,7 +712,7 @@
         {
           "id": 1701774586397,
           "question": "Toilets with menstrual hygiene facilities",
-          "order": 9,
+          "order": 15,
           "type": "option",
           "tooltip": {
             "text": "OBSERVE: is a toilet available with menstrual hygiene facilities?\nMenstrual hygiene facilities: including water and soap available in a private space for washing, and a disposal bin for disposal of used menstrual hygiene products"
@@ -619,7 +743,7 @@
         {
           "id": 1701774631031,
           "question": "Toilets accessible for people with reduced mobility",
-          "order": 10,
+          "order": 16,
           "type": "option",
           "tooltip": {
             "text": "OBSERVE: is a toilet accessible for people with reduced mobility?\nAccessible for people with reduced mobility: can be accessed without stairs or steps; handrails provided for support; door is at least 80cm wide; and door handle and toilet seat are within reach of people using wheelchairs, crutches or walking sticks"
@@ -650,7 +774,7 @@
         {
           "id": 1701775062688,
           "question": "Availability of handwashing facilities at points of care",
-          "order": 11,
+          "order": 17,
           "type": "option",
           "tooltip": {
             "text": "OBSERVE: is there a functional hand hygiene facility at all points of care?\nFunctional hand hygiene facility: any device that enables staff, patients and visitors to clean their hands effectively, including a basin/pan with soap and water, or alcohol-based hand rub (ABHR).\nPoints of care: any location in the health care facility where care or treatment is delivered (e.g. consultation or exam room)."
@@ -681,7 +805,7 @@
         {
           "id": 1701775201634,
           "question": "Availability of handwashing facilities at facility toilets",
-          "order": 12,
+          "order": 18,
           "type": "option",
           "tooltip": {
             "text": "OBSERVE: do all facility toilets have a functional hand hygiene facility within 5m?\nFunctional hand hygiene facility for toilets: must be working, must include soap and water (NOT ABHR, as ABHR does not remove faecal matter), and must be within 5m of the toilet"
@@ -712,7 +836,7 @@
         {
           "id": 1701775273809,
           "question": "Regular audit of availability of hand hygiene materials",
-          "order": 13,
+          "order": 19,
           "type": "option",
           "tooltip": {
             "text": "OBSERVE: are audit records (of hand hygiene materials) available dated less than three months ago?\nRegular audit: audits are undertaken every three months\nAvailability of hand hygiene materials: all hand hygiene facilities in the ward have hand rub, soap, single-use towels and other hand hygiene resources available"
@@ -743,7 +867,7 @@
         {
           "id": 1701775490261,
           "question": "Segregation of waste",
-          "order": 14,
+          "order": 20,
           "type": "option",
           "tooltip": {
             "text": "OBSERVE: are separate, functional waste collection containers available in close proximity to waste generation points for non-infectious (general) waste, infectious waste and sharps waste?\nSeparate functional waste collection containers: \"3-bin\" system with at least three containers that are leak-proof, covered with a lid, and clearly labelled (by colour/label or symbol). Bins should not be more than three-quarters full."
@@ -774,7 +898,7 @@
         {
           "id": 1701775575661,
           "question": "Management of non-infectious/general waste",
-          "order": 15,
+          "order": 21,
           "type": "option",
           "tooltip": {
             "text": "INTERVIEW: is there a functional disposal site for non-infectious waste?\nFunctional disposal site: operational burial pit, fenced waste dump or municipal pickup point\nInadequate disposal site: Open dumping, open burning, no waste collection or segregation"
@@ -805,7 +929,7 @@
         {
           "id": 1701775635195,
           "question": "Management of infectious waste and sharps",
-          "order": 16,
+          "order": 22,
           "type": "option",
           "tooltip": {
             "text": "INTERVIEW: is there a functional disposal site for infectious waste and sharps waste?\nFunctional disposal site: operational incinerator or autoclave on-site, or licensed waste management service for off-site disposal\nInadequate disposal site: Open dumping, open burning, added to general waste (without treatment)"
@@ -836,7 +960,7 @@
         {
           "id": 1701775723946,
           "question": "Materials for cleaning",
-          "order": 17,
+          "order": 23,
           "type": "option",
           "tooltip": {
             "text": "OBSERVE: are appropriate materials available for cleaning?\nAppropriate cleaning materials: detergent, mops, buckets etc"
@@ -867,7 +991,7 @@
         {
           "id": 1701775784630,
           "question": "Cleaning records",
-          "order": 18,
+          "order": 24,
           "type": "option",
           "tooltip": {
             "text": "OBSERVE: is a record of cleaning activities (by day) available in the facility?\nDaily cleaning record: details of cleaning activities undertaken on each day, signed by cleaners and counter-signed by supervisors"
@@ -898,7 +1022,7 @@
         {
           "id": 1701775883414,
           "question": "Toilet cleaning frequency",
-          "order": 19,
+          "order": 25,
           "type": "option",
           "tooltip": {
             "text": "OBSERVE: do the cleaning roster and cleaning records confirm that toilets are cleaned twice a day?\nCleaning roster: schedule specifying responsibility for cleaning tasks, frequency of cleaning, and step-by-step protocol for specific cleaning tasks\nDaily cleaning record: details of cleaning activities undertaken on each day, signed by cleaners and counter-signed by supervisors"
