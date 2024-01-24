@@ -3,9 +3,7 @@
   "form": "Short HH",
   "description": "short HH",
   "defaultLanguage": "en",
-  "languages": [
-    "en"
-  ],
+  "languages": ["en"],
   "version": 1,
   "translations": null,
   "question_groups": [
@@ -42,57 +40,39 @@
           "dependency": null,
           "fn": null,
           "pre": {
-            "answer": [
-              "New"
-            ],
+            "answer": ["New"],
             "fill": [
               {
                 "id": 16994179587481,
-                "answer": [
-                  "Household head"
-                ]
+                "answer": ["Household head"]
               },
               {
                 "id": 16994206218401,
-                "answer": [
-                  "OTHER household (NOT in at-risk category)"
-                ]
+                "answer": ["OTHER household (NOT in at-risk category)"]
               },
               {
                 "id": 16994222860911,
-                "answer": [
-                  "G0 No toilet"
-                ]
+                "answer": ["G0 No toilet"]
               },
               {
                 "id": 16994233572001,
-                "answer": [
-                  "G0 Non-functional toilet"
-                ]
+                "answer": ["G0 Non-functional toilet"]
               },
               {
                 "id": 16994235714541,
-                "answer": [
-                  "G0 No toilet privacy"
-                ]
+                "answer": ["G0 No toilet privacy"]
               },
               {
                 "id": 16994236967201,
-                "answer": [
-                  "G0 No toilet"
-                ]
+                "answer": ["G0 No toilet"]
               },
               {
                 "id": 16994239461701,
-                "answer": [
-                  "G0 No toilet"
-                ]
+                "answer": ["G0 No toilet"]
               },
               {
                 "id": 16994243759681,
-                "answer": [
-                  "G0 VIP vent pipe without insect screen"
-                ]
+                "answer": ["G0 VIP vent pipe without insect screen"]
               }
             ]
           }
@@ -110,9 +90,7 @@
           "dependency": [
             {
               "id": 16993542207341,
-              "options": [
-                "New"
-              ]
+              "options": ["New"]
             }
           ],
           "fn": null
@@ -129,9 +107,7 @@
           "dependency": [
             {
               "id": 16993542207341,
-              "options": [
-                "New"
-              ]
+              "options": ["New"]
             }
           ],
           "fn": null
@@ -447,6 +423,7 @@
             }
           ],
           "dependency": null,
+          "monitoring": true,
           "fn": null
         },
         {
@@ -461,12 +438,11 @@
           "dependency": [
             {
               "id": 16994222860911,
-              "options": [
-                "G1 Toilet observed"
-              ]
+              "options": ["G1 Toilet observed"]
             }
           ],
-          "fn": null
+          "fn": null,
+          "monitoring": true
         },
         {
           "id": 16994233572001,
@@ -498,12 +474,11 @@
           "dependency": [
             {
               "id": 16994222860911,
-              "options": [
-                "G1 Toilet observed"
-              ]
+              "options": ["G1 Toilet observed"]
             }
           ],
-          "fn": null
+          "fn": null,
+          "monitoring": true
         },
         {
           "id": 16994235714541,
@@ -535,12 +510,11 @@
           "dependency": [
             {
               "id": 16994222860911,
-              "options": [
-                "G1 Toilet observed"
-              ]
+              "options": ["G1 Toilet observed"]
             }
           ],
-          "fn": null
+          "fn": null,
+          "monitoring": true
         },
         {
           "id": 17018105790911,
@@ -556,7 +530,8 @@
             "fnColor": {},
             "fnString": "function() { return (#16994222860911.includes(\"G1\") && #16994233572001.includes(\"G1\") && #16994235714541.includes(\"G1\"))\n? \"G1 Functional toilet with privacy\" : \"G0 Toilet non-functional or not private\"}",
             "multiline": false
-          }
+          },
+          "monitoring": true
         },
         {
           "id": 16994236967201,
@@ -611,7 +586,8 @@
             }
           ],
           "dependency": null,
-          "fn": null
+          "fn": null,
+          "monitoring": true
         },
         {
           "id": 16994239461701,
@@ -693,12 +669,11 @@
           "dependency": [
             {
               "id": 16994222860911,
-              "options": [
-                "G1 Toilet observed"
-              ]
+              "options": ["G1 Toilet observed"]
             }
           ],
-          "fn": null
+          "fn": null,
+          "monitoring": true
         },
         {
           "id": 16994243759681,
@@ -775,12 +750,11 @@
           "dependency": [
             {
               "id": 16994222860911,
-              "options": [
-                "G1 Toilet observed"
-              ]
+              "options": ["G1 Toilet observed"]
             }
           ],
-          "fn": null
+          "fn": null,
+          "monitoring": true
         },
         {
           "id": 17022810847861,
@@ -799,7 +773,8 @@
             },
             "fnString": "function() {\n  return (\n    #16994236967201.includes(\"G1\") &&\n    #16994239461701.includes(\"G1\") &&\n    #16994243759681.includes(\"G1\")\n  )\n  ? \"G1 Flyproof toilet\"\n  : \"G0 Toilet NOT flyproof\"\n}",
             "multiline": false
-          }
+          },
+          "monitoring": true
         }
       ]
     },
@@ -830,24 +805,19 @@
             }
           ],
           "pre": {
-            "answer": [
-              "Yes"
-            ],
+            "answer": ["Yes"],
             "fill": [
               {
                 "id": 17030862702502,
-                "answer": [
-                  "B"
-                ]
+                "answer": ["B"]
               },
               {
                 "id": 17030862702503,
-                "answer": [
-                  "B"
-                ]
+                "answer": ["B"]
               }
             ]
-          }
+          },
+          "monitoring": true
         },
         {
           "id": 17030862702502,
@@ -858,9 +828,7 @@
           "dependency": [
             {
               "id": 17030862702501,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ],
           "type": "option",
@@ -875,7 +843,8 @@
               "name": "B",
               "color": "blue"
             }
-          ]
+          ],
+          "monitoring": true
         },
         {
           "id": 17030862702503,
@@ -886,9 +855,7 @@
           "dependency": [
             {
               "id": 17030862702502,
-              "options": [
-                "B"
-              ]
+              "options": ["B"]
             }
           ],
           "type": "option",
@@ -903,7 +870,8 @@
               "name": "B",
               "color": "blue"
             }
-          ]
+          ],
+          "monitoring": true
         },
         {
           "id": 17030862702541,
@@ -917,7 +885,8 @@
             "fnColor": {},
             "fnString": "function(){return #17018105790911}",
             "multiline": false
-          }
+          },
+          "monitoring": true
         },
         {
           "id": 17032625689541,
@@ -931,7 +900,8 @@
             "fnColor": {},
             "fnString": "function(){return #17022810847861}",
             "multiline": false
-          }
+          },
+          "monitoring": true
         }
       ]
     }
