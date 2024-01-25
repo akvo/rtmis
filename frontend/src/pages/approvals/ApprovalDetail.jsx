@@ -455,7 +455,7 @@ const ApprovalDetail = ({
                                         updateCell={updateCell}
                                         resetCell={resetCell}
                                         disabled={!!dataLoading}
-                                        readonly={!approve || readonly}
+                                        readonly={!approve}
                                       />
                                     ),
                                   },
