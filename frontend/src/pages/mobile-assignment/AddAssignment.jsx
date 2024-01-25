@@ -119,9 +119,12 @@ const AddAssignment = () => {
     });
   };
 
-  const onSelectLevel = async (val) => {
+  const onSelectLevel = async (val, option) => {
     store.update((s) => {
       s.administration.length = val;
+      s.administration = selectedAdm.filter(
+        (item) => item.level < option.level
+      );
     });
     setLevel(val);
   };
@@ -180,21 +183,25 @@ const AddAssignment = () => {
           })
       );
       store.update((s) => {
-        s.administration = [...parentAdm, ...selectedAdministration]?.map(
-          (a, ax) => {
-            const childLevel = levels.filter((l) => l?.level === ax + 1);
+        s.administration = [...parentAdm, ...selectedAdministration]
+          ?.slice(
+            [...parentAdm, ...selectedAdministration].findIndex(
+              (r) => r.id === authUser.administration.id
+            )
+          )
+          .map((a) => {
+            const childLevel = levels.filter((l) => l?.level === a.level);
             return {
               ...a,
               childLevelName: childLevel?.name || null,
             };
-          }
-        );
+          });
       });
     }
     if (!id && preload) {
       setPreload(false);
     }
-  }, [id, preload, form, editAssignment, levels, selectedAdm]);
+  }, [id, preload, form, editAssignment, levels, selectedAdm, authUser]);
 
   useEffect(() => {
     fetchData();
@@ -251,7 +258,7 @@ const AddAssignment = () => {
                     getPopupContainer={(trigger) => trigger.parentNode}
                     placeholder={text.selectLevel}
                     onChange={onSelectLevel}
-                    fieldNames={{ value: "id", label: "name" }}
+                    fieldNames={{ value: "id", label: "name", level: "level" }}
                     options={admLevels}
                     allowClear
                   />
