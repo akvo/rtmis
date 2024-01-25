@@ -775,7 +775,7 @@ def list_pending_batch(request, version):
         status=DataApprovalStatus.rejected
     )
     if approved:
-        queryset = queryset.filter(level_id__gt=F('pending_level'))
+        queryset = queryset.filter(status=DataApprovalStatus.approved)
     else:
         if subordinate:
             queryset = queryset.filter(
