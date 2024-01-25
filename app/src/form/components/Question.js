@@ -73,6 +73,17 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
         });
       }
     }
+
+    if (field?.source?.file === 'administrator.sqlite') {
+      activeQuestions
+        ?.filter((q) => q?.source?.cascade_parent)
+        ?.forEach((q) => {
+          /**
+           * Delete entity cascade response when the administration changes
+           */
+          delete fieldValues[q?.id];
+        });
+    }
     FormState.update((s) => {
       s.currentValues = fieldValues;
     });
