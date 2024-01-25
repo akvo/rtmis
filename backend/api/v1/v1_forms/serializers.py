@@ -1,4 +1,4 @@
-import pandas as pd
+import numpy as np
 from collections import OrderedDict
 
 from django.db.models import Q
@@ -166,10 +166,11 @@ class ListQuestionSerializer(serializers.ModelSerializer):
                 if cascade_type == "entity":
                     entity_type = Entity.objects\
                         .filter(name=cascade_name).first()
+                    entity_id = entity_type.id if entity_type else None
                     return {
                         "file": "entity_data.sqlite",
-                        "type":  entity_type.id if entity_type else None,
-                        "parent_cascade": "administrator.sqlite"
+                        "cascade_type": entity_id,
+                        "cascade_parent": "administrator.sqlite"
                     }
             return {
                 "file": "organisation.sqlite",
@@ -258,7 +259,7 @@ class WebFormDetailSerializer(serializers.ModelSerializer):
                 source.append("/sqlite/entity_data.sqlite")
             else:
                 source.append("/sqlite/organisation.sqlite")
-        return pd.Series(source).drop_duplicates().tolist()
+        return np.unique(source)
 
     class Meta:
         model = Forms
