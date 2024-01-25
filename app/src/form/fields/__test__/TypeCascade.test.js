@@ -191,23 +191,35 @@ describe('TypeCascade', () => {
     const selectedOption = [106, 107];
     const values = { [fieldID]: selectedOption };
 
-    const mockedOnChange = jest.fn((fieldName, value) => {
-      values[fieldName] = value;
-    });
-    const { getByTestId, getByText, queryByText } = render(
+    const mockedOnChange = jest.fn();
+    const { getByTestId, getByText, queryByText, debug } = render(
       <TypeCascade
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
         value={values[fieldID]}
-        dataSource={dummyLocations}
+        source={{
+          file: 'administrator.sqlite',
+          parent_id: [0],
+        }}
       />,
     );
 
+    await waitFor(
+      async () =>
+        await expect(cascades.loadDataSource({ file: 'administrator.sqlite' })).resolves.toEqual({
+          rows: {
+            length: dummyLocations.length,
+            _array: dummyLocations,
+          },
+        }),
+    );
+
     await waitFor(() => {
+      
       const firstDropdown = getByTestId('dropdown-cascade-0');
       expect(firstDropdown).toBeDefined();
-      const firstOption = getByText('DI YOGYAKARTA');
+      const firstOption = queryByText('DI YOGYAKARTA');
       expect(firstOption).toBeDefined();
 
       const secondDropdown = getByTestId('dropdown-cascade-1');
@@ -233,85 +245,67 @@ describe('TypeCascade', () => {
     const initialValue = null;
     const values = { [fieldID]: initialValue };
 
-    const mockedOnChange = jest.fn((fieldName, value) => {
-      values[fieldName] = value;
-    });
+    const mockedOnChange = jest.fn();
 
-    const { getByTestId, getByText, debug, rerender } = render(
+    const { getByTestId, getByText } = render(
       <TypeCascade
         onChange={mockedOnChange}
         id={fieldID}
         name={fieldName}
         value={values[fieldID]}
-        dataSource={dummyLocations}
+        source={{
+          file: 'administrator.sqlite',
+          parent_id: [0],
+        }}
       />,
     );
 
-    const { result } = renderHook(() =>
-      useState([
-        {
-          options: [
-            { id: 106, name: 'DI YOGYAKARTA' },
-            { id: 111, name: 'JAWA TENGAH' },
-          ],
-          value: null,
-        },
-      ]),
+    await waitFor(
+      async () =>
+        await expect(cascades.loadDataSource({ file: 'administrator.sqlite' })).resolves.toEqual({
+          rows: {
+            length: dummyLocations.length,
+            _array: dummyLocations,
+          },
+        }),
     );
-    const [dropdownItems, setDropdownItems] = result.current;
 
-    const mockedDropdownChange = jest.fn((index, value) => {
-      const nextIndex = index + 1;
-      const findValue = dummyLocations.find((d) => d?.id === value);
-      if (findValue) {
-        const updatedItems = dropdownItems
-          .slice(0, nextIndex)
-          .map((d, dx) => (dx === index ? { ...d, value } : d));
+    const dropdown1 = getByTestId('dropdown-cascade-0');
+    expect(dropdown1).toBeDefined();
 
-        const options = dummyLocations?.filter((d) => d?.parent === value);
+    fireEvent.press(dropdown1);
 
-        if (options.length) {
-          updatedItems.push({
-            options,
-            value: null,
-          });
-        }
-        const dropdownValues = updatedItems.filter((dd) => dd.value).map((dd) => dd.value);
-        const finalValues = updatedItems.length !== dropdownValues.length ? null : dropdownValues;
+    const dropdown1Selected = getByText('DI YOGYAKARTA');
+    fireEvent.press(dropdown1Selected);
 
-        mockedOnChange(fieldID, finalValues);
+    const dropdown2 = getByTestId('dropdown-cascade-1');
+    expect(dropdown2).toBeDefined();
 
-        setDropdownItems(updatedItems);
-      }
+    fireEvent.press(dropdown2);
+    const dropdown2Selected = getByText('KAB. BANTUL');
+    fireEvent.press(dropdown2Selected);
+
+    // it should still null
+    expect(values[fieldID]).toBeNull();
+
+    const dropdown3 = getByTestId('dropdown-cascade-2');
+    expect(dropdown3).toBeDefined();
+
+    fireEvent.press(dropdown3);
+    const dropdown3Selected = getByText('Sabdodadi');
+    fireEvent.press(dropdown3Selected);
+
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues[fieldID] = [106, 107, 109];
+      });
     });
 
     await waitFor(() => {
-      const dropdown1 = getByTestId('dropdown-cascade-0');
-      expect(dropdown1).toBeDefined();
-
-      fireEvent.press(dropdown1);
-
-      const dropdown1Selected = getByText('DI YOGYAKARTA');
-      fireEvent.press(dropdown1Selected);
-
-      const dropdown2 = getByTestId('dropdown-cascade-1');
-      expect(dropdown2).toBeDefined();
-
-      fireEvent.press(dropdown2);
-      const dropdown2Selected = getByText('KAB. BANTUL');
-      fireEvent.press(dropdown2Selected);
-
-      // it should still null
-      expect(values[fieldID]).toBeNull();
-
-      const dropdown3 = getByTestId('dropdown-cascade-2');
-      expect(dropdown3).toBeDefined();
-
-      fireEvent.press(dropdown3);
-      const dropdown3Selected = getByText('Sabdodadi');
-      fireEvent.press(dropdown3Selected);
-
-      expect(values[fieldID]).toEqual([106, 107, 109]);
+      const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
+      expect(result.current).toEqual({
+        [fieldID]: [106, 107, 109],
+      });
     });
   });
 
