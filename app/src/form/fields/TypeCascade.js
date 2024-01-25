@@ -146,10 +146,16 @@ const TypeCascade = ({
   }, [fetchCascade]);
 
   useEffect(() => {
-    if (dropdownItems.length === 0 && initialDropdowns.length) {
+    if (
+      (dropdownItems.length === 0 && initialDropdowns.length) ||
+      (source?.cascade_parent && administration)
+    ) {
+      /**
+       * Reset entity cascade options when the administration changes.
+       */
       setDropdownItems(initialDropdowns);
     }
-  }, [dropdownItems, initialDropdowns]);
+  }, [dropdownItems, initialDropdowns, source, administration]);
 
   const loadDataSource = useCallback(async () => {
     const { rows } = await cascades.loadDataSource(source);
