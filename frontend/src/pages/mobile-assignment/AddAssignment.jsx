@@ -180,15 +180,19 @@ const AddAssignment = () => {
           })
       );
       store.update((s) => {
-        s.administration = [...parentAdm, ...selectedAdministration]?.map(
-          (a, ax) => {
-            const childLevel = levels.filter((l) => l?.level === ax + 1);
+        s.administration = [...parentAdm, ...selectedAdministration]
+          ?.slice(
+            [...parentAdm, ...selectedAdministration].findIndex(
+              (r) => r.id === authUser.administration.id
+            )
+          )
+          .map((a) => {
+            const childLevel = levels.filter((l) => l?.level === a.level);
             return {
               ...a,
               childLevelName: childLevel?.name || null,
             };
-          }
-        );
+          });
       });
     }
     if (!id && preload) {
