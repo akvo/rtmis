@@ -775,22 +775,282 @@ describe('TypeCascade', () => {
 });
 
 const mockEntities = [
-  { id: 'RS Umum Daerah Wates ', code: '3401015', entity: 2, administration: 115, parent: 115 },
-  { id: 'RS Khusus Ibu Anak Sadewa', code: '3404187', entity: 2, administration: 116, parent: 116 },
-  { id: 'RS Ibu dan Anak Allaudya', code: '3403026', entity: 2, administration: 116, parent: 116 },
-  { id: 'SD NEGERI DEPOK I', code: '20401672', entity: 1, administration: 116, parent: 116 },
-  { id: 'SD NEGERI JETISHARJO', code: '20401724', entity: 1, administration: 117, parent: 117 },
+  {
+    id: 1,
+    name: 'RS Umum Daerah Wates ',
+    code: '3401015',
+    entity: 2,
+    administration: 115,
+    parent: 115,
+  },
+  {
+    id: 2,
+    name: 'RS Khusus Ibu Anak Sadewa',
+    code: '3404187',
+    entity: 2,
+    administration: 116,
+    parent: 116,
+  },
+  {
+    id: 3,
+    name: 'RS Ibu dan Anak Allaudya',
+    code: '3403026',
+    entity: 2,
+    administration: 116,
+    parent: 116,
+  },
+  {
+    id: 4,
+    name: 'SD NEGERI DEPOK I',
+    code: '20401672',
+    entity: 1,
+    administration: 116,
+    parent: 116,
+  },
+  {
+    id: 5,
+    name: 'SD NEGERI JETISHARJO',
+    code: '20401724',
+    entity: 1,
+    administration: 117,
+    parent: 117,
+  },
 ];
 
 describe('TypeCascade | Entity', () => {
   beforeAll(() => {
-    cascades.loadDataSource.mockReturnValue({
-      rows: { length: mockEntities.length, _array: mockEntities },
+    cascades.loadDataSource.mockImplementation(() =>
+      Promise.resolve({
+        rows: { length: mockEntities.length, _array: mockEntities },
+      }),
+    );
+  });
+
+  it('it should be able to load entity_data.sqlite', async () => {
+    const question = {
+      id: 123,
+      name: 'HCF',
+      order: 1,
+      type: 'cascade',
+      required: false,
+      meta: false,
+      extra: {
+        name: 'Health Care Facilities',
+        type: 'entity',
+      },
+      source: {
+        file: 'entity_data.sqlite',
+        cascade_type: 2,
+        cascade_parent: 'administrator.sqlite',
+      },
+    };
+    const onChangeMock = jest.fn();
+
+    const { getByTestId } = render(<TypeCascade onChange={onChangeMock} {...question} />);
+
+    await waitFor(
+      async () =>
+        await expect(cascades.loadDataSource({ file: 'administrator.sqlite' })).resolves.toEqual({
+          rows: {
+            length: mockEntities.length,
+            _array: mockEntities,
+          },
+        }),
+    );
+
+    act(() => {
+      /**
+       * Fired selected administration
+       */
+      FormState.update((s) => {
+        s.administration = [116];
+      });
+    });
+
+    const option1 = getByTestId('dropdown-cascade-0');
+    expect(option1).toBeDefined();
+
+    fireEvent.press(option1);
+
+    await waitFor(() => {
+      expect(getByTestId('dropdown-cascade-0 flatlist').props.data).toEqual([
+        {
+          id: 3,
+          name: 'RS Ibu dan Anak Allaudya',
+          code: '3403026',
+          entity: 2,
+          administration: 116,
+          parent: 116,
+          _index: 0,
+        },
+        {
+          id: 2,
+          name: 'RS Khusus Ibu Anak Sadewa',
+          code: '3404187',
+          entity: 2,
+          administration: 116,
+          parent: 116,
+          _index: 1,
+        },
+      ]);
     });
   });
 
-  it.todo('it should be able to load entity_data.sqlite');
-  it.todo('it should be able to get the selected administration ID as the parent value');
-  it.todo('It should be triggered by the selected administration ID and show a valid list');
-  it.todo('it should be empty when the administration has not selected');
+  it('it should be able filtered by cascade_type and selected administration ID', async () => {
+    const question = {
+      id: 124,
+      name: 'Please choose School',
+      order: 1,
+      type: 'cascade',
+      required: false,
+      meta: false,
+      extra: {
+        name: 'School',
+        type: 'entity',
+      },
+      source: {
+        file: 'entity_data.sqlite',
+        cascade_type: 1,
+        cascade_parent: 'administrator.sqlite',
+      },
+    };
+    const onChangeMock = jest.fn();
+
+    const { getByTestId } = render(<TypeCascade onChange={onChangeMock} {...question} />);
+
+    await waitFor(
+      async () =>
+        await expect(cascades.loadDataSource({ file: 'administrator.sqlite' })).resolves.toEqual({
+          rows: {
+            length: mockEntities.length,
+            _array: mockEntities,
+          },
+        }),
+    );
+
+    act(() => {
+      /**
+       * Fired selected administration
+       */
+      FormState.update((s) => {
+        s.administration = [116];
+      });
+    });
+
+    const option1 = getByTestId('dropdown-cascade-0');
+    expect(option1).toBeDefined();
+
+    fireEvent.press(option1);
+
+    await waitFor(() => {
+      expect(getByTestId('dropdown-cascade-0 flatlist').props.data).toEqual([
+        {
+          id: 4,
+          name: 'SD NEGERI DEPOK I',
+          code: '20401672',
+          entity: 1,
+          administration: 116,
+          parent: 116,
+          _index: 0,
+        },
+      ]);
+    });
+  });
+
+  it('It should be loaded from saved state', async () => {
+    const question = {
+      id: 124,
+      name: 'Please choose School',
+      order: 1,
+      type: 'cascade',
+      required: false,
+      meta: false,
+      extra: {
+        name: 'School',
+        type: 'entity',
+      },
+      source: {
+        file: 'entity_data.sqlite',
+        cascade_type: 1,
+        cascade_parent: 'administrator.sqlite',
+      },
+    };
+    const onChangeMock = jest.fn();
+    const entityValue = [5];
+
+    act(() => {
+      /**
+       * Mocking currentValues has entity cascade and selected administration
+       */
+      FormState.update((s) => {
+        s.currentValues = {
+          1: [117],
+          124: entityValue,
+        };
+        s.administration = [117];
+      });
+    });
+
+    const { getByTestId, getByText } = render(
+      <TypeCascade onChange={onChangeMock} value={entityValue} {...question} />,
+    );
+
+    await waitFor(
+      async () =>
+        await expect(cascades.loadDataSource({ file: 'administrator.sqlite' })).resolves.toEqual({
+          rows: {
+            length: mockEntities.length,
+            _array: mockEntities,
+          },
+        }),
+    );
+
+    const option1 = getByTestId('dropdown-cascade-0');
+    expect(option1).toBeDefined();
+
+    await waitFor(() => {
+      const option1 = getByTestId('dropdown-cascade-0');
+      expect(option1).toBeDefined();
+
+      expect(getByText('SD NEGERI JETISHARJO')).toBeDefined();
+    });
+  });
+
+  it('it should be empty when the administration has not selected', async () => {
+    const question = {
+      id: 123,
+      name: 'HCF',
+      order: 1,
+      type: 'cascade',
+      required: false,
+      meta: false,
+      extra: {
+        name: 'Health Care Facilities',
+        type: 'entity',
+      },
+      source: {
+        file: 'entity_data.sqlite',
+        cascade_type: 2,
+        cascade_parent: 'administrator.sqlite',
+      },
+    };
+    const onChangeMock = jest.fn();
+
+    const { queryByTestId } = render(<TypeCascade onChange={onChangeMock} {...question} />);
+
+    await waitFor(
+      async () =>
+        await expect(cascades.loadDataSource({ file: 'administrator.sqlite' })).resolves.toEqual({
+          rows: {
+            length: mockEntities.length,
+            _array: mockEntities,
+          },
+        }),
+    );
+
+    await waitFor(() => {
+      const option1 = queryByTestId('dropdown-cascade-0');
+      expect(option1).toBeNull();
+    });
+  });
 });
