@@ -96,7 +96,7 @@ const TypeCascade = ({
         return ds;
       });
 
-    const groupedDs = groupBy(filterDs, value, 'parent');
+    const groupedDs = groupBy(filterDs, 'parent');
     if (parentIDs.length > 1 && Object.keys(groupedDs).length > 1) {
       const parentOptions = Object.keys(groupedDs).map((keyID) =>
         dataSource.find((d) => d?.id === parseInt(keyID, 10)),
