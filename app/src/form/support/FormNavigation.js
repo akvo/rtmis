@@ -132,9 +132,9 @@ const FormNavigation = ({
       ) : (
         <Tab.Item
           title={trans.buttonSubmit}
-          icon={{ name: 'paper-plane-outline', type: 'ionicon', color: 'grey', size: 20 }}
+          icon={{ name: 'paper-plane-outline', type: 'ionicon', color: 'white', size: 20 }}
           iconPosition="right"
-          iconContainerStyle={styles.formNavigationIcon}
+          iconContainerStyle={styles.formNavigationIconSubmit}
           titleStyle={styles.formNavigationSubmit}
           testID="form-btn-submit"
         />
