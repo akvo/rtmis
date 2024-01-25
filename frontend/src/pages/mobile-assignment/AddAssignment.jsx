@@ -119,9 +119,12 @@ const AddAssignment = () => {
     });
   };
 
-  const onSelectLevel = async (val) => {
+  const onSelectLevel = async (val, option) => {
     store.update((s) => {
       s.administration.length = val;
+      s.administration = selectedAdm.filter(
+        (item) => item.level < option.level
+      );
     });
     setLevel(val);
   };
@@ -255,7 +258,7 @@ const AddAssignment = () => {
                     getPopupContainer={(trigger) => trigger.parentNode}
                     placeholder={text.selectLevel}
                     onChange={onSelectLevel}
-                    fieldNames={{ value: "id", label: "name" }}
+                    fieldNames={{ value: "id", label: "name", level: "level" }}
                     options={admLevels}
                     allowClear
                   />
