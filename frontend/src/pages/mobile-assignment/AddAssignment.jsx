@@ -198,7 +198,7 @@ const AddAssignment = () => {
     if (!id && preload) {
       setPreload(false);
     }
-  }, [id, preload, form, editAssignment, levels, selectedAdm]);
+  }, [id, preload, form, editAssignment, levels, selectedAdm, authUser]);
 
   useEffect(() => {
     fetchData();
