@@ -1,4 +1,5 @@
 from typing import Any, Dict
+from rtmis.settings import WEBDOMAIN
 from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
 from api.v1.v1_forms.models import Forms
@@ -8,6 +9,19 @@ from api.v1.v1_profile.models import Administration, Levels
 from utils.custom_serializer_fields import CustomCharField
 from api.v1.v1_mobile.models import MobileAssignment, MobileApk
 from utils.custom_helper import CustomPasscode, generate_random_string
+
+
+class MobileDataPointDownloadListSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    url = serializers.SerializerMethodField()
+
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_url(self, obj):
+        return f"{WEBDOMAIN}/datapoints/{obj.get('uuid')}.json"
+
+    class Meta:
+        fields = ["id", "name", "url"]
 
 
 class MobileAssignmentAdministrationSerializer(serializers.ModelSerializer):
