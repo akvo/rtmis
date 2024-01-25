@@ -826,7 +826,7 @@ describe('TypeCascade | Entity', () => {
     );
   });
 
-  it('it should be able to load entity_data.sqlite', async () => {
+  it('should be able to load `entity_data.sqlite`', async () => {
     const question = {
       id: 123,
       name: 'HCF',
@@ -896,7 +896,7 @@ describe('TypeCascade | Entity', () => {
     });
   });
 
-  it('it should be able filtered by cascade_type and selected administration ID', async () => {
+  it('should be able to be filtered by cascade_type and the selected administration ID', async () => {
     const question = {
       id: 124,
       name: 'Please choose School',
@@ -957,7 +957,7 @@ describe('TypeCascade | Entity', () => {
     });
   });
 
-  it('It should be loaded from saved state', async () => {
+  it('should display the answer from the currentValues', async () => {
     const question = {
       id: 124,
       name: 'Please choose School',
@@ -1016,7 +1016,7 @@ describe('TypeCascade | Entity', () => {
     });
   });
 
-  it('it should be empty when the administration has not selected', async () => {
+  it('should not be shown when the administration has not been selected', async () => {
     const question = {
       id: 123,
       name: 'HCF',
