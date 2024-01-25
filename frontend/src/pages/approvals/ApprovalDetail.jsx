@@ -95,7 +95,6 @@ const ApprovalDetail = ({
   setReload,
   expandedParentKeys,
   setExpandedParentKeys,
-  readonly = false,
 }) => {
   const [values, setValues] = useState([]);
   const [rawValues, setRawValues] = useState([]);
