@@ -73,32 +73,36 @@ const Header = ({ className = "header", ...props }) => {
       {
         key: "controlCenter",
         label: (
-          <div key="controlCenter" className="usermenu-menu-item">
-            <Link to="/control-center">{text?.controlCenter}</Link>
-          </div>
+          <Link
+            key="controlCenter"
+            className="usermenu-menu-item"
+            to="/control-center"
+          >
+            {text?.controlCenter}
+          </Link>
         ),
       },
       {
         key: "profile",
         label: (
-          <div key="profile" className="usermenu-menu-item">
-            <Link to="/profile">{text?.myProfile}</Link>
-          </div>
+          <Link key="profile" className="usermenu-menu-item" to="/profile">
+            {text?.myProfile}
+          </Link>
         ),
       },
       {
         key: "signOut",
         danger: true,
         label: (
-          <div
+          <a
             key="signOut"
             className="usermenu-menu-item"
             onClick={() => {
               signOut();
             }}
           >
-            <a>{text?.signOut}</a>
-          </div>
+            {text?.signOut}
+          </a>
         ),
       },
     ];

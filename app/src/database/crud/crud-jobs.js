@@ -1,5 +1,6 @@
 import * as Crypto from 'expo-crypto';
 import { conn, query } from '../';
+import crudUsers from './crud-users';
 
 const db = conn.init;
 
@@ -16,15 +17,26 @@ const tableName = 'jobs';
 const jobsQuery = () => {
   return {
     getActiveJob: async (type) => {
-      const where = { active: 1, type };
-      const nocase = false;
-      const order_by = 'createdAt';
-      const readQuery = query.read(tableName, where, nocase, order_by);
-      const { rows } = await conn.tx(db, readQuery, [1, type]);
-      if (!rows.length) {
+      try {
+        const session = await crudUsers.getActiveUser();
+        if (session?.id) {
+          /**
+           * Make sure the app only gets active jobs from current user
+           */
+          const where = { active: 1, type, user: session.id };
+          const nocase = false;
+          const order_by = 'createdAt';
+          const readQuery = query.read(tableName, where, nocase, order_by);
+          const { rows } = await conn.tx(db, readQuery, [1, type, session.id]);
+          if (!rows.length) {
+            return null;
+          }
+          return rows._array[0];
+        }
+        return null;
+      } catch {
         return null;
       }
-      return rows._array[0];
     },
     addJob: async (data = {}) => {
       try {

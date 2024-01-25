@@ -137,6 +137,7 @@ class Command(BaseCommand):
                         question.hidden = q.get("hidden")
                         question.display_only = q.get("displayOnly")
                         question.pre = q.get("pre")
+                        question.monitoring = q.get("monitoring")
                         question.meta_uuid = q.get("meta_uuid")
                         question.save()
                     if q.get("options"):

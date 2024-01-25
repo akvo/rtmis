@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Asset } from 'expo-asset';
 import { Text, Button, Input } from '@rneui/themed';
 import { CenterLayout, Image } from '../components';
@@ -15,12 +15,14 @@ const GetStarted = ({ navigation }) => {
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
 
-  const getConfig = async () => {
-    const config = await crudConfig.getConfig();
-    if (config) {
-      setCurrentConfig(config);
-    }
-  };
+  const getConfig = useCallback(async () => {
+    try {
+      const config = await crudConfig.getConfig();
+      if (config) {
+        setCurrentConfig(config);
+      }
+    } catch (error) {}
+  }, []);
 
   const isServerURLDefined = useMemo(() => {
     return currentConfig?.serverURL || serverURLState;
@@ -28,7 +30,7 @@ const GetStarted = ({ navigation }) => {
 
   useEffect(() => {
     getConfig();
-  }, []);
+  }, [getConfig]);
 
   const goToLogin = async () => {
     if (IPAddr) {

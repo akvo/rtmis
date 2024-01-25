@@ -43,6 +43,7 @@ const uiText = {
     buttonCancel: 'Cancel',
     buttonExit: 'Exit',
     buttonUseCurrLocation: 'Use current location',
+    buttonRefreshCurrLocation: 'Refresh location',
     authErrorPasscode: 'Invalid enumerator passcode',
     authInputPasscode: 'Enumerator passcode',
     authTitle1: 'Please enter the passcode',
@@ -101,7 +102,8 @@ const uiText = {
     syncingText: 'Syncing...',
     reSyncingText: 'Re-syncing...',
     doneText: 'Done!',
-    syncFailed: 'Unable to sync the data',
+    about: 'About',
+    autoSyncInProgress: 'Auto sync is in progress',
   },
   fr: {
     latitude: 'Latitude',
@@ -187,6 +189,7 @@ const uiText = {
     confirmSync:
       'Êtes-vous sûr de synchroniser la soumission avec le serveur maintenant ? Cela peut prendre un certain temps.',
     buttonCurrLocation: "Utiliser l'emplacement actuel",
+    buttonRefreshCurrLocation: 'Refresh location',
     loadingText: 'Chargement...',
     loadingPrefilledAnswer: 'Chargement de la réponse préremplie...',
     buttonSelectedLoc: "Utiliser l'emplacement sélectionné",
@@ -201,7 +204,7 @@ const uiText = {
     syncingText: 'Synchronisation...',
     reSyncingText: 'Resynchronisation...',
     doneText: 'Fait!',
-    syncFailed: 'Impossible de synchroniser les données',
+    autoSyncInProgress: 'La synchronisation automatique est en cours',
   },
 };
 

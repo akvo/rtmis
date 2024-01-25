@@ -31,6 +31,12 @@ class MobileAssignmentApiTest(TestCase):
         self.mobile_assignment = MobileAssignment.objects.create_assignment(
             user=self.user, name='test', passcode=self.passcode
         )
+        self.administration_children = Administration.objects.filter(
+            parent=self.administration
+        ).all()
+        self.mobile_assignment.administrations.add(
+            *self.administration_children
+        )
         self.mobile_assignment = MobileAssignment.objects.get(user=self.user)
         self.mobile_assignment.forms.add(*self.forms)
 
@@ -67,6 +73,15 @@ class MobileAssignmentApiTest(TestCase):
         token = MobileAssignmentToken(syncToken)
 
         self.assertEqual(token.assignment.id, self.mobile_assignment.id)
+        paths = [
+            f'{adm.path}{adm.id}.' for adm in self.administration_children
+        ]
+        # administration should only shows the lowest level
+        self.assertEqual(
+            len(response.data['administrations']),
+            Administration.objects.filter(path__in=paths).count(),
+        )
+
         self.assertEqual(
             dict(response.data['formsUrl'][0]),
             {

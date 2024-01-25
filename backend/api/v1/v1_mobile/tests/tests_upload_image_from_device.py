@@ -37,7 +37,12 @@ class MobileAssignmentUploadImages(TestCase, AssignmentTokenTestHelperMixin):
         )
         self.mobile_assignment = MobileAssignment.objects.get(user=self.user)
         self.mobile_assignment.forms.add(self.form)
-        self.mobile_assignment.administrations.add(self.administration)
+        self.administration_children = Administration.objects.filter(
+            parent=self.administration
+        ).all()
+        self.mobile_assignment.administrations.add(
+            *self.administration_children
+        )
         self.filename = generate_file(filename='test_image.jpg')
 
     # Delete Images after all finish

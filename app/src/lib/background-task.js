@@ -11,7 +11,6 @@ export const syncStatus = {
   ON_PROGRESS: 1,
   RE_SYNC: 2,
   SUCCESS: 3,
-  FAILED: 4,
 };
 
 const syncFormVersion = async ({
@@ -221,16 +220,8 @@ const syncFormSubmission = async (activeJob = {}) => {
       const updatePayload =
         activeJob.attempt < MAX_ATTEMPT
           ? { status: jobStatus.FAILED, attempt: activeJob.attempt + 1 }
-          : { status: jobStatus.FAILED, active: 0, info: String(err) };
+          : { status: jobStatus.ON_PROGRESS, info: String(err) };
       crudJobs.updateJob(activeJob.id, updatePayload);
-
-      const statusBar =
-        activeJob.attempt < MAX_ATTEMPT
-          ? { type: syncStatus.RE_SYNC, bgColor: '#d97706', icon: 'repeat' }
-          : { type: syncStatus.FAILED, bgColor: '#dc2626', icon: 'alert' };
-      UIState.update((s) => {
-        s.statusBar = statusBar;
-      });
     }
     console.error('[syncFormSubmission] Error: ', err);
   }

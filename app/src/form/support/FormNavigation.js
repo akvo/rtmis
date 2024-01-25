@@ -135,7 +135,7 @@ const FormNavigation = ({
           icon={{ name: 'paper-plane-outline', type: 'ionicon', color: 'grey', size: 20 }}
           iconPosition="right"
           iconContainerStyle={styles.formNavigationIcon}
-          titleStyle={styles.formNavigationTitle}
+          titleStyle={styles.formNavigationSubmit}
           testID="form-btn-submit"
         />
       )}
