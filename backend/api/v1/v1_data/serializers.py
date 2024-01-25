@@ -520,7 +520,7 @@ class ListPendingDataBatchSerializer(serializers.ModelSerializer):
             status__in=[
                 DataApprovalStatus.pending, DataApprovalStatus.rejected
             ],
-        ).order_by("level__level").first())
+        ).order_by("-level__level").first())
         if approval:
 
             data["id"] = approval.user.pk
