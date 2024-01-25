@@ -7,6 +7,7 @@ from .views import (
     download_sqlite_file,
     upload_apk_file,
     download_apk_file,
+    get_datapoint_download_list,
     MobileAssignmentViewSet,
 )
 
@@ -32,4 +33,8 @@ urlpatterns = [
     re_path(r'^(?P<version>(v1))/device/images', upload_image_form_device),
     re_path(r'^(?P<version>(v1))/device/apk/upload', upload_apk_file),
     re_path(r'^(?P<version>(v1))/device/apk/download', download_apk_file),
+    re_path(
+        r'^(?P<version>(v1))/device/datapoint-list',
+        get_datapoint_download_list,
+    )
 ]
