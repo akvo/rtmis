@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, FlatList, ScrollView, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
 import { ListItem, Button } from '@rneui/themed';
 import { BaseLayout } from '../../components';
 import { UIState, UserState } from '../../store';
