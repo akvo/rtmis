@@ -1,0 +1,3 @@
+[plugins]
+yapf = {enabled = true}
+black = {line_length = 79, enabled = true}
