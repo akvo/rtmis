@@ -23,13 +23,15 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
       return group.question
         .filter((q) => onFilterDependency(group, values, q))
         .filter((q) => {
-          if (q?.extra?.type === 'entity' && prevAdmAnswer) {
+          return (q?.extra?.type === 'entity' && prevAdmAnswer) || !q?.extra?.type;
+        })
+        .filter((q) => {
+          if (q?.extra?.type === 'entity' && entityOptions?.[q?.id]?.length) {
             /**
              * Make sure the entity cascade has administration answer and options
              */
-            return entityOptions?.[q?.id]?.filter(
-              (opt) => prevAdmAnswer.includes(opt.parent) && opt.entity === q.source?.cascade_type,
-            ).length;
+            return entityOptions?.[q.id]?.filter((opt) => prevAdmAnswer.includes(opt?.parent))
+              ?.length;
           }
           return q;
         });
