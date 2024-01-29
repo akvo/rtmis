@@ -66,7 +66,10 @@ Object {
     "batchNoApproverMessage": "Can't create batch data, because there's no approver yet.",
     "batchSelectedDatasets": "Batch Selected Datasets",
     "browseComputer": "Browse your computer",
+    "bulkUploadAttr": "Attributes",
+    "bulkUploadAttrPlaceholder": "Select Attributes...",
     "bulkUploadButton": "Bulk Upload",
+    "bulkUploadCheckboxPrefilled": "Prefilled administrative list",
     "bulkUploadNoApproverMessage": "Can't upload data, because there's no approver yet.",
     "cancelButton": "Cancel",
     "ccDescriptionPanel": "Instant access to all the administration pages and overview panels for data approvals.",
@@ -483,6 +486,17 @@ Object {
     "passwordRule5": "No White Space",
     "passwordRule6": "Minimum 8 Characters",
     "passwordUpdateSuccess": "Password updated successfully",
+    "prefilledAdmModalContent": "We're processing your request. Once complete, the prefilled administration template will be sent to your email shortly.  Please keep a close eye on your email, Thank you. ",
+    "prefilledAdmModalTitle": "Prefilled Administration requested",
+    "prefilledAdmUploadLabel": "Upload the data",
+    "prefilledDownloadTitle": "Administrative Download",
+    "prefilledPanelText": <React.Fragment>
+      <p>
+        This page shows your pre-filled administrative data export requests.
+        <br />
+        For exports which are already generated, please click on the Download button to download the data.
+      </p>
+    </React.Fragment>,
     "prev": "Prev",
     "printBtn": "Print",
     "profileDes": "This page shows your current user setup. It also shows the most important activities for your current user setup",

@@ -644,6 +644,24 @@ const uiText = {
     endOfListLabel: "End of List",
     addMewOrg: "Add new organization",
     searchPlaceholder: "Search...",
+    bulkUploadAttr: "Attributes",
+    bulkUploadAttrPlaceholder: "Select Attributes...",
+    bulkUploadCheckboxPrefilled: "Prefilled administrative list",
+    prefilledAdmModalTitle: "Prefilled Administration requested",
+    prefilledAdmModalContent:
+      "We're processing your request. Once complete, the prefilled administration template will be sent to your email shortly.  Please keep a close eye on your email, Thank you. ",
+    prefilledAdmUploadLabel: "Upload the data",
+    prefilledDownloadTitle: "Administrative Download",
+    prefilledPanelText: (
+      <Fragment>
+        <p>
+          This page shows your pre-filled administrative data export requests.
+          <br />
+          For exports which are already generated, please click on the Download
+          button to download the data.
+        </p>
+      </Fragment>
+    ),
   },
 
   de: {},

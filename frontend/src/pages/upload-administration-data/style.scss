@@ -4,7 +4,7 @@
   #uploadMasterData {
     .ant-card {
       margin-top: 16px;
-      .ant-space {
+      .ant-space:not(.administration) {
         padding: 26px 48px;
         width: 100%;
         img {
@@ -18,6 +18,11 @@
       }
       .ant-card-body > .ant-space:first-child {
         border-bottom: solid #d7dbec 1px;
+        padding-left: 0;
+        .ant-form {
+          width: 50%;
+          margin: 0 auto;
+        }
       }
       .ant-card-body
         > .ant-space:nth-child(2)
@@ -35,8 +40,52 @@
           margin-bottom: 16px;
         }
       }
-      .multiple-select-box {
-        width: 13rem;
+    }
+  }
+  #exportData {
+    .ant-table {
+      color: #707070;
+      padding: 20px;
+      .ant-table-cell {
+        padding: 24px 16px;
+      }
+      .ant-table-cell:first-child {
+        color: #00000099;
+        font-size: 28px;
+        img {
+          width: 32px;
+          height: 32px;
+        }
+      }
+      .ant-table-cell:nth-child(2) > div > div:first-child {
+        color: #707070;
+        margin-bottom: 3px;
+      }
+      .ant-table-cell:nth-child(2) > div > div:nth-child(3) {
+        margin-top: 6px;
+        .ant-tag {
+          border-style: dashed;
+        }
+      }
+
+      .ant-table-cell:last-child {
+        .ant-btn {
+          color: $blue;
+          text-transform: none;
+          font-weight: $font-weight-medium;
+          border-color: transparent;
+          background-color: transparent;
+          box-shadow: none;
+        }
+        .ant-btn:hover {
+          color: $blue;
+          border-color: transparent;
+        }
+      }
+      .ant-table-row.template {
+        .ant-table-cell:nth-child(2) > div > div:first-child {
+          color: $blue;
+        }
       }
     }
   }

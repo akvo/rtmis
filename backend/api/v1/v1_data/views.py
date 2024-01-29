@@ -805,7 +805,10 @@ def list_pending_batch(request, version):
         "total_page": ceil(queryset.count() / page_size),
         "batch": ListPendingDataBatchSerializer(
             instance=values, context={
-                'user': user, },
+                'user': user,
+                'approved': approved,
+                'subordinate': subordinate,
+            },
             many=True).data,
     }
     return Response(data, status=status.HTTP_200_OK)
@@ -948,9 +951,10 @@ class BatchSummaryView(APIView):
         batch = get_object_or_404(PendingDataBatch, pk=batch_id)
         instance = PendingAnswers.objects.filter(
             pending_data__batch_id=batch.id,
-            question__type__in=[QuestionTypes.option, QuestionTypes.number,
-                                QuestionTypes.administration,
-                                QuestionTypes.multiple_option]
+            question__type__in=[
+                QuestionTypes.option,
+                QuestionTypes.multiple_option
+            ]
         ).distinct('question')
         return Response(
             ListBatchSummarySerializer(

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Layout, Menu } from "antd";
 const { Sider } = Layout;
 import { store, config } from "../../lib";
@@ -12,6 +12,8 @@ import {
 
 const Sidebar = () => {
   const { user: authUser } = store.useState((s) => s);
+  const [selectedKey, setSelectedKey] = useState("");
+  const [openKeys, setOpenKeys] = useState([]);
   const navigate = useNavigate();
 
   const { roles } = config;
@@ -32,6 +34,10 @@ const Sidebar = () => {
     ],
     "master-data": [
       { label: "Administrative List", url: "/control-center/master-data" },
+      {
+        label: "Administrative Download",
+        url: "/control-center/master-data/download-administration-data",
+      },
       { label: "Attributes", url: "/control-center/master-data/attributes" },
       { label: "Entities", url: "/control-center/master-data/entities" },
       {
@@ -150,17 +156,59 @@ const Sidebar = () => {
     }
   };
 
+  const findKeyByUrl = useCallback((items, url) => {
+    for (const item of items) {
+      if (item.url === url) {
+        return item.key;
+      }
+      if (item.children) {
+        const key = findKeyByUrl(item.children, url);
+        if (key) {
+          return key;
+        }
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    const currentKey = findKeyByUrl(usersMenuItem, location.pathname);
+
+    if (currentKey !== selectedKey || openKeys.length === 0) {
+      setSelectedKey(currentKey);
+
+      const newOpenKeys = [];
+      for (const menu of usersMenuItem) {
+        if (menu.url && menu.key === currentKey) {
+          newOpenKeys.push(menu.key);
+          break;
+        }
+        if (menu.children) {
+          const item = menu.children.find((child) => child.key === currentKey);
+          if (item) {
+            newOpenKeys.push(menu.key);
+            break;
+          }
+        }
+      }
+
+      if (JSON.stringify(openKeys) !== JSON.stringify(newOpenKeys)) {
+        setOpenKeys(newOpenKeys);
+      }
+    }
+  }, [usersMenuItem, selectedKey, openKeys, findKeyByUrl]);
+
   return (
     <Sider className="site-layout-background">
       <Menu
         mode="inline"
-        defaultSelectedKeys={["1"]}
-        defaultOpenKeys={["sub1"]}
+        selectedKeys={[selectedKey]}
+        openKeys={openKeys}
         style={{
           height: "100%",
           borderRight: 0,
         }}
-        onClick={handleMenuClick}
+        onSelect={handleMenuClick}
+        onOpenChange={(newOpenKeys) => setOpenKeys(newOpenKeys)}
         items={usersMenuItem}
       />
     </Sider>
