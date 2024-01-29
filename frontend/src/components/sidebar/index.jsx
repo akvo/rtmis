@@ -130,7 +130,7 @@ const Sidebar = () => {
     superAdminRole.control_center_order,
     superAdminRole.page_access
   );
-
+  console.log(usersMenuItem, "USER MENU ITEM");
   const handleMenuClick = ({ key }) => {
     const url = findUrlByKey(usersMenuItem, key);
     navigate(url);
@@ -154,7 +154,7 @@ const Sidebar = () => {
     <Sider className="site-layout-background">
       <Menu
         mode="inline"
-        defaultSelectedKeys={["1"]}
+        defaultSelectedKeys={["control-center"]}
         defaultOpenKeys={["sub1"]}
         style={{
           height: "100%",
