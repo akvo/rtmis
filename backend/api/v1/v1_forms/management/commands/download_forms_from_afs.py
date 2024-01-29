@@ -7,17 +7,9 @@ from django.core.management import BaseCommand
 base_url = 'https://form-service.akvotest.org/api/form/'
 forms = [
     {
-        "id": 1699353915355,
-        "name": "Households",
-    },
-    {
         "id": 1701757876668,
-        "name": "Wash in Schools",
+        "name": "RTMIS School WASH Form",
     },
-    {
-        "id": 1699354006503,
-        "name": "Community",
-    }
 ]
 question_types = {'input': 'text', 'image': 'photo'}
 
