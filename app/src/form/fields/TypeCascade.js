@@ -72,13 +72,13 @@ const TypeCascade = ({
 
   const initialDropdowns = useMemo(() => {
     const parentIDs = source?.parent_id?.length ? source.parent_id : [0];
-    let filterDs = dataSource.filter(
+    const filterDs = dataSource.filter(
       (ds) =>
-        parentIDs.includes(ds?.parent) || value?.includes(ds?.id) || value?.includes(ds?.parent),
+        parentIDs.includes(ds?.parent) ||
+        parentIDs.includes(ds?.id) ||
+        value?.includes(ds?.id) ||
+        value?.includes(ds?.parent),
     );
-    if (filterDs.length === 0) {
-      filterDs = dataSource.filter((ds) => parentIDs.includes(ds?.id));
-    }
     const groupedDs = groupBy(filterDs, 'parent');
     if (parentIDs.length > 1 && Object.keys(groupedDs).length > 1) {
       const parentOptions = Object.keys(groupedDs).map((keyID) =>
