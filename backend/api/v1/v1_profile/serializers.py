@@ -234,6 +234,8 @@ class EntityDataSerializer(serializers.ModelSerializer):
 
 class GenerateDownloadRequestSerializer(serializers.Serializer):
     level = CustomPrimaryKeyRelatedField(queryset=Levels.objects.none())
+    administration = RelatedAdministrationField(
+            queryset=Administration.objects.all())
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

@@ -260,10 +260,10 @@ def export_prefilled_administrations_template(request: Request, version):
             status=status.HTTP_400_BAD_REQUEST)
     attributes = clean_array_param(
             request.query_params.get('attributes', ''), maybe_int)
-    level = request.query_params.get('level', None)
+    administration = request.query_params.get('administration')
     result = call_command(
         'job_download_adm',
-        level,
+        administration,
         request.user.id,
         attributes=attributes
     )

@@ -13,7 +13,7 @@ def download_prefilled_administrations(job_id: int):
         return generate_prefilled_template(
             job_result=job.result,
             attributes=job_info['attributes'],
-            level=job_info['level'],
+            adm_id=job_info['adm_id'],
         )
     except Exception as unknown_error:
         print("unknown_error", unknown_error)
