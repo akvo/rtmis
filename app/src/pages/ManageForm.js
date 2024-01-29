@@ -36,12 +36,14 @@ const ManageForm = ({ navigation, route }) => {
       icon: 'clipboard-outline',
       goTo: goToNewForm,
     },
+    /* TODO: Enable this when we have a way to update a form
     {
       id: 2,
       text: trans.manageUpdate,
       icon: 'clipboard-edit-outline',
       goTo: goToUpdateForm,
     },
+    */
     {
       id: 3,
       text: `${trans.manageEditSavedForm} (${draftCount})`,
