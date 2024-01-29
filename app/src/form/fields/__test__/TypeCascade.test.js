@@ -216,7 +216,6 @@ describe('TypeCascade', () => {
     );
 
     await waitFor(() => {
-      
       const firstDropdown = getByTestId('dropdown-cascade-0');
       expect(firstDropdown).toBeDefined();
       const firstOption = queryByText('DI YOGYAKARTA');
@@ -857,7 +856,7 @@ describe('TypeCascade | Entity', () => {
        * Fired selected administration
        */
       FormState.update((s) => {
-        s.administration = [116];
+        s.prevAdmAnswer = [116];
       });
     });
 
@@ -875,7 +874,6 @@ describe('TypeCascade | Entity', () => {
           entity: 2,
           administration: 116,
           parent: 116,
-          _index: 0,
         },
         {
           id: 2,
@@ -884,7 +882,6 @@ describe('TypeCascade | Entity', () => {
           entity: 2,
           administration: 116,
           parent: 116,
-          _index: 1,
         },
       ]);
     });
@@ -927,7 +924,7 @@ describe('TypeCascade | Entity', () => {
        * Fired selected administration
        */
       FormState.update((s) => {
-        s.administration = [116];
+        s.prevAdmAnswer = [116];
       });
     });
 
@@ -945,7 +942,6 @@ describe('TypeCascade | Entity', () => {
           entity: 1,
           administration: 116,
           parent: 116,
-          _index: 0,
         },
       ]);
     });
@@ -981,7 +977,7 @@ describe('TypeCascade | Entity', () => {
           1: [117],
           124: entityValue,
         };
-        s.administration = [117];
+        s.prevAdmAnswer = [117];
       });
     });
 

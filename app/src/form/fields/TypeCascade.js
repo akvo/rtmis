@@ -19,7 +19,7 @@ const TypeCascade = ({
 }) => {
   const [dataSource, setDataSource] = useState([]);
   const [dropdownItems, setDropdownItems] = useState([]);
-  const administration = FormState.useState((s) => s.administration);
+  const prevAdmAnswer = FormState.useState((s) => s.prevAdmAnswer);
   const activeLang = FormState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const requiredValue = required ? requiredSign : null;
@@ -66,7 +66,7 @@ const TypeCascade = ({
       const cascadeName = findSelected?.name;
       FormState.update((s) => {
         s.cascades = { ...s.cascades, [id]: cascadeName };
-        s.administration = source?.file === 'administrator.sqlite' ? finalValues : s.administration;
+        s.prevAdmAnswer = source?.file === 'administrator.sqlite' ? finalValues : s.prevAdmAnswer;
       });
     }
     setDropdownItems(updatedItems);
@@ -74,7 +74,8 @@ const TypeCascade = ({
 
   const initialDropdowns = useMemo(() => {
     const { cascade_parent, cascade_type, parent_id } = source || {};
-    const parentIDs = cascade_parent ? administration || [] : parent_id || [0];
+    const parentIDs =
+      cascade_parent === 'administrator.sqlite' ? prevAdmAnswer || [] : parent_id || [0];
     const filterDs = dataSource
       ?.filter((ds) => {
         if (cascade_parent) {
@@ -122,7 +123,7 @@ const TypeCascade = ({
         value: value?.[ox] || null,
       };
     });
-  }, [dataSource, source, value, id, administration]);
+  }, [dataSource, source, value, id, prevAdmAnswer]);
 
   const fetchCascade = useCallback(async () => {
     if (source && value?.length) {
@@ -148,19 +149,22 @@ const TypeCascade = ({
   useEffect(() => {
     if (
       (dropdownItems.length === 0 && initialDropdowns.length) ||
-      (source?.cascade_parent && administration)
+      (source?.cascade_parent && prevAdmAnswer)
     ) {
       /**
-       * Reset entity cascade options when the administration changes.
+       * Reset entity cascade options when the prevAdmAnswer changes.
        */
       setDropdownItems(initialDropdowns);
     }
-  }, [dropdownItems, initialDropdowns, source, administration]);
+  }, [dropdownItems, initialDropdowns, source, prevAdmAnswer]);
 
   const loadDataSource = useCallback(async () => {
     const { rows } = await cascades.loadDataSource(source);
     setDataSource(rows._array);
-  }, [source]);
+    FormState.update((s) => {
+      s.entityOptions[id] = rows._array;
+    });
+  }, [source, id]);
 
   useEffect(() => {
     loadDataSource();
