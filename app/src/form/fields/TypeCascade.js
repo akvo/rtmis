@@ -161,14 +161,20 @@ const TypeCascade = ({
   const loadDataSource = useCallback(async () => {
     const { rows } = await cascades.loadDataSource(source);
     setDataSource(rows._array);
-    FormState.update((s) => {
-      s.entityOptions[id] = rows._array;
-    });
+    if (source?.cascade_type) {
+      FormState.update((s) => {
+        s.entityOptions[id] = rows._array?.filter((a) => a?.entity === source.cascade_type);
+      });
+    }
   }, [source, id]);
 
   useEffect(() => {
     loadDataSource();
   }, [loadDataSource]);
+
+  if (!dropdownItems.length) {
+    return;
+  }
 
   return (
     <View testID="view-type-cascade">
