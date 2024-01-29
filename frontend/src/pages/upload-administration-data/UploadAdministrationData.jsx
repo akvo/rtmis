@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+} from "react";
 import "./style.scss";
 import {
   Row,
@@ -10,9 +16,15 @@ import {
   Select,
   Upload,
   Result,
+  Form,
+  Checkbox,
 } from "antd";
 import { FileTextFilled } from "@ant-design/icons";
-import { Breadcrumbs, DescriptionPanel } from "../../components";
+import {
+  AdministrationDropdown,
+  Breadcrumbs,
+  DescriptionPanel,
+} from "../../components";
 import { useNavigate } from "react-router-dom";
 import { api, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
@@ -35,13 +47,19 @@ const UploadAdministrationData = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [attributes, setAttributes] = useState([]);
   const [selectedAttributes, setSelectedAttributes] = useState([]);
+  const [level, setLevel] = useState(null);
+  const [isPrefilled, setIsPrefilled] = useState(false);
+  const formRef = useRef();
   const { notify } = useNotification();
   const navigate = useNavigate();
-  const { language } = store.useState((s) => s);
-  const { active: activeLang } = language;
+  const levels = store.useState((s) =>
+    s.levels?.slice(2, s.levels?.length - 1)
+  );
+  const [selectedAdm] = store.useState((s) => s.administration?.slice(-1));
+  const { active: activeLang } = store.useState((s) => s.language);
 
   const text = useMemo(() => {
-    return uiText[activeLang];
+    return uiText?.[activeLang] || uiText.en;
   }, [activeLang]);
 
   const pagePath = [
@@ -130,17 +148,18 @@ const UploadAdministrationData = () => {
     setSelectedAttributes(e);
   };
 
-  const downloadTemplate = () => {
+  const downloadTemplate = ({ level }) => {
     setLoading(true);
+    const query = {
+      attributes: selectedAttributes,
+      level,
+    };
+    const queryURL = "?" + new URLSearchParams(query).toString();
+    const apiURL = `export/administrations-template${queryURL}`;
     api
-      .get(
-        `export/administrations-template?attributes=${selectedAttributes.join(
-          ","
-        )}`,
-        {
-          responseType: "blob",
-        }
-      )
+      .get(apiURL, {
+        responseType: "blob",
+      })
       .then((res) => {
         const contentDispositionHeader = res.headers["content-disposition"];
         const filename = regExpFilename.exec(contentDispositionHeader)?.groups
@@ -171,6 +190,36 @@ const UploadAdministrationData = () => {
       });
   };
 
+  const handleOnDownload = ({ prefilled, ...values }) => {
+    if (prefilled) {
+      setLoading(true);
+      const queryURL =
+        "?" +
+        new URLSearchParams({
+          ...values,
+          administration: selectedAdm?.id || null,
+        }).toString();
+      const apiURL = `export/prefilled-administrations-template${queryURL}`;
+      api
+        .get(apiURL)
+        .then(() => {
+          setLoading(false);
+          formRef.current.resetFields();
+          navigate("/control-center/master-data/download-administration-data");
+        })
+        .catch((e) => {
+          console.error(e);
+          notify({
+            type: "error",
+            message: text.templateFetchFail,
+          });
+          setLoading(false);
+        });
+    } else {
+      downloadTemplate(values);
+    }
+  };
+
   return (
     <div id="uploadMasterData">
       <div className="description-container">
@@ -193,7 +242,7 @@ const UploadAdministrationData = () => {
             >
               <Result
                 status="success"
-                title={text?.administrationUploadSuccessTitle}
+                title={text.administrationUploadSuccessTitle}
                 extra={[
                   <Divider key="divider" />,
                   <Button
@@ -221,30 +270,81 @@ const UploadAdministrationData = () => {
                 style={{ padding: 0, minHeight: "40vh" }}
                 bodystyle={{ padding: 0 }}
               >
-                <Space align="center" size={32}>
-                  <img src="/assets/data-download.svg" />
-                  <p>{text.templateDownloadHint}</p>
-                  <Select
-                    placeholder="Select Attributes..."
-                    className="multiple-select-box"
-                    onChange={handleAttributeChange}
-                    mode="multiple"
-                    allowClear
+                <Space direction="vertical">
+                  <Space align="center" size={32}>
+                    <img src="/assets/data-download.svg" />
+                    <p>{text.templateDownloadHint}</p>
+                  </Space>
+                  <Form
+                    labelCol={{ span: 6 }}
+                    wrapperCol={{ span: 18 }}
+                    onFinish={handleOnDownload}
+                    ref={formRef}
                   >
-                    {attributes.map((f, fI) => (
-                      <Option key={fI} value={f.id}>
-                        {f.name}
-                      </Option>
-                    ))}
-                  </Select>
-                  <Button
-                    loading={loading}
-                    type="primary"
-                    onClick={downloadTemplate}
-                    shape="round"
-                  >
-                    {text.download}
-                  </Button>
+                    {isPrefilled && (
+                      <Form.Item label={text.admLevel} name="level">
+                        <Select
+                          placeholder={text.selectLevel}
+                          fieldNames={{ value: "id", label: "name" }}
+                          options={levels}
+                          onChange={setLevel}
+                          value={level}
+                          allowClear
+                        />
+                      </Form.Item>
+                    )}
+                    {isPrefilled && (
+                      <Form.Item
+                        label={text.administrationLabel}
+                        name="administration"
+                      >
+                        {level && (
+                          <AdministrationDropdown
+                            className="administration"
+                            maxLevel={level}
+                          />
+                        )}
+                      </Form.Item>
+                    )}
+                    <Form.Item label={text.bulkUploadAttr} name="attributes">
+                      <Select
+                        placeholder={text.bulkUploadAttrPlaceholder}
+                        className="multiple-select-box"
+                        onChange={handleAttributeChange}
+                        mode="multiple"
+                        allowClear
+                      >
+                        {attributes.map((f, fI) => (
+                          <Option key={fI} value={f.id}>
+                            {f.name}
+                          </Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                    <Form.Item
+                      name="prefilled"
+                      valuePropName="checked"
+                      wrapperCol={{ offset: 6, span: 18 }}
+                    >
+                      <Checkbox
+                        onChange={(e) => setIsPrefilled(e.target.checked)}
+                      >
+                        {text.bulkUploadCheckboxPrefilled}
+                      </Checkbox>
+                    </Form.Item>
+                    <Row justify="center" align="middle">
+                      <Col span={18} offset={6}>
+                        <Button
+                          loading={loading}
+                          type="primary"
+                          htmlType="submit"
+                          shape="round"
+                        >
+                          {text.download}
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Form>
                 </Space>
                 <Space align="center" size={32}>
                   <img src="/assets/data-upload.svg" />
