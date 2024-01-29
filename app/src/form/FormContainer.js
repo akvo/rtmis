@@ -36,7 +36,7 @@ const style = {
   flex: 1,
 };
 
-const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
+const FormContainer = ({ forms, onSubmit, setShowDialogMenu, isMonitoring }) => {
   const [activeGroup, setActiveGroup] = useState(0);
   const [showQuestionGroupList, setShowQuestionGroupList] = useState(false);
   const currentValues = FormState.useState((s) => s.currentValues);
@@ -45,7 +45,7 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   const trans = i18n.text(activeLang);
   const formLoading = FormState.useState((s) => s.loading);
 
-  const formDefinition = transformForm(forms, activeLang);
+  const formDefinition = transformForm(forms, activeLang, isMonitoring);
   const activeQuestions = formDefinition?.question_group?.flatMap((qg) =>
     qg?.question?.filter((q) => onFilterDependency(qg, currentValues, q)),
   );
