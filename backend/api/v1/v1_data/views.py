@@ -805,7 +805,10 @@ def list_pending_batch(request, version):
         "total_page": ceil(queryset.count() / page_size),
         "batch": ListPendingDataBatchSerializer(
             instance=values, context={
-                'user': user, },
+                'user': user,
+                'approved': approved,
+                'subordinate': subordinate,
+            },
             many=True).data,
     }
     return Response(data, status=status.HTTP_200_OK)

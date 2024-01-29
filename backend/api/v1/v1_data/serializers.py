@@ -516,13 +516,14 @@ class ListPendingDataBatchSerializer(serializers.ModelSerializer):
     def get_approver(self, instance: PendingDataBatch):
         user: SystemUser = self.context.get("user")
         data = {}
-        approval = (instance.batch_approval.filter(
-            status__in=[
-                DataApprovalStatus.pending, DataApprovalStatus.rejected
-            ],
-        ).order_by("-level__level").first())
+        approval = instance.batch_approval.filter(
+            level__level=user.user_access.administration.level.level - 1
+            if user.user_access.administration.level.level > 1 else 1,
+        ).order_by("-level__level").first()
+        rejected: PendingDataApproval = instance.batch_approval.filter(
+            status=DataApprovalStatus.rejected
+        ).first()
         if approval:
-
             data["id"] = approval.user.pk
             data["name"] = approval.user.get_full_name()
             data["status"] = approval.status
@@ -532,9 +533,10 @@ class ListPendingDataBatchSerializer(serializers.ModelSerializer):
                 data["allow_approve"] = True
             else:
                 data["allow_approve"] = False
-            rejected: PendingDataApproval = instance.batch_approval.filter(
-                status=DataApprovalStatus.rejected).first()
             if rejected:
+                data["name"] = instance.batch_approval.filter(
+                    level__level=approval.level.level + 1
+                ).first().user.get_full_name()
                 data["rejected"] = {
                     "name":
                     rejected.user.get_full_name(),
@@ -551,7 +553,12 @@ class ListPendingDataBatchSerializer(serializers.ModelSerializer):
             data["status_text"] = DataApprovalStatus.FieldStr.get(
                 approval.status)
             data["allow_approve"] = True
-
+        final_approved = instance.batch_approval.filter(
+            status=DataApprovalStatus.approved,
+            level__level=1
+        ).count()
+        if final_approved:
+            data["name"] = "-"
         return data
 
     class Meta:

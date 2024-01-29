@@ -36,6 +36,7 @@ const FormPage = ({ navigation, route }) => {
   // continue saved submission
   const savedDataPointId = route?.params?.dataPointId;
   const isNewSubmission = route?.params?.newSubmission;
+  const isMonitoring = route?.params?.monitoring || false;
   const [currentDataPoint, setCurrentDataPoint] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -231,6 +232,7 @@ const FormPage = ({ navigation, route }) => {
           forms={formJSON}
           onSubmit={handleOnSubmitForm}
           setShowDialogMenu={setShowDialogMenu}
+          isMonitoring={isMonitoring}
         />
       ) : (
         <View style={styles.loadingContainer}>
