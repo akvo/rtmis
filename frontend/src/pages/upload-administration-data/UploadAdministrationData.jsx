@@ -20,7 +20,11 @@ import {
   Checkbox,
 } from "antd";
 import { FileTextFilled } from "@ant-design/icons";
-import { Breadcrumbs, DescriptionPanel } from "../../components";
+import {
+  AdministrationDropdown,
+  Breadcrumbs,
+  DescriptionPanel,
+} from "../../components";
 import { useNavigate } from "react-router-dom";
 import { api, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
@@ -43,14 +47,19 @@ const UploadAdministrationData = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [attributes, setAttributes] = useState([]);
   const [selectedAttributes, setSelectedAttributes] = useState([]);
+  const [level, setLevel] = useState(null);
+  const [isPrefilled, setIsPrefilled] = useState(false);
   const formRef = useRef();
   const { notify } = useNotification();
   const navigate = useNavigate();
-  const { language, levels } = store.useState((s) => s);
-  const { active: activeLang } = language;
+  const levels = store.useState((s) =>
+    s.levels?.slice(2, s.levels?.length - 1)
+  );
+  const [selectedAdm] = store.useState((s) => s.administration?.slice(-1));
+  const { active: activeLang } = store.useState((s) => s.language);
 
   const text = useMemo(() => {
-    return uiText[activeLang];
+    return uiText?.[activeLang] || uiText.en;
   }, [activeLang]);
 
   const pagePath = [
@@ -184,7 +193,12 @@ const UploadAdministrationData = () => {
   const handleOnDownload = ({ prefilled, ...values }) => {
     if (prefilled) {
       setLoading(true);
-      const queryURL = "?" + new URLSearchParams(values).toString();
+      const queryURL =
+        "?" +
+        new URLSearchParams({
+          ...values,
+          administration: selectedAdm?.id || null,
+        }).toString();
       const apiURL = `export/prefilled-administrations-template${queryURL}`;
       api
         .get(apiURL)
@@ -267,14 +281,31 @@ const UploadAdministrationData = () => {
                     onFinish={handleOnDownload}
                     ref={formRef}
                   >
-                    <Form.Item label={text.admLevel} name="level">
-                      <Select
-                        placeholder={text.selectLevel}
-                        fieldNames={{ value: "id", label: "name" }}
-                        options={levels}
-                        allowClear
-                      />
-                    </Form.Item>
+                    {isPrefilled && (
+                      <Form.Item label={text.admLevel} name="level">
+                        <Select
+                          placeholder={text.selectLevel}
+                          fieldNames={{ value: "id", label: "name" }}
+                          options={levels}
+                          onChange={setLevel}
+                          value={level}
+                          allowClear
+                        />
+                      </Form.Item>
+                    )}
+                    {isPrefilled && (
+                      <Form.Item
+                        label={text.administrationLabel}
+                        name="administration"
+                      >
+                        {level && (
+                          <AdministrationDropdown
+                            className="administration"
+                            maxLevel={level}
+                          />
+                        )}
+                      </Form.Item>
+                    )}
                     <Form.Item label={text.bulkUploadAttr} name="attributes">
                       <Select
                         placeholder={text.bulkUploadAttrPlaceholder}
@@ -295,7 +326,11 @@ const UploadAdministrationData = () => {
                       valuePropName="checked"
                       wrapperCol={{ offset: 6, span: 18 }}
                     >
-                      <Checkbox>{text.bulkUploadCheckboxPrefilled}</Checkbox>
+                      <Checkbox
+                        onChange={(e) => setIsPrefilled(e.target.checked)}
+                      >
+                        {text.bulkUploadCheckboxPrefilled}
+                      </Checkbox>
                     </Form.Item>
                     <Row justify="center" align="middle">
                       <Col span={18} offset={6}>

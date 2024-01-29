@@ -4,7 +4,7 @@
   #uploadMasterData {
     .ant-card {
       margin-top: 16px;
-      .ant-space {
+      .ant-space:not(.administration) {
         padding: 26px 48px;
         width: 100%;
         img {
