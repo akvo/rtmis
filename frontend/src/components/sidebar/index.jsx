@@ -154,7 +154,7 @@ const Sidebar = () => {
     <Sider className="site-layout-background">
       <Menu
         mode="inline"
-        defaultSelectedKeys={["control-center"]}
+        defaultSelectedKeys={location.pathname.split("/").slice(-1)}
         defaultOpenKeys={["sub1"]}
         style={{
           height: "100%",
