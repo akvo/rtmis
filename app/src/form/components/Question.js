@@ -30,8 +30,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
             /**
              * Make sure the entity cascade has administration answer and options
              */
-            return entityOptions?.[q.id]?.filter((opt) => prevAdmAnswer.includes(opt?.parent))
-              ?.length;
+            return entityOptions[q.id].filter((opt) => prevAdmAnswer.includes(opt?.parent)).length;
           }
           return q;
         });
