@@ -1,13 +1,26 @@
-import { crudForms, crudDataPoints, crudUsers } from '../database/crud';
+import { crudForms, crudDataPoints, crudUsers, crudConfig } from '../database/crud';
 import api from './api';
 import * as BackgroundFetch from 'expo-background-fetch';
 import * as TaskManager from 'expo-task-manager';
+import * as Network from 'expo-network';
 import notification from './notification';
+import crudJobs, { jobStatus, MAX_ATTEMPT } from '../database/crud/crud-jobs';
+import { UIState } from '../store';
+
+export const syncStatus = {
+  ON_PROGRESS: 1,
+  RE_SYNC: 2,
+  SUCCESS: 3,
+};
 
 const syncFormVersion = async ({
   showNotificationOnly = true,
   sendPushNotification = () => {},
 }) => {
+  const { isConnected } = await Network.getNetworkStateAsync();
+  if (!isConnected) {
+    return;
+  }
   try {
     // find last session
     const session = await crudUsers.getActiveUser();
@@ -29,7 +42,11 @@ const syncFormVersion = async ({
         // update previous form latest value to 0
         await crudForms.updateForm({ ...form });
         console.info('[syncForm]Updated Forms...', form.id);
-        const savedForm = await crudForms.addForm({ ...form, formJSON: formRes?.data });
+        const savedForm = await crudForms.addForm({
+          ...form,
+          userId: session?.id,
+          formJSON: formRes?.data,
+        });
         console.info('[syncForm]Saved Forms...', form.id);
         return savedForm;
       });
@@ -46,10 +63,12 @@ const syncFormVersion = async ({
   }
 };
 
-const registerBackgroundTask = async (TASK_NAME, minimumInterval = 86400) => {
+const registerBackgroundTask = async (TASK_NAME, settingsValue = null) => {
   try {
+    const config = await crudConfig.getConfig();
+    const syncInterval = settingsValue || parseInt(config?.syncInterval) || 3600;
     await BackgroundFetch.registerTaskAsync(TASK_NAME, {
-      minimumInterval: minimumInterval,
+      minimumInterval: syncInterval,
       stopOnTerminate: false, // android only,
       startOnBoot: true, // android only
     });
@@ -66,16 +85,64 @@ const unregisterBackgroundTask = async (TASK_NAME) => {
   }
 };
 
-const backgroundTaskStatus = async (TASK_NAME, minimumInterval = 86400) => {
+const backgroundTaskStatus = async (TASK_NAME) => {
   const status = await BackgroundFetch.getStatusAsync();
   const isRegistered = await TaskManager.isTaskRegisteredAsync(TASK_NAME);
-  if (BackgroundFetch.BackgroundFetchStatus?.[status] === 'Available' && !isRegistered) {
-    await registerBackgroundTask(TASK_NAME, minimumInterval);
-  }
-  console.log(`[${TASK_NAME}] Status`, status, isRegistered, minimumInterval);
+  console.info(`[${TASK_NAME}] Status`, status, isRegistered);
 };
 
-const syncFormSubmission = async (photos = []) => {
+const handleOnUploadPhotos = async (data) => {
+  const AllPhotos = data?.flatMap((d) => {
+    const answers = JSON.parse(d.json);
+    const questions = JSON.parse(d.json_form)?.question_group?.flatMap((qg) => qg.question) || [];
+    const photos = questions
+      .filter((q) => q.type === 'photo')
+      .map((q) => ({ id: q.id, value: answers?.[q.id], dataID: d.id }))
+      .filter((p) => p.value);
+    return photos;
+  });
+
+  if (AllPhotos?.length) {
+    const uploads = AllPhotos.map((p) => {
+      const fileType = p.value.split('.').slice(-1)?.[0];
+      const formData = new FormData();
+      formData.append('file', {
+        uri: p.value,
+        name: `photo_${p.id}_${p.dataID}.${fileType}`,
+        type: `image/${fileType}`,
+      });
+      return api.post('/images', formData, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+    });
+
+    const responses = await Promise.allSettled(uploads);
+    const results = responses
+      .filter(({ status }) => status === 'fulfilled')
+      .map(({ value: resValue }) => {
+        const { data: fileData } = resValue;
+        const findPhoto =
+          AllPhotos.find((ap) => fileData?.file?.includes(`${ap.id}_${ap.dataID}`)) || {};
+        return {
+          ...fileData,
+          ...findPhoto,
+        };
+      })
+      .filter((d) => d);
+    return results;
+  } else {
+    return [];
+  }
+};
+
+const syncFormSubmission = async (activeJob = {}) => {
+  const { isConnected } = await Network.getNetworkStateAsync();
+  if (!isConnected) {
+    return;
+  }
   try {
     let sendNotification = false;
     console.info('[syncFormSubmision] SyncData started => ', new Date());
@@ -85,9 +152,12 @@ const syncFormSubmission = async (photos = []) => {
     api.setToken(session.token);
     // get all datapoints to sync
     const data = await crudDataPoints.selectSubmissionToSync();
+    /**
+     * Upload all photo of questions first
+     */
+    const photos = await handleOnUploadPhotos(data);
     console.info('[syncFormSubmision] data point to sync:', data.length);
     const syncProcess = data.map(async (d) => {
-      const form = await crudForms.selectFormById({ id: d.form });
       const geo = d.geo ? d.geo.split('|')?.map((x) => parseFloat(x)) : [];
 
       const answerValues = JSON.parse(d.json.replace(/''/g, "'"));
@@ -97,7 +167,7 @@ const syncFormSubmission = async (photos = []) => {
           answerValues[pt?.id] = pt?.file;
         });
       const syncData = {
-        formId: form.formId,
+        formId: d.formId,
         name: d.name,
         duration: Math.round(d.duration),
         submittedAt: d.submittedAt,
@@ -123,18 +193,36 @@ const syncFormSubmission = async (photos = []) => {
         status: res.status,
       };
     });
-    return Promise.all(syncProcess)
-      .then(async (res) => {
-        return res;
-      })
-      .then(() => {
-        console.info('[syncFormSubmision] Finish: ', new Date());
-        if (sendNotification) {
-          notification.sendPushNotification('sync-form-submission');
-        }
-        sendNotification = false;
-      });
+    const res = await Promise.all(syncProcess);
+    console.info('[syncFormSubmision] Finish: ', new Date());
+
+    UIState.update((s) => {
+      // TODO: rename isManualSynced w/ isSynced to refresh the Homepage stats
+      s.isManualSynced = true;
+      s.statusBar = {
+        type: syncStatus.SUCCESS,
+        bgColor: '#16a34a',
+        icon: 'checkmark-done',
+      };
+    });
+
+    if (sendNotification) {
+      notification.sendPushNotification('sync-form-submission');
+    }
+    sendNotification = false;
+    if (activeJob?.id) {
+      // delete the job when it's succeed
+      await crudJobs.deleteJob(activeJob.id);
+    }
+    return res;
   } catch (err) {
+    if (activeJob?.id) {
+      const updatePayload =
+        activeJob.attempt < MAX_ATTEMPT
+          ? { status: jobStatus.FAILED, attempt: activeJob.attempt + 1 }
+          : { status: jobStatus.ON_PROGRESS, info: String(err) };
+      crudJobs.updateJob(activeJob.id, updatePayload);
+    }
     console.error('[syncFormSubmission] Error: ', err);
   }
 };
@@ -150,4 +238,35 @@ const backgroundTaskHandler = () => {
 };
 
 const backgroundTask = backgroundTaskHandler();
+
+export const SYNC_FORM_VERSION_TASK_NAME = 'sync-form-version';
+
+export const SYNC_FORM_SUBMISSION_TASK_NAME = 'sync-form-submission';
+
+export const defineSyncFormVersionTask = () =>
+  TaskManager.defineTask(SYNC_FORM_VERSION_TASK_NAME, async () => {
+    try {
+      await syncFormVersion({
+        sendPushNotification: notification.sendPushNotification,
+        showNotificationOnly: true,
+      });
+      return BackgroundFetch.BackgroundFetchResult.NewData;
+    } catch (err) {
+      console.error(`[${SYNC_FORM_VERSION_TASK_NAME}] Define task manager failed`, err);
+      return BackgroundFetch.Result.Failed;
+    }
+  });
+
+export const defineSyncFormSubmissionTask = () => {
+  TaskManager.defineTask(SYNC_FORM_SUBMISSION_TASK_NAME, async () => {
+    try {
+      await syncFormSubmission();
+      return BackgroundFetch.BackgroundFetchResult.NewData;
+    } catch (err) {
+      console.error(`[${SYNC_FORM_SUBMISSION_TASK_NAME}] Define task manager failed`, err);
+      return BackgroundFetch.Result.Failed;
+    }
+  });
+};
+
 export default backgroundTask;

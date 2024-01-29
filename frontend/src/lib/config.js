@@ -30,6 +30,7 @@ const config = {
       id: 1,
       name: "Super Admin",
       filter_form: false,
+      delete_data: true,
       page_access: [
         "profile",
         "user",
@@ -43,7 +44,6 @@ const config = {
         "reports",
         "settings",
         "organisation",
-        "mobile",
         "master-data",
       ],
       administration_level: [1],
@@ -61,6 +61,7 @@ const config = {
       id: 2,
       name: "County Admin",
       filter_form: false,
+      delete_data: true,
       page_access: [
         "profile",
         "user",
@@ -72,7 +73,6 @@ const config = {
         "approvers",
         "form",
         "reports",
-        "mobile",
       ],
       administration_level: [2],
       description:
@@ -89,6 +89,7 @@ const config = {
       id: 3,
       name: "Data Approver",
       filter_form: 1,
+      delete_data: false,
       page_access: [
         "profile",
         "control-center",
@@ -98,16 +99,23 @@ const config = {
         "questionnaires",
         "reports",
         "mobile",
+        "form",
       ],
       administration_level: [3, 4],
       description:
         "Gives final approval to data submitted from the area under jurisdiction. Can edit or return data for correction.",
-      control_center_order: ["approvals", "manage-data", "manage-mobile"],
+      control_center_order: [
+        "approvals",
+        "submission",
+        "manage-data",
+        "manage-mobile",
+      ],
     },
     {
       id: 4,
-      name: "Data Entry Staff",
+      name: "Data Entry Supervisor",
       filter_form: 1,
+      delete_data: false,
       page_access: [
         "profile",
         "form",

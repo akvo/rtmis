@@ -79,7 +79,7 @@ const ContactForm = () => {
     <Modal
       className="contact-form-modal"
       title="Please use this form for registering your feedback / issues."
-      visible={showContactFormModal}
+      open={showContactFormModal}
       width={600}
       centered
       destroyOnClose
@@ -91,11 +91,12 @@ const ContactForm = () => {
           key="submit"
           type="primary"
           loading={submitting}
+          shape="round"
           onClick={handleOk}
         >
           Send
         </Button>,
-        <Button key="back" onClick={handleCancel}>
+        <Button shape="round" key="back" onClick={handleCancel}>
           Cancel
         </Button>,
       ]}

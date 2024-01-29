@@ -29,6 +29,7 @@ const AddAssignment = () => {
   const [loading, setLoading] = useState(false);
   const [preload, setPreload] = useState(true);
   const [level, setLevel] = useState(userAdmLevel);
+  const [selectedAdministrations, setSelectedAdministrations] = useState([]);
 
   const lowestLevel = levels
     .slice()
@@ -55,7 +56,6 @@ const AddAssignment = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
-
   const pageTitle = id ? text.mobileEditText : text.mobileAddText;
   const descriptionData = (
     <p>{id ? text.mobilePanelEditDesc : text.mobilePanelAddDesc}</p>
@@ -119,7 +119,13 @@ const AddAssignment = () => {
     });
   };
 
-  const onSelectLevel = async (val) => {
+  const onSelectLevel = async (val, option) => {
+    store.update((s) => {
+      s.administration.length = val;
+      s.administration = selectedAdm.filter(
+        (item) => item.level < option.level
+      );
+    });
     setLevel(val);
   };
 
@@ -128,8 +134,7 @@ const AddAssignment = () => {
     try {
       const payload = {
         name: values.name,
-        administrations:
-          values.administrations || selectedAdm.map((a) => a?.id),
+        administrations: selectedAdministrations,
         forms: values.forms,
       };
       if (id) {
@@ -149,25 +154,28 @@ const AddAssignment = () => {
   };
 
   const fetchData = useCallback(async () => {
-    if (id && preload && editAssignment?.id) {
+    if (id && preload && editAssignment?.id && selectedAdm) {
       setPreload(false);
       form.setFieldsValue({
         ...editAssignment,
         administrations: editAssignment.administrations.map((a) => a?.id),
         forms: editAssignment.forms.map((f) => f?.id),
       });
-
-      const { data: selectedAdm } = await api.get(
-        `administration/${editAssignment.administrations
-          .map((a) => a?.id)
-          .join(",")}`
+      const selectedAdministration = await Promise.all(
+        (editAssignment.administrations.map((a) => a?.id) ?? [])
+          .filter((p) => p)
+          .map(async (pID) => {
+            const apiResponse = await api.get(`administration/${pID}`);
+            return apiResponse.data;
+          })
       );
-      if (selectedAdm) {
-        setLevel(selectedAdm.level + 1);
-        form.setFieldsValue({ level_id: selectedAdm.level + 1 });
+      if (selectedAdministration) {
+        setLevel(selectedAdministration[0].level + 1);
+        form.setFieldsValue({ level_id: selectedAdministration[0].level + 1 });
+        setSelectedAdministrations(selectedAdministration.map((adm) => adm.id));
       }
       const parentAdm = await Promise.all(
-        (selectedAdm?.path?.split(".") ?? [])
+        (selectedAdministration?.[0]?.path?.split(".") ?? [])
           .filter((p) => p)
           .map(async (pID) => {
             const apiResponse = await api.get(`administration/${pID}`);
@@ -175,19 +183,25 @@ const AddAssignment = () => {
           })
       );
       store.update((s) => {
-        s.administration = [...parentAdm, selectedAdm]?.map((a, ax) => {
-          const childLevel = levels.find((l) => l?.level === ax + 1);
-          return {
-            ...a,
-            childLevelName: childLevel?.name || null,
-          };
-        });
+        s.administration = [...parentAdm, ...selectedAdministration]
+          ?.slice(
+            [...parentAdm, ...selectedAdministration].findIndex(
+              (r) => r.id === authUser.administration.id
+            )
+          )
+          .map((a) => {
+            const childLevel = levels.filter((l) => l?.level === a.level);
+            return {
+              ...a,
+              childLevelName: childLevel?.name || null,
+            };
+          });
       });
     }
     if (!id && preload) {
       setPreload(false);
     }
-  }, [id, preload, form, editAssignment, levels]);
+  }, [id, preload, form, editAssignment, levels, selectedAdm, authUser]);
 
   useEffect(() => {
     fetchData();
@@ -244,7 +258,7 @@ const AddAssignment = () => {
                     getPopupContainer={(trigger) => trigger.parentNode}
                     placeholder={text.selectLevel}
                     onChange={onSelectLevel}
-                    fieldNames={{ value: "id", label: "name" }}
+                    fieldNames={{ value: "id", label: "name", level: "level" }}
                     options={admLevels}
                     allowClear
                   />
@@ -265,7 +279,7 @@ const AddAssignment = () => {
                     maxLevel={level}
                     onChange={(values) => {
                       if (values) {
-                        form.setFieldsValue({ administrations: values });
+                        setSelectedAdministrations(values);
                       }
                     }}
                     persist={id ? true : false}

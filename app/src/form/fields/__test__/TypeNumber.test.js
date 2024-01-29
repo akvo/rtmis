@@ -32,12 +32,7 @@ describe('TypeNumber component', () => {
     const initialValue = '20';
 
     const { getByTestId } = render(
-      <TypeNumber
-        onChange={() => {}}
-        values={{ inputField: initialValue }}
-        id="inputField"
-        name="Field Name"
-      />,
+      <TypeNumber onChange={() => {}} value={initialValue} id="inputField" name="Field Name" />,
     );
 
     const inputElement = getByTestId('type-number');

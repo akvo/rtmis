@@ -7,7 +7,7 @@ import { config } from './config';
 import { BuildParamsState, UIState, AuthState, UserState } from '../../store';
 import { conn, query } from '../../database';
 import DialogForm from './DialogForm';
-import { i18n } from '../../lib';
+import { backgroundTask, i18n } from '../../lib';
 
 const db = conn.init;
 
@@ -16,10 +16,14 @@ const SettingsForm = ({ route }) => {
   const [list, setList] = useState([]);
   const [showDialog, setShowDialog] = useState(false);
 
-  const { serverURL, appVersion } = BuildParamsState.useState((s) => s);
+  const {
+    serverURL,
+    appVersion,
+    dataSyncInterval: syncInterval,
+  } = BuildParamsState.useState((s) => s);
   const { password, authenticationCode, useAuthenticationCode } = AuthState.useState((s) => s);
   const { lang, isDarkMode, fontSize } = UIState.useState((s) => s);
-  const { name, syncInterval, syncWifiOnly } = UserState.useState((s) => s);
+  const { name, syncWifiOnly } = UserState.useState((s) => s);
   const store = {
     AuthState,
     BuildParamsState,
@@ -62,7 +66,7 @@ const SettingsForm = ({ route }) => {
     }
   };
 
-  const handleUpdateOnDB = (field, value) => {
+  const handleUpdateOnDB = async (field, value) => {
     const configFields = [
       'apVersion',
       'authenticationCode',
@@ -74,23 +78,27 @@ const SettingsForm = ({ route }) => {
     const id = 1;
     if (configFields.includes(field)) {
       const updateQuery = query.update('config', { id }, { [field]: value });
-      conn.tx(db, updateQuery, [id]);
+      await conn.tx(db, updateQuery, [id]);
+    }
+    if (configFields.includes('syncInterval')) {
+      try {
+        await backgroundTask.unregisterBackgroundTask('sync-form-submission');
+        await backgroundTask.registerBackgroundTask('sync-form-submission', parseInt(value));
+      } catch (error) {
+        console.error('[ERROR RESTART TASK]', error);
+      }
+      BuildParamsState.update((s) => {
+        s.dataSyncInterval = value;
+      });
     }
     if (field === 'name') {
       const updateQuery = query.update('users', { id }, { name: value });
-      conn.tx(db, updateQuery, [id]).catch((err) => {
-        console.log('error', err);
-      });
+      await conn.tx(db, updateQuery, [id]);
     }
     if (field === 'password') {
-      Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA1, value)
-        .then((encrypted) => {
-          const updateQuery = query.update('users', { id }, { password: encrypted });
-          conn.tx(db, updateQuery, [id]);
-        })
-        .catch((err) => {
-          console.log('err', err);
-        });
+      const encrypted = await Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA1, value);
+      const updateQuery = query.update('users', { id }, { password: encrypted });
+      await conn.tx(db, updateQuery, [id]);
     }
   };
 
@@ -158,6 +166,7 @@ const SettingsForm = ({ route }) => {
         setSettingsState({
           ...settingsState,
           ...configRows,
+          syncInterval,
         });
       } else {
         handleCreateNewConfig();

@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { FieldLabel } from '../support';
 import { styles } from '../styles';
 import { Input } from '@rneui/themed';
+import { FormState } from '../../store';
 
 const fnRegex = /^function(?:.+)?(?:\s+)?\((.+)?\)(?:\s+|\n+)?\{(?:\s+|\n+)?((?:.|\n)+)\}$/m;
 const fnEcmaRegex = /^\((.+)?\)(?:\s+|\n+)?=>(?:\s+|\n+)?((?:.|\n)+)$/m;
@@ -48,20 +49,7 @@ const handeNumericValue = (val) => {
   return val;
 };
 
-const fixLastOperator = (expression) => {
-  if (expression) {
-    // Use a regular expression to remove operators at the end
-    const cleanedStr = expression.replace(/\s*[\+\-\*\/]+\s*$/, '');
-    return cleanedStr;
-  }
-  return expression;
-};
-
 const generateFnBody = (fnMetadata, values) => {
-  if (Object.keys(values).length === 1) {
-    const firstValue = Object.values(values)[0];
-    return `return ${firstValue}`;
-  }
   if (!fnMetadata) {
     return false;
   }
@@ -125,10 +113,28 @@ const generateFnBody = (fnMetadata, values) => {
     .join('');
 };
 
+const fixIncompleteMathOperation = (expression) => {
+  // Regular expression to match incomplete math operations
+  const incompleteMathRegex = /[+\-*/]\s*$/;
+
+  // Check if the input ends with an incomplete math operation
+  if (incompleteMathRegex.test(expression)) {
+    // Add a default number (0 in this case) to complete the operation
+    const mathExpression = expression?.slice(6)?.trim();
+    if (mathExpression?.endsWith('+') || mathExpression?.endsWith('-')) {
+      expression += '0';
+    }
+    if (['*', '/'].includes(mathExpression.slice(-1))) {
+      return `return ${mathExpression.slice(0, -1)}`;
+    }
+  }
+  return expression;
+};
+
 const strToFunction = (fnString, values) => {
   fnString = checkDirty(fnString);
   const fnMetadata = getFnMetadata(fnString);
-  const fnBody = fixLastOperator(generateFnBody(fnMetadata, values));
+  const fnBody = fixIncompleteMathOperation(generateFnBody(fnMetadata, values));
   try {
     return new Function(fnBody);
   } catch (error) {
@@ -136,10 +142,11 @@ const strToFunction = (fnString, values) => {
   }
 };
 
-const TypeAutofield = ({ onChange, values, keyform, id, name, tooltip, fn }) => {
+const TypeAutofield = ({ keyform, id, name, tooltip, fn, displayOnly }) => {
   const [value, setValue] = useState(null);
   const [fieldColor, setFieldColor] = useState(null);
   const { fnString, fnColor } = fn;
+  const values = FormState.useState((s) => s.currentValues);
   const automateValue = strToFunction(fnString, values);
 
   useEffect(() => {
@@ -150,19 +157,23 @@ const TypeAutofield = ({ onChange, values, keyform, id, name, tooltip, fn }) => 
           setFieldColor(fnColor[_automateValue]);
         }
         setValue(_automateValue);
+        if (!displayOnly && (_automateValue || _automateValue === 0)) {
+          FormState.update((s) => {
+            s.currentValues[id] = _automateValue;
+          });
+        }
       } else {
         setValue(null);
+        if (!displayOnly) {
+          FormState.update((s) => {
+            s.currentValues[id] = null;
+          });
+        }
       }
     } catch {
       setValue(null);
     }
-  }, [automateValue, fnString, fnColor]);
-
-  useEffect(() => {
-    if (value) {
-      onChange(id, value);
-    }
-  }, [value]);
+  }, [automateValue, fnString, fnColor, displayOnly]);
 
   return (
     <View testID="type-autofield-wrapper">
@@ -172,9 +183,15 @@ const TypeAutofield = ({ onChange, values, keyform, id, name, tooltip, fn }) => 
           ...styles.autoFieldContainer,
           backgroundColor: fieldColor || styles.autoFieldContainer.backgroundColor,
         }}
-        value={value ? (value === NaN ? null : value.toString()) : null}
+        value={(value || value === 0) && value !== NaN ? String(value) : null}
         testID="type-autofield"
+        multiline={true}
+        numberOfLines={2}
         disabled
+        style={{
+          fontWeight: 'bold',
+          opacity: 1,
+        }}
       />
     </View>
   );

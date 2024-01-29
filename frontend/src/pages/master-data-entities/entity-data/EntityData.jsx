@@ -18,7 +18,7 @@ const EntityData = () => {
   const [entityType, setEntityType] = useState();
   const { language, administration } = store.useState((s) => s);
   const { active: activeLang } = language;
-  const administrationFilter = administration.slice(-1)?.[0].id;
+  const administrationFilter = administration?.slice(-1)?.[0]?.id;
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -74,7 +74,9 @@ const EntityData = () => {
         return (
           <Space>
             <Link to={`/control-center/master-data/entities/${row}/edit`}>
-              <Button type="link">{text.editButton}</Button>
+              <Button shape="round" type="primary">
+                {text.editButton}
+              </Button>
             </Link>
           </Space>
         );
@@ -136,7 +138,7 @@ const EntityData = () => {
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}
-            bodyStyle={{ padding: 0 }}
+            bodystyle={{ padding: 0 }}
           >
             <Table
               columns={columns}
@@ -152,6 +154,7 @@ const EntityData = () => {
                 showTotal: (total, range) =>
                   `Results: ${range[0]} - ${range[1]} of ${total} items`,
               }}
+              rowKey="id"
             />
           </div>
         </div>

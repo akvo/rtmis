@@ -179,7 +179,6 @@
       }
 
       .account {
-        margin-left: 30px;
         vertical-align: middle;
         padding-top: 4px;
 
@@ -317,5 +316,19 @@
   &:hover {
     background-color: $blue;
     color: $white;
+  }
+}
+
+.dropdown-menu-item a {
+  color: $color-dark;
+  &:hover {
+    color: $white;
+  }
+}
+
+.usermenu-menu-item a {
+  color: $color-dark;
+  &:hover {
+    color: $color-dark;
   }
 }

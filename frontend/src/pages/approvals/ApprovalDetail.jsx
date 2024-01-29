@@ -10,7 +10,6 @@ import {
   Space,
   Tag,
   List,
-  Avatar,
   Spin,
 } from "antd";
 import {
@@ -76,7 +75,7 @@ const summaryColumns = [
       if (row.type === "Option" || row.type === "Multiple_Option") {
         const data = value
           .filter((x) => x.total)
-          .map((val) => `${val.type} - ${val.total}`);
+          .map((val) => `${val.type} - (${val.total})`);
         return (
           <ul className="option-list">
             {data.map((d, di) => (
@@ -96,7 +95,6 @@ const ApprovalDetail = ({
   setReload,
   expandedParentKeys,
   setExpandedParentKeys,
-  readonly = false,
 }) => {
   const [values, setValues] = useState([]);
   const [rawValues, setRawValues] = useState([]);
@@ -340,17 +338,19 @@ const ApprovalDetail = ({
         const data = questionGroups.map((qg) => {
           return {
             ...qg,
-            question: qg.question.map((q) => {
-              const findValue = res.data.find(
-                (d) => d.question === q.id
-              )?.value;
-              return {
-                ...q,
-                value: findValue || findValue === 0 ? findValue : null,
-                history:
-                  res.data.find((d) => d.question === q.id)?.history || false,
-              };
-            }),
+            question: qg.question
+              .filter((item) => !item?.display_only)
+              .map((q) => {
+                const findValue = res.data.find(
+                  (d) => d.question === q.id
+                )?.value;
+                return {
+                  ...q,
+                  value: findValue || findValue === 0 ? findValue : null,
+                  history:
+                    res.data.find((d) => d.question === q.id)?.history || false,
+                };
+              }),
           };
         });
         setRawValues((rv) =>
@@ -454,7 +454,7 @@ const ApprovalDetail = ({
                                         updateCell={updateCell}
                                         resetCell={resetCell}
                                         disabled={!!dataLoading}
-                                        readonly={readonly}
+                                        readonly={!approve}
                                       />
                                     ),
                                   },
@@ -483,6 +483,7 @@ const ApprovalDetail = ({
                           <Button
                             onClick={() => handleSave(record)}
                             type="primary"
+                            shape="round"
                             loading={record.id === saving}
                             disabled={
                               !approve ||
@@ -523,19 +524,16 @@ const ApprovalDetail = ({
             : false
         }
       />
-      <h3>Notes {"&"} Feedback</h3>
+      <h3 style={{ paddingTop: "1rem" }}>Notes {"&"} Feedback</h3>
       {!!comments.length && (
         <div className="comments">
           <List
             itemLayout="horizontal"
             dataSource={comments}
-            renderItem={(item, index) => (
+            renderItem={(item) => (
               <List.Item>
                 {/* TODO: Change Avatar */}
                 <List.Item.Meta
-                  avatar={
-                    <Avatar src={`https://i.pravatar.cc/150?img=${index}`} />
-                  }
                   title={
                     <div>
                       <Tag>{item.created}</Tag>

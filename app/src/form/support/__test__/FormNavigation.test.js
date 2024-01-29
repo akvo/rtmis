@@ -3,6 +3,9 @@ import { render, fireEvent, waitFor } from 'react-native-testing-library';
 import FormNavigation from '../FormNavigation';
 import { Platform, ToastAndroid } from 'react-native';
 
+jest.mock("expo-font");
+jest.mock("expo-asset");
+
 describe('FormNavigation component', () => {
   it('renders form navigation correctly', async () => {
     await new Promise((resolve) => setTimeout(resolve, 100));

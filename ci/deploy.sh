@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 set -exuo pipefail
 
-[[ "${CI_BRANCH}" !=  "main" && ! "${CI_TAG:=}" =~ promote.* ]] && { echo "Branch different than main and not a tag. Skip deploy"; exit 0; }
+#Detect tag for prod/staging deployment
+tag_pattern="^[0-9]+\.[0-9]+\.[0-9]+$"
+if [[ "${CI_BRANCH}" =~ $tag_pattern && -z "${CI_TAG}" ]]; then
+    echo "This commit processed on Release CI. Skip all"
+    exit 0
+fi
+
+[[ "${CI_BRANCH}" !=  "main" && ! "${CI_TAG:=}" =~ $tag_pattern ]] && { echo "Branch different than main and not a tag. Skip deploy"; exit 0; }
 [[ "${CI_PULL_REQUEST}" ==  "true" ]] && { echo "Pull request. Skip deploy"; exit 0; }
 
 auth () {
@@ -21,7 +28,7 @@ push_image () {
 prepare_deployment () {
     cluster="test"
 
-    if [[ "${CI_TAG:=}" =~ promote.* ]]; then
+    if [[ "${CI_TAG:=}" =~ $tag_pattern ]]; then
         cluster="production"
     fi
 

@@ -34,7 +34,7 @@ describe('TypeInput component', () => {
     const { getByTestId } = render(
       <TypeInput
         onChange={() => {}}
-        values={{ inputField: initialValue }}
+        value={initialValue}
         id="inputField"
         name="Field Name"
       />,

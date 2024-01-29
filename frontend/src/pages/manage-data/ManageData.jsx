@@ -178,7 +178,7 @@ const ManageData = () => {
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}
-            bodyStyle={{ padding: 0 }}
+            bodystyle={{ padding: 0 }}
           >
             <ConfigProvider
               renderEmpty={() => (
@@ -232,7 +232,7 @@ const ManageData = () => {
         </div>
       </div>
       <Modal
-        visible={deleteData}
+        open={deleteData}
         onCancel={() => setDeleteData(null)}
         centered
         width="575px"
@@ -260,7 +260,7 @@ const ManageData = () => {
             </Col>
           </Row>
         }
-        bodyStyle={{ textAlign: "center" }}
+        bodystyle={{ textAlign: "center" }}
       >
         <Space direction="vertical">
           <DeleteOutlined style={{ fontSize: "50px" }} />

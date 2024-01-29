@@ -2,9 +2,11 @@
   "id": 2,
   "form": "Test Form 2",
   "type": 2,
-  "approval_instructions": {"text": "test", "action": ["action #1"]},
+  "approval_instructions": { "text": "test", "action": ["action #1"] },
   "question_groups": [
     {
+      "id": 21,
+      "order": 1,
       "question_group": "Question Group 01",
       "questions": [
         {
@@ -20,12 +22,9 @@
           "question": "Gender",
           "meta": false,
           "type": "option",
-          "tooltip": {"text": "test tooltip"},
+          "tooltip": { "text": "test tooltip" },
           "required": true,
-          "attributes": [
-            "chart",
-            "table"
-          ],
+          "attributes": ["chart", "table"],
           "options": [
             {
               "name": "Male",
@@ -55,9 +54,7 @@
           "question": "Phone Number",
           "meta": true,
           "type": "number",
-          "attributes": [
-            "chart"
-          ],
+          "attributes": ["chart"],
           "required": true,
           "monitoring": true
         },
@@ -81,10 +78,7 @@
           "meta": true,
           "type": "multiple_option",
           "required": true,
-          "attributes": [
-            "chart",
-            "table"
-          ],
+          "attributes": ["chart", "table"],
           "options": [
             {
               "name": "Wife / Husband / Partner"

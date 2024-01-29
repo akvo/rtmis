@@ -6,7 +6,7 @@ const UserState = new Store({
   password: '',
   token: null,
   syncWifiOnly: false,
-  syncInterval: 300,
+  // syncInterval: 300,
   forms: [],
 });
 

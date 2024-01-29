@@ -7,7 +7,7 @@ import { addPreffix, addSuffix } from './TypeInput';
 
 const TypeNumber = ({
   onChange,
-  values,
+  value,
   keyform,
   id,
   name,
@@ -29,7 +29,7 @@ const TypeNumber = ({
             onChange(id, val);
           }
         }}
-        value={values?.[id]}
+        value={value}
         testID="type-number"
         {...addPreffix(addonBefore)}
         {...addSuffix(addonAfter)}

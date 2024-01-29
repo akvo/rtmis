@@ -53,7 +53,9 @@ const ManageEntityTypes = () => {
         return (
           <Space>
             <Link to={`/control-center/master-data/entity-types/${row}/edit`}>
-              <Button type="link">{text.editButton}</Button>
+              <Button shape="round" type="primary">
+                {text.editButton}
+              </Button>
             </Link>
           </Space>
         );
@@ -105,7 +107,7 @@ const ManageEntityTypes = () => {
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}
-            bodyStyle={{ padding: 0 }}
+            bodystyle={{ padding: 0 }}
           >
             <Table
               columns={columns}

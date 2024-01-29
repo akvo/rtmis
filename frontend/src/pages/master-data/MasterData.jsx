@@ -63,7 +63,8 @@ const MasterData = () => {
       render: (recordID) => {
         return (
           <Button
-            type="link"
+            shape="round"
+            type="primary"
             onClick={() =>
               navigate(`/control-center/master-data/${recordID}/edit`)
             }
@@ -142,7 +143,7 @@ const MasterData = () => {
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}
-            bodyStyle={{ padding: 0 }}
+            bodystyle={{ padding: 0 }}
           >
             <Table
               columns={columns}

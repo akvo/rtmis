@@ -20,7 +20,7 @@ const LogoutButton = () => {
   };
 
   const handleYesPress = async () => {
-    const tables = ['sessions', 'users', 'forms', 'config', 'datapoints'];
+    const tables = ['sessions', 'users', 'forms', 'config', 'datapoints', 'jobs'];
     const clearQuery = query.clear(tables);
     setLoading(true);
     await conn.tx(db, clearQuery);
@@ -38,7 +38,6 @@ const LogoutButton = () => {
     FormState.update((s) => {
       s.form = {};
       s.currentValues = {}; // answers
-      s.questionGroupListCurrentValues = {}; // answers for question group list component
       s.visitedQuestionGroup = [];
       s.cascades = {};
       s.surveyDuration = 0;

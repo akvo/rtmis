@@ -147,6 +147,7 @@ const TableVisual = ({ tableConfig, loading }) => {
               icon={<DownloadOutlined />}
               onClick={handleExport}
               className="download"
+              shape="round"
               size="small"
             >
               Download

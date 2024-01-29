@@ -138,81 +138,7 @@ export const validateDependency = (dependency, value) => {
   return valid;
 };
 
-{
-  /** TODO:: Delete if no longer required
-export const generateValidationSchema = (forms) => {
-  const questions = forms?.question_group
-    ?.map((qg) => {
-      const qs = qg.question.map((q) => {
-        return {
-          ...q,
-          group: qg,
-        };
-      });
-      return qs;
-    })
-    .flat();
-  const schema = Yup.object().shape(
-    questions
-      .filter((q) => !q?.dependency)
-      .reduce((res, curr) => {
-        const { id, name, type, required, rule, group, dependency } = curr;
-        const requiredError = `${name} is required.`;
-        let yupType;
-        switch (type) {
-          case 'number':
-            // number rules
-            yupType = Yup.number();
-            if (rule?.min) {
-              yupType = yupType.min(rule.min);
-            }
-            if (rule?.max) {
-              yupType = yupType.max(rule.max);
-            }
-            if (!rule?.allowDecimal) {
-              // by default decimal is allowed
-              yupType = yupType.integer();
-            }
-            break;
-          case 'date':
-            yupType = Yup.date();
-            break;
-          case 'option':
-            yupType = Yup.array();
-            break;
-          case 'multiple_option':
-            yupType = Yup.array();
-            break;
-          default:
-            yupType = Yup.string();
-            break;
-        }
-        // dependency & required check
-        let yupRule = yupType;
-        if (required && dependency && dependency?.length) {
-          const repeat = 0;
-          const modifiedDependency = modifyDependency(group, curr, repeat);
-          modifiedDependency.forEach(({ id, options }) => {
-            yupRule = yupRule.when(`${id}`, {
-              is: (value) => intersection(value, options),
-              then: yupType.required(requiredError),
-            });
-          });
-        } else if (required) {
-          yupRule = yupRule.required(requiredError);
-        }
-        return {
-          ...res,
-          [id]: yupRule,
-        };
-      }, {}),
-  );
-  return schema;
-};
-*/
-}
-
-export const generateValidationSchemaFieldLevel = (currentValue, field) => {
+export const generateValidationSchemaFieldLevel = async (currentValue, field) => {
   const { name, type, required, rule, hidden, pre: preFilled } = field;
   let yupType;
   switch (type) {
@@ -250,14 +176,19 @@ export const generateValidationSchemaFieldLevel = (currentValue, field) => {
       yupType = Yup.string();
       break;
   }
-  if (required && ((hidden && preFilled?.fill?.length) || !hidden)) {
+  if (required && !hidden) {
     const requiredError = `${name} is required.`;
     yupType = yupType.required(requiredError);
   }
   try {
-    yupType.validateSync(currentValue);
+    await yupType.validateSync(currentValue);
+    return {
+      [field?.id]: true,
+    };
   } catch (error) {
-    return error.message;
+    return {
+      [field?.id]: error.message,
+    };
   }
 };
 
@@ -291,4 +222,19 @@ export const getDurationInMinutes = (startTime) => {
   const durationInSeconds = endTime - startTime;
 
   return Math.floor(durationInSeconds / 60);
+};
+
+export const onFilterDependency = (currentGroup, values, q) => {
+  if (q?.dependency) {
+    const modifiedDependency = modifyDependency(currentGroup, q, 0);
+    const unmatches = modifiedDependency
+      .map((x) => {
+        return validateDependency(x, values?.[x.id]);
+      })
+      .filter((x) => x === false);
+    if (unmatches.length) {
+      return false;
+    }
+  }
+  return q;
 };

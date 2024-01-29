@@ -26,11 +26,7 @@ const Profile = () => {
 
   const trainedBadge = useMemo(() => {
     if (trained) {
-      return (
-        <Tag color="warning" style={{ marginBottom: 11 }}>
-          Trained
-        </Tag>
-      );
+      return <Tag color="warning">Trained</Tag>;
     }
   }, [trained]);
 

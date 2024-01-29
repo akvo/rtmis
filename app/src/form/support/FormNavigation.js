@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-import { Platform, ToastAndroid } from 'react-native';
+import React from 'react';
+import { ToastAndroid } from 'react-native';
 import { Tab } from '@rneui/themed';
 import { styles } from '../styles';
 import { UIState, FormState } from '../../store';
 import { i18n } from '../../lib';
+import { generateValidationSchemaFieldLevel, onFilterDependency } from '../lib';
 
 const FormNavigation = ({
   currentGroup,
-  formRef,
   onSubmit,
   activeGroup,
   setActiveGroup,
@@ -17,39 +17,70 @@ const FormNavigation = ({
   setShowDialogMenu,
 }) => {
   const visitedQuestionGroup = FormState.useState((s) => s.visitedQuestionGroup);
+  const currentValues = FormState.useState((s) => s.currentValues);
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
 
-  useEffect(() => {
-    const updateVisitedQuestionGroup = [...visitedQuestionGroup, ...[activeGroup]];
+  const handleOnUpdateState = (activeValue) => {
+    const updateVisitedQuestionGroup = [...visitedQuestionGroup, ...[activeValue]];
     FormState.update((s) => {
       s.visitedQuestionGroup = [...new Set(updateVisitedQuestionGroup)];
     });
-  }, [activeGroup]);
-
-  const validateOnFormNavigation = async () => {
-    let errors = false;
-    if (formRef?.current) {
-      const touched = currentGroup?.question?.reduce(
-        (res, currentQ) => ({ ...res, [currentQ?.id]: true }),
-        {},
-      );
-      formRef.current.setTouched(touched);
-      await formRef.current.validateForm();
-      errors = Object.keys(formRef.current.errors)?.length > 0;
-    }
-    return errors;
   };
 
-  const handleFormNavigation = (index) => {
+  const handleFormNavigation = async (index) => {
     // index 0 = prev group
     // index 1 = show question group list
     // index 2 = next group
+    const validateSync = currentGroup?.question
+      ?.filter((q) => onFilterDependency(currentGroup, currentValues, q))
+      ?.map((q) => {
+        const defaultVal = ['cascade', 'multiple_option', 'option', 'geo'].includes(q?.type)
+          ? null
+          : '';
+        /**
+         * Set default value when the answer is undefined
+         */
+        const fieldValue = currentValues?.[q?.id] === undefined ? defaultVal : currentValues[q.id];
+        return generateValidationSchemaFieldLevel(fieldValue, q);
+      });
+    const validations = await Promise.allSettled(validateSync);
+    const feedbackList = validations
+      ?.filter(({ status }) => status === 'fulfilled')
+      .map(({ value }) => value);
+    const feedbackValues = feedbackList.reduce((acc, obj) => {
+      const key = Object.keys(obj)[0];
+      const value = obj[key];
+      acc[key] = value;
+      return acc;
+    }, {});
+    const errors = Object.values(feedbackValues).filter((val) => val !== true);
+    if (errors.length > 0 && index === 2) {
+      ToastAndroid.show(trans.mandatoryQuestions, ToastAndroid.LONG);
+    }
+    FormState.update((s) => {
+      s.feedback = feedbackValues;
+    });
+
+    if (index === 2 && errors.length) {
+      return;
+    }
+    if (!visitedQuestionGroup.includes(currentGroup?.id)) {
+      FormState.update((s) => {
+        s.visitedQuestionGroup = [...visitedQuestionGroup, currentGroup.id];
+      });
+    }
+
     if (index === 0) {
+      if (activeGroup > 0) {
+        setActiveGroup(activeGroup - 1);
+      }
       if (!activeGroup) {
         setShowDialogMenu(true);
       } else {
-        setActiveGroup(activeGroup - 1);
+        const activeValue = activeGroup - 1;
+        setActiveGroup(activeValue);
+        handleOnUpdateState(activeValue);
       }
       return;
     }
@@ -57,21 +88,12 @@ const FormNavigation = ({
       setShowQuestionGroupList(!showQuestionGroupList);
       return;
     }
-    validateOnFormNavigation()
-      .then((errors) => {
-        if (errors && Platform.OS === 'android') {
-          ToastAndroid.show(trans.formMandatoryAlert, ToastAndroid.SHORT);
-          return;
-        }
-        if (!errors && index === 2 && activeGroup === totalGroup - 1) {
-          return onSubmit();
-        }
-        if (!errors && activeGroup <= totalGroup - 1) {
-          const newValue = index === 0 ? activeGroup - 1 : activeGroup + 1;
-          return setActiveGroup(newValue < 0 ? 0 : newValue);
-        }
-      })
-      .catch((err) => console.error(err));
+    if (index === 2 && activeGroup < totalGroup - 1) {
+      setActiveGroup(activeGroup + 1);
+    }
+    if (index === 2 && !errors.length && activeGroup === totalGroup - 1) {
+      onSubmit();
+    }
   };
 
   return (
@@ -110,10 +132,10 @@ const FormNavigation = ({
       ) : (
         <Tab.Item
           title={trans.buttonSubmit}
-          icon={{ name: 'paper-plane-outline', type: 'ionicon', color: 'grey', size: 20 }}
+          icon={{ name: 'paper-plane-outline', type: 'ionicon', color: 'white', size: 20 }}
           iconPosition="right"
-          iconContainerStyle={styles.formNavigationIcon}
-          titleStyle={styles.formNavigationTitle}
+          iconContainerStyle={styles.formNavigationIconSubmit}
+          titleStyle={styles.formNavigationSubmit}
           testID="form-btn-submit"
         />
       )}

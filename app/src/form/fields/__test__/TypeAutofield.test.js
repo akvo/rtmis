@@ -1,6 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
 import TypeAutofield from '../TypeAutofield';
+import { act } from 'react-test-renderer';
+import { FormState } from '../../../store';
 
 describe('TypeAutofield component', () => {
   test('it gives the correct value', () => {
@@ -9,6 +11,11 @@ describe('TypeAutofield component', () => {
       1: 2,
       2: 3,
     };
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
     const id = 3;
     const name = 'Auto Field';
     const fn = {
@@ -16,7 +23,7 @@ describe('TypeAutofield component', () => {
     };
 
     const { getByText, getByTestId } = render(
-      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+      <TypeAutofield onChange={onChangeMock} id={id} name={name} fn={fn} />,
     );
 
     const autoFieldLabel = getByText(`1. ${name}`);
@@ -34,13 +41,18 @@ describe('TypeAutofield component', () => {
       1: 2,
       2: ['A', 'B'],
     };
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
     const id = 3;
     const name = 'Auto Field';
     const fn = {
       fnString: 'function() {return #2.includes("A") ? #1 : #1 * 2}',
     };
     const { getByTestId } = render(
-      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+      <TypeAutofield onChange={onChangeMock} id={id} name={name} fn={fn} />,
     );
     const autoField = getByTestId('type-autofield');
     expect(autoField).toBeDefined();
@@ -54,13 +66,18 @@ describe('TypeAutofield component', () => {
       2: ['A', 'B'],
       3: 2,
     };
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
     const id = 3;
     const name = 'Auto Field';
     const fn = {
       fnString: '() => #3 > 1 ? #1 + "&" + #2 : null',
     };
     const { getByTestId } = render(
-      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+      <TypeAutofield onChange={onChangeMock} id={id} name={name} fn={fn} />,
     );
     const autoField = getByTestId('type-autofield');
     expect(autoField).toBeDefined();
@@ -73,13 +90,18 @@ describe('TypeAutofield component', () => {
       2: {},
       3: 2,
     };
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
     const id = 4;
     const name = 'Auto Field';
     const fn = {
       fnString: 'function() {return #2 + #3.split(" ");}',
     };
     const { getByTestId } = render(
-      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+      <TypeAutofield onChange={onChangeMock} id={id} name={name} fn={fn} />,
     );
     const autoField = getByTestId('type-autofield');
     expect(autoField).toBeDefined();
@@ -89,13 +111,18 @@ describe('TypeAutofield component', () => {
   test('it gives error when function error', () => {
     const onChangeMock = jest.fn();
     const values = {};
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
     const id = 4;
     const name = 'Auto Field';
     const fn = {
       fnString: '() => #4',
     };
     const { getByTestId } = render(
-      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+      <TypeAutofield onChange={onChangeMock} id={id} name={name} fn={fn} />,
     );
     const autoField = getByTestId('type-autofield');
     expect(autoField).toBeDefined();
@@ -105,13 +132,18 @@ describe('TypeAutofield component', () => {
   test('it gives error when function error', () => {
     const onChangeMock = jest.fn();
     const values = {};
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
     const id = 4;
     const name = 'Auto Field';
     const fn = {
       fnString: '',
     };
     const { getByTestId } = render(
-      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+      <TypeAutofield onChange={onChangeMock} id={id} name={name} fn={fn} />,
     );
     const autoField = getByTestId('type-autofield');
     expect(autoField).toBeDefined();
@@ -124,6 +156,11 @@ describe('TypeAutofield component', () => {
       1: 'G1',
       2: 'G0',
     };
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
     const id = 3;
     const name = 'Auto Field';
     const fn = {
@@ -131,7 +168,7 @@ describe('TypeAutofield component', () => {
     };
 
     const { getByTestId } = render(
-      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+      <TypeAutofield onChange={onChangeMock} id={id} name={name} fn={fn} />,
     );
 
     const autoField = getByTestId('type-autofield');
@@ -145,6 +182,11 @@ describe('TypeAutofield component', () => {
       1: 'G1',
       2: 'G0',
     };
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
     const id = 3;
     const name = 'Auto Field';
     const fn = {
@@ -152,7 +194,7 @@ describe('TypeAutofield component', () => {
     };
 
     const { getByTestId } = render(
-      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+      <TypeAutofield onChange={onChangeMock} id={id} name={name} fn={fn} />,
     );
 
     const autoField = getByTestId('type-autofield');
@@ -166,6 +208,11 @@ describe('TypeAutofield component', () => {
       517600060: [9.123673412317656, 40.50754409565747],
       608880002: 'Village name',
     };
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
     const id = 3;
     const name = 'Auto Field';
     const fn = {
@@ -174,7 +221,7 @@ describe('TypeAutofield component', () => {
     };
 
     const { getByTestId } = render(
-      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+      <TypeAutofield onChange={onChangeMock} id={id} name={name} fn={fn} />,
     );
 
     const autoField = getByTestId('type-autofield');
@@ -188,6 +235,11 @@ describe('TypeAutofield component', () => {
       1702914753957: [9.123673412317656, 40.50754409565747],
       1699354849382: '123',
     };
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
     const id = 3;
     const name = 'Auto Field';
     const fn = {
@@ -196,7 +248,7 @@ describe('TypeAutofield component', () => {
     };
 
     const { getByTestId } = render(
-      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+      <TypeAutofield onChange={onChangeMock} id={id} name={name} fn={fn} />,
     );
 
     const autoField = getByTestId('type-autofield');
@@ -210,6 +262,11 @@ describe('TypeAutofield component', () => {
       1: 'G1',
       2: 'G0',
     };
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
     const id = 3;
     const name = 'Auto Field';
     const fn = {
@@ -221,7 +278,7 @@ describe('TypeAutofield component', () => {
     };
 
     const { getByTestId } = render(
-      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+      <TypeAutofield onChange={onChangeMock} id={id} name={name} fn={fn} />,
     );
 
     const autoField = getByTestId('type-autofield');
@@ -238,6 +295,11 @@ describe('TypeAutofield component', () => {
       1: 'G0',
       2: 'G0',
     };
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
     const id = 3;
     const name = 'Auto Field';
     const fn = {
@@ -249,7 +311,7 @@ describe('TypeAutofield component', () => {
     };
 
     const { getByTestId } = render(
-      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+      <TypeAutofield onChange={onChangeMock} id={id} name={name} fn={fn} />,
     );
 
     const autoField = getByTestId('type-autofield');
@@ -268,6 +330,11 @@ describe('TypeAutofield component', () => {
       1: 'G0',
       2: 'G0',
     };
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
     const id = 3;
     const name = 'Auto Field';
     const fn = {
@@ -279,7 +346,7 @@ describe('TypeAutofield component', () => {
     };
 
     const { getByTestId } = render(
-      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+      <TypeAutofield onChange={onChangeMock} id={id} name={name} fn={fn} />,
     );
 
     const autoField = getByTestId('type-autofield');
@@ -299,6 +366,11 @@ describe('TypeAutofield component', () => {
       3: '1',
       4: '4',
     };
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
     const id = 4;
     const name = 'Total family members';
     const fn = {
@@ -306,7 +378,7 @@ describe('TypeAutofield component', () => {
     };
 
     const { getByTestId } = render(
-      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+      <TypeAutofield onChange={onChangeMock} id={id} name={name} fn={fn} />,
     );
 
     const autoField = getByTestId('type-autofield');
@@ -322,6 +394,11 @@ describe('TypeAutofield component', () => {
       3: '50',
       4: '2',
     };
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
     const id = 5;
     const name = 'Total Payment';
     const fn = {
@@ -329,7 +406,7 @@ describe('TypeAutofield component', () => {
     };
 
     const { getByTestId } = render(
-      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+      <TypeAutofield onChange={onChangeMock} id={id} name={name} fn={fn} />,
     );
 
     const autoField = getByTestId('type-autofield');
@@ -344,6 +421,11 @@ describe('TypeAutofield component', () => {
       2: '2',
       3: '1',
     };
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
     const id = 4;
     const name = 'Total family members';
     const fn = {
@@ -351,7 +433,7 @@ describe('TypeAutofield component', () => {
     };
 
     const { getByTestId } = render(
-      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+      <TypeAutofield onChange={onChangeMock} id={id} name={name} fn={fn} />,
     );
 
     const autoField = getByTestId('type-autofield');
@@ -365,6 +447,11 @@ describe('TypeAutofield component', () => {
       1: '1',
       3: '1',
     };
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
     const id = 4;
     const name = 'Total family members';
     const fn = {
@@ -372,7 +459,7 @@ describe('TypeAutofield component', () => {
     };
 
     const { getByTestId } = render(
-      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+      <TypeAutofield onChange={onChangeMock} id={id} name={name} fn={fn} />,
     );
 
     const autoField = getByTestId('type-autofield');
@@ -385,10 +472,36 @@ describe('TypeAutofield component', () => {
     const values = {
       2: '1',
     };
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
     const id = 4;
     const name = 'Total family members';
     const fn = {
       fnString: 'function(){return #1 + #2 + #3 + #4}',
+    };
+
+    const { getByTestId } = render(
+      <TypeAutofield onChange={onChangeMock} id={id} name={name} fn={fn} />,
+    );
+
+    const autoField = getByTestId('type-autofield');
+    expect(autoField).toBeDefined();
+    expect(autoField.props.value).toBe('1');
+  });
+
+  test('it should not add zero when incomplete operations end with times', () => {
+    const onChangeMock = jest.fn();
+    const values = {
+      1: '3',
+      2: '1',
+    };
+    const id = 4;
+    const name = 'Total payment';
+    const fn = {
+      fnString: 'function(){return #1 + #2 * #3}',
     };
 
     const { getByTestId } = render(
@@ -397,6 +510,27 @@ describe('TypeAutofield component', () => {
 
     const autoField = getByTestId('type-autofield');
     expect(autoField).toBeDefined();
-    expect(autoField.props.value).toBe('1');
+    expect(autoField.props.value).toBe('4');
+  });
+
+  test('it should not add zero when incomplete operations end with divider', () => {
+    const onChangeMock = jest.fn();
+    const values = {
+      1: '15',
+      2: '3',
+    };
+    const id = 4;
+    const name = 'Split bill amount';
+    const fn = {
+      fnString: 'function(){return #1 * #2 / #3}',
+    };
+
+    const { getByTestId } = render(
+      <TypeAutofield onChange={onChangeMock} values={values} id={id} name={name} fn={fn} />,
+    );
+
+    const autoField = getByTestId('type-autofield');
+    expect(autoField).toBeDefined();
+    expect(autoField.props.value).toBe('45');
   });
 });

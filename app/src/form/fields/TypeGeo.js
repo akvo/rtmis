@@ -1,20 +1,18 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { View } from 'react-native';
 import { Text, Button } from '@rneui/themed';
-import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { UIState, FormState, BuildParamsState } from '../../store';
 import { FieldLabel } from '../support';
 import { styles } from '../styles';
 import { loc, i18n } from '../../lib';
 
-const TypeGeo = ({ onChange, values, keyform, id, name, tooltip, required, requiredSign }) => {
+const TypeGeo = ({ keyform, id, name, value, tooltip, required, requiredSign }) => {
   const [errorMsg, setErrorMsg] = useState(null);
   const [gpsAccuracy, setGpsAccuracy] = useState(null);
   const [currLocation, setCurrLocation] = useState({ lat: null, lng: null });
-  const [loading, setLoading] = useState({ current: false, map: false });
-  const currentValues = FormState.useState((s) => s.currentValues);
-  const [latitude, longitude] = currentValues?.[id] || [];
+  const [loading, setLoading] = useState(false);
+  const [latitude, longitude] = value || [];
 
   const gpsThreshold = BuildParamsState.useState((s) => s.gpsThreshold);
   const isOnline = UIState.useState((s) => s.online);
@@ -22,67 +20,38 @@ const TypeGeo = ({ onChange, values, keyform, id, name, tooltip, required, requi
 
   const trans = i18n.text(activeLang);
 
-  const navigation = useNavigation();
-  const route = useRoute();
   const requiredValue = required ? requiredSign : null;
 
-  const handleOpenMap = () => {
-    if (latitude && longitude) {
-      const params = { latitude, longitude, id, current_location: currLocation };
-      navigation.navigate('MapView', { ...route?.params, ...params });
-    } else {
-      handleGetCurrLocation(true);
-    }
-  };
-
-  const handleGetCurrLocation = useCallback(
-    async (openMap = false) => {
-      const loadingKey = openMap ? 'map' : 'current';
-      setLoading({
-        ...loading,
-        [loadingKey]: true,
-      });
-      await loc.getCurrentLocation(
-        ({ coords }) => {
-          const { latitude: lat, longitude: lng, accuracy } = coords;
-          /**
-           * accuracy number in meters, doc: https://docs.expo.dev/versions/latest/sdk/location/#locationgeocodedlocation
-           */
-          setGpsAccuracy(Math.floor(accuracy));
-          // console.info('GPS accuracy:', accuracy, 'GPS Threshold:', gpsThreshold);
-          if ((accuracy <= gpsThreshold && !openMap) || openMap) {
-            setCurrLocation({
-              lat,
-              lng,
-            });
-            onChange(id, [lat, lng]);
-            setLoading({
-              ...loading,
-              [loadingKey]: false,
-            });
-          }
-          if (openMap) {
-            const params = { latitude: lat, longitude: lng, id, current_location: { lat, lng } };
-            navigation.navigate('MapView', { ...route?.params, ...params });
-          }
-        },
-        ({ message }) => {
-          setLoading({
-            ...loading,
-            [loadingKey]: false,
-          });
-          setErrorMsg(message);
-        },
-      );
-    },
-    [gpsThreshold],
-  );
-
-  useEffect(() => {
-    if (gpsAccuracy && gpsAccuracy >= gpsThreshold && loading.current) {
-      handleGetCurrLocation(false);
-    }
-  }, [handleGetCurrLocation, gpsAccuracy, gpsThreshold, loading.current]);
+  const handleGetCurrLocation = useCallback(async () => {
+    setLoading(true);
+    await loc.getCurrentLocation(
+      ({ coords }) => {
+        const { latitude: lat, longitude: lng, accuracy } = coords;
+        /**
+         * accuracy number in meters, doc: https://docs.expo.dev/versions/latest/sdk/location/#locationgeocodedlocation
+         */
+        setGpsAccuracy(Math.floor(accuracy));
+        // console.info('GPS accuracy:', accuracy, 'GPS Threshold:', gpsThreshold);
+        setCurrLocation({
+          lat,
+          lng,
+        });
+        FormState.update((s) => {
+          s.currentValues = { ...s.currentValues, [id]: [lat, lng] };
+        });
+        setLoading(false);
+      },
+      ({ message }) => {
+        setLoading(false);
+        setErrorMsg(message);
+        setGpsAccuracy(-1);
+        setCurrLocation({ lat: -1.3855559, lng: 37.9938594 });
+        FormState.update((s) => {
+          s.currentValues = { ...s.currentValues, [id]: [-1.3855559, 37.9938594] };
+        });
+      },
+    );
+  }, [gpsThreshold, id]);
 
   return (
     <View>
@@ -95,6 +64,20 @@ const TypeGeo = ({ onChange, values, keyform, id, name, tooltip, required, requi
           <Text testID="text-lng">
             {trans.longitude}: {longitude}
           </Text>
+          {gpsAccuracy ? (
+            <Text testID="text-acc">
+              Accuracy:{' '}
+              <Text style={{ color: gpsAccuracy && gpsAccuracy > gpsThreshold ? 'red' : 'green' }}>
+                {gpsAccuracy < 10
+                  ? gpsAccuracy < 0
+                    ? 'GPS is off'
+                    : 'High Precission'
+                  : gpsAccuracy < gpsThreshold
+                  ? 'Moderate Precission'
+                  : 'Low Precission'}
+              </Text>
+            </Text>
+          ) : null}
         </View>
         {errorMsg && (
           <Text testID="text-error" style={styles.errorText}>
@@ -102,8 +85,16 @@ const TypeGeo = ({ onChange, values, keyform, id, name, tooltip, required, requi
           </Text>
         )}
         <View style={styles.geoButtonGroup}>
-          <Button onPress={() => handleGetCurrLocation(false)} testID="button-curr-location">
-            {loading.current ? trans.fetchingLocation : trans.buttonCurrLocation}
+          <Button
+            onPress={() => handleGetCurrLocation()}
+            testID="button-curr-location"
+            disabled={loading}
+          >
+            {loading
+              ? trans.fetchingLocation
+              : gpsAccuracy !== null
+              ? trans.buttonRefreshCurrLocation
+              : trans.buttonCurrLocation}
           </Button>
         </View>
       </View>

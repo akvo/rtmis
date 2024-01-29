@@ -3,13 +3,13 @@ import { View } from 'react-native';
 import Question from './Question';
 import { FieldGroupHeader } from '../support';
 
-const QuestionGroup = React.memo(({ index, group, setFieldValue, values }) => {
+const QuestionGroup = ({ index, group, activeQuestions }) => {
   return (
-    <View>
+    <View style={{ paddingBottom: 48 }}>
       <FieldGroupHeader index={index} {...group} />
-      <Question group={group} setFieldValue={setFieldValue} values={values} />
+      <Question {...{ group, activeQuestions, index }} />
     </View>
   );
-});
+};
 
 export default QuestionGroup;

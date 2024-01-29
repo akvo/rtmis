@@ -16,7 +16,7 @@ import {
   UploadOutlined,
 } from "@ant-design/icons";
 
-const DataFilters = ({ loading }) => {
+const DataFilters = ({ loading, showAdm = true }) => {
   const {
     user: authUser,
     selectedForm,
@@ -62,7 +62,7 @@ const DataFilters = ({ loading }) => {
             <AdvancedFiltersButton />
           </Space>
         </Col>
-        {["Super Admin", "County Admin", "Data Entry Staff"].includes(
+        {["Super Admin", "County Admin", "Data Entry Supervisor"].includes(
           authUser?.role?.value
         ) && (
           <Col>
@@ -101,7 +101,9 @@ const DataFilters = ({ loading }) => {
       <Row>
         <Col>
           <Space>
-            <AdministrationDropdown loading={loading || loadingForm} />
+            {showAdm && (
+              <AdministrationDropdown loading={loading || loadingForm} />
+            )}
             <RemoveFiltersButton />
           </Space>
         </Col>

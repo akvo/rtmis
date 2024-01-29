@@ -224,7 +224,7 @@ const UploadAdministrationData = () => {
           {!loading && showSuccess && (
             <div
               style={{ padding: 0, minHeight: "40vh" }}
-              bodyStyle={{ padding: 0 }}
+              bodystyle={{ padding: 0 }}
             >
               <Result
                 status="success"
@@ -254,7 +254,7 @@ const UploadAdministrationData = () => {
             <>
               <Card
                 style={{ padding: 0, minHeight: "40vh" }}
-                bodyStyle={{ padding: 0 }}
+                bodystyle={{ padding: 0 }}
               >
                 <Space direction="vertical">
                   <Space align="center" size={32}>

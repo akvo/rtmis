@@ -92,7 +92,9 @@ const Organisations = () => {
       render: (record, rowValue) => (
         <Space>
           <Link to={`/control-center/organisation/${record.id}`}>
-            <Button type="link">{text.editButton}</Button>
+            <Button shape="round" type="primary">
+              {text.editButton}
+            </Button>
           </Link>
           <Button
             shape="round"
@@ -235,7 +237,7 @@ const Organisations = () => {
           {/* Table start here */}
           <div
             style={{ padding: 0, minHeight: "40vh" }}
-            bodyStyle={{ padding: 0 }}
+            bodystyle={{ padding: 0 }}
           >
             <Table
               columns={columns}
@@ -255,7 +257,7 @@ const Organisations = () => {
 
       {/* Modal */}
       <Modal
-        visible={deleteOrganisation}
+        open={deleteOrganisation}
         onCancel={() => setDeleteOrganisation(null)}
         centered
         className="organisation-modal"
@@ -287,7 +289,7 @@ const Organisations = () => {
             </Col>
           </Row>
         }
-        bodyStyle={{ textAlign: "center" }}
+        bodystyle={{ textAlign: "center" }}
       >
         <h3>{text.deleteOrganisationTitle}</h3>
         <br />

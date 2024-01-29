@@ -69,7 +69,7 @@ const NewsEvents = () => {
           <h2>{text.latestUpdateText}</h2>
           <div className="updates">
             {updates.map((u, uI) => (
-              <Card bodyStyle={{ padding: 0 }} key={uI} className="update">
+              <Card bodystyle={{ padding: 0 }} key={uI} className="update">
                 <h3>{u.title}</h3>
                 <div>
                   <Row gutter={[16, 16]}>

@@ -44,18 +44,7 @@ Object {
     "approvalsTab3": "Approved",
     "approvalsTitle": "Approvals",
     "approversDescription": <React.Fragment>
-      This is where you manage data validation for each Questionnaire. You can:
-      <ul>
-        <li>
-          Add data validator
-        </li>
-        <li>
-          Modify data validator
-        </li>
-        <li>
-          Delete data validator
-        </li>
-      </ul>
+      This is where you can see the approvers for each submitted form across different administrative areas:
     </React.Fragment>,
     "attrConfirmDelete": "Are you sure you want to delete this attribute?",
     "attrErrDeleteTitle": "Unable to delete the attribute",
@@ -333,7 +322,7 @@ Object {
       </ul>
     </React.Fragment>,
     "manageDataTitle": "Manage Data",
-    "manageDataValidationSetup": "Manage Data Validation Setup",
+    "manageDataValidationSetup": "Validation Tree",
     "manageEntities": "Manage Entities",
     "manageEntitiesText": <React.Fragment>
       This is where you manage entitys based on their fields. You can :
@@ -605,13 +594,15 @@ Object {
     "valPhone": "Phone number is required",
     "valRole": "Please select a Role",
     "welcome": <React.Fragment>
-      Real Time Management Information System (RTMIS) for Monitoring Sanitation and Hygiene Indicators across Kenya
+      Rural and Urban Sanitation and Hygiene (RUSH)
+      <br />
+      Real-Time Monitoring and Information System (RTMIS)
     </React.Fragment>,
     "welcomeCta": "Explore National Data",
     "welcomeDesc": <React.Fragment>
-      Real Time Management Information System (RTMIS)
+      Rural and Urban Sanitation and Hygiene (RUSH)
       <br />
-      Updated sanitation and hygiene estimates across Kenya
+      Real-Time Monitoring and Information System (RTMIS)
     </React.Fragment>,
     "welcomeShort": "Welcome to RUSH",
     "year": "Year",

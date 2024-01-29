@@ -108,7 +108,7 @@ const ControlCenter = () => {
       </div>
       <div className="table-section">
         <div className="table-wrapper">
-          <Row gutter={[16, 16]}>
+          <Row gutter={[16, 32]}>
             {selectedPanels.map((panel, index) => {
               if (panel?.render) {
                 return panel.render;
@@ -124,7 +124,7 @@ const ControlCenter = () => {
                   span={isFullWidth ? 24 : 12}
                   key={index}
                 >
-                  <div bordered={false} hoverable>
+                  <div hoverable>
                     <div className="row">
                       <div className="flex-1">
                         <h2>{panel?.title}</h2>

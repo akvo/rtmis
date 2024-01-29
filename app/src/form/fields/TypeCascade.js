@@ -8,7 +8,7 @@ import { i18n, cascades } from '../../lib';
 
 const TypeCascade = ({
   onChange,
-  values,
+  value,
   keyform,
   id,
   name,
@@ -35,19 +35,19 @@ const TypeCascade = ({
         return groups;
       }, {});
     const groupedData = {};
-    Object.entries(gd).forEach(([key, value]) => {
-      groupedData[key] = value;
+    Object.entries(gd).forEach(([key, val]) => {
+      groupedData[key] = val;
     });
     return groupedData;
   };
 
-  const handleOnChange = (index, value) => {
+  const handleOnChange = (index, val) => {
     const nextIndex = index + 1;
     const updatedItems = dropdownItems
       .slice(0, nextIndex)
-      .map((d, dx) => (dx === index ? { ...d, value } : d));
+      .map((d, dx) => (dx === index ? { ...d, value: val } : d));
 
-    const options = dataSource?.filter((d) => d?.parent === value);
+    const options = dataSource?.filter((d) => d?.parent === val);
 
     if (options.length) {
       updatedItems.push({
@@ -74,9 +74,7 @@ const TypeCascade = ({
     const parentIDs = source?.parent_id?.length ? source.parent_id : [0];
     let filterDs = dataSource.filter(
       (ds) =>
-        parentIDs.includes(ds?.parent) ||
-        values[id]?.includes(ds?.id) ||
-        values[id]?.includes(ds?.parent),
+        parentIDs.includes(ds?.parent) || value?.includes(ds?.id) || value?.includes(ds?.parent),
     );
     if (filterDs.length === 0) {
       filterDs = dataSource.filter((ds) => parentIDs.includes(ds?.id));
@@ -86,12 +84,10 @@ const TypeCascade = ({
       const parentOptions = Object.keys(groupedDs).map((keyID) =>
         dataSource.find((d) => d?.id === parseInt(keyID, 10)),
       );
-      return values[id]
-        ? values[id]?.map((val, vx) => {
+      return value
+        ? value?.map((val, vx) => {
             const _options = dataSource?.filter((d) =>
-              vx === 0
-                ? parentIDs.includes(d?.id)
-                : d?.parent === parseInt(values[id]?.[vx - 1], 10),
+              vx === 0 ? parentIDs.includes(d?.id) : d?.parent === parseInt(value?.[vx - 1], 10),
             );
             return {
               options: _options,
@@ -101,21 +97,21 @@ const TypeCascade = ({
         : [
             {
               options: parentOptions,
-              value: values[id] ? values[id][ox] : null,
+              value: value ? value[ox] : null,
             },
           ];
     }
     return Object.values(groupedDs).map((options, ox) => {
       return {
         options,
-        value: values[id] ? values[id][ox] : null,
+        value: value?.[ox] || null,
       };
     });
-  }, [dataSource, source, values, id]);
+  }, [dataSource, source, value, id]);
 
   const fetchCascade = useCallback(async () => {
-    if (source && values?.[id]?.length) {
-      const cascadeID = values[id].slice(-1)[0];
+    if (source && value?.length) {
+      const cascadeID = value.slice(-1)[0];
       const { rows } = await cascades.loadDataSource(source, cascadeID);
       const { length: rowLength, _array: rowItems } = rows;
       const csValue = rowLength ? rowItems[0] : null;
@@ -128,7 +124,7 @@ const TypeCascade = ({
         });
       }
     }
-  }, [source, values, id]);
+  }, [source, value, id]);
 
   useEffect(() => {
     fetchCascade();
@@ -144,7 +140,7 @@ const TypeCascade = ({
     <View testID="view-type-cascade">
       <FieldLabel keyform={keyform} name={name} tooltip={tooltip} requiredSign={requiredValue} />
       <Text testID="text-values" style={styles.cascadeValues}>
-        {values[id]}
+        {value}
       </Text>
       <View style={styles.cascadeContainer}>
         {dropdownItems.map((item, index) => {
@@ -155,6 +151,8 @@ const TypeCascade = ({
               valueField="id"
               testID={`dropdown-cascade-${index}`}
               data={item?.options}
+              search={item?.options.length > 3}
+              searchPlaceholder={trans.searchPlaceholder}
               onChange={({ id: selectedID }) => handleOnChange(index, selectedID)}
               value={item.value}
               style={[styles.dropdownField]}

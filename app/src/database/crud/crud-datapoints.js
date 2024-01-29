@@ -30,7 +30,14 @@ const dataPointsQuery = () => {
       const submitted = 1;
       const { rows } = await conn.tx(
         db,
-        'SELECT * FROM datapoints WHERE submitted = ? AND syncedAt IS NULL',
+        `
+        SELECT
+          datapoints.*,
+          forms.formId,
+          forms.json AS json_form
+        FROM datapoints
+        JOIN forms ON datapoints.form = forms.id
+        WHERE datapoints.submitted = ? AND datapoints.syncedAt IS NULL`,
         [submitted],
       );
       if (!rows.length) {

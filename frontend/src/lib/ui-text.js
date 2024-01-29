@@ -5,15 +5,16 @@ const uiText = {
     // Home page
     welcome: (
       <Fragment>
-        Real Time Management Information System (RTMIS) for Monitoring
-        Sanitation and Hygiene Indicators across Kenya
+        Rural and Urban Sanitation and Hygiene (RUSH)
+        <br />
+        Real-Time Monitoring and Information System (RTMIS)
       </Fragment>
     ),
     welcomeDesc: (
       <Fragment>
-        Real Time Management Information System (RTMIS)
+        Rural and Urban Sanitation and Hygiene (RUSH)
         <br />
-        Updated sanitation and hygiene estimates across Kenya
+        Real-Time Monitoring and Information System (RTMIS)
       </Fragment>
     ),
     countdownTitle: "Time remaining to achieve national RUSH targets:",
@@ -146,7 +147,7 @@ const uiText = {
     // Charts
     showEmpty: "Show empty values",
     // User Management
-    manageDataValidationSetup: "Manage Data Validation Setup",
+    manageDataValidationSetup: "Validation Tree",
     manageUsers: "Manage Users",
     addUser: "Add User",
     addNewUser: "Add new user",
@@ -308,13 +309,8 @@ const uiText = {
     questionnaireText: "Questionnaire",
     approversDescription: (
       <Fragment>
-        This is where you manage data validation for each Questionnaire. You
-        can:
-        <ul>
-          <li>Add data validator</li>
-          <li>Modify data validator</li>
-          <li>Delete data validator</li>
-        </ul>
+        This is where you can see the approvers for each submitted form across
+        different administrative areas:
       </Fragment>
     ),
     // Misc

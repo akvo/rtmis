@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Text, Tooltip, Icon } from '@rneui/themed';
 import { styles } from '../styles';
+import RenderHtml from 'react-native-render-html';
+import { useWindowDimensions } from 'react-native';
+import AnimatedTooltip from '../../components/AnimatedTooltip';
 
 const FieldLabel = ({ keyform = 0, name, tooltip, requiredSign = null }) => {
   const [open, setOpen] = useState(false);
   const labelText = `${keyform + 1}. ${name}`;
   const tooltipText = tooltip?.text;
+  const { width } = useWindowDimensions();
   return (
     <View style={styles.fieldLabelContainer}>
       {requiredSign && (
@@ -15,30 +19,24 @@ const FieldLabel = ({ keyform = 0, name, tooltip, requiredSign = null }) => {
         </Text>
       )}
       <View style={styles.fieldLabel}>
-        <Text testID="field-label">{labelText}</Text>
-        {tooltipText && (
-          <Icon
-            name="information-circle"
-            type="ionicon"
-            size={18}
-            testID="field-tooltip-icon"
-            onPress={() => setOpen(!open)}
-          />
-        )}
-        <Tooltip
-          visible={open}
-          onClose={() => {
-            setOpen(false);
-          }}
-          containerStyle={{ width: 205, height: 150 }}
-          popover={
-            <View>
-              <Text testID="field-tooltip-text">{tooltipText}</Text>
-            </View>
-          }
-          backgroundColor="#e5e5e5"
-          testID="field-tooltip"
-        />
+        <View style={{ flexDirection: 'row' }}>
+          <Text testID="field-label">
+            {labelText}
+            {tooltipText && (
+              <Text>
+                {' '}
+                <Icon
+                  name="information-circle"
+                  type="ionicon"
+                  size={18}
+                  testID="field-tooltip-icon"
+                  onPress={() => setOpen(!open)}
+                />
+              </Text>
+            )}
+          </Text>
+        </View>
+        <AnimatedTooltip visible={open} content={tooltipText} style={{ width: '100%' }} />
       </View>
     </View>
   );

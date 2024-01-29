@@ -5,7 +5,7 @@ import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
 
 const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
-  const [dataLoading, setDataLoading] = useState(null);
+  const [dataLoading, setDataLoading] = useState(true);
   const [saving, setSaving] = useState(null);
   const [rawValue, setRawValue] = useState(null);
   const { notify } = useNotification();
@@ -16,29 +16,36 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
     return uiText[activeLang];
   }, [activeLang]);
 
-  const questionGroups = window.forms.find((f) => f.id === expanded.form)
-    ?.content?.question_group;
+  const questionGroups = window.forms
+    .find((f) => f.id === expanded.form)
+    ?.content?.question_group?.filter(
+      (qg) =>
+        qg.question?.length ===
+        qg.question.filter((q) => !q?.display_only).length
+    );
 
   useEffect(() => {
-    if (questionGroups) {
-      setDataLoading(expanded.id);
+    if (questionGroups && dataLoading) {
       api
         .get(`pending-data/${expanded.id}`)
         .then((res) => {
           const data = questionGroups.map((qg) => {
             return {
               ...qg,
-              question: qg.question.map((q) => {
-                const findValue = res.data.find(
-                  (d) => d.question === q.id
-                )?.value;
-                return {
-                  ...q,
-                  value: findValue || findValue === 0 ? findValue : null,
-                  history:
-                    res.data.find((d) => d.question === q.id)?.history || false,
-                };
-              }),
+              question: qg.question
+                .filter((item) => !item?.display_only)
+                .map((q) => {
+                  const findValue = res.data.find(
+                    (d) => d.question === q.id
+                  )?.value;
+                  return {
+                    ...q,
+                    value: findValue || findValue === 0 ? findValue : null,
+                    history:
+                      res.data.find((d) => d.question === q.id)?.history ||
+                      false,
+                  };
+                }),
             };
           });
           setRawValue({ ...expanded, data, loading: false });
@@ -48,10 +55,10 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
           setRawValue({ ...expanded, data: [], loading: false });
         })
         .finally(() => {
-          setDataLoading(null);
+          setDataLoading(false);
         });
     }
-  }, [expanded, questionGroups]);
+  }, [expanded, questionGroups, dataLoading]);
 
   const handleSave = (data) => {
     setSaving(data.id);

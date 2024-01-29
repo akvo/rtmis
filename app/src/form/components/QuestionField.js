@@ -11,66 +11,28 @@ import {
   TypeCascade,
   TypeAutofield,
 } from '../fields';
-import { useField } from 'formik';
 import { View, Text } from 'react-native';
 import { styles } from '../styles';
-import { FormState } from '../../store';
 import { cascades } from '../../lib';
+import { FormState } from '../../store';
 
-const QuestionField = memo(({ keyform, field: questionField, setFieldValue, values, validate }) => {
-  const [field, meta, helpers] = useField({ name: questionField.id, validate });
+const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
   const [cascadeData, setCascadeData] = useState([]);
-  const [preload, setPreload] = useState(true);
-  const preFilled = questionField?.pre;
-  const questionID = questionField?.id;
+  const questionType = questionField?.type;
   const displayValue = questionField?.hidden ? 'none' : 'flex';
+  const formFeedback = FormState.useState((s) => s.feedback);
 
-  useEffect(() => {
-    if (meta.error && field.name) {
-      FormState.update((s) => {
-        const removedErrorValues = Object.keys(s.questionGroupListCurrentValues)
-          .filter((key) => key.toString() !== field.name.toString())
-          .reduce((acc, curr) => ({ ...acc, [curr]: s.questionGroupListCurrentValues[curr] }), {});
-        s.questionGroupListCurrentValues = removedErrorValues;
-      });
-    } else {
-      FormState.update((s) => {
-        s.questionGroupListCurrentValues = { ...s.questionGroupListCurrentValues, ...values };
-      });
+  const handleOnChangeField = (id, val) => {
+    if (questionField?.displayOnly) {
+      return;
     }
-  }, [meta.error, field.name, values]);
-
-  const handleOnChangeField = useCallback(
-    (id, value) => {
-      if (questionField?.displayOnly) {
-        return;
-      }
-      helpers.setTouched({ [field.name]: true });
-      setFieldValue(id, value);
-      FormState.update((s) => {
-        s.currentValues = { ...s.currentValues, [id]: value };
-      });
-    },
-    [setFieldValue, questionField?.displayOnly, field.name],
-  );
+    onChange(id, val, questionField);
+  };
 
   const loadCascadeDataSource = useCallback(async (source) => {
     const { rows } = await cascades.loadDataSource(source);
     setCascadeData(rows._array);
   }, []);
-
-  const handleOnPrefilled = useCallback(() => {
-    if (preload && preFilled?.fill?.length && questionID) {
-      setPreload(false);
-      const findFill = preFilled.fill.find((f) => f?.id === questionID);
-      if (findFill) {
-        setFieldValue(questionID, findFill.answer);
-        FormState.update((s) => {
-          s.currentValues = { ...s.currentValues, [questionID]: findFill.answer };
-        });
-      }
-    }
-  }, [preload, preFilled, questionID]);
 
   useEffect(() => {
     if (questionField?.type === 'cascade' && questionField?.source?.file) {
@@ -79,18 +41,14 @@ const QuestionField = memo(({ keyform, field: questionField, setFieldValue, valu
     }
   }, []);
 
-  useEffect(() => {
-    handleOnPrefilled();
-  }, [handleOnPrefilled]);
-
   const renderField = useCallback(() => {
-    switch (questionField?.type) {
+    switch (questionType) {
       case 'date':
         return (
           <TypeDate
             keyform={keyform}
             onChange={handleOnChangeField}
-            values={values}
+            value={value}
             {...questionField}
           />
         );
@@ -99,7 +57,7 @@ const QuestionField = memo(({ keyform, field: questionField, setFieldValue, valu
           <TypeImage
             keyform={keyform}
             onChange={handleOnChangeField}
-            values={values}
+            value={value}
             {...questionField}
           />
         );
@@ -108,7 +66,7 @@ const QuestionField = memo(({ keyform, field: questionField, setFieldValue, valu
           <TypeMultipleOption
             keyform={keyform}
             onChange={handleOnChangeField}
-            values={values}
+            value={value}
             {...questionField}
           />
         );
@@ -117,7 +75,7 @@ const QuestionField = memo(({ keyform, field: questionField, setFieldValue, valu
           <TypeOption
             keyform={keyform}
             onChange={handleOnChangeField}
-            values={values}
+            value={value}
             {...questionField}
           />
         );
@@ -126,7 +84,7 @@ const QuestionField = memo(({ keyform, field: questionField, setFieldValue, valu
           <TypeText
             keyform={keyform}
             onChange={handleOnChangeField}
-            values={values}
+            value={value}
             {...questionField}
           />
         );
@@ -135,60 +93,48 @@ const QuestionField = memo(({ keyform, field: questionField, setFieldValue, valu
           <TypeNumber
             keyform={keyform}
             onChange={handleOnChangeField}
-            values={values}
+            value={value}
             {...questionField}
           />
         );
       case 'geo':
-        return (
-          <TypeGeo
-            keyform={keyform}
-            onChange={handleOnChangeField}
-            values={values}
-            {...questionField}
-          />
-        );
+        return <TypeGeo keyform={keyform} value={value} {...questionField} />;
       case 'cascade':
         return (
           <TypeCascade
             keyform={keyform}
             onChange={handleOnChangeField}
-            values={values}
+            value={value}
             {...questionField}
             dataSource={cascadeData}
           />
         );
       case 'autofield':
         return (
-          <TypeAutofield
-            keyform={keyform}
-            onChange={handleOnChangeField}
-            values={values}
-            {...questionField}
-          />
+          <TypeAutofield keyform={keyform} onChange={handleOnChangeField} {...questionField} />
         );
       default:
         return (
           <TypeInput
             keyform={keyform}
             onChange={handleOnChangeField}
-            values={values}
+            value={value}
             {...questionField}
           />
         );
     }
-  }, [questionField, keyform, handleOnChangeField, values, cascadeData]);
+  }, [questionField, keyform, handleOnChangeField, value, cascadeData]);
 
   return (
     <View testID="question-view" style={{ display: displayValue }}>
       {renderField()}
-      {meta.touched && meta.error ? (
+      {formFeedback?.[questionField?.id] && formFeedback?.[questionField?.id] !== true && (
         <Text style={styles.validationErrorText} testID="err-validation-text">
-          {meta.error}
+          {formFeedback[questionField.id]}
         </Text>
-      ) : null}
+      )}
     </View>
   );
-});
+};
 
 export default QuestionField;

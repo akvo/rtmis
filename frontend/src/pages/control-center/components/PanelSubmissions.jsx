@@ -392,7 +392,11 @@ const PanelSubmissions = () => {
     };
     if (!!selectedRows.length && modalButton) {
       return (
-        <Button type="primary" onClick={handleOnClickBatchSelectedDataset}>
+        <Button
+          type="primary"
+          shape="round"
+          onClick={handleOnClickBatchSelectedDataset}
+        >
           {text.batchSelectedDatasets}
         </Button>
       );
@@ -469,7 +473,7 @@ const PanelSubmissions = () => {
     <>
       <div id="panel-submission">
         <h1 className="submission">Submissions</h1>
-        <DataFilters />
+        <DataFilters showAdm={false} />
         <Tabs
           activeKey={selectedTab}
           defaultActiveKey={selectedTab}
@@ -493,7 +497,7 @@ const PanelSubmissions = () => {
         </Link>
       </div>
       <Modal
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => {
           setModalVisible(false);
         }}

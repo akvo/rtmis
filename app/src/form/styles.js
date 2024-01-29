@@ -46,7 +46,7 @@ export const styles = StyleSheet.create({
   },
   fieldLabel: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     paddingHorizontal: 10,
     marginBottom: 8,
     fontWeight: 600,
@@ -78,6 +78,15 @@ export const styles = StyleSheet.create({
   optionContainer: {
     marginBottom: 25,
   },
+  optionSelectedList: {
+    backgroundColor: '#f2f2f2',
+    padding: 10,
+    marginLeft: 10,
+    marginTop: 5,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+  },
   multipleOptionContainer: {
     marginBottom: 25,
   },
@@ -103,6 +112,16 @@ export const styles = StyleSheet.create({
     paddingTop: 9,
     paddingBottom: 10,
   },
+  formNavigationIconSubmit: {
+    marginTop: -20,
+    marginBottom: -20,
+    paddingTop: 9,
+    paddingBottom: 10,
+    paddingRight: 15,
+    marginRight: 0,
+    marginLeft: 0,
+    backgroundColor: '#2089dc',
+  },
   formNavigationTitle: {
     paddingTop: 9,
     paddingBottom: 10,
@@ -111,6 +130,15 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     marginRight: -10,
     marginLeft: -10,
+  },
+  formNavigationSubmit: {
+    paddingTop: 12,
+    paddingBottom: 13,
+    paddingRight: 10,
+    color: '#FFFFFF',
+    backgroundColor: '#2089dc',
+    fontWeight: 'normal',
+    fontSize: 14,
   },
   formNavigationGroupCount: {
     paddingTop: 13,
@@ -149,9 +177,9 @@ export const styles = StyleSheet.create({
     marginBottom: 4,
   },
   questionGroupListItemWrapper: {
-    flex: 1,
-    flexWrap: 'wrap',
+    display: 'flex',
     flexDirection: 'row',
+    width: '100%',
     paddingVertical: 5,
     alignItems: 'center',
     paddingHorizontal: 10,

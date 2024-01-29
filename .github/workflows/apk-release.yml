@@ -29,6 +29,7 @@ jobs:
       - name: 📦 Install dependencies
         run: |
           cd ./app/
+          cp ./src/build.test.js ./src/build.js
           npm install
 
       - name: 🚀 Release to Expo Dev
@@ -38,6 +39,12 @@ jobs:
           npm run eas:release > output.txt
           cat output.txt
           echo "APK_URL=$(tail -n 1 output.txt)" >> $GITHUB_ENV
+
+      - name: Set short git commit SHA
+        id: vars
+        run: |
+          shortSha=$(git rev-parse --short ${{ github.sha }})
+          echo "COMMIT_SHORT_SHA=$shortSha" >> $GITHUB_ENV
 
       - name: Send custom JSON data to Slack workflow
         id: slack
@@ -50,7 +57,7 @@ jobs:
                     "type": "header",
                     "text": {
                         "type": "plain_text",
-                        "text": ":iphone: New APK build just released",
+                        "text": ":iphone: [TEST] New APK build just released",
                         "emoji": true
                     }
                 },
@@ -68,7 +75,7 @@ jobs:
                     "fields": [
                         {
                             "type": "mrkdwn",
-                            "text": "*Commit Message:*\n<${{ github.event.pull_request.html_url || github.event.head_commit.url }}|${{ github.event.head_commit.message }}>"
+                            "text": "*Commit ID:*\n<${{ github.event.pull_request.html_url || github.event.head_commit.url }}|${{ env.COMMIT_SHORT_SHA }}>"
                         },
                         {
                             "type": "mrkdwn",
@@ -81,3 +88,19 @@ jobs:
         env:
          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+
+      - name: 🌟 Send APK
+        env:
+          APK_VERSION: ${{ github.ref_name }}
+          SECRET: ${{ secrets.APK_UPLOAD_SECRET }}
+        run: |
+          curl -X 'POST' \
+            'https://rtmis.akvotest.org/api/v1/device/apk/upload' \
+            -H 'accept: */*' \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "apk_url": "'"$APK_URL"'",
+              "apk_version": "'"$APK_VERSION"'",
+              "secret": "'"$SECRET"'"
+            }'

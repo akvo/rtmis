@@ -9,7 +9,7 @@ const BuildParamsState = new Store({
   ],
   serverURL: defaultBuildParams?.serverURL,
   debugMode: defaultBuildParams?.debugMode || false,
-  dataSyncInterval: defaultBuildParams?.dataSyncInterval || 300,
+  dataSyncInterval: defaultBuildParams?.dataSyncInterval || 3600,
   errorHandling: defaultBuildParams?.errorHandling || true,
   loggingLevel: defaultBuildParams?.loggingLevel || 'verbose',
   appVersion: defaultBuildParams?.appVersion || '1.0.0',

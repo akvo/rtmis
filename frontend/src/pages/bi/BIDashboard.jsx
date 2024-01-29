@@ -1,13 +1,12 @@
 import React from "react";
-import { Affix } from "antd";
 import ResponsiveEmbed from "react-responsive-embed";
 import { useParams } from "react-router-dom";
 import "./style.scss";
 
 const BIDashboard = () => {
-  const { formId } = useParams();
+  const { path } = useParams();
   const powerBIDashboard = window?.powerBIDashboard;
-  const current = powerBIDashboard?.find((x) => x.form_id === parseInt(formId));
+  const current = powerBIDashboard?.find((x) => x.path === path);
 
   return (
     <div id="powerbi-dashboard">
@@ -26,13 +25,7 @@ const BIDashboard = () => {
               </div>
             );
           default:
-            return (
-              <Affix key={componentKey} className="sticky-wrapper">
-                <div className="page-title-wrapper">
-                  <h1 style={c?.style ? c.style : {}}>{c.text}</h1>
-                </div>
-              </Affix>
-            );
+            return null;
         }
       })}
     </div>

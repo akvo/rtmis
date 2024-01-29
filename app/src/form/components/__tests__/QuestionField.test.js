@@ -5,7 +5,6 @@ import { View } from 'react-native';
 import QuestionField from '../QuestionField';
 import { FormState } from '../../../store';
 import { act } from 'react-test-renderer';
-import { cascades } from '../../../lib';
 
 jest.spyOn(View.prototype, 'measureInWindow').mockImplementation((cb) => {
   cb(18, 113, 357, 50);
@@ -72,8 +71,8 @@ describe('QuestionField component', () => {
       <QuestionField
         keyform={keyform}
         field={field}
-        setFieldValue={setFieldValue}
-        values={values}
+        onChange={setFieldValue}
+        value={values[1]}
         validate={fakeValidate}
       />,
     );
@@ -81,226 +80,6 @@ describe('QuestionField component', () => {
     expect(questionText).toBeDefined();
     const addOnText = getByText('Name');
     expect(addOnText).toBeDefined();
-  });
-
-  test('prefilled question input type', async () => {
-    const setFieldValue = jest.fn();
-    const fakeValidate = jest.fn();
-    const keyform = 1;
-    const field = {
-      id: 1,
-      name: 'Your Name',
-      order: 1,
-      type: 'input',
-      required: true,
-      meta: true,
-      translations: [
-        {
-          name: 'Nama Anda',
-          language: 'id',
-        },
-      ],
-      pre: { answer: 'John Doe', fill: [{ id: 1, answer: 'John Doe' }] },
-    };
-    const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
-    const values = result.current;
-
-    const { getByTestId, rerender } = render(
-      <QuestionField
-        keyform={keyform}
-        field={field}
-        setFieldValue={setFieldValue}
-        values={values}
-        validate={fakeValidate}
-      />,
-    );
-
-    act(() => {
-      FormState.update((s) => {
-        s.currentValues = { 1: 'John Doe' };
-      });
-    });
-
-    rerender(
-      <QuestionField
-        keyform={keyform}
-        field={field}
-        setFieldValue={setFieldValue}
-        values={result.current}
-        validate={fakeValidate}
-      />,
-    );
-
-    const inputField = getByTestId('type-input');
-    expect(inputField.props.value).toEqual('John Doe');
-  });
-
-  test('prefilled question text type', async () => {
-    const setFieldValue = jest.fn();
-    const fakeValidate = jest.fn();
-    const keyform = 2;
-    const field = {
-      id: 2,
-      name: 'Your Address',
-      order: 2,
-      type: 'text',
-      required: true,
-      meta: true,
-      translations: [],
-      pre: { answer: '101st Street', fill: [{ id: 2, answer: '101st Street' }] },
-    };
-    const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
-    const values = result.current;
-
-    const { getByTestId, rerender } = render(
-      <QuestionField
-        keyform={keyform}
-        field={field}
-        setFieldValue={setFieldValue}
-        values={values}
-        validate={fakeValidate}
-      />,
-    );
-
-    rerender(
-      <QuestionField
-        keyform={keyform}
-        field={field}
-        setFieldValue={setFieldValue}
-        values={result.current}
-        validate={fakeValidate}
-      />,
-    );
-
-    const inputField = getByTestId('type-text');
-    expect(inputField.props.value).toEqual('101st Street');
-  });
-
-  test('prefilled question option type', async () => {
-    const setFieldValue = jest.fn();
-    const fakeValidate = jest.fn();
-    const keyform = 3;
-    const field = {
-      id: 3,
-      name: 'Are you willing to participate in the survey?',
-      order: 3,
-      type: 'option',
-      options: [
-        {
-          name: 'Yes',
-        },
-        {
-          name: 'No',
-        },
-      ],
-      required: true,
-      meta: true,
-      translations: [],
-      pre: { answer: ['Yes'], fill: [{ id: 3, answer: ['Yes'] }] },
-    };
-    const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
-    const values = result.current;
-
-    const { getByTestId, queryByText, rerender } = render(
-      <QuestionField
-        keyform={keyform}
-        field={field}
-        setFieldValue={setFieldValue}
-        values={values}
-        validate={fakeValidate}
-      />,
-    );
-
-    act(() => {
-      FormState.update((s) => {
-        s.currentValues = { 3: ['Yes'] };
-      });
-    });
-
-    rerender(
-      <QuestionField
-        keyform={keyform}
-        field={field}
-        setFieldValue={setFieldValue}
-        values={result.current}
-        validate={fakeValidate}
-      />,
-    );
-
-    const inputField = getByTestId('type-option-dropdown');
-    const questionText = queryByText('Are you willing to participate in the survey?', {
-      exact: false,
-    });
-    const optionText = queryByText('Yes');
-    expect(inputField).toBeDefined();
-    expect(questionText).not.toBeNull();
-    expect(optionText).toBeDefined();
-  });
-
-  test('prefilled question cascade type', async () => {
-    cascades;
-    const setFieldValue = jest.fn();
-    const fakeValidate = jest.fn();
-    const keyform = 4;
-    const field = {
-      id: 4,
-      name: 'Organisation',
-      order: 4,
-      type: 'cascade',
-      required: true,
-      api: {
-        endpoint: '/api/v1/organisations?attributes=2',
-      },
-      meta: false,
-      source: {
-        file: 'organisation.sqlite',
-        parent_id: [],
-      },
-      pre: {
-        fill: [
-          {
-            id: 6030500021,
-            answer: [41],
-          },
-        ],
-        answer: [41],
-      },
-    };
-    const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
-    const values = result.current;
-
-    const { getByTestId, queryByText, rerender, debug } = render(
-      <QuestionField
-        keyform={keyform}
-        field={field}
-        setFieldValue={setFieldValue}
-        values={values}
-        validate={fakeValidate}
-      />,
-    );
-
-    act(() => {
-      FormState.update((s) => {
-        s.currentValues = { 4: [41] };
-      });
-    });
-
-    rerender(
-      <QuestionField
-        keyform={keyform}
-        field={field}
-        setFieldValue={setFieldValue}
-        values={result.current}
-        validate={fakeValidate}
-      />,
-    );
-
-    await waitFor(() => {
-      const questionText = queryByText('Organisation', { exact: false });
-      const optionText = queryByText('Akvo');
-      expect(questionText).not.toBeNull();
-      expect(optionText).toBeDefined();
-    });
   });
 
   test('question not showing when hidden is true but it only styling', () => {
@@ -338,8 +117,8 @@ describe('QuestionField component', () => {
       <QuestionField
         keyform={keyform}
         field={field}
-        setFieldValue={setFieldValue}
-        values={values}
+        onChange={setFieldValue}
+        value={values[keyform]}
         validate={fakeValidate}
       />,
     );
@@ -379,8 +158,8 @@ describe('QuestionField component', () => {
       <QuestionField
         keyform={keyform}
         field={field}
-        setFieldValue={setFieldValue}
-        values={values}
+        onChange={setFieldValue}
+        value={values[keyform]}
         validate={fakeValidate}
       />,
     );
@@ -425,8 +204,8 @@ describe('QuestionField component', () => {
       <QuestionField
         keyform={keyform}
         field={field}
-        setFieldValue={setFieldValue}
-        values={values}
+        onChange={setFieldValue}
+        value={values[keyform]}
         validate={fakeValidate}
       />,
     );
@@ -475,8 +254,8 @@ describe('QuestionField component', () => {
       <QuestionField
         keyform={keyform}
         field={field}
-        setFieldValue={setFieldValue}
-        values={values}
+        onChange={setFieldValue}
+        value={values[keyform]}
         validate={fakeValidate}
       />,
     );
@@ -489,76 +268,10 @@ describe('QuestionField component', () => {
     expect(errorValidation).not.toBeNull();
   });
 
-  test('questions should be able to be validated when hidden is true and have prefilled', async () => {
-    const setFieldValue = jest.fn();
-    const fakeValidate = jest.fn();
-    const keyform = 1;
-    const field = {
-      id: 1,
-      name: 'Sanitation',
-      order: 1,
-      type: 'input',
-      required: true,
-      meta: true,
-      translations: [
-        {
-          name: 'Sanitasi',
-          language: 'id',
-        },
-      ],
-      pre: {
-        answer: 'Basic',
-        fill: [
-          {
-            id: 1,
-            answer: 'Basic',
-          },
-        ],
-      },
-      hidden: true,
-    };
-    const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
-    const values = result.current;
-
-    const { queryByTestId, rerender, debug } = render(
-      <QuestionField
-        keyform={keyform}
-        field={field}
-        setFieldValue={setFieldValue}
-        values={values}
-        validate={fakeValidate}
-      />,
-    );
-
-    jest
-      .spyOn(Formik, 'useField')
-      .mockReturnValue([{}, { touched: true, error: null }, { setTouched: jest.fn() }]);
-
-    rerender(
-      <QuestionField
-        keyform={keyform}
-        field={field}
-        setFieldValue={setFieldValue}
-        values={result.current}
-        validate={fakeValidate}
-      />,
-    );
-
-    await waitFor(() => {
-      const inputElement = queryByTestId('type-input', { includeHiddenElements: true });
-      expect(inputElement.props.value).toEqual('Basic');
-      const errorValidationEl = queryByTestId('err-validation-text', {
-        includeHiddenElements: true,
-      });
-      expect(Formik.useField).toHaveBeenCalled();
-      expect(errorValidationEl).toBeNull();
-    });
-  });
-
   test('questions should be displayed but not part of the payload when displayOnly is true', async () => {
     const setFieldValue = jest.fn();
     const fakeValidate = jest.fn();
-    const keyform = 1;
+    const keyform = 7;
     const field = {
       id: 7,
       name: 'Total Payment',
@@ -585,8 +298,8 @@ describe('QuestionField component', () => {
       <QuestionField
         keyform={keyform}
         field={field}
-        setFieldValue={setFieldValue}
-        values={values}
+        onChange={setFieldValue}
+        value={values[keyform]}
         validate={fakeValidate}
       />,
     );
@@ -604,8 +317,8 @@ describe('QuestionField component', () => {
       <QuestionField
         keyform={keyform}
         field={field}
-        setFieldValue={setFieldValue}
-        values={result.current}
+        onChange={setFieldValue}
+        value={result.current[keyform]}
         validate={fakeValidate}
       />,
     );

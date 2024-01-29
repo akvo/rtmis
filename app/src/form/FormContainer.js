@@ -1,12 +1,12 @@
-import React, { useState, useRef, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { BaseLayout } from '../components';
-import { ScrollView, View, FlatList } from 'react-native';
-import { Formik } from 'formik';
-import { styles } from './styles';
+import { View } from 'react-native';
 import { FormNavigation, QuestionGroupList } from './support';
 import QuestionGroup from './components/QuestionGroup';
-import { transformForm, generateDataPointName } from './lib';
+import { transformForm, generateDataPointName, onFilterDependency } from './lib';
 import { FormState } from '../store';
+import { Dialog } from '@rneui/themed';
+import { i18n } from '../lib';
 
 // TODO:: Allow other not supported yet
 // TODO:: Repeat group not supported yet
@@ -36,88 +36,85 @@ const style = {
   flex: 1,
 };
 
-const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDialogMenu }) => {
-  const formRef = useRef();
+const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   const [activeGroup, setActiveGroup] = useState(0);
   const [showQuestionGroupList, setShowQuestionGroupList] = useState(false);
   const currentValues = FormState.useState((s) => s.currentValues);
-  const questionGroupListCurrentValues = FormState.useState(
-    (s) => s.questionGroupListCurrentValues,
-  );
   const cascades = FormState.useState((s) => s.cascades);
   const activeLang = FormState.useState((s) => s.lang);
+  const trans = i18n.text(activeLang);
+  const formLoading = FormState.useState((s) => s.loading);
 
-  useEffect(() => {
-    if (onSave) {
-      const results = checkValuesBeforeCallback(currentValues);
-      if (!Object.keys(results).length) {
-        return onSave(null);
-      }
-      const { dpName, dpGeo } = generateDataPointName(forms, currentValues, cascades);
-      const values = { name: dpName, geo: dpGeo, answers: results };
-      return onSave(values);
-    }
-  }, [currentValues, onSave]);
-
-  const formDefinition = useMemo(() => {
-    const transformedForm = transformForm(forms, activeLang);
-    FormState.update((s) => {
-      s.visitedQuestionGroup = [transformedForm.question_group[0].id];
-    });
-    return transformedForm;
-  }, [forms, activeLang]);
+  const formDefinition = transformForm(forms, activeLang);
+  const activeQuestions = formDefinition?.question_group?.flatMap((qg) =>
+    qg?.question?.filter((q) => onFilterDependency(qg, currentValues, q)),
+  );
 
   const currentGroup = useMemo(() => {
-    return formDefinition.question_group.find((qg) => qg.id === activeGroup);
+    return formDefinition?.question_group?.[activeGroup] || {};
   }, [formDefinition, activeGroup]);
+  const numberOfQuestion = currentGroup?.question?.length || 0;
 
-  const handleOnSubmitForm = (values) => {
-    const results = checkValuesBeforeCallback(values);
+  const handleOnSubmitForm = () => {
+    const validValues = Object.keys(currentValues)
+      .filter((qkey) => activeQuestions.map((q) => `${q.id}`).includes(qkey))
+      .reduce((prev, current) => {
+        return { [current]: currentValues[current], ...prev };
+      }, {});
+    const results = checkValuesBeforeCallback(validValues);
     if (onSubmit) {
-      const { dpName, dpGeo } = generateDataPointName(forms, currentValues, cascades);
+      const { dpName, dpGeo } = generateDataPointName(forms, validValues, cascades);
       onSubmit({ name: dpName, geo: dpGeo, answers: results });
     }
   };
 
+  useEffect(() => {
+    if (numberOfQuestion === 0) {
+      return;
+    }
+    if (formLoading) {
+      setTimeout(() => {
+        FormState.update((s) => {
+          s.loading = false;
+        });
+      }, numberOfQuestion);
+    }
+  }, [numberOfQuestion, formLoading]);
+
+  const LoadingOverlay = () => (
+    <View
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      }}
+    >
+      <Dialog isVisible>
+        <Dialog.Title title={`${trans.loadingPrefilledAnswer}...`} />
+        <Dialog.Loading />
+      </Dialog>
+    </View>
+  );
+
   return (
     <>
+      {formLoading && <LoadingOverlay />}
       <BaseLayout.Content>
         <View style={style}>
           {!showQuestionGroupList ? (
-            <Formik
-              innerRef={formRef}
-              initialValues={initialValues}
-              onSubmit={handleOnSubmitForm}
-              validateOnBlur={true}
-              validateOnChange={true}
-            >
-              {({ setFieldValue, values }) => (
-                <FlatList
-                  scrollEnabled={true}
-                  data={formDefinition?.question_group}
-                  keyExtractor={(item) => `group-${item.id}`}
-                  renderItem={({ item: group }) => {
-                    if (activeGroup !== group.id) {
-                      return '';
-                    }
-                    return (
-                      <QuestionGroup
-                        key={`group-${group.id}`}
-                        index={group.id}
-                        group={group}
-                        setFieldValue={setFieldValue}
-                        values={values}
-                      />
-                    );
-                  }}
-                  extraData={activeGroup}
-                />
-              )}
-            </Formik>
+            <QuestionGroup
+              index={activeGroup}
+              group={currentGroup}
+              activeQuestions={activeQuestions}
+            />
           ) : (
             <QuestionGroupList
               form={formDefinition}
-              values={questionGroupListCurrentValues}
               activeQuestionGroup={activeGroup}
               setActiveQuestionGroup={setActiveGroup}
               setShowQuestionGroupList={setShowQuestionGroupList}
@@ -128,12 +125,7 @@ const FormContainer = ({ forms, initialValues = {}, onSubmit, onSave, setShowDia
       <View>
         <FormNavigation
           currentGroup={currentGroup}
-          formRef={formRef}
-          onSubmit={() => {
-            if (formRef.current) {
-              formRef.current.handleSubmit();
-            }
-          }}
+          onSubmit={handleOnSubmitForm}
           activeGroup={activeGroup}
           setActiveGroup={setActiveGroup}
           totalGroup={formDefinition?.question_group?.length || 0}

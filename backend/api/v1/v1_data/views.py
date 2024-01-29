@@ -770,9 +770,12 @@ def list_pending_batch(request, version):
     subordinate = serializer.validated_data.get('subordinate')
     approved = serializer.validated_data.get('approved')
     queryset = ViewPendingDataApproval.objects.filter(user_id=user.id)
-
+    rejected = ViewPendingDataApproval.objects.filter(
+        batch_id__in=queryset.values_list('batch_id', flat=True),
+        status=DataApprovalStatus.rejected
+    )
     if approved:
-        queryset = queryset.filter(level_id__gt=F('pending_level'))
+        queryset = queryset.filter(status=DataApprovalStatus.approved)
     else:
         if subordinate:
             queryset = queryset.filter(
@@ -782,6 +785,11 @@ def list_pending_batch(request, version):
             queryset = queryset.filter(
                 level_id=F('pending_level'),
                 batch__approved=False)
+            if rejected:
+                # extend query set with rejected batch
+                queryset = queryset.union(
+                    rejected.values_list('batch_id', flat=True)
+                )
     queryset = queryset.values_list('batch_id', flat=True).order_by('-id')
 
     paginator = PageNumberPagination()
@@ -940,9 +948,10 @@ class BatchSummaryView(APIView):
         batch = get_object_or_404(PendingDataBatch, pk=batch_id)
         instance = PendingAnswers.objects.filter(
             pending_data__batch_id=batch.id,
-            question__type__in=[QuestionTypes.option, QuestionTypes.number,
-                                QuestionTypes.administration,
-                                QuestionTypes.multiple_option]
+            question__type__in=[
+                QuestionTypes.option,
+                QuestionTypes.multiple_option
+            ]
         ).distinct('question')
         return Response(
             ListBatchSummarySerializer(

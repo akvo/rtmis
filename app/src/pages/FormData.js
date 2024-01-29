@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Button, Dialog, Text } from '@rneui/themed';
-import { View, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, ActivityIndicator, StyleSheet, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
-import axios from 'axios';
 
 import { UserState } from '../store';
 import { BaseLayout } from '../components';
@@ -11,6 +10,7 @@ import { crudDataPoints } from '../database/crud';
 import { i18n, backgroundTask, api } from '../lib';
 import { UIState, FormState } from '../store';
 import { getCurrentTimestamp } from '../form/lib';
+import crudJobs, { jobStatus } from '../database/crud/crud-jobs';
 
 const convertMinutesToHHMM = (minutes) => {
   const hours = Math.floor(minutes / 60);
@@ -59,8 +59,6 @@ const FormDataPage = ({ navigation, route }) => {
   const [data, setData] = useState([]);
   const [showConfirmationSyncDialog, setShowConfirmationSyncDialog] = useState(false);
   const [syncing, setSyncing] = useState(false);
-  const selectedForm = FormState.useState((s) => s.form);
-  const questions = JSON.parse(selectedForm.json)?.question_group?.flatMap((qg) => qg.question);
 
   const syncSettings = (networkType === 'wifi' && syncWifiOnly) || !syncWifiOnly;
 
@@ -136,75 +134,38 @@ const FormDataPage = ({ navigation, route }) => {
     setShowConfirmationSyncDialog(true);
   };
 
-  const handleOnUploadPhotos = async () => {
-    const data = await crudDataPoints.selectSubmissionToSync();
-    const AllPhotos = data?.flatMap((d) => {
-      const answers = JSON.parse(d.json);
-      const photos = questions
-        .filter((q) => q.type === 'photo')
-        .map((q) => ({ id: q.id, value: answers?.[q.id], dataID: d.id }))
-        .filter((p) => p.value);
-      return photos;
+  const runSyncSubmision = async () => {
+    await backgroundTask.syncFormSubmission();
+    await fetchData();
+    UIState.update((s) => {
+      s.isManualSynced = true;
     });
-
-    if (AllPhotos?.length) {
-      const uploads = AllPhotos.map((p) => {
-        const fileType = p.value.split('.').slice(-1)[0];
-        const formData = new FormData();
-        formData.append('file', {
-          uri: p.value,
-          name: `photo_${p.id}_${p.dataID}.${fileType}`,
-          type: `image/${fileType}`,
-        });
-        return api.post('/images', formData, {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-      });
-
-      axios
-        .all(uploads)
-        .then((responses) => {
-          const updatedPhotos = responses
-            .map(({ data: dataFile }) => {
-              const findPhoto =
-                AllPhotos.find((ap) => dataFile.file.includes(`${ap.id}_${ap.dataID}`)) || {};
-              return {
-                ...dataFile,
-                ...findPhoto,
-              };
-            })
-            .filter((d) => d);
-          handleOnSync(updatedPhotos);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    } else {
-      handleOnSync();
-    }
+    setSyncing(false);
   };
 
-  const handleOnSync = (photos = []) => {
-    setShowConfirmationSyncDialog(false);
-    setData([]);
-    setSyncing(true);
-    backgroundTask
-      .syncFormSubmission(photos)
-      .then(async () => {
-        await fetchData();
-      })
-      .catch((e) => {
-        console.error('[Manual SyncFormSubmission]: ', e);
-      })
-      .finally(() => {
-        UIState.update((s) => {
-          s.isManualSynced = true;
-        });
-        setSyncing(false);
-      });
+  const handleOnSync = async () => {
+    try {
+      setShowConfirmationSyncDialog(false);
+      setData([]);
+      setSyncing(true);
+      const activeJob = await crudJobs.getActiveJob();
+      if (activeJob) {
+        /**
+         * Delete the active job while it is still in pending status to prevent duplicate submissions.
+         */
+        if (activeJob.status === jobStatus.PENDING) {
+          await crudJobs.deleteJob(activeJob.id);
+          await runSyncSubmision();
+        } else {
+          ToastAndroid.show(trans.autoSyncInProgress, ToastAndroid.LONG);
+          setSyncing(false);
+        }
+      } else {
+        await runSyncSubmision();
+      }
+    } catch (e) {
+      console.error('[Manual SyncFormSubmission]: ', e);
+    }
   };
 
   const handleOnAction = showSubmitted ? goToDetails : goToEditForm;
@@ -244,7 +205,7 @@ const FormDataPage = ({ navigation, route }) => {
         <Dialog.Actions>
           <Dialog.Button
             title={trans.buttonOk}
-            onPress={handleOnUploadPhotos}
+            onPress={handleOnSync}
             testID="sync-confirmation-ok"
           />
           <Dialog.Button

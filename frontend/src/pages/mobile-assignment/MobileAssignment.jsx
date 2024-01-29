@@ -80,7 +80,11 @@ const MobileAssignment = () => {
       width: "10%",
       render: (_, record) => {
         return (
-          <Button type="link" onClick={() => handleOnEdit(record)}>
+          <Button
+            shape="round"
+            type="primary"
+            onClick={() => handleOnEdit(record)}
+          >
             {text.editButton}
           </Button>
         );
@@ -156,7 +160,7 @@ const MobileAssignment = () => {
           {/* Table start here */}
           <div
             style={{ padding: 0, minHeight: "40vh" }}
-            bodyStyle={{ padding: 0 }}
+            bodystyle={{ padding: 0 }}
           >
             <Table
               columns={columns}

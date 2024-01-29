@@ -1,15 +1,26 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Divider, Space } from "antd";
+import { Row, Col, Divider, Space, Popover } from "antd";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { api, store, uiText } from "../../lib";
 import ApproverFilters from "../../components/filters/ApproverFilters";
 import { SteppedLineTo } from "react-lineto";
 import { take, takeRight } from "lodash";
 import { useNotification } from "../../util/hooks";
+import { InfoCircleOutlined } from "@ant-design/icons";
 
 const ApproversTree = () => {
-  const { administration, forms, selectedForm } = store.useState((s) => s);
+  const {
+    administration: filterOption,
+    user: authUser,
+    forms,
+    selectedForm,
+  } = store.useState((s) => s);
+
+  const administration = useMemo(() => {
+    return filterOption.filter((item) => item.level !== 3);
+  }, [filterOption]);
+
   const [nodes, setNodes] = useState([]);
   const [dataset, setDataset] = useState([]);
   const [datasetJson, setDatasetJson] = useState("[]");
@@ -31,6 +42,10 @@ const ApproversTree = () => {
       title: text.manageDataValidationSetup,
     },
   ];
+
+  const startingLevel = window.levels.find(
+    (l) => l.level === authUser?.administration?.level + 1
+  );
 
   useEffect(() => {
     setNodes([
@@ -64,7 +79,8 @@ const ApproversTree = () => {
               ...adminClone,
               {
                 id: selectedAdministration.id,
-                childLevelName: selectedAdministration.childLevelName,
+                childLevelName:
+                  selectedAdministration.childLevelName || startingLevel?.name,
                 children: res.data.map((cI) => ({
                   ...cI,
                   user: cI.user,
@@ -84,7 +100,7 @@ const ApproversTree = () => {
           setLoading(false);
         });
     }
-  }, [administration, selectedForm, notify]);
+  }, [administration, selectedForm, notify, startingLevel]);
 
   const isPristine = useMemo(() => {
     return JSON.stringify(dataset) === datasetJson;
@@ -148,6 +164,7 @@ const ApproversTree = () => {
                 parent: res.data.parent,
                 children: res.data.children,
                 childLevelName: res.data.children_level_name,
+                level: res.data.level,
               },
             ];
           });
@@ -202,6 +219,13 @@ const ApproversTree = () => {
                         }
                       }}
                     >
+                      {approver && (
+                        <div className="info-icon">
+                          <Popover title={`Email: ${approver?.email}`}>
+                            <InfoCircleOutlined />
+                          </Popover>
+                        </div>
+                      )}
                       <Space direction="vertical">
                         <div>{childItem.name}</div>
                         <h3 className={approver ? "" : "not-assigned"}>

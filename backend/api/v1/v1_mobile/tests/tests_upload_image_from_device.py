@@ -37,7 +37,12 @@ class MobileAssignmentUploadImages(TestCase, AssignmentTokenTestHelperMixin):
         )
         self.mobile_assignment = MobileAssignment.objects.get(user=self.user)
         self.mobile_assignment.forms.add(self.form)
-        self.mobile_assignment.administrations.add(self.administration)
+        self.administration_children = Administration.objects.filter(
+            parent=self.administration
+        ).all()
+        self.mobile_assignment.administrations.add(
+            *self.administration_children
+        )
         self.filename = generate_file(filename='test_image.jpg')
 
     # Delete Images after all finish
@@ -55,11 +60,12 @@ class MobileAssignmentUploadImages(TestCase, AssignmentTokenTestHelperMixin):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(list(response.json()), ['message', 'file'])
         uploaded_filename = response.json().get('file')
+        uploaded_filename = uploaded_filename.split('/')[-1]
         self.assertTrue(
-            storage.check(uploaded_filename),
+            storage.check(f"/images/{uploaded_filename}"),
             'File exists',
         )
-        os.remove(f'{STORAGE_PATH}/{uploaded_filename}')
+        os.remove(f'{STORAGE_PATH}/images/{uploaded_filename}')
 
     def test_upload_image_without_credentials(self):
         response = self.client.post(

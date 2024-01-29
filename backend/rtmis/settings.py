@@ -197,6 +197,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "v1_users.SystemUser"
 
 # MOBILE ENV VARIABLES
+WEBDOMAIN = environ.get("WEBDOMAIN", "http://localhost:3000")
 APK_UPLOAD_SECRET = environ.get("APK_UPLOAD_SECRET")
 APP_NAME = "rtmis"
 MASTER_DATA = "./source"
@@ -215,8 +216,8 @@ EMAIL_FROM = environ.get("EMAIL_FROM") or 'noreply@akvo.org'
 Q_CLUSTER = {
     'name': 'DjangORM',
     'workers': 4,
-    'timeout': 90,
-    'retry': 120,
+    'timeout': 600,
+    'retry': 1200,
     'queue_limit': 50,
     'bulk': 10,
     'orm': 'default'

@@ -84,15 +84,17 @@ class Command(BaseCommand):
                         f"Form Updated | {form.name} V{form.version}")
             # question group loop
             for qgi, qg in enumerate(json_form["question_groups"]):
-                question_group, created = QG.objects.update_or_create(
-                    name=qg["question_group"],
-                    form=form,
-                    defaults={
-                        "name": qg["question_group"],
-                        "form": form,
-                        "order": qgi + 1
-                    })
-                if created:
+                question_group = QG.objects.filter(pk=qg["id"]).first()
+                if not question_group:
+                    question_group = QG.objects.create(
+                        id=qg["id"],
+                        name=qg["question_group"],
+                        form=form,
+                        order=qg["order"],
+                    )
+                else:
+                    question_group.name = qg["question_group"]
+                    question_group.order = qg["order"]
                     question_group.save()
                 for qi, q in enumerate(qg["questions"]):
                     question = Questions.objects.filter(pk=q["id"]).first()
@@ -102,7 +104,7 @@ class Command(BaseCommand):
                             name=q.get("name") or q.get("question"),
                             text=q["question"],
                             form=form,
-                            order=qi + 1,
+                            order=q.get("order") or qi + 1,
                             meta=q.get("meta"),
                             question_group=question_group,
                             rule=q.get("rule"),
@@ -119,9 +121,10 @@ class Command(BaseCommand):
                             meta_uuid=q.get("meta_uuid"),
                         )
                     else:
+                        question.question_group = question_group
                         question.name = q.get("name") or q.get("question")
                         question.text = q["question"]
-                        question.order = qi + 1
+                        question.order = q.get("order") or qi + 1
                         question.meta = q.get("meta")
                         question.rule = q.get("rule")
                         question.required = q.get("required")
@@ -132,7 +135,9 @@ class Command(BaseCommand):
                         question.tooltip = q.get("tooltip")
                         question.fn = q.get("fn")
                         question.hidden = q.get("hidden")
+                        question.display_only = q.get("displayOnly")
                         question.pre = q.get("pre")
+                        question.monitoring = q.get("monitoring")
                         question.meta_uuid = q.get("meta_uuid")
                         question.save()
                     if q.get("options"):

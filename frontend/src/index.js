@@ -40,7 +40,7 @@ const Application = () => {
     <>
       <Modal
         title="Mobile Device Disclaimer"
-        visible={isModalVisible}
+        open={isModalVisible}
         onOk={handleOk}
         cancelButtonProps={{ style: { display: "none" } }}
         okText="Proceed"

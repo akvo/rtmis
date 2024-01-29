@@ -4,7 +4,14 @@
 set -exuo pipefail
 
 [[ "${CI_BRANCH}" ==  "gh-pages" ]] && { echo "GH Pages update. Skip all"; exit 0; }
-[[ -n "${CI_TAG:=}" ]] && { echo "Skip build"; exit 0; }
+
+#Detect tag for prod/staging deployment
+tag_pattern="^[0-9]+\.[0-9]+\.[0-9]+$"
+if [[ "${CI_BRANCH}" =~ $tag_pattern && -z "${CI_TAG}" ]]; then
+    echo "This commit processed on Release CI. Skip all"
+    exit 0
+fi
+
 
 if grep -q .yml .gitignore; then
     echo "ERROR: .gitignore contains other docker-compose file"
@@ -31,7 +38,7 @@ then
     FRONTEND_CHANGES=1
 fi
 
-if [[ "${CI_BRANCH}" ==  "main" || "${CI_BRANCH}" ==  "develop" && "${CI_PULL_REQUEST}" !=  "true" ]];
+if [[ "${CI_TAG}" =~ $tag_pattern || "${CI_BRANCH}" ==  "main" || "${CI_BRANCH}" ==  "develop" && "${CI_PULL_REQUEST}" !=  "true" ]];
 then
     BACKEND_CHANGES=1
     FRONTEND_CHANGES=1

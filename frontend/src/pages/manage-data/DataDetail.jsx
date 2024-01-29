@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Table, Button, Space, Spin, Alert } from "antd";
 import { LoadingOutlined, HistoryOutlined } from "@ant-design/icons";
 import { EditableCell } from "../../components";
-import { api, store } from "../../lib";
+import { api, config, store } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { flatten, isEqual } from "lodash";
 import { HistoryTable } from "../../components";
@@ -125,17 +125,19 @@ const DataDetail = ({
         .get(`data/${id}`)
         .then((res) => {
           const data = questionGroups.map((qg) => {
-            const question = qg.question.map((q) => {
-              const findData = res.data.find((d) => d.question === q.id);
-              return {
-                ...q,
-                value:
-                  findData?.value || findData?.value === 0
-                    ? findData.value
-                    : null,
-                history: findData?.history || false,
-              };
-            });
+            const question = qg.question
+              .filter((item) => !item?.display_only)
+              .map((q) => {
+                const findData = res.data.find((d) => d.question === q.id);
+                return {
+                  ...q,
+                  value:
+                    findData?.value || findData?.value === 0
+                      ? findData.value
+                      : null,
+                  history: findData?.history || false,
+                };
+              });
             return {
               ...qg,
               question: question,
@@ -166,6 +168,13 @@ const DataDetail = ({
         ) > -1
       : false;
   }, [dataset]);
+
+  const deleteData = useMemo(() => {
+    const currentUser = config.roles.find(
+      (role) => role.name === authUser?.role_detail?.name
+    );
+    return currentUser?.delete_data;
+  }, [authUser]);
 
   return loading ? (
     <Space style={{ paddingTop: 18, color: "#9e9e9e" }} size="middle">
@@ -241,12 +250,19 @@ const DataDetail = ({
               onClick={handleSave}
               disabled={!edited || saving}
               loading={saving}
+              shape="round"
             >
               Save Edits
             </Button>
-            <Button type="danger" onClick={() => setDeleteData(record)}>
-              Delete
-            </Button>
+            {deleteData && (
+              <Button
+                type="danger"
+                onClick={() => setDeleteData(record)}
+                shape="round"
+              >
+                Delete
+              </Button>
+            )}
           </Space>
         </div>
       )}

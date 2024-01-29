@@ -2,20 +2,16 @@
   {
     "form_id": 1680838271306,
     "page": "bi",
-    "name": "Household Data",
+    "name": "JMP",
+    "path": "jmp",
     "content": [
       {
         "key": "title",
-        "text": "Household Data",
-        "style": {
-          "textAlign": "left",
-          "fontSize": "32px",
-          "color": "#2F58FF"
-        }
+        "text": "JMP"
       },
       {
         "key": "embed",
-        "link": "https://app.powerbi.com/view?r=eyJrIjoiYTVmNDNhZGUtNjg4OC00ZmVkLWI4ODItNWMzOGMwMGQyY2FkIiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiNDcxMDFkYzEtNGUxMS00NTZiLTliMTQtZjE4ODk2MWQxZTFhIiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
         "style": {
           "marginTop": "24px"
         }
@@ -25,89 +21,16 @@
   {
     "form_id": 1681077310330,
     "page": "bi",
-    "name": "Health Facilities Data",
+    "name": "RUSH",
+    "path": "rush",
     "content": [
       {
         "key": "title",
-        "text": "Health Facilities Data",
-        "style": {
-          "textAlign": "left",
-          "fontSize": "32px",
-          "color": "#2F58FF"
-        }
+        "text": "RUSH"
       },
       {
         "key": "embed",
-        "link": "https://app.powerbi.com/view?r=eyJrIjoiYTcyZGMwMTQtMmMwNS00MjBjLTk3ODQtMWY2ZGI0OTljN2ZhIiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
-        "style": {
-          "marginTop": "24px"
-        }
-      }
-    ]
-  },
-  {
-    "form_id": 1681103820972,
-    "page": "bi",
-    "name": "WASH in Schools Data",
-    "content": [
-      {
-        "key": "title",
-        "text": "WASH in Schools Data",
-        "style": {
-          "textAlign": "left",
-          "fontSize": "32px",
-          "color": "#2F58FF"
-        }
-      },
-      {
-        "key": "embed",
-        "link": "https://app.powerbi.com/view?r=eyJrIjoiZDcxNzZhNTgtYzMwZS00NmVhLWFhODktYzI3NDQzNzc5YWQyIiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
-        "style": {
-          "marginTop": "24px"
-        }
-      }
-    ]
-  },
-  {
-    "form_id": 1681173822909,
-    "page": "bi",
-    "name": "Water Points",
-    "content": [
-      {
-        "key": "title",
-        "text": "Water Points",
-        "style": {
-          "textAlign": "left",
-          "fontSize": "32px",
-          "color": "#2F58FF"
-        }
-      },
-      {
-        "key": "embed",
-        "link": "https://app.powerbi.com/view?r=eyJrIjoiNGE0YzQ2MjctNzY0YS00NzQ4LWIyNTktZDhlOTk4YmVhZWVhIiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
-        "style": {
-          "marginTop": "24px"
-        }
-      }
-    ]
-  },
-  {
-    "form_id": 1681117698699,
-    "page": "bi",
-    "name": "CLTS Progress Tracking",
-    "content": [
-      {
-        "key": "title",
-        "text": "CLTS Progress Tracking",
-        "style": {
-          "textAlign": "left",
-          "fontSize": "32px",
-          "color": "#2F58FF"
-        }
-      },
-      {
-        "key": "embed",
-        "link": "https://app.powerbi.com/view?r=eyJrIjoiNjZmMjQwMjctNzg2NS00NWJjLWE3ZWMtYWMyYzdmOTM3YjEwIiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiYzk5MzM4MmYtZGNmOS00NDlhLThlOTUtOWY1NzI4NzczNWIzIiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
         "style": {
           "marginTop": "24px"
         }

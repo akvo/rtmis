@@ -1,14 +1,15 @@
 import React from 'react';
 import { View } from 'react-native';
-import { FieldLabel } from '../support';
+import { FieldLabel, OptionItem } from '../support';
 import { styles } from '../styles';
 import { MultiSelect } from 'react-native-element-dropdown';
 import { FormState } from '../../store';
+import { Text } from 'react-native';
 import { i18n } from '../../lib';
 
 const TypeMultipleOption = ({
   onChange,
-  values,
+  value,
   keyform,
   id,
   name,
@@ -30,6 +31,7 @@ const TypeMultipleOption = ({
       <MultiSelect
         style={[styles.dropdownField]}
         selectedStyle={styles.dropdownSelectedList}
+        activeColor="#ddd"
         data={option}
         search={showSearch}
         maxHeight={300}
@@ -37,13 +39,23 @@ const TypeMultipleOption = ({
         valueField="name"
         searchPlaceholder={trans.searchPlaceholder}
         placeholder={trans.selectMultiItem}
-        value={values?.[id] || []}
+        value={value || []}
         onChange={(value) => {
           if (onChange) {
             onChange(id, value);
           }
         }}
+        renderItem={OptionItem}
+        renderSelectedItem={({ color, label, name }) => {
+          const renderStyle = color ? { backgroundColor: color, fontWeight: 'bold' } : {};
+          return (
+            <View style={{ ...styles.optionSelectedList, ...renderStyle }}>
+              <Text style={{ color: color ? '#fff' : '#000' }}>{label || name}</Text>
+            </View>
+          );
+        }}
         testID="type-multiple-option-dropdown"
+        confirmUnSelectItem={true}
       />
     </View>
   );

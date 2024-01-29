@@ -15,6 +15,7 @@ const AdministrationDropdown = ({
   persist = false,
   currentId = null,
   onChange,
+  limitLevel = false,
   ...props
 }) => {
   const { user, administration, levels } = store.useState((state) => state);
@@ -48,16 +49,26 @@ const AdministrationDropdown = ({
     fetchUserAdmin();
   }, [fetchUserAdmin, persist]);
 
-  const handleChange = async (e) => {
+  const handleChange = async (e, index) => {
     if (!e) {
       return;
     }
-    const { data: selectedAdm } = await api.get(`administration/${e}`);
+    let admItems = null;
+    if (Array.isArray(e)) {
+      const multiadministration = administration
+        ?.find((admLevel) => admLevel.level === lowestLevel.level - 1)
+        ?.children.filter((admItem) => e.includes(admItem.id));
+      admItems = multiadministration;
+    } else {
+      const { data: selectedAdm } = await api.get(`administration/${e}`);
+      admItems = [selectedAdm];
+    }
     store.update((s) => {
-      s.administration = s.administration.concat(selectedAdm);
+      s.administration.length = index + 1;
+      s.administration = s.administration.concat(admItems);
     });
     if (onChange) {
-      const _values = allowMultiple && Array.isArray(e) ? e : null;
+      const _values = allowMultiple && Array.isArray(e) ? e : [e];
       onChange(_values);
     }
   };
@@ -77,6 +88,7 @@ const AdministrationDropdown = ({
               (x?.children?.length && !maxLevel) ||
               (maxLevel && x?.level < maxLevel - 1 && x?.children?.length) // show children based on maxLevel
           )
+          .filter((l) => !limitLevel || l?.level !== limitLevel)
           .map((region, regionIdx) => {
             if (maxLevel === null || regionIdx + 1 < maxLevel) {
               /**
@@ -100,7 +112,7 @@ const AdministrationDropdown = ({
                 <div key={regionIdx}>
                   {withLabel ? (
                     <label className="ant-form-item-label">
-                      {region?.children_level_name}
+                      {region?.children_level_name || ""}
                     </label>
                   ) : (
                     ""

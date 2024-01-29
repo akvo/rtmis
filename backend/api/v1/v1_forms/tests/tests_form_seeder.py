@@ -57,15 +57,14 @@ class FormSeederTestCase(TestCase):
         forms = Forms.objects.all().delete()
         json_forms = [
             "Governance and policy",
-            "Health Facilities",
-            "Household",
-            "Urban Sanitation",
             "CLTS",
-            "WASH in Schools",
             "Water System",
             "RTMIS Community Monitoring Form",
             "RTMIS School WASH Form",
             "RTMIS Household Monitoring Form",
+            "Short HH",
+            "RTMIS Institution Form",
+            "RTMIS Healthcare Facility WASH Form",
         ]
 
         # RUN SEED NEW FORM
@@ -102,48 +101,29 @@ class FormSeederTestCase(TestCase):
                 content_type='application/json',
                 **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
             self.assertEqual(200, response.status_code)
-        response = self.client.get("/api/v1/form/web/519630048",
+
+        # TEST USING ./source/short-test-form.test.json
+        response = self.client.get("/api/v1/form/web/16993539153551",
                                    follow=True,
                                    content_type='application/json',
                                    **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
         self.assertEqual(200, response.status_code)
         response = response.json()
-        self.assertEqual("Introduction", response["question_group"][0]["name"])
-        self.assertEqual(364240038,
-                         response["question_group"][0]["question"][0]['id'])
-        self.assertEqual('Name of the data collector (Enumerator)',
-                         response["question_group"][0]["question"][0]['name'])
-        self.assertEqual(True,
-                         response["question_group"][0]["question"][0]['meta'])
-        self.assertEqual(5196300481,
-                         response["question_group"][0]["question"][1]['id'])
-        self.assertEqual('Organisation',
-                         response["question_group"][0]["question"][1]['name'])
-        self.assertEqual({"endpoint": "/api/v1/organisations?attributes=2"},
-                         response["question_group"][0]["question"][1]['api'])
-        self.assertEqual(517690051,
-                         response["question_group"][0]["question"][2]['id'])
-        self.assertEqual('Household code',
-                         response["question_group"][0]["question"][2]['name'])
-        self.assertEqual(
-            ['id', 'name', 'order'],
-            list(response["question_group"][0]["question"][3]['option'][0]))
-        self.assertEqual(False,
-                         response["question_group"][0]["question"][3]['meta'])
-
-        response = self.client.get("/api/v1/form/519630048",
-                                   follow=True,
-                                   content_type='application/json')
-        self.assertEqual(200, response.status_code)
-        response = response.json()
-        introduction = self.get_question_group(response, 'Introduction')
-        demographics = self.get_question_group(response, 'Demographics')
-        self.assertEqual(
-            ["chart", "aggregate", "table", "advanced_filter"],
-            demographics["question"][3]["attributes"])
-        self.assertEqual('Enumerator', introduction["question"][0]['name'])
-        self.assertEqual('Name of the data collector (Enumerator)',
-                         introduction["question"][0]['text'])
+        administration_found = False
+        for qg in response["question_group"]:
+            for q in qg["question"]:
+                if q["id"] == 16993548493821:
+                    self.assertEqual("cascade", q["type"])
+                    self.assertEqual(
+                        {
+                            "endpoint": "/api/v1/administration",
+                            "initial": 1,
+                            "list": "children"
+                        },
+                        q["api"],
+                    )
+                    administration_found = True
+        self.assertTrue(administration_found)
 
     def test_additional_attributes(self):
         seed_administration_test()

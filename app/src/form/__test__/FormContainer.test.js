@@ -1,8 +1,11 @@
 import React from 'react';
 import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
-jest.useFakeTimers();
 import FormContainer from '../FormContainer';
 import { FormState } from '../../store';
+
+jest.useFakeTimers();
+jest.mock('expo-font');
+jest.mock('expo-asset');
 
 const exampleTestForm = {
   name: 'Testing Form',

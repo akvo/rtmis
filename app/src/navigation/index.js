@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
@@ -18,53 +18,16 @@ import {
   AddNewForm,
   ForSelection,
   AdministrationList,
+  AboutPage,
 } from '../pages';
 import { UIState, AuthState, UserState, FormState, BuildParamsState } from '../store';
 import { BackHandler } from 'react-native';
-import * as TaskManager from 'expo-task-manager';
-import * as BackgroundFetch from 'expo-background-fetch';
 import * as Notifications from 'expo-notifications';
 import { backgroundTask, notification } from '../lib';
-
-const SYNC_FORM_VERSION_TASK_NAME = 'sync-form-version';
-const SYNC_FORM_SUBMISSION_TASK_NAME = 'sync-form-submission';
-
-export const setNotificationHandler = () =>
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: true,
-      shouldSetBadge: true,
-    }),
-  });
-setNotificationHandler();
-
-export const defineSyncFormVersionTask = () =>
-  TaskManager.defineTask(SYNC_FORM_VERSION_TASK_NAME, async () => {
-    try {
-      await backgroundTask.syncFormVersion({
-        sendPushNotification: notification.sendPushNotification,
-        showNotificationOnly: true,
-      });
-      return BackgroundFetch.BackgroundFetchResult.NewData;
-    } catch (err) {
-      console.error(`[${SYNC_FORM_VERSION_TASK_NAME}] Define task manager failed`, err);
-      return BackgroundFetch.Result.Failed;
-    }
-  });
-defineSyncFormVersionTask();
-
-export const defineSyncFormSubmissionTask = () =>
-  TaskManager.defineTask(SYNC_FORM_SUBMISSION_TASK_NAME, async () => {
-    try {
-      await backgroundTask.syncFormSubmission();
-      return BackgroundFetch.BackgroundFetchResult.NewData;
-    } catch (err) {
-      console.error(`[${SYNC_FORM_SUBMISSION_TASK_NAME}] Define task manager failed`, err);
-      return BackgroundFetch.Result.Failed;
-    }
-  });
-defineSyncFormSubmissionTask();
+import {
+  SYNC_FORM_SUBMISSION_TASK_NAME,
+  SYNC_FORM_VERSION_TASK_NAME,
+} from '../lib/background-task';
 
 const Stack = createNativeStackNavigator();
 
@@ -72,9 +35,8 @@ const RootNavigator = () => {
   const preventHardwareBackPressFormPages = ['Home', 'AddUser'];
   const currentPage = UIState.useState((s) => s.currentPage);
   const token = AuthState.useState((s) => s.token); // user already has session
-  const syncInterval = BuildParamsState.useState((s) => s.dataSyncInterval);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
       if (!token || !preventHardwareBackPressFormPages.includes(currentPage)) {
         // Allow navigation if user is not logged in
@@ -86,10 +48,7 @@ const RootNavigator = () => {
     return () => backHandler.remove();
   }, [token, currentPage]);
 
-  React.useEffect(() => {
-    backgroundTask.backgroundTaskStatus(SYNC_FORM_VERSION_TASK_NAME);
-    backgroundTask.backgroundTaskStatus(SYNC_FORM_SUBMISSION_TASK_NAME, syncInterval);
-
+  useEffect(() => {
     notification.registerForPushNotificationsAsync();
     const notificationListener = Notifications.addNotificationReceivedListener((notification) => {
       // console.info('[Notification]Received Listener');
@@ -97,7 +56,6 @@ const RootNavigator = () => {
     const responseListener = Notifications.addNotificationResponseReceivedListener((res) => {
       const notificationBody = res?.notification?.request;
       const notificationType = notificationBody?.content?.data?.notificationType;
-      // console.log('[Notification]Response Listener', notificationBody);
       if (notificationType === 'sync-form-version') {
         backgroundTask.syncFormVersion({ showNotificationOnly: false });
       }
@@ -109,6 +67,11 @@ const RootNavigator = () => {
       Notifications.removeNotificationSubscription(notificationListener);
       Notifications.removeNotificationSubscription(responseListener);
     };
+  }, []);
+
+  useEffect(() => {
+    backgroundTask.backgroundTaskStatus(SYNC_FORM_VERSION_TASK_NAME);
+    backgroundTask.backgroundTaskStatus(SYNC_FORM_SUBMISSION_TASK_NAME);
   }, []);
 
   return (
@@ -125,6 +88,7 @@ const RootNavigator = () => {
           <Stack.Screen name="ManageForm" component={ManageFormPage} />
           <Stack.Screen name="FormData" component={FormDataPage} />
           <Stack.Screen name="Settings" component={SettingsPage} />
+          <Stack.Screen name="About" component={AboutPage} />
           <Stack.Screen name="SettingsForm" component={SettingsFormPage} />
           <Stack.Screen name="FormPage" component={FormPage} />
           <Stack.Screen name="MapView" component={MapViewPage} />
@@ -150,7 +114,6 @@ const Navigation = (props) => {
       // reset form values
       FormState.update((s) => {
         s.currentValues = {};
-        s.questionGroupListCurrentValues = {};
         s.visitedQuestionGroup = [];
         s.surveyDuration = 0;
       });

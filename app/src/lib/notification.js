@@ -40,7 +40,7 @@ const sendPushNotification = async (type = 'sync-form-version') => {
       notificationBody = {
         content: {
           title: 'Sync submission completed',
-          body: 'Here is the notification body',
+          body: 'Your submission has been successfully synchronized.',
           data: data,
         },
         trigger: null,
@@ -50,7 +50,7 @@ const sendPushNotification = async (type = 'sync-form-version') => {
       notificationBody = {
         content: {
           title: 'New Form version available',
-          body: 'Here is the notification body',
+          body: 'A new version of the form is now available',
           data: data,
         },
         trigger: null,

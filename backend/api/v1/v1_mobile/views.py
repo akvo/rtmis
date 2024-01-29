@@ -7,8 +7,13 @@ from rest_framework.request import Request
 from rest_framework.viewsets import ModelViewSet
 from api.v1.v1_mobile.authentication import (
         IsMobileAssignment, MobileAssignmentToken)
-from rtmis.settings import MASTER_DATA, BASE_DIR, APP_NAME, APK_UPLOAD_SECRET
-from drf_spectacular.utils import extend_schema
+from rtmis.settings import (
+    MASTER_DATA,
+    BASE_DIR,
+    APP_NAME,
+    APK_UPLOAD_SECRET,
+    WEBDOMAIN
+)
 from django.http import HttpResponse
 from rest_framework import status, serializers
 from rest_framework.response import Response
@@ -20,17 +25,22 @@ from rest_framework.decorators import (
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser
-from drf_spectacular.utils import inline_serializer
+
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import (
+        OpenApiParameter, extend_schema, inline_serializer)
 
 from utils.custom_pagination import Pagination
 from .serializers import (
     MobileAssignmentFormsSerializer,
     MobileApkSerializer,
     MobileAssignmentSerializer,
+    MobileDataPointDownloadListSerializer
 )
 from .models import MobileAssignment, MobileApk
 from api.v1.v1_forms.models import Forms, Questions, QuestionTypes
 from api.v1.v1_profile.models import Access
+from api.v1.v1_data.models import FormData
 from api.v1.v1_forms.serializers import WebFormDetailSerializer
 from api.v1.v1_data.serializers import SubmitPendingFormSerializer
 from api.v1.v1_files.serializers import UploadImagesSerializer
@@ -38,6 +48,7 @@ from api.v1.v1_files.functions import process_image
 from utils.custom_helper import CustomPasscode
 from utils.default_serializers import DefaultResponseSerializer
 from utils.custom_serializer_fields import validate_serializers_message
+from utils import storage
 
 apk_path = os.path.join(BASE_DIR, MASTER_DATA)
 
@@ -233,7 +244,7 @@ def upload_image_form_device(request, version):
     return Response(
         {
             'message': 'File uploaded successfully',
-            'file': f'/images/{filename}',
+            'file': f'{WEBDOMAIN}/images/{filename}',
         },
         status=status.HTTP_200_OK,
     )
@@ -321,6 +332,7 @@ def upload_apk_file(request, version):
     file_cache = open(cache_file_name, 'wb')
     file_cache.write(download.content)
     file_cache.close()
+    storage.upload(cache_file_name, folder="apk", filename=f'{APP_NAME}.apk')
     serializer.save()
     return Response({'message': 'ok'}, status=status.HTTP_201_CREATED)
 
@@ -337,3 +349,50 @@ class MobileAssignmentViewSet(ModelViewSet):
             .prefetch_related('administrations', 'forms')\
             .filter(user=user)\
             .order_by('id')
+
+
+@extend_schema(
+    responses={
+        (200, 'application/json'): inline_serializer(
+            'MobileDeviceDownloadDatapointListResponse',
+            fields={
+                "total": serializers.IntegerField(),
+                "data": MobileDataPointDownloadListSerializer(many=True),
+                "page": serializers.IntegerField(),
+                "current": serializers.IntegerField(),
+            }
+        )
+    },
+    parameters=[
+        OpenApiParameter(
+            name='form',
+            required=True,
+            type=OpenApiTypes.NUMBER,
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='page',
+            required=True,
+            type=OpenApiTypes.NUMBER,
+            location=OpenApiParameter.QUERY),
+        OpenApiParameter(
+            name='administration',
+            required=False,
+            type=OpenApiTypes.NUMBER,
+            location=OpenApiParameter.QUERY),
+    ],
+    tags=['Mobile Device Form'],
+    summary='GET Download List for Syncing Datapoints',
+)
+@api_view(['GET'])
+@permission_classes([IsMobileAssignment])
+def get_datapoint_download_list(request, version):
+    paginator = Pagination()
+    # select only uuid and datapoint id
+    queryset = FormData.objects.filter(
+            administration_id=request.query_params.get('administration'),
+            form_id=request.query_params.get('form')
+    ).values('uuid', 'id', 'name').order_by('id')
+    instance = paginator.paginate_queryset(queryset, request)
+    return paginator.get_paginated_response(
+        MobileDataPointDownloadListSerializer(instance, many=True).data
+    )

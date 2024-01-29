@@ -6,7 +6,6 @@ import {
   PlusSquareOutlined,
   CloseSquareOutlined,
   FileTextFilled,
-  DeleteOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { api, store, uiText } from "../../lib";
@@ -15,7 +14,7 @@ import { columnsBatch, columnsSelected } from "./";
 import UploadDetail from "./UploadDetail";
 import BatchDetail from "./BatchDetail";
 import FormDropdown from "../../components/filters/FormDropdown";
-import { isEmpty, without, union, xor } from "lodash";
+import { isEmpty, union, xor } from "lodash";
 
 const { TextArea } = Input;
 
@@ -73,9 +72,11 @@ const Submissions = () => {
       dataIndex: "name",
       key: "name",
       render: (name, row) => (
-        <Row align="middle">
+        <Row align="middle" gutter={16}>
           <Col>
-            <FileTextFilled style={{ color: "#666666", fontSize: 28 }} />
+            <FileTextFilled
+              style={{ color: "#666666", fontSize: 28, paddingRight: "1rem" }}
+            />
           </Col>
           <Col>
             <div>{name}</div>
@@ -136,9 +137,9 @@ const Submissions = () => {
             });
           }}
         >
-          <DeleteOutlined
-            style={{ color: "red", fontSize: "17px", cursor: "pointer" }}
-          />
+          <Button shape="round" type="danger" ghost>
+            {text.deleteText}
+          </Button>
         </div>
       ),
       align: "center",
@@ -241,10 +242,7 @@ const Submissions = () => {
 
   const hasSelected = !isEmpty(selectedRowKeys);
   const onSelectTableRow = (val) => {
-    const { id } = val;
-    selectedRowKeys.includes(id)
-      ? setSelectedRowKeys(without(selectedRowKeys, id))
-      : setSelectedRowKeys([...selectedRowKeys, id]);
+    setSelectedRowKeys(val);
   };
 
   const onSelectAllTableRow = (isSelected) => {
@@ -325,7 +323,7 @@ const Submissions = () => {
       <div className="table-section">
         <div className="table-wrapper">
           <FormDropdown hidden={true} />
-          <div style={{ padding: 0 }} bodyStyle={{ padding: 30 }}>
+          <div style={{ padding: 0 }} bodystyle={{ padding: 30 }}>
             <Tabs
               className="main-tab"
               activeKey={dataTab}
@@ -352,7 +350,7 @@ const Submissions = () => {
                 dataTab === "pending-submission"
                   ? {
                       selectedRowKeys: selectedRowKeys,
-                      onSelect: onSelectTableRow,
+                      onChange: onSelectTableRow,
                       onSelectAll: onSelectAllTableRow,
                       handleDelete: handleDelete,
                       getCheckboxProps: (record) => ({
@@ -415,7 +413,7 @@ const Submissions = () => {
         </div>
       </div>
       <Modal
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => {
           setModalVisible(false);
         }}

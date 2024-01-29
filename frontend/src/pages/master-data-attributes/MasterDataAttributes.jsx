@@ -74,7 +74,11 @@ const MasterDataAttributes = () => {
       render: (_, record) => {
         return (
           <>
-            <Button type="link" onClick={() => handleOnEdit(record)}>
+            <Button
+              shape="round"
+              type="primary"
+              onClick={() => handleOnEdit(record)}
+            >
               {text.editButton}
             </Button>
           </>
@@ -160,7 +164,7 @@ const MasterDataAttributes = () => {
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}
-            bodyStyle={{ padding: 0 }}
+            bodystyle={{ padding: 0 }}
           >
             <Table
               columns={columns}

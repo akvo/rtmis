@@ -99,11 +99,14 @@ const AddEntityData = () => {
   const onFinish = async (values) => {
     setSubmitting(true);
     try {
+      const admId = Array.isArray(values?.administration)
+        ? values?.administration?.[0]
+        : values.administration;
       const payload = {
         entity: values.entity,
         code: values.code,
         name: values.name,
-        administration: values.administration,
+        administration: admId,
       };
       if (id) {
         await api.put(`/entity-data/${id}`, payload);

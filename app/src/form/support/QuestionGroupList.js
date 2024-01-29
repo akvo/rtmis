@@ -36,7 +36,6 @@ export const checkCompleteQuestionGroup = (form, values) => {
 
 const QuestionGroupList = ({
   form,
-  values = {},
   activeQuestionGroup,
   setActiveQuestionGroup,
   setShowQuestionGroupList,
@@ -48,8 +47,8 @@ const QuestionGroupList = ({
   const forms = selectedForm?.json ? JSON.parse(selectedForm.json) : {};
 
   const completedQuestionGroup = useMemo(() => {
-    return checkCompleteQuestionGroup(form, values);
-  });
+    return checkCompleteQuestionGroup(form, currentValues);
+  }, [form, currentValues]);
 
   const handleOnPress = (questionGroupId) => {
     setActiveQuestionGroup(questionGroupId);

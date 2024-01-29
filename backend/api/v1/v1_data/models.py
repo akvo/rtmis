@@ -39,10 +39,12 @@ class FormData(models.Model):
 
     @property
     def to_data_frame(self):
+        administration = self.administration
         data = {
             "id": self.id,
             "datapoint_name": self.name,
-            "administration": self.administration.administration_column,
+            "administration":
+            administration.administration_column if administration else None,
             "uuid": self.uuid,
             "geolocation":
             f"{self.geo[0]}, {self.geo[1]}" if self.geo else None,
@@ -66,7 +68,8 @@ class FormData(models.Model):
         data = {
             "id": self.id,
             "datapoint_name": self.name,
-            "administration": self.administration.id,
+            "administration":
+            self.administration.id if self.administration else None,
             "uuid": str(self.uuid),
             "geolocation": self.geo
         }
@@ -77,7 +80,7 @@ class FormData(models.Model):
             answers.update(a.to_key)
         data.update({"answers": answers})
         json_data = json.dumps(data)
-        file_name = f"./{str(self.uuid)}.json"
+        file_name = f"{str(self.uuid)}.json"
         # write to json file
         with open(file_name, 'w') as f:
             f.write(json_data)
@@ -279,8 +282,10 @@ class Answers(models.Model):
         ]:
             answer = self.name
         elif q.type == QuestionTypes.administration:
-            answer = Administration.objects.get(
-                pk=self.value).administration_column
+            answer = Administration.objects.filter(
+                pk=self.value).first()
+            if answer:
+                answer = answer.administration_column
         else:
             answer = self.value
         return {qname: answer}

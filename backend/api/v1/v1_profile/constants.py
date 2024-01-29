@@ -8,7 +8,7 @@ class UserRoleTypes:
         super_admin: 'Super Admin',
         admin: 'County Admin',
         approver: 'Data Approver',
-        user: 'Data Entry Staff',
+        user: 'Data Entry Supervisor',
     }
 
 

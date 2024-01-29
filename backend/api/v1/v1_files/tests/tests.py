@@ -32,11 +32,12 @@ class ImageUploadTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(list(response.json()), ["message", "file"])
         uploaded_filename = response.json().get("file")
+        uploaded_filename = uploaded_filename.split("/")[-1]
         self.assertTrue(
-            storage.check(uploaded_filename),
+            storage.check(f"/images/{uploaded_filename}"),
             "File exists",
         )
-        os.remove(f"{STORAGE_PATH}/{uploaded_filename}")
+        os.remove(f"{STORAGE_PATH}/images/{uploaded_filename}")
         os.remove(filename)
 
     def test_wrong_extension_upload(self):

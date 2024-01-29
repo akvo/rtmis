@@ -14,16 +14,18 @@ import { SaveDialogMenu, SaveDropdownMenu } from '../form/support';
 import { BaseLayout } from '../components';
 import { crudDataPoints } from '../database/crud';
 import { UserState, UIState, FormState } from '../store';
-import { getDurationInMinutes } from '../form/lib';
+import { generateDataPointName, getDurationInMinutes } from '../form/lib';
 import { i18n } from '../lib';
+import crudJobs, { jobStatus } from '../database/crud/crud-jobs';
+import { SYNC_FORM_SUBMISSION_TASK_NAME } from '../lib/background-task';
 
 const FormPage = ({ navigation, route }) => {
   const selectedForm = FormState.useState((s) => s.form);
   const surveyDuration = FormState.useState((s) => s.surveyDuration);
   const surveyStart = FormState.useState((s) => s.surveyStart);
   const currentValues = FormState.useState((s) => s.currentValues);
+  const cascades = FormState.useState((s) => s.cascades);
   const userId = UserState.useState((s) => s.id);
-  const [onSaveFormParams, setOnSaveFormParams] = useState({});
   const [showDialogMenu, setShowDialogMenu] = useState(false);
   const [showDropdownMenu, setShowDropdownMenu] = useState(false);
   const [showExitConfirmationDialog, setShowExitConfirmationDialog] = useState(false);
@@ -40,7 +42,6 @@ const FormPage = ({ navigation, route }) => {
   const refreshForm = () => {
     FormState.update((s) => {
       s.currentValues = {};
-      s.questionGroupListCurrentValues = {};
       s.visitedQuestionGroup = [];
       s.cascades = {};
       s.surveyDuration = 0;
@@ -49,8 +50,7 @@ const FormPage = ({ navigation, route }) => {
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-      const values = onSaveFormParams?.values;
-      if (values && Object.keys(values).length) {
+      if (Object.keys(currentValues).length) {
         setShowDialogMenu(true);
         return true;
       }
@@ -58,7 +58,7 @@ const FormPage = ({ navigation, route }) => {
       return false;
     });
     return () => backHandler.remove();
-  }, [onSaveFormParams]);
+  }, [currentValues]);
 
   useEffect(() => {
     if (!isNewSubmission) {
@@ -73,7 +73,6 @@ const FormPage = ({ navigation, route }) => {
     if (dpValue?.json && Object.keys(dpValue.json)?.length) {
       FormState.update((s) => {
         s.currentValues = dpValue.json;
-        s.questionGroupListCurrentValues = dpValue.json;
       });
     }
     setLoading(false);
@@ -86,14 +85,8 @@ const FormPage = ({ navigation, route }) => {
     return JSON.parse(selectedForm.json);
   }, [selectedForm]);
 
-  const onSaveCallback = useCallback((values) => {
-    const state = { values };
-    setOnSaveFormParams(state);
-  }, []);
-
   const handleOnPressArrowBackButton = () => {
-    const values = onSaveFormParams?.values;
-    if (values && Object.keys(values).length) {
+    if (Object.keys(currentValues).length) {
       setShowDialogMenu(true);
       return;
     }
@@ -102,15 +95,15 @@ const FormPage = ({ navigation, route }) => {
   };
 
   const handleOnSaveAndExit = async () => {
-    const { values } = onSaveFormParams;
+    const { dpName } = generateDataPointName(formJSON, currentValues, cascades);
     try {
       const saveData = {
         form: currentFormId,
         user: userId,
-        name: values?.name || trans.untitled,
+        name: dpName || trans.untitled,
         submitted: 0,
         duration: surveyDuration,
-        json: values?.answers || {},
+        json: currentValues || {},
       };
       const dbCall = isNewSubmission
         ? crudDataPoints.saveDataPoint
@@ -163,11 +156,12 @@ const FormPage = ({ navigation, route }) => {
           }
           answers[q.id] = val;
         });
-      // TODO:: submittedAt still null
+
+      const datapoitName = values?.name || trans.untitled;
       const submitData = {
         form: currentFormId,
         user: userId,
-        name: values?.name || trans.untitled,
+        name: datapoitName,
         geo: values.geo,
         submitted: 1,
         duration: surveyDuration,
@@ -181,6 +175,16 @@ const FormPage = ({ navigation, route }) => {
         ...currentDataPoint,
         ...submitData,
         duration: duration === 0 ? 1 : duration,
+      });
+      /**
+       * Create a new job for syncing form submissions.
+       */
+      await crudJobs.addJob({
+        user: userId,
+        type: SYNC_FORM_SUBMISSION_TASK_NAME,
+        active: 1,
+        status: jobStatus.PENDING,
+        info: `${currentFormId} | ${datapoitName}`,
       });
       if (Platform.OS === 'android') {
         ToastAndroid.show(trans.successSubmitted, ToastAndroid.LONG);
@@ -225,9 +229,7 @@ const FormPage = ({ navigation, route }) => {
       {!loading ? (
         <FormContainer
           forms={formJSON}
-          initialValues={currentValues}
           onSubmit={handleOnSubmitForm}
-          onSave={onSaveCallback}
           setShowDialogMenu={setShowDialogMenu}
         />
       ) : (

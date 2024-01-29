@@ -3,13 +3,14 @@
   "form": "RTMIS Community Monitoring Form",
   "description": "Community monitoring",
   "defaultLanguage": "en",
-  "languages": ["en", "fr"],
+  "languages": ["en"],
   "version": 1,
+  "type": 1,
   "translations": null,
   "question_groups": [
     {
       "id": 1699354006534,
-      "question_group": "COMMUNITY: data",
+      "question_group": "COMMUNITY Primary data",
       "description": "COMMUNITY: data",
       "order": 1,
       "repeatable": false,
@@ -36,68 +37,155 @@
               "name": "Update",
               "order": 2
             }
-          ]
-        }
-      ]
-    },
-    {
-      "id": 1699951210637,
-      "question_group": "Community: location",
-      "description": null,
-      "order": 2,
-      "repeatable": false,
-      "translations": null,
-      "questions": [
+          ],
+          "pre": {
+            "answer": ["New"],
+            "fill": [
+              {
+                "id": 1699354006535,
+                "answer": ["New"]
+              },
+              {
+                "id": 1699951538608,
+                "answer": ["Village chief/Community head"]
+              },
+              {
+                "id": 1699951986776,
+                "answer": ["Medium drainage soil (medium sand, weathered rock)"]
+              },
+              {
+                "id": 1699952153243,
+                "answer": ["Less than 5m"]
+              },
+              {
+                "id": 1699952219561,
+                "answer": [
+                  "Protected groundwater sources (protected boreholes, protected dug wells or protected springs)"
+                ]
+              },
+              {
+                "id": 1699952295823,
+                "answer": ["More than 25 percent"]
+              },
+              {
+                "id": 1699952355848,
+                "answer": ["More than 25 percent"]
+              },
+              {
+                "id": 1699952418978,
+                "answer": ["More than 25 percent"]
+              },
+              {
+                "id": 1702364544574,
+                "answer": ["G0 High risk of groundwater contamination"]
+              },
+              {
+                "id": 1702324544574,
+                "answer": [
+                  "G0 At-risk household monitoring: no disaggregated data available from community"
+                ]
+              },
+              {
+                "id": 1699958670124,
+                "answer": [
+                  "G0 Action plan for G2: not available, not approved or not in use"
+                ]
+              },
+              {
+                "id": 1699958822791,
+                "answer": [
+                  "G0 Action plan for G3: not available, not approved or not in use"
+                ]
+              },
+              {
+                "id": 1699959649782,
+                "answer": [
+                  "G0 Child or adult excreta observed in communal areas"
+                ]
+              },
+              {
+                "id": 1699959743410,
+                "answer": ["G0 Used diapers visible in communal areas"]
+              },
+              {
+                "id": 1699959861479,
+                "answer": ["G0 Visible dirt or contamination"]
+              },
+              {
+                "id": 1699960025562,
+                "answer": ["G0 No protection of water points"]
+              },
+              {
+                "id": 1699960104326,
+                "answer": ["G0 Standing water visible around water point"]
+              },
+              {
+                "id": 1699960255414,
+                "answer": [
+                  "G0 Unsafe disposal: to open pit, open space, open drain or water body in communal areas"
+                ]
+              },
+              {
+                "id": 1699960354498,
+                "answer": ["G0 Significant erosion in communal areas"]
+              },
+              {
+                "id": 1699960411329,
+                "answer": [
+                  "G0 Significant visible solid wastes in communal areas"
+                ]
+              },
+              {
+                "id": 1699960488230,
+                "answer": ["G0 Significant standing water in communal areas"]
+              },
+              {
+                "id": 1699960542156,
+                "answer": ["G0 No treatment or management in communal areas"]
+              }
+            ]
+          }
+        },
         {
           "id": 1699951210638,
           "question": "What is the location of the community?",
-          "order": 1,
-          "type": "option",
+          "order": 2,
+          "type": "administration",
           "tooltip": {
             "text": "This question contains a list of possible household locations, starting with the government area or district, down to the village."
           },
-          "required": false,
-          "meta": false,
-          "options": [
+          "required": true,
+          "meta": true,
+          "dependency": [
             {
-              "id": 1699951356878,
-              "name": "County",
-              "order": 1
-            },
-            {
-              "id": 1699951356879,
-              "name": "Sub-County",
-              "order": 2
-            },
-            {
-              "id": 1699951384555,
-              "name": "Ward",
-              "order": 3
-            },
-            {
-              "id": 1699951392211,
-              "name": "Community: Village or other urban unit",
-              "order": 4
+              "id": 1699354006535,
+              "options": ["New"]
             }
           ]
         },
         {
           "id": 1699951425330,
           "question": "Geolocation of the community",
-          "order": 2,
+          "order": 3,
           "type": "geo",
           "tooltip": {
             "text": "Record GPS coordinates of a central place in the community (e.g. community meeting place)"
           },
-          "required": false,
-          "meta": false,
-          "options": null
+          "required": true,
+          "meta": true,
+          "options": null,
+          "dependency": [
+            {
+              "id": 1699354006535,
+              "options": ["New"]
+            }
+          ]
         }
       ]
     },
     {
       "id": 1699951538607,
-      "question_group": "INTERVIEW: Community data (first time)",
+      "question_group": "INTERVIEW: Community data",
       "description": null,
       "order": 3,
       "repeatable": false,
@@ -111,7 +199,7 @@
           "tooltip": {
             "text": "List of community roles"
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
@@ -158,10 +246,13 @@
           "order": 2,
           "type": "number",
           "tooltip": {
-            "text": "INTERVIEW: how many households currently live in this community (village or urban neighbourhood), including temporary, migrant and seasonal visitors?\nHousehold: defined as a person or group of persons who: a) Are related or unrelated; b) live together in the same dwelling/housing unit (at least 4 nights a week); c) acknowledge one adult male or female as the head of household; d) share the same living arrangements; and e) are considered as one unit."
+            "text": "<b>INTERVIEW:</b> how many households currently live in this community (village or urban neighbourhood), including temporary, migrant and seasonal visitors?<br><b>Household:</b> defined as a person or group of persons who: a) Are related or unrelated; b) live together in the same dwelling/housing unit (at least 4 nights a week); c) acknowledge one adult male or female as the head of household; d) share the same living arrangements; and e) are considered as one unit."
           },
-          "required": false,
+          "required": true,
           "meta": false,
+          "rule": {
+            "min": 1
+          },
           "options": null,
           "fn": null
         },
@@ -170,23 +261,38 @@
           "question": "Number of at-risk households",
           "order": 3,
           "type": "number",
-          "tooltip": {
-            "text": "INTERVIEW: how many at-risk households have been identified in the community?\nAt-risk households: households that meet the at-risk criteria determined by the County Public Health Office"
+          "rule": {
+            "min": 0
           },
-          "required": false,
+          "tooltip": {
+            "text": "<b>INTERVIEW:</b> how many at-risk households have been identified in the community?<br><b>At-risk households:</b> households that meet the at-risk criteria determined by the County Public Health Office"
+          },
+          "required": true,
           "meta": false,
           "options": null,
           "fn": null
         },
         {
+          "id": 1699951887044,
+          "meta": false,
+          "question": "Implementation partners working in community",
+          "name": null,
+          "order": 4,
+          "required": true,
+          "type": "cascade",
+          "api": {
+            "endpoint": "/api/v1/organisations?attributes=2"
+          }
+        },
+        {
           "id": 1699951986776,
           "question": "Soil type in community",
-          "order": 4,
+          "order": 5,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: what is the main soil type in this community?\nSoil type: what type of soil makes up the top 6 feet of the soil profile (only one type can be selected)\nSoil drainage: ask whether water soaks into the soil? If water soaks in quickly and easily, then it is likely to be a high drainage soil; if it soaks in at a normal rate, it is a medium drainage soil; and if water soaks in very slowly (or not at all) then it is a low drainage soil"
+            "text": "<b>INTERVIEW:</b> what is the main soil type in this community?<br><b>Soil type:</b> what type of soil makes up the top 6 feet of the soil profile (only one type can be selected)<br><b>Soil drainage:</b> ask whether water soaks into the soil? If water soaks in quickly and easily, then it is likely to be a high drainage soil; if it soaks in at a normal rate, it is a medium drainage soil; and if water soaks in very slowly (or not at all) then it is a low drainage soil"
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
@@ -210,12 +316,12 @@
         {
           "id": 1699952153243,
           "question": "Depth to groundwater in community",
-          "order": 5,
+          "order": 6,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: what is the average depth to the groundwater table in this community?\nDepth to groundwater: how many metres below ground is water found (e.g. depth from ground level to water in wells and boreholes)?"
+            "text": "<b>INTERVIEW:</b> what is the average depth to the groundwater table in this community?<br><b>Depth to groundwater:</b> how many metres below ground is water found (e.g. depth from ground level to water in wells and boreholes)?"
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
@@ -239,12 +345,12 @@
         {
           "id": 1699952219561,
           "question": "Water supply protection in community",
-          "order": 6,
+          "order": 7,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: what is the main water supply technology used in this community?\nWater supply technology: main system or facilities used to supply drinking water"
+            "text": "<b>INTERVIEW:</b> what is the main water supply technology used in this community?<br><b>Water supply technology:</b> main system or facilities used to supply drinking water"
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
@@ -268,27 +374,27 @@
         {
           "id": 1699952295823,
           "question": "Use of groundwater for drinking water supply",
-          "order": 7,
+          "order": 8,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: what percentage of households obtain drinking water from groundwater sources in this community?\nObtained from groundwater sources: drinking water is collected from water supplies or water points that produce water from below ground (boreholes, dug wells or springs)"
+            "text": "<b>INTERVIEW:</b> what percentage of households obtain drinking water from groundwater sources in this community?<br><b>Obtained from groundwater sources:</b> drinking water is collected from water supplies or water points that produce water from below ground (boreholes, dug wells or springs)"
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
               "id": 1699952315820,
-              "name": "More than 25%",
+              "name": "More than 25 percent",
               "order": 1
             },
             {
               "id": 1699952315821,
-              "name": "Between 1% and 25%",
+              "name": "Between 1 percent  and 25 percent",
               "order": 2
             },
             {
               "id": 1699952343092,
-              "name": "0% (zero percent)",
+              "name": "Zero Percent",
               "order": 3
             }
           ],
@@ -296,23 +402,23 @@
         },
         {
           "id": 1699952355848,
-          "question": "Distance of toilets from groundwater sources",
-          "order": 8,
+          "question": "Percentage of toilets less than 10m from groundwater sources",
+          "order": 9,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: what percentage of household toilets are located less than 10m from groundwater sources?\nToilet distance from groundwater source: the horizontal distance (along the ground) between the toilet and the nearest groundwater source (borehole, dug well or spring)"
+            "text": "<b>INTERVIEW:</b> what percentage of household toilets are located less than 10m from groundwater sources?<br><b>Toilet distance from groundwater source:</b>the horizontal distance (along the ground) between the toilet and the nearest groundwater source (borehole, dug well or spring)"
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
               "id": 1699952385488,
-              "name": "More than 25%",
+              "name": "More than 25 percent",
               "order": 1
             },
             {
               "id": 1699952385489,
-              "name": "Less than 25%",
+              "name": "Less than 25 percent",
               "order": 2
             }
           ],
@@ -321,22 +427,22 @@
         {
           "id": 1699952418978,
           "question": "Toilets uphill from groundwater sources",
-          "order": 9,
+          "order": 10,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: what percentage of household toilets are located uphill from (above) the nearest groundwater sources?\nToilet uphill of groundwater source: the toilet is located at a higher point than (above) the groundwater source (borehole, dug well or spring)"
+            "text": "<b>INTERVIEW:</b> what percentage of household toilets are located uphill from (above) the nearest groundwater sources?<br><b>Toilet uphill of groundwater source:</b> the toilet is located at a higher point than (above) the groundwater source (borehole, dug well or spring)"
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
               "id": 1699952432804,
-              "name": "More than 25%",
+              "name": "More than 25 percent",
               "order": 1
             },
             {
               "id": 1699952432805,
-              "name": "Less than 25%",
+              "name": "Less than 25 percent",
               "order": 2
             }
           ],
@@ -344,28 +450,49 @@
         },
         {
           "id": 1702364544574,
-          "question": "Outcome result - Ground water contamination",
-          "order": 10,
-          "type": "autofield",
+          "question": "COMMUNITY LEVEL ASSESSMENT: Low risk of groundwater contamination",
+          "order": 11,
+          "type": "option",
           "tooltip": null,
-          "required": false,
+          "required": true,
           "meta": false,
-          "options": null,
-          "fn": {
-            "fnColor": {},
-            "fnString": "function () {\n  return (\n    #1699951986776.includes(\"High\") ||\n    (#1699951986776.includes(\"Medium\") && #1699952153243.includes(\"Less\")) ||\n    (#1699951986776.includes(\"Medium\") && #1699952153243.includes(\"Between\")) ||\n    (#1699951986776.includes(\"Low\") && #1699952153243.includes(\"Less\"))\n  ) ? \"High\" : \"Low\"\n}",
-            "multiline": true
-          }
-        },
+          "options": [
+            {
+              "id": 16999524328041,
+              "name": "G0 High risk of groundwater contamination",
+              "order": 1,
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 16999524328052,
+              "name": "G2 Low risk of groundwater contamination",
+              "order": 2,
+              "color": "#38A15A"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1699951538601,
+      "question_group": "INTERVIEW: Community toilet data",
+      "description": null,
+      "order": 3,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
         {
           "id": 1699958188283,
           "question": "G1: Number of households who own a toilet",
-          "order": 11,
+          "order": 1,
           "type": "number",
-          "tooltip": {
-            "text": "INTERVIEW: how many households in the community currently own a toilet?\nHouseholds who own a toilet: current information based on latest community monitoring information (for households who have their own toilet)"
+          "rule": {
+            "min": 0
           },
-          "required": false,
+          "tooltip": {
+            "text": "<b>INTERVIEW:</b> how many households in the community currently own a toilet?<br><b>Households who own a toilet:</b> current information based on latest community monitoring information (for households who have their own toilet)"
+          },
+          "required": true,
           "meta": false,
           "options": null,
           "fn": null
@@ -373,12 +500,15 @@
         {
           "id": 1699958382023,
           "question": "G2: Number of households using durable toilets with safe containment",
-          "order": 12,
+          "order": 2,
           "type": "number",
-          "tooltip": {
-            "text": "INTERVIEW: how many households in the community currently use a durable toilet with safe containment?\nHouseholds who use a durable toilet with safe containment: current information based on latest community monitoring information (for households who have durable toilets with safe containment)"
+          "rule": {
+            "min": 0
           },
-          "required": false,
+          "tooltip": {
+            "text": "<b>INTERVIEW:</b> how many households in the community currently use a durable toilet with safe containment?<br><b>Households who use a durable toilet with safe containment:</b> current information based on latest community monitoring information (for households who have durable toilets with safe containment)"
+          },
+          "required": true,
           "meta": false,
           "options": null,
           "fn": null
@@ -386,12 +516,15 @@
         {
           "id": 1699958427807,
           "question": "G3: Number of households with permanent handwashing stations",
-          "order": 13,
+          "order": 3,
           "type": "number",
-          "tooltip": {
-            "text": "INTERVIEW: how many households in the community own permanent handwashing stations?\nHouseholds with permanent handwashing stations: current information based on latest community monitoring information (for households with permanent handwashing stations)"
+          "rule": {
+            "min": 0
           },
-          "required": false,
+          "tooltip": {
+            "text": "<b>INTERVIEW:</b> how many households in the community own permanent handwashing stations?<br><b>Households with permanent handwashing stations:</b> current information based on latest community monitoring information (for households with permanent handwashing stations)"
+          },
+          "required": true,
           "meta": false,
           "options": null,
           "fn": null
@@ -399,12 +532,15 @@
         {
           "id": 1699958464968,
           "question": "G1: Number of at-risk households who own a toilet",
-          "order": 14,
+          "order": 4,
           "type": "number",
-          "tooltip": {
-            "text": "INTERVIEW: how many at-risk households in the community currently own a toilet?"
+          "rule": {
+            "min": 0
           },
-          "required": false,
+          "tooltip": {
+            "text": "<b>INTERVIEW:</b> how many at-risk households in the community currently own a toilet?"
+          },
+          "required": true,
           "meta": false,
           "options": null,
           "fn": null
@@ -412,12 +548,15 @@
         {
           "id": 1699958555723,
           "question": "G2: Number of at-risk households using durable toilets with safe containment",
-          "order": 15,
+          "order": 5,
           "type": "number",
-          "tooltip": {
-            "text": "INTERVIEW: how many at-risk households in the community currently use durable toilets with safe containment?"
+          "rule": {
+            "min": 0
           },
-          "required": false,
+          "tooltip": {
+            "text": "<b>INTERVIEW:</b> how many at-risk households in the community currently use durable toilets with safe containment?"
+          },
+          "required": true,
           "meta": false,
           "options": null,
           "fn": null
@@ -425,36 +564,70 @@
         {
           "id": 1699958568410,
           "question": "G3: Number of at-risk households with permanent handwashing stations",
-          "order": 16,
+          "order": 6,
           "type": "number",
-          "tooltip": {
-            "text": "INTERVIEW: how many at-risk households in the community currently own a permanent handwashing facility?"
+          "rule": {
+            "min": 0
           },
-          "required": false,
+          "tooltip": {
+            "text": "<b>INTERVIEW:</b> how many at-risk households in the community currently own a permanent handwashing facility?"
+          },
+          "required": true,
           "meta": false,
           "options": null,
           "fn": null
         },
         {
+          "id": 1702324544574,
+          "question": "COMMUNITY LEVEL ASSESSMENT: Monitoring of at-risk households",
+          "order": 7,
+          "type": "option",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 16999223328041,
+              "name": "G0 At-risk household monitoring: no disaggregated data available from community",
+              "order": 1,
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 16999524328042,
+              "name": "G0 At-risk household monitoring not reliable: More than 5% difference in monitoring data",
+              "order": 2,
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 16999524328852,
+              "name": "G1/G2/G3 At-risk household monitoring system functional: Less than 5% difference in monitoring data",
+              "order": 3,
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
           "id": 1699958670124,
           "question": "Action plan for G2 status",
-          "order": 17,
+          "order": 8,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: has an action plan for G2 status been approved?\nINTERVIEW: is the action plan for G2 status in use?"
+            "text": "<b>INTERVIEW:</b> has an action plan for G2 status been approved?<br><b>INTERVIEW: is the action plan for G2 status in use?"
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
               "id": 1699958682490,
               "name": "G0 Action plan for G2: not available, not approved or not in use",
-              "order": 1
+              "order": 1,
+              "color": "#DB3B3B"
             },
             {
               "id": 1699958682491,
               "name": "G1 Action plan for G2: available and in use",
-              "order": 2
+              "order": 2,
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -462,100 +635,28 @@
         {
           "id": 1699958822791,
           "question": "Action plan for G3 status",
-          "order": 18,
+          "order": 9,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: has an action plan for G3 status been approved?\nINTERVIEW: is the action plan for G3 status in use?"
+            "text": "<b>INTERVIEW:</b> has an action plan for G3 status been approved?<br><b>INTERVIEW:</b> is the action plan for G3 status in use?"
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
               "id": 1699958837025,
               "name": "G0 Action plan for G3: not available, not approved or not in use",
-              "order": 1
+              "order": 1,
+              "color": "#DB3B3B"
             },
             {
               "id": 1699958837026,
               "name": "G1 Action plan for G3: available and in use",
-              "order": 2
+              "order": 2,
+              "color": "#38A15A"
             }
           ],
           "fn": null
-        }
-      ]
-    },
-    {
-      "id": 1699958882005,
-      "question_group": "INTERVIEW: Update community information",
-      "description": null,
-      "order": 4,
-      "repeatable": false,
-      "translations": null,
-      "questions": [
-        {
-          "id": 1699958882006,
-          "question": "Change in number of households who live permanently in this community?",
-          "order": 1,
-          "type": "option",
-          "required": false,
-          "meta": false,
-          "options": [
-            {
-              "id": 1699959140092,
-              "name": "Yes",
-              "order": 1
-            },
-            {
-              "id": 1699959140093,
-              "name": "No",
-              "order": 2
-            }
-          ],
-          "tooltip": null
-        },
-        {
-          "id": 1699959384611,
-          "question": "Update: Number of households in community",
-          "order": 2,
-          "type": "number",
-          "required": false,
-          "meta": false,
-          "options": null,
-          "tooltip": {
-            "text": "INTERVIEW: how many households currently live in this community (village or urban neighbourhood), including temporary, migrant and seasonal visitors?\nHousehold: defined as a person or group of persons who: a) Are related or unrelated; b) live together in the same dwelling/housing unit (at least 4 nights a week); c) acknowledge one adult male or female as the head of household; d) share the same living arrangements; and e) are considered as one unit."
-          }
-        },
-        {
-          "id": 1699959218676,
-          "question": "Change in any number of at-risk households?",
-          "order": 3,
-          "type": "option",
-          "required": false,
-          "meta": false,
-          "options": [
-            {
-              "id": 1699959246462,
-              "name": "Yes",
-              "order": 1
-            },
-            {
-              "id": 1699959246463,
-              "name": "No",
-              "order": 2
-            }
-          ],
-          "tooltip": null
-        },
-        {
-          "id": 1699959255650,
-          "question": "Update: Number of at-risk households",
-          "order": 4,
-          "type": "number",
-          "required": false,
-          "meta": false,
-          "options": null,
-          "tooltip": null
         }
       ]
     },
@@ -573,20 +674,22 @@
           "order": 1,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: visible human faeces in communal areas\nOpen defecation in water bodies: where groups or communities may practice open defecation in nearby water bodies (for example, people living near beaches, lakes and rivers), human excreta may not be visible in communal areas. In these cases, household interviews should be undertaken to assess whether people practice open defecation (including in water bodies) or use a toilet, in combination of observation of the presence of a functional toilet (to verify claims of toilet use).\nCommunal areas: areas within the community that are not part of household compounds, and which are accessible to all."
+            "text": "<b>OBSERVE: visible human faeces in communal areas</b><br><b>Open defecation in water bodies:</b> where groups or communities may practice open defecation in nearby water bodies (for example, people living near beaches, lakes and rivers), human excreta may not be visible in communal areas. In these cases, household interviews should be undertaken to assess whether people practice open defecation (including in water bodies) or use a toilet, in combination of observation of the presence of a functional toilet (to verify claims of toilet use).<br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
               "id": 1699959708165,
               "name": "G0 Child or adult excreta observed in communal areas",
-              "order": 1
+              "order": 1,
+              "color": "#DB3B3B"
             },
             {
               "id": 1699959708166,
               "name": "G1 No visible OD or human excreta (child or adult) in communal areas",
-              "order": 2
+              "order": 2,
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -601,7 +704,10 @@
           "meta": false,
           "options": null,
           "fn": {
-            "fnColor": {},
+            "fnColor": {
+              "G0 Child or adult excreta observed in compound": "#FD3F31",
+              "G1 No exposed human excreta in compound": "#FDC74B"
+            },
             "fnString": "function(){ return (#1699959649782.includes(\"G1\")) ? \"G1 No exposed human excreta in compound\" : \"G0 Child or adult excreta observed in compound\" }",
             "multiline": false
           }
@@ -612,40 +718,46 @@
           "order": 3,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: no used diapers visible in communal areas\nSafe management of washable cloths: where washable cloths are used to contain child excreta, the cloths should be cleaned and washed in a safe place (for example, so that the child excreta do not contaminate the compound or a water point) and any faeces contained in the cloth should be safely disposed (for example, put or rinsed into the toilet, or buried).\nSafe management of disposable diapers: where disposable diapers are used to contain child excreta, the diapers should be properly closed and EITHER disposed to a covered waste pit, OR buried, OR collected for disposal at a safely managed communal disposal site. \nCommunal areas: areas within the community that are not part of household compounds, and which are accessible to all."
+            "text": "<b>OBSERVE: no used diapers visible in communal areas</b><br><b>Safe management of washable cloths:</b> where washable cloths are used to contain child excreta, the cloths should be cleaned and washed in a safe place (for example, so that the child excreta do not contaminate the compound or a water point) and any faeces contained in the cloth should be safely disposed (for example, put or rinsed into the toilet, or buried).<br><b>Safe management of disposable diapers:</b> where disposable diapers are used to contain child excreta, the diapers should be properly closed and EITHER disposed to a covered waste pit, OR buried, OR collected for disposal at a safely managed communal disposal site. <br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
               "id": 1699959793320,
               "name": "G0 Used diapers visible in communal areas",
-              "order": 1
+              "order": 1,
+              "color": "#DB3B3B"
             },
             {
               "id": 1699959793321,
               "name": "G0 Used diapers unsafely disposed or unsafely washed",
-              "order": 2
+              "order": 2,
+              "color": "#DB3B3B"
             },
             {
               "id": 1699959809374,
               "name": "G1 Washable cloths safely emptied and safely washed",
-              "order": 3
+              "order": 3,
+              "color": "#38A15A"
             },
             {
               "id": 1699959816980,
               "name": "G1 Disposable diapers put into covered waste pits",
-              "order": 4
+              "order": 4,
+              "color": "#38A15A"
             },
             {
               "id": 1699959825380,
               "name": "G1 Disposable diapers buried",
-              "order": 5
+              "order": 5,
+              "color": "#38A15A"
             },
             {
               "id": 1699959832147,
               "name": "G1 Disposable diapers collected for disposal at communal site",
-              "order": 6
+              "order": 6,
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -656,11 +768,14 @@
           "order": 4,
           "type": "autofield",
           "tooltip": null,
-          "required": false,
+          "required": true,
           "meta": false,
           "options": null,
           "fn": {
-            "fnColor": {},
+            "fnColor": {
+              "G1 Safely managed diapers": "#FDC74B",
+              "G0 Diapers UNSAFELY managed": "#FD3F31"
+            },
             "fnString": "function(){ return (#1699959743410.includes(\"G1\")) ? \"G1 Safely managed diapers\" : \"G0 Diapers UNSAFELY managed\" }",
             "multiline": false
           }
@@ -671,25 +786,28 @@
           "order": 5,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: cleanliness of water points in communal areas\nClean water points: free from debris, solid waste, human or animal faeces, and any other potential sources of contamination\nCommunal areas: areas within the community that are not part of household compounds, and which are accessible to all."
+            "text": "<b>OBSERVE: cleanliness of water points in communal areas</b><br><b>Clean water points:</b> free from debris, solid waste, human or animal faeces, and any other potential sources of contamination<br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
               "id": 1699959885703,
               "name": "G0 Visible dirt or contamination",
-              "order": 1
+              "order": 1,
+              "color": "#DB3B3B"
             },
             {
               "id": 1699959885704,
               "name": "G1 Not adequately clean",
-              "order": 2
+              "order": 2,
+              "color": "#ffa57d"
             },
             {
               "id": 1699959904493,
               "name": "G2 Clean communal water points",
-              "order": 3
+              "order": 3,
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -700,25 +818,28 @@
           "order": 6,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: protection of water points in communal areas\nProtected surface water sources (pans, dams, lakes, rivers): fenced to prevent animal access\nProtected water supply source catchments: protected from wastes and pollutants, including human excreta and animal wastes (for example, by excluding animals and prohibiting unsafe activities, such as the use of manure or chemical fertilisers in areas around water supply sources).\nProtected water points: provide separate water troughs for animal watering\nProtected groundwater sources (springs, wells, handpumps, boreholes): protected from contamination, wastes and pollutants (for example, by the construction of a spring box, raised parapet wall and cover, wellhead protection and sealed borehole casing)."
+            "text": "<b>OBSERVE: protection of water points in communal areas</b><br><b>Protected surface water sources (pans, dams, lakes, rivers):</b> fenced to prevent animal access<br><b>Protected water supply source catchments: protected from wastes and pollutants, including human excreta and animal wastes (for example, by excluding animals and prohibiting unsafe activities, such as the use of manure or chemical fertilisers in areas around water supply sources).<br><b>Protected water points:</b> provide separate water troughs for animal watering<br><b>Protected groundwater sources (springs, wells, handpumps, boreholes): protected from contamination, wastes and pollutants (for example, by the construction of a spring box, raised parapet wall and cover, wellhead protection and sealed borehole casing)."
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
               "id": 1699960039749,
               "name": "G0 No protection of water points",
-              "order": 1
+              "order": 1,
+              "color": "#DB3B3B"
             },
             {
               "id": 1699960039750,
               "name": "G1 Inadequate protection of water points",
-              "order": 2
+              "order": 2,
+              "color": "#ffa57d"
             },
             {
               "id": 1699960068576,
               "name": "G2 Well protected communal water points",
-              "order": 3
+              "order": 3,
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -729,25 +850,28 @@
           "order": 7,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: drainage of water points in communal areas\nWell drained water points: no standing water visible at or around the water source (provision of drainage and soakpits may be required in slow-draining soils)"
+            "text": "<b>OBSERVE: drainage of water points in communal areas</b><br><b>Well drained water points:</b> no standing water visible at or around the water source (provision of drainage and soakpits may be required in slow-draining soils)"
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
               "id": 1699960149726,
               "name": "G0 Standing water visible around water point",
-              "order": 1
+              "order": 1,
+              "color": "#DB3B3B"
             },
             {
               "id": 1699960149727,
               "name": "G1 Inadequately drained water points",
-              "order": 2
+              "order": 2,
+              "color": "#ffa57d"
             },
             {
               "id": 1699960194331,
               "name": "G2 Well drained communal water points",
-              "order": 3
+              "order": 3,
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -758,45 +882,53 @@
           "order": 8,
           "type": "autofield",
           "tooltip": null,
-          "required": false,
+          "required": true,
           "meta": false,
           "options": null,
           "fn": {
-            "fnColor": {},
-            "fnString": "function(){ return (#1699959861479.includes(\"G0\") && #1699960025562.includes(\"G0\") && #1699960104326.includes(\"G0\"))\n? \"G0 Communal water points are UNSAFELY managed\"\n: (#1699959861479.includes(\"G2\") && #1699960025562.includes(\"G2\") && #1699960104326.includes(\"G2\") ? \"G2 Safe management of communal water points\" : \"G1 Communal water points are NOT adequately managed\");\n}",
+            "fnColor": {
+              "G0 Communal water points are UNSAFELY managed": "#FD3F31",
+              "G1 Communal water points are NOT adequately managed": "#FDC74B",
+              "G2 Safe management of communal water points": "#93D371"
+            },
+            "fnString": "function(){ return (#1699959861479.includes(\"G0\") && #1699960025562.includes(\"G0\") && #1699960104326.includes(\"G0\")) ? \"G0 Communal water points are UNSAFELY managed\" : (#1699959861479.includes(\"G2\") && #1699960025562.includes(\"G2\") && #1699960104326.includes(\"G2\") ? \"G2 Safe management of communal water points\" : \"G1 Communal water points are NOT adequately managed\");}",
             "multiline": false
           }
         },
         {
           "id": 1699960255414,
-          "question": "Safely managed sanitation services",
+          "question": "Faecal sludge disposal in communal areas",
           "order": 9,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: evidence of unsafe faecal sludge disposal in communal areas?\nINTERVIEW: is any faecal sludge disposed to communal areas?\nINTERVIEW: is any faecal sludge buried in communal areas?\nCommunal areas: areas within the community that are not part of household compounds, and which are accessible to all."
+            "text": "</b>OBSERVE: evidence of unsafe faecal sludge disposal in communal areas?</b><br><b>INTERVIEW:</b> is any faecal sludge disposed to communal areas?<br><b>INTERVIEW:</b> is any faecal sludge buried in communal areas?<br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
               "id": 1699960314911,
               "name": "G0 Unsafe disposal: to open pit, open space, open drain or water body in communal areas",
-              "order": 1
+              "order": 1,
+              "color": "#DB3B3B"
             },
             {
               "id": 1699960314912,
               "name": "G0 Unsafe treatment or disposal: sewer connection to open discharge in communal area",
-              "order": 2
+              "order": 2,
+              "color": "#DB3B3B"
             },
             {
               "id": 1699960335049,
               "name": "G3 Safely managed: emptied to covered pit or trench in communal area",
-              "order": 3
+              "order": 3,
+              "color": "#38A15A"
             },
             {
               "id": 1699960344606,
               "name": "G3 Safely managed: communal disposal of faecal sludge is safely managed",
-              "order": 4
+              "order": 4,
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -807,11 +939,15 @@
           "order": 10,
           "type": "autofield",
           "tooltip": null,
-          "required": false,
+          "required": true,
           "meta": false,
           "options": null,
           "fn": {
-            "fnColor": {},
+            "fnColor": {
+              "G0 Sanitation services UNSAFELY managed in communal areas": "#FD3F31",
+              "G1 Inadequate sanitation services in communal areas": "#FDC74B",
+              "G3 Use of safely managed sanitation services in communal areas": "#4088F4"
+            },
             "fnString": "function(){ return (#1699960255414.includes(\"G0\")) ? \"G0 Sanitation services UNSAFELY managed in communal areas\" : (#1699960255414.includes(\"G3\") ? \"G3 Use of safely managed sanitation services in communal areas\" : \"G1 Inadequate sanitation services in communal areas\") }",
             "multiline": false
           }
@@ -822,30 +958,34 @@
           "order": 11,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: erosion or other damage caused by stormwater flows in communal areas\nStormwater: surface water from rainfall or storms.\nAdequate stormwater drainage: drains or other services that limit or prevent erosion from stormwater flows (for example, EITHER by transporting flows away from communal areas, OR by encouraging infiltration into the soil)\nCommunal areas: areas within the community that are not part of household compounds, and which are accessible to all."
+            "text": "<b>OBSERVE: erosion or other damage caused by stormwater flows in communal areas</b><br><b>Stormwater:</b> surface water from rainfall or storms.<br><b>Adequate stormwater drainage:</b> drains or other services that limit or prevent erosion from stormwater flows (for example, EITHER by transporting flows away from communal areas, OR by encouraging infiltration into the soil)<br><b>Communal areas: areas within the community that are not part of household compounds, and which are accessible to all."
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
               "id": 1699960368823,
               "name": "G0 Significant erosion in communal areas",
-              "order": 1
+              "order": 1,
+              "color": "#DB3B3B"
             },
             {
               "id": 1699960368824,
               "name": "G1 Some visible erosion in communal areas",
-              "order": 2
+              "order": 2,
+              "color": "#ffa57d"
             },
             {
               "id": 1699960393600,
               "name": "G3 Adequate stormwater drainage in communal areas",
-              "order": 3
+              "order": 3,
+              "color": "#38A15A"
             },
             {
               "id": 1699960400486,
               "name": "G3 No signs of stormwater erosion",
-              "order": 4
+              "order": 4,
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -856,11 +996,15 @@
           "order": 12,
           "type": "autofield",
           "tooltip": null,
-          "required": false,
+          "required": true,
           "meta": false,
           "options": null,
           "fn": {
-            "fnColor": {},
+            "fnColor": {
+              "G1 Liquid wastes UNSAFELY managed in communal areas": "#FDC74B",
+              "G2 Inadequate management of liquid wastes in communal areas": "#93D371",
+              "G3 Safe management of liquid wastes in communal areas": "#4088F4"
+            },
             "fnString": "function(){ return (#1699960354498.includes(\"G0\")) ? \"G1 Liquid wastes UNSAFELY managed in communal areas\" : (#1699960354498.includes(\"G3\") ? \"G3 Safe management of liquid wastes in communal areas\" : \"G2 Inadequate management of liquid wastes in communal areas\") }",
             "multiline": false
           }
@@ -871,25 +1015,28 @@
           "order": 13,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: visible solid wastes in communal areas\nSolid wastes: food wastes, paper, plastic, rags, metal, glass and other solid materials discarded by the household\nCommunal areas: areas within the community that are not part of household compounds, and which are accessible to all."
+            "text": "<b>OBSERVE: visible solid wastes in communal areas</b><br><b>Solid wastes:</b> food wastes, paper, plastic, rags, metal, glass and other solid materials discarded by the household<br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
               "id": 1699960447922,
               "name": "G0 Significant visible solid wastes in communal areas",
-              "order": 1
+              "order": 1,
+              "color": "#DB3B3B"
             },
             {
               "id": 1699960447923,
               "name": "G1 Some solid wastes visible in communal areas",
-              "order": 2
+              "order": 2,
+              "color": "#ffa57d"
             },
             {
               "id": 1699960457906,
               "name": "G3 Clean compound with no visible solid wastes in communal areas",
-              "order": 3
+              "order": 3,
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -900,11 +1047,15 @@
           "order": 14,
           "type": "autofield",
           "tooltip": null,
-          "required": false,
+          "required": true,
           "meta": false,
           "options": null,
           "fn": {
-            "fnColor": {},
+            "fnColor": {
+              "G1 Liquid wastes UNSAFELY managed in communal areas": "#FDC74B",
+              "G2 Inadequate management of liquid wastes in communal areas": "#93D371",
+              "G3 Safe management of liquid wastes in communal areas": "#4088F4"
+            },
             "fnString": "function(){ return (#1699960411329.includes(\"G0\")) ? \"G1 Liquid wastes UNSAFELY managed in communal areas\" : (#1699960411329.includes(\"G3\") ? \"G3 Safe management of liquid wastes in communal areas\" : \"G2 Inadequate management of liquid wastes in communal areas\") }",
             "multiline": false
           }
@@ -915,25 +1066,28 @@
           "order": 15,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: visible standing water in communal areas\nStanding water: accumulation of wastewater (or stormwater) in communal area, which does NOT immediately drain away\nCommunal areas: areas within the community that are not part of household compounds, and which are accessible to all."
+            "text": "<b>OBSERVE: visible standing water in communal areas</b><br><b>Standing water:</b> accumulation of wastewater (or stormwater) in communal area, which does NOT immediately drain away<br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
               "id": 1699960496310,
               "name": "G0 Significant standing water in communal areas",
-              "order": 1
+              "order": 1,
+              "color": "#DB3B3B"
             },
             {
               "id": 1699960524045,
               "name": "G3 No visible standing water in communal areas",
-              "order": 3
+              "order": 3,
+              "color": "#ffa57d"
             },
             {
               "id": 1699960496311,
               "name": "G1 Some standing water in communal areas",
-              "order": 2
+              "order": 2,
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -944,30 +1098,34 @@
           "order": 16,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: where standing water provides larval breeding sites in communal areas, are treatment or other vector control activities used to limit mosquito breeding?\nLarval breeding sites: mosquitoes lay eggs directly in or near water, soil and at the base of plants in places that may fill with water.\nVector control activities: draining of standing water; covering of water storage containers; filling of depressions that hold water; filling of cracks in water tank and septic tank covers; cover open vents or plumbing pipes (with insect screen).\nTreatment activities: use of larvicides to treat bodies of water that will not be used for drinking, and which cannot be covered, emptied or removed; use of fogging or surface applications to control adult mosquitoes"
+            "text": "<b>INTERVIEW: where standing water provides larval breeding sites in communal areas, are treatment or other vector control activities used to limit mosquito breeding?</b><br><b>Larval breeding sites: </b>mosquitoes lay eggs directly in or near water, soil and at the base of plants in places that may fill with water.<br><b>Vector control activities:</b> draining of standing water; covering of water storage containers; filling of depressions that hold water; filling of cracks in water tank and septic tank covers; cover open vents or plumbing pipes (with insect screen).<br><b>Treatment activities:</b> use of larvicides to treat bodies of water that will not be used for drinking, and which cannot be covered, emptied or removed; use of fogging or surface applications to control adult mosquitoes"
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
               "id": 1699960550615,
               "name": "G0 No treatment or management in communal areas",
-              "order": 1
+              "order": 1,
+              "color": "#DB3B3B"
             },
             {
               "id": 1699960550616,
               "name": "G1 Inadequate treatment or management in communal areas",
-              "order": 2
+              "order": 2,
+              "color": "#ffa57d"
             },
             {
               "id": 1699960576151,
               "name": "G3 Treated or managed larval breeding sites in communal areas",
-              "order": 3
+              "order": 3,
+              "color": "#38A15A"
             },
             {
               "id": 1699960583286,
               "name": "G3 No visible standing water in communal areas",
-              "order": 4
+              "order": 4,
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -978,11 +1136,15 @@
           "order": 17,
           "type": "autofield",
           "tooltip": null,
-          "required": false,
+          "required": true,
           "meta": false,
           "options": null,
           "fn": {
-            "fnColor": {},
+            "fnColor": {
+              "G1 Lack of vector control in communal areas": "#FDC74B",
+              "G2 Inadequate vector control in communal areas": "#93D371",
+              "G3 Good vector control in communal areas": "#4088F4"
+            },
             "fnString": "function(){ return (#1699960488230.includes(\"G0\") && #1699960542156.includes(\"G0\")) ? \"G1 Lack of vector control in communal areas\" : ((#1699960488230.includes(\"G3\") && #1699960542156.includes(\"G3\")) ? \"G3 Good vector control in communal areas\" : \"G2 Inadequate vector control in communal areas\") }",
             "multiline": false
           }
@@ -991,11 +1153,11 @@
           "id": 1699960591715,
           "question": "Type of institution",
           "order": 18,
-          "type": "option",
+          "type": "multiple_option",
           "tooltip": {
-            "text": "OBSERVE: type of institution (located within community)\nInstitution: any public building with open access to the communal toilets and handwashing facilities"
+            "text": "</b>OBSERVE: type of institution (located within community)</b><br><b>Institution:</b> any public building with open access to the communal toilets and handwashing facilities"
           },
-          "required": false,
+          "required": true,
           "meta": false,
           "options": [
             {
@@ -1044,511 +1206,274 @@
               "order": 9
             },
             {
+              "id": 1699960938134,
+              "name": "Private institutions",
+              "order": 10
+            },
+            {
               "id": 1699960946417,
               "name": "Prisons",
               "order": 11
             },
             {
-              "id": 1699960938134,
-              "name": "Private institutions (hotels, guesthouses, restaurants, offices, factories, centres of learning, nursing homes)",
-              "order": 10
-            }
-          ],
-          "fn": null
-        },
-        {
-          "id": 1699960963586,
-          "question": "Functional institutional toilet",
-          "order": 19,
-          "type": "option",
-          "tooltip": {
-            "text": "OBSERVE: functional toilets observed in all institutions?"
-          },
-          "required": false,
-          "meta": false,
-          "options": [
-            {
-              "id": 1699961150390,
-              "name": "G0 Non-functional toilets in institutions",
-              "order": 1
-            },
-            {
-              "id": 1699961150391,
-              "name": "G3 Functional toilets in all institutions",
-              "order": 2
-            }
-          ],
-          "fn": null
-        },
-        {
-          "id": 1699961175102,
-          "question": "Flyproof institutional toilet",
-          "order": 20,
-          "type": "option",
-          "tooltip": {
-            "text": "OBSERVE: flyproof toilets observed in all institutions?"
-          },
-          "required": false,
-          "meta": false,
-          "options": [
-            {
-              "id": 1699961190986,
-              "name": "G0 Toilets NOT flyproof in institutions",
-              "order": 1
-            },
-            {
-              "id": 1699961190987,
-              "name": "G3 Flyproof toilets in all institutions",
-              "order": 2
-            }
-          ],
-          "fn": null
-        },
-        {
-          "id": 1699961260729,
-          "question": "Clean institutional toilet",
-          "order": 21,
-          "type": "option",
-          "tooltip": {
-            "text": "OBSERVE: clean toilets observed in all institutions?"
-          },
-          "required": false,
-          "meta": false,
-          "options": [
-            {
-              "id": 1699961273781,
-              "name": "G0 Toilets NOT clean in institutions",
-              "order": 1
-            },
-            {
-              "id": 1699961273782,
-              "name": "G3 Clean toilets in all institutions",
-              "order": 2
-            }
-          ],
-          "fn": null
-        },
-        {
-          "id": 1699961309670,
-          "question": "Durable institutional toilet slab",
-          "order": 22,
-          "type": "option",
-          "tooltip": {
-            "text": "OBSERVE: durable toilet slabs observed in all institutions?"
-          },
-          "required": false,
-          "meta": false,
-          "options": [
-            {
-              "id": 1699961322909,
-              "name": "G0 Toilet slabs NOT durable in institutions",
-              "order": 1
-            },
-            {
-              "id": 1699961322910,
-              "name": "G3 Durable toilet slabs in all institutions",
-              "order": 2
-            }
-          ],
-          "fn": null
-        },
-        {
-          "id": 1699961394874,
-          "question": "Durable institutional toilet pits",
-          "order": 23,
-          "type": "option",
-          "tooltip": {
-            "text": "OBSERVE: durable toilet pits  observed in all institutions?"
-          },
-          "required": false,
-          "meta": false,
-          "options": [
-            {
-              "id": 1699961539649,
-              "name": "G0 Toilet pits NOT durable in institutions",
-              "order": 1
-            },
-            {
-              "id": 1699961539650,
-              "name": "G3 Durable toilet pits in all institutions",
-              "order": 2
-            }
-          ],
-          "fn": null
-        },
-        {
-          "id": 1699961577575,
-          "question": "Safely managed institutional toilet containment",
-          "order": 24,
-          "type": "option",
-          "tooltip": {
-            "text": "OBSERVE: any evidence of surface outflows from containment systems (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows)\nSurface outflows from containment: EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks)."
-          },
-          "required": false,
-          "meta": false,
-          "options": [
-            {
-              "id": 1699961593967,
-              "name": "G0 Visible surface outflows from containment",
-              "order": 1
-            },
-            {
-              "id": 1699961593968,
-              "name": "G1 Evidence of previous surface outflows from containment",
-              "order": 2
-            },
-            {
-              "id": 1699961707278,
-              "name": "G3 Safely managed containment in all institutions",
-              "order": 3
-            }
-          ],
-          "fn": null
-        },
-        {
-          "id": 1699961683357,
-          "question": "Safely managed on-site containment in institutional toilet",
-          "order": 25,
-          "type": "option",
-          "tooltip": {
-            "text": "INTERVIEW: has the institutional toilet containment (pit, tank or other) ever been emptied?\nINTERVIEW: has the institutional toilet containment (pit, tank or other) ever filled up?\nINTERVIEW: what happened when the institutional toilet containment (pit, tank or other) last filled up?"
-          },
-          "required": false,
-          "meta": false,
-          "options": [
-            {
-              "id": 1699961828737,
-              "name": "G0 Unsafe containment: overflow to open space, open drain, water body",
-              "order": 1
-            },
-            {
-              "id": 1699961828738,
-              "name": "G3 Never emptied, not yet full (first toilet)",
-              "order": 2
-            },
-            {
-              "id": 1699961861582,
-              "name": "G3 Never emptied, previous pit or tank replaced when full",
-              "order": 3
-            }
-          ],
-          "fn": null
-        },
-        {
-          "id": 1699961882642,
-          "question": "Safely managed institutional sanitation services",
-          "order": 26,
-          "type": "option",
-          "tooltip": {
-            "text": "INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?\nINTERVIEW: the last time it was emptied, who emptied the toilet containment?\nINTERVIEW (if the containment system is a lined pit or tank, which has never been emptied): what will happen when the toilet containment is full?\nLicensed service provider: paid emptier that is approved and regulated by local authority to empty and transport toilet wastes\nUnlicensed service provider: paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers) \nOff-site location: site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.\nSewer connection to licensed and functional treatment site: the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site."
-          },
-          "required": false,
-          "meta": false,
-          "options": [
-            {
-              "id": 1699961891475,
-              "name": "G0 No toilet, or no containment/collection system",
-              "order": 1
-            },
-            {
-              "id": 1699961891476,
-              "name": "G0 Unsafe containment: open container",
-              "order": 2
-            },
-            {
-              "id": 1699961932095,
-              "name": "G0 Unsafe disposal: to open pit, open space, open drain or water body (within 500m)",
-              "order": 3
-            },
-            {
-              "id": 1699961945350,
-              "name": "G0 Unsafe disposal: to open space, open drain or water body (MORE than 500m)",
-              "order": 4
-            },
-            {
-              "id": 1699961948317,
-              "name": "G0 Unsafe treatment or disposal: emptied by UNLICENSED service provider to off-site location",
-              "order": 5
-            },
-            {
-              "id": 1699961956049,
-              "name": "G0 Unsafe treatment or disposal: closed container removed by UNLICENSED service provider to off-site location",
-              "order": 6
-            },
-            {
-              "id": 1699961965348,
-              "name": "G0 Unsafe treatment or disposal: sewer connection to open discharge",
-              "order": 7
-            },
-            {
-              "id": 1699961973667,
-              "name": "G1 Risk of unsafe services: never emptied (intention to empty when full)",
-              "order": 8
-            },
-            {
-              "id": 1699961974646,
-              "name": "G1 Unsafe storage: stored for less than 2 years before use of stored waste",
-              "order": 9
-            },
-            {
-              "id": 1699961975462,
-              "name": "G1 Unsafe treatment or disposal: sewer connection to UNLICENSED or NON-FUNCTIONAL treatment site",
-              "order": 10
-            },
-            {
-              "id": 1699961976263,
-              "name": "G3 Safely managed: emptied to covered pit",
-              "order": 11
-            },
-            {
-              "id": 1699961977613,
-              "name": "G3 Safely managed: stored for MORE than 2 years before use of stored waste",
+              "id": 169996093813499,
+              "name": "Other Institutions",
               "order": 12
-            },
-            {
-              "id": 1699961982278,
-              "name": "G3 Safely managed: emptied by LICENSED service provider to off-site location",
-              "order": 13
-            },
-            {
-              "id": 1699961983576,
-              "name": "G3 Safely managed: closed container removed by LICENSED service provider to off-site location",
-              "order": 14
-            },
-            {
-              "id": 1699962039451,
-              "name": "G3 Safely managed: sewer connection to LICENSED and FUNCTIONAL treatment site",
-              "order": 15
             }
           ],
           "fn": null
         },
         {
-          "id": 1699962081417,
-          "question": "Handwashing facility observed in institution",
+          "id": 169995172789111,
+          "question": "Number of Schools",
+          "order": 19,
+          "type": "number",
+          "dependency": [
+            {
+              "id": 1699960591715,
+              "options": ["School"]
+            }
+          ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
+          "fn": null
+        },
+        {
+          "id": 169995172789112,
+          "question": "Number of Healthcare facilities",
+          "order": 20,
+          "type": "number",
+          "dependency": [
+            {
+              "id": 1699960591715,
+              "options": ["Healthcare facility"]
+            }
+          ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
+          "fn": null
+        },
+        {
+          "id": 169995172789113,
+          "question": "Number of Transport stations",
+          "order": 21,
+          "type": "number",
+          "dependency": [
+            {
+              "id": 1699960591715,
+              "options": [
+                "Transport station (bus, train, airport, fuel, other)"
+              ]
+            }
+          ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
+          "fn": null
+        },
+        {
+          "id": 169995172789114,
+          "question": "Number of Markets",
+          "order": 22,
+          "type": "number",
+          "dependency": [
+            {
+              "id": 1699960591715,
+              "options": ["Market"]
+            }
+          ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
+          "fn": null
+        },
+        {
+          "id": 169995172789115,
+          "question": "Number of Public toilet buildings",
+          "order": 23,
+          "type": "number",
+          "dependency": [
+            {
+              "id": 1699960591715,
+              "options": ["Public toilet"]
+            }
+          ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
+          "fn": null
+        },
+        {
+          "id": 169995172789116,
+          "question": "Number of Government office/buildings",
+          "order": 24,
+          "type": "number",
+          "dependency": [
+            {
+              "id": 1699960591715,
+              "options": ["Government office/building"]
+            }
+          ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
+          "fn": null
+        },
+        {
+          "id": 169995172789117,
+          "question": "Number of Camps (fishing, mining, farming)",
+          "order": 25,
+          "type": "number",
+          "dependency": [
+            {
+              "id": 1699960591715,
+              "options": ["Camps (fishing, mining, farming)"]
+            }
+          ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
+          "fn": null
+        },
+        {
+          "id": 169995172789118,
+          "question": "Number of Worship centres",
+          "order": 26,
+          "type": "number",
+          "dependency": [
+            {
+              "id": 1699960591715,
+              "options": [
+                "Worship centres (churches, cathedrals, mosques, temples, other)"
+              ]
+            }
+          ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
+          "fn": null
+        },
+        {
+          "id": 169995172789119,
+          "question": "Number of Burial places",
           "order": 27,
-          "type": "option",
-          "tooltip": {
-            "text": "OBSERVE: presence and location of handwashing facility\nINTERVIEW: is there only one handwashing facility, or are other facilities available?"
-          },
-          "required": false,
-          "meta": false,
-          "options": [
+          "type": "number",
+          "dependency": [
             {
-              "id": 1699962130821,
-              "name": "G0 No handwashing facility",
-              "order": 1
-            },
-            {
-              "id": 1699962130822,
-              "name": "G1 Handwashing facility by toilet",
-              "order": 2
-            },
-            {
-              "id": 1699962152419,
-              "name": "G1 Handwashing facility in kitchen",
-              "order": 3
-            },
-            {
-              "id": 1699962153414,
-              "name": "G1 Portable handwashing facility (basin, jug, jerrycan, container)",
-              "order": 4
-            },
-            {
-              "id": 1699962154182,
-              "name": "G1 Two handwashing facilities",
-              "order": 5
-            },
-            {
-              "id": 1699962154931,
-              "name": "G1 More than two handwashing facilities",
-              "order": 6
+              "id": 1699960591715,
+              "options": ["Burial place"]
             }
           ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
           "fn": null
         },
         {
-          "id": 1699962192648,
-          "question": "Water available at institutional HWF",
+          "id": 169995172789120,
+          "question": "Number of Prisons",
           "order": 28,
-          "type": "option",
-          "tooltip": {
-            "text": "OBSERVE: is water available at the handwashing facility?\nOBSERVE: where an empty water container is observed at the handwashing facility, visible wet ground (or wet materials) under the handwashing facility can be accepted as proof of the recent presence of water."
-          },
-          "required": false,
-          "meta": false,
-          "options": [
+          "type": "number",
+          "dependency": [
             {
-              "id": 1699962211156,
-              "name": "G0 No water available",
-              "order": 1
-            },
-            {
-              "id": 1699962211157,
-              "name": "G1 Water available",
-              "order": 2
-            },
-            {
-              "id": 1699962235341,
-              "name": "G1 Water container empty (evidence of washing)",
-              "order": 3
+              "id": 1699960591715,
+              "options": ["Prisons"]
             }
           ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
           "fn": null
         },
         {
-          "id": 1699962251539,
-          "question": "Soap available at institutional HWF",
+          "id": 169995172789121,
+          "question": "Number of Private institutions",
           "order": 29,
-          "type": "option",
-          "tooltip": {
-            "text": "OBSERVE: is soap available at the handwashing facility?\nINTERVIEW: is soap or detergent available for washing hands? \nSoap: solid, liquid or powder soap or detergent "
-          },
-          "required": false,
-          "meta": false,
-          "options": [
+          "type": "number",
+          "dependency": [
             {
-              "id": 1699962266277,
-              "name": "G0 No soap or other cleanser available",
-              "order": 1
-            },
-            {
-              "id": 1699962266278,
-              "name": "G0 Ash, mud or sand available",
-              "order": 2
-            },
-            {
-              "id": 1699962301777,
-              "name": "G0+ Soap available, NOT at handwashing facility",
-              "order": 3
-            },
-            {
-              "id": 1699962305795,
-              "name": "G1 Solid, liquid or powder soap available",
-              "order": 4
+              "id": 1699960591715,
+              "options": ["Private institutions"]
             }
           ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
           "fn": null
         },
         {
-          "id": 1699962342866,
-          "question": "Institutional handwashing facility type",
+          "id": 169995172789122,
+          "question": "Number of Other Institutions",
           "order": 30,
-          "type": "option",
-          "tooltip": {
-            "text": "OBSERVE: is a permanent handwashing station available?\nPermanent handwashing station: facility made from durable materials, with a piped water connection or adequate water storage, and located in a fixed place that is appropriate for handwashing at critical times\nMarket handwashing station: manufactured handwashing station from durable materails (bought from market or market trader)\nPortable basin: open container that can be easily picked up and moved"
-          },
-          "required": false,
-          "meta": false,
-          "options": [
+          "type": "number",
+          "dependency": [
             {
-              "id": 1699962350397,
-              "name": "G0 No handwashing facility",
-              "order": 1
-            },
-            {
-              "id": 1699962350398,
-              "name": "G1 Jerrycan or other closed container",
-              "order": 2
-            },
-            {
-              "id": 1699962375279,
-              "name": "G1 Portable basin or other open container",
-              "order": 3
-            },
-            {
-              "id": 1699962383261,
-              "name": "G1 Other temporary handwashing facility",
-              "order": 4
-            },
-            {
-              "id": 1699962391009,
-              "name": "G3 Piped water tap with basin",
-              "order": 5
-            },
-            {
-              "id": 1699962420778,
-              "name": "G3 Market handwashing station with adequate water storage",
-              "order": 6
-            },
-            {
-              "id": 1699962430128,
-              "name": "G3 Other permanent handwashing station",
-              "order": 7
+              "id": 1699960591715,
+              "options": ["Other Institutions"]
             }
           ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
           "fn": null
         },
         {
-          "id": 1699962446974,
-          "question": "Hands-free operation of institutional handwashing facility",
+          "id": 169995172789123,
+          "question": "Total number of institutions",
           "order": 31,
-          "type": "option",
-          "tooltip": {
-            "text": "OBSERVE: mechanism to collect water or trigger water flow \nHands-free operation: the handwashing station is operated by tap, or other hands-free mechanism that minimises contact with the water collection device and the water container"
-          },
+          "type": "autofield",
+          "displayOnly": true,
           "required": false,
           "meta": false,
-          "options": [
-            {
-              "id": 1699962453974,
-              "name": "\"G0 Hands enter the water container (during collection and use) \"",
-              "order": 1
-            },
-            {
-              "id": 1699962453975,
-              "name": "G1 Water collected by hand (using ladle, cup, other)",
-              "order": 2
-            },
-            {
-              "id": 1699962478794,
-              "name": "G3 Closed water storage container with tap",
-              "order": 3
-            },
-            {
-              "id": 1699962485909,
-              "name": "G3 Piped water tap",
-              "order": 4
-            },
-            {
-              "id": 1699962494329,
-              "name": "G3 Other hands-free operation",
-              "order": 5
-            }
-          ],
-          "fn": null
-        },
-        {
-          "id": 1699962527375,
-          "question": "Adequate drainage of washing water",
-          "order": 32,
-          "type": "option",
-          "tooltip": {
-            "text": "OBSERVE: facility to collect washing water, and facility to drain and dispose of the washing water\nCollection of washing water: container to collect dirty washing water (for example, a basin or other container)\nDrainage and disposal of washing water: drainage pipe or other facility to direct the washing water to an appropriate disposal point (for example, a soakpit or drain)"
+          "rule": {
+            "min": 1
           },
-          "required": false,
-          "meta": false,
-          "options": [
-            {
-              "id": 1699962534217,
-              "name": "\"G0 No collection or disposal of washing water \"",
-              "order": 1
-            },
-            {
-              "id": 1699962534218,
-              "name": "G1 Collection of washing water without drainage or disposal",
-              "order": 2
-            },
-            {
-              "id": 1699962563663,
-              "name": "G3 Safe collection and disposal of washing water",
-              "order": 3
-            }
-          ],
-          "fn": null
+          "options": null,
+          "fn": {
+            "fnColor": {},
+            "fnString": "function(){return #169995172789111 + #169995172789112 + #169995172789113+ #169995172789114+ #169995172789115+ #169995172789116+ #169995172789117+ #169995172789118+ #169995172789119+ #169995172789120+ #169995172789121+ #169995172789122}",
+            "multiline": false
+          }
         }
       ]
     }
-  ],
-  "type": 1
+  ]
 }

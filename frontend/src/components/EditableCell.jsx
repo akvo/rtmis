@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, DatePicker, Input, Select, Row, Col } from "antd";
+import { Button, DatePicker, Input, Select, Row, Col, Image } from "antd";
 import { config } from "../lib";
 import { isEqual } from "lodash";
 const { Option } = Select;
@@ -42,7 +42,10 @@ const EditableCell = ({
   }, [record]);
 
   const notEditable =
-    record.type === "cascade" || record.type === "geo" || readonly;
+    record.type === "cascade" ||
+    record.type === "geo" ||
+    record.type === "photo" ||
+    readonly;
   const edited =
     record &&
     (record.newValue || record.newValue === 0) &&
@@ -133,6 +136,7 @@ const EditableCell = ({
       <Col flex={1}>{renderAnswerInput()}</Col>
       <Button
         type="primary"
+        shape="round"
         onClick={() => {
           updateCell(record.id, parentId, value);
           setEditing(false);
@@ -155,12 +159,17 @@ const EditableCell = ({
           }
         }}
       >
-        {record.type === "cascade" && !record?.api
-          ? locationName
-          : getAnswerValue()}
+        {record.type === "cascade" && !record?.api ? (
+          locationName
+        ) : record.type === "photo" && value ? (
+          <Image src={value} width={100} />
+        ) : (
+          getAnswerValue()
+        )}
       </Col>
       {edited && (
         <Button
+          shape="round"
           onClick={() => {
             resetCell(record.id, parentId);
           }}

@@ -1,7 +1,10 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react-native';
-jest.useFakeTimers();
 import QuestionGroupList from '../QuestionGroupList';
+
+jest.useFakeTimers();
+jest.mock("expo-font");
+jest.mock("expo-asset");
 
 const example = {
   name: 'Testing Form',

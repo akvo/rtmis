@@ -96,7 +96,7 @@ const AddAdministration = () => {
     setSubmitting(true);
     try {
       const _attributes = values.attributes
-        .map((attr) => {
+        ?.map((attr) => {
           const { id: attrId, aggregate, ...fieldValue } = attr;
           const attributeValue = aggregate?.[0]
             ? Object.fromEntries(
@@ -147,7 +147,8 @@ const AddAdministration = () => {
       });
       setSubmitting(false);
       navigate("/control-center/master-data");
-    } catch {
+    } catch (e) {
+      console.error(e);
       setSubmitting(false);
     }
   };

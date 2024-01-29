@@ -171,7 +171,7 @@ describe('Navigation Component', () => {
         request: {
           content: {
             title: 'Sync form version completed',
-            body: 'Here is the notification body',
+            body: 'A new version of the form is now available',
             data: {
               notificationType: 'sync-form-version',
             },
@@ -211,7 +211,7 @@ describe('Navigation Component', () => {
         request: {
           content: {
             title: 'Sync submission completed',
-            body: 'Here is the notification body',
+            body: 'Your submission has been successfully synchronized.',
             data: {
               notificationType: 'sync-form-submission',
             },
