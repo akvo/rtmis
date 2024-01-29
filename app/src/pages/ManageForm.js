@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { View } from 'react-native';
 import { ListItem } from '@rneui/themed';
 import { BaseLayout } from '../components';
@@ -21,21 +21,35 @@ const ManageForm = ({ navigation, route }) => {
     navigation.navigate('FormPage', { ...route?.params, newSubmission: true });
   };
 
+  const goToUpdateForm = () => {
+    FormState.update((s) => {
+      s.surveyStart = getCurrentTimestamp();
+      s.prefilled = false;
+    });
+    navigation.navigate('FormPage', { ...route?.params, monitoring: true, newSubmission: true });
+  };
+
   const items = [
     {
       id: 1,
       text: trans.manageNewBlank,
-      icon: 'add',
+      icon: 'clipboard-outline',
       goTo: goToNewForm,
     },
     {
       id: 2,
+      text: trans.manageUpdate,
+      icon: 'clipboard-edit-outline',
+      goTo: goToUpdateForm,
+    },
+    {
+      id: 3,
       text: `${trans.manageEditSavedForm} (${draftCount})`,
       icon: 'folder-open',
       goTo: () => navigation.navigate('FormData', { ...route?.params, showSubmitted: false }),
     },
     {
-      id: 3,
+      id: 4,
       text: `${trans.manageViewSubmitted} (${submittedCount})`,
       icon: 'eye',
       goTo: () => navigation.navigate('FormData', { ...route?.params, showSubmitted: true }),
