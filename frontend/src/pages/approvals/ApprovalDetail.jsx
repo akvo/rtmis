@@ -75,7 +75,7 @@ const summaryColumns = [
       if (row.type === "Option" || row.type === "Multiple_Option") {
         const data = value
           .filter((x) => x.total)
-          .map((val) => `${val.type} - ${val.total}`);
+          .map((val) => `${val.type} - (${val.total})`);
         return (
           <ul className="option-list">
             {data.map((d, di) => (
