@@ -951,9 +951,10 @@ class BatchSummaryView(APIView):
         batch = get_object_or_404(PendingDataBatch, pk=batch_id)
         instance = PendingAnswers.objects.filter(
             pending_data__batch_id=batch.id,
-            question__type__in=[QuestionTypes.option, QuestionTypes.number,
-                                QuestionTypes.administration,
-                                QuestionTypes.multiple_option]
+            question__type__in=[
+                QuestionTypes.option,
+                QuestionTypes.multiple_option
+            ]
         ).distinct('question')
         return Response(
             ListBatchSummarySerializer(
