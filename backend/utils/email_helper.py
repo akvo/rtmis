@@ -267,7 +267,7 @@ def email_context(context: dict, type: str):
     if type == EmailTypes.administration_prefilled:
         context.update({
             "subject": "Prefilled Administration ready to download",
-            "image": f"{webdomain}/email-icons/info-circle.png",
+            "image": f"{WEBDOMAIN}/email-icons/info-circle.png",
             "info_text": """
             The spreadsheet that you requested has been successfully
             validated and ready to download.
