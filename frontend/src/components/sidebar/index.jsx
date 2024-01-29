@@ -130,7 +130,7 @@ const Sidebar = () => {
     superAdminRole.control_center_order,
     superAdminRole.page_access
   );
-  console.log(usersMenuItem, "USER MENU ITEM");
+  
   const handleMenuClick = ({ key }) => {
     const url = findUrlByKey(usersMenuItem, key);
     navigate(url);
