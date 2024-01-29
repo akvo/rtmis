@@ -60,6 +60,13 @@ const Approvals = () => {
     return items;
   }, [text, user]);
 
+  const finalApproval = useMemo(() => {
+    if (user.role.id === 2 && approvalTab === "approved") {
+      return true;
+    }
+    return false;
+  }, [user, approvalTab]);
+
   useEffect(() => {
     setRole(user?.role?.id);
   }, [user]);
@@ -128,7 +135,11 @@ const Approvals = () => {
             <Table
               dataSource={batches}
               onChange={handleChange}
-              columns={columns}
+              columns={
+                finalApproval
+                  ? columns.filter((c) => c.key !== "waiting_on")
+                  : columns
+              }
               loading={loading}
               pagination={{
                 current: currentPage,
