@@ -75,7 +75,7 @@ const summaryColumns = [
       if (row.type === "Option" || row.type === "Multiple_Option") {
         const data = value
           .filter((x) => x.total)
-          .map((val) => `${val.type} - ${val.total}`);
+          .map((val) => `${val.type} - (${val.total})`);
         return (
           <ul className="option-list">
             {data.map((d, di) => (
@@ -95,7 +95,6 @@ const ApprovalDetail = ({
   setReload,
   expandedParentKeys,
   setExpandedParentKeys,
-  readonly = false,
 }) => {
   const [values, setValues] = useState([]);
   const [rawValues, setRawValues] = useState([]);
@@ -455,7 +454,7 @@ const ApprovalDetail = ({
                                         updateCell={updateCell}
                                         resetCell={resetCell}
                                         disabled={!!dataLoading}
-                                        readonly={!approve || readonly}
+                                        readonly={!approve}
                                       />
                                     ),
                                   },

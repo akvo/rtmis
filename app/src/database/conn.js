@@ -69,8 +69,31 @@ const openDBfile = async (databaseFile, databaseName) => {
   return SQLite.openDatabase(`${databaseName}.db`);
 };
 
+const removeDB = async () => {
+  try {
+    const { exists } = await FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/db.db`);
+    if (exists) {
+      /**
+       * Check user session before deletion
+       */
+      const db = openDatabase();
+      const { rows } = await tx(db, 'SELECT * FROM users where active = ?', [1]);
+      if (rows.length === 0) {
+        /**
+         * @tutorial https://docs.expo.dev/versions/latest/sdk/filesystem/#filesystemdeleteasyncfileuri-options
+         * Reset all databases inside the SQLite folder (the directory and all its contents are recursively deleted).
+         */
+        await FileSystem.deleteAsync(`${FileSystem.documentDirectory}SQLite`);
+      }
+    }
+  } catch (error) {
+    console.error('[RESET DB]', error);
+  }
+};
+
 export const conn = {
   file: (dbFile, dbName) => openDBfile(dbFile, dbName),
+  reset: () => removeDB(),
   init,
   tx,
 };

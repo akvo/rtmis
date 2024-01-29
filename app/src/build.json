@@ -7,5 +7,5 @@
   "loggingLevel": "verbose",
   "appVersion": "1.2.0",
   "lang": "en",
-  "gpsThreshold": 20
+  "gpsThreshold": 30
 }

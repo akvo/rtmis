@@ -1,29 +1,39 @@
 from typing import Any, Dict
+from rtmis.settings import WEBDOMAIN
 from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
 from api.v1.v1_forms.models import Forms
 from drf_spectacular.types import OpenApiTypes
 from api.v1.v1_mobile.authentication import MobileAssignmentToken
-from api.v1.v1_profile.models import Administration
+from api.v1.v1_profile.models import Administration, Levels
 from utils.custom_serializer_fields import CustomCharField
 from api.v1.v1_mobile.models import MobileAssignment, MobileApk
 from utils.custom_helper import CustomPasscode, generate_random_string
 
 
-class MobileAssignmentAdministrationSerializer(serializers.ModelSerializer):
+class MobileDataPointDownloadListSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
-    children = serializers.SerializerMethodField()
+    url = serializers.SerializerMethodField()
 
-    def get_children(self, obj):
-        childs = Administration.objects.filter(parent=obj)
-        return MobileAssignmentAdministrationSerializer(
-            childs.all(), many=True
-        ).data
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_url(self, obj):
+        return f"{WEBDOMAIN}/datapoints/{obj.get('uuid')}.json"
+
+    class Meta:
+        fields = ["id", "name", "url"]
+
+
+class MobileAssignmentAdministrationSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
+    name = serializers.SerializerMethodField()
+
+    def get_name(self, obj):
+        return obj.full_path_name
 
     class Meta:
         model = Administration
-        fields = ["id", "name", "children"]
+        fields = ["id", "name"]
 
 
 class MobileFormSerializer(serializers.ModelSerializer):
@@ -53,8 +63,19 @@ class MobileAssignmentFormsSerializer(serializers.Serializer):
 
     @extend_schema_field(MobileAssignmentAdministrationSerializer(many=True))
     def get_administrations(self, obj):
+        lowest_level = Levels.objects.order_by("-level").first()
+        all_lowest_levels = []
+        for adm in obj.administrations.all():
+            if adm.level == lowest_level:
+                all_lowest_levels.append(adm)
+                continue
+            administration = Administration.objects.filter(
+                path__startswith=adm.path,
+                level=lowest_level,
+            ).all()
+            all_lowest_levels.extend(administration)
         return MobileAssignmentAdministrationSerializer(
-            obj.administrations.all(), many=True
+            all_lowest_levels, many=True
         ).data
 
     def get_syncToken(self, obj):
