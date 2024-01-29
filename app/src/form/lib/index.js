@@ -27,11 +27,12 @@ const getDependencyAncestors = (questions, current, dependencies) => {
   return current;
 };
 
-export const transformForm = (forms, lang = 'en') => {
+export const transformForm = (forms, lang = 'en', filterMonitoring = false) => {
   const nonEnglish = lang !== 'en';
   if (nonEnglish) {
     forms = i18n.transform(lang, forms);
   }
+
   const questions = forms.question_group
     .map((x) => {
       return x.question;
@@ -60,7 +61,9 @@ export const transformForm = (forms, lang = 'en') => {
       return q;
     });
 
-  const transformed = questions.map((x) => {
+  const filteredQuestions = filterMonitoring ? questions.filter((q) => q.monitoring) : questions;
+
+  const transformed = filteredQuestions.map((x) => {
     let requiredSignTemp = x?.requiredSign || null;
     if (x?.required && !x?.requiredSign) {
       requiredSignTemp = '*';
@@ -69,7 +72,7 @@ export const transformForm = (forms, lang = 'en') => {
       return {
         ...x,
         requiredSign: requiredSignTemp,
-        dependency: getDependencyAncestors(questions, x.dependency, x.dependency),
+        dependency: getDependencyAncestors(filteredQuestions, x.dependency, x.dependency),
       };
     }
     return {
@@ -90,18 +93,25 @@ export const transformForm = (forms, lang = 'en') => {
           repeats = { repeats: [0] };
         }
         const translatedQg = nonEnglish ? i18n.transform(lang, qg) : qg;
-        return {
-          ...translatedQg,
-          ...repeat,
-          ...repeats,
-          id: qg?.id || qgi,
-          question: qg.question
-            ?.sort((a, b) => a.order - b.order)
-            ?.map((q) => {
-              return transformed.find((t) => t.id === q.id);
-            }),
-        };
-      }),
+        const transformedQuestions = qg.question
+          ?.sort((a, b) => a.order - b.order)
+          ?.map((q) => {
+            return transformed.find((t) => t.id === q.id);
+          })
+          .filter((q) => q);
+
+        if (transformedQuestions.length > 0) {
+          return {
+            ...translatedQg,
+            ...repeat,
+            ...repeats,
+            id: qg?.id || qgi,
+            question: transformedQuestions,
+          };
+        }
+        return undefined;
+      })
+      .filter((qg) => qg),
   };
 };
 
