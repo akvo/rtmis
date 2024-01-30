@@ -5,7 +5,6 @@ import { CenterLayout, Image } from '../components';
 import { BuildParamsState, UIState } from '../store';
 import { api, i18n } from '../lib';
 import { crudConfig } from '../database/crud';
-import { ToastAndroid } from 'react-native';
 
 const GetStarted = ({ navigation }) => {
   const logo = Asset.fromModule(require('../assets/icon.png')).uri;
@@ -17,13 +16,9 @@ const GetStarted = ({ navigation }) => {
   const trans = i18n.text(activeLang);
 
   const getConfig = useCallback(async () => {
-    try {
-      const config = await crudConfig.getConfig();
-      if (config) {
-        setCurrentConfig(config);
-      }
-    } catch (error) {
-      ToastAndroid.show(`SQL: ${error}`, ToastAndroid.LONG);
+    const config = await crudConfig.getConfig();
+    if (config) {
+      setCurrentConfig(config);
     }
   }, []);
 
