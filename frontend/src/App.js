@@ -43,6 +43,7 @@ import {
   ControlCenter,
   UploadAdministrationData,
   BIDashboard,
+  DownloadAdmData,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -128,6 +129,10 @@ const RouteList = () => {
           element={
             <Private element={UploadAdministrationData} alias="master-data" />
           }
+        />
+        <Route
+          path="master-data/download-administration-data"
+          element={<Private element={DownloadAdmData} alias="master-data" />}
         />
         <Route
           path="master-data/add-administration"
