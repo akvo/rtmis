@@ -34,6 +34,14 @@ const FormNavigation = ({
     // index 2 = next group
     const validateSync = currentGroup?.question
       ?.filter((q) => onFilterDependency(currentGroup, currentValues, q))
+      ?.filter((q) => {
+        /**
+         * Only entity cascade should not be undefined due to depends on options and prevAdmAnswer
+         */
+        return (
+          (q?.extra?.type === 'entity' && currentValues?.[q?.id] !== undefined) || !q?.extra?.type
+        );
+      })
       ?.map((q) => {
         const defaultVal = ['cascade', 'multiple_option', 'option', 'geo'].includes(q?.type)
           ? null

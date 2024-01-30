@@ -1,3 +1,4 @@
+import numpy as np
 from collections import OrderedDict
 
 from django.db.models import Q
@@ -10,7 +11,7 @@ from api.v1.v1_forms.models import Forms, QuestionGroup, Questions, \
     QuestionOptions, QuestionAttribute, \
     FormApprovalRule, FormApprovalAssignment
 from api.v1.v1_profile.constants import UserRoleTypes
-from api.v1.v1_profile.models import Administration, Levels
+from api.v1.v1_profile.models import Administration, Levels, Entity
 from api.v1.v1_users.models import SystemUser
 from rtmis.settings import FORM_GEO_VALUE
 from utils.custom_serializer_fields import CustomChoiceField, \
@@ -159,6 +160,18 @@ class ListQuestionSerializer(serializers.ModelSerializer):
         user = self.context.get('user')
         assignment = self.context.get('mobile_assignment')
         if instance.type == QuestionTypes.cascade:
+            if instance.extra:
+                cascade_type = instance.extra.get("type")
+                cascade_name = instance.extra.get("name")
+                if cascade_type == "entity":
+                    entity_type = Entity.objects\
+                        .filter(name=cascade_name).first()
+                    entity_id = entity_type.id if entity_type else None
+                    return {
+                        "file": "entity_data.sqlite",
+                        "cascade_type": entity_id,
+                        "cascade_parent": "administrator.sqlite"
+                    }
             return {
                 "file": "organisation.sqlite",
                 "parent_id": [0]
@@ -239,9 +252,14 @@ class WebFormDetailSerializer(serializers.ModelSerializer):
         for cascade_question in cascade_questions:
             if cascade_question.type == QuestionTypes.administration:
                 source.append("/sqlite/administrator.sqlite")
+            if (
+                cascade_question.extra and
+                cascade_question.extra.get('type') == 'entity'
+            ):
+                source.append("/sqlite/entity_data.sqlite")
             else:
                 source.append("/sqlite/organisation.sqlite")
-        return source
+        return np.unique(source)
 
     class Meta:
         model = Forms
