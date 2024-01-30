@@ -5,6 +5,7 @@ import { CenterLayout, Image } from '../components';
 import { BuildParamsState, UIState } from '../store';
 import { api, i18n } from '../lib';
 import { crudConfig } from '../database/crud';
+import { ToastAndroid } from 'react-native';
 
 const GetStarted = ({ navigation }) => {
   const logo = Asset.fromModule(require('../assets/icon.png')).uri;
@@ -21,7 +22,9 @@ const GetStarted = ({ navigation }) => {
       if (config) {
         setCurrentConfig(config);
       }
-    } catch (error) {}
+    } catch (error) {
+      ToastAndroid.show(`SQL: ${error}`, ToastAndroid.LONG);
+    }
   }, []);
 
   const isServerURLDefined = useMemo(() => {

@@ -67,9 +67,9 @@ const Home = ({ navigation, route }) => {
           .filter((r) => r?.userId === currentUserId);
         setData(forms);
         setloading(false);
-      } catch {
+      } catch (error) {
         if (Platform.OS === 'android') {
-          ToastAndroid.show(trans.errorFormsNotLoaded, ToastAndroid.SHORT);
+          ToastAndroid.show(`SQL: ${error}`, ToastAndroid.SHORT);
         }
       }
     }
