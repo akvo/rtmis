@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView, View } from 'react-native';
 import { ListItem } from '@rneui/themed';
 import { BaseLayout } from '../../components';
-import { UIState, UserState } from '../../store';
+import { UIState } from '../../store';
 import { i18n } from '../../lib';
 import { crudForms } from '../../database/crud';
 
@@ -11,12 +11,10 @@ const FormSelection = ({ navigation }) => {
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
 
-  const { id: currentUserId } = UserState.useState((s) => s);
-
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const formsData = await crudForms.getMyForms({ id: currentUserId });
+        const formsData = await crudForms.getMyForms();
         setForms(formsData);
       } catch (error) {
         console.error('Error fetching forms:', error);

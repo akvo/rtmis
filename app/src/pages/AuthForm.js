@@ -47,6 +47,7 @@ const AuthForm = ({ navigation }) => {
         active: 1,
         token: data?.syncToken,
         password: data?.passcode,
+        administrationList: data.administrationList,
       });
       UserState.update((s) => {
         s.id = newUserId;
@@ -108,7 +109,11 @@ const AuthForm = ({ navigation }) => {
             s.token = bearerToken;
           });
 
-          const userID = await handleActiveUser({ ...data, passcode });
+          const userID = await handleActiveUser({
+            ...data,
+            passcode,
+            administrationList: JSON.stringify(data.administrations),
+          });
 
           await handleGetAllForms(data.formsUrl, userID);
 
