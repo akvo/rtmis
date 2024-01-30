@@ -284,6 +284,7 @@ const AddAssignment = () => {
                     }}
                     persist={id ? true : false}
                     allowMultiple
+                    isSelectAllVillage={true}
                   />
                 </Form.Item>
               </div>

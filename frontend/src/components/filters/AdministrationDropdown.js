@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./style.scss";
-import { Select, Space } from "antd";
+import { Select, Space, Checkbox, Row, Col } from "antd";
 import PropTypes from "prop-types";
 import { store, api } from "../../lib";
 import { useCallback } from "react";
@@ -16,6 +16,7 @@ const AdministrationDropdown = ({
   currentId = null,
   onChange,
   limitLevel = false,
+  isSelectAllVillage = false,
   ...props
 }) => {
   const { user, administration, levels } = store.useState((state) => state);
@@ -70,6 +71,23 @@ const AdministrationDropdown = ({
     if (onChange) {
       const _values = allowMultiple && Array.isArray(e) ? e : [e];
       onChange(_values);
+    }
+  };
+
+  const handleSelectAllVillage = (e) => {
+    if (e.target.checked) {
+      let admItems = null;
+      const multiadministration = administration?.find(
+        (admLevel) => admLevel.level === lowestLevel.level - 1
+      )?.children;
+      admItems = multiadministration;
+      store.update((s) => {
+        s.administration = s.administration.concat(admItems);
+      });
+    } else {
+      store.update((s) => {
+        s.administration = s.administration.slice(0, 2);
+      });
     }
   };
 
@@ -151,6 +169,15 @@ const AdministrationDropdown = ({
               );
             }
           })}
+        {isSelectAllVillage && maxLevel === 5 && (
+          <Row className="form-row">
+            <Col span={24}>
+              <Checkbox onChange={handleSelectAllVillage}>
+                Select all village
+              </Checkbox>
+            </Col>
+          </Row>
+        )}
       </Space>
     );
   }
