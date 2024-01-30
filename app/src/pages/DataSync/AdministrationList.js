@@ -61,7 +61,7 @@ const FormSelection = ({ navigation, route }) => {
   const renderItem = ({ item }) => (
     <ListItem bottomDivider containerStyle={styles.listItemContainer}>
       <ListItem.Content>
-        <ListItem.Title>{item.name}</ListItem.Title>
+        <ListItem.Title>{item.name.replaceAll(/\|/g, ', ')}</ListItem.Title>
       </ListItem.Content>
       <Button
         icon={<Icon name="sync" size={24} color="orange" />}
