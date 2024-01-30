@@ -1,3 +1,4 @@
+from django.utils import timezone
 from api.v1.v1_data.models import Answers, AnswerHistory
 from api.v1.v1_forms.constants import QuestionTypes
 
@@ -5,7 +6,7 @@ from api.v1.v1_forms.constants import QuestionTypes
 def update_date_time_format(date):
     if date:
         # date = timezone.datetime.strptime(date, "%Y-%m-%d").date()
-        return date.date().strftime('%B %d, %Y')
+        return timezone.localtime(date).strftime("%Y-%m-%d %I:%M %p")
     return None
 
 

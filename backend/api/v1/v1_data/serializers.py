@@ -1128,6 +1128,7 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                 administration=data.get("administration"),
                 geo=data.get("geo"),
                 created_by=data.get("created_by"),
+                created=data.get("submitedAt") or timezone.localtime(),
             )
 
         for answer in validated_data.get("answer"):
@@ -1185,6 +1186,7 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                     value=value,
                     options=option,
                     created_by=self.context.get("user"),
+                    created=data.get("submitedAt") or timezone.localtime(),
                 )
 
             # save to form data
