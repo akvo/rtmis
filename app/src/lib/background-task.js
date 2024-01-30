@@ -73,7 +73,7 @@ const registerBackgroundTask = async (TASK_NAME, settingsValue = null) => {
       startOnBoot: true, // android only
     });
   } catch (err) {
-    console.error('Task Register failed:', err);
+    return Promise.reject(err);
   }
 };
 
@@ -81,7 +81,7 @@ const unregisterBackgroundTask = async (TASK_NAME) => {
   try {
     await BackgroundFetch.unregisterTaskAsync(TASK_NAME);
   } catch (err) {
-    console.error('Task Unregister failed:', err);
+    return Promise.reject(err);
   }
 };
 
