@@ -16,9 +16,10 @@ const TypeCascade = ({
   required,
   requiredSign,
   source,
-  dataSource = [],
 }) => {
+  const [dataSource, setDataSource] = useState([]);
   const [dropdownItems, setDropdownItems] = useState([]);
+  const prevAdmAnswer = FormState.useState((s) => s.prevAdmAnswer);
   const activeLang = FormState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const requiredValue = required ? requiredSign : null;
@@ -65,20 +66,35 @@ const TypeCascade = ({
       const cascadeName = findSelected?.name;
       FormState.update((s) => {
         s.cascades = { ...s.cascades, [id]: cascadeName };
+        s.prevAdmAnswer = source?.file === 'administrator.sqlite' ? finalValues : s.prevAdmAnswer;
       });
     }
     setDropdownItems(updatedItems);
   };
 
   const initialDropdowns = useMemo(() => {
-    const parentIDs = source?.parent_id?.length ? source.parent_id : [0];
-    let filterDs = dataSource.filter(
-      (ds) =>
-        parentIDs.includes(ds?.parent) || value?.includes(ds?.id) || value?.includes(ds?.parent),
-    );
-    if (filterDs.length === 0) {
-      filterDs = dataSource.filter((ds) => parentIDs.includes(ds?.id));
-    }
+    const { cascade_parent, cascade_type, parent_id } = source || {};
+    const parentIDs =
+      cascade_parent === 'administrator.sqlite' ? prevAdmAnswer || [] : parent_id || [0];
+    const filterDs = dataSource
+      ?.filter((ds) => {
+        if (cascade_parent) {
+          return parentIDs.includes(ds?.parent);
+        }
+        return (
+          parentIDs.includes(ds?.parent) ||
+          parentIDs.includes(ds?.id) ||
+          value?.includes(ds?.id) ||
+          value?.includes(ds?.parent)
+        );
+      })
+      ?.filter((ds) => {
+        if (cascade_type && ds?.entity) {
+          return ds.entity === cascade_type;
+        }
+        return ds;
+      });
+
     const groupedDs = groupBy(filterDs, 'parent');
     if (parentIDs.length > 1 && Object.keys(groupedDs).length > 1) {
       const parentOptions = Object.keys(groupedDs).map((keyID) =>
@@ -107,7 +123,7 @@ const TypeCascade = ({
         value: value?.[ox] || null,
       };
     });
-  }, [dataSource, source, value, id]);
+  }, [dataSource, source, value, id, prevAdmAnswer]);
 
   const fetchCascade = useCallback(async () => {
     if (source && value?.length) {
@@ -131,10 +147,34 @@ const TypeCascade = ({
   }, [fetchCascade]);
 
   useEffect(() => {
-    if (dropdownItems.length === 0 && initialDropdowns.length) {
+    if (
+      (dropdownItems.length === 0 && initialDropdowns.length) ||
+      (source?.cascade_parent && prevAdmAnswer)
+    ) {
+      /**
+       * Reset entity cascade options when the prevAdmAnswer changes.
+       */
       setDropdownItems(initialDropdowns);
     }
-  }, [dropdownItems, initialDropdowns]);
+  }, [dropdownItems, initialDropdowns, source, prevAdmAnswer]);
+
+  const loadDataSource = useCallback(async () => {
+    const { rows } = await cascades.loadDataSource(source);
+    setDataSource(rows._array);
+    if (source?.cascade_type) {
+      FormState.update((s) => {
+        s.entityOptions[id] = rows._array?.filter((a) => a?.entity === source.cascade_type);
+      });
+    }
+  }, [source, id]);
+
+  useEffect(() => {
+    loadDataSource();
+  }, [loadDataSource]);
+
+  if (!dropdownItems.length) {
+    return;
+  }
 
   return (
     <View testID="view-type-cascade">
@@ -144,6 +184,7 @@ const TypeCascade = ({
       </Text>
       <View style={styles.cascadeContainer}>
         {dropdownItems.map((item, index) => {
+          const hasSearch = item?.options.length > 3;
           return (
             <Dropdown
               key={index}
@@ -151,7 +192,7 @@ const TypeCascade = ({
               valueField="id"
               testID={`dropdown-cascade-${index}`}
               data={item?.options}
-              search={item?.options.length > 3}
+              search={hasSearch}
               searchPlaceholder={trans.searchPlaceholder}
               onChange={({ id: selectedID }) => handleOnChange(index, selectedID)}
               value={item.value}

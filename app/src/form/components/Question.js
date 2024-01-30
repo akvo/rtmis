@@ -14,18 +14,29 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
   const [preload, setPreload] = useState(true);
   const values = FormState.useState((s) => s.currentValues);
   const currentPreFilled = FormState.useState((s) => s.prefilled);
+  const prevAdmAnswer = FormState.useState((s) => s.prevAdmAnswer);
+  const entityOptions = FormState.useState((s) => s.entityOptions);
   const flatListRef = useRef(null);
 
   const questions = useMemo(() => {
-    try {
-      if (group?.question?.length) {
-        return group.question.filter((q) => onFilterDependency(group, values, q));
-      }
-      return [];
-    } catch {
-      return [];
+    if (group?.question?.length) {
+      return group.question
+        .filter((q) => onFilterDependency(group, values, q))
+        .filter((q) => {
+          return (q?.extra?.type === 'entity' && prevAdmAnswer) || !q?.extra?.type;
+        })
+        .filter((q) => {
+          if (q?.extra?.type === 'entity' && entityOptions?.[q?.id]?.length) {
+            /**
+             * Make sure the entity cascade has administration answer and options
+             */
+            return entityOptions[q.id].filter((opt) => prevAdmAnswer.includes(opt?.parent)).length;
+          }
+          return q;
+        });
     }
-  }, [group, values]);
+    return [];
+  }, [group, values, prevAdmAnswer, entityOptions]);
 
   const handleOnGenerateUUID = useCallback(() => {
     if (preload) {
@@ -72,6 +83,17 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
           s.prefilled = preValues;
         });
       }
+    }
+
+    if (field?.source?.file === 'administrator.sqlite') {
+      activeQuestions
+        ?.filter((q) => q?.source?.cascade_parent)
+        ?.forEach((q) => {
+          /**
+           * Delete entity cascade response when the administration changes
+           */
+          delete fieldValues[q?.id];
+        });
     }
     FormState.update((s) => {
       s.currentValues = fieldValues;

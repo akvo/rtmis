@@ -45,6 +45,23 @@ const usersQuery = () => {
       const { rows } = await conn.tx(db, query.read('users', { password: passcode }), [passcode]);
       return rows;
     },
+    getUserAdministrationListChunk: async (userId, start, end) => {
+      try {
+        const sqlQuery = 'SELECT administrationList FROM users WHERE id = ?';
+        const { rows } = await conn.tx(db, sqlQuery, [userId]);
+
+        if (!rows.length || !rows._array[0].administrationList) {
+          return [];
+        }
+
+        const fullList = JSON.parse(rows._array[0].administrationList);
+        const chunk = fullList.slice(start, end);
+        return chunk;
+      } catch (error) {
+        console.error('Get user administration list chunk:', error);
+        return [];
+      }
+    },
   };
 };
 

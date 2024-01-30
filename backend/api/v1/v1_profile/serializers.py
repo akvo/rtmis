@@ -6,6 +6,7 @@ from api.v1.v1_profile.models import (
     Administration, AdministrationAttribute, AdministrationAttributeValue,
     Entity, EntityData, Levels
 )
+from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField
 
 
 class RelatedAdministrationField(serializers.PrimaryKeyRelatedField):
@@ -229,3 +230,13 @@ class EntityDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = EntityData
         fields = ['id', 'name', 'code', 'administration', 'entity']
+
+
+class GenerateDownloadRequestSerializer(serializers.Serializer):
+    level = CustomPrimaryKeyRelatedField(queryset=Levels.objects.none())
+    administration = RelatedAdministrationField(
+            queryset=Administration.objects.all())
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get('level').queryset = Levels.objects.all()

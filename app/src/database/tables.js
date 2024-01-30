@@ -7,6 +7,7 @@ export const tables = [
       password: 'TEXT',
       active: 'TINYINT',
       token: 'TEXT',
+      administrationList: 'TEXT',
     },
   },
   {
