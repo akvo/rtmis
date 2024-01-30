@@ -215,7 +215,8 @@ const syncFormSubmission = async (activeJob = {}) => {
       await crudJobs.deleteJob(activeJob.id);
     }
     return res;
-  } catch (err) {
+  } catch (error) {
+    const { status: errorCode } = error?.response;
     if (activeJob?.id) {
       const updatePayload =
         activeJob.attempt < MAX_ATTEMPT
@@ -223,7 +224,7 @@ const syncFormSubmission = async (activeJob = {}) => {
           : { status: jobStatus.ON_PROGRESS, info: String(err) };
       crudJobs.updateJob(activeJob.id, updatePayload);
     }
-    console.error('[syncFormSubmission] Error: ', err);
+    return Promise.reject({ errorCode, message: error?.message });
   }
 };
 
