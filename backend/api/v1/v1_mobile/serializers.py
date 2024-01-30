@@ -5,7 +5,7 @@ from drf_spectacular.utils import extend_schema_field
 from api.v1.v1_forms.models import Forms
 from drf_spectacular.types import OpenApiTypes
 from api.v1.v1_mobile.authentication import MobileAssignmentToken
-from api.v1.v1_profile.models import Administration, Levels
+from api.v1.v1_profile.models import Administration, Levels, Entity
 from utils.custom_serializer_fields import CustomCharField
 from api.v1.v1_mobile.models import MobileAssignment, MobileApk
 from utils.custom_helper import CustomPasscode, generate_random_string
@@ -102,8 +102,55 @@ class IdAndNameRelatedField(serializers.PrimaryKeyRelatedField):
         }
 
 
+class FormsAndEntityValidation(serializers.PrimaryKeyRelatedField):
+    def use_pk_only_optimization(self) -> bool:
+        return False
+
+    def to_representation(self, value):
+        return {
+            "id": value.pk,
+            "name": value.name,
+        }
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        request = self.context.get('request')
+        selected_adm = request.data.get("administrations") if request else None
+        selected_forms = request.data.get("forms") if request else None
+        entity_forms = queryset.filter(
+            pk__in=selected_forms,
+            form_questions__extra__icontains="entity"
+        ).distinct()
+        if entity_forms.exists():
+            forms = entity_forms.all()
+            no_data = []
+            for f in forms:
+                questions = f.form_questions.filter(extra__icontains="entity")
+                for q in questions:
+                    entity = Entity.objects.filter(
+                        name=q.extra.get("name")
+                    ).first()
+                    if not entity:
+                        raise serializers.ValidationError(
+                            f"{q.extra.get('name')} doesn't exist"
+                        )
+                    if entity and selected_adm:
+                        entity_has_data = entity.entity_data.filter(
+                            administration__in=selected_adm
+                        )
+                        if not entity_has_data.exists():
+                            no_data.append({
+                                "form": f.name,
+                                "entity": entity.name,
+                            })
+            if len(no_data) > 0:
+                raise serializers.ValidationError(no_data)
+
+        return queryset
+
+
 class MobileAssignmentSerializer(serializers.ModelSerializer):
-    forms = IdAndNameRelatedField(queryset=Forms.objects.all(), many=True)
+    forms = FormsAndEntityValidation(queryset=Forms.objects.all(), many=True)
     administrations = IdAndNameRelatedField(
         queryset=Administration.objects.all(), many=True
     )
