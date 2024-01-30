@@ -400,7 +400,9 @@ const ApprovalDetail = ({
         columns={columns}
         scroll={{ y: 500 }}
         pagination={false}
-        rowClassName={(record) => (record.edited ? "row-edited" : "row-normal")}
+        rowClassName={(record) =>
+          record.edited ? "row-edited" : "row-normal sticky"
+        }
         style={{ borderBottom: "solid 1px #ddd" }}
         rowKey="id"
         expandable={

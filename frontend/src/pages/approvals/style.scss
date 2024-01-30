@@ -17,6 +17,12 @@
 
       .ant-table-tbody {
         .ant-table-row {
+          .sticky {
+            position: sticky;
+            top: 0;
+            left: 0;
+            z-index: 1;
+          }
           .ant-table-cell:first-child {
             color: $color-default;
             vertical-align: top;

@@ -92,7 +92,6 @@ const UploadDetail = ({ record, setReload }) => {
   const { user } = store.useState((state) => state);
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
-  const [expandedKeys, setexpandedKeys] = useState([]);
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
@@ -343,11 +342,6 @@ const UploadDetail = ({ record, setReload }) => {
     );
   };
 
-  const onRow = ({ key }) =>
-    expandedRowKeys.includes(key) && { className: "sticky" };
-
-  console.log(expandedRowKeys, "expandedRowKeys");
-
   const isEditable =
     (record.approvers || []).filter((a) => a.status_text === "Rejected")
       .length > 0 && user?.role?.id === 4;
@@ -363,7 +357,6 @@ const UploadDetail = ({ record, setReload }) => {
         loading={loading}
         dataSource={selectedTab === "raw-data" ? rawValues : values}
         columns={columns}
-        onRow={onRow}
         rowClassName={(record) =>
           (record.newValue || record.newValue === 0) &&
           !isEqual(record.value, record.newValue)
@@ -493,8 +486,6 @@ const UploadDetail = ({ record, setReload }) => {
               }
             : false
         }
-        sticky={true}
-        scroll={{ x: 950, y: "calc(100vh - 220px)" }}
       />
       <h3>{text.notesFeedback}</h3>
       {!!comments.length && (
