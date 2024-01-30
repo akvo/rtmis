@@ -1,7 +1,6 @@
 import { Row, Col, Tag } from "antd";
 import {
   FileTextFilled,
-  InfoCircleOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
   ClockCircleOutlined,
@@ -9,36 +8,27 @@ import {
 
 export const columnsApproval = [
   {
-    title: "",
-    dataIndex: "id",
-    key: "id",
-    width: "40px",
-    render: () => <InfoCircleOutlined />,
-  },
-  {
     title: "Submission",
     dataIndex: "name",
     key: "name",
-    width: "20%",
-    render: (filename) => (
-      <Row>
-        <Col span={4}>
+    render: (filename, row) => (
+      <Row align="middle">
+        <Col style={{ marginRight: 20 }}>
           <FileTextFilled style={{ color: "#666666", fontSize: 28 }} />
         </Col>
-        <Col span={12}>{filename}</Col>
+        <Col>
+          <div>{filename}</div>
+          <div>{row.created}</div>
+        </Col>
       </Row>
     ),
+    width: "30%",
   },
   {
     title: "Form",
     dataIndex: "form",
     key: "form",
     render: (form) => form.name,
-  },
-  {
-    title: "Date",
-    dataIndex: "created",
-    key: "created",
   },
   {
     title: "Submitter",
@@ -53,8 +43,10 @@ export const columnsApproval = [
   },
   {
     title: "Status",
+    align: "center",
     dataIndex: "approver",
     key: "approver",
+    width: 60,
     render: ({ status_text }) => (
       <span>
         <Tag
@@ -82,13 +74,16 @@ export const columnsApproval = [
   },
   {
     title: "Waiting on",
+    align: "center",
     dataIndex: "waiting_on",
     key: "waiting_on",
     render: (_, row) => row.approver.name,
   },
   {
     title: "Total Data",
+    align: "center",
     dataIndex: "total_data",
     key: "total_data",
+    width: 120,
   },
 ];
