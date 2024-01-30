@@ -15,7 +15,6 @@ import {
   PlusSquareOutlined,
   CloseSquareOutlined,
   FileTextFilled,
-  InfoCircleOutlined,
   ClockCircleOutlined,
   CloseCircleOutlined,
   CheckCircleOutlined,
