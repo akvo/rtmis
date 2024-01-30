@@ -84,10 +84,17 @@ const AdministrationDropdown = ({
       store.update((s) => {
         s.administration = s.administration.concat(admItems);
       });
+      if (onChange) {
+        const _values = admItems.map((item) => item.id);
+        onChange(_values);
+      }
     } else {
       store.update((s) => {
-        s.administration = s.administration.slice(0, 2);
+        s.administration = s.administration.slice(0, 1);
       });
+      if (onChange) {
+        onChange(administration.slice(0, 1).map((adm) => adm.id));
+      }
     }
   };
 

@@ -155,6 +155,7 @@ const AddAssignment = () => {
 
   const fetchData = useCallback(async () => {
     if (id && preload && editAssignment?.id && selectedAdm) {
+      console.log(editAssignment, selectedAdm, "editAssignment");
       setPreload(false);
       form.setFieldsValue({
         ...editAssignment,
