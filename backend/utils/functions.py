@@ -6,7 +6,9 @@ from api.v1.v1_forms.constants import QuestionTypes
 def update_date_time_format(date):
     if date:
         # date = timezone.datetime.strptime(date, "%Y-%m-%d").date()
-        return timezone.localtime(date).strftime("%Y-%m-%d %I:%M %p")
+        if not timezone.is_naive(date):
+            return timezone.localtime(date).strftime("%Y-%m-%d %I:%M %p")
+        return date.strftime("%Y-%m-%d %I:%M %p")
     return None
 
 
