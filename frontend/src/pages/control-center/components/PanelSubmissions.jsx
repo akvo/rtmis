@@ -15,7 +15,6 @@ import {
   PlusSquareOutlined,
   CloseSquareOutlined,
   FileTextFilled,
-  InfoCircleOutlined,
   ClockCircleOutlined,
   CloseCircleOutlined,
   CheckCircleOutlined,
@@ -46,20 +45,12 @@ const columnsSelected = [
 
 const columnsBatch = [
   {
-    title: "",
-    dataIndex: "id",
-    key: "id",
-    align: "center",
-    render: () => <InfoCircleOutlined />,
-    width: 50,
-  },
-  {
     title: "Batch Name",
     dataIndex: "name",
     key: "name",
     render: (name, row) => (
       <Row align="middle">
-        <Col>
+        <Col style={{ marginRight: 20 }}>
           <FileTextFilled style={{ color: "#666666", fontSize: 28 }} />
         </Col>
         <Col>
@@ -138,19 +129,12 @@ const columnsBatch = [
 
 const columnsPending = [
   {
-    title: "",
-    dataIndex: "id",
-    key: "id",
-    render: () => <InfoCircleOutlined />,
-    width: 50,
-  },
-  {
     title: "Name",
     dataIndex: "name",
     key: "name",
     render: (name, row) => (
       <Row align="middle">
-        <Col>
+        <Col style={{ marginRight: 20 }}>
           <FileTextFilled style={{ color: "#666666", fontSize: 28 }} />
         </Col>
         <Col>
@@ -164,13 +148,6 @@ const columnsPending = [
     title: "Administration",
     dataIndex: "administration",
     key: "administration",
-  },
-  {
-    title: "Submitted Date",
-    dataIndex: "created",
-    key: "created",
-    render: (created) => created || "",
-    align: "center",
     width: 200,
   },
   {
@@ -180,6 +157,7 @@ const columnsPending = [
     render: (submitter, dt) => {
       return submitter || dt.created_by;
     },
+    width: 200,
   },
   {
     title: "Duration",
