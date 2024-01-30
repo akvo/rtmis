@@ -144,7 +144,11 @@ class Entity(models.Model):
 class EntityData(models.Model):
     name = models.TextField()
     code = models.CharField(max_length=255, null=True, default=None)
-    entity = models.ForeignKey(to=Entity, on_delete=models.PROTECT)
+    entity = models.ForeignKey(
+        to=Entity,
+        on_delete=models.PROTECT,
+        related_name='entity_data'
+    )
     administration = models.ForeignKey(
             to=Administration, on_delete=models.PROTECT)
 
