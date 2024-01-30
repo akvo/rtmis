@@ -16,12 +16,10 @@ const GetStarted = ({ navigation }) => {
   const trans = i18n.text(activeLang);
 
   const getConfig = useCallback(async () => {
-    try {
-      const config = await crudConfig.getConfig();
-      if (config) {
-        setCurrentConfig(config);
-      }
-    } catch (error) {}
+    const config = await crudConfig.getConfig();
+    if (config) {
+      setCurrentConfig(config);
+    }
   }, []);
 
   const isServerURLDefined = useMemo(() => {

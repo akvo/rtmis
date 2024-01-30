@@ -120,10 +120,9 @@ const FormPage = ({ navigation, route }) => {
       }
       refreshForm();
       navigation.navigate('Home', { ...route?.params });
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
       if (Platform.OS === 'android') {
-        ToastAndroid.show(trans.errorSaveDatapoint, ToastAndroid.LONG);
+        ToastAndroid.show(`SQL: ${error}`, ToastAndroid.LONG);
       }
     }
   };
@@ -192,10 +191,9 @@ const FormPage = ({ navigation, route }) => {
       }
       refreshForm();
       navigation.navigate('Home', { ...route?.params });
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
       if (Platform.OS === 'android') {
-        ToastAndroid.show(trans.errorSubmitted, ToastAndroid.LONG);
+        ToastAndroid.show(`SQL: ${error}`, ToastAndroid.LONG);
       }
     }
   };

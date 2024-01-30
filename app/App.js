@@ -17,6 +17,7 @@ import backgroundTask, {
   defineSyncFormVersionTask,
 } from './src/lib/background-task';
 import crudJobs, { jobStatus, MAX_ATTEMPT } from './src/database/crud/crud-jobs';
+import { ToastAndroid } from 'react-native';
 
 export const setNotificationHandler = () =>
   Notifications.setNotificationHandler({
@@ -135,18 +136,18 @@ const App = () => {
   };
 
   const handleInitDB = useCallback(async () => {
-    await conn.reset();
-    const db = conn.init;
-    const queries = tables.map((t) => {
-      const queryString = query.initialQuery(t.name, t.fields);
-      return conn.tx(db, queryString);
-    });
     try {
+      await conn.reset();
+      const db = conn.init;
+      const queries = tables.map((t) => {
+        const queryString = query.initialQuery(t.name, t.fields);
+        return conn.tx(db, queryString);
+      });
       await Promise.all(queries);
       await handleInitConfig();
       handleCheckSession();
     } catch (error) {
-      console.error('[INITIAL DB]', error);
+      ToastAndroid.show(`[INITIAL DB]: ${error}`, ToastAndroid.LONG);
     }
   }, [handleInitConfig, handleCheckSession]);
 

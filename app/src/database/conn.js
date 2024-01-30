@@ -87,7 +87,7 @@ const removeDB = async () => {
       }
     }
   } catch (error) {
-    console.error('[RESET DB]', error);
+    return Promise.reject(error);
   }
 };
 
