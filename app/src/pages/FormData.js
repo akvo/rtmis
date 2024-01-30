@@ -163,8 +163,10 @@ const FormDataPage = ({ navigation, route }) => {
       } else {
         await runSyncSubmision();
       }
-    } catch (e) {
-      console.error('[Manual SyncFormSubmission]: ', e);
+    } catch (error) {
+      setData(data);
+      setSyncing(false);
+      ToastAndroid.show(`${error?.errorCode}: ${error?.message}`, ToastAndroid.LONG);
     }
   };
 

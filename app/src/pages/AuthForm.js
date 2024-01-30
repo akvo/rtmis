@@ -95,43 +95,38 @@ const AuthForm = ({ navigation }) => {
     api
       .post('/auth', { code: passcode })
       .then(async (res) => {
-        try {
-          const { data } = res;
-          // save session
-          const bearerToken = data.syncToken;
-          api.setToken(bearerToken);
+        const { data } = res;
+        // save session
+        const bearerToken = data.syncToken;
+        api.setToken(bearerToken);
 
-          await crudConfig.updateConfig({ authenticationCode: passcode });
-          await cascades.createSqliteDir();
-          // update auth state
-          AuthState.update((s) => {
-            s.authenticationCode = passcode;
-            s.token = bearerToken;
-          });
+        await crudConfig.updateConfig({ authenticationCode: passcode });
+        await cascades.createSqliteDir();
+        // update auth state
+        AuthState.update((s) => {
+          s.authenticationCode = passcode;
+          s.token = bearerToken;
+        });
 
-          const userID = await handleActiveUser({
-            ...data,
-            passcode,
-            administrationList: JSON.stringify(data.administrations),
-          });
+        const userID = await handleActiveUser({
+          ...data,
+          passcode,
+          administrationList: JSON.stringify(data.administrations),
+        });
 
-          await handleGetAllForms(data.formsUrl, userID);
+        await handleGetAllForms(data.formsUrl, userID);
 
-          // go to home page (form list)
-          setTimeout(() => {
-            navigation.navigate('Home', { newForms: true });
-          }, 500);
-        } catch (err) {
-          console.error(err);
-        }
+        // go to home page (form list)
+        setTimeout(() => {
+          navigation.navigate('Home', { newForms: true });
+        }, 500);
       })
       .catch((err) => {
-        const { status: errStatus, message: errMessage } = err?.response;
-        if ([400, 401].includes(errStatus)) {
-          setError(trans.authErrorPasscode);
+        const { status: errorCode } = err?.response;
+        if ([400, 401].includes(errorCode)) {
+          setError(`${errorCode}: ${trans.authErrorPasscode}`);
         } else {
-          console.log('errStatus', err?.message);
-          setError(errMessage);
+          setError(`${errorCode}: ${err?.message}`);
         }
       })
       .finally(() => setLoading(false));
