@@ -1,4 +1,5 @@
 import { conn, query } from '../';
+import crudUsers from './crud-users';
 
 const db = conn.init;
 
@@ -70,8 +71,9 @@ const formsQuery = () => {
       return await conn.tx(db, updateQuery, [formId]);
     },
     getMyForms: async () => {
-      const sqlQuery = 'SELECT id, name FROM forms';
-      const { rows } = await conn.tx(db, sqlQuery);
+      const session = await crudUsers.getActiveUser();
+      const sqlQuery = 'SELECT id, name FROM forms WHERE userId = ?';
+      const { rows } = await conn.tx(db, sqlQuery, [session.id]);
 
       if (!rows.length) {
         return {};
