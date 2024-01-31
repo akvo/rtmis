@@ -33,7 +33,7 @@ services:
       - GOOGLE_APPLICATION_CREDENTIALS=/credentials/rtmis-service-account.json
       - MAILJET_APIKEY=$MAILJET_APIKEY
       - MAILJET_SECRET=$MAILJET_SECRET
-      - WEBDOMAIN=http://localhost:3000
+      - WEBDOMAIN=$WEBDOMAIN
     network_mode: service:mainnetwork
   pgadmin:
     image: dpage/pgadmin4:5.7
