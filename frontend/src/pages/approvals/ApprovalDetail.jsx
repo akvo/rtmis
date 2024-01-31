@@ -398,7 +398,7 @@ const ApprovalDetail = ({
         loading={loading}
         dataSource={selectedTab === "raw-data" ? rawValues : values}
         columns={columns}
-        scroll={{ y: 500 }}
+        // scroll={{ y: 500 }}
         pagination={false}
         rowClassName={(record) =>
           record.edited ? "row-edited" : "row-normal sticky"
@@ -428,7 +428,7 @@ const ApprovalDetail = ({
                           <span>Loading..</span>
                         </Space>
                       ) : (
-                        <>
+                        <div className={`pending-data-outer`}>
                           {record.data?.map((r, rI) => (
                             <div className="pending-data-wrapper" key={rI}>
                               <h3>{r.name}</h3>
@@ -439,7 +439,7 @@ const ApprovalDetail = ({
                                   (record.newValue || record.newValue === 0) &&
                                   !isEqual(record.newValue, record.value)
                                     ? "row-edited"
-                                    : "row-normal"
+                                    : "row-normal sticky"
                                 }
                                 rowKey="id"
                                 columns={[
@@ -496,7 +496,7 @@ const ApprovalDetail = ({
                           >
                             Save Edits
                           </Button>
-                        </>
+                        </div>
                       )}
                     </div>
                   );
