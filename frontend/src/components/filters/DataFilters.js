@@ -62,41 +62,37 @@ const DataFilters = ({ loading, showAdm = true }) => {
             <AdvancedFiltersButton />
           </Space>
         </Col>
-        {["Super Admin", "County Admin", "Data Entry Supervisor"].includes(
-          authUser?.role?.value
-        ) && (
-          <Col>
-            <Space>
-              {pathname === "/control-center/data/manage" && (
-                <Button
-                  shape="round"
-                  onClick={exportGenerate}
-                  loading={exporting}
-                  icon={<DownloadOutlined />}
-                >
-                  Download Data
-                </Button>
-              )}
-              <Link to="/control-center/data/upload">
-                <Button shape="round" icon={<UploadOutlined />}>
-                  Bulk Upload
-                </Button>
-              </Link>
-              <Link to={`/control-center/form/${selectedForm}`}>
-                <Button
-                  shape="round"
-                  icon={<PlusOutlined />}
-                  type="primary"
-                  disabled={
-                    !isUserHasForms && authUser?.role?.value !== "Super Admin"
-                  }
-                >
-                  Add New
-                </Button>
-              </Link>
-            </Space>
-          </Col>
-        )}
+        <Col>
+          <Space>
+            {pathname === "/control-center/data/manage" && (
+              <Button
+                shape="round"
+                onClick={exportGenerate}
+                loading={exporting}
+                icon={<DownloadOutlined />}
+              >
+                Download Data
+              </Button>
+            )}
+            <Link to="/control-center/data/upload">
+              <Button shape="round" icon={<UploadOutlined />}>
+                Bulk Upload
+              </Button>
+            </Link>
+            <Link to={`/control-center/form/${selectedForm}`}>
+              <Button
+                shape="round"
+                icon={<PlusOutlined />}
+                type="primary"
+                disabled={
+                  !isUserHasForms && authUser?.role?.value !== "Super Admin"
+                }
+              >
+                Add New
+              </Button>
+            </Link>
+          </Space>
+        </Col>
       </Row>
       <Row>
         <Col>
