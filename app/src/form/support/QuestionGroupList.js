@@ -24,7 +24,7 @@ export const checkCompleteQuestionGroup = (form, values) => {
               return true;
             }
           }
-          if (values?.[question.id]) {
+          if (values?.[question.id] || values?.[question.id] === 0) {
             return true;
           }
           return false;
