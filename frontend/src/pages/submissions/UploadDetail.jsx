@@ -19,7 +19,6 @@ const columnsRawData = [
     title: "",
     dataIndex: "key",
     key: "key",
-    width: 40,
     render: (_, __, a) => {
       return a + 1;
     },
@@ -44,7 +43,6 @@ const columnsRawData = [
     title: "Upload By",
     dataIndex: "created_by",
     key: "created_by",
-    width: 200,
   },
   Table.EXPAND_COLUMN,
 ];
