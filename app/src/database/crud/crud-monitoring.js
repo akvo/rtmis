@@ -7,8 +7,8 @@ const monitoringQuery = () => {
     addForm: async ({ formId, formJSON }) => {
       const insertQuery = query.insert('monitoring', {
         formId: formId,
-        uuid: formJSON?.uuid,
-        administration: formJSON?.uuid,
+        uuid: formJSON.uuid,
+        administration: formJSON?.administration,
         name: formJSON?.datapoint_name || null,
         json: formJSON ? JSON.stringify(formJSON.answers).replace(/'/g, "''") : null,
         syncedAt: new Date().toISOString(),

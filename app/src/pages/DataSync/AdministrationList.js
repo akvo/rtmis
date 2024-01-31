@@ -75,7 +75,7 @@ const FormSelection = ({ navigation, route }) => {
         return updatedData;
       }
     } catch (error) {
-      throw error;
+      ToastAndroid.show(`${error?.errorCode}: ${error?.message}`, ToastAndroid.LONG);
     }
   }
 
@@ -96,7 +96,7 @@ const FormSelection = ({ navigation, route }) => {
       const response = await api.get(url);
       if (response.status === 200) {
         const jsonData = response.data;
-        const savedForm = await crudMonitoring.addForm({
+        await crudMonitoring.addForm({
           formId: params.id,
           formJSON: jsonData,
         });
@@ -104,7 +104,7 @@ const FormSelection = ({ navigation, route }) => {
         ToastAndroid.show(trans.syncingSuccessText, ToastAndroid.LONG);
       }
     } catch (error) {
-      ToastAndroid.show(trans.syncingFailedText, ToastAndroid.LONG);
+      ToastAndroid.show(`${error?.errorCode}: ${error?.message}`, ToastAndroid.LONG);
     }
   };
 
@@ -120,7 +120,7 @@ const FormSelection = ({ navigation, route }) => {
       <Button
         icon={<Icon name="sync" size={24} color="orange" />}
         buttonStyle={styles.syncButton}
-        onPress={() => getForms(item.id)}
+        onPress={() => handleDataPoint(item.id)}
         disabled={syncLoading}
       />
     </ListItem>
