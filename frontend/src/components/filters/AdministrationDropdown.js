@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.scss";
 import { Select, Space, Checkbox, Row, Col } from "antd";
 import PropTypes from "prop-types";
@@ -21,6 +21,7 @@ const AdministrationDropdown = ({
   ...props
 }) => {
   const { user, administration, levels } = store.useState((state) => state);
+  const [checked, setChecked] = useState(false);
   /**
    * Get lowest level administrator from maxLevel.
    * otherwise, sort asc by level and get the last item from levels global state
@@ -51,6 +52,15 @@ const AdministrationDropdown = ({
     fetchUserAdmin();
   }, [fetchUserAdmin, persist]);
 
+  useEffect(() => {
+    const multiadministration = administration?.find(
+      (admLevel) => admLevel.level === lowestLevel.level - 1
+    )?.children;
+    if (multiadministration?.length === selectedAdministrations?.length) {
+      setChecked(true);
+    }
+  }, [administration, selectedAdministrations, lowestLevel.level]);
+
   const handleChange = async (e, index) => {
     if (!e) {
       return;
@@ -77,6 +87,7 @@ const AdministrationDropdown = ({
 
   const handleSelectAllVillage = (e) => {
     if (e.target.checked) {
+      setChecked(true);
       let admItems = null;
       const multiadministration = administration?.find(
         (admLevel) => admLevel.level === lowestLevel.level - 1
@@ -93,6 +104,7 @@ const AdministrationDropdown = ({
         onChange(_values);
       }
     } else {
+      setChecked(false);
       store.update((s) => {
         s.administration = s.administration.filter(
           (data) => data.level <= lowestLevel.level - 1
@@ -187,7 +199,7 @@ const AdministrationDropdown = ({
         {isSelectAllVillage && maxLevel === 5 && (
           <Row className="form-row">
             <Col span={24}>
-              <Checkbox onChange={handleSelectAllVillage}>
+              <Checkbox onChange={handleSelectAllVillage} checked={checked}>
                 Select all village
               </Checkbox>
             </Col>
