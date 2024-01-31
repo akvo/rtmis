@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet, ToastAndroid } from 'react-native';
 import { ListItem, Button } from '@rneui/themed';
 import { BaseLayout } from '../../components';
 import { UIState, UserState } from '../../store';
 import { api, i18n } from '../../lib';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { crudUsers } from '../../database/crud';
+import { crudUsers, crudMonitoring } from '../../database/crud';
 
 const PAGE_SIZE = 50; // Adjust as needed
 
@@ -16,6 +16,7 @@ const FormSelection = ({ navigation, route }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [syncLoading, setSyncLoading] = useState(false);
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
 
@@ -74,32 +75,41 @@ const FormSelection = ({ navigation, route }) => {
         return updatedData;
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
       throw error;
     }
   }
 
   const handleDataPoint = async (id) => {
+    ToastAndroid.show(trans.syncingText, ToastAndroid.CENTER);
+    setSyncLoading(true);
     try {
       const allData = await fetchData(id, params.id);
       const urls = allData.map((item) => item.url);
       await Promise.all(urls.map(downloadJson));
     } catch (error) {
-      console.error('Error:', error);
+      setSyncLoading(false);
     }
   };
 
   const downloadJson = async (url) => {
     try {
-      const response = await fetch(url);
-      console.log(response, 'response');
-      const jsonData = await response.json();
-      console.log('Downloaded JSON data:', jsonData);
-      // Handle the downloaded data as needed
+      const response = await api.get(url);
+      if (response.status === 200) {
+        const jsonData = response.data;
+        const savedForm = await crudMonitoring.addForm({
+          formId: params.id,
+          formJSON: jsonData,
+        });
+        setSyncLoading(false);
+        ToastAndroid.show(trans.syncingSuccessText, ToastAndroid.LONG);
+      }
     } catch (error) {
-      console.error('Error downloading JSON:', error);
-      // You might want to handle errors or retry logic here
+      ToastAndroid.show(trans.syncingFailedText, ToastAndroid.LONG);
     }
+  };
+
+  const getForms = async () => {
+    await crudMonitoring.getAllForms();
   };
 
   const renderItem = ({ item }) => (
@@ -110,7 +120,8 @@ const FormSelection = ({ navigation, route }) => {
       <Button
         icon={<Icon name="sync" size={24} color="orange" />}
         buttonStyle={styles.syncButton}
-        onPress={() => handleDataPoint(item.id)}
+        onPress={() => getForms(item.id)}
+        disabled={syncLoading}
       />
     </ListItem>
   );
