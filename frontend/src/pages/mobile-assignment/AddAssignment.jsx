@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-import { Row, Col, Form, Button, Input, Select, Space, Modal } from "antd";
+import { Row, Col, Form, Button, Input, Select, Space, Modal, Tag } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { api, store, uiText } from "../../lib";
 import {
@@ -30,6 +30,8 @@ const AddAssignment = () => {
   const [preload, setPreload] = useState(true);
   const [level, setLevel] = useState(userAdmLevel);
   const [selectedAdministrations, setSelectedAdministrations] = useState([]);
+  const [formErrors, setFormErrors] = useState([]);
+  const [formFeedback, setFormFeedback] = useState(null);
 
   const lowestLevel = levels
     .slice()
@@ -131,6 +133,8 @@ const AddAssignment = () => {
 
   const onFinish = async (values) => {
     setSubmitting(true);
+    setFormFeedback(null);
+    setFormErrors([]);
     try {
       const payload = {
         name: values.name,
@@ -148,9 +152,45 @@ const AddAssignment = () => {
       });
       setLoading(false);
       navigate("/control-center/mobile-assignment");
-    } catch {
+    } catch (error) {
+      const { response: errorResponse } = error.request || {};
+      const { forms: _formErrors } = JSON.parse(errorResponse || "{}");
+      if (_formErrors) {
+        const _formFeedback = _formErrors.map((f) => {
+          if (f.exists === "True") {
+            return `Selected administration didn't have ${f.entity} data`;
+          } else {
+            return `Please create an entity type: ${f.entity} and its data`;
+          }
+        });
+        setFormFeedback(_formFeedback);
+        setFormErrors(_formErrors);
+      }
       setSubmitting(false);
     }
+  };
+
+  const tagRender = (props) => {
+    const { label, value, closable, onClose } = props;
+    const onPreventMouseDown = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    };
+    const isError = formErrors.find((err) => err.form === `${value}`);
+    const color = isError ? "red" : "default";
+    return (
+      <Tag
+        onMouseDown={onPreventMouseDown}
+        closable={closable}
+        onClose={onClose}
+        style={{
+          marginRight: 3,
+        }}
+        color={color}
+      >
+        {label}
+      </Tag>
+    );
   };
 
   const fetchData = useCallback(async () => {
@@ -293,6 +333,15 @@ const AddAssignment = () => {
                 name="forms"
                 label={text.mobileLabelForms}
                 rules={[{ required: true, message: text.mobileFormsRequired }]}
+                validateStatus={formFeedback ? "error" : "success"}
+                hasFeedback={formFeedback}
+                help={
+                  <ul>
+                    {formFeedback?.map((feedback, fx) => (
+                      <li key={fx}>{feedback}</li>
+                    ))}
+                  </ul>
+                }
               >
                 <Select
                   getPopupContainer={(trigger) => trigger.parentNode}
@@ -303,6 +352,7 @@ const AddAssignment = () => {
                   fieldNames={{ value: "id", label: "name" }}
                   options={userForms}
                   className="custom-select"
+                  tagRender={tagRender}
                 />
               </Form.Item>
             </div>
