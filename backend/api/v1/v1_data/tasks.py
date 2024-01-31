@@ -34,6 +34,7 @@ def seed_approved_data(data):
             administration=data.administration,
             geo=data.geo,
             created_by=data.created_by,
+            created=data.created,
         )
         data.data = form_data
         data.approved = True

@@ -53,9 +53,10 @@ class FormData(models.Model):
             "updated_by":
             self.updated_by.get_full_name() if self.updated_by else None,
             "created_at":
-            self.created.strftime("%B %d, %Y"),
+            self.created.strftime("%B %d, %Y %I:%M %p"),
             "updated_at":
-            self.updated.strftime("%B %d, %Y") if self.updated else None,
+            self.updated.strftime("%B %d, %Y %I:%M %p")
+            if self.updated else None,
         }
         for a in self.data_answer.order_by(
                 'question__question_group_id',

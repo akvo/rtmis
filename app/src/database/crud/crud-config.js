@@ -7,11 +7,13 @@ const configQuery = () => {
   const id = 1;
   return {
     getConfig: async () => {
-      const { rows } = await conn.tx(db, query.read('config', { id }), [id]);
-      if (!rows.length) {
-        return false;
-      }
-      return rows._array[rows.length - 1];
+      try {
+        const { rows } = await conn.tx(db, query.read('config', { id }), [id]);
+        if (!rows.length) {
+          return false;
+        }
+        return rows._array[rows.length - 1];
+      } catch {}
     },
     addConfig: async (data = {}) => {
       const insertQuery = query.insert('config', {
