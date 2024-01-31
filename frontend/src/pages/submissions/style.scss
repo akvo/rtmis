@@ -33,7 +33,12 @@
             color: $color-default;
             vertical-align: top;
           }
-
+          .sticky {
+            position: sticky;
+            top: 0;
+            left: 0;
+            z-index: 1;
+          }
           .ant-table-cell:nth-child(2) {
             .ant-row {
               justify-content: flex-start;
