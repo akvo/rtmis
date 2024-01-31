@@ -131,17 +131,20 @@ class FormsAndEntityValidation(serializers.PrimaryKeyRelatedField):
                         name=q.extra.get("name")
                     ).first()
                     if not entity:
-                        raise serializers.ValidationError(
-                            f"{q.extra.get('name')} doesn't exist"
-                        )
+                        no_data.append({
+                            "form": f.id,
+                            "entity": entity.name,
+                            "exists": False
+                        })
                     if entity and selected_adm:
                         entity_has_data = entity.entity_data.filter(
                             administration__in=selected_adm
                         )
                         if not entity_has_data.exists():
                             no_data.append({
-                                "form": f.name,
+                                "form": f.id,
                                 "entity": entity.name,
+                                "exists": True
                             })
             if len(no_data) > 0:
                 raise serializers.ValidationError(no_data)
