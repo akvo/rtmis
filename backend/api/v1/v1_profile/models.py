@@ -150,7 +150,10 @@ class EntityData(models.Model):
         related_name='entity_data'
     )
     administration = models.ForeignKey(
-            to=Administration, on_delete=models.PROTECT)
+        to=Administration,
+        on_delete=models.PROTECT,
+        related_name='entity_data'
+    )
 
     class Meta:
         db_table = 'entity_data'
