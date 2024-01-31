@@ -90,10 +90,14 @@ const AdministrationDropdown = ({
       }
     } else {
       store.update((s) => {
-        s.administration = s.administration.slice(0, 1);
+        s.administration = s.administration.filter(
+          (data) => data.level <= lowestLevel.level - 1
+        );
       });
       if (onChange) {
-        onChange(administration.slice(0, 1).map((adm) => adm.id));
+        onChange(
+          administration.filter((data) => data.level <= lowestLevel.level - 1)
+        );
       }
     }
   };
