@@ -110,6 +110,17 @@
           "meta": true,
           "required": true,
           "hidden": true
+        },
+        {
+          "id": 209,
+          "question": "School Entity Cascade",
+          "meta": false,
+          "required": false,
+          "type": "cascade",
+          "extra": {
+            "type": "entity",
+            "name": "School"
+          }
         }
       ]
     }
