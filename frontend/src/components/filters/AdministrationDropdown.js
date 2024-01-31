@@ -17,6 +17,7 @@ const AdministrationDropdown = ({
   onChange,
   limitLevel = false,
   isSelectAllVillage = false,
+  selectedAdministrations = [],
   ...props
 }) => {
   const { user, administration, levels } = store.useState((state) => state);
@@ -81,6 +82,9 @@ const AdministrationDropdown = ({
         (admLevel) => admLevel.level === lowestLevel.level - 1
       )?.children;
       admItems = multiadministration;
+      if (selectedAdministrations.length === admItems.length) {
+        return;
+      }
       store.update((s) => {
         s.administration = s.administration.concat(admItems);
       });
