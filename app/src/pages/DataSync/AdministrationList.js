@@ -3,9 +3,10 @@ import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
 import { ListItem, Button } from '@rneui/themed';
 import { BaseLayout } from '../../components';
 import { UIState, UserState } from '../../store';
-import { i18n } from '../../lib';
+import { api, i18n } from '../../lib';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { crudUsers } from '../../database/crud';
+
 const PAGE_SIZE = 50; // Adjust as needed
 
 const FormSelection = ({ navigation, route }) => {
@@ -58,6 +59,49 @@ const FormSelection = ({ navigation, route }) => {
     filterData(search, data);
   }, [search, data]);
 
+  async function fetchData(administration, form, pageNumber = 1, allData = []) {
+    try {
+      const response = await api.get(
+        `/datapoint-list?page=${pageNumber}&administration=${administration}&form=${form}`,
+      );
+      const data = response.data.data;
+
+      const updatedData = [...allData, ...data];
+
+      if (data.hasMorePages) {
+        return fetchData(administration, form, pageNumber + 1, updatedData);
+      } else {
+        return updatedData;
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error;
+    }
+  }
+
+  const handleDataPoint = async (id) => {
+    try {
+      const allData = await fetchData(id, params.id);
+      const urls = allData.map((item) => item.url);
+      await Promise.all(urls.map(downloadJson));
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const downloadJson = async (url) => {
+    try {
+      const response = await fetch(url);
+      console.log(response, 'response');
+      const jsonData = await response.json();
+      console.log('Downloaded JSON data:', jsonData);
+      // Handle the downloaded data as needed
+    } catch (error) {
+      console.error('Error downloading JSON:', error);
+      // You might want to handle errors or retry logic here
+    }
+  };
+
   const renderItem = ({ item }) => (
     <ListItem bottomDivider containerStyle={styles.listItemContainer}>
       <ListItem.Content>
@@ -66,7 +110,7 @@ const FormSelection = ({ navigation, route }) => {
       <Button
         icon={<Icon name="sync" size={24} color="orange" />}
         buttonStyle={styles.syncButton}
-        onPress={() => console.log('Sync button pressed')}
+        onPress={() => handleDataPoint(item.id)}
       />
     </ListItem>
   );
