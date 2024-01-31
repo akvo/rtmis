@@ -18,7 +18,7 @@ const MobileAssignment = () => {
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [expanded, setExpanded] = useState(false);
+  const [expandedRows, setExpandedRows] = useState({});
 
   const navigate = useNavigate();
   const { language } = store.useState((s) => s);
@@ -45,8 +45,11 @@ const MobileAssignment = () => {
     navigate(`/control-center/mobile-assignment/form/${record?.id}`);
   };
 
-  const handleMoreLinkClick = () => {
-    setExpanded(!expanded);
+  const handleMoreLinkClick = (rowKey) => {
+    setExpandedRows((prevExpandedRows) => ({
+      ...prevExpandedRows,
+      [rowKey]: !prevExpandedRows[rowKey],
+    }));
   };
 
   const descriptionData = <div>{text.mobilePanelText}</div>;
@@ -67,14 +70,19 @@ const MobileAssignment = () => {
       title: "Administrations",
       dataIndex: "administrations",
       key: "administrations",
-      render: (record) => {
-        const displayedItems = expanded ? record : record?.slice(0, 4);
+      render: (record, row) => {
+        const displayedItems = expandedRows[row.id]
+          ? record
+          : record?.slice(0, 4);
+
         return (
           <>
             {displayedItems?.map((r) => r?.name || r?.label)?.join(" , ")}
             {record?.length > 4 && (
-              <a onClick={handleMoreLinkClick}>
-                {expanded ? `- Less` : `+ ${record?.slice(4).length} More`}
+              <a onClick={() => handleMoreLinkClick(row.id)}>
+                {expandedRows[row.id]
+                  ? `- Less`
+                  : `+ ${record?.slice(4).length} More`}
               </a>
             )}
           </>
