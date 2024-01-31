@@ -133,7 +133,7 @@ class FormsAndEntityValidation(serializers.PrimaryKeyRelatedField):
                     if not entity:
                         no_data.append({
                             "form": f.id,
-                            "entity": entity.name,
+                            "entity": q.extra.get("name"),
                             "exists": False
                         })
                     if entity and selected_adm:
