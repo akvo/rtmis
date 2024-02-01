@@ -662,6 +662,10 @@ const uiText = {
         </p>
       </Fragment>
     ),
+    errorEntityData: (entity) =>
+      `The selected administration doesn't have ${entity} entities`,
+    errorEntityNotExists: (entity) =>
+      `Unfortunately, ${entity} entities are not yet available. Please get in touch with Admin to add it`,
   },
 
   de: {},
