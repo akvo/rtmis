@@ -14,7 +14,7 @@ import {
 } from "antd";
 import {
   PlusSquareOutlined,
-  CloseSquareOutlined,
+  MinusSquareOutlined,
   LoadingOutlined,
   HistoryOutlined,
 } from "@ant-design/icons";
@@ -503,7 +503,7 @@ const ApprovalDetail = ({
                 },
                 expandIcon: ({ expanded, onExpand, record }) =>
                   expanded ? (
-                    <CloseSquareOutlined
+                    <MinusSquareOutlined
                       onClick={(e) => {
                         setExpandedRowKeys([]);
                         onExpand(record, e);
@@ -519,7 +519,7 @@ const ApprovalDetail = ({
                         }
                         onExpand(record, e);
                       }}
-                      style={{ color: "#7d7d7d" }}
+                      style={{ color: "#1651B6", fontSize: "16px" }}
                     />
                   ),
               }

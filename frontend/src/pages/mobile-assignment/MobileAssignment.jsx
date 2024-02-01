@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { Row, Col, Button, Divider, Table, Space, Input } from "antd";
 import {
-  CloseSquareOutlined,
+  MinusSquareOutlined,
   PlusOutlined,
   PlusSquareOutlined,
 } from "@ant-design/icons";
@@ -208,14 +208,14 @@ const MobileAssignment = () => {
                 ),
                 expandIcon: ({ expanded, onExpand, record }) =>
                   expanded ? (
-                    <CloseSquareOutlined
+                    <MinusSquareOutlined
                       onClick={(e) => onExpand(record, e)}
-                      style={{ color: "#e94b4c" }}
+                      style={{ color: "#e94b4c", fontSize: "16px" }}
                     />
                   ) : (
                     <PlusSquareOutlined
                       onClick={(e) => onExpand(record, e)}
-                      style={{ color: "#7d7d7d" }}
+                      style={{ color: "#1651B6", fontSize: "16px" }}
                     />
                   ),
               }}

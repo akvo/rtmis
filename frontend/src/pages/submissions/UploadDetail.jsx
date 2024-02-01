@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Table, Tabs, Button, Space, Tag, List, Spin } from "antd";
 import {
   PlusSquareOutlined,
-  CloseSquareOutlined,
+  MinusSquareOutlined,
   LoadingOutlined,
   HistoryOutlined,
 } from "@ant-design/icons";
@@ -462,12 +462,12 @@ const UploadDetail = ({ record, setReload }) => {
                 },
                 expandIcon: ({ expanded, onExpand, record }) =>
                   expanded ? (
-                    <CloseSquareOutlined
+                    <MinusSquareOutlined
                       onClick={(e) => {
                         setExpandedRowKeys([]);
                         onExpand(record, e);
                       }}
-                      style={{ color: "#e94b4c" }}
+                      style={{ color: "#e94b4c", fontSize: "16px" }}
                     />
                   ) : (
                     <PlusSquareOutlined
@@ -478,7 +478,7 @@ const UploadDetail = ({ record, setReload }) => {
                         }
                         onExpand(record, e);
                       }}
-                      style={{ color: "#7d7d7d" }}
+                      style={{ color: "#1651B6", fontSize: "16px" }}
                     />
                   ),
               }
