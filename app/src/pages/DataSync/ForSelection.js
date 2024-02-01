@@ -33,7 +33,11 @@ const FormSelection = ({ navigation }) => {
       <ScrollView>
         <View>
           {forms.map((form) => (
-            <ListItem key={form.id} bottomDivider onPress={() => goToAdministrationList(form.id)}>
+            <ListItem
+              key={form.id}
+              bottomDivider
+              onPress={() => goToAdministrationList(form.formId)}
+            >
               <ListItem.Content>
                 <ListItem.Title>{form.name}</ListItem.Title>
               </ListItem.Content>

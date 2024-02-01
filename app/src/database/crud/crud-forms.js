@@ -72,7 +72,7 @@ const formsQuery = () => {
     },
     getMyForms: async () => {
       const session = await crudUsers.getActiveUser();
-      const sqlQuery = 'SELECT id, name FROM forms WHERE userId = ?';
+      const sqlQuery = 'SELECT id, name, formId FROM forms WHERE userId = ?';
       const { rows } = await conn.tx(db, sqlQuery, [session.id]);
 
       if (!rows.length) {

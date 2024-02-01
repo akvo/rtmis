@@ -101,6 +101,8 @@ const uiText = {
     errorFormsNotLoaded: 'Unable to load forms',
     downloadingData: 'Downloading data',
     syncingText: 'Syncing...',
+    syncingFailedText: 'Syncing failed...',
+    syncingSuccessText: 'Syncing successful...',
     reSyncingText: 'Re-syncing...',
     doneText: 'Done!',
     about: 'About',
