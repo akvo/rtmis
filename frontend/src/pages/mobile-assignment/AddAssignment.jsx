@@ -158,9 +158,9 @@ const AddAssignment = () => {
       if (_formErrors) {
         const _formFeedback = _formErrors.map((f) => {
           if (f.exists === "True") {
-            return `Selected administration didn't have ${f.entity} data`;
+            return `The selected administration doesn't have ${f.entity} entities`;
           }
-          return `Please create an entity type: ${f.entity} and its data`;
+          return `Unfortunately, ${f.entity} entities are not yet available. Please get in touch with Admin to add it`;
         });
         setFormFeedback(_formFeedback);
         setFormErrors(_formErrors);
