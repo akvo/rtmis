@@ -53,6 +53,18 @@ export const tables = [
     },
   },
   {
+    name: 'monitoring',
+    fields: {
+      id: 'INTEGER PRIMARY KEY NOT NULL',
+      formId: 'INTEGER NOT NULL',
+      uuid: 'TEXT type UNIQUE',
+      name: 'VARCHAR(255)',
+      administration: 'VARCHAR(255)',
+      syncedAt: 'DATETIME',
+      json: 'TEXT',
+    },
+  },
+  {
     name: 'sessions',
     fields: {
       id: 'INTEGER PRIMARY KEY NOT NULL',
