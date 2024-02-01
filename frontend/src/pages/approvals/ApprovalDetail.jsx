@@ -578,7 +578,7 @@ const ApprovalDetail = ({
               disabled={!approve}
               shape="round"
             >
-              Decline
+              Reject
             </Button>
             <Button
               type="primary"
