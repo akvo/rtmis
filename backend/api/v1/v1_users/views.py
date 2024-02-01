@@ -497,8 +497,7 @@ class UserEditDeleteView(APIView):
                             status=status.HTTP_409_CONFLICT)
         FormApprovalAssignment.objects.filter(user=instance).delete()
         PendingDataApproval.objects.filter(user=instance).delete()
-        instance.deleted_at = timezone.now()
-        instance.save()
+        instance.soft_delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @extend_schema(

@@ -632,7 +632,7 @@ class UserInvitationTestCase(TestCase):
                                       content_type='application/json',
                                       **header)
         self.assertEqual(response.status_code, 204)
-        user = SystemUser.objects.get(pk=u.id)
+        user = SystemUser.objects_deleted.get(pk=u.id)
         self.assertEqual(user.deleted_at is not None, True)
         # test login with deleted user
         deleted_user = {"email": user.email, "password": "test"}
