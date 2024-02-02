@@ -24,6 +24,25 @@ const monitoringQuery = () => {
       }
       return rows._array;
     },
+    getFormsPaginated: async ({ formId, search = '', limit = 10, offset = 0 }) => {
+      let sqlQuery = 'SELECT name FROM monitoring WHERE formId = $1';
+      const queryParams = [formId];
+
+      if (search.trim() !== '') {
+        sqlQuery += ' AND LOWER(name) LIKE LOWER($2)';
+        queryParams.push(`%${search}%`);
+      }
+
+      sqlQuery += ' ORDER BY syncedAt DESC LIMIT $3 OFFSET $4';
+      queryParams.push(limit, offset);
+
+      const { rows } = await conn.tx(db, sqlQuery, queryParams);
+
+      if (!rows.length) {
+        return [];
+      }
+      return rows._array;
+    },
   };
 };
 
