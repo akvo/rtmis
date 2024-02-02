@@ -151,8 +151,18 @@ const EditableCell = ({
           setEditing(false);
         }}
         icon={<SaveOutlined />}
+        style={{ marginRight: "8px" }}
       >
         Save
+      </Button>
+      <Button
+        danger
+        shape="round"
+        onClick={() => {
+          setEditing(false);
+        }}
+      >
+        Close
       </Button>
     </Row>
   ) : (
