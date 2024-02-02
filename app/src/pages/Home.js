@@ -27,7 +27,7 @@ const Home = ({ navigation, route }) => {
     FormState.update((s) => {
       s.form = findForm;
     });
-    navigation.navigate('ManageForm', { id: id, name: findForm.name });
+    navigation.navigate('ManageForm', { id: id, name: findForm.name, formId: findForm.formId });
   };
 
   const goToUsers = () => {
