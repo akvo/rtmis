@@ -119,7 +119,7 @@ const ReportVisual = ({ selectedForm }) => {
             expanded ? (
               <DownCircleOutlined
                 onClick={(e) => onExpand(record, e)}
-                style={{ color: "#e94b4c", fontSize: "16px" }}
+                style={{ color: "#1651B6", fontSize: "19px" }}
               />
             ) : (
               <LeftCircleOutlined

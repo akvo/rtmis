@@ -14,7 +14,7 @@ import {
 } from "antd";
 import {
   LeftCircleOutlined,
-  MinusSquareOutlined,
+  DownCircleOutlined,
   LoadingOutlined,
   HistoryOutlined,
 } from "@ant-design/icons";
@@ -503,12 +503,12 @@ const ApprovalDetail = ({
                 },
                 expandIcon: ({ expanded, onExpand, record }) =>
                   expanded ? (
-                    <MinusSquareOutlined
+                    <DownCircleOutlined
                       onClick={(e) => {
                         setExpandedRowKeys([]);
                         onExpand(record, e);
                       }}
-                      style={{ color: "#e94b4c", fontSize: "16px" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ) : (
                     <LeftCircleOutlined

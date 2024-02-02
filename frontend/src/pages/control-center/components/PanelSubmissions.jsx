@@ -432,7 +432,7 @@ const PanelSubmissions = () => {
                   return expand.expanded ? (
                     <DownCircleOutlined
                       onClick={() => setExpandedKeys([])}
-                      style={{ color: "#e94b4c", fontSize: "16px" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ) : (
                     <LeftCircleOutlined
