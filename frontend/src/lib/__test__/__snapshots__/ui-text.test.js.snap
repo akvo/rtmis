@@ -164,6 +164,8 @@ Object {
     "error": "Error",
     "errorAuth": "You are not authorised to access this page",
     "errorDataLoad": "Could not load data",
+    "errorEntityData": [Function],
+    "errorEntityNotExists": [Function],
     "errorFileList": "Could not fetch File list",
     "errorMandatoryFields": "Please answer all the mandatory questions",
     "errorPageNA": "Oops, this page is not available",
