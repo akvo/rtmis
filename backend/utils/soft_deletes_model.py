@@ -4,16 +4,16 @@ from django.utils import timezone
 
 class SoftDeletesQuerySet(models.QuerySet):
     def only_deleted(self):
-        return self.filter(deleted__isnull=False)
+        return self.filter(deleted_at__isnull=False)
 
     def without_deleted(self):
-        return self.filter(deleted__isnull=True)
+        return self.filter(deleted_at__isnull=True)
 
     #  bulk deleting
     def delete(self, hard: bool = False):
         if hard:
             return super().delete()
-        return super().update(deleted=timezone.now())
+        return super().update(deleted_at=timezone.now())
 
     def soft_delete(self):
         return self.delete()
@@ -23,7 +23,7 @@ class SoftDeletesQuerySet(models.QuerySet):
 
     #  bulk restore
     def restore(self):
-        return super().update(deleted=None)
+        return super().update(deleted_at=None)
 
 
 class SoftDeletesManager(models.Manager):
@@ -55,7 +55,7 @@ class SoftDeletesManager(models.Manager):
 
 
 class SoftDeletes(models.Model):
-    deleted = models.DateTimeField(null=True, blank=True)
+    deleted_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         abstract = True
@@ -67,8 +67,8 @@ class SoftDeletes(models.Model):
     def delete(self, using=None, keep_parents=False, hard: bool = False):
         if hard:
             return super().delete(using, keep_parents)
-        self.deleted = timezone.now()
-        self.save(update_fields=['deleted'])
+        self.deleted_at = timezone.now()
+        self.save(update_fields=['deleted_at'])
 
     def soft_delete(self) -> None:
         self.delete(hard=False)
@@ -77,5 +77,5 @@ class SoftDeletes(models.Model):
         return self.delete(using, keep_parents, hard=True)
 
     def restore(self) -> None:
-        self.deleted = None
-        self.save(update_fields=['deleted'])
+        self.deleted_at = None
+        self.save(update_fields=['deleted_at'])
