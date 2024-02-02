@@ -9,6 +9,16 @@
     }
   }
 }
+#root {
+  .ant-form-item-feedback-icon {
+    display: none;
+  }
+  .ant-tag {
+    font-size: 14px;
+    border-radius: 2px;
+    padding: 4px 8px;
+  }
+}
 // #root .ant-space {
 //   width: 100%;
 // }
