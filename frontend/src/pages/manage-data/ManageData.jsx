@@ -12,8 +12,8 @@ import {
   Space,
 } from "antd";
 import {
-  PlusSquareOutlined,
-  MinusSquareOutlined,
+  LeftCircleOutlined,
+  DownCircleOutlined,
   ExclamationCircleOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
@@ -215,14 +215,14 @@ const ManageData = () => {
                   ),
                   expandIcon: ({ expanded, onExpand, record }) =>
                     expanded ? (
-                      <MinusSquareOutlined
+                      <DownCircleOutlined
                         onClick={(e) => onExpand(record, e)}
-                        style={{ color: "#e94b4c", fontSize: "16px" }}
+                        style={{ color: "#1651B6", fontSize: "19px" }}
                       />
                     ) : (
-                      <PlusSquareOutlined
+                      <LeftCircleOutlined
                         onClick={(e) => onExpand(record, e)}
-                        style={{ color: "#1651B6", fontSize: "16px" }}
+                        style={{ color: "#1651B6", fontSize: "19px" }}
                       />
                     ),
                 }}

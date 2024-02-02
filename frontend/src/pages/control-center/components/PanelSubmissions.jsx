@@ -12,8 +12,8 @@ import {
   Popover,
 } from "antd";
 import {
-  PlusSquareOutlined,
-  MinusSquareOutlined,
+  LeftCircleOutlined,
+  DownCircleOutlined,
   FileTextFilled,
   ClockCircleOutlined,
   CloseCircleOutlined,
@@ -430,14 +430,14 @@ const PanelSubmissions = () => {
                 expandedRowRender: ApproverDetail,
                 expandIcon: (expand) => {
                   return expand.expanded ? (
-                    <MinusSquareOutlined
+                    <DownCircleOutlined
                       onClick={() => setExpandedKeys([])}
                       style={{ color: "#e94b4c", fontSize: "16px" }}
                     />
                   ) : (
-                    <PlusSquareOutlined
+                    <LeftCircleOutlined
                       onClick={() => setExpandedKeys([expand.record.id])}
-                      style={{ color: "#1651B6", fontSize: "16px" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   );
                 },

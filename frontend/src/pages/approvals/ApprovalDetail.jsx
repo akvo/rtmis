@@ -13,7 +13,7 @@ import {
   Spin,
 } from "antd";
 import {
-  PlusSquareOutlined,
+  LeftCircleOutlined,
   MinusSquareOutlined,
   LoadingOutlined,
   HistoryOutlined,
@@ -508,10 +508,10 @@ const ApprovalDetail = ({
                         setExpandedRowKeys([]);
                         onExpand(record, e);
                       }}
-                      style={{ color: "#e94b4c" }}
+                      style={{ color: "#e94b4c", fontSize: "16px" }}
                     />
                   ) : (
-                    <PlusSquareOutlined
+                    <LeftCircleOutlined
                       onClick={(e) => {
                         setExpandedRowKeys([record.id]);
                         if (!record.data?.length) {
@@ -519,7 +519,7 @@ const ApprovalDetail = ({
                         }
                         onExpand(record, e);
                       }}
-                      style={{ color: "#1651B6", fontSize: "16px" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ),
               }

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Col, Divider, Row, Table } from "antd";
-import { MinusSquareOutlined, PlusSquareOutlined } from "@ant-design/icons";
+import { DownCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import {
   AdministrationFilters,
@@ -166,14 +166,14 @@ const MasterData = () => {
                 },
                 expandIcon: ({ expanded, onExpand, record }) =>
                   expanded ? (
-                    <MinusSquareOutlined
+                    <DownCircleOutlined
                       onClick={(e) => onExpand(record, e)}
-                      style={{ color: "#e94b4c", fontSize: "16px" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ) : (
-                    <PlusSquareOutlined
+                    <LeftCircleOutlined
                       onClick={(e) => onExpand(record, e)}
-                      style={{ color: "#1651B6", fontSize: "16px" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ),
               }}

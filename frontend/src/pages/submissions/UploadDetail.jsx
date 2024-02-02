@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Table, Tabs, Button, Space, Tag, List, Spin } from "antd";
 import {
-  PlusSquareOutlined,
-  MinusSquareOutlined,
+  LeftCircleOutlined,
+  DownCircleOutlined,
   LoadingOutlined,
   HistoryOutlined,
 } from "@ant-design/icons";
@@ -462,15 +462,15 @@ const UploadDetail = ({ record, setReload }) => {
                 },
                 expandIcon: ({ expanded, onExpand, record }) =>
                   expanded ? (
-                    <MinusSquareOutlined
+                    <DownCircleOutlined
                       onClick={(e) => {
                         setExpandedRowKeys([]);
                         onExpand(record, e);
                       }}
-                      style={{ color: "#e94b4c", fontSize: "16px" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ) : (
-                    <PlusSquareOutlined
+                    <LeftCircleOutlined
                       onClick={(e) => {
                         setExpandedRowKeys([record.id]);
                         if (!record.data?.length) {
@@ -478,7 +478,7 @@ const UploadDetail = ({ record, setReload }) => {
                         }
                         onExpand(record, e);
                       }}
-                      style={{ color: "#1651B6", fontSize: "16px" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ),
               }

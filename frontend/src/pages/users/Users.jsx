@@ -3,8 +3,8 @@ import "./style.scss";
 import { Row, Col, Button, Divider, Table, Modal, Tag } from "antd";
 import { Link } from "react-router-dom";
 import {
-  PlusSquareOutlined,
-  MinusSquareOutlined,
+  LeftCircleOutlined,
+  DownCircleOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
 import { api, store, uiText } from "../../lib";
@@ -267,14 +267,14 @@ const Users = () => {
                 ),
                 expandIcon: ({ expanded, onExpand, record }) =>
                   expanded ? (
-                    <MinusSquareOutlined
+                    <DownCircleOutlined
                       onClick={(e) => onExpand(record, e)}
-                      style={{ color: "#e94b4c", fontSize: "16px" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ) : (
-                    <PlusSquareOutlined
+                    <LeftCircleOutlined
                       onClick={(e) => onExpand(record, e)}
-                      style={{ color: "#1651B6", fontSize: "16px" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ),
               }}
