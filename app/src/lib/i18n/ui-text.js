@@ -5,7 +5,7 @@ const uiText = {
     password: 'Password',
     confirmPassword: 'Confirm password',
     fetchingData: 'Fetching data',
-    draftLabel: 'Draft: ',
+    draftLabel: 'Saved: ',
     userLabel: 'User: ',
     versionLabel: 'Version: ',
     submittedLabel: 'Submitted: ',
