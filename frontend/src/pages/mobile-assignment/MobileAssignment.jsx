@@ -81,8 +81,8 @@ const MobileAssignment = () => {
             {record?.length > 4 && (
               <a onClick={() => handleMoreLinkClick(row.id)}>
                 {expandedRows[row.id]
-                  ? `- Less`
-                  : `+ ${record?.slice(4).length} More`}
+                  ? ` - Less`
+                  : ` + ${record?.slice(4).length} More`}
               </a>
             )}
           </>
