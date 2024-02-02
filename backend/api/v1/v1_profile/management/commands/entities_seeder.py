@@ -36,7 +36,8 @@ def seed_data(self, repeat: int = 3, test: bool = False):
                 find_type = random.choice(entity_types)
                 entity_type = get_entity_type(name=find_type)
                 ename = f"{entity_type.name} - {fake.company()} {row}{i+1}"
-                self.stdout.write(ename)
+                if not test:
+                    self.stdout.write(ename)
                 entities.append({
                     'entity': entity_type,
                     'name': ename
@@ -85,6 +86,6 @@ class Command(BaseCommand):
             self.stdout.write("-- Entities Cleared")
         else:
             seed_data(self, repeat=repeat, test=test)
-            self.stdout.write("-- FINISH")
         if not test:
+            self.stdout.write("-- FINISH")
             call_command("generate_sqlite")

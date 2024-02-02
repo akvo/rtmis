@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.test import TestCase, override_settings
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_mobile.models import MobileAssignment
-from api.v1.v1_profile.models import Administration
+from api.v1.v1_profile.models import Administration, EntityData
 
 from api.v1.v1_profile.tests.mixins import ProfileTestHelperMixin
 from utils.custom_helper import CustomPasscode
@@ -17,6 +17,7 @@ class MobileAssignmentTestCase(TestCase, ProfileTestHelperMixin):
         super().setUp()
         call_command("administration_seeder", "--test")
         call_command('form_seeder', '--test')
+        call_command("entities_seeder", "-t", True)
         self.user = self.create_user('test@akvo.org', self.ROLE_ADMIN)
         self.token = self.get_auth_token(self.user.email)
 
@@ -167,3 +168,60 @@ class MobileAssignmentTestCase(TestCase, ProfileTestHelperMixin):
                     HTTP_AUTHORIZATION=f'Bearer {self.token}'))
 
         self.assertEqual(response.status_code, 204)
+
+    def test_create_error_entity_validation(self):
+        adms = Administration.objects \
+            .filter(entity_data__isnull=True).all()
+        adm_ids = [a.id for a in adms]
+        adm = Administration.objects.filter(pk__in=adm_ids).first()
+        form = Forms.objects.get(pk=2)
+        payload = {
+            'name': 'test assignment',
+            'forms': [form.id],
+            'administrations': [adm.id],
+        }
+
+        response = typing.cast(
+                HttpResponse,
+                self.client.post(
+                    '/api/v1/mobile-assignments',
+                    payload,
+                    content_type="application/json",
+                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+
+        self.assertEqual(response.status_code, 400)
+        data = response.json()
+        self.assertEqual(data, {
+            'forms': [{
+                'form': '2',
+                'entity': 'School',
+                'exists': 'True'
+            }]})
+
+    def test_create_success_entity_validation(self):
+        entity = EntityData.objects.last()
+        adm = entity.administration
+        form = Forms.objects.get(pk=2)
+        payload = {
+            'name': 'secret',
+            'forms': [form.id],
+            'administrations': [adm.id],
+        }
+
+        response = typing.cast(
+                HttpResponse,
+                self.client.post(
+                    '/api/v1/mobile-assignments',
+                    payload,
+                    content_type="application/json",
+                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+
+        self.assertEqual(response.status_code, 201)
+        data = response.json()
+        assignment = MobileAssignment.objects.get(name='secret')
+        self.assertEqual(
+                CustomPasscode().encode(data['passcode']), assignment.passcode)
+        self.assertEqual(data['forms'], [{'id': form.id, 'name': form.name}])
+        self.assertEqual(
+                len(data['administrations']),
+                assignment.administrations.count())
