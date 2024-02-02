@@ -3,10 +3,11 @@ import { Button } from '@rneui/themed';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Platform, ToastAndroid } from 'react-native';
 import { BaseLayout } from '../components';
-import { FormState, UserState, UIState } from '../store';
+import { FormState, UserState, UIState, BuildParamsState } from '../store';
 import { crudForms } from '../database/crud';
 import { i18n } from '../lib';
 import * as Notifications from 'expo-notifications';
+import * as Location from 'expo-location';
 
 const Home = ({ navigation, route }) => {
   const params = route?.params || null;
@@ -15,6 +16,9 @@ const Home = ({ navigation, route }) => {
   const [appLang, setAppLang] = useState('en');
   const [loading, setloading] = useState(true);
 
+  const locationIsGranted = UserState.useState((s) => s.locationIsGranted);
+  const gpsThreshold = BuildParamsState.useState((s) => s.gpsThreshold);
+  const gpsInterval = BuildParamsState.useState((s) => s.gpsInterval);
   const isManualSynced = UIState.useState((s) => s.isManualSynced);
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
@@ -100,6 +104,34 @@ const Home = ({ navigation, route }) => {
 
     return () => subscription.remove();
   }, []);
+
+  const watchCurrentPosition = useCallback(async () => {
+    if (!locationIsGranted) {
+      return;
+    }
+    const timeInterval = gpsInterval * 1000; // miliseconds
+    const watch = await Location.watchPositionAsync(
+      {
+        accuracy: gpsThreshold,
+        timeInterval,
+      },
+      (res) => {
+        UserState.update((s) => {
+          s.currentLocation = res;
+        });
+      },
+    );
+    return watch;
+  }, [gpsThreshold, gpsInterval, locationIsGranted]);
+
+  useEffect(() => {
+    /**
+     * Subscribe to the user's current location
+     * @tutorial https://docs.expo.dev/versions/latest/sdk/location/#locationwatchpositionasyncoptions-callback
+     */
+    const watch = watchCurrentPosition();
+    return () => watch.remove();
+  }, [watchCurrentPosition]);
 
   return (
     <BaseLayout
