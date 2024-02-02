@@ -18,6 +18,7 @@ import backgroundTask, {
 } from './src/lib/background-task';
 import crudJobs, { jobStatus, MAX_ATTEMPT } from './src/database/crud/crud-jobs';
 import { ToastAndroid } from 'react-native';
+import * as Location from 'expo-location';
 
 export const setNotificationHandler = () =>
   Notifications.setNotificationHandler({
@@ -85,6 +86,7 @@ TaskManager.defineTask(SYNC_FORM_SUBMISSION_TASK_NAME, async () => {
 const App = () => {
   const serverURLState = BuildParamsState.useState((s) => s.serverURL);
   const syncValue = BuildParamsState.useState((s) => s.dataSyncInterval);
+  const locationIsGranted = UserState.useState((s) => s.locationIsGranted);
 
   const handleCheckSession = () => {
     // check users exist
@@ -186,6 +188,22 @@ const App = () => {
   useEffect(() => {
     handleOnRegisterTask();
   }, [handleOnRegisterTask]);
+
+  const requestAccessLocation = useCallback(async () => {
+    if (locationIsGranted) {
+      return;
+    }
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status === 'granted') {
+      UserState.update((s) => {
+        s.locationIsGranted = true;
+      });
+    }
+  }, [locationIsGranted]);
+
+  useEffect(() => {
+    requestAccessLocation();
+  }, [requestAccessLocation]);
 
   return (
     <SafeAreaProvider>
