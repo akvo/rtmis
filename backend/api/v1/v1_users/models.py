@@ -4,6 +4,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.core import signing
 from django.db import models
 from django.utils import timezone
+from utils.soft_deletes_model import SoftDeletes
 
 # Create your models here.
 from utils.custom_manager import UserManager
@@ -34,7 +35,7 @@ class OrganisationAttribute(models.Model):
         db_table = 'organisation_attribute'
 
 
-class SystemUser(AbstractBaseUser, PermissionsMixin):
+class SystemUser(AbstractBaseUser, PermissionsMixin, SoftDeletes):
     email = models.EmailField(max_length=254, unique=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     first_name = models.CharField(max_length=50)
@@ -43,15 +44,12 @@ class SystemUser(AbstractBaseUser, PermissionsMixin):
     designation = models.CharField(max_length=50, default=None, null=True)
     trained = models.BooleanField(default=False)
     updated = models.DateTimeField(default=None, null=True)
-    deleted_at = models.DateTimeField(default=None, null=True)
     organisation = models.ForeignKey(to=Organisation,
                                      on_delete=models.SET_NULL,
                                      related_name='user_organisation',
                                      default=None,
                                      null=True)
     objects = UserManager()
-    objects_deleted = UserManager(only_deleted=True)
-    objects_with_deleted = UserManager(with_deleted=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
