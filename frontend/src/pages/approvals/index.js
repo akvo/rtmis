@@ -22,7 +22,6 @@ export const columnsApproval = [
         </Col>
       </Row>
     ),
-    width: "30%",
   },
   {
     title: "Form",
@@ -34,19 +33,35 @@ export const columnsApproval = [
     title: "Submitter",
     dataIndex: "created_by",
     key: "created_by",
+    width: 140,
+  },
+  {
+    title: "Total Data",
+    align: "center",
+    dataIndex: "total_data",
+    key: "total_data",
+    width: 140,
   },
   {
     title: "Location",
     dataIndex: "administration",
     key: "administration",
     render: (administration) => administration.name,
+    width: 140,
+  },
+  {
+    title: "Waiting on",
+    align: "center",
+    dataIndex: "waiting_on",
+    key: "waiting_on",
+    render: (_, row) => row.approver.name,
+    width: 180,
   },
   {
     title: "Status",
     align: "center",
     dataIndex: "approver",
     key: "approver",
-    width: 60,
     render: ({ status_text }) => (
       <span>
         <Tag
@@ -71,19 +86,6 @@ export const columnsApproval = [
         </Tag>
       </span>
     ),
-  },
-  {
-    title: "Waiting on",
-    align: "center",
-    dataIndex: "waiting_on",
-    key: "waiting_on",
-    render: (_, row) => row.approver.name,
-  },
-  {
-    title: "Total Data",
-    align: "center",
-    dataIndex: "total_data",
-    key: "total_data",
-    width: 120,
+    width: 180,
   },
 ];
