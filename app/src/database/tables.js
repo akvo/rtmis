@@ -20,6 +20,9 @@ export const tables = [
       syncInterval: 'REAL',
       syncWifiOnly: 'TINYINT',
       lang: 'VARCHAR(255) DEFAULT "en" NOT NULL',
+      gpsThreshold: 'INTEGER NULL',
+      gpsAccuracyLevel: 'INTEGER NULL',
+      geoLocationTimeout: 'INTEGER NULL',
     },
   },
   {
