@@ -17,7 +17,7 @@ const Home = ({ navigation, route }) => {
   const [loading, setloading] = useState(true);
 
   const locationIsGranted = UserState.useState((s) => s.locationIsGranted);
-  const gpsThreshold = BuildParamsState.useState((s) => s.gpsThreshold);
+  const gpsAccuracyLevel = BuildParamsState.useState((s) => s.gpsAccuracyLevel);
   const gpsInterval = BuildParamsState.useState((s) => s.gpsInterval);
   const isManualSynced = UIState.useState((s) => s.isManualSynced);
   const activeLang = UIState.useState((s) => s.lang);
@@ -105,32 +105,41 @@ const Home = ({ navigation, route }) => {
     return () => subscription.remove();
   }, []);
 
-  const watchCurrentPosition = useCallback(async () => {
-    if (!locationIsGranted) {
-      return;
-    }
-    const timeInterval = gpsInterval * 1000; // miliseconds
-    const watch = await Location.watchPositionAsync(
-      {
-        accuracy: gpsThreshold,
-        timeInterval,
-      },
-      (res) => {
-        UserState.update((s) => {
-          s.currentLocation = res;
-        });
-      },
-    );
-    return watch;
-  }, [gpsThreshold, gpsInterval, locationIsGranted]);
+  const watchCurrentPosition = useCallback(
+    async (unsubscribe = false) => {
+      if (!locationIsGranted) {
+        return;
+      }
+      const timeInterval = gpsInterval * 1000; // miliseconds
+      /**
+       * Subscribe to the user's current location
+       * @tutorial https://docs.expo.dev/versions/latest/sdk/location/#locationwatchpositionasyncoptions-callback
+       */
+      const watch = await Location.watchPositionAsync(
+        {
+          accuracy: gpsAccuracyLevel,
+          timeInterval,
+        },
+        (res) => {
+          console.info('[CURRENT LOC]', res?.coords);
+          UserState.update((s) => {
+            s.currentLocation = res;
+          });
+        },
+      );
+
+      if (unsubscribe) {
+        watch.remove();
+      }
+    },
+    [gpsAccuracyLevel, gpsInterval, locationIsGranted],
+  );
 
   useEffect(() => {
-    /**
-     * Subscribe to the user's current location
-     * @tutorial https://docs.expo.dev/versions/latest/sdk/location/#locationwatchpositionasyncoptions-callback
-     */
-    const watch = watchCurrentPosition();
-    return () => watch.remove();
+    watchCurrentPosition();
+    return () => {
+      watchCurrentPosition(true);
+    };
   }, [watchCurrentPosition]);
 
   return (
