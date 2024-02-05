@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dialog, Input, Slider } from '@rneui/themed';
+import { Dialog, Input, Slider, Text } from '@rneui/themed';
 import { Dropdown } from 'react-native-element-dropdown';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { UIState } from '../../store';
@@ -10,7 +10,7 @@ const DialogForm = ({ onOk, onCancel, showDialog, edit, initValue = 0 }) => {
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
 
-  const { type, label, slider, value: defaultValue, options } = edit || {};
+  const { type, label, slider, value: defaultValue, options, description } = edit || {};
   const isPassword = type === 'password' || false;
 
   return (
@@ -35,6 +35,7 @@ const DialogForm = ({ onOk, onCancel, showDialog, edit, initValue = 0 }) => {
           onChangeText={setValue}
           defaultValue={defaultValue?.toString()}
           testID="settings-form-input"
+          keyboardType={type === 'number' ? 'number-pad' : 'default'}
         />
       )}
       {type === 'dropdown' && (
@@ -51,6 +52,7 @@ const DialogForm = ({ onOk, onCancel, showDialog, edit, initValue = 0 }) => {
           testID="settings-form-dropdown"
         />
       )}
+      {description?.name && <Text>{i18n.transform(activeLang, description)?.name}</Text>}
       <Dialog.Actions>
         <Dialog.Button onPress={() => onOk(value)} testID="settings-form-dialog-ok">
           {trans.buttonOk}
