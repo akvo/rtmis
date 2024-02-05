@@ -19,3 +19,26 @@ const loc = {
 };
 
 export default loc;
+
+export const accuracyLevels = [
+  {
+    label: 'Lowest',
+    value: 1,
+  },
+  {
+    label: 'Low',
+    value: 2,
+  },
+  {
+    label: 'Balanced',
+    value: 3,
+  },
+  {
+    label: 'High',
+    value: 4,
+  },
+  {
+    label: 'Highest',
+    value: 5,
+  },
+];
