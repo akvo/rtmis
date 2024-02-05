@@ -1,13 +1,15 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { View } from 'react-native';
 import { ListItem, Switch } from '@rneui/themed';
 import * as Crypto from 'expo-crypto';
+
 import { BaseLayout } from '../../components';
 import { config } from './config';
 import { BuildParamsState, UIState, AuthState, UserState } from '../../store';
 import { conn, query } from '../../database';
 import DialogForm from './DialogForm';
 import { backgroundTask, i18n } from '../../lib';
+import { accuracyLevels } from '../../lib/loc';
 
 const db = conn.init;
 
@@ -16,11 +18,8 @@ const SettingsForm = ({ route }) => {
   const [list, setList] = useState([]);
   const [showDialog, setShowDialog] = useState(false);
 
-  const {
-    serverURL,
-    appVersion,
-    dataSyncInterval: syncInterval,
-  } = BuildParamsState.useState((s) => s);
+  const { serverURL, dataSyncInterval, gpsThreshold, gpsAccuracyLevel, geoLocationTimeout } =
+    BuildParamsState.useState((s) => s);
   const { password, authenticationCode, useAuthenticationCode } = AuthState.useState((s) => s);
   const { lang, isDarkMode, fontSize } = UIState.useState((s) => s);
   const { name, syncWifiOnly } = UserState.useState((s) => s);
@@ -39,8 +38,11 @@ const SettingsForm = ({ route }) => {
     lang,
     isDarkMode,
     fontSize,
-    syncInterval,
+    dataSyncInterval,
     syncWifiOnly,
+    gpsThreshold,
+    gpsAccuracyLevel,
+    geoLocationTimeout,
   });
 
   const nonEnglish = lang !== 'en';
@@ -74,22 +76,14 @@ const SettingsForm = ({ route }) => {
       'syncInterval',
       'syncWifiOnly',
       'lang',
+      'gpsThreshold',
+      'gpsAccuracyLevel',
+      'geoLocationTimeout',
     ];
     const id = 1;
     if (configFields.includes(field)) {
       const updateQuery = query.update('config', { id }, { [field]: value });
       await conn.tx(db, updateQuery, [id]);
-    }
-    if (configFields.includes('syncInterval')) {
-      try {
-        await backgroundTask.unregisterBackgroundTask('sync-form-submission');
-        await backgroundTask.registerBackgroundTask('sync-form-submission', parseInt(value));
-      } catch (error) {
-        console.error('[ERROR RESTART TASK]', error);
-      }
-      BuildParamsState.update((s) => {
-        s.dataSyncInterval = value;
-      });
     }
     if (field === 'name') {
       const updateQuery = query.update('users', { id }, { name: value });
@@ -102,7 +96,16 @@ const SettingsForm = ({ route }) => {
     }
   };
 
-  const handleOKPress = (inputValue) => {
+  const handleOnRestarTask = async () => {
+    try {
+      await backgroundTask.unregisterBackgroundTask('sync-form-submission');
+      await backgroundTask.registerBackgroundTask('sync-form-submission', parseInt(value));
+    } catch (error) {
+      console.error('[ERROR RESTART TASK]', error);
+    }
+  };
+
+  const handleOKPress = async (inputValue) => {
     setShowDialog(false);
     if (edit && inputValue) {
       const [stateData, stateKey] = editState;
@@ -113,7 +116,12 @@ const SettingsForm = ({ route }) => {
         ...settingsState,
         [stateKey]: inputValue,
       });
-      handleUpdateOnDB(stateKey, inputValue);
+      if (stateKey === 'dataSyncInterval') {
+        await handleUpdateOnDB('syncInterval', inputValue);
+        await handleOnRestarTask();
+      } else {
+        await handleUpdateOnDB(stateKey, inputValue);
+      }
       setEdit(null);
     }
   };
@@ -135,44 +143,46 @@ const SettingsForm = ({ route }) => {
     handleUpdateOnDB(stateKey, tinyIntVal);
   };
 
-  const handleCreateNewConfig = () => {
-    const insertQuery = query.insert('config', {
-      id: 1,
-      appVersion,
-      authenticationCode: 'testing',
-      serverURL,
-      syncInterval,
-      syncWifiOnly,
-      lang,
-    });
-    conn.tx(db, insertQuery, []);
+  const renderSubtitle = ({ type: inputType, name, description }) => {
+    const itemDesc = nonEnglish ? i18n.transform(lang, description)?.name : description?.name;
+    if (inputType === 'switch' || inputType === 'password') {
+      return itemDesc;
+    }
+    if (name === 'gpsAccuracyLevel' && settingsState?.[name]) {
+      const findLevel = accuracyLevels.find((l) => l.value === settingsState[name]);
+      return findLevel?.label || itemDesc;
+    }
+    return settingsState?.[name];
   };
 
-  const settingsID = useMemo(() => {
-    return route?.params?.id;
-  }, [route]);
-
-  useEffect(() => {
-    const findConfig = config.find((c) => c?.id === settingsID);
-    const fields = findConfig ? findConfig.fields : [];
-    setList(fields);
-  }, [settingsID]);
-
-  useEffect(() => {
+  const loadSettings = useCallback(async () => {
     const selectQuery = query.read('config', { id: 1 });
-    conn.tx(db, selectQuery, [1]).then(({ rows }) => {
-      if (rows.length) {
-        const configRows = rows._array[0];
-        setSettingsState({
-          ...settingsState,
-          ...configRows,
-          syncInterval,
-        });
-      } else {
-        handleCreateNewConfig();
-      }
+    const { rows } = await conn.tx(db, selectQuery, [1]);
+
+    const configRows = rows._array[0];
+    setSettingsState({
+      ...settingsState,
+      ...configRows,
+      dataSyncInterval: configRows?.syncInterval || dataSyncInterval,
     });
   }, []);
+
+  const loadSettingsItems = useCallback(() => {
+    if (route.params?.id) {
+      const findConfig = config.find((c) => c?.id === route.params.id);
+      const fields = findConfig ? findConfig.fields : [];
+      setList(fields);
+    }
+  }, [route.params?.id]);
+
+  useEffect(() => {
+    loadSettingsItems();
+  }, [loadSettingsItems]);
+
+  useEffect(() => {
+    loadSettings();
+  }, [loadSettings]);
+
   return (
     <BaseLayout title={pageTitle} rightComponent={false}>
       <BaseLayout.Content>
@@ -184,18 +194,11 @@ const SettingsForm = ({ route }) => {
               l.editable && l.type !== 'switch' ? { onPress: () => handleEditPress(l.id) } : {};
 
             const itemTitle = nonEnglish ? i18n.transform(lang, l)?.label : l.label;
-            const itemDesc = nonEnglish
-              ? i18n.transform(lang, l?.description)?.name
-              : l?.description?.name;
-            const subtitle =
-              l.type === 'switch' || l.type === 'password'
-                ? itemDesc
-                : settingsState[l.name] || itemDesc;
             return (
               <ListItem key={i} {...listProps} testID={`settings-form-item-${i}`} bottomDivider>
                 <ListItem.Content>
                   <ListItem.Title>{itemTitle}</ListItem.Title>
-                  <ListItem.Subtitle>{subtitle}</ListItem.Subtitle>
+                  <ListItem.Subtitle>{renderSubtitle(l)}</ListItem.Subtitle>
                 </ListItem.Content>
                 {l.type === 'switch' && (
                   <Switch
@@ -213,6 +216,7 @@ const SettingsForm = ({ route }) => {
           onCancel={handleCancelPress}
           showDialog={showDialog}
           edit={edit}
+          initValue={edit?.value}
         />
       </BaseLayout.Content>
     </BaseLayout>
