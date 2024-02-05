@@ -775,21 +775,39 @@ def list_pending_batch(request, version):
         status=DataApprovalStatus.rejected
     )
     if approved:
-        queryset = queryset.filter(status=DataApprovalStatus.approved)
+        queryset = queryset.filter(
+            status=DataApprovalStatus.approved,
+        )
+        queryset = queryset.exclude(
+            batch_id__in=rejected.values_list('batch_id', flat=True)
+        )
     else:
+        rejected_by_current_user = ViewPendingDataApproval.objects.filter(
+            status=DataApprovalStatus.rejected,
+            user=user
+        )
         if subordinate:
             queryset = queryset.filter(
                 level_id__lt=F('pending_level'),
                 batch__approved=False)
+            queryset = queryset.union(
+                rejected_by_current_user.values_list('batch_id', flat=True)
+            )
         else:
             queryset = queryset.filter(
                 level_id=F('pending_level'),
                 batch__approved=False)
-            if rejected:
-                # extend query set with rejected batch
-                queryset = queryset.union(
-                    rejected.values_list('batch_id', flat=True)
-                )
+            queryset = queryset.exclude(
+                batch_id__in=rejected_by_current_user.values_list(
+                    'batch_id', flat=True)
+            )
+            rejected = rejected.exclude(
+                batch_id__in=rejected_by_current_user.values_list(
+                    'batch_id', flat=True)
+            )
+            queryset = queryset.union(
+                rejected.values_list('batch_id', flat=True)
+            )
     queryset = queryset.values_list('batch_id', flat=True).order_by('-id')
 
     paginator = PageNumberPagination()
