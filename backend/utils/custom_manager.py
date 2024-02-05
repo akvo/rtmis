@@ -1,7 +1,8 @@
 from django.contrib.auth.base_user import BaseUserManager
+from utils.soft_deletes_model import SoftDeletesManager
 
 
-class UserManager(BaseUserManager):
+class UserManager(BaseUserManager, SoftDeletesManager):
     use_in_migrations = True
 
     def _create_user(self, email, password, **extra_fields):

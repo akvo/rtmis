@@ -632,7 +632,7 @@ class UserInvitationTestCase(TestCase):
                                       content_type='application/json',
                                       **header)
         self.assertEqual(response.status_code, 204)
-        user = SystemUser.objects.get(pk=u.id)
+        user = SystemUser.objects_deleted.get(pk=u.id)
         self.assertEqual(user.deleted_at is not None, True)
         # test login with deleted user
         deleted_user = {"email": user.email, "password": "test"}
@@ -645,3 +645,59 @@ class UserInvitationTestCase(TestCase):
                                    content_type='application/json',
                                    **header)
         self.assertEqual(response.status_code, 404)
+
+    def test_re_adding_user(self):
+        call_command("administration_seeder", "--test")
+        call_command("form_seeder", "--test")
+        call_command("fake_organisation_seeder", "--repeat", 3)
+        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
+        user_response = self.client.post('/api/v1/login',
+                                         user_payload,
+                                         content_type='application/json')
+        user = user_response.json()
+        token = user.get('token')
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+        call_command("fake_user_seeder")
+        call_command("fake_approver_seeder")
+        u = SystemUser.objects.filter(
+            user_access__role__in=[
+                UserRoleTypes.approver,
+                UserRoleTypes.user
+            ],
+            password__isnull=False).first()
+        # delete the user first
+        response = self.client.delete('/api/v1/user/{0}'.format(u.id),
+                                      content_type='application/json',
+                                      **header)
+        self.assertEqual(response.status_code, 204)
+        user = SystemUser.objects_deleted.get(pk=u.id)
+        self.assertEqual(user.deleted_at is not None, True)
+
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+
+        # re adding the deleted user
+        org = Organisation.objects.order_by('?').last()
+        payload = {
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "email": user.email,
+            "organisation": org.id,
+            "role": 3,
+            "forms": [1],
+            "administration": 2,
+            "trained": True,
+        }
+        add_response = self.client.post(
+            "/api/v1/user",
+            payload,
+            content_type='application/json',
+            **header
+        )
+        self.assertEqual(add_response.status_code, 200)
+        self.assertEqual(
+            add_response.json(),
+            {'message': 'User added successfully'}
+        )
+        form_approval_assignment = FormApprovalAssignment.objects.filter(
+            form=1, administration=2, user=user).first()
+        self.assertEqual(form_approval_assignment.user, user)

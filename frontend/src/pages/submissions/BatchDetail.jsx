@@ -8,6 +8,7 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
   const [dataLoading, setDataLoading] = useState(true);
   const [saving, setSaving] = useState(null);
   const [rawValue, setRawValue] = useState(null);
+  const [resetButton, setresetButton] = useState({});
   const { notify } = useNotification();
   const language = store.useState((s) => s.language);
   const { active: activeLang } = language;
@@ -81,6 +82,7 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
         }
       });
     });
+
     api
       .put(
         `form-pending-data/${expanded.form}?pending_data_id=${data.id}`,
@@ -88,6 +90,12 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
       )
       .then(() => {
         setReload(data.id);
+
+        const resetObj = {};
+        formData.map((data) => {
+          resetObj[data.question] = false;
+        });
+        setresetButton({ ...resetButton, ...resetObj });
         notify({
           type: "success",
           message: text.successDataUpdated,
@@ -102,6 +110,7 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
   };
 
   const updateCell = (key, parentId, value) => {
+    setresetButton({ ...resetButton, [key]: true });
     let hasEdits = false;
     const data = rawValue.data.map((rd) => ({
       ...rd,
@@ -186,6 +195,7 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
       isEdited={isEdited}
       isEditable={true}
       deleting={deleting}
+      resetButton={resetButton}
     />
   );
 };

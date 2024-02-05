@@ -3,7 +3,7 @@ import "./style.scss";
 import { Row, Col, Table, Tabs, Button } from "antd";
 import { Breadcrumbs } from "../../components";
 import { Link } from "react-router-dom";
-import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
+import { LeftCircleOutlined, DownCircleOutlined } from "@ant-design/icons";
 import { api, store, uiText, config } from "../../lib";
 import { columnsApproval } from "./";
 import ApprovalDetails from "./ApprovalDetail";
@@ -167,22 +167,22 @@ const Approvals = () => {
                 },
                 expandIcon: ({ expanded, onExpand, record }) =>
                   expanded ? (
-                    <CloseSquareOutlined
+                    <DownCircleOutlined
                       onClick={(e) => {
                         setExpandedKeys(
                           expandedKeys.filter((k) => k !== record.id)
                         );
                         onExpand(record, e);
                       }}
-                      style={{ color: "#e94b4c" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ) : (
-                    <PlusSquareOutlined
+                    <LeftCircleOutlined
                       onClick={(e) => {
                         setExpandedKeys([record.id]);
                         onExpand(record, e);
                       }}
-                      style={{ color: "#7d7d7d" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ),
               }}

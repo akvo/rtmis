@@ -22,6 +22,7 @@ const SubmissionEditing = ({
   isEditable,
   handleDelete,
   deleting,
+  resetButton,
 }) => {
   const language = store.useState((s) => s.language);
   const { active: activeLang } = language;
@@ -71,6 +72,7 @@ const SubmissionEditing = ({
                       resetCell={resetCell}
                       disabled={!!dataLoading}
                       readonly={!isEditable}
+                      resetButton={resetButton}
                     />
                   ),
                 },

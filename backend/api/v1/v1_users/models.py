@@ -3,6 +3,8 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.core import signing
 from django.db import models
+from django.utils import timezone
+from utils.soft_deletes_model import SoftDeletes
 
 # Create your models here.
 from utils.custom_manager import UserManager
@@ -33,7 +35,7 @@ class OrganisationAttribute(models.Model):
         db_table = 'organisation_attribute'
 
 
-class SystemUser(AbstractBaseUser, PermissionsMixin):
+class SystemUser(AbstractBaseUser, PermissionsMixin, SoftDeletes):
     email = models.EmailField(max_length=254, unique=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     first_name = models.CharField(max_length=50)
@@ -42,7 +44,6 @@ class SystemUser(AbstractBaseUser, PermissionsMixin):
     designation = models.CharField(max_length=50, default=None, null=True)
     trained = models.BooleanField(default=False)
     updated = models.DateTimeField(default=None, null=True)
-    deleted_at = models.DateTimeField(default=None, null=True)
     organisation = models.ForeignKey(to=Organisation,
                                      on_delete=models.SET_NULL,
                                      related_name='user_organisation',
@@ -52,6 +53,19 @@ class SystemUser(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
+
+    def delete(self, using=None, keep_parents=False, hard: bool = False):
+        if hard:
+            return super().delete(using, keep_parents)
+        self.deleted_at = timezone.now()
+        self.save(update_fields=['deleted_at'])
+
+    def soft_delete(self) -> None:
+        self.delete(hard=False)
+
+    def restore(self) -> None:
+        self.deleted_at = None
+        self.save(update_fields=['deleted_at'])
 
     def get_full_name(self):
         return '{0} {1}'.format(self.first_name, self.last_name)
