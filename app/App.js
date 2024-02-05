@@ -86,6 +86,9 @@ TaskManager.defineTask(SYNC_FORM_SUBMISSION_TASK_NAME, async () => {
 const App = () => {
   const serverURLState = BuildParamsState.useState((s) => s.serverURL);
   const syncValue = BuildParamsState.useState((s) => s.dataSyncInterval);
+  const gpsThreshold = BuildParamsState.useState((s) => s.gpsThreshold);
+  const gpsAccuracyLevel = BuildParamsState.useState((s) => s.gpsAccuracyLevel);
+  const geoLocationTimeout = BuildParamsState.useState((s) => s.geoLocationTimeout);
   const locationIsGranted = UserState.useState((s) => s.locationIsGranted);
 
   const handleCheckSession = () => {
@@ -120,11 +123,12 @@ const App = () => {
     const serverURL = configExist?.serverURL || serverURLState;
     const syncInterval = configExist?.syncInterval || syncValue;
     if (!configExist) {
-      await crudConfig.addConfig({ serverURL });
-    }
-    if (syncInterval) {
-      BuildParamsState.update((s) => {
-        s.dataSyncInterval = syncInterval;
+      await crudConfig.addConfig({
+        serverURL,
+        syncInterval,
+        gpsThreshold,
+        gpsAccuracyLevel,
+        geoLocationTimeout,
       });
     }
     if (serverURL) {
@@ -132,14 +136,17 @@ const App = () => {
         s.serverURL = serverURL;
       });
       api.setServerURL(serverURL);
-      await crudConfig.updateConfig({ serverURL });
     }
     console.info('[CONFIG] Server URL', serverURL);
   };
 
   const handleInitDB = useCallback(async () => {
+    /**
+     * Exclude the reset in the try-catch block
+     * to prevent other queries from being skipped after this process.
+     */
+    await conn.reset();
     try {
-      await conn.reset();
       const db = conn.init;
       const queries = tables.map((t) => {
         const queryString = query.initialQuery(t.name, t.fields);
