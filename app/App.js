@@ -137,6 +137,17 @@ const App = () => {
       });
       api.setServerURL(serverURL);
     }
+    if (configExist) {
+      /**
+       * Update settings values from database
+       */
+      BuildParamsState.update((s) => {
+        s.dataSyncInterval = configExist.syncInterval;
+        s.gpsThreshold = configExist.gpsThreshold;
+        s.gpsAccuracyLevel = configExist.gpsAccuracyLevel;
+        s.geoLocationTimeout = configExist.geoLocationTimeout;
+      });
+    }
     console.info('[CONFIG] Server URL', serverURL);
   };
 
