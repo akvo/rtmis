@@ -16,6 +16,7 @@ const EditableCell = ({
   disabled = false,
   readonly = false,
   isPublic = false,
+  resetButton,
 }) => {
   const [editing, setEditing] = useState(false);
   const [locationName, setLocationName] = useState(null);
@@ -76,6 +77,7 @@ const EditableCell = ({
         : "-"
       : value;
   };
+
   const renderAnswerInput = () => {
     return record.type === "option" ? (
       <Select
@@ -149,8 +151,18 @@ const EditableCell = ({
           setEditing(false);
         }}
         icon={<SaveOutlined />}
+        style={{ marginRight: "8px" }}
       >
         Save
+      </Button>
+      <Button
+        danger
+        shape="round"
+        onClick={() => {
+          setEditing(false);
+        }}
+      >
+        Close
       </Button>
     </Row>
   ) : (
@@ -174,7 +186,7 @@ const EditableCell = ({
           getAnswerValue()
         )}
       </Col>
-      {edited && (
+      {edited && resetButton[record.id] && (
         <Button
           shape="round"
           onClick={() => {

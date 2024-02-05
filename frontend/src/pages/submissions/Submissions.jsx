@@ -3,8 +3,8 @@ import "./style.scss";
 import { Table, Tabs, Checkbox, Button, Modal, Row, Col, Input } from "antd";
 import { Breadcrumbs } from "../../components";
 import {
-  PlusSquareOutlined,
-  CloseSquareOutlined,
+  LeftCircleOutlined,
+  DownCircleOutlined,
   FileTextFilled,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
@@ -387,22 +387,22 @@ const Submissions = () => {
                 },
                 expandIcon: ({ expanded, onExpand, record }) => {
                   return expanded ? (
-                    <CloseSquareOutlined
+                    <DownCircleOutlined
                       onClick={(e) => {
                         setExpandedKeys(
                           expandedKeys.filter((k) => k !== record.id)
                         );
                         onExpand(record, e);
                       }}
-                      style={{ color: "#e94b4c" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ) : (
-                    <PlusSquareOutlined
+                    <LeftCircleOutlined
                       onClick={(e) => {
                         setExpandedKeys([record.id]);
                         onExpand(record, e);
                       }}
-                      style={{ color: "#7d7d7d" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   );
                 },

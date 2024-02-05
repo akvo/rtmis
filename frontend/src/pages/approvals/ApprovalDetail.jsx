@@ -13,8 +13,8 @@ import {
   Spin,
 } from "antd";
 import {
-  PlusSquareOutlined,
-  CloseSquareOutlined,
+  LeftCircleOutlined,
+  DownCircleOutlined,
   LoadingOutlined,
   HistoryOutlined,
 } from "@ant-design/icons";
@@ -503,15 +503,15 @@ const ApprovalDetail = ({
                 },
                 expandIcon: ({ expanded, onExpand, record }) =>
                   expanded ? (
-                    <CloseSquareOutlined
+                    <DownCircleOutlined
                       onClick={(e) => {
                         setExpandedRowKeys([]);
                         onExpand(record, e);
                       }}
-                      style={{ color: "#e94b4c" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ) : (
-                    <PlusSquareOutlined
+                    <LeftCircleOutlined
                       onClick={(e) => {
                         setExpandedRowKeys([record.id]);
                         if (!record.data?.length) {
@@ -519,7 +519,7 @@ const ApprovalDetail = ({
                         }
                         onExpand(record, e);
                       }}
-                      style={{ color: "#7d7d7d" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ),
               }
@@ -578,7 +578,7 @@ const ApprovalDetail = ({
               disabled={!approve}
               shape="round"
             >
-              Decline
+              Reject
             </Button>
             <Button
               type="primary"

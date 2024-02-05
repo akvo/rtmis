@@ -281,20 +281,34 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        # delete inform_user payload
-        validated_data.pop('inform_user')
-        administration = validated_data.pop('administration')
-        role = validated_data.pop('role')
-        forms = validated_data.pop('forms')
-        user = super(AddEditUserSerializer, self).create(validated_data)
-        Access.objects.create(user=user,
-                              administration=administration,
-                              role=role)
-        # add new user forms
-        if forms:
-            for form in forms:
-                UserForms.objects.create(user=user, form=form)
-        return user
+        try:
+            user_deleted = SystemUser.objects_deleted.get(
+                email=validated_data['email']
+            )
+            if user_deleted:
+                user_deleted.restore()
+                self.update(
+                    instance=user_deleted,
+                    validated_data=validated_data
+                )
+                return user_deleted
+        except SystemUser.DoesNotExist:
+            # delete inform_user payload
+            validated_data.pop('inform_user')
+            administration = validated_data.pop('administration')
+            role = validated_data.pop('role')
+            forms = validated_data.pop('forms')
+            user = super(AddEditUserSerializer, self).create(validated_data)
+            Access.objects.create(
+                user=user,
+                administration=administration,
+                role=role
+            )
+            # add new user forms
+            if forms:
+                for form in forms:
+                    UserForms.objects.create(user=user, form=form)
+            return user
 
     def update(self, instance, validated_data):
         # delete inform_user payload

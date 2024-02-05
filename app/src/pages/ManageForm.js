@@ -26,7 +26,7 @@ const ManageForm = ({ navigation, route }) => {
       s.surveyStart = getCurrentTimestamp();
       s.prefilled = false;
     });
-    navigation.navigate('FormPage', { ...route?.params, monitoring: true, newSubmission: true });
+    navigation.navigate('UpdateForm', { ...route?.params, monitoring: true, newSubmission: true });
   };
 
   const items = [
@@ -36,14 +36,14 @@ const ManageForm = ({ navigation, route }) => {
       icon: 'clipboard-outline',
       goTo: goToNewForm,
     },
-    /* TODO: Enable this when we have a way to update a form
+    // /* TODO: Enable this when we have a way to update a form
     {
       id: 2,
       text: trans.manageUpdate,
       icon: 'clipboard-edit-outline',
       goTo: goToUpdateForm,
     },
-    */
+    // */
     {
       id: 3,
       text: `${trans.manageEditSavedForm} (${draftCount})`,

@@ -311,7 +311,7 @@ class SoftDeletesPendingDataTestCase(TestCase):
 
     def test_initial_state(self):
         pending_data = self.create_pending_data('test')
-        self.assertIsNone(pending_data.deleted)
+        self.assertIsNone(pending_data.deleted_at)
         self.assertEqual(1, PendingFormData.objects.count())
         self.assertEqual(0, PendingFormData.objects_deleted.count())
         self.assertEqual(1, PendingFormData.objects_with_deleted.count())
@@ -319,7 +319,7 @@ class SoftDeletesPendingDataTestCase(TestCase):
     def test_soft_delete(self):
         pending_data = self.create_pending_data('test')
         pending_data.delete()
-        self.assertIsNotNone(pending_data.deleted)
+        self.assertIsNotNone(pending_data.deleted_at)
         self.assertEqual(0, PendingFormData.objects.count())
         self.assertEqual(1, PendingFormData.objects_deleted.count())
         self.assertEqual(1, PendingFormData.objects_with_deleted.count())
@@ -327,7 +327,7 @@ class SoftDeletesPendingDataTestCase(TestCase):
     def test_soft_delete_2(self):
         pending_data = self.create_pending_data('test')
         pending_data.soft_delete()
-        self.assertIsNotNone(pending_data.deleted)
+        self.assertIsNotNone(pending_data.deleted_at)
         self.assertEqual(0, PendingFormData.objects.count())
         self.assertEqual(1, PendingFormData.objects_deleted.count())
         self.assertEqual(1, PendingFormData.objects_with_deleted.count())
@@ -353,7 +353,7 @@ class SoftDeletesPendingDataTestCase(TestCase):
         self.assertEqual(1, PendingFormData.objects_deleted.count())
 
         tobe_restored = PendingFormData.objects_deleted.first()
-        self.assertIsNotNone(tobe_restored.deleted)
+        self.assertIsNotNone(tobe_restored.deleted_at)
 
         tobe_restored.restore()
         self.assertEqual(1, PendingFormData.objects.count())
