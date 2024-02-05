@@ -85,7 +85,11 @@ const Header = ({ className = "header", ...props }) => {
       {
         key: "profile",
         label: (
-          <Link key="profile" className="usermenu-menu-item" to="/profile">
+          <Link
+            key="profile"
+            className="usermenu-menu-item"
+            to="/control-center/profile"
+          >
             {text?.myProfile}
           </Link>
         ),
