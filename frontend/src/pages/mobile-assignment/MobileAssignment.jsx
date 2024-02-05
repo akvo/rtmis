@@ -1,9 +1,9 @@
 import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { Row, Col, Button, Divider, Table, Space, Input } from "antd";
 import {
-  CloseSquareOutlined,
+  DownCircleOutlined,
   PlusOutlined,
-  PlusSquareOutlined,
+  LeftCircleOutlined,
 } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
@@ -208,14 +208,14 @@ const MobileAssignment = () => {
                 ),
                 expandIcon: ({ expanded, onExpand, record }) =>
                   expanded ? (
-                    <CloseSquareOutlined
+                    <DownCircleOutlined
                       onClick={(e) => onExpand(record, e)}
-                      style={{ color: "#e94b4c" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ) : (
-                    <PlusSquareOutlined
+                    <LeftCircleOutlined
                       onClick={(e) => onExpand(record, e)}
-                      style={{ color: "#7d7d7d" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ),
               }}

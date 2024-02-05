@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Collapse, Space, Button, Select } from "antd";
 import {
-  PlusSquareOutlined,
-  CloseSquareOutlined,
+  LeftCircleOutlined,
+  DownCircleOutlined,
   BarChartOutlined,
   PieChartOutlined,
 } from "@ant-design/icons";
@@ -159,13 +159,9 @@ const QuestionChart = () => {
       onChange={handleChange}
       expandIcon={({ isActive }) =>
         isActive ? (
-          <CloseSquareOutlined
-            style={{ color: "#E00000B3", fontSize: "16px" }}
-          />
+          <DownCircleOutlined style={{ color: "#1651B6", fontSize: "19px" }} />
         ) : (
-          <PlusSquareOutlined
-            style={{ color: "#707070B3", fontSize: "16px" }}
-          />
+          <LeftCircleOutlined style={{ color: "#1651B6", fontSize: "19px" }} />
         )
       }
       expandIconPosition="right"

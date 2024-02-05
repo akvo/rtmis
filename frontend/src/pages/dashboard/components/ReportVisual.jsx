@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Col, Table } from "antd";
 import {
-  PlusSquareOutlined,
-  CloseSquareOutlined,
+  LeftCircleOutlined,
+  DownCircleOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { generateAdvanceFilterURL } from "../../../util/filter";
@@ -117,14 +117,14 @@ const ReportVisual = ({ selectedForm }) => {
           ),
           expandIcon: ({ expanded, onExpand, record }) =>
             expanded ? (
-              <CloseSquareOutlined
+              <DownCircleOutlined
                 onClick={(e) => onExpand(record, e)}
-                style={{ color: "#e94b4c" }}
+                style={{ color: "#1651B6", fontSize: "19px" }}
               />
             ) : (
-              <PlusSquareOutlined
+              <LeftCircleOutlined
                 onClick={(e) => onExpand(record, e)}
-                style={{ color: "#7d7d7d" }}
+                style={{ color: "#1651B6", fontSize: "19px" }}
               />
             ),
         }}
