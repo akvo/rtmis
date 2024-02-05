@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Text, Button } from '@rneui/themed';
 
-import { UIState, FormState, BuildParamsState, UserState } from '../../store';
+import { FormState, BuildParamsState, UserState } from '../../store';
 import { FieldLabel } from '../support';
 import { styles } from '../styles';
 import { loc, i18n } from '../../lib';
-
-const GEO_TIMEOUT = 60; // seconds
 
 const TypeGeo = ({ keyform, id, name, value, tooltip, required, requiredSign }) => {
   const [errorMsg, setErrorMsg] = useState(null);
@@ -15,6 +13,7 @@ const TypeGeo = ({ keyform, id, name, value, tooltip, required, requiredSign }) 
   const [loading, setLoading] = useState(false);
   const [latitude, longitude] = value || [];
 
+  const geoLocationTimeout = BuildParamsState.useState((s) => s.geoLocationTimeout);
   const gpsThreshold = BuildParamsState.useState((s) => s.gpsThreshold);
   const activeLang = FormState.useState((s) => s.lang);
   const savedLocation = UserState.useState((s) => s.currentLocation);
@@ -51,7 +50,7 @@ const TypeGeo = ({ keyform, id, name, value, tooltip, required, requiredSign }) 
   };
 
   const handleGetCurrLocation = async () => {
-    const geoTimeout = GEO_TIMEOUT * 1000;
+    const geoTimeout = geoLocationTimeout * 1000;
     setTimeout(() => {
       if (!value?.length && savedLocation?.coords) {
         /**
