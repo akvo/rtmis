@@ -5,6 +5,8 @@ import { CenterLayout, Image } from '../components';
 import { BuildParamsState, UIState } from '../store';
 import { api, i18n } from '../lib';
 import { crudConfig } from '../database/crud';
+import { ToastAndroid } from 'react-native';
+import * as FileSystem from 'expo-file-system';
 
 const GetStarted = ({ navigation }) => {
   const logo = Asset.fromModule(require('../assets/icon.png')).uri;
@@ -46,6 +48,23 @@ const GetStarted = ({ navigation }) => {
       }
       navigation.navigate('AuthByPassForm');
     }, 100);
+  };
+
+  useEffect(() => {
+    checkStorageSpace();
+  }, []);
+
+  const checkStorageSpace = async () => {
+    try {
+      const freeDiskStorage = await FileSystem.getFreeDiskStorageAsync();
+      const freeDiskSpaceMB = freeDiskStorage / (1024 * 1024);
+      const thresholdMB = 100; 
+      if (freeDiskSpaceMB < thresholdMB) {
+        ToastAndroid.show("Low free disk space! Please free up some space.", ToastAndroid.SHORT);
+      }
+    } catch (error) {
+      console.warn('Error checking storage space:', error);
+    }
   };
 
   const titles = [trans.getStartedTitle1, trans.getStartedTitle2, trans.getStartedTitle3];
