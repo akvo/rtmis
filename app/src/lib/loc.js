@@ -1,10 +1,12 @@
 import * as Location from 'expo-location';
 
-const getCurrentLocation = async (success, error) => {
+const getCurrentLocation = async (success, error, level = null) => {
   const { status } = await Location.requestForegroundPermissionsAsync();
   if (status === 'granted') {
+    const findLevel = accuracyLevels.find((l) => l.value === level);
+    const accuracy = findLevel?.value || Location.Accuracy.Highest;
     const result = await Location.getCurrentPositionAsync({
-      accuracy: Location.Accuracy.Highest,
+      accuracy,
     });
     success(result);
   } else {

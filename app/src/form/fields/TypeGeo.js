@@ -13,6 +13,7 @@ const TypeGeo = ({ keyform, id, name, value, tooltip, required, requiredSign }) 
   const [loading, setLoading] = useState(false);
   const [latitude, longitude] = value || [];
 
+  const gpsAccuracyLevel = BuildParamsState.useState((s) => s.gpsAccuracyLevel);
   const geoLocationTimeout = BuildParamsState.useState((s) => s.geoLocationTimeout);
   const gpsThreshold = BuildParamsState.useState((s) => s.gpsThreshold);
   const activeLang = FormState.useState((s) => s.lang);
@@ -46,6 +47,7 @@ const TypeGeo = ({ keyform, id, name, value, tooltip, required, requiredSign }) 
           s.currentValues = { ...s.currentValues, [id]: [-1.3855559, 37.9938594] };
         });
       },
+      gpsAccuracyLevel,
     );
   };
 
