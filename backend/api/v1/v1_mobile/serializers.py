@@ -5,7 +5,7 @@ from drf_spectacular.utils import extend_schema_field
 from api.v1.v1_forms.models import Forms
 from drf_spectacular.types import OpenApiTypes
 from api.v1.v1_mobile.authentication import MobileAssignmentToken
-from api.v1.v1_profile.models import Administration, Levels, Entity
+from api.v1.v1_profile.models import Administration, Entity
 from utils.custom_serializer_fields import CustomCharField
 from api.v1.v1_mobile.models import MobileAssignment, MobileApk
 from utils.custom_helper import CustomPasscode, generate_random_string
