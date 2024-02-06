@@ -382,7 +382,7 @@ class MobileAssignmentViewSet(ModelViewSet):
 @permission_classes([IsMobileAssignment])
 def get_datapoint_download_list(request, version):
     assignment = cast(MobileAssignmentToken, request.auth).assignment
-    administrations = [a.id for a in assignment.administrations.all()]
+    administrations = assignment.administrations.values('id')
     paginator = Pagination()
     # select only uuid and datapoint id
     queryset = FormData.objects.filter(
