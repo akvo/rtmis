@@ -24,7 +24,6 @@ const TypeGeo = ({ keyform, id, name, value, tooltip, required, requiredSign }) 
   const requiredValue = required ? requiredSign : null;
 
   const getCurrentLocation = async () => {
-    setLoading(true);
     await loc.getCurrentLocation(
       ({ coords }) => {
         const { latitude: lat, longitude: lng, accuracy } = coords;
@@ -53,6 +52,7 @@ const TypeGeo = ({ keyform, id, name, value, tooltip, required, requiredSign }) 
 
   const handleGetCurrLocation = async () => {
     const geoTimeout = geoLocationTimeout * 1000;
+    setLoading(true);
     setTimeout(() => {
       if (!value?.length && savedLocation?.coords) {
         /**
@@ -68,7 +68,6 @@ const TypeGeo = ({ keyform, id, name, value, tooltip, required, requiredSign }) 
         setLoading(false);
       }
     }, geoTimeout);
-
     await getCurrentLocation();
   };
 
@@ -104,11 +103,7 @@ const TypeGeo = ({ keyform, id, name, value, tooltip, required, requiredSign }) 
           </Text>
         )}
         <View style={styles.geoButtonGroup}>
-          <Button
-            onPress={() => handleGetCurrLocation()}
-            testID="button-curr-location"
-            disabled={loading}
-          >
+          <Button onPress={() => handleGetCurrLocation()} testID="button-curr-location">
             {loading
               ? trans.fetchingLocation
               : gpsAccuracy !== null
