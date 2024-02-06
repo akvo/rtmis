@@ -111,6 +111,7 @@ const ApprovalDetail = ({
   const [checkedState, setCheckedState] = useState(
     new Array(record.form?.approval_instructions?.action.length).fill(false)
   );
+  const [resetButton, setresetButton] = useState({});
 
   const { user: authUser } = store.useState((s) => s);
   const { approvalsLiteral } = config;
@@ -152,6 +153,11 @@ const ApprovalDetail = ({
           type: "success",
           message: "Data updated",
         });
+        const resetObj = {};
+        formData.map((d) => {
+          resetObj[d.question] = false;
+        });
+        setresetButton({ ...resetButton, ...resetObj });
       })
       .catch((e) => {
         console.error(e);
@@ -246,6 +252,7 @@ const ApprovalDetail = ({
   }, [selectedTab, record]);
 
   const updateCell = (key, parentId, value) => {
+    setresetButton({ ...resetButton, [key]: true });
     let prev = JSON.parse(JSON.stringify(rawValues));
     prev = prev.map((rI) => {
       let hasEdits = false;
@@ -457,6 +464,7 @@ const ApprovalDetail = ({
                                         resetCell={resetCell}
                                         disabled={!!dataLoading}
                                         readonly={!approve}
+                                        resetButton={resetButton}
                                       />
                                     ),
                                   },

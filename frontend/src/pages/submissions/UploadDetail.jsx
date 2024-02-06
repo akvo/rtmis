@@ -87,6 +87,7 @@ const UploadDetail = ({ record, setReload }) => {
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
   const [comments, setComments] = useState([]);
   const [questionGroups, setQuestionGroups] = useState([]);
+  const [resetButton, setresetButton] = useState({});
   const { notify } = useNotification();
   const { user } = store.useState((state) => state);
   const { language } = store.useState((s) => s);
@@ -128,6 +129,11 @@ const UploadDetail = ({ record, setReload }) => {
           type: "success",
           message: "Data updated",
         });
+        const resetObj = {};
+        formData.map((d) => {
+          resetObj[d.question] = false;
+        });
+        setresetButton({ ...resetButton, ...resetObj });
       })
       .catch((e) => {
         console.error(e);
@@ -198,6 +204,7 @@ const UploadDetail = ({ record, setReload }) => {
   }, [selectedTab, record]);
 
   const updateCell = (key, parentId, value) => {
+    setresetButton({ ...resetButton, [key]: true });
     let prev = JSON.parse(JSON.stringify(rawValues));
     prev = prev.map((rI) => {
       let hasEdits = false;
@@ -416,6 +423,7 @@ const UploadDetail = ({ record, setReload }) => {
                                         resetCell={resetCell}
                                         disabled={!!dataLoading}
                                         readonly={!isEditable}
+                                        resetButton={resetButton}
                                       />
                                     ),
                                   },
