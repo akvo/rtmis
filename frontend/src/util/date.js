@@ -34,3 +34,17 @@ export const eraseCookieFromAllPaths = (name) => {
       name + "=; expires=Thu, 01-Jan-1970 00:00:01 GMT;" + pathCurrent + ";";
   }
 };
+
+export const getTimeDifferenceText = (targetDate, format) => {
+  const targetDateTime = moment(targetDate, format);
+  const currentDateTime = moment();
+  const timeDifference = currentDateTime.diff(targetDateTime, "seconds");
+  const secondsInADay = 86400; // 24 hours * 60 minutes * 60 seconds
+
+  if (timeDifference < secondsInADay) {
+    const hoursAgo = Math.floor(timeDifference / 3600);
+    return hoursAgo <= 1 ? "an hour ago" : `${hoursAgo} hours ago`;
+  }
+  const daysAgo = Math.floor(timeDifference / secondsInADay);
+  return daysAgo === 1 ? "a day ago" : `${daysAgo} days ago`;
+};

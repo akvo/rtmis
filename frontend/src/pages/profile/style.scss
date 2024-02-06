@@ -1,11 +1,14 @@
 @import "../../variables";
 
 #root {
+  .ant-card {
+    height: auto;
+  }
   #profile {
+    padding: 24px;
     .ant-card {
       margin-top: 20px;
     }
-
     h1 {
       text-align: left;
       font: normal normal 600 $font-size-large $font-family;
