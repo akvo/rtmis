@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { ListItem, Divider, Button } from '@rneui/themed';
+import { ListItem, Divider } from '@rneui/themed';
 
 import { BaseLayout, LogoutButton } from '../components';
 import DialogForm from './Settings/DialogForm';
@@ -13,7 +13,6 @@ const Settings = ({ navigation }) => {
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const nonEnglish = activeLang !== 'en';
-  const activeLangText = langConfig.options.find((o) => o.value === activeLang);
   const authenticationType = BuildParamsState.useState((s) => s.authenticationType);
 
   const handleSaveLang = (value) => {
@@ -33,10 +32,6 @@ const Settings = ({ navigation }) => {
 
   const goToAddForm = () => {
     navigation.navigate('AddNewForm', {});
-  };
-
-  const goToFormSelection = () => {
-    navigation.navigate('FormSelection');
   };
 
   return (
@@ -100,9 +95,6 @@ const Settings = ({ navigation }) => {
             edit={langConfig}
             initValue={activeLang}
           />
-        </View>
-        <View style={styles.buttonContainer}>
-          <Button title="Sync Datapoint" type="outline" onPress={goToFormSelection} />
         </View>
       </BaseLayout.Content>
     </BaseLayout>
