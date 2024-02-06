@@ -24,18 +24,6 @@ class MobileDataPointDownloadListSerializer(serializers.Serializer):
         fields = ["id", "name", "url"]
 
 
-class MobileAssignmentAdministrationSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField()
-    name = serializers.SerializerMethodField()
-
-    def get_name(self, obj):
-        return obj.full_path_name
-
-    class Meta:
-        model = Administration
-        fields = ["id", "name"]
-
-
 class MobileFormSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField()
     version = serializers.CharField()
@@ -55,28 +43,10 @@ class MobileAssignmentFormsSerializer(serializers.Serializer):
     name = serializers.CharField(read_only=True)
     syncToken = serializers.SerializerMethodField()
     formsUrl = serializers.SerializerMethodField()
-    administrations = serializers.SerializerMethodField()
 
     @extend_schema_field(MobileFormSerializer(many=True))
     def get_formsUrl(self, obj):
         return MobileFormSerializer(obj.forms.all(), many=True).data
-
-    @extend_schema_field(MobileAssignmentAdministrationSerializer(many=True))
-    def get_administrations(self, obj):
-        lowest_level = Levels.objects.order_by("-level").first()
-        all_lowest_levels = []
-        for adm in obj.administrations.all():
-            if adm.level == lowest_level:
-                all_lowest_levels.append(adm)
-                continue
-            administration = Administration.objects.filter(
-                path__startswith=adm.path,
-                level=lowest_level,
-            ).all()
-            all_lowest_levels.extend(administration)
-        return MobileAssignmentAdministrationSerializer(
-            all_lowest_levels, many=True
-        ).data
 
     def get_syncToken(self, obj):
         return str(MobileAssignmentToken.for_assignment(obj))
@@ -88,7 +58,7 @@ class MobileAssignmentFormsSerializer(serializers.Serializer):
         return value
 
     class Meta:
-        fields = ["name", "syncToken", "formsUrl", "code", "administrations"]
+        fields = ["name", "syncToken", "formsUrl", "code"]
 
 
 class IdAndNameRelatedField(serializers.PrimaryKeyRelatedField):
