@@ -227,14 +227,14 @@ const RouteList = () => {
           element={<Private element={AddAssignment} alias="mobile" />}
         />
         <Route exact path="form/:formId" element={<Forms />} />
+        <Route
+          path="profile"
+          element={<Private element={Profile} alias="profile" />}
+        />
       </Route>
       <Route
         path="/settings"
         element={<Private element={Settings} alias="settings" />}
-      />
-      <Route
-        path="/profile"
-        element={<Private element={Profile} alias="profile" />}
       />
       <Route
         path="/reports"
