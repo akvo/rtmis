@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Table, Tabs, Button, Space, Tag, List, Spin } from "antd";
+import { Table, Tabs, Button, Space, List, Spin } from "antd";
 import {
   LeftCircleOutlined,
   DownCircleOutlined,
