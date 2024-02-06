@@ -3,10 +3,11 @@ import { Button } from '@rneui/themed';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Platform, ToastAndroid } from 'react-native';
 import { BaseLayout } from '../components';
-import { FormState, UserState, UIState } from '../store';
+import { FormState, UserState, UIState, BuildParamsState } from '../store';
 import { crudForms } from '../database/crud';
 import { i18n } from '../lib';
 import * as Notifications from 'expo-notifications';
+import * as Location from 'expo-location';
 
 const Home = ({ navigation, route }) => {
   const params = route?.params || null;
@@ -15,6 +16,9 @@ const Home = ({ navigation, route }) => {
   const [appLang, setAppLang] = useState('en');
   const [loading, setloading] = useState(true);
 
+  const locationIsGranted = UserState.useState((s) => s.locationIsGranted);
+  const gpsAccuracyLevel = BuildParamsState.useState((s) => s.gpsAccuracyLevel);
+  const gpsInterval = BuildParamsState.useState((s) => s.gpsInterval);
   const isManualSynced = UIState.useState((s) => s.isManualSynced);
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
@@ -100,6 +104,43 @@ const Home = ({ navigation, route }) => {
 
     return () => subscription.remove();
   }, []);
+
+  const watchCurrentPosition = useCallback(
+    async (unsubscribe = false) => {
+      if (!locationIsGranted) {
+        return;
+      }
+      const timeInterval = gpsInterval * 1000; // miliseconds
+      /**
+       * Subscribe to the user's current location
+       * @tutorial https://docs.expo.dev/versions/latest/sdk/location/#locationwatchpositionasyncoptions-callback
+       */
+      const watch = await Location.watchPositionAsync(
+        {
+          accuracy: gpsAccuracyLevel,
+          timeInterval,
+        },
+        (res) => {
+          console.info('[CURRENT LOC]', res?.coords);
+          UserState.update((s) => {
+            s.currentLocation = res;
+          });
+        },
+      );
+
+      if (unsubscribe) {
+        watch.remove();
+      }
+    },
+    [gpsAccuracyLevel, gpsInterval, locationIsGranted],
+  );
+
+  useEffect(() => {
+    watchCurrentPosition();
+    return () => {
+      watchCurrentPosition(true);
+    };
+  }, [watchCurrentPosition]);
 
   return (
     <BaseLayout

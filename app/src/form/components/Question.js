@@ -78,7 +78,17 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
         });
         FormState.update((s) => {
           const preValues = preFilled?.fill?.reduce((prev, current) => {
-            return { [current['id']]: current['answer'], ...prev };
+            /**
+             * Make sure the answer criteria are not replaced by previous values
+             * eg:
+             * Previous value = "Update"
+             * Answer criteria = "New"
+             */
+            const answer =
+              id === current['id']
+                ? current['answer']
+                : values?.[current['id']] || current['answer'];
+            return { [current['id']]: answer, ...prev };
           }, {});
           s.prefilled = preValues;
         });
