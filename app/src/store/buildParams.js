@@ -13,7 +13,10 @@ const BuildParamsState = new Store({
   errorHandling: defaultBuildParams?.errorHandling || true,
   loggingLevel: defaultBuildParams?.loggingLevel || 'verbose',
   appVersion: defaultBuildParams?.appVersion || '1.0.0',
-  gpsThreshold: defaultBuildParams?.gpsThreshold || 20,
+  gpsThreshold: defaultBuildParams?.gpsThreshold || 20, // meters
+  gpsInterval: 60, // seconds
+  gpsAccuracyLevel: 4, // High
+  geoLocationTimeout: 60, // seconds
 });
 
 export default BuildParamsState;

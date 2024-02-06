@@ -7,7 +7,7 @@ export const tables = [
       password: 'TEXT',
       active: 'TINYINT',
       token: 'TEXT',
-      administrationList: 'TEXT',
+      administrationList: 'TEXT', // TODO: Remove
     },
   },
   {
@@ -20,6 +20,9 @@ export const tables = [
       syncInterval: 'REAL',
       syncWifiOnly: 'TINYINT',
       lang: 'VARCHAR(255) DEFAULT "en" NOT NULL',
+      gpsThreshold: 'INTEGER NULL',
+      gpsAccuracyLevel: 'INTEGER NULL',
+      geoLocationTimeout: 'INTEGER NULL',
     },
   },
   {
@@ -59,7 +62,7 @@ export const tables = [
       formId: 'INTEGER NOT NULL',
       uuid: 'TEXT type UNIQUE',
       name: 'VARCHAR(255)',
-      administration: 'VARCHAR(255)',
+      administration: 'VARCHAR(255)', // TODO: Remove
       syncedAt: 'DATETIME',
       json: 'TEXT',
     },
@@ -76,7 +79,7 @@ export const tables = [
     name: 'jobs',
     fields: {
       id: 'INTEGER PRIMARY KEY NOT NULL',
-      uuid: 'TEXT type UNIQUE',
+      uuid: 'TEXT type UNIQUE', // TODO: Remove if not used
       user: 'INTEGER NOT NULL',
       type: 'VARCHAR(191)',
       status: 'INTEGER NOT NULL',

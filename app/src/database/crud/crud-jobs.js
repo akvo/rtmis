@@ -44,7 +44,7 @@ const jobsQuery = () => {
         const insertQuery = query.insert(tableName, {
           ...data,
           createdAt,
-          uuid: Crypto.randomUUID(),
+          uuid: Crypto.randomUUID(), // TODO: Remove if not needed
         });
         return await conn.tx(db, insertQuery, []);
       } catch (error) {

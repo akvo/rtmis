@@ -8,6 +8,8 @@ const UserState = new Store({
   syncWifiOnly: false,
   // syncInterval: 300,
   forms: [],
+  currentLocation: null,
+  locationIsGranted: false,
 });
 
 export default UserState;
