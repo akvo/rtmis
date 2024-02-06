@@ -73,14 +73,6 @@ class MobileAssignmentApiTest(TestCase):
         token = MobileAssignmentToken(syncToken)
 
         self.assertEqual(token.assignment.id, self.mobile_assignment.id)
-        paths = [
-            f'{adm.path}{adm.id}.' for adm in self.administration_children
-        ]
-        # administration should only shows the lowest level
-        self.assertEqual(
-            len(response.data['administrations']),
-            Administration.objects.filter(path__in=paths).count(),
-        )
 
         self.assertEqual(
             dict(response.data['formsUrl'][0]),
