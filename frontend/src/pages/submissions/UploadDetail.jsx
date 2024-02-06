@@ -498,8 +498,8 @@ const UploadDetail = ({ record, setReload }) => {
                 <List.Item.Meta
                   title={
                     <div style={{ fontSize: "12px" }}>
-                      {item.user.name} {item.created}
-                      <span style={{ color: "#ACAAAA" }}>
+                      {item.user.name}
+                      <span style={{ color: "#ACAAAA", marginLeft: "6px" }}>
                         {getTimeDifferenceText(
                           item.created,
                           "YYYY-MM-DD hh:mm a"
