@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { Fragment, useMemo } from "react";
 import "./style.scss";
 import { Row, Col, Button } from "antd";
 import { store, config, uiText } from "../../lib";
@@ -113,7 +113,7 @@ const ControlCenter = () => {
         <Row gutter={[16, 32]}>
           {selectedPanels.map((panel, index) => {
             if (panel?.render) {
-              return panel.render;
+              return <Fragment key={index}>{panel.render}</Fragment>;
             }
             const cardOnly = selectedPanels.filter((x) => !x?.render);
             const isFullWidth =
@@ -124,7 +124,7 @@ const ControlCenter = () => {
               <Col
                 className="card-wrapper"
                 span={isFullWidth ? 24 : 12}
-                key={index}
+                key={panel.key}
               >
                 <div hoverable>
                   <div className="row">
