@@ -7,7 +7,7 @@ from django.utils.timezone import make_aware
 
 from faker import Faker
 
-from api.v1.v1_data.models import FormData, Answers
+from api.v1.v1_data.models import FormData, Answers, PendingAnswers
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -51,7 +51,9 @@ def set_answer_data(data, question):
     return name, value, option
 
 
-def add_fake_answers(data: FormData, form_type):
+def add_fake_answers(data: FormData,
+                     form_type=FormTypes.county,
+                     pending=False):
     form = data.form
     meta_name = []
     for question in form.form_questions.all().order_by('question_group__order',
@@ -73,20 +75,34 @@ def add_fake_answers(data: FormData, form_type):
         seed = True
         if question.dependency:
             for d in question.dependency:
-                prev_answer = Answers.objects.filter(
+                if not pending:
+                    prev_answer = Answers.objects.filter(
                         data=data, question_id=d.get('id')).first()
+                else:
+                    prev_answer = PendingAnswers.objects.filter(
+                        pending_data=data, question_id=d.get('id')).first()
                 if prev_answer:
                     seed = False
                     for o in prev_answer.options:
                         if o in d.get("options"):
                             seed = True
         if seed:
-            Answers.objects.create(data=data,
-                                   question=question,
-                                   name=name,
-                                   value=value,
-                                   options=option,
-                                   created_by=data.created_by)
+            if not pending:
+                Answers.objects.create(data=data,
+                                       question=question,
+                                       name=name,
+                                       value=value,
+                                       options=option,
+                                       created_by=data.created_by)
+            else:
+                PendingAnswers.objects.create(
+                    pending_data=data,
+                    question=question,
+                    name=name,
+                    value=value,
+                    options=option,
+                    created_by=data.created_by
+                )
     data.name = ' - '.join(meta_name) if \
         form_type != FormTypes.national else data.name
     data.save()
