@@ -13,21 +13,29 @@ export const jobStatus = {
 
 export const MAX_ATTEMPT = 3;
 
+export const SYNC_DATAPOINT_JOB_NAME = 'sync-form-datapoints';
+
 const tableName = 'jobs';
 const jobsQuery = () => {
   return {
-    getActiveJob: async (type) => {
+    getActiveJob: async (type, form = null) => {
       try {
         const session = await crudUsers.getActiveUser();
         if (session?.id) {
           /**
            * Make sure the app only gets active jobs from current user
            */
-          const where = { active: 1, type, user: session.id };
+          const where = { type, user: session.id };
+          const params = [type, session.id];
+          if (form) {
+            where.form = form;
+            params.push(form);
+          }
+
           const nocase = false;
           const order_by = 'createdAt';
           const readQuery = query.read(tableName, where, nocase, order_by);
-          const { rows } = await conn.tx(db, readQuery, [1, type, session.id]);
+          const { rows } = await conn.tx(db, readQuery, params);
           if (!rows.length) {
             return null;
           }
@@ -44,7 +52,6 @@ const jobsQuery = () => {
         const insertQuery = query.insert(tableName, {
           ...data,
           createdAt,
-          uuid: Crypto.randomUUID(), // TODO: Remove if not needed
         });
         return await conn.tx(db, insertQuery, []);
       } catch (error) {
