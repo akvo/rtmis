@@ -21,7 +21,7 @@ const EditableCell = ({
   const [editing, setEditing] = useState(false);
   const [locationName, setLocationName] = useState(null);
   const [value, setValue] = useState(null);
-
+  console.log(record, "RECORD");
   useEffect(() => {
     if (
       record &&
@@ -205,7 +205,7 @@ EditableCell.propTypes = {
   record: PropTypes.shape({
     id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
-    value: PropTypes.any.isRequired,
+    value: PropTypes.oneOfType([PropTypes.any, PropTypes.null]),
     option: PropTypes.array,
     newValue: PropTypes.any,
   }),
