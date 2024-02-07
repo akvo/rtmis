@@ -33,14 +33,6 @@ class MobileDataPointDownloadListTestCase(TestCase):
             type=FormTypes.county
         ).all()
         self.uuid = '1234'
-        self.form_data = FormData.objects.create(
-            name="TEST",
-            geo=None,
-            form=self.forms[0],
-            administration=self.administration,
-            created_by=self.user,
-            uuid=self.uuid,
-        )
         self.passcode = 'passcode1234'
         self.mobile_assignment = MobileAssignment.objects.create_assignment(
             user=self.user, name='test', passcode=self.passcode
@@ -53,6 +45,14 @@ class MobileDataPointDownloadListTestCase(TestCase):
         )
         self.mobile_assignment = MobileAssignment.objects.get(user=self.user)
         self.mobile_assignment.forms.add(*self.forms)
+        self.form_data = FormData.objects.create(
+            name="TEST",
+            geo=None,
+            form=self.forms[0],
+            administration=self.administration_children.first(),
+            created_by=self.user,
+            uuid=self.uuid,
+        )
 
     def test_get_datapoints_list_url(self):
         code = {'code': self.passcode}
@@ -64,8 +64,8 @@ class MobileDataPointDownloadListTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         token = response.data['syncToken']
         url = (
-            "/api/v1/device/datapoint-list/?administration={}&form={}"
-        ).format(self.administration.id, self.forms[0].id)
+            "/api/v1/device/datapoint-list/?form={}"
+        ).format(self.forms[0].id)
         response = self.client.get(
             url,
             follow=True,

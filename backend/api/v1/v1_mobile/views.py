@@ -374,11 +374,6 @@ class MobileAssignmentViewSet(ModelViewSet):
             required=True,
             type=OpenApiTypes.NUMBER,
             location=OpenApiParameter.QUERY),
-        OpenApiParameter(
-            name='administration',
-            required=False,
-            type=OpenApiTypes.NUMBER,
-            location=OpenApiParameter.QUERY),
     ],
     tags=['Mobile Device Form'],
     summary='GET Download List for Syncing Datapoints',
@@ -386,10 +381,12 @@ class MobileAssignmentViewSet(ModelViewSet):
 @api_view(['GET'])
 @permission_classes([IsMobileAssignment])
 def get_datapoint_download_list(request, version):
+    assignment = cast(MobileAssignmentToken, request.auth).assignment
+    administrations = assignment.administrations.values('id')
     paginator = Pagination()
     # select only uuid and datapoint id
     queryset = FormData.objects.filter(
-            administration_id=request.query_params.get('administration'),
+            administration_id__in=administrations,
             form_id=request.query_params.get('form')
     ).values('uuid', 'id', 'name').order_by('id')
     instance = paginator.paginate_queryset(queryset, request)
