@@ -9,8 +9,6 @@ import {
   AddUser,
   Forms,
   ManageData,
-  Questionnaires,
-  QuestionnairesAdmin,
   Approvals,
   ApproversTree,
   Profile,
@@ -191,16 +189,6 @@ const RouteList = () => {
         <Route
           path="approvals"
           element={<Private element={Approvals} alias="approvals" />}
-        />
-        <Route
-          path="questionnaires"
-          element={<Private element={Questionnaires} alias="questionnaires" />}
-        />
-        <Route
-          path="questionnaires/admin"
-          element={
-            <Private element={QuestionnairesAdmin} alias="questionnaires" />
-          }
         />
         <Route
           path="organisation/add"
