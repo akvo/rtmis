@@ -77,13 +77,12 @@ export const tables = [
     name: 'jobs',
     fields: {
       id: 'INTEGER PRIMARY KEY NOT NULL',
-      uuid: 'TEXT type UNIQUE', // TODO: Remove if not used
+      form: 'INTEGER NOT NULL',
       user: 'INTEGER NOT NULL',
       type: 'VARCHAR(191)',
       status: 'INTEGER NOT NULL',
       attempt: 'INTEGER DEFAULT "0" NOT NULL',
-      active: 'TINYINT',
-      info: 'TEXT',
+      info: 'VARCHAR(255)',
       createdAt: 'DATETIME',
     },
   },
