@@ -1,11 +1,12 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { View } from 'react-native';
-import { ListItem } from '@rneui/themed';
+import { View, ToastAndroid } from 'react-native';
+import { Button, ListItem } from '@rneui/themed';
 import { BaseLayout } from '../components';
 import { UIState, FormState } from '../store';
-import { i18n } from '../lib';
+import { i18n, api } from '../lib';
 import { getCurrentTimestamp } from '../form/lib';
+import { crudMonitoring } from '../database/crud';
 
 const ManageForm = ({ navigation, route }) => {
   const draftCount = FormState.useState((s) => s.form?.draft);
@@ -57,6 +58,53 @@ const ManageForm = ({ navigation, route }) => {
       goTo: () => navigation.navigate('FormData', { ...route?.params, showSubmitted: true }),
     },
   ];
+
+  async function fetchData(form, pageNumber = 1, allData = []) {
+    try {
+      const response = await api.get(`/datapoint-list?page=${pageNumber}&form=${form}`);
+      const data = response.data.data;
+
+      const updatedData = [...allData, ...data];
+
+      if (data.hasMorePages) {
+        return fetchData(form, pageNumber + 1, updatedData);
+      } else {
+        return updatedData;
+      }
+    } catch (error) {
+      ToastAndroid.show(`${error?.errorCode}: ${error?.message}`, ToastAndroid.LONG);
+    }
+  }
+
+  const handleDataPoint = async () => {
+    ToastAndroid.show(trans.syncingText, ToastAndroid.CENTER);
+    setSyncLoading(true);
+    try {
+      const allData = await fetchData(route.params.formId);
+      const urls = allData.map((item) => item.url);
+      await Promise.all(urls.map(downloadJson));
+    } catch (error) {
+      setSyncLoading(false);
+    }
+  };
+
+  const downloadJson = async (url) => {
+    try {
+      const response = await api.get(url);
+      if (response.status === 200) {
+        const jsonData = response.data;
+        await crudMonitoring.addForm({
+          formId: params.id,
+          formJSON: jsonData,
+        });
+        setSyncLoading(false);
+        ToastAndroid.show(trans.syncingSuccessText, ToastAndroid.LONG);
+      }
+    } catch (error) {
+      ToastAndroid.show(`${error?.errorCode}: ${error?.message}`, ToastAndroid.LONG);
+    }
+  };
+
   return (
     <BaseLayout title={route?.params?.name} rightComponent={false}>
       <BaseLayout.Content>
@@ -78,6 +126,9 @@ const ManageForm = ({ navigation, route }) => {
           ))}
         </View>
       </BaseLayout.Content>
+      <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
+        <Button title={trans.syncDataPointBtn} type="outline" />
+      </View>
     </BaseLayout>
   );
 };
