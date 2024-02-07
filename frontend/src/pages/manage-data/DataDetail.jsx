@@ -18,11 +18,13 @@ const DataDetail = ({
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [resetButton, setresetButton] = useState({});
   const pendingData = record?.pending_data?.created_by || false;
   const { user: authUser, forms } = store.useState((state) => state);
   const { notify } = useNotification();
 
   const updateCell = (key, parentId, value) => {
+    setresetButton({ ...resetButton, [key]: true });
     let prev = JSON.parse(JSON.stringify(dataset));
     prev = prev.map((qg) =>
       qg.id === parentId
@@ -105,6 +107,11 @@ const DataDetail = ({
             : record.id
         );
         fetchData(record.id);
+        const resetObj = {};
+        data.map((d) => {
+          resetObj[d.question] = false;
+        });
+        setresetButton({ ...resetButton, ...resetObj });
       })
       .catch((e) => {
         console.error(e);
@@ -218,6 +225,7 @@ const DataDetail = ({
                       resetCell={resetCell}
                       pendingData={pendingData}
                       isPublic={isPublic}
+                      resetButton={resetButton}
                     />
                   ),
                 },
