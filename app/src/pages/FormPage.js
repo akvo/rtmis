@@ -180,9 +180,9 @@ const FormPage = ({ navigation, route }) => {
        * Create a new job for syncing form submissions.
        */
       await crudJobs.addJob({
+        form: currentFormId,
         user: userId,
         type: SYNC_FORM_SUBMISSION_TASK_NAME,
-        active: 1,
         status: jobStatus.PENDING,
         info: `${currentFormId} | ${datapoitName}`,
       });
