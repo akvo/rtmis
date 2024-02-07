@@ -14,6 +14,8 @@ const DataDetail = ({
   updateRecord,
   setDeleteData,
   isPublic = false,
+  editedRecord,
+  setEditedRecord,
 }) => {
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -25,12 +27,14 @@ const DataDetail = ({
 
   const updateCell = (key, parentId, value) => {
     setresetButton({ ...resetButton, [key]: true });
+    setEditedRecord({ ...editedRecord, [record.id]: true });
     let prev = JSON.parse(JSON.stringify(dataset));
     prev = prev.map((qg) =>
       qg.id === parentId
         ? {
             ...qg,
             question: qg.question.map((qi) => {
+              let hasEdits = false;
               if (qi.id === key) {
                 if (
                   isEqual(qi.value, value) &&
@@ -39,6 +43,10 @@ const DataDetail = ({
                   delete qi.newValue;
                 } else {
                   qi.newValue = value;
+                }
+                const edited = !isEqual(qi.value, value);
+                if (edited && !hasEdits) {
+                  hasEdits = true;
                 }
                 return qi;
               }
@@ -112,6 +120,7 @@ const DataDetail = ({
           resetObj[d.question] = false;
         });
         setresetButton({ ...resetButton, ...resetObj });
+        setEditedRecord({ ...editedRecord, [record.id]: false });
       })
       .catch((e) => {
         console.error(e);

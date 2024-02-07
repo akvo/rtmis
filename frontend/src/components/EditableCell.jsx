@@ -21,7 +21,7 @@ const EditableCell = ({
   const [editing, setEditing] = useState(false);
   const [locationName, setLocationName] = useState(null);
   const [value, setValue] = useState(null);
-  console.log(record, "RECORD");
+
   useEffect(() => {
     if (
       record &&
