@@ -7,6 +7,7 @@ from api.v1.v1_profile.models import (
     Entity, EntityData, Levels
 )
 from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField
+from utils.custom_generator import update_sqlite
 
 
 class RelatedAdministrationField(serializers.PrimaryKeyRelatedField):
@@ -168,6 +169,17 @@ class AdministrationSerializer(serializers.ModelSerializer):
         self._assign_level(validated_data)
         self._set_code(validated_data)
         instance = super().create(validated_data)
+        update_sqlite(
+            model=Administration,
+            data={
+                'id': instance.id,
+                'name': instance.name,
+                'code': instance.code,
+                'parent': instance.parent.id,
+                'level': instance.level.id,
+                'path': instance.path
+            }
+        )
         for attribute in attributes:
             instance.attributes.create(**attribute)
         return instance
@@ -184,7 +196,17 @@ class AdministrationSerializer(serializers.ModelSerializer):
             if not created:
                 AdministrationAttributeValue.objects\
                         .filter(id=target.id).update(**it)
-
+        update_sqlite(
+            model=Administration,
+            data={
+                'name': instance.name,
+                'code': instance.code,
+                'parent': instance.parent.id,
+                'level': instance.level.id,
+                'path': instance.path
+            },
+            id=instance.id
+        )
         return instance
 
     def _set_code(self, validated_data):
@@ -230,6 +252,36 @@ class EntityDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = EntityData
         fields = ['id', 'name', 'code', 'administration', 'entity']
+
+    def create(self, validated_data):
+        instance = super().create(validated_data)
+        update_sqlite(
+            model=EntityData,
+            data={
+                'id': instance.id,
+                'name': instance.name,
+                'code': instance.code,
+                'entity': instance.entity.id,
+                'administration': instance.administration.id,
+                'parent': instance.administration.id
+            }
+        )
+        return instance
+
+    def update(self, instance, validated_data):
+        instance = super().update(instance, validated_data)
+        update_sqlite(
+            model=EntityData,
+            data={
+                'name': instance.name,
+                'code': instance.code,
+                'entity': instance.entity.id,
+                'administration': instance.administration.id,
+                'parent': instance.administration.id
+            },
+            id=instance.id
+        )
+        return instance
 
 
 class GenerateDownloadRequestSerializer(serializers.Serializer):
