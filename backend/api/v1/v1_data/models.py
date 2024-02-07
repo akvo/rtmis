@@ -14,6 +14,10 @@ from utils import storage
 
 
 class FormData(models.Model):
+    parent = models.ForeignKey('self',
+                               on_delete=models.CASCADE,
+                               related_name='children',
+                               null=True, blank=True)
     name = models.TextField()
     form = models.ForeignKey(to=Forms,
                              on_delete=models.CASCADE,
