@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Table, Tabs, Button, Space, Tag, List, Spin } from "antd";
+import { Table, Tabs, Button, Space, List, Spin } from "antd";
 import {
   LeftCircleOutlined,
   DownCircleOutlined,
@@ -12,6 +12,7 @@ import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
 import { HistoryTable } from "../../components";
 import { columnsApprover } from "./";
+import { getTimeDifferenceText } from "../../util/date";
 const { TabPane } = Tabs;
 
 const columnsRawData = [
@@ -504,9 +505,14 @@ const UploadDetail = ({ record, setReload }) => {
                 {/* TODO: Change Avatar */}
                 <List.Item.Meta
                   title={
-                    <div>
-                      <Tag>{item.created}</Tag>
+                    <div style={{ fontSize: "12px" }}>
                       {item.user.name}
+                      <span style={{ color: "#ACAAAA", marginLeft: "6px" }}>
+                        {getTimeDifferenceText(
+                          item.created,
+                          "YYYY-MM-DD hh:mm a"
+                        )}
+                      </span>
                     </div>
                   }
                   description={item.comment}

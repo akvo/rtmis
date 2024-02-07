@@ -8,7 +8,6 @@ import {
   Checkbox,
   Button,
   Space,
-  Tag,
   List,
   Spin,
 } from "antd";
@@ -23,6 +22,7 @@ import { EditableCell } from "../../components";
 import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
 import { HistoryTable } from "../../components";
+import { getTimeDifferenceText } from "../../util/date";
 const { TextArea } = Input;
 const { TabPane } = Tabs;
 
@@ -545,9 +545,14 @@ const ApprovalDetail = ({
                 {/* TODO: Change Avatar */}
                 <List.Item.Meta
                   title={
-                    <div>
-                      <Tag>{item.created}</Tag>
+                    <div style={{ fontSize: "12px" }}>
                       {item.user.name}
+                      <span style={{ color: "#ACAAAA", marginLeft: "6px" }}>
+                        {getTimeDifferenceText(
+                          item.created,
+                          "YYYY-MM-DD hh:mm a"
+                        )}
+                      </span>
                     </div>
                   }
                   description={item.comment}
