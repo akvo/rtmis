@@ -2,6 +2,10 @@
 
 #root {
   #manageData {
+    tr.ant-table-expanded-row:hover > td,
+    tr.ant-table-expanded-row > td {
+      padding: 48px 16px 16px;
+    }
     .data-detail {
       height: 450px;
       overflow-y: scroll;
@@ -58,6 +62,11 @@
           }
         }
       }
+    }
+    .button-save {
+      position: absolute;
+      top: 0px;
+      right: 22px;
     }
   }
 }
