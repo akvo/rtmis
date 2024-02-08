@@ -262,7 +262,7 @@ const DataDetail = ({
         ))}
       </div>
       {!isPublic && (
-        <div>
+        <div className="button-save">
           <Space>
             <Button
               type="primary"
