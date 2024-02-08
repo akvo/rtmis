@@ -87,4 +87,3 @@ class FormSubmissionTestCase(TestCase):
         question_group = webform.get("question_group")
         self.assertEqual(len(question_group), 1)
         self.assertEqual(question_group[0].get("name"), "Question Group 01")
-
