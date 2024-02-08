@@ -412,6 +412,7 @@ const UploadDetail = ({ record, setReload }) => {
                                   {
                                     title: "Question",
                                     dataIndex: "name",
+                                    width: "50%",
                                   },
                                   {
                                     title: "Response",
@@ -426,6 +427,7 @@ const UploadDetail = ({ record, setReload }) => {
                                         resetButton={resetButton}
                                       />
                                     ),
+                                    width: "50%",
                                   },
                                   Table.EXPAND_COLUMN,
                                 ]}

@@ -453,6 +453,7 @@ const ApprovalDetail = ({
                                   {
                                     title: "Question",
                                     dataIndex: "name",
+                                    width: "50%",
                                   },
                                   {
                                     title: "Response",
@@ -467,6 +468,7 @@ const ApprovalDetail = ({
                                         resetButton={resetButton}
                                       />
                                     ),
+                                    width: "50%",
                                   },
                                   Table.EXPAND_COLUMN,
                                 ]}

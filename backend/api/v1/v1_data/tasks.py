@@ -4,8 +4,14 @@ from api.v1.v1_data.models import FormData, Answers, \
 
 
 def seed_approved_data(data):
+    parent_data = FormData.objects.filter(
+        form=data.form,
+        uuid=data.uuid,
+        parent=None,
+    ).first()
     if data.data:
         form_data: FormData = data.data
+        form_data.parent = parent_data
         form_data.name = data.name
         form_data.uuid = data.uuid
         form_data.form = data.form
@@ -28,6 +34,7 @@ def seed_approved_data(data):
             form_answer.delete()
     else:
         form_data = FormData.objects.create(
+            parent=parent_data,
             name=data.name,
             uuid=data.uuid,
             form=data.form,

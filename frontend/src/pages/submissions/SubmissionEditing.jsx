@@ -61,6 +61,7 @@ const SubmissionEditing = ({
                 {
                   title: text?.QuestionCol,
                   dataIndex: "name",
+                  width: "50%",
                 },
                 {
                   title: text?.responseCol,
@@ -75,6 +76,7 @@ const SubmissionEditing = ({
                       resetButton={resetButton}
                     />
                   ),
+                  width: "50%",
                 },
                 Table.EXPAND_COLUMN,
               ]}
