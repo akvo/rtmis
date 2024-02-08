@@ -6,6 +6,13 @@
   "languages": ["en"],
   "version": 1,
   "translations": null,
+  "approval_instructions": {
+    "text": "Please check all of the checkbox below",
+    "action": [
+      "I have checked all of the data correctly",
+      "I approve this data for submission"
+    ]
+  },
   "question_groups": [
     {
       "id": 16993539153821,
@@ -105,9 +112,7 @@
           "dependency": [
             {
               "id": 16993542207341,
-              "options": [
-                "New"
-              ]
+              "options": ["New"]
             }
           ],
           "extra": {
@@ -125,9 +130,7 @@
           "dependency": [
             {
               "id": 16993542207341,
-              "options": [
-                "New"
-              ]
+              "options": ["New"]
             }
           ],
           "extra": {
