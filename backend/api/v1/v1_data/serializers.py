@@ -581,6 +581,7 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
     created = serializers.SerializerMethodField()
     administration = serializers.ReadOnlyField(source="administration.name")
     pending_answer_history = serializers.SerializerMethodField()
+    is_monitoring = serializers.SerializerMethodField()
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_created_by(self, instance: PendingFormData):
@@ -595,6 +596,14 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
         history = PendingAnswerHistory.objects.filter(
             pending_data=instance).count()
         return True if history > 0 else False
+
+    @extend_schema_field(OpenApiTypes.BOOL)
+    def get_is_monitoring(self, instance: PendingFormData):
+        monitoring = FormData.objects.filter(
+            uuid=instance.uuid,
+            parent=None
+        ).count()
+        return True if monitoring > 0 else False
 
     class Meta:
         model = PendingFormData
@@ -611,6 +620,7 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
             "created_by",
             "created",
             "pending_answer_history",
+            "is_monitoring",
         ]
 
 
