@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Table, Button, Space, Spin, Alert } from "antd";
 import { LoadingOutlined, HistoryOutlined } from "@ant-design/icons";
 import { EditableCell } from "../../components";
-import { api, config, store } from "../../lib";
+import { api, config, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { flatten, isEqual } from "lodash";
 import { HistoryTable } from "../../components";
@@ -24,6 +24,11 @@ const DataDetail = ({
   const pendingData = record?.pending_data?.created_by || false;
   const { user: authUser, forms } = store.useState((state) => state);
   const { notify } = useNotification();
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   const updateCell = (key, parentId, value) => {
     setresetButton({ ...resetButton, [key]: true });
@@ -73,6 +78,7 @@ const DataDetail = ({
           }
         : qg
     );
+    setEditedRecord({ ...editedRecord, [record.id]: false });
     setDataset(prev);
   };
 
@@ -271,7 +277,7 @@ const DataDetail = ({
               loading={saving}
               shape="round"
             >
-              Save Edits
+              {text.saveEditButton}
             </Button>
             {deleteData && (
               <Button
@@ -279,7 +285,7 @@ const DataDetail = ({
                 onClick={() => setDeleteData(record)}
                 shape="round"
               >
-                Delete
+                {text.deleteText}
               </Button>
             )}
           </Space>

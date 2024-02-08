@@ -86,6 +86,7 @@ const BatchDetail = ({
             question: rq.id,
             value: value,
           });
+          delete rq.newValue;
         }
       });
     });
@@ -171,6 +172,7 @@ const BatchDetail = ({
         return rq;
       }),
     }));
+    setEditedRecord({ ...editedRecord, [expanded.id]: false });
     setRawValue({
       ...prev,
       data,

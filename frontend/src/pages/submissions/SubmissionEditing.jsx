@@ -41,6 +41,7 @@ const SubmissionEditing = ({
       </Space>
     );
   }
+
   return (
     <>
       <div className={`pending-data-outer`}>
