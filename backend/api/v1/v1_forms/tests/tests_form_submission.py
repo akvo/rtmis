@@ -1,9 +1,12 @@
 from django.core.management import call_command
 from django.test import TestCase
+from django.utils import timezone
 from django.test.utils import override_settings
 
 from api.v1.v1_forms.models import Forms
-from api.v1.v1_profile.models import Administration, Levels
+from api.v1.v1_profile.models import Administration, \
+    Levels, Access
+from api.v1.v1_users.models import Organisation, SystemUser
 
 
 def seed_administration_test():
@@ -112,36 +115,8 @@ class FormSubmissionTestCase(TestCase):
         self.assertEqual(len(question_group), 1)
         self.assertEqual(question_group[0].get("name"), "Question Group 01")
 
-    def test_edit_form_type(self):
-        call_command("administration_seeder", "--test")
-        call_command("form_seeder", "--test")
-        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login',
-                                         user_payload,
-                                         content_type='application/json')
-        user = user_response.json()
-        token = user.get('token')
-        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
-
-        form = Forms.objects.first()
-        payload = [{"form_id": form.id, "type": 3}]
-        response = self.client.post('/api/v1/form/type',
-                                    payload,
-                                    content_type='application/json',
-                                    **header)
-        self.assertEqual(400, response.status_code)
-
-        payload = [{"form_id": form.id, "type": 1}]
-
-        response = self.client.post('/api/v1/form/type',
-                                    payload,
-                                    content_type='application/json',
-                                    **header)
-        self.assertEqual(200, response.status_code)
-        self.assertEqual(response.json().get('message'),
-                         'Forms updated successfully')
-
     def test_edit_form_approval(self):
+        call_command("fake_organisation_seeder", "--repeat", 3)
         call_command("administration_seeder", "--test")
         call_command("form_seeder", "--test")
         user_payload = {"email": "admin@rush.com", "password": "Test105*"}
@@ -150,23 +125,55 @@ class FormSubmissionTestCase(TestCase):
                                          content_type='application/json')
         user = user_response.json()
         token = user.get('token')
+        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
+        user_response = self.client.post('/api/v1/login',
+                                         user_payload,
+                                         content_type='application/json')
+        org = Organisation.objects.order_by('?').first()
+        form = Forms.objects.filter(type=1).first()
+        user = user_response.json()
+        token = user.get('token')
+        email = "test_approver@example.com"
+        admin = Administration.objects.filter(
+            level=Levels.objects.filter(level=3).first()
+        ).order_by('?').first()
+        payload = {
+            "first_name": "Test",
+            "last_name": "Approver",
+            "email": email,
+            "administration": admin.id,
+            "organisation": org.id,
+            "role": 3,
+            "forms": [form.id],
+            "trained": True,
+        }
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
-
-        form = Forms.objects.first()
-        payload = [{"form_id": form.id, "level_id": 3}]
-        response = self.client.put('/api/v1/form/approval',
-                                   payload,
-                                   content_type='application/json',
-                                   **header)
-
-        self.assertEqual(400, response.status_code)
-        level = Levels.objects.first()
-        payload = [{"form_id": form.id, "level_id": [level.id]}]
-
-        response = self.client.put('/api/v1/form/approval',
-                                   payload,
-                                   content_type='application/json',
-                                   **header)
-        self.assertEqual(200, response.status_code)
-        self.assertEqual(response.json().get('message'),
-                         'Forms updated successfully')
+        add_response = self.client.post("/api/v1/user",
+                                        payload,
+                                        content_type='application/json',
+                                        **header)
+        user = SystemUser.objects.filter(email=email).first()
+        user.set_password("Test105*")
+        user.updated = timezone.now()
+        access = Access.objects.filter(user=user).first()
+        self.assertEqual(access.administration, admin)
+        self.assertEqual(add_response.status_code, 200)
+        approval_response = self.client.get(
+            "/api/v1/form/approver/?administration_id={}&form_id={}".format(
+                admin.parent.id, form.id
+            ),
+            content_type='application/json',
+            **header)
+        self.assertEqual(approval_response.status_code, 200)
+        self.assertEqual(approval_response.json(), [{
+            'administration': {
+                'id': admin.id,
+                'name': admin.name,
+            },
+            'user': {
+                'id': user.id,
+                'email': email,
+                'first_name': 'Test',
+                'last_name': 'Approver',
+            }
+        }])
