@@ -5,7 +5,7 @@ from django.db import models
 # Create your models here.
 from api.v1.v1_forms.constants import QuestionTypes, \
     FormTypes, AttributeTypes
-from api.v1.v1_profile.models import Administration, Levels
+from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import SystemUser
 
 
