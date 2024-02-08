@@ -197,6 +197,20 @@
       }
     }
 
+    .ant-table-expanded-row {
+      .ant-table-cell {
+        .pending-data-actions {
+          position: absolute;
+          top: -6px;
+          right: -9px;
+        }
+      }
+    }
+
+    tr.ant-table-expanded-row > td{
+      padding-top: 3rem;
+    }
+   
     .pending-data-outer {
       height: 500px;
       overflow-y: scroll;

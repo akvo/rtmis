@@ -4,7 +4,14 @@ import { api, store, uiText } from "../../lib";
 import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
 
-const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
+const BatchDetail = ({
+  expanded,
+  setReload,
+  deleting,
+  handleDelete,
+  editedRecord,
+  setEditedRecord,
+}) => {
   const [dataLoading, setDataLoading] = useState(true);
   const [saving, setSaving] = useState(null);
   const [rawValue, setRawValue] = useState(null);
@@ -82,7 +89,6 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
         }
       });
     });
-
     api
       .put(
         `form-pending-data/${expanded.form}?pending_data_id=${data.id}`,
@@ -90,12 +96,12 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
       )
       .then(() => {
         setReload(data.id);
-
         const resetObj = {};
         formData.map((data) => {
           resetObj[data.question] = false;
         });
         setresetButton({ ...resetButton, ...resetObj });
+        setEditedRecord({ ...editedRecord, [expanded.id]: false });
         notify({
           type: "success",
           message: text.successDataUpdated,
@@ -111,6 +117,7 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
 
   const updateCell = (key, parentId, value) => {
     setresetButton({ ...resetButton, [key]: true });
+    setEditedRecord({ ...editedRecord, [expanded.id]: true });
     let hasEdits = false;
     const data = rawValue.data.map((rd) => ({
       ...rd,
