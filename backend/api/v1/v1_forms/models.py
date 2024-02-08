@@ -5,7 +5,7 @@ from django.db import models
 # Create your models here.
 from api.v1.v1_forms.constants import QuestionTypes, \
     FormTypes, AttributeTypes
-from api.v1.v1_profile.models import Administration, Levels
+from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import SystemUser
 
 
@@ -23,24 +23,6 @@ class Forms(models.Model):
 
     class Meta:
         db_table = 'form'
-
-
-class FormApprovalRule(models.Model):
-    form = models.ForeignKey(to=Forms,
-                             on_delete=models.CASCADE,
-                             related_name='form_form_approval_rule')
-    administration = models.ForeignKey(
-        to=Administration,
-        on_delete=models.PROTECT,
-        related_name='administration_form_approval')  # noqa
-    levels = models.ManyToManyField(to=Levels,
-                                    related_name='levels_form_approval')
-
-    def __str__(self):
-        return self.form.name
-
-    class Meta:
-        db_table = 'form_approval_rule'
 
 
 class FormApprovalAssignment(models.Model):

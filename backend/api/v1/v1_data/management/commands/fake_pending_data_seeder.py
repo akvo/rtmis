@@ -1,5 +1,4 @@
 import re
-import random
 from datetime import timedelta
 
 import pandas as pd
@@ -10,7 +9,7 @@ from faker import Faker
 from api.v1.v1_data.models import PendingFormData, \
     PendingAnswers, PendingDataApproval, PendingDataBatch
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
-from api.v1.v1_forms.models import FormApprovalRule, FormApprovalAssignment
+from api.v1.v1_forms.models import FormApprovalAssignment
 from api.v1.v1_forms.models import Forms, UserForms
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.management.commands.administration_seeder import (
@@ -129,22 +128,10 @@ def assign_batch_for_approval(batch, user, test):
     administration = user.user_access.administration
     complete_path = '{0}{1}'.format(administration.path, administration.id)
     complete_path = complete_path.split('.')[1:]
-    approval_rule = FormApprovalRule.objects.filter(
-        administration_id=complete_path[0], form=batch.form).first()
-    levels = None
-    if approval_rule:
-        levels = approval_rule.levels.all()
-    if not approval_rule:
-        randoms = Levels.objects.filter(level__gt=1).count()
-        randoms = [n + 1 for n in range(randoms)]
-        limit = random.choices(randoms)
-        levels = Levels.objects.filter(level__gt=1).order_by('?')[:limit[0]]
-        levels |= Levels.objects.filter(level=1)
-        rule = FormApprovalRule.objects.create(
-            form=batch.form,
-            administration=Administration.objects.filter(
-                id=complete_path[0]).first())
-        rule.levels.set(levels)
+    randoms = Levels.objects.filter(level__gt=1).count()
+    randoms = [n + 1 for n in range(randoms)]
+    levels = Levels.objects.filter(
+            level__lte=MAX_LEVEL_IN_SOURCE_FILE).order_by('-level').all()
     administrations = Administration.objects.filter(id__in=complete_path,
                                                     level__in=levels).all()
     for administration in administrations:
@@ -229,7 +216,7 @@ class Command(BaseCommand):
         PendingDataBatch.objects.all().delete()
         PendingFormData.objects.all().delete()
         fake_geo = pd.read_csv("./source/kenya_random_points.csv")
-        forms = Forms.objects.all()
+        forms = Forms.objects.filter(type=FormTypes.county).all()
         user = None
         if options.get('email'):
             # if user type is 'user' -> seed county form only

@@ -10,18 +10,16 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from api.v1.v1_forms.constants import FormTypes
-from api.v1.v1_forms.models import Forms, FormApprovalRule, \
+from api.v1.v1_forms.models import Forms, \
     FormApprovalAssignment
 from api.v1.v1_forms.serializers import ListFormSerializer, \
     WebFormDetailSerializer, FormDataSerializer, ListFormRequestSerializer, \
-    EditFormTypeSerializer, EditFormApprovalSerializer, \
-    FormApprovalLevelListSerializer, FormApproverRequestSerializer, \
+    FormApproverRequestSerializer, \
     FormApproverResponseSerializer
 from api.v1.v1_profile.models import Administration
 from api.v1.v1_data.functions import get_cache, create_cache
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
-from utils.default_serializers import DefaultResponseSerializer
 
 
 @extend_schema(responses={200: ListFormSerializer(many=True)},
@@ -84,69 +82,6 @@ def form_data(request, version, form_id):
     return Response(instance, status=status.HTTP_200_OK)
 
 
-@extend_schema(request=EditFormTypeSerializer(many=True),
-               responses={200: DefaultResponseSerializer},
-               tags=['Form'],
-               summary='To update the form type')
-@api_view(['POST'])
-@permission_classes([IsAuthenticated, IsSuperAdmin])
-def edit_form_type(request, version):
-    serializer = EditFormTypeSerializer(data=request.data, many=True)
-    if not serializer.is_valid():
-        return Response(
-            {'message': validate_serializers_message(serializer.errors)},
-            status=status.HTTP_400_BAD_REQUEST)
-    serializer.save()
-    return Response({'message': 'Forms updated successfully'},
-                    status=status.HTTP_200_OK)
-
-
-@extend_schema(request=EditFormApprovalSerializer(many=True),
-               responses={200: DefaultResponseSerializer},
-               tags=['Form'],
-               summary='To update form approval rule levels')
-@api_view(['PUT'])
-@permission_classes([IsAuthenticated, IsSuperAdmin | IsAdmin])
-def edit_form_approval(request, version):
-    serializer = EditFormApprovalSerializer(data=request.data,
-                                            many=True,
-                                            context={'user': request.user})
-    if not serializer.is_valid():
-        return Response(
-            {'message': validate_serializers_message(serializer.errors)},
-            status=status.HTTP_400_BAD_REQUEST)
-    serializer.save()
-    return Response({'message': 'Forms updated successfully'},
-                    status=status.HTTP_200_OK)
-
-
-@extend_schema(responses={200: FormApprovalLevelListSerializer(many=True)},
-               tags=['Form'],
-               summary='To check the approval level assigned to fom')
-@api_view(['GET'])
-@permission_classes([IsAuthenticated, IsAdmin])
-def form_approval_level(request, version):
-    instance = FormApprovalRule.objects.filter(
-        administration=request.user.user_access.administration)
-    return Response(FormApprovalLevelListSerializer(instance=instance,
-                                                    many=True).data,
-                    status=status.HTTP_200_OK)
-
-
-@extend_schema(responses={200: FormApprovalLevelListSerializer(many=True)},
-               tags=['Form'],
-               summary='SuperAdmin: To check the approval level assigned'
-                       ' to fom by administration')
-@api_view(['GET'])
-@permission_classes([IsAuthenticated, IsSuperAdmin])
-def form_approval_level_administration(request, version, administration_id):
-    administration = get_object_or_404(Administration, pk=administration_id)
-    instance = FormApprovalRule.objects.filter(administration=administration)
-    return Response(FormApprovalLevelListSerializer(instance=instance,
-                                                    many=True).data,
-                    status=status.HTTP_200_OK)
-
-
 @extend_schema(
         parameters=[
             OpenApiParameter(
@@ -192,8 +127,10 @@ def check_form_approver(request, form_id, version):
     form = get_object_or_404(Forms, pk=form_id)
     # find administration id from logged in user
     if not request.user.user_access.administration.path:
-        return Response({'message': 'National level does not have approver'},
-                        status=status.HTTP_404_NOT_FOUND)
+        return Response(
+            {'message': 'National level does not have an approver'},
+            status=status.HTTP_404_NOT_FOUND
+        )
     adm_ids = request.user.user_access.administration.path[:-1].split('.')
     adm_ids += [request.user.user_access.administration_id]
     adm_ids = [int(adm) for adm in adm_ids]
