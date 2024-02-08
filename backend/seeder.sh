@@ -52,6 +52,4 @@ if [[ "${seed_organization}" == 'y' || "${seed_organization}" == 'Y' ]]; then
 fi
 
 # python manage.py fake_approver_seeder
-# python manage.py form_approval_seeder
-# python manage.py form_approval_assignment_seeder
 # python manage.py fake_data_seeder

@@ -25,24 +25,6 @@ class Forms(models.Model):
         db_table = 'form'
 
 
-class FormApprovalRule(models.Model):
-    form = models.ForeignKey(to=Forms,
-                             on_delete=models.CASCADE,
-                             related_name='form_form_approval_rule')
-    administration = models.ForeignKey(
-        to=Administration,
-        on_delete=models.PROTECT,
-        related_name='administration_form_approval')  # noqa
-    levels = models.ManyToManyField(to=Levels,
-                                    related_name='levels_form_approval')
-
-    def __str__(self):
-        return self.form.name
-
-    class Meta:
-        db_table = 'form_approval_rule'
-
-
 class FormApprovalAssignment(models.Model):
     form = models.ForeignKey(to=Forms,
                              on_delete=models.CASCADE,
