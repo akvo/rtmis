@@ -60,10 +60,14 @@ const EditableCell = ({
       if (typeof record.value === "string") {
         setLocationName(record.value);
       } else {
-        config.fn.administration(record.value, false).then((res) => {
-          const locName = res;
-          setLocationName(locName?.full_name);
-        });
+        if (record.value) {
+          config.fn.administration(record.value, false).then((res) => {
+            const locName = res;
+            setLocationName(locName?.full_name);
+          });
+        } else {
+          setLocationName(null);
+        }
       }
     }
   }, [record, locationName]);
