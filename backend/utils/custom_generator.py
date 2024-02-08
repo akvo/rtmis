@@ -1,7 +1,10 @@
 import os
 import sqlite3
 import pandas as pd
+import logging
 from rtmis.settings import MASTER_DATA
+
+logger = logging.getLogger(__name__)
 
 
 def generate_sqlite(model):
@@ -29,3 +32,40 @@ def generate_sqlite(model):
     data.to_sql("nodes", conn, if_exists="replace", index=False)
     conn.close()
     return file_name
+
+
+def update_sqlite(model, data, id=None):
+    table_name = model._meta.db_table
+    fields = data.keys()
+    field_names = ', '.join([f for f in fields])
+    placeholders = ', '.join(['?' for _ in range(len(fields))])
+    update_placeholders = ', '.join([f"{f} = ?" for f in fields])
+    params = list(data.values())
+    if id:
+        params += [id]
+    file_name = f"{MASTER_DATA}/{table_name}.sqlite"
+    conn = sqlite3.connect(file_name)
+    try:
+        with conn:
+            c = conn.cursor()
+            if id:
+                c.execute("SELECT * FROM nodes WHERE id = ?", (id,))
+                if c.fetchone():
+                    query = f"UPDATE nodes \
+                        SET {update_placeholders} WHERE id = ?"
+                    c.execute(query, params)
+            if not id:
+                query = f"INSERT INTO nodes({field_names}) \
+                    VALUES ({placeholders})"
+                c.execute(query, params)
+    except Exception as error:
+        logger.error({
+            'context': 'update_sqlite',
+            'error': error,
+            'table_name': table_name,
+            'data': data,
+            'id': id
+        })
+        conn.rollback()
+    finally:
+        conn.close()

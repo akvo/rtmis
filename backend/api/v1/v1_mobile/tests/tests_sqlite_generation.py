@@ -7,7 +7,7 @@ from django.test import TestCase
 from api.v1.v1_profile.models import Administration, Entity, EntityData
 from api.v1.v1_users.models import Organisation
 from django.core.management import call_command
-from utils.custom_generator import generate_sqlite
+from utils.custom_generator import generate_sqlite, update_sqlite
 
 
 class SQLiteGenerationTest(TestCase):
@@ -60,6 +60,55 @@ class SQLiteGenerationTest(TestCase):
         endpoint = f'/api/v1/device/sqlite/{file}'
         response = self.client.get(endpoint)
         self.assertEqual(response.status_code, 200)
+
+    def test_update_sqlite_org_added(self):
+        # Test for adding new org
+        file_name = generate_sqlite(Organisation)
+        self.assertTrue(os.path.exists(file_name))
+
+        org = Organisation.objects.create(name="SQLite Company")
+        update_sqlite(
+            model=Organisation,
+            data={'id': org.id, 'name': org.name}
+        )
+        conn = sqlite3.connect(file_name)
+        self.assertEqual(
+            1,
+            len(pd.read_sql_query(
+                'SELECT * FROM nodes where id = ?',
+                conn,
+                params=[org.id]
+            )),
+        )
+        conn.close()
+        os.remove(file_name)
+
+    def test_update_sqlite_org_updated(self):
+        # Test for adding new org
+        file_name = generate_sqlite(Organisation)
+        self.assertTrue(os.path.exists(file_name))
+
+        new_org_name = 'Edited Company'
+        org = Organisation.objects.last()
+        org.name = new_org_name
+        org.save()
+        update_sqlite(
+            model=Organisation,
+            data={'name': new_org_name},
+            id=org.id
+        )
+
+        conn = sqlite3.connect(file_name)
+        self.assertEqual(
+            1,
+            len(pd.read_sql_query(
+                'SELECT * FROM nodes where name = ?',
+                conn,
+                params=[new_org_name]
+            )),
+        )
+        conn.close()
+        os.remove(file_name)
 
 
 class EntitiesSQLiteGenerationTest(TestCase):
