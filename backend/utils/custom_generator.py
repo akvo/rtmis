@@ -1,7 +1,10 @@
 import os
 import sqlite3
 import pandas as pd
+import logging
 from rtmis.settings import MASTER_DATA
+
+logger = logging.getLogger(__name__)
 
 
 def generate_sqlite(model):
@@ -55,7 +58,14 @@ def update_sqlite(model, data, id=None):
                 query = f"INSERT INTO nodes({field_names}) \
                     VALUES ({placeholders})"
                 c.execute(query, params)
-    except Exception:
+    except Exception as error:
+        logger.error({
+            'context': 'update_sqlite',
+            'error': error,
+            'table_name': table_name,
+            'data': data,
+            'id': id
+        })
         conn.rollback()
     finally:
         conn.close()
