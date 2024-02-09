@@ -7,6 +7,7 @@ import { UIState, FormState } from '../store';
 import { i18n, api } from '../lib';
 import { getCurrentTimestamp } from '../form/lib';
 import { crudMonitoring } from '../database/crud';
+import crudJobs, { SYNC_DATAPOINT_JOB_NAME } from '../database/crud/crud-jobs';
 
 const ManageForm = ({ navigation, route }) => {
   const draftCount = FormState.useState((s) => s.form?.draft);
@@ -105,6 +106,15 @@ const ManageForm = ({ navigation, route }) => {
     }
   };
 
+  const handleOnSyncClick = async () => {
+    await crudJobs.addJob({
+      form: route.params.formId,
+      user: userId,
+      type: SYNC_DATAPOINT_JOB_NAME,
+      status: jobStatus.PENDING,
+    });
+  };
+
   return (
     <BaseLayout title={route?.params?.name} rightComponent={false}>
       <BaseLayout.Content>
@@ -127,7 +137,7 @@ const ManageForm = ({ navigation, route }) => {
         </View>
       </BaseLayout.Content>
       <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
-        <Button title={trans.syncDataPointBtn} type="outline" />
+        <Button title={trans.syncDataPointBtn} type="outline" onPress={handleOnSyncClick} />
       </View>
     </BaseLayout>
   );
