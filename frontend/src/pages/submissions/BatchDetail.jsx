@@ -118,7 +118,6 @@ const BatchDetail = ({
 
   const updateCell = (key, parentId, value) => {
     setresetButton({ ...resetButton, [key]: true });
-    setEditedRecord({ ...editedRecord, [expanded.id]: true });
     let hasEdits = false;
     const data = rawValue.data.map((rd) => ({
       ...rd,
@@ -145,6 +144,7 @@ const BatchDetail = ({
         return rq;
       }),
     }));
+    setEditedRecord({ ...editedRecord, [expanded.id]: hasEdits });
     setRawValue({
       ...rawValue,
       data,
