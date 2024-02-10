@@ -123,8 +123,10 @@ const BatchDetail = ({
       ...rd,
       question: rd.question.map((rq) => {
         if (rq.id === key && expanded.id === parentId) {
-          if (isEqual(rq.value, value) && (rq.newValue || rq.newValue === 0)) {
-            delete rq.newValue;
+          if (isEqual(rq.value, value)) {
+            if (rq.newValue) {
+              delete rq.newValue;
+            }
           } else {
             rq.newValue = value;
           }
@@ -144,7 +146,12 @@ const BatchDetail = ({
         return rq;
       }),
     }));
-    setEditedRecord({ ...editedRecord, [expanded.id]: hasEdits });
+    const hasNewValue = data.some((d) => {
+      return d.question?.some((q) => {
+        return typeof q.newValue !== "undefined";
+      });
+    });
+    setEditedRecord({ [expanded.id]: hasNewValue });
     setRawValue({
       ...rawValue,
       data,
@@ -172,7 +179,12 @@ const BatchDetail = ({
         return rq;
       }),
     }));
-    setEditedRecord({ ...editedRecord, [expanded.id]: false });
+    const hasNewValue = data.some((d) => {
+      return d.question?.some((q) => {
+        return typeof q.newValue !== "undefined";
+      });
+    });
+    setEditedRecord({ [expanded.id]: hasNewValue });
     setRawValue({
       ...prev,
       data,

@@ -32,20 +32,18 @@ const DataDetail = ({
 
   const updateCell = (key, parentId, value) => {
     setresetButton({ ...resetButton, [key]: true });
-    setEditedRecord({ ...editedRecord, [record.id]: true });
     let prev = JSON.parse(JSON.stringify(dataset));
+    let hasEdits = false;
     prev = prev.map((qg) =>
       qg.id === parentId
         ? {
             ...qg,
             question: qg.question.map((qi) => {
-              let hasEdits = false;
               if (qi.id === key) {
-                if (
-                  isEqual(qi.value, value) &&
-                  (qi.newValue || qi.newValue === 0)
-                ) {
-                  delete qi.newValue;
+                if (isEqual(qi.value, value)) {
+                  if (qi.newValue) {
+                    delete qi.newValue;
+                  }
                 } else {
                   qi.newValue = value;
                 }
@@ -60,6 +58,10 @@ const DataDetail = ({
           }
         : qg
     );
+    const hasNewValue = prev
+      .find((p) => p.id === parentId)
+      ?.question?.some((q) => typeof q.newValue !== "undefined");
+    setEditedRecord({ [record.id]: hasNewValue });
     setDataset(prev);
   };
 
@@ -78,7 +80,10 @@ const DataDetail = ({
           }
         : qg
     );
-    setEditedRecord({ ...editedRecord, [record.id]: false });
+    const hasNewValue = prev
+      .find((p) => p.id === parentId)
+      ?.question?.some((q) => typeof q.newValue !== "undefined");
+    setEditedRecord({ [record.id]: hasNewValue });
     setDataset(prev);
   };
 
