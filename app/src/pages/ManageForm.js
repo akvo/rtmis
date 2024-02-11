@@ -3,17 +3,18 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { View, ToastAndroid } from 'react-native';
 import { Button, ListItem } from '@rneui/themed';
 import { BaseLayout } from '../components';
-import { UIState, FormState } from '../store';
+import { UIState, FormState, UserState } from '../store';
 import { i18n, api } from '../lib';
 import { getCurrentTimestamp } from '../form/lib';
-import { crudMonitoring } from '../database/crud';
-import crudJobs, { SYNC_DATAPOINT_JOB_NAME } from '../database/crud/crud-jobs';
+import { crudForms, crudMonitoring } from '../database/crud';
+import crudJobs, { SYNC_DATAPOINT_JOB_NAME, jobStatus } from '../database/crud/crud-jobs';
 
 const ManageForm = ({ navigation, route }) => {
   const draftCount = FormState.useState((s) => s.form?.draft);
   const submittedCount = FormState.useState((s) => s.form?.submitted);
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
+  const userId = UserState.useState((s) => s.id);
 
   const goToNewForm = () => {
     FormState.update((s) => {
@@ -106,7 +107,33 @@ const ManageForm = ({ navigation, route }) => {
     }
   };
 
+  const handleGetForm = async (userID) => {
+    try {
+      const formRes = await api.get(`/form/${route.params.formId}`);
+      const apiData = formRes.data;
+
+      if (apiData.cascades) {
+        apiData.cascades.forEach((cascadeFile) => {
+          const downloadUrl = api.getConfig().baseURL + cascadeFile;
+          cascades.download(downloadUrl, cascadeFile);
+        });
+      }
+
+      const savedForm = await crudForms.addForm({
+        formId: route.params.formId,
+        version: apiData.version,
+        userId: userID,
+        formJSON: apiData,
+      });
+
+      console.info('Saved Form...', savedForm);
+    } catch (error) {
+      console.error('Error handling form:', error);
+    }
+  };
+
   const handleOnSyncClick = async () => {
+    await handleGetForm();
     await crudJobs.addJob({
       form: route.params.formId,
       user: userId,

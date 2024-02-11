@@ -1,9 +1,14 @@
 import { useCallback, useEffect } from 'react';
 import { BuildParamsState, UIState } from '../store';
 import { backgroundTask } from '../lib';
-import crudJobs, { jobStatus, MAX_ATTEMPT } from '../database/crud/crud-jobs';
+import crudJobs, {
+  jobStatus,
+  MAX_ATTEMPT,
+  SYNC_DATAPOINT_JOB_NAME,
+} from '../database/crud/crud-jobs';
 import { SYNC_FORM_SUBMISSION_TASK_NAME, syncStatus } from '../lib/background-task';
 import { crudDataPoints } from '../database/crud';
+import { downloadDatapointsJson, fetchDatapoints } from '../lib/sync-datapoints';
 /**
  * This sync only works in the foreground service
  */
@@ -86,6 +91,62 @@ const SyncService = () => {
     const syncTimer = setInterval(() => {
       // Perform sync operation
       onSync();
+    }, syncInSecond);
+
+    return () => {
+      // Clear the interval when the component unmounts
+      clearInterval(syncTimer);
+    };
+  }, [syncInSecond, isOnline, onSync]);
+
+  const onSyncDataPoint = useCallback(async () => {
+    const activeJob = await crudJobs.getActiveJob(SYNC_DATAPOINT_JOB_NAME);
+
+    if (row.status === PENDING && row.attempt < 3) {
+      UIState.update((s) => {
+        s.statusBar = {
+          type: syncStatus.ON_PROGRESS,
+          bgColor: '#2563eb',
+          icon: 'sync',
+        };
+      });
+      await crudJobs.updateJob(activeJob.id, {
+        status: jobStatus.ON_PROGRESS,
+      });
+      try {
+        const allData = await fetchDatapoints(activeJob.form);
+        const urls = allData.map((item) => item.url);
+        await Promise.all(urls.map(downloadDatapointsJson));
+        UIState.update((s) => {
+          s.statusBar = {
+            type: syncStatus.SUCCESS,
+            bgColor: '#16a34a',
+            icon: 'checkmark-done',
+          };
+        });
+        await crudJobs.deleteJob(activeJob.id);
+      } catch (error) {
+        await crudJobs.updateJob(activeJob.id, {
+          status: jobStatus.PENDING,
+          attempt: activeJob.attempt + 1,
+        });
+      }
+    }
+
+    if (row.status === PENDING && row.attempt === 3) {
+      await crudJobs.deleteJob(activeJob.id);
+    }
+
+    console.log(activeJob, 'activeJob');
+  }, [statusBar]);
+
+  useEffect(() => {
+    if (!syncInSecond || !isOnline) {
+      return;
+    }
+    const syncTimer = setInterval(() => {
+      // Perform sync operation
+      onSyncDataPoint();
     }, syncInSecond);
 
     return () => {
