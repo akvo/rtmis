@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { View } from 'react-native';
+import { ToastAndroid, View } from 'react-native';
 import { Button, ListItem } from '@rneui/themed';
 import { BaseLayout } from '../components';
 import { UIState, FormState, UserState } from '../store';
@@ -15,8 +15,7 @@ const ManageForm = ({ navigation, route }) => {
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const userId = UserState.useState((s) => s.id);
-  const [activeJobByForm, setActiveJobByForm] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [syncLoading, setSyncLoading] = useState(false);
 
   const goToNewForm = () => {
     FormState.update((s) => {
@@ -63,15 +62,6 @@ const ManageForm = ({ navigation, route }) => {
     },
   ];
 
-  // useEffect(() => {
-  //   const fetchActiveJob = async () => {
-  //     const job = await crudJobs.getActiveJob(SYNC_DATAPOINT_JOB_NAME, route.params.formId);
-  //     setActiveJobByForm(job);
-  //   };
-
-  //   fetchActiveJob();
-  // }, [route.params.formId]);
-
   const handleGetForm = async (userID) => {
     try {
       const formRes = await api.get(`/form/${route.params.formId}`);
@@ -98,7 +88,6 @@ const ManageForm = ({ navigation, route }) => {
   };
 
   const handleOnSyncClick = async () => {
-    setIsLoading(true);
     try {
       await handleGetForm(userId);
       await crudJobs.addJob({
@@ -108,10 +97,27 @@ const ManageForm = ({ navigation, route }) => {
         status: jobStatus.PENDING,
       });
     } catch (error) {
-      console.error('Error syncing data:', error);
+      ToastAndroid.show(`[ERROR SYNC DATAPOINT]: ${error}`, ToastAndroid.LONG);
     }
-    setIsLoading(false);
   };
+
+  useEffect(() => {
+    const unsubscribeDataSyncActiveForms = UserState.subscribe(
+      (s) => s.dataSyncActiveForms,
+      (activeForms) => {
+        if (!syncLoading && activeForms?.[route.params.formId]) {
+          setSyncLoading(true);
+        }
+        if (syncLoading && !activeForms?.[route.params.formId]) {
+          setSyncLoading(false);
+        }
+      },
+    );
+
+    return () => {
+      unsubscribeDataSyncActiveForms();
+    };
+  }, [route.params.formId, syncLoading]);
 
   return (
     <BaseLayout title={route?.params?.name} rightComponent={false}>
@@ -136,8 +142,8 @@ const ManageForm = ({ navigation, route }) => {
       </BaseLayout.Content>
       <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
         <Button
-          title={activeJobByForm || isLoading ? trans.loadingText : trans.syncDataPointBtn}
-          disabled={isLoading}
+          title={syncLoading ? trans.loadingText : trans.syncDataPointBtn}
+          disabled={syncLoading}
           type="outline"
           onPress={handleOnSyncClick}
         />
