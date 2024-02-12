@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { BuildParamsState, UIState } from '../store';
+import { BuildParamsState, UIState, UserState } from '../store';
 import { backgroundTask } from '../lib';
 import crudJobs, {
   jobStatus,
@@ -103,11 +103,10 @@ const SyncService = () => {
     const activeJob = await crudJobs.getActiveJob(SYNC_DATAPOINT_JOB_NAME);
 
     if (activeJob && activeJob.status === jobStatus.PENDING && activeJob.attempt < 3) {
-      UIState.update((s) => {
-        s.statusBar = {
-          type: syncStatus.ON_PROGRESS,
-          bgColor: '#2563eb',
-          icon: 'sync',
+      UserState.update((s) => {
+        s.dataSyncActiveForms = {
+          ...s.dataSyncActiveForms,
+          [activeJob.form]: true,
         };
       });
       await crudJobs.updateJob(activeJob.id, {
@@ -116,12 +115,12 @@ const SyncService = () => {
       try {
         const allData = await fetchDatapoints(activeJob.form);
         const urls = allData.map((item) => item.url);
-        await Promise.all(urls.map(downloadDatapointsJson));
-        UIState.update((s) => {
-          s.statusBar = {
-            type: syncStatus.SUCCESS,
-            bgColor: '#16a34a',
-            icon: 'checkmark-done',
+        await Promise.all(urls.map((url) => downloadDatapointsJson(activeJob.form, url)));
+
+        UserState.update((s) => {
+          s.dataSyncActiveForms = {
+            ...s.dataSyncActiveForms,
+            [activeJob.form]: false,
           };
         });
         await crudJobs.deleteJob(activeJob.id);
@@ -129,18 +128,25 @@ const SyncService = () => {
         await crudJobs.updateJob(activeJob.id, {
           status: jobStatus.PENDING,
           attempt: activeJob.attempt + 1,
+          info: String(error),
         });
       }
     }
 
     if (activeJob && activeJob.status === jobStatus.PENDING && activeJob.attempt === 3) {
+      UserState.update((s) => {
+        s.dataSyncActiveForms = {
+          ...s.dataSyncActiveForms,
+          [activeJob.form]: false,
+        };
+      });
       await crudJobs.deleteJob(activeJob.id);
     }
-  }, [statusBar]);
+  }, []);
 
   useEffect(() => {
     const jobInterval = 1 * 1000;
-    if (!syncInSecond || !isOnline) {
+    if (!isOnline) {
       return;
     }
     const syncTimer = setInterval(() => {
