@@ -17,7 +17,7 @@ import {
   LoadingOutlined,
   HistoryOutlined,
 } from "@ant-design/icons";
-import { api, store, config } from "../../lib";
+import { api, store, config, uiText } from "../../lib";
 import { EditableCell } from "../../components";
 import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
@@ -112,9 +112,12 @@ const ApprovalDetail = ({
     new Array(record.form?.approval_instructions?.action.length).fill(false)
   );
   const [resetButton, setresetButton] = useState({});
-
-  const { user: authUser } = store.useState((s) => s);
+  const { user: authUser, language } = store.useState((s) => s);
   const { approvalsLiteral } = config;
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   //for checking the null value
   const approveButtonEnable = useMemo(() => {
@@ -158,6 +161,12 @@ const ApprovalDetail = ({
           resetObj[d.question] = false;
         });
         setresetButton({ ...resetButton, ...resetObj });
+        const indexToUpdate = rawValues.findIndex((row) => row.id === data.id);
+        if (indexToUpdate !== -1) {
+          const updatedRawValues = [...rawValues];
+          updatedRawValues[indexToUpdate].edited = false;
+          setRawValues(updatedRawValues);
+        }
       })
       .catch((e) => {
         console.error(e);
@@ -166,6 +175,7 @@ const ApprovalDetail = ({
         setSaving(null);
       });
   };
+
   const handleApprove = (id, status) => {
     let payload = {
       batch: id,
@@ -436,6 +446,22 @@ const ApprovalDetail = ({
                         </Space>
                       ) : (
                         <div className={`pending-data-outer`}>
+                          <div className="save-edit-button">
+                            <Button
+                              onClick={() => handleSave(record)}
+                              type="primary"
+                              shape="round"
+                              loading={record.id === saving}
+                              disabled={
+                                !approve ||
+                                selectedTab !== "raw-data" ||
+                                record.id === dataLoading ||
+                                isEdited(record.id) === false
+                              }
+                            >
+                              {text.saveEditButton}
+                            </Button>
+                          </div>
                           {record.data?.map((r, rI) => (
                             <div className="pending-data-wrapper" key={rI}>
                               <h3>{r.name}</h3>
@@ -492,20 +518,6 @@ const ApprovalDetail = ({
                               />
                             </div>
                           ))}
-                          <Button
-                            onClick={() => handleSave(record)}
-                            type="primary"
-                            shape="round"
-                            loading={record.id === saving}
-                            disabled={
-                              !approve ||
-                              selectedTab !== "raw-data" ||
-                              record.id === dataLoading ||
-                              isEdited(record.id) === false
-                            }
-                          >
-                            Save Edits
-                          </Button>
                         </div>
                       )}
                     </div>

@@ -17,7 +17,7 @@ import {
   ExclamationCircleOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import { api, store, uiText } from "../../lib";
+import { api, config, store, uiText } from "../../lib";
 import DataDetail from "./DataDetail";
 import { DataFilters, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
@@ -33,6 +33,8 @@ const ManageData = () => {
   const [updateRecord, setUpdateRecord] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const [deleting, setDeleting] = useState(false);
+  const [editedRecord, setEditedRecord] = useState({});
+  const [editable, setEditable] = useState(false);
   const { language, advancedFilters } = store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
@@ -49,9 +51,19 @@ const ManageData = () => {
     },
   ];
 
-  const { administration, selectedForm, questionGroups } = store.useState(
-    (state) => state
-  );
+  const {
+    administration,
+    selectedForm,
+    questionGroups,
+    user: authUser,
+  } = store.useState((state) => state);
+
+  useEffect(() => {
+    const currentUser = config.roles.find(
+      (role) => role.name === authUser?.role_detail?.name
+    );
+    setEditable(!currentUser?.delete_data);
+  }, [authUser]);
 
   const isAdministrationLoaded = administration.length;
   const selectedAdministration =
@@ -202,6 +214,9 @@ const ManageData = () => {
                   showTotal: (total, range) =>
                     `Results: ${range[0]} - ${range[1]} of ${total} data`,
                 }}
+                rowClassName={(record) =>
+                  editedRecord[record.id] ? "row-edited" : "row-normal sticky"
+                }
                 rowKey="id"
                 expandable={{
                   expandedRowRender: (record) => (
@@ -211,6 +226,9 @@ const ManageData = () => {
                       updateRecord={updateRecord}
                       updater={setUpdateRecord}
                       setDeleteData={setDeleteData}
+                      setEditedRecord={setEditedRecord}
+                      editedRecord={editedRecord}
+                      isPublic={editable}
                     />
                   ),
                   expandIcon: ({ expanded, onExpand, record }) =>

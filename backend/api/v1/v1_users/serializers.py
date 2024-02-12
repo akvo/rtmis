@@ -18,6 +18,7 @@ from utils.custom_serializer_fields import CustomEmailField, CustomCharField, \
     CustomPrimaryKeyRelatedField, CustomChoiceField, CustomBooleanField, \
     CustomMultipleChoiceField
 from utils.custom_helper import CustomPasscode
+from utils.custom_generator import update_sqlite
 
 
 class OrganisationSerializer(serializers.ModelSerializer):
@@ -76,6 +77,13 @@ class AddEditOrganisationSerializer(serializers.ModelSerializer):
         for attr in attributes:
             OrganisationAttribute.objects.create(organisation=instance,
                                                  type=attr)
+        update_sqlite(
+            model=Organisation,
+            data={
+                'id': instance.id,
+                'name': instance.name,
+            }
+        )
         return instance
 
     def update(self, instance, validated_data):
@@ -92,6 +100,11 @@ class AddEditOrganisationSerializer(serializers.ModelSerializer):
             attr, created = OrganisationAttribute.objects.get_or_create(
                 organisation=instance, type=attr)
             attr.save()
+        update_sqlite(
+            model=Organisation,
+            data={'name': instance.name},
+            id=instance.id
+        )
         return instance
 
     class Meta:

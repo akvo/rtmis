@@ -14,20 +14,24 @@ from utils.email_helper import EmailTypes
 
 @override_settings(USE_TZ=False)
 class UserInvitationTestCase(TestCase):
-    def test_user_list(self):
+    def setUp(self):
         call_command("administration_seeder", "--test")
         call_command("fake_organisation_seeder")
+        call_command("form_seeder", "--test")
         user_payload = {"email": "admin@rush.com", "password": "Test105*"}
         user_response = self.client.post('/api/v1/login',
                                          user_payload,
                                          content_type='application/json')
         user = user_response.json()
-        token = user.get('token')
+        self.token = user.get('token')
+        self.header = {'HTTP_AUTHORIZATION': f'Bearer {self.token}'}
+        self.org = Organisation.objects.order_by('?').first()
+
+    def test_user_list(self):
         response = self.client.get("/api/v1/users?administration=1&role=1",
                                    follow=True,
-                                   **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+                                   **self.header)
         users = response.json()
-
         self.assertEqual(response.status_code, 200)
         self.assertEqual(users['data'][0]['first_name'], 'Admin')
         self.assertEqual(users['data'][0]['last_name'], 'RUSH')
@@ -45,7 +49,7 @@ class UserInvitationTestCase(TestCase):
         call_command("fake_user_seeder", "-r", 100)
         response = self.client.get("/api/v1/users?page=3",
                                    follow=True,
-                                   **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+                                   **self.header)
         users = response.json()
         self.assertEqual(len(users['data']), 10)
         self.assertEqual([
@@ -65,21 +69,21 @@ class UserInvitationTestCase(TestCase):
         ], list(users['data'][0]))
         response = self.client.get("/api/v1/users?pending=true",
                                    follow=True,
-                                   **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+                                   **self.header)
 
         self.assertGreater(len(response.json().get('data')), 0)
         self.assertEqual(response.status_code, 200)
         # test trained filter
         response = self.client.get("/api/v1/users?trained=true",
                                    follow=True,
-                                   **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+                                   **self.header)
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json().get('data')), 0)
         # search by fullname
         response = self.client.get("/api/v1/users?search=admin rush",
                                    follow=True,
-                                   **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+                                   **self.header)
         users = response.json()
         self.assertEqual(response.status_code, 200)
         self.assertEqual(users['data'][0]['email'], 'admin@rush.com')
@@ -88,7 +92,7 @@ class UserInvitationTestCase(TestCase):
         # search by email
         response = self.client.get("/api/v1/users?search=admin@rush",
                                    follow=True,
-                                   **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+                                   **self.header)
         users = response.json()
         self.assertEqual(response.status_code, 200)
         self.assertEqual(users['data'][0]['email'], 'admin@rush.com')
@@ -110,59 +114,45 @@ class UserInvitationTestCase(TestCase):
                          ['current', 'data', 'total', 'total_page'])
 
     def test_add_edit_user(self):
-        call_command("administration_seeder", "--test")
-        call_command("form_seeder", "--test")
-        call_command("fake_organisation_seeder", "--repeat", 3)
-        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login',
-                                         user_payload,
-                                         content_type='application/json')
-        org = Organisation.objects.order_by('?').first()
-        user = user_response.json()
-        token = user.get('token')
         payload = {
             "first_name": "John",
             "last_name": "Doe",
             "email": "john@example.com",
             "administration": 2,
-            "organisation": org.id,
+            "organisation": self.org.id,
             "forms": [1],
             "trained": True,
             "inform_user": True,
         }
-        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         add_response = self.client.post("/api/v1/user",
                                         payload,
                                         content_type='application/json',
-                                        **header)
+                                        **self.header)
         self.assertEqual(add_response.status_code, 400)
         payload["role"] = UserRoleTypes.admin
         add_response = self.client.post("/api/v1/user",
                                         payload,
                                         content_type='application/json',
-                                        **header)
+                                        **self.header)
 
         self.assertEqual(add_response.status_code, 200)
         self.assertEqual(add_response.json(),
                          {'message': 'User added successfully'})
 
-        org = Organisation.objects.order_by('?').first()
         edit_payload = {
             "first_name": "Joe",
             "last_name": "Doe",
             "email": "john@example.com",
             "administration": 2,
-            "organisation": org.id,
+            "organisation": self.org.id,
             "trained": False,
             "role": 6,
             "forms": [1, 2],
             "inform_user": True,
         }
-        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
-
         list_response = self.client.get("/api/v1/users?pending=true",
                                         follow=True,
-                                        **header)
+                                        **self.header)
         users = list_response.json()
         fl = list(
             filter(lambda x: x['email'] == 'john@example.com', users['data']))
@@ -170,19 +160,19 @@ class UserInvitationTestCase(TestCase):
         add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
                                        edit_payload,
                                        content_type='application/json',
-                                       **header)
+                                       **self.header)
         self.assertEqual(add_response.status_code, 400)
         edit_payload["role"] = UserRoleTypes.user
         add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
                                        edit_payload,
                                        content_type='application/json',
-                                       **header)
+                                       **self.header)
         self.assertEqual(add_response.status_code, 400)
         edit_payload["role"] = UserRoleTypes.admin
         add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
                                        edit_payload,
                                        content_type='application/json',
-                                       **header)
+                                       **self.header)
         self.assertEqual(add_response.status_code, 200)
         self.assertEqual(add_response.json(),
                          {'message': 'User updated successfully'})
@@ -191,7 +181,7 @@ class UserInvitationTestCase(TestCase):
         add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
                                        edit_payload,
                                        content_type='application/json',
-                                       **header)
+                                       **self.header)
         self.assertEqual(add_response.status_code, 200)
         self.assertEqual(add_response.json(),
                          {'message': 'User updated successfully'})
@@ -200,14 +190,14 @@ class UserInvitationTestCase(TestCase):
         add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
                                        edit_payload,
                                        content_type='application/json',
-                                       **header)
+                                       **self.header)
         self.assertEqual(add_response.status_code, 200)
         self.assertEqual(add_response.json(),
                          {'message': 'User updated successfully'})
 
         get_response = self.client.get("/api/v1/user/{0}".format(fl[0]['id']),
                                        content_type='application/json',
-                                       **header)
+                                       **self.header)
         self.assertEqual(get_response.status_code, 200)
         responses = get_response.json()
         self.assertEqual([
@@ -222,13 +212,13 @@ class UserInvitationTestCase(TestCase):
         add_response = self.client.put("/api/v1/user/{0}".format(fl[0]['id']),
                                        edit_payload,
                                        content_type='application/json',
-                                       **header)
+                                       **self.header)
         self.assertEqual(add_response.status_code, 200)
         self.assertEqual(add_response.json(),
                          {'message': 'User updated successfully'})
         get_response = self.client.get("/api/v1/user/{0}".format(fl[0]['id']),
                                        content_type='application/json',
-                                       **header)
+                                       **self.header)
         self.assertEqual(get_response.status_code, 200)
         responses = get_response.json()
         self.assertEqual([
@@ -250,7 +240,7 @@ class UserInvitationTestCase(TestCase):
             "last_name": find_user.last_name,
             "email": find_user.email,
             "administration": find_user.user_access.administration_id + 1,
-            "organisation": org.id,
+            "organisation": self.org.id,
             "trained": False,
             "role": find_user.user_access.role,
             "forms": [fr.form_id for fr in find_user.user_form.all()],
@@ -259,35 +249,24 @@ class UserInvitationTestCase(TestCase):
         response = self.client.put("/api/v1/user/{0}".format(find_user.id),
                                    edit_payload,
                                    content_type='application/json',
-                                   **header)
+                                   **self.header)
         self.assertEqual(response.status_code, 403)
 
     def test_add_admin_user(self):
-        call_command("administration_seeder", "--test")
-        call_command("form_seeder", "--test")
-        call_command("fake_organisation_seeder", "--repeat", 3)
-        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login',
-                                         user_payload,
-                                         content_type='application/json')
-        org = Organisation.objects.order_by('?').first()
-        user = user_response.json()
-        token = user.get('token')
         payload = {
             "first_name": "County",
             "last_name": "Admin",
             "email": "county_admin@example.com",
             "administration": 2,
-            "organisation": org.id,
+            "organisation": self.org.id,
             "role": 2,
             "forms": [1],
             "trained": False,
         }
-        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         add_response = self.client.post("/api/v1/user",
                                         payload,
                                         content_type='application/json',
-                                        **header)
+                                        **self.header)
         self.assertEqual(add_response.status_code, 200)
         self.assertEqual(add_response.json(),
                          {'message': 'User added successfully'})
@@ -302,16 +281,15 @@ class UserInvitationTestCase(TestCase):
             "last_name": "Admin",
             "email": "county_admin2@example.com",
             "administration": 2,
-            "organisation": org.id,
+            "organisation": self.org.id,
             "role": 2,
             "forms": [1],
             "trained": False,
         }
-        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         add_response = self.client.post("/api/v1/user",
                                         payload,
                                         content_type='application/json',
-                                        **header)
+                                        **self.header)
         self.assertEqual(add_response.status_code, 403)
         # Add user for different administration
         payload = {
@@ -319,44 +297,32 @@ class UserInvitationTestCase(TestCase):
             "last_name": "Admin",
             "email": "county_admin3@example.com",
             "administration": 3,
-            "organisation": org.id,
+            "organisation": self.org.id,
             "role": 2,
             "forms": [1],
             "trained": False,
         }
-        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         add_response = self.client.post("/api/v1/user",
                                         payload,
                                         content_type='application/json',
-                                        **header)
+                                        **self.header)
         self.assertEqual(add_response.status_code, 200)
 
     def test_add_aprroval_user(self):
-        call_command("administration_seeder", "--test")
-        call_command("form_seeder", "--test")
-        call_command("fake_organisation_seeder", "--repeat", 3)
-        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login',
-                                         user_payload,
-                                         content_type='application/json')
-        org = Organisation.objects.order_by('?').first()
-        user = user_response.json()
-        token = user.get('token')
         payload = {
             "first_name": "Test",
             "last_name": "Approver",
             "email": "test_approver@example.com",
             "administration": 2,
-            "organisation": org.id,
+            "organisation": self.org.id,
             "role": 3,
             "forms": [1],
             "trained": True,
         }
-        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         add_response = self.client.post("/api/v1/user",
                                         payload,
                                         content_type='application/json',
-                                        **header)
+                                        **self.header)
         self.assertEqual(add_response.status_code, 200)
         self.assertEqual(add_response.json(),
                          {'message': 'User added successfully'})
@@ -371,16 +337,15 @@ class UserInvitationTestCase(TestCase):
             "last_name": "Approver",
             "email": "test2_approver@example.com",
             "administration": 2,
-            "organisation": org.id,
+            "organisation": self.org.id,
             "role": 3,
             "forms": [1],
             "trained": True,
         }
-        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         add_response = self.client.post("/api/v1/user",
                                         payload,
                                         content_type='application/json',
-                                        **header)
+                                        **self.header)
         self.assertEqual(add_response.status_code, 403)
         # Add user for different administration
         payload = {
@@ -388,16 +353,15 @@ class UserInvitationTestCase(TestCase):
             "last_name": "Approver",
             "email": "test3_approver@example.com",
             "administration": 3,
-            "organisation": org.id,
+            "organisation": self.org.id,
             "role": 3,
             "forms": [1],
             "trained": True,
         }
-        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         add_response = self.client.post("/api/v1/user",
                                         payload,
                                         content_type='application/json',
-                                        **header)
+                                        **self.header)
         self.assertEqual(add_response.status_code, 200)
         # Add another role with same form and administration
         payload = {
@@ -405,16 +369,15 @@ class UserInvitationTestCase(TestCase):
             "last_name": "Entry",
             "email": "data_entry@example.com",
             "administration": 3,
-            "organisation": org.id,
+            "organisation": self.org.id,
             "role": 4,
             "forms": [1],
             "trained": True,
         }
-        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         add_response = self.client.post("/api/v1/user",
                                         payload,
                                         content_type='application/json',
-                                        **header)
+                                        **self.header)
         self.assertEqual(add_response.status_code, 200)
         user = SystemUser.objects.filter(
             email="data_entry@example.com").first()
@@ -427,16 +390,15 @@ class UserInvitationTestCase(TestCase):
             "last_name": "Entry",
             "email": "data_entry2@example.com",
             "administration": 3,
-            "organisation": org.id,
+            "organisation": self.org.id,
             "role": 4,
             "forms": [1],
             "trained": True,
         }
-        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         add_response = self.client.post("/api/v1/user",
                                         payload,
                                         content_type='application/json',
-                                        **header)
+                                        **self.header)
         self.assertEqual(add_response.status_code, 200)
 
         # Add national super admin approver
@@ -444,16 +406,15 @@ class UserInvitationTestCase(TestCase):
             "first_name": "National Approver",
             "last_name": "Entry",
             "email": "national_approver@example.com",
-            "organisation": org.id,
+            "organisation": self.org.id,
             "role": 1,
             "forms": [1],
             "trained": True,
         }
-        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         add_response = self.client.post("/api/v1/user",
                                         payload,
                                         content_type='application/json',
-                                        **header)
+                                        **self.header)
         self.assertEqual(add_response.status_code, 400)
         self.assertEqual(
             add_response.json(),
@@ -462,21 +423,13 @@ class UserInvitationTestCase(TestCase):
         add_response = self.client.post("/api/v1/user",
                                         payload,
                                         content_type='application/json',
-                                        **header)
+                                        **self.header)
         self.assertEqual(add_response.status_code, 200)
 
     def test_get_user_profile(self):
-        call_command("administration_seeder", "--test")
-        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
-        user_response = self.client.post('/api/v1/login',
-                                         user_payload,
-                                         content_type='application/json')
-        user = user_response.json()
-        token = user.get('token')
-        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         response = self.client.get("/api/v1/profile",
                                    content_type='application/json',
-                                   **header)
+                                   **self.header)
         self.assertEqual(response.status_code, 200)
         self.assertEqual([
             'email', 'name', 'administration', 'trained',
@@ -495,11 +448,6 @@ class UserInvitationTestCase(TestCase):
 
     #
     def test_verify_invite(self):
-        call_command("administration_seeder", "--test")
-        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
-        self.client.post('/api/v1/login',
-                         user_payload,
-                         content_type='application/json')
         user = SystemUser.objects.first()
         invite_payload = 'dummy-token'
         invite_response = self.client.get(
@@ -515,7 +463,6 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(invite_response.status_code, 200)
 
     def test_set_user_password(self):
-        call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rush.com", "password": "Test105*"}
         self.client.post('/api/v1/login',
                          user_payload,
@@ -541,7 +488,6 @@ class UserInvitationTestCase(TestCase):
         self.assertEqual(invite_response.status_code, 200)
 
     def test_list_administration(self):
-        call_command("administration_seeder", "--test")
         administration = self.client.get('/api/v1/administration/1',
                                          content_type='application/json')
         self.assertEqual(administration.status_code, 200)
@@ -623,7 +569,7 @@ class UserInvitationTestCase(TestCase):
         token = user.get('token')
         header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         call_command("fake_user_seeder")
-        call_command("fake_approver_seeder")
+        call_command("demo_approval_flow")
         u = SystemUser.objects.filter(
             user_access__role__in=[
                 UserRoleTypes.approver, UserRoleTypes.user],

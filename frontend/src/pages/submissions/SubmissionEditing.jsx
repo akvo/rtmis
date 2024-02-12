@@ -41,6 +41,7 @@ const SubmissionEditing = ({
       </Space>
     );
   }
+
   return (
     <>
       <div className={`pending-data-outer`}>
@@ -106,9 +107,7 @@ const SubmissionEditing = ({
             shape="round"
             onClick={() => handleSave(expanded)}
             loading={expanded.id === saving}
-            disabled={
-              expanded.id === dataLoading || isEdited(expanded.id) === false
-            }
+            disabled={expanded.id === dataLoading || isEdited() === false}
           >
             {text.saveEditButton}
           </Button>
