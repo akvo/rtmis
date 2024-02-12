@@ -602,8 +602,8 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
         monitoring = FormData.objects.filter(
             uuid=instance.uuid,
             parent=None
-        ).count()
-        return True if monitoring > 0 else False
+        ).first()
+        return True if monitoring else False
 
     class Meta:
         model = PendingFormData
