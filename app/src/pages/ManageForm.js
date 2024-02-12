@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { View, ToastAndroid } from 'react-native';
+import { View } from 'react-native';
 import { Button, ListItem } from '@rneui/themed';
 import { BaseLayout } from '../components';
 import { UIState, FormState, UserState } from '../store';
 import { i18n, api } from '../lib';
 import { getCurrentTimestamp } from '../form/lib';
-import { crudForms, crudMonitoring } from '../database/crud';
+import { crudForms } from '../database/crud';
 import crudJobs, { SYNC_DATAPOINT_JOB_NAME, jobStatus } from '../database/crud/crud-jobs';
 
 const ManageForm = ({ navigation, route }) => {
@@ -15,6 +15,8 @@ const ManageForm = ({ navigation, route }) => {
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const userId = UserState.useState((s) => s.id);
+  const [activeJobByForm, setActiveJobByForm] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const goToNewForm = () => {
     FormState.update((s) => {
@@ -61,51 +63,14 @@ const ManageForm = ({ navigation, route }) => {
     },
   ];
 
-  async function fetchData(form, pageNumber = 1, allData = []) {
-    try {
-      const response = await api.get(`/datapoint-list?page=${pageNumber}&form=${form}`);
-      const data = response.data.data;
+  // useEffect(() => {
+  //   const fetchActiveJob = async () => {
+  //     const job = await crudJobs.getActiveJob(SYNC_DATAPOINT_JOB_NAME, route.params.formId);
+  //     setActiveJobByForm(job);
+  //   };
 
-      const updatedData = [...allData, ...data];
-
-      if (data.hasMorePages) {
-        return fetchData(form, pageNumber + 1, updatedData);
-      } else {
-        return updatedData;
-      }
-    } catch (error) {
-      ToastAndroid.show(`${error?.errorCode}: ${error?.message}`, ToastAndroid.LONG);
-    }
-  }
-
-  const handleDataPoint = async () => {
-    ToastAndroid.show(trans.syncingText, ToastAndroid.CENTER);
-    setSyncLoading(true);
-    try {
-      const allData = await fetchData(route.params.formId);
-      const urls = allData.map((item) => item.url);
-      await Promise.all(urls.map(downloadJson));
-    } catch (error) {
-      setSyncLoading(false);
-    }
-  };
-
-  const downloadJson = async (url) => {
-    try {
-      const response = await api.get(url);
-      if (response.status === 200) {
-        const jsonData = response.data;
-        await crudMonitoring.addForm({
-          formId: params.id,
-          formJSON: jsonData,
-        });
-        setSyncLoading(false);
-        ToastAndroid.show(trans.syncingSuccessText, ToastAndroid.LONG);
-      }
-    } catch (error) {
-      ToastAndroid.show(`${error?.errorCode}: ${error?.message}`, ToastAndroid.LONG);
-    }
-  };
+  //   fetchActiveJob();
+  // }, [route.params.formId]);
 
   const handleGetForm = async (userID) => {
     try {
@@ -133,13 +98,19 @@ const ManageForm = ({ navigation, route }) => {
   };
 
   const handleOnSyncClick = async () => {
-    await handleGetForm();
-    await crudJobs.addJob({
-      form: route.params.formId,
-      user: userId,
-      type: SYNC_DATAPOINT_JOB_NAME,
-      status: jobStatus.PENDING,
-    });
+    setIsLoading(true);
+    try {
+      await handleGetForm(userId);
+      await crudJobs.addJob({
+        form: route.params.formId,
+        user: userId,
+        type: SYNC_DATAPOINT_JOB_NAME,
+        status: jobStatus.PENDING,
+      });
+    } catch (error) {
+      console.error('Error syncing data:', error);
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -164,7 +135,12 @@ const ManageForm = ({ navigation, route }) => {
         </View>
       </BaseLayout.Content>
       <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
-        <Button title={trans.syncDataPointBtn} type="outline" onPress={handleOnSyncClick} />
+        <Button
+          title={activeJobByForm || isLoading ? trans.loadingText : trans.syncDataPointBtn}
+          disabled={isLoading}
+          type="outline"
+          onPress={handleOnSyncClick}
+        />
       </View>
     </BaseLayout>
   );

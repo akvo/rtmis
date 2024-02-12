@@ -102,7 +102,7 @@ const SyncService = () => {
   const onSyncDataPoint = useCallback(async () => {
     const activeJob = await crudJobs.getActiveJob(SYNC_DATAPOINT_JOB_NAME);
 
-    if (activeJob.status === PENDING && activeJob.attempt < 3) {
+    if (activeJob && activeJob.status === jobStatus.PENDING && activeJob.attempt < 3) {
       UIState.update((s) => {
         s.statusBar = {
           type: syncStatus.ON_PROGRESS,
@@ -133,27 +133,25 @@ const SyncService = () => {
       }
     }
 
-    if (activeJob.status === PENDING && activeJob.attempt === 3) {
+    if (activeJob && activeJob.status === jobStatus.PENDING && activeJob.attempt === 3) {
       await crudJobs.deleteJob(activeJob.id);
     }
-
-    console.log(activeJob, 'activeJob');
   }, [statusBar]);
 
   useEffect(() => {
+    const jobInterval = 1 * 1000;
     if (!syncInSecond || !isOnline) {
       return;
     }
     const syncTimer = setInterval(() => {
-      // Perform sync operation
       onSyncDataPoint();
-    }, syncInSecond);
+    }, jobInterval);
 
     return () => {
       // Clear the interval when the component unmounts
       clearInterval(syncTimer);
     };
-  }, [syncInSecond, isOnline, onSync]);
+  }, [isOnline, onSync]);
 
   return null; // This is a service component, no rendering is needed
 };
