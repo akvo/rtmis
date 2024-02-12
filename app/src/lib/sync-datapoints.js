@@ -1,17 +1,14 @@
 import { crudMonitoring } from '../database/crud';
 import api from './api';
 
-export const fetchDatapoints = async (form, pageNumber = 1, allData = []) => {
+export const fetchDatapoints = async (form, pageNumber = 1) => {
   try {
-    const response = await api.get(`/datapoint-list?page=${pageNumber}&form=${form}`);
-    const data = response.data.data;
-
-    const updatedData = [...allData, ...data];
-
-    if (data.hasMorePages) {
-      return fetchDatapoints(form, pageNumber + 1, updatedData);
+    const { data: apiData } = await api.get(`/datapoint-list?page=${pageNumber}&form=${form}`);
+    const { data, total_page: totalPage, current: page } = apiData;
+    if (page < totalPage) {
+      return data.concat(await fetchDatapoints(form, page + 1));
     } else {
-      return updatedData;
+      return data;
     }
   } catch (error) {
     return Promise.reject(error);
