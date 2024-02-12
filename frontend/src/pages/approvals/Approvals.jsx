@@ -162,6 +162,7 @@ const Approvals = () => {
                       readonly={
                         record.approver?.status_text === "Rejected" || false
                       }
+                      approvalTab={approvalTab}
                     />
                   );
                 },

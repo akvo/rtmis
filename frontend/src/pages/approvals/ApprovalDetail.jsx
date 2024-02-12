@@ -95,6 +95,7 @@ const ApprovalDetail = ({
   setReload,
   expandedParentKeys,
   setExpandedParentKeys,
+  approvalTab,
 }) => {
   const [values, setValues] = useState([]);
   const [rawValues, setRawValues] = useState([]);
@@ -582,21 +583,25 @@ const ApprovalDetail = ({
         disabled={!approve}
       />
       <Row justify="space-between">
-        <Col style={{ marginTop: "20px" }} span={24}>
-          <p>{record.form?.approval_instructions?.text}</p>
-          <Space direction="vertical">
-            {record.form?.approval_instructions?.action?.map((item, index) => (
-              <div key={index}>
-                <Checkbox
-                  checked={checkedState[index]}
-                  onChange={() => handleCheckboxChange(index)}
-                >
-                  {item}
-                </Checkbox>
-              </div>
-            ))}
-          </Space>
-        </Col>
+        {approvalTab !== "approved" && (
+          <Col style={{ marginTop: "20px" }} span={24}>
+            <p>{record.form?.approval_instructions?.text}</p>
+            <Space direction="vertical">
+              {record.form?.approval_instructions?.action?.map(
+                (item, index) => (
+                  <div key={index}>
+                    <Checkbox
+                      checked={checkedState[index]}
+                      onChange={() => handleCheckboxChange(index)}
+                    >
+                      {item}
+                    </Checkbox>
+                  </div>
+                )
+              )}
+            </Space>
+          </Col>
+        )}
         <Col span={24}>
           <Space style={{ marginTop: "20px", float: "right" }}>
             <Button
