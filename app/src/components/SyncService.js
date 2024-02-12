@@ -102,7 +102,7 @@ const SyncService = () => {
   const onSyncDataPoint = useCallback(async () => {
     const activeJob = await crudJobs.getActiveJob(SYNC_DATAPOINT_JOB_NAME);
 
-    if (row.status === PENDING && row.attempt < 3) {
+    if (activeJob.status === PENDING && activeJob.attempt < 3) {
       UIState.update((s) => {
         s.statusBar = {
           type: syncStatus.ON_PROGRESS,
@@ -133,7 +133,7 @@ const SyncService = () => {
       }
     }
 
-    if (row.status === PENDING && row.attempt === 3) {
+    if (activeJob.status === PENDING && activeJob.attempt === 3) {
       await crudJobs.deleteJob(activeJob.id);
     }
 
