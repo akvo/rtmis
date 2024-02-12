@@ -37,6 +37,7 @@ const Submissions = () => {
   const { selectedForm, user } = store.useState((state) => state);
   const [batchName, setBatchName] = useState("");
   const [comment, setComment] = useState("");
+  const [editedRecord, setEditedRecord] = useState({});
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
   const { notify } = useNotification();
@@ -341,6 +342,9 @@ const Submissions = () => {
               className="main-table"
               dataSource={dataset}
               onChange={handleChange}
+              rowClassName={(record) =>
+                editedRecord[record.id] ? "row-edited" : "row-normal"
+              }
               columns={
                 dataTab === "pending-submission"
                   ? [...columnsPending, Table.EXPAND_COLUMN]
@@ -380,6 +384,8 @@ const Submissions = () => {
                         dataset={dataset}
                         handleDelete={handleDelete}
                         deleting={deleting}
+                        setEditedRecord={setEditedRecord}
+                        editedRecord={editedRecord}
                       />
                     );
                   }

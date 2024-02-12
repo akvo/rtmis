@@ -68,5 +68,14 @@
       top: 0px;
       right: 22px;
     }
+    .ant-table {
+      tr.row-edited td {
+        background-color: #fefebe;
+      }
+      tr.ant-table-row.row-edited:hover > td,
+      tr.row-edited > td.ant-table-cell-row-hover {
+        background: #fefebe;
+      }
+    }
   }
 }
