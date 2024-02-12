@@ -151,7 +151,7 @@ const BatchDetail = ({
         return typeof q.newValue !== "undefined";
       });
     });
-    setEditedRecord({ [expanded.id]: hasNewValue });
+    setEditedRecord({ ...editedRecord, [expanded.id]: hasNewValue });
     setRawValue({
       ...rawValue,
       data,
@@ -179,7 +179,14 @@ const BatchDetail = ({
         return rq;
       }),
     }));
-    setEditedRecord({ [expanded.id]: false });
+    /**
+     * Check whether it still has newValue or not
+     * in all groups of questions
+     */
+    const hasNewValue = data
+      ?.flatMap((d) => d?.question)
+      ?.find((q) => q?.newValue);
+    setEditedRecord({ ...editedRecord, [expanded.id]: hasNewValue });
     setRawValue({
       ...prev,
       data,

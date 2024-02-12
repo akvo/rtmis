@@ -61,7 +61,7 @@ const DataDetail = ({
     const hasNewValue = prev
       .find((p) => p.id === parentId)
       ?.question?.some((q) => typeof q.newValue !== "undefined");
-    setEditedRecord({ [record.id]: hasNewValue });
+    setEditedRecord({ ...editedRecord, [record.id]: hasNewValue });
     setDataset(prev);
   };
 
@@ -80,7 +80,14 @@ const DataDetail = ({
           }
         : qg
     );
-    setEditedRecord({ [record.id]: false });
+    /**
+     * Check whether it still has newValue or not
+     * in all groups of questions
+     */
+    const hasNewValue = prev
+      ?.flatMap((p) => p?.question)
+      ?.find((q) => q?.newValue);
+    setEditedRecord({ ...editedRecord, [record.id]: hasNewValue });
     setDataset(prev);
   };
 
