@@ -8,6 +8,7 @@ import { i18n, api } from '../lib';
 import { getCurrentTimestamp } from '../form/lib';
 import { crudForms } from '../database/crud';
 import crudJobs, { SYNC_DATAPOINT_JOB_NAME, jobStatus } from '../database/crud/crud-jobs';
+import * as Network from 'expo-network';
 
 const ManageForm = ({ navigation, route }) => {
   const draftCount = FormState.useState((s) => s.form?.draft);
@@ -16,6 +17,7 @@ const ManageForm = ({ navigation, route }) => {
   const trans = i18n.text(activeLang);
   const userId = UserState.useState((s) => s.id);
   const [syncLoading, setSyncLoading] = useState(false);
+  const [networkState, setNetworkState] = useState(null);
 
   const goToNewForm = () => {
     FormState.update((s) => {
@@ -74,13 +76,13 @@ const ManageForm = ({ navigation, route }) => {
         });
       }
 
-      const savedForm = await crudForms.addForm({
+      const savedForm = await crudForms.updateForm({
         formId: route.params.formId,
         version: apiData.version,
         userId: userID,
         formJSON: apiData,
+        latest: 1,
       });
-
       console.info('Saved Form...', savedForm);
     } catch (error) {
       console.error('Error handling form:', error);
@@ -88,6 +90,9 @@ const ManageForm = ({ navigation, route }) => {
   };
 
   const handleOnSyncClick = async () => {
+    if (!networkState?.isConnected) {
+      return;
+    }
     try {
       await handleGetForm(userId);
       await crudJobs.addJob({
@@ -119,6 +124,15 @@ const ManageForm = ({ navigation, route }) => {
     };
   }, [route.params.formId, syncLoading]);
 
+  useEffect(() => {
+    const fetchNetworkState = async () => {
+      const state = await Network.getNetworkStateAsync();
+      setNetworkState(state);
+    };
+
+    fetchNetworkState();
+  }, []);
+
   return (
     <BaseLayout title={route?.params?.name} rightComponent={false}>
       <BaseLayout.Content>
@@ -142,8 +156,14 @@ const ManageForm = ({ navigation, route }) => {
       </BaseLayout.Content>
       <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
         <Button
-          title={syncLoading ? trans.loadingText : trans.syncDataPointBtn}
-          disabled={syncLoading}
+          title={
+            syncLoading
+              ? trans.loadingText
+              : networkState?.isConnected
+              ? trans.syncDataPointBtn
+              : trans.connectToInternet
+          }
+          disabled={syncLoading || !networkState?.isConnected}
           type="outline"
           onPress={handleOnSyncClick}
         />
