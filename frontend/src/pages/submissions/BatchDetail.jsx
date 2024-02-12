@@ -4,7 +4,14 @@ import { api, store, uiText } from "../../lib";
 import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
 
-const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
+const BatchDetail = ({
+  expanded,
+  setReload,
+  deleting,
+  handleDelete,
+  editedRecord,
+  setEditedRecord,
+}) => {
   const [dataLoading, setDataLoading] = useState(true);
   const [saving, setSaving] = useState(null);
   const [rawValue, setRawValue] = useState(null);
@@ -79,10 +86,10 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
             question: rq.id,
             value: value,
           });
+          delete rq.newValue;
         }
       });
     });
-
     api
       .put(
         `form-pending-data/${expanded.form}?pending_data_id=${data.id}`,
@@ -90,12 +97,12 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
       )
       .then(() => {
         setReload(data.id);
-
         const resetObj = {};
         formData.map((data) => {
           resetObj[data.question] = false;
         });
         setresetButton({ ...resetButton, ...resetObj });
+        setEditedRecord({ ...editedRecord, [expanded.id]: false });
         notify({
           type: "success",
           message: text.successDataUpdated,
@@ -116,8 +123,10 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
       ...rd,
       question: rd.question.map((rq) => {
         if (rq.id === key && expanded.id === parentId) {
-          if (isEqual(rq.value, value) && (rq.newValue || rq.newValue === 0)) {
-            delete rq.newValue;
+          if (isEqual(rq.value, value)) {
+            if (rq.newValue) {
+              delete rq.newValue;
+            }
           } else {
             rq.newValue = value;
           }
@@ -137,6 +146,12 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
         return rq;
       }),
     }));
+    const hasNewValue = data.some((d) => {
+      return d.question?.some((q) => {
+        return typeof q.newValue !== "undefined";
+      });
+    });
+    setEditedRecord({ ...editedRecord, [expanded.id]: hasNewValue });
     setRawValue({
       ...rawValue,
       data,
@@ -164,6 +179,14 @@ const BatchDetail = ({ expanded, setReload, deleting, handleDelete }) => {
         return rq;
       }),
     }));
+    /**
+     * Check whether it still has newValue or not
+     * in all groups of questions
+     */
+    const hasNewValue = data
+      ?.flatMap((d) => d?.question)
+      ?.find((q) => q?.newValue);
+    setEditedRecord({ ...editedRecord, [expanded.id]: hasNewValue });
     setRawValue({
       ...prev,
       data,

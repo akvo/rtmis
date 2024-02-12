@@ -33,6 +33,7 @@ const ManageData = () => {
   const [updateRecord, setUpdateRecord] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const [deleting, setDeleting] = useState(false);
+  const [editedRecord, setEditedRecord] = useState({});
   const [editable, setEditable] = useState(false);
   const { language, advancedFilters } = store.useState((s) => s);
   const { active: activeLang } = language;
@@ -213,6 +214,9 @@ const ManageData = () => {
                   showTotal: (total, range) =>
                     `Results: ${range[0]} - ${range[1]} of ${total} data`,
                 }}
+                rowClassName={(record) =>
+                  editedRecord[record.id] ? "row-edited" : "row-normal sticky"
+                }
                 rowKey="id"
                 expandable={{
                   expandedRowRender: (record) => (
@@ -222,6 +226,8 @@ const ManageData = () => {
                       updateRecord={updateRecord}
                       updater={setUpdateRecord}
                       setDeleteData={setDeleteData}
+                      setEditedRecord={setEditedRecord}
+                      editedRecord={editedRecord}
                       isPublic={editable}
                     />
                   ),

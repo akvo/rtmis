@@ -209,7 +209,7 @@ EditableCell.propTypes = {
   record: PropTypes.shape({
     id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
-    value: PropTypes.any.isRequired,
+    value: PropTypes.oneOfType([PropTypes.any, PropTypes.oneOf([null])]),
     option: PropTypes.array,
     newValue: PropTypes.any,
   }),

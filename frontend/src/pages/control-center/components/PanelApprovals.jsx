@@ -49,7 +49,11 @@ const PanelApprovals = () => {
     api
       .get(url)
       .then((res) => {
-        setApprovalsPending(res.data.batch);
+        const newData = res.data.batch.map((item, index) => ({
+          ...item,
+          key: index.toString(),
+        }));
+        setApprovalsPending(newData);
         setLoading(false);
       })
       .catch((e) => {

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Table, Button, Space, Spin, Alert } from "antd";
 import { LoadingOutlined, HistoryOutlined } from "@ant-design/icons";
 import { EditableCell } from "../../components";
-import { api, config, store } from "../../lib";
+import { api, config, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { flatten, isEqual } from "lodash";
 import { HistoryTable } from "../../components";
@@ -14,6 +14,8 @@ const DataDetail = ({
   updateRecord,
   setDeleteData,
   isPublic = false,
+  editedRecord,
+  setEditedRecord,
 }) => {
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -22,23 +24,32 @@ const DataDetail = ({
   const pendingData = record?.pending_data?.created_by || false;
   const { user: authUser, forms } = store.useState((state) => state);
   const { notify } = useNotification();
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   const updateCell = (key, parentId, value) => {
     setresetButton({ ...resetButton, [key]: true });
     let prev = JSON.parse(JSON.stringify(dataset));
+    let hasEdits = false;
     prev = prev.map((qg) =>
       qg.id === parentId
         ? {
             ...qg,
             question: qg.question.map((qi) => {
               if (qi.id === key) {
-                if (
-                  isEqual(qi.value, value) &&
-                  (qi.newValue || qi.newValue === 0)
-                ) {
-                  delete qi.newValue;
+                if (isEqual(qi.value, value)) {
+                  if (qi.newValue) {
+                    delete qi.newValue;
+                  }
                 } else {
                   qi.newValue = value;
+                }
+                const edited = !isEqual(qi.value, value);
+                if (edited && !hasEdits) {
+                  hasEdits = true;
                 }
                 return qi;
               }
@@ -47,6 +58,10 @@ const DataDetail = ({
           }
         : qg
     );
+    const hasNewValue = prev
+      .find((p) => p.id === parentId)
+      ?.question?.some((q) => typeof q.newValue !== "undefined");
+    setEditedRecord({ ...editedRecord, [record.id]: hasNewValue });
     setDataset(prev);
   };
 
@@ -65,6 +80,14 @@ const DataDetail = ({
           }
         : qg
     );
+    /**
+     * Check whether it still has newValue or not
+     * in all groups of questions
+     */
+    const hasNewValue = prev
+      ?.flatMap((p) => p?.question)
+      ?.find((q) => q?.newValue);
+    setEditedRecord({ ...editedRecord, [record.id]: hasNewValue });
     setDataset(prev);
   };
 
@@ -112,6 +135,7 @@ const DataDetail = ({
           resetObj[d.question] = false;
         });
         setresetButton({ ...resetButton, ...resetObj });
+        setEditedRecord({ ...editedRecord, [record.id]: false });
       })
       .catch((e) => {
         console.error(e);
@@ -262,7 +286,7 @@ const DataDetail = ({
               loading={saving}
               shape="round"
             >
-              Save Edits
+              {text.saveEditButton}
             </Button>
             {deleteData && (
               <Button
@@ -270,7 +294,7 @@ const DataDetail = ({
                 onClick={() => setDeleteData(record)}
                 shape="round"
               >
-                Delete
+                {text.deleteText}
               </Button>
             )}
           </Space>
