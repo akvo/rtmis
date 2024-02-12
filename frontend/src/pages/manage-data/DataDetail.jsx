@@ -80,10 +80,7 @@ const DataDetail = ({
           }
         : qg
     );
-    const hasNewValue = prev
-      .find((p) => p.id === parentId)
-      ?.question?.some((q) => typeof q.newValue !== "undefined");
-    setEditedRecord({ [record.id]: hasNewValue });
+    setEditedRecord({ [record.id]: false });
     setDataset(prev);
   };
 

@@ -179,12 +179,7 @@ const BatchDetail = ({
         return rq;
       }),
     }));
-    const hasNewValue = data.some((d) => {
-      return d.question?.some((q) => {
-        return typeof q.newValue !== "undefined";
-      });
-    });
-    setEditedRecord({ [expanded.id]: hasNewValue });
+    setEditedRecord({ [expanded.id]: false });
     setRawValue({
       ...prev,
       data,
