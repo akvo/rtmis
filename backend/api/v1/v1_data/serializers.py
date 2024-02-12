@@ -442,6 +442,7 @@ class ListPendingFormDataRequestSerializer(serializers.Serializer):
 class ListPendingDataAnswerSerializer(serializers.ModelSerializer):
     history = serializers.SerializerMethodField()
     value = serializers.SerializerMethodField()
+    last_value = serializers.SerializerMethodField()
 
     @extend_schema_field(AnswerHistorySerializer(many=True))
     def get_history(self, instance):
@@ -457,9 +458,19 @@ class ListPendingDataAnswerSerializer(serializers.ModelSerializer):
     def get_value(self, instance: Answers):
         return get_answer_value(instance)
 
+    @extend_schema_field(OpenApiTypes.ANY)
+    def get_last_value(self, instance: Answers):
+        if self.context['last_data']:
+            answer = self.context['last_data'].data_answer.filter(
+                question=instance.question
+            ).first()
+            if answer:
+                return get_answer_value(answer=answer)
+        return None
+
     class Meta:
         model = PendingAnswers
-        fields = ["history", "question", "value"]
+        fields = ["history", "question", "value", "last_value"]
 
 
 class PendingBatchDataFilterSerializer(serializers.Serializer):
