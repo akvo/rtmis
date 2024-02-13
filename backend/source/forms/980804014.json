@@ -11,6 +11,7 @@
         {
           "id": 5710700711,
           "question": "location",
+          "variable": "location",
           "order": 1,
           "required": true,
           "type": "administration",
@@ -19,6 +20,7 @@
         {
           "id": 563210188,
           "question": "Name of Village",
+          "variable": "village",
           "order": 3,
           "meta": true,
           "type": "text",
@@ -28,6 +30,7 @@
         {
           "id": 563260127,
           "question": "GPS Coordinates of Village",
+          "variable": "gps",
           "order": 4,
           "meta": true,
           "type": "geo",
@@ -44,6 +47,7 @@
         {
           "id": 571070074,
           "question": "Water System Name",
+          "variable": "name",
           "order": 1,
           "meta": true,
           "type": "text",
@@ -53,6 +57,7 @@
         {
           "id": 557710145,
           "question": "Organization That Installed Water System",
+          "variable": "organization",
           "order": 2,
           "meta": false,
           "type": "option",
@@ -75,6 +80,7 @@
         {
           "id": 571050096,
           "question": "Water Source Type",
+          "variable": "water_source_type",
           "order": 3,
           "meta": false,
           "type": "option",
@@ -113,6 +119,7 @@
         {
           "id": 527850181,
           "question": "Depth of Well (m)",
+          "variable": "well_depth",
           "order": 4,
           "meta": false,
           "type": "number",
@@ -122,6 +129,7 @@
         {
           "id": 573000210,
           "question": "Maximum Yield (lpd)",
+          "variable": "yield",
           "order": 5,
           "meta": false,
           "type": "number",
@@ -131,6 +139,7 @@
         {
           "id": 569070152,
           "question": "Abstraction/Pump Equipment",
+          "variable": "abstraction_pump_equipment",
           "order": 6,
           "meta": false,
           "type": "option",
@@ -161,6 +170,7 @@
         {
           "id": 571060083,
           "question": "Source of Energy",
+          "variable": "source_of_energy",
           "order": 7,
           "meta": false,
           "type": "option",
@@ -187,6 +197,7 @@
         {
           "id": 555960249,
           "question": "Number of Functional Taps",
+          "variable": "functional_taps",
           "order": 8,
           "meta": false,
           "type": "number",
@@ -196,6 +207,7 @@
         {
           "id": 546560207,
           "question": "Number of Non-Functional Taps",
+          "variable": "non_functional_taps",
           "order": 9,
           "meta": false,
           "type": "number",
@@ -205,6 +217,7 @@
         {
           "id": 567400198,
           "question": "Estimated Number of Users",
+          "variable": "number_of_users",
           "order": 10,
           "meta": false,
           "type": "number",
@@ -214,6 +227,7 @@
         {
           "id": 567450085,
           "question": "Functionality Status",
+          "variable": "functionality_status",
           "order": 11,
           "meta": false,
           "type": "option",
@@ -236,6 +250,7 @@
         {
           "id": 571060084,
           "question": "Problems With Water System",
+          "variable": "water_system_problems",
           "order": 12,
           "meta": false,
           "type": "option",
@@ -274,6 +289,7 @@
         {
           "id": 563220092,
           "question": "Reason for Survey",
+          "variable": "reason_for_survey",
           "order": 13,
           "meta": false,
           "type": "option",
