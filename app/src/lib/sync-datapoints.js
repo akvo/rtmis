@@ -1,12 +1,16 @@
 import { crudMonitoring } from '../database/crud';
+import { DatapointSyncState } from '../store';
 import api from './api';
 
-export const fetchDatapoints = async (form, pageNumber = 1) => {
+export const fetchDatapoints = async (pageNumber = 1) => {
   try {
-    const { data: apiData } = await api.get(`/datapoint-list?page=${pageNumber}&form=${form}`);
+    const { data: apiData } = await api.get(`/datapoint-list?page=${pageNumber}`);
     const { data, total_page: totalPage, current: page } = apiData;
+    DatapointSyncState.update((s) => {
+      s.progress = (page / totalPage) * 100;
+    });
     if (page < totalPage) {
-      return data.concat(await fetchDatapoints(form, page + 1));
+      return data.concat(await fetchDatapoints(page + 1));
     } else {
       return data;
     }
