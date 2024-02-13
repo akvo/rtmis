@@ -21,6 +21,7 @@
           "question": "New household registration or Monitoring update?",
           "order": 1,
           "type": "option",
+          "variable": "reg_or_update",
           "tooltip": {
             "text": "Registration of household in RTMIS (new household) or update of monitoring data (existing household)"
           },
@@ -226,6 +227,7 @@
           "question": "What is the location of the household?",
           "order": 2,
           "type": "administration",
+          "variable": "hh_location",
           "tooltip": {
             "text": "This question contains a list of possible household locations, starting with government area or district, down to the village."
           },
@@ -245,6 +247,7 @@
           "order": 3,
           "type": "geo",
           "tooltip": null,
+          "variable": "hh_geo",
           "required": true,
           "meta": true,
           "options": null,
@@ -261,6 +264,7 @@
           "question": "Household Code",
           "order": 4,
           "type": "text",
+          "variable": "hh_code",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -283,6 +287,7 @@
           "question": "Household respondent position in household",
           "order": 1,
           "type": "option",
+          "variable": "resp_position",
           "tooltip": {
             "text": "List of household positions"
           },
@@ -323,6 +328,7 @@
           "question": "Household head: given first name",
           "order": 2,
           "type": "text",
+          "variable": "hh_head_given_first_name",
           "tooltip": null,
           "required": true,
           "meta": true,
@@ -335,6 +341,7 @@
           "question": "Household head: family name",
           "order": 3,
           "type": "text",
+          "variable": "hh_head_family_name",
           "tooltip": null,
           "required": true,
           "meta": true,
@@ -347,6 +354,7 @@
           "question": "Second household member: given first name",
           "order": 4,
           "type": "text",
+          "variable": "second_hh_member_given_first_name",
           "tooltip": null,
           "required": true,
           "meta": true,
@@ -359,6 +367,7 @@
           "question": "Second household member: family name",
           "order": 5,
           "type": "text",
+          "variable": "second_hh_member_family_name",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -371,6 +380,7 @@
           "question": "Household head: gender",
           "order": 6,
           "type": "option",
+          "variable": "hh_head_gender",
           "tooltip": {
             "text": "Definition of head of household: a person who is identified as the main authority figure in the household. This should be the first person that comes to mind."
           },
@@ -409,6 +419,7 @@
           "tooltip": null,
           "required": true,
           "meta": false,
+          "variable": "hh_head_age",
           "options": null,
           "rule": {
             "max": 200,
@@ -421,6 +432,7 @@
           "question": "How many males (0-5 years) live permanently in this house",
           "order": 8,
           "type": "number",
+          "variable": "males_0_5",
           "tooltip": {
             "text": "Count all people (in this age range) who reside in this household for at least 6 days a week (including the respondent) and share the same cooking pot and use the same toilet facilities."
           },
@@ -438,6 +450,7 @@
           "question": "How many females (0-5 years) live permanently in this house",
           "order": 9,
           "type": "number",
+          "variable": "females_0_5",
           "tooltip": {
             "text": "Probe for additional members: those who are not currently at home, including anyone who may not be family (such as servants, friends) but who usually reside in the household."
           },
@@ -456,6 +469,7 @@
           "order": 10,
           "type": "number",
           "tooltip": null,
+          "variable": "males_6_18",
           "required": true,
           "meta": false,
           "options": null,
@@ -471,6 +485,7 @@
           "order": 11,
           "type": "number",
           "tooltip": null,
+          "variable": "females_6_18",
           "required": true,
           "meta": false,
           "options": null,
@@ -485,6 +500,7 @@
           "question": "How many males (19-59 years) live permanently in this house",
           "order": 12,
           "type": "number",
+          "variable": "males_19_59",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -502,6 +518,7 @@
           "type": "number",
           "tooltip": null,
           "required": true,
+          "variable": "females_19_59",
           "meta": false,
           "options": null,
           "rule": {
@@ -517,6 +534,7 @@
           "type": "number",
           "tooltip": null,
           "required": true,
+          "variable": "males_60_plus",
           "meta": false,
           "options": null,
           "rule": {
@@ -530,6 +548,7 @@
           "question": "How many females (60 years and above) live permanently in this house",
           "order": 15,
           "type": "number",
+          "variable": "females_60_plus",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -546,6 +565,7 @@
           "order": 16,
           "type": "autofield",
           "tooltip": null,
+          "variable": "total_males",
           "required": true,
           "meta": false,
           "options": null,
@@ -562,6 +582,7 @@
           "order": 17,
           "type": "autofield",
           "tooltip": null,
+          "variable": "total_females",
           "required": true,
           "meta": false,
           "options": null,
@@ -578,6 +599,7 @@
           "order": 18,
           "type": "option",
           "tooltip": null,
+          "variable": "difficulty_seeing_walking_communicating_selfcare",
           "required": true,
           "meta": false,
           "options": [
@@ -605,6 +627,7 @@
           "question": "Does your family own the house that you live in?",
           "order": 19,
           "type": "option",
+          "variable": "family_own_house",
           "tooltip": {
             "text": "Residential status"
           },
@@ -635,6 +658,7 @@
           "question": "Household: in any at-risk categories?",
           "order": 20,
           "type": "multiple_option",
+          "variable": "hh_in_any_atrisk_categories",
           "tooltip": {
             "text": "<b>INTERVIEW</b>: is the household in any of the following at-risk household categories? Household may be in more than one category <br/><b>At-risk household</b>: defined as a household at risk of not achieving or not sustaining the required sanitation and hygiene outcomes, or at risk from the public health hazards associated with unsafely managed sanitation and hygiene services<br/><b>At-risk categories</b>: the county public health office should determine the at-risk categories to be flagged in this county. The following list includes a number of potential at-risk categories, but should be edited to match the priority at-risk categories identified by the county public health office"
           },
@@ -758,6 +782,7 @@
           "question": "Address or any unique household characteristics",
           "order": 21,
           "type": "text",
+          "variable": "Unique_hh_characteristics",
           "tooltip": {
             "text": "Urban : Enter house number and street name<br/>Rural : Enter any characteristic which helps distinguish this household from other similar households in the community "
           },
@@ -782,6 +807,7 @@
           "question": "Household toilet observed",
           "order": 1,
           "type": "option",
+          "variable": "hh_toilet_observed",
           "tooltip": {
             "text": "<b>OBSERVE: Is a toilet facility visible in the house or household compound?</b>"
           },
@@ -810,6 +836,7 @@
           "order": 2,
           "type": "photo",
           "tooltip": null,
+          "variable": "photo_01_front_toilet",
           "required": true,
           "meta": false,
           "options": null,
@@ -829,6 +856,7 @@
           "tooltip": null,
           "required": true,
           "meta": false,
+          "variable": "photo_02_back_toilet",
           "options": null,
           "dependency": [
             {
@@ -846,6 +874,7 @@
           "tooltip": null,
           "required": true,
           "meta": false,
+          "variable": "photo_03_inside_toilet",
           "options": null,
           "dependency": [
             {
@@ -864,6 +893,7 @@
           "required": false,
           "meta": false,
           "options": null,
+          "variable": "photo_04_containment_system",
           "dependency": [
             {
               "id": 1699422286091,
@@ -877,6 +907,7 @@
           "question": "Functional toilet",
           "order": 6,
           "type": "option",
+          "variable": "functional_toilet",
           "tooltip": {
             "text": "<b>OBSERVE: is the toilet facility functional?</b> <br/> <b>Functional toilet</b>: the household toilet is functioning as intended and can be used (that is, it is not blocked, abandoned, or collapsed)"
           },
@@ -915,6 +946,7 @@
           "question": "Toilet privacy",
           "order": 7,
           "type": "option",
+          "variable": "toilet_privacy",
           "tooltip": {
             "text": "<b>OBSERVE: does the toilet superstructure meet local criteria for privacy? </b><br/> <b>OBSERVE: are animals prevented from entering the toilet? </b> <br/> <b>Privacy:</b> toilet superstructure has walls and a door that allow use of the toilet without observation by people outside the toilet (NOTE: variations in privacy criteria may be agreed by County Public Health Office to reflect local practices).<br/> <b>Privacy from animals:<b/> the toilet superstructure should also prevent animals from entering the toilet, to limit contact between animals and human excreta."
           },
@@ -953,6 +985,7 @@
           "question": "Outcome result - Functional toilet with privacy",
           "order": 8,
           "type": "autofield",
+          "variable": "o_r_functional_toilet_with_privacy",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -972,6 +1005,7 @@
           "question": "Toilet interface",
           "order": 9,
           "type": "option",
+          "variable": "toilet_interface",
           "tooltip": {
             "text": "<b>OBSERVE: type of toilet interface</b> <br/> <b>Toilet interface:</b> part of the toilet through which the excreta pass into the containment system<br/> <b>Examples:</b> 1. Drophole, 2. Pour-flush pan, 3. SATO pan."
           },
@@ -1041,6 +1075,7 @@
           "question": "Containment or collection system",
           "order": 10,
           "type": "option",
+          "variable": "containment_or_collection_system",
           "tooltip": {
             "text": "<b>OBSERVE: type of excreta containment or collection system</b> <br/><b>Containment system:</b> pit or tank (or other) that contains and stores excreta<br/><b>Collection system:</b> connection through which excreta and wastewater are collected<br/><b>Examples:</b> 1. Latrine pit; 2. Septic tank; 3. Sewer connection.<br/><b>Flush to don't know:</b> household does not know where the toilet flushes to, but no surface outlets or open discharges are visible (in this case, likely to be a buried pit or tank)"
           },
@@ -1134,6 +1169,7 @@
           "question": "Flyproof toilet",
           "order": 11,
           "type": "option",
+          "variable": "flyproof_toilet",
           "tooltip": {
             "text": "<b>OBSERVE: is the toilet flyproof?</b><br/><b>Flyproof:</b> toilet design prevents flies from reaching the excreta in the pit (or other containment system)<br/><b>VIP vent pipe with insect screen:</b> vent pipes should be covered with insect screen to prevent insect entry into the pit or tank.<br/><b>Examples:</b> 1. Pour-flush pit latrine with a functional water-seal pan; 2. VIP latrine with a screened vent pipe; 3. Dry pit latrine with a tight-fitting drophole cover."
           },
@@ -1221,6 +1257,7 @@
           "question": "Outcome result -  Flyproof toilet type",
           "order": 12,
           "type": "autofield",
+          "variable": "o_r_flyproof_toilet_type",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -1240,6 +1277,7 @@
           "question": "Clean toilet pan/drophole",
           "order": 13,
           "type": "option",
+          "variable": "clean_toilet_pandrophole",
           "tooltip": {
             "text": "<b>OBSERVE: is the toilet interface clean?</b><br/><b>Clean:</b> interface of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials).<br/><b>Easily cleaned:</b> minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if a child forgot to flush the toilet; or if the traces are not yet dry and difficult to clean)"
           },
@@ -1279,6 +1317,7 @@
           "question": "Clean toilet floor",
           "order": 14,
           "type": "option",
+          "variable": "clean_toilet_floor",
           "tooltip": {
             "text": "<b>OBSERVE: is the toilet floor clean?</b><br/><b>Clean:</b> floor of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials).<br/><b>Easily cleaned:</b> minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if the traces are not yet dry and difficult to clean)"
           },
@@ -1318,6 +1357,7 @@
           "question": "Clean toilet walls",
           "order": 15,
           "type": "option",
+          "variable": "clean_toilet_walls",
           "tooltip": {
             "text": "<b>OBSERVE: are the toilet walls clean?</b><br/><b>Clean:</b> walls of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials).<br/><b>Easily cleaned:</b> minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if the traces are not yet dry and difficult to clean)"
           },
@@ -1357,6 +1397,7 @@
           "question": "Outcome result - Clean toilet",
           "order": 16,
           "type": "autofield",
+          "variable": "o_r_clean_toilet",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -1376,6 +1417,7 @@
           "question": "Durable toilet slab",
           "order": 17,
           "type": "option",
+          "variable": "durable_toilet_slab",
           "tooltip": {
             "text": "<b>OBSERVE: is the toilet slab made from durable materials?</b><br/><b>Durable toilet slab:</b> the range of materials considered durable will depend on local contexts. The County Public Health Office should approve the use of resilient local materials that will not degrade rapidly under local conditions, and which provide similar lifespans, functionality and cleanliness to toilet slabs made from durable materials.<br/><b>Examples:</b> 1. Concrete toilet slab; 2. Concrete toilet slab covered with ceramic tiles; 3. Structural plastic slab."
           },
@@ -1462,6 +1504,7 @@
           "question": "Durable toilet containment or collection system",
           "order": 18,
           "type": "option",
+          "variable": "durable_toilet_containment_collection_system",
           "tooltip": {
             "text": "<b>OBSERVE: is the toilet containment or collection system durable?</b><br/><b>OBSERVE:</b> are there any signs of collapse or damage to the toilet containment or collection system?<br/><b>INTERVIEW (where containment not visible):</b> were any materials used to support the sides of the containment system? <br/><b>INTERVIEW (where containment not visible):</b> does the soil collapse without support?<br/><b>INTERVIEW (where containment not visible):</b> has the toilet pit collapsed in the last 12 months?<br/><b>Durable toilet containment (in stable soils):</b> unlined pits may be assessed as durable in areas where other unlined pits are known to be stable and long-lasting.<br/><b>Durable toilet containment (in UNSTABLE soils):</b> the pit or tank should either be lined with durable materials, or lined with resilient local materials that will not degrade rapidly under local conditions, and which provide similar lifespans and support to linings made from durable materials. "
           },
@@ -1550,6 +1593,7 @@
           "type": "autofield",
           "tooltip": null,
           "required": true,
+          "variable": "o_r_durable_toilet",
           "meta": false,
           "options": null,
           "fn": {
@@ -1566,6 +1610,7 @@
           "question": "OBSERVE: Safely managed containment",
           "order": 20,
           "type": "option",
+          "variable": "observe_safely_managed_containment",
           "tooltip": {
             "text": "<b>OBSERVE: any evidence of surface outflows from the containment system (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows)</b><br/><b>Surface outflows from containment:</b> EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks).<br/><b>Examples of surface outflows:</b> 1. Septic tank with overflow pipe to the surface (open space, open drain, water body); 2. Latrine pit with signs of wastewater or sludge overflow or leakage."
           },
@@ -1628,6 +1673,7 @@
           "question": "INTERVIEW: Visible surface outflows",
           "order": 21,
           "type": "option",
+          "variable": "visible_surface_outflows",
           "tooltip": {
             "text": "<b>INTERVIEW: are surface outflows from the containment system ever visible?</b><br/><b>INTERVIEW: how often are surface outflows from the containment system visible?</b>"
           },
@@ -1668,6 +1714,7 @@
           "type": "option",
           "tooltip": null,
           "required": true,
+          "variable": "community_low_groundwater_contamination",
           "meta": false,
           "options": [
             {
@@ -1693,6 +1740,7 @@
           "tooltip": null,
           "required": true,
           "meta": false,
+          "variable": "o_r_toilet_with_safe_containment",
           "options": null,
           "fn": {
             "fnColor": {
@@ -1718,6 +1766,7 @@
           "question": "OD or toilet use",
           "order": 1,
           "type": "option",
+          "variable": "od_or_toilet_use",
           "tooltip": {
             "text": "<b>INTERVIEW: Do members of your household defecate in the open or use a toilet?</b><br/><b>Own toilet:</b> a toilet owned by the household (usually located nearby the home)<br/><b>Other household toilet:</b> a toilet owned by another household (often on somone else's property)"
           },
@@ -1750,6 +1799,7 @@
           "question": "All household members use toilet",
           "order": 2,
           "type": "option",
+          "variable": "all_hh_members_use_toilet",
           "tooltip": {
             "text": "<b>INTERVIEW: are any members of your household unable to use the toilet?</b><br/><b>INTERVIEW (for those unable to use):</b> are they able to use the toilet with assistance?<br/><b>All members use toilet:</b> household respondent confirms that everyone EITHER uses the toilet, OR is assisted to use the toilet"
           },
@@ -1782,6 +1832,7 @@
           "question": "Shared toilet use: number of people",
           "order": 3,
           "type": "option",
+          "variable": "shared_toilet_use_number_of_people",
           "tooltip": {
             "text": "<b>INTERVIEW:</b> do you share this toilet with others who are not members of your household?<br/><b>Shared toilet use:</b> shared use of a toilet is acceptable, providing that no more than 10-15 people use the toilet. The County Public Health Office should agree on the maximum number of people sharing a toilet based on local practices and evidence of hygienic outcomes in shared toilets."
           },
@@ -1820,6 +1871,7 @@
           "question": "Outcome result - Toilet use by all household members",
           "order": 4,
           "type": "autofield",
+          "variable": "o_r_toilet_use_by_all_hh_members",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -1838,6 +1890,7 @@
           "question": "Individual use of toilet at all times (for each household member)",
           "order": 5,
           "type": "option",
+          "variable": "toilet_use_by_all_members",
           "tooltip": {
             "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
           },
@@ -1876,6 +1929,7 @@
           "question": "Outcome result - Individual use of own household toilet",
           "order": 6,
           "type": "autofield",
+          "variable": "o_r_individual_use_of_own_hh_toilet",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -1895,6 +1949,7 @@
           "question": "Safely managed on-site containment",
           "order": 7,
           "type": "option",
+          "variable": "safely_managed_onsite_containment",
           "tooltip": {
             "text": "<b>INTERVIEW: has the toilet containment (pit, tank or other) ever been emptied?</b><br/><b>INTERVIEW:</b> has the toilet containment (pit, tank or other) ever filled up?<br/><b>INTERVIEW:</b> what happened when the toilet containment (pit, tank or other) last filled up?<br/><b>Examples:</b> 1. Covered the full pit and dug a new pit; 2. Emptied the full pit and re-used it; 3. Connected a second pit and disconnected the full pit. 4. Emptied faecal sludge from septic tank then continued to use."
           },
@@ -1975,6 +2030,7 @@
           "question": "Safely managed sanitation services",
           "order": 8,
           "type": "option",
+          "variable": "safely_managed_sanitation_services",
           "tooltip": {
             "text": "<b>INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?</b><br/><b>INTERVIEW:</b> the last time it was emptied, who emptied the toilet containment?<br/><b>INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied):</b> what will happen when the toilet containment is full?<br/><b>INTERVIEW:</b> How long were the contents stored (without any fresh excreta entering the toilet containment) before emptying?<br/><b>Intention to empty:</b> household is planning to empty toilet containment (pit or tank) when full, or when required.<br/><b>Storage time:</b> length of time that contents of containment were stored without any fresh excreta entering the containment (for example, alternating twin pit latrine where full pit is disconncted and contents are stored for 2 years before emptying)<br/><b>Licensed service provider:</b> paid emptier that is approved and regulated by local authority to empty and transport toilet wastes<br/><b>Unlicensed service provider:</b> paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers) <br/><b>Off-site location:</b> site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.<br/><b>Sewer connection to licensed and functional treatment site:</b> the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site.<br/><b>Open container:</b> bucket or other open container used to collect excreta (usually regularly collected and emptied)."
           },
@@ -2067,6 +2123,7 @@
           "question": "Outcome result - Use of safely managed sanitation services",
           "order": 9,
           "type": "autofield",
+          "variable": "o_r_use_of_safely_managed_sanitation_services",
           "tooltip": null,
           "required": false,
           "meta": false,
@@ -2096,6 +2153,7 @@
           "question": "Handwashing facility observed",
           "order": 1,
           "type": "option",
+          "variable": "handwashing_facility_observed",
           "tooltip": {
             "text": "<b>OBSERVE: presence and location of handwashing facility</b><br/><b>INTERVIEW:</b> where do you and other members of your household most often wash your hands?<br/><b>INTERVIEW:</b> is there only one handwashing facility, or are other facilities available?"
           },
@@ -2146,6 +2204,7 @@
           "question": "Water available at HWF",
           "order": 2,
           "type": "option",
+          "variable": "water_available_at_hwf",
           "tooltip": {
             "text": "<b>OBSERVE: is water available at the handwashing facility?</b><br/><b>OBSERVE:</b> where an empty water container is observed at the handwashing facility, visible wet ground (or wet materials) under the handwashing facility can be accepted as proof of the recent presence of water."
           },
@@ -2178,6 +2237,7 @@
           "question": "Soap available at HWF",
           "order": 3,
           "type": "option",
+          "variable": "soap_available_at_hwf",
           "tooltip": {
             "text": "<b>OBSERVE: is soap available at the handwashing facility?</b><br/><b>INTERVIEW:</b> is soap or detergent available in your household for washing hands? <br/><b>Soap:</b> solid, liquid or powder soap or detergent "
           },
@@ -2216,6 +2276,7 @@
           "question": "Outcome result - Handwashing facility with water and soap",
           "order": 4,
           "type": "autofield",
+          "variable": "o_r_hwf_with_water_and_soap",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -2234,6 +2295,7 @@
           "question": "Handwashing facility type",
           "order": 5,
           "type": "option",
+          "variable": "handwashing_facility_type",
           "tooltip": {
             "text": "<b>OBSERVE: is the household using a permanent handwashing station?</b><br/><b>Permanent handwashing station: facility made from durable materials, with a piped water connection or adequate water storage, and located in a fixed place that is appropriate for handwashing at critical times</b><br/><b>Market handwashing station:</b> manufactured handwashing station from durable materails (bought from market or market trader)<br/><b>Portable basin:</b> open container that can be easily picked up and moved"
           },
@@ -2290,6 +2352,7 @@
           "question": "Hands-free operation of handwashing facility",
           "order": 6,
           "type": "option",
+          "variable": "handsfree_operation_of_handwashing_facility",
           "tooltip": {
             "text": "<b>OBSERVE: mechanism to collect water or trigger water flow </b><br/><b>Hands-free operation:</b> the handwashing station is operated by tap, or other hands-free mechanism that minimises contact with the water collection device and the water container"
           },
@@ -2334,6 +2397,7 @@
           "question": "Adequate drainage of washing water",
           "order": 7,
           "type": "option",
+          "variable": "adequate_drainage_of_washing_water",
           "tooltip": {
             "text": "<b>OBSERVE: facility to collect washing water, and facility to drain and dispose of the washing water</b><br/><b>Collection of washing water:</b> container to collect dirty washing water (for example, a basin or other container)<br/><b>Drainage and disposal of washing water:</b> drainage pipe or other facility to direct the washing water to an appropriate disposal point (for example, a soakpit or drain)"
           },
@@ -2368,6 +2432,7 @@
           "type": "autofield",
           "tooltip": null,
           "required": true,
+          "variable": "o_r_permanent_handwashing_station",
           "meta": false,
           "options": null,
           "fn": {
@@ -2385,6 +2450,7 @@
           "question": "Handwashing: Critical toilet times",
           "order": 9,
           "type": "option",
+          "variable": "handwashing_critical_toilet_times",
           "tooltip": {
             "text": "<b>INTERVIEW: when do you usually wash your hands?</b><br/><b>INTERVIEW:</b> what do you usually use to wash your hands?<br/><b>Critical TOILET times:</b> washing of hands with soap and water AFTER toilet use and AFTER anal cleansing.<br/><b>NOTE:</b> households should mention critical handwashing times without being prompted by the monitor"
           },
@@ -2435,6 +2501,7 @@
           "question": "Handwashing: Critical food times",
           "order": 10,
           "type": "option",
+          "variable": "handwashing_critical_food_times",
           "tooltip": {
             "text": "<b>INTERVIEW: when do you usually wash your hands?</b><br/><b>INTERVIEW:</b> what do you usually use to wash your hands?<br/><b>Critical FOOD times:</b> washing of hands with soap and water BEFORE food preparation or cooking; BEFORE feeding infants or young children; and BEFORE eating.<br/><b>NOTE:</b> households should mention critical handwashing times without being prompted by the monitor"
           },
@@ -2485,6 +2552,7 @@
           "question": "Handwashing: Critical infant times",
           "order": 11,
           "type": "option",
+          "variable": "handwashing_critical_infant_times",
           "tooltip": {
             "text": "<b>INTERVIEW: when do you usually wash your hands?</b><br/><b>INTERVIEW:</b> what do you usually use to wash your hands?<br/><b>Critical INFANT times:</b> washing of hands with soap and water by caregivers AFTER cleaning an infant of excreta, AFTER handling child faeces, or AFTER washing or disposing of a used diaper<br/><b>NOTE:</b> households should mention critical handwashing times without being prompted by the monitor"
           },
@@ -2529,6 +2597,7 @@
           "question": "Handwashing: Critical animal times",
           "order": 12,
           "type": "option",
+          "variable": "handwashing_critical_animal_times",
           "tooltip": {
             "text": "<b>INTERVIEW: when do you usually wash your hands?</b><br/><b>INTERVIEW:</b> what do you usually use to wash your hands?<br/><b>Critical ANIMAL times:</b> washing of hands with soap and water AFTER contact with animals, animal products or animal wastes; and both BEFORE and AFTER milking (in households that milk animals)<br/><b>NOTE:</b> households should mention critical handwashing times without being prompted by the monitor<br/><b>Animal products:</b> including meat, milk, eggs, blood, other animal tissues (e.g. organs and offal), animal skins and other animal parts (for example, feathers bones etc)<br/><b>Animal wastes:</b> animal excreta mixed with a wide variety of materials including bedding (for example, straw and other materials), washing water, spilled feed and water, animal parts, blood, skin, feathers, and other contaminated wastes and residues"
           },
@@ -2573,7 +2642,7 @@
           "question": "Outcome result - Handwashing with soap at critical times",
           "order": 13,
           "type": "autofield",
-
+          "variable": "o_r_handwashing_with_soap_at_critical_times",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -2603,6 +2672,7 @@
           "question": "No exposed human excreta in compound",
           "order": 1,
           "type": "option",
+          "variable": "no_exposed_human_excreta_in_compound",
           "tooltip": {
             "text": "<b>OBSERVE: visible human faeces in the compound, house, toilet or in any other household buildings or facilities.</b><br/><b>Open defecation in water bodies:</b> where groups or communities may practice open defecation in nearby water bodies (for example, people living near beaches, lakes and rivers), human excreta may not be visible in and around household compounds or communal areas. In these cases, household interviews should be undertaken to assess whether people practice open defecation or use a toilet, in combination of observation of the presence of a functional toilet (to verify claims of toilet use)."
           },
@@ -2629,6 +2699,7 @@
           "question": "Outcome result - No exposed human excreta",
           "order": 2,
           "type": "autofield",
+          "variable": "o_r_no_exposed_human_excreta",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -2647,6 +2718,7 @@
           "question": "Safe management of child excreta in compound",
           "order": 3,
           "type": "option",
+          "variable": "safe_management_of_child_excreta_in_compound",
           "tooltip": {
             "text": "<b>INTERVIEW: the last time [name of youngest child] defecated, where did they defecate?</b><br/><b>INTERVIEW:</b> how were the child faeces collected and disposed?<br/><b>INTERVIEW:</b> Where was the excreta collection tool cleaned?<br/><b>Unsafely washed:</b> washing of child excreta collection tool (for example, potty) in compound, or at water point, without safe disposal of the contaminated washing water<br/><b>Unsafely disposed:</b> child faeces disposed to open space, field, open drain, water body<br/><b>Child excreta:</b> faeces or urine of children who are too young to use a toilet"
           },
@@ -2703,6 +2775,7 @@
           "question": "Safe management of diapers in compound",
           "order": 4,
           "type": "option",
+          "variable": "safe_management_of_diapers_in_compound",
           "tooltip": {
             "text": "<b>OBSERVE: no used diapers visible in the compound</b><br/><b>Safe management of washable cloths: </b> where washable cloths are used to contain child excreta, the cloths should be cleaned and washed in a safe place (for example, so that the child excreta do not contaminate the compound or a water point) and any faeces contained in the cloth should be safely disposed (for example, put or rinsed into the toilet, or buried).<br/><b>Safe management of disposable diapers:</b> where disposable diapers are used to contain child excreta, the diapers should be properly closed and EITHER disposed to a covered waste pit, OR buried, OR collected for disposal at a safely managed communal disposal site. "
           },
@@ -2753,6 +2826,7 @@
           "question": "Outcome result - Safe management of child excreta and diapers",
           "order": 5,
           "type": "autofield",
+          "variable": "o_r_safe_management_of_child_excreta_and_diapers",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -2772,6 +2846,7 @@
           "question": "Would you also like to monitor G2 outcomes",
           "order": 6,
           "type": "option",
+          "variable": "monitor_G2",
           "required": true,
           "meta": false,
           "options": [
@@ -2897,6 +2972,7 @@
           "question": "Clean food",
           "order": 7,
           "type": "option",
+          "variable": "clean_food",
           "dependency": [
             {
               "id": 16994260598422,
@@ -2935,6 +3011,7 @@
           "question": "Covered food storage",
           "order": 8,
           "type": "option",
+          "variable": "covered_food_storage",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -2971,6 +3048,7 @@
           "question": "Raised food storage",
           "order": 9,
           "type": "option",
+          "variable": "raised_food_storage",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3009,6 +3087,7 @@
           "question": "Outcome result - Clean and safely stored food",
           "order": 10,
           "type": "autofield",
+          "variable": "o_r_clean_and_safely_stored_food",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -3034,6 +3113,7 @@
           "question": "Clean kitchen utensils",
           "order": 11,
           "type": "option",
+          "variable": "clean_kitchen_utensils",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3072,6 +3152,7 @@
           "question": "Covered utensil storage",
           "order": 12,
           "type": "option",
+          "variable": "covered_utensil_storage",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3110,6 +3191,7 @@
           "question": "Raised utensil storage",
           "order": 13,
           "type": "option",
+          "variable": "raised_utensil_storage",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3148,6 +3230,7 @@
           "question": "Outcome result - Clean and safely stored kitchen utensils",
           "order": 14,
           "type": "autofield",
+          "variable": "o_r_clean_and_safely_stored_kitchen_utensils",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -3173,6 +3256,7 @@
           "question": "Clean milk containers",
           "order": 15,
           "type": "option",
+          "variable": "clean_milk_containers",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3211,6 +3295,7 @@
           "question": "Covered container storage",
           "order": 16,
           "type": "option",
+          "variable": "covered_container_storage",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3249,6 +3334,7 @@
           "question": "Raised container storage",
           "order": 17,
           "type": "option",
+          "variable": "raised_container_storage",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3287,6 +3373,7 @@
           "question": "Outcome result - Clean and safely stored milk containers",
           "order": 18,
           "type": "autofield",
+          "variable": "o_r_clean_and_safely_stored_milk_containers",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -3312,6 +3399,7 @@
           "question": "Clean water containers",
           "order": 19,
           "type": "option",
+          "variable": "clean_water_containers",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3350,6 +3438,7 @@
           "question": "Adequate water quality",
           "order": 20,
           "type": "option",
+          "variable": "adequate_water_quality",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3394,6 +3483,7 @@
           "question": "Safely stored drinking water",
           "order": 21,
           "type": "option",
+          "variable": "safely_stored_drinking_water",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3432,6 +3522,7 @@
           "question": "Safely used water",
           "order": 22,
           "type": "option",
+          "variable": "safely_used_water",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3482,6 +3573,7 @@
           "question": "Outcome result - Safe management of drinking water",
           "order": 23,
           "type": "autofield",
+          "variable": "o_r_safe_management_of_drinking_water",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -3507,6 +3599,7 @@
           "question": "Clean water points",
           "order": 24,
           "type": "option",
+          "variable": "clean_water_points",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3545,6 +3638,7 @@
           "question": "Protected water points",
           "order": 25,
           "type": "option",
+          "variable": "protected_water_points",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3583,6 +3677,7 @@
           "question": "Well drained water points",
           "order": 26,
           "type": "option",
+          "variable": "well_drained_water_points",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3621,6 +3716,7 @@
           "question": "Outcome result - Safe management of water sources",
           "order": 27,
           "type": "autofield",
+          "variable": "o_r_safe_management_of_water_sources",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -3646,6 +3742,7 @@
           "question": "No animal wastes in house",
           "order": 28,
           "type": "option",
+          "variable": "no_animal_wastes_in_house",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3684,6 +3781,7 @@
           "question": "No animal wastes in compound",
           "order": 29,
           "type": "option",
+          "variable": "no_animal_wastes_in_compound",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3722,6 +3820,7 @@
           "question": "Outcome result - No visible animal wastes in house or compound",
           "order": 30,
           "type": "autofield",
+          "variable": "o_r_no_visible_animal_wastes_in_house_or_compound",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -3747,6 +3846,7 @@
           "question": "Safely managed animal waste storage",
           "order": 31,
           "type": "option",
+          "variable": "safely_managed_animal_waste_storage",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3791,6 +3891,7 @@
           "question": "Safe location of animal waste storage",
           "order": 32,
           "type": "option",
+          "variable": "safe_location_of_animal_waste_storage",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3835,6 +3936,7 @@
           "question": "Safe management of animal waste storage",
           "order": 33,
           "type": "option",
+          "variable": "safe_management_of_animal_waste_storage",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3883,6 +3985,7 @@
           "required": true,
           "meta": false,
           "options": null,
+          "variable": "o_r_safe_management_of_animal_wastes_in_compound",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3904,6 +4007,7 @@
           "question": "Location of animals in compound",
           "order": 35,
           "type": "option",
+          "variable": "location_animals_in_compound",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3948,6 +4052,7 @@
           "question": "Safe confinement of animals",
           "order": 36,
           "type": "option",
+          "variable": "safe_confinement_of_animals",
           "dependency": [
             {
               "id": 16994260598422,
@@ -3992,6 +4097,7 @@
           "question": "Outcome result - Safe separation of animals from under-5 children",
           "order": 37,
           "type": "autofield",
+          "variable": "o_r_safe_separation_of_animals_from_under5_children",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -4016,6 +4122,7 @@
           "id": 16994260598423,
           "question": "Would you also like to monitor G3 outcomes",
           "order": 38,
+          "variable": "monitor_G3",
           "type": "option",
           "required": true,
           "meta": false,
@@ -4123,6 +4230,7 @@
           "question": "Soakpit for liquid wastes",
           "order": 39,
           "type": "option",
+          "variable": "soakpit_for_liquid_wastes",
           "dependency": [
             {
               "id": 16994260598423,
@@ -4161,6 +4269,7 @@
           "question": "Drainage for stormwater",
           "order": 40,
           "type": "option",
+          "variable": "drainage_for_stormwater",
           "dependency": [
             {
               "id": 16994260598423,
@@ -4205,6 +4314,7 @@
           "question": "Outcome result - Safe management of liquid wastes",
           "order": 41,
           "type": "autofield",
+          "variable": "o_r_safe_management_of_liquid_wastes",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -4230,6 +4340,7 @@
           "question": "No visible solid wastes",
           "order": 42,
           "type": "option",
+          "variable": "no_visible_solid_wastes",
           "dependency": [
             {
               "id": 16994260598423,
@@ -4268,6 +4379,7 @@
           "question": "Solid waste facility or service",
           "order": 43,
           "type": "option",
+          "variable": "solid_waste_facility_or_service",
           "dependency": [
             {
               "id": 16994260598423,
@@ -4310,6 +4422,7 @@
           "required": true,
           "meta": false,
           "options": null,
+          "variable": "o_r_safe_management_of_solid_wastes",
           "dependency": [
             {
               "id": 16994260598423,
@@ -4330,6 +4443,7 @@
           "id": 1699434694439,
           "question": "No standing water",
           "order": 45,
+          "variable": "no_standing_water",
           "dependency": [
             {
               "id": 16994260598423,
@@ -4367,6 +4481,7 @@
         {
           "id": 1699434771449,
           "question": "Treated larval breeding sites",
+          "variable": "treated_larval_breeding_sites",
           "dependency": [
             {
               "id": 16994260598423,
@@ -4413,6 +4528,7 @@
           "question": "Outcome result - Good vector control in compound",
           "order": 47,
           "type": "autofield",
+          "variable": "o_r_good_vector_control_in_compound",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -4437,6 +4553,7 @@
           "id": 1699434939105,
           "question": "Clean faces",
           "order": 48,
+          "variable": "clean_faces",
           "dependency": [
             {
               "id": 16994260598423,
@@ -4474,6 +4591,7 @@
         {
           "id": 1699434983278,
           "question": "Clean hands",
+          "variable": "clean_hands",
           "dependency": [
             {
               "id": 16994260598423,
@@ -4514,6 +4632,7 @@
           "question": "Outcome result - Clean face and hands",
           "order": 50,
           "type": "autofield",
+          "variable": "o_r_clean_face_and_hands",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -4539,6 +4658,7 @@
           "question": "Adequate washing place",
           "order": 51,
           "type": "option",
+          "variable": "adequate_washing_place",
           "dependency": [
             {
               "id": 16994260598423,
@@ -4576,6 +4696,7 @@
           "id": 1699435088758,
           "question": "Safe disposal site for menstrual hygiene wastes",
           "order": 52,
+          "variable": "menstrual_hygiene_disposal_site",
           "dependency": [
             {
               "id": 16994260598423,
@@ -4614,6 +4735,7 @@
           "id": 1699435154797,
           "question": "Availability of menstrual hygiene materials",
           "order": 53,
+          "variable": "availability_of_hygiene_materials",
           "dependency": [
             {
               "id": 16994260598423,
@@ -4653,6 +4775,7 @@
           "question": "Outcome result - Good menstrual health",
           "order": 54,
           "type": "autofield",
+          "variable": "o_r_good_menstrual_health",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -4678,6 +4801,7 @@
           "question": "Fully immunized children",
           "order": 55,
           "type": "option",
+          "variable": "fully_immunized_children",
           "dependency": [
             {
               "id": 16994260598423,
@@ -4722,6 +4846,7 @@
           "question": "Outcome result - Fully immunized children",
           "order": 56,
           "type": "autofield",
+          "variable": "o_r_fully_immunized_children",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -4746,6 +4871,7 @@
           "id": 1699435265962,
           "question": "Vitamin A supplements received",
           "order": 57,
+          "variable": "vitamin_a_supplements_received",
           "dependency": [
             {
               "id": 16994260598423,
@@ -4794,6 +4920,7 @@
           "tooltip": null,
           "required": true,
           "meta": false,
+          "variable": "o_r_vitamin_a_supplements",
           "options": null,
           "dependency": [
             {
@@ -4816,6 +4943,7 @@
           "question": "Exclusive breastfeeding for under 6-month children",
           "order": 59,
           "type": "option",
+          "variable": "exclusive_breastfeeding_under_6_months",
           "dependency": [
             {
               "id": 16994260598423,
@@ -4860,6 +4988,7 @@
           "question": "Outcome result - Exclusive breastfeeding",
           "order": 60,
           "type": "autofield",
+          "variable": "o_r_exclusive_breastfeeding",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -4884,6 +5013,7 @@
           "id": 1699435397728,
           "question": "Nutritious diet for 6-month to 2-year old children",
           "order": 61,
+          "variable": "nutritious_diet_6m_2y",
           "dependency": [
             {
               "id": 16994260598423,
@@ -4929,6 +5059,7 @@
           "question": "Outcome result - Nutritious diet",
           "order": 62,
           "type": "autofield",
+          "variable": "o_r_nutritious_diet",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -4953,6 +5084,7 @@
           "id": 1699435455818,
           "question": "Malaria-safe home",
           "order": 63,
+          "variable": "malariasafe_home",
           "dependency": [
             {
               "id": 16994260598423,
@@ -4998,6 +5130,7 @@
           "question": "Outcome result - Malaria-endemic counties: Malaria-safe homes",
           "order": 64,
           "type": "autofield",
+          "variable": "o_r_malariasafe_homes",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -5022,6 +5155,7 @@
           "id": 1699435526190,
           "question": "Dewormed home",
           "order": 65,
+          "variable": "dewormed_home",
           "dependency": [
             {
               "id": 16994260598423,
@@ -5067,6 +5201,7 @@
           "question": "Outcome result - STH-endemic counties: Dewormed homes",
           "order": 66,
           "type": "autofield",
+          "variable": "o_r_dewormed_homes",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -5103,6 +5238,7 @@
           "order": 1,
           "type": "autofield",
           "required": false,
+          "variable": "o_r_dewormed_homes",
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -5122,6 +5258,7 @@
           "order": 2,
           "type": "autofield",
           "required": false,
+          "variable": "overall_hygiene_outcome",
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -5141,6 +5278,7 @@
           "order": 4,
           "type": "autofield",
           "required": false,
+          "variable": "o_r_functional_toilet_with_privacy",
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -5158,6 +5296,7 @@
           "order": 5,
           "type": "autofield",
           "required": false,
+          "variable": "o_r_flyproof_toilet_type",
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -5175,6 +5314,7 @@
           "order": 6,
           "type": "autofield",
           "required": false,
+          "variable": "o_r_clean_toilet",
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -5191,6 +5331,7 @@
           "question": "Outcome result - Durable toilet",
           "order": 7,
           "type": "autofield",
+          "variable": "o_r_durable_toilet",
           "required": false,
           "meta": false,
           "displayOnly": true,
@@ -5209,6 +5350,7 @@
           "order": 8,
           "type": "autofield",
           "required": false,
+          "variable": "o_r_toilet_with_safe_containment",
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -5226,6 +5368,7 @@
           "order": 9,
           "type": "autofield",
           "required": false,
+          "variable": "o_r_toilet_use_by_all_hh_members",
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -5243,6 +5386,7 @@
           "order": 10,
           "type": "autofield",
           "required": false,
+          "variable": "o_r_individual_use_of_own_hh_toilet",
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -5261,6 +5405,7 @@
           "order": 11,
           "type": "autofield",
           "required": false,
+          "variable": "o_r_use_of_safely_managed_sanitation_services",
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -5279,6 +5424,7 @@
           "order": 12,
           "type": "autofield",
           "required": false,
+          "variable": "o_r_handwashing_facility_with_water_and_soap",
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -5295,6 +5441,7 @@
           "question": "Outcome result - Permanent hand washing station",
           "order": 13,
           "type": "autofield",
+          "variable": "o_r_permanent_hand_washing_station",
           "required": false,
           "meta": false,
           "displayOnly": true,
@@ -5313,6 +5460,7 @@
           "question": "Outcome result - Hand washing with soap at critical times",
           "order": 14,
           "type": "autofield",
+          "variable": "o_r_hand_washing_with_soap_at_critical_times",
           "required": false,
           "meta": false,
           "displayOnly": true,
@@ -5331,6 +5479,7 @@
           "question": "Outcome result - No exposed human excreta",
           "order": 15,
           "type": "autofield",
+          "variable": "o_r_no_exposed_human_excreta",
           "required": false,
           "meta": false,
           "displayOnly": true,
@@ -5349,6 +5498,7 @@
           "order": 16,
           "type": "autofield",
           "required": false,
+          "variable": "o_r_safe_management_of_child_excreta_and_diapers",
           "meta": false,
           "displayOnly": true,
           "fn": {
@@ -5366,6 +5516,7 @@
           "order": 17,
           "type": "autofield",
           "required": false,
+          "variable": "o_r_clean_and_safely_stored_food",
           "meta": false,
           "displayOnly": true,
           "dependency": [
@@ -5389,6 +5540,7 @@
           "question": "Outcome result - Clean and safely stored kitchen utensils",
           "order": 18,
           "type": "autofield",
+          "variable": "o_r_clean_and_safely_stored_kitchen_utensils",
           "required": false,
           "meta": false,
           "displayOnly": true,
@@ -5413,6 +5565,7 @@
           "question": "Outcome result - Clean and safely stored milk containers",
           "order": 19,
           "type": "autofield",
+          "variable": "o_r_clean_and_safely_stored_milk_containers",
           "required": false,
           "meta": false,
           "displayOnly": true,
@@ -5438,6 +5591,7 @@
           "order": 20,
           "type": "autofield",
           "required": false,
+          "variable": "o_r_safe_management_of_drinking_water",
           "meta": false,
           "displayOnly": true,
           "dependency": [
@@ -5461,6 +5615,7 @@
           "question": "Outcome result - Safe management of water sources",
           "order": 21,
           "type": "autofield",
+          "variable": "o_r_safe_management_of_water_sources",
           "required": false,
           "meta": false,
           "displayOnly": true,
@@ -5487,6 +5642,7 @@
           "type": "autofield",
           "required": false,
           "meta": false,
+          "variable": "o_r_no_visible_animal_wastes_in_house_or_compound",
           "displayOnly": true,
           "dependency": [
             {
@@ -5510,6 +5666,7 @@
           "order": 23,
           "type": "autofield",
           "required": false,
+          "variable": "o_r_safe_management_of_animal_wastes_in_compound",
           "meta": false,
           "displayOnly": true,
           "dependency": [
@@ -5535,6 +5692,7 @@
           "type": "autofield",
           "required": false,
           "meta": false,
+          "variable": "o_r_safe_separation_of_animals_from_under5_children",
           "displayOnly": true,
           "dependency": [
             {
@@ -5559,6 +5717,7 @@
           "type": "autofield",
           "required": false,
           "meta": false,
+          "variable": "o_r_safe_management_of_liquid_wastes",
           "displayOnly": true,
           "dependency": [
             {
@@ -5583,6 +5742,7 @@
           "type": "autofield",
           "required": false,
           "meta": false,
+          "variable": "o_r_safe_management_of_solid_wastes",
           "displayOnly": true,
           "dependency": [
             {
@@ -5607,6 +5767,7 @@
           "type": "autofield",
           "required": false,
           "meta": false,
+          "variable": "o_r_good_vector_control_in_compound",
           "displayOnly": true,
           "dependency": [
             {
@@ -5631,6 +5792,7 @@
           "type": "autofield",
           "required": false,
           "meta": false,
+          "variable": "o_r_clean_face_and_hands",
           "displayOnly": true,
           "dependency": [
             {
@@ -5655,6 +5817,7 @@
           "type": "autofield",
           "required": false,
           "meta": false,
+          "variable": "o_r_good_menstrual_health",
           "displayOnly": true,
           "dependency": [
             {
@@ -5678,6 +5841,7 @@
           "order": 30,
           "type": "autofield",
           "required": false,
+          "variable": "o_r_fully_immunized_children",
           "meta": false,
           "displayOnly": true,
           "dependency": [
@@ -5703,6 +5867,7 @@
           "type": "autofield",
           "required": false,
           "meta": false,
+          "variable": "o_r_vitamin_a_supplements",
           "displayOnly": true,
           "dependency": [
             {
@@ -5726,6 +5891,7 @@
           "order": 32,
           "type": "autofield",
           "required": false,
+          "variable": "o_r_exclusive_breastfeeding",
           "meta": false,
           "displayOnly": true,
           "dependency": [
@@ -5749,6 +5915,7 @@
           "question": "Outcome result - Nutritious diet",
           "order": 33,
           "type": "autofield",
+          "variable": "o_r_nutritious_diet",
           "required": false,
           "meta": false,
           "displayOnly": true,
@@ -5773,6 +5940,7 @@
           "question": "Outcome result - Malaria-endemic counties: Malaria-safe homes",
           "order": 34,
           "type": "autofield",
+          "variable": "o_r_malariasafe_homes",
           "required": false,
           "meta": false,
           "displayOnly": true,
@@ -5800,6 +5968,7 @@
           "required": false,
           "meta": false,
           "displayOnly": true,
+          "variable": "o_r_dewormed_homes",
           "dependency": [
             {
               "id": 16994260598423,
