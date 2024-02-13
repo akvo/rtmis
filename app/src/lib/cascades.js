@@ -14,12 +14,13 @@ const createSqliteDir = async () => {
   }
 };
 
-const download = (downloadUrl, fileUrl) => {
+const download = (downloadUrl, fileUrl, update = false) => {
   const fileSql = fileUrl?.split('/')?.pop(); // get last segment as filename
   const pathSql = `${DIR_NAME}/${fileSql}`;
+  console.info('Downloading...', downloadUrl);
   FileSystem.getInfoAsync(FileSystem.documentDirectory + pathSql).then(({ exists }) => {
-    if (!exists) {
-      FileSystem.downloadAsync(downloadUrl, FileSystem.documentDirectory + pathSql);
+    if (!exists || update) {
+      FileSystem.downloadAsync(downloadUrl, FileSystem.documentDirectory + pathSql)
     }
   });
 };
