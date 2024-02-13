@@ -63,9 +63,7 @@ class MobileDataPointDownloadListTestCase(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         token = response.data['syncToken']
-        url = (
-            "/api/v1/device/datapoint-list/?form={}"
-        ).format(self.forms[0].id)
+        url = "/api/v1/device/datapoint-list/"
         response = self.client.get(
             url,
             follow=True,
@@ -77,6 +75,8 @@ class MobileDataPointDownloadListTestCase(TestCase):
         self.assertEqual(data["total"], 1)
         self.assertEqual(data["data"][0]["id"], self.form_data.id)
         self.assertEqual(data["data"][0]["name"], self.form_data.name)
+        self.assertEqual(data["data"][0]["form_id"], self.forms[0].id)
+        self.assertFalse(self.mobile_assignment.last_synced_at, None)
         # test if url is correct
         self.assertEqual(
             data["data"][0]["url"],
