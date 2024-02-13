@@ -11,6 +11,7 @@
         {
           "id": 9747540291,
           "question": "location",
+          "variable": "location",
           "order": 1,
           "required": true,
           "type": "administration",
@@ -26,6 +27,7 @@
         {
           "id": 569070281,
           "question": "Village",
+          "variable": "village",
           "order": 1,
           "meta": true,
           "type": "text",
@@ -35,6 +37,7 @@
         {
           "id": 567440335,
           "question": "Number of households in the Village",
+          "variable": "households",
           "order": 2,
           "meta": false,
           "type": "number",
@@ -44,6 +47,7 @@
         {
           "id": 571070201,
           "question": "Take GPS Location of Village",
+          "variable": "gps",
           "order": 3,
           "meta": true,
           "type": "geo",
@@ -60,6 +64,7 @@
         {
           "id": 494780324,
           "question": "Implementing partner",
+          "variable": "implementing_partner",
           "order": 1,
           "meta": false,
           "type": "option",
@@ -82,6 +87,7 @@
         {
           "id": 559830326,
           "question": "Date Triggered",
+          "variable": "trigger_date",
           "order": 2,
           "meta": false,
           "type": "date",
@@ -91,6 +97,7 @@
         {
           "id": 569070282,
           "question": "Number of Latrines at Triggering?",
+          "variable": "latrines",
           "order": 3,
           "meta": false,
           "type": "number",
@@ -100,6 +107,7 @@
         {
           "id": 569090299,
           "question": "Presence of Handwashing Facility with Water and Soap",
+          "variable": "handwashing",
           "order": 4,
           "meta": false,
           "type": "option",
@@ -118,6 +126,7 @@
         {
           "id": 571070202,
           "question": "No Visible Feces were Found in Environment",
+          "variable": "visible_feces",
           "order": 5,
           "meta": false,
           "type": "option",
@@ -136,6 +145,7 @@
         {
           "id": 557710260,
           "question": "School Children had Access to Toilets in the Schools",
+          "variable": "school_toilets_access",
           "order": 6,
           "meta": false,
           "type": "option",
@@ -154,6 +164,7 @@
         {
           "id": 573010345,
           "question": "Public Toilets were Available in Public Places",
+          "variable": "public_toilets_availabilty",
           "order": 7,
           "meta": false,
           "type": "option",
@@ -172,6 +183,7 @@
         {
           "id": 557710261,
           "question": "Toilets were Available for Passengers",
+          "variable": "passenger_toilets_availabilty",
           "order": 8,
           "meta": false,
           "type": "option",
@@ -190,6 +202,7 @@
         {
           "id": 557690351,
           "question": "Date Verified",
+          "variable": "verification_date",
           "order": 9,
           "meta": false,
           "type": "date",
@@ -199,6 +212,7 @@
         {
           "id": 569090301,
           "question": "Number of Latrines at Verification Date",
+          "variable": "latrines_verification",
           "order": 10,
           "meta": false,
           "type": "number",
@@ -208,6 +222,7 @@
         {
           "id": 583770042,
           "question": "Latrine Type of Most Latrines at Verification Date",
+          "variable": "latrine_type",
           "order": 11,
           "meta": false,
           "type": "option",
@@ -274,6 +289,7 @@
         {
           "id": 557700349,
           "question": "Open Defecation Status",
+          "variable": "odf_status",
           "order": 12,
           "meta": false,
           "type": "option",

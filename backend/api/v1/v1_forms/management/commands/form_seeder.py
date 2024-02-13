@@ -120,6 +120,7 @@ class Command(BaseCommand):
                             monitoring=q.get("monitoring"),
                             meta_uuid=q.get("meta_uuid"),
                             extra=q.get("extra"),
+                            variable=q.get("variable"),
                         )
                     else:
                         question.question_group = question_group
@@ -141,6 +142,7 @@ class Command(BaseCommand):
                         question.monitoring = q.get("monitoring")
                         question.meta_uuid = q.get("meta_uuid")
                         question.extra = q.get("extra")
+                        question.variable = q.get("variable")
                         question.save()
                     if q.get("options"):
                         QO.objects.filter(question=question).all().delete()
