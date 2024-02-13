@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { BuildParamsState, UIState, UserState } from '../store';
+import { BuildParamsState, DatapointSyncState, UIState } from '../store';
 import { backgroundTask } from '../lib';
 import crudJobs, {
   jobStatus,
@@ -102,29 +102,29 @@ const SyncService = () => {
   const onSyncDataPoint = useCallback(async () => {
     const activeJob = await crudJobs.getActiveJob(SYNC_DATAPOINT_JOB_NAME);
 
-    if (activeJob && activeJob.status === jobStatus.PENDING && activeJob.attempt < 3) {
-      UserState.update((s) => {
-        s.dataSyncActiveForms = {
-          ...s.dataSyncActiveForms,
-          [activeJob.form]: true,
-        };
-      });
+    DatapointSyncState.update((s) => {
+      s.added = false;
+      s.inProgress = activeJob ? true : false;
+    });
+
+    if (activeJob && activeJob.status === jobStatus.PENDING && activeJob.attempt < MAX_ATTEMPT) {
       await crudJobs.updateJob(activeJob.id, {
         status: jobStatus.ON_PROGRESS,
       });
-      try {
-        const allData = await fetchDatapoints(activeJob.form);
-        const urls = allData.map((item) => item.url);
-        await Promise.all(urls.map((url) => downloadDatapointsJson(activeJob.form, url)));
 
-        UserState.update((s) => {
-          s.dataSyncActiveForms = {
-            ...s.dataSyncActiveForms,
-            [activeJob.form]: false,
-          };
-        });
+      try {
+        const allData = await fetchDatapoints();
+        const urls = allData.map(({ url, form_id: formId }) => ({ url, formId }));
+        await Promise.all(urls.map(({ formId, url }) => downloadDatapointsJson(formId, url)));
         await crudJobs.deleteJob(activeJob.id);
+
+        DatapointSyncState.update((s) => {
+          s.inProgress = false;
+        });
       } catch (error) {
+        DatapointSyncState.update((s) => {
+          s.added = true;
+        });
         await crudJobs.updateJob(activeJob.id, {
           status: jobStatus.PENDING,
           attempt: activeJob.attempt + 1,
@@ -133,31 +133,25 @@ const SyncService = () => {
       }
     }
 
-    if (activeJob && activeJob.status === jobStatus.PENDING && activeJob.attempt === 3) {
-      UserState.update((s) => {
-        s.dataSyncActiveForms = {
-          ...s.dataSyncActiveForms,
-          [activeJob.form]: false,
-        };
-      });
+    if (activeJob && activeJob.status === jobStatus.PENDING && activeJob.attempt === MAX_ATTEMPT) {
       await crudJobs.deleteJob(activeJob.id);
     }
   }, []);
 
   useEffect(() => {
-    const jobInterval = 1 * 1000;
-    if (!isOnline) {
-      return;
-    }
-    const syncTimer = setInterval(() => {
-      onSyncDataPoint();
-    }, jobInterval);
+    const unsubsDataSync = DatapointSyncState.subscribe(
+      (s) => s.added,
+      (added) => {
+        if (added) {
+          onSyncDataPoint();
+        }
+      },
+    );
 
     return () => {
-      // Clear the interval when the component unmounts
-      clearInterval(syncTimer);
+      unsubsDataSync();
     };
-  }, [isOnline, onSync]);
+  }, [onSyncDataPoint]);
 
   return null; // This is a service component, no rendering is needed
 };
