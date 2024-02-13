@@ -15,7 +15,8 @@
           "meta": true,
           "type": "text",
           "required": true,
-          "displayOnly": true
+          "displayOnly": true,
+          "variable": "name"
         },
         {
           "id": 202,
@@ -47,7 +48,8 @@
                 "answer": "any"
               }
             ]
-          }
+          },
+          "variable": "gender"
         },
         {
           "id": 203,
@@ -56,21 +58,24 @@
           "type": "number",
           "attributes": ["chart"],
           "required": true,
-          "monitoring": true
+          "monitoring": true,
+          "variable": "phone"
         },
         {
           "id": 204,
           "question": "Location",
           "meta": true,
           "type": "administration",
-          "required": true
+          "required": true,
+          "variable": "location"
         },
         {
           "id": 205,
           "question": "Geolocation",
           "meta": true,
           "type": "geo",
-          "required": true
+          "required": true,
+          "variable": "geolocation"
         },
         {
           "id": 206,
@@ -89,7 +94,8 @@
             {
               "name": "Parent"
             }
-          ]
+          ],
+          "variable": "family_members"
         },
         {
           "id": 207,
@@ -101,7 +107,8 @@
             "fnColor": {},
             "fnString": "function() { #204 + #206 }",
             "multiline": true
-          }
+          },
+          "variable": "autofield"
         },
         {
           "id": 208,
@@ -109,7 +116,8 @@
           "type": "text",
           "meta": true,
           "required": true,
-          "hidden": true
+          "hidden": true,
+          "variable": "hidden"
         },
         {
           "id": 209,
@@ -120,7 +128,8 @@
           "extra": {
             "type": "entity",
             "name": "School"
-          }
+          },
+          "variable": "school_entity"
         }
       ]
     }

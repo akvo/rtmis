@@ -69,6 +69,7 @@ class Questions(models.Model):
     order = models.BigIntegerField(null=True, default=None)
     text = models.TextField()
     name = models.CharField(max_length=255)
+    variable = models.CharField(max_length=255, default=None, null=True)
     type = models.IntegerField(choices=QuestionTypes.FieldStr.items())
     meta = models.BooleanField(default=False)
     required = models.BooleanField(default=True)
@@ -117,6 +118,11 @@ class Questions(models.Model):
         return f"{self.id}|{self.name}"
 
     class Meta:
+        unique_together = ('form', 'variable')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['form', 'variable'], name='unique_form_variable')
+        ]
         db_table = 'question'
 
 

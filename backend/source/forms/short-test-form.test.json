@@ -25,6 +25,7 @@
         {
           "id": 16993542207341,
           "question": "New household registration or Monitoring upate?",
+          "variable": "new_or_monitoring",
           "order": 1,
           "type": "option",
           "tooltip": {
@@ -87,6 +88,7 @@
         {
           "id": 16993548493821,
           "question": "What is the location of the household?",
+          "variable": "household_location",
           "order": 2,
           "type": "administration",
           "tooltip": {
@@ -106,6 +108,7 @@
           "id": 17030862702533,
           "order": 3,
           "question": "School Cascade",
+          "variable": "school",
           "meta": false,
           "required": false,
           "type": "cascade",
@@ -124,6 +127,7 @@
           "id": 17030862702534,
           "order": 4,
           "question": "HCF Cascade",
+          "variable": "hcf",
           "meta": false,
           "required": false,
           "type": "cascade",
@@ -141,6 +145,7 @@
         {
           "id": 17029147539571,
           "question": "Geolocation of the household",
+          "variable": "geolocation",
           "order": 5,
           "type": "geo",
           "tooltip": null,
@@ -158,6 +163,7 @@
         {
           "id": 17029148037321,
           "question": "Household Code",
+          "variable": "household_code",
           "order": 6,
           "type": "text",
           "tooltip": null,
@@ -180,6 +186,7 @@
         {
           "id": 16994179587481,
           "question": "Household respondent position in household",
+          "variable": "household_respondent_position",
           "order": 1,
           "type": "option",
           "tooltip": {
@@ -220,6 +227,7 @@
         {
           "id": 16994190480951,
           "question": "Household head: given first name",
+          "variable": "household_head_given_name",
           "order": 2,
           "type": "text",
           "tooltip": null,
@@ -232,6 +240,7 @@
         {
           "id": 16994198156601,
           "question": "Household head: age",
+          "variable": "household_head_age",
           "order": 7,
           "type": "number",
           "tooltip": null,
@@ -247,6 +256,7 @@
         {
           "id": 169941986117211,
           "question": "How many males (0-5 years) live permanently in this house",
+          "variable": "males_0_5",
           "order": 8,
           "type": "number",
           "tooltip": {
@@ -264,6 +274,7 @@
         {
           "id": 169941995152311,
           "question": "How many females (0-5 years) live permanently in this house",
+          "variable": "females_0_5",
           "order": 9,
           "type": "number",
           "tooltip": {
@@ -281,6 +292,7 @@
         {
           "id": 17032657054601,
           "question": "Total number  who live permanently in this house",
+          "variable": "total_family_members",
           "order": 16,
           "type": "autofield",
           "tooltip": null,
@@ -297,6 +309,7 @@
         {
           "id": 16994206218401,
           "question": "Household: in any at-risk categories?",
+          "variable": "at_risk_categories",
           "order": 20,
           "type": "multiple_option",
           "tooltip": {
@@ -420,6 +433,7 @@
         {
           "id": 17030734694661,
           "question": "Address or any unique household characteristics",
+          "variable": "address",
           "order": 21,
           "type": "text",
           "tooltip": {
@@ -444,6 +458,7 @@
         {
           "id": 16994222860911,
           "question": "Household toilet observed",
+          "variable": "toilet_observed",
           "order": 1,
           "type": "option",
           "tooltip": {
@@ -472,6 +487,7 @@
         {
           "id": 17030669023251,
           "question": "PHOTO 01: view of outside front of toilet (door + walls + roof)",
+          "variable": "photo_01",
           "order": 2,
           "type": "photo",
           "tooltip": null,
@@ -490,6 +506,7 @@
         {
           "id": 16994233572001,
           "question": "Functional toilet",
+          "variable": "functional_toilet",
           "order": 6,
           "type": "option",
           "tooltip": {
@@ -526,6 +543,7 @@
         {
           "id": 16994235714541,
           "question": "Toilet privacy",
+          "variable": "toilet_privacy",
           "order": 7,
           "type": "option",
           "tooltip": {
@@ -562,6 +580,7 @@
         {
           "id": 17018105790911,
           "question": "Outcome result - Functional toilet with privacy",
+          "variable": "o_r_functional_toilet_with_privacy",
           "order": 8,
           "type": "autofield",
           "tooltip": null,
@@ -579,6 +598,7 @@
         {
           "id": 16994236967201,
           "question": "Toilet interface",
+          "variable": "toilet_interface",
           "order": 9,
           "type": "option",
           "tooltip": {
@@ -635,6 +655,7 @@
         {
           "id": 16994239461701,
           "question": "Containment or collection system",
+          "variable": "containment_or_collection_system",
           "order": 10,
           "type": "option",
           "tooltip": {
@@ -721,6 +742,7 @@
         {
           "id": 16994243759681,
           "question": "Flyproof toilet",
+          "variable": "flyproof_toilet",
           "order": 11,
           "type": "option",
           "tooltip": {
@@ -802,6 +824,7 @@
         {
           "id": 17022810847861,
           "question": "Outcome result -  Flyproof toilet type",
+          "variable": "o_r_flyproof_toilet_type",
           "order": 12,
           "type": "autofield",
           "tooltip": null,
@@ -832,6 +855,7 @@
         {
           "id": 17030862702501,
           "question": "New autofield",
+          "variable": "new_autofield",
           "order": 1,
           "meta": false,
           "required": true,
@@ -865,6 +889,7 @@
         {
           "id": 17030862702502,
           "question": "Question #1",
+          "variable": "question_1",
           "order": 2,
           "meta": false,
           "required": false,
@@ -893,6 +918,7 @@
           "id": 17030862702503,
           "order": 3,
           "question": "Question #2",
+          "variable": "question_2",
           "meta": false,
           "required": false,
           "dependency": [
@@ -919,6 +945,7 @@
         {
           "id": 17030862702541,
           "question": "Outcome result - Functional toilet with privacy",
+          "variable": "o_r_auto_functional_toilet_with_privacy",
           "order": 1,
           "type": "autofield",
           "required": false,
@@ -934,6 +961,7 @@
         {
           "id": 17032625689541,
           "question": "Outcome result - Flyproof toilet type",
+          "variable": "o_r_auto_flyproof_toilet_type",
           "order": 2,
           "type": "autofield",
           "required": false,
