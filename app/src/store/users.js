@@ -10,7 +10,6 @@ const UserState = new Store({
   forms: [],
   currentLocation: null,
   locationIsGranted: false,
-  dataSyncActiveForms: {},
 });
 
 export default UserState;
