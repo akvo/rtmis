@@ -17,10 +17,12 @@ const EditableCell = ({
   readonly = false,
   isPublic = false,
   resetButton,
+  lastValue = false,
 }) => {
   const [editing, setEditing] = useState(false);
   const [locationName, setLocationName] = useState(null);
   const [value, setValue] = useState(null);
+  const [oldValue, setOldValue] = useState(null);
 
   useEffect(() => {
     if (
@@ -34,10 +36,16 @@ const EditableCell = ({
         record.newValue || record.newValue === 0
           ? record.newValue
           : record.value;
+
       setValue(
         record.type === "date"
           ? moment(newValue).format("YYYY-MM-DD")
           : newValue
+      );
+      setOldValue(
+        record.type === "date"
+          ? moment(record.lastValue).format("YYYY-MM-DD")
+          : record.lastValue
       );
     }
   }, [record]);
@@ -80,6 +88,16 @@ const EditableCell = ({
         ? value[0]
         : "-"
       : value;
+  };
+
+  const getLastAnswerValue = () => {
+    return record.type === "multiple_option"
+      ? oldValue?.join(", ")
+      : record.type === "option"
+      ? oldValue
+        ? oldValue[0]
+        : "-"
+      : oldValue;
   };
 
   const renderAnswerInput = () => {
@@ -186,6 +204,8 @@ const EditableCell = ({
           locationName
         ) : record.type === "photo" && value ? (
           <Image src={value} width={100} />
+        ) : lastValue ? (
+          getLastAnswerValue()
         ) : (
           getAnswerValue()
         )}

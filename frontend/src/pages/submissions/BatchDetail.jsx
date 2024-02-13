@@ -46,9 +46,14 @@ const BatchDetail = ({
                   const findValue = res.data.find(
                     (d) => d.question === q.id
                   )?.value;
+                  const findOldValue = res.data.find(
+                    (d) => d.question === q.id
+                  )?.last_value;
                   return {
                     ...q,
                     value: findValue || findValue === 0 ? findValue : null,
+                    lastValue:
+                      findOldValue || findOldValue === 0 ? findOldValue : null,
                     history:
                       res.data.find((d) => d.question === q.id)?.history ||
                       false,

@@ -5,6 +5,8 @@ import {
   DownCircleOutlined,
   LoadingOutlined,
   HistoryOutlined,
+  FileTextOutlined,
+  FileSyncOutlined,
 } from "@ant-design/icons";
 import { api, store, uiText } from "../../lib";
 import { EditableCell } from "../../components";
@@ -28,6 +30,16 @@ const columnsRawData = [
     title: "Name",
     dataIndex: "name",
     key: "name",
+    render: (name, row) => {
+      return (
+        <div>
+          {name}
+          <span className="monitoring-icon">
+            {row.is_monitoring ? <FileSyncOutlined /> : <FileTextOutlined />}
+          </span>
+        </div>
+      );
+    },
   },
   {
     title: "Administration",
@@ -301,9 +313,14 @@ const UploadDetail = ({ record, setReload }) => {
               const findValue = res.data.find(
                 (d) => d.question === q.id
               )?.value;
+              const findOldValue = res.data.find(
+                (d) => d.question === q.id
+              )?.last_value;
               return {
                 ...q,
                 value: findValue || findValue === 0 ? findValue : null,
+                lastValue:
+                  findOldValue || findOldValue === 0 ? findOldValue : null,
                 history:
                   res.data.find((d) => d.question === q.id)?.history || false,
               };
@@ -410,12 +427,12 @@ const UploadDetail = ({ record, setReload }) => {
                                 rowKey="id"
                                 columns={[
                                   {
-                                    title: "Question",
+                                    title: text?.questionCol,
                                     dataIndex: "name",
                                     width: "50%",
                                   },
                                   {
-                                    title: "Response",
+                                    title: text?.responseCol,
                                     render: (row) => (
                                       <EditableCell
                                         record={row}
@@ -427,7 +444,23 @@ const UploadDetail = ({ record, setReload }) => {
                                         resetButton={resetButton}
                                       />
                                     ),
-                                    width: "50%",
+                                    width: "25%",
+                                  },
+                                  {
+                                    title: text?.lastResponseCol,
+                                    render: (row) => (
+                                      <EditableCell
+                                        record={row}
+                                        lastValue={true}
+                                        parentId={expanded.id}
+                                        updateCell={updateCell}
+                                        resetCell={resetCell}
+                                        disabled={!!dataLoading}
+                                        readonly={!isEditable}
+                                        resetButton={resetButton}
+                                      />
+                                    ),
+                                    width: "25%",
                                   },
                                   Table.EXPAND_COLUMN,
                                 ]}
