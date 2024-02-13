@@ -55,12 +55,12 @@ const jobsQuery = () => {
         });
         return await conn.tx(db, insertQuery, []);
       } catch (error) {
-        return null;
+        return Promise.reject(error);
       }
     },
     updateJob: async (id, data) => {
       try {
-        const updateQuery = query.update(tableName, { id }, { ...data });
+        const updateQuery = query.update(tableName, { id }, data);
         return await conn.tx(db, updateQuery, [id]);
       } catch {
         return null;
