@@ -25,6 +25,7 @@ class MobileAssignment(models.Model):
     )
     token = models.CharField(max_length=500)  # TODO: Unnecessary, remove?
     created_at = models.DateTimeField(auto_now_add=True)
+    last_synced_at = models.DateTimeField(default=None, null=True)
 
     forms = models.ManyToManyField(Forms)
     administrations = models.ManyToManyField(Administration)
