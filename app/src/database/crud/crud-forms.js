@@ -66,25 +66,12 @@ const formsQuery = () => {
       return await conn.tx(db, insertQuery, []);
     },
     updateForm: async ({ userId, formId, version, formJSON, latest = 1 }) => {
-      const fieldsToUpdate = {};
-      if (userId !== undefined) fieldsToUpdate.userId = userId;
-      if (version !== undefined) fieldsToUpdate.version = version;
-      if (formJSON !== undefined)
-        fieldsToUpdate.json = JSON.stringify(formJSON).replace(/'/g, "''");
-      if (latest !== undefined) fieldsToUpdate.latest = latest;
-      if (formJSON?.name) fieldsToUpdate.name = formJSON.name;
-
-      if (Object.keys(fieldsToUpdate).length === 0) {
-        throw new Error('No fields provided for update');
-      }
-
-      const setSQL = Object.entries(fieldsToUpdate)
-        .map(([key, value]) => `${key} = '${value}'`)
-        .join(', ');
-
-      const updateQuery = `UPDATE forms SET ${setSQL} WHERE formId = '${formId}'`;
-
-      return await conn.tx(db, updateQuery, []);
+      const updateQuery = query.update(
+        'forms',
+        { userId, formId },
+        { version, latest, json: formJSON ? JSON.stringify(formJSON).replace(/'/g, "''") : null },
+      );
+      return await conn.tx(db, updateQuery, [userId, formId]);
     },
     getMyForms: async () => {
       const session = await crudUsers.getActiveUser();
