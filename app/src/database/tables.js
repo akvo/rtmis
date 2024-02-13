@@ -7,6 +7,7 @@ export const tables = [
       password: 'TEXT',
       active: 'TINYINT',
       token: 'TEXT',
+      lastSyncedAt: 'DATETIME',
     },
   },
   {
@@ -77,7 +78,6 @@ export const tables = [
     name: 'jobs',
     fields: {
       id: 'INTEGER PRIMARY KEY NOT NULL',
-      form: 'INTEGER NOT NULL',
       user: 'INTEGER NOT NULL',
       type: 'VARCHAR(191)',
       status: 'INTEGER NOT NULL',
