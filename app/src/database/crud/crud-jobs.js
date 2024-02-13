@@ -18,7 +18,7 @@ export const SYNC_DATAPOINT_JOB_NAME = 'sync-form-datapoints';
 const tableName = 'jobs';
 const jobsQuery = () => {
   return {
-    getActiveJob: async (type, form = null) => {
+    getActiveJob: async (type) => {
       try {
         const session = await crudUsers.getActiveUser();
         if (session?.id) {
@@ -27,11 +27,6 @@ const jobsQuery = () => {
            */
           const where = { type, user: session.id };
           const params = [type, session.id];
-          if (form) {
-            where.form = form;
-            params.push(form);
-          }
-
           const nocase = false;
           const order_by = 'createdAt';
           const readQuery = query.read(tableName, where, nocase, order_by);
