@@ -1,23 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { ToastAndroid, View } from 'react-native';
-import { Button, ListItem } from '@rneui/themed';
+import { View } from 'react-native';
+import { ListItem } from '@rneui/themed';
 import { BaseLayout } from '../components';
-import { UIState, FormState, UserState } from '../store';
-import { i18n, api } from '../lib';
+import { UIState, FormState } from '../store';
+import { i18n } from '../lib';
 import { getCurrentTimestamp } from '../form/lib';
-import { crudForms } from '../database/crud';
-import crudJobs, { SYNC_DATAPOINT_JOB_NAME, jobStatus } from '../database/crud/crud-jobs';
-import * as Network from 'expo-network';
 
 const ManageForm = ({ navigation, route }) => {
   const draftCount = FormState.useState((s) => s.form?.draft);
   const submittedCount = FormState.useState((s) => s.form?.submitted);
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
-  const userId = UserState.useState((s) => s.id);
-  const [syncLoading, setSyncLoading] = useState(false);
-  const [networkState, setNetworkState] = useState(null);
 
   const goToNewForm = () => {
     FormState.update((s) => {
@@ -63,76 +57,6 @@ const ManageForm = ({ navigation, route }) => {
       goTo: () => navigation.navigate('FormData', { ...route?.params, showSubmitted: true }),
     },
   ];
-
-  const handleGetForm = async (userID) => {
-    try {
-      const formRes = await api.get(`/form/${route.params.formId}`);
-      const apiData = formRes.data;
-
-      if (apiData.cascades) {
-        apiData.cascades.forEach((cascadeFile) => {
-          const downloadUrl = api.getConfig().baseURL + cascadeFile;
-          cascades.download(downloadUrl, cascadeFile);
-        });
-      }
-
-      const savedForm = await crudForms.updateForm({
-        formId: route.params.formId,
-        version: apiData.version,
-        userId: userID,
-        formJSON: apiData,
-        latest: 1,
-      });
-      console.info('Saved Form...', savedForm);
-    } catch (error) {
-      console.error('Error handling form:', error);
-    }
-  };
-
-  const handleOnSyncClick = async () => {
-    if (!networkState?.isConnected) {
-      return;
-    }
-    try {
-      await handleGetForm(userId);
-      await crudJobs.addJob({
-        form: route.params.formId,
-        user: userId,
-        type: SYNC_DATAPOINT_JOB_NAME,
-        status: jobStatus.PENDING,
-      });
-    } catch (error) {
-      ToastAndroid.show(`[ERROR SYNC DATAPOINT]: ${error}`, ToastAndroid.LONG);
-    }
-  };
-
-  useEffect(() => {
-    const unsubscribeDataSyncActiveForms = UserState.subscribe(
-      (s) => s.dataSyncActiveForms,
-      (activeForms) => {
-        if (!syncLoading && activeForms?.[route.params.formId]) {
-          setSyncLoading(true);
-        }
-        if (syncLoading && !activeForms?.[route.params.formId]) {
-          setSyncLoading(false);
-        }
-      },
-    );
-
-    return () => {
-      unsubscribeDataSyncActiveForms();
-    };
-  }, [route.params.formId, syncLoading]);
-
-  useEffect(() => {
-    const fetchNetworkState = async () => {
-      const state = await Network.getNetworkStateAsync();
-      setNetworkState(state);
-    };
-
-    fetchNetworkState();
-  }, []);
-
   return (
     <BaseLayout title={route?.params?.name} rightComponent={false}>
       <BaseLayout.Content>
@@ -154,20 +78,6 @@ const ManageForm = ({ navigation, route }) => {
           ))}
         </View>
       </BaseLayout.Content>
-      <View style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
-        <Button
-          title={
-            syncLoading
-              ? trans.loadingText
-              : networkState?.isConnected
-              ? trans.syncDataPointBtn
-              : trans.connectToInternet
-          }
-          disabled={syncLoading || !networkState?.isConnected}
-          type="outline"
-          onPress={handleOnSyncClick}
-        />
-      </View>
     </BaseLayout>
   );
 };
