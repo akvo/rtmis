@@ -98,16 +98,20 @@ class UpdatePendingDataTestCase(TestCase):
         # update pending data
         payload = [{
             "question": 101,
-            "value": "Jane Doe"
+            "value": "Jane Doe",
+            'last_value': None,
         }, {
             "question": 102,
-            "value": ["Female"]
+            "value": ["Female"],
+            'last_value': None,
         }, {
             "question": 104,
-            "value": 4
+            "value": 4,
+            'last_value': None,
         }, {
             "question": 109,
-            "value": 5.5
+            "value": 5.5,
+            'last_value': None,
         }]
         data = self.client.put(
             '/api/v1/form-pending-data/{0}?pending_data_id={1}'
