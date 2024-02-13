@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { Button } from '@rneui/themed';
+import { Button, FAB } from '@rneui/themed';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Platform, ToastAndroid } from 'react-native';
 import { BaseLayout } from '../components';
-import { FormState, UserState, UIState, BuildParamsState } from '../store';
+import { FormState, UserState, UIState, BuildParamsState, DatapointSyncState } from '../store';
 import { crudForms } from '../database/crud';
-import { i18n } from '../lib';
+import { api, cascades, i18n } from '../lib';
 import * as Notifications from 'expo-notifications';
 import * as Location from 'expo-location';
+import crudJobs, { SYNC_DATAPOINT_JOB_NAME, jobStatus } from '../database/crud/crud-jobs';
 
 const Home = ({ navigation, route }) => {
   const params = route?.params || null;
@@ -15,11 +16,15 @@ const Home = ({ navigation, route }) => {
   const [data, setData] = useState([]);
   const [appLang, setAppLang] = useState('en');
   const [loading, setloading] = useState(true);
+  const [syncLoading, setSyncLoading] = useState(false);
 
   const locationIsGranted = UserState.useState((s) => s.locationIsGranted);
   const gpsAccuracyLevel = BuildParamsState.useState((s) => s.gpsAccuracyLevel);
   const gpsInterval = BuildParamsState.useState((s) => s.gpsInterval);
   const isManualSynced = UIState.useState((s) => s.isManualSynced);
+  const userId = UserState.useState((s) => s.id);
+  const isOnline = UIState.useState((s) => s.online);
+
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
 
@@ -36,6 +41,60 @@ const Home = ({ navigation, route }) => {
 
   const goToUsers = () => {
     navigation.navigate('Users');
+  };
+  const syncAllForms = async () => {
+    try {
+      [];
+      const endpoints = data.map((d) => api.get(`/form/${d.formId}`));
+      const results = await Promise.allSettled(endpoints);
+      const responses = results.filter(({ status }) => status === 'fulfilled');
+      const cascadeFiles = responses.flatMap(({ value: res }) => res.data.cascades);
+      const downloadFiles = [...new Set(cascadeFiles)];
+
+      const downloads = downloadFiles.map((file) =>
+        cascades.download(api.getConfig().baseURL + file, file, true),
+      );
+
+      responses.forEach(async ({ value: res }) => {
+        const { data: apiData } = res;
+        const { id: formId, version } = apiData;
+        await crudForms.updateForm({
+          userId,
+          formId,
+          version,
+          formJSON: apiData,
+          latest: 1,
+        });
+      });
+
+      await Promise.allSettled(downloads);
+      UIState.update((s) => {
+        /**
+         * Refresh homepage to apply latest data
+         */
+        s.isManualSynced = true;
+      });
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  };
+
+  const handleOnSync = async () => {
+    setSyncLoading(true);
+    try {
+      await syncAllForms();
+      await crudJobs.addJob({
+        user: userId,
+        type: SYNC_DATAPOINT_JOB_NAME,
+        status: jobStatus.PENDING,
+      });
+      DatapointSyncState.update((s) => {
+        s.inProgress = true;
+        s.added = true;
+      });
+    } catch (error) {
+      ToastAndroid.show(`[ERROR SYNC DATAPOINT]: ${error}`, ToastAndroid.LONG);
+    }
   };
 
   const getUserForms = useCallback(async () => {
@@ -142,6 +201,21 @@ const Home = ({ navigation, route }) => {
     };
   }, [watchCurrentPosition]);
 
+  useEffect(() => {
+    const unsubsDataSync = DatapointSyncState.subscribe(
+      (s) => s.inProgress,
+      (inProgress) => {
+        if (syncLoading && !inProgress) {
+          setSyncLoading(false);
+        }
+      },
+    );
+
+    return () => {
+      unsubsDataSync();
+    };
+  }, [syncLoading]);
+
   return (
     <BaseLayout
       title={trans.homePageTitle}
@@ -159,6 +233,15 @@ const Home = ({ navigation, route }) => {
       }
     >
       <BaseLayout.Content data={filteredData} action={goToManageForm} columns={2} />
+      <FAB
+        icon={{ name: 'sync', color: 'white' }}
+        size={'large'}
+        color={'#1651b6'}
+        title={syncLoading ? trans.syncingText : trans.syncDataPointBtn}
+        style={{ marginBottom: 16 }}
+        disabled={!isOnline || syncLoading}
+        onPress={handleOnSync}
+      />
     </BaseLayout>
   );
 };
