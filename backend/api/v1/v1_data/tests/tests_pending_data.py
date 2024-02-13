@@ -6,7 +6,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.v1.v1_data.constants import DataApprovalStatus
 from api.v1.v1_data.models import PendingFormData, PendingDataApproval, \
-    PendingDataBatch
+    PendingDataBatch, FormData
 from api.v1.v1_forms.constants import FormTypes, QuestionTypes
 from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -14,6 +14,7 @@ from api.v1.v1_profile.management.commands.administration_seeder import (
         MAX_LEVEL_IN_SOURCE_FILE)
 from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import SystemUser
+from utils.functions import get_answer_value
 
 
 @override_settings(USE_TZ=False)
@@ -56,8 +57,10 @@ class PendingDataTestCase(TestCase):
                     content_type='application/json',
                     **header)
                 self.assertEqual(200, response.status_code)
-                self.assertEqual(['history', 'question', 'value'],
-                                 list(response.json()[0]))
+                self.assertEqual(
+                    ['history', 'question', 'value', 'last_value'],
+                    list(response.json()[0])
+                )
                 response = self.client.get(
                     '/api/v1/form-pending-data-batch/{}'.format(data[0]['id']),
                     content_type='application/json',
@@ -113,6 +116,26 @@ class PendingDataTestCase(TestCase):
             'id', 'name', 'form', 'administration', 'file', 'total_data',
             'created', 'updated', 'status', 'approvers'
         ])
+
+    def tests_pending_data_with_last_reponse(self):
+        call_command("fake_data_seeder", "-r", 1, '-t', True)
+        call_command("fake_data_monitoring_seeder", "-r", 1, '-t', True)
+        pending_data = PendingFormData.objects.first()
+        t = RefreshToken.for_user(pending_data.created_by)
+        header = {'HTTP_AUTHORIZATION': f'Bearer {t.access_token}'}
+        response = self.client.get(
+            '/api/v1/pending-data/{0}'.format(pending_data.id),
+            content_type='application/json',
+            **header
+        )
+        data = FormData.objects.filter(
+            uuid=pending_data.uuid
+        ).order_by('-created').first()
+        first_res = response.json()[0]
+        question_id = first_res['question']
+        answer = data.data_answer.filter(question_id=question_id).first()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(first_res['last_value'], get_answer_value(answer))
 
     def test_pending_batch_list(self):
         call_command('fake_pending_data_seeder', '-r', 5, '-t', True, '-b', 5)

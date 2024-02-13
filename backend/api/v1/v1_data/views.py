@@ -852,11 +852,16 @@ class PendingDataDetailDeleteView(APIView):
                    summary='To get list of answers for pending data')
     def get(self, request, pending_data_id, version):
         data = get_object_or_404(PendingFormData, pk=pending_data_id)
+        last_data = FormData.objects.filter(uuid=data.uuid)\
+            .order_by('-created').first()
         return Response(
             ListPendingDataAnswerSerializer(
+                context={'last_data': last_data},
                 instance=data.pending_data_answer.all(),
-                many=True).data,
-            status=status.HTTP_200_OK)
+                many=True
+            ).data,
+            status=status.HTTP_200_OK
+        )
 
     @extend_schema(
         responses={

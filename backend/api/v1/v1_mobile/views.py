@@ -15,6 +15,10 @@ from rtmis.settings import (
     WEBDOMAIN
 )
 from django.http import HttpResponse
+from django.utils import timezone
+from django.db.models import F, Max
+from django.db.models.functions import Coalesce
+
 from rest_framework import status, serializers
 from rest_framework.response import Response
 from rest_framework.decorators import (
@@ -72,6 +76,8 @@ def get_mobile_forms(request, version):
     try:
         passcode = CustomPasscode().encode(code)
         mobile_assignment = MobileAssignment.objects.get(passcode=passcode)
+        mobile_assignment.last_synced_at = None
+        mobile_assignment.save()
     except MobileAssignment.DoesNotExist:
         return Response(
             {'error': 'Mobile Assignment not found.'},
@@ -365,11 +371,6 @@ class MobileAssignmentViewSet(ModelViewSet):
     },
     parameters=[
         OpenApiParameter(
-            name='form',
-            required=True,
-            type=OpenApiTypes.NUMBER,
-            location=OpenApiParameter.QUERY),
-        OpenApiParameter(
             name='page',
             required=True,
             type=OpenApiTypes.NUMBER,
@@ -383,13 +384,39 @@ class MobileAssignmentViewSet(ModelViewSet):
 def get_datapoint_download_list(request, version):
     assignment = cast(MobileAssignmentToken, request.auth).assignment
     administrations = assignment.administrations.values('id')
+    forms = assignment.forms.values('id')
     paginator = Pagination()
-    # select only uuid and datapoint id
+
+    latest_created_per_uuid = FormData.objects.filter(
+        administration_id__in=administrations,
+        form_id__in=forms,
+    ).values('uuid').annotate(
+        latest_created=Max('created')
+    )
+
     queryset = FormData.objects.filter(
-            administration_id__in=administrations,
-            form_id=request.query_params.get('form')
-    ).values('uuid', 'id', 'name').order_by('id')
+        administration_id__in=administrations,
+        form_id__in=forms,
+        uuid__in=latest_created_per_uuid.values('uuid'),
+    )
+    if assignment.last_synced_at:
+        queryset = queryset.filter(updated__gte=assignment.last_synced_at)
+
+    queryset = queryset.annotate(
+        latest_created=Coalesce('updated', 'created') \
+        # Use updated time if available, otherwise use created time
+    ).filter(
+        created=F('latest_created') \
+        # Filter by objects where created equals latest_created
+    ).values('uuid', 'id', 'form_id', 'name').order_by('id')
+
     instance = paginator.paginate_queryset(queryset, request)
-    return paginator.get_paginated_response(
+    response = paginator.get_paginated_response(
         MobileDataPointDownloadListSerializer(instance, many=True).data
     )
+    page = response.data['current']
+    total_page = response.data['total_page']
+    if page == total_page:
+        assignment.last_synced_at = timezone.now()
+        assignment.save()
+    return response
