@@ -45,6 +45,11 @@ const usersQuery = () => {
       const { rows } = await conn.tx(db, query.read('users', { password: passcode }), [passcode]);
       return rows;
     },
+    updateLastSynced: async (id) => {
+      const updateQuery = query.update('users', { id }, { lastSyncedAt: new Date().toISOString() });
+      const { rows } = await conn.tx(db, updateQuery, [id]);
+      return rows;
+    },
   };
 };
 

@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Platform, ToastAndroid } from 'react-native';
 import { BaseLayout } from '../components';
 import { FormState, UserState, UIState, BuildParamsState, DatapointSyncState } from '../store';
-import { crudForms } from '../database/crud';
+import { crudForms, crudUsers } from '../database/crud';
 import { api, cascades, i18n } from '../lib';
 import * as Notifications from 'expo-notifications';
 import * as Location from 'expo-location';
@@ -83,6 +83,7 @@ const Home = ({ navigation, route }) => {
     setSyncLoading(true);
     try {
       await syncAllForms();
+      await crudUsers.updateLastSynced(userId);
       await crudJobs.addJob({
         user: userId,
         type: SYNC_DATAPOINT_JOB_NAME,
