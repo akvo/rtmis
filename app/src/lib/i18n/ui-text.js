@@ -100,6 +100,7 @@ const uiText = {
     settingAddNewFormPageTitle: 'Add New Form',
     errorFormsNotLoaded: 'Unable to load forms',
     downloadingData: 'Downloading data',
+    syncDataPointBtn: 'Sync Datapoint',
     syncingText: 'Syncing...',
     syncingFailedText: 'Syncing failed...',
     syncingSuccessText: 'Syncing successful...',
@@ -107,6 +108,7 @@ const uiText = {
     doneText: 'Done!',
     about: 'About',
     autoSyncInProgress: 'Auto sync is in progress',
+    connectToInternet: 'Connect to the internet to sync',
   },
   fr: {
     latitude: 'Latitude',

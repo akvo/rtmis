@@ -76,7 +76,7 @@ const removeDB = async () => {
       /**
        * Check user session before deletion
        */
-      const db = openDatabase();
+      const db = openDatabase('db.db');
       const { rows } = await tx(db, 'SELECT * FROM users where active = ?', [1]);
       if (rows.length === 0) {
         /**
