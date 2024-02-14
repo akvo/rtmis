@@ -36,14 +36,14 @@ Webforms
 Bulk Upload
 ------------
 
-1. From the submissions section of the control centre, select the questionnaire you would like to bulk upload data against and click the :bolditalic:`BULK UPLOAD` button.
+1. From the submissions section of the control centre, click the :bolditalic:`BULK UPLOAD` button.
 
-.. image:: ../assests/image27.png
+.. image:: ../assests/image33.png 
     :alt: Bulk Upload
     :width: 100%
 
-2. Select the questionnaire you would like to bulk upload data against and select the spreadsheet file on your computer. If you are updating existing data, make sure you tick the ‘update existing data’ checkbox.
+2. Select the questionnaire and village you would like to bulk upload data against and select the spreadsheet file on your computer. If you are updating existing data, make sure you tick the ‘update existing data’ checkbox.
 
-.. image:: ../assests/image33.png
+.. image:: ../assests/image27.png
     :alt: Update
     :width: 100%
