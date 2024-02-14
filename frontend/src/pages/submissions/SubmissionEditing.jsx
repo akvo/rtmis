@@ -60,7 +60,7 @@ const SubmissionEditing = ({
               rowKey="id"
               columns={[
                 {
-                  title: text?.QuestionCol,
+                  title: text?.questionCol,
                   dataIndex: "name",
                   width: "50%",
                 },
@@ -77,7 +77,23 @@ const SubmissionEditing = ({
                       resetButton={resetButton}
                     />
                   ),
-                  width: "50%",
+                  width: "25%",
+                },
+                {
+                  title: text?.lastResponseCol,
+                  render: (row) => (
+                    <EditableCell
+                      record={row}
+                      lastValue={true}
+                      parentId={expanded.id}
+                      updateCell={updateCell}
+                      resetCell={resetCell}
+                      disabled={true}
+                      readonly={true}
+                      resetButton={resetButton}
+                    />
+                  ),
+                  width: "25%",
                 },
                 Table.EXPAND_COLUMN,
               ]}
