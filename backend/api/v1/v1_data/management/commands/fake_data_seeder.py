@@ -154,6 +154,7 @@ def seed_data(form, fake_geo, level_names, repeat, test):
                         created_by=SystemUser.objects.order_by('?').first())
                     data.created = make_aware(created)
                     level_id = administration.id
+                    data.save_to_file
                     data.save()
                     add_fake_answers(data, form.type)
         else:
@@ -165,6 +166,7 @@ def seed_data(form, fake_geo, level_names, repeat, test):
                 administration=Administration.objects.filter(
                     level=level).order_by('?').first(),
                 created_by=SystemUser.objects.order_by('?').first())
+            test_data.save_to_file
             test_data.save()
             add_fake_answers(test_data, form.type)
 

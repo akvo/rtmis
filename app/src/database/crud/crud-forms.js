@@ -65,10 +65,13 @@ const formsQuery = () => {
       });
       return await conn.tx(db, insertQuery, []);
     },
-    updateForm: async ({ id: formId, latest = 0 }) => {
-      // update latest to false
-      const updateQuery = query.update('forms', { formId }, { latest: latest });
-      return await conn.tx(db, updateQuery, [formId]);
+    updateForm: async ({ userId, formId, version, formJSON, latest = 1 }) => {
+      const updateQuery = query.update(
+        'forms',
+        { userId, formId },
+        { version, latest, json: formJSON ? JSON.stringify(formJSON).replace(/'/g, "''") : null },
+      );
+      return await conn.tx(db, updateQuery, [userId, formId]);
     },
     getMyForms: async () => {
       const session = await crudUsers.getActiveUser();

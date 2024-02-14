@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import { Button, Dialog, Text } from '@rneui/themed';
 import Icon from 'react-native-vector-icons/Ionicons';
+import * as SQLite from 'expo-sqlite';
+
 import { FormContainer } from '../form';
 import { SaveDialogMenu, SaveDropdownMenu } from '../form/support';
 import { BaseLayout } from '../components';
@@ -40,7 +42,17 @@ const FormPage = ({ navigation, route }) => {
   const [currentDataPoint, setCurrentDataPoint] = useState({});
   const [loading, setLoading] = useState(false);
 
+  const closeAllCascades = () => {
+    const { cascades: cascadesFiles } = formJSON || {};
+    cascadesFiles?.forEach((csFile) => {
+      const [dbFile] = csFile?.split('/')?.slice(-1);
+      const connDB = SQLite.openDatabase(dbFile);
+      connDB.closeAsync();
+    });
+  };
+
   const refreshForm = () => {
+    closeAllCascades();
     FormState.update((s) => {
       s.currentValues = {};
       s.visitedQuestionGroup = [];
@@ -182,7 +194,6 @@ const FormPage = ({ navigation, route }) => {
       await crudJobs.addJob({
         user: userId,
         type: SYNC_FORM_SUBMISSION_TASK_NAME,
-        active: 1,
         status: jobStatus.PENDING,
         info: `${currentFormId} | ${datapoitName}`,
       });

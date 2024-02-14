@@ -261,6 +261,7 @@ class WebFormDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Forms
         fields = [
+            'id',
             'name',
             'version',
             'cascades',
