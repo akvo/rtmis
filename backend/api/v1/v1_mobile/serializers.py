@@ -13,6 +13,7 @@ from utils.custom_helper import CustomPasscode, generate_random_string
 
 class MobileDataPointDownloadListSerializer(serializers.Serializer):
     id = serializers.IntegerField()
+    form_id = serializers.IntegerField()
     name = serializers.CharField()
     url = serializers.SerializerMethodField()
 
@@ -21,7 +22,7 @@ class MobileDataPointDownloadListSerializer(serializers.Serializer):
         return f"{WEBDOMAIN}/datapoints/{obj.get('uuid')}.json"
 
     class Meta:
-        fields = ["id", "name", "url"]
+        fields = ["id", "form_id", "name", "url"]
 
 
 class MobileFormSerializer(serializers.ModelSerializer):

@@ -82,6 +82,7 @@ class MobileAssignmentApiTest(TestCase):
                 'url': f'/form/{self.forms[0].id}',
             },
         )
+        self.assertEqual(self.mobile_assignment.last_synced_at, None)
 
     def test_mobile_assignment_form_api_with_invalid_passcode(self):
         # wrong passcode

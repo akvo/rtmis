@@ -13,7 +13,8 @@
           "question": "Name",
           "meta": true,
           "type": "text",
-          "required": true
+          "required": true,
+          "variable": "name"
         },
         {
           "id": 102,
@@ -32,7 +33,8 @@
             {
               "name": "Other"
             }
-          ]
+          ],
+          "variable": "gender"
         },
         {
           "id": 103,
@@ -40,21 +42,24 @@
           "meta": true,
           "type": "number",
           "attributes": ["chart"],
-          "required": true
+          "required": true,
+          "variable": "phone"
         },
         {
           "id": 104,
           "question": "Location",
           "meta": true,
           "type": "administration",
-          "required": true
+          "required": true,
+          "variable": "location"
         },
         {
           "id": 105,
           "question": "Geolocation",
           "meta": true,
           "type": "geo",
-          "required": true
+          "required": true,
+          "variable": "geolocation"
         },
         {
           "id": 106,
@@ -73,28 +78,32 @@
             {
               "name": "Parent"
             }
-          ]
+          ],
+          "variable": "family_members"
         },
         {
           "id": 107,
           "question": "Please take a picture",
           "meta": false,
           "type": "photo",
-          "required": true
+          "required": true,
+          "variable": "picture"
         },
         {
           "id": 108,
           "question": "Data",
           "meta": false,
           "type": "date",
-          "required": true
+          "required": true,
+          "variable": "data"
         },
         {
           "id": 109,
           "question": "Allow decimal and 0",
           "meta": false,
           "type": "number",
-          "required": false
+          "required": false,
+          "variable": "decimal"
         },
         {
           "id": 110,
@@ -102,7 +111,8 @@
           "meta": false,
           "type": "text",
           "required": true,
-          "meta_uuid": true
+          "meta_uuid": true,
+          "variable": "meta_uuid"
         }
       ]
     }
