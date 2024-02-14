@@ -43,8 +43,8 @@ const FormPage = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
 
   const closeAllCascades = () => {
-    const { cascades: cascadesFiles } = formJSON;
-    cascadesFiles.forEach((csFile) => {
+    const { cascades: cascadesFiles } = formJSON || {};
+    cascadesFiles?.forEach((csFile) => {
       const [dbFile] = csFile?.split('/')?.slice(-1);
       const connDB = SQLite.openDatabase(dbFile);
       connDB.closeAsync();
