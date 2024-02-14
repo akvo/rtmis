@@ -8,6 +8,7 @@ import { crudForms, crudUsers } from '../database/crud';
 import { api, cascades, i18n } from '../lib';
 import * as Notifications from 'expo-notifications';
 import * as Location from 'expo-location';
+import * as FileSystem from 'expo-file-system';
 import crudJobs, { SYNC_DATAPOINT_JOB_NAME, jobStatus } from '../database/crud/crud-jobs';
 
 const Home = ({ navigation, route }) => {
@@ -44,16 +45,15 @@ const Home = ({ navigation, route }) => {
   };
   const syncAllForms = async () => {
     try {
-      [];
       const endpoints = data.map((d) => api.get(`/form/${d.formId}`));
       const results = await Promise.allSettled(endpoints);
       const responses = results.filter(({ status }) => status === 'fulfilled');
       const cascadeFiles = responses.flatMap(({ value: res }) => res.data.cascades);
       const downloadFiles = [...new Set(cascadeFiles)];
 
-      const downloads = downloadFiles.map((file) =>
-        cascades.download(api.getConfig().baseURL + file, file, true),
-      );
+      downloadFiles.forEach(async (file) => {
+        await cascades.download(api.getConfig().baseURL + file, file, true)
+      });
 
       responses.forEach(async ({ value: res }) => {
         const { data: apiData } = res;
@@ -67,7 +67,6 @@ const Home = ({ navigation, route }) => {
         });
       });
 
-      await Promise.allSettled(downloads);
       UIState.update((s) => {
         /**
          * Refresh homepage to apply latest data
