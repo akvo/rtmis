@@ -77,7 +77,7 @@ const SubmissionEditing = ({
                       resetButton={resetButton}
                     />
                   ),
-                  width: "50%",
+                  width: "25%",
                 },
                 {
                   title: text?.lastResponseCol,
@@ -88,12 +88,12 @@ const SubmissionEditing = ({
                       parentId={expanded.id}
                       updateCell={updateCell}
                       resetCell={resetCell}
-                      disabled={!!dataLoading}
-                      readonly={!isEditable}
+                      disabled={true}
+                      readonly={true}
                       resetButton={resetButton}
                     />
                   ),
-                  width: "50%",
+                  width: "25%",
                 },
                 Table.EXPAND_COLUMN,
               ]}

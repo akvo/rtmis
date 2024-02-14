@@ -455,8 +455,8 @@ const UploadDetail = ({ record, setReload }) => {
                                         parentId={expanded.id}
                                         updateCell={updateCell}
                                         resetCell={resetCell}
-                                        disabled={!!dataLoading}
-                                        readonly={!isEditable}
+                                        disabled={true}
+                                        readonly={true}
                                         resetButton={resetButton}
                                       />
                                     ),
