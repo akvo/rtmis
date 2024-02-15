@@ -19,6 +19,7 @@ def seed_approved_data(data):
         form_data.geo = data.geo
         form_data.updated_by = data.created_by
         form_data.updated = timezone.now()
+        form_data.save_to_file
         form_data.save()
 
         for answer in data.pending_data_answer.all():
