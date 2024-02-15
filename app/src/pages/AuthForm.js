@@ -63,10 +63,9 @@ const AuthForm = ({ navigation }) => {
       if (status === 'fulfilled') {
         const { data: apiData } = value;
         // download cascades files
-        apiData.cascades.forEach((cascadeFile) => {
+        apiData.cascades.forEach(async (cascadeFile) => {
           const downloadUrl = api.getConfig().baseURL + cascadeFile;
-          console.info('Downloading...', downloadUrl);
-          cascades.download(downloadUrl, cascadeFile);
+          await cascades.download(downloadUrl, cascadeFile);
         });
         // insert all forms to database
         const form = formsUrl?.[index];

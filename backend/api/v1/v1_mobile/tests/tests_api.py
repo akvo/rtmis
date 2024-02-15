@@ -126,6 +126,7 @@ class MobileAssignmentApiTest(TestCase):
         self.assertEqual(
             list(response.data),
             [
+                'id',
                 'name',
                 'version',
                 'cascades',

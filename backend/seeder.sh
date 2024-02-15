@@ -51,5 +51,13 @@ if [[ "${seed_organization}" == 'y' || "${seed_organization}" == 'Y' ]]; then
     python manage.py organisation_seeder
 fi
 
+echo "Seed Entities? [y/n]"
+read -r seed_entities
+if [[ "${seed_entities}" == 'y' || "${seed_entities}" == 'Y' ]]; then
+    python manage.py entities_seeder
+fi
+
+python manage.py generate_sqlite
+
 # python manage.py fake_approver_seeder
 # python manage.py fake_data_seeder
