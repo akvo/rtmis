@@ -16,7 +16,7 @@ const EditableCell = ({
   disabled = false,
   readonly = false,
   isPublic = false,
-  resetButton,
+  resetButton = {},
   lastValue = false,
 }) => {
   const [editing, setEditing] = useState(false);
