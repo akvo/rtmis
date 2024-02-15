@@ -233,12 +233,21 @@ class ListFormDataRequestSerializer(serializers.Serializer):
         child=CustomPrimaryKeyRelatedField(queryset=Questions.objects.none()),
         required=False,
     )
+    parent = CustomPrimaryKeyRelatedField(
+        queryset=FormData.objects.filter(parent=None).none(),
+        required=False
+    )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.fields.get(
             "administration").queryset = Administration.objects.all()
         self.fields.get("questions").child.queryset = Questions.objects.all()
+        form_id = self.context.get('form_id')
+        self.fields.get("parent").queryset = FormData.objects.filter(
+            form_id=form_id,
+            parent=None,
+        ).all()
 
 
 class ListFormDataSerializer(serializers.ModelSerializer):
@@ -248,6 +257,7 @@ class ListFormDataSerializer(serializers.ModelSerializer):
     updated = serializers.SerializerMethodField()
     administration = serializers.ReadOnlyField(source="administration.name")
     pending_data = serializers.SerializerMethodField()
+    children_count = serializers.SerializerMethodField()
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_created_by(self, instance: FormData):
@@ -288,6 +298,10 @@ class ListFormDataSerializer(serializers.ModelSerializer):
             }
         return None
 
+    @extend_schema_field(OpenApiTypes.NUMBER)
+    def get_children_count(self, instance: FormData):
+        return instance.children.count()
+
     class Meta:
         model = FormData
         fields = [
@@ -302,6 +316,7 @@ class ListFormDataSerializer(serializers.ModelSerializer):
             "created",
             "updated",
             "pending_data",
+            "children_count",
         ]
 
 
