@@ -148,19 +148,6 @@
             { "id": 1701758237378, "name": "Ward", "order": 3 },
             { "id": 1701758245246, "name": "New Option", "order": 4 }
           ]
-        },
-        {
-          "id": 1701758383853,
-          "question": "Geolocation of the school",
-          "order": 2,
-          "type": "geo",
-          "variable": "school_geolocation",
-          "tooltip": {
-            "text": "Record GPS coordinates of a central place in the school (e.g. outside main classroom block)"
-          },
-          "required": false,
-          "meta": false,
-          "options": null
         }
       ]
     },
