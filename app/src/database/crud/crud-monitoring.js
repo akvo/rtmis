@@ -8,12 +8,36 @@ const monitoringQuery = () => {
       const insertQuery = query.insert('monitoring', {
         formId: formId,
         uuid: formJSON.uuid,
-        administration: formJSON?.administration,
         name: formJSON?.datapoint_name || null,
         json: formJSON ? JSON.stringify(formJSON.answers).replace(/'/g, "''") : null,
         syncedAt: new Date().toISOString(),
       });
       return await conn.tx(db, insertQuery, []);
+    },
+    syncForm: async ({ formId, formJSON }) => {
+      const findQuery = query.read('monitoring', { uuid: formJSON.uuid });
+      const { rows } = await conn.tx(db, findQuery, [formJSON.uuid]);
+      if (rows.length) {
+        const monitoringID = rows._array[0].id;
+        const updateQuery = query.update(
+          'monitoring',
+          { id: monitoringID },
+          {
+            json: formJSON ? JSON.stringify(formJSON.answers).replace(/'/g, "''") : null,
+            syncedAt: new Date().toISOString(),
+          },
+        );
+        return await conn.tx(db, updateQuery, [monitoringID]);
+      } else {
+        const insertQuery = query.insert('monitoring', {
+          formId: formId,
+          uuid: formJSON.uuid,
+          name: formJSON?.datapoint_name || null,
+          json: formJSON ? JSON.stringify(formJSON.answers).replace(/'/g, "''") : null,
+          syncedAt: new Date().toISOString(),
+        });
+        return await conn.tx(db, insertQuery, []);
+      }
     },
     getAllForms: async () => {
       const sqlQuery = 'SELECT formId FROM monitoring';

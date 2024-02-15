@@ -1,4 +1,3 @@
-import { Asset } from 'expo-asset';
 import * as FileSystem from 'expo-file-system';
 import * as SQLite from 'expo-sqlite';
 import { conn, query } from '../database';
@@ -14,14 +13,21 @@ const createSqliteDir = async () => {
   }
 };
 
-const download = (downloadUrl, fileUrl) => {
+const download = async (downloadUrl, fileUrl, update = false) => {
   const fileSql = fileUrl?.split('/')?.pop(); // get last segment as filename
   const pathSql = `${DIR_NAME}/${fileSql}`;
-  FileSystem.getInfoAsync(FileSystem.documentDirectory + pathSql).then(({ exists }) => {
-    if (!exists) {
-      FileSystem.downloadAsync(downloadUrl, FileSystem.documentDirectory + pathSql);
-    }
-  });
+  console.info('Downloading...', downloadUrl);
+  const { exists } = await FileSystem.getInfoAsync(FileSystem.documentDirectory + pathSql);
+  if (exists && update) {
+    const existing_db = SQLite.openDatabase(fileSql);
+    existing_db.closeAsync();
+    await existing_db.deleteAsync();
+  }
+  if (!exists || update) {
+    await FileSystem.downloadAsync(downloadUrl, FileSystem.documentDirectory + pathSql, {
+      cache: false,
+    });
+  }
 };
 
 const loadDataSource = async (source, id = null) => {

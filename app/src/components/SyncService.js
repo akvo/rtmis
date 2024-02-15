@@ -1,9 +1,14 @@
 import { useCallback, useEffect } from 'react';
-import { BuildParamsState, UIState } from '../store';
+import { BuildParamsState, DatapointSyncState, UIState } from '../store';
 import { backgroundTask } from '../lib';
-import crudJobs, { jobStatus, MAX_ATTEMPT } from '../database/crud/crud-jobs';
+import crudJobs, {
+  jobStatus,
+  MAX_ATTEMPT,
+  SYNC_DATAPOINT_JOB_NAME,
+} from '../database/crud/crud-jobs';
 import { SYNC_FORM_SUBMISSION_TASK_NAME, syncStatus } from '../lib/background-task';
 import { crudDataPoints } from '../database/crud';
+import { downloadDatapointsJson, fetchDatapoints } from '../lib/sync-datapoints';
 /**
  * This sync only works in the foreground service
  */
@@ -93,6 +98,60 @@ const SyncService = () => {
       clearInterval(syncTimer);
     };
   }, [syncInSecond, isOnline, onSync]);
+
+  const onSyncDataPoint = useCallback(async () => {
+    const activeJob = await crudJobs.getActiveJob(SYNC_DATAPOINT_JOB_NAME);
+
+    DatapointSyncState.update((s) => {
+      s.added = false;
+      s.inProgress = activeJob ? true : false;
+    });
+
+    if (activeJob && activeJob.status === jobStatus.PENDING && activeJob.attempt < MAX_ATTEMPT) {
+      await crudJobs.updateJob(activeJob.id, {
+        status: jobStatus.ON_PROGRESS,
+      });
+
+      try {
+        const allData = await fetchDatapoints();
+        const urls = allData.map(({ url, form_id: formId }) => ({ url, formId }));
+        await Promise.all(urls.map(({ formId, url }) => downloadDatapointsJson(formId, url)));
+        await crudJobs.deleteJob(activeJob.id);
+
+        DatapointSyncState.update((s) => {
+          s.inProgress = false;
+        });
+      } catch (error) {
+        DatapointSyncState.update((s) => {
+          s.added = true;
+        });
+        await crudJobs.updateJob(activeJob.id, {
+          status: jobStatus.PENDING,
+          attempt: activeJob.attempt + 1,
+          info: String(error),
+        });
+      }
+    }
+
+    if (activeJob && activeJob.status === jobStatus.PENDING && activeJob.attempt === MAX_ATTEMPT) {
+      await crudJobs.deleteJob(activeJob.id);
+    }
+  }, []);
+
+  useEffect(() => {
+    const unsubsDataSync = DatapointSyncState.subscribe(
+      (s) => s.added,
+      (added) => {
+        if (added) {
+          onSyncDataPoint();
+        }
+      },
+    );
+
+    return () => {
+      unsubsDataSync();
+    };
+  }, [onSyncDataPoint]);
 
   return null; // This is a service component, no rendering is needed
 };

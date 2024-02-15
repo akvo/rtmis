@@ -274,6 +274,7 @@ Object {
     "invalidInviteDesc": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem provident voluptatum cum numquam, quidem vitae, qui quam beatae exercitationem ullam perferendis! Nobis in aut fuga voluptate harum, tempore distinctio optio.",
     "invalidInviteTitle": "Invalid Invite Code",
     "lastLoginLabel": "Last login",
+    "lastResponseCol": "Last Response",
     "latestUpdateText": "Latest Updates",
     "learnMoreButton": "Learn more",
     "levelField": "Level",
@@ -503,6 +504,7 @@ Object {
     "printBtn": "Print",
     "profileDes": "This page shows your current user setup. It also shows the most important activities for your current user setup",
     "profileLabel": "Profile",
+    "questionCol": "Question",
     "questionnaireText": "Questionnaire",
     "questionnairesLabel": "Questionnaires",
     "realTime": "Real Time Management Information System",
@@ -514,6 +516,7 @@ Object {
       Your password must include:
     </React.Fragment>,
     "resetText": "Reset",
+    "responseCol": "Response",
     "roleLabel": "Role",
     "saveButton": "Save",
     "saveEditButton": "Save Edits",
