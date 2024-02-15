@@ -8,7 +8,7 @@ from django.utils import timezone
 # from functools import reduce
 
 from django.contrib.postgres.aggregates import StringAgg
-from django.db.models import Count, TextField, Value, F, Sum, Avg
+from django.db.models import Count, TextField, Value, F, Sum, Avg, Max
 from django.db.models.functions import Cast, Coalesce
 from django.http import HttpResponse
 from django_q.tasks import async_task
@@ -96,18 +96,34 @@ class FormDataAddListView(APIView):
                              required=False,
                              type={'type': 'array',
                                    'items': {'type': 'string'}},
+                             location=OpenApiParameter.QUERY),
+            OpenApiParameter(name='parent',
+                             required=False,
+                             type=OpenApiTypes.NUMBER,
                              location=OpenApiParameter.QUERY)],
         summary='To get list of form data')
     def get(self, request, form_id, version):
         form = get_object_or_404(Forms, pk=form_id)
-        serializer = ListFormDataRequestSerializer(data=request.GET)
+        serializer = ListFormDataRequestSerializer(
+            data=request.GET,
+            context={'form_id': form_id}
+        )
         if not serializer.is_valid():
             return Response(
                 {'message': validate_serializers_message(
                     serializer.errors)},
                 status=status.HTTP_400_BAD_REQUEST
             )
+        latest_created_per_uuid = FormData.objects.filter(
+            form_id=form_id,
+        ).values('uuid').annotate(latest_created=Max('created'))
+
+        parent = serializer.validated_data.get('parent')
         filter_data = {}
+        filter_data['parent'] = None
+        if parent:
+            filter_data['parent'] = parent
+            filter_data['uuid__in'] = latest_created_per_uuid.values('uuid')
         if serializer.validated_data.get('administration'):
             filter_administration = serializer.validated_data.get(
                 'administration')
@@ -133,9 +149,28 @@ class FormDataAddListView(APIView):
         page_size = REST_FRAMEWORK.get('PAGE_SIZE')
 
         the_past = datetime.now() - timedelta(days=10 * 365)
-        queryset = form.form_form_data.filter(**filter_data).annotate(
-            last_updated=Coalesce('updated', Value(the_past))).order_by(
-            '-last_updated', '-created')
+        queryset = form.form_form_data.filter(**filter_data)
+        if parent:
+            queryset = queryset.annotate(
+                    last_updated=Coalesce('updated', Value(the_past)),
+                    latest_created=Coalesce('updated', 'created') \
+                    # Use updated time if available, otherwise use created time
+                ).filter(
+                    created=F('latest_created') \
+                    # Filter by objects where created equals latest_created
+                ).order_by(
+                    '-last_updated',
+                    '-created'
+                )
+        else:
+            queryset = queryset.annotate(
+                last_updated=Coalesce('updated', Value(the_past)),
+                children_count=Count('children')
+            ).order_by(
+                '-children_count',
+                '-last_updated',
+                '-created'
+            )
 
         paginator = PageNumberPagination()
         instance = paginator.paginate_queryset(queryset, request)
