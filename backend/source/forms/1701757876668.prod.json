@@ -135,19 +135,13 @@
           "id": 1701757876670,
           "question": "What is the location of the school?",
           "order": 1,
-          "type": "option",
+          "type": "administration",
           "variable": "school_location",
           "tooltip": {
             "text": "This question contains a list of possible school locations, starting with the government area or district, down to the community."
           },
           "required": false,
-          "meta": false,
-          "options": [
-            { "id": 1701758210537, "name": "County", "order": 1 },
-            { "id": 1701758210538, "name": "Sub-County", "order": 2 },
-            { "id": 1701758237378, "name": "Ward", "order": 3 },
-            { "id": 1701758245246, "name": "New Option", "order": 4 }
-          ]
+          "meta": true
         }
       ]
     },
