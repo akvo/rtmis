@@ -79,6 +79,7 @@ const SubmissionEditing = ({
                   ),
                   width: "25%",
                 },
+                Table.EXPAND_COLUMN,
                 {
                   title: text?.lastResponseCol,
                   render: (row) => (
@@ -90,12 +91,10 @@ const SubmissionEditing = ({
                       resetCell={resetCell}
                       disabled={true}
                       readonly={true}
-                      resetButton={resetButton}
                     />
                   ),
                   width: "25%",
                 },
-                Table.EXPAND_COLUMN,
               ]}
               expandable={{
                 expandIcon: ({ onExpand, record }) => {

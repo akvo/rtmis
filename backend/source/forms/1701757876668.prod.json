@@ -20,6 +20,7 @@
           "question": "New school registration or monitoring update?",
           "order": 1,
           "type": "option",
+          "variable": "new_school_registration_monitoring_update",
           "tooltip": {
             "text": "Entry of school data in RTMIS (first time) or update of monitoring data (existing school)"
           },
@@ -36,6 +37,7 @@
           "question": "Geolocation of school",
           "order": 2,
           "type": "geo",
+          "variable": "school_geolocation",
           "tooltip": null,
           "required": false,
           "meta": false,
@@ -46,6 +48,7 @@
           "id": 1706105097574,
           "question": "School respondent: role/position",
           "order": 3,
+          "variable": "school_respondent_role",
           "type": "option",
           "tooltip": { "text": "List of school positions/roles" },
           "required": false,
@@ -67,6 +70,7 @@
           "question": "Total number of students enrolled in school",
           "order": 4,
           "type": "number",
+          "variable": "total_students_enrolled",
           "tooltip": {
             "text": "INTERVIEW: what is the total number of students currently enrolled in this school?"
           },
@@ -80,6 +84,7 @@
           "question": "Number of boys (male students) enrolled in school",
           "order": 5,
           "type": "number",
+          "variable": "num_boys_enrolled",
           "tooltip": {
             "text": "INTERVIEW: what is the total number of boys currently enrolled in this school?\n"
           },
@@ -93,6 +98,7 @@
           "question": "Number of girls (female students) enrolled in school",
           "order": 6,
           "type": "number",
+          "variable": "num_girls_enrolled",
           "tooltip": {
             "text": "INTERVIEW: what is the total number of girls currently enrolled in this school?"
           },
@@ -106,6 +112,7 @@
           "question": "Number of students with disability enrolled in school",
           "order": 7,
           "type": "number",
+          "variable": "num_students_disability",
           "tooltip": {
             "text": "INTERVIEW: what is the total number of students with disability currently enrolled in this school?\n"
           },
@@ -128,30 +135,13 @@
           "id": 1701757876670,
           "question": "What is the location of the school?",
           "order": 1,
-          "type": "option",
+          "type": "administration",
+          "variable": "school_location",
           "tooltip": {
             "text": "This question contains a list of possible school locations, starting with the government area or district, down to the community."
           },
           "required": false,
-          "meta": false,
-          "options": [
-            { "id": 1701758210537, "name": "County", "order": 1 },
-            { "id": 1701758210538, "name": "Sub-County", "order": 2 },
-            { "id": 1701758237378, "name": "Ward", "order": 3 },
-            { "id": 1701758245246, "name": "New Option", "order": 4 }
-          ]
-        },
-        {
-          "id": 1701758383853,
-          "question": "Geolocation of the school",
-          "order": 2,
-          "type": "geo",
-          "tooltip": {
-            "text": "Record GPS coordinates of a central place in the school (e.g. outside main classroom block)"
-          },
-          "required": false,
-          "meta": false,
-          "options": null
+          "meta": true
         }
       ]
     },
@@ -168,6 +158,7 @@
           "question": "Main source of drinking water",
           "order": 1,
           "type": "option",
+          "variable": "main_drinking_water_source",
           "tooltip": {
             "text": "OBSERVE & INTERVIEW: what is the main source of drinking water for the school?<br/>\n<b>Main source:</b> if there is more than one water source, select the one used most frequently for drinking water"
           },
@@ -242,6 +233,7 @@
           "question": "Number of water points",
           "order": 2,
           "type": "number",
+          "variable": "num_water_points",
           "tooltip": {
             "text": "OBSERVE: how many drinking water points (e.g. taps) are available to students at the school?</br>\n<b>Number of water points:</b> count the total number of drinking water points available to students at the school "
           },
@@ -255,6 +247,7 @@
           "question": "Drinking water availability: current",
           "order": 3,
           "type": "option",
+          "variable": "drinking_water_availability_current",
           "tooltip": {
             "text": "OBSERVE & INTERVIEW: is drinking water from the main water source currently available at the school?</br>\n<b>Currently available:</b> drinking water is available at the time of the interview, either from the main source directly or stored water originally from the main source"
           },
@@ -281,6 +274,7 @@
           "question": "Drinking water availability: throughout school year",
           "order": 4,
           "type": "option",
+          "variable": "drinking_water_availability_school_year",
           "tooltip": {
             "text": "OBSERVE & INTERVIEW: is drinking water typically available throughout the school year?</br>\n<b>Throughout the school year:</b> drinking water is available throughout the school year, when the students are at school"
           },
@@ -313,6 +307,7 @@
           "question": "Drinking water treatment",
           "order": 5,
           "type": "option",
+          "variable": "drinking_water_treatment",
           "tooltip": {
             "text": "OBSERVE & INTERVIEW: what treatment method is used ot make the water from the main source safe to drink?<br/>\n<b>SODIS:</b> solar disinfection (plastic bottles placed in sun for a number of hours)"
           },
@@ -369,6 +364,7 @@
           "question": "Drinking water accessibility: students with limited mobility or vision",
           "order": 6,
           "type": "option",
+          "variable": "water_accessibility_students_lim_mobility_vision",
           "tooltip": {
             "text": "<b>OBSERVE: is drinking water accessible to those with limited mobility or vision?</b></br>\n<b>Accessible:</b> drinking water can be accessed (directly from the source or from a storage container) via a clear path without stairs or steps that is free of obstruction and has age-appropriate handrails; the tap can be reached from a seated position; and the water source/dispsenser can be opened and closed with minimal effort with one closed fist or foot"
           },
@@ -395,6 +391,7 @@
           "question": "Drinking water accessibility: smallest students",
           "order": 7,
           "type": "option",
+          "variable": "water_accessibility_smallest_students",
           "tooltip": {
             "text": "<b>OBSERVE: is drinking water accessible to the smallest children at the school?</b></br>\n<b>Accessible:</b> drinking water can be reached (directly from the source or from a storage container) and the water source/dispenser can be easily opened and closed by the smallest children\n"
           },
@@ -431,6 +428,7 @@
           "question": "School toilet interface type",
           "order": 1,
           "type": "option",
+          "variable": "school_toilet_interface_type",
           "tooltip": {
             "text": "<b>OBSERVE: main type of toilet interface</b></br>\n<b>Toilet interface:</b> part of the toilet through which the excreta pass into the containment system</br>\n<b>Examples: </b>1. Drophole, 2. Pour-flush pan, 3. SATO pan."
           },
@@ -495,6 +493,7 @@
           "question": "School toilet containment or collection system",
           "order": 2,
           "type": "option",
+          "variable": "school_toilet_containment_collection_system",
           "tooltip": {
             "text": "<b>OBSERVE: main type of excreta containment or collection system</b></br>\n<b>Main type:</b> the most common type of student toilet should be selected</br>\n<b>Containment system:</b> pit or tank (or other) that contains and stores excreta</br>\n<b>Collection system:</b> connection through which excreta and wastewater are collected</br>\n<b>Examples:</b> 1. Latrine pit; 2. Septic tank; 3. Sewer connection.</br>\n<b>Flush to don't know: </b>household does not know where the toilet flushes to, but no surface outlets or open discharges are visible (in this case, likely to be a buried pit or tank)"
           },
@@ -589,6 +588,7 @@
           "question": "Durable school toilet slabs",
           "order": 3,
           "type": "option",
+          "variable": "durable_toilet_slabs",
           "tooltip": {
             "text": "<b>OBSERVE: durable toilet slabs observed in school toilets?</b></br>\n<b>Durable toilet slab: </b>toilet slab or floor is made from durable materials. </br>\n<b>Examples of durable toilet slabs:</b> 1. Concrete toilet slab; 2. Concrete toilet slab covered with ceramic tiles; 3. Structural plastic slab."
           },
@@ -623,6 +623,7 @@
           "question": "Durable school toilet pits",
           "order": 4,
           "type": "option",
+          "variable": "durable_toilet_pits",
           "tooltip": {
             "text": "<b>OBSERVE: durable toilet pits observed in school toilets?</b></br>\n<b>OBSERVE:</b> are there any signs of collapse or damage to the school toilet containment or collection system?</br>\n<b>INTERVIEW (where containment not visible): </b>were any materials used to support the sides of the containment system? </br>\n<b>INTERVIEW (where containment not visible):</b> does the soil collapse without support?</br>\n<b>INTERVIEW (where containment not visible):</b> has the toilet pit collapsed in the last 12 months?</br>\n</b>Durable toilet containment (in stable soils): </b>unlined pits may be assessed as durable in areas where other unlined pits are known to be stable and long-lasting.</br>\n</b>Durable toilet containment (in UNSTABLE soils): </b>the pit or tank should either be lined with durable materials (e.g. concrete, brickwork, blockwork), or lined with resilient local materials approved by the county public health office for pit linings. </br>"
           },
@@ -657,6 +658,7 @@
           "question": "Status of girls only school toilet",
           "order": 5,
           "type": "option",
+          "variable": "status_girls_only_toilet",
           "tooltip": {
             "text": "<b>OBSERVE: count the number of girls-only school toilets</b></br>\n<b>OBSERVE: assess whether the girls-only school toilets are functiona</b>l</br>\n<b>Functional:</b> toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)\n"
           },
@@ -693,6 +695,7 @@
           "type": "number",
           "tooltip": null,
           "required": false,
+          "variable": "num_girls_only_non_functional_toilet",
           "meta": false,
           "options": null,
           "dependency": [
@@ -712,6 +715,7 @@
           "question": "Number of girls only functional toilet",
           "order": 7,
           "type": "number",
+          "variable": "num_girls_only_functional_toilet",
           "tooltip": null,
           "required": false,
           "meta": false,
@@ -733,6 +737,7 @@
           "question": "Status of boys only school toilets",
           "order": 8,
           "type": "option",
+          "variable": "status_boys_only_toilets",
           "tooltip": {
             "text": "<b>OBSERVE: count the number of boys-only school toilets</b></br>\n<b>OBSERVE:</b> assess whether the boys-only school toilets are functional</br>\n<b>Functional: </b>toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)"
           },
@@ -768,6 +773,7 @@
           "order": 9,
           "type": "number",
           "tooltip": null,
+          "variable": "num_boys_only_non_functional_toilet",
           "required": false,
           "meta": false,
           "options": null,
@@ -788,6 +794,7 @@
           "question": "Number of boys only functional toilets",
           "order": 10,
           "type": "number",
+          "variable": "num_boys_only_functional_toilets",
           "tooltip": null,
           "required": false,
           "meta": false,
@@ -809,6 +816,7 @@
           "question": "Status of  shared only school toilets",
           "order": 11,
           "type": "option",
+          "variable": "status_shared_toilets",
           "tooltip": {
             "text": "<b>OBSERVE: count the number of shared school toilets</b></br>\n<b>OBSERVE: assess whether the shared school toilets are functional  </b></br>\n<b>Functional:</b> toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)</br>"
           },
@@ -852,6 +860,7 @@
           "question": "Number of functional shared toilet",
           "order": 12,
           "type": "number",
+          "variable": "num_functional_shared_toilet",
           "tooltip": null,
           "required": false,
           "meta": false,
@@ -873,6 +882,7 @@
           "question": "Number of non functional shared toilet",
           "order": 13,
           "type": "number",
+          "variable": "num_non_functional_shared_toilet",
           "tooltip": null,
           "required": false,
           "meta": false,
@@ -894,6 +904,7 @@
           "question": "Girl student-toilet ratio",
           "order": 14,
           "type": "autofield",
+          "variable": "girl_student_toilet_ratio",
           "tooltip": {
             "text": "total number of girls (female students) enrolled in school divided by total number of functional girls-only toilets (segregated)</br>\n<b>Functional:</b> toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)"
           },
@@ -916,6 +927,7 @@
           "question": "Boy student-toilet ratio",
           "order": 15,
           "type": "autofield",
+          "variable": "boy_student_toilet_ratio",
           "tooltip": {
             "text": "total number of boys (male students) enrolled in school divided by total number of functional toilets (available to boys-only plus shared toilets available to all students)</br>\n<b>Functional: </b> toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)\n"
           },
@@ -938,6 +950,7 @@
           "question": "Flyproof school toilets",
           "order": 16,
           "type": "option",
+          "variable": "flyproof_school_toilets",
           "tooltip": {
             "text": "<b>OBSERVE: are the school toilets flyproof?</b></br>\n<b>Flyproof: </b>toilet design prevents flies from reaching the excreta in the pit (or other containment system).</br>\n<b>Examples of flyproof toilets: </b>1. Pour-flush pit latrine with a functional water-seal pan; 2. VIP latrine with a screened vent pipe; 3. Dry pit latrine with a tight-fitting drophole cover. </br>\n<b>Examples of NON-flyproof toilets: </b>1. Pour-flush latrine with dry water seal (no water); VIP latrine with NO insect screen on vent pipe; 3. Pit latrine with inadequate or missing drophole cover.</br>\n Inadequate drophole cover: a cover that is not tight-fitting enough to prevent fly or insect entry into the pit</br>"
           },
@@ -972,6 +985,7 @@
           "question": "School toilet privacy",
           "order": 17,
           "type": "option",
+          "variable": "school_toilet_privacy",
           "tooltip": {
             "text": "<b>OBSERVE: do toilet superstructures provide privacy? </b></br>\n<b>Privacy:</b> toilet superstructure has walls and a door that allow use of the toilet without observation by people outside the toilet, with closable doors that lock from the inside and no large openings in the toilet structure.\n"
           },
@@ -1006,6 +1020,7 @@
           "question": "School toilet availability",
           "order": 18,
           "type": "option",
+          "variable": "school_toilet_availability",
           "tooltip": {
             "text": "<b>OBSERVE: are school toilets available for use by students?</b> </br>\n<b>Available to students: </b>toilet doors are unlocked, or a key is available to students at all times."
           },
@@ -1040,6 +1055,7 @@
           "question": "Clean school toilets",
           "order": 19,
           "type": "option",
+          "variable": "clean_school_toilets",
           "tooltip": {
             "text": "<b>OBSERVE: are the school toilets clean?</b></br>\n<b>Clean:</b> toilets do not have a strong smell; there are not significant numbers of flies or mosquitoes in the toilets; and there are no visible faeces or soiled cleaning materials on the toilet floors, walls, seats (or pans).</br>\n<b>Somewhat clean: <b>toilets have some smell and/or some trace of faecal matter or soiled cleansing materials in some of the toilets</br>\n<b>NOT clean: <b>there is a strong smell and/or presence of faecal matter or soiled cleansing materials in most toilets"
           },
@@ -1073,6 +1089,7 @@
           "id": 1706098964064,
           "question": "No exposed human excreta around school toilets",
           "order": 20,
+          "variable": "no_exposed_excreta_around_school_toilets",
           "type": "option",
           "tooltip": {
             "text": "<b>OBSERVE: visible human faeces around the school toilets or in the school buildings or compound.</b></br>"
@@ -1102,6 +1119,7 @@
           "question": "Safely managed toilet containment: wastewater contained",
           "order": 21,
           "type": "option",
+          "variable": "safely_managed_toilet_containment_wastewater",
           "tooltip": {
             "text": "<b>OBSERVE: any evidence of surface outflows from containment systems (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows)</b></br>\n<b>Surface outflows from containment: </b>EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks).\n\n"
           },
@@ -1130,6 +1148,7 @@
           "question": "Safely managed toilet containment: faecal sludge contained",
           "order": 22,
           "type": "option",
+          "variable": "safely_managed_toilet_containment_faecal_sludge",
           "tooltip": {
             "text": "<b>INTERVIEW: has the school toilet containment (pit, tank or other) ever been emptied?<b></br>\n<b>INTERVIEW:<b> has the school toilet containment (pit, tank or other) ever filled up?</br>\n<b>INTERVIEW: <b>what happened when the school toilet containment (pit, tank or other) last filled up?</br>\n<b>INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied): <b>what will happen when the toilet containment is full?</br>\n<b>Examples:<b> 1. Never emptied: covered a full toilet pit and dug a new pit; 2. Emptied: emptied the full pit and continued to use it; 3. Connected a second pit and disconnected the full pit. 4. Emptied faecal sludge from septic tank then continued to use."
           },
@@ -1194,6 +1213,7 @@
           "question": "School toilet accessibility: students with limited mobility or vision",
           "order": 23,
           "type": "option",
+          "variable": "school_toilet_accessibility_students_lim_mobility_vision",
           "tooltip": {
             "text": "OBSERVE: is there at least one functional toilet accessible to those with limited mobility or vision?</br>\n<b>Accessible: </b>the toilet can be accessed via a clear path without stairs or steps that is free of obstructions and has age-appropriate handrails; there is enough space inside for a wheelchair user to enter, turn, close the door and park by the toilet; the door is wide enough for a wheelchair (at least 80cm) and opens outward with minimal or no difference in floor height between outside and inside; and the door handle and seat are within reach of students using wheelchairs, crutches or sticks, including a fixed raised pan or movable raised toilet seat to accommodate students who may have difficulty squatting\n"
           },
@@ -1222,6 +1242,7 @@
           "question": "School toilet accessibility: smallest students",
           "order": 24,
           "type": "option",
+          "variable": "school_toilet_accessibility_smallest_students",
           "tooltip": {
             "text": "OBSERVE: is there at least one functional toilet accessible to the smallest children at the school?</br>\n<b>Accessible: </b>the toilet can be used by the smallest children, including (where necessary) a smaller toilet drophole, a lower seat, and a lower door handle.\n"
           },
@@ -1259,6 +1280,7 @@
           "id": 1706087908008,
           "question": "Main location of school handwashing facilities",
           "order": 1,
+          "variable": "main_location_school_handwashing_facilities",
           "type": "option",
           "tooltip": {
             "text": "<b>OBSERVE: where are school handwashing facilities located?</b></br>\n<b>Location: </b>main location for functional handwashing facilities"
@@ -1322,6 +1344,7 @@
           "question": "Number of school handwashing facilities",
           "order": 2,
           "type": "number",
+          "variable": "num_school_handwashing_facilities",
           "tooltip": {
             "text": "<b>OBSERVE: how many school handwashing facilities are available?<b></br>\n<b>Available:</b> handwashing facility that enables students to wash their hands using running water, such as a basin with tap, water tank with tap, bucket with tap, tippy tap, or other similar device. NB a shared bucket or basin used for dipping hands is NOT considered an effective handwashing facility.\n"
           },
@@ -1335,6 +1358,7 @@
           "question": "Water availability at school handwashing facilities",
           "order": 3,
           "type": "option",
+          "variable": "water_availability_school_handwashing_facilities",
           "tooltip": {
             "text": "<b>OBSERVE: is water available at school handwashing facilities?</b></br>\n<b>Water: </b>where soapy water is used for handwashing, non-soapy water must also be available for rinsing hands after washing"
           },
@@ -1367,6 +1391,7 @@
           "question": "Soap availability at school handwashing facilities",
           "order": 4,
           "type": "option",
+          "variable": "soap_availability_school_handwashing_facilities",
           "tooltip": {
             "text": "<b>OBSERVE: is soap available at school handwashing facilities?</b></br>\n<b>Soap: </b>solid, liquid or powder soap or detergent "
           },
@@ -1405,6 +1430,7 @@
           "question": "School handwashing facility type",
           "order": 5,
           "type": "option",
+          "variable": "school_handwashing_facility_type",
           "tooltip": {
             "text": "<b>OBSERVE: what is the main type of school handwashing station available?</b></br>\n<b>Permanent handwashing station: </b>facility made from durable materials, with a piped water connection or adequate water storage, and located in a fixed place that is appropriate for handwashing at critical times</br>\n<b>Market handwashing station: </b>manufactured handwashing station from durable materials (bought from market or market trader)</br>\n<b>Portable basin: </b>open container that can be easily picked up and moved"
           },
@@ -1461,6 +1487,7 @@
           "question": "Hands-free operation of school handwashing facility",
           "order": 6,
           "type": "option",
+          "variable": "hands_free_operation_school_handwashing_facility",
           "tooltip": {
             "text": "<b>OBSERVE: mechanisms to collect water or trigger water flow</b> </br>\n<b>Hands-free operation:</b> handwashing stations are operated by tap, or other hands-free mechanism that minimises contact with the water collection device and the water container"
           },
@@ -1505,6 +1532,7 @@
           "question": "Adequate drainage of washing water",
           "order": 7,
           "type": "option",
+          "variable": "adequate_drainage_washing_water",
           "tooltip": {
             "text": "OBSERVE: facilities to collect washing water, and facilities to drain and dispose of the washing water</br>\nCollection of washing water: containers to collect dirty washing water (for example, a basin or other container)</br>\nDrainage and disposal of washing water: drainage pipes or other facilities to direct the washing water to appropriate disposal points (for example, soakpits or drains)</br>\n"
           },
@@ -1537,6 +1565,7 @@
           "question": "Handwashing accessibility: students with limited mobility or vision",
           "order": 8,
           "type": "option",
+          "variable": "handwashing_accessibility_students_lim_mobility_vision",
           "tooltip": {
             "text": "<b>OBSERVE: is there at least one handwashing facility accessible to those with limited mobility or vision?</b></br>\n<b>Accessible: </b>the handwashing facility can be accessed via a clear path without stairs or steps that is free of obstructions and has age-appropriate handrails; the tap and soap are reachable from a seated position, and the tap can be operated by feet and/or one closed fist with minimal effort"
           },
@@ -1563,6 +1592,7 @@
           "question": "Handwashing accessibility: smallest students",
           "order": 9,
           "type": "option",
+          "variable": "handwashing_accessibility_smallest_students",
           "tooltip": {
             "text": "<b>OBSERVE: is there at least one handwashing facility accessible to the smallest children at the school?<b/></br>\n<b>Accessible:</b> the smallest children are able to reach the tap and soap, and able to operate the tap on their own with minimal effort\n"
           },
@@ -1599,6 +1629,7 @@
           "question": "Private bathing areas for menstrual hygiene",
           "order": 1,
           "type": "option",
+          "variable": "private_bathing_areas_menstrual_hygiene",
           "tooltip": {
             "text": "<b>OBSERVE: bathing areas adequate for menstrual hygiene</b></br>\n<b>Adequate bathing area: </b>private and girls-only place for washing and menstrual hygiene, with closable doors that lock from the inside, without the possibility of observation by people outside the bathing area"
           },
@@ -1630,6 +1661,7 @@
           "question": "Water and soap available in bathing areas for menstrual hygiene",
           "order": 2,
           "type": "option",
+          "variable": "water_soap_available_menstrual_hygiene_bathing_areas",
           "tooltip": {
             "text": "OBSERVE: water and soap available in bathing areas"
           },
@@ -1661,6 +1693,7 @@
           "question": "Clean bathing areas for menstrual hygiene",
           "order": 3,
           "type": "option",
+          "variable": "clean_bathing_areas_menstrual_hygiene",
           "tooltip": {
             "text": "<b>OBSERVE: clean bathing areas available for menstrual hygiene</b></br>\n<b>Clean bathing areas:</b> the places available for washing and menstrual hygiene are clean\n\n"
           },
@@ -1692,6 +1725,7 @@
           "question": "Availability of menstrual hygiene materials at the school",
           "order": 4,
           "type": "option",
+          "variable": "availability_menstrual_hygiene_materials_school",
           "tooltip": {
             "text": "<b>INTERVIEW: are menstrual hygiene materials available at the school?</b></br>\n<b>Menstrual hygiene materials and products: </b>disposable and reusable sanitary pads, tampons, and resuable menstrual cups, clean piece of cotton cloth or cotton wool, that are safe and hygienic, and absorb or collect blood during menstrual periods.</br>\n<b>Available: </b>menstrual hygiene materials are currently available at the school (via free distribution or for purchase).\n"
           },
@@ -1723,6 +1757,7 @@
           "question": "Disposal facilities for menstrual hygiene wastes",
           "order": 5,
           "type": "option",
+          "variable": "disposal_facilities_menstrual_hygiene_wastes",
           "tooltip": {
             "text": "<b>OBSERVE: are covered bins available for disposal of menstrual hygiene wastes?</b>"
           },
@@ -1754,6 +1789,7 @@
           "question": "Disposal system for menstrual hygiene wastes",
           "order": 6,
           "type": "option",
+          "variable": "disposal_system_menstrual_hygiene_wastes",
           "tooltip": {
             "text": "<b>OBSERVE: how are menstrual hygiene wastes (in covered bins) collected and disposed?</b>"
           },
@@ -1797,6 +1833,7 @@
           "question": "Menstrual hygiene education",
           "order": 7,
           "type": "option",
+          "variable": "menstrual_hygiene_education",
           "tooltip": {
             "text": "INTERVIEW: is menstrual hygiene management education available at the school?</br>\n"
           },
