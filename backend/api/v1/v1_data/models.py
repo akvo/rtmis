@@ -276,7 +276,7 @@ class Answers(models.Model):
     @property
     def to_data_frame(self) -> dict:
         q = self.question
-        qname = f"{self.question.id}|{self.question.name}"
+        qname = f"{self.question.variable}"
         if q.type in [
                 QuestionTypes.geo, QuestionTypes.option,
                 QuestionTypes.multiple_option
