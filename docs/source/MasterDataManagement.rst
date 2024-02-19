@@ -7,18 +7,63 @@
 
 .. role:: heading
 
-:heading:`Data Management`
+:heading:`Master Data Management`
 
 .. role:: bolditalic
 
 Administrative List
 --------------------
 
-* The data protection act seeks to give effect to Article 31(c) and (d) of the Constitution that contain the right to privacy, regulate the processing of personal data, provide for the rights of data ‘subjects’; and defines the obligations of data ‘controllers’ (person who determines the purpose and means of processing of personal data) and ‘processors’ (person who processes personal data on behalf of the data controller).
+1. From the Sidebar of the control center, click the administrative list sub menu under the Master Data menu, add or modify an existing administration or delete an existing administration.
 
-* Every data controller or data processor is required to ensure the storage, on a server or data centre located in Kenya, of at least one serving copy of personal data to which the Act applies. Cross-border processing of sensitive personal data is prohibited and only allowed when certain conditions are met or under certain circumstances specified in the Act.
+.. image:: ../assests/image51.png
+    :alt: Administrative Lis
+    :width: 100%
 
-Collecting Data in the Field
+2. To add a new administration, click the ADD NEW button. Next, select the administration level and fill all the mandatory fields. Finally, click the Save button to add the administration.
+
+.. image:: ../assests/image53.png
+    :alt: Add Administration
+    :width: 100%
+
+3. To delete or edit an existing administration, click the Edit button next to the administration, Once data is updated click on the :bolditalic:`Save` Button
+
+.. image:: ../assests/image54.png
+    :alt: Deleting Administration1
+    :width: 100%
+
+4.To delete click the Delete button. Next, confirm you are deleting the administration by clicking the OK button in the pop-up window.
+
+.. image:: ../assests/image55.png
+    :alt: Deleting Administration2
+    :width: 100%
+
+.. image:: ../assests/image56.png
+    :alt: Deleting Administration3
+    :width: 100%        
+
+Administrative Bulk Upload
+----------------------------
+
+1. Click on the :bolditalic:`Bulk Upload` Button 
+
+.. image:: ../assests/image57.png
+    :alt: Bulk Upload Image
+    :width: 100%
+
+2. Select the attribute if you want to inlude or click on the :bolditalic:`Download` Button. Click the Prefilled administrative list for downloading the template with already updated data.
+
+.. image:: ../assests/image58.png
+    :alt: Bulk Upload image1
+    :width: 100%
+
+3. To see the pre-filled administrative data export requests. Click the :bolditalic:`Download` Button to download the data.
+
+.. image:: ../assests/image59.png
+    :alt: Bulk Upload image1
+    :width: 100%
+
+Administrative Download
 -----------------------------
 
 **Sampling**
@@ -36,7 +81,7 @@ During phase 2 of RUSH RTMIS implementation, data collection will be done at eve
 * This unique code will apply when the RUSH protocol is fully implemented 
 * The Unique Code shall be composed as follows:  Village name+SN + HH Head's Surname
 
-Deleting data
+Manage Attributes
 --------------
 
 1. From the Data menu of the sidebar, click on the :bolditalic:`Manage Data` submenu.
@@ -51,7 +96,7 @@ Deleting data
     :alt: Deleting Data
     :width: 100%
 
-Downloading data
+Manage Entities
 -----------------
 1. Select the questionnaire and click on :bolditalic:`Download Data` button
 
@@ -62,3 +107,8 @@ Downloading data
 .. image:: ../assests/image44.png
     :alt: Downloading Data
     :width: 100%
+
+Manage Organizations
+---------------------
+
+1. Manage organisation asmvasd asjvdamsd asmdvs masvdms
