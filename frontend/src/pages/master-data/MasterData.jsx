@@ -127,7 +127,7 @@ const MasterData = () => {
           <Col>
             <Breadcrumbs pagePath={pagePath} />
             <DescriptionPanel
-              description={text.manageUserText}
+              description={text.admPanelText}
               title={text.manageAdministrativeList}
             />
           </Col>
