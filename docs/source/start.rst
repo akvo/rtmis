@@ -11,7 +11,7 @@
 User Types & Basic principal
 -----------------------------
 
-* There are two types of users that comprise Platform administrators (Super admins, County admins, sub county PHOs/Approvers), data collectors (Enumerators)
+* There are two types of users that comprise Platform administrators (Super admins, County admins, sub county PHOs/Approvers), data collectors (Data Entry Supervisor)
 * A user can only be added by authorised users with admin or super admin roles
 * A county admin can only add users for their county
 * A user can only be deleted if there are no approvals or batching operations pending on them
@@ -29,8 +29,8 @@ User Roles and Permissions
 +---------------------------+------------------------+----------------------------------------------+
 | User Roles                | Privileges             | Definitions                                  |
 +===========================+========================+==============================================+
-|| **Data Submitter**       || Data upload, View     || An enumerator can only edit data if the     |
-||                          ||                       || approver has rejected the data              |
+|| **Data Submitter**       || Data upload, View     || A Data Entry Supervisor can only edit       |
+||                          ||                       || data if the  approver has rejected the data |
 +---------------------------+------------------------+----------------------------------------------+
 || **Approver**             || Edit, View, Data      || Approvals restricted by region              |
 ||                          || Approval              ||                                             |
