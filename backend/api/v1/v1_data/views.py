@@ -8,7 +8,7 @@ from django.utils import timezone
 # from functools import reduce
 
 from django.contrib.postgres.aggregates import StringAgg
-from django.db.models import Count, TextField, Value, F, Sum, Avg, Max
+from django.db.models import Count, TextField, Value, F, Sum, Avg, Max, Q
 from django.db.models.functions import Cast, Coalesce
 from django.http import HttpResponse
 from django_q.tasks import async_task
@@ -114,16 +114,16 @@ class FormDataAddListView(APIView):
                     serializer.errors)},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        latest_created_per_uuid = FormData.objects.filter(
-            form_id=form_id,
-        ).values('uuid').annotate(latest_created=Max('created'))
-
         parent = serializer.validated_data.get('parent')
         filter_data = {}
-        filter_data['parent'] = None
         if parent:
-            filter_data['parent'] = parent
+            latest_created_per_uuid = FormData.objects.filter(
+                Q(form_id=form_id, parent=parent) |
+                Q(pk=parent.id)
+            ).values('uuid').annotate(latest_created=Max('created'))
             filter_data['uuid__in'] = latest_created_per_uuid.values('uuid')
+        else:
+            filter_data['parent'] = None
         if serializer.validated_data.get('administration'):
             filter_administration = serializer.validated_data.get(
                 'administration')
