@@ -83,8 +83,10 @@ class Command(BaseCommand):
                     self.stdout.write(
                         f"Form Updated | {form.name} V{form.version}")
             # question group loop
+            list_of_question_ids = []
             for qgi, qg in enumerate(json_form["question_groups"]):
                 question_group = QG.objects.filter(pk=qg["id"]).first()
+                list_of_question_ids += [q["id"] for q in qg["questions"]]
                 if not question_group:
                     question_group = QG.objects.create(
                         id=qg["id"],
@@ -161,6 +163,10 @@ class Command(BaseCommand):
                                 question=question,
                             ) for a in q.get("attributes")
                         ])
+
+            # delete questions that are not in the json
+            Questions.objects.filter(
+                form=form).exclude(id__in=list_of_question_ids).delete()
 
             # find JMP criteria config for by form id
             jmp_criteria_form = [
