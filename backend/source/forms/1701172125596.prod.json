@@ -20,6 +20,7 @@
           "id": 1701172125598,
           "question": "New institution or monitoring update?",
           "order": 1,
+          "variable": "new_institution_monitoring_update",
           "type": "option",
           "tooltip": {
             "text": "Entry of institution data in RTMIS (first time) or update of monitoring data (existing institution)"
@@ -121,6 +122,7 @@
           "question": "What is the village of the institution?",
           "order": 2,
           "type": "administration",
+          "variable": "institution_village",
           "tooltip": {
             "text": "This question contains a list of possible household locations, starting with government area or district, down to the village."
           },
@@ -138,6 +140,7 @@
           "question": "Geo-location of the institution",
           "order": 3,
           "type": "geo",
+          "variable": "institution_geolocation",
           "tooltip": {
             "text": "Record GPS coordinates of a central place in the institution (e.g. in front of entrance)"
           },
@@ -156,6 +159,7 @@
           "question": "Type of institution",
           "order": 4,
           "type": "option",
+          "variable": "institution_type",
           "required": true,
           "meta": true,
           "tooltip": {
@@ -224,6 +228,7 @@
           "question": "Institution ID",
           "order": 5,
           "type": "text",
+          "variable": "institution_ID",
           "tooltip": null,
           "required": true,
           "meta": true,
@@ -236,6 +241,7 @@
           "question": "Institution respondent: role in institution",
           "order": 6,
           "type": "text",
+          "variable": "institution_respondent_role",
           "required": true,
           "meta": false,
           "tooltip": null,
@@ -256,6 +262,7 @@
           "question": "Functional institutional toilet",
           "order": 4,
           "type": "option",
+          "variable": "functional_institutional_toilet",
           "required": true,
           "meta": false,
           "tooltip": {
@@ -287,6 +294,7 @@
           "question": "Number of functional toilets",
           "order": 5,
           "type": "number",
+          "variable": "num_functional_toilets",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -302,6 +310,7 @@
           "question": "Number of non-functional toilets",
           "order": 6,
           "type": "number",
+          "variable": "num_non_functional_toilets",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -317,6 +326,7 @@
           "question": "Flyproof institutional toilet",
           "order": 7,
           "type": "option",
+          "variable": "flyproof_institutional_toilet",
           "required": true,
           "meta": false,
           "tooltip": {
@@ -349,6 +359,7 @@
           "order": 8,
           "type": "option",
           "required": true,
+          "variable": "clean_institutional_toilet",
           "meta": false,
           "tooltip": {
             "text": "<b>OBSERVE: clean toilets observed in institution?</b>"
@@ -379,6 +390,7 @@
           "question": "Durable institutional toilet slab",
           "order": 9,
           "type": "option",
+          "variable": "durable_toilet_slab",
           "required": true,
           "meta": false,
           "tooltip": {
@@ -410,6 +422,7 @@
           "question": "Durable institutional toilet pits",
           "order": 10,
           "type": "option",
+          "variable": "durable_toilet_pits",
           "required": true,
           "meta": false,
           "tooltip": {
@@ -441,6 +454,7 @@
           "question": "Safely managed containment: wastewater contained",
           "order": 11,
           "type": "option",
+          "variable": "safely_managed_wastewater_containment",
           "required": true,
           "meta": false,
           "tooltip": {
@@ -472,6 +486,7 @@
           "question": "Safely managed containment: faecal sludge contained",
           "order": 12,
           "type": "option",
+          "variable": "safely_managed_faecal_sludge_containment",
           "required": true,
           "meta": false,
           "tooltip": {
@@ -522,6 +537,7 @@
           "order": 13,
           "type": "option",
           "required": true,
+          "variable": "safely_managed_sanitation_services",
           "meta": false,
           "tooltip": {
             "text": "<b>INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?,</b>\n<b> INTERVIEW: the last time it was emptied, who emptied the toilet containment?,</b>\n<b> INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied):</b> what will happen when the toilet containment is full?,</b>\n<b> Licensed service provider:</b> paid emptier that is approved and regulated by local authority to empty and transport toilet wastes,</b>\n<b> Unlicensed service provider:</b> paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers)</b> \n<b>Off-site location:</b> site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.\n<b>Sewer connection to licensed and functional treatment site: </b>the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site."
@@ -614,6 +630,7 @@
           "type": "option",
           "tooltip": null,
           "required": true,
+          "variable": "community_low_groundwater_contamination_risk",
           "meta": false,
           "options": [
             {
@@ -636,6 +653,7 @@
           "question": "Outcome result - Safely managed and usable institutional toilets",
           "order": 15,
           "type": "autofield",
+          "variable": "outcome_safely_managed_usable_institutional_toilets",
           "tooltip": null,
           "required": true,
           "meta": false,
@@ -655,6 +673,7 @@
           "question": "Handwashing facility observed in institution",
           "order": 16,
           "type": "option",
+          "variable": "handwashing_facility_institution",
           "required": true,
           "meta": false,
           "tooltip": {
@@ -705,6 +724,7 @@
           "order": 17,
           "type": "option",
           "required": true,
+          "variable": "water_available_institutional_HWF",
           "meta": false,
           "tooltip": {
             "text": "<b>OBSERVE: is water available at the handwashing facility?</b>\n<b>OBSERVE:</b> where an empty water container is observed at the handwashing facility, visible wet ground (or wet materials) under the handwashing facility can be accepted as proof of the recent presence of water."
@@ -735,6 +755,7 @@
           "question": "Soap available at institutional HWF",
           "order": 18,
           "type": "option",
+          "variable": "soap_available_institutional_HWF",
           "required": true,
           "meta": false,
           "tooltip": {
@@ -773,6 +794,7 @@
           "order": 19,
           "type": "option",
           "required": true,
+          "variable": "institutional_HWF_type",
           "meta": false,
           "tooltip": {
             "text": "<b>OBSERVE: is a permanent handwashing station available?</b>\n<b>Permanent handwashing station: </b>facility made from durable materials, with a piped water connection or adequate water storage, and located in a fixed place that is appropriate for handwashing at critical times\n<b>Market handwashing station:</b> manufactured handwashing station from durable materails (bought from market or market trader)\n<b>Portable basin:</b> open container that can be easily picked up and moved"
@@ -828,6 +850,7 @@
           "order": 20,
           "type": "option",
           "required": true,
+          "variable": "hands_free_operation_institutional_HWF",
           "meta": false,
           "tooltip": {
             "text": "<b>OBSERVE: mechanism to collect water or trigger water flow</b> \n<b>Hands-free operation: </b>the handwashing station is operated by tap, or other hands-free mechanism that minimises contact with the water collection device and the water container"
@@ -871,6 +894,7 @@
           "order": 21,
           "type": "option",
           "required": true,
+          "variable": "adequate_drainage_washing_water",
           "meta": false,
           "tooltip": {
             "text": "<b>OBSERVE: facility to collect washing water, and facility to drain and dispose of the washing water</b>\n<b>Collection of washing water: </b>container to collect dirty washing water (for example, a basin or other container)\n<b>Drainage and disposal of washing water:</b> drainage pipe or other facility to direct the washing water to an appropriate disposal point (for example, a soakpit or drain)"
@@ -901,6 +925,7 @@
           "question": "Outcome result - Permanent handwashing stations in institution",
           "order": 22,
           "type": "autofield",
+          "variable": "outcome_permanent_handwashing_stations_in_institution",
           "tooltip": null,
           "required": true,
           "meta": false,
