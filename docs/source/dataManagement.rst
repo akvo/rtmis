@@ -59,8 +59,6 @@ Downloading data
     :alt: Downloading Data
     :width: 100%
 
-2. Downloaded data we can see in the :bolditalic:`Downloaded Data` sub menu in the sidebar
-
 .. image:: ../assests/image44.png
     :alt: Downloading Data
     :width: 100%
