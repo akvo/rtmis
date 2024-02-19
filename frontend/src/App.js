@@ -42,6 +42,7 @@ import {
   UploadAdministrationData,
   BIDashboard,
   DownloadAdmData,
+  MonitoringDetail,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -113,6 +114,10 @@ const RouteList = () => {
         <Route
           path="data/manage"
           element={<Private element={ManageData} alias="data" />}
+        />
+        <Route
+          path="data/monitoring/:parentId"
+          element={<Private element={MonitoringDetail} alias="data" />}
         />
         <Route
           path="data/export"
