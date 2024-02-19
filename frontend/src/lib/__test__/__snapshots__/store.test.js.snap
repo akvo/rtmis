@@ -70,6 +70,7 @@ Object {
   "questionGroups": Array [],
   "selectedAdministration": null,
   "selectedForm": null,
+  "selectedFormData": null,
   "showAdvancedFilters": false,
   "showContactFormModal": false,
   "user": null,

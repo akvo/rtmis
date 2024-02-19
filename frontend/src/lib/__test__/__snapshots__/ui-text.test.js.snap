@@ -58,6 +58,7 @@ Object {
     "attrTypeRequired": "Attribute type is required",
     "backBtn": "Back",
     "backHome": "Back to Homepage",
+    "backManageData": "Back to Manage data",
     "backToCenterLabel": "Back to Control Center",
     "batchDatasets": "Batch Datasets",
     "batchHintDesc": "The operation of merging datasets cannot be undone, and will Create a new batch that will require approval from you admin",
@@ -429,6 +430,18 @@ Object {
     "mobileSelectForms": "Select forms...",
     "mobileSuccessAdded": "Mobile assignment added",
     "mobileSuccessUpdated": "Mobile assignment update",
+    "monitoringDataDescription": <React.Fragment>
+      This is where you :
+      <ul>
+        <li>
+          Get the list of forms that were collected for this datapoint (new and update)
+        </li>
+        <li>
+          Edit monitoring data
+        </li>
+      </ul>
+    </React.Fragment>,
+    "monitoringDataTitle": "Monitoring data",
     "month": "Month",
     "myProfile": "My Profile",
     "nameField": "Name",

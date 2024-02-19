@@ -5,33 +5,43 @@ import {
   Col,
   Divider,
   Table,
+  Typography,
   ConfigProvider,
   Empty,
   Modal,
   Button,
   Space,
 } from "antd";
-import { ExclamationCircleOutlined, DeleteOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
-
-import { api, store, uiText } from "../../lib";
-import { DataFilters, Breadcrumbs, DescriptionPanel } from "../../components";
+import {
+  LeftCircleOutlined,
+  DownCircleOutlined,
+  ExclamationCircleOutlined,
+  DeleteOutlined,
+  ArrowLeftOutlined,
+} from "@ant-design/icons";
+import { useParams, useNavigate } from "react-router-dom";
+import { api, config, store, uiText } from "../../lib";
+import DataDetail from "./DataDetail";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
-import { generateAdvanceFilterURL } from "../../util/filter";
 
-const ManageData = () => {
+const { Title } = Typography;
+
+const MonitoringDetail = () => {
   const { notify } = useNotification();
   const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
-  const [query, setQuery] = useState("");
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [updateRecord, setUpdateRecord] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const [deleting, setDeleting] = useState(false);
+  const [editedRecord, setEditedRecord] = useState({});
+  const [editable, setEditable] = useState(false);
+  const { parentId } = useParams();
   const navigate = useNavigate();
 
-  const { language, advancedFilters } = store.useState((s) => s);
+  const { language, selectedFormData } = store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -44,33 +54,36 @@ const ManageData = () => {
     },
     {
       title: text.manageDataTitle,
+      link: "/control-center/data/manage",
+    },
+    {
+      title: text.monitoringDataTitle,
     },
   ];
 
-  const goToMonitoring = (record) => {
-    store.update((s) => {
-      s.selectedFormData = record;
-    });
-    navigate(`/control-center/data/monitoring/${record.id}`);
-  };
+  const {
+    selectedForm,
+    questionGroups,
+    user: authUser,
+  } = store.useState((state) => state);
 
-  const { administration, selectedForm } = store.useState((state) => state);
-
-  const isAdministrationLoaded = administration.length;
-  const selectedAdministration =
-    administration.length > 0
-      ? administration[administration.length - 1]
-      : null;
+  useEffect(() => {
+    const currentUser = config.roles.find(
+      (role) => role.name === authUser?.role_detail?.name
+    );
+    setEditable(!currentUser?.delete_data);
+  }, [authUser]);
 
   const columns = [
+    {
+      title: "Last Updated",
+      dataIndex: "updated",
+      render: (cell, row) => cell || row.created,
+    },
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      filtered: true,
-      filteredValue: query.trim() === "" ? [] : [query],
-      onFilter: (value, filters) =>
-        filters.name.toLowerCase().includes(value.toLowerCase()),
       render: (value) => (
         <span className="with-icon">
           <ExclamationCircleOutlined />
@@ -79,18 +92,10 @@ const ManageData = () => {
       ),
     },
     {
-      title: "Last Updated",
-      dataIndex: "updated",
-      render: (cell, row) => cell || row.created,
-    },
-    {
       title: "User",
       dataIndex: "created_by",
     },
-    {
-      title: "Region",
-      dataIndex: "administration",
-    },
+    Table.EXPAND_COLUMN,
   ];
 
   const handleChange = (e) => {
@@ -124,19 +129,9 @@ const ManageData = () => {
   };
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedAdministration]);
-
-  useEffect(() => {
-    if (selectedForm && isAdministrationLoaded && !updateRecord) {
+    if (selectedForm && !updateRecord) {
       setLoading(true);
-      let url = `/form-data/${selectedForm}/?page=${currentPage}`;
-      if (selectedAdministration?.id) {
-        url += `&administration=${selectedAdministration.id}`;
-      }
-      if (advancedFilters && advancedFilters.length) {
-        url = generateAdvanceFilterURL(advancedFilters, url);
-      }
+      const url = `/form-data/${selectedForm}/?page=${currentPage}&parent=${parentId}`;
       api
         .get(url)
         .then((res) => {
@@ -151,14 +146,7 @@ const ManageData = () => {
           setLoading(false);
         });
     }
-  }, [
-    selectedForm,
-    selectedAdministration,
-    currentPage,
-    isAdministrationLoaded,
-    updateRecord,
-    advancedFilters,
-  ]);
+  }, [selectedForm, currentPage, updateRecord, parentId]);
 
   return (
     <div id="manageData">
@@ -167,8 +155,8 @@ const ManageData = () => {
           <Col>
             <Breadcrumbs pagePath={pagePath} />
             <DescriptionPanel
-              description={text.manageDataText}
-              title={text.manageDataTitle}
+              description={text.monitoringDataDescription}
+              title={text.monitoringDataTitle}
             />
           </Col>
         </Row>
@@ -176,10 +164,18 @@ const ManageData = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          <DataFilters query={query} setQuery={setQuery} loading={loading} />
+          <Button
+            type="primary"
+            shape="round"
+            onClick={() => navigate("/control-center/data/manage")}
+            icon={<ArrowLeftOutlined />}
+          >
+            {text.backManageData}
+          </Button>
           <Divider />
+          <Title>{selectedFormData?.name || ""}</Title>
           <div
-            style={{ padding: 0, minHeight: "40vh" }}
+            style={{ padding: "16px 0 0", minHeight: "40vh" }}
             bodystyle={{ padding: 0 }}
           >
             <ConfigProvider
@@ -204,11 +200,36 @@ const ManageData = () => {
                   showTotal: (total, range) =>
                     `Results: ${range[0]} - ${range[1]} of ${total} data`,
                 }}
-                rowClassName="row-normal sticky"
+                rowClassName={(record) =>
+                  editedRecord[record.id] ? "row-edited" : "row-normal sticky"
+                }
                 rowKey="id"
-                onRow={(record) => ({
-                  onClick: () => goToMonitoring(record),
-                })}
+                expandable={{
+                  expandedRowRender: (record) => (
+                    <DataDetail
+                      questionGroups={questionGroups}
+                      record={record}
+                      updateRecord={updateRecord}
+                      updater={setUpdateRecord}
+                      setDeleteData={setDeleteData}
+                      setEditedRecord={setEditedRecord}
+                      editedRecord={editedRecord}
+                      isPublic={editable}
+                    />
+                  ),
+                  expandIcon: ({ expanded, onExpand, record }) =>
+                    expanded ? (
+                      <DownCircleOutlined
+                        onClick={(e) => onExpand(record, e)}
+                        style={{ color: "#1651B6", fontSize: "19px" }}
+                      />
+                    ) : (
+                      <LeftCircleOutlined
+                        onClick={(e) => onExpand(record, e)}
+                        style={{ color: "#1651B6", fontSize: "19px" }}
+                      />
+                    ),
+                }}
               />
             </ConfigProvider>
           </div>
@@ -258,4 +279,4 @@ const ManageData = () => {
   );
 };
 
-export default React.memo(ManageData);
+export default React.memo(MonitoringDetail);

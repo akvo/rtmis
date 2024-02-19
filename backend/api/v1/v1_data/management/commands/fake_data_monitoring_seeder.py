@@ -49,7 +49,7 @@ def create_new_endpoint(index, form, administration, user):
     return data
 
 
-def seed_data(form, user, administrations, repeat):
+def seed_data(form, user, administrations, repeat, approved):
     pendings = []
     for index in range(repeat):
         selected_adm = random.choice(administrations)
@@ -90,12 +90,13 @@ def seed_data(form, user, administrations, repeat):
     for administration_id, items in grouped_data.items():
         [dp] = items[:1]
         batch_name = fake.sentence(nb_words=3)
+        approved_value = fake.pybool() if not approved else approved
         batch = PendingDataBatch.objects.create(
             form=dp['instance'].form,
             administration=dp['instance'].administration,
             user=dp['instance'].created_by,
             name=f"{batch_name}-{administration_id}",
-            approved=fake.pybool(),
+            approved=approved_value,
         )
         batch_items = [i['instance'] for i in items]
         batch.batch_pending_data_batch.add(*batch_items)
@@ -138,10 +139,17 @@ class Command(BaseCommand):
                             const=False,
                             default=False,
                             type=bool)
+        parser.add_argument("-a",
+                            "--approved",
+                            nargs="?",
+                            const=False,
+                            default=False,
+                            type=bool)
 
     def handle(self, *args, **options):
         test = options.get("test")
         repeat = options.get("repeat")
+        approved = options.get("approved")
         lowest_level = Levels.objects.order_by('-id').first()
         user = SystemUser.objects.filter(
             user_access__role=UserRoleTypes.user,
@@ -167,5 +175,11 @@ class Command(BaseCommand):
             for user_form in user_forms:
                 if not test:
                     print(f"\nSeeding - {user_form.form.name}")
-                seed_data(user_form.form, user, administrations, repeat)
+                seed_data(
+                    user_form.form,
+                    user,
+                    administrations,
+                    repeat,
+                    approved
+                )
             refresh_materialized_data()
