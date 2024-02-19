@@ -669,6 +669,20 @@ const uiText = {
     questionCol: "Question",
     responseCol: "Response",
     lastResponseCol: "Last Response",
+    backManageData: "Back to Manage data",
+    monitoringDataTitle: "Monitoring data",
+    monitoringDataDescription: (
+      <Fragment>
+        This is where you :
+        <ul>
+          <li>
+            Get the list of forms that were collected for this datapoint (new
+            and update)
+          </li>
+          <li>Edit monitoring data</li>
+        </ul>
+      </Fragment>
+    ),
   },
 
   de: {},
