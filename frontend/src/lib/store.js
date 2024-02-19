@@ -19,6 +19,7 @@ const defaultUIState = {
   forms: window.forms.sort(sortArray),
   levels: window.levels,
   selectedForm: null,
+  selectedFormData: null,
   loadingForm: false,
   questionGroups: [],
   showAdvancedFilters: false,
