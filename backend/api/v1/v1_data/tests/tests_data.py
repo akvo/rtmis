@@ -239,4 +239,7 @@ class DataTestCase(TestCase):
             list(result),
             ['current', 'total', 'total_page', 'data']
         )
-        self.assertEqual(result['total'], parent.children.count())
+        # total equal to number of children + the data itself
+        self.assertEqual(result['total'], parent.children.count() + 1)
+        # make sure the last item is parent
+        self.assertEqual(result['data'][-1]['name'], parent.name)
