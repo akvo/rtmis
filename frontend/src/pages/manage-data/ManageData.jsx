@@ -17,6 +17,8 @@ import {
   ExclamationCircleOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+
 import { api, config, store, uiText } from "../../lib";
 import DataDetail from "./DataDetail";
 import { DataFilters, Breadcrumbs, DescriptionPanel } from "../../components";
@@ -35,6 +37,8 @@ const ManageData = () => {
   const [deleting, setDeleting] = useState(false);
   const [editedRecord, setEditedRecord] = useState({});
   const [editable, setEditable] = useState(false);
+  const navigate = useNavigate();
+
   const { language, advancedFilters } = store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
@@ -50,6 +54,13 @@ const ManageData = () => {
       title: text.manageDataTitle,
     },
   ];
+
+  const goToMonitoring = (record) => {
+    store.update((s) => {
+      s.selectedFormData = record;
+    });
+    navigate(`/control-center/data/monitoring/${record.id}`);
+  };
 
   const {
     administration,
@@ -80,11 +91,13 @@ const ManageData = () => {
       filteredValue: query.trim() === "" ? [] : [query],
       onFilter: (value, filters) =>
         filters.name.toLowerCase().includes(value.toLowerCase()),
-      render: (value) => (
-        <span className="with-icon">
-          <ExclamationCircleOutlined />
-          {value}
-        </span>
+      render: (value, record) => (
+        <Button type="link" onClick={() => goToMonitoring(record)}>
+          <span className="with-icon">
+            <ExclamationCircleOutlined />
+            {value}
+          </span>
+        </Button>
       ),
     },
     {
