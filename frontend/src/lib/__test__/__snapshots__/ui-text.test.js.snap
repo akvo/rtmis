@@ -31,6 +31,23 @@ Object {
     "admLevel": "Administration Level",
     "admName": "Administration Name",
     "admNameRequired": "Administration name is required",
+    "admPanelText": <React.Fragment>
+      This is where you :
+      <ul>
+        <li>
+          Add new administration
+        </li>
+        <li>
+          Modify existing administration
+        </li>
+        <li>
+          Delete existing administration
+        </li>
+        <li>
+          Bulk upload administration
+        </li>
+      </ul>
+    </React.Fragment>,
     "admParent": "Administration Parent",
     "admSuccessAdded": "Administration added",
     "admSuccessDeleted": "Administration deleted",
