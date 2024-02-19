@@ -11,16 +11,10 @@ import {
   Button,
   Space,
 } from "antd";
-import {
-  LeftCircleOutlined,
-  DownCircleOutlined,
-  ExclamationCircleOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
+import { ExclamationCircleOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
-import { api, config, store, uiText } from "../../lib";
-import DataDetail from "./DataDetail";
+import { api, store, uiText } from "../../lib";
 import { DataFilters, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
 import { generateAdvanceFilterURL } from "../../util/filter";
@@ -35,8 +29,6 @@ const ManageData = () => {
   const [updateRecord, setUpdateRecord] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const [deleting, setDeleting] = useState(false);
-  const [editedRecord, setEditedRecord] = useState({});
-  const [editable, setEditable] = useState(false);
   const navigate = useNavigate();
 
   const { language, advancedFilters } = store.useState((s) => s);
@@ -62,19 +54,7 @@ const ManageData = () => {
     navigate(`/control-center/data/monitoring/${record.id}`);
   };
 
-  const {
-    administration,
-    selectedForm,
-    questionGroups,
-    user: authUser,
-  } = store.useState((state) => state);
-
-  useEffect(() => {
-    const currentUser = config.roles.find(
-      (role) => role.name === authUser?.role_detail?.name
-    );
-    setEditable(!currentUser?.delete_data);
-  }, [authUser]);
+  const { administration, selectedForm } = store.useState((state) => state);
 
   const isAdministrationLoaded = administration.length;
   const selectedAdministration =
@@ -91,13 +71,11 @@ const ManageData = () => {
       filteredValue: query.trim() === "" ? [] : [query],
       onFilter: (value, filters) =>
         filters.name.toLowerCase().includes(value.toLowerCase()),
-      render: (value, record) => (
-        <Button type="link" onClick={() => goToMonitoring(record)}>
-          <span className="with-icon">
-            <ExclamationCircleOutlined />
-            {value}
-          </span>
-        </Button>
+      render: (value) => (
+        <span className="with-icon">
+          <ExclamationCircleOutlined />
+          {value}
+        </span>
       ),
     },
     {
@@ -113,7 +91,6 @@ const ManageData = () => {
       title: "Region",
       dataIndex: "administration",
     },
-    Table.EXPAND_COLUMN,
   ];
 
   const handleChange = (e) => {
@@ -227,36 +204,11 @@ const ManageData = () => {
                   showTotal: (total, range) =>
                     `Results: ${range[0]} - ${range[1]} of ${total} data`,
                 }}
-                rowClassName={(record) =>
-                  editedRecord[record.id] ? "row-edited" : "row-normal sticky"
-                }
+                rowClassName="row-normal sticky"
                 rowKey="id"
-                expandable={{
-                  expandedRowRender: (record) => (
-                    <DataDetail
-                      questionGroups={questionGroups}
-                      record={record}
-                      updateRecord={updateRecord}
-                      updater={setUpdateRecord}
-                      setDeleteData={setDeleteData}
-                      setEditedRecord={setEditedRecord}
-                      editedRecord={editedRecord}
-                      isPublic={editable}
-                    />
-                  ),
-                  expandIcon: ({ expanded, onExpand, record }) =>
-                    expanded ? (
-                      <DownCircleOutlined
-                        onClick={(e) => onExpand(record, e)}
-                        style={{ color: "#1651B6", fontSize: "19px" }}
-                      />
-                    ) : (
-                      <LeftCircleOutlined
-                        onClick={(e) => onExpand(record, e)}
-                        style={{ color: "#1651B6", fontSize: "19px" }}
-                      />
-                    ),
-                }}
+                onRow={(record) => ({
+                  onClick: () => goToMonitoring(record),
+                })}
               />
             </ConfigProvider>
           </div>

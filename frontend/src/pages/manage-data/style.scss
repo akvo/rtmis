@@ -76,6 +76,9 @@
       tr.row-edited > td.ant-table-cell-row-hover {
         background: #fefebe;
       }
+      tr.row-normal {
+        cursor: pointer;
+      }
     }
   }
   .ant-btn.ant-btn-link:hover {
