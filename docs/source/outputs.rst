@@ -15,14 +15,6 @@ Auto Generated visualisations
     :alt: Visualisations
     :width: 100%
 
-.. image:: ../assests/image16.png
-    :alt: Visualisations
-    :width: 100%
-
-.. image:: ../assests/image31.png
-    :alt: Visualisations
-    :width: 100%
-
 Report generation
 ------------------
 
