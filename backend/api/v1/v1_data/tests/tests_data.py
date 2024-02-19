@@ -31,7 +31,8 @@ class DataTestCase(TestCase):
                          ['current', 'total', 'total_page', 'data'])
         self.assertEqual(list(result['data'][0]), [
             'id', 'uuid', 'name', 'form', 'administration', 'geo',
-            'created_by', 'updated_by', 'created', 'updated', 'pending_data'
+            'created_by', 'updated_by', 'created', 'updated', 'pending_data',
+            'children_count'
         ])
         self.assertIsNotNone(result['data'][0]['uuid'])
 
@@ -203,3 +204,42 @@ class DataTestCase(TestCase):
         self.assertEqual(answers, 0)
         hitory = AnswerHistory.objects.filter(data_id=data_id).count()
         self.assertEqual(hitory, 0)
+
+    def test_monitoring_details_by_parent_id(self):
+        call_command("administration_seeder", "--test")
+        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
+        user_response = self.client.post('/api/v1/login',
+                                         user_payload,
+                                         content_type='application/json')
+        token = user_response.json().get('token')
+        call_command("form_seeder", "--test")
+        call_command("demo_approval_flow")
+        call_command("fake_data_seeder", "-r", 1, "-t", True)
+        call_command(
+            "fake_data_monitoring_seeder",
+            "-r", 5,
+            "-t", True,
+            "-a", True
+        )
+
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+
+        monitoring = FormData.objects.filter(parent__isnull=False).first()
+        parent = monitoring.parent
+        form_id = monitoring.form.id
+        url = f"/api/v1/form-data/{form_id}?page=1&parent={parent.id}"
+        data = self.client.get(
+            url,
+            follow=True,
+            **header
+        )
+        result = data.json()
+        self.assertEqual(data.status_code, 200)
+        self.assertEqual(
+            list(result),
+            ['current', 'total', 'total_page', 'data']
+        )
+        # total equal to number of children + the data itself
+        self.assertEqual(result['total'], parent.children.count() + 1)
+        # make sure the last item is parent
+        self.assertEqual(result['data'][-1]['name'], parent.name)

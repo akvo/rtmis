@@ -38,6 +38,14 @@ class FormData(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(default=None, null=True)
 
+    parent = models.ForeignKey(
+        'self',
+        on_delete=models.PROTECT,
+        related_name='children',
+        default=None,
+        null=True
+    )
+
     def __str__(self):
         return self.name
 
@@ -276,7 +284,7 @@ class Answers(models.Model):
     @property
     def to_data_frame(self) -> dict:
         q = self.question
-        qname = f"{self.question.id}|{self.question.name}"
+        qname = f"{self.question.variable}"
         if q.type in [
                 QuestionTypes.geo, QuestionTypes.option,
                 QuestionTypes.multiple_option

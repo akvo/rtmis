@@ -12,7 +12,7 @@ from api.v1.v1_jobs.administrations_bulk_upload import (
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_jobs.constants import JobStatus, JobTypes
-from api.v1.v1_jobs.functions import HText
+# from api.v1.v1_jobs.functions import HText
 from api.v1.v1_jobs.models import Jobs
 from api.v1.v1_jobs.seed_data import seed_excel_data
 from api.v1.v1_jobs.validate_upload import validate
@@ -36,12 +36,13 @@ def download(form: Forms, administration_ids):
 
 
 def rearrange_columns(col_names: list):
-    col_question = list(filter(lambda x: HText(x).hasnum, col_names))
+    meta_columns = ["id", "created_at", "created_by", "updated_at",
+                    "updated_by", "datapoint_name", "administration",
+                    "geolocation"]
+    col_question = list(filter(lambda x: x not in meta_columns, col_names))
     if len(col_question) == len(col_names):
         return col_question
-    col_names = ["id", "created_at", "created_by", "updated_at",
-                 "updated_by", "datapoint_name", "administration",
-                 "geolocation"] + col_question
+    col_names = meta_columns + col_question
     return col_names
 
 

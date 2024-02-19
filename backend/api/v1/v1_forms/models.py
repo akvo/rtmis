@@ -95,6 +95,7 @@ class Questions(models.Model):
             if self.question_question_options.count() else False
         return {
             "id": self.id,
+            "variable": self.variable,
             "qg_id": self.question_group.id,
             "order": (self.order or 0) + 1,
             "name": self.name,
