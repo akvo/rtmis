@@ -296,6 +296,17 @@ const uiText = {
         </ul>
       </Fragment>
     ),
+    admPanelText: (
+      <Fragment>
+        This is where you :
+        <ul>
+          <li>Add new administration</li>
+          <li>Modify existing administration</li>
+          <li>Delete existing administration</li>
+          <li>Bulk upload administration</li>
+        </ul>
+      </Fragment>
+    ),
     settingsDescriptionPanel:
       "This page allows Super Admin to maintain system critical master lists.",
     // Approvals
