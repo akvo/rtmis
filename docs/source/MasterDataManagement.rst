@@ -98,37 +98,85 @@ Manage Entities
 1. From the Sidebar of the control center, click the Entities sub menu under the Master Data menu, add or modify an existing entity based on their fields or delete an existing entity.
 
 .. image:: ../assests/image66.png
-    :alt: Deleting Data
+    :alt: Entity
     :width: 100%
 
 2. To add a new entity, click the ADD NEW button. Next, fill all mandatory fileds. Finally, click the Save button to add the entity.
 
 .. image:: ../assests/image67.png
-    :alt: Deleting Data
+    :alt: Entity
     :width: 100%
 
 3. To delete or edit an existing entity, click the Edit button next to the entity, Once data is updated click on the :bolditalic:`Save` Button, For deleting the entity Click :bolditalic:`Delete` Button. Next, click on the confirmation popup window for deleting entity.
 
 .. image:: ../assests/image69.png
-    :alt: Deleting Administration1
+    :alt: Entity
     :width: 100%    
 
 .. image:: ../assests/image68.png
-    :alt: Deleting Administration1
+    :alt: Entity
     :width: 100%    
 
 .. image:: ../assests/image70.png
-    :alt: Deleting Administration1
+    :alt: Entity
     :width: 100%    
+
+4. To add a new Entity Type click the :bolditalic:`Entity Types` sub menu from the Master data menu in Sidebar. To add a new entity type click on :bolditalic:`Add New` Button.
+
+.. image:: ../assests/image71.png
+    :alt: Entity Type
+    :width: 100%  
+
+5. Next Fill the name of the entity type and click on :bolditalic:`Save`.
+
+.. image:: ../assests/image72.png
+    :alt: Entity Type
+    :width: 100%  
+
+6. To delete or edit an existing entity type, click the Edit button next to the entity type, Once entity type is updated click on the :bolditalic:`Save` Button, For deleting the entity type Click :bolditalic:`Delete` Button. Next, click on the confirmation popup window for deleting entity type.
+
+.. image:: ../assests/image74.png
+    :alt: Entity Type
+    :width: 100%  
+
+.. image:: ../assests/image73.png
+    :alt: Entity Type
+    :width: 100%
+
+.. image:: ../assests/image75.png
+    :alt: Entity Type
+    :width: 100%            
 
 Manage Organizations
 -----------------------
-1. Select the questionnaire and click on :bolditalic:`Download Data` button
+1. From the Sidebar of the control center, click the Organisations sub menu under the Master Data menu, add or modify an existing Organisation or delete an existing Organisation.
 
-.. image:: ../assests/image11.png
+.. image:: ../assests/image76.png
     :alt: Downloading Data
     :width: 100%
 
-.. image:: ../assests/image44.png
+2. To add a new Organisation, click the :bolditalic:`ADD NEW ORGANISATION` button. Next, fill all mandatory fileds. Finally, click the Save button to add the Organisation.
+
+.. image:: ../assests/image77.png
     :alt: Downloading Data
     :width: 100%
+
+3. To edit an existing organisation, click the Edit button next to the organisation, Once data is updated click on the :bolditalic:`Update Organisation` Button.
+
+.. image:: ../assests/image78.png
+    :alt: Downloading Data
+    :width: 100%
+
+.. image:: ../assests/image79.png
+    :alt: Downloading Data
+    :width: 100%
+
+4. For deleting the organisation Click :bolditalic:`Delete` Button. Also make sure that no user is associated with the deleting organisation. Next, click on the confirmation popup window for deleting organisation.    
+
+.. image:: ../assests/image80.png
+    :alt: Downloading Data
+    :width: 100%            
+
+.. image:: ../assests/image81.png
+    :alt: Downloading Data
+    :width: 100%     
