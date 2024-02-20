@@ -234,7 +234,7 @@ class ListFormDataRequestSerializer(serializers.Serializer):
         required=False,
     )
     parent = CustomPrimaryKeyRelatedField(
-        queryset=FormData.objects.filter(parent=None).none(),
+        queryset=FormData.objects.none(),
         required=False
     )
 
@@ -245,8 +245,7 @@ class ListFormDataRequestSerializer(serializers.Serializer):
         self.fields.get("questions").child.queryset = Questions.objects.all()
         form_id = self.context.get('form_id')
         self.fields.get("parent").queryset = FormData.objects.filter(
-            form_id=form_id,
-            parent=None,
+            form_id=form_id
         ).all()
 
 
