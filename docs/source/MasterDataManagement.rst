@@ -57,7 +57,7 @@ Administrative Bulk Upload
     :alt: Bulk Upload image1
     :width: 100%
 
-3. To see the pre-filled administrative data export requests. Click the :bolditalic:`Download` Button to download the spredsheet data.
+3. To see the pre-filled administrative data export requests click the  :bolditalic:`Administrative Download` submenu . Click the :bolditalic:`Download` Button to download the spredsheet data.
 
 .. image:: ../assests/image59.png
     :alt: Bulk Upload image1
