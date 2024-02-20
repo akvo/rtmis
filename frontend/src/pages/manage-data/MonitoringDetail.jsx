@@ -15,7 +15,6 @@ import {
 import {
   LeftCircleOutlined,
   DownCircleOutlined,
-  ExclamationCircleOutlined,
   DeleteOutlined,
   ArrowLeftOutlined,
 } from "@ant-design/icons";
@@ -38,7 +37,7 @@ const MonitoringDetail = () => {
   const [deleting, setDeleting] = useState(false);
   const [editedRecord, setEditedRecord] = useState({});
   const [editable, setEditable] = useState(false);
-  const { parentId } = useParams();
+  const { form, parentId } = useParams();
   const navigate = useNavigate();
 
   const { language, selectedFormData } = store.useState((s) => s);
@@ -61,11 +60,7 @@ const MonitoringDetail = () => {
     },
   ];
 
-  const {
-    selectedForm,
-    questionGroups,
-    user: authUser,
-  } = store.useState((state) => state);
+  const { questionGroups, user: authUser } = store.useState((state) => state);
 
   useEffect(() => {
     const currentUser = config.roles.find(
@@ -84,12 +79,6 @@ const MonitoringDetail = () => {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      render: (value) => (
-        <span className="with-icon">
-          <ExclamationCircleOutlined />
-          {value}
-        </span>
-      ),
     },
     {
       title: "User",
@@ -129,9 +118,9 @@ const MonitoringDetail = () => {
   };
 
   useEffect(() => {
-    if (selectedForm && !updateRecord) {
+    if (form && !updateRecord) {
       setLoading(true);
-      const url = `/form-data/${selectedForm}/?page=${currentPage}&parent=${parentId}`;
+      const url = `/form-data/${form}/?page=${currentPage}&parent=${parentId}`;
       api
         .get(url)
         .then((res) => {
@@ -146,7 +135,7 @@ const MonitoringDetail = () => {
           setLoading(false);
         });
     }
-  }, [selectedForm, currentPage, updateRecord, parentId]);
+  }, [form, currentPage, updateRecord, parentId]);
 
   return (
     <div id="manageData">
@@ -173,19 +162,13 @@ const MonitoringDetail = () => {
             {text.backManageData}
           </Button>
           <Divider />
-          <Title>{selectedFormData?.name || ""}</Title>
+          <Title>{selectedFormData?.name || dataset?.[0]?.name}</Title>
           <div
             style={{ padding: "16px 0 0", minHeight: "40vh" }}
             bodystyle={{ padding: 0 }}
           >
             <ConfigProvider
-              renderEmpty={() => (
-                <Empty
-                  description={
-                    selectedForm ? text.noFormText : text.noFormSelectedText
-                  }
-                />
-              )}
+              renderEmpty={() => <Empty description={text.noFormText} />}
             >
               <Table
                 columns={columns}

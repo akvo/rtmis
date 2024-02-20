@@ -11,7 +11,7 @@ import {
   Button,
   Space,
 } from "antd";
-import { ExclamationCircleOutlined, DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 import { api, store, uiText } from "../../lib";
@@ -31,6 +31,7 @@ const ManageData = () => {
   const [deleting, setDeleting] = useState(false);
   const navigate = useNavigate();
 
+  const { administration, selectedForm } = store.useState((state) => state);
   const { language, advancedFilters } = store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
@@ -51,10 +52,8 @@ const ManageData = () => {
     store.update((s) => {
       s.selectedFormData = record;
     });
-    navigate(`/control-center/data/monitoring/${record.id}`);
+    navigate(`/control-center/data/${selectedForm}/monitoring/${record.id}`);
   };
-
-  const { administration, selectedForm } = store.useState((state) => state);
 
   const isAdministrationLoaded = administration.length;
   const selectedAdministration =
@@ -71,12 +70,6 @@ const ManageData = () => {
       filteredValue: query.trim() === "" ? [] : [query],
       onFilter: (value, filters) =>
         filters.name.toLowerCase().includes(value.toLowerCase()),
-      render: (value) => (
-        <span className="with-icon">
-          <ExclamationCircleOutlined />
-          {value}
-        </span>
-      ),
     },
     {
       title: "Last Updated",
@@ -142,6 +135,9 @@ const ManageData = () => {
         .then((res) => {
           setDataset(res.data.data);
           setTotalCount(res.data.total);
+          if (res.data.total < currentPage) {
+            setCurrentPage(1);
+          }
           setUpdateRecord(null);
           setLoading(false);
         })
