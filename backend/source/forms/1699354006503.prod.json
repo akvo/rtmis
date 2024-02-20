@@ -1514,7 +1514,7 @@
           "order": 31,
           "type": "autofield",
           "variable": "total_num_institutions",
-          "displayOnly": true,
+          "displayOnly": false,
           "required": false,
           "meta": false,
           "rule": {
