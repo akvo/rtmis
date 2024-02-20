@@ -1,14 +1,14 @@
 # Create your views here.
 from math import ceil
 from collections import defaultdict
-from datetime import datetime, date, timedelta
+from datetime import datetime, date
 from wsgiref.util import FileWrapper
 from django.utils import timezone
 # from operator import or_
 # from functools import reduce
 
 from django.contrib.postgres.aggregates import StringAgg
-from django.db.models import Count, TextField, Value, F, Sum, Avg, Max, Q
+from django.db.models import Count, TextField, F, Sum, Avg, Max
 from django.db.models.functions import Cast, Coalesce
 from django.http import HttpResponse
 from django_q.tasks import async_task
@@ -114,22 +114,41 @@ class FormDataAddListView(APIView):
                     serializer.errors)},
                 status=status.HTTP_400_BAD_REQUEST
             )
+        page_size = REST_FRAMEWORK.get('PAGE_SIZE')
+
+        paginator = PageNumberPagination()
+
         parent = serializer.validated_data.get('parent')
-        filter_data = {}
         if parent:
-            latest_created_per_uuid = FormData.objects.filter(
-                Q(form_id=form_id, parent=parent) |
-                Q(pk=parent.id)
-            ).values('uuid').annotate(latest_created=Max('created'))
-            filter_data['uuid__in'] = latest_created_per_uuid.values('uuid')
-        else:
-            filter_data['parent'] = None
+            queryset = form.form_form_data.filter(uuid=parent.uuid).order_by(
+                '-created'
+            )
+            instance = paginator.paginate_queryset(queryset, request)
+            data = {
+                "current": int(request.GET.get('page', '1')),
+                "total": queryset.count(),
+                "total_page": ceil(queryset.count() / page_size),
+                "data": ListFormDataSerializer(
+                    instance=instance, context={
+                        'questions': serializer.validated_data.get(
+                            'questions')},
+                    many=True).data,
+            }
+            return Response(data, status=status.HTTP_200_OK)
+
+        filter_data = {}
+        latest_ids_per_uuid = form.form_form_data.values('uuid').annotate(
+            latest_id=Max('id')
+        ).values_list('latest_id', flat=True)
+        filter_data["pk__in"] = latest_ids_per_uuid
         if serializer.validated_data.get('administration'):
             filter_administration = serializer.validated_data.get(
                 'administration')
             if filter_administration.path:
-                filter_path = '{0}{1}.'.format(filter_administration.path,
-                                               filter_administration.id)
+                filter_path = '{0}{1}.'.format(
+                    filter_administration.path,
+                    filter_administration.id
+                )
             else:
                 filter_path = f"{filter_administration.id}."
             filter_descendants = list(Administration.objects.filter(
@@ -145,34 +164,11 @@ class FormDataAddListView(APIView):
                 administration_id=request.GET.get("administration"),
                 options=request.GET.getlist('options'))
             filter_data["pk__in"] = data_ids
-
-        page_size = REST_FRAMEWORK.get('PAGE_SIZE')
-
-        the_past = datetime.now() - timedelta(days=10 * 365)
-        queryset = form.form_form_data.filter(**filter_data)
-        if parent:
-            queryset = queryset.annotate(
-                    last_updated=Coalesce('updated', Value(the_past)),
-                    latest_created=Coalesce('updated', 'created') \
-                    # Use updated time if available, otherwise use created time
-                ).filter(
-                    created=F('latest_created') \
-                    # Filter by objects where created equals latest_created
-                ).order_by(
-                    '-last_updated',
-                    '-created'
-                )
-        else:
-            queryset = queryset.annotate(
-                last_updated=Coalesce('updated', Value(the_past)),
-                children_count=Count('children')
-            ).order_by(
-                '-children_count',
-                '-last_updated',
+        queryset = form.form_form_data.filter(**filter_data) \
+            .order_by(
                 '-created'
             )
 
-        paginator = PageNumberPagination()
         instance = paginator.paginate_queryset(queryset, request)
         data = {
             "current": int(request.GET.get('page', '1')),
