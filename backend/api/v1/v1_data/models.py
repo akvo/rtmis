@@ -291,6 +291,8 @@ class Answers(models.Model):
                 pk=self.value).first()
             if answer:
                 answer = answer.administration_column
+        elif q.type == QuestionTypes.autofield:
+            answer = self.name
         else:
             answer = self.value
         return {qname: answer}
