@@ -116,7 +116,7 @@ const RouteList = () => {
           element={<Private element={ManageData} alias="data" />}
         />
         <Route
-          path="data/monitoring/:parentId"
+          path="data/:form/monitoring/:parentId"
           element={<Private element={MonitoringDetail} alias="data" />}
         />
         <Route
