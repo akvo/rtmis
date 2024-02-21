@@ -36,8 +36,8 @@ def get_definition(form: Forms):
                     "qg_id": q["qg_id"],
                     "order": q["order"],
                     "id": q["id"],
-                    "variable": q["variable"],
-                    "question": q["name"],
+                    "name": q["name"],
+                    "label": q["label"],
                     "type": q["type"],
                     "option": o,
                     "required": "YES" if q["required"] else "NO",
@@ -50,8 +50,8 @@ def get_definition(form: Forms):
                 "qg_id": q["qg_id"],
                 "order": q["order"],
                 "id": q["id"],
-                "variable": q["variable"],
-                "question": q["name"],
+                "name": q["name"],
+                "label": q["label"],
                 "type": q["type"],
                 "option": "",
                 "required": "YES" if q["required"] else "NO",
@@ -67,7 +67,7 @@ def generate_definition_sheet(form: Forms):
     definitions = get_definition(form=form)
     df = pd.DataFrame(definitions)
     selected_columns = [
-        "indexer", "id", "variable", "question", "type", "required",
+        "indexer", "id", "name", "label", "type", "required",
         "dependency", "option", "rule"]
     df = df[selected_columns]
     df = df.groupby(selected_columns).first()

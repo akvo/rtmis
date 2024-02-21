@@ -30,7 +30,8 @@ class FormSubmissionTestCase(TestCase):
         self.assertEqual(webform.get("name"), "Test Form")
         question_group = webform.get("question_group")
         self.assertEqual(len(question_group), 1)
-        self.assertEqual(question_group[0].get("name"), "Question Group 01")
+        self.assertEqual(question_group[0].get("label"), "Question Group 01")
+        self.assertEqual(question_group[0].get("name"), "question_group_01")
 
     def test_create_new_submission(self):
         form = Forms.objects.first()
@@ -86,4 +87,4 @@ class FormSubmissionTestCase(TestCase):
         self.assertEqual(webform.get("name"), "Test Form")
         question_group = webform.get("question_group")
         self.assertEqual(len(question_group), 1)
-        self.assertEqual(question_group[0].get("name"), "Question Group 01")
+        self.assertEqual(question_group[0].get("label"), "Question Group 01")
