@@ -97,8 +97,8 @@ class Questions(models.Model):
     def to_definition(self):
         options = [options.name
                    for options in
-                   self.question_question_options.all()] \
-            if self.question_question_options.count() else False
+                   self.options.all()] \
+            if self.options.count() else False
         return {
             "id": self.id,
             "qg_id": self.question_group.id,
@@ -137,10 +137,10 @@ class Questions(models.Model):
 class QuestionOptions(models.Model):
     question = models.ForeignKey(to=Questions,
                                  on_delete=models.CASCADE,
-                                 related_name='question_question_options')
+                                 related_name='options')
     order = models.BigIntegerField(null=True, default=None)
-    code = models.CharField(max_length=255, default=None, null=True)
-    name = models.TextField()
+    label = models.TextField(default=None, null=True)
+    value = models.CharField(max_length=255, default=None, null=True)
     other = models.BooleanField(default=False)
     color = models.TextField(default=None, null=True)
 
@@ -148,6 +148,11 @@ class QuestionOptions(models.Model):
         return self.name
 
     class Meta:
+        unique_together = ('question', 'value')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['question', 'value'], name='unique_question_option')
+        ]
         db_table = 'option'
 
 

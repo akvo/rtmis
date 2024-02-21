@@ -901,7 +901,7 @@ class ListBatchSummarySerializer(serializers.ModelSerializer):
                 question_id=instance.question.id).distinct("value").count())
         else:
             data = []
-            for option in instance.question.question_question_options.all():
+            for option in instance.question.options.all():
                 val = PendingAnswers.objects.filter(
                     pending_data__batch=batch,
                     question_id=instance.question.id,
