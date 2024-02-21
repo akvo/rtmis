@@ -26,7 +26,7 @@ class BulkUnitTestCase(TestCase):
         self.assertTrue(download_response)
         download_columns = list(download_response[0].keys())
         questions = Questions.objects.filter(form=form_data.form).values_list(
-            "variable", flat=True)
+            "name", flat=True)
         meta_columns = ["id", "created_at", "created_by", "updated_at",
                         "updated_by", "datapoint_name", "administration",
                         "geolocation"]
