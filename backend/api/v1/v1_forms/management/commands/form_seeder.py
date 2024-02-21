@@ -163,8 +163,8 @@ class Command(BaseCommand):
                         QO.objects.bulk_create([
                             QO(
                                 # TODO: Change to label and value
-                                label=o["name"].strip(),
-                                value=clean_string(o["name"]),
+                                label=o["label"].strip(),
+                                value=clean_string(o["value"]),
                                 question=question,
                                 order=io + 1,
                                 color=o.get("color")
