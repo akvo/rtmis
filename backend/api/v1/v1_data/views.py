@@ -528,13 +528,13 @@ def get_chart_data_point(request, version, form_id):
             answers = answers.filter(data_id__in=data_ids)
         for so in stack_options:
             query_set = answers.filter(
-                question=stack, options__contains=so.name).values(
+                question=stack, options__contains=so.value).values(
                     'options').annotate(ids=StringAgg(
                         Cast('data_id', TextField()),
                         delimiter=',',
                         output_field=TextField()))
             # temp values
-            values = {'group': so.name, 'child': []}
+            values = {'group': so.value, 'child': []}
             # get child
             for val in query_set:
                 child_query_set = answers.filter(
@@ -562,9 +562,9 @@ def get_chart_data_point(request, version, form_id):
                     multiple_options = question.options.all()
                     for mo in multiple_options:
                         count = child_query_set.filter(
-                            options__contains=mo.name).count()
+                            options__contains=mo.value).count()
                         values.get('child').append({
-                            'name': mo.name,
+                            'name': mo.value,
                             'value': count
                         })
             data.append(values)

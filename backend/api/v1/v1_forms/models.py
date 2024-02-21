@@ -95,7 +95,7 @@ class Questions(models.Model):
         return self.text
 
     def to_definition(self):
-        options = [options.name
+        options = [options.label
                    for options in
                    self.options.all()] \
             if self.options.count() else False

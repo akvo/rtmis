@@ -386,19 +386,19 @@ class ListChartDataPointRequestSerializer(serializers.Serializer):
 
 
 class ListChartQuestionDataPointSerializer(serializers.ModelSerializer):
-    value = serializers.SerializerMethodField()
+    total = serializers.SerializerMethodField()
 
     @extend_schema_field(OpenApiTypes.INT)
-    def get_value(self, instance: QuestionOptions):
+    def get_total(self, instance: QuestionOptions):
         value = instance.question.question_answer.filter(
-            options__contains=instance.name)
+            options__contains=instance.value)
         if self.context.get("data_ids"):
             value = value.filter(data_id__in=self.context.get("data_ids"))
         return value.count()
 
     class Meta:
         model = QuestionOptions
-        fields = ["name", "value"]
+        fields = ["label", "total"]
 
 
 class ChartDataSerializer(serializers.Serializer):
@@ -905,9 +905,9 @@ class ListBatchSummarySerializer(serializers.ModelSerializer):
                 val = PendingAnswers.objects.filter(
                     pending_data__batch=batch,
                     question_id=instance.question.id,
-                    options__contains=option.name,
+                    options__contains=option.value,
                 ).count()
-                data.append({"type": option.name, "total": val})
+                data.append({"type": option.label, "total": val})
             return data
 
     class Meta:

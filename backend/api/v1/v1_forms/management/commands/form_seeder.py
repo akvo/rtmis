@@ -1,5 +1,6 @@
 import json
 import os
+import re
 
 from rtmis.settings import PROD
 from django.core.management import BaseCommand
@@ -12,6 +13,15 @@ from api.v1.v1_forms.models import QuestionGroup as QG
 from api.v1.v1_forms.models import Questions
 from api.v1.v1_forms.models import QuestionOptions as QO
 from api.v1.v1_forms.models import QuestionAttribute as QA
+
+
+def clean_string(input_string):
+    stripped_string = input_string.strip()
+    lowercase_string = stripped_string.lower()
+    no_special_chars_string = re.sub(r'[^a-z0-9 ]', '', lowercase_string)
+    underscore_string = no_special_chars_string.replace(' ', '_')
+    final_string = underscore_string.strip('_')
+    return final_string
 
 
 class Command(BaseCommand):
@@ -152,7 +162,9 @@ class Command(BaseCommand):
                         QO.objects.filter(question=question).all().delete()
                         QO.objects.bulk_create([
                             QO(
-                                name=o["name"].strip(),
+                                # TODO: Change to label and value
+                                label=o["name"].strip(),
+                                value=clean_string(o["name"]),
                                 question=question,
                                 order=io + 1,
                                 color=o.get("color")

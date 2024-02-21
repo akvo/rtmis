@@ -36,12 +36,12 @@ def set_answer_data(data, question):
         value = fake.random_int(min=10, max=50)
     elif question.type == QuestionTypes.option:
         option = [
-            question.options.order_by('?').first().name
+            question.options.order_by('?').first().value
         ]
     elif question.type == QuestionTypes.multiple_option:
         option = list(
             question.options.order_by('?').values_list(
-                'name', flat=True)[0:fake.random_int(min=1, max=3)])
+                'value', flat=True)[0:fake.random_int(min=1, max=3)])
     elif question.type == QuestionTypes.photo:
         name = fake.image_url()
     elif question.type == QuestionTypes.date:
