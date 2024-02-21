@@ -34,9 +34,8 @@
           "label": "Village",
           "short_label": null,
           "meta": true,
-          "type": "text",
-          "required": true,
-          "options": null
+          "type": "administration",
+          "required": true
         },
         {
           "id": 567440335,
@@ -46,8 +45,7 @@
           "short_label": null,
           "meta": false,
           "type": "number",
-          "required": true,
-          "options": null
+          "required": true
         },
         {
           "id": 571070201,
@@ -57,8 +55,7 @@
           "short_label": null,
           "meta": true,
           "type": "geo",
-          "required": true,
-          "options": null
+          "required": true
         }
       ]
     },
@@ -79,16 +76,13 @@
           "required": true,
           "options": [
             {
-              "name": "Amref",
-              "color": null
+              "label": "Amref"
             },
             {
-              "name": "Amref and Local Government",
-              "color": null
+              "label": "Amref and Local Government"
             },
             {
-              "name": "Other",
-              "color": null
+              "label": "Other"
             }
           ]
         },
@@ -100,8 +94,7 @@
           "short_label": null,
           "meta": false,
           "type": "date",
-          "required": false,
-          "options": null
+          "required": false
         },
         {
           "id": 569070282,
@@ -111,8 +104,7 @@
           "short_label": null,
           "meta": false,
           "type": "number",
-          "required": false,
-          "options": null
+          "required": false
         },
         {
           "id": 569090299,
@@ -125,11 +117,11 @@
           "required": false,
           "options": [
             {
-              "name": "Yes",
+              "label": "Yes",
               "color": null
             },
             {
-              "name": "No",
+              "label": "No",
               "color": null
             }
           ]
@@ -145,11 +137,11 @@
           "required": false,
           "options": [
             {
-              "name": "Yes",
+              "label": "Yes",
               "color": null
             },
             {
-              "name": "No",
+              "label": "No",
               "color": null
             }
           ]
@@ -165,11 +157,11 @@
           "required": false,
           "options": [
             {
-              "name": "Yes",
+              "label": "Yes",
               "color": null
             },
             {
-              "name": "No",
+              "label": "No",
               "color": null
             }
           ]
@@ -185,11 +177,11 @@
           "required": false,
           "options": [
             {
-              "name": "Yes",
+              "label": "Yes",
               "color": null
             },
             {
-              "name": "No",
+              "label": "No",
               "color": null
             }
           ]
@@ -205,11 +197,11 @@
           "required": false,
           "options": [
             {
-              "name": "Yes",
+              "label": "Yes",
               "color": null
             },
             {
-              "name": "No",
+              "label": "No",
               "color": null
             }
           ]
@@ -247,59 +239,59 @@
           "required": true,
           "options": [
             {
-              "name": "Bucket",
+              "label": "Bucket",
               "color": null
             },
             {
-              "name": "Container-based sanitation",
+              "label": "Container-based sanitation",
               "color": null
             },
             {
-              "name": "Flush/pour flush to piped sewer system",
+              "label": "Flush/pour flush to piped sewer system",
               "color": null
             },
             {
-              "name": "Flush/pour flush to septic tank",
+              "label": "Flush/pour flush to septic tank",
               "color": null
             },
             {
-              "name": "Flush/pour flush to pit latrine",
+              "label": "Flush/pour flush to pit latrine",
               "color": null
             },
             {
-              "name": "Flush/pour flush to open drain",
+              "label": "Flush/pour flush to open drain",
               "color": null
             },
             {
-              "name": "Hanging toilet/latrine",
+              "label": "Hanging toilet/latrine",
               "color": null
             },
             {
-              "name": "Pit latrine with slab",
+              "label": "Pit latrine with slab",
               "color": null
             },
             {
-              "name": "Pit latrine without slab/open pit",
+              "label": "Pit latrine without slab/open pit",
               "color": null
             },
             {
-              "name": "Twin pit offset latrine",
+              "label": "Twin pit offset latrine",
               "color": null
             },
             {
-              "name": "Twin pit with latrine slab",
+              "label": "Twin pit with latrine slab",
               "color": null
             },
             {
-              "name": "Twin pit without slab",
+              "label": "Twin pit without slab",
               "color": null
             },
             {
-              "name": "Ventilated improved pit latrine (VIP) with slab",
+              "label": "Ventilated improved pit latrine (VIP) with slab",
               "color": null
             },
             {
-              "name": "Other composting latrine",
+              "label": "Other composting latrine",
               "color": null
             }
           ]
@@ -315,19 +307,19 @@
           "required": false,
           "options": [
             {
-              "name": "Open Defecation",
+              "label": "Open Defecation",
               "color": null
             },
             {
-              "name": "Triggered",
+              "label": "Triggered",
               "color": null
             },
             {
-              "name": "Declared ODF",
+              "label": "Declared ODF",
               "color": null
             },
             {
-              "name": "Verified ODF",
+              "label": "Verified ODF",
               "color": null
             }
           ]

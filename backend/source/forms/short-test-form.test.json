@@ -39,13 +39,13 @@
           "options": [
             {
               "id": 16993543585751,
-              "name": "New",
-              "order": 1
+              "order": 1,
+              "label": "New"
             },
             {
               "id": 16993543585761,
-              "name": "Update",
-              "order": 2
+              "order": 2,
+              "label": "Update"
             }
           ],
           "dependency": null,
@@ -207,28 +207,28 @@
           "options": [
             {
               "id": 16994188438531,
-              "name": "Household head",
-              "order": 1
+              "order": 1,
+              "label": "Household head"
             },
             {
               "id": 16994188438541,
-              "name": "Spouse of household head",
-              "order": 2
+              "order": 2,
+              "label": "Spouse of household head"
             },
             {
               "id": 16994188715801,
-              "name": "Parent of household head",
-              "order": 3
+              "order": 3,
+              "label": "Parent of household head"
             },
             {
               "id": 16994188787351,
-              "name": "Adult child of household head",
-              "order": 4
+              "order": 4,
+              "label": "Adult child of household head"
             },
             {
               "id": 16994188861871,
-              "name": "Under-18 child of household head",
-              "order": 5
+              "order": 5,
+              "label": "Under-18 child of household head"
             }
           ],
           "rule": null,
@@ -338,110 +338,110 @@
           "options": [
             {
               "id": 17029151440681,
-              "name": "OTHER household (NOT in at-risk category)",
               "order": 1,
+              "label": "OTHER household (NOT in at-risk category)",
               "color": "#96f2a2"
             },
             {
               "id": 17029151440691,
-              "name": "AT RISK: Disabled household member (mentally or physically)",
               "order": 2,
+              "label": "AT RISK: Disabled household member (mentally or physically)",
               "color": "#fbbece"
             },
             {
               "id": 17029161495571,
-              "name": "AT RISK: Elderly-headed households (without support)",
               "order": 3,
+              "label": "AT RISK: Elderly-headed households (without support)",
               "color": "#fbbece"
             },
             {
               "id": 17029161634851,
-              "name": "AT RISK: Orphans and vulnerable children",
               "order": 4,
+              "label": "AT RISK: Orphans and vulnerable children",
               "color": "#fbbece"
             },
             {
               "id": 17029162043841,
-              "name": "AT RISK: Female-headed household (single mothers, divorcees, widows)",
               "order": 5,
+              "label": "AT RISK: Female-headed household (single mothers, divorcees, widows)",
               "color": "#fbbece"
             },
             {
               "id": 17029162237341,
-              "name": "AT RISK: Internally displaced people",
               "order": 6,
+              "label": "AT RISK: Internally displaced people",
               "color": "#fbbece"
             },
             {
               "id": 17029162312721,
-              "name": "AT RISK: Returning refugees",
               "order": 7,
+              "label": "AT RISK: Returning refugees",
               "color": "#fbbece"
             },
             {
               "id": 17029162437501,
-              "name": "AT RISK: HIV/AIDS affected (or other serious illness)",
               "order": 8,
+              "label": "AT RISK: HIV/AIDS affected (or other serious illness)",
               "color": "#fbbece"
             },
             {
               "id": 17029162529671,
-              "name": "AT RISK: Religious minorities",
               "order": 9,
+              "label": "AT RISK: Religious minorities",
               "color": "#fbbece"
             },
             {
               "id": 17029162623501,
-              "name": "AT RISK: Ethnic minorities",
               "order": 10,
+              "label": "AT RISK: Ethnic minorities",
               "color": "#fbbece"
             },
             {
               "id": 17029162827171,
-              "name": "AT RISK: Nomadic or semi-nomadic",
               "order": 11,
+              "label": "AT RISK: Nomadic or semi-nomadic",
               "color": "#fbbece"
             },
             {
               "id": 17029162855171,
-              "name": "AT RISK: Seasonal fishing group",
               "order": 12,
+              "label": "AT RISK: Seasonal fishing group",
               "color": "#fbbece"
             },
             {
               "id": 17029163024501,
-              "name": "AT RISK: Long-term poor",
               "order": 13,
+              "label": "AT RISK: Long-term poor",
               "color": "#fbbece"
             },
             {
               "id": 17029163114001,
-              "name": "AT RISK: Landless/tenants",
               "order": 14,
+              "label": "AT RISK: Landless/tenants",
               "color": "#fbbece"
             },
             {
               "id": 17029163207011,
-              "name": "AT RISK: Shared use of someone else's toilet/public toilet (don't have a toilet)",
               "order": 15,
+              "label": "AT RISK: Shared use of someone else's toilet/public toilet (don't have a toilet)",
               "color": "#fbbece"
             },
             {
               "id": 17029163332351,
-              "name": "AT RISK: In-migrants (new households in last 12 months)",
               "order": 16,
+              "label": "AT RISK: In-migrants (new households in last 12 months)",
               "color": "#fbbece"
             },
             {
               "id": 17029163412671,
-              "name": "AT RISK: New adult households (newly formed household)",
               "order": 17,
+              "label": "AT RISK: New adult households (newly formed household)",
               "color": "#fbbece"
             },
             {
               "id": 17029163500171,
-              "name": "AT RISK: households with previously collapsed or flooded toilets",
               "order": 18,
+              "label": "AT RISK: households with previously collapsed or flooded toilets",
               "color": "#fbbece"
             }
           ],
@@ -491,14 +491,14 @@
           "options": [
             {
               "id": 16994229786231,
-              "name": "G0 No toilet",
               "order": 1,
+              "label": "G0 No toilet",
               "color": "#db3b3b"
             },
             {
               "id": 16994229786241,
-              "name": "G1 Toilet observed",
               "order": 2,
+              "label": "G1 Toilet observed",
               "color": "#38a15a"
             }
           ],
@@ -542,18 +542,18 @@
           "options": [
             {
               "id": 16994234346941,
-              "name": "G0 Non-functional toilet",
-              "order": 1
+              "order": 1,
+              "label": "G0 Non-functional toilet"
             },
             {
               "id": 16994234346951,
-              "name": "G0+ Partly functional toilet",
-              "order": 2
+              "order": 2,
+              "label": "G0+ Partly functional toilet"
             },
             {
               "id": 16994234731501,
-              "name": "G1 Fully functional toilet",
-              "order": 3
+              "order": 3,
+              "label": "G1 Fully functional toilet"
             }
           ],
           "dependency": [
@@ -581,18 +581,18 @@
           "options": [
             {
               "id": 16994235796221,
-              "name": "G0 No toilet privacy",
-              "order": 1
+              "order": 1,
+              "label": "G0 No toilet privacy"
             },
             {
               "id": 16994235796231,
-              "name": "G0+ Inadequate toilet privacy",
-              "order": 2
+              "order": 2,
+              "label": "G0+ Inadequate toilet privacy"
             },
             {
               "id": 16994236548461,
-              "name": "G1 Good toilet privacy",
-              "order": 3
+              "order": 3,
+              "label": "G1 Good toilet privacy"
             }
           ],
           "dependency": [
@@ -640,43 +640,43 @@
           "options": [
             {
               "id": 16994237147191,
-              "name": "G0 No toilet",
-              "order": 1
+              "order": 1,
+              "label": "G0 No toilet"
             },
             {
               "id": 16994237147201,
-              "name": "G1 Dry latrine with drophole",
-              "order": 2
+              "order": 2,
+              "label": "G1 Dry latrine with drophole"
             },
             {
               "id": 16994238623071,
-              "name": "G1 VIP drophole with vent pipe",
-              "order": 3
+              "order": 3,
+              "label": "G1 VIP drophole with vent pipe"
             },
             {
               "id": 16994238800831,
-              "name": "G1 SATO pan",
-              "order": 4
+              "order": 4,
+              "label": "G1 SATO pan"
             },
             {
               "id": 16994238922001,
-              "name": "G1 Flush or pour-flush pan with water seal",
-              "order": 5
+              "order": 5,
+              "label": "G1 Flush or pour-flush pan with water seal"
             },
             {
               "id": 16994239036001,
-              "name": "G1 Dry toilet with urine-diverting drophole",
-              "order": 6
+              "order": 6,
+              "label": "G1 Dry toilet with urine-diverting drophole"
             },
             {
               "id": 16994239160781,
-              "name": "G1 Open pipe (no water seal)",
-              "order": 7
+              "order": 7,
+              "label": "G1 Open pipe (no water seal)"
             },
             {
               "id": 16994239188661,
-              "name": "G1 Other toilet interface",
-              "order": 8
+              "order": 8,
+              "label": "G1 Other toilet interface"
             }
           ],
           "dependency": null,
@@ -699,68 +699,68 @@
           "options": [
             {
               "id": 16994239628191,
-              "name": "G0 No toilet",
-              "order": 1
+              "order": 1,
+              "label": "G0 No toilet"
             },
             {
               "id": 16994240428551,
-              "name": "G0 Open pit (uncovered or large openings)",
-              "order": 3
+              "order": 3,
+              "label": "G0 Open pit (uncovered or large openings)"
             },
             {
               "id": 16994240507931,
-              "name": "G0 Single toilet vault (above ground)",
-              "order": 4
+              "order": 4,
+              "label": "G0 Single toilet vault (above ground)"
             },
             {
               "id": 16994240585161,
-              "name": "G0 Removable open container (e.g. bucket)",
-              "order": 5
+              "order": 5,
+              "label": "G0 Removable open container (e.g. bucket)"
             },
             {
               "id": 16994240670661,
-              "name": "G1 Single latrine pit",
-              "order": 6
+              "order": 6,
+              "label": "G1 Single latrine pit"
             },
             {
               "id": 16994240760001,
-              "name": "G1 Double latrine pit",
-              "order": 7
+              "order": 7,
+              "label": "G1 Double latrine pit"
             },
             {
               "id": 16994240879451,
-              "name": "G1 Double toilet vault (above ground)",
-              "order": 8
+              "order": 8,
+              "label": "G1 Double toilet vault (above ground)"
             },
             {
               "id": 16994240965491,
-              "name": "G1 Septic tank",
-              "order": 9
+              "order": 9,
+              "label": "G1 Septic tank"
             },
             {
               "id": 16994241048831,
-              "name": "G1 Removable closed container",
-              "order": 10
+              "order": 10,
+              "label": "G1 Removable closed container"
             },
             {
               "id": 16994241135011,
-              "name": "G1 Piped sewer connection",
-              "order": 11
+              "order": 11,
+              "label": "G1 Piped sewer connection"
             },
             {
               "id": 16994241218661,
-              "name": "G1 Other pit or tank",
-              "order": 12
+              "order": 12,
+              "label": "G1 Other pit or tank"
             },
             {
               "id": 16994241355511,
-              "name": "G1 Flush to don't know",
-              "order": 13
+              "order": 13,
+              "label": "G1 Flush to don't know"
             },
             {
               "id": 16994239628201,
-              "name": "G0 No pit or tank (discharge to open: field, open drain, water body, elsewhere)",
-              "order": 2
+              "order": 2,
+              "label": "G0 No pit or tank (discharge to open: field, open drain, water body, elsewhere)"
             }
           ],
           "dependency": [
@@ -787,63 +787,63 @@
           "options": [
             {
               "id": 16994244314871,
-              "name": "G0 VIP vent pipe without insect screen",
-              "order": 3
+              "order": 3,
+              "label": "G0 VIP vent pipe without insect screen"
             },
             {
               "id": 16994244389221,
-              "name": "G0 Broken SATO flap",
-              "order": 4
+              "order": 4,
+              "label": "G0 Broken SATO flap"
             },
             {
               "id": 16994244465831,
-              "name": "G0 Broken or empty water seal (no water)",
-              "order": 5
+              "order": 5,
+              "label": "G0 Broken or empty water seal (no water)"
             },
             {
               "id": 16994244548241,
-              "name": "G0 Open pipe (to pit or tank)",
-              "order": 6
+              "order": 6,
+              "label": "G0 Open pipe (to pit or tank)"
             },
             {
               "id": 16994244625741,
-              "name": "G0 Other non-flyproof toilet",
-              "order": 7
+              "order": 7,
+              "label": "G0 Other non-flyproof toilet"
             },
             {
               "id": 16994244707531,
-              "name": "G1 Tight-fitting drophole cover (in place)",
-              "order": 8
+              "order": 8,
+              "label": "G1 Tight-fitting drophole cover (in place)"
             },
             {
               "id": 16994244811081,
-              "name": "G1 VIP vent pipe with insect screen",
-              "order": 9
+              "order": 9,
+              "label": "G1 VIP vent pipe with insect screen"
             },
             {
               "id": 16994244877761,
-              "name": "G1 Functional SATO flap",
-              "order": 10
+              "order": 10,
+              "label": "G1 Functional SATO flap"
             },
             {
               "id": 16994245059751,
-              "name": "G1 Functional water seal (with water)",
-              "order": 11
+              "order": 11,
+              "label": "G1 Functional water seal (with water)"
             },
             {
               "id": 16994245135231,
-              "name": "G1 Other flyproof toilet",
-              "order": 12
+              "order": 12,
+              "label": "G1 Other flyproof toilet"
             },
             {
               "id": 16994243901661,
-              "name": "G0 No toilet",
-              "order": 1
+              "order": 1,
+              "label": "G0 No toilet"
             },
             {
               "id": 16994243901671,
-              "name": "G0 Inadequate or missing drophole cover",
-              "order": 2
+              "order": 2,
+              "label": "G0 Inadequate or missing drophole cover"
             }
           ],
           "dependency": [
@@ -901,11 +901,11 @@
           "options": [
             {
               "id": 170308627025011,
-              "name": "Yes"
+              "label": "Yes"
             },
             {
               "id": 170308627025012,
-              "name": "No"
+              "label": "No"
             }
           ],
           "pre": {
@@ -941,12 +941,12 @@
           "options": [
             {
               "id": 170308627025021,
-              "name": "A",
+              "label": "A",
               "color": "red"
             },
             {
               "id": 170308627025022,
-              "name": "B",
+              "label": "B",
               "color": "blue"
             }
           ],
@@ -970,12 +970,12 @@
           "options": [
             {
               "id": 170308627025031,
-              "name": "A",
+              "label": "A",
               "color": "red"
             },
             {
               "id": 170308627025032,
-              "name": "B",
+              "label": "B",
               "color": "blue"
             }
           ],

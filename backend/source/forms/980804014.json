@@ -71,15 +71,15 @@
           "required": false,
           "options": [
             {
-              "name": "CDA",
+              "label": "CDA",
               "color": null
             },
             {
-              "name": "Government",
+              "label": "Government",
               "color": null
             },
             {
-              "name": "Kale Hiwot",
+              "label": "Kale Hiwot",
               "color": null
             }
           ]
@@ -95,31 +95,31 @@
           "required": false,
           "options": [
             {
-              "name": "Deep well with distribution",
+              "label": "Deep well with distribution",
               "color": null
             },
             {
-              "name": "Hand dug well",
+              "label": "Hand dug well",
               "color": null
             },
             {
-              "name": "Shallow well",
+              "label": "Shallow well",
               "color": null
             },
             {
-              "name": "Protected spring",
+              "label": "Protected spring",
               "color": null
             },
             {
-              "name": "Unprotected spring",
+              "label": "Unprotected spring",
               "color": null
             },
             {
-              "name": "Rainwater collection",
+              "label": "Rainwater collection",
               "color": null
             },
             {
-              "name": "Surface water",
+              "label": "Surface water",
               "color": null
             }
           ]
@@ -157,23 +157,23 @@
           "required": false,
           "options": [
             {
-              "name": "Afridev",
+              "label": "Afridev",
               "color": null
             },
             {
-              "name": "Indian Mark II",
+              "label": "Indian Mark II",
               "color": null
             },
             {
-              "name": "Submersible pump",
+              "label": "Submersible pump",
               "color": null
             },
             {
-              "name": "Windlass",
+              "label": "Windlass",
               "color": null
             },
             {
-              "name": "I don't know",
+              "label": "I don't know",
               "color": null
             }
           ]
@@ -189,19 +189,19 @@
           "required": false,
           "options": [
             {
-              "name": "Diesel",
+              "label": "Diesel",
               "color": null
             },
             {
-              "name": "Electricity and grid",
+              "label": "Electricity and grid",
               "color": null
             },
             {
-              "name": "Gravity flow",
+              "label": "Gravity flow",
               "color": null
             },
             {
-              "name": "Manual operation",
+              "label": "Manual operation",
               "color": null
             }
           ]
@@ -250,15 +250,15 @@
           "required": false,
           "options": [
             {
-              "name": "Functional",
+              "label": "Functional",
               "color": "#91cc75"
             },
             {
-              "name": "Functional but with problems",
+              "label": "Functional but with problems",
               "color": "#e39f00"
             },
             {
-              "name": "Not functional",
+              "label": "Not functional",
               "color": "#ee6666"
             }
           ]
@@ -274,31 +274,31 @@
           "required": false,
           "options": [
             {
-              "name": "Lack of water",
+              "label": "Lack of water",
               "color": null
             },
             {
-              "name": "Pump broken",
+              "label": "Pump broken",
               "color": null
             },
             {
-              "name": "Tap broken",
+              "label": "Tap broken",
               "color": null
             },
             {
-              "name": "Distribution pipeline broken",
+              "label": "Distribution pipeline broken",
               "color": null
             },
             {
-              "name": "Power failure",
+              "label": "Power failure",
               "color": null
             },
             {
-              "name": "Lack of fuel",
+              "label": "Lack of fuel",
               "color": null
             },
             {
-              "name": "Poor water quality",
+              "label": "Poor water quality",
               "color": null
             }
           ]
@@ -314,23 +314,23 @@
           "required": false,
           "options": [
             {
-              "name": "Extension",
+              "label": "Extension",
               "color": null
             },
             {
-              "name": "Inspection",
+              "label": "Inspection",
               "color": null
             },
             {
-              "name": "National WASH Inventory",
+              "label": "National WASH Inventory",
               "color": null
             },
             {
-              "name": "New Scheme",
+              "label": "New Scheme",
               "color": null
             },
             {
-              "name": "Repair",
+              "label": "Repair",
               "color": null
             }
           ]

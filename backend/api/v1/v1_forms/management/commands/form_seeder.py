@@ -162,9 +162,11 @@ class Command(BaseCommand):
                         QO.objects.filter(question=question).all().delete()
                         QO.objects.bulk_create([
                             QO(
-                                # TODO: Change to label and value
-                                label=o["name"].strip(),
-                                value=clean_string(o["name"]),
+                                label=o["label"].strip(),
+                                value=o["value"] if o.get("value")
+                                else clean_string(
+                                    o["label"]
+                                ),
                                 question=question,
                                 order=io + 1,
                                 color=o.get("color")
