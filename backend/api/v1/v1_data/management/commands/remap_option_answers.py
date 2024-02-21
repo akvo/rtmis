@@ -2,7 +2,7 @@ from django.core.management import BaseCommand
 from api.v1.v1_forms.models import Questions, QuestionOptions
 from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_data.models import (
-    Answers, PendingAnswers,
+    FormData, Answers, PendingAnswers,
     AnswerHistory, PendingAnswerHistory
 )
 
@@ -56,3 +56,5 @@ class Command(BaseCommand):
             set_answer_data(
                 pending_answer_history, option_labels, option_dict,
                 "PendingAnswerHistory")
+        for data in FormData.objects.all():
+            data.save_to_file
