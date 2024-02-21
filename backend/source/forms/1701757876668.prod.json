@@ -32,13 +32,15 @@
           "options": [
             {
               "id": 1701758035213,
-              "name": "New",
-              "order": 1
+              "order": 1,
+              "label": "New",
+              "value": "new"
             },
             {
               "id": 1701758035214,
-              "name": "Update",
-              "order": 2
+              "order": 2,
+              "label": "Update",
+              "value": "upda"
             }
           ],
           "rule": null
@@ -71,43 +73,51 @@
           "options": [
             {
               "id": 1706105143946,
-              "name": "Principal",
-              "order": 3
+              "order": 3,
+              "label": "Principal",
+              "value": "prin"
             },
             {
               "id": 1706105152863,
-              "name": "Deputy Principal",
-              "order": 4
+              "order": 4,
+              "label": "Deputy Principal",
+              "value": "depu_prin"
             },
             {
               "id": 1706105163014,
-              "name": "Senior Master",
-              "order": 5
+              "order": 5,
+              "label": "Senior Master",
+              "value": "seni_mast"
             },
             {
               "id": 1706105171647,
-              "name": "Deputy Headteacher",
-              "order": 6
+              "order": 6,
+              "label": "Deputy Headteacher",
+              "value": "depu_head"
             },
             {
               "id": 1706105182712,
-              "name": "Teacher",
-              "order": 7
+              "order": 7,
+              "label": "Teacher",
+              "value": "teac"
             },
             {
               "id": 1706105191930,
-              "name": "Other-specify",
-              "order": 8
+              "order": 8,
+              "label": "Other-specify",
+              "value": "othe"
             },
             {
               "id": 1706105104939,
-              "name": "Chief Principal",
-              "order": 1
+              "order": 1,
+              "label": "Chief Principal",
+              "value": "chie_prin"
             },
             {
               "id": 1706105104940,
-              "name": "Senior Principal",
-              "order": 2
+              "order": 2,
+              "label": "Senior Principal",
+              "value": "seni_prin"
             }
           ],
           "rule": null
@@ -230,62 +240,72 @@
           "options": [
             {
               "id": 1706087635343,
-              "name": "No water source",
               "order": 1,
+              "label": "No water source",
+              "value": "no_wate_sour",
               "color": "#db3b3b"
             },
             {
               "id": 1706087635344,
-              "name": "Surface water (lake, river, stream, dam)",
               "order": 2,
+              "label": "Surface water (lake, river, stream, dam)",
+              "value": "surf_wate_lake_rive_stre_dam",
               "color": "#db3b3b"
             },
             {
               "id": 1706113953408,
-              "name": "Unprotected well/spring",
               "order": 3,
+              "label": "Unprotected well/spring",
+              "value": "unpr_well",
               "color": "#db3b3b"
             },
             {
               "id": 1706113961237,
-              "name": "Children bring water from home",
               "order": 4,
+              "label": "Children bring water from home",
+              "value": "chil_brin_wate_from_home",
               "color": "#db3b3b"
             },
             {
               "id": 1706113971096,
-              "name": "Piped water supply",
               "order": 5,
+              "label": "Piped water supply",
+              "value": "pipe_wate_supp",
               "color": "#38a15a"
             },
             {
               "id": 1706113983912,
-              "name": "Protected well/spring/borehole",
               "order": 6,
+              "label": "Protected well/spring/borehole",
+              "value": "prot_well",
               "color": "#38a15a"
             },
             {
               "id": 1706113995660,
-              "name": "Rainwater tank",
               "order": 7,
+              "label": "Rainwater tank",
+              "value": "rain_tank",
               "color": "#38a15a"
             },
             {
               "id": 1706114007690,
-              "name": "Packaged water (bottles)",
               "order": 8,
+              "label": "Packaged water (bottles)",
+              "value": "pack_wate_bott",
               "color": "#38a15a"
             },
             {
               "id": 1706114016239,
-              "name": "Tanker truck or cart",
               "order": 9,
+              "label": "Tanker truck or cart",
+              "value": "tank_truc_cart",
               "color": "#38a15a"
             },
             {
               "id": 1706114026561,
-              "name": "Other improved - specify",
               "order": 10,
+              "label": "Other improved - specify",
+              "value": "othe_impr_spec",
               "color": "#38a15a"
             }
           ],
@@ -323,14 +343,16 @@
           "options": [
             {
               "id": 1706089329756,
-              "name": "No",
               "order": 1,
+              "label": "No",
+              "value": "no",
               "color": "#db3b3b"
             },
             {
               "id": 1706089329757,
-              "name": "Yes",
               "order": 2,
+              "label": "Yes",
+              "value": "yes",
               "color": "#38a15a"
             }
           ],
@@ -353,20 +375,23 @@
           "options": [
             {
               "id": 1706090371200,
-              "name": "No (unavailable for more than 30 days in total)",
               "order": 1,
+              "label": "No (unavailable for more than 30 days in total)",
+              "value": "no_unav_for_more_than_30_days_tota",
               "color": "#db3b3b"
             },
             {
               "id": 1706090371201,
-              "name": "Mostly (unavailable for up to 30 days in total)",
               "order": 2,
+              "label": "Mostly (unavailable for up to 30 days in total)",
+              "value": "most_unav_for_up_to_30_days_tota",
               "color": "#ffa57d"
             },
             {
               "id": 1706090408567,
-              "name": "Yes (always available)",
               "order": 3,
+              "label": "Yes (always available)",
+              "value": "yes_alwa_avai",
               "color": "#38a15a"
             }
           ],
@@ -389,44 +414,51 @@
           "options": [
             {
               "id": 1706090874972,
-              "name": "No treatment",
               "order": 1,
+              "label": "No treatment",
+              "value": "no_trea",
               "color": "#db3b3b"
             },
             {
               "id": 1706090874973,
-              "name": "Filtration",
               "order": 2,
+              "label": "Filtration",
+              "value": "filt",
               "color": "#38a15a"
             },
             {
               "id": 1706090967892,
-              "name": "Boiling",
               "order": 3,
+              "label": "Boiling",
+              "value": "boil",
               "color": "#38a15a"
             },
             {
               "id": 1706090977786,
-              "name": "Chlorination",
               "order": 4,
+              "label": "Chlorination",
+              "value": "chlo",
               "color": "#38a15a"
             },
             {
               "id": 1706090986671,
-              "name": "SODIS",
               "order": 5,
+              "label": "SODIS",
+              "value": "sodi",
               "color": "#38a15a"
             },
             {
               "id": 1706090994701,
-              "name": "Ultraviolet disinfection",
               "order": 6,
+              "label": "Ultraviolet disinfection",
+              "value": "ultr_disi",
               "color": "#38a15a"
             },
             {
               "id": 1706091004735,
-              "name": "Other (specify)",
               "order": 7,
+              "label": "Other (specify)",
+              "value": "othe_spec",
               "color": "#38a15a"
             }
           ],
@@ -447,14 +479,16 @@
           "options": [
             {
               "id": 1706091528640,
-              "name": "No",
               "order": 1,
+              "label": "No",
+              "value": "no",
               "color": "#db3b3b"
             },
             {
               "id": 1706091528641,
-              "name": "Yes",
               "order": 2,
+              "label": "Yes",
+              "value": "yes",
               "color": "#38a15a"
             }
           ],
@@ -475,14 +509,16 @@
           "options": [
             {
               "id": 1706091736548,
-              "name": "No",
               "order": 1,
+              "value": "no",
+              "label": "No",
               "color": "#db3b3b"
             },
             {
               "id": 1706091736549,
-              "name": "Yes",
               "order": 2,
+              "value": "yes",
+              "label": "Yes",
               "color": "#38a15a"
             }
           ],
@@ -514,50 +550,58 @@
           "options": [
             {
               "id": 1706092381119,
-              "name": "No toilet",
               "order": 1,
+              "label": "No toilet",
+              "value": "no_toil",
               "color": "#db3b3b"
             },
             {
               "id": 1706092427776,
-              "name": "VIP drophole with vent pipe",
               "order": 3,
+              "label": "VIP drophole with vent pipe",
+              "value": "vip_drop_with_vent_pipe",
               "color": "#38a15a"
             },
             {
               "id": 1706092437043,
-              "name": "SATO pan",
               "order": 4,
+              "label": "SATO pan",
+              "value": "sato_pan",
               "color": "#38a15a"
             },
             {
               "id": 1706092447511,
-              "name": "Flush or pour-flush pan with water seal",
               "order": 5,
+              "label": "Flush or pour-flush pan with water seal",
+              "value": "flus_pour_pan_with_wate_seal",
               "color": "#38a15a"
             },
             {
               "id": 1706092458462,
-              "name": "Dry toilet with urine-diverting drophole",
               "order": 6,
+              "label": "Dry toilet with urine-diverting drophole",
+              "value": "dry_toil_with_urin_drop",
               "color": "#38a15a"
             },
             {
               "id": 1706092476699,
-              "name": "Open pipe (no water seal)",
               "order": 7,
+              "label": "Open pipe (no water seal)",
+              "value": "open_pipe_no_wate_seal",
               "color": "#38a15a"
             },
             {
               "id": 1706092486092,
-              "name": "Other toilet interface",
               "order": 8,
+              "label": "Other toilet interface",
+              "value": "othe_toil_inte",
               "color": "#38a15a"
             },
             {
               "id": 1706092381120,
-              "name": "Dry latrine with drophole",
               "order": 2,
+              "label": "Dry latrine with drophole",
+              "value": "dry_latr_with_drop",
               "color": "#38a15a"
             }
           ],
@@ -580,80 +624,93 @@
           "options": [
             {
               "id": 1706092768409,
-              "name": "No toilet",
               "order": 1,
+              "label": "No toilet",
+              "value": "no_toil",
               "color": "#db3b3b"
             },
             {
               "id": 1706092768410,
-              "name": "No pit or tank (discharge to open: field, open drain, water body, elsewhere)",
               "order": 2,
+              "label": "No pit or tank (discharge to open: field, open drain, water body, elsewhere)",
+              "value": "no_pit_tank_disc_to_open_fiel_open_drai_wate_body_else",
               "color": "#db3b3b"
             },
             {
               "id": 1706092780791,
-              "name": "Open pit (uncovered or large openings)",
               "order": 3,
+              "label": "Open pit (uncovered or large openings)",
+              "value": "open_pit_unco_larg_open",
               "color": "#db3b3b"
             },
             {
               "id": 1706092792068,
-              "name": "Single toilet vault (above ground)",
               "order": 4,
+              "label": "Single toilet vault (above ground)",
+              "value": "sing_toil_vaul_abov_grou",
               "color": "#db3b3b"
             },
             {
               "id": 1706092801188,
-              "name": "Removable open container (e.g. bucket)",
               "order": 5,
+              "label": "Removable open container (e.g. bucket)",
+              "value": "remo_open_cont_eg_buck",
               "color": "#db3b3b"
             },
             {
               "id": 1706092811427,
-              "name": "Single latrine pit",
               "order": 6,
+              "label": "Single latrine pit",
+              "value": "sing_latr_pit",
               "color": "#38a15a"
             },
             {
               "id": 1706092820533,
-              "name": "Double latrine pit",
               "order": 7,
+              "label": "Double latrine pit",
+              "value": "doub_latr_pit",
               "color": "#38a15a"
             },
             {
               "id": 1706092841424,
-              "name": "Double toilet vault (above ground)",
               "order": 8,
+              "label": "Double toilet vault (above ground)",
+              "value": "doub_toil_vaul_abov_grou",
               "color": "#38a15a"
             },
             {
               "id": 1706092846015,
-              "name": "Septic tank",
               "order": 9,
+              "label": "Septic tank",
+              "value": "sept_tank",
               "color": "#38a15a"
             },
             {
               "id": 1706092858042,
-              "name": "Removable closed container",
               "order": 10,
+              "label": "Removable closed container",
+              "value": "remo_clos_cont",
               "color": "#38a15a"
             },
             {
               "id": 1706092867217,
-              "name": "Piped sewer connection",
               "order": 11,
+              "label": "Piped sewer connection",
+              "value": "pipe_sewe_conn",
               "color": "#38a15a"
             },
             {
               "id": 1706092876714,
-              "name": "Other pit or tank",
               "order": 12,
+              "label": "Other pit or tank",
+              "value": "othe_pit_tank",
               "color": "#38a15a"
             },
             {
               "id": 1706092887417,
-              "name": "Flush to don't know",
               "order": 13,
+              "label": "Flush to don't know",
+              "value": "flus_to_dont_know",
               "color": "#38a15a"
             }
           ],
@@ -676,20 +733,23 @@
           "options": [
             {
               "id": 1706093623092,
-              "name": "G3 All functional school toilets have durable toilet slabs",
               "order": 3,
+              "label": "G3 All functional school toilets have durable toilet slabs",
+              "value": "g3_all_func_scho_toil_have_dura_toil_slab",
               "color": "#38A15A"
             },
             {
               "id": 1706093572396,
-              "name": "G0 All school toilet slabs are NOT durable",
               "order": 1,
+              "label": "G0 All school toilet slabs are NOT durable",
+              "value": "g0_all_scho_toil_slab_are_not_dura",
               "color": "#db3b3b"
             },
             {
               "id": 1706093572397,
-              "name": "G1 Some school toilet slabs are NOT durable",
               "order": 2,
+              "label": "G1 Some school toilet slabs are NOT durable",
+              "value": "g1_some_scho_toil_slab_are_not_dura",
               "color": "#ffa57d"
             }
           ],
@@ -712,20 +772,23 @@
           "options": [
             {
               "id": 1706093835280,
-              "name": "G0 All toilet pits are NOT durable",
               "order": 1,
+              "label": "G0 All toilet pits are NOT durable",
+              "value": "g0_all_toil_pits_are_not_dura",
               "color": "#db3b3b"
             },
             {
               "id": 1706093835281,
-              "name": "G1 Some toilet pits are NOT durable",
               "order": 2,
+              "label": "G1 Some toilet pits are NOT durable",
+              "value": "g1_some_toil_pits_are_not_dura",
               "color": "#ffa57d"
             },
             {
               "id": 1706094848944,
-              "name": "G3 All functional toilet pits are durable",
               "order": 3,
+              "label": "G3 All functional toilet pits are durable",
+              "value": "g3_all_func_toil_pits_are_dura",
               "color": "#38a15a"
             }
           ],
@@ -748,20 +811,23 @@
           "options": [
             {
               "id": 1706176374454,
-              "name": "All girls-only school toilets are NON-functional (specify number of non-functional toilets)",
               "order": 1,
+              "label": "All girls-only school toilets are NON-functional (specify number of non-functional toilets)",
+              "value": "all_girl_scho_toil_are_nonf_spec_numb_nonf_toil",
               "color": "#DB3B3B"
             },
             {
               "id": 1706176374455,
-              "name": "Some girls-only school toilets are non-functional (specify number of functional toilets + number of non-functional toilets)",
               "order": 2,
+              "label": "Some girls-only school toilets are non-functional (specify number of functional toilets + number of non-functional toilets)",
+              "value": "some_girl_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil",
               "color": "#ffa57d"
             },
             {
               "id": 1706176394660,
-              "name": "All girls-only school toilets are functional (specify number of functional toilets)",
               "order": 3,
+              "label": "All girls-only school toilets are functional (specify number of functional toilets)",
+              "value": "all_girl_scho_toil_are_func_spec_numb_func_toil",
               "color": "#38A15A"
             }
           ],
@@ -832,20 +898,23 @@
           "options": [
             {
               "id": 1706096715736,
-              "name": "All boys-only school toilets are NON-functional (specify number of non-functional toilets)",
               "order": 1,
+              "label": "All boys-only school toilets are NON-functional (specify number of non-functional toilets)",
+              "value": "all_boys_scho_toil_are_nonf_spec_numb_nonf_toil",
               "color": "#DB3B3B"
             },
             {
               "id": 1706096715737,
-              "name": "Some boys-only school toilets are non-functional (specify number of functional toilets + number of non-functional toilets)",
               "order": 2,
+              "label": "Some boys-only school toilets are non-functional (specify number of functional toilets + number of non-functional toilets)",
+              "value": "some_boys_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil",
               "color": "#ffa57d"
             },
             {
               "id": 1706096751745,
-              "name": "All boys-only school toilets are functional (specify number of functional toilets)",
               "order": 3,
+              "label": "All boys-only school toilets are functional (specify number of functional toilets)",
+              "value": "all_boys_scho_toil_are_func_spec_numb_func_toil",
               "color": "#38A15A"
             }
           ],
@@ -918,20 +987,23 @@
           "options": [
             {
               "id": 1706176203960,
-              "name": "All shared school toilets are NON-functional (specify number of non-functional toilets)",
               "order": 1,
+              "label": "All shared school toilets are NON-functional (specify number of non-functional toilets)",
+              "value": "all_shar_scho_toil_are_nonf_spec_numb_nonf_toil",
               "color": "#DB3B3B"
             },
             {
               "id": 1706176203961,
-              "name": "Some shared school toilets are non-functional (specify number of functional toilets + number of non-functional toilets)",
               "order": 2,
+              "label": "Some shared school toilets are non-functional (specify number of functional toilets + number of non-functional toilets)",
+              "value": "some_shar_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil",
               "color": "#ffa57d"
             },
             {
               "id": 1706176241747,
-              "name": "All shared school toilets are functional (specify number of functional toilets)",
               "order": 3,
+              "label": "All shared school toilets are functional (specify number of functional toilets)",
+              "value": "all_shar_scho_toil_are_func_spec_numb_func_toil",
               "color": "#38A15A"
             }
           ],
@@ -1059,20 +1131,23 @@
           "options": [
             {
               "id": 1706098098135,
-              "name": "All school toilets are NOT flyproof",
               "order": 1,
+              "label": "All school toilets are NOT flyproof",
+              "value": "all_scho_toil_are_not_flyp",
               "color": "#DB3B3B"
             },
             {
               "id": 1706098098136,
-              "name": "Some school toilets are NOT flyproof",
               "order": 2,
+              "label": "Some school toilets are NOT flyproof",
+              "value": "some_scho_toil_are_not_flyp",
               "color": "#ffa57d"
             },
             {
               "id": 1706098118682,
-              "name": "All functional school toilets are flyproof",
               "order": 3,
+              "label": "All functional school toilets are flyproof",
+              "value": "all_func_scho_toil_are_flyp",
               "color": "#38A15A"
             }
           ],
@@ -1095,20 +1170,23 @@
           "options": [
             {
               "id": 1706098481531,
-              "name": "All school toilets provide INADEQUATE privacy",
               "order": 1,
+              "label": "All school toilets provide INADEQUATE privacy",
+              "value": "all_scho_toil_prov_inad_priv",
               "color": "#DB3B3B"
             },
             {
               "id": 1706098481532,
-              "name": "Some school toilets provide INADEQUATE privacy",
               "order": 2,
+              "label": "Some school toilets provide INADEQUATE privacy",
+              "value": "some_scho_toil_prov_inad_priv",
               "color": "#ffa57d"
             },
             {
               "id": 1706098538553,
-              "name": "All functional school toilets provide good privacy",
               "order": 3,
+              "label": "All functional school toilets provide good privacy",
+              "value": "all_func_scho_toil_prov_good_priv",
               "color": "#38A15A"
             }
           ],
@@ -1131,20 +1209,23 @@
           "options": [
             {
               "id": 1706098612974,
-              "name": "All school toilets UNAVAILABLE to students",
               "order": 1,
+              "label": "All school toilets UNAVAILABLE to students",
+              "value": "all_scho_toil_unav_to_stud",
               "color": "#DB3B3B"
             },
             {
               "id": 1706098612975,
-              "name": "Some school toilets UNAVAILABLE to students",
               "order": 2,
+              "label": "Some school toilets UNAVAILABLE to students",
+              "value": "some_scho_toil_unav_to_stud",
               "color": "#ffa57d"
             },
             {
               "id": 1706098674353,
-              "name": "All functional school toilets available to students",
               "order": 3,
+              "label": "All functional school toilets available to students",
+              "value": "all_func_scho_toil_avai_to_stud",
               "color": "#38A15A"
             }
           ],
@@ -1167,20 +1248,23 @@
           "options": [
             {
               "id": 1706098853515,
-              "name": "All functional school toilets are clean",
               "order": 3,
+              "label": "All functional school toilets are clean",
+              "value": "all_func_scho_toil_are_clea",
               "color": "#38A15A"
             },
             {
               "id": 1706098756813,
-              "name": "School toilets NOT clean",
               "order": 1,
+              "label": "School toilets NOT clean",
+              "value": "scho_toil_not_clea",
               "color": "#DB3B3B"
             },
             {
               "id": 1706098756814,
-              "name": "School toilets somewhat clean",
               "order": 2,
+              "label": "School toilets somewhat clean",
+              "value": "scho_toil_some_clea",
               "color": "#ffa57d"
             }
           ],
@@ -1203,14 +1287,16 @@
           "options": [
             {
               "id": 1706098995828,
-              "name": "Human excreta observed",
               "order": 1,
+              "label": "Human excreta observed",
+              "value": "huma_excr_obse",
               "color": "#38A15A"
             },
             {
               "id": 1706098995829,
-              "name": "No visible OD or human excreta",
               "order": 2,
+              "label": "No visible OD or human excreta",
+              "value": "no_visi_od_huma_excr",
               "color": "#DB3B3B"
             }
           ],
@@ -1233,14 +1319,16 @@
           "options": [
             {
               "id": 1706099206116,
-              "name": "Visible surface outflows from containment",
               "order": 1,
+              "label": "Visible surface outflows from containment",
+              "value": "visi_surf_outf_from_cont",
               "color": "#DB3B3B"
             },
             {
               "id": 1706099206117,
-              "name": "Evidence of previous surface outflows from containment",
               "order": 2,
+              "label": "Evidence of previous surface outflows from containment",
+              "value": "evid_prev_surf_outf_from_cont",
               "color": "#ffa57d"
             }
           ],
@@ -1263,50 +1351,58 @@
           "options": [
             {
               "id": 1706099349831,
-              "name": "Unsafely contained: emptied to open pit or open space",
               "order": 1,
+              "label": "Unsafely contained: emptied to open pit or open space",
+              "value": "unsa_cont_empt_to_open_pit_open_spac",
               "color": "#DB3B3B"
             },
             {
               "id": 1706099349832,
-              "name": "Unsafely contained: emptied to UNLICENSED or UNKNOWN location",
               "order": 2,
+              "label": "Unsafely contained: emptied to UNLICENSED or UNKNOWN location",
+              "value": "unsa_cont_empt_to_unli_unkn_loc",
               "color": "#DB3B3B"
             },
             {
               "id": 1706099476948,
-              "name": "Unsafely contained: faecal sludge stored for less than 2 years before emptying and use of stored waste",
               "order": 3,
+              "label": "Unsafely contained: faecal sludge stored for less than 2 years before emptying and use of stored waste",
+              "value": "unsa_cont_faec_slud_stor_for_less_than_2_year_befo_empt_use_stor_wast",
               "color": "#ffa57d"
             },
             {
               "id": 1706099485808,
-              "name": "Safely contained: never emptied, not yet full (no intention to empty)",
               "order": 4,
+              "label": "Safely contained: never emptied, not yet full (no intention to empty)",
+              "value": "safe_cont_neve_empt_not_yet_full_no_inte_to_empt",
               "color": "#38A15A"
             },
             {
               "id": 1706099494174,
-              "name": "Safely contained: never emptied, previous pit or tank replaced when full",
               "order": 5,
+              "label": "Safely contained: never emptied, previous pit or tank replaced when full",
+              "value": "safe_cont_neve_empt_prev_pit_tank_repl_when_full",
               "color": "#38A15A"
             },
             {
               "id": 1706099503705,
-              "name": "Safely contained: stored for MORE than 2 years before use of stored waste",
               "order": 6,
+              "label": "Safely contained: stored for MORE than 2 years before use of stored waste",
+              "value": "safe_cont_stor_for_more_than_2_year_befo_use_stor_wast",
               "color": "#38A15A"
             },
             {
               "id": 1706099513378,
-              "name": "Safely contained: emptied to nearby covered pit",
               "order": 7,
+              "label": "Safely contained: emptied to nearby covered pit",
+              "value": "safe_cont_empt_to_near_cove_pit",
               "color": "#38A15A"
             },
             {
               "id": 1706099523892,
-              "name": "Safely contained: emptied by licensed service provider",
               "order": 8,
+              "label": "Safely contained: emptied by licensed service provider",
+              "value": "safe_cont_empt_by_lice_serv_prov",
               "color": "#38A15A"
             }
           ],
@@ -1329,14 +1425,16 @@
           "options": [
             {
               "id": 1706099857346,
-              "name": "No",
               "order": 1,
+              "label": "No",
+              "value": "no",
               "color": "#DB3B3B"
             },
             {
               "id": 1706099857347,
-              "name": "Yes",
               "order": 2,
+              "label": "Yes",
+              "value": "yes",
               "color": "#38A15A"
             }
           ],
@@ -1359,14 +1457,16 @@
           "options": [
             {
               "id": 1706099997717,
-              "name": "No",
               "order": 1,
+              "label": "No",
+              "value": "no",
               "color": "#DB3B3B"
             },
             {
               "id": 1706099997718,
-              "name": "Yes",
               "order": 2,
+              "label": "Yes",
+              "value": "yes",
               "color": "#38A15A"
             }
           ],
@@ -1400,50 +1500,58 @@
           "options": [
             {
               "id": 1706100265773,
-              "name": "No handwashing facilities",
               "order": 1,
+              "label": "No handwashing facilities",
+              "value": "no_hand_faci",
               "color": "#DB3B3B"
             },
             {
               "id": 1706100265774,
-              "name": "Handwashing facilities outside school compound",
               "order": 2,
+              "label": "Handwashing facilities outside school compound",
+              "value": "hand_faci_outs_scho_comp",
               "color": "#ffa57d"
             },
             {
               "id": 1706100278316,
-              "name": "Handwashing facilities by school toilets",
               "order": 3,
+              "label": "Handwashing facilities by school toilets",
+              "value": "hand_faci_by_scho_toil",
               "color": "#38A15A"
             },
             {
               "id": 1706100286747,
-              "name": "Handwashing facilities in food preparation area",
               "order": 4,
+              "label": "Handwashing facilities in food preparation area",
+              "value": "hand_faci_food_prep_area",
               "color": "#38A15A"
             },
             {
               "id": 1706100294213,
-              "name": "Handwashing facilities in food consumption/dining area",
               "order": 5,
+              "label": "Handwashing facilities in food consumption/dining area",
+              "value": "hand_faci_food_cons_area",
               "color": "#38A15A"
             },
             {
               "id": 1706100303976,
-              "name": "Handwashing facilities by classrooms",
               "order": 6,
+              "label": "Handwashing facilities by classrooms",
+              "value": "hand_faci_by_clas",
               "color": "#38A15A"
             },
             {
               "id": 1706100313360,
-              "name": "Handwashing facilities in school yard",
               "order": 7,
+              "label": "Handwashing facilities in school yard",
+              "value": "hand_faci_scho_yard",
               "color": "#38A15A"
             },
             {
               "id": 1706100321303,
-              "name": "Other location for handwashing facilities",
               "order": 8,
+              "label": "Other location for handwashing facilities",
+              "value": "othe_loc_for_hand_faci",
               "color": "#38A15A"
             }
           ],
@@ -1481,20 +1589,23 @@
           "options": [
             {
               "id": 1706100601262,
-              "name": "All handwashing facilities have water available",
               "order": 3,
+              "label": "All handwashing facilities have water available",
+              "value": "all_hand_faci_have_wate_avai",
               "color": "#38A15A"
             },
             {
               "id": 1706100466391,
-              "name": "No water available",
               "order": 1,
+              "label": "No water available",
+              "value": "no_wate_avai",
               "color": "#DB3B3B"
             },
             {
               "id": 1706100466392,
-              "name": "Some handwashing facilities have water available",
               "order": 2,
+              "label": "Some handwashing facilities have water available",
+              "value": "some_hand_faci_have_wate_avai",
               "color": "#ffa57d"
             }
           ],
@@ -1515,26 +1626,30 @@
           "options": [
             {
               "id": 1706100703282,
-              "name": "No soap or other cleanser available",
               "order": 1,
+              "label": "No soap or other cleanser available",
+              "value": "no_soap_othe_clea_avai",
               "color": "#DB3B3B"
             },
             {
               "id": 1706100703283,
-              "name": "Ash, mud or sand available",
               "order": 2,
+              "label": "Ash, mud or sand available",
+              "value": "ash_mud_sand_avai",
               "color": "#DB3B3B"
             },
             {
               "id": 1706100789483,
-              "name": "Some handwashing facilities have soap available",
               "order": 3,
+              "label": "Some handwashing facilities have soap available",
+              "value": "some_hand_faci_have_soap_avai",
               "color": "#ffa57d"
             },
             {
               "id": 1706100797426,
-              "name": "All handwashing facilities have soap available",
               "order": 4,
+              "label": "All handwashing facilities have soap available",
+              "value": "all_hand_faci_have_soap_avai",
               "color": "#38A15A"
             }
           ],
@@ -1555,44 +1670,51 @@
           "options": [
             {
               "id": 1706101117048,
-              "name": "Portable basins or other open containers",
               "order": 3,
+              "label": "Portable basins or other open containers",
+              "value": "port_basi_othe_open_cont",
               "color": "#ffa57d"
             },
             {
               "id": 1706101128322,
-              "name": "Other temporary handwashing facilities",
               "order": 4,
+              "label": "Other temporary handwashing facilities",
+              "value": "othe_temp_hand_faci",
               "color": "#ffa57d"
             },
             {
               "id": 1706101136375,
-              "name": "Piped water taps with basins",
               "order": 5,
+              "label": "Piped water taps with basins",
+              "value": "pipe_wate_taps_with_basi",
               "color": "#38A15A"
             },
             {
               "id": 1706101150144,
-              "name": "Market handwashing stations with adequate water storage",
               "order": 6,
+              "label": "Market handwashing stations with adequate water storage",
+              "value": "mark_hand_stat_with_adeq_wate_stor",
               "color": "#38A15A"
             },
             {
               "id": 1706101154034,
-              "name": "Other permanent handwashing stations",
               "order": 7,
+              "label": "Other permanent handwashing stations",
+              "value": "othe_perm_hand_stat",
               "color": "#38A15A"
             },
             {
               "id": 1706100885982,
-              "name": "No handwashing facilities",
               "order": 1,
+              "label": "No handwashing facilities",
+              "value": "no_hand_faci",
               "color": "#DB3B3B"
             },
             {
               "id": 1706100885983,
-              "name": "Jerrycans or other closed containers",
               "order": 2,
+              "label": "Jerrycans or other closed containers",
+              "value": "jerr_othe_clos_cont",
               "color": "#ffa57d"
             }
           ],
@@ -1613,32 +1735,37 @@
           "options": [
             {
               "id": 1706101246585,
-              "name": "Hands enter water containers (during collection and use)",
               "order": 1,
+              "label": "Hands enter water containers (during collection and use)",
+              "value": "hand_ente_wate_cont_duri_coll_use",
               "color": "#DB3B3B"
             },
             {
               "id": 1706101246586,
-              "name": "Water collected by hand (using ladle, cup, other)",
               "order": 2,
+              "label": "Water collected by hand (using ladle, cup, other)",
+              "value": "wate_coll_by_hand_usin_ladl_cup_othe",
               "color": "#ffa57d"
             },
             {
               "id": 1706101307417,
-              "name": "Closed water storage containers with taps",
               "order": 3,
+              "label": "Closed water storage containers with taps",
+              "value": "clos_wate_stor_cont_with_taps",
               "color": "#38A15A"
             },
             {
               "id": 1706101333792,
-              "name": "Piped water taps",
               "order": 4,
+              "label": "Piped water taps",
+              "value": "pipe_wate_taps",
               "color": "#38A15A"
             },
             {
               "id": 1706101423272,
-              "name": "Other hands-free operation",
               "order": 5,
+              "label": "Other hands-free operation",
+              "value": "othe_hand_oper",
               "color": "#38A15A"
             }
           ],
@@ -1659,20 +1786,23 @@
           "options": [
             {
               "id": 1706101797467,
-              "name": "No collection or disposal of washing water",
               "order": 1,
+              "value": "no_coll_disp_wash_wate",
+              "label": "No collection or disposal of washing water",
               "color": "#DB3B3B"
             },
             {
               "id": 1706101797468,
-              "name": "Collection of washing water without drainage or disposal",
               "order": 2,
+              "value": "coll_wash_wate_with_drai_disp",
+              "label": "Collection of washing water without drainage or disposal",
               "color": "#ffa57d"
             },
             {
               "id": 1706101809265,
-              "name": "Adequate collection and disposal of washing water",
               "order": 3,
+              "value": "adeq_coll_disp_wash_wate",
+              "label": "Adequate collection and disposal of washing water",
               "color": "#38A15A"
             }
           ],
@@ -1693,14 +1823,16 @@
           "options": [
             {
               "id": 1706101886338,
-              "name": "No",
               "order": 1,
+              "label": "No",
+              "value": "no",
               "color": "#DB3B3B"
             },
             {
               "id": 1706101886339,
-              "name": "Yes",
               "order": 2,
+              "label": "Yes",
+              "value": "yes",
               "color": "#38A15A"
             }
           ],
@@ -1721,14 +1853,16 @@
           "options": [
             {
               "id": 1706102010072,
-              "name": "No",
               "order": 1,
+              "label": "No",
+              "value": "no",
               "color": "#DB3B3B"
             },
             {
               "id": 1706102010073,
-              "name": "Yes",
               "order": 2,
+              "label": "Yes",
+              "value": "yes",
               "color": "#38A15A"
             }
           ],
@@ -1760,20 +1894,23 @@
           "options": [
             {
               "id": 1706102349617,
-              "name": "No bathing areas",
               "order": 1,
+              "label": "No bathing areas",
+              "value": "no_bath_area",
               "color": "#DB3B3B"
             },
             {
               "id": 1706102349618,
-              "name": "Inadequate bathing areas",
               "order": 2,
+              "label": "Inadequate bathing areas",
+              "value": "inad_bath_area",
               "color": "#ffa57d"
             },
             {
               "id": 1706102369638,
-              "name": "Private bathing areas for menstrual hygiene",
               "order": 3,
+              "label": "Private bathing areas for menstrual hygiene",
+              "value": "priv_bath_area_for_mens_hygi",
               "color": "#38A15A"
             }
           ]
@@ -1793,20 +1930,23 @@
           "options": [
             {
               "id": 1706102451013,
-              "name": "Water and soap are NOT available in bathing areas",
               "order": 1,
+              "label": "Water and soap are NOT available in bathing areas",
+              "value": "wate_soap_are_not_avai_bath_area",
               "color": "#DB3B3B"
             },
             {
               "id": 1706102451014,
-              "name": "Some bathing areas have water and soap available",
               "order": 2,
+              "label": "Some bathing areas have water and soap available",
+              "value": "some_bath_area_have_wate_soap_avai",
               "color": "#ffa57d"
             },
             {
               "id": 1706102469442,
-              "name": "All bathing areas have both water and soap available",
               "order": 3,
+              "label": "All bathing areas have both water and soap available",
+              "value": "all_bath_area_have_both_wate_soap_avai",
               "color": "#38A15A"
             }
           ]
@@ -1826,20 +1966,23 @@
           "options": [
             {
               "id": 1706102565079,
-              "name": "All bathing areas are NOT clean",
               "order": 1,
+              "label": "All bathing areas are NOT clean",
+              "value": "all_bath_area_are_not_clea",
               "color": "#DB3B3B"
             },
             {
               "id": 1706102565080,
-              "name": "Some bathing areas are NOT clean",
               "order": 2,
+              "label": "Some bathing areas are NOT clean",
+              "value": "some_bath_area_are_not_clea",
               "color": "#ffa57d"
             },
             {
               "id": 1706102643291,
-              "name": "Clean bathing areas for menstrual hygiene",
               "order": 3,
+              "label": "Clean bathing areas for menstrual hygiene",
+              "value": "clea_bath_area_for_mens_hygi",
               "color": "#38A15A"
             }
           ]
@@ -1859,20 +2002,23 @@
           "options": [
             {
               "id": 1706102694674,
-              "name": "Materials are NOT available or NOT appropriate",
               "order": 1,
+              "label": "Materials are NOT available or NOT appropriate",
+              "value": "mate_are_not_avai_not_appr",
               "color": "#DB3B3B"
             },
             {
               "id": 1706102694675,
-              "name": "Materials are not always available or appropriate",
               "order": 2,
+              "label": "Materials are not always available or appropriate",
+              "value": "mate_are_not_alwa_avai_appr",
               "color": "#ffa57d"
             },
             {
               "id": 1706102788786,
-              "name": "Appropriate MHM materials are available",
               "order": 3,
+              "label": "Appropriate MHM materials are available",
+              "value": "appr_mhm_mate_are_avai",
               "color": "#38A15A"
             }
           ]
@@ -1892,20 +2038,23 @@
           "options": [
             {
               "id": 1706102864936,
-              "name": "No covered bins available",
               "order": 1,
+              "label": "No covered bins available",
+              "value": "no_cove_bins_avai",
               "color": "#DB3B3B"
             },
             {
               "id": 1706102864937,
-              "name": "Some covered bins available",
               "order": 2,
+              "label": "Some covered bins available",
+              "value": "some_cove_bins_avai",
               "color": "#ffa57d"
             },
             {
               "id": 1706102913302,
-              "name": "All bathing areas have covered bins available for menstrual hygiene wastes",
               "order": 3,
+              "label": "All bathing areas have covered bins available for menstrual hygiene wastes",
+              "value": "all_bath_area_have_cove_bins_avai_for_mens_hygi_wast",
               "color": "#38A15A"
             }
           ]
@@ -1925,32 +2074,37 @@
           "options": [
             {
               "id": 1706102981228,
-              "name": "Emptied to open pits, open space, open water bodies, open drains",
               "order": 1,
+              "label": "Emptied to open pits, open space, open water bodies, open drains",
+              "value": "empt_to_open_pits_open_spac_open_wate_bodi_open_drai",
               "color": "#DB3B3B"
             },
             {
               "id": 1706102981229,
-              "name": "Collected by UNLICENSED service providers",
               "order": 2,
+              "label": "Collected by UNLICENSED service providers",
+              "value": "coll_by_unli_serv_prov",
               "color": "#ffa57d"
             },
             {
               "id": 1706103015821,
-              "name": "Emptied to covered pit",
               "order": 3,
+              "label": "Emptied to covered pit",
+              "value": "empt_to_cove_pit",
               "color": "#38A15A"
             },
             {
               "id": 1706103023645,
-              "name": "Burned on premises",
               "order": 4,
+              "label": "Burned on premises",
+              "value": "burn_on_prem",
               "color": "#38A15A"
             },
             {
               "id": 1706103032094,
-              "name": "Collected by municpal waste system/licensed service providers",
               "order": 5,
+              "label": "Collected by municpal waste system/licensed service providers",
+              "value": "coll_by_muni_wast_syst_serv_prov",
               "color": "#38A15A"
             }
           ]
@@ -1970,14 +2124,16 @@
           "options": [
             {
               "id": 1706103250967,
-              "name": "No",
+              "label": "No",
               "order": 1,
+              "value": "no",
               "color": "#DB3B3B"
             },
             {
               "id": 1706103250968,
-              "name": "Yes",
               "order": 2,
+              "label": "Yes",
+              "value": "yes",
               "color": "#38A15A"
             }
           ]
