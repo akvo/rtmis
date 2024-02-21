@@ -90,12 +90,14 @@ class Command(BaseCommand):
                 if not question_group:
                     question_group = QG.objects.create(
                         id=qg["id"],
-                        name=qg["question_group"],
+                        name=qg["name"],
+                        label=qg["label"],
                         form=form,
                         order=qg["order"],
                     )
                 else:
-                    question_group.name = qg["question_group"]
+                    question_group.name = qg["name"]
+                    question_group.label = qg["label"]
                     question_group.order = qg["order"]
                     question_group.save()
                 for qi, q in enumerate(qg["questions"]):
@@ -103,8 +105,8 @@ class Command(BaseCommand):
                     if not question:
                         question = Questions.objects.create(
                             id=q.get("id"),
-                            name=q.get("name") or q.get("question"),
-                            text=q["question"],
+                            name=q["name"],
+                            label=q["label"],
                             form=form,
                             order=q.get("order") or qi + 1,
                             meta=q.get("meta"),
@@ -126,8 +128,8 @@ class Command(BaseCommand):
                         )
                     else:
                         question.question_group = question_group
-                        question.name = q.get("name") or q.get("question")
-                        question.text = q["question"]
+                        question.name = q["name"]
+                        question.label = q["label"]
                         question.order = q.get("order") or qi + 1
                         question.meta = q.get("meta")
                         question.rule = q.get("rule")
