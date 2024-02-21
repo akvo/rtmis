@@ -5,6 +5,7 @@
   "defaultLanguage": "en",
   "languages": ["en"],
   "version": 1,
+  "type": 1,
   "translations": null,
   "question_groups": [
     {
@@ -1125,6 +1126,5 @@
         }
       ]
     }
-  ],
-  "type": 1
+  ]
 }

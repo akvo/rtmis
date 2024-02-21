@@ -5,6 +5,7 @@
   "defaultLanguage": "en",
   "languages": ["en"],
   "version": 1,
+  "type": 1,
   "translations": null,
   "approval_instructions": {
     "text": "Please check all of the checkbox below",
@@ -1008,6 +1009,5 @@
         }
       ]
     }
-  ],
-  "type": 1
+  ]
 }
