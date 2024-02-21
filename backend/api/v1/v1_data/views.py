@@ -522,19 +522,19 @@ def get_chart_data_point(request, version, form_id):
     # with stack
     if stack:
         data = []
-        stack_options = stack.question_question_options.all()
+        stack_options = stack.options.all()
         answers = Answers.objects
         if data_ids:
             answers = answers.filter(data_id__in=data_ids)
         for so in stack_options:
             query_set = answers.filter(
-                question=stack, options__contains=so.name).values(
+                question=stack, options__contains=so.value).values(
                     'options').annotate(ids=StringAgg(
                         Cast('data_id', TextField()),
                         delimiter=',',
                         output_field=TextField()))
             # temp values
-            values = {'group': so.name, 'child': []}
+            values = {'group': so.value, 'child': []}
             # get child
             for val in query_set:
                 child_query_set = answers.filter(
@@ -559,12 +559,12 @@ def get_chart_data_point(request, version, form_id):
                         })
                 # Multiple option type
                 if question.type == QuestionTypes.multiple_option:
-                    multiple_options = question.question_question_options.all()
+                    multiple_options = question.options.all()
                     for mo in multiple_options:
                         count = child_query_set.filter(
-                            options__contains=mo.name).count()
+                            options__contains=mo.value).count()
                         values.get('child').append({
-                            'name': mo.name,
+                            'name': mo.value,
                             'value': count
                         })
             data.append(values)
@@ -576,7 +576,7 @@ def get_chart_data_point(request, version, form_id):
     return Response({
         'type': 'PIE',
         'data': ListChartQuestionDataPointSerializer(
-            instance=question.question_question_options.all(),
+            instance=question.options.all(),
             context={'data_ids': data_ids},
             many=True).data},
         status=status.HTTP_200_OK)
@@ -1306,7 +1306,7 @@ def get_jmp_data(request, version, form_id):
                 pk__in=request.GET.getlist("sum")).all()
         for q in sums:
             if q.type in [QuestionTypes.option, QuestionTypes.multiple_option]:
-                opts[q.id] = list(q.question_question_options.order_by(
+                opts[q.id] = list(q.options.order_by(
                     'order').values_list('name', flat=True))
     for adm in administration:
         temp = defaultdict(dict)
