@@ -6,18 +6,21 @@
     {
       "id": 5674900041,
       "order": 1,
-      "question_group": "Introduction",
+      "name": "introduction",
+      "label": "Introduction",
       "questions": [
         {
           "id": 605030132,
-          "meta": false,
-          "question": "In what government level is this survey being filled?",
-          "variable": "government_level",
-          "name": "Goverment Level",
           "order": 1,
+          "name": "government_level",
+          "label": "In what government level is this survey being filled?",
+          "short_label": "Goverment Level",
+          "meta": false,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter"],
+          "attributes": [
+            "advanced_filter"
+          ],
           "options": [
             {
               "name": "National"
@@ -29,11 +32,11 @@
         },
         {
           "id": 5674900041,
-          "meta": false,
-          "question": "Organisation",
-          "variable": "organisation",
-          "name": null,
           "order": 2,
+          "name": "organisation",
+          "label": "Organisation",
+          "short_label": null,
+          "meta": false,
           "required": true,
           "type": "cascade",
           "api": {
@@ -45,18 +48,21 @@
     {
       "id": 5674900042,
       "order": 2,
-      "question_group": "Governance",
+      "name": "governance",
+      "label": "Governance",
       "questions": [
         {
           "id": 595960114,
-          "meta": false,
-          "question": "Are there local administrative units available?",
-          "variable": "local_administrative_units",
-          "name": "Local administrative units available",
           "order": 1,
+          "name": "local_administrative_units",
+          "label": "Are there local administrative units available?",
+          "short_label": "Local administrative units available",
+          "meta": false,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter"],
+          "attributes": [
+            "advanced_filter"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -68,11 +74,11 @@
         },
         {
           "id": 589570112,
-          "meta": false,
-          "question": "Do we have established and operational policies and procedures for participation of local communities in water and sanitation management within the administrative units?",
-          "name": "Established and Operational Policies / Procedures in WaSH within the Administrative Units",
-          "variable": "established_and_operational_policies",
           "order": 2,
+          "name": "established_and_operational_policies",
+          "label": "Do we have established and operational policies and procedures for participation of local communities in water and sanitation management within the administrative units?",
+          "short_label": "Established and Operational Policies / Procedures in WaSH within the Administrative Units",
+          "meta": false,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -87,20 +93,24 @@
           "dependency": [
             {
               "id": 595960114,
-              "options": ["Yes"]
+              "options": [
+                "Yes"
+              ]
             }
           ]
         },
         {
           "id": 583720152,
-          "meta": false,
-          "question": "Are costed Sanitation and Hygiene Roadmap available?",
-          "name": "Sanitation Roadmap is Available",
-          "variable": "sanitation_roadmap",
           "order": 3,
+          "name": "sanitation_roadmap",
+          "label": "Are costed Sanitation and Hygiene Roadmap available?",
+          "short_label": "Sanitation Roadmap is Available",
+          "meta": false,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter"],
+          "attributes": [
+            "advanced_filter"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -112,17 +122,20 @@
           "dependency": [
             {
               "id": 605030132,
-              "options": ["National", "County"]
+              "options": [
+                "National",
+                "County"
+              ]
             }
           ]
         },
         {
           "id": 594410065,
-          "meta": false,
-          "question": "What is the amount of the budget allocated to Sanitation and Hygiene in the last financial year?",
-          "name": null,
-          "variable": "budget_allocated",
           "order": 4,
+          "name": "budget_allocated",
+          "label": "What is the amount of the budget allocated to Sanitation and Hygiene in the last financial year?",
+          "short_label": null,
+          "meta": false,
           "required": true,
           "type": "number",
           "attributes": [],
@@ -130,17 +143,19 @@
           "dependency": [
             {
               "id": 583720152,
-              "options": ["Yes"]
+              "options": [
+                "Yes"
+              ]
             }
           ]
         },
         {
           "id": 595980103,
-          "meta": false,
-          "question": "What was the amount of the budget utilized for Sanitation and Hygiene in the last financial year?",
-          "name": null,
-          "variable": "budget_utilized",
           "order": 5,
+          "name": "budget_utilized",
+          "label": "What was the amount of the budget utilized for Sanitation and Hygiene in the last financial year?",
+          "short_label": null,
+          "meta": false,
           "required": true,
           "type": "number",
           "attributes": [],
@@ -148,17 +163,19 @@
           "dependency": [
             {
               "id": 583720152,
-              "options": ["Yes"]
+              "options": [
+                "Yes"
+              ]
             }
           ]
         },
         {
           "id": 594440125,
-          "meta": false,
-          "question": "Approximately how many sanitation partners are working in County?",
-          "name": null,
-          "variable": "sanitation_partners_in_county",
           "order": 6,
+          "name": "sanitation_partners_in_county",
+          "label": "Approximately how many sanitation partners are working in County?",
+          "short_label": null,
+          "meta": false,
           "required": true,
           "type": "number",
           "attributes": [],
@@ -166,17 +183,19 @@
           "dependency": [
             {
               "id": 605030132,
-              "options": ["County"]
+              "options": [
+                "County"
+              ]
             }
           ]
         },
         {
           "id": 583750004,
-          "meta": false,
-          "question": "how many sanitation partners working in Country?",
-          "name": null,
-          "variable": "sanitation_partners_in_country",
           "order": 7,
+          "name": "sanitation_partners_in_country",
+          "label": "how many sanitation partners working in Country?",
+          "short_label": null,
+          "meta": false,
           "required": true,
           "type": "number",
           "attributes": [],
@@ -184,17 +203,19 @@
           "dependency": [
             {
               "id": 605030132,
-              "options": ["National"]
+              "options": [
+                "National"
+              ]
             }
           ]
         },
         {
           "id": 561750002,
-          "meta": false,
-          "question": "Is there a National Sanitation policies (Urban sanitation and Rural sanitation)",
-          "name": null,
-          "variable": "national_sanitation_policies",
           "order": 8,
+          "name": "national_sanitation_policies",
+          "label": "Is there a National Sanitation policies (Urban sanitation and Rural sanitation)",
+          "short_label": null,
+          "meta": false,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -209,20 +230,24 @@
           "dependency": [
             {
               "id": 605030132,
-              "options": ["National"]
+              "options": [
+                "National"
+              ]
             }
           ]
         },
         {
           "id": 585710058,
-          "meta": false,
-          "question": "Is there a system for tracking funding flows to WASH (Urban sanitation, Rural sanitation, and Hygiene promotion)",
-          "name": "System for tracking funding flows to WaSH",
-          "variable": "tracking_funding_flows",
           "order": 9,
+          "name": "tracking_funding_flows",
+          "label": "Is there a system for tracking funding flows to WASH (Urban sanitation, Rural sanitation, and Hygiene promotion)",
+          "short_label": "System for tracking funding flows to WaSH",
+          "meta": false,
           "required": true,
           "type": "option",
-          "attributes": ["advanced_filter"],
+          "attributes": [
+            "advanced_filter"
+          ],
           "options": [
             {
               "name": "Yes"
@@ -234,17 +259,19 @@
           "dependency": [
             {
               "id": 605030132,
-              "options": ["National"]
+              "options": [
+                "National"
+              ]
             }
           ]
         },
         {
           "id": 594420128,
-          "meta": false,
-          "question": "Does the Country monitor progress towards achievement of national targets?",
-          "name": null,
-          "variable": "monitor_progress",
           "order": 10,
+          "name": "monitor_progress",
+          "label": "Does the Country monitor progress towards achievement of national targets?",
+          "short_label": null,
+          "meta": false,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -259,17 +286,19 @@
           "dependency": [
             {
               "id": 605030132,
-              "options": ["National"]
+              "options": [
+                "National"
+              ]
             }
           ]
         },
         {
           "id": 580680062,
-          "meta": false,
-          "question": "Is there an existence of national regulations and standards for treatment of on-site sanitation, faecal sludge, wastewater, safe reuse and Surveillance requirements defined in formal instruments?",
-          "name": null,
-          "variable": "national_regulations",
           "order": 11,
+          "name": "national_regulations",
+          "label": "Is there an existence of national regulations and standards for treatment of on-site sanitation, faecal sludge, wastewater, safe reuse and Surveillance requirements defined in formal instruments?",
+          "short_label": null,
+          "meta": false,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -284,17 +313,19 @@
           "dependency": [
             {
               "id": 605030132,
-              "options": ["National"]
+              "options": [
+                "National"
+              ]
             }
           ]
         },
         {
           "id": 589600069,
-          "meta": false,
-          "question": "Does the country have a Sanitation safety plan?",
-          "name": null,
-          "variable": "sanitation_safety_plan",
           "order": 12,
+          "name": "sanitation_safety_plan",
+          "label": "Does the country have a Sanitation safety plan?",
+          "short_label": null,
+          "meta": false,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -309,7 +340,9 @@
           "dependency": [
             {
               "id": 605030132,
-              "options": ["National"]
+              "options": [
+                "National"
+              ]
             }
           ]
         }
@@ -318,15 +351,16 @@
     {
       "id": 5674900043,
       "order": 3,
-      "question_group": "Sustainability",
+      "name": "sustainability",
+      "label": "Sustainability",
       "questions": [
         {
           "id": 605320013,
-          "meta": false,
-          "question": "Is there availability of a functional and up to date sanitation and hygiene monitoring system?",
-          "name": null,
-          "variable": "sanitation_monitoring_system",
           "order": 1,
+          "name": "sanitation_monitoring_system",
+          "label": "Is there availability of a functional and up to date sanitation and hygiene monitoring system?",
+          "short_label": null,
+          "meta": false,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -341,11 +375,11 @@
         },
         {
           "id": 566380012,
-          "meta": false,
-          "question": "Is there a list if all at risk household data available?",
-          "name": null,
-          "variable": "at_risk_household_data",
           "order": 2,
+          "name": "at_risk_household_data",
+          "label": "Is there a list if all at risk household data available?",
+          "short_label": null,
+          "meta": false,
           "required": true,
           "type": "option",
           "attributes": [],
@@ -360,11 +394,11 @@
         },
         {
           "id": 607150005,
-          "meta": false,
-          "question": "Is there an action plan for the implementation of sanitation and hygiene available, approved and in use?",
-          "name": null,
-          "variable": "sanitation_action_plan",
           "order": 3,
+          "name": "sanitation_action_plan",
+          "label": "Is there an action plan for the implementation of sanitation and hygiene available, approved and in use?",
+          "short_label": null,
+          "meta": false,
           "required": true,
           "type": "option",
           "attributes": [],
