@@ -4,8 +4,8 @@ import { Space, Row, Col } from "antd";
 import AdministrationDropdown from "./AdministrationDropdown";
 import FormDropdown from "./FormDropdown.js";
 import RemoveFiltersButton from "./RemoveFiltersButton";
-import AdvancedFiltersButton from "./AdvancedFiltersButton";
 import AdvancedFilters from "./AdvancedFilters";
+//import AdvancedFiltersButton from "./AdvancedFiltersButton";
 // import { Button } from "antd";
 // import { Link } from "react-router-dom";
 
@@ -31,7 +31,7 @@ const VisualisationFilters = ({
           <Space>
             <AdministrationDropdown persist={persist} />
             <RemoveFiltersButton />
-            <AdvancedFiltersButton />
+            {/* <AdvancedFiltersButton /> */}
             {/*!location.pathname.includes("/reports") && (
               <Link to="/reports">
                 <Button className="light">Print</Button>

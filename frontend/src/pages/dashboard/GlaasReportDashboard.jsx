@@ -7,7 +7,7 @@ import { capitalize } from "lodash";
 import { TableVisual } from "./components";
 import {
   RemoveFiltersButton,
-  AdvancedFiltersButton,
+  // AdvancedFiltersButton,
   AdvancedFilters,
 } from "../../components";
 import { generateAdvanceFilterURL } from "../../util/filter";
@@ -174,7 +174,7 @@ const GlassReportDashboard = () => {
                     ))}
                   </Select>
                   <RemoveFiltersButton />
-                  <AdvancedFiltersButton />
+                  {/* <AdvancedFiltersButton /> */}
                 </Space>
               </Col>
             </Row>
