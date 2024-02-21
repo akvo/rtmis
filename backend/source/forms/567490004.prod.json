@@ -18,15 +18,13 @@
           "meta": false,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter"
-          ],
+          "attributes": ["advanced_filter"],
           "options": [
             {
-              "name": "National"
+              "label": "National"
             },
             {
-              "name": "County"
+              "label": "County"
             }
           ]
         },
@@ -60,15 +58,13 @@
           "meta": false,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter"
-          ],
+          "attributes": ["advanced_filter"],
           "options": [
             {
-              "name": "Yes"
+              "label": "Yes"
             },
             {
-              "name": "No"
+              "label": "No"
             }
           ]
         },
@@ -84,18 +80,16 @@
           "attributes": [],
           "options": [
             {
-              "name": "Yes"
+              "label": "Yes"
             },
             {
-              "name": "No"
+              "label": "No"
             }
           ],
           "dependency": [
             {
               "id": 595960114,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -108,24 +102,19 @@
           "meta": false,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter"
-          ],
+          "attributes": ["advanced_filter"],
           "options": [
             {
-              "name": "Yes"
+              "label": "Yes"
             },
             {
-              "name": "No"
+              "label": "No"
             }
           ],
           "dependency": [
             {
               "id": 605030132,
-              "options": [
-                "National",
-                "County"
-              ]
+              "options": ["National", "County"]
             }
           ]
         },
@@ -143,9 +132,7 @@
           "dependency": [
             {
               "id": 583720152,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -163,9 +150,7 @@
           "dependency": [
             {
               "id": 583720152,
-              "options": [
-                "Yes"
-              ]
+              "options": ["Yes"]
             }
           ]
         },
@@ -183,9 +168,7 @@
           "dependency": [
             {
               "id": 605030132,
-              "options": [
-                "County"
-              ]
+              "options": ["County"]
             }
           ]
         },
@@ -203,9 +186,7 @@
           "dependency": [
             {
               "id": 605030132,
-              "options": [
-                "National"
-              ]
+              "options": ["National"]
             }
           ]
         },
@@ -221,18 +202,16 @@
           "attributes": [],
           "options": [
             {
-              "name": "Yes"
+              "label": "Yes"
             },
             {
-              "name": "No"
+              "label": "No"
             }
           ],
           "dependency": [
             {
               "id": 605030132,
-              "options": [
-                "National"
-              ]
+              "options": ["National"]
             }
           ]
         },
@@ -245,23 +224,19 @@
           "meta": false,
           "required": true,
           "type": "option",
-          "attributes": [
-            "advanced_filter"
-          ],
+          "attributes": ["advanced_filter"],
           "options": [
             {
-              "name": "Yes"
+              "label": "Yes"
             },
             {
-              "name": "No"
+              "label": "No"
             }
           ],
           "dependency": [
             {
               "id": 605030132,
-              "options": [
-                "National"
-              ]
+              "options": ["National"]
             }
           ]
         },
@@ -277,18 +252,16 @@
           "attributes": [],
           "options": [
             {
-              "name": "Yes"
+              "label": "Yes"
             },
             {
-              "name": "No"
+              "label": "No"
             }
           ],
           "dependency": [
             {
               "id": 605030132,
-              "options": [
-                "National"
-              ]
+              "options": ["National"]
             }
           ]
         },
@@ -304,18 +277,16 @@
           "attributes": [],
           "options": [
             {
-              "name": "Yes"
+              "label": "Yes"
             },
             {
-              "name": "No"
+              "label": "No"
             }
           ],
           "dependency": [
             {
               "id": 605030132,
-              "options": [
-                "National"
-              ]
+              "options": ["National"]
             }
           ]
         },
@@ -331,18 +302,16 @@
           "attributes": [],
           "options": [
             {
-              "name": "Yes"
+              "label": "Yes"
             },
             {
-              "name": "No"
+              "label": "No"
             }
           ],
           "dependency": [
             {
               "id": 605030132,
-              "options": [
-                "National"
-              ]
+              "options": ["National"]
             }
           ]
         }
@@ -366,10 +335,10 @@
           "attributes": [],
           "options": [
             {
-              "name": "Yes"
+              "label": "Yes"
             },
             {
-              "name": "No"
+              "label": "No"
             }
           ]
         },
@@ -385,10 +354,10 @@
           "attributes": [],
           "options": [
             {
-              "name": "Yes"
+              "label": "Yes"
             },
             {
-              "name": "No"
+              "label": "No"
             }
           ]
         },
@@ -404,10 +373,10 @@
           "attributes": [],
           "options": [
             {
-              "name": "Yes"
+              "label": "Yes"
             },
             {
-              "name": "No"
+              "label": "No"
             }
           ]
         }

@@ -36,15 +36,15 @@
           "attributes": ["chart", "table"],
           "options": [
             {
-              "name": "Male",
+              "label": "Male",
               "color": "#000000"
             },
             {
-              "name": "Female",
+              "label": "Female",
               "color": "#111111"
             },
             {
-              "name": "Other",
+              "label": "Other",
               "color": "#222222"
             }
           ],
@@ -102,13 +102,13 @@
           "attributes": ["chart", "table"],
           "options": [
             {
-              "name": "Wife / Husband / Partner"
+              "label": "Wife / Husband / Partner"
             },
             {
-              "name": "Children"
+              "label": "Children"
             },
             {
-              "name": "Parent"
+              "label": "Parent"
             }
           ]
         },
