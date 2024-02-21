@@ -199,4 +199,5 @@ class FormSeederTestCase(TestCase):
             if q['name'] == 'phone'
         ][0]
         self.assertIn('monitoring', phone)
+        self.assertEqual(phone['short_label'], "Phone Number")
         self.assertTrue(phone['monitoring'])

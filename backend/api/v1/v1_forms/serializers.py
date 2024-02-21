@@ -180,10 +180,10 @@ class ListQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Questions
         fields = [
-            'id', 'order', 'name', 'label', 'order', 'type', 'required',
-            'dependency', 'option', 'center', 'api', 'meta', 'rule', 'extra',
-            'source', 'tooltip', 'fn', 'pre', 'hidden', 'displayOnly',
-            'monitoring', 'meta_uuid'
+            'id', 'order', 'name', 'label', 'short_label', 'type', 'required',
+            'dependency', 'option', 'center', 'api', 'meta', 'meta_uuid',
+            'rule', 'extra', 'source', 'tooltip', 'fn', 'pre', 'hidden',
+            'displayOnly', 'monitoring'
         ]
 
 
@@ -328,9 +328,9 @@ class FormDataListQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Questions
         fields = [
-            'id', 'form', 'question_group', 'name', 'label', 'order', 'meta',
-            'api', 'type', 'required', 'rule', 'option', 'dependency',
-            'display_only', 'attributes'
+            'id', 'form', 'question_group', 'name', 'label', 'short_label',
+            'order', 'meta', 'api', 'type', 'required', 'rule', 'option',
+            'dependency', 'display_only', 'attributes'
         ]
 
 

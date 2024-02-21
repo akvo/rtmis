@@ -107,6 +107,7 @@ class Command(BaseCommand):
                             id=q.get("id"),
                             name=q["name"],
                             label=q["label"],
+                            short_label=q.get("short_label"),
                             form=form,
                             order=q.get("order") or qi + 1,
                             meta=q.get("meta"),
@@ -129,6 +130,7 @@ class Command(BaseCommand):
                         question.question_group = question_group
                         question.name = q["name"]
                         question.label = q["label"]
+                        question.short_label = q.get("short_label")
                         question.order = q.get("order") or qi + 1
                         question.meta = q.get("meta")
                         question.rule = q.get("rule")
@@ -157,6 +159,7 @@ class Command(BaseCommand):
                             ) for io, o in enumerate(q.get("options"))
                         ])
                     if q.get("attributes"):
+                        QA.objects.filter(question=question).all().delete()
                         QA.objects.bulk_create([
                             QA(
                                 attribute=getattr(AttributeTypes, a),

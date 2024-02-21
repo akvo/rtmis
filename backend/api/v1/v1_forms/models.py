@@ -74,6 +74,7 @@ class Questions(models.Model):
                                        related_name='question_group_question')
     order = models.BigIntegerField(null=True, default=None)
     label = models.TextField()
+    short_label = models.TextField(null=True, default=None)
     name = models.CharField(max_length=255, default=None, null=True)
     type = models.IntegerField(choices=QuestionTypes.FieldStr.items())
     meta = models.BooleanField(default=False)
@@ -104,6 +105,7 @@ class Questions(models.Model):
             "order": (self.order or 0) + 1,
             "name": self.name,
             "label": self.label,
+            "short_label": self.short_label,
             "type": QuestionTypes.FieldStr.get(self.type),
             "required": self.required,
             "hidden": self.hidden,
