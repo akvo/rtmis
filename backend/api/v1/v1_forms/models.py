@@ -49,13 +49,19 @@ class QuestionGroup(models.Model):
     form = models.ForeignKey(to=Forms,
                              on_delete=models.CASCADE,
                              related_name='form_question_group')
-    name = models.TextField()
+    name = models.CharField(max_length=255)
+    label = models.TextField(null=True, default=None)
     order = models.BigIntegerField(null=True, default=None)
 
     def __str__(self):
         return self.name
 
     class Meta:
+        unique_together = ('form', 'name')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['form', 'name'], name='unique_form_question_group')
+        ]
         db_table = 'question_group'
 
 
@@ -67,9 +73,9 @@ class Questions(models.Model):
                                        on_delete=models.CASCADE,
                                        related_name='question_group_question')
     order = models.BigIntegerField(null=True, default=None)
-    text = models.TextField()
-    name = models.CharField(max_length=255)
-    variable = models.CharField(max_length=255, default=None, null=True)
+    label = models.TextField()
+    short_label = models.TextField(null=True, default=None)
+    name = models.CharField(max_length=255, default=None, null=True)
     type = models.IntegerField(choices=QuestionTypes.FieldStr.items())
     meta = models.BooleanField(default=False)
     required = models.BooleanField(default=True)
@@ -95,10 +101,11 @@ class Questions(models.Model):
             if self.question_question_options.count() else False
         return {
             "id": self.id,
-            "variable": self.variable,
             "qg_id": self.question_group.id,
             "order": (self.order or 0) + 1,
             "name": self.name,
+            "label": self.label,
+            "short_label": self.short_label,
             "type": QuestionTypes.FieldStr.get(self.type),
             "required": self.required,
             "hidden": self.hidden,
@@ -119,10 +126,10 @@ class Questions(models.Model):
         return f"{self.id}|{self.name}"
 
     class Meta:
-        unique_together = ('form', 'variable')
+        unique_together = ('form', 'name')
         constraints = [
             models.UniqueConstraint(
-                fields=['form', 'variable'], name='unique_form_variable')
+                fields=['form', 'name'], name='unique_form_question')
         ]
         db_table = 'question'
 
