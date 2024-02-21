@@ -34,9 +34,8 @@
           "label": "Village",
           "short_label": null,
           "meta": true,
-          "type": "text",
-          "required": true,
-          "options": null
+          "type": "administration",
+          "required": true
         },
         {
           "id": 567440335,
@@ -46,8 +45,7 @@
           "short_label": null,
           "meta": false,
           "type": "number",
-          "required": true,
-          "options": null
+          "required": true
         },
         {
           "id": 571070201,
@@ -57,8 +55,7 @@
           "short_label": null,
           "meta": true,
           "type": "geo",
-          "required": true,
-          "options": null
+          "required": true
         }
       ]
     },
@@ -79,16 +76,13 @@
           "required": true,
           "options": [
             {
-              "label": "Amref",
-              "color": null
+              "label": "Amref"
             },
             {
-              "label": "Amref and Local Government",
-              "color": null
+              "label": "Amref and Local Government"
             },
             {
-              "label": "Other",
-              "color": null
+              "label": "Other"
             }
           ]
         },
@@ -100,8 +94,7 @@
           "short_label": null,
           "meta": false,
           "type": "date",
-          "required": false,
-          "options": null
+          "required": false
         },
         {
           "id": 569070282,
@@ -111,8 +104,7 @@
           "short_label": null,
           "meta": false,
           "type": "number",
-          "required": false,
-          "options": null
+          "required": false
         },
         {
           "id": 569090299,

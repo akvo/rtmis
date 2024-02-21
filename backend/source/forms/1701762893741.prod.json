@@ -58,44 +58,12 @@
           "name": "HCF_location",
           "label": "What is the location of the hcf?",
           "short_label": null,
-          "type": "option",
+          "type": "administration",
           "tooltip": {
             "text": "This question contains a list of possible school locations, starting with government area or district, down to the community."
           },
           "required": false,
-          "meta": false,
-          "options": [
-            {
-              "id": 1701770406953,
-              "order": 1,
-              "label": "County",
-              "value": "coun"
-            },
-            {
-              "id": 1701770406954,
-              "order": 2,
-              "label": "Sub-County",
-              "value": "subc"
-            },
-            {
-              "id": 1701770430241,
-              "order": 3,
-              "label": "Ward",
-              "value": "ward"
-            },
-            {
-              "id": 1701770438957,
-              "order": 4,
-              "label": "Community: Village or other urban unit",
-              "value": "comm_vill_othe_urba_unit"
-            },
-            {
-              "id": 1701770446524,
-              "order": 5,
-              "label": "HCF name",
-              "value": "hcf_name"
-            }
-          ]
+          "meta": false
         },
         {
           "id": 1701770462034,
