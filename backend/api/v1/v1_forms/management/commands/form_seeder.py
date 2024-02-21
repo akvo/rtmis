@@ -158,8 +158,8 @@ class Command(BaseCommand):
                         question.meta_uuid = q.get("meta_uuid")
                         question.extra = q.get("extra")
                         question.save()
+                    QO.objects.filter(question=question).all().delete()
                     if q.get("options"):
-                        QO.objects.filter(question=question).all().delete()
                         QO.objects.bulk_create([
                             QO(
                                 label=o["label"].strip(),
@@ -172,8 +172,8 @@ class Command(BaseCommand):
                                 color=o.get("color")
                             ) for io, o in enumerate(q.get("options"))
                         ])
+                    QA.objects.filter(question=question).all().delete()
                     if q.get("attributes"):
-                        QA.objects.filter(question=question).all().delete()
                         QA.objects.bulk_create([
                             QA(
                                 attribute=getattr(AttributeTypes, a),
