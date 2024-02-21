@@ -59,7 +59,7 @@ class DataVisualisationTestCase(TestCase):
             self.assertIsNotNone(d.get("loc"))
             self.assertIsNotNone(d.get("shape"))
         option = QuestionOptions.objects.filter(question_id=marker).first()
-        advance_search = "{0}||{1}".format(option.id, option.name.lower())
+        advance_search = "{0}||{1}".format(option.id, option.value.lower())
         data = self.client.get(
             "/api/v1/maps/{0}?shape={1}&marker={2}&options={3}".format(
                 form.id, shape, marker, advance_search),
@@ -105,7 +105,7 @@ class DataVisualisationTestCase(TestCase):
                                             type=QuestionTypes.option).first()
         option = QuestionOptions.objects.filter(
             question_id=question.id).first()
-        advance_filter = "{0}||{1}".format(option.id, option.name)
+        advance_filter = "{0}||{1}".format(option.id, option.value.lower())
 
         data = self.client.get("/api/v1/chart/data/{0}".format(form.id),
                                follow=True,
@@ -117,7 +117,7 @@ class DataVisualisationTestCase(TestCase):
             **header,
         )
         self.assertEqual(data.status_code, 200)
-        self.assertEqual(list(data.json().get("data")[0]), ["name", "value"])
+        self.assertEqual(list(data.json().get("data")[0]), ["label", "total"])
         self.assertEqual(data.json().get("type"), "PIE")
         data = self.client.get(
             "/api/v1/chart/data/{0}?question={1}&stack={1}".format(
@@ -176,11 +176,11 @@ class DataVisualisationTestCase(TestCase):
             "option": [
                 {
                     "question": 102,
-                    "options": ["Male"],
+                    "options": ["male"],
                 },
                 {
                     "question": 106,
-                    "options": ["Parent"],
+                    "options": ["parent"],
                 },
             ],
         }]
@@ -198,11 +198,11 @@ class DataVisualisationTestCase(TestCase):
             "options": [
                 {
                     "question": 102,
-                    "option": ["Male"],
+                    "option": ["male"],
                 },
                 {
                     "question": 106,
-                    "option": ["Parent"],
+                    "option": ["parent"],
                 },
             ],
         }]
@@ -220,7 +220,7 @@ class DataVisualisationTestCase(TestCase):
         self.assertEqual(list(data.json().get("data")[0]), ["group", "child"])
         for d in data.json().get("data"):
             if d.get("child"):
-                self.assertEqual(list(d.get("child")[0]), ["name", "value"])
+                self.assertEqual(list(d.get("child")[0]), ["label", "total"])
         data = self.client.post(
             "/api/v1/chart/criteria/{0}?administration={1}&options={2}".format(
                 form.id, administration.id, advance_filter),
@@ -237,11 +237,11 @@ class DataVisualisationTestCase(TestCase):
             "option": [
                 {
                     "question": 102,
-                    "options": ["Male"],
+                    "options": ["male"],
                 },
                 {
                     "question": 106,
-                    "options": ["Parent"],
+                    "options": ["parent"],
                 },
             ],
         }]

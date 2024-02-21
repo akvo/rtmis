@@ -26,7 +26,7 @@ class ListOptionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = QuestionOptions
-        fields = ['id', 'name', 'order', 'color']
+        fields = ['id', 'value', 'label', 'order', 'color']
 
 
 class ListQuestionSerializer(serializers.ModelSerializer):
@@ -48,7 +48,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
                 QuestionTypes.option, QuestionTypes.multiple_option
         ]:
             return ListOptionSerializer(
-                instance=instance.question_question_options.all(),
+                instance=instance.options.all(),
                 many=True).data
         return None
 
@@ -296,7 +296,7 @@ class FormDataListQuestionSerializer(serializers.ModelSerializer):
                 QuestionTypes.multiple_option
         ]:
             return ListOptionSerializer(
-                instance=instance.question_question_options.all(),
+                instance=instance.options.all(),
                 many=True).data
         return None
 

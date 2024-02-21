@@ -676,21 +676,15 @@
               "color": "#38A15A"
             },
             {
-              "id": 1701774398054,
-              "name": "Flush or pour-flush toilets to pit or tank",
-              "order": 9,
-              "color": "#38A15A"
-            },
-            {
               "id": 1701774409798,
               "name": "Composting toilets",
-              "order": 10,
+              "order": 9,
               "color": "#38A15A"
             },
             {
               "id": 1701774412617,
               "name": "Other improved toilet - specify",
-              "order": 11,
+              "order": 10,
               "color": "#38A15A"
             }
           ]

@@ -13,7 +13,7 @@ import {
 import { Maps } from "../../components";
 import {
   RemoveFiltersButton,
-  AdvancedFiltersButton,
+  //AdvancedFiltersButton,
   AdvancedFilters,
 } from "../../components";
 import { generateAdvanceFilterURL } from "../../util/filter";
@@ -225,7 +225,7 @@ const Dashboard = () => {
                     ))}
                   </Select>
                   <RemoveFiltersButton />
-                  <AdvancedFiltersButton />
+                  {/* <AdvancedFiltersButton /> */}
                 </Space>
               </Col>
             </Row>

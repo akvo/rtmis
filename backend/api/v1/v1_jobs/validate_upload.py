@@ -238,7 +238,7 @@ def validate_row_data(col, answer, dependency_answer, question: Questions,
     elif question.type in [
             QuestionTypes.option, QuestionTypes.multiple_option
     ]:
-        err = validate_option(question.question_question_options.all(), answer)
+        err = validate_option(question.options.all(), answer)
         if err:
             default.update(err)
             return default

@@ -82,9 +82,9 @@ class MobileAssignmentApiSyncTest(TestCase, AssignmentTokenTestHelperMixin):
         answers = {}
         for question in questions:
             if question['type'] == 'option':
-                answers[question['id']] = [question['option'][0]['name']]
+                answers[question['id']] = [question['option'][0]['value']]
             elif question['type'] == 'multiple_option':
-                answers[question['id']] = [question['option'][0]['name']]
+                answers[question['id']] = [question['option'][0]['value']]
             elif question['type'] == 'number':
                 answers[question['id']] = 12
             elif question['type'] == 'geo':
