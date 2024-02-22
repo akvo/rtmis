@@ -5,6 +5,7 @@ import { BaseLayout } from '../../components';
 import { FormState, UIState } from '../../store';
 import { i18n } from '../../lib';
 import { crudMonitoring } from '../../database/crud';
+import { transformMonitoringData } from '../../form/lib';
 
 const UpdateForm = ({ navigation, route }) => {
   const params = route?.params || null;
@@ -49,7 +50,10 @@ const UpdateForm = ({ navigation, route }) => {
 
   const handleUpdateForm = (item) => {
     FormState.update((s) => {
-      s.currentValues = JSON.parse(item.json.replace(/''/g, "'"));
+      s.currentValues = transformMonitoringData(
+        selectedForm,
+        JSON.parse(item.json.replace(/''/g, "'")),
+      );
     });
     navigation.navigate('FormPage', {
       formId: route?.params.formId,

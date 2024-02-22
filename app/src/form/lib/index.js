@@ -248,3 +248,25 @@ export const onFilterDependency = (currentGroup, values, q) => {
   }
   return q;
 };
+
+export const transformMonitoringData = (formDataJson, inputData) => {
+  const formData = JSON.parse(formDataJson.json);
+  const isCascadeType = (id) => {
+    return formData.question_group.some((group) =>
+      group.question.some((question) => question.id === id && question.type === 'cascade'),
+    );
+  };
+
+  const transformedInputData = {};
+  Object.entries(inputData).forEach(([key, value]) => {
+    const questionId = parseInt(key, 10);
+
+    if (isCascadeType(questionId)) {
+      transformedInputData[key] = Array.isArray(value) ? value : [value];
+    } else {
+      transformedInputData[key] = typeof value === 'number' ? value.toString() : value;
+    }
+  });
+
+  return transformedInputData;
+};
