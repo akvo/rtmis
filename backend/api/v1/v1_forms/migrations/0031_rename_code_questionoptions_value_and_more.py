@@ -74,9 +74,4 @@ class Migration(migrations.Migration):
             add_label_value,
             reverse_code=rollback_label_value,
         ),
-        # HANDLE ERROR IN ROLLBACK MIGRATION
-        migrations.RunSQL(
-            sql="ALTER TABLE option DROP COLUMN name",
-            reverse_sql="ALTER TABLE option ADD COLUMN name VARCHAR(255) DEFAULT 'Test' NOT NULL",
-        ),
     ]
