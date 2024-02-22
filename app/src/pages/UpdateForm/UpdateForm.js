@@ -61,7 +61,10 @@ const UpdateForm = ({ navigation, route }) => {
       name: route?.params.name,
       showSubmitted: false,
       newSubmission: false,
-      monitoring: true,
+      monitoring: {
+        isMonitoring: true,
+        uuid: item.uuid,
+      },
     });
   };
 
