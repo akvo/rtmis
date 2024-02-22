@@ -74,7 +74,7 @@ const FormPage = ({ navigation, route }) => {
   }, [currentValues]);
 
   useEffect(() => {
-    if (!isNewSubmission) {
+    if (!isNewSubmission && !isMonitoring) {
       fetchSavedSubmission().catch((e) => console.error('[Fetch Data Point Failed]: ', e));
     }
   }, [isNewSubmission]);
@@ -241,7 +241,6 @@ const FormPage = ({ navigation, route }) => {
           forms={formJSON}
           onSubmit={handleOnSubmitForm}
           setShowDialogMenu={setShowDialogMenu}
-          isMonitoring={isMonitoring}
         />
       ) : (
         <View style={styles.loadingContainer}>

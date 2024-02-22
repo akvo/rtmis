@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ActivityIndicator, FlatList, StyleSheet, ToastAndroid } from 'react-native';
 import { ListItem } from '@rneui/themed';
 import { BaseLayout } from '../../components';
-import { UIState } from '../../store';
+import { FormState, UIState } from '../../store';
 import { i18n } from '../../lib';
 import { crudMonitoring } from '../../database/crud';
 
@@ -14,10 +14,13 @@ const UpdateForm = ({ navigation, route }) => {
   const limit = 10;
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
+  const selectedForm = FormState.useState((s) => s.form);
 
   const formId = params?.formId;
 
   const fetchData = async (reset = false) => {
+    const forms = await crudMonitoring.getAllForms();
+
     if (isLoading) return;
     const currentOffset = reset ? 0 : forms.length;
     setIsLoading(true);
@@ -44,8 +47,26 @@ const UpdateForm = ({ navigation, route }) => {
     fetchData(true);
   }, [search]);
 
+  const handleUpdateForm = (item) => {
+    FormState.update((s) => {
+      s.currentValues = JSON.parse(item.json.replace(/''/g, "'"));
+    });
+    navigation.navigate('FormPage', {
+      formId: route?.params.formId,
+      id: route?.params.id,
+      name: route?.params.name,
+      showSubmitted: false,
+      newSubmission: false,
+      monitoring: true,
+    });
+  };
+
   const renderItem = ({ item }) => (
-    <ListItem bottomDivider containerStyle={styles.listItemContainer}>
+    <ListItem
+      bottomDivider
+      containerStyle={styles.listItemContainer}
+      onPress={() => handleUpdateForm(item)}
+    >
       <ListItem.Content>
         <ListItem.Title>{item.name}</ListItem.Title>
       </ListItem.Content>
