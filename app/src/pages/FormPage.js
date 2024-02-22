@@ -38,8 +38,8 @@ const FormPage = ({ navigation, route }) => {
   // continue saved submission
   const savedDataPointId = route?.params?.dataPointId;
   const isNewSubmission = route?.params?.newSubmission;
-  const isMonitoring = route?.params?.monitoring.isMonitoring || false;
-  const uuid = route?.params?.monitoring.uuid || 'false';
+  const isMonitoring = route?.params?.monitoring?.isMonitoring || false;
+  const uuid = route?.params?.monitoring?.uuid || '';
   const [currentDataPoint, setCurrentDataPoint] = useState({});
   const [loading, setLoading] = useState(false);
 
