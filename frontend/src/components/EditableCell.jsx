@@ -111,8 +111,8 @@ const EditableCell = ({
         disabled={disabled}
       >
         {record.option.map((o) => (
-          <Option key={o.id} value={o.name} title={o.name}>
-            {o.name}
+          <Option key={o.id} value={o?.value} title={o?.label}>
+            {o?.label}
           </Option>
         ))}
       </Select>
@@ -127,8 +127,8 @@ const EditableCell = ({
         disabled={disabled}
       >
         {record.option.map((o) => (
-          <Option key={o.id} value={o.name} title={o.name}>
-            {o.name}
+          <Option key={o.id} value={o?.value} title={o?.label}>
+            {o?.label}
           </Option>
         ))}
       </Select>
