@@ -5,7 +5,7 @@ import TypeNumber from '../TypeNumber';
 describe('TypeNumber component', () => {
   it('should render the component correctly', () => {
     const { getByTestId, getByText } = render(
-      <TypeNumber onChange={() => jest.fn()} values={{}} id="inputField" name="Field Name" />,
+      <TypeNumber onChange={() => jest.fn()} values={{}} id="inputField" label="Field Name" />,
     );
 
     const fieldLabel = getByTestId('field-label');
@@ -20,7 +20,7 @@ describe('TypeNumber component', () => {
     const onChangeMock = jest.fn();
 
     const { getByTestId } = render(
-      <TypeNumber onChange={onChangeMock} values={{}} id="inputField" name="Field Name" />,
+      <TypeNumber onChange={onChangeMock} values={{}} id="inputField" label="Field Name" />,
     );
 
     const inputElement = getByTestId('type-number');
@@ -32,7 +32,7 @@ describe('TypeNumber component', () => {
     const initialValue = '20';
 
     const { getByTestId } = render(
-      <TypeNumber onChange={() => {}} value={initialValue} id="inputField" name="Field Name" />,
+      <TypeNumber onChange={() => {}} value={initialValue} id="inputField" label="Field Name" />,
     );
 
     const inputElement = getByTestId('type-number');
@@ -40,14 +40,14 @@ describe('TypeNumber component', () => {
   });
 
   it('should not show required sign if required param is false and requiredSign is not defined', () => {
-    const wrapper = render(<TypeNumber id="inputField" name="Field Name" required={false} />);
+    const wrapper = render(<TypeNumber id="inputField" label="Field Name" required={false} />);
     const requiredIcon = wrapper.queryByTestId('field-required-icon');
     expect(requiredIcon).toBeFalsy();
   });
 
   it('should not show required sign if required param is false but requiredSign is defined', () => {
     const wrapper = render(
-      <TypeNumber id="inputField" name="Field Name" required={false} requiredSign="*" />,
+      <TypeNumber id="inputField" label="Field Name" required={false} requiredSign="*" />,
     );
     const requiredIcon = wrapper.queryByTestId('field-required-icon');
     expect(requiredIcon).toBeFalsy();
@@ -55,7 +55,7 @@ describe('TypeNumber component', () => {
 
   it('should not show required sign if required param is true and requiredSign defined', () => {
     const wrapper = render(
-      <TypeNumber id="inputField" name="Field Name" required={true} requiredSign="*" />,
+      <TypeNumber id="inputField" label="Field Name" required={true} requiredSign="*" />,
     );
     const requiredIcon = wrapper.queryByTestId('field-required-icon');
     expect(requiredIcon).toBeTruthy();
@@ -63,14 +63,14 @@ describe('TypeNumber component', () => {
 
   it('should show required sign with custom requiredSign', () => {
     const wrapper = render(
-      <TypeNumber id="inputField" name="Field Name" required={true} requiredSign="**" />,
+      <TypeNumber id="inputField" label="Field Name" required={true} requiredSign="**" />,
     );
     const requiredIcon = wrapper.getByText('**');
     expect(requiredIcon).toBeTruthy();
   });
 
   test.failing('should not show input preffix if addonBefore not defined', () => {
-    const wrapper = render(<TypeNumber id="inputField" name="Field Label" />);
+    const wrapper = render(<TypeNumber id="inputField" label="Field Label" />);
 
     const preffixElement = wrapper.getByTestId('field-preffix');
     expect(preffixElement).toBeDefined();
@@ -79,7 +79,7 @@ describe('TypeNumber component', () => {
   test('should show input preffix if addonBefore (string) defined', () => {
     const addonBefore = 'Addon Before';
     const wrapper = render(
-      <TypeNumber id="inputField" name="Field Label" addonBefore={addonBefore} />,
+      <TypeNumber id="inputField" label="Field Label" addonBefore={addonBefore} />,
     );
 
     const preffixElement = wrapper.getByTestId('field-preffix');
@@ -90,7 +90,7 @@ describe('TypeNumber component', () => {
   test('should show input preffix if addonBefore (React element) defined', () => {
     const addonBefore = <h1>React element</h1>;
     const wrapper = render(
-      <TypeNumber id="inputField" name="Field Label" addonBefore={addonBefore} />,
+      <TypeNumber id="inputField" label="Field Label" addonBefore={addonBefore} />,
     );
 
     const preffixElement = wrapper.getByTestId('field-preffix');
@@ -101,7 +101,7 @@ describe('TypeNumber component', () => {
   test.failing('should not show input suffix if only addonBefore defined', () => {
     const addonBefore = 'Addon Before';
     const wrapper = render(
-      <TypeNumber id="inputField" name="Field Label" addonBefore={addonBefore} />,
+      <TypeNumber id="inputField" label="Field Label" addonBefore={addonBefore} />,
     );
 
     const suffixElement = wrapper.getByTestId('field-suffix');
@@ -109,7 +109,7 @@ describe('TypeNumber component', () => {
   });
 
   test.failing('should not show input preffix if addonBefore not defined', () => {
-    const wrapper = render(<TypeNumber id="inputField" name="Field Label" />);
+    const wrapper = render(<TypeNumber id="inputField" label="Field Label" />);
 
     const suffixElement = wrapper.getByTestId('field-suffix');
     expect(suffixElement).toBeDefined();
@@ -118,7 +118,7 @@ describe('TypeNumber component', () => {
   test('should show input suffix if addonAfter (string) defined', () => {
     const addonAfter = 'Addon After';
     const wrapper = render(
-      <TypeNumber id="inputField" name="Field Label" addonAfter={addonAfter} />,
+      <TypeNumber id="inputField" label="Field Label" addonAfter={addonAfter} />,
     );
 
     const suffixElement = wrapper.getByTestId('field-suffix');
@@ -129,7 +129,7 @@ describe('TypeNumber component', () => {
   test('should show input suffix if addonAfter (React element) defined', () => {
     const addonAfter = <h1>React element</h1>;
     const wrapper = render(
-      <TypeNumber id="inputField" name="Field Label" addonAfter={addonAfter} />,
+      <TypeNumber id="inputField" label="Field Label" addonAfter={addonAfter} />,
     );
 
     const suffixElement = wrapper.getByTestId('field-suffix');
@@ -140,7 +140,7 @@ describe('TypeNumber component', () => {
   test.failing('should not show input preffix if only addonAfter defined', () => {
     const addonAfter = 'Addon After';
     const wrapper = render(
-      <TypeNumber id="inputField" name="Field Label" addonAfter={addonAfter} />,
+      <TypeNumber id="inputField" label="Field Label" addonAfter={addonAfter} />,
     );
 
     const preffixElement = wrapper.getByTestId('field-preffix');
@@ -150,7 +150,7 @@ describe('TypeNumber component', () => {
   test.failing(
     'should not show both input suffix & preffix if both addonAfter & addonBefore not defined',
     () => {
-      const wrapper = render(<TypeNumber id="inputField" name="Field Label" />);
+      const wrapper = render(<TypeNumber id="inputField" label="Field Label" />);
 
       const preffixElement = wrapper.getByTestId('field-preffix');
       expect(preffixElement).toBeDefined();
@@ -166,7 +166,7 @@ describe('TypeNumber component', () => {
     const wrapper = render(
       <TypeNumber
         id="inputField"
-        name="Field Label"
+        label="Field Label"
         addonBefore={addonBefore}
         addonAfter={addonAfter}
       />,
