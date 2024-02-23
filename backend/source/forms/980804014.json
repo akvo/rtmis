@@ -72,15 +72,18 @@
           "options": [
             {
               "label": "CDA",
-              "color": null
+              "color": null,
+              "value": "cda"
             },
             {
               "label": "Government",
-              "color": null
+              "color": null,
+              "value": "government"
             },
             {
               "label": "Kale Hiwot",
-              "color": null
+              "color": null,
+              "value": "kale_hiwot"
             }
           ]
         },
@@ -96,31 +99,38 @@
           "options": [
             {
               "label": "Deep well with distribution",
-              "color": null
+              "color": null,
+              "value": "deep_well_with_distribution"
             },
             {
               "label": "Hand dug well",
-              "color": null
+              "color": null,
+              "value": "hand_dug_well"
             },
             {
               "label": "Shallow well",
-              "color": null
+              "color": null,
+              "value": "shallow_well"
             },
             {
               "label": "Protected spring",
-              "color": null
+              "color": null,
+              "value": "protected_spring"
             },
             {
               "label": "Unprotected spring",
-              "color": null
+              "color": null,
+              "value": "unprotected_spring"
             },
             {
               "label": "Rainwater collection",
-              "color": null
+              "color": null,
+              "value": "rainwater_collection"
             },
             {
               "label": "Surface water",
-              "color": null
+              "color": null,
+              "value": "surface_water"
             }
           ]
         },
@@ -158,23 +168,28 @@
           "options": [
             {
               "label": "Afridev",
-              "color": null
+              "color": null,
+              "value": "afridev"
             },
             {
               "label": "Indian Mark II",
-              "color": null
+              "color": null,
+              "value": "indian_mark_ii"
             },
             {
               "label": "Submersible pump",
-              "color": null
+              "color": null,
+              "value": "submersible_pump"
             },
             {
               "label": "Windlass",
-              "color": null
+              "color": null,
+              "value": "windlass"
             },
             {
               "label": "I don't know",
-              "color": null
+              "color": null,
+              "value": "i_dont_know"
             }
           ]
         },
@@ -190,19 +205,23 @@
           "options": [
             {
               "label": "Diesel",
-              "color": null
+              "color": null,
+              "value": "diesel"
             },
             {
               "label": "Electricity and grid",
-              "color": null
+              "color": null,
+              "value": "electricity_and_grid"
             },
             {
               "label": "Gravity flow",
-              "color": null
+              "color": null,
+              "value": "gravity_flow"
             },
             {
               "label": "Manual operation",
-              "color": null
+              "color": null,
+              "value": "manual_operation"
             }
           ]
         },
@@ -251,15 +270,18 @@
           "options": [
             {
               "label": "Functional",
-              "color": "#91cc75"
+              "color": "#91cc75",
+              "value": "functional"
             },
             {
               "label": "Functional but with problems",
-              "color": "#e39f00"
+              "color": "#e39f00",
+              "value": "functional_but_with_problems"
             },
             {
               "label": "Not functional",
-              "color": "#ee6666"
+              "color": "#ee6666",
+              "value": "not_functional"
             }
           ]
         },
@@ -275,31 +297,38 @@
           "options": [
             {
               "label": "Lack of water",
-              "color": null
+              "color": null,
+              "value": "lack_of_water"
             },
             {
               "label": "Pump broken",
-              "color": null
+              "color": null,
+              "value": "pump_broken"
             },
             {
               "label": "Tap broken",
-              "color": null
+              "color": null,
+              "value": "tap_broken"
             },
             {
               "label": "Distribution pipeline broken",
-              "color": null
+              "color": null,
+              "value": "distribution_pipeline_broken"
             },
             {
               "label": "Power failure",
-              "color": null
+              "color": null,
+              "value": "power_failure"
             },
             {
               "label": "Lack of fuel",
-              "color": null
+              "color": null,
+              "value": "lack_of_fuel"
             },
             {
               "label": "Poor water quality",
-              "color": null
+              "color": null,
+              "value": "poor_water_quality"
             }
           ]
         },
@@ -315,23 +344,28 @@
           "options": [
             {
               "label": "Extension",
-              "color": null
+              "color": null,
+              "value": "extension"
             },
             {
               "label": "Inspection",
-              "color": null
+              "color": null,
+              "value": "inspection"
             },
             {
               "label": "National WASH Inventory",
-              "color": null
+              "color": null,
+              "value": "national_wash_inventory"
             },
             {
               "label": "New Scheme",
-              "color": null
+              "color": null,
+              "value": "new_scheme"
             },
             {
               "label": "Repair",
-              "color": null
+              "color": null,
+              "value": "repair"
             }
           ]
         }

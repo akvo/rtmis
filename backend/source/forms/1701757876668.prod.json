@@ -850,8 +850,8 @@
             {
               "id": 1706094951022,
               "options": [
-                "All girls-only school toilets are NON-functional (specify number of non-functional toilets)",
-                "Some girls-only school toilets are non-functional (specify number of functional toilets + number of non-functional toilets)"
+                "all_girl_scho_toil_are_nonf_spec_numb_nonf_toil",
+                "some_girl_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil"
               ]
             }
           ],
@@ -875,8 +875,8 @@
             {
               "id": 1706094951022,
               "options": [
-                "Some girls-only school toilets are non-functional (specify number of functional toilets + number of non-functional toilets)",
-                "All girls-only school toilets are functional (specify number of functional toilets)"
+                "some_girl_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil",
+                "all_girl_scho_toil_are_func_spec_numb_func_toil"
               ]
             }
           ],
@@ -937,8 +937,8 @@
             {
               "id": 1706096632535,
               "options": [
-                "All boys-only school toilets are NON-functional (specify number of non-functional toilets)",
-                "Some boys-only school toilets are non-functional (specify number of functional toilets + number of non-functional toilets)"
+                "all_boys_scho_toil_are_nonf_spec_numb_nonf_toil",
+                "some_boys_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil"
               ]
             }
           ],
@@ -962,8 +962,8 @@
             {
               "id": 1706096632535,
               "options": [
-                "Some boys-only school toilets are non-functional (specify number of functional toilets + number of non-functional toilets)",
-                "All boys-only school toilets are functional (specify number of functional toilets)"
+                "some_boys_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil",
+                "all_boys_scho_toil_are_func_spec_numb_func_toil"
               ]
             }
           ],
@@ -1035,8 +1035,8 @@
             {
               "id": 1706097041101,
               "options": [
-                "Some shared school toilets are non-functional (specify number of functional toilets + number of non-functional toilets)",
-                "All shared school toilets are functional (specify number of functional toilets)"
+                "some_shar_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil",
+                "all_shar_scho_toil_are_func_spec_numb_func_toil"
               ]
             }
           ],
@@ -1060,8 +1060,8 @@
             {
               "id": 1706097041101,
               "options": [
-                "All shared school toilets are NON-functional (specify number of non-functional toilets)",
-                "Some shared school toilets are non-functional (specify number of functional toilets + number of non-functional toilets)"
+                "all_shar_scho_toil_are_nonf_spec_numb_nonf_toil",
+                "some_shar_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil"
               ]
             }
           ],

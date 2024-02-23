@@ -460,8 +460,8 @@
             {
               "id": 1701774110056,
               "options": [
-                "All inpatient toilets are usable (enter number)",
-                "Some inpatient toilets are NOT usable (enter number non-usable, and number usable)"
+                "all_inpa_toil_are_usab_ente_numb",
+                "some_inpa_toil_are_not_usab_ente_numb_nonu_numb_usab"
               ]
             }
           ],
@@ -484,8 +484,8 @@
             {
               "id": 1701774110056,
               "options": [
-                "All inpatient toilets are NOT usable (enter number)",
-                "Some inpatient toilets are NOT usable (enter number non-usable, and number usable)"
+                "all_inpa_toil_are_not_usab_ente_numb",
+                "some_inpa_toil_are_not_usab_ente_numb_nonu_numb_usab"
               ]
             }
           ],
@@ -544,8 +544,8 @@
             {
               "id": 1701774221650,
               "options": [
-                "All outpatient toilets are usable (enter number)",
-                "Some outpatient toilets are NOT usable (enter number non-usable, and number usable)"
+                "all_outp_toil_are_usab_ente_numb",
+                "some_outp_toil_are_not_usab_ente_numb_nonu_numb_usab"
               ]
             }
           ],
@@ -568,8 +568,8 @@
             {
               "id": 1701774221650,
               "options": [
-                "All outpatient toilets are NOT usable (enter number)",
-                "Some outpatient toilets are NOT usable (enter number non-usable, and number usable)"
+                "all_outp_toil_are_not_usab_ente_numb",
+                "some_outp_toil_are_not_usab_ente_numb_nonu_numb_usab"
               ]
             }
           ],

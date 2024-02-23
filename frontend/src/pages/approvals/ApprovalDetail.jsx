@@ -483,7 +483,7 @@ const ApprovalDetail = ({
                           </div>
                           {record.data?.map((r, rI) => (
                             <div className="pending-data-wrapper" key={rI}>
-                              <h3>{r.name}</h3>
+                              <h3>{r.label}</h3>
                               <Table
                                 pagination={false}
                                 dataSource={r.question}
@@ -497,8 +497,12 @@ const ApprovalDetail = ({
                                 columns={[
                                   {
                                     title: text?.questionCol,
-                                    dataIndex: "name",
+                                    dataIndex: null,
                                     width: "50%",
+                                    render: (_, row) =>
+                                      row.short_label
+                                        ? row.short_label
+                                        : row.label,
                                   },
                                   {
                                     title: text?.responseCol,
