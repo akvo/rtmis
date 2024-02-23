@@ -247,24 +247,25 @@ export const onFilterDependency = (currentGroup, values, q) => {
   return q;
 };
 
+const transformValue = (question, value) => {
+  if (question?.type === 'cascade') {
+    return [value];
+  }
+  if (question?.type === 'geo') {
+    return value === '' ? [] : value;
+  }
+  return value;
+};
+
 export const transformMonitoringData = (formDataJson, inputData) => {
   const formData = JSON.parse(formDataJson.json);
-  const isCascadeType = (id) => {
-    return formData.question_group.some((group) =>
-      group.question.some((question) => question.id === id && question.type === 'cascade'),
-    );
-  };
-
-  const transformedInputData = {};
-  Object.entries(inputData).forEach(([key, value]) => {
-    const questionId = parseInt(key, 10);
-
-    if (isCascadeType(questionId)) {
-      transformedInputData[key] = Array.isArray(value) ? value : [value];
-    } else {
-      transformedInputData[key] = typeof value === 'number' ? value.toString() : value;
-    }
-  });
-
-  return transformedInputData;
+  const allQuestions = formData?.question_group?.flatMap((qg) => qg?.question);
+  const transformed = allQuestions?.reduce(
+    (prev, current) => ({
+      [current.id]: transformValue(current, inputData?.[current.id]),
+      ...prev,
+    }),
+    {},
+  );
+  return transformed;
 };
