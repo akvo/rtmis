@@ -29,7 +29,7 @@ describe('TypeOption component', () => {
         onChange={onChangeMock}
         value={values}
         id="dropdown"
-        name="Dropdown Field"
+        label="Dropdown Field"
         option={option}
         setFieldValue={setFieldValueMock}
       />,
@@ -111,7 +111,7 @@ describe('TypeOption component', () => {
         option={option}
         setFieldValue={setFieldValueMock}
         id="maindrinking"
-        name="What is the main drinking water point provided by the school?"
+        label="What is the main drinking water point provided by the school?"
       />,
     );
 
@@ -139,14 +139,14 @@ describe('TypeOption component', () => {
   });
 
   it('should not show required sign if required param is false and requiredSign is not defined', () => {
-    const wrapper = render(<TypeOption id="dropdownField" name="Dropdown" required={false} />);
+    const wrapper = render(<TypeOption id="dropdownField" label="Dropdown" required={false} />);
     const requiredIcon = wrapper.queryByTestId('field-required-icon');
     expect(requiredIcon).toBeFalsy();
   });
 
   it('should not show required sign if required param is false but requiredSign is defined', () => {
     const wrapper = render(
-      <TypeOption id="dropdownField" name="Dropdown" required={false} requiredSign="*" />,
+      <TypeOption id="dropdownField" label="Dropdown" required={false} requiredSign="*" />,
     );
     const requiredIcon = wrapper.queryByTestId('field-required-icon');
     expect(requiredIcon).toBeFalsy();
@@ -154,7 +154,7 @@ describe('TypeOption component', () => {
 
   it('should not show required sign if required param is true and requiredSign defined', () => {
     const wrapper = render(
-      <TypeOption id="dropdownField" name="Dropdown" required={true} requiredSign="*" />,
+      <TypeOption id="dropdownField" label="Dropdown" required={true} requiredSign="*" />,
     );
     const requiredIcon = wrapper.queryByTestId('field-required-icon');
     expect(requiredIcon).toBeTruthy();
@@ -162,7 +162,7 @@ describe('TypeOption component', () => {
 
   it('should show required sign with custom requiredSign', () => {
     const wrapper = render(
-      <TypeOption id="dropdownField" name="Dropdown" required={true} requiredSign="**" />,
+      <TypeOption id="dropdownField" label="Dropdown" required={true} requiredSign="**" />,
     );
     const requiredIcon = wrapper.getByText('**');
     expect(requiredIcon).toBeTruthy();
