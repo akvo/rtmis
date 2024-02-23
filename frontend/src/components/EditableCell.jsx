@@ -81,13 +81,25 @@ const EditableCell = ({
   }, [record, locationName]);
 
   const getAnswerValue = () => {
-    return record.type === "multiple_option"
-      ? value?.join(", ")
-      : record.type === "option"
-      ? value
-        ? value[0]
-        : "-"
-      : value;
+    switch (record.type) {
+      case "date":
+        return value ? moment(value).format("YYYY-MM-DD") : "-";
+      case "multiple_option":
+        return value?.length
+          ? value
+              ?.map((v) => {
+                const option = record?.option?.find((o) => o.value === v);
+                return option?.label;
+              })
+              ?.join(", ") || "-"
+          : "-";
+      case "option":
+        return value?.length
+          ? record?.option?.find((o) => o.value === value[0])?.label || "-"
+          : "-";
+      default:
+        return value || "-";
+    }
   };
 
   const getLastAnswerValue = () => {
