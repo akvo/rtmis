@@ -76,13 +76,16 @@
           "required": true,
           "options": [
             {
-              "label": "Amref"
+              "label": "Amref",
+              "value": "amref"
             },
             {
-              "label": "Amref and Local Government"
+              "label": "Amref and Local Government",
+              "value": "amref_and_local_government"
             },
             {
-              "label": "Other"
+              "label": "Other",
+              "value": "other"
             }
           ]
         },
@@ -118,11 +121,13 @@
           "options": [
             {
               "label": "Yes",
-              "color": null
+              "color": null,
+              "value": "yes"
             },
             {
               "label": "No",
-              "color": null
+              "color": null,
+              "value": "no"
             }
           ]
         },
@@ -138,11 +143,13 @@
           "options": [
             {
               "label": "Yes",
-              "color": null
+              "color": null,
+              "value": "yes"
             },
             {
               "label": "No",
-              "color": null
+              "color": null,
+              "value": "no"
             }
           ]
         },
@@ -158,11 +165,13 @@
           "options": [
             {
               "label": "Yes",
-              "color": null
+              "color": null,
+              "value": "yes"
             },
             {
               "label": "No",
-              "color": null
+              "color": null,
+              "value": "no"
             }
           ]
         },
@@ -178,11 +187,13 @@
           "options": [
             {
               "label": "Yes",
-              "color": null
+              "color": null,
+              "value": "yes"
             },
             {
               "label": "No",
-              "color": null
+              "color": null,
+              "value": "no"
             }
           ]
         },
@@ -198,11 +209,13 @@
           "options": [
             {
               "label": "Yes",
-              "color": null
+              "color": null,
+              "value": "yes"
             },
             {
               "label": "No",
-              "color": null
+              "color": null,
+              "value": "no"
             }
           ]
         },
@@ -240,59 +253,73 @@
           "options": [
             {
               "label": "Bucket",
-              "color": null
+              "color": null,
+              "value": "bucket"
             },
             {
               "label": "Container-based sanitation",
-              "color": null
+              "color": null,
+              "value": "containerbased_sanitation"
             },
             {
               "label": "Flush/pour flush to piped sewer system",
-              "color": null
+              "color": null,
+              "value": "flushpour_flush_to_piped_sewer_system"
             },
             {
               "label": "Flush/pour flush to septic tank",
-              "color": null
+              "color": null,
+              "value": "flushpour_flush_to_septic_tank"
             },
             {
               "label": "Flush/pour flush to pit latrine",
-              "color": null
+              "color": null,
+              "value": "flushpour_flush_to_pit_latrine"
             },
             {
               "label": "Flush/pour flush to open drain",
-              "color": null
+              "color": null,
+              "value": "flushpour_flush_to_open_drain"
             },
             {
               "label": "Hanging toilet/latrine",
-              "color": null
+              "color": null,
+              "value": "hanging_toiletlatrine"
             },
             {
               "label": "Pit latrine with slab",
-              "color": null
+              "color": null,
+              "value": "pit_latrine_with_slab"
             },
             {
               "label": "Pit latrine without slab/open pit",
-              "color": null
+              "color": null,
+              "value": "pit_latrine_without_slabopen_pit"
             },
             {
               "label": "Twin pit offset latrine",
-              "color": null
+              "color": null,
+              "value": "twin_pit_offset_latrine"
             },
             {
               "label": "Twin pit with latrine slab",
-              "color": null
+              "color": null,
+              "value": "twin_pit_with_latrine_slab"
             },
             {
               "label": "Twin pit without slab",
-              "color": null
+              "color": null,
+              "value": "twin_pit_without_slab"
             },
             {
               "label": "Ventilated improved pit latrine (VIP) with slab",
-              "color": null
+              "color": null,
+              "value": "ventilated_improved_pit_latrine_vip_with_slab"
             },
             {
               "label": "Other composting latrine",
-              "color": null
+              "color": null,
+              "value": "other_composting_latrine"
             }
           ]
         },
@@ -308,19 +335,23 @@
           "options": [
             {
               "label": "Open Defecation",
-              "color": null
+              "color": null,
+              "value": "open_defecation"
             },
             {
               "label": "Triggered",
-              "color": null
+              "color": null,
+              "value": "triggered"
             },
             {
               "label": "Declared ODF",
-              "color": null
+              "color": null,
+              "value": "declared_odf"
             },
             {
               "label": "Verified ODF",
-              "color": null
+              "color": null,
+              "value": "verified_odf"
             }
           ]
         }

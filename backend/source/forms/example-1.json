@@ -31,13 +31,16 @@
           "attributes": ["chart", "table"],
           "options": [
             {
-              "label": "Male"
+              "label": "Male",
+              "value": "male"
             },
             {
-              "label": "Female"
+              "label": "Female",
+              "value": "female"
             },
             {
-              "label": "Other"
+              "label": "Other",
+              "value": "other"
             }
           ]
         },
@@ -84,13 +87,16 @@
           "required": true,
           "options": [
             {
-              "label": "Wife / Husband / Partner"
+              "label": "Wife / Husband / Partner",
+              "value": "wife__husband__partner"
             },
             {
-              "label": "Children"
+              "label": "Children",
+              "value": "children"
             },
             {
-              "label": "Parent"
+              "label": "Parent",
+              "value": "parent"
             }
           ]
         },

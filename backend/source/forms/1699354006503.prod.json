@@ -166,7 +166,7 @@
           "dependency": [
             {
               "id": 1699354006535,
-              "options": ["New"]
+              "options": ["new"]
             }
           ]
         },
@@ -186,7 +186,7 @@
           "dependency": [
             {
               "id": 1699354006535,
-              "options": ["New"]
+              "options": ["new"]
             }
           ]
         }
@@ -1393,7 +1393,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["School"]
+              "options": ["scho"]
             }
           ],
           "required": true,
@@ -1414,7 +1414,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Healthcare facility"]
+              "options": ["heal_faci"]
             }
           ],
           "required": true,
@@ -1435,9 +1435,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": [
-                "Transport station (bus, train, airport, fuel, other)"
-              ]
+              "options": ["tran_stat_bus_trai_airp_fuel_othe"]
             }
           ],
           "required": true,
@@ -1458,7 +1456,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Market"]
+              "options": ["mark"]
             }
           ],
           "required": true,
@@ -1479,7 +1477,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Public toilet"]
+              "options": ["publ_toil"]
             }
           ],
           "required": true,
@@ -1500,7 +1498,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Government office/building"]
+              "options": ["gove_offi"]
             }
           ],
           "required": true,
@@ -1521,7 +1519,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Camps (fishing, mining, farming)"]
+              "options": ["camp_fish_mini_farm"]
             }
           ],
           "required": true,
@@ -1542,9 +1540,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": [
-                "Worship centres (churches, cathedrals, mosques, temples, other)"
-              ]
+              "options": ["wors_cent_chur_cath_mosq_temp_othe"]
             }
           ],
           "required": true,
@@ -1565,7 +1561,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Burial place"]
+              "options": ["buri_plac"]
             }
           ],
           "required": true,
@@ -1586,7 +1582,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Prisons"]
+              "options": ["pris"]
             }
           ],
           "required": true,
@@ -1607,7 +1603,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Private institutions"]
+              "options": ["priv_inst"]
             }
           ],
           "required": true,
@@ -1628,7 +1624,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Other Institutions"]
+              "options": ["othe_inst"]
             }
           ],
           "required": true,
