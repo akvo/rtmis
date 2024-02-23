@@ -21,10 +21,12 @@
           "attributes": ["advanced_filter"],
           "options": [
             {
-              "label": "National"
+              "label": "National",
+              "value": "national"
             },
             {
-              "label": "County"
+              "label": "County",
+              "value": "county"
             }
           ]
         },
@@ -61,10 +63,12 @@
           "attributes": ["advanced_filter"],
           "options": [
             {
-              "label": "Yes"
+              "label": "Yes",
+              "value": "yes"
             },
             {
-              "label": "No"
+              "label": "No",
+              "value": "no"
             }
           ]
         },
@@ -80,16 +84,18 @@
           "attributes": [],
           "options": [
             {
-              "label": "Yes"
+              "label": "Yes",
+              "value": "yes"
             },
             {
-              "label": "No"
+              "label": "No",
+              "value": "no"
             }
           ],
           "dependency": [
             {
               "id": 595960114,
-              "options": ["Yes"]
+              "options": ["yes"]
             }
           ]
         },
@@ -105,16 +111,18 @@
           "attributes": ["advanced_filter"],
           "options": [
             {
-              "label": "Yes"
+              "label": "Yes",
+              "value": "yes"
             },
             {
-              "label": "No"
+              "label": "No",
+              "value": "no"
             }
           ],
           "dependency": [
             {
               "id": 605030132,
-              "options": ["National", "County"]
+              "options": ["national", "county"]
             }
           ]
         },
@@ -132,7 +140,7 @@
           "dependency": [
             {
               "id": 583720152,
-              "options": ["Yes"]
+              "options": ["yes"]
             }
           ]
         },
@@ -150,7 +158,7 @@
           "dependency": [
             {
               "id": 583720152,
-              "options": ["Yes"]
+              "options": ["yes"]
             }
           ]
         },
@@ -168,7 +176,7 @@
           "dependency": [
             {
               "id": 605030132,
-              "options": ["County"]
+              "options": ["county"]
             }
           ]
         },
@@ -186,7 +194,7 @@
           "dependency": [
             {
               "id": 605030132,
-              "options": ["National"]
+              "options": ["national"]
             }
           ]
         },
@@ -202,16 +210,18 @@
           "attributes": [],
           "options": [
             {
-              "label": "Yes"
+              "label": "Yes",
+              "value": "yes"
             },
             {
-              "label": "No"
+              "label": "No",
+              "value": "no"
             }
           ],
           "dependency": [
             {
               "id": 605030132,
-              "options": ["National"]
+              "options": ["national"]
             }
           ]
         },
@@ -227,16 +237,18 @@
           "attributes": ["advanced_filter"],
           "options": [
             {
-              "label": "Yes"
+              "label": "Yes",
+              "value": "yes"
             },
             {
-              "label": "No"
+              "label": "No",
+              "value": "no"
             }
           ],
           "dependency": [
             {
               "id": 605030132,
-              "options": ["National"]
+              "options": ["national"]
             }
           ]
         },
@@ -252,16 +264,18 @@
           "attributes": [],
           "options": [
             {
-              "label": "Yes"
+              "label": "Yes",
+              "value": "yes"
             },
             {
-              "label": "No"
+              "label": "No",
+              "value": "no"
             }
           ],
           "dependency": [
             {
               "id": 605030132,
-              "options": ["National"]
+              "options": ["national"]
             }
           ]
         },
@@ -277,16 +291,18 @@
           "attributes": [],
           "options": [
             {
-              "label": "Yes"
+              "label": "Yes",
+              "value": "yes"
             },
             {
-              "label": "No"
+              "label": "No",
+              "value": "no"
             }
           ],
           "dependency": [
             {
               "id": 605030132,
-              "options": ["National"]
+              "options": ["national"]
             }
           ]
         },
@@ -302,16 +318,18 @@
           "attributes": [],
           "options": [
             {
-              "label": "Yes"
+              "label": "Yes",
+              "value": "yes"
             },
             {
-              "label": "No"
+              "label": "No",
+              "value": "no"
             }
           ],
           "dependency": [
             {
               "id": 605030132,
-              "options": ["National"]
+              "options": ["national"]
             }
           ]
         }
@@ -335,10 +353,12 @@
           "attributes": [],
           "options": [
             {
-              "label": "Yes"
+              "label": "Yes",
+              "value": "yes"
             },
             {
-              "label": "No"
+              "label": "No",
+              "value": "no"
             }
           ]
         },
@@ -354,10 +374,12 @@
           "attributes": [],
           "options": [
             {
-              "label": "Yes"
+              "label": "Yes",
+              "value": "yes"
             },
             {
-              "label": "No"
+              "label": "No",
+              "value": "no"
             }
           ]
         },
@@ -373,10 +395,12 @@
           "attributes": [],
           "options": [
             {
-              "label": "Yes"
+              "label": "Yes",
+              "value": "yes"
             },
             {
-              "label": "No"
+              "label": "No",
+              "value": "no"
             }
           ]
         }

@@ -2,7 +2,10 @@
   "id": 2,
   "form": "Test Form 2",
   "type": 2,
-  "approval_instructions": { "text": "test", "action": ["action #1"] },
+  "approval_instructions": {
+    "text": "test",
+    "action": ["action #1"]
+  },
   "question_groups": [
     {
       "id": 21,
@@ -37,23 +40,26 @@
           "options": [
             {
               "label": "Male",
-              "color": "#000000"
+              "color": "#000000",
+              "value": "male"
             },
             {
               "label": "Female",
-              "color": "#111111"
+              "color": "#111111",
+              "value": "female"
             },
             {
               "label": "Other",
-              "color": "#222222"
+              "color": "#222222",
+              "value": "other"
             }
           ],
           "pre": {
-            "answer": "string",
+            "answer": "male",
             "fill": [
               {
-                "id": "1235434",
-                "answer": "any"
+                "id": 206,
+                "answer": ["children"]
               }
             ]
           }
@@ -102,13 +108,16 @@
           "attributes": ["chart", "table"],
           "options": [
             {
-              "label": "Wife / Husband / Partner"
+              "label": "Wife / Husband / Partner",
+              "value": "wife__husband__partner"
             },
             {
-              "label": "Children"
+              "label": "Children",
+              "value": "children"
             },
             {
-              "label": "Parent"
+              "label": "Parent",
+              "value": "parent"
             }
           ]
         },
