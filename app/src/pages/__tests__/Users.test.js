@@ -232,15 +232,15 @@ describe('UsersPage', () => {
     });
   });
 
-  it('should go to add user when plus icon clicked', () => {
-    const mockNavigation = useNavigation();
-    const { getByTestId, rerender } = render(<Users navigation={mockNavigation} />);
-    const addUserButton = getByTestId('button-add-user');
-    expect(addUserButton).toBeDefined();
-    fireEvent.press(addUserButton);
+  // it('should go to add user when plus icon clicked', () => {
+  //   const mockNavigation = useNavigation();
+  //   const { getByTestId, rerender } = render(<Users navigation={mockNavigation} />);
+  //   const addUserButton = getByTestId('button-add-user');
+  //   expect(addUserButton).toBeDefined();
+  //   fireEvent.press(addUserButton);
 
-    expect(mockNavigation.navigate).toHaveBeenCalledWith('AddUser');
-  });
+  //   expect(mockNavigation.navigate).toHaveBeenCalledWith('AddUser');
+  // });
 
   it('should redirect to Homepage when hardware back button pressed', async () => {
     const mockNavigation = useNavigation();

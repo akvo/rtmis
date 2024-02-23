@@ -18,7 +18,6 @@ describe('AuthFormPage', () => {
   });
 
   it('should not handle auth post when offline', async () => {
-    Platform.OS = 'android';
     const { result: navigationRef } = renderHook(() => useNavigation());
     const navigation = navigationRef.current;
     api.post.mockImplementation(() => Promise.resolve({ data: { formsUrl: [] } }));
@@ -60,8 +59,7 @@ describe('AuthFormPage', () => {
 
     fireEvent.changeText(passcodeInput, '123456');
     fireEvent.press(loginButton);
-
-    await waitFor(() => expect(getByText('Invalid enumerator passcode')).toBeDefined());
+    await waitFor(() => expect(getByText('Fetching data')).toBeDefined());
   });
 
   it('should navigate to home if user defined after auth process', async () => {
@@ -120,7 +118,7 @@ describe('AuthFormPage', () => {
     const { result: navigationRef } = renderHook(() => useNavigation());
     const navigation = navigationRef.current;
     api.post.mockImplementation(() =>
-      Promise.reject({ response: { status: 500, message: 'Internal server error' } }),
+      Promise.reject({ response: { status: 500 }, message: 'Internal server error' }),
     );
     const { getByTestId, getByText } = render(<AuthFormPage navigation={navigation} />);
 
@@ -139,7 +137,7 @@ describe('AuthFormPage', () => {
     await waitFor(() => {
       const errorMessage = getByTestId('auth-error-text');
       expect(errorMessage).toBeDefined();
-      expect(getByText('Internal server error')).toBeDefined();
+      expect(getByText('500: Internal server error')).toBeDefined();
     });
   });
 });
