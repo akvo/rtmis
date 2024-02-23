@@ -41,11 +41,9 @@ export const transformForm = (forms, lang = 'en', filterMonitoring = false) => {
     .map((q) => (nonEnglish ? i18n.transform(lang, q) : q))
     .map((q) => {
       if (q.type === 'option' || q.type === 'multiple_option') {
-        const options = q.option
-          .map((o) => ({ ...o, label: o.name }))
-          .map((o) => {
-            return nonEnglish ? i18n.transform(lang, o) : o;
-          });
+        const options = q.option.map((o) => {
+          return nonEnglish ? i18n.transform(lang, o) : o;
+        });
         return {
           ...q,
           option: options.sort((a, b) => a.order - b.order),
@@ -149,7 +147,7 @@ export const validateDependency = (dependency, value) => {
 };
 
 export const generateValidationSchemaFieldLevel = async (currentValue, field) => {
-  const { name, type, required, rule, hidden, pre: preFilled } = field;
+  const { label, type, required, rule, hidden } = field;
   let yupType;
   switch (type) {
     case 'number':
@@ -187,7 +185,7 @@ export const generateValidationSchemaFieldLevel = async (currentValue, field) =>
       break;
   }
   if (required && !hidden) {
-    const requiredError = `${name} is required.`;
+    const requiredError = `${label} is required.`;
     yupType = yupType.required(requiredError);
   }
   try {

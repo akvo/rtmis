@@ -17,77 +17,81 @@ describe('SettingsPage', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it('should change language successfully', async () => {
-    const { result: navigationRef } = renderHook(() => useNavigation());
-    const navigation = navigationRef.current;
-    const { getByTestId, getByText, queryByTestId, debug } = render(
-      <SettingsPage navigation={navigation} />,
-    );
+  {
+    /* DISABLED: change language feature */
+  }
 
-    const { result: stateRef } = renderHook(() => useState(false));
-    const [showLang, setShowLang] = stateRef.current;
+  // it('should change language successfully', async () => {
+  //   const { result: navigationRef } = renderHook(() => useNavigation());
+  //   const navigation = navigationRef.current;
+  //   const { getByTestId, getByText, queryByTestId, debug } = render(
+  //     <SettingsPage navigation={navigation} />,
+  //   );
 
-    const settingsLangEl = getByTestId('settings-lang');
-    expect(settingsLangEl).toBeDefined();
-    fireEvent.press(settingsLangEl);
+  //   const { result: stateRef } = renderHook(() => useState(false));
+  //   const [showLang, setShowLang] = stateRef.current;
 
-    act(() => {
-      setShowLang(true);
-    });
+  //   const settingsLangEl = getByTestId('settings-lang');
+  //   expect(settingsLangEl).toBeDefined();
+  //   fireEvent.press(settingsLangEl);
 
-    const languageDialogElement = queryByTestId('settings-form-dialog');
-    expect(languageDialogElement).toBeTruthy();
-    expect(languageDialogElement.props.visible).toEqual(true);
+  //   act(() => {
+  //     setShowLang(true);
+  //   });
 
-    const languageDropdownElement = getByTestId('settings-form-dropdown');
-    fireEvent.press(languageDropdownElement);
+  //   const languageDialogElement = queryByTestId('settings-form-dialog');
+  //   expect(languageDialogElement).toBeTruthy();
+  //   expect(languageDialogElement.props.visible).toEqual(true);
 
-    const choosedLang = getByText('French');
-    fireEvent.press(choosedLang);
+  //   const languageDropdownElement = getByTestId('settings-form-dropdown');
+  //   fireEvent.press(languageDropdownElement);
 
-    const okButton = getByTestId('settings-form-dialog-ok');
-    fireEvent.press(okButton);
+  //   const choosedLang = getByText('French');
+  //   fireEvent.press(choosedLang);
 
-    act(() => {
-      UIState.update((s) => {
-        s.lang = 'fr';
-      });
-      setShowLang(false);
-    });
+  //   const okButton = getByTestId('settings-form-dialog-ok');
+  //   fireEvent.press(okButton);
 
-    await waitFor(() => {
-      const frTextEl = getByText('French');
-      expect(frTextEl).toBeDefined();
-    });
-  });
+  //   act(() => {
+  //     UIState.update((s) => {
+  //       s.lang = 'fr';
+  //     });
+  //     setShowLang(false);
+  //   });
 
-  it('should close dialog when click cancel on language settings', () => {
-    const { result: navigationRef } = renderHook(() => useNavigation());
-    const navigation = navigationRef.current;
-    const { getByTestId, getByText, queryByTestId } = render(
-      <SettingsPage navigation={navigation} />,
-    );
+  //   await waitFor(() => {
+  //     const frTextEl = getByText('French');
+  //     expect(frTextEl).toBeDefined();
+  //   });
+  // });
 
-    const { result: stateRef } = renderHook(() => useState(false));
-    const [showLang, setShowLang] = stateRef.current;
+  // it('should close dialog when click cancel on language settings', () => {
+  //   const { result: navigationRef } = renderHook(() => useNavigation());
+  //   const navigation = navigationRef.current;
+  //   const { getByTestId, getByText, queryByTestId } = render(
+  //     <SettingsPage navigation={navigation} />,
+  //   );
 
-    const settingsLangEl = getByTestId('settings-lang');
-    expect(settingsLangEl).toBeDefined();
-    fireEvent.press(settingsLangEl);
+  //   const { result: stateRef } = renderHook(() => useState(false));
+  //   const [showLang, setShowLang] = stateRef.current;
 
-    act(() => {
-      setShowLang(true);
-    });
+  //   const settingsLangEl = getByTestId('settings-lang');
+  //   expect(settingsLangEl).toBeDefined();
+  //   fireEvent.press(settingsLangEl);
 
-    const languageDialogElement = queryByTestId('settings-form-dialog');
-    expect(languageDialogElement).toBeTruthy();
-    expect(languageDialogElement.props.visible).toEqual(true);
+  //   act(() => {
+  //     setShowLang(true);
+  //   });
 
-    const cancelButton = getByTestId('settings-form-dialog-cancel');
-    fireEvent.press(cancelButton);
+  //   const languageDialogElement = queryByTestId('settings-form-dialog');
+  //   expect(languageDialogElement).toBeTruthy();
+  //   expect(languageDialogElement.props.visible).toEqual(true);
 
-    expect(languageDialogElement.props.visible).toEqual(false);
-  });
+  //   const cancelButton = getByTestId('settings-form-dialog-cancel');
+  //   fireEvent.press(cancelButton);
+
+  //   expect(languageDialogElement.props.visible).toEqual(false);
+  // });
 
   it('should go to settings form', () => {
     const { result: navigationRef } = renderHook(() => useNavigation());

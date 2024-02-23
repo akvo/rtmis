@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import { Text, Icon } from '@rneui/themed';
 import { styles } from '../styles';
 
-const QuestionGroupListItem = ({ name, active, completedQuestionGroup = false, onPress }) => {
+const QuestionGroupListItem = ({ label, active, completedQuestionGroup = false, onPress }) => {
   const icon = completedQuestionGroup ? 'check-circle' : 'circle';
   const bgColor = completedQuestionGroup ? '#2884bd' : '#d4d4d4';
   const activeOpacity = active ? styles.questionGroupListItemActive : {};
@@ -22,7 +22,7 @@ const QuestionGroupListItem = ({ name, active, completedQuestionGroup = false, o
         color={bgColor}
         style={styles.questionGroupListItemIcon}
       />
-      <Text style={{ ...styles.questionGroupListItemName, ...activeName }}>{name}</Text>
+      <Text style={{ ...styles.questionGroupListItemName, ...activeName }}>{label}</Text>
     </TouchableOpacity>
   );
 };

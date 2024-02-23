@@ -312,7 +312,7 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
 
   it('Should render question group name', () => {
     const wrapper = render(
-      <QuestionGroupListItem name="Group 1" active={true} completedQuestionGroup={false} />,
+      <QuestionGroupListItem label="Group 1" active={true} completedQuestionGroup={false} />,
     );
     const groupName = wrapper.getByText('Group 1');
     expect(groupName).toBeDefined();
@@ -322,10 +322,10 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
     const active = true;
     const completed = true;
     const wrapper = render(
-      <QuestionGroupListItem name="Group 1" active={active} completedQuestionGroup={completed} />,
+      <QuestionGroupListItem label="Group 1" active={active} completedQuestionGroup={completed} />,
     );
     const iconEl = wrapper.getByTestId('icon-mark');
-    const iconElProps = iconEl.props.children.props.children.props.children.props;
+    const iconElProps = iconEl.props.children.props.children.props;
     expect(iconEl).toBeDefined();
     expect(iconElProps.color).toBe('#2884bd');
     // Drop the check mark (this can be implemented later after discussion with the design team )
@@ -336,10 +336,10 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
     const active = true;
     const completed = false;
     const wrapper = render(
-      <QuestionGroupListItem name="Group 1" active={active} completedQuestionGroup={completed} />,
+      <QuestionGroupListItem label="Group 1" active={active} completedQuestionGroup={completed} />,
     );
     const iconEl = wrapper.getByTestId('icon-mark');
-    const iconElProps = iconEl.props.children.props.children.props.children.props;
+    const iconElProps = iconEl.props.children.props.children.props;
     expect(iconEl).toBeDefined();
     expect(iconElProps.color).toBe('#d4d4d4');
     expect(iconElProps.name).toBe('circle');
@@ -347,7 +347,7 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
 
   it('Should disable question group if not completed', () => {
     const wrapper = render(
-      <QuestionGroupListItem name="Group 2" active={false} completedQuestionGroup={false} />,
+      <QuestionGroupListItem label="Group 2" active={false} completedQuestionGroup={false} />,
     );
     const itemEl = wrapper.getByTestId('question-group-list-item-wrapper');
     expect(itemEl.props.accessibilityState.disabled).toBe(true);
@@ -355,7 +355,7 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
 
   it('Should not disable question group if completed', () => {
     const wrapper = render(
-      <QuestionGroupListItem name="Group 2" active={false} completedQuestionGroup={true} />,
+      <QuestionGroupListItem label="Group 2" active={false} completedQuestionGroup={true} />,
     );
     const itemEl = wrapper.getByTestId('question-group-list-item-wrapper');
     expect(itemEl.props.accessibilityState.disabled).toBe(false);
@@ -363,7 +363,7 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
 
   it('Should highlight question group if active', () => {
     const wrapper = render(
-      <QuestionGroupListItem name="Group 1" active={true} completedQuestionGroup={false} />,
+      <QuestionGroupListItem label="Group 1" active={true} completedQuestionGroup={false} />,
     );
     const itemEl = wrapper.getByTestId('question-group-list-item-wrapper');
     expect(itemEl.props.style.backgroundColor).toBe('#E9E9E9');
@@ -371,7 +371,7 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
 
   it.failing('Should highlight question group if not active', () => {
     const wrapper = render(
-      <QuestionGroupListItem name="Group 1" active={false} completedQuestionGroup={false} />,
+      <QuestionGroupListItem label="Group 1" active={false} completedQuestionGroup={false} />,
     );
     const itemEl = wrapper.getByTestId('question-group-list-item-wrapper');
     expect(itemEl.props.style.backgroundColor).toBe('#F3F3F3');

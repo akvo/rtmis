@@ -89,7 +89,7 @@ const FormDataDetails = ({ navigation, route }) => {
           q.type === 'photo' && currentValues?.[q.id] ? (
             <View key={i} style={styles.containerImage}>
               <Text style={styles.title} testID={`text-question-${i}`}>
-                {q.name}
+                {q.label}
               </Text>
               <Image
                 source={{ uri: currentValues?.[q.id] }}
@@ -101,7 +101,7 @@ const FormDataDetails = ({ navigation, route }) => {
             <ListItem key={i} bottomDivider>
               <ListItem.Content>
                 <ListItem.Title style={styles.title} testID={`text-question-${i}`}>
-                  {q.name}
+                  {q.label}
                 </ListItem.Title>
                 <ListItem.Subtitle>
                   <SubtitleContent index={i} answers={currentValues} {...q} />

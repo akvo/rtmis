@@ -167,7 +167,7 @@ exports[`AuthFormPage renders correctly 1`] = `
         }
       }
     >
-      Use the enumerator passcode
+      Please enter the passcode
     </Text>
     <Text
       accessibilityRole="text"
@@ -189,7 +189,7 @@ exports[`AuthFormPage renders correctly 1`] = `
         }
       }
     >
-      by your project admin
+      by the administrator
     </Text>
   </View>
   <View
@@ -337,6 +337,20 @@ exports[`AuthFormPage renders correctly 1`] = `
         }
       />
     </View>
+    <View>
+      <Text
+        accessibilityRole="text"
+        style={
+          {
+            "color": "#CCCCCC",
+            "fontStyle": "italic",
+            "textAlign": "center",
+          }
+        }
+      >
+        The passcode is case sensitive
+      </Text>
+    </View>
   </View>
   <View
     style={
@@ -419,6 +433,17 @@ exports[`AuthFormPage renders correctly 1`] = `
       </View>
     </View>
   </View>
+  <Text
+    accessibilityRole="text"
+    style={
+      {
+        "color": "#242424",
+      }
+    }
+  >
+    App version - 
+    1.2.0
+  </Text>
   <Modal
     hardwareAccelerated={false}
     onRequestClose={[Function]}

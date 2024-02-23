@@ -5,6 +5,7 @@ import { View } from 'react-native';
 import QuestionField from '../QuestionField';
 import { FormState } from '../../../store';
 import { act } from 'react-test-renderer';
+import { generateValidationSchemaFieldLevel } from '../../lib';
 
 jest.spyOn(View.prototype, 'measureInWindow').mockImplementation((cb) => {
   cb(18, 113, 357, 50);
@@ -182,14 +183,14 @@ describe('QuestionField component', () => {
     const keyform = 1;
     const field = {
       id: 1,
-      name: 'Your Name',
+      label: 'Your Name',
       order: 1,
       type: 'input',
       required: true,
       meta: true,
       translations: [
         {
-          name: 'Nama Anda',
+          label: 'Nama Anda',
           language: 'id',
         },
       ],
@@ -218,20 +219,20 @@ describe('QuestionField component', () => {
     expect(questionElement.props.style.display).toEqual('flex');
   });
 
-  test('questions should be able to be validated when hidden is false', () => {
+  test('questions should be able to be validated when hidden is false', async () => {
     const setFieldValue = jest.fn();
     const fakeValidate = jest.fn();
     const keyform = 1;
     const field = {
       id: 1,
-      name: 'Your Name',
+      label: 'Your Name',
       order: 1,
       type: 'input',
       required: true,
       meta: true,
       translations: [
         {
-          name: 'Nama Anda',
+          label: 'Nama Anda',
           language: 'id',
         },
       ],
@@ -250,7 +251,7 @@ describe('QuestionField component', () => {
     const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
     const values = result.current;
 
-    const { queryByTestId, queryByText } = render(
+    const { queryByTestId, getByText } = render(
       <QuestionField
         keyform={keyform}
         field={field}
@@ -260,12 +261,21 @@ describe('QuestionField component', () => {
       />,
     );
 
-    const questionText = queryByText('Your Name', { exact: false });
-    const inputElement = queryByTestId('type-input');
-    const errorValidation = queryByText('Name is required');
-    expect(questionText).not.toBeNull();
-    expect(inputElement).not.toBeNull();
-    expect(errorValidation).not.toBeNull();
+    await act(async () => {
+      const res = await generateValidationSchemaFieldLevel(result.current?.[keyform], field);
+      FormState.update((s) => {
+        s.feedback = res;
+      });
+    });
+
+    await waitFor(() => {
+      const questionText = getByText('2. Your Name');
+      const inputElement = queryByTestId('type-input');
+      const errorEl = queryByTestId('err-validation-text');
+      expect(questionText).toBeDefined();
+      expect(inputElement).not.toBeNull();
+      expect(errorEl.children[0]).toEqual('Your Name is required.');
+    });
   });
 
   test('questions should be displayed but not part of the payload when displayOnly is true', async () => {
@@ -274,14 +284,14 @@ describe('QuestionField component', () => {
     const keyform = 7;
     const field = {
       id: 7,
-      name: 'Total Payment',
+      label: 'Total Payment',
       order: 7,
       type: 'autofield',
       required: false,
       meta: false,
       translations: [
         {
-          name: 'Total pembayaran',
+          label: 'Total pembayaran',
           language: 'id',
         },
       ],
