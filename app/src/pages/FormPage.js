@@ -170,44 +170,34 @@ const FormPage = ({ navigation, route }) => {
           answers[q.id] = val;
         });
 
-      if (isMonitoring) {
-        await crudMonitoring.syncForm({
-          currentFormId,
-          formJSON: {
-            uuid,
-            answers,
-          },
-        });
-      } else {
-        const datapoitName = values?.name || trans.untitled;
-        const submitData = {
-          form: currentFormId,
-          user: userId,
-          name: datapoitName,
-          geo: values.geo,
-          submitted: 1,
-          duration: surveyDuration,
-          json: answers,
-        };
-        const dbCall = isNewSubmission
-          ? crudDataPoints.saveDataPoint
-          : crudDataPoints.updateDataPoint;
-        const duration = getDurationInMinutes(surveyStart) + surveyDuration;
-        await dbCall({
-          ...currentDataPoint,
-          ...submitData,
-          duration: duration === 0 ? 1 : duration,
-        });
-        /**
-         * Create a new job for syncing form submissions.
-         */
-        await crudJobs.addJob({
-          user: userId,
-          type: SYNC_FORM_SUBMISSION_TASK_NAME,
-          status: jobStatus.PENDING,
-          info: `${currentFormId} | ${datapoitName}`,
-        });
-      }
+      const datapoitName = values?.name || trans.untitled;
+      const submitData = {
+        form: currentFormId,
+        user: userId,
+        name: datapoitName,
+        geo: values.geo,
+        submitted: 1,
+        duration: surveyDuration,
+        json: answers,
+      };
+      const dbCall = isNewSubmission
+        ? crudDataPoints.saveDataPoint
+        : crudDataPoints.updateDataPoint;
+      const duration = getDurationInMinutes(surveyStart) + surveyDuration;
+      await dbCall({
+        ...currentDataPoint,
+        ...submitData,
+        duration: duration === 0 ? 1 : duration,
+      });
+      /**
+       * Create a new job for syncing form submissions.
+       */
+      await crudJobs.addJob({
+        user: userId,
+        type: SYNC_FORM_SUBMISSION_TASK_NAME,
+        status: jobStatus.PENDING,
+        info: `${currentFormId} | ${datapoitName}`,
+      });
 
       if (Platform.OS === 'android') {
         ToastAndroid.show(trans.successSubmitted, ToastAndroid.LONG);
