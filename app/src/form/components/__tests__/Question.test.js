@@ -43,11 +43,11 @@ describe('Question component', () => {
 
   it('should render question list correctly', () => {
     const mockGroupQuestions = {
-      name: 'Register',
+      label: 'Register',
       question: [
         {
           id: 1,
-          name: 'Your Email',
+          label: 'Your Email',
           order: 1,
           type: 'input',
           required: true,
@@ -56,7 +56,7 @@ describe('Question component', () => {
         },
         {
           id: 2,
-          name: 'Your Name',
+          label: 'Your Name',
           order: 2,
           type: 'input',
           required: true,
@@ -69,9 +69,7 @@ describe('Question component', () => {
     const setFieldValue = jest.fn();
     const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
 
-    const { getAllByTestId, queryByText } = render(
-      <Question group={mockGroupQuestions} setFieldValue={setFieldValue} values={result.current} />,
-    );
+    const { getAllByTestId, queryByText } = render(<Question group={mockGroupQuestions} />);
 
     const questionView = getAllByTestId('question-view');
     expect(questionView).toBeDefined();
@@ -82,11 +80,11 @@ describe('Question component', () => {
 
   it('should execute generate UUID when the meta_uuid is exists', async () => {
     const mockGroupQuestions = {
-      name: 'Register',
+      label: 'Register',
       question: [
         {
           id: 1,
-          name: 'UUID',
+          label: 'UUID',
           order: 1,
           type: 'input',
           required: true,
@@ -97,11 +95,8 @@ describe('Question component', () => {
       ],
     };
 
-    const setFieldValue = jest.fn();
-    const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
-
-    const { getAllByTestId, queryByText, getByTestId, rerender } = render(
-      <Question group={mockGroupQuestions} setFieldValue={setFieldValue} values={result.current} />,
+    const { getAllByTestId, queryByText, getByTestId } = render(
+      <Question group={mockGroupQuestions} index={0} />,
     );
 
     act(() => {
@@ -110,17 +105,12 @@ describe('Question component', () => {
       });
     });
 
-    rerender(
-      <Question group={mockGroupQuestions} setFieldValue={setFieldValue} values={result.current} />,
-    );
-
     await waitFor(() => {
       const questionView = getAllByTestId('question-view');
       expect(questionView).toBeDefined();
       expect(questionView.length).toEqual(1);
       const q1 = queryByText('1. UUID');
       expect(q1).not.toBeNull();
-      expect(setFieldValue).toHaveBeenCalledTimes(1);
       const inputElement = getByTestId('type-input');
       expect(inputElement.props.value).toEqual(uuidv4);
     });
@@ -128,11 +118,11 @@ describe('Question component', () => {
 
   it("should not execute generate UUID when the meta_uuid doesn't exists", () => {
     const mockGroupQuestions = {
-      name: 'Register',
+      label: 'Register',
       question: [
         {
           id: 1,
-          name: 'Your Email',
+          label: 'Your Email',
           order: 1,
           type: 'input',
           required: true,
@@ -146,7 +136,7 @@ describe('Question component', () => {
     const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
 
     const { getAllByTestId, queryByText, getByTestId } = render(
-      <Question group={mockGroupQuestions} setFieldValue={setFieldValue} values={result.current} />,
+      <Question group={mockGroupQuestions} />,
     );
     const questionView = getAllByTestId('question-view');
     expect(questionView).toBeDefined();
@@ -161,11 +151,11 @@ describe('Question component', () => {
 
   it('should store valid uuidv4', async () => {
     const mockGroupQuestions = {
-      name: 'Register',
+      label: 'Register',
       question: [
         {
           id: 1,
-          name: 'UUID',
+          label: 'UUID',
           order: 1,
           type: 'input',
           required: true,
@@ -179,9 +169,7 @@ describe('Question component', () => {
     const setFieldValue = jest.fn();
     const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
 
-    const { getByTestId, rerender } = render(
-      <Question group={mockGroupQuestions} setFieldValue={setFieldValue} values={result.current} />,
-    );
+    const { getByTestId, rerender } = render(<Question group={mockGroupQuestions} />);
 
     act(() => {
       FormState.update((s) => {
@@ -189,9 +177,7 @@ describe('Question component', () => {
       });
     });
 
-    rerender(
-      <Question group={mockGroupQuestions} setFieldValue={setFieldValue} values={result.current} />,
-    );
+    rerender(<Question group={mockGroupQuestions} />);
 
     await waitFor(() => {
       const inputElement = getByTestId('type-input');
@@ -205,11 +191,11 @@ describe('Question component', () => {
 
   it('should store existing generated UUID', async () => {
     const mockGroupQuestions = {
-      name: 'Register',
+      label: 'Register',
       question: [
         {
           id: 1,
-          name: 'UUID',
+          label: 'UUID',
           order: 1,
           type: 'input',
           required: true,
@@ -219,17 +205,9 @@ describe('Question component', () => {
         },
       ],
     };
-
-    const setFieldValue = jest.fn();
     const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
 
-    const { getByTestId, rerender } = render(
-      <Question group={mockGroupQuestions} setFieldValue={setFieldValue} values={result.current} />,
-    );
-
-    rerender(
-      <Question group={mockGroupQuestions} setFieldValue={setFieldValue} values={result.current} />,
-    );
+    const { getByTestId } = render(<Question group={mockGroupQuestions} index={0} />);
     /**
      * Generate new one
      */
@@ -238,8 +216,6 @@ describe('Question component', () => {
 
     await waitFor(() => {
       expect(Crypto.randomUUID()).toEqual(newUUID);
-
-      expect(setFieldValue).toHaveBeenCalledTimes(1);
 
       const inputElement = getByTestId('type-input');
       expect(inputElement.props.value).not.toEqual(newUUID);
@@ -254,11 +230,11 @@ describe('Question component', () => {
 
   it('should handle prefilled in number type of question', async () => {
     const mockGroupQuestions = {
-      name: 'Register',
+      label: 'Register',
       question: [
         {
           id: 1,
-          name: 'Your Age',
+          label: 'Your Age',
           order: 1,
           type: 'number',
           required: true,
@@ -276,7 +252,7 @@ describe('Question component', () => {
         },
         {
           id: 2,
-          name: 'Last Education',
+          label: 'Last Education',
           order: 2,
           type: 'option',
           required: false,
@@ -285,35 +261,35 @@ describe('Question component', () => {
           option: [
             {
               id: 11,
-              name: 'Senior High School',
+              label: 'Senior High School',
+              value: 'Senior High School',
               order: 1,
             },
             {
               id: 12,
-              name: 'Bachelor',
+              label: 'Bachelor',
+              value: 'Bachelor',
               order: 2,
             },
             {
               id: 13,
-              name: 'Master',
+              label: 'Master',
+              value: 'Master',
               order: 3,
             },
             {
               id: 14,
-              name: 'Doctor',
+              label: 'Doctor',
+              value: 'Master',
               order: 4,
             },
           ],
         },
       ],
     };
-
-    const setFieldValue = jest.fn();
     const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
 
-    const { getByTestId, rerender, debug } = render(
-      <Question group={mockGroupQuestions} setFieldValue={setFieldValue} values={result.current} />,
-    );
+    const { getByTestId, getByText } = render(<Question group={mockGroupQuestions} />);
 
     act(() => {
       fireEvent.changeText(getByTestId('type-number'), '18');
@@ -322,27 +298,22 @@ describe('Question component', () => {
       });
     });
 
-    rerender(
-      <Question group={mockGroupQuestions} setFieldValue={setFieldValue} values={result.current} />,
-    );
-
     await waitFor(() => {
       const inputElement = getByTestId('type-number');
       expect(inputElement.props.value).toEqual('18');
+      expect(getByText('Senior High School')).toBeDefined();
 
-      expect(setFieldValue).toHaveBeenCalledTimes(2);
-      expect(setFieldValue).toHaveBeenCalledWith(1, '18');
-      expect(setFieldValue).toHaveBeenCalledWith(2, ['Senior High School']);
+      expect(result.current).toEqual({ 1: '18', 2: ['Senior High School'] });
     });
   });
 
   it('should handle prefilled in option type of question', async () => {
     const mockGroupQuestions = {
-      name: 'Register',
+      label: 'Register',
       question: [
         {
           id: 1,
-          name: 'Are you willing to participate in the survey?',
+          label: 'Are you willing to participate in the survey?',
           order: 1,
           type: 'option',
           required: true,
@@ -360,13 +331,13 @@ describe('Question component', () => {
           option: [
             {
               id: 11,
-              name: 'Yes',
+              value: 'Yes',
               label: 'Yes',
               order: 1,
             },
             {
               id: 12,
-              name: 'No',
+              value: 'No',
               label: 'No',
               order: 2,
             },
@@ -374,7 +345,7 @@ describe('Question component', () => {
         },
         {
           id: 2,
-          name: 'Your Point',
+          label: 'Your Point',
           order: 2,
           type: 'number',
           required: false,
@@ -384,13 +355,9 @@ describe('Question component', () => {
         },
       ],
     };
-
-    const setFieldValue = jest.fn();
     const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
 
-    const { getByTestId, getByText, rerender, debug } = render(
-      <Question group={mockGroupQuestions} setFieldValue={setFieldValue} values={result.current} />,
-    );
+    const { getByTestId, getByText, rerender } = render(<Question group={mockGroupQuestions} />);
 
     const optionEl = getByTestId('type-option-dropdown');
     fireEvent.press(optionEl);
@@ -400,20 +367,10 @@ describe('Question component', () => {
 
     fireEvent.press(choosedOpt);
 
-    act(() => {
-      FormState.update((s) => {
-        s.currentValues = { 1: ['Yes'] };
-      });
-    });
-
-    rerender(
-      <Question group={mockGroupQuestions} setFieldValue={setFieldValue} values={result.current} />,
-    );
+    rerender(<Question group={mockGroupQuestions} />);
 
     await waitFor(() => {
-      expect(setFieldValue).toHaveBeenCalledTimes(2);
-      expect(setFieldValue).toHaveBeenCalledWith(1, ['Yes']);
-      expect(setFieldValue).toHaveBeenCalledWith(2, 10);
+      expect(result.current).toEqual({ 1: ['Yes'], 2: 10 });
     });
   });
 });
