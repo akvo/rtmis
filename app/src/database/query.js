@@ -37,10 +37,7 @@ const read = (table, where = {}, nocase = false, order_by = null, order_type = '
       conditionString += ' COLLATE NOCASE';
     }
   }
-  let orderQueryString = null;
-  if (order_by) {
-    orderQueryString += `ORDER BY ${order_by} ${order_type}`;
-  }
+  const orderQueryString = order_by ? `ORDER BY ${order_by} ${order_type}` : null;
   return (
     [`SELECT * FROM ${table}`, conditionString, orderQueryString].filter((q) => q).join(' ') + ';'
   );
