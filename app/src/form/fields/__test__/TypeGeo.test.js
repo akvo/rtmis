@@ -49,9 +49,9 @@ describe('TypeGeo', () => {
     // expect(buttonOpenMapEl).toBeDefined();
 
     const latText = getByTestId('text-lat');
-    expect(latText.props.children).toEqual(['Latitude', ': ']);
+    expect(latText.props.children).toEqual(['Latitude', ': ', null]);
     const lngText = getByTestId('text-lng');
-    expect(lngText.props.children).toEqual(['Longitude', ': ']);
+    expect(lngText.props.children).toEqual(['Longitude', ': ', null]);
   });
 
   it('should not show required sign if required param is false and requiredSign is not defined', async () => {
