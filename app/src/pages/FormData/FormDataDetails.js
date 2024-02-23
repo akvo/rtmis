@@ -8,7 +8,7 @@ import { cascades, i18n } from '../../lib';
 import { BaseLayout } from '../../components';
 import FormDataNavigation from './FormDataNavigation';
 
-const SubtitleContent = ({ index, answers, type, id, source }) => {
+const SubtitleContent = ({ index, answers, type, id, source, option }) => {
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const [cascadeValue, setCascadeValue] = useState(null);
@@ -47,6 +47,16 @@ const SubtitleContent = ({ index, answers, type, id, source }) => {
           {answers?.[id] ? moment(answers[id]).format('YYYY-MM-DD') : '-'}
         </Text>
       );
+    case 'option':
+      const findOption = option.find((o) => o?.value === answers?.[id]);
+      return <Text testID={`text-answer-${index}`}>{findOption?.label || '-'}</Text>;
+    case 'multiple_option':
+      return answers?.[id]
+        ?.map((a) => {
+          const findOption = option?.find((o) => o?.value === a);
+          return findOption?.label;
+        })
+        ?.join(', ');
     default:
       return <Text testID={`text-answer-${index}`}>{answers?.[id] || '-'}</Text>;
   }
