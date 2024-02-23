@@ -55,11 +55,11 @@
             }
           ],
           "pre": {
-            "answer": ["Male"],
+            "answer": "male",
             "fill": [
               {
                 "id": 206,
-                "answer": ["Children"]
+                "answer": ["children"]
               }
             ]
           }

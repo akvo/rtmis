@@ -44,71 +44,69 @@
             }
           ],
           "pre": {
-            "answer": ["New"],
+            "answer": "new",
             "fill": [
               {
                 "id": 1701172125598,
-                "answer": ["New"]
+                "answer": ["new"]
               },
               {
                 "id": 1701329515408,
-                "answer": ["G0 All institution toilets  are NON-functional"]
+                "answer": ["g0_all_inst_toil_are_nonf"]
               },
               {
                 "id": 1701331306965,
-                "answer": ["G0 All institution toilets are NOT flyproof"]
+                "answer": ["g0_all_inst_toil_are_not_flyp"]
               },
               {
                 "id": 1701331373050,
-                "answer": ["G0 All institution toilets are NOT clean"]
+                "answer": ["g0_all_inst_toil_are_not_clea"]
               },
               {
                 "id": 1701331438759,
-                "answer": ["G0 All institution toilet slabs are NOT durable"]
+                "answer": ["g0_all_inst_toil_slab_are_not_dura"]
               },
               {
                 "id": 1701331908015,
-                "answer": ["G0 All institution toilet pits are NOT durable"]
+                "answer": ["g0_all_inst_toil_pits_are_not_dura"]
               },
               {
                 "id": 1701332234354,
-                "answer": ["G0 Visible surface outflows from containment"]
+                "answer": ["g0_visi_surf_outf_from_cont"]
               },
               {
                 "id": 1701334423738,
                 "answer": [
-                  "G0 Unsafe disposal: to open pit, open space, open drain or water body (within 500m)"
+                  "g0_unsa_disp_to_open_pit_open_spac_open_drai_wate_body_with_500m"
                 ]
               },
               {
                 "id": 1701334833791,
-                "answer": ["G0 No handwashing facility"]
+                "answer": ["g0_no_hand_faci"]
               },
               {
                 "id": 1701334972999,
-                "answer": ["G0 No water available"]
+                "answer": ["g0_no_wate_avai"]
               },
               {
                 "id": 1701335557029,
-                "answer": ["G0 No soap or other cleanser available"]
+                "answer": ["g0_no_soap_othe_clea_avai"]
               },
               {
                 "id": 1701358601048,
-                "answer": ["G0 No handwashing facility"]
+                "answer": ["g0_no_hand_faci"]
               },
               {
                 "id": 1701359046016,
-                "answer": [
-                  "G0 Hands enter the water container (during collection and use)"
-                ]
+                "answer": ["g0_hand_ente_wate_cont_duri_coll_use"]
               },
               {
                 "id": 1701359231461,
-                "answer": ["G0 No collection or disposal of washing water"]
+                "answer": ["g0_no_coll_disp_wash_wate"]
               },
               {
                 "id": 17022827967659,
-                "answer": ["G0 High risk of groundwater contamination"]
+                "answer": ["g0_high_risk_grou_cont"]
               }
             ]
           }

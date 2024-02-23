@@ -53,39 +53,39 @@
           "dependency": null,
           "fn": null,
           "pre": {
-            "answer": ["New"],
+            "answer": "new",
             "fill": [
               {
                 "id": 16994179587481,
-                "answer": ["Household head"]
+                "answer": ["household_head"]
               },
               {
                 "id": 16994206218401,
-                "answer": ["OTHER household (NOT in at-risk category)"]
+                "answer": ["other_household_not_in_atrisk_category"]
               },
               {
                 "id": 16994222860911,
-                "answer": ["G0 No toilet"]
+                "answer": ["g0_no_toilet"]
               },
               {
                 "id": 16994233572001,
-                "answer": ["G0 Non-functional toilet"]
+                "answer": ["g0_nonfunctional_toilet"]
               },
               {
                 "id": 16994235714541,
-                "answer": ["G0 No toilet privacy"]
+                "answer": ["g0_no_toilet_privacy"]
               },
               {
                 "id": 16994236967201,
-                "answer": ["G0 No toilet"]
+                "answer": ["g0_no_toilet"]
               },
               {
                 "id": 16994239461701,
-                "answer": ["G0 No toilet"]
+                "answer": ["g0_no_toilet"]
               },
               {
                 "id": 16994243759681,
-                "answer": ["G0 VIP vent pipe without insect screen"]
+                "answer": ["g0_vip_vent_pipe_without_insect_screen"]
               }
             ]
           }
@@ -976,15 +976,15 @@
             }
           ],
           "pre": {
-            "answer": ["Yes"],
+            "answer": "yes",
             "fill": [
               {
                 "id": 17030862702502,
-                "answer": ["B"]
+                "answer": ["b"]
               },
               {
                 "id": 17030862702503,
-                "answer": ["B"]
+                "answer": ["b"]
               }
             ]
           },

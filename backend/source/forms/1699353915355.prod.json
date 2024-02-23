@@ -46,177 +46,177 @@
           "dependency": null,
           "fn": null,
           "pre": {
-            "answer": ["New"],
+            "answer": "new",
             "fill": [
               {
                 "id": 1699354220734,
-                "answer": ["New"]
+                "answer": ["new"]
               },
               {
                 "id": 1699417958748,
-                "answer": ["Household head"]
+                "answer": ["hh_head"]
               },
               {
                 "id": 1699419372643,
-                "answer": ["Other gender"]
+                "answer": ["other_gender"]
               },
               {
                 "id": 1699420160003,
-                "answer": ["No"]
+                "answer": ["no"]
               },
               {
                 "id": 1699420491508,
-                "answer": ["Yes, owned"]
+                "answer": ["yes_owned"]
               },
               {
                 "id": 1699420621840,
-                "answer": ["OTHER household (NOT in at-risk category)"]
+                "answer": ["other_hh_not_in_atrisk_category"]
               },
               {
                 "id": 1699422286091,
-                "answer": ["G0 No toilet"]
+                "answer": ["g0_no_toilet"]
               },
               {
                 "id": 1699423357200,
-                "answer": ["G0 No toilet"]
+                "answer": ["g0_no_toilet"]
               },
               {
                 "id": 1699423571454,
-                "answer": ["G0 No toilet"]
+                "answer": ["g0_no_toilet"]
               },
               {
                 "id": 1699423696720,
-                "answer": ["G0 No toilet"]
+                "answer": ["g0_no_toilet"]
               },
               {
                 "id": 1699423946170,
-                "answer": ["G0 No toilet"]
+                "answer": ["g0_no_toilet"]
               },
               {
                 "id": 1699424375968,
-                "answer": ["G0 No toilet"]
+                "answer": ["g0_no_toilet"]
               },
               {
                 "id": 1699425852809,
                 "answer": [
-                  "G0 NOT clean: heavy traces of faeces or soiled cleaning materials"
+                  "g0_not_clean_heavy_traces_of_faeces_or_soiled_cleaning_materials"
                 ]
               },
               {
                 "id": 1699425943159,
                 "answer": [
-                  "G0 NOT clean: heavy traces of faeces or soiled cleaning materials"
+                  "g0_not_clean_heavy_traces_of_faeces_or_soiled_cleaning_materials"
                 ]
               },
               {
                 "id": 1699426059842,
-                "answer": ["G0 NOT clean: heavy traces of faeces"]
+                "answer": ["g0_not_clean_heavy_traces_of_faeces"]
               },
               {
                 "id": 16994260598422,
-                "answer": ["No"]
+                "answer": ["no"]
               },
               {
                 "id": 1699427405024,
-                "answer": ["G0 No toilet"]
+                "answer": ["g0_no_toilet"]
               },
               {
                 "id": 1699427574765,
-                "answer": ["G0 No toilet"]
+                "answer": ["g0_no_toilet"]
               },
               {
                 "id": 1699427743413,
                 "answer": [
-                  "G0 No toilet, or no containment or collection system"
+                  "g0_no_toilet_or_no_containment_or_collection_system"
                 ]
               },
               {
                 "id": 1699427885744,
                 "answer": [
-                  "G0 No toilet, or no containment or collection system"
+                  "g0_no_toilet_or_no_containment_or_collection_system"
                 ]
               },
               {
                 "id": 1702282796765,
-                "answer": ["G0 High risk of groundwater contamination"]
+                "answer": ["g0_high_risk_of_groundwater_contamination"]
               },
               {
                 "id": 1699428072669,
-                "answer": ["G0 No toilet, practice OD"]
+                "answer": ["g0_no_toilet_practice_od"]
               },
               {
                 "id": 1699428351326,
-                "answer": ["G0 No members use toilet"]
+                "answer": ["g0_no_members_use_toilet"]
               },
               {
                 "id": 1699428400205,
-                "answer": ["G0 Toilet SHARED: MORE than 10-15 users"]
+                "answer": ["g0_toilet_shared_more_than_1015_users"]
               },
               {
                 "id": 1699428535663,
-                "answer": ["Household member #1: G0 No toilet use, practice OD"]
+                "answer": ["hh_member_1_g0_no_toilet_use_practice_od"]
               },
               {
                 "id": 1699428661689,
-                "answer": ["G0 No toilet, or no containment/collection system"]
+                "answer": ["g0_no_toilet_or_no_containmentcollection_system"]
               },
               {
                 "id": 1699428820338,
-                "answer": ["G0 No toilet, or no containment/collection system"]
+                "answer": ["g0_no_toilet_or_no_containmentcollection_system"]
               },
               {
                 "id": 1699429162796,
-                "answer": ["G0 No handwashing facility"]
+                "answer": ["g0_no_handwashing_facility"]
               },
               {
                 "id": 1699430427692,
-                "answer": ["G0 No water available"]
+                "answer": ["g0_no_water_available"]
               },
               {
                 "id": 1699430472221,
-                "answer": ["G0 No soap or other cleanser available"]
+                "answer": ["g0_no_soap_or_other_cleanser_available"]
               },
               {
                 "id": 1699430580239,
-                "answer": ["G0 No handwashing facility"]
+                "answer": ["g0_no_handwashing_facility"]
               },
               {
                 "id": 1699430671868,
                 "answer": [
-                  "G0 Hands enter the water container (during collection and use)"
+                  "g0_hands_enter_the_water_container_during_collection_and_use"
                 ]
               },
               {
                 "id": 1699430761393,
-                "answer": ["G0 No collection or disposal of washing water"]
+                "answer": ["g0_no_collection_or_disposal_of_washing_water"]
               },
               {
                 "id": 1699430839676,
-                "answer": ["G0 No handwashing facility"]
+                "answer": ["g0_no_handwashing_facility"]
               },
               {
                 "id": 1699431035188,
-                "answer": ["G0 No handwashing facility"]
+                "answer": ["g0_no_handwashing_facility"]
               },
               {
                 "id": 1699431983680,
-                "answer": ["G0 No handwashing facility"]
+                "answer": ["g0_no_handwashing_facility"]
               },
               {
                 "id": 1699432052966,
-                "answer": ["G0 No handwashing facility"]
+                "answer": ["g0_no_handwashing_facility"]
               },
               {
                 "id": 1699432663952,
-                "answer": ["G0 Child or adult excreta observed in the compound"]
+                "answer": ["g0_child_or_adult_excreta_observed_in_the_compound"]
               },
               {
                 "id": 1699432130951,
-                "answer": ["G0 Soiled potty or collection tool unsafely washed"]
+                "answer": ["g0_soiled_potty_or_collection_tool_unsafely_washed"]
               },
               {
                 "id": 1699432802923,
-                "answer": ["G0 Used diapers visible in the compound"]
+                "answer": ["g0_used_diapers_visible_in_the_compound"]
               }
             ]
           }
@@ -3175,103 +3175,103 @@
           "dependency": null,
           "fn": null,
           "pre": {
-            "answer": ["Yes"],
+            "answer": "yes",
             "fill": [
               {
                 "id": 1699432887212,
-                "answer": ["G0 Visible dirt or contamination"]
+                "answer": ["g0_visible_dirt_or_contamination"]
               },
               {
                 "id": 1699433027913,
-                "answer": ["G0 No storage"]
+                "answer": ["g0_no_storage"]
               },
               {
                 "id": 1699433058652,
-                "answer": ["G0 On ground"]
+                "answer": ["g0_on_ground"]
               },
               {
                 "id": 1699433108344,
-                "answer": ["G0 Visible dirt or contamination"]
+                "answer": ["g0_visible_dirt_or_contamination"]
               },
               {
                 "id": 1699433162828,
-                "answer": ["G0 No storage"]
+                "answer": ["g0_no_storage"]
               },
               {
                 "id": 1699433205793,
-                "answer": ["G0 On ground"]
+                "answer": ["g0_on_ground"]
               },
               {
                 "id": 1699433286697,
-                "answer": ["G0 Visible dirt or contamination"]
+                "answer": ["g0_visible_dirt_or_contamination"]
               },
               {
                 "id": 1699433337417,
-                "answer": ["G0 No storage"]
+                "answer": ["g0_no_storage"]
               },
               {
                 "id": 1699433394633,
-                "answer": ["G0 On ground"]
+                "answer": ["g0_on_ground"]
               },
               {
                 "id": 1699433455365,
-                "answer": ["G0 Visible dirt or contamination"]
+                "answer": ["g0_visible_dirt_or_contamination"]
               },
               {
                 "id": 1699433503692,
-                "answer": ["G0 No treatment and low quality"]
+                "answer": ["g0_no_treatment_and_low_quality"]
               },
               {
                 "id": 1699433564057,
-                "answer": ["G0 Unsafe drinking water storage"]
+                "answer": ["g0_unsafe_drinking_water_storage"]
               },
               {
                 "id": 1699433637971,
-                "answer": ["G0 Unsafe water use"]
+                "answer": ["g0_unsafe_water_use"]
               },
               {
                 "id": 1699433719018,
-                "answer": ["G0 Visible dirt or contamination"]
+                "answer": ["g0_visible_dirt_or_contamination"]
               },
               {
                 "id": 1699433765217,
-                "answer": ["G0 No protection of water points"]
+                "answer": ["g0_no_protection_of_water_points"]
               },
               {
                 "id": 1699433833227,
-                "answer": ["G0 Standing water visible around water point"]
+                "answer": ["g0_standing_water_visible_around_water_point"]
               },
               {
                 "id": 1699433937138,
-                "answer": ["G0 Widespread animal wastes"]
+                "answer": ["g0_widespread_animal_wastes"]
               },
               {
                 "id": 1699433983369,
-                "answer": ["G0 Widespread animal wastes"]
+                "answer": ["g0_widespread_animal_wastes"]
               },
               {
                 "id": 1699434044707,
-                "answer": ["G0 Unsafe location of animal waste storage"]
+                "answer": ["g0_unsafe_location_of_animal_waste_storage"]
               },
               {
                 "id": 1699434136823,
-                "answer": ["G0 Unsafe animal waste storage location"]
+                "answer": ["g0_unsafe_animal_waste_storage_location"]
               },
               {
                 "id": 1699434209933,
-                "answer": ["G0 Animal waste storage is UNSAFELY managed"]
+                "answer": ["g0_animal_waste_storage_is_unsafely_managed"]
               },
               {
                 "id": 1699434269372,
-                "answer": ["G0 No animal pens"]
+                "answer": ["g0_no_animal_pens"]
               },
               {
                 "id": 1699434327613,
-                "answer": ["G0 No animal pens"]
+                "answer": ["g0_no_animal_pens"]
               },
               {
                 "id": 16994260598423,
-                "answer": ["No"]
+                "answer": ["no"]
               }
             ]
           }
@@ -4568,79 +4568,79 @@
           ],
           "fn": null,
           "pre": {
-            "answer": ["Yes"],
+            "answer": "yes",
             "fill": [
               {
                 "id": 1699434438966,
-                "answer": ["G0 Visible wastewater"]
+                "answer": ["g0_visible_wastewater"]
               },
               {
                 "id": 1699434488410,
-                "answer": ["G0 Significant erosion"]
+                "answer": ["g0_significant_erosion"]
               },
               {
                 "id": 1699434553677,
-                "answer": ["G0 Significant visible solid wastes"]
+                "answer": ["g0_significant_visible_solid_wastes"]
               },
               {
                 "id": 1699434636655,
-                "answer": ["G0 No solid waste management"]
+                "answer": ["g0_no_solid_waste_management"]
               },
               {
                 "id": 1699434694439,
-                "answer": ["G0 Significant standing water"]
+                "answer": ["g0_significant_standing_water"]
               },
               {
                 "id": 1699434771449,
-                "answer": ["G0 No treatment or management"]
+                "answer": ["g0_no_treatment_or_management"]
               },
               {
                 "id": 1699434939105,
-                "answer": ["G1 All with dirty faces"]
+                "answer": ["g1_all_with_dirty_faces"]
               },
               {
                 "id": 1699434983278,
-                "answer": ["G1 All with dirty hands"]
+                "answer": ["g1_all_with_dirty_hands"]
               },
               {
                 "id": 1699435026311,
-                "answer": ["G1 No washing place"]
+                "answer": ["g1_no_washing_place"]
               },
               {
                 "id": 1699435088758,
-                "answer": ["G1 No disposal site"]
+                "answer": ["g1_no_disposal_site"]
               },
               {
                 "id": 1699435154797,
-                "answer": ["G1 Materials are NOT available or NOT appropriate"]
+                "answer": ["g1_materials_are_not_available_or_not_appropriate"]
               },
               {
                 "id": 1699435207476,
-                "answer": ["G1 No children vaccinated"]
+                "answer": ["g1_no_children_vaccinated"]
               },
               {
                 "id": 1699435265962,
-                "answer": ["G1 No children received supplements"]
+                "answer": ["g1_no_children_received_supplements"]
               },
               {
                 "id": 1699435329279,
                 "answer": [
-                  "G1 Under 6-month children regularly receive water or other food"
+                  "g1_under_6month_children_regularly_receive_water_or_other_food"
                 ]
               },
               {
                 "id": 1699435397728,
                 "answer": [
-                  "G1 Low nutrition diet: some or all children eat from only 1-2 food groups"
+                  "g1_low_nutrition_diet_some_or_all_children_eat_from_only_12_food_groups"
                 ]
               },
               {
                 "id": 1699435455818,
-                "answer": ["G1 No protection: no bed nets and no insect screen"]
+                "answer": ["g1_no_protection_no_bed_nets_and_no_insect_screen"]
               },
               {
                 "id": 1699435526190,
-                "answer": ["G1 No deworming: no children or adults treated"]
+                "answer": ["g1_no_deworming_no_children_or_adults_treated"]
               }
             ]
           }
