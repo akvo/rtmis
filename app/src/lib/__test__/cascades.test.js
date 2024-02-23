@@ -48,6 +48,7 @@ describe('cascades', () => {
       expect(FileSystem.downloadAsync).toHaveBeenCalledWith(
         downloadUrl,
         `test-document-directory/${DIR_NAME}/file.sqlite`,
+        { cache: false },
       );
     });
   });
@@ -105,7 +106,7 @@ describe('cascades', () => {
 
     const result = await cascades.loadDataSource(questionSource);
 
-    const selectQuery = 'SELECT * FROM nodes ;';
+    const selectQuery = 'SELECT * FROM nodes;';
     expect(result.rows).toHaveLength(cascadesData.length);
     expect(result.rows._array).toEqual(cascadesData);
     expect(db.transaction).toHaveBeenCalled();

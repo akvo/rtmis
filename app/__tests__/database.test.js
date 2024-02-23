@@ -162,7 +162,7 @@ describe('conn.tx', () => {
     const result = await conn.tx(db, selectQuery, selectParams);
 
     // Assertions
-    expect(selectQuery).toEqual('SELECT * FROM users ;');
+    expect(selectQuery).toEqual('SELECT * FROM users;');
     expect(result.rows).toHaveLength(userData.length);
     expect(result.rows._array).toEqual(userData);
     expect(db.transaction).toHaveBeenCalled();
