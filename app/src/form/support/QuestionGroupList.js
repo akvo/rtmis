@@ -74,7 +74,7 @@ const QuestionGroupList = ({
       {form.question_group.map((questionGroup, qx) => (
         <QuestionGroupListItem
           key={questionGroup.id}
-          name={questionGroup.name}
+          label={questionGroup.label}
           active={activeQuestionGroup === questionGroup.id}
           completedQuestionGroup={
             completedQuestionGroup[qx] && visitedQuestionGroup.includes(questionGroup.id)
