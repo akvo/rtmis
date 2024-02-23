@@ -11,7 +11,7 @@ const TypeCascade = ({
   value,
   keyform,
   id,
-  name,
+  label,
   tooltip,
   required,
   requiredSign,
@@ -178,7 +178,7 @@ const TypeCascade = ({
 
   return (
     <View testID="view-type-cascade">
-      <FieldLabel keyform={keyform} name={name} tooltip={tooltip} requiredSign={requiredValue} />
+      <FieldLabel keyform={keyform} name={label} tooltip={tooltip} requiredSign={requiredValue} />
       <Text testID="text-values" style={styles.cascadeValues}>
         {value}
       </Text>

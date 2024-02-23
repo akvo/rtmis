@@ -7,11 +7,16 @@ import { FieldLabel } from '../support';
 import { styles } from '../styles';
 import { loc, i18n } from '../../lib';
 
-const TypeGeo = ({ keyform, id, name, value, tooltip, required, requiredSign }) => {
+const TypeGeo = ({ keyform, id, label, value, tooltip, required, requiredSign }) => {
   const [errorMsg, setErrorMsg] = useState(null);
   const [gpsAccuracy, setGpsAccuracy] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [latitude, longitude] = value || [];
+
+  value[Symbol.iterator] = function* () {
+    yield this.latitude;
+    yield this.longitude;
+  };
+  const [latitude, longitude] = value;
 
   const gpsAccuracyLevel = BuildParamsState.useState((s) => s.gpsAccuracyLevel);
   const geoLocationTimeout = BuildParamsState.useState((s) => s.geoLocationTimeout);
@@ -73,7 +78,7 @@ const TypeGeo = ({ keyform, id, name, value, tooltip, required, requiredSign }) 
 
   return (
     <View>
-      <FieldLabel keyform={keyform} name={name} tooltip={tooltip} requiredSign={requiredValue} />
+      <FieldLabel keyform={keyform} name={label} tooltip={tooltip} requiredSign={requiredValue} />
       <View style={styles.inputGeoContainer}>
         <View>
           <Text testID="text-lat">

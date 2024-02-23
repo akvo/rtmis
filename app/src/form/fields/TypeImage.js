@@ -12,7 +12,7 @@ const TypeImage = ({
   keyform,
   id,
   value,
-  name,
+  label,
   tooltip,
   required,
   requiredSign,
@@ -74,7 +74,7 @@ const TypeImage = ({
 
   return (
     <View>
-      <FieldLabel keyform={keyform} name={name} tooltip={tooltip} requiredSign={requiredValue} />
+      <FieldLabel keyform={keyform} name={label} tooltip={tooltip} requiredSign={requiredValue} />
       <View style={styles.fieldImageContainer}>
         <Button type="outline" onPress={handleCamera} testID="btn-use-camera">
           <Icon name="camera" size={18} color="dodgerblue" />
