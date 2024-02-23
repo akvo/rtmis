@@ -44,109 +44,97 @@
             }
           ],
           "pre": {
-            "answer": ["New"],
+            "answer": "new",
             "fill": [
               {
                 "id": 1699354006535,
-                "answer": ["New"]
+                "answer": ["new"]
               },
               {
                 "id": 1699951538608,
-                "answer": ["Village chief/Community head"]
+                "answer": ["vill_chie_head"]
               },
               {
                 "id": 1699951986776,
-                "answer": ["Medium drainage soil (medium sand, weathered rock)"]
+                "answer": ["medi_drai_soil_medi_sand_weat_rock"]
               },
               {
                 "id": 1699952153243,
-                "answer": ["Less than 5m"]
+                "answer": ["less_than_5m"]
               },
               {
                 "id": 1699952219561,
-                "answer": [
-                  "Protected groundwater sources (protected boreholes, protected dug wells or protected springs)"
-                ]
+                "answer": ["prot_grou_sour_prot_bore_prot_dug_well_prot_spri"]
               },
               {
                 "id": 1699952295823,
-                "answer": ["More than 25 percent"]
+                "answer": ["more_than_25_perc"]
               },
               {
                 "id": 1699952355848,
-                "answer": ["More than 25 percent"]
+                "answer": ["more_than_25_perc"]
               },
               {
                 "id": 1699952418978,
-                "answer": ["More than 25 percent"]
+                "answer": ["more_than_25_perc"]
               },
               {
                 "id": 1702364544574,
-                "answer": ["G0 High risk of groundwater contamination"]
+                "answer": ["g0_high_risk_grou_cont"]
               },
               {
                 "id": 1702324544574,
-                "answer": [
-                  "G0 At-risk household monitoring: no disaggregated data available from community"
-                ]
+                "answer": ["g0_atri_hh_no_disa_data_avai_from_comm"]
               },
               {
                 "id": 1699958670124,
-                "answer": [
-                  "G0 Action plan for G2: not available, not approved or not in use"
-                ]
+                "answer": ["g0_acti_plan_for_g2_not_avai_not_appr_not_use"]
               },
               {
                 "id": 1699958822791,
-                "answer": [
-                  "G0 Action plan for G3: not available, not approved or not in use"
-                ]
+                "answer": ["g0_acti_plan_for_g3_not_avai_not_appr_not_use"]
               },
               {
                 "id": 1699959649782,
-                "answer": [
-                  "G0 Child or adult excreta observed in communal areas"
-                ]
+                "answer": ["g0_chil_adul_excr_obse_comm_area"]
               },
               {
                 "id": 1699959743410,
-                "answer": ["G0 Used diapers visible in communal areas"]
+                "answer": ["g0_used_diap_visi_comm_area"]
               },
               {
                 "id": 1699959861479,
-                "answer": ["G0 Visible dirt or contamination"]
+                "answer": ["g0_visi_dirt_cont"]
               },
               {
                 "id": 1699960025562,
-                "answer": ["G0 No protection of water points"]
+                "answer": ["g0_no_prot_wate_poin"]
               },
               {
                 "id": 1699960104326,
-                "answer": ["G0 Standing water visible around water point"]
+                "answer": ["g0_stan_wate_visi_arou_wate_poin"]
               },
               {
                 "id": 1699960255414,
                 "answer": [
-                  "G0 Unsafe disposal: to open pit, open space, open drain or water body in communal areas"
+                  "g0_unsa_disp_to_open_pit_open_spac_open_drai_wate_body_comm_area"
                 ]
               },
               {
                 "id": 1699960354498,
-                "answer": ["G0 Significant erosion in communal areas"]
+                "answer": ["g0_sign_eros_comm_area"]
               },
               {
                 "id": 1699960411329,
-                "answer": [
-                  "G0 Significant visible solid wastes in communal areas"
-                ]
+                "answer": ["g0_sign_visi_soli_wast_comm_area"]
               },
               {
                 "id": 1699960488230,
-                "answer": ["G0 Significant standing water in communal areas"]
+                "answer": ["g0_sign_stan_wate_comm_area"]
               },
               {
                 "id": 1699960542156,
-                "answer": ["G0 No treatment or management in communal areas"]
+                "answer": ["g0_no_trea_mana_comm_area"]
               }
             ]
           }
@@ -166,7 +154,7 @@
           "dependency": [
             {
               "id": 1699354006535,
-              "options": ["New"]
+              "options": ["new"]
             }
           ]
         },
@@ -186,7 +174,7 @@
           "dependency": [
             {
               "id": 1699354006535,
-              "options": ["New"]
+              "options": ["new"]
             }
           ]
         }
@@ -1393,7 +1381,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["School"]
+              "options": ["scho"]
             }
           ],
           "required": true,
@@ -1414,7 +1402,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Healthcare facility"]
+              "options": ["heal_faci"]
             }
           ],
           "required": true,
@@ -1435,9 +1423,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": [
-                "Transport station (bus, train, airport, fuel, other)"
-              ]
+              "options": ["tran_stat_bus_trai_airp_fuel_othe"]
             }
           ],
           "required": true,
@@ -1458,7 +1444,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Market"]
+              "options": ["mark"]
             }
           ],
           "required": true,
@@ -1479,7 +1465,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Public toilet"]
+              "options": ["publ_toil"]
             }
           ],
           "required": true,
@@ -1500,7 +1486,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Government office/building"]
+              "options": ["gove_offi"]
             }
           ],
           "required": true,
@@ -1521,7 +1507,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Camps (fishing, mining, farming)"]
+              "options": ["camp_fish_mini_farm"]
             }
           ],
           "required": true,
@@ -1542,9 +1528,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": [
-                "Worship centres (churches, cathedrals, mosques, temples, other)"
-              ]
+              "options": ["wors_cent_chur_cath_mosq_temp_othe"]
             }
           ],
           "required": true,
@@ -1565,7 +1549,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Burial place"]
+              "options": ["buri_plac"]
             }
           ],
           "required": true,
@@ -1586,7 +1570,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Prisons"]
+              "options": ["pris"]
             }
           ],
           "required": true,
@@ -1607,7 +1591,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Private institutions"]
+              "options": ["priv_inst"]
             }
           ],
           "required": true,
@@ -1628,7 +1612,7 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["Other Institutions"]
+              "options": ["othe_inst"]
             }
           ],
           "required": true,
