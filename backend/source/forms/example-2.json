@@ -55,11 +55,11 @@
             }
           ],
           "pre": {
-            "answer": "string",
+            "answer": ["Male"],
             "fill": [
               {
-                "id": "1235434",
-                "answer": "any"
+                "id": 206,
+                "answer": ["Chidren"]
               }
             ]
           }

@@ -51,10 +51,6 @@
                 "answer": ["New"]
               },
               {
-                "id": 1701174317250,
-                "answer": ["School (select school from list of schools)"]
-              },
-              {
                 "id": 1701329515408,
                 "answer": ["G0 All institution toilets  are NON-functional"]
               },
@@ -79,14 +75,10 @@
                 "answer": ["G0 Visible surface outflows from containment"]
               },
               {
-                "id": 1701332496414,
-                "answer": [
-                  "G0 Unsafe containment: overflow to open space, open drain, water body"
-                ]
-              },
-              {
                 "id": 1701334423738,
-                "answer": ["G0 No toilet, or no containment/collection system"]
+                "answer": [
+                  "G0 Unsafe disposal: to open pit, open space, open drain or water body (within 500m)"
+                ]
               },
               {
                 "id": 1701334833791,
