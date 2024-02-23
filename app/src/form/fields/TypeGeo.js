@@ -11,12 +11,8 @@ const TypeGeo = ({ keyform, id, label, value, tooltip, required, requiredSign })
   const [errorMsg, setErrorMsg] = useState(null);
   const [gpsAccuracy, setGpsAccuracy] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  value[Symbol.iterator] = function* () {
-    yield this.latitude;
-    yield this.longitude;
-  };
-  const [latitude, longitude] = value;
+  const latitude = value?.[0] || null;
+  const longitude = value?.[1] || null;
 
   const gpsAccuracyLevel = BuildParamsState.useState((s) => s.gpsAccuracyLevel);
   const geoLocationTimeout = BuildParamsState.useState((s) => s.geoLocationTimeout);
