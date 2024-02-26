@@ -48,8 +48,6 @@ const SubtitleContent = ({ index, answers, type, id, source, option }) => {
         </Text>
       );
     case 'option':
-      const findOption = option.find((o) => o?.value === answers?.[id]);
-      return <Text testID={`text-answer-${index}`}>{findOption?.label || '-'}</Text>;
     case 'multiple_option':
       return answers?.[id]
         ?.map((a) => {
@@ -132,7 +130,7 @@ const FormDataDetails = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   title: {
-    fontWeight: 700,
+    fontWeight: '700',
     fontSize: 14,
     marginBottom: 4,
   },
