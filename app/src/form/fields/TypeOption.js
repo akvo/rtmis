@@ -11,7 +11,7 @@ const TypeOption = ({
   value,
   keyform,
   id,
-  name,
+  label,
   option = [],
   tooltip,
   required,
@@ -48,7 +48,7 @@ const TypeOption = ({
 
   return (
     <View style={styles.optionContainer}>
-      <FieldLabel keyform={keyform} name={name} tooltip={tooltip} requiredSign={requiredValue} />
+      <FieldLabel keyform={keyform} name={label} tooltip={tooltip} requiredSign={requiredValue} />
       <Dropdown
         style={[styles.dropdownField]}
         selectedTextStyle={selectedStyle}
@@ -56,10 +56,10 @@ const TypeOption = ({
         search={showSearch}
         maxHeight={300}
         labelField="label"
-        valueField="name"
+        valueField="value"
         searchPlaceholder={trans.searchPlaceholder}
         value={value?.[0] || ''}
-        onChange={({ name: optValue }) => {
+        onChange={({ value: optValue }) => {
           if (onChange) {
             onChange(id, [optValue]);
           }

@@ -49,9 +49,9 @@ describe('TypeGeo', () => {
     // expect(buttonOpenMapEl).toBeDefined();
 
     const latText = getByTestId('text-lat');
-    expect(latText.props.children).toEqual(['Latitude', ': ']);
+    expect(latText.props.children).toEqual(['Latitude', ': ', null]);
     const lngText = getByTestId('text-lng');
-    expect(lngText.props.children).toEqual(['Longitude', ': ']);
+    expect(lngText.props.children).toEqual(['Longitude', ': ', null]);
   });
 
   it('should not show required sign if required param is false and requiredSign is not defined', async () => {
@@ -216,25 +216,29 @@ describe('TypeGeo', () => {
       });
     });
 
-    const values = { geoField: [] };
-    const mockedOnChange = jest.fn((fieldName, value) => {
-      values[fieldName] = value;
-    });
+    const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
+    const mockedOnChange = jest.fn();
 
     const { getByTestId } = render(
-      <TypeGeo id="geoField" name="Geolocation" onChange={mockedOnChange} value={values} />,
+      <TypeGeo id="geoField" name="Geolocation" onChange={mockedOnChange} value={[]} />,
     );
 
     const buttonCurLocationEl = getByTestId('button-curr-location');
     expect(buttonCurLocationEl).toBeDefined();
     fireEvent.press(buttonCurLocationEl);
 
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = { geoField: [35677, -7811] };
+      });
+    });
+
     await waitFor(() => {
-      expect(values.geoField).toEqual([35677, -7811]);
+      expect(result.current.geoField).toEqual([35677, -7811]);
     });
   });
 
-  it('should loop fetching location when accuracy exceeded the threshold', async () => {
+  it('should show `Low Precission` when accuracy exceeded the threshold', async () => {
     Location.requestForegroundPermissionsAsync.mockImplementation(() => {
       return Promise.resolve({ status: 'granted' });
     });
@@ -267,7 +271,7 @@ describe('TypeGeo', () => {
 
     await waitFor(() => {
       expect(Location.getCurrentPositionAsync).toHaveBeenCalledTimes(2);
-      expect(getByText('Fetching location...')).toBeDefined();
+      expect(getByText('Low Precission')).toBeDefined();
       expect(values.geoField).toEqual([]);
     });
   });

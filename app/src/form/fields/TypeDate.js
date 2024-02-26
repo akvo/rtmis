@@ -7,7 +7,7 @@ import { styles } from '../styles';
 import { Input } from '@rneui/themed';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const TypeDate = ({ onChange, value, keyform, id, name, tooltip, required, requiredSign }) => {
+const TypeDate = ({ onChange, value, keyform, id, label, tooltip, required, requiredSign }) => {
   const [showDatepicker, setShowDatePicker] = useState(false);
 
   const getDate = (value) => {
@@ -18,7 +18,7 @@ const TypeDate = ({ onChange, value, keyform, id, name, tooltip, required, requi
   const requiredValue = required ? requiredSign : null;
   return (
     <View>
-      <FieldLabel keyform={keyform} name={name} tooltip={tooltip} requiredSign={requiredValue} />
+      <FieldLabel keyform={keyform} name={label} tooltip={tooltip} requiredSign={requiredValue} />
       <Field name={id}>
         {({ field, meta }) => {
           const dateValue = field?.value ? moment(field?.value).format('YYYY-MM-DD') : field?.value;

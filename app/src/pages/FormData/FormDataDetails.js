@@ -8,7 +8,7 @@ import { cascades, i18n } from '../../lib';
 import { BaseLayout } from '../../components';
 import FormDataNavigation from './FormDataNavigation';
 
-const SubtitleContent = ({ index, answers, type, id, source }) => {
+const SubtitleContent = ({ index, answers, type, id, source, option }) => {
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const [cascadeValue, setCascadeValue] = useState(null);
@@ -47,6 +47,14 @@ const SubtitleContent = ({ index, answers, type, id, source }) => {
           {answers?.[id] ? moment(answers[id]).format('YYYY-MM-DD') : '-'}
         </Text>
       );
+    case 'option':
+    case 'multiple_option':
+      return answers?.[id]
+        ?.map((a) => {
+          const findOption = option?.find((o) => o?.value === a);
+          return findOption?.label;
+        })
+        ?.join(', ');
     default:
       return <Text testID={`text-answer-${index}`}>{answers?.[id] || '-'}</Text>;
   }
@@ -89,7 +97,7 @@ const FormDataDetails = ({ navigation, route }) => {
           q.type === 'photo' && currentValues?.[q.id] ? (
             <View key={i} style={styles.containerImage}>
               <Text style={styles.title} testID={`text-question-${i}`}>
-                {q.name}
+                {q.label}
               </Text>
               <Image
                 source={{ uri: currentValues?.[q.id] }}
@@ -101,7 +109,7 @@ const FormDataDetails = ({ navigation, route }) => {
             <ListItem key={i} bottomDivider>
               <ListItem.Content>
                 <ListItem.Title style={styles.title} testID={`text-question-${i}`}>
-                  {q.name}
+                  {q.label}
                 </ListItem.Title>
                 <ListItem.Subtitle>
                   <SubtitleContent index={i} answers={currentValues} {...q} />
@@ -122,7 +130,7 @@ const FormDataDetails = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   title: {
-    fontWeight: 700,
+    fontWeight: '700',
     fontSize: 14,
     marginBottom: 4,
   },

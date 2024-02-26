@@ -142,7 +142,7 @@ const strToFunction = (fnString, values) => {
   }
 };
 
-const TypeAutofield = ({ keyform, id, name, tooltip, fn, displayOnly }) => {
+const TypeAutofield = ({ keyform, id, label, tooltip, fn, displayOnly }) => {
   const [value, setValue] = useState(null);
   const [fieldColor, setFieldColor] = useState(null);
   const { fnString, fnColor } = fn;
@@ -177,7 +177,7 @@ const TypeAutofield = ({ keyform, id, name, tooltip, fn, displayOnly }) => {
 
   return (
     <View testID="type-autofield-wrapper">
-      <FieldLabel keyform={keyform} name={name} tooltip={tooltip} />
+      <FieldLabel keyform={keyform} name={label} tooltip={tooltip} />
       <Input
         inputContainerStyle={{
           ...styles.autoFieldContainer,

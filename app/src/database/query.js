@@ -30,18 +30,17 @@ const read = (table, where = {}, nocase = false, order_by = null, order_type = '
   const conditions = Object.keys(where).map((key) => {
     return where[key] === null ? `${key} IS NULL` : `${key} = ?`;
   });
-  let conditionString = '';
+  let conditionString = null;
   if (conditions.length) {
     conditionString = `WHERE ${conditions.join(' AND ')}`;
     if (nocase) {
       conditionString += ' COLLATE NOCASE';
     }
   }
-  let orderQueryString = '';
-  if (order_by) {
-    orderQueryString += `ORDER BY ${order_by} ${order_type}`;
-  }
-  return `SELECT * FROM ${table} ${conditionString} ${orderQueryString};`;
+  const orderQueryString = order_by ? `ORDER BY ${order_by} ${order_type}` : null;
+  return (
+    [`SELECT * FROM ${table}`, conditionString, orderQueryString].filter((q) => q).join(' ') + ';'
+  );
 };
 
 const clear = (tables = []) => {
