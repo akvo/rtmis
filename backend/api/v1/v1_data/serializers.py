@@ -876,7 +876,7 @@ class ListBatchSerializer(serializers.ModelSerializer):
 
 class ListBatchSummarySerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField(source="question.id")
-    question = serializers.ReadOnlyField(source="question.text")
+    question = serializers.ReadOnlyField(source="question.label")
     type = serializers.SerializerMethodField()
     value = serializers.SerializerMethodField()
 
