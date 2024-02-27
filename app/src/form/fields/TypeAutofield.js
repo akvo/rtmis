@@ -142,10 +142,22 @@ const strToFunction = (fnString, values) => {
   }
 };
 
-const TypeAutofield = ({ keyform, id, label, tooltip, fn, displayOnly }) => {
+const replaceNamesWithIds = (fnString, questions) => {
+  return fnString.replace(/#([a-zA-Z0-9_]+)/g, (match, p1) => {
+    const question = questions.find((q) => q.name === p1);
+    if (question) {
+      return `#${question.id}`;
+    } else {
+      return match;
+    }
+  });
+};
+
+const TypeAutofield = ({ keyform, id, label, tooltip, fn, displayOnly, questions }) => {
   const [value, setValue] = useState(null);
   const [fieldColor, setFieldColor] = useState(null);
-  const { fnString, fnColor } = fn;
+  const { fnString: nameFnString, fnColor } = fn;
+  const fnString = replaceNamesWithIds(nameFnString, questions);
   const values = FormState.useState((s) => s.currentValues);
   const automateValue = strToFunction(fnString, values);
 

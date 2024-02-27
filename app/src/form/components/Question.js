@@ -154,6 +154,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
               field={field}
               onChange={handleOnChange}
               value={values?.[field.id]}
+              questions={questions}
             />
           </View>
         );

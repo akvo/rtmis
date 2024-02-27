@@ -15,7 +15,7 @@ import { View, Text } from 'react-native';
 import { styles } from '../styles';
 import { FormState } from '../../store';
 
-const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
+const QuestionField = ({ keyform, field: questionField, onChange, value, questions }) => {
   const questionType = questionField?.type;
   const displayValue = questionField?.hidden ? 'none' : 'flex';
   const formFeedback = FormState.useState((s) => s.feedback);
@@ -96,7 +96,12 @@ const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
         );
       case 'autofield':
         return (
-          <TypeAutofield keyform={keyform} onChange={handleOnChangeField} {...questionField} />
+          <TypeAutofield
+            keyform={keyform}
+            onChange={handleOnChangeField}
+            questions={questions}
+            {...questionField}
+          />
         );
       default:
         return (
