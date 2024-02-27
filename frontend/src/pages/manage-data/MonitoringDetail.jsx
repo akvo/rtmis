@@ -225,6 +225,7 @@ const MonitoringDetail = () => {
                       />
                     ),
                 }}
+                expandRowByClick
               />
             </ConfigProvider>
           </div>
