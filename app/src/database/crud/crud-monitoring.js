@@ -49,7 +49,7 @@ const monitoringQuery = () => {
       return rows._array;
     },
     getFormsPaginated: async ({ formId, search = '', limit = 10, offset = 0 }) => {
-      let sqlQuery = 'SELECT name FROM monitoring WHERE formId = $1';
+      let sqlQuery = 'SELECT * FROM monitoring WHERE formId = $1';
       const queryParams = [formId];
 
       if (search.trim() !== '') {

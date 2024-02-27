@@ -246,3 +246,26 @@ export const onFilterDependency = (currentGroup, values, q) => {
   }
   return q;
 };
+
+const transformValue = (question, value) => {
+  if (question?.type === 'cascade') {
+    return [value];
+  }
+  if (question?.type === 'geo') {
+    return value === '' ? [] : value;
+  }
+  return value;
+};
+
+export const transformMonitoringData = (formDataJson, inputData) => {
+  const formData = JSON.parse(formDataJson.json);
+  const allQuestions = formData?.question_group?.flatMap((qg) => qg?.question);
+  const transformed = allQuestions?.reduce(
+    (prev, current) => ({
+      [current.id]: transformValue(current, inputData?.[current.id]),
+      ...prev,
+    }),
+    {},
+  );
+  return transformed;
+};
