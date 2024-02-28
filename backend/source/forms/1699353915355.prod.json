@@ -600,7 +600,7 @@
           "rule": null,
           "fn": {
             "fnColor": {},
-            "fnString": "function(){return #1699419861172 + #1699419994672 + #1699420070055 + #1699420121397}",
+            "fnString": "#males_0_5# + #males_6_18# + #males_19_59# + #males_60_plus#",
             "multiline": false
           }
         },
@@ -618,7 +618,7 @@
           "rule": null,
           "fn": {
             "fnColor": {},
-            "fnString": "function(){return #1699419951523 + #1699420051321 + #1699420103720 + #1699420137191}",
+            "fnString": "#females_0_5# + #females_6_18# + #females_19_59# + #females_60_plus#",
             "multiline": false
           }
         },
@@ -1072,7 +1072,7 @@
               "G1 Functional toilet with privacy": "#FDC74B",
               "G0 Toilet non-functional or not private": "#FD3F31"
             },
-            "fnString": "function() { return (#1699422286091.includes(\"G1\") && #1699423357200.includes(\"G1\") && #1699423571454.includes(\"G1\"))? \"G1 Functional toilet with privacy\" : \"G0 Toilet non-functional or not private\"}",
+            "fnString": "(#hh_toilet_observed#.includes(\"G1\") && #functional_toilet#.includes(\"G1\") && #toilet_privacy#.includes(\"G1\"))? \"G1 Functional toilet with privacy\" : \"G0 Toilet non-functional or not private\"",
             "multiline": false
           }
         },
@@ -1380,7 +1380,7 @@
               "G1 Flyproof toilet": "#FDC74B",
               "G0 Toilet NOT flyproof": "#FD3F31"
             },
-            "fnString": "function() { return (#1699423696720.includes(\"G1\") && #1699423946170.includes(\"G1\") && #1699424375968.includes(\"G1\") )  ? \"G1 Flyproof toilet\"  : \"G0 Toilet NOT flyproof\"}",
+            "fnString": "(#toilet_interface#.includes(\"G1\") && #containment_or_collection_system#.includes(\"G1\") && #flyproof_toilet#.includes(\"G1\") )  ? \"G1 Flyproof toilet\"  : \"G0 Toilet NOT flyproof\"",
             "multiline": false
           }
         },
@@ -1536,7 +1536,7 @@
               "G1 Clean toilet": "#FDC74B",
               "G0 Toilet NOT clean": "#FD3F31"
             },
-            "fnString": "function() { return (#1699425852809.includes(\"G1\") && #1699425943159.includes(\"G1\") && #1699426059842.includes(\"G1\")) ? \"G1 Clean toilet\" : \"G0 Toilet NOT clean\"}",
+            "fnString": "(#clean_toilet_pandrophole#.includes(\"G1\") && #clean_toilet_floor#.includes(\"G1\") && #clean_toilet_walls#.includes(\"G1\")) ? \"G1 Clean toilet\" : \"G0 Toilet NOT clean\"",
             "multiline": false
           }
         },
@@ -1756,7 +1756,7 @@
               "G2 Durable toilet": "#93D371",
               "G0 Toilet NOT durable": "#FD3F31"
             },
-            "fnString": "function() { return (#1699427405024.includes(\"G2\") && #1699427574765.includes(\"G2\")) ? \"G2 Durable toilet\" : \"G0 Toilet NOT durable\"}",
+            "fnString": "(#durable_toilet_slab#.includes(\"G2\") && #durable_toilet_containment_collection_system#.includes(\"G2\")) ? \"G2 Durable toilet\" : \"G0 Toilet NOT durable\"",
             "multiline": false
           }
         },
@@ -1920,7 +1920,7 @@
               "G2 Toilet with safe containment": "#93D371",
               "G0 Unsafe toilet containment": "#FD3F31"
             },
-            "fnString": "function() { return (#1699427743413.includes(\"G2\") && #1699427885744.includes(\"G2\") && #1702282796765.includes(\"G2\")) ? \"G2 Toilet with safe containment\" : \"G0 Unsafe toilet containment\"}",
+            "fnString": "(#observe_safely_managed_containment#.includes(\"G2\") && #visible_surface_outflows#.includes(\"G2\") && #community_low_groundwater_contamination#.includes(\"G2\")) ? \"G2 Toilet with safe containment\" : \"G0 Unsafe toilet containment\"",
             "multiline": false
           }
         }
@@ -2069,7 +2069,7 @@
               "G1 Toilet use by all household members": "#FDC74B",
               "G0 Toilet NOT used (or used by too many)": "#FD3F31"
             },
-            "fnString": "function() {  return (    #1699428072669.includes(\"G1\") &&    #1699428351326.includes(\"G1\") &&    #1699428400205.includes(\"G1\")  )  ? \"G1 Toilet use by all household members\"  : \"G0 Toilet NOT used (or used by too many)\"}",
+            "fnString": "(    #od_or_toilet_use#.includes(\"G1\") &&    #all_hh_members_use_toilet#.includes(\"G1\") &&    #shared_toilet_use_number_of_people#.includes(\"G1\")  )  ? \"G1 Toilet use by all household members\"  : \"G0 Toilet NOT used (or used by too many)\"",
             "multiline": false
           }
         },
@@ -2134,7 +2134,7 @@
               "G2 All household members use own toilet at all times": "#93D371",
               "G0 All household members defecate in the open": "#FD3F31"
             },
-            "fnString": "function(){ return (#1699428535663.includes(\"G2\")) ? \"G2 All household members use own toilet at all times\" : (#1699428535663.includes(\"G0\") ? \"G0 All household members defecate in the open\" : \"G1 Some household members do not use their own toilet\") }",
+            "fnString": "(#toilet_use_by_all_members#.includes(\"G2\")) ? \"G2 All household members use own toilet at all times\" : (#toilet_use_by_all_members#.includes(\"G0\") ? \"G0 All household members defecate in the open\" : \"G1 Some household members do not use their own toilet\")",
             "multiline": false
           }
         },
@@ -2355,7 +2355,7 @@
               "G1 Inadequate sanitation services": "#FDC74B",
               "G0 Sanitation services UNSAFELY managed": "#FD3F31"
             },
-            "fnString": "function(){ return (#1699428661689.includes(\"G3\") && #1699428820338.includes(\"G3\")) ? \"G3 Use of safely managed sanitation services\" : ((#1699428661689.includes(\"G0\") && #1699428820338.includes(\"G0\")) ? \"G0 Sanitation services UNSAFELY managed\" : \"G1 Inadequate sanitation services\") }",
+            "fnString": "(#safely_managed_onsite_containment#.includes(\"G3\") && #safely_managed_sanitation_services#.includes(\"G3\")) ? \"G3 Use of safely managed sanitation services\" : ((#safely_managed_onsite_containment#.includes(\"G0\") && #safely_managed_sanitation_services#.includes(\"G0\")) ? \"G0 Sanitation services UNSAFELY managed\" : \"G1 Inadequate sanitation services\")",
             "multiline": false
           }
         }
@@ -2525,7 +2525,7 @@
               "G1 Handwashing facility with soap and water": "#FDC74B",
               "G0 Inadequate or no handwashing facility": "#FD3F31"
             },
-            "fnString": "function() { return (#1699429162796.includes(\"G1\") && #1699430427692.includes(\"G1\") && #1699430472221.includes(\"G1\")) ? \"G1 Handwashing facility with soap and water\" : \"G0 Inadequate or no handwashing facility\"}",
+            "fnString": "(#handwashing_facility_observed#.includes(\"G1\") && #water_available_at_hwf#.includes(\"G1\") && #soap_available_at_hwf#.includes(\"G1\")) ? \"G1 Handwashing facility with soap and water\" : \"G0 Inadequate or no handwashing facility\"",
             "multiline": false
           }
         },
@@ -2699,7 +2699,7 @@
               "G3 Permanent handwashing services": "#4088F4",
               "G1 Non-durable handwashing services": "#FDC74B"
             },
-            "fnString": "function(){  return (#1699430580239.includes(\"G0\") &&    #1699430671868.includes(\"G0\") &&    #1699430761393.includes(\"G0\")  )  ?  \"G0 No or inadequate handwashing services\"  :  (    #1699430580239.includes(\"G3\") &&    #1699430671868.includes(\"G3\") &&    #1699430761393.includes(\"G3\"))    ? \"G3 Permanent handwashing services\"    : \"G1 Non-durable handwashing services\"}",
+            "fnString": "(#handwashing_facility_type#.includes(\"G0\") &&    #handsfree_operation_of_handwashing_facility#.includes(\"G0\") &&    #adequate_drainage_of_washing_water#.includes(\"G0\")  )  ?  \"G0 No or inadequate handwashing services\"  :  (    #handwashing_facility_type#.includes(\"G3\") &&    #handsfree_operation_of_handwashing_facility#.includes(\"G3\") &&    #adequate_drainage_of_washing_water#.includes(\"G3\"))    ? \"G3 Permanent handwashing services\"    : \"G1 Non-durable handwashing services\"",
             "multiline": false
           }
         },
@@ -2938,7 +2938,7 @@
               "G2 Handwashing with soap at ALL critical times": "#93D371",
               "G0 No or inadequate handwashing services": "#FD3F31"
             },
-            "fnString": "function(){ return (#1699430839676.includes(\"G0\") && #1699431035188.includes(\"G0\") && #1699431983680.includes(\"G0\") && #1699432052966.includes(\"G0\")) ? \"G0 No or inadequate handwashing services\" : ((#1699430839676.includes(\"G2\") && #1699431035188.includes(\"G2\") && #1699431983680.includes(\"G2\") && #1699432052966.includes(\"G2\")) ? \"G2 Handwashing with soap at ALL critical times\" : \"G1 Some critical handwashing times NOT mentioned\") }",
+            "fnString": "(#handwashing_critical_toilet_times#.includes(\"G0\") && #handwashing_critical_food_times#.includes(\"G0\") && #handwashing_critical_infant_times#.includes(\"G0\") && #handwashing_critical_animal_times#.includes(\"G0\")) ? \"G0 No or inadequate handwashing services\" : ((#handwashing_critical_toilet_times#.includes(\"G2\") && #handwashing_critical_food_times#.includes(\"G2\") && #handwashing_critical_infant_times#.includes(\"G2\") && #handwashing_critical_animal_times#.includes(\"G2\")) ? \"G2 Handwashing with soap at ALL critical times\" : \"G1 Some critical handwashing times NOT mentioned\")",
             "multiline": false
           }
         }
@@ -2999,7 +2999,7 @@
               "G1 No exposed human excreta in compound": "#FDC74B",
               "G0 Child or adult excreta observed in compound": "#FD3F31"
             },
-            "fnString": "function() {return (#1699432663952 ?? \"\").includes(\"G1\") ? \"G1 No exposed human excreta in compound\" : \"G0 Child or adult excreta observed in compound\"}",
+            "fnString": "(#no_exposed_human_excreta_in_compound# ?? \"\").includes(\"G1\") ? \"G1 No exposed human excreta in compound\" : \"G0 Child or adult excreta observed in compound\"",
             "multiline": false
           }
         },
@@ -3143,7 +3143,7 @@
               "G1 Safely managed child excreta and diapers": "#FDC74B",
               "G0 Child excreta and diapers UNSAFELY managed": "#FD3F31"
             },
-            "fnString": "function() { return (#1699432130951.includes(\"G1\") && #1699432802923.includes(\"G1\")) ? \"G1 Safely managed child excreta and diapers\" : \"G0 Child excreta and diapers UNSAFELY managed\"}",
+            "fnString": "(#safe_management_of_child_excreta_in_compound#.includes(\"G1\") && #safe_management_of_diapers_in_compound#.includes(\"G1\")) ? \"G1 Safely managed child excreta and diapers\" : \"G0 Child excreta and diapers UNSAFELY managed\"",
             "multiline": false
           }
         },
@@ -3426,7 +3426,7 @@
               "G2 Clean and safely stored food": "#93D371",
               "G1 Food not adequately washed, or not safely stored": "#FDC74B"
             },
-            "fnString": "function() {  return (    #1699432887212.includes(\"G0\") &&    #1699433027913.includes(\"G0\") &&    #1699433058652.includes(\"G0\")  )  ? \"G0 Food not clean and not safely stored\"  : ((    #1699432887212.includes(\"G2\") &&    #1699433027913.includes(\"G2\") &&    #1699433058652.includes(\"G2\"))    ? \"G2 Clean and safely stored food\"    : \"G1 Food not adequately washed, or not safely stored\"  )}",
+            "fnString": "(    #clean_food#.includes(\"G0\") &&    #covered_food_storage#.includes(\"G0\") &&    #raised_food_storage#.includes(\"G0\")  )  ? \"G0 Food not clean and not safely stored\"  : ((    #clean_food#.includes(\"G2\") &&    #covered_food_storage#.includes(\"G2\") &&    #raised_food_storage#.includes(\"G2\"))    ? \"G2 Clean and safely stored food\"    : \"G1 Food not adequately washed, or not safely stored\"  )",
             "multiline": false
           }
         },
@@ -3582,7 +3582,7 @@
               "G2 Clean and safely stored kitchen utensils": "#93D371",
               "G1 Kitchen utensils not adequately washed, or not safely stored": "#FDC74B"
             },
-            "fnString": "function() {  return (    #1699433108344.includes(\"G0\") &&    #1699433162828.includes(\"G0\") &&    #1699433205793.includes(\"G0\")  )  ? \"G0 Kitchen utensils not clean and not safely stored\"  : ((    #1699433108344.includes(\"G2\") &&    #1699433162828.includes(\"G2\") &&    #1699433205793.includes(\"G2\"))    ? \"G2 Clean and safely stored kitchen utensils\"    : \"G1 Kitchen utensils not adequately washed, or not safely stored\"  )}",
+            "fnString": "(    #clean_kitchen_utensils#.includes(\"G0\") &&    #covered_utensil_storage#.includes(\"G0\") &&    #raised_utensil_storage#.includes(\"G0\")  )  ? \"G0 Kitchen utensils not clean and not safely stored\"  : ((    #clean_kitchen_utensils#.includes(\"G2\") &&    #covered_utensil_storage#.includes(\"G2\") &&    #raised_utensil_storage#.includes(\"G2\"))    ? \"G2 Clean and safely stored kitchen utensils\"    : \"G1 Kitchen utensils not adequately washed, or not safely stored\"  )",
             "multiline": false
           }
         },
@@ -3738,7 +3738,7 @@
               "G2 Clean and safely stored milk containers": "#93D371",
               "G1 Milk containers not adequately washed, or not safely stored": "#FDC74B"
             },
-            "fnString": "function() {  return (    #1699433286697.includes(\"G0\") &&    #1699433337417.includes(\"G0\") &&    #1699433394633.includes(\"G0\")  )  ? \"G0 Milk containers not clean and not safely stored\"  : ((    #1699433286697.includes(\"G2\") &&    #1699433337417.includes(\"G2\") &&    #1699433394633.includes(\"G2\"))    ? \"G2 Clean and safely stored milk containers\"    : \"G1 Milk containers not adequately washed, or not safely stored\"  )}",
+            "fnString": "(    #clean_milk_containers#.includes(\"G0\") &&    #covered_container_storage#.includes(\"G0\") &&    #raised_container_storage#.includes(\"G0\")  )  ? \"G0 Milk containers not clean and not safely stored\"  : ((    #clean_milk_containers#.includes(\"G2\") &&    #covered_container_storage#.includes(\"G2\") &&    #raised_container_storage#.includes(\"G2\"))    ? \"G2 Clean and safely stored milk containers\"    : \"G1 Milk containers not adequately washed, or not safely stored\"  )",
             "multiline": false
           }
         },
@@ -3958,7 +3958,7 @@
               "G2 Safe management of drinking water": "#93D371",
               "G1 Drinking water is NOT adequately managed": "#FDC74B"
             },
-            "fnString": "function() {  return (    #1699433455365.includes(\"G0\") &&    #1699433503692.includes(\"G0\") &&    #1699433564057.includes(\"G0\") &&    #1699433637971.includes(\"G0\")  )  ? \"G0 Drinking water is UNSAFELY managed\"  : ((    #1699433455365.includes(\"G2\") &&    #1699433503692.includes(\"G2\") &&    #1699433564057.includes(\"G2\") &&    #1699433637971.includes(\"G2\"))    ? \"G2 Safe management of drinking water\"    : \"G1 Drinking water is NOT adequately managed\"  )}",
+            "fnString": "(    #clean_water_containers#.includes(\"G0\") &&    #adequate_water_quality#.includes(\"G0\") &&    #safely_stored_drinking_water#.includes(\"G0\") &&    #safely_used_water#.includes(\"G0\")  )  ? \"G0 Drinking water is UNSAFELY managed\"  : ((    #clean_water_containers#.includes(\"G2\") &&    #adequate_water_quality#.includes(\"G2\") &&    #safely_stored_drinking_water#.includes(\"G2\") &&    #safely_used_water#.includes(\"G2\"))    ? \"G2 Safe management of drinking water\"    : \"G1 Drinking water is NOT adequately managed\"  )",
             "multiline": false
           }
         },
@@ -4114,7 +4114,7 @@
               "G2 Safe management of water points": "#93D371",
               "G1 Water points are NOT adequately managed": "#FDC74B"
             },
-            "fnString": "function() {  return (    #1699433719018.includes(\"G0\") &&    #1699433765217.includes(\"G0\") &&    #1699433833227.includes(\"G0\")  )  ? \"G0 Water points are UNSAFELY managed\"  : ((    #1699433719018.includes(\"G2\") &&    #1699433765217.includes(\"G2\") &&    #1699433833227.includes(\"G2\"))    ? \"G2 Safe management of water points\"    : \"G1 Water points are NOT adequately managed\"  )}",
+            "fnString": "(    #clean_water_points#.includes(\"G0\") &&    #protected_water_points#.includes(\"G0\") &&    #well_drained_water_points#.includes(\"G0\")  )  ? \"G0 Water points are UNSAFELY managed\"  : ((    #clean_water_points#.includes(\"G2\") &&    #protected_water_points#.includes(\"G2\") &&    #well_drained_water_points#.includes(\"G2\"))    ? \"G2 Safe management of water points\"    : \"G1 Water points are NOT adequately managed\"  )",
             "multiline": false
           }
         },
@@ -4227,7 +4227,7 @@
               "G1 Some animal wastes visible": "#FDC74B",
               "G2 No visible animal wastes": "#93D371"
             },
-            "fnString": "function() {  return (    #1699433937138.includes(\"G0\") &&    #1699433983369.includes(\"G0\")  )  ? \"G0 Widespread presence of animal wastes\"  : ((    #1699433937138.includes(\"G2\") &&    #1699433983369.includes(\"G2\"))    ? \"G2 No visible animal wastes\"    : \"G1 Some animal wastes visible\"  )}",
+            "fnString": "(    #no_animal_wastes_in_house#.includes(\"G0\") &&    #no_animal_wastes_in_compound#.includes(\"G0\")  )  ? \"G0 Widespread presence of animal wastes\"  : ((    #no_animal_wastes_in_house#.includes(\"G2\") &&    #no_animal_wastes_in_compound#.includes(\"G2\"))    ? \"G2 No visible animal wastes\"    : \"G1 Some animal wastes visible\"  )",
             "multiline": false
           }
         },
@@ -4404,7 +4404,7 @@
               "G2 Safely managed animal wastes": "#93D371",
               "G1 Inadequate management of animal wastes": "#FDC74B"
             },
-            "fnString": "function() {  return (    #1699434044707.includes(\"G0\") &&    #1699434136823.includes(\"G0\") &&    #1699434209933.includes(\"G0\")  )  ? \"G0 Animal wastes UNSAFELY managed\"  : ((    #1699434044707.includes(\"G2\") &&    #1699434136823.includes(\"G2\") &&    #1699434209933.includes(\"G2\"))    ? \"G2 Safely managed animal wastes\"    : \"G1 Inadequate management of animal wastes\"  )}",
+            "fnString": "(    #safely_managed_animal_waste_storage#.includes(\"G0\") &&    #safe_location_of_animal_waste_storage#.includes(\"G0\") &&    #safe_management_of_animal_waste_storage#.includes(\"G0\")  )  ? \"G0 Animal wastes UNSAFELY managed\"  : ((    #safely_managed_animal_waste_storage#.includes(\"G2\") &&    #safe_location_of_animal_waste_storage#.includes(\"G2\") &&    #safe_management_of_animal_waste_storage#.includes(\"G2\"))    ? \"G2 Safely managed animal wastes\"    : \"G1 Inadequate management of animal wastes\"  )",
             "multiline": false
           }
         },
@@ -4531,7 +4531,7 @@
               "G2 Safe separation of animals from under-5 children": "#93D371",
               "G1 Inadequate separation of animals from under-5 children": "#FDC74B"
             },
-            "fnString": "function() {  return (    #1699434269372.includes(\"G0\") &&    #1699434327613.includes(\"G0\")  )  ? \"G0 Animals NOT separated from under-5 children\"  : ((    #1699434269372.includes(\"G2\") &&    #1699434327613.includes(\"G2\"))    ? \"G2 Safe separation of animals from under-5 children\"    : \"G1 Inadequate separation of animals from under-5 children\"  )}",
+            "fnString": "(    #location_animals_in_compound#.includes(\"G0\") &&    #safe_confinement_of_animals#.includes(\"G0\")  )  ? \"G0 Animals NOT separated from under-5 children\"  : ((    #location_animals_in_compound#.includes(\"G2\") &&    #safe_confinement_of_animals#.includes(\"G2\"))    ? \"G2 Safe separation of animals from under-5 children\"    : \"G1 Inadequate separation of animals from under-5 children\"  )",
             "multiline": false
           }
         },
@@ -4761,7 +4761,7 @@
               "G3 Safe management of liquid wastes": "#4088F4",
               "G2 Inadequate management of liquid wastes": "#93D371"
             },
-            "fnString": "function() {  return (    #1699434438966.includes(\"G0\") &&    #1699434488410.includes(\"G0\")  )  ? \"G0 Liquid wastes UNSAFELY managed\"  : ((      #1699434438966.includes(\"G3\") &&      #1699434488410.includes(\"G3\"))    ? \"G3 Safe management of liquid wastes\"    : \"G2 Inadequate management of liquid wastes\"  )}",
+            "fnString": "(    #soakpit_for_liquid_wastes#.includes(\"G0\") &&    #drainage_for_stormwater#.includes(\"G0\")  )  ? \"G0 Liquid wastes UNSAFELY managed\"  : ((      #soakpit_for_liquid_wastes#.includes(\"G3\") &&      #drainage_for_stormwater#.includes(\"G3\"))    ? \"G3 Safe management of liquid wastes\"    : \"G2 Inadequate management of liquid wastes\"  )",
             "multiline": false
           }
         },
@@ -4874,7 +4874,7 @@
               "G2 Inadequate management of solid wastes": "#93D371",
               "G3 Safe management of solid wastes": "#4088F4"
             },
-            "fnString": "function() {  return (    #1699434553677.includes(\"G0\") &&    #1699434636655.includes(\"G0\")  )  ? \"G1 Solid wastes UNSAFELY managed\"  : ((    #1699434553677.includes(\"G3\") &&    #1699434636655.includes(\"G3\"))    ? \"G3 Safe management of solid wastes\"    : \"G2 Inadequate management of solid wastes\"  )}",
+            "fnString": "(    #no_visible_solid_wastes#.includes(\"G0\") &&    #solid_waste_facility_or_service#.includes(\"G0\")  )  ? \"G1 Solid wastes UNSAFELY managed\"  : ((    #no_visible_solid_wastes#.includes(\"G3\") &&    #solid_waste_facility_or_service#.includes(\"G3\"))    ? \"G3 Safe management of solid wastes\"    : \"G2 Inadequate management of solid wastes\"  )",
             "multiline": false
           }
         },
@@ -4994,7 +4994,7 @@
               "G2 Inadequate vector control": "#93D371",
               "G3 Good vector control": "#4088F4"
             },
-            "fnString": "function() {  return (    #1699434694439.includes(\"G0\") &&    #1699434771449.includes(\"G0\")  )  ? \"G1 Lack of vector control\"  : ((    #1699434694439.includes(\"G3\") &&    #1699434771449.includes(\"G3\"))    ? \"G3 Good vector control\"    : \"G2 Inadequate vector control\"  )}",
+            "fnString": "(    #no_standing_water#.includes(\"G0\") &&    #treated_larval_breeding_sites#.includes(\"G0\")  )  ? \"G1 Lack of vector control\"  : ((    #no_standing_water#.includes(\"G3\") &&    #treated_larval_breeding_sites#.includes(\"G3\"))    ? \"G3 Good vector control\"    : \"G2 Inadequate vector control\"  )",
             "multiline": false
           }
         },
@@ -5107,7 +5107,7 @@
               "G2 Inadequate personal hygiene": "#93D371",
               "G3 Good personal hygiene": "#4088F4"
             },
-            "fnString": "function() {  return (    #1699434939105.includes(\"G1\") &&    #1699434983278.includes(\"G1\")  )  ? \"G1 No personal hygiene\"  : ((    #1699434939105.includes(\"G3\") &&    #1699434983278.includes(\"G3\"))    ? \"G3 Good personal hygiene\"    : \"G2 Inadequate personal hygiene\"  )}",
+            "fnString": "(    #clean_faces#.includes(\"G1\") &&    #clean_hands#.includes(\"G1\")  )  ? \"G1 No personal hygiene\"  : ((    #clean_faces#.includes(\"G3\") &&    #clean_hands#.includes(\"G3\"))    ? \"G3 Good personal hygiene\"    : \"G2 Inadequate personal hygiene\"  )",
             "multiline": false
           }
         },
@@ -5263,7 +5263,7 @@
               "G2 Inadequate menstrual hygiene": "#93D371",
               "G3 Good menstrual hygiene": "#4088F4"
             },
-            "fnString": "function() {  return (    #1699435026311.includes(\"G1\") &&    #1699435088758.includes(\"G1\") &&    #1699435154797.includes(\"G1\")  )  ? \"G1 No menstrual hygiene\"  : ((    #1699435026311.includes(\"G3\") &&    #1699435088758.includes(\"G3\") &&    #1699435154797.includes(\"G3\"))    ? \"G3 Good menstrual hygiene\"    : \"G2 Inadequate menstrual hygiene\"  )}",
+            "fnString": "(    #adequate_washing_place#.includes(\"G1\") &&    #menstrual_hygiene_disposal_site#.includes(\"G1\") &&    #availability_of_hygiene_materials#.includes(\"G1\")  )  ? \"G1 No menstrual hygiene\"  : ((    #adequate_washing_place#.includes(\"G3\") &&    #menstrual_hygiene_disposal_site#.includes(\"G3\") &&    #availability_of_hygiene_materials#.includes(\"G3\"))    ? \"G3 Good menstrual hygiene\"    : \"G2 Inadequate menstrual hygiene\"  )",
             "multiline": false
           }
         },
@@ -5340,7 +5340,7 @@
               "G2 Inadequate nutrition or protection": "#93D371",
               "G3 Good nutrition and protection": "#4088F4"
             },
-            "fnString": "function() {  return (#1699435207476.includes(\"G1\"))  ? \"G1 Low nutrition or protection\"  : (    #1699435207476.includes(\"G3\")    ? \"G3 Good nutrition and protection\"    : \"G2 Inadequate nutrition or protection\"  )}",
+            "fnString": "(#fully_immunized_children#.includes(\"G1\"))  ? \"G1 Low nutrition or protection\"  : (    #fully_immunized_children#.includes(\"G3\")    ? \"G3 Good nutrition and protection\"    : \"G2 Inadequate nutrition or protection\"  )",
             "multiline": false
           }
         },
@@ -5417,7 +5417,7 @@
               "G2 Inadequate nutrition or protection": "#93D371",
               "G3 Good nutrition and protection": "#4088F4"
             },
-            "fnString": "function() {  return #1699435265962.includes(\"G1\")  ? \"G1 Low nutrition or protection\"  : (    #1699435265962.includes(\"G3\")    ? \"G3 Good nutrition and protection\"    : \"G2 Inadequate nutrition or protection\"  )}",
+            "fnString": "#vitamin_a_supplements_received#.includes(\"G1\")  ? \"G1 Low nutrition or protection\"  : (    #vitamin_a_supplements_received#.includes(\"G3\")    ? \"G3 Good nutrition and protection\"    : \"G2 Inadequate nutrition or protection\"  )",
             "multiline": false
           }
         },
@@ -5494,7 +5494,7 @@
               "G2 Inadequate nutrition or protection": "#93D371",
               "G3 Good nutrition and protection": "#4088F4"
             },
-            "fnString": "function() {  return #1699435329279.includes(\"G1\")  ? \"G1 Low nutrition or protection\"  : (    #1699435329279.includes(\"G3\")    ? \"G3 Good nutrition and protection\"    : \"G2 Inadequate nutrition or protection\"  )}",
+            "fnString": "#exclusive_breastfeeding_under_6_months#.includes(\"G1\")  ? \"G1 Low nutrition or protection\"  : (    #exclusive_breastfeeding_under_6_months#.includes(\"G3\")    ? \"G3 Good nutrition and protection\"    : \"G2 Inadequate nutrition or protection\"  )",
             "multiline": false
           }
         },
@@ -5571,7 +5571,7 @@
               "G2 Inadequate nutrition or protection": "#93D371",
               "G3 Good nutrition and protection": "#4088F4"
             },
-            "fnString": "function() {  return #1699435397728.includes(\"G1\")  ? \"G1 Low nutrition or protection\"  : (    #1699435397728.includes(\"G3\")    ? \"G3 Good nutrition and protection\"    : \"G2 Inadequate nutrition or protection\"  )}",
+            "fnString": "#nutritious_diet_6m_2y#.includes(\"G1\")  ? \"G1 Low nutrition or protection\"  : (    #nutritious_diet_6m_2y#.includes(\"G3\")    ? \"G3 Good nutrition and protection\"    : \"G2 Inadequate nutrition or protection\"  )",
             "multiline": false
           }
         },
@@ -5648,7 +5648,7 @@
               "G2 Inadequate malaria protection": "#93D371",
               "G3 Malaria-safe home": "#4088F4"
             },
-            "fnString": "function() {  return #1699435455818.includes(\"G1\")  ? \"G1 No malaria protection\"  : (    #1699435455818.includes(\"G3\")    ? \"G3 Malaria-safe home\"    : \"G2 Inadequate malaria protection\"  )}",
+            "fnString": "#malariasafe_home#.includes(\"G1\")  ? \"G1 No malaria protection\"  : (    #malariasafe_home#.includes(\"G3\")    ? \"G3 Malaria-safe home\"    : \"G2 Inadequate malaria protection\"  )",
             "multiline": false
           }
         },
@@ -5725,7 +5725,7 @@
               "G2 Inadequate deworming": "#93D371",
               "G3 Dewormed home": "#4088F4"
             },
-            "fnString": "function() {  return #1699435526190.includes(\"G1\") ? \"G1 No deworming\"  : (#1699435526190.includes(\"G3\") ? \"G3 Dewormed home\" : \"G2 Inadequate deworming\"  )}",
+            "fnString": "#dewormed_home#.includes(\"G1\") ? \"G1 No deworming\"  : (#dewormed_home#.includes(\"G3\") ? \"G3 Dewormed home\" : \"G2 Inadequate deworming\"  )",
             "multiline": false
           }
         }
@@ -5758,7 +5758,7 @@
               "G3 Clean and Healthy": "#4088F4"
             },
             "multiline": false,
-            "fnString": "function(){ return #1701810579091.includes('G1') && #1702281084786.includes('G1') && #1702282119933.includes('G1') && #1702284734752.includes('G1') ? #1702283171680.includes('G2') && #1702283955461.includes('G2') && #1702285101196.includes('G2') ? #1702285668136.includes('G3') ? 'G3 Clean and Healthy' : 'G2 Safe and Sustainable' : 'G1 Open Defecation Free' : 'G0 Open Defecation'}"
+            "fnString": "#o_r_functional_toilet_with_privacy#.includes('G1') && #o_r_flyproof_toilet_type#.includes('G1') && #o_r_clean_toilet#.includes('G1') && #o_r_toilet_use_by_all_hh_members#.includes('G1') ? #o_r_durable_toilet#.includes('G2') && #o_r_toilet_with_safe_containment#.includes('G2') && #o_r_individual_use_of_own_hh_toilet#.includes('G2') ? #o_r_use_of_safely_managed_sanitation_services#.includes('G3') ? 'G3 Clean and Healthy' : 'G2 Safe and Sustainable' : 'G1 Open Defecation Free' : 'G0 Open Defecation'"
           }
         },
         {
@@ -5779,7 +5779,7 @@
               "G3 Clean and Healthy": "#4088F4"
             },
             "multiline": false,
-            "fnString": "function(){ return #1702287053503.includes('G1') ? #1702288599133.includes('G2') ? #1702287685048.includes('G3') ? 'G3 Clean and Healthy' : 'G2 Safe and Sustainable' : 'G1 Handwashing facility with soap and water' : 'G0 Inadequate or no handwashing facility'}"
+            "fnString": "#o_r_hwf_with_water_and_soap#.includes('G1') ? #o_r_handwashing_with_soap_at_critical_times#.includes('G2') ? #o_r_permanent_handwashing_station#.includes('G3') ? 'G3 Clean and Healthy' : 'G2 Safe and Sustainable' : 'G1 Handwashing facility with soap and water' : 'G0 Inadequate or no handwashing facility'"
           }
         },
         {
@@ -5797,7 +5797,7 @@
               "G1 Handwashing facility with soap and water": "#FDC74B",
               "G0 Inadequate or no handwashing facility": "#FD3F31"
             },
-            "fnString": "function(){return #1702287053503}",
+            "fnString": "#o_r_hwf_with_water_and_soap#",
             "multiline": false
           }
         },
@@ -5817,7 +5817,7 @@
               "G3 Permanent handwashing services": "#4088F4",
               "G1 Non-durable handwashing services": "#FDC74B"
             },
-            "fnString": "function(){return #1702287685048}",
+            "fnString": "#o_r_permanent_handwashing_station#",
             "multiline": false
           }
         },
@@ -5837,7 +5837,7 @@
               "G2 Handwashing with soap at ALL critical times": "#93D371",
               "G0 No or inadequate handwashing services": "#FD3F31"
             },
-            "fnString": "function(){return #1702288599133}",
+            "fnString": "#o_r_handwashing_with_soap_at_critical_times#",
             "multiline": false
           }
         }
