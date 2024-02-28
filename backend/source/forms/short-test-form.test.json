@@ -938,7 +938,7 @@
               "G0 Toilet NOT flyproof": "#ff0000",
               "G1 Flyproof toilet": "#00ff00"
             },
-            "fnString": "(    #toilet_interface.includes(\"g1\") &&    #containment_or_collection_system.includes(\"g1\") &&    #flyproof_toilet.includes(\"g1\")  )  ? \"G1 Flyproof toilet\"  : \"G0 Toilet NOT flyproof\"",
+            "fnString": "(#toilet_interface.includes(\"g1\") && #containment_or_collection_system.includes(\"g1\") && #flyproof_toilet.includes(\"g1\")) ? \"G1 Flyproof toilet\"  : \"G0 Toilet NOT flyproof\"",
             "multiline": false
           },
           "monitoring": true

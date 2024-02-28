@@ -1088,7 +1088,7 @@
               "25 or less girl students to each functional girls' toilet": "#93D371",
               "More than 25 girl students to each functional girls' toilet": "#FDC74B"
             },
-            "fnString": "( #num_girls_only_functional_toilet#>0 ? (#num_girls_enrolled#/ #num_girls_only_functional_toilet#) > 25 ? \\\"More than 25 girl students to each functional girls' toilet\\\": \\\"25 or less girl students to each functional girls' toilet\\\": \"No Toilet\" )",
+            "fnString": "(#num_girls_only_functional_toilet# > 0 ? (#num_girls_enrolled# / #num_girls_only_functional_toilet#) > 25 ? \\\"More than 25 girl students to each functional girls' toilet\\\": \\\"25 or less girl students to each functional girls' toilet\\\": \"No Toilet\" )",
             "multiline": false
           }
         },
@@ -1112,7 +1112,7 @@
               "30 or less boy students to each functional boys' or shared toilet": "#93D371",
               "More than 30 boy students to each functional boys' or shared toilet": "#FDC74B"
             },
-            "fnString": "( (#status_boys_only_toilets# > 0 && #num_functional_shared_toilet# > 0) ? (#num_boys_enrolled#/ (#status_boys_only_toilets#+ #num_functional_shared_toilet#)) > 30 ? \\\"More than 30 boy students to each functional boys' or shared toilet\\\": \\\"30 or less boy students to each functional boys' or shared toilet\\\":  \"No Toilet\" )",
+            "fnString": "((#status_boys_only_toilets# > 0 && #num_functional_shared_toilet# > 0) ? (#num_boys_enrolled#/ (#status_boys_only_toilets# + #num_functional_shared_toilet#)) > 30 ? \\\"More than 30 boy students to each functional boys' or shared toilet\\\": \\\"30 or less boy students to each functional boys' or shared toilet\\\":  \"No Toilet\" )",
             "multiline": false
           }
         },

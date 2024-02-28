@@ -1639,7 +1639,7 @@
           "options": null,
           "fn": {
             "fnColor": {},
-            "fnString": "#num_schools# + #num_healthcare_facilities# + #num_transport_stations#+ #num_markets#+ #num_public_toilet_buildings#+ #num_government_office_buildings#+ #num_camps#+ #num_worship_centres#+ #num_burial_places#+ #num_prisons#+ #num_private_institutions#+ #num_other_institutions#",
+            "fnString": "#num_schools# + #num_healthcare_facilities# + #num_transport_stations# + #num_markets# + #num_public_toilet_buildings#+ #num_government_office_buildings# + #num_camps# + #num_worship_centres# + #num_burial_places# + #num_prisons# + #num_private_institutions# + #num_other_institutions#",
             "multiline": false
           }
         }
