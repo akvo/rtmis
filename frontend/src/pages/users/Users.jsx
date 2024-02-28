@@ -278,6 +278,7 @@ const Users = () => {
                     />
                   ),
               }}
+              expandRowByClick
             />
           </div>
         </div>
