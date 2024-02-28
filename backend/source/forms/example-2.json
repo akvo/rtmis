@@ -132,7 +132,7 @@
           "meta": false,
           "fn": {
             "fnColor": {},
-            "fnString": "function() { #204 + #206 }",
+            "fnString": "#location# + #family_members#",
             "multiline": true
           }
         },
