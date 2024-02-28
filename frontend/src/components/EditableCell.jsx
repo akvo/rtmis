@@ -103,13 +103,24 @@ const EditableCell = ({
   };
 
   const getLastAnswerValue = () => {
-    return record.type === "multiple_option"
-      ? oldValue?.join(", ")
-      : record.type === "option"
-      ? oldValue
-        ? oldValue[0]
-        : "-"
-      : oldValue;
+    switch (record.type) {
+      case "multiple_option":
+        return oldValue?.length
+          ? oldValue
+              ?.map((v) => {
+                const option = record?.option?.find((o) => o.oldValue === v);
+                return option?.label;
+              })
+              ?.join(", ") || "-"
+          : "-";
+      case "option":
+        return oldValue?.length
+          ? record?.option?.find((o) => o.oldValue === oldValue[0])?.label ||
+              "-"
+          : "-";
+      default:
+        return oldValue || "-";
+    }
   };
 
   const renderAnswerInput = () => {
