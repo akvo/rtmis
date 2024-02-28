@@ -652,7 +652,7 @@
           "dependency": null,
           "fn": {
             "fnColor": {},
-            "fnString": "(#toilet_observed.includes(\"g1\") && #functional_toilet.includes(\"g1\") && #toilet_privacy.includes(\"g1\"))\n? \"G1 Functional toilet with privacy\" : \"G0 Toilet non-functional or not private\"",
+            "fnString": "(#toilet_observed.includes(\"g1\") && #functional_toilet.includes(\"g1\") && #toilet_privacy.includes(\"g1\"))? \"G1 Functional toilet with privacy\" : \"G0 Toilet non-functional or not private\"",
             "multiline": false
           },
           "monitoring": true
@@ -938,7 +938,7 @@
               "G0 Toilet NOT flyproof": "#ff0000",
               "G1 Flyproof toilet": "#00ff00"
             },
-            "fnString": "(\n    #toilet_interface.includes(\"g1\") &&\n    #containment_or_collection_system.includes(\"g1\") &&\n    #flyproof_toilet.includes(\"g1\")\n  )\n  ? \"G1 Flyproof toilet\"\n  : \"G0 Toilet NOT flyproof\"\n",
+            "fnString": "(    #toilet_interface.includes(\"g1\") &&    #containment_or_collection_system.includes(\"g1\") &&    #flyproof_toilet.includes(\"g1\")  )  ? \"G1 Flyproof toilet\"  : \"G0 Toilet NOT flyproof\"",
             "multiline": false
           },
           "monitoring": true

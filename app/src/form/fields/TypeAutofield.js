@@ -73,7 +73,7 @@ const generateFnBody = (fnMetadata, values) => {
         val = Number(val);
       }
       if (typeof val === 'string') {
-        val = `"${val?.toLowerCase()}"`;
+        val = `"${val}"`;
       }
       const fnMatch = f.match(/#([0-9]*|[0-9]*\..+)+/);
       if (fnMatch) {
