@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import TypeAutofield from '../TypeAutofield';
+import TypeAutofield, { replaceNamesWithIds } from '../TypeAutofield';
 import { act } from 'react-test-renderer';
 import { FormState } from '../../../store';
 
@@ -18,7 +18,7 @@ describe('TypeAutofield component', () => {
     const id = 3;
     const name = 'Auto Field';
     const fn = {
-      fnString: 'function() {return #1 * #2}',
+      fnString: '#1 * #2',
     };
 
     const { getByText, getByTestId } = render(<TypeAutofield id={id} label={name} fn={fn} />);
@@ -44,7 +44,7 @@ describe('TypeAutofield component', () => {
     const id = 3;
     const name = 'Auto Field';
     const fn = {
-      fnString: 'function() {return #2.includes("A") ? #1 : #1 * 2}',
+      fnString: '#2.includes("A") ? #1 : #1 * 2',
     };
     const { getByTestId } = render(<TypeAutofield id={id} label={name} fn={fn} />);
     const autoField = getByTestId('type-autofield');
@@ -107,6 +107,52 @@ describe('TypeAutofield component', () => {
     const autoField = getByTestId('type-autofield');
     expect(autoField).toBeDefined();
     expect(autoField.props.value).toBe(null);
+  });
+
+  test('it gives the correct value after name to ID replacement', () => {
+    const mockFormQuestions = [
+      {
+        name: 'household_location',
+        label: 'HOUSEHOLD: Location',
+        question: [
+          {
+            id: 16993542207341,
+            order: 1,
+            name: 'new_or_monitoring',
+            label: 'New household registration or Monitoring update?',
+            short_label: 'New or Update',
+            type: 'option',
+          },
+        ],
+      },
+    ];
+
+    const values = {
+      16993542207341: 2,
+    };
+
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
+
+    const nameFnString = '#new_or_monitoring * 2';
+    const idFnString = replaceNamesWithIds(nameFnString, mockFormQuestions);
+
+    const id = 4;
+    const name = 'Auto Field';
+    const fn = {
+      fnString: idFnString,
+    };
+
+    const { getByTestId } = render(
+      <TypeAutofield id={id} label={name} fn={fn} questions={mockFormQuestions} />,
+    );
+
+    const autoField = getByTestId('type-autofield');
+    expect(autoField).toBeDefined();
+    expect(autoField.props.value).toBe('4');
   });
 
   // test('it supports the logical operator: AND', () => {

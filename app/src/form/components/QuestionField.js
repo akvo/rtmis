@@ -19,6 +19,11 @@ const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
   const questionType = questionField?.type;
   const displayValue = questionField?.hidden ? 'none' : 'flex';
   const formFeedback = FormState.useState((s) => s.feedback);
+  const selectedForm = FormState.useState((s) => s.form);
+  const questions =
+    selectedForm && Object.keys(selectedForm).length > 0
+      ? JSON.parse(selectedForm.json)?.question_group
+      : {};
 
   const handleOnChangeField = (id, val) => {
     if (questionField?.displayOnly) {
@@ -96,7 +101,12 @@ const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
         );
       case 'autofield':
         return (
-          <TypeAutofield keyform={keyform} onChange={handleOnChangeField} {...questionField} />
+          <TypeAutofield
+            keyform={keyform}
+            onChange={handleOnChangeField}
+            questions={questions}
+            {...questionField}
+          />
         );
       default:
         return (

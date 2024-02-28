@@ -326,7 +326,7 @@
           "rule": null,
           "fn": {
             "fnColor": {},
-            "fnString": "function(){return #169941986117211 + #169941995152311 }",
+            "fnString": "#males_0_5 + #females_0_5",
             "multiline": false
           }
         },
@@ -652,7 +652,7 @@
           "dependency": null,
           "fn": {
             "fnColor": {},
-            "fnString": "function() { return (#16994222860911.includes(\"G1\") && #16994233572001.includes(\"G1\") && #16994235714541.includes(\"G1\"))\n? \"G1 Functional toilet with privacy\" : \"G0 Toilet non-functional or not private\"}",
+            "fnString": "(#toilet_observed.includes(\"g1\") && #functional_toilet.includes(\"g1\") && #toilet_privacy.includes(\"g1\"))\n? \"G1 Functional toilet with privacy\" : \"G0 Toilet non-functional or not private\"",
             "multiline": false
           },
           "monitoring": true
@@ -938,7 +938,7 @@
               "G0 Toilet NOT flyproof": "#ff0000",
               "G1 Flyproof toilet": "#00ff00"
             },
-            "fnString": "function() {\n  return (\n    #16994236967201.includes(\"G1\") &&\n    #16994239461701.includes(\"G1\") &&\n    #16994243759681.includes(\"G1\")\n  )\n  ? \"G1 Flyproof toilet\"\n  : \"G0 Toilet NOT flyproof\"\n}",
+            "fnString": "(\n    #toilet_interface.includes(\"g1\") &&\n    #containment_or_collection_system.includes(\"g1\") &&\n    #flyproof_toilet.includes(\"g1\")\n  )\n  ? \"G1 Flyproof toilet\"\n  : \"G0 Toilet NOT flyproof\"\n",
             "multiline": false
           },
           "monitoring": true
@@ -1064,7 +1064,7 @@
           "displayOnly": true,
           "fn": {
             "fnColor": {},
-            "fnString": "function(){return #17018105790911}",
+            "fnString": "#o_r_functional_toilet_with_privacy",
             "multiline": false
           },
           "monitoring": true
@@ -1081,7 +1081,7 @@
           "displayOnly": true,
           "fn": {
             "fnColor": {},
-            "fnString": "function(){return #17022810847861}",
+            "fnString": "#o_r_flyproof_toilet_type",
             "multiline": false
           },
           "monitoring": true
