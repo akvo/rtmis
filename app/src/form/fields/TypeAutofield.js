@@ -5,8 +5,6 @@ import { styles } from '../styles';
 import { Input } from '@rneui/themed';
 import { FormState } from '../../store';
 
-const fnRegex = /^function(?:.+)?(?:\s+)?\((.+)?\)(?:\s+|\n+)?\{(?:\s+|\n+)?((?:.|\n)+)\}$/m;
-const fnEcmaRegex = /^\((.+)?\)(?:\s+|\n+)?=>(?:\s+|\n+)?((?:.|\n)+)$/m;
 const sanitize = [
   {
     prefix: /return fetch|fetch/g,
@@ -23,15 +21,6 @@ const checkDirty = (fnString) => {
     }
     return prev;
   }, fnString);
-};
-
-const getFnMetadata = (fnString) => {
-  const fnMetadata = fnRegex.exec(fnString) || fnEcmaRegex.exec(fnString);
-  if (fnMetadata?.length >= 3) {
-    const fn = fnMetadata[2].split(' ');
-    return fn[0] === 'return' ? fnMetadata[2] : `return ${fnMetadata[2]}`;
-  }
-  return false;
 };
 
 // convert fn string to array
@@ -84,7 +73,7 @@ const generateFnBody = (fnMetadata, values) => {
         val = Number(val);
       }
       if (typeof val === 'string') {
-        val = `"${val}"`;
+        val = `"${val?.toLowerCase()}"`;
       }
       const fnMatch = f.match(/#([0-9]*|[0-9]*\..+)+/);
       if (fnMatch) {
@@ -143,11 +132,9 @@ const strToFunction = (fnString, values) => {
 
 export const replaceNamesWithIds = (fnString, questions) => {
   return fnString.replace(/#([a-zA-Z0-9_]+)/g, (match, p1) => {
-    for (let questionItem of questions) {
-      const foundQuestion = questionItem.question.find((q) => q.name === p1);
-      if (foundQuestion) {
-        return `#${foundQuestion.id}`;
-      }
+    const foundQuestion = questions.find((q) => q.name === p1);
+    if (foundQuestion) {
+      return `#${foundQuestion.id}`;
     }
     return `'${match}'`;
   });

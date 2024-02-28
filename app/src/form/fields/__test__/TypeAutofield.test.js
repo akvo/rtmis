@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import TypeAutofield, { replaceNamesWithIds } from '../TypeAutofield';
+import TypeAutofield from '../TypeAutofield';
 import { act } from 'react-test-renderer';
 import { FormState } from '../../../store';
 
@@ -29,27 +29,6 @@ describe('TypeAutofield component', () => {
     const autoField = getByTestId('type-autofield');
     expect(autoField).toBeDefined();
     expect(autoField.props.value).toBe('6');
-  });
-
-  test('it gives null value', () => {
-    const values = {
-      1: 2,
-      2: ['A', 'B'],
-    };
-    act(() => {
-      FormState.update((s) => {
-        s.currentValues = values;
-      });
-    });
-    const id = 3;
-    const name = 'Auto Field';
-    const fn = {
-      fnString: '#2.includes("A") ? #1 : #1 * 2',
-    };
-    const { getByTestId } = render(<TypeAutofield id={id} label={name} fn={fn} />);
-    const autoField = getByTestId('type-autofield');
-    expect(autoField).toBeDefined();
-    expect(autoField.props.value).toBe('2');
   });
 
   test('it gives null value when value is error', () => {
@@ -112,18 +91,12 @@ describe('TypeAutofield component', () => {
   test('it gives the correct value after name to ID replacement', () => {
     const mockFormQuestions = [
       {
-        name: 'household_location',
-        label: 'HOUSEHOLD: Location',
-        question: [
-          {
-            id: 16993542207341,
-            order: 1,
-            name: 'new_or_monitoring',
-            label: 'New household registration or Monitoring update?',
-            short_label: 'New or Update',
-            type: 'option',
-          },
-        ],
+        id: 16993542207341,
+        order: 1,
+        name: 'new_or_monitoring',
+        label: 'New household registration or Monitoring update?',
+        short_label: 'New or Update',
+        type: 'option',
       },
     ];
 
@@ -138,12 +111,11 @@ describe('TypeAutofield component', () => {
     });
 
     const nameFnString = '#new_or_monitoring * 2';
-    const idFnString = replaceNamesWithIds(nameFnString, mockFormQuestions);
 
     const id = 4;
     const name = 'Auto Field';
     const fn = {
-      fnString: idFnString,
+      fnString: nameFnString,
     };
 
     const { getByTestId } = render(
@@ -153,6 +125,41 @@ describe('TypeAutofield component', () => {
     const autoField = getByTestId('type-autofield');
     expect(autoField).toBeDefined();
     expect(autoField.props.value).toBe('4');
+  });
+
+  test('it gives the correct value and case-sensitive', () => {
+    const values = {
+      1: 'g1_toilet_observed',
+      2: 'g1_fully_functional_toilet',
+      3: 'g1_good_toilet_privacy',
+    };
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = values;
+      });
+    });
+    const id = 3;
+    const label = 'Outcome result';
+    const mockQuestions = [
+      { id: 1, order: 1, name: 'hh_toilet_observed' },
+      { id: 2, order: 2, name: 'functional_toilet' },
+      { id: 3, order: 3, name: 'toilet_privacy' },
+    ];
+    const fn = {
+      fnString:
+        '(#hh_toilet_observed#.includes("g1") && #functional_toilet#.includes("g1") && #toilet_privacy#.includes("g1"))? "G1 Functional toilet with privacy" : "G0 Toilet non-functional or not private"',
+    };
+
+    const { getByText, getByTestId } = render(
+      <TypeAutofield id={id} label={label} fn={fn} questions={mockQuestions} />,
+    );
+
+    const autoFieldLabel = getByText(`1. ${label}`);
+    expect(autoFieldLabel).toBeDefined();
+
+    const autoField = getByTestId('type-autofield');
+    expect(autoField).toBeDefined();
+    expect(autoField.props.value).toBe('G1 Functional toilet with privacy');
   });
 
   // test('it supports the logical operator: AND', () => {
