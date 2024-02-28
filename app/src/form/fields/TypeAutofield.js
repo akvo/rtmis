@@ -153,15 +153,10 @@ export const replaceNamesWithIds = (fnString, questions) => {
   });
 };
 
-const TypeAutofield = ({ keyform, id, label, tooltip, fn, displayOnly }) => {
+const TypeAutofield = ({ keyform, id, label, tooltip, fn, displayOnly, questions = [] }) => {
   const [value, setValue] = useState(null);
   const [fieldColor, setFieldColor] = useState(null);
   const { fnString: nameFnString, fnColor } = fn;
-  const selectedForm = FormState.useState((s) => s.form);
-  const questions =
-    selectedForm && Object.keys(selectedForm).length > 0
-      ? JSON.parse(selectedForm.json)?.question_group
-      : {};
   const fnString = replaceNamesWithIds(nameFnString, questions);
   const values = FormState.useState((s) => s.currentValues);
   const automateValue = strToFunction(fnString, values);

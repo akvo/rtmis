@@ -18,7 +18,7 @@ describe('TypeAutofield component', () => {
     const id = 3;
     const name = 'Auto Field';
     const fn = {
-      fnString: 'function() {return #1 * #2}',
+      fnString: '#1 * #2',
     };
 
     const { getByText, getByTestId } = render(<TypeAutofield id={id} label={name} fn={fn} />);
@@ -44,7 +44,7 @@ describe('TypeAutofield component', () => {
     const id = 3;
     const name = 'Auto Field';
     const fn = {
-      fnString: 'function() {return #2.includes("A") ? #1 : #1 * 2}',
+      fnString: '#2.includes("A") ? #1 : #1 * 2',
     };
     const { getByTestId } = render(<TypeAutofield id={id} label={name} fn={fn} />);
     const autoField = getByTestId('type-autofield');
@@ -137,22 +137,8 @@ describe('TypeAutofield component', () => {
       });
     });
 
-    act(() => {
-      FormState.update((s) => {
-        s.form = JSON.stringify({
-          id: 16993539153551,
-          name: 'Short HH',
-          version: 9,
-          json: {
-            question_group: mockFormQuestions,
-          },
-        });
-      });
-    });
-
     const nameFnString = '#new_or_monitoring * 2';
-    const questions = mockFormQuestions.flatMap((group) => group.question);
-    const idFnString = replaceNamesWithIds(nameFnString, questions);
+    const idFnString = replaceNamesWithIds(nameFnString, mockFormQuestions);
 
     const id = 4;
     const name = 'Auto Field';
@@ -160,10 +146,13 @@ describe('TypeAutofield component', () => {
       fnString: idFnString,
     };
 
-    const { getByTestId } = render(<TypeAutofield id={id} label={name} fn={fn} />);
+    const { getByTestId } = render(
+      <TypeAutofield id={id} label={name} fn={fn} questions={mockFormQuestions} />,
+    );
 
     const autoField = getByTestId('type-autofield');
     expect(autoField).toBeDefined();
+    expect(autoField.props.value).toBe('4');
   });
 
   // test('it supports the logical operator: AND', () => {
