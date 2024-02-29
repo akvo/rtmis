@@ -66,12 +66,14 @@ def get_definition(form: Forms):
 def generate_definition_sheet(form: Forms):
     definitions = get_definition(form=form)
     df = pd.DataFrame(definitions)
-    selected_columns = [
+    question_columns = [
         "indexer", "id", "name", "label", "type", "required",
-        "dependency", "option", "rule"]
-    df = df[selected_columns]
-    df = df.groupby(selected_columns).first()
-    return df.droplevel('indexer')
+        "dependency", "rule"]
+    df_questions = df[question_columns]
+    df_questions = df_questions.groupby(question_columns).first()
+    df_questions = df_questions.droplevel('indexer')
+    df_options = df[["name", "option"]]
+    return df_questions, df_options
 
 
 def generate_excel(form: Forms, user: SystemUser):
@@ -102,8 +104,11 @@ def generate_excel(form: Forms, user: SystemUser):
     })
     for col_num, value in enumerate(data.columns.values):
         worksheet.write(0, col_num, value, header_format)
-    definitions = generate_definition_sheet(form=form)
-    definitions.to_excel(writer, sheet_name='definitions', startrow=-1)
+    question_definition, option_definition = generate_definition_sheet(
+        form=form
+    )
+    question_definition.to_excel(writer, sheet_name='questions', startrow=-1)
+    option_definition.to_excel(writer, sheet_name='options', index=False)
 
     administration = user.user_access.administration
     if administration.path:
