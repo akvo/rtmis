@@ -59,7 +59,9 @@ export const transformForm = (forms, lang = 'en', filterMonitoring = false) => {
       return q;
     });
 
-  const filteredQuestions = filterMonitoring ? questions.filter((q) => q.monitoring) : questions;
+  const filteredQuestions = filterMonitoring
+    ? questions.filter((q) => q.monitoring || q.meta_uuid)
+    : questions;
 
   const transformed = filteredQuestions.map((x) => {
     let requiredSignTemp = x?.requiredSign || null;

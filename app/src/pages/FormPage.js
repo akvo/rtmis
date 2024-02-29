@@ -35,6 +35,7 @@ const FormPage = ({ navigation, route }) => {
   const trans = i18n.text(activeLang);
 
   const currentFormId = route?.params?.id;
+  const isMonitoring = route?.params?.isMonitoring;
   // continue saved submission
   const savedDataPointId = route?.params?.dataPointId;
   const isNewSubmission = route?.params?.newSubmission;
@@ -241,6 +242,7 @@ const FormPage = ({ navigation, route }) => {
           forms={formJSON}
           onSubmit={handleOnSubmitForm}
           setShowDialogMenu={setShowDialogMenu}
+          isMonitoring={isMonitoring}
         />
       ) : (
         <View style={styles.loadingContainer}>
