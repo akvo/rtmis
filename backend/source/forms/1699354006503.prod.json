@@ -779,7 +779,7 @@
               "G0 Child or adult excreta observed in compound": "#FD3F31",
               "G1 No exposed human excreta in compound": "#FDC74B"
             },
-            "fnString": "(#no_exposed_excreta_communal_areas#.includes(\"G1\")) ? \"G1 No exposed human excreta in compound\" : \"G0 Child or adult excreta observed in compound\"",
+            "fnString": "#no_exposed_excreta_communal_areas#.includes(\"g1\") ? \"G1 No exposed human excreta in compound\" : \"G0 Child or adult excreta observed in compound\"",
             "multiline": false
           }
         },
@@ -857,7 +857,7 @@
               "G1 Safely managed diapers": "#FDC74B",
               "G0 Diapers UNSAFELY managed": "#FD3F31"
             },
-            "fnString": "(#safe_diaper_management_communal_areas#.includes(\"G1\")) ? \"G1 Safely managed diapers\" : \"G0 Diapers UNSAFELY managed\"",
+            "fnString": "#safe_diaper_management_communal_areas#.includes(\"g1\") ? \"G1 Safely managed diapers\" : \"G0 Diapers UNSAFELY managed\"",
             "multiline": false
           }
         },
@@ -989,7 +989,7 @@
               "G1 Communal water points are NOT adequately managed": "#FDC74B",
               "G2 Safe management of communal water points": "#93D371"
             },
-            "fnString": "(#clean_communal_water_points#.includes(\"G0\") && #protected_communal_water_points#.includes(\"G0\") && #well_drained_communal_water_points#.includes(\"G0\")) ? \"G0 Communal water points are UNSAFELY managed\" : (#clean_communal_water_points#.includes(\"G2\") && #protected_communal_water_points#.includes(\"G2\") && #well_drained_communal_water_points#.includes(\"G2\") ? \"G2 Safe management of communal water points\" : \"G1 Communal water points are NOT adequately managed\");",
+            "fnString": "#clean_communal_water_points#.includes(\"g0\") && #protected_communal_water_points#.includes(\"g0\") && #well_drained_communal_water_points#.includes(\"g0\") ? \"G0 Communal water points are UNSAFELY managed\" : (#clean_communal_water_points#.includes(\"g2\") && #protected_communal_water_points#.includes(\"g2\") && #well_drained_communal_water_points#.includes(\"g2\") ? \"G2 Safe management of communal water points\" : \"G1 Communal water points are NOT adequately managed\");",
             "multiline": false
           }
         },
@@ -1054,7 +1054,7 @@
               "G1 Inadequate sanitation services in communal areas": "#FDC74B",
               "G3 Use of safely managed sanitation services in communal areas": "#4088F4"
             },
-            "fnString": "(#faecal_sludge_disposal_communal_areas#.includes(\"G0\")) ? \"G0 Sanitation services UNSAFELY managed in communal areas\" : (#faecal_sludge_disposal_communal_areas#.includes(\"G3\") ? \"G3 Use of safely managed sanitation services in communal areas\" : \"G1 Inadequate sanitation services in communal areas\")",
+            "fnString": "(#faecal_sludge_disposal_communal_areas#.includes(\"g0\")) ? \"G0 Sanitation services UNSAFELY managed in communal areas\" : (#faecal_sludge_disposal_communal_areas#.includes(\"g3\") ? \"G3 Use of safely managed sanitation services in communal areas\" : \"G1 Inadequate sanitation services in communal areas\")",
             "multiline": false
           }
         },
@@ -1119,7 +1119,7 @@
               "G2 Inadequate management of liquid wastes in communal areas": "#93D371",
               "G3 Safe management of liquid wastes in communal areas": "#4088F4"
             },
-            "fnString": "(#stormwater_drainage_communal_areas#.includes(\"G0\")) ? \"G1 Liquid wastes UNSAFELY managed in communal areas\" : (#stormwater_drainage_communal_areas#.includes(\"G3\") ? \"G3 Safe management of liquid wastes in communal areas\" : \"G2 Inadequate management of liquid wastes in communal areas\")",
+            "fnString": "(#stormwater_drainage_communal_areas#.includes(\"g0\")) ? \"G1 Liquid wastes UNSAFELY managed in communal areas\" : (#stormwater_drainage_communal_areas#.includes(\"g3\") ? \"G3 Safe management of liquid wastes in communal areas\" : \"G2 Inadequate management of liquid wastes in communal areas\")",
             "multiline": false
           }
         },
@@ -1177,7 +1177,7 @@
               "G2 Inadequate management of liquid wastes in communal areas": "#93D371",
               "G3 Safe management of liquid wastes in communal areas": "#4088F4"
             },
-            "fnString": "(#no_visible_solid_wastes_communal_areas#.includes(\"G0\")) ? \"G1 Liquid wastes UNSAFELY managed in communal areas\" : (#no_visible_solid_wastes_communal_areas#.includes(\"G3\") ? \"G3 Safe management of liquid wastes in communal areas\" : \"G2 Inadequate management of liquid wastes in communal areas\")",
+            "fnString": "(#no_visible_solid_wastes_communal_areas#.includes(\"g0\")) ? \"G1 Liquid wastes UNSAFELY managed in communal areas\" : (#no_visible_solid_wastes_communal_areas#.includes(\"g3\") ? \"G3 Safe management of liquid wastes in communal areas\" : \"G2 Inadequate management of liquid wastes in communal areas\")",
             "multiline": false
           }
         },
@@ -1279,7 +1279,7 @@
               "G2 Inadequate vector control in communal areas": "#93D371",
               "G3 Good vector control in communal areas": "#4088F4"
             },
-            "fnString": "(#no_standing_water_communal_areas#.includes(\"G0\") && #treated_larval_breeding_sites_communal_areas#.includes(\"G0\")) ? \"G1 Lack of vector control in communal areas\" : ((#no_standing_water_communal_areas#.includes(\"G3\") && #treated_larval_breeding_sites_communal_areas#.includes(\"G3\")) ? \"G3 Good vector control in communal areas\" : \"G2 Inadequate vector control in communal areas\")",
+            "fnString": "(#no_standing_water_communal_areas#.includes(\"g0\") && #treated_larval_breeding_sites_communal_areas#.includes(\"g0\")) ? \"G1 Lack of vector control in communal areas\" : ((#no_standing_water_communal_areas#.includes(\"g3\") && #treated_larval_breeding_sites_communal_areas#.includes(\"g3\")) ? \"G3 Good vector control in communal areas\" : \"G2 Inadequate vector control in communal areas\")",
             "multiline": false
           }
         },
@@ -1639,7 +1639,7 @@
           "options": null,
           "fn": {
             "fnColor": {},
-            "fnString": "#num_schools# + #num_healthcare_facilities# + #num_transport_stations#+ #num_markets#+ #num_public_toilet_buildings#+ #num_government_office_buildings#+ #num_camps#+ #num_worship_centres#+ #num_burial_places#+ #num_prisons#+ #num_private_institutions#+ #num_other_institutions#",
+            "fnString": "#num_schools# + #num_healthcare_facilities# + #num_transport_stations# + #num_markets# + #num_public_toilet_buildings#+ #num_government_office_buildings# + #num_camps# + #num_worship_centres# + #num_burial_places# + #num_prisons# + #num_private_institutions# + #num_other_institutions#",
             "multiline": false
           }
         }
