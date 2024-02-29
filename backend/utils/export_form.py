@@ -4,12 +4,11 @@ import pathlib
 import pandas as pd
 
 from api.v1.v1_forms.models import Forms, Questions
-from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 
 
 def get_definition(form: Forms):
-    questions = questions = Questions.objects.filter(form=form).order_by(
+    questions = Questions.objects.filter(form=form).order_by(
         "question_group__order", "order").all()
     framed = []
     for i, q in enumerate([qs.to_definition() for qs in questions]):
@@ -24,7 +23,7 @@ def get_definition(form: Forms):
         if q["dependency"]:
             dependency = []
             for d in q["dependency"]:
-                did = d["id"]
+                did = Questions.objects.get(pk=d["id"]).name
                 options = "|".join(d["options"])
                 dtext = f"{did}: " + options
                 dependency.append(dtext)
@@ -67,19 +66,17 @@ def generate_definition_sheet(form: Forms, writer: pd.ExcelWriter):
     definitions = get_definition(form=form)
     df = pd.DataFrame(definitions)
     question_columns = [
-        "indexer", "id", "name", "label", "type",
-        "required", "dependency", "rule"
+        "name", "label", "type",
+        "required", "rule", "dependency"
     ]
     df_questions = df[question_columns]
-    df_questions = df_questions.groupby(question_columns).first()
-    df_questions = df_questions.droplevel('indexer')
-    df_questions.to_excel(writer, sheet_name='questions', startrow=-1)
+    df_questions.to_excel(writer, sheet_name='questions', index=False)
     df_options = df[["name", "option", "option_label"]]
     df_options = df_options.dropna(subset=["option"])
     df_options = df_options.drop_duplicates()
     df_options = df_options.rename(columns={
         "name": "question",
-        "option": "value",
+        "option": "option",
         "option_label": "label"
     })
     df_options.to_excel(writer, sheet_name='options', index=False)
@@ -114,29 +111,4 @@ def generate_excel(form: Forms, user: SystemUser):
     for col_num, value in enumerate(data.columns.values):
         worksheet.write(0, col_num, value, header_format)
     generate_definition_sheet(form=form, writer=writer)
-    administration = user.user_access.administration
-    if administration.path:
-        allowed_path = f"{administration.path}{administration.id}."
-    else:
-        allowed_path = f"{administration.id}."
-    allowed_descendants = Administration.objects.filter(
-        path__startswith=allowed_path,
-        level=Levels.objects.order_by('-level').first()).order_by(
-            'level__level')
-    admins = []
-    for descendant in allowed_descendants:
-        parents = list(
-            Administration.objects.filter(
-                id__in=descendant.path.split('.')[:-1]).values_list(
-                    'name', flat=True).order_by('level__level'))
-        parents.append(descendant.name)
-        admins.append('|'.join(parents))
-
-    v = pd.DataFrame(admins)
-    v.to_excel(writer,
-               sheet_name='administration',
-               startrow=-1,
-               header=False,
-               index=False)
-    writer.save()
     return filepath
