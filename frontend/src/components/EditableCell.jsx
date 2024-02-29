@@ -40,11 +40,15 @@ const EditableCell = ({
       setValue(
         record.type === "date"
           ? moment(newValue).format("YYYY-MM-DD")
+          : record.type === "geo"
+          ? newValue?.join(", ")
           : newValue
       );
       setOldValue(
         record.type === "date"
           ? moment(record.lastValue).format("YYYY-MM-DD")
+          : record.type === "geo"
+          ? record?.lastValue?.join(", ")
           : record.lastValue
       );
     }
