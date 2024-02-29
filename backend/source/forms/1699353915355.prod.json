@@ -1072,7 +1072,7 @@
               "G1 Functional toilet with privacy": "#FDC74B",
               "G0 Toilet non-functional or not private": "#FD3F31"
             },
-            "fnString": "#hh_toilet_observed#.includes(\"g1\") && #functional_toilet#.includes(\"g1\") && #toilet_privacy#.includes(\"g1\"))? \"G1 Functional toilet with privacy\" : \"G0 Toilet non-functional or not private\"",
+            "fnString": "#hh_toilet_observed#.includes(\"g1\") && #functional_toilet#.includes(\"g1\") && #toilet_privacy#.includes(\"g1\")? \"G1 Functional toilet with privacy\" : \"G0 Toilet non-functional or not private\"",
             "multiline": false
           }
         },

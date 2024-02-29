@@ -142,7 +142,7 @@ const strToFunction = (fnString, values) => {
 };
 
 export const replaceNamesWithIds = (fnString, questions) => {
-  return fnString.replace(/#([a-zA-Z0-9_]+)/g, (match, p1) => {
+  return fnString.replace(/#([a-zA-Z0-9_]+)+#/g, (match, p1) => {
     for (let questionItem of questions) {
       const foundQuestion = questionItem.question.find((q) => q.name === p1);
       if (foundQuestion) {
