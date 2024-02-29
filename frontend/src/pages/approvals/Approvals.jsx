@@ -150,6 +150,20 @@ const Approvals = () => {
                   `Results: ${range[0]} - ${range[1]} of ${total} users`,
               }}
               expandedRowKeys={expandedKeys}
+              onRow={(record) => ({
+                onClick: () => {
+                  if (expandedKeys.includes(record.id)) {
+                    setExpandedKeys((prevExpandedKeys) =>
+                      prevExpandedKeys.filter((key) => key !== record.id)
+                    );
+                  } else {
+                    setExpandedKeys((prevExpandedKeys) => [
+                      ...prevExpandedKeys,
+                      record.id,
+                    ]);
+                  }
+                },
+              })}
               expandable={{
                 expandedRowRender: (record) => {
                   return (
@@ -188,6 +202,7 @@ const Approvals = () => {
                   ),
               }}
               rowKey="id"
+              expandRowByClick
             />
           </div>
         </div>

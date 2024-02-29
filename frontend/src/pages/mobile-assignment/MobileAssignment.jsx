@@ -219,6 +219,7 @@ const MobileAssignment = () => {
                     />
                   ),
               }}
+              expandRowByClick
             />
           </div>
         </div>

@@ -5,11 +5,7 @@ import AdministrationDropdown from "./AdministrationDropdown";
 import { store, uiText } from "../../lib";
 import { Link } from "react-router-dom";
 import debounce from "lodash.debounce";
-import {
-  PlusOutlined,
-  DownloadOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 import { Fragment } from "react";
 
 const { Search } = Input;
@@ -51,9 +47,9 @@ const AdministrationFilters = ({
                   {text.bulkUploadButton}
                 </Button>
               </Link>
-              <Button icon={<DownloadOutlined />} shape="round">
+              {/* <Button icon={<DownloadOutlined />} shape="round">
                 {text.exportButton}
-              </Button>
+              </Button> */}
               <Link to={addLink}>
                 <Button type="primary" icon={<PlusOutlined />} shape="round">
                   {text.addNewButton}
