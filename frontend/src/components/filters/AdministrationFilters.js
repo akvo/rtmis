@@ -51,9 +51,9 @@ const AdministrationFilters = ({
                   {text.bulkUploadButton}
                 </Button>
               </Link>
-              <Button icon={<DownloadOutlined />} shape="round">
+              {/* <Button icon={<DownloadOutlined />} shape="round">
                 {text.exportButton}
-              </Button>
+              </Button> */}
               <Link to={addLink}>
                 <Button type="primary" icon={<PlusOutlined />} shape="round">
                   {text.addNewButton}
