@@ -21,6 +21,11 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.AlterField(
+            model_name='questions',
+            name='name',
+            field=models.CharField(default=None, max_length=255, null=True),
+        ),
         migrations.RunPython(
             replace_name_with_variable,
             reverse_code=rollback_variable_with_name
@@ -37,11 +42,6 @@ class Migration(migrations.Migration):
         migrations.AlterUniqueTogether(
             name='questions',
             unique_together=set(),
-        ),
-        migrations.AlterField(
-            model_name='questions',
-            name='name',
-            field=models.CharField(default=None, max_length=255, null=True),
         ),
         migrations.AlterUniqueTogether(
             name='questions',

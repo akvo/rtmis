@@ -112,15 +112,14 @@ const EditableCell = ({
         return oldValue?.length
           ? oldValue
               ?.map((v) => {
-                const option = record?.option?.find((o) => o.oldValue === v);
+                const option = record?.option?.find((o) => o.value === v);
                 return option?.label;
               })
               ?.join(", ") || "-"
           : "-";
       case "option":
         return oldValue?.length
-          ? record?.option?.find((o) => o.oldValue === oldValue[0])?.label ||
-              "-"
+          ? record?.option?.find((o) => o.value === oldValue[0])?.label || "-"
           : "-";
       default:
         return oldValue || "-";
