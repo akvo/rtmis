@@ -1,3 +1,5 @@
+import pandas as pd
+import os
 from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import override_settings
@@ -37,10 +39,9 @@ class BulkUnitTestCase(TestCase):
 
     def test_generate_definition_sheet(self):
         form = Forms.objects.first()
-        question_definition, option_definition = generate_definition_sheet(
-            form
-        )
-        question_definition.to_excel("test.xlsx")
-        print(option_definition)
-        self.assertEqual(question_definition, "")
-        self.assertEqual(option_definition, "")
+        writer = pd.ExcelWriter("test.xlsx", engine='xlsxwriter')
+        generate_definition_sheet(form=form, writer=writer)
+        writer.save()
+        # test if excel has been created
+        self.assertTrue(os.path.exists("test.xlsx"))
+        os.remove("test.xlsx")

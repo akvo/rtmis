@@ -95,10 +95,7 @@ class Questions(models.Model):
         return self.text
 
     def to_definition(self):
-        options = [options.label
-                   for options in
-                   self.options.all()] \
-            if self.options.count() else False
+        options = self.options.values('label', 'value')
         return {
             "id": self.id,
             "qg_id": self.question_group.id,
