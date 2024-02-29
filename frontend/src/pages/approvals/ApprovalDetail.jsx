@@ -585,6 +585,24 @@ const ApprovalDetail = ({
               }
             : false
         }
+        onRow={(record) => ({
+          onClick: () => {
+            if (expandedRowKeys.includes(record.id)) {
+              setExpandedRowKeys((prevExpandedKeys) =>
+                prevExpandedKeys.filter((key) => key !== record.id)
+              );
+            } else {
+              if (!record.data?.length) {
+                initData(record.id);
+              }
+              setExpandedRowKeys((prevExpandedKeys) => [
+                ...prevExpandedKeys,
+                record.id,
+              ]);
+            }
+          },
+        })}
+        expandRowByClick
       />
       <h3 style={{ paddingTop: "1rem" }}>Notes {"&"} Feedback</h3>
       {!!comments.length && (

@@ -414,6 +414,21 @@ const Submissions = () => {
                 },
               }}
               rowKey="id"
+              onRow={(record) => ({
+                onClick: () => {
+                  if (expandedKeys.includes(record.id)) {
+                    setExpandedKeys((prevExpandedKeys) =>
+                      prevExpandedKeys.filter((key) => key !== record.id)
+                    );
+                  } else {
+                    setExpandedKeys((prevExpandedKeys) => [
+                      ...prevExpandedKeys,
+                      record.id,
+                    ]);
+                  }
+                },
+              })}
+              expandRowByClick
             />
           </div>
         </div>

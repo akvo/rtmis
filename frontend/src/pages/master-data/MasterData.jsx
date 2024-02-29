@@ -177,6 +177,7 @@ const MasterData = () => {
                     />
                   ),
               }}
+              expandRowByClick
             />
           </div>
         </div>
