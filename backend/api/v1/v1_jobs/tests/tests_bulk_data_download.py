@@ -1,9 +1,11 @@
+import pandas as pd
+import os
 from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import override_settings
-from api.v1.v1_forms.models import Questions
+from api.v1.v1_forms.models import Questions, Forms
 from api.v1.v1_data.models import FormData
-from api.v1.v1_jobs.job import download
+from api.v1.v1_jobs.job import download, generate_definition_sheet
 
 
 @override_settings(USE_TZ=False)
@@ -34,3 +36,12 @@ class BulkUnitTestCase(TestCase):
             filter(lambda x: x not in meta_columns, download_columns)
         )
         self.assertEqual(list(columns).sort(), list(questions).sort())
+
+    def test_generate_definition_sheet(self):
+        form = Forms.objects.first()
+        writer = pd.ExcelWriter("test.xlsx", engine='xlsxwriter')
+        generate_definition_sheet(form=form, writer=writer)
+        writer.save()
+        # test if excel has been created
+        self.assertTrue(os.path.exists("test.xlsx"))
+        os.remove("test.xlsx")

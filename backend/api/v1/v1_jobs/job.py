@@ -16,7 +16,7 @@ from api.v1.v1_jobs.constants import JobStatus, JobTypes
 from api.v1.v1_jobs.models import Jobs
 from api.v1.v1_jobs.seed_data import seed_excel_data
 from api.v1.v1_jobs.validate_upload import validate
-from api.v1.v1_profile.models import Administration, Levels
+from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import SystemUser
 from utils import storage
 from utils.email_helper import send_email, EmailTypes
@@ -78,35 +78,7 @@ def job_generate_download(job_id, **kwargs):
     df = df[col_names]
     writer = pd.ExcelWriter(file_path, engine='xlsxwriter')
     df.to_excel(writer, sheet_name='data', index=False)
-
-    definitions = generate_definition_sheet(form=form)
-    definitions.to_excel(writer,
-                         sheet_name='definitions',
-                         startrow=-1)
-    administration = job.user.user_access.administration
-    if administration.path:
-        allowed_path = f"{administration.path}{administration.id}."
-    else:
-        allowed_path = f"{administration.id}."
-    allowed_descendants = Administration.objects.filter(
-        path__startswith=allowed_path,
-        level=Levels.objects.order_by('-level').first()).order_by(
-        'level__level')
-    admins = []
-    for descendant in allowed_descendants:
-        parents = list(Administration.objects.filter(
-            id__in=descendant.path.split('.')[:-1]).values_list(
-            'name',
-            flat=True).order_by('level__level'))
-        parents.append(descendant.name)
-        admins.append('|'.join(parents))
-
-    v = pd.DataFrame(admins)
-    v.to_excel(writer,
-               sheet_name='administration',
-               startrow=-1,
-               header=False,
-               index=False)
+    generate_definition_sheet(form=form, writer=writer)
     context = [{
         "context": "Form Name",
         "value": form.name
