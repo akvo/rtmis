@@ -228,8 +228,10 @@ const EditableCell = ({
       >
         {record.type === "cascade" && !record?.api ? (
           locationName
-        ) : record.type === "photo" && value ? (
+        ) : record.type === "photo" && value && !lastValue ? (
           <Image src={value} width={100} />
+        ) : record.type === "photo" && lastValue ? (
+          <Image src={oldValue} width={100} />
         ) : lastValue ? (
           getLastAnswerValue()
         ) : (
