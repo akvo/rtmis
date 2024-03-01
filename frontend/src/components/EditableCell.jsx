@@ -65,7 +65,13 @@ const EditableCell = ({
     !isEqual(record.value, record.newValue);
 
   useEffect(() => {
-    if (record && record.type === "cascade" && !record?.api && !locationName) {
+    if (
+      record &&
+      record.type === "cascade" &&
+      !record?.api &&
+      !locationName &&
+      !lastValue
+    ) {
       /**
        * TODO: Handle recognizing entity cascade clearly
        */
@@ -82,7 +88,30 @@ const EditableCell = ({
         }
       }
     }
-  }, [record, locationName]);
+    if (
+      record &&
+      record.type === "cascade" &&
+      !record?.api &&
+      !locationName &&
+      lastValue
+    ) {
+      /**
+       * TODO: Handle recognizing entity cascade clearly
+       */
+      if (typeof record.lastValue === "string") {
+        setLocationName(record.lastValue);
+      } else {
+        if (record.lastValue) {
+          config.fn.administration(record.lastValue, false).then((res) => {
+            const locName = res;
+            setLocationName(locName?.full_name);
+          });
+        } else {
+          setLocationName("-");
+        }
+      }
+    }
+  }, [record, locationName, lastValue]);
 
   const getAnswerValue = () => {
     switch (record.type) {
