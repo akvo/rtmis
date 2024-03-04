@@ -27,9 +27,6 @@ const DownloadTable = ({ type = "download", infoCallback }) => {
     api
       .get(`download/list?type=${type}`)
       .then((res) => {
-        // const tempDataset = res.data.map((d) =>
-        //   d.status === "on_progress" ? { ...d, status: "done" } : d
-        // );
         setDataset(res.data);
         setLoading(false);
       })
