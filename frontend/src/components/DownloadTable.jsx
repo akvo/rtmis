@@ -27,6 +27,9 @@ const DownloadTable = ({ type = "download", infoCallback }) => {
     api
       .get(`download/list?type=${type}`)
       .then((res) => {
+        // const tempDataset = res.data.map((d) =>
+        //   d.status === "on_progress" ? { ...d, status: "done" } : d
+        // );
         setDataset(res.data);
         setLoading(false);
       })
@@ -42,26 +45,6 @@ const DownloadTable = ({ type = "download", infoCallback }) => {
       });
   }, [notify, text.errorFileList, type]);
 
-  const pending = dataset.filter((d) => d.status === "on_progress");
-
-  useEffect(() => {
-    if (pending.length) {
-      setTimeout(() => {
-        api.get(`download/status/${pending?.[0]?.task_id}`).then((res) => {
-          if (res?.data?.status === "done") {
-            setDataset((ds) =>
-              ds.map((d) =>
-                d.task_id === pending?.[0]?.task_id
-                  ? { ...d, status: "done" }
-                  : d
-              )
-            );
-          }
-        });
-      }, 300);
-    }
-  }, [pending]);
-
   const handleDownload = (filename) => {
     setDownloading(filename);
     api
@@ -76,6 +59,34 @@ const DownloadTable = ({ type = "download", infoCallback }) => {
         setDownloading(null);
       });
   };
+
+  useEffect(() => {
+    const pending = dataset.filter((d) => d.status === "on_progress");
+    let timeoutId = null;
+    const updateStatus = () => {
+      if (pending.length > 0) {
+        timeoutId = setTimeout(() => {
+          api.get(`download/status/${pending?.[0]?.task_id}`).then((res) => {
+            if (res?.data?.status === "done") {
+              setDataset((ds) =>
+                ds.map((d) =>
+                  d.task_id === pending?.[0]?.task_id
+                    ? { ...d, status: "done" }
+                    : d
+                )
+              );
+            }
+            updateStatus();
+          });
+        }, 1000);
+        return timeoutId;
+      }
+    };
+    updateStatus();
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [dataset]);
 
   const onLoadMore = () => {
     setLoading(true);
