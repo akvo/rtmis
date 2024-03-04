@@ -1,10 +1,9 @@
+import os
 from django.core.management import BaseCommand
-from django_q.tasks import async_task
 
-from api.v1.v1_jobs.constants import JobTypes, JobStatus
-from api.v1.v1_jobs.models import Jobs
-from api.v1.v1_users.models import SystemUser
-from api.v1.v1_profile.constants import UserRoleTypes
+import pandas as pd
+from api.v1.v1_profile.models import Administration
+from utils.storage import upload
 
 
 class Command(BaseCommand):
@@ -19,23 +18,31 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        # test = options.get("test")
-        result = "kenya-administration.csv"
-
-        admin = SystemUser.objects.filter(
-            user_access__role=UserRoleTypes.admin
-        ).first()
-        job = Jobs.objects.create(
-            type=JobTypes.download_all_administrations,
-            user_id=admin.id,
-            status=JobStatus.on_progress,
-            result=result,
-        )
-        task_id = async_task(
-            "api.v1.v1_profile.job.download_all_administrations",
-            job.id,
-            hook="api.v1.v1_profile.job.download_result",
-        )
-        job.task_id = task_id
-        job.save()
-        return str(job.id)
+        test = options.get("test")
+        filename = "kenya-administration.csv"
+        if test:
+            filename = "kenya-administration_test.csv"
+        file_path = './tmp/{0}'.format(filename)
+        if os.path.exists(file_path):
+            os.remove(file_path)
+        administrations = Administration.objects.filter(level__id__gt=1).all()
+        data = []
+        for adm in administrations:
+            columns = {}
+            if adm.path:
+                parent_ids = list(filter(
+                    lambda path: path, adm.path.split(".")
+                ))
+                parents = Administration.objects.filter(
+                    pk__in=parent_ids,
+                    level__id__gt=1
+                ).all()
+                for p in parents:
+                    columns[p.level.name.lower()] = p.name
+                    columns[f"{p.level.name.lower()}_id"] = p.id
+            columns[adm.level.name.lower()] = adm.name
+            columns[f"{adm.level.name.lower()}_id"] = adm.id
+            data.append(columns)
+        df = pd.DataFrame(data)
+        df.to_csv(file_path, index=False)
+        upload(file=file_path)
