@@ -122,36 +122,6 @@ def generate_prefilled_template(
     return url
 
 
-def generate_administrations_template(
-    job_result: str
-):
-    file_path = './tmp/{0}'.format(job_result)
-    if os.path.exists(file_path):
-        os.remove(file_path)
-    administrations = Administration.objects.filter(level__id__gt=1).all()
-    data = []
-    for adm in administrations:
-        columns = {}
-        if adm.path:
-            parent_ids = list(filter(
-                lambda path: path, adm.path.split(".")
-            ))
-            parents = Administration.objects.filter(
-                pk__in=parent_ids,
-                level__id__gt=1
-            ).all()
-            for p in parents:
-                columns[p.level.name.lower()] = p.name
-                columns[f"{p.level.name.lower()}_id"] = p.id
-        columns[adm.level.name.lower()] = adm.name
-        columns[f"{adm.level.name.lower()}_id"] = adm.id
-        data.append(columns)
-    df = pd.DataFrame(data)
-    df.to_csv(file_path, index=False)
-    url = upload(file=file_path)
-    return url
-
-
 def generate_attribute_headers(
         attributes: QuerySet[AdministrationAttribute]) -> List[str]:
     headers = []
