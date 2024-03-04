@@ -58,10 +58,10 @@ export const transformForm = (forms, lang = 'en', filterMonitoring = false) => {
       }
       return q;
     });
-
-  const filteredQuestions = filterMonitoring
-    ? questions.filter((q) => q.monitoring || q.meta_uuid)
-    : questions;
+  const filteredQuestions = questions.map((q) => ({
+    ...q,
+    disabled: filterMonitoring && !q?.monitoring,
+  }));
 
   const transformed = filteredQuestions.map((x) => {
     let requiredSignTemp = x?.requiredSign || null;
@@ -255,6 +255,12 @@ const transformValue = (question, value) => {
   }
   if (question?.type === 'geo') {
     return value === '' ? [] : value;
+  }
+  if (question?.type === 'number') {
+    return `${value}`;
+  }
+  if (question?.type === 'autofield') {
+    return value || '';
   }
   return value;
 };
