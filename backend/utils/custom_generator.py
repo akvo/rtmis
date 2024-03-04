@@ -3,6 +3,7 @@ import sqlite3
 import pandas as pd
 import logging
 from rtmis.settings import MASTER_DATA
+from api.v1.v1_profile.models import Administration
 
 logger = logging.getLogger(__name__)
 
@@ -69,3 +70,94 @@ def update_sqlite(model, data, id=None):
         conn.rollback()
     finally:
         conn.close()
+
+
+def administration_csv_add(data: dict, test: bool = False):
+    filepath = "./storage/kenya-administration.csv"
+    if test:
+        filepath = "./storage/kenya-administration_test.csv"
+    if os.path.exists(filepath):
+        df = pd.read_csv(filepath)
+        new_data = {}
+        if data.path:
+            parent_ids = list(filter(
+                lambda path: path, data.path.split(".")
+            ))
+            parents = Administration.objects.filter(
+                pk__in=parent_ids,
+                level__id__gt=1
+            ).all()
+            for p in parents:
+                new_data[p.level.name.lower()] = p.name
+                new_data[f"{p.level.name.lower()}_id"] = p.id
+        new_data[data.level.name.lower()] = data.name
+        new_data[f"{data.level.name.lower()}_id"] = data.id
+        df = df.append(new_data, ignore_index=True)
+        df.to_csv(filepath, index=False)
+        return filepath
+    else:
+        logger.error({
+            'context': 'insert_administration_row_csv',
+            'message': "kenya-administration_test.csv doesn't exists"
+        })
+    return None
+
+
+def get_index_values(df):
+    last_values = []
+    last_indices = []
+    # Iterate over each row in the DataFrame
+    for index, row in df.iterrows():
+        # Find the last non-null value and its index
+        last_non_null_index = row.last_valid_index()
+        last_non_null_value = row[last_non_null_index]  
+        # Append the last non-null value and its index to the lists
+        last_values.append(last_non_null_value)
+        last_indices.append(last_non_null_index)
+    return last_values, last_indices
+
+
+def administration_csv_update(data: dict, test: bool = False):
+    filepath = "./storage/kenya-administration.csv"
+    if test:
+        filepath = "./storage/kenya-administration_test.csv"
+    if os.path.exists(filepath):
+        df = pd.read_csv(filepath)
+
+        last_values, last_indices = get_index_values(df=df)
+        # Print the last non-null value and its index for each row
+        for value, index in zip(last_values, last_indices):
+            if data.id == value:
+                col_name = data.level.name.lower()
+                df.at[index, col_name] = data.name
+                df.at[index, f"{col_name}_id"] = data.id
+        df.to_csv(filepath, index=False)
+        return filepath
+    else:
+        logger.error({
+            'context': 'update_administration_row_csv',
+            'message': "kenya-administration_test.csv doesn't exists"
+        })
+    return None
+
+
+def administration_csv_delete(id: int, test: bool = False):
+    filepath = "./storage/kenya-administration.csv"
+    if test:
+        filepath = "./storage/kenya-administration_test.csv"
+    if os.path.exists(filepath):
+        df = pd.read_csv(filepath)
+
+        last_values, last_indices = get_index_values(df=df)
+        # Print the last non-null value and its index for each row
+        for value, index in zip(last_values, last_indices):
+            if id == value:
+                df = df.drop(index=index)
+        df.to_csv(filepath, index=False)
+        return filepath
+    else:
+        logger.error({
+            'context': 'delete_administration_row_csv',
+            'message': "kenya-administration_test.csv doesn't exists"
+        })
+    return None

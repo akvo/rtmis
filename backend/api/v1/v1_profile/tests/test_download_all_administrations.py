@@ -26,4 +26,4 @@ class DownloadAllAdmTestCase(TestCase):
     def test_csv_generated(self):
         output = self.call_command()
         text = "File Created: ./storage/kenya-administration_test.csv"
-        self.assertTrue(output, text)
+        self.assertEqual(output, text)
