@@ -2,7 +2,7 @@ import os
 from django.core.management import BaseCommand
 
 import pandas as pd
-from api.v1.v1_profile.models import Administration
+from api.v1.v1_profile.models import Administration, Levels
 from utils.storage import upload
 
 
@@ -44,5 +44,12 @@ class Command(BaseCommand):
             columns[f"{adm.level.name.lower()}_id"] = adm.id
             data.append(columns)
         df = pd.DataFrame(data)
+        levels = Levels.objects.filter(id__gt=1).all()
+        for level in levels:
+            col_name = f"{level.name.lower()}_id"
+            df[col_name] = pd.to_numeric(df[col_name], errors='coerce')
+            df[col_name] = df[col_name] \
+                .where(df[col_name].notna(), None).astype('Int64')
         df.to_csv(file_path, index=False)
-        upload(file=file_path)
+        url = upload(file=file_path)
+        self.stdout.write(f"File Created: {url}")
