@@ -259,7 +259,7 @@ const EditableCell = ({
           locationName
         ) : record.type === "photo" && value && !lastValue ? (
           <Image src={value} width={100} />
-        ) : record.type === "photo" && lastValue ? (
+        ) : record.type === "photo" && lastValue && oldValue ? (
           <Image src={oldValue} width={100} />
         ) : lastValue ? (
           getLastAnswerValue()
