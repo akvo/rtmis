@@ -16,6 +16,7 @@ const TypeCascade = ({
   required,
   requiredSign,
   source,
+  disabled,
 }) => {
   const [dataSource, setDataSource] = useState([]);
   const [dropdownItems, setDropdownItems] = useState([]);
@@ -198,6 +199,7 @@ const TypeCascade = ({
               value={item.value}
               style={[styles.dropdownField]}
               placeholder={trans.selectItem}
+              disable={disabled}
             />
           );
         })}

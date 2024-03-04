@@ -78,6 +78,7 @@ const TypeInput = ({
   required,
   requiredSign,
   meta_uuid,
+  disabled,
 }) => {
   const requiredValue = required ? requiredSign : null;
   return (
@@ -94,7 +95,7 @@ const TypeInput = ({
         testID="type-input"
         {...addPreffix(addonBefore)}
         {...addSuffix(addonAfter)}
-        disabled={meta_uuid}
+        disabled={meta_uuid || disabled}
       />
     </View>
   );

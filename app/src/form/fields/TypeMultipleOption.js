@@ -17,6 +17,7 @@ const TypeMultipleOption = ({
   tooltip,
   required,
   requiredSign,
+  disabled,
 }) => {
   const showSearch = React.useMemo(() => {
     return option.length > 3;
@@ -56,6 +57,7 @@ const TypeMultipleOption = ({
         }}
         testID="type-multiple-option-dropdown"
         confirmUnSelectItem={true}
+        disable={disabled}
       />
     </View>
   );
