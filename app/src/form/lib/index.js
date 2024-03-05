@@ -271,12 +271,16 @@ export const transformMonitoringData = (formDataJson, lastValues) => {
     ?.filter((q) => lastValues?.[q?.id] && q?.pre)
     ?.filter((q) => lastValues[q.id] === q.pre.answer || lastValues[q.id].includes(q.pre.answer))
     ?.flatMap((q) => q?.pre?.fill || []);
-  const transformed = allQuestions?.reduce(
+  const currentValues = allQuestions?.reduce(
     (prev, current) => ({
       [current.id]: transformValue(current, lastValues?.[current.id], prefilled),
       ...prev,
     }),
     {},
   );
-  return transformed;
+  const admQuestion = allQuestions.find(
+    (q) => q?.type === 'cascade' && q?.source?.file === 'administrator.sqlite',
+  );
+  const prevAdmAnswer = lastValues?.[admQuestion?.id] ? [lastValues?.[admQuestion?.id]] : [];
+  return { currentValues, prevAdmAnswer };
 };
