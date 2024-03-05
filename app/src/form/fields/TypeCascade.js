@@ -119,9 +119,14 @@ const TypeCascade = ({
           ];
     }
     return Object.values(groupedDs).map((options, ox) => {
+      const defaultValue = value?.[ox] || null;
+      const answer =
+        typeof defaultValue === 'string'
+          ? options.find((o) => o?.name === defaultValue)?.id
+          : defaultValue;
       return {
         options,
-        value: value?.[ox] || null,
+        value: answer,
       };
     });
   }, [dataSource, source, value, id, prevAdmAnswer]);
