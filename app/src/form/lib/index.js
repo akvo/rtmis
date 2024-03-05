@@ -60,7 +60,7 @@ export const transformForm = (forms, lang = 'en', filterMonitoring = false) => {
     });
   const filteredQuestions = questions.map((q) => ({
     ...q,
-    disabled: filterMonitoring && !q?.monitoring,
+    disabled: filterMonitoring && q?.monitoring,
   }));
 
   const transformed = filteredQuestions.map((x) => {
