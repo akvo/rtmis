@@ -58,10 +58,10 @@ export const transformForm = (forms, lang = 'en', filterMonitoring = false) => {
       }
       return q;
     });
-
-  const filteredQuestions = filterMonitoring
-    ? questions.filter((q) => q.monitoring || q.meta_uuid)
-    : questions;
+  const filteredQuestions = questions.map((q) => ({
+    ...q,
+    disabled: filterMonitoring && q?.monitoring,
+  }));
 
   const transformed = filteredQuestions.map((x) => {
     let requiredSignTemp = x?.requiredSign || null;
@@ -249,25 +249,38 @@ export const onFilterDependency = (currentGroup, values, q) => {
   return q;
 };
 
-const transformValue = (question, value) => {
+const transformValue = (question, value, prefilled = []) => {
+  const findPrefilled = prefilled.find((p) => p?.id === question?.id);
+  const answer = value || findPrefilled?.answer;
   if (question?.type === 'cascade') {
-    return [value];
+    return [answer];
   }
   if (question?.type === 'geo') {
-    return value === '' ? [] : value;
+    return answer === '' ? [] : value;
   }
-  return value;
+  if (question?.type === 'number') {
+    return `${answer}`;
+  }
+  return answer;
 };
 
-export const transformMonitoringData = (formDataJson, inputData) => {
+export const transformMonitoringData = (formDataJson, lastValues) => {
   const formData = JSON.parse(formDataJson.json);
   const allQuestions = formData?.question_group?.flatMap((qg) => qg?.question);
-  const transformed = allQuestions?.reduce(
+  const prefilled = allQuestions
+    ?.filter((q) => lastValues?.[q?.id] && q?.pre)
+    ?.filter((q) => lastValues[q.id] === q.pre.answer || lastValues[q.id].includes(q.pre.answer))
+    ?.flatMap((q) => q?.pre?.fill || []);
+  const currentValues = allQuestions?.reduce(
     (prev, current) => ({
-      [current.id]: transformValue(current, inputData?.[current.id]),
+      [current.id]: transformValue(current, lastValues?.[current.id], prefilled),
       ...prev,
     }),
     {},
   );
-  return transformed;
+  const admQuestion = allQuestions.find(
+    (q) => q?.type === 'cascade' && q?.source?.file === 'administrator.sqlite',
+  );
+  const prevAdmAnswer = lastValues?.[admQuestion?.id] ? [lastValues?.[admQuestion?.id]] : [];
+  return { currentValues, prevAdmAnswer };
 };

@@ -51,5 +51,5 @@ class Command(BaseCommand):
             df[col_name] = df[col_name] \
                 .where(df[col_name].notna(), None).astype('Int64')
         df.to_csv(file_path, index=False)
-        url = upload(file=file_path)
+        url = upload(file=file_path, folder="master_data")
         self.stdout.write(f"File Created: {url}")

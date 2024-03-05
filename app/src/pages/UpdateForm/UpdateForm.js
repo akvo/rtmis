@@ -49,11 +49,13 @@ const UpdateForm = ({ navigation, route }) => {
   }, [search]);
 
   const handleUpdateForm = (item) => {
+    const { currentValues, prevAdmAnswer } = transformMonitoringData(
+      selectedForm,
+      JSON.parse(item.json.replace(/''/g, "'")),
+    );
     FormState.update((s) => {
-      s.currentValues = transformMonitoringData(
-        selectedForm,
-        JSON.parse(item.json.replace(/''/g, "'")),
-      );
+      s.currentValues = currentValues;
+      s.prevAdmAnswer = prevAdmAnswer;
     });
     navigation.navigate('FormPage', {
       formId: route?.params.formId,

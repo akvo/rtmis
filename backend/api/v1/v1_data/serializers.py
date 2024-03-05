@@ -618,6 +618,12 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.BOOL)
     def get_is_monitoring(self, instance: PendingFormData):
+        if instance.data_id:
+            registration = FormData.objects.filter(
+                id=instance.data_id,
+                parent=None
+            ).first()
+            return True if registration else False
         monitoring = FormData.objects.filter(
             uuid=instance.uuid,
             parent=None

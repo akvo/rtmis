@@ -7,7 +7,7 @@ import { FieldLabel } from '../support';
 import { styles } from '../styles';
 import { loc, i18n } from '../../lib';
 
-const TypeGeo = ({ keyform, id, label, value, tooltip, required, requiredSign }) => {
+const TypeGeo = ({ keyform, id, label, value, tooltip, required, requiredSign, disabled }) => {
   const [errorMsg, setErrorMsg] = useState(null);
   const [gpsAccuracy, setGpsAccuracy] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -104,7 +104,11 @@ const TypeGeo = ({ keyform, id, label, value, tooltip, required, requiredSign })
           </Text>
         )}
         <View style={styles.geoButtonGroup}>
-          <Button onPress={() => handleGetCurrLocation()} testID="button-curr-location">
+          <Button
+            onPress={() => handleGetCurrLocation()}
+            testID="button-curr-location"
+            disabled={disabled}
+          >
             {loading
               ? trans.fetchingLocation
               : gpsAccuracy !== null
