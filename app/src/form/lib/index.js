@@ -249,28 +249,31 @@ export const onFilterDependency = (currentGroup, values, q) => {
   return q;
 };
 
-const transformValue = (question, value) => {
+const transformValue = (question, value, prefilled = []) => {
+  const findPrefilled = prefilled.find((p) => p?.id === question?.id);
+  const answer = value || findPrefilled?.answer;
   if (question?.type === 'cascade') {
-    return [value];
+    return [answer];
   }
   if (question?.type === 'geo') {
-    return value === '' ? [] : value;
+    return answer === '' ? [] : value;
   }
   if (question?.type === 'number') {
-    return `${value}`;
+    return `${answer}`;
   }
-  if (question?.type === 'autofield') {
-    return value || '';
-  }
-  return value;
+  return answer;
 };
 
-export const transformMonitoringData = (formDataJson, inputData) => {
+export const transformMonitoringData = (formDataJson, lastValues) => {
   const formData = JSON.parse(formDataJson.json);
   const allQuestions = formData?.question_group?.flatMap((qg) => qg?.question);
+  const prefilled = allQuestions
+    ?.filter((q) => lastValues?.[q?.id] && q?.pre)
+    ?.filter((q) => lastValues[q.id] === q.pre.answer || lastValues[q.id].includes(q.pre.answer))
+    ?.flatMap((q) => q?.pre?.fill || []);
   const transformed = allQuestions?.reduce(
     (prev, current) => ({
-      [current.id]: transformValue(current, inputData?.[current.id]),
+      [current.id]: transformValue(current, lastValues?.[current.id], prefilled),
       ...prev,
     }),
     {},
