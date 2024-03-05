@@ -2,7 +2,7 @@ import os
 import sqlite3
 import pandas as pd
 import logging
-from rtmis.settings import MASTER_DATA
+from rtmis.settings import MASTER_DATA, STORAGE_PATH
 from api.v1.v1_profile.models import Administration
 
 logger = logging.getLogger(__name__)
@@ -74,7 +74,7 @@ def update_sqlite(model, data, id=None):
 
 def administration_csv_add(data: dict, test: bool = False):
     filename = "kenya-administration{0}.csv".format("_test" if test else "")
-    filepath = f"./storage/master_data/{filename}"
+    filepath = f"{STORAGE_PATH}/master_data/{filename}"
     if os.path.exists(filepath):
         df = pd.read_csv(filepath)
         new_data = {}
@@ -114,7 +114,7 @@ def find_index_by_id(df, id):
 
 def administration_csv_update(data: dict, test: bool = False):
     filename = "kenya-administration{0}.csv".format("_test" if test else "")
-    filepath = f"./storage/master_data/{filename}"
+    filepath = f"{STORAGE_PATH}/master_data/{filename}"
     if os.path.exists(filepath):
         df = pd.read_csv(filepath)
         index = find_index_by_id(df=df, id=data.pk)
@@ -144,7 +144,7 @@ def administration_csv_update(data: dict, test: bool = False):
 
 def administration_csv_delete(id: int, test: bool = False):
     filename = "kenya-administration{0}.csv".format("_test" if test else "")
-    filepath = f"./storage/master_data/{filename}"
+    filepath = f"{STORAGE_PATH}/master_data/{filename}"
     if os.path.exists(filepath):
         df = pd.read_csv(filepath)
         ix = find_index_by_id(df=df, id=id)

@@ -3,6 +3,7 @@ import pandas as pd
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.core.management import call_command
+from rtmis.settings import STORAGE_PATH
 from api.v1.v1_profile.models import Administration, Levels
 from utils.custom_generator import (
     administration_csv_add,
@@ -29,6 +30,10 @@ class AdministrationCSVTestCase(TestCase):
         )
         new_adm.save()
         filepath = administration_csv_add(data=new_adm, test=True)
+        self.assertEqual(
+            filepath,
+            f"{STORAGE_PATH}/master_data/kenya-administration_test.csv"
+        )
         df = pd.read_csv(filepath)
         last_record = df.iloc[-1]
         self.assertEqual(last_record["village"], "New village")
@@ -41,6 +46,10 @@ class AdministrationCSVTestCase(TestCase):
         adm.save()
 
         filepath = administration_csv_update(data=adm, test=True)
+        self.assertEqual(
+            filepath,
+            f"{STORAGE_PATH}/master_data/kenya-administration_test.csv"
+        )
         df = pd.read_csv(filepath)
         contains_value = (df == "Village name changed").any().any()
         self.assertTrue(contains_value)
@@ -52,6 +61,10 @@ class AdministrationCSVTestCase(TestCase):
         adm.delete()
 
         filepath = administration_csv_delete(id=adm_id, test=True)
+        self.assertEqual(
+            filepath,
+            f"{STORAGE_PATH}/master_data/kenya-administration_test.csv"
+        )
         df = pd.read_csv(filepath)
         contains_value = (df == adm_name).any().any()
         self.assertFalse(contains_value)
