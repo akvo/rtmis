@@ -16,6 +16,7 @@ const TypeNumber = ({
   tooltip,
   required,
   requiredSign,
+  disabled,
 }) => {
   const requiredValue = required ? requiredSign : null;
   return (
@@ -33,6 +34,7 @@ const TypeNumber = ({
         testID="type-number"
         {...addPreffix(addonBefore)}
         {...addSuffix(addonAfter)}
+        disabled={disabled}
       />
     </View>
   );

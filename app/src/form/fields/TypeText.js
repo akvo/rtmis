@@ -14,6 +14,7 @@ const TypeText = ({
   required,
   requiredSign,
   meta_uuid,
+  disabled,
 }) => {
   const requiredValue = required ? requiredSign : null;
   return (
@@ -30,7 +31,7 @@ const TypeText = ({
         }}
         value={value}
         testID="type-text"
-        disabled={meta_uuid}
+        disabled={meta_uuid || disabled}
       />
     </View>
   );

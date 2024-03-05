@@ -16,6 +16,7 @@ const TypeOption = ({
   tooltip,
   required,
   requiredSign,
+  disabled,
 }) => {
   const showSearch = React.useMemo(() => {
     return option.length > 3;
@@ -67,6 +68,7 @@ const TypeOption = ({
         renderItem={OptionItem}
         testID="type-option-dropdown"
         placeholder={trans.selectItem}
+        disable={disabled}
       />
     </View>
   );

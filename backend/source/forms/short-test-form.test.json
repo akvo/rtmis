@@ -108,7 +108,8 @@
               "options": ["new"]
             }
           ],
-          "fn": null
+          "fn": null,
+          "monitoring": true
         },
         {
           "id": 17030862702533,
@@ -128,7 +129,8 @@
           "extra": {
             "type": "entity",
             "name": "School"
-          }
+          },
+          "monitoring": true
         },
         {
           "id": 17030862702534,
@@ -148,7 +150,8 @@
           "extra": {
             "type": "entity",
             "name": "Health Care Facilities"
-          }
+          },
+          "monitoring": true
         },
         {
           "id": 17029147539571,
@@ -167,7 +170,8 @@
               "options": ["new"]
             }
           ],
-          "fn": null
+          "fn": null,
+          "monitoring": true
         },
         {
           "id": 17029148037321,
@@ -254,7 +258,8 @@
           "meta": true,
           "options": null,
           "rule": null,
-          "fn": null
+          "fn": null,
+          "monitoring": true
         },
         {
           "id": 16994198156601,
@@ -530,7 +535,6 @@
             }
           ],
           "dependency": null,
-          "monitoring": true,
           "fn": null,
           "attributes": ["advanced_filter"]
         },
@@ -551,8 +555,7 @@
               "options": ["g1_toilet_observed"]
             }
           ],
-          "fn": null,
-          "monitoring": true
+          "fn": null
         },
         {
           "id": 16994233572001,
@@ -593,7 +596,6 @@
             }
           ],
           "fn": null,
-          "monitoring": true,
           "attributes": ["advanced_filter"]
         },
         {
@@ -635,7 +637,6 @@
             }
           ],
           "fn": null,
-          "monitoring": true,
           "attributes": ["advanced_filter"]
         },
         {
@@ -654,8 +655,7 @@
             "fnColor": {},
             "fnString": "#toilet_observed#.includes(\"g1\") && #functional_toilet#.includes(\"g1\") && #toilet_privacy#.includes(\"g1\") ? \"G1 Functional toilet with privacy\" : \"G0 Toilet non-functional or not private\"",
             "multiline": false
-          },
-          "monitoring": true
+          }
         },
         {
           "id": 16994236967201,
@@ -721,7 +721,6 @@
           ],
           "dependency": null,
           "fn": null,
-          "monitoring": true,
           "attributes": ["advanced_filter"]
         },
         {
@@ -823,7 +822,6 @@
             }
           ],
           "fn": null,
-          "monitoring": true,
           "attributes": ["advanced_filter"]
         },
         {
@@ -918,7 +916,6 @@
             }
           ],
           "fn": null,
-          "monitoring": true,
           "attributes": ["advanced_filter"]
         },
         {
@@ -940,8 +937,7 @@
             },
             "fnString": "#toilet_interface#.includes(\"g1\") && #containment_or_collection_system#.includes(\"g1\") && #flyproof_toilet#.includes(\"g1\") ? \"G1 Flyproof toilet\"  : \"G0 Toilet NOT flyproof\"",
             "multiline": false
-          },
-          "monitoring": true
+          }
         }
       ]
     },
@@ -987,8 +983,7 @@
                 "answer": ["b"]
               }
             ]
-          },
-          "monitoring": true
+          }
         },
         {
           "id": 17030862702502,
@@ -1018,8 +1013,7 @@
               "color": "blue",
               "value": "b"
             }
-          ],
-          "monitoring": true
+          ]
         },
         {
           "id": 17030862702503,
@@ -1049,8 +1043,7 @@
               "color": "blue",
               "value": "b"
             }
-          ],
-          "monitoring": true
+          ]
         },
         {
           "id": 17030862702541,
@@ -1066,8 +1059,7 @@
             "fnColor": {},
             "fnString": "#o_r_functional_toilet_with_privacy#",
             "multiline": false
-          },
-          "monitoring": true
+          }
         },
         {
           "id": 17032625689541,
@@ -1083,8 +1075,7 @@
             "fnColor": {},
             "fnString": "#o_r_flyproof_toilet_type#",
             "multiline": false
-          },
-          "monitoring": true
+          }
         }
       ]
     }
