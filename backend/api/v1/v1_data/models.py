@@ -305,7 +305,10 @@ class Answers(models.Model):
         ]:
             answer = self.options
         elif q.type in [
-            QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+            QuestionTypes.text,
+            QuestionTypes.photo,
+            QuestionTypes.date,
+            QuestionTypes.cascade,
         ]:
             answer = self.name
         else:
