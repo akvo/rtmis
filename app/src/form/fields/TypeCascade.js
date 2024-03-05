@@ -178,6 +178,19 @@ const TypeCascade = ({
     loadDataSource();
   }, [loadDataSource]);
 
+  const handleDefaultValue = useCallback(() => {
+    if (typeof value?.[0] === 'string' && dropdownItems.length) {
+      const lastValue = dropdownItems.slice(-1)?.[0]?.value;
+      if (lastValue) {
+        onChange(id, [lastValue]);
+      }
+    }
+  }, [value, dropdownItems, onChange]);
+
+  useEffect(() => {
+    handleDefaultValue();
+  }, [handleDefaultValue]);
+
   if (!dropdownItems.length) {
     return;
   }
