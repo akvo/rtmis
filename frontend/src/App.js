@@ -134,10 +134,6 @@ const RouteList = () => {
           }
         />
         <Route
-          path="master-data/download-administration-data"
-          element={<Private element={DownloadAdmData} alias="master-data" />}
-        />
-        <Route
           path="master-data/add-administration"
           element={<Private element={AddAdministration} alias="master-data" />}
         />

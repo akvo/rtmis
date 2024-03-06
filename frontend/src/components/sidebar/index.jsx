@@ -34,10 +34,6 @@ const Sidebar = () => {
     ],
     "master-data": [
       { label: "Administrative List", url: "/control-center/master-data" },
-      {
-        label: "Administrative Download",
-        url: "/control-center/master-data/download-administration-data",
-      },
       { label: "Attributes", url: "/control-center/master-data/attributes" },
       { label: "Entities", url: "/control-center/master-data/entities" },
       {
