@@ -26,7 +26,6 @@ const DownloadTable = ({ type = "download", infoCallback }) => {
   useEffect(() => {
     const fetchData = (endpoint) => {
       setLoading(true);
-      setShowLoadMore(false);
       api
         .get(endpoint)
         .then((res) => {
@@ -35,6 +34,7 @@ const DownloadTable = ({ type = "download", infoCallback }) => {
         })
         .catch((e) => {
           setLoading(false);
+          setShowLoadMore(false);
           setDataset([]);
           notify({
             type: "error",
