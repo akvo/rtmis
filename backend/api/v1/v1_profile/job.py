@@ -1,16 +1,16 @@
 import logging
 from api.v1.v1_jobs.models import Jobs, JobStatus
-from utils.administration_upload_template import generate_prefilled_template
+from utils.administration_upload_template import generate_administration_template
 from django.utils import timezone
 
 logger = logging.getLogger(__name__)
 
 
-def download_prefilled_administrations(job_id: int):
+def download_administration_data(job_id: int):
     try:
         job = Jobs.objects.get(pk=job_id)
         job_info = job.info
-        return generate_prefilled_template(
+        return generate_administration_template(
             job_result=job.result,
             attributes=job_info['attributes'],
             adm_id=job_info['adm_id'],
@@ -23,7 +23,7 @@ def download_prefilled_administrations(job_id: int):
         return False
 
 
-def download_prefilled_result(task):
+def download_administration_data_result(task):
     print("task", task)
     job = Jobs.objects.get(task_id=task.id)
     job.attempt = job.attempt + 1
