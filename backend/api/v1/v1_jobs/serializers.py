@@ -29,6 +29,7 @@ class DownloadListSerializer(serializers.ModelSerializer):
     administration = serializers.SerializerMethodField()
     date = serializers.DateTimeField(
         source='available', format="%B %d, %Y %I:%M %p")
+    form = serializers.SerializerMethodField()
 
     @extend_schema_field(CustomChoiceField(
         choices=[JobTypes.FieldStr[d] for d in JobTypes.FieldStr]))
@@ -51,9 +52,16 @@ class DownloadListSerializer(serializers.ModelSerializer):
             return Administration.objects.get(pk=admin_id).full_name
         return None
 
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_form(self, instance):
+        form_id = instance.info.get('form_id')
+        if form_id:
+            return Forms.objects.get(pk=form_id).name
+        return None
+
     class Meta:
         model = Jobs
-        fields = ['id', 'task_id', 'type', 'status',
+        fields = ['id', 'task_id', 'type', 'status', 'form',
                   'administration', 'result', 'date']
 
 
