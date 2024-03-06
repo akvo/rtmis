@@ -8,7 +8,6 @@ import {
 } from "@ant-design/icons";
 import { api, store, uiText } from "../lib";
 import { useNotification } from "../util/hooks";
-import moment from "moment";
 
 const DownloadTable = ({ type = "download", infoCallback }) => {
   const [dataset, setDataset] = useState([]);
@@ -140,19 +139,12 @@ const DownloadTable = ({ type = "download", infoCallback }) => {
           <div>
             <strong>{row.result}</strong>
           </div>
-          {infoCallback && <div>{infoCallback(row.info)}</div>}
+          {infoCallback && <div>{infoCallback(row.administration)}</div>}
         </div>
       ),
     },
     {
-      dataIndex: "created",
-      render: (row) => {
-        return (
-          <span>
-            {moment(row, "DD-MM-YYYY HH:mm:ss").format("YYYY-MM-DD HH:mm")}
-          </span>
-        );
-      },
+      dataIndex: "date",
     },
     {
       render: (row) => (
