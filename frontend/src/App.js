@@ -41,7 +41,6 @@ import {
   ControlCenter,
   UploadAdministrationData,
   BIDashboard,
-  DownloadAdmData,
   MonitoringDetail,
   // Visualisation,
 } from "./pages";
