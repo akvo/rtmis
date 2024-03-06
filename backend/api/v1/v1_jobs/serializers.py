@@ -68,7 +68,7 @@ class DownloadListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Jobs
         fields = ['id', 'task_id', 'type', 'status', 'form',
-                  'category', 'administration', 'date']
+                  'category', 'administration', 'date', 'result']
 
 
 class UploadExcelSerializer(serializers.Serializer):
