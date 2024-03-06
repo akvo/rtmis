@@ -137,7 +137,7 @@ def download_file(request, version, file_name):
                     ),
                     OpenApiParameter(
                         name="type",
-                        required=True,
+                        required=False,
                         enum=JobTypes.FieldStr.values(),
                         type=OpenApiTypes.STR,
                         location=OpenApiParameter.QUERY,
@@ -146,12 +146,11 @@ def download_file(request, version, file_name):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def download_list(request, version):
-    job_type = getattr(
-        JobTypes, request.GET.get('type')
-        if request.GET.get('type') else 'download'
-    )
+    job_types = [JobTypes.download, JobTypes.download_administration]
+    if request.GET.get('type'):
+        job_types = [getattr(JobTypes, request.GET.get('type'))]
     queryset = request.user.user_jobs.filter(
-        type=job_type).order_by('-created')
+        type__in=job_types).order_by('-created')
     paginator = PageNumberPagination()
     paginator.page_size = 5
     try:
