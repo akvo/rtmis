@@ -31,7 +31,7 @@ class Command(BaseCommand):
             if find_adm else adm_id
         today = timezone.datetime.today().strftime("%y%m%d")
         out_file = "download-{0}-{1}-{2}.xlsx".format(
-            file_name,
+            file_name.replace("/", "_"),
             today,
             uuid.uuid4()
         )

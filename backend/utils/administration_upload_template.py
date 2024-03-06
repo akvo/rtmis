@@ -69,7 +69,7 @@ def generate_prefilled_template(
     level: int = None,
     adm_id: int = None
 ):
-    file_path = './tmp/{0}'.format(job_result)
+    file_path = './tmp/{0}'.format(job_result.replace("/", "_"))
     if os.path.exists(file_path):
         os.remove(file_path)
     level_headers = [
