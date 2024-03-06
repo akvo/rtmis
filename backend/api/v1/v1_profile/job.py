@@ -23,7 +23,7 @@ def download_administration_data(job_id: int):
         return False
 
 
-def download_administration_data_result(task):
+def download_master_data_result(task):
     print("task", task)
     job = Jobs.objects.get(task_id=task.id)
     job.attempt = job.attempt + 1
