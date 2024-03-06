@@ -16,7 +16,7 @@ from rtmis.settings import (
 )
 from django.http import HttpResponse
 from django.utils import timezone
-from django.db.models import Max
+from django.db.models import Max, Q
 
 from rest_framework import status, serializers
 from rest_framework.response import Response
@@ -398,8 +398,12 @@ def get_datapoint_download_list(request, version):
         form_id__in=forms,
         pk__in=latest_ids_per_uuid,
     )
+    print("assignment.last_synced_at ", assignment.last_synced_at)
     if assignment.last_synced_at:
-        queryset = queryset.filter(updated__gte=assignment.last_synced_at)
+        queryset = queryset.filter(
+            Q(created__gte=assignment.last_synced_at) |
+            Q(updated__gte=assignment.last_synced_at)
+        )
 
     queryset = queryset.values(
         'uuid', 'id', 'form_id', 'name', 'created'
