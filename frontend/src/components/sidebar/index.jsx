@@ -8,6 +8,7 @@ import {
   TableOutlined,
   DatabaseOutlined,
   DashboardOutlined,
+  DownloadOutlined,
 } from "@ant-design/icons";
 
 const Sidebar = () => {
@@ -17,6 +18,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   const { roles } = config;
+  const superAdminRole = roles.find((r) => r.id === authUser?.role_detail?.id);
 
   const pageAccessToLabelAndUrlMapping = {
     user: { label: "Manage Platform Users", url: "/control-center/users" },
@@ -71,6 +73,10 @@ const Sidebar = () => {
       icon: DatabaseOutlined,
       childrenKeys: ["master-data"],
     },
+    download: {
+      label: "Download",
+      icon: DownloadOutlined,
+    },
   };
 
   const determineChildren = (key) => {
@@ -87,6 +93,7 @@ const Sidebar = () => {
   const createMenuItems = (controlCenterOrder, pageAccess) => {
     const menuItems = [];
     const controlCenterItem = controlCenterToLabelMapping["control-center"];
+    const downloadItem = controlCenterToLabelMapping["download"];
     if (controlCenterItem) {
       menuItems.push({
         key: "control-center",
@@ -97,9 +104,8 @@ const Sidebar = () => {
         url: "/control-center",
       });
     }
-
     Object.keys(controlCenterToLabelMapping).forEach((orderKey) => {
-      if (orderKey === "control-center") {
+      if (orderKey === "control-center" || orderKey === "download") {
         return;
       }
 
@@ -127,11 +133,21 @@ const Sidebar = () => {
         });
       }
     });
+    const admAccess =
+      superAdminRole.name === "Super Admin" ||
+      superAdminRole.name === "County Admin";
+    if (downloadItem && admAccess) {
+      menuItems.push({
+        key: "donwload",
+        icon: downloadItem.icon ? React.createElement(downloadItem.icon) : null,
+        label: downloadItem.label,
+        url: "/administration-download",
+      });
+    }
 
     return menuItems;
   };
 
-  const superAdminRole = roles.find((r) => r.id === authUser?.role_detail?.id);
   const usersMenuItem = createMenuItems(
     superAdminRole.control_center_order,
     superAdminRole.page_access

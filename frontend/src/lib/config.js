@@ -45,6 +45,7 @@ const config = {
         "settings",
         "organisation",
         "master-data",
+        "administration-download",
       ],
       administration_level: [1],
       description:
@@ -55,6 +56,7 @@ const config = {
         "manage-master-data",
         "manage-mobile",
         "approvals",
+        "download",
       ],
     },
     {
@@ -73,6 +75,7 @@ const config = {
         "approvers",
         "form",
         "reports",
+        "administration-download",
       ],
       administration_level: [2],
       description:
@@ -83,6 +86,7 @@ const config = {
         "manage-data",
         "approvals",
         "submission",
+        "download",
       ],
     },
     {

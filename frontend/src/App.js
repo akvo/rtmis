@@ -43,6 +43,7 @@ import {
   BIDashboard,
   DownloadAdmData,
   MonitoringDetail,
+  AdministrationDownload,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -226,6 +227,15 @@ const RouteList = () => {
         />
       </Route>
       <Route
+        path="/administration-download"
+        element={
+          <Private
+            element={AdministrationDownload}
+            alias="administration-download"
+          />
+        }
+      />
+      <Route
         path="/settings"
         element={<Private element={Settings} alias="settings" />}
       />
@@ -244,7 +254,7 @@ const RouteList = () => {
       <Route path="/privacy-policy" element={<Privacy />} />
       <Route exact path="/coming-soon" element={<div />} />
       <Route exact path="/not-found" element={<div />} />
-      <Route path="*" element={<Navigate replace to="/not-found" />} />
+      {/* <Route path="*" element={<Navigate replace to="/not-found" />} /> */}
     </Routes>
   );
 };

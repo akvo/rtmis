@@ -483,6 +483,8 @@ const uiText = {
     tourUserManagement: "Magni provident aliquam harum cupiditate iste",
     tourDataUploadsPanel:
       "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
+    //downloads
+    downloadTitle: "Download",
     // Add user modal notification
     existingApproverTitle: "There are existing approvers for:",
     existingApproverDescription:

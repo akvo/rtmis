@@ -24,33 +24,43 @@ const DownloadTable = ({ type = "download", infoCallback }) => {
   }, [activeLang]);
 
   useEffect(() => {
-    api
-      .get(`download/list?type=${type}`)
-      .then((res) => {
-        setDataset(res.data);
-        setLoading(false);
-      })
-      .catch((e) => {
-        setLoading(false);
-        setDataset([]);
-        setShowLoadMore(false);
-        notify({
-          type: "error",
-          message: text.errorFileList,
+    const fetchData = (endpoint) => {
+      setLoading(true);
+      setShowLoadMore(false);
+      api
+        .get(endpoint)
+        .then((res) => {
+          setDataset(res.data);
+          setLoading(false);
+        })
+        .catch((e) => {
+          setLoading(false);
+          setDataset([]);
+          notify({
+            type: "error",
+            message: text.errorFileList,
+          });
+          console.error(e);
         });
-        console.error(e);
-      });
+    };
+    if (type) {
+      fetchData(`download/list?type=${type}`);
+      return;
+    }
+    fetchData(`download/list`);
   }, [notify, text.errorFileList, type]);
 
-  const handleDownload = (filename) => {
-    setDownloading(filename);
+  const handleDownload = (row) => {
+    setDownloading(row.result);
     api
-      .get(`download/file/${filename}?type=${type}`, { responseType: "blob" })
+      .get(`download/file/${row.result}?type=${row.type}`, {
+        responseType: "blob",
+      })
       .then((res) => {
         const url = window.URL.createObjectURL(new Blob([res.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", filename);
+        link.setAttribute("download", row.result);
         document.body.appendChild(link);
         link.click();
         setDownloading(null);
@@ -160,7 +170,7 @@ const DownloadTable = ({ type = "download", infoCallback }) => {
             ghost
             disabled={row.status !== "done"}
             onClick={() => {
-              handleDownload(row.result);
+              handleDownload(row);
             }}
           >
             {row.status === "on_progress"
