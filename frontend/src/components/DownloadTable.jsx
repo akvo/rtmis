@@ -5,6 +5,7 @@ import {
   LoadingOutlined,
   DownloadOutlined,
   ExclamationCircleOutlined,
+  FileMarkdownFilled,
 } from "@ant-design/icons";
 import { api, store, uiText } from "../lib";
 import { useNotification } from "../util/hooks";
@@ -126,12 +127,23 @@ const DownloadTable = ({ type = "download", infoCallback }) => {
   const columns = [
     {
       render: (row) =>
-        row.type === 1 ? (
-          <img src="/assets/formtemplate.svg" />
+        row.type === "Administration" ? (
+          <FileMarkdownFilled style={{ color: "blue" }} />
         ) : (
-          <FileTextFilled />
+          <FileTextFilled style={{ color: "green" }} />
         ),
       width: 40,
+    },
+    {
+      dataIndex: "type",
+      render: (row) => (
+        <div>
+          <div>
+            <strong>{row === "Data" ? "Data" : "Master Data"}</strong>
+          </div>
+          {row === "Data" ? null : row}
+        </div>
+      ),
     },
     {
       render: (row) => (
@@ -139,7 +151,7 @@ const DownloadTable = ({ type = "download", infoCallback }) => {
           <div>
             <strong>{row.result}</strong>
           </div>
-          {infoCallback && <div>{infoCallback(row.administration)}</div>}
+          {[row.form, row.administration].filter((x) => x).join(" | ")}
         </div>
       ),
     },

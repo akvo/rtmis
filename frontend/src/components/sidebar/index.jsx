@@ -32,14 +32,14 @@ const Sidebar = () => {
     },
     data: [
       { label: "Manage Data", url: "/control-center/data/manage" },
-      { label: "Download Data", url: "/control-center/data/export" },
+      // { label: "Download Data", url: "/control-center/data/export" },
     ],
     "master-data": [
       { label: "Administrative List", url: "/control-center/master-data" },
-      {
-        label: "Administrative Download",
-        url: "/control-center/master-data/download-administration-data",
-      },
+      // {
+      //   label: "Administrative Download",
+      //   url: "/control-center/master-data/download-administration-data",
+      // },
       { label: "Attributes", url: "/control-center/master-data/attributes" },
       { label: "Entities", url: "/control-center/master-data/entities" },
       {

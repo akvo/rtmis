@@ -121,10 +121,6 @@ const RouteList = () => {
           element={<Private element={MonitoringDetail} alias="data" />}
         />
         <Route
-          path="data/export"
-          element={<Private element={ExportData} alias="data" />}
-        />
-        <Route
           path="master-data"
           element={<Private element={MasterData} alias="master-data" />}
         />
@@ -133,10 +129,6 @@ const RouteList = () => {
           element={
             <Private element={UploadAdministrationData} alias="master-data" />
           }
-        />
-        <Route
-          path="master-data/download-administration-data"
-          element={<Private element={DownloadAdmData} alias="master-data" />}
         />
         <Route
           path="master-data/add-administration"

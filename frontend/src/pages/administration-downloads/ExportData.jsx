@@ -34,12 +34,7 @@ const ExportData = () => {
             style={{ padding: 0, minHeight: "40vh" }}
             bodystyle={{ padding: 0 }}
           >
-            <DownloadTable
-              infoCallback={(info) => {
-                return forms.find((f) => f.id === info?.form_id)?.name || "-";
-              }}
-              type={null}
-            />
+            <DownloadTable type={null} />
           </div>
         </div>
       </div>
