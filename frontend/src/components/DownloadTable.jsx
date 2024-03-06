@@ -127,7 +127,7 @@ const DownloadTable = ({ type = "download", infoCallback }) => {
   const columns = [
     {
       render: (row) =>
-        row.type === "Administration" ? (
+        row.category === "Administration" ? (
           <FileMarkdownFilled style={{ color: "blue" }} />
         ) : (
           <FileTextFilled style={{ color: "green" }} />
@@ -135,7 +135,7 @@ const DownloadTable = ({ type = "download", infoCallback }) => {
       width: 40,
     },
     {
-      dataIndex: "type",
+      dataIndex: "category",
       render: (row) => (
         <div>
           <div>
