@@ -16,8 +16,7 @@ from rtmis.settings import (
 )
 from django.http import HttpResponse
 from django.utils import timezone
-from django.db.models import F, Max
-from django.db.models.functions import Coalesce
+from django.db.models import Max
 
 from rest_framework import status, serializers
 from rest_framework.response import Response
@@ -387,28 +386,24 @@ def get_datapoint_download_list(request, version):
     forms = assignment.forms.values('id')
     paginator = Pagination()
 
-    latest_created_per_uuid = FormData.objects.filter(
+    latest_ids_per_uuid = FormData.objects.filter(
         administration_id__in=administrations,
         form_id__in=forms,
     ).values('uuid').annotate(
-        latest_created=Max('created')
-    )
+        latest_id=Max('id')
+    ).values_list('latest_id', flat=True)
 
     queryset = FormData.objects.filter(
         administration_id__in=administrations,
         form_id__in=forms,
-        uuid__in=latest_created_per_uuid.values('uuid'),
+        pk__in=latest_ids_per_uuid,
     )
     if assignment.last_synced_at:
         queryset = queryset.filter(updated__gte=assignment.last_synced_at)
 
-    queryset = queryset.annotate(
-        latest_created=Coalesce('updated', 'created') \
-        # Use updated time if available, otherwise use created time
-    ).filter(
-        created=F('latest_created') \
-        # Filter by objects where created equals latest_created
-    ).values('uuid', 'id', 'form_id', 'name').order_by('id')
+    queryset = queryset.values(
+        'uuid', 'id', 'form_id', 'name', 'created'
+    ).order_by('-created')
 
     instance = paginator.paginate_queryset(queryset, request)
     response = paginator.get_paginated_response(
