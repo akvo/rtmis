@@ -10,7 +10,7 @@ import {
 import { api, store, uiText } from "../lib";
 import { useNotification } from "../util/hooks";
 
-const DownloadTable = ({ type = "download", infoCallback }) => {
+const DownloadTable = ({ type = "download" }) => {
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showLoadMore, setShowLoadMore] = useState(true);

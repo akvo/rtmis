@@ -4,7 +4,6 @@ import { Breadcrumbs, DescriptionPanel, DownloadTable } from "../../components";
 import { store, uiText } from "../../lib";
 
 const ExportData = () => {
-  const { forms } = store.useState((state) => state);
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
