@@ -2,6 +2,7 @@ from django.core.validators import FileExtensionValidator
 from rest_framework import serializers
 
 from drf_spectacular.utils import extend_schema_field
+from drf_spectacular.types import OpenApiTypes
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_jobs.constants import JobTypes, JobStatus
 from api.v1.v1_jobs.models import Jobs
@@ -25,22 +26,35 @@ class GenerateDownloadRequestSerializer(serializers.Serializer):
 class DownloadListSerializer(serializers.ModelSerializer):
     type = serializers.SerializerMethodField()
     status = serializers.SerializerMethodField()
-    created_by = serializers.ReadOnlyField(source='user.id')
+    administration = serializers.SerializerMethodField()
+    date = serializers.DateTimeField(
+        source='available', format="%B %d, %Y %I:%M %p")
 
     @extend_schema_field(CustomChoiceField(
         choices=[JobTypes.FieldStr[d] for d in JobTypes.FieldStr]))
     def get_type(self, instance):
-        return JobTypes.FieldStr.get(instance.type)
+        job_type = JobTypes.FieldStr.get(instance.type)
+        if job_type == 'download_administration':
+            return 'Administration'
+        return 'Data'
 
     @extend_schema_field(CustomChoiceField(
         choices=[JobStatus.FieldStr[d] for d in JobStatus.FieldStr]))
     def get_status(self, instance):
         return JobStatus.FieldStr.get(instance.status)
 
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_administration(self, instance):
+        admin_id = instance.info.get('administration') or instance.info.get(
+            'adm_id')
+        if admin_id:
+            return Administration.objects.get(pk=admin_id).full_name
+        return None
+
     class Meta:
         model = Jobs
-        fields = ['id', 'task_id', 'type', 'status', 'info', 'attempt',
-                  'created_by', 'created', 'result', 'available']
+        fields = ['id', 'task_id', 'type', 'status',
+                  'administration', 'result', 'date']
 
 
 class UploadExcelSerializer(serializers.Serializer):
