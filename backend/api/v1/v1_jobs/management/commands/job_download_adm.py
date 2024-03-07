@@ -48,9 +48,9 @@ class Command(BaseCommand):
             result=out_file,
         )
         task_id = async_task(
-            "api.v1.v1_profile.job.download_prefilled_administrations",
+            "api.v1.v1_profile.job.download_administration_data",
             job.id,
-            hook="api.v1.v1_profile.job.download_prefilled_result",
+            hook="api.v1.v1_profile.job.download_master_data_result",
         )
         job.task_id = task_id
         job.save()

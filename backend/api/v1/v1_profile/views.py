@@ -1,4 +1,5 @@
 # Create your views here.
+import os
 from typing import cast
 from wsgiref.util import FileWrapper
 from django.contrib.admin.sites import site
@@ -33,6 +34,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from utils.email_helper import send_email, EmailTypes
 from utils.custom_serializer_fields import validate_serializers_message
+from utils.custom_generator import administration_csv_delete
 
 
 @extend_schema(
@@ -117,6 +119,8 @@ class AdministrationViewSet(ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         try:
+            TESTING = os.environ.get("TESTING")
+            administration_csv_delete(id=instance.pk, test=TESTING)
             instance.delete()
         except ProtectedError:
             _, _, _, protected = get_deleted_objects(
