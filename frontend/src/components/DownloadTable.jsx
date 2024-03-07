@@ -9,6 +9,7 @@ import {
 } from "@ant-design/icons";
 import { api, store, uiText } from "../lib";
 import { useNotification } from "../util/hooks";
+import moment from "moment";
 
 const DownloadTable = ({ type = "download" }) => {
   const [dataset, setDataset] = useState([]);
@@ -97,8 +98,11 @@ const DownloadTable = ({ type = "download" }) => {
 
   const onLoadMore = () => {
     setLoading(true);
+    const url = type
+      ? `download/list?type=${type}&page=${page + 1}`
+      : `download/list?page=${page + 1}`;
     api
-      .get(`download/list?type=${type}&page=${page + 1}`)
+      .get(url)
       .then((res) => {
         setDataset([...dataset, ...res.data]);
         if (res.data.length < 5) {
@@ -157,6 +161,9 @@ const DownloadTable = ({ type = "download" }) => {
     },
     {
       dataIndex: "date",
+      render: (row) => (
+        <span>{row ? row : moment().format("MMMM DD, YYYY hh:mm A")}</span>
+      ),
     },
     {
       render: (row) => (

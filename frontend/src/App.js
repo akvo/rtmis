@@ -12,6 +12,7 @@ import {
   Approvals,
   ApproversTree,
   Profile,
+  ExportData,
   UploadData,
   NewsEvents,
   HowWeWork,
@@ -40,6 +41,7 @@ import {
   ControlCenter,
   UploadAdministrationData,
   BIDashboard,
+  DownloadAdmData,
   MonitoringDetail,
   AdministrationDownload,
   // Visualisation,
@@ -119,6 +121,10 @@ const RouteList = () => {
           element={<Private element={MonitoringDetail} alias="data" />}
         />
         <Route
+          path="data/export"
+          element={<Private element={ExportData} alias="data" />}
+        />
+        <Route
           path="master-data"
           element={<Private element={MasterData} alias="master-data" />}
         />
@@ -127,6 +133,10 @@ const RouteList = () => {
           element={
             <Private element={UploadAdministrationData} alias="master-data" />
           }
+        />
+        <Route
+          path="master-data/download-administration-data"
+          element={<Private element={DownloadAdmData} alias="master-data" />}
         />
         <Route
           path="master-data/add-administration"
@@ -244,7 +254,7 @@ const RouteList = () => {
       <Route path="/privacy-policy" element={<Privacy />} />
       <Route exact path="/coming-soon" element={<div />} />
       <Route exact path="/not-found" element={<div />} />
-      {/* <Route path="*" element={<Navigate replace to="/not-found" />} /> */}
+      <Route path="*" element={<Navigate replace to="/not-found" />} />
     </Routes>
   );
 };
