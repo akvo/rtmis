@@ -133,12 +133,9 @@ const Sidebar = () => {
         });
       }
     });
-    const admAccess =
-      superAdminRole.name === "Super Admin" ||
-      superAdminRole.name === "County Admin";
-    if (downloadItem && admAccess) {
+    if (downloadItem) {
       menuItems.push({
-        key: "donwload",
+        key: "download",
         icon: downloadItem.icon ? React.createElement(downloadItem.icon) : null,
         label: downloadItem.label,
         url: "/administration-download",
