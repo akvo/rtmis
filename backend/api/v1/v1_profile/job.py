@@ -9,8 +9,8 @@ logger = logging.getLogger(__name__)
 
 
 def download_administration_data(job_id: int):
+    job = Jobs.objects.get(pk=job_id)
     try:
-        job = Jobs.objects.get(pk=job_id)
         job_info = job.info
         return generate_administration_template(
             job_result=job.result,
@@ -18,18 +18,17 @@ def download_administration_data(job_id: int):
             adm_id=job_info['adm_id'],
         )
     except Exception as unknown_error:
-        print("unknown_error", unknown_error)
+        job.status = JobStatus.failed
+        job.save()
         logger.error({
             'error': unknown_error
         })
-        return False
 
 
 def download_master_data_result(task):
-    print("task", task)
     job = Jobs.objects.get(task_id=task.id)
     job.attempt = job.attempt + 1
-    if task.success:
+    if task.success and job.status != JobStatus.failed:
         job.status = JobStatus.done
         job.available = timezone.now()
     else:
