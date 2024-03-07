@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Col, Input, Row, Select, Space } from "antd";
 import RemoveFiltersButton from "./RemoveFiltersButton";
 import AdministrationDropdown from "./AdministrationDropdown";
@@ -19,6 +19,7 @@ const EntityDataFilters = ({
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const [typeItems, setTypeItems] = useState([]);
+  const navigate = useNavigate();
 
   const entityTypes = store.useState((s) => s.options.entityTypes);
   const authUser = store.useState((s) => s.user);
@@ -97,7 +98,15 @@ const EntityDataFilters = ({
       {["Super Admin"].includes(authUser?.role?.value) && (
         <Col>
           <Space>
-            <Button icon={<DownloadOutlined />} shape="round">
+            <Button
+              icon={<DownloadOutlined />}
+              shape="round"
+              onClick={() => {
+                navigate(
+                  "/control-center/master-data/upload-administration-data"
+                );
+              }}
+            >
               {text.exportButton}
             </Button>
             <Link to="/control-center/master-data/entities/add">

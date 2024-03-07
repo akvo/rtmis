@@ -490,7 +490,7 @@ const UploadDetail = ({ record, setReload }) => {
                         </div>
                       )}
                       {isEditable && !expanded.loading && (
-                        <div className="pending-data-actions">
+                        <div className="pending-data-action-reject">
                           <Button
                             onClick={() => handleSave(expanded)}
                             type="primary"
@@ -499,6 +499,7 @@ const UploadDetail = ({ record, setReload }) => {
                               expanded.id === dataLoading ||
                               isEdited(expanded.id) === false
                             }
+                            shape="round"
                           >
                             Save Edits
                           </Button>
