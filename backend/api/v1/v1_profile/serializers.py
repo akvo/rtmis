@@ -1,3 +1,4 @@
+import os
 import random
 import string
 from typing import Any, Dict, cast
@@ -8,6 +9,10 @@ from api.v1.v1_profile.models import (
 )
 from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField
 from utils.custom_generator import update_sqlite
+from utils.custom_generator import (
+    administration_csv_add,
+    administration_csv_update,
+)
 
 
 class RelatedAdministrationField(serializers.PrimaryKeyRelatedField):
@@ -180,6 +185,8 @@ class AdministrationSerializer(serializers.ModelSerializer):
                 'path': instance.path
             }
         )
+        TESTING = os.environ.get("TESTING")
+        administration_csv_add(data=instance, test=TESTING)
         for attribute in attributes:
             instance.attributes.create(**attribute)
         return instance
@@ -207,6 +214,8 @@ class AdministrationSerializer(serializers.ModelSerializer):
             },
             id=instance.id
         )
+        TESTING = os.environ.get("TESTING")
+        administration_csv_update(data=instance, test=TESTING)
         return instance
 
     def _set_code(self, validated_data):
