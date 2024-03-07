@@ -91,6 +91,11 @@ def download_generate(request, version):
 @permission_classes([IsAuthenticated])
 def download_status(request, version, task_id):
     job = get_object_or_404(Jobs, task_id=task_id)
+    delta = job.created - timezone.now()
+    # job failed until 3 hours
+    if delta.seconds > 10800 and job.status == JobStatus.on_progress:
+        job.status = JobStatus.failed
+        job.save()
     return Response({'status': JobStatus.FieldStr.get(job.status)},
                     status=status.HTTP_200_OK)
 
