@@ -205,6 +205,7 @@ const UploadAdministrationData = () => {
         .then(() => {
           setLoading(false);
           formRef.current.resetFields();
+          navigate("/administration-download");
         })
         .catch((e) => {
           console.error(e);
