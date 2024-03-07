@@ -42,6 +42,7 @@ import {
   UploadAdministrationData,
   BIDashboard,
   MonitoringDetail,
+  AdministrationDownload,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -220,6 +221,15 @@ const RouteList = () => {
           element={<Private element={Profile} alias="profile" />}
         />
       </Route>
+      <Route
+        path="/administration-download"
+        element={
+          <Private
+            element={AdministrationDownload}
+            alias="administration-download"
+          />
+        }
+      />
       <Route
         path="/settings"
         element={<Private element={Settings} alias="settings" />}

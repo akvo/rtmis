@@ -41,3 +41,4 @@ export { default as UploadAdministrationData } from "./upload-administration-dat
 export { default as BIDashboard } from "./bi/BIDashboard";
 export { default as DownloadAdmData } from "./upload-administration-data/DownloadAdmData";
 export { default as MonitoringDetail } from "./manage-data/MonitoringDetail";
+export { default as AdministrationDownload } from "./administration-downloads/AdministrationDownload";

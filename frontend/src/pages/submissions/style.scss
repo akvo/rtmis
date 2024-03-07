@@ -220,6 +220,16 @@
       }
     }
 
+    .ant-table-expanded-row {
+      .ant-table-cell {
+        .pending-data-action-reject {
+          position: absolute;
+          top: 6px;
+          right: 16px;
+        }
+      }
+    }
+
     tr.ant-table-expanded-row > td {
       padding-top: 3rem;
     }
