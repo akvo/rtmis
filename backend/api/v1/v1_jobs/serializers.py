@@ -25,14 +25,16 @@ class GenerateDownloadRequestSerializer(serializers.Serializer):
 
 class DownloadListSerializer(serializers.ModelSerializer):
     type = serializers.SerializerMethodField()
+    category = serializers.SerializerMethodField()
     status = serializers.SerializerMethodField()
     administration = serializers.SerializerMethodField()
     date = serializers.DateTimeField(
         source='available', format="%B %d, %Y %I:%M %p")
+    form = serializers.SerializerMethodField()
 
     @extend_schema_field(CustomChoiceField(
         choices=[JobTypes.FieldStr[d] for d in JobTypes.FieldStr]))
-    def get_type(self, instance):
+    def get_category(self, instance):
         job_type = JobTypes.FieldStr.get(instance.type)
         if job_type == 'download_administration':
             return 'Administration'
@@ -51,10 +53,22 @@ class DownloadListSerializer(serializers.ModelSerializer):
             return Administration.objects.get(pk=admin_id).full_name
         return None
 
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_form(self, instance):
+        form_id = instance.info.get('form_id')
+        if form_id:
+            return Forms.objects.get(pk=form_id).name
+        return None
+
+    @extend_schema_field(CustomChoiceField(
+        choices=[JobTypes.FieldStr[d] for d in JobTypes.FieldStr]))
+    def get_type(self, instance):
+        return JobTypes.FieldStr.get(instance.type)
+
     class Meta:
         model = Jobs
-        fields = ['id', 'task_id', 'type', 'status',
-                  'administration', 'result', 'date']
+        fields = ['id', 'task_id', 'type', 'status', 'form',
+                  'category', 'administration', 'date', 'result']
 
 
 class UploadExcelSerializer(serializers.Serializer):
