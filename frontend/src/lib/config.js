@@ -104,6 +104,7 @@ const config = {
         "reports",
         "mobile",
         "form",
+        "administration-download",
       ],
       administration_level: [3, 4],
       description:
@@ -113,6 +114,7 @@ const config = {
         "submission",
         "manage-data",
         "manage-mobile",
+        "download",
       ],
     },
     {
@@ -128,11 +130,17 @@ const config = {
         "control-center",
         "reports",
         "mobile",
+        "administration-download",
       ],
       administration_level: [4],
       description:
         "Overall role to collect data from community/village assigned to them",
-      control_center_order: ["submission", "manage-data", "manage-mobile"],
+      control_center_order: [
+        "submission",
+        "manage-data",
+        "manage-mobile",
+        "download",
+      ],
     },
   ],
   checkAccess: (roles, page) => {

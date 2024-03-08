@@ -16,6 +16,7 @@ services:
       - ${STORAGE_PATH}/images:/app/public/images:delegated
       - ${STORAGE_PATH}/datapoints:/app/public/datapoints:delegated
       - ${STORAGE_PATH}/apk:/app/public/apk:delegated
+      - ${STORAGE_PATH}/master_data:/app/public/master_data:delegated
   worker:
     volumes:
       - ../akvo-config/k8s-secrets/test/rtmis:/credentials/:ro

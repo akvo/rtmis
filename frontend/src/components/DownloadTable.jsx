@@ -75,11 +75,11 @@ const DownloadTable = ({ type = "download" }) => {
       if (pending.length > 0) {
         timeoutId = setTimeout(() => {
           api.get(`download/status/${pending?.[0]?.task_id}`).then((res) => {
-            if (res?.data?.status === "done") {
+            if (["done", "failed"].includes(res?.data?.status)) {
               setDataset((ds) =>
                 ds.map((d) =>
                   d.task_id === pending?.[0]?.task_id
-                    ? { ...d, status: "done" }
+                    ? { ...d, status: res.data.status }
                     : d
                 )
               );
