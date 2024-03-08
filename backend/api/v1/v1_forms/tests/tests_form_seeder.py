@@ -65,6 +65,7 @@ class FormSeederTestCase(TestCase):
             "Short HH",
             "RTMIS Institution Form",
             "RTMIS Healthcare Facility WASH Form",
+            "Governance Form",
         ]
 
         # RUN SEED NEW FORM
