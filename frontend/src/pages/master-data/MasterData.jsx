@@ -54,7 +54,7 @@ const MasterData = () => {
     {
       title: "Parent",
       dataIndex: "parent",
-      render: (record) => record?.name || "",
+      render: (record) => record?.full_name || "",
     },
     {
       title: "Action",
