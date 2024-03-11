@@ -1,25 +1,34 @@
+import os
 import pandas as pd
+from typing import List
 from api.v1.v1_profile.models import (
     Administration, Levels,
     Entity, EntityData
 )
+from utils.storage import upload
 
 
-def generate_list_of_entities(file_path, entity_id=[], administration_id=None):
+def generate_list_of_entities(
+    file_path: str,
+    entity_ids: List[int] = [],
+    adm_id: int = None
+):
+    file_path = './tmp/{0}'.format(file_path.replace("/", "_"))
+    if os.path.exists(file_path):
+        os.remove(file_path)
+
     levels = Levels.objects.order_by("level").values("name")
     writer = pd.ExcelWriter(file_path, engine='xlsxwriter')
     entity_filter = Entity.objects.all()
-    if entity_id:
-        entity_filter = Entity.objects.filter(id__in=entity_id)
+    if entity_ids:
+        entity_filter = Entity.objects.filter(id__in=entity_ids)
     for entity in entity_filter:
         entities = []
         filter_entity_data = EntityData.objects.filter(
             entity=entity,
         )
-        if administration_id:
-            administration = Administration.objects.get(
-                id=administration_id
-            )
+        if adm_id:
+            administration = Administration.objects.get(id=adm_id)
             if administration.path:
                 administration_path = administration.path + str(
                     administration.id
@@ -54,3 +63,5 @@ def generate_list_of_entities(file_path, entity_id=[], administration_id=None):
             index=False
         )
     writer.save()
+    url = upload(file=file_path, folder='download_entities')
+    return url
