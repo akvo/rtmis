@@ -63,3 +63,5 @@ class DownloadEntitiesTestCase(TestCase):
         self.assertTrue(
             df[df["Name"] == entity_example.name].shape[0] > 0
         )
+        # remove the file
+        os.remove(file_path)
