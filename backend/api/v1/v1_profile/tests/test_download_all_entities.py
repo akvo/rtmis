@@ -3,7 +3,7 @@ import pandas as pd
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.core.management import call_command
-from api.v1.v1_profile.models import Entity
+from api.v1.v1_profile.models import Administration, Entity, EntityData
 from utils.upload_entities import generate_list_of_entities
 
 
@@ -42,3 +42,24 @@ class DownloadEntitiesTestCase(TestCase):
                 pd.read_excel(file_path, sheet_name=entity.name)
         # remove the file
         os.remove(file_path)
+
+    def test_generate_excel_for_selected_entities_and_administration(self):
+        file_path = "./entities.xlsx"
+        entity_example = EntityData(
+            name="Example",
+            code="EX",
+            administration=Administration.objects.filter(level=4).last(),
+            entity=Entity.objects.first()
+        )
+        entity_example.save()
+        generate_list_of_entities(
+            file_path=file_path,
+            administration_id=entity_example.administration.id
+        )
+        self.assertTrue(os.path.exists(file_path))
+        # read the file
+        df = pd.read_excel(file_path, sheet_name=entity_example.entity.name)
+        # make sure that the row contains the first_entity_data
+        self.assertTrue(
+            df[df["Name"] == entity_example.name].shape[0] > 0
+        )
