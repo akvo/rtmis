@@ -24,7 +24,7 @@ from api.v1.v1_profile.serializers import (
     )
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_jobs.models import Jobs
-from utils.administration_upload_template import generate_excel
+from utils.upload_administration import generate_excel
 from utils.custom_helper import clean_array_param, maybe_int
 from utils.default_serializers import DefaultResponseSerializer
 from utils.custom_pagination import Pagination

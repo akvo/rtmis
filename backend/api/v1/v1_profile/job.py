@@ -1,6 +1,6 @@
 import logging
 from api.v1.v1_jobs.models import Jobs, JobStatus
-from utils.administration_upload_template import (
+from utils.upload_administration import (
     generate_administration_template
 )
 from django.utils import timezone
