@@ -2,10 +2,13 @@ import pandas as pd
 from api.v1.v1_profile.models import Entity, Levels, EntityData
 
 
-def generate_list_of_entities(file_path):
+def generate_list_of_entities(file_path, entity_id=[]):
     levels = Levels.objects.order_by("level").values("name")
     writer = pd.ExcelWriter(file_path, engine='xlsxwriter')
-    for entity in Entity.objects.all():
+    entity_filter = Entity.objects.all()
+    if entity_id:
+        entity_filter = Entity.objects.filter(id__in=entity_id)
+    for entity in entity_filter:
         entities = []
         for entity_data in EntityData.objects.filter(entity=entity):
             administrations = entity_data.administration.full_path_name.split(
