@@ -11,7 +11,7 @@ from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
     CustomFileField, CustomChoiceField
 
 
-class GenerateDownloadRequestSerializer(serializers.Serializer):
+class DownloadDataRequestSerializer(serializers.Serializer):
     form_id = CustomPrimaryKeyRelatedField(queryset=Forms.objects.none())
     administration_id = CustomPrimaryKeyRelatedField(
         queryset=Administration.objects.none(), required=False)

@@ -26,7 +26,7 @@ from rest_framework.fields import ChoiceField
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_jobs.constants import JobStatus, JobTypes
 from api.v1.v1_jobs.models import Jobs
-from api.v1.v1_jobs.serializers import GenerateDownloadRequestSerializer, \
+from api.v1.v1_jobs.serializers import DownloadDataRequestSerializer, \
     DownloadListSerializer, UploadExcelSerializer
 from utils import storage
 from utils.custom_serializer_fields import validate_serializers_message
@@ -56,7 +56,7 @@ from utils.storage import download
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def download_generate(request, version):
-    serializer = GenerateDownloadRequestSerializer(data=request.GET)
+    serializer = DownloadDataRequestSerializer(data=request.GET)
     if not serializer.is_valid():
         return Response(
             {'message': validate_serializers_message(serializer.errors)},

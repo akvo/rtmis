@@ -20,7 +20,7 @@ from api.v1.v1_profile.serializers import (
         AdministrationSerializer,
         EntityDataSerializer,
         EntitySerializer,
-        GenerateDownloadRequestSerializer
+        DownloadAdministrationRequestSerializer
     )
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_jobs.models import Jobs
@@ -257,7 +257,7 @@ def export_administrations_template(request: Request, version):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def export_prefilled_administrations_template(request: Request, version):
-    serializer = GenerateDownloadRequestSerializer(data=request.GET)
+    serializer = DownloadAdministrationRequestSerializer(data=request.GET)
     if not serializer.is_valid():
         return Response(
             {'message': validate_serializers_message(serializer.errors)},
