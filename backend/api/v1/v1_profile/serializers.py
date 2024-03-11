@@ -294,7 +294,7 @@ class EntityDataSerializer(serializers.ModelSerializer):
         return instance
 
 
-class GenerateDownloadRequestSerializer(serializers.Serializer):
+class DownloadAdministrationRequestSerializer(serializers.Serializer):
     level = CustomPrimaryKeyRelatedField(queryset=Levels.objects.none())
     administration = RelatedAdministrationField(
             queryset=Administration.objects.all())
