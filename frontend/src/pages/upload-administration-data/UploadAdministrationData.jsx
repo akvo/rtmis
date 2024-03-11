@@ -220,6 +220,19 @@ const UploadAdministrationData = () => {
     }
   };
 
+  const handleLevelChange = (e) => {
+    setLevel(e);
+    store.update((s) => {
+      s.administration.length = 1;
+    });
+  };
+
+  const disableDownload = useMemo(() => {
+    if (level || isPrefilled) {
+      return level - 1 === selectedAdm?.level ? false : true;
+    }
+  }, [level, selectedAdm, isPrefilled]);
+
   return (
     <div id="uploadMasterData">
       <div className="description-container">
@@ -287,7 +300,7 @@ const UploadAdministrationData = () => {
                           placeholder={text.selectLevel}
                           fieldNames={{ value: "id", label: "name" }}
                           options={levels}
-                          onChange={setLevel}
+                          onChange={handleLevelChange}
                           value={level}
                           allowClear
                         />
@@ -339,6 +352,7 @@ const UploadAdministrationData = () => {
                           type="primary"
                           htmlType="submit"
                           shape="round"
+                          disabled={disableDownload}
                         >
                           {text.download}
                         </Button>
