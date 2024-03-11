@@ -220,6 +220,12 @@ const UploadAdministrationData = () => {
     }
   };
 
+  const disableDownload = useMemo(() => {
+    if (level || isPrefilled) {
+      return level - 1 === selectedAdm?.level ? false : true;
+    }
+  }, [level, selectedAdm, isPrefilled]);
+
   return (
     <div id="uploadMasterData">
       <div className="description-container">
@@ -339,6 +345,7 @@ const UploadAdministrationData = () => {
                           type="primary"
                           htmlType="submit"
                           shape="round"
+                          disabled={disableDownload}
                         >
                           {text.download}
                         </Button>
