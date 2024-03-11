@@ -56,7 +56,6 @@ class FormSeederTestCase(TestCase):
         seed_administration_test()
         forms = Forms.objects.all().delete()
         json_forms = [
-            "Governance and policy",
             "CLTS",
             "Water System",
             "RTMIS Community Monitoring Form",
