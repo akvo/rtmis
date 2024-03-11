@@ -36,29 +36,18 @@ const EntityData = () => {
 
   const columns = [
     {
-      title: "#",
-      dataIndex: "id",
-      key: "number",
-      width: 100,
-      render: (row, record, index) => (
-        <div data-key={row} data-id={record?.id}>
-          {index + 1}
-        </div>
-      ),
+      title: text.codeField,
+      dataIndex: "code",
+      width: "10%",
     },
     {
       title: text.nameField,
       dataIndex: "name",
     },
     {
-      title: text.codeField,
-      dataIndex: "code",
-      width: "10%",
-    },
-    {
       title: text.administrationField,
       dataIndex: "administration",
-      render: (row) => row?.name || "",
+      render: (row) => row?.full_name || "",
     },
     {
       title: text.entityType,
