@@ -111,4 +111,5 @@ def generate_excel(form: Forms, user: SystemUser):
     for col_num, value in enumerate(data.columns.values):
         worksheet.write(0, col_num, value, header_format)
     generate_definition_sheet(form=form, writer=writer)
+    writer.save()
     return filepath

@@ -94,6 +94,8 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
             answer.options = aw.split('|')
             if q.meta:
                 names = names + aw.replace('|', '-')
+        if q.type == QuestionTypes.cascade and aw:
+            answer.name = aw
         if valid:
             if data_id:
                 try:
