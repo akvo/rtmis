@@ -23,6 +23,7 @@ class RelatedAdministrationField(serializers.PrimaryKeyRelatedField):
         return {
             'id': value.pk,
             'name': value.name,
+            'full_name': value.full_name,
             'code': value.code,
         }
 
