@@ -3,7 +3,8 @@ from django.urls import re_path
 from api.v1.v1_profile.views import (
     AdministrationAttributeViewSet, AdministrationViewSet, EntityDataViewSet,
     EntityViewSet, export_administrations_template,
-    export_prefilled_administrations_template, send_feedback
+    export_prefilled_administrations_template, send_feedback,
+    export_entity_data
 )
 
 urlpatterns = [
@@ -11,6 +12,7 @@ urlpatterns = [
             export_administrations_template),
     re_path(r'^(?P<version>(v1))/export/prefilled-administrations-template',
             export_prefilled_administrations_template),
+    re_path(r'^(?P<version>(v1))/export/entity-data', export_entity_data),
     re_path(
         r'^(?P<version>(v1))/administration-attributes/(?P<pk>[0-9]+)',
         AdministrationAttributeViewSet.as_view({
