@@ -25,7 +25,7 @@ def create_download_job(
     file_name = JobTypes.FieldStr.get(job_type).replace("_", "-")
     if adm_id:
         find_adm = Administration.objects.get(pk=adm_id)
-        file_name += find_adm.name.replace(" ", "_").lower()
+        file_name += "-" + find_adm.name.replace(" ", "_").lower()
     today = timezone.datetime.today().strftime("%y%m%d")
     out_file = "{0}-{1}-{2}.xlsx".format(
         file_name.replace("/", "_"),
@@ -36,7 +36,10 @@ def create_download_job(
         type=job_type,
         user_id=user_id,
         status=JobStatus.on_progress,
-        info=job_info,
+        info={
+            "file": out_file,
+            **job_info
+        },
         result=out_file,
     )
     task_id = async_task(
