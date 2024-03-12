@@ -334,6 +334,5 @@ def export_entity_data(request: Request, version):
     data = {
         'task_id': job.task_id,
         'file_url': file_url,
-        'adm_id': adm_id
     }
     return Response(data, status=status.HTTP_200_OK)
