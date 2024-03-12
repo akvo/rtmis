@@ -41,9 +41,9 @@ class EntitiesDownloadEndpointTestCase(TestCase, ProfileTestHelperMixin):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_download_entities_with_selected_entites(self):
+    def test_download_entities_with_selected_entities(self):
         entities = Entity.objects.all()
-        entities = ",".join([e.id for e in entities.values("id")])
+        entities = ",".join([str(e["id"]) for e in entities.values("id")])
         response = typing.cast(
             HttpResponse,
             self.client.get(
