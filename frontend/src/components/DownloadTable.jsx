@@ -131,7 +131,7 @@ const DownloadTable = ({ type = "download" }) => {
   const columns = [
     {
       render: (row) =>
-        row.category === "Administration" ? (
+        ["Administration", "Entities"].includes(row.category) ? (
           <FileMarkdownFilled style={{ color: "blue" }} />
         ) : (
           <FileTextFilled style={{ color: "green" }} />
@@ -155,7 +155,10 @@ const DownloadTable = ({ type = "download" }) => {
           <div>
             <strong>{row.result}</strong>
           </div>
-          {[row.form, row.administration].filter((x) => x).join(" | ")}
+          {[row.form, row.administration, ...(row.attributes || [])]
+            .filter((x) => x)
+            .map((x) => x?.name || x)
+            .join(" | ")}
         </div>
       ),
     },

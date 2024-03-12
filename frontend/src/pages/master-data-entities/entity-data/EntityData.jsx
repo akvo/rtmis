@@ -20,7 +20,6 @@ const EntityData = () => {
   const { active: activeLang } = language;
   const administrationFilter = administration?.slice(-1)?.[0]?.id;
   const navigate = useNavigate();
-  console.log("administrationFilter", administrationFilter);
 
   const text = useMemo(() => {
     return uiText[activeLang];
