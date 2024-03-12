@@ -146,7 +146,11 @@ def download_file(request, version, file_name):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def download_list(request, version):
-    job_types = [JobTypes.download, JobTypes.download_administration]
+    job_types = [
+        JobTypes.download,
+        JobTypes.download_administration,
+        JobTypes.download_entities
+    ]
     if request.GET.get('type'):
         job_types = [getattr(JobTypes, request.GET.get('type'))]
     queryset = request.user.user_jobs.filter(
