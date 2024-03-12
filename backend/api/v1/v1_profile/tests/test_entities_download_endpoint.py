@@ -18,7 +18,7 @@ class EntitiesDownloadEndpointTestCase(TestCase, ProfileTestHelperMixin):
         call_command("entities_seeder", "--test")
         self.token = self.get_auth_token(self.user.email)
 
-    def test_without_filter(self):
+    def test_download_entities_no_filter(self):
         response = typing.cast(
             HttpResponse,
             self.client.get(
@@ -29,7 +29,7 @@ class EntitiesDownloadEndpointTestCase(TestCase, ProfileTestHelperMixin):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_filter_by_entity_ids(self):
+    def test_download_entities_with_selected_entity(self):
         entity = Entity.objects.first()
         response = typing.cast(
             HttpResponse,
@@ -41,7 +41,20 @@ class EntitiesDownloadEndpointTestCase(TestCase, ProfileTestHelperMixin):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_filter_by_adm_id(self):
+    def test_download_entities_with_selected_entites(self):
+        entities = Entity.objects.all()
+        entities = ",".join([e.id for e in entities.values("id")])
+        response = typing.cast(
+            HttpResponse,
+            self.client.get(
+                f"/api/v1/export/entity-data?entity_ids={entities}",
+                content_type="application/json",
+                HTTP_AUTHORIZATION=f'Bearer {self.token}'
+            )
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_download_entities_with_selected_administration(self):
         administration = Administration.objects.last()
         response = typing.cast(
             HttpResponse,
@@ -52,3 +65,25 @@ class EntitiesDownloadEndpointTestCase(TestCase, ProfileTestHelperMixin):
             )
         )
         self.assertEqual(response.status_code, 200)
+
+    def test_download_entities_with_invalid_entity(self):
+        response = typing.cast(
+            HttpResponse,
+            self.client.get(
+                "/api/v1/export/entity-data?entity_ids=99",
+                content_type="application/json",
+                HTTP_AUTHORIZATION=f'Bearer {self.token}'
+            )
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_download_entities_with_invalid_administration(self):
+        response = typing.cast(
+            HttpResponse,
+            self.client.get(
+                "/api/v1/export/entity-data?adm_id=100",
+                content_type="application/json",
+                HTTP_AUTHORIZATION=f'Bearer {self.token}'
+            )
+        )
+        self.assertEqual(response.status_code, 400)
