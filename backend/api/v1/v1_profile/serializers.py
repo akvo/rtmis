@@ -7,7 +7,7 @@ from api.v1.v1_profile.models import (
     Administration, AdministrationAttribute, AdministrationAttributeValue,
     Entity, EntityData, Levels
 )
-from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, CustomCharField
+from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField
 from utils.custom_generator import update_sqlite
 from utils.custom_generator import (
     administration_csv_add,
