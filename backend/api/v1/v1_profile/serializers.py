@@ -302,3 +302,19 @@ class DownloadAdministrationRequestSerializer(serializers.Serializer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.fields.get('level').queryset = Levels.objects.all()
+
+
+class DownloadEntityDataRequestSerializer(serializers.Serializer):
+    entity_ids = CustomPrimaryKeyRelatedField(
+        queryset=Entity.objects.none(),
+        required=False
+    )
+    adm_id = CustomPrimaryKeyRelatedField(
+        queryset=Administration.objects.none(),
+        required=False
+    )
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get('entity_ids').queryset = Entity.objects.all()
+        self.fields.get('adm_id').queryset = Administration.objects.all()
