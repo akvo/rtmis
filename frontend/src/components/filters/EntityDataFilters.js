@@ -104,7 +104,7 @@ const EntityDataFilters = ({
               shape="round"
               onClick={onDownload}
             >
-              {text.exportButton}
+              {text.download}
             </Button>
             <Link to="/control-center/master-data/entities/add">
               <Button type="primary" icon={<PlusOutlined />} shape="round">

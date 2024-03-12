@@ -227,7 +227,7 @@ const Organisations = () => {
             <Col>
               <Link to="/control-center/organisation/add">
                 <Button type="primary" shape="round" icon={<PlusOutlined />}>
-                  {text.addMewOrg}
+                  {text.addNewButton}
                 </Button>
               </Link>
             </Col>

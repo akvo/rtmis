@@ -57,9 +57,6 @@ const AttributeFilters = ({
                 </Button>
               </Link>
             ) : null}
-            <Button icon={<DownloadOutlined />} shape="round">
-              {text.exportButton}
-            </Button>
             <Link to={"/control-center/master-data/attributes/add"}>
               <Button type="primary" icon={<PlusOutlined />} shape="round">
                 {text.addNewButton}
